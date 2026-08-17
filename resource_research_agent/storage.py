@@ -108,6 +108,7 @@ CREATE TABLE IF NOT EXISTS research_runs (
     status TEXT NOT NULL,
     adapter TEXT NOT NULL,
     assignment TEXT NOT NULL,
+    source_import_id INTEGER REFERENCES imports(id),
     seed_import_id INTEGER,
     seed_resource_id TEXT,
     prompt_json TEXT NOT NULL,
@@ -156,6 +157,14 @@ class ResearchStore:
         for name, definition in additions.items():
             if name not in columns:
                 connection.execute(f"ALTER TABLE discoveries ADD COLUMN {name} {definition}")
+        run_columns = {row["name"] for row in connection.execute("PRAGMA table_info(research_runs)")}
+        if "source_import_id" not in run_columns:
+            connection.execute(
+                "ALTER TABLE research_runs ADD COLUMN source_import_id INTEGER REFERENCES imports(id)"
+            )
+            connection.execute(
+                "UPDATE research_runs SET source_import_id = seed_import_id WHERE seed_import_id IS NOT NULL"
+            )
 
     @contextmanager
     def connect(self) -> Iterator[sqlite3.Connection]:
@@ -411,17 +420,20 @@ class ResearchStore:
         adapter: str,
         assignment: str,
         prompt: dict[str, Any],
-        seed_import_id: int | None = None,
+        source_import_id: int | None = None,
         seed_resource_id: str | None = None,
     ) -> int:
         now = datetime.now(timezone.utc).isoformat()
         with self.connect() as connection:
             cursor = connection.execute(
                 """INSERT INTO research_runs (
-                       created_at, status, adapter, assignment, seed_import_id,
-                       seed_resource_id, prompt_json
-                   ) VALUES (?, 'queued', ?, ?, ?, ?, ?)""",
-                (now, adapter, assignment, seed_import_id, seed_resource_id, _json(prompt)),
+                       created_at, status, adapter, assignment, source_import_id,
+                       seed_import_id, seed_resource_id, prompt_json
+                   ) VALUES (?, 'queued', ?, ?, ?, ?, ?, ?)""",
+                (
+                    now, adapter, assignment, source_import_id,
+                    source_import_id if seed_resource_id else None, seed_resource_id, _json(prompt),
+                ),
             )
         return int(cursor.lastrowid)
 
@@ -473,7 +485,8 @@ class ResearchStore:
         return {
             "id": row["id"], "createdAt": row["created_at"], "startedAt": row["started_at"],
             "completedAt": row["completed_at"], "status": row["status"], "adapter": row["adapter"],
-            "assignment": row["assignment"], "seedImportId": row["seed_import_id"],
+            "assignment": row["assignment"], "sourceImportId": row["source_import_id"],
+            "seedImportId": row["seed_import_id"],
             "seedResourceId": row["seed_resource_id"], "prompt": json.loads(row["prompt_json"]),
             "output": row["output_text"],
             "result": json.loads(row["result_json"]) if row["result_json"] else None,
@@ -525,9 +538,15 @@ class ResearchStore:
             row = connection.execute("SELECT * FROM discoveries WHERE id = ?", (discovery_id,)).fetchone()
         return self._discovery_dict(row) if row else None
 
-    def list_discoveries(self) -> list[dict[str, Any]]:
+    def list_discoveries(self, run_id: int | None = None) -> list[dict[str, Any]]:
+        query = "SELECT * FROM discoveries"
+        parameters: tuple[Any, ...] = ()
+        if run_id is not None:
+            query += " WHERE run_id = ?"
+            parameters = (run_id,)
+        query += " ORDER BY id DESC"
         with self.connect() as connection:
-            rows = connection.execute("SELECT * FROM discoveries ORDER BY id DESC").fetchall()
+            rows = connection.execute(query, parameters).fetchall()
         return [self._discovery_dict(row) for row in rows]
 
     @staticmethod

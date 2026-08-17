@@ -374,6 +374,19 @@ function renderRuns() {
       summary.textContent = run.result.summary;
       item.append(summary);
     }
+    if (run.status === 'completed') {
+      const actions = document.createElement('div');
+      actions.className = 'run-actions';
+      const exportLink = document.createElement('a');
+      exportLink.className = 'review-export';
+      exportLink.href = `/api/research-runs/${run.id}/review-copy`;
+      exportLink.download = '';
+      exportLink.textContent = 'Export review copy';
+      const detail = document.createElement('small');
+      detail.textContent = 'Standalone, read-only HTML';
+      actions.append(exportLink, detail);
+      item.append(actions);
+    }
     if (run.error) {
       const error = document.createElement('div');
       error.className = 'run-error';

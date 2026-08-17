@@ -14,6 +14,7 @@ from urllib.parse import parse_qs, urlsplit
 
 from .duplicates import DuplicateIndex
 from .importer import PackageImportError, ResourcePackageImporter
+from .review_export import build_review_copy
 from .research import DEFAULT_ASSIGNMENT, ResearchCoordinator
 from .storage import ResearchStore
 
@@ -70,6 +71,11 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 self._json({"discoveries": self.server.store.list_discoveries()})
             elif parsed.path == "/api/research-runs":
                 self._json({"runs": self.server.store.list_runs()})
+            elif (run_id := self._path_id(parsed.path, "/api/research-runs", "review-copy")) is not None:
+                review_copy = build_review_copy(
+                    self.server.store, run_id, template_path=self.server.web_dir / "review-copy.html"
+                )
+                self._download(review_copy.html, "text/html; charset=utf-8", review_copy.filename)
             elif (run_id := self._path_id(parsed.path, "/api/research-runs")) is not None:
                 run = self.server.store.get_run(run_id)
                 if run:
@@ -247,6 +253,17 @@ class ResearchHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Disposition", f'inline; filename="{safe_name}"')
         self.send_header("Content-Length", str(len(data)))
         self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(data)
+
+    def _download(self, data: bytes, content_type: str, filename: str) -> None:
+        safe_name = re.sub(r"[^A-Za-z0-9._-]+", "-", filename).strip("-") or "research-review.html"
+        self.send_response(HTTPStatus.OK)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Content-Disposition", f'attachment; filename="{safe_name}"')
+        self.send_header("Content-Length", str(len(data)))
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("X-Content-Type-Options", "nosniff")
         self.end_headers()
         self.wfile.write(data)
 

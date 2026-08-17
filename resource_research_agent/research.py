@@ -81,7 +81,7 @@ class ResearchCoordinator:
         if not status.get("ready"):
             raise ValueError(status.get("message") or "The research agent is not ready")
         run_id = self.store.create_research_run(
-            adapter.key, assignment, prompt_object, import_id if selected_seed else None,
+            adapter.key, assignment, prompt_object, import_id,
             selected_seed["resourceId"] if selected_seed else None,
         )
         thread = threading.Thread(

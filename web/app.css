@@ -100,6 +100,9 @@ textarea { resize: vertical; }
 .run-status.failed, .candidate-status.rejected, .candidate-status.wrong-category { color: #873d35; background: #f6e3e0; }
 .run-error { color: #8d3329; font-size: .84rem; }
 .run-summary { color: #42514c; }
+.run-actions { display: flex; flex-wrap: wrap; gap: .65rem; align-items: center; margin-top: .25rem; }
+.review-export { display: inline-block; padding: .48rem .7rem; border: 1px solid #bfd0c7; border-radius: 8px; color: var(--forest); background: #e5efe9; font-size: .8rem; font-weight: 750; text-decoration: none; }
+.review-export:hover { background: #d8e8df; }
 .candidate { cursor: pointer; }
 .candidate:hover { border-color: #739384; background: #f6faf7; }
 .candidate p { margin-top: .35rem; color: #4d5e57; font-size: .88rem; }

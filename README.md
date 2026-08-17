@@ -23,8 +23,15 @@ The workflow is:
 4. Open candidates in the **Candidate inbox** to inspect access, restrictions, availability, pet policy, lived-experience findings, evidence, unknowns, and follow-up branches.
 5. Choose **Accept**, **Research further**, **Already known**, **Wrong category**, or **Reject**. Written feedback can become an active lesson included in later research runs.
 6. Approve or retire agent-proposed lessons in the **Research lessons** panel.
+7. Choose **Export review copy** on any completed run to download a standalone, read-only HTML report. The file opens directly in a browser without this app or an agent connection and preserves the summary, assignment, interactive candidate profiles, evidence links, review status, lessons, and explained known-resource signals.
 
 Both external harnesses are optional while exploring the app. Choose **Built-in demo** under **Research agent connection** to exercise the complete workflow without an account or model charge.
+
+## Portable review copies
+
+Review copies are generated only when a user clicks **Export review copy**. Nothing is written to an export folder on the server. Each download is one self-contained HTML file with versioned JSON embedded inside it for future migration.
+
+The export contains only the selected completed run, its candidates, human review notes, run-specific lessons, limited source-package provenance, and the known-resource fields needed to explain duplicate signals. It excludes API keys, connection settings, raw agent output, the research database, seed attachments, and full imported-resource records. The result is intentionally read-only: changes made later in the live Research Agent require a new export.
 
 ### DeepSeek Harness developer preview
 
@@ -119,4 +126,4 @@ PROVO_RESOURCE_PACKAGE=/path/to/provo-resource-package.zip \
   python3 -m unittest discover -s tests -v
 ```
 
-The live-package integration test verifies schema/category discovery and multi-category inclusion. The unit tests also prove that the source ZIP remains byte-for-byte unchanged, full records survive import, non-Housing resources participate in duplicate checks, seeds remain separate from discoveries, unsafe ZIP paths are rejected, Hermes and DSH one-shot results are normalized through the same adapter result, and research feedback becomes application-owned learning state.
+The live-package integration test verifies schema/category discovery and multi-category inclusion. The unit tests also prove that the source ZIP remains byte-for-byte unchanged, full records survive import, non-Housing resources participate in duplicate checks, seeds remain separate from discoveries, unsafe ZIP paths are rejected, Hermes and DSH one-shot results are normalized through the same adapter result, research feedback becomes application-owned learning state, and completed runs export without credentials or raw package records.
