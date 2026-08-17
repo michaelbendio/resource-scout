@@ -1,4 +1,3 @@
-sed: --: No such file or directory
 #!/bin/sh
 set -eu
 cd "$(dirname "$0")"

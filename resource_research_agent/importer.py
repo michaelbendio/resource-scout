@@ -219,8 +219,7 @@ class ResourcePackageImporter:
             raise PackageImportError(f"Package does not exist: {path}")
         before = self._hash(path)
         try:
-            archive = zsed: --: No such file or directory
-ipfile.ZipFile(path, "r")
+            archive = zipfile.ZipFile(path, "r")
         except (zipfile.BadZipFile, OSError) as error:
             raise PackageImportError(f"Not a readable ZIP package: {error}") from error
 

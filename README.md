@@ -1,4 +1,3 @@
-sed: --: No such file or directory
 # Resource Research Agent — Housing first cut
 
 This is a standalone, local research workspace for learning from a Resource Assistant `resource-package.zip` without changing that package. It discovers the package schema, identifies the Housing category, preserves complete imported records, builds a known-resource index, and exposes existing Housing records as research seeds.
@@ -13,6 +12,16 @@ The source ZIP is opened read-only. Browser uploads are written to a temporary f
 ## Run the app
 
 Requires Python 3.10 or newer; no third-party packages are needed.
+
+From a Git clone:
+
+```sh
+git clone https://github.com/michaelbendio/resource-research-agent.git
+cd resource-research-agent
+./run.sh
+```
+
+Or from the downloadable first-cut archive:
 
 ```sh
 unzip resource-research-agent-first-cut-v2.zip

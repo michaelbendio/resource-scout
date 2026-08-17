@@ -117,4 +117,3 @@ class ImporterTests(unittest.TestCase):
 if __name__ == "__main__":
     unittest.main()
 
-sed: --: No such file or directory

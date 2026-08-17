@@ -1,4 +1,3 @@
-sed: --: No such file or directory
 const state = { seeds: [] };
 
 async function request(url, options = {}) {

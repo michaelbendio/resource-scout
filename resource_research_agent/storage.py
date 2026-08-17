@@ -198,8 +198,7 @@ class ResearchStore:
         if import_id is None:
             return None
         with self.connect() as connection:
-            row = connection.execute("SELECT * FROM imports WHERE id = ?", (import_ised: --: No such file or directory
-d,)).fetchone()
+            row = connection.execute("SELECT * FROM imports WHERE id = ?", (import_id,)).fetchone()
             if not row:
                 return None
             seeds = connection.execute(
