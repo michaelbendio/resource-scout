@@ -1,0 +1,6 @@
+data/
+*.sqlite3
+__pycache__/
+.DS_Store
+
+sed: --: No such file or directory

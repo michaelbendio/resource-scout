@@ -1,0 +1,82 @@
+sed: --: No such file or directory
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resource Research Agent</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <header>
+    <div>
+      <p class="eyebrow">Housing research workspace</p>
+      <h1>Resource Research Agent</h1>
+      <p class="lede">Import what is already known. Use it to research more deeply. Keep discoveries separate until a human reviews them.</p>
+    </div>
+    <span class="pill" id="status-pill">No package imported</span>
+  </header>
+
+  <main>
+    <section class="panel import-panel">
+      <div>
+        <p class="step">01 · Package intake</p>
+        <h2>Connect a Resource Assistant package</h2>
+        <p>The ZIP is read to discover its schema and Housing category. It is never edited, and the uploaded copy is discarded after the snapshot is recorded.</p>
+      </div>
+      <form id="import-form">
+        <label class="drop" for="package-input">
+          <span id="file-label">Choose resource-package.zip</span>
+          <input id="package-input" name="package" type="file" accept=".zip,application/zip" required>
+        </label>
+        <button type="submit">Import package</button>
+      </form>
+      <p class="message" id="import-message" aria-live="polite"></p>
+    </section>
+
+    <section class="metrics" id="metrics" hidden>
+      <article><span>Package resources</span><strong id="resource-count">—</strong></article>
+      <article><span>Housing resources</span><strong id="housing-count">—</strong></article>
+      <article><span>Multi-category Housing</span><strong id="multi-count">—</strong></article>
+      <article><span>Schema discovered</span><strong id="schema-version">—</strong></article>
+    </section>
+
+    <section class="workspace" id="workspace" hidden>
+      <article class="panel seeds-panel">
+        <div class="section-head">
+          <div>
+            <p class="step">02 · Existing knowledge</p>
+            <h2>Housing research seeds</h2>
+          </div>
+          <input id="seed-filter" type="search" placeholder="Filter seeds…" aria-label="Filter research seeds">
+        </div>
+        <p class="muted">These are existing resources, not discoveries. Open one to see the complete source record and its branching context.</p>
+        <div id="seed-list" class="seed-list"></div>
+      </article>
+
+      <aside class="panel checker-panel">
+        <p class="step">03 · Duplicate guard</p>
+        <h2>Check a candidate</h2>
+        <p class="muted">Names, aliases, websites, addresses, and organization/program relationships are compared against every imported resource.</p>
+        <form id="check-form">
+          <label>Name<input id="candidate-name" required placeholder="Organization or program"></label>
+          <label>Website<input id="candidate-website" placeholder="example.org/program"></label>
+          <label>Address<input id="candidate-address" placeholder="Street, city, state"></label>
+          <button type="submit">Check known resources</button>
+        </form>
+        <div id="match-results" aria-live="polite"></div>
+      </aside>
+    </section>
+  </main>
+
+  <dialog id="record-dialog">
+    <button class="close" id="close-dialog" aria-label="Close">×</button>
+    <p class="step">Existing research seed</p>
+    <h2 id="record-name"></h2>
+    <p class="known-badge">Already known · use as a research starting point</p>
+    <pre id="record-json"></pre>
+  </dialog>
+
+  <script src="/app.js"></script>
+</body>
+</html>

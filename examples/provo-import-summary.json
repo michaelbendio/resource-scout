@@ -1,0 +1,38 @@
+sed: --: No such file or directory
+{
+  "testedOn": "2026-08-17",
+  "sourceName": "provo-resource-package.zip",
+  "sourceSha256": "486788adbc854ff27a698fbf5e2fcaa254db155e4fcc582f8a72d8fe5ed968fd",
+  "schema": {
+    "jsonMember": "tso-resources.json",
+    "resourcePath": "resources",
+    "categoryPath": "categories",
+    "resourcePackageSchemaVersion": 3,
+    "packageVersion": 43
+  },
+  "categoryCount": 20,
+  "resourceCount": 183,
+  "housingResourceCount": 28,
+  "housingOnlyResourceCount": 11,
+  "multiCategoryHousingResourceCount": 17,
+  "knownIndexTermCount": 558,
+  "otherCategoriesOnHousingResources": {
+    "food": 6,
+    "employment": 4,
+    "homeless-services": 4,
+    "medical-dental-vision": 4,
+    "mental-health": 4,
+    "seniors": 4,
+    "veterans": 4,
+    "addiction": 3,
+    "children-pregnancy": 3,
+    "clothing-household": 3,
+    "education": 3,
+    "financial-assistance": 3,
+    "disability": 2,
+    "id-recovery": 2,
+    "reentry-support": 1,
+    "transportation": 1
+  },
+  "sourceChecksumUnchangedAfterImport": true
+}
