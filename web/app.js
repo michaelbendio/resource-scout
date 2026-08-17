@@ -60,12 +60,17 @@ function showAccess(access) {
   link.href = url;
   link.textContent = url;
   const requester = access.requester;
-  document.querySelector('#private-access-detail').textContent = requester?.name
-    ? `Connected securely as ${requester.name}.`
-    : requester?.login
-      ? `Connected securely as ${requester.login}.`
-      : 'Open this address on an iPad connected to your Tailscale network.';
-  document.querySelector('#copy-private-url').dataset.url = url;
+  const connectedRemotely = Boolean(requester?.name || requester?.login);
+  document.querySelector('#private-access-title').textContent = connectedRemotely
+    ? 'Connected privately through Tailscale'
+    : 'Private access is ready';
+  document.querySelector('#private-access-detail').textContent = connectedRemotely
+    ? `Signed in as ${requester.name || requester.login}.`
+    : 'Open this address on an iPad connected to your Tailscale network.';
+  link.hidden = connectedRemotely;
+  const copyButton = document.querySelector('#copy-private-url');
+  copyButton.hidden = connectedRemotely;
+  copyButton.dataset.url = url;
 }
 
 function showAgent(agent) {
@@ -1014,7 +1019,7 @@ document.querySelector('#copy-private-url').addEventListener('click', async even
   try {
     await navigator.clipboard.writeText(url);
     button.textContent = 'Address copied';
-    setTimeout(() => { button.textContent = 'Copy iPad address'; }, 1500);
+    setTimeout(() => { button.textContent = 'Copy private address'; }, 1500);
   } catch {
     button.textContent = 'Press and hold the address to copy';
   }
