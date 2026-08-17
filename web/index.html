@@ -54,7 +54,7 @@
       </article>
 
       <aside class="panel checker-panel">
-        <p class="step">03 · Duplicate guard</p>
+        <p class="step">02 · Known-resource guard</p>
         <h2>Check a candidate</h2>
         <p class="muted">Names, aliases, websites, addresses, and organization/program relationships are compared against every imported resource.</p>
         <form id="check-form">
@@ -65,6 +65,89 @@
         </form>
         <div id="match-results" aria-live="polite"></div>
       </aside>
+    </section>
+
+    <section class="panel research-panel" id="research-panel" hidden>
+      <div class="section-head research-heading">
+        <div>
+          <p class="step">03 · Agent research</p>
+          <h2>Send Hermes on a Housing assignment</h2>
+          <p class="muted">Hermes researches the public web. This app retains the assignment, evidence, candidates, duplicate decisions, and your teaching.</p>
+        </div>
+        <div class="agent-state" id="agent-state">
+          <span class="agent-dot"></span>
+          <div><strong id="agent-state-title">Checking Hermes…</strong><small id="agent-state-detail"></small></div>
+        </div>
+      </div>
+
+      <div class="setup-callout" id="agent-setup" hidden>
+        <div>
+          <strong>One account setup remains</strong>
+          <p>Hermes is installed, but it needs you to choose a provider and model once in Terminal. API keys are never stored in this app.</p>
+        </div>
+        <button type="button" class="secondary" id="copy-setup">Copy setup command</button>
+      </div>
+
+      <form id="research-form" class="research-form">
+        <label>Research starting point
+          <select id="research-seed">
+            <option value="">Research Housing broadly</option>
+          </select>
+        </label>
+        <label>Assignment
+          <textarea id="research-assignment" rows="6">Discover realistic ways a person without adequate housing in Utah County could obtain safe temporary or permanent housing. Follow useful relationships rather than stopping at a directory listing: voucher providers to participating motels, organizations to specific programs, and temporary options to longer-term pathways. Investigate practical access and lived experience as well as official claims.</textarea>
+        </label>
+        <div class="form-actions">
+          <button type="submit" id="start-research">Start research</button>
+          <span class="muted" id="research-message" aria-live="polite"></span>
+        </div>
+      </form>
+
+      <details class="agent-settings">
+        <summary>Hermes connection settings</summary>
+        <form id="settings-form">
+          <div class="settings-grid">
+            <label>Adapter
+              <select id="agent-adapter"><option value="hermes">Hermes</option><option value="demo">Built-in demo</option></select>
+            </label>
+            <label>Hermes profile <input id="agent-profile" placeholder="Optional"></label>
+            <label>Provider override <input id="agent-provider" placeholder="Use Hermes default"></label>
+            <label>Model override <input id="agent-model" placeholder="Use Hermes default"></label>
+            <label>Command override <input id="agent-command" placeholder="Find Hermes automatically"></label>
+            <label>Time limit in seconds <input id="agent-timeout" type="number" min="30" max="7200" value="900"></label>
+          </div>
+          <button type="submit" class="secondary">Save connection settings</button>
+        </form>
+      </details>
+    </section>
+
+    <section class="research-results" id="research-results" hidden>
+      <article class="panel runs-panel">
+        <div class="section-head">
+          <div><p class="step">04 · Research trail</p><h2>Recent runs</h2></div>
+          <button type="button" class="text-button" id="refresh-research">Refresh</button>
+        </div>
+        <div id="run-list" class="run-list"></div>
+      </article>
+
+      <article class="panel candidates-panel">
+        <div class="section-head">
+          <div><p class="step">05 · Human review</p><h2>Candidate inbox</h2></div>
+          <span class="count-badge" id="candidate-count">0</span>
+        </div>
+        <p class="muted">Hermes findings remain separate from the Resource Assistant package until you decide what they mean.</p>
+        <div id="candidate-list" class="candidate-list"></div>
+      </article>
+
+      <article class="panel lessons-panel">
+        <div class="section-head"><div><p class="step">06 · Teaching loop</p><h2>Research lessons</h2></div></div>
+        <p class="muted">Active lessons are included in future assignments. Hermes suggestions require your approval.</p>
+        <form id="lesson-form" class="lesson-form">
+          <textarea id="lesson-text" rows="3" placeholder="What should the researcher learn?"></textarea>
+          <div class="inline-form"><select id="lesson-scope"><option value="category">Housing lesson</option><option value="general">General lesson</option></select><button type="submit">Add lesson</button></div>
+        </form>
+        <div id="lesson-list" class="lesson-list"></div>
+      </article>
     </section>
   </main>
 
@@ -101,6 +184,32 @@
       <summary>View raw JSON</summary>
       <pre id="record-json"></pre>
     </details>
+  </dialog>
+
+  <dialog id="candidate-dialog">
+    <button class="close" id="close-candidate" aria-label="Close">×</button>
+    <div class="record-heading">
+      <p class="step">Research candidate</p>
+      <h2 id="candidate-dialog-name"></h2>
+      <p class="candidate-status" id="candidate-dialog-status"></p>
+    </div>
+    <div id="candidate-profile"></div>
+    <section class="review-box">
+      <h3>Your decision</h3>
+      <div class="review-actions" id="review-actions">
+        <button type="button" data-status="accepted">Accept</button>
+        <button type="button" data-status="research-further" class="secondary">Research further</button>
+        <button type="button" data-status="already-known" class="secondary">Already known</button>
+        <button type="button" data-status="wrong-category" class="secondary">Wrong category</button>
+        <button type="button" data-status="rejected" class="danger">Reject</button>
+      </div>
+      <label>Feedback for future research
+        <textarea id="review-feedback" rows="4" placeholder="Why? What should the researcher notice next time?"></textarea>
+      </label>
+      <label class="check-label"><input id="review-learn" type="checkbox" checked> Save this feedback as an active Housing research lesson</label>
+      <p class="message" id="review-message" aria-live="polite"></p>
+    </section>
+    <details class="raw-record"><summary>View candidate JSON</summary><pre id="candidate-json"></pre></details>
   </dialog>
 
   <script src="/app.js"></script>

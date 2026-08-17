@@ -96,6 +96,40 @@ CREATE TABLE IF NOT EXISTS discoveries (
     notes TEXT NOT NULL DEFAULT '',
     FOREIGN KEY (matched_import_id, matched_resource_id) REFERENCES imported_resources(import_id, resource_id)
 );
+CREATE TABLE IF NOT EXISTS agent_settings (
+    key TEXT PRIMARY KEY,
+    value_json TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS research_runs (
+    id INTEGER PRIMARY KEY,
+    created_at TEXT NOT NULL,
+    started_at TEXT,
+    completed_at TEXT,
+    status TEXT NOT NULL,
+    adapter TEXT NOT NULL,
+    assignment TEXT NOT NULL,
+    seed_import_id INTEGER,
+    seed_resource_id TEXT,
+    prompt_json TEXT NOT NULL,
+    output_text TEXT NOT NULL DEFAULT '',
+    result_json TEXT,
+    usage_json TEXT,
+    error TEXT NOT NULL DEFAULT '',
+    FOREIGN KEY (seed_import_id, seed_resource_id)
+        REFERENCES research_seeds(import_id, resource_id)
+);
+CREATE TABLE IF NOT EXISTS research_lessons (
+    id INTEGER PRIMARY KEY,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    scope TEXT NOT NULL,
+    text TEXT NOT NULL,
+    rationale TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL,
+    source TEXT NOT NULL,
+    run_id INTEGER REFERENCES research_runs(id),
+    discovery_id INTEGER REFERENCES discoveries(id)
+);
 """
 
 
@@ -109,6 +143,19 @@ class ResearchStore:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.connect() as connection:
             connection.executescript(SCHEMA)
+            self._migrate(connection)
+
+    @staticmethod
+    def _migrate(connection: sqlite3.Connection) -> None:
+        columns = {row["name"] for row in connection.execute("PRAGMA table_info(discoveries)")}
+        additions = {
+            "run_id": "INTEGER",
+            "reviewed_at": "TEXT",
+            "review_feedback": "TEXT NOT NULL DEFAULT ''",
+        }
+        for name, definition in additions.items():
+            if name not in columns:
+                connection.execute(f"ALTER TABLE discoveries ADD COLUMN {name} {definition}")
 
     @contextmanager
     def connect(self) -> Iterator[sqlite3.Connection]:
@@ -337,7 +384,106 @@ class ResearchStore:
             ).fetchone()
         return json.loads(row["raw_json"]) if row else None
 
-    def save_discovery(self, candidate: dict[str, Any], match: dict[str, Any] | None = None, notes: str = "") -> dict[str, Any]:
+    def get_settings(self) -> dict[str, Any]:
+        with self.connect() as connection:
+            rows = connection.execute("SELECT key, value_json FROM agent_settings").fetchall()
+        return {row["key"]: json.loads(row["value_json"]) for row in rows}
+
+    def save_settings(self, values: dict[str, Any]) -> dict[str, Any]:
+        allowed = {"adapter", "command", "profile", "provider", "model", "timeoutSeconds", "maxTurns"}
+        with self.connect() as connection:
+            for key, value in values.items():
+                if key not in allowed:
+                    continue
+                connection.execute(
+                    """INSERT INTO agent_settings (key, value_json) VALUES (?, ?)
+                       ON CONFLICT(key) DO UPDATE SET value_json = excluded.value_json""",
+                    (key, _json(value)),
+                )
+        return self.get_settings()
+
+    def create_research_run(
+        self,
+        adapter: str,
+        assignment: str,
+        prompt: dict[str, Any],
+        seed_import_id: int | None = None,
+        seed_resource_id: str | None = None,
+    ) -> int:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            cursor = connection.execute(
+                """INSERT INTO research_runs (
+                       created_at, status, adapter, assignment, seed_import_id,
+                       seed_resource_id, prompt_json
+                   ) VALUES (?, 'queued', ?, ?, ?, ?, ?)""",
+                (now, adapter, assignment, seed_import_id, seed_resource_id, _json(prompt)),
+            )
+        return int(cursor.lastrowid)
+
+    def mark_run_running(self, run_id: int) -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            connection.execute(
+                "UPDATE research_runs SET status = 'running', started_at = ? WHERE id = ?",
+                (now, run_id),
+            )
+
+    def complete_run(
+        self, run_id: int, output: str, result: dict[str, Any], usage: dict[str, Any] | None
+    ) -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            connection.execute(
+                """UPDATE research_runs
+                   SET status = 'completed', completed_at = ?, output_text = ?,
+                       result_json = ?, usage_json = ?, error = ''
+                   WHERE id = ?""",
+                (now, output, _json(result), _json(usage) if usage else None, run_id),
+            )
+
+    def fail_run(self, run_id: int, error: str, output: str = "") -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            connection.execute(
+                """UPDATE research_runs
+                   SET status = 'failed', completed_at = ?, output_text = ?, error = ?
+                   WHERE id = ?""",
+                (now, output, error, run_id),
+            )
+
+    def get_run(self, run_id: int) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute("SELECT * FROM research_runs WHERE id = ?", (run_id,)).fetchone()
+        return self._run_dict(row) if row else None
+
+    def list_runs(self, limit: int = 30) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                "SELECT * FROM research_runs ORDER BY id DESC LIMIT ?", (max(1, min(limit, 100)),)
+            ).fetchall()
+        return [self._run_dict(row) for row in rows]
+
+    @staticmethod
+    def _run_dict(row: sqlite3.Row) -> dict[str, Any]:
+        return {
+            "id": row["id"], "createdAt": row["created_at"], "startedAt": row["started_at"],
+            "completedAt": row["completed_at"], "status": row["status"], "adapter": row["adapter"],
+            "assignment": row["assignment"], "seedImportId": row["seed_import_id"],
+            "seedResourceId": row["seed_resource_id"], "prompt": json.loads(row["prompt_json"]),
+            "output": row["output_text"],
+            "result": json.loads(row["result_json"]) if row["result_json"] else None,
+            "usage": json.loads(row["usage_json"]) if row["usage_json"] else None,
+            "error": row["error"],
+        }
+
+    def save_discovery(
+        self,
+        candidate: dict[str, Any],
+        match: dict[str, Any] | None = None,
+        notes: str = "",
+        run_id: int | None = None,
+    ) -> dict[str, Any]:
         now = datetime.now(timezone.utc).isoformat()
         duplicate = bool(match and match.get("score", 0) >= 0.86)
         status = "already-known" if duplicate else "candidate"
@@ -347,32 +493,114 @@ class ResearchStore:
             cursor = connection.execute(
                 """INSERT INTO discoveries (
                     created_at, updated_at, status, origin, name, candidate_json,
-                    matched_import_id, matched_resource_id, duplicate_score, notes
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    matched_import_id, matched_resource_id, duplicate_score, notes, run_id
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     now, now, status, origin, name, _json(candidate),
                     match.get("importId") if match else None,
                     match.get("resourceId") if match else None,
                     match.get("score") if match else None,
-                    notes,
+                    notes, run_id,
                 ),
             )
             discovery_id = int(cursor.lastrowid)
         return {"id": discovery_id, "status": status, "origin": origin, "isNewDiscovery": not duplicate}
 
+    def review_discovery(self, discovery_id: int, status: str, feedback: str = "") -> dict[str, Any] | None:
+        allowed = {"accepted", "rejected", "research-further", "already-known", "wrong-category"}
+        if status not in allowed:
+            raise ValueError(f"Unsupported review action: {status}")
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            connection.execute(
+                """UPDATE discoveries
+                   SET status = ?, updated_at = ?, reviewed_at = ?, review_feedback = ?
+                   WHERE id = ?""",
+                (status, now, now, feedback, discovery_id),
+            )
+            row = connection.execute("SELECT * FROM discoveries WHERE id = ?", (discovery_id,)).fetchone()
+        return self._discovery_dict(row) if row else None
+
     def list_discoveries(self) -> list[dict[str, Any]]:
         with self.connect() as connection:
             rows = connection.execute("SELECT * FROM discoveries ORDER BY id DESC").fetchall()
-        return [
-            {
-                "id": row["id"], "createdAt": row["created_at"], "status": row["status"],
-                "origin": row["origin"], "name": row["name"],
-                "candidate": json.loads(row["candidate_json"]),
-                "match": (
-                    {"importId": row["matched_import_id"], "resourceId": row["matched_resource_id"], "score": row["duplicate_score"]}
-                    if row["matched_resource_id"] else None
-                ),
-                "notes": row["notes"],
-            }
-            for row in rows
-        ]
+        return [self._discovery_dict(row) for row in rows]
+
+    @staticmethod
+    def _discovery_dict(row: sqlite3.Row) -> dict[str, Any]:
+        return {
+            "id": row["id"], "createdAt": row["created_at"], "updatedAt": row["updated_at"],
+            "status": row["status"], "origin": row["origin"], "name": row["name"],
+            "candidate": json.loads(row["candidate_json"]), "runId": row["run_id"],
+            "match": (
+                {"importId": row["matched_import_id"], "resourceId": row["matched_resource_id"], "score": row["duplicate_score"]}
+                if row["matched_resource_id"] else None
+            ),
+            "notes": row["notes"], "reviewedAt": row["reviewed_at"],
+            "reviewFeedback": row["review_feedback"],
+        }
+
+    def save_lesson(
+        self,
+        text: str,
+        scope: str = "category",
+        rationale: str = "",
+        status: str = "active",
+        source: str = "human",
+        run_id: int | None = None,
+        discovery_id: int | None = None,
+    ) -> dict[str, Any]:
+        text = text.strip()
+        if not text:
+            raise ValueError("Lesson text is required")
+        if scope not in {"category", "general"}:
+            raise ValueError("Lesson scope must be category or general")
+        if status not in {"active", "proposed", "retired"}:
+            raise ValueError("Lesson status must be active, proposed, or retired")
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            cursor = connection.execute(
+                """INSERT INTO research_lessons (
+                       created_at, updated_at, scope, text, rationale, status,
+                       source, run_id, discovery_id
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (now, now, scope, text, rationale.strip(), status, source, run_id, discovery_id),
+            )
+            lesson_id = int(cursor.lastrowid)
+        return self.get_lesson(lesson_id) or {}
+
+    def get_lesson(self, lesson_id: int) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute("SELECT * FROM research_lessons WHERE id = ?", (lesson_id,)).fetchone()
+        return self._lesson_dict(row) if row else None
+
+    def list_lessons(self, active_only: bool = False) -> list[dict[str, Any]]:
+        query = "SELECT * FROM research_lessons"
+        parameters: tuple[Any, ...] = ()
+        if active_only:
+            query += " WHERE status = ?"
+            parameters = ("active",)
+        query += " ORDER BY id DESC"
+        with self.connect() as connection:
+            rows = connection.execute(query, parameters).fetchall()
+        return [self._lesson_dict(row) for row in rows]
+
+    def update_lesson_status(self, lesson_id: int, status: str) -> dict[str, Any] | None:
+        if status not in {"active", "proposed", "retired"}:
+            raise ValueError("Lesson status must be active, proposed, or retired")
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            connection.execute(
+                "UPDATE research_lessons SET status = ?, updated_at = ? WHERE id = ?",
+                (status, now, lesson_id),
+            )
+        return self.get_lesson(lesson_id)
+
+    @staticmethod
+    def _lesson_dict(row: sqlite3.Row) -> dict[str, Any]:
+        return {
+            "id": row["id"], "createdAt": row["created_at"], "updatedAt": row["updated_at"],
+            "scope": row["scope"], "text": row["text"], "rationale": row["rationale"],
+            "status": row["status"], "source": row["source"], "runId": row["run_id"],
+            "discoveryId": row["discovery_id"],
+        }

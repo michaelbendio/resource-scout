@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import tempfile
 from email.parser import BytesParser
 from email.policy import default
@@ -13,6 +14,7 @@ from urllib.parse import parse_qs, urlsplit
 
 from .duplicates import DuplicateIndex
 from .importer import PackageImportError, ResourcePackageImporter
+from .research import DEFAULT_ASSIGNMENT, ResearchCoordinator
 from .storage import ResearchStore
 
 
@@ -24,6 +26,7 @@ class ResearchHTTPServer(ThreadingHTTPServer):
         super().__init__(address, ResearchHandler)
         self.store = store
         self.duplicate_index = DuplicateIndex(store)
+        self.research = ResearchCoordinator(store)
         self.web_dir = web_dir
 
 
@@ -37,7 +40,15 @@ class ResearchHandler(BaseHTTPRequestHandler):
         parsed = urlsplit(self.path)
         try:
             if parsed.path == "/api/status":
-                self._json({"ok": True, "latestImport": self.server.store.import_summary()})
+                self._json({
+                    "ok": True,
+                    "latestImport": self.server.store.import_summary(),
+                    "agent": self.server.research.agent_status(),
+                })
+            elif parsed.path == "/api/agent/status":
+                self._json(self.server.research.agent_status())
+            elif parsed.path == "/api/agent/settings":
+                self._json({"settings": self.server.research.agent_status()["settings"]})
             elif parsed.path == "/api/imports":
                 self._json({"imports": self.server.store.list_imports()})
             elif parsed.path == "/api/seeds":
@@ -57,6 +68,16 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     self._binary(asset["content"], asset["mediaType"], asset["name"])
             elif parsed.path == "/api/discoveries":
                 self._json({"discoveries": self.server.store.list_discoveries()})
+            elif parsed.path == "/api/research-runs":
+                self._json({"runs": self.server.store.list_runs()})
+            elif (run_id := self._path_id(parsed.path, "/api/research-runs")) is not None:
+                run = self.server.store.get_run(run_id)
+                if run:
+                    self._json(run)
+                else:
+                    self._error(HTTPStatus.NOT_FOUND, "Research run not found")
+            elif parsed.path == "/api/lessons":
+                self._json({"lessons": self.server.store.list_lessons()})
             elif parsed.path in ("/", "/index.html"):
                 self._file(self.server.web_dir / "index.html", "text/html; charset=utf-8")
             elif parsed.path == "/app.css":
@@ -75,6 +96,16 @@ class ResearchHandler(BaseHTTPRequestHandler):
         try:
             if parsed.path == "/api/import":
                 self._import_upload()
+            elif parsed.path == "/api/agent/settings":
+                payload = self._read_json()
+                settings = self.server.store.save_settings(payload.get("settings", payload))
+                self._json({"settings": settings, "agent": self.server.research.agent_status()})
+            elif parsed.path == "/api/research-runs":
+                payload = self._read_json()
+                assignment = str(payload.get("assignment") or DEFAULT_ASSIGNMENT)
+                seed_resource_id = str(payload.get("seedResourceId") or "").strip() or None
+                run = self.server.research.start(assignment, seed_resource_id)
+                self._json(run, HTTPStatus.ACCEPTED)
             elif parsed.path == "/api/duplicate-check":
                 payload = self._read_json()
                 candidate = payload.get("candidate", payload)
@@ -90,6 +121,37 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 match = matches[0] if matches else None
                 saved = self.server.store.save_discovery(candidate, match, str(payload.get("notes", "")))
                 self._json(saved, HTTPStatus.CREATED)
+            elif (discovery_id := self._path_id(parsed.path, "/api/discoveries", "review")) is not None:
+                payload = self._read_json()
+                status = str(payload.get("status", ""))
+                feedback = str(payload.get("feedback", "")).strip()
+                discovery = self.server.store.review_discovery(discovery_id, status, feedback)
+                if not discovery:
+                    self._error(HTTPStatus.NOT_FOUND, "Candidate not found")
+                    return
+                lesson = None
+                if payload.get("learn") and feedback:
+                    lesson = self.server.store.save_lesson(
+                        feedback, scope=str(payload.get("scope", "category")),
+                        rationale=f"Human review of {discovery['name']}", source="human-feedback",
+                        discovery_id=discovery_id,
+                    )
+                self._json({"discovery": discovery, "lesson": lesson})
+            elif parsed.path == "/api/lessons":
+                payload = self._read_json()
+                lesson = self.server.store.save_lesson(
+                    str(payload.get("text", "")), scope=str(payload.get("scope", "category")),
+                    rationale=str(payload.get("rationale", "")), status=str(payload.get("status", "active")),
+                    source="human",
+                )
+                self._json(lesson, HTTPStatus.CREATED)
+            elif (lesson_id := self._path_id(parsed.path, "/api/lessons", "status")) is not None:
+                payload = self._read_json()
+                lesson = self.server.store.update_lesson_status(lesson_id, str(payload.get("status", "")))
+                if lesson:
+                    self._json(lesson)
+                else:
+                    self._error(HTTPStatus.NOT_FOUND, "Lesson not found")
             else:
                 self._error(HTTPStatus.NOT_FOUND, "Not found")
         except (ValueError, PackageImportError) as error:
@@ -129,6 +191,12 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     os.unlink(temporary_path)
                 except FileNotFoundError:
                     pass
+
+    @staticmethod
+    def _path_id(path: str, prefix: str, suffix: str | None = None) -> int | None:
+        ending = f"/{re.escape(suffix)}" if suffix else ""
+        match = re.fullmatch(re.escape(prefix) + r"/(\d+)" + ending, path)
+        return int(match.group(1)) if match else None
 
     def _read_json(self) -> dict[str, Any]:
         length = self._content_length(maximum=5 * 1024 * 1024)

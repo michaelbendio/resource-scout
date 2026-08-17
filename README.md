@@ -11,6 +11,29 @@ The source ZIP is opened read-only. Browser uploads are written to a temporary f
 
 Housing seeds open as readable profiles: category labels, contact details, description, safely rendered Markdown-style information, stored PDF attachments, verification metadata, and an optional raw-JSON view. Only Housing-referenced attachments are copied into the separate research database so their links continue to work after the temporary upload is deleted.
 
+## Hermes research connection
+
+Hermes is connected through a replaceable research-agent interface. The app owns the research brief, imported context, assignments, candidate records, duplicate decisions, review state, and lessons; Hermes receives one bounded assignment and returns a structured research result. A future DSH adapter can receive the same context without migrating application data out of Hermes.
+
+The workflow is:
+
+1. Import a Resource Assistant package.
+2. Choose **Research Housing broadly** or branch from one existing Housing seed.
+3. Edit the assignment and select **Start research**. Runs continue in the background.
+4. Open candidates in the **Candidate inbox** to inspect access, restrictions, availability, pet policy, lived-experience findings, evidence, unknowns, and follow-up branches.
+5. Choose **Accept**, **Research further**, **Already known**, **Wrong category**, or **Reject**. Written feedback can become an active lesson included in later research runs.
+6. Approve or retire Hermes-proposed lessons in the **Research lessons** panel.
+
+Hermes is optional while exploring the app. Choose **Built-in demo** under **Hermes connection settings** to exercise the complete workflow without an account or model charge.
+
+To install Hermes using its supported macOS installer:
+
+```sh
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+```
+
+Then run `hermes setup` once to choose a provider and model. The Resource Research Agent never asks for or stores provider credentials. It discovers the `hermes` command automatically; an explicit command, profile, provider, or model override can be saved in the connection panel.
+
 ## Run the app
 
 Requires Python 3.10 or newer; no third-party packages are needed.
@@ -23,10 +46,10 @@ cd resource-research-agent
 ./run.sh
 ```
 
-Or from the downloadable first-cut archive:
+Or from the downloadable archive:
 
 ```sh
-unzip resource-research-agent-first-cut-v2.zip
+unzip resource-research-agent-hermes-v3.zip
 cd resource-research-agent
 ./run.sh
 ```
@@ -74,4 +97,4 @@ PROVO_RESOURCE_PACKAGE=/path/to/provo-resource-package.zip \
   python3 -m unittest discover -s tests -v
 ```
 
-The live-package integration test verifies schema/category discovery and multi-category inclusion. The unit tests also prove that the source ZIP remains byte-for-byte unchanged, full records survive import, non-Housing resources participate in duplicate checks, seeds remain separate from discoveries, and unsafe ZIP paths are rejected.
+The live-package integration test verifies schema/category discovery and multi-category inclusion. The unit tests also prove that the source ZIP remains byte-for-byte unchanged, full records survive import, non-Housing resources participate in duplicate checks, seeds remain separate from discoveries, unsafe ZIP paths are rejected, Hermes one-shot results are parsed, and research feedback becomes application-owned learning state.
