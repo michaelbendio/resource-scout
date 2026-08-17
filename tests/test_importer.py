@@ -20,11 +20,13 @@ class ImporterTests(unittest.TestCase):
     def tearDown(self) -> None:
         self.temporary.cleanup()
 
-    def package(self, data: object, member: str = "nested/resource-data.json") -> Path:
+    def package(self, data: object, member: str = "nested/resource-data.json", assets: dict[str, bytes] | None = None) -> Path:
         path = self.root / "resource-package.zip"
         with zipfile.ZipFile(path, "w") as archive:
             archive.writestr(member, json.dumps(data))
             archive.writestr("assets/readme.txt", "not resource data")
+            for asset_path, content in (assets or {}).items():
+                archive.writestr(asset_path, content)
         return path
 
     @staticmethod
@@ -81,13 +83,23 @@ class ImporterTests(unittest.TestCase):
             "id": "known", "name": "Known Housing", "categories": ["housing", "food"],
             "aliases": ["Known Home"], "website": "https://known.example/program",
             "address": "12 North Main Street", "privateExtension": {"keep": True},
+            "pdfs": [{"name": "Housing guide.pdf", "path": "pdfs/known/guide.pdf"}],
         }
-        path = self.package({"categories": [{"id": "housing", "label": "Housing"}], "resources": [full]})
+        path = self.package(
+            {"categories": [{"id": "housing", "label": "Housing"}, {"id": "food", "label": "Food Assistance"}], "resources": [full]},
+            assets={"pdfs/known/guide.pdf": b"%PDF-1.4 test attachment"},
+        )
         store = ResearchStore(self.root / "research.sqlite3")
         import_id = store.save_import(ResourcePackageImporter().read(path))
         seeds = store.list_seeds(import_id)
         self.assertEqual(seeds[0]["fullRecord"], full)
         self.assertFalse(seeds[0]["seedContext"]["isNewDiscovery"])
+        self.assertEqual(seeds[0]["categories"][1], {"id": "food", "label": "Food Assistance"})
+        self.assertTrue(seeds[0]["attachments"][0]["available"])
+        asset = store.seed_asset(import_id, "known", "pdfs/known/guide.pdf")
+        self.assertEqual(asset["name"], "Housing guide.pdf")
+        self.assertEqual(asset["mediaType"], "application/pdf")
+        self.assertEqual(asset["content"], b"%PDF-1.4 test attachment")
         self.assertEqual(store.list_discoveries(), [])
 
         match = DuplicateIndex(store).match({"name": "Known Home", "website": "known.example/other"})[0]
@@ -116,4 +128,3 @@ class ImporterTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

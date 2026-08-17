@@ -9,6 +9,8 @@ The app deliberately maintains two separate bodies of data:
 
 The source ZIP is opened read-only. Browser uploads are written to a temporary file only long enough to read and hash them, then deleted. No extracted package directory or modified package is produced.
 
+Housing seeds open as readable profiles: category labels, contact details, description, safely rendered Markdown-style information, stored PDF attachments, verification metadata, and an optional raw-JSON view. Only Housing-referenced attachments are copied into the separate research database so their links continue to work after the temporary upload is deleted.
+
 ## Run the app
 
 Requires Python 3.10 or newer; no third-party packages are needed.

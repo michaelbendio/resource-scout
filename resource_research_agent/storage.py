@@ -11,6 +11,7 @@ from .importer import (
     ImportedPackage,
     iter_index_values,
     normalize_index_value,
+    resource_attachments,
     resource_category_ids,
     resource_id,
     resource_name,
@@ -70,6 +71,16 @@ CREATE TABLE IF NOT EXISTS research_seeds (
     seed_context_json TEXT NOT NULL,
     PRIMARY KEY (import_id, resource_id),
     FOREIGN KEY (import_id, resource_id) REFERENCES imported_resources(import_id, resource_id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS seed_assets (
+    import_id INTEGER NOT NULL,
+    resource_id TEXT NOT NULL,
+    asset_path TEXT NOT NULL,
+    name TEXT NOT NULL,
+    media_type TEXT NOT NULL,
+    content BLOB NOT NULL,
+    PRIMARY KEY (import_id, resource_id, asset_path),
+    FOREIGN KEY (import_id, resource_id) REFERENCES research_seeds(import_id, resource_id) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS discoveries (
     id INTEGER PRIMARY KEY,
@@ -186,6 +197,15 @@ class ResearchStore:
                         "INSERT INTO research_seeds VALUES (?, ?, ?, ?, ?)",
                         (import_id, rid, name, _json(resource), _json(seed_context)),
                     )
+                    for attachment in resource_attachments(resource):
+                        content = package.target_assets.get(attachment["path"])
+                        if content is None:
+                            continue
+                        media_type = "application/pdf" if attachment["path"].lower().endswith(".pdf") else "application/octet-stream"
+                        connection.execute(
+                            "INSERT INTO seed_assets VALUES (?, ?, ?, ?, ?, ?)",
+                            (import_id, rid, attachment["path"], attachment["name"], media_type, content),
+                        )
         return import_id
 
     def latest_import_id(self) -> int | None:
@@ -239,16 +259,59 @@ class ResearchStore:
                 "SELECT * FROM research_seeds WHERE import_id = ? ORDER BY name COLLATE NOCASE",
                 (import_id,),
             ).fetchall()
-        return [
-            {
+            category_rows = connection.execute(
+                "SELECT category_id, label FROM categories WHERE import_id = ?",
+                (import_id,),
+            ).fetchall()
+            asset_rows = connection.execute(
+                "SELECT resource_id, asset_path, name, media_type, length(content) AS bytes FROM seed_assets WHERE import_id = ?",
+                (import_id,),
+            ).fetchall()
+        category_labels = {row["category_id"]: row["label"] for row in category_rows}
+        assets_by_resource: dict[str, list[dict[str, Any]]] = {}
+        for asset in asset_rows:
+            assets_by_resource.setdefault(asset["resource_id"], []).append({
+                "path": asset["asset_path"],
+                "name": asset["name"],
+                "mediaType": asset["media_type"],
+                "bytes": asset["bytes"],
+                "available": True,
+            })
+        result: list[dict[str, Any]] = []
+        for row in rows:
+            full_record = json.loads(row["full_record_json"])
+            stored_assets = {asset["path"]: asset for asset in assets_by_resource.get(row["resource_id"], [])}
+            attachments = []
+            for attachment in resource_attachments(full_record):
+                attachments.append(stored_assets.get(attachment["path"], {
+                    "path": attachment["path"], "name": attachment["name"],
+                    "mediaType": "application/pdf", "bytes": None, "available": False,
+                }))
+            category_ids = resource_category_ids(full_record)
+            result.append({
                 "importId": row["import_id"],
                 "resourceId": row["resource_id"],
                 "name": row["name"],
-                "fullRecord": json.loads(row["full_record_json"]),
+                "categories": [
+                    {"id": category_id, "label": category_labels.get(category_id, category_id)}
+                    for category_id in category_ids
+                ],
+                "attachments": attachments,
+                "fullRecord": full_record,
                 "seedContext": json.loads(row["seed_context_json"]),
-            }
-            for row in rows
-        ]
+            })
+        return result
+
+    def seed_asset(self, import_id: int, resource_id_value: str, asset_path: str) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT name, media_type, content FROM seed_assets
+                   WHERE import_id = ? AND resource_id = ? AND asset_path = ?""",
+                (import_id, resource_id_value, asset_path),
+            ).fetchone()
+        if not row:
+            return None
+        return {"name": row["name"], "mediaType": row["media_type"], "content": bytes(row["content"])}
 
     def known_terms(self, import_id: int | None = None) -> list[dict[str, Any]]:
         import_id = import_id or self.latest_import_id()

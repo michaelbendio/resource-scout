@@ -44,6 +44,17 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 query = parse_qs(parsed.query)
                 import_id = int(query["importId"][0]) if query.get("importId") else None
                 self._json({"seeds": self.server.store.list_seeds(import_id)})
+            elif parsed.path == "/api/seed-asset":
+                query = parse_qs(parsed.query)
+                if not all(query.get(key) for key in ("importId", "resourceId", "path")):
+                    raise ValueError("importId, resourceId, and path are required")
+                asset = self.server.store.seed_asset(
+                    int(query["importId"][0]), query["resourceId"][0], query["path"][0]
+                )
+                if not asset:
+                    self._error(HTTPStatus.NOT_FOUND, "Attachment is not available; re-import the source package")
+                else:
+                    self._binary(asset["content"], asset["mediaType"], asset["name"])
             elif parsed.path == "/api/discoveries":
                 self._json({"discoveries": self.server.store.list_discoveries()})
             elif parsed.path in ("/", "/index.html"):
@@ -161,6 +172,16 @@ class ResearchHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(data)
 
+    def _binary(self, data: bytes, content_type: str, filename: str) -> None:
+        safe_name = filename.replace("\r", "").replace("\n", "").replace('"', "'")
+        self.send_response(HTTPStatus.OK)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Content-Disposition", f'inline; filename="{safe_name}"')
+        self.send_header("Content-Length", str(len(data)))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(data)
+
     def _error(self, status: HTTPStatus, message: str) -> None:
         self._json({"ok": False, "error": message}, status)
 
@@ -177,4 +198,3 @@ def serve(store_path: str | Path, host: str = "127.0.0.1", port: int = 8765) -> 
         pass
     finally:
         server.server_close()
-

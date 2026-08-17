@@ -70,10 +70,37 @@
 
   <dialog id="record-dialog">
     <button class="close" id="close-dialog" aria-label="Close">×</button>
-    <p class="step">Existing research seed</p>
-    <h2 id="record-name"></h2>
-    <p class="known-badge">Already known · use as a research starting point</p>
-    <pre id="record-json"></pre>
+    <div class="record-heading">
+      <p class="step">Existing research seed</p>
+      <h2 id="record-name"></h2>
+      <p class="known-badge">Already known · use as a research starting point</p>
+      <div class="category-chips" id="record-categories"></div>
+    </div>
+
+    <dl class="contact-grid" id="record-contact"></dl>
+
+    <section class="record-section" id="record-description-section" hidden>
+      <h3>About this resource</h3>
+      <p id="record-description"></p>
+    </section>
+
+    <section class="record-section" id="record-information-section" hidden>
+      <h3>Information</h3>
+      <div class="markdown" id="record-information"></div>
+    </section>
+
+    <section class="record-section" id="record-attachments-section" hidden>
+      <h3>Attachments</h3>
+      <div class="attachment-list" id="record-attachments"></div>
+      <p class="attachment-note" id="record-attachment-note" hidden>Re-import this resource package once to make these stored attachments openable.</p>
+    </section>
+
+    <div class="record-metadata" id="record-metadata"></div>
+
+    <details class="raw-record">
+      <summary>View raw JSON</summary>
+      <pre id="record-json"></pre>
+    </details>
   </dialog>
 
   <script src="/app.js"></script>

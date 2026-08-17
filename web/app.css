@@ -56,10 +56,38 @@ input { width: 100%; border: 1px solid #bdc6c1; border-radius: 8px; background: 
 .match.exact { border-color: var(--forest); background: #e9f4ee; }
 .match strong, .match span { display: block; }
 .match span { color: var(--muted); font-size: .82rem; }
-dialog { width: min(850px, 92vw); max-height: 88vh; border: 1px solid var(--line); border-radius: 16px; padding: 2rem; color: var(--ink); background: var(--panel); box-shadow: 0 30px 90px rgba(0,0,0,.25); }
+dialog { width: min(960px, 94vw); max-height: 90vh; overflow: auto; border: 1px solid var(--line); border-radius: 18px; padding: clamp(1.4rem, 4vw, 2.6rem); color: var(--ink); background: var(--panel); box-shadow: 0 30px 90px rgba(0,0,0,.25); }
 dialog::backdrop { background: rgba(10, 27, 21, .65); }
-.close { float: right; width: 2.2rem; height: 2.2rem; padding: 0; border-radius: 50%; font-size: 1.45rem; }
+.close { position: sticky; z-index: 2; top: 0; float: right; width: 2.2rem; height: 2.2rem; padding: 0; margin: -.5rem -.5rem 0 1rem; border-radius: 50%; font-size: 1.45rem; }
+.record-heading { padding-right: 2.5rem; }
+.record-heading h2 { max-width: 720px; font-size: clamp(2rem, 5vw, 3rem); }
 .known-badge { padding: .35rem .7rem; color: var(--forest); background: var(--mint); }
+.category-chips { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1rem; }
+.category-chips span { padding: .3rem .65rem; border: 1px solid #bdd1c7; border-radius: 999px; color: #31594a; background: #f2f8f4; font-size: .78rem; font-weight: 750; }
+.contact-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; margin: 1.6rem 0; }
+.contact-item { padding: .9rem 1rem; border: 1px solid var(--line); border-radius: 10px; background: white; }
+.contact-item dt { margin-bottom: .25rem; color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.contact-item dd { margin: 0; white-space: pre-line; overflow-wrap: anywhere; }
+.contact-item a, .markdown a { color: #11634b; font-weight: 700; }
+.record-section { margin-top: 1.4rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+.record-section h3 { margin: 0 0 .75rem; font: 600 1.3rem ui-serif, Georgia, serif; }
+.record-section > p { margin-top: 0; white-space: pre-line; }
+.markdown { max-width: 78ch; }
+.markdown p { margin: .7rem 0; }
+.markdown h3, .markdown h4, .markdown h5 { margin: 1.25rem 0 .45rem; color: #244c3e; font-size: 1rem; }
+.markdown ul, .markdown ol { margin: .5rem 0 1rem; padding-left: 1.4rem; }
+.markdown li + li { margin-top: .25rem; }
+.markdown hr { height: 1px; margin: 1rem 0; border: 0; background: var(--line); }
+.attachment-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; }
+.attachment { display: block; padding: .8rem .9rem; border: 1px solid #bed1c7; border-radius: 9px; color: var(--forest); background: #f3f8f5; text-decoration: none; }
+.attachment:hover { border-color: #5d8a76; background: #e9f3ed; }
+.attachment.unavailable { color: var(--muted); border-style: dashed; background: #f6f5f1; }
+.attachment strong, .attachment small { display: block; overflow-wrap: anywhere; }
+.attachment small { margin-top: .2rem; color: var(--muted); }
+.attachment-note { color: #87591b; font-size: .85rem; }
+.record-metadata { display: flex; flex-wrap: wrap; gap: .5rem 1.2rem; margin-top: 1.7rem; color: var(--muted); font-size: .78rem; }
+.raw-record { margin-top: 1.7rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+.raw-record summary { color: var(--forest); font-weight: 750; cursor: pointer; }
 pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; background: #f1f3ef; border-radius: 9px; max-height: 55vh; overflow: auto; font-size: .8rem; }
 @media (max-width: 800px) {
   header, .import-panel, .workspace { display: block; }
@@ -69,3 +97,4 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; background:
   .workspace > * + * { margin-top: 1rem; }
 }
 @media (max-width: 520px) { .seed-list, .metrics { grid-template-columns: 1fr; } .section-head { display: block; } #seed-filter { width: 100%; margin-top: 1rem; } }
+@media (max-width: 640px) { .contact-grid, .attachment-list { grid-template-columns: 1fr; } }

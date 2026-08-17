@@ -35,6 +35,7 @@ RELATION_KEYS = (
     "service",
     "services",
 )
+ATTACHMENT_KEYS = ("pdf", "pdfs", "document", "documents", "attachment", "attachments")
 
 
 class PackageImportError(ValueError):
@@ -109,6 +110,31 @@ def resource_id(record: dict[str, Any]) -> str:
     return "generated-" + hashlib.sha256(stable.encode("utf-8")).hexdigest()[:20]
 
 
+def resource_attachments(record: dict[str, Any]) -> list[dict[str, str]]:
+    """Return referenced package assets without changing the source record."""
+    attachments: list[dict[str, str]] = []
+    seen: set[str] = set()
+    for key in ATTACHMENT_KEYS:
+        if key not in record:
+            continue
+        raw = record[key]
+        items = raw if isinstance(raw, list) else [raw]
+        for item in items:
+            if isinstance(item, str):
+                asset_path = item.strip()
+                name = Path(asset_path).name
+            elif isinstance(item, dict):
+                asset_path = _first_string(item, ("path", "file", "url", "href"))
+                name = _first_string(item, ("name", "title", "label")) or Path(asset_path).name
+            else:
+                continue
+            if not asset_path or asset_path in seen:
+                continue
+            seen.add(asset_path)
+            attachments.append({"name": name or Path(asset_path).name, "path": asset_path})
+    return attachments
+
+
 def _walk_collections(value: Any, path: tuple[str, ...] = (), depth: int = 0) -> Iterator[tuple[tuple[str, ...], list[Any]]]:
     if depth > 4:
         return
@@ -180,6 +206,7 @@ class ImportedPackage:
     target_resources: list[dict[str, Any]]
     manifest: list[dict[str, Any]]
     root_metadata: dict[str, Any] = field(default_factory=dict)
+    target_assets: dict[str, bytes] = field(default_factory=dict, repr=False)
 
     @property
     def multicategory_target_count(self) -> int:
@@ -266,6 +293,17 @@ class ResourcePackageImporter:
                 for item in resources
                 if target_norm in {_normalized_label(category) for category in resource_category_ids(item)}
             ]
+            members_by_name = {info.filename: info for info in infos if not info.is_dir()}
+            target_asset_paths = {
+                attachment["path"]
+                for resource in target_resources
+                for attachment in resource_attachments(resource)
+            }
+            target_assets = {
+                asset_path: archive.read(members_by_name[asset_path])
+                for asset_path in target_asset_paths
+                if asset_path in members_by_name
+            }
 
             schema_version = root.get("resourcePackageSchemaVersion", root.get("schemaVersion"))
             package_version = root.get("packageVersion", root.get("version"))
@@ -282,6 +320,7 @@ class ResourcePackageImporter:
                 target_resources=target_resources,
                 manifest=manifest,
                 root_metadata=metadata,
+                target_assets=target_assets,
             )
 
         after = self._hash(path)
