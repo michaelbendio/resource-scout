@@ -67,7 +67,7 @@
       </aside>
     </section>
 
-    <section class="panel research-panel" id="research-panel" hidden>
+    <section class="panel research-panel" id="research-panel">
       <div class="section-head research-heading">
         <div>
           <p class="step">03 · Agent research</p>
@@ -89,11 +89,33 @@
       </div>
 
       <form id="research-form" class="research-form">
-        <label>Research starting point
-          <select id="research-seed">
-            <option value="">Research Housing broadly</option>
-          </select>
-        </label>
+        <fieldset class="research-context-options">
+          <legend>Research context</legend>
+          <label>
+            <input type="radio" name="research-mode" value="package" checked>
+            <span><strong>Use the imported resource package</strong><small id="package-mode-detail">Default · import a package above to provide existing-resource context.</small></span>
+          </label>
+          <label>
+            <input type="radio" name="research-mode" value="standalone-location">
+            <span><strong>Research a location without a package</strong><small>Exploratory research kept separate from any imported office package.</small></span>
+          </label>
+        </fieldset>
+        <div id="package-research-fields">
+          <label>Research starting point
+            <select id="research-seed">
+              <option value="">Research Housing broadly</option>
+            </select>
+          </label>
+        </div>
+        <div class="standalone-fields" id="standalone-research-fields" hidden>
+          <label>Research location
+            <input id="target-location" placeholder="Mesa, Arizona" autocomplete="off">
+          </label>
+          <label>Nearby areas to consider <span class="optional">Optional</span>
+            <input id="regional-scope" placeholder="Maricopa County and nearby programs serving Mesa" autocomplete="off">
+          </label>
+        </div>
+        <p class="research-context-note" id="research-context-note">Package-backed research is the default and uses the connected package for seeds and duplicate checking.</p>
         <label>Assignment
           <textarea id="research-assignment" rows="6">Discover realistic ways a person without adequate housing in Utah County could obtain safe temporary or permanent housing. Follow useful relationships rather than stopping at a directory listing: voucher providers to participating motels, organizations to specific programs, and temporary options to longer-term pathways. Investigate practical access and lived experience as well as official claims.</textarea>
         </label>
@@ -123,7 +145,7 @@
       </details>
     </section>
 
-    <section class="research-results" id="research-results" hidden>
+    <section class="research-results" id="research-results">
       <article class="panel runs-panel">
         <div class="section-head">
           <div><p class="step">04 · Research trail</p><h2>Recent runs</h2></div>
@@ -137,13 +159,13 @@
           <div><p class="step">05 · Human review</p><h2>Candidate inbox</h2></div>
           <span class="count-badge" id="candidate-count">0</span>
         </div>
-        <p class="muted">Agent findings remain separate from the Resource Assistant package until you decide what they mean.</p>
+        <p class="muted">Agent findings remain separate from any Resource Assistant package until you decide what they mean.</p>
         <div id="candidate-list" class="candidate-list"></div>
       </article>
 
       <article class="panel lessons-panel">
         <div class="section-head"><div><p class="step">06 · Teaching loop</p><h2>Research lessons</h2></div></div>
-        <p class="muted">Active lessons are included in future assignments. Agent suggestions require your approval.</p>
+        <p class="muted">Active lessons are included only in future assignments with the same package-backed or standalone-location context. Agent suggestions require your approval.</p>
         <form id="lesson-form" class="lesson-form">
           <textarea id="lesson-text" rows="3" placeholder="What should the researcher learn?"></textarea>
           <div class="inline-form"><select id="lesson-scope"><option value="category">Housing lesson</option><option value="general">General lesson</option></select><button type="submit">Add lesson</button></div>

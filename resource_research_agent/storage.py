@@ -110,6 +110,9 @@ CREATE TABLE IF NOT EXISTS research_runs (
     status TEXT NOT NULL,
     adapter TEXT NOT NULL,
     assignment TEXT NOT NULL,
+    research_mode TEXT NOT NULL DEFAULT 'package',
+    target_location TEXT,
+    regional_scope TEXT NOT NULL DEFAULT '',
     source_import_id INTEGER REFERENCES imports(id),
     seed_import_id INTEGER,
     seed_resource_id TEXT,
@@ -130,6 +133,8 @@ CREATE TABLE IF NOT EXISTS research_lessons (
     rationale TEXT NOT NULL DEFAULT '',
     status TEXT NOT NULL,
     source TEXT NOT NULL,
+    research_mode TEXT NOT NULL DEFAULT 'package',
+    target_location TEXT,
     run_id INTEGER REFERENCES research_runs(id),
     discovery_id INTEGER REFERENCES discoveries(id)
 );
@@ -169,6 +174,22 @@ class ResearchStore:
             connection.execute(
                 "UPDATE research_runs SET source_import_id = seed_import_id WHERE seed_import_id IS NOT NULL"
             )
+        run_additions = {
+            "research_mode": "TEXT NOT NULL DEFAULT 'package'",
+            "target_location": "TEXT",
+            "regional_scope": "TEXT NOT NULL DEFAULT ''",
+        }
+        for name, definition in run_additions.items():
+            if name not in run_columns:
+                connection.execute(f"ALTER TABLE research_runs ADD COLUMN {name} {definition}")
+        lesson_columns = {row["name"] for row in connection.execute("PRAGMA table_info(research_lessons)")}
+        lesson_additions = {
+            "research_mode": "TEXT NOT NULL DEFAULT 'package'",
+            "target_location": "TEXT",
+        }
+        for name, definition in lesson_additions.items():
+            if name not in lesson_columns:
+                connection.execute(f"ALTER TABLE research_lessons ADD COLUMN {name} {definition}")
 
     @contextmanager
     def connect(self) -> Iterator[sqlite3.Connection]:
@@ -426,16 +447,22 @@ class ResearchStore:
         prompt: dict[str, Any],
         source_import_id: int | None = None,
         seed_resource_id: str | None = None,
+        *,
+        research_mode: str = "package",
+        target_location: str | None = None,
+        regional_scope: str = "",
     ) -> int:
         now = datetime.now(timezone.utc).isoformat()
         with self.connect() as connection:
             cursor = connection.execute(
                 """INSERT INTO research_runs (
-                       created_at, status, adapter, assignment, source_import_id,
+                       created_at, status, adapter, assignment, research_mode,
+                       target_location, regional_scope, source_import_id,
                        seed_import_id, seed_resource_id, prompt_json
-                   ) VALUES (?, 'queued', ?, ?, ?, ?, ?, ?)""",
+                   ) VALUES (?, 'queued', ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
-                    now, adapter, assignment, source_import_id,
+                    now, adapter, assignment, research_mode, target_location,
+                    regional_scope, source_import_id,
                     source_import_id if seed_resource_id else None, seed_resource_id, _json(prompt),
                 ),
             )
@@ -489,7 +516,9 @@ class ResearchStore:
         return {
             "id": row["id"], "createdAt": row["created_at"], "startedAt": row["started_at"],
             "completedAt": row["completed_at"], "status": row["status"], "adapter": row["adapter"],
-            "assignment": row["assignment"], "sourceImportId": row["source_import_id"],
+            "assignment": row["assignment"], "researchMode": row["research_mode"],
+            "targetLocation": row["target_location"], "regionalScope": row["regional_scope"],
+            "sourceImportId": row["source_import_id"],
             "seedImportId": row["seed_import_id"],
             "seedResourceId": row["seed_resource_id"], "prompt": json.loads(row["prompt_json"]),
             "output": row["output_text"],
@@ -607,6 +636,8 @@ class ResearchStore:
         source: str = "human",
         run_id: int | None = None,
         discovery_id: int | None = None,
+        research_mode: str = "package",
+        target_location: str | None = None,
     ) -> dict[str, Any]:
         text = text.strip()
         if not text:
@@ -615,14 +646,24 @@ class ResearchStore:
             raise ValueError("Lesson scope must be category or general")
         if status not in {"active", "proposed", "retired"}:
             raise ValueError("Lesson status must be active, proposed, or retired")
+        if research_mode not in {"package", "standalone-location"}:
+            raise ValueError(f"Unsupported research mode: {research_mode}")
+        target_location = target_location.strip() if target_location else None
+        if research_mode == "standalone-location" and not target_location:
+            raise ValueError("A target location is required for a standalone-location lesson")
+        if research_mode == "package":
+            target_location = None
         now = datetime.now(timezone.utc).isoformat()
         with self.connect() as connection:
             cursor = connection.execute(
                 """INSERT INTO research_lessons (
                        created_at, updated_at, scope, text, rationale, status,
-                       source, run_id, discovery_id
-                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                (now, now, scope, text, rationale.strip(), status, source, run_id, discovery_id),
+                       source, research_mode, target_location, run_id, discovery_id
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    now, now, scope, text, rationale.strip(), status, source,
+                    research_mode, target_location, run_id, discovery_id,
+                ),
             )
             lesson_id = int(cursor.lastrowid)
         return self.get_lesson(lesson_id) or {}
@@ -632,15 +673,29 @@ class ResearchStore:
             row = connection.execute("SELECT * FROM research_lessons WHERE id = ?", (lesson_id,)).fetchone()
         return self._lesson_dict(row) if row else None
 
-    def list_lessons(self, active_only: bool = False) -> list[dict[str, Any]]:
+    def list_lessons(
+        self,
+        active_only: bool = False,
+        research_mode: str | None = None,
+        target_location: str | None = None,
+    ) -> list[dict[str, Any]]:
         query = "SELECT * FROM research_lessons"
-        parameters: tuple[Any, ...] = ()
+        clauses: list[str] = []
+        parameters: list[Any] = []
         if active_only:
-            query += " WHERE status = ?"
-            parameters = ("active",)
+            clauses.append("status = ?")
+            parameters.append("active")
+        if research_mode is not None:
+            clauses.append("research_mode = ?")
+            parameters.append(research_mode)
+        if research_mode == "standalone-location":
+            clauses.append("target_location = ? COLLATE NOCASE")
+            parameters.append((target_location or "").strip())
+        if clauses:
+            query += " WHERE " + " AND ".join(clauses)
         query += " ORDER BY id DESC"
         with self.connect() as connection:
-            rows = connection.execute(query, parameters).fetchall()
+            rows = connection.execute(query, tuple(parameters)).fetchall()
         return [self._lesson_dict(row) for row in rows]
 
     def update_lesson_status(self, lesson_id: int, status: str) -> dict[str, Any] | None:
@@ -660,5 +715,6 @@ class ResearchStore:
             "id": row["id"], "createdAt": row["created_at"], "updatedAt": row["updated_at"],
             "scope": row["scope"], "text": row["text"], "rationale": row["rationale"],
             "status": row["status"], "source": row["source"], "runId": row["run_id"],
-            "discoveryId": row["discovery_id"],
+            "discoveryId": row["discovery_id"], "researchMode": row["research_mode"],
+            "targetLocation": row["target_location"],
         }

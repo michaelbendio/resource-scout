@@ -11,7 +11,7 @@ from .duplicates import DuplicateIndex
 from .storage import ResearchStore
 
 
-REVIEW_COPY_SCHEMA_VERSION = 1
+REVIEW_COPY_SCHEMA_VERSION = 2
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_TEMPLATE = PROJECT_ROOT / "web" / "review-copy.html"
 
@@ -45,6 +45,8 @@ def _embedded_json(value: dict[str, Any]) -> str:
 
 
 def _run_title(run: dict[str, Any]) -> str:
+    if run.get("researchMode") == "standalone-location" and run.get("targetLocation"):
+        return f"Housing research for {run['targetLocation']}"
     selected_seed = run.get("prompt", {}).get("selectedSeed")
     if isinstance(selected_seed, dict) and selected_seed.get("name"):
         return f"Housing research from {selected_seed['name']}"
@@ -106,7 +108,11 @@ def build_review_copy(
             for discovery in discoveries
             if discovery.get("match")
         }
-        import_id = matched_imports.pop() if len(matched_imports) == 1 else store.latest_import_id()
+        if len(matched_imports) == 1:
+            import_id = matched_imports.pop()
+        elif run.get("researchMode", "package") == "package":
+            # Older package-backed runs predate explicit source provenance.
+            import_id = store.latest_import_id()
     package = store.import_summary(int(import_id)) if import_id is not None else None
     exported = exported_at or datetime.now(timezone.utc)
     completed_date = str(run.get("completedAt") or run.get("createdAt") or exported.isoformat())[:10]
@@ -117,7 +123,11 @@ def build_review_copy(
         "exportedAt": exported.astimezone(timezone.utc).isoformat(),
         "title": title,
         "notice": (
-            "Read-only research for human review. Availability, eligibility, and other facts may change; "
+            "Read-only exploratory location research for human review; it is not an official or comprehensive "
+            "TSO Resources inventory. Availability, eligibility, and other facts may change; verify important "
+            "details before assisting a client or adding a resource to TSO Resources."
+            if run.get("researchMode") == "standalone-location"
+            else "Read-only research for human review. Availability, eligibility, and other facts may change; "
             "verify important details before assisting a client or adding a resource to TSO Resources."
         ),
         "run": {
@@ -126,6 +136,9 @@ def build_review_copy(
             "completedAt": run["completedAt"],
             "adapter": run["adapter"],
             "assignment": run["assignment"],
+            "researchMode": run.get("researchMode", "package"),
+            "targetLocation": run.get("targetLocation"),
+            "regionalScope": run.get("regionalScope", ""),
             "summary": str(run["result"].get("summary") or ""),
             "candidateCount": len(candidates),
         },
@@ -148,6 +161,8 @@ def build_review_copy(
                 "rationale": lesson["rationale"],
                 "status": lesson["status"],
                 "source": lesson["source"],
+                "researchMode": lesson.get("researchMode", "package"),
+                "targetLocation": lesson.get("targetLocation"),
             }
             for lesson in lessons
         ],

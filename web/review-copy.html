@@ -42,7 +42,7 @@
     .panel { margin-bottom: 1rem; padding: clamp(1.35rem, 3vw, 2.2rem); border: 1px solid var(--line); border-radius: 18px; background: var(--panel); box-shadow: var(--shadow); }
     .notice { border-color: #d8bd8e; background: #fff9ec; }
     .notice strong { color: #704b19; }
-    .metadata { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; margin-top: 1.3rem; }
+    .metadata { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: .75rem; margin-top: 1.3rem; }
     .metric { padding: .9rem 1rem; border-radius: 12px; background: #edf3ef; }
     .metric span { display: block; color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
     .metric strong { display: block; margin-top: .18rem; overflow-wrap: anywhere; }
@@ -474,11 +474,16 @@
       document.querySelector('#summary').textContent = review.run.summary || 'No summary was provided.';
       document.querySelector('#assignment').textContent = review.run.assignment;
       const packageInfo = review.sourcePackage;
+      const standalone = review.run.researchMode === 'standalone-location';
+      const researchScope = standalone
+        ? `${review.run.targetLocation}${review.run.regionalScope ? ` · also considered ${review.run.regionalScope}` : ''}`
+        : 'Imported package';
       document.querySelector('#metadata').replaceChildren(
         metric('Completed', formatWhen(review.run.completedAt)),
         metric('Research agent', friendly(review.run.adapter)),
         metric('Candidates', review.run.candidateCount),
-        metric('Source package', packageInfo ? `${packageInfo.sourceName} · package ${packageInfo.packageVersion}` : 'Not recorded'),
+        metric('Research scope', researchScope),
+        metric('Source package', packageInfo ? `${packageInfo.sourceName} · package ${packageInfo.packageVersion}` : 'None · standalone exploratory research'),
       );
 
       const statuses = [...new Set(review.candidates.map(item => item.status))].sort();
@@ -526,7 +531,7 @@
 
       const packageText = packageInfo
         ? `${packageInfo.sourceName}; schema ${packageInfo.schemaVersion}; package ${packageInfo.packageVersion}`
-        : 'Source package not recorded';
+        : `Standalone location research; ${review.run.targetLocation || 'location not recorded'}`;
       document.querySelector('#footer').textContent = `Exported ${formatWhen(review.exportedAt)} · ${packageText} · Review-copy schema ${review.reviewCopySchemaVersion}`;
     }
 

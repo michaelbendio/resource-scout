@@ -1,4 +1,10 @@
-const state = { seeds: [], runs: [], discoveries: [], lessons: [], agent: null, currentCandidate: null, pollTimer: null };
+const state = {
+  seeds: [], runs: [], discoveries: [], lessons: [], agent: null, latestImport: null,
+  currentCandidate: null, pollTimer: null, researchMode: 'package',
+  assignmentDrafts: { package: '', 'standalone-location': '' }, standaloneAutoAssignment: '',
+};
+
+const PACKAGE_DEFAULT_ASSIGNMENT = 'Discover realistic ways a person without adequate housing in Utah County could obtain safe temporary or permanent housing. Follow useful relationships rather than stopping at a directory listing: voucher providers to participating motels, organizations to specific programs, and temporary options to longer-term pathways. Investigate practical access and lived experience as well as official claims.';
 
 const MATCH_ASSESSMENT_LABELS = {
   'same-resource': 'Same resource',
@@ -29,6 +35,7 @@ async function request(url, options = {}) {
 
 function showImport(summary) {
   if (!summary) return;
+  state.latestImport = summary;
   document.querySelector('#status-pill').textContent = `${summary.sourceName} connected`;
   document.querySelector('#status-pill').classList.add('ready');
   document.querySelector('#resource-count').textContent = summary.resourceCount;
@@ -39,6 +46,8 @@ function showImport(summary) {
   document.querySelector('#workspace').hidden = false;
   document.querySelector('#research-panel').hidden = false;
   document.querySelector('#research-results').hidden = false;
+  document.querySelector('#package-mode-detail').textContent = `Default · ${summary.sourceName} supplies existing resources, research seeds, and duplicate checking.`;
+  updateStartResearchState();
 }
 
 function showAgent(agent) {
@@ -52,7 +61,6 @@ function showAgent(agent) {
   document.querySelector('#agent-setup').hidden = Boolean(agent?.ready || agent?.adapter === 'demo');
   document.querySelector('#agent-setup-title').textContent = agent?.installed ? `Finish ${name} setup` : `Install ${name}`;
   document.querySelector('#agent-setup-detail').textContent = agent?.message || 'Complete the connection setup, then refresh this page.';
-  document.querySelector('#start-research').disabled = !agent?.ready;
   document.querySelector('#copy-setup').dataset.command = agent?.setupCommand || 'hermes setup';
   const settings = agent?.settings || {};
   document.querySelector('#agent-adapter').value = settings.adapter || 'hermes';
@@ -64,6 +72,57 @@ function showAgent(agent) {
   document.querySelector('#dsh-command').value = settings.dshCommand || '';
   document.querySelector('#agent-timeout').value = settings.timeoutSeconds || 900;
   updateAdapterFields();
+  updateStartResearchState();
+}
+
+function selectedResearchMode() {
+  return document.querySelector('input[name="research-mode"]:checked')?.value || 'package';
+}
+
+function standaloneDefaultAssignment(location) {
+  const place = location.trim() || 'the selected location';
+  return `Discover realistic ways a person without adequate housing in ${place} could obtain safe temporary or permanent housing. Follow useful relationships rather than stopping at a directory listing: voucher providers to participating motels, organizations to specific programs, and temporary options to longer-term pathways. Investigate practical access and lived experience as well as official claims.`;
+}
+
+function updateStartResearchState() {
+  const mode = selectedResearchMode();
+  const contextReady = mode === 'package'
+    ? Boolean(state.latestImport)
+    : Boolean(document.querySelector('#target-location')?.value.trim());
+  const button = document.querySelector('#start-research');
+  if (button) button.disabled = !state.agent?.ready || !contextReady;
+}
+
+function updateStandaloneAutoAssignment() {
+  const next = standaloneDefaultAssignment(document.querySelector('#target-location').value);
+  const assignment = document.querySelector('#research-assignment');
+  if (selectedResearchMode() === 'standalone-location'
+      && (!assignment.value.trim() || assignment.value === state.standaloneAutoAssignment)) {
+    assignment.value = next;
+  }
+  state.standaloneAutoAssignment = next;
+  state.assignmentDrafts['standalone-location'] = assignment.value;
+  updateStartResearchState();
+}
+
+function switchResearchMode() {
+  const nextMode = selectedResearchMode();
+  const assignment = document.querySelector('#research-assignment');
+  state.assignmentDrafts[state.researchMode] = assignment.value;
+  state.researchMode = nextMode;
+  document.querySelector('#package-research-fields').hidden = nextMode !== 'package';
+  document.querySelector('#standalone-research-fields').hidden = nextMode !== 'standalone-location';
+  if (nextMode === 'package') {
+    assignment.value = state.assignmentDrafts.package || PACKAGE_DEFAULT_ASSIGNMENT;
+    document.querySelector('#research-context-note').textContent = state.latestImport
+      ? `This run will use ${state.latestImport.sourceName} for seeds and duplicate checking.`
+      : 'Package-backed research is the default. Import a resource package above before starting.';
+  } else {
+    state.standaloneAutoAssignment = standaloneDefaultAssignment(document.querySelector('#target-location').value);
+    assignment.value = state.assignmentDrafts['standalone-location'] || state.standaloneAutoAssignment;
+    document.querySelector('#research-context-note').textContent = 'This exploratory run will not use imported seeds, compare candidates with the connected package, or claim to be an official TSO Resources inventory.';
+  }
+  updateStartResearchState();
 }
 
 function renderSeedOptions() {
@@ -365,15 +424,17 @@ function renderRuns() {
     const head = document.createElement('div');
     head.className = 'run-head';
     const title = document.createElement('strong');
-    title.textContent = run.seedResourceId
-      ? `Seeded research · ${state.seeds.find(seed => seed.resourceId === run.seedResourceId)?.name || run.seedResourceId}`
-      : 'Broad Housing research';
+    title.textContent = run.researchMode === 'standalone-location'
+      ? `Housing research · ${run.targetLocation}`
+      : run.seedResourceId
+        ? `Seeded research · ${state.seeds.find(seed => seed.resourceId === run.seedResourceId)?.name || run.seedResourceId}`
+        : 'Broad Housing research';
     const status = document.createElement('span');
     status.className = `run-status ${run.status}`;
     status.textContent = friendlyStatus(run.status);
     head.append(title, status);
     const time = document.createElement('small');
-    time.textContent = `${formatWhen(run.createdAt)} · ${run.adapter}`;
+    time.textContent = `${formatWhen(run.createdAt)} · ${run.adapter} · ${run.researchMode === 'standalone-location' ? 'standalone location' : 'package-backed'}`;
     item.append(head, time);
     if (run.result?.summary) {
       const summary = document.createElement('p');
@@ -461,7 +522,17 @@ function renderCandidates() {
     head.append(name, status);
     const description = document.createElement('p');
     description.textContent = candidateDescription(discovery);
-    item.append(head, description);
+    const run = state.runs.find(entry => entry.id === discovery.runId);
+    if (run) {
+      const context = document.createElement('small');
+      context.className = 'candidate-context';
+      context.textContent = run.researchMode === 'standalone-location'
+        ? `Standalone research · ${run.targetLocation}`
+        : 'Package-backed research';
+      item.append(head, context, description);
+    } else {
+      item.append(head, description);
+    }
     if (discovery.matchDetails) {
       const match = document.createElement('p');
       match.className = 'candidate-match';
@@ -632,7 +703,10 @@ function renderLessons() {
     head.className = 'lesson-head';
     const info = document.createElement('div');
     const label = document.createElement('small');
-    label.textContent = `${lesson.scope === 'general' ? 'General' : 'Housing'} · ${lesson.source}`;
+    const context = lesson.researchMode === 'standalone-location'
+      ? lesson.targetLocation
+      : 'Package-backed';
+    label.textContent = `${context} · ${lesson.scope === 'general' ? 'General' : 'Housing'} · ${lesson.source}`;
     const status = document.createElement('span');
     status.className = `lesson-status ${lesson.status}`;
     status.textContent = lesson.status;
@@ -690,11 +764,17 @@ async function loadResearchData() {
 async function refresh() {
   const status = await request('/api/status');
   showAgent(status.agent);
-  if (!status.latestImport) return;
-  showImport(status.latestImport);
-  const result = await request('/api/seeds');
-  state.seeds = result.seeds;
-  renderSeeds();
+  if (status.latestImport) {
+    showImport(status.latestImport);
+    const result = await request('/api/seeds');
+    state.seeds = result.seeds;
+    renderSeeds();
+  } else {
+    state.latestImport = null;
+    state.seeds = [];
+    renderSeedOptions();
+    updateStartResearchState();
+  }
   await loadResearchData();
 }
 
@@ -716,6 +796,7 @@ document.querySelector('#import-form').addEventListener('submit', async event =>
     const seeds = await request('/api/seeds');
     state.seeds = seeds.seeds;
     renderSeeds();
+    switchResearchMode();
     message.textContent = `Imported ${result.import.targetResourceCount} Housing resources. The source ZIP was not changed.`;
   } catch (error) {
     message.className = 'message error';
@@ -726,6 +807,8 @@ document.querySelector('#import-form').addEventListener('submit', async event =>
 });
 
 document.querySelector('#seed-filter').addEventListener('input', event => renderSeeds(event.target.value));
+document.querySelectorAll('input[name="research-mode"]').forEach(input => input.addEventListener('change', switchResearchMode));
+document.querySelector('#target-location').addEventListener('input', updateStandaloneAutoAssignment);
 document.querySelector('#close-dialog').addEventListener('click', () => document.querySelector('#record-dialog').close());
 document.querySelector('#close-candidate').addEventListener('click', () => document.querySelector('#candidate-dialog').close());
 
@@ -773,20 +856,27 @@ document.querySelector('#research-form').addEventListener('submit', async event 
   const message = document.querySelector('#research-message');
   button.disabled = true;
   const name = agentName();
+  const researchMode = selectedResearchMode();
+  const targetLocation = document.querySelector('#target-location').value.trim();
   message.textContent = `Giving ${name} the assignment and research context…`;
   try {
     const run = await request('/api/research-runs', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         assignment: document.querySelector('#research-assignment').value,
-        seedResourceId: document.querySelector('#research-seed').value,
+        researchMode,
+        seedResourceId: researchMode === 'package' ? document.querySelector('#research-seed').value : '',
+        targetLocation: researchMode === 'standalone-location' ? targetLocation : '',
+        regionalScope: researchMode === 'standalone-location' ? document.querySelector('#regional-scope').value.trim() : '',
       }),
     });
-    message.textContent = `Research run ${run.id} started. You may keep reviewing seeds while ${name} works.`;
+    message.textContent = researchMode === 'standalone-location'
+      ? `Research run ${run.id} started for ${targetLocation}. Its candidates will remain separate from the imported package.`
+      : `Research run ${run.id} started. You may keep reviewing seeds while ${name} works.`;
     await loadResearchData();
   } catch (error) {
     message.textContent = error.message;
-  } finally { button.disabled = !state.agent?.ready; }
+  } finally { updateStartResearchState(); }
 });
 
 document.querySelector('#refresh-research').addEventListener('click', () => loadResearchData().catch(error => {
@@ -797,12 +887,27 @@ document.querySelector('#lesson-form').addEventListener('submit', async event =>
   event.preventDefault();
   const text = document.querySelector('#lesson-text').value.trim();
   if (!text) return;
-  await request('/api/lessons', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text, scope: document.querySelector('#lesson-scope').value }),
-  });
-  document.querySelector('#lesson-text').value = '';
-  await loadResearchData();
+  const researchMode = selectedResearchMode();
+  const targetLocation = document.querySelector('#target-location').value.trim();
+  if (researchMode === 'standalone-location' && !targetLocation) {
+    document.querySelector('#research-message').textContent = 'Enter the standalone research location before adding a location-specific lesson.';
+    return;
+  }
+  try {
+    await request('/api/lessons', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text,
+        scope: document.querySelector('#lesson-scope').value,
+        researchMode,
+        targetLocation: researchMode === 'standalone-location' ? targetLocation : '',
+      }),
+    });
+    document.querySelector('#lesson-text').value = '';
+    await loadResearchData();
+  } catch (error) {
+    document.querySelector('#research-message').textContent = error.message;
+  }
 });
 
 document.querySelector('#review-actions').addEventListener('click', async event => {
@@ -890,4 +995,6 @@ document.querySelector('#check-form').addEventListener('submit', async event => 
   } catch (error) { target.textContent = error.message; }
 });
 
+state.assignmentDrafts.package = document.querySelector('#research-assignment').value;
+switchResearchMode();
 refresh().catch(error => { document.querySelector('#import-message').textContent = error.message; });

@@ -15,7 +15,7 @@ from urllib.parse import parse_qs, urlsplit
 from .duplicates import DuplicateIndex
 from .importer import PackageImportError, ResourcePackageImporter
 from .review_export import build_review_copy
-from .research import DEFAULT_ASSIGNMENT, ResearchCoordinator
+from .research import ResearchCoordinator
 from .storage import ResearchStore
 
 
@@ -113,9 +113,15 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 self._json({"settings": settings, "agent": self.server.research.agent_status()})
             elif parsed.path == "/api/research-runs":
                 payload = self._read_json()
-                assignment = str(payload.get("assignment") or DEFAULT_ASSIGNMENT)
+                assignment = str(payload.get("assignment") or "")
                 seed_resource_id = str(payload.get("seedResourceId") or "").strip() or None
-                run = self.server.research.start(assignment, seed_resource_id)
+                run = self.server.research.start(
+                    assignment,
+                    seed_resource_id,
+                    research_mode=str(payload.get("researchMode") or "package"),
+                    target_location=str(payload.get("targetLocation") or "").strip() or None,
+                    regional_scope=str(payload.get("regionalScope") or ""),
+                )
                 self._json(run, HTTPStatus.ACCEPTED)
             elif parsed.path == "/api/duplicate-check":
                 payload = self._read_json()
@@ -142,10 +148,13 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     return
                 lesson = None
                 if payload.get("learn") and feedback:
+                    run = self.server.store.get_run(discovery["runId"]) if discovery.get("runId") else None
                     lesson = self.server.store.save_lesson(
                         feedback, scope=str(payload.get("scope", "category")),
                         rationale=f"Human review of {discovery['name']}", source="human-feedback",
                         discovery_id=discovery_id,
+                        research_mode=run.get("researchMode", "package") if run else "package",
+                        target_location=run.get("targetLocation") if run else None,
                     )
                 self._json({"discovery": self._with_match_details(discovery), "lesson": lesson})
             elif (discovery_id := self._path_id(
@@ -165,6 +174,8 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     str(payload.get("text", "")), scope=str(payload.get("scope", "category")),
                     rationale=str(payload.get("rationale", "")), status=str(payload.get("status", "active")),
                     source="human",
+                    research_mode=str(payload.get("researchMode") or "package"),
+                    target_location=str(payload.get("targetLocation") or "").strip() or None,
                 )
                 self._json(lesson, HTTPStatus.CREATED)
             elif (lesson_id := self._path_id(parsed.path, "/api/lessons", "status")) is not None:

@@ -9,7 +9,13 @@ import zipfile
 from pathlib import Path
 from unittest.mock import patch
 
-from resource_research_agent.agents import DSHCLIAdapter, HermesCLIAdapter, build_adapter
+from resource_research_agent.agents import (
+    AgentRunResult,
+    DSHCLIAdapter,
+    HermesCLIAdapter,
+    ResearchAgentAdapter,
+    build_adapter,
+)
 from resource_research_agent.importer import ResourcePackageImporter
 from resource_research_agent.research import ResearchCoordinator
 from resource_research_agent.storage import ResearchStore
@@ -58,6 +64,86 @@ class ResearchWorkflowTests(unittest.TestCase):
         self.assertEqual("active", lesson["status"])
         self.assertEqual(1, len(self.store.list_lessons(active_only=True)))
         self.assertIsNotNone(self.store.full_resource(1, "known-home"))
+
+    def test_standalone_location_is_explicit_and_isolated_from_imported_context(self) -> None:
+        class CapturingAdapter(ResearchAgentAdapter):
+            key = "capture"
+
+            def __init__(self) -> None:
+                self.prompt = ""
+
+            def status(self) -> dict[str, object]:
+                return {"adapter": self.key, "ready": True}
+
+            def run(self, prompt: str) -> AgentRunResult:
+                self.prompt = prompt
+                return AgentRunResult(
+                    output="captured",
+                    result={
+                        "summary": "Mesa research complete",
+                        "candidates": [{"name": "Known Home", "geography": "Mesa, Arizona"}],
+                        "lessons": [{"scope": "category", "text": "Confirm Mesa service boundaries"}],
+                    },
+                )
+
+        self.store.save_lesson("Package-only lesson", research_mode="package")
+        self.store.save_lesson(
+            "Mesa lesson", research_mode="standalone-location", target_location="Mesa, Arizona"
+        )
+        self.store.save_lesson(
+            "Tempe lesson", research_mode="standalone-location", target_location="Tempe, Arizona"
+        )
+        adapter = CapturingAdapter()
+        coordinator = ResearchCoordinator(self.store, adapter_factory=lambda settings: adapter)
+        run = coordinator.start(
+            "",
+            research_mode="standalone-location",
+            target_location="Mesa, Arizona",
+            regional_scope="Maricopa County",
+        )
+        for _ in range(200):
+            current = self.store.get_run(run["id"])
+            if current and current["status"] in {"completed", "failed"}:
+                break
+            time.sleep(0.01)
+
+        self.assertEqual("completed", current["status"])
+        self.assertEqual("standalone-location", current["researchMode"])
+        self.assertEqual("Mesa, Arizona", current["targetLocation"])
+        self.assertEqual("Maricopa County", current["regionalScope"])
+        self.assertIsNone(current["sourceImportId"])
+        prompt = current["prompt"]
+        self.assertEqual([], prompt["knownResources"])
+        self.assertIsNone(prompt["researchContext"]["sourcePackage"])
+        self.assertIn("Mesa, Arizona first", prompt["categoryBrief"]["geographicFocus"])
+        self.assertEqual(["Mesa lesson"], [lesson["text"] for lesson in prompt["activeLessons"]])
+        self.assertIn("without adequate housing in Mesa, Arizona", current["assignment"])
+        discovery = self.store.list_discoveries(run_id=run["id"])[0]
+        self.assertEqual("candidate", discovery["status"])
+        self.assertIsNone(discovery["match"])
+        run_lesson = next(lesson for lesson in self.store.list_lessons() if lesson["runId"] == run["id"])
+        self.assertEqual("standalone-location", run_lesson["researchMode"])
+        self.assertEqual("Mesa, Arizona", run_lesson["targetLocation"])
+
+        with self.assertRaisesRegex(ValueError, "cannot branch"):
+            coordinator.start(
+                "Research Mesa",
+                "known-home",
+                research_mode="standalone-location",
+                target_location="Mesa, Arizona",
+            )
+
+    def test_package_research_remains_the_default(self) -> None:
+        self.store.save_settings({"adapter": "demo"})
+        run = ResearchCoordinator(self.store).start("Find Housing broadly")
+        self.assertEqual("package", run["researchMode"])
+        self.assertEqual(1, run["sourceImportId"])
+        self.assertIsNone(run["targetLocation"])
+        self.assertEqual([{"id": "known-home", "name": "Known Home"}], run["prompt"]["knownResources"])
+        for _ in range(200):
+            if self.store.get_run(run["id"])["status"] in {"completed", "failed"}:
+                break
+            time.sleep(0.01)
 
     def test_hermes_cli_adapter_uses_oneshot_and_parses_json(self) -> None:
         fake = self.root / "fake_hermes.py"

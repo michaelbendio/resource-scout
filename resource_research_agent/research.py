@@ -18,6 +18,15 @@ DEFAULT_ASSIGNMENT = (
 )
 
 
+def standalone_assignment(location: str) -> str:
+    return (
+        f"Discover realistic ways a person without adequate housing in {location} could obtain safe "
+        "temporary or permanent housing. Follow useful relationships rather than stopping at a directory "
+        "listing: voucher providers to participating motels, organizations to specific programs, and temporary "
+        "options to longer-term pathways. Investigate practical access and lived experience as well as official claims."
+    )
+
+
 OUTPUT_SCHEMA = {
     "summary": "Brief account of the research performed and the most important findings.",
     "candidates": [{
@@ -60,12 +69,35 @@ class ResearchCoordinator:
         status["settings"] = settings
         return status
 
-    def start(self, assignment: str, seed_resource_id: str | None = None) -> dict[str, Any]:
-        assignment = assignment.strip() or DEFAULT_ASSIGNMENT
-        import_summary = self.store.import_summary()
-        if not import_summary:
-            raise ValueError("Import a resource package before starting research")
-        import_id = int(import_summary["id"])
+    def start(
+        self,
+        assignment: str,
+        seed_resource_id: str | None = None,
+        *,
+        research_mode: str = "package",
+        target_location: str | None = None,
+        regional_scope: str = "",
+    ) -> dict[str, Any]:
+        if research_mode not in {"package", "standalone-location"}:
+            raise ValueError(f"Unsupported research mode: {research_mode}")
+        target_location = target_location.strip() if target_location else None
+        regional_scope = regional_scope.strip()
+        import_summary = None
+        import_id = None
+        if research_mode == "package":
+            import_summary = self.store.import_summary()
+            if not import_summary:
+                raise ValueError("Import a resource package before starting package-backed research")
+            import_id = int(import_summary["id"])
+            target_location = None
+            regional_scope = ""
+            assignment = assignment.strip() or DEFAULT_ASSIGNMENT
+        else:
+            if not target_location:
+                raise ValueError("Enter a research location for standalone research")
+            if seed_resource_id:
+                raise ValueError("Standalone location research cannot branch from an imported package seed")
+            assignment = assignment.strip() or standalone_assignment(target_location)
         selected_seed = None
         if seed_resource_id:
             selected_seed = next(
@@ -74,7 +106,14 @@ class ResearchCoordinator:
             )
             if not selected_seed:
                 raise ValueError("The selected research seed was not found in the current package")
-        prompt_object = self._prompt_object(assignment, import_summary, selected_seed)
+        prompt_object = self._prompt_object(
+            assignment,
+            research_mode,
+            import_summary,
+            selected_seed,
+            target_location,
+            regional_scope,
+        )
         settings = merged_settings(self.store.get_settings())
         adapter = self.adapter_factory(settings)
         status = adapter.status()
@@ -83,6 +122,9 @@ class ResearchCoordinator:
         run_id = self.store.create_research_run(
             adapter.key, assignment, prompt_object, import_id,
             selected_seed["resourceId"] if selected_seed else None,
+            research_mode=research_mode,
+            target_location=target_location,
+            regional_scope=regional_scope,
         )
         thread = threading.Thread(
             target=self._execute, args=(run_id, prompt_object, settings),
@@ -94,17 +136,61 @@ class ResearchCoordinator:
     def _prompt_object(
         self,
         assignment: str,
-        import_summary: dict[str, Any],
+        research_mode: str,
+        import_summary: dict[str, Any] | None,
         selected_seed: dict[str, Any] | None,
+        target_location: str | None,
+        regional_scope: str,
     ) -> dict[str, Any]:
-        seeds = self.store.list_seeds(int(import_summary["id"]))
+        seeds = self.store.list_seeds(int(import_summary["id"])) if import_summary else []
+        package_mode = research_mode == "package"
+        category = import_summary["category"] if import_summary else {"id": None, "label": "Housing"}
+        geographic_focus = (
+            "Utah County first; follow viable Salt Lake, Weber, and other Utah options when appropriate."
+            if package_mode
+            else (
+                f"{target_location} first. Also investigate {regional_scope} when those resources realistically serve "
+                f"people in {target_location}; state service areas and transportation barriers explicitly."
+                if regional_scope
+                else f"{target_location} first. Follow nearby county or regional options only when they realistically serve people in {target_location}; state service areas and transportation barriers explicitly."
+            )
+        )
+        active_lessons = self.store.list_lessons(
+            active_only=True,
+            research_mode=research_mode,
+            target_location=target_location,
+        )
+        rules = [
+            "Research the public web only. Do not edit local files or external systems.",
+            "Return only one valid JSON object matching outputSchema. Do not wrap it in Markdown.",
+            "Prefer a few well-investigated candidates over a large list of shallow directory entries.",
+        ]
+        if package_mode:
+            rules.insert(1, "Do not edit the imported package.")
+            rules.insert(2, "Known resources may be researched deeply and used for branching, but must not be presented as new discoveries.")
+        else:
+            rules.insert(1, "No resource package is connected to this run. Treat every credible finding as a candidate for human review.")
+            rules.insert(2, "This is exploratory location research, not an official or comprehensive TSO Resources inventory.")
         return {
             "role": "Housing resource discovery researcher for a human-reviewed social-service directory",
             "today": date.today().isoformat(),
             "assignment": assignment,
+            "researchContext": {
+                "mode": research_mode,
+                "targetLocation": target_location,
+                "regionalScope": regional_scope or None,
+                "sourcePackage": (
+                    {
+                        "id": import_summary["id"],
+                        "name": import_summary["sourceName"],
+                        "category": import_summary["category"],
+                    }
+                    if import_summary else None
+                ),
+            },
             "categoryBrief": {
-                "category": import_summary["category"],
-                "geographicFocus": "Utah County first; follow viable Salt Lake, Weber, and other Utah options when appropriate.",
+                "category": category,
+                "geographicFocus": geographic_focus,
                 "scope": [
                     "Emergency shelter and safe temporary lodging",
                     "Motel or hotel vouchers and the particular lodging providers that accept them",
@@ -122,13 +208,8 @@ class ResearchCoordinator:
             },
             "knownResources": [{"id": seed["resourceId"], "name": seed["name"]} for seed in seeds],
             "selectedSeed": selected_seed,
-            "activeLessons": self.store.list_lessons(active_only=True),
-            "rules": [
-                "Research the public web only. Do not edit local files, the imported package, or external systems.",
-                "Known resources may be researched deeply and used for branching, but must not be presented as new discoveries.",
-                "Return only one valid JSON object matching outputSchema. Do not wrap it in Markdown.",
-                "Prefer a few well-investigated candidates over a large list of shallow directory entries.",
-            ],
+            "activeLessons": active_lessons,
+            "rules": rules,
             "outputSchema": OUTPUT_SCHEMA,
         }
 
@@ -145,9 +226,11 @@ class ResearchCoordinator:
             adapter = self.adapter_factory(settings)
             response = adapter.run(self._prompt_text(prompt_object))
             duplicate_index = DuplicateIndex(self.store)
+            run = self.store.get_run(run_id)
+            source_import_id = run.get("sourceImportId") if run else None
             saved_candidates = []
             for candidate in response.result.get("candidates", []):
-                matches = duplicate_index.match(candidate, limit=1)
+                matches = duplicate_index.match(candidate, import_id=source_import_id, limit=1) if source_import_id else []
                 match = matches[0] if matches else None
                 saved_candidates.append(self.store.save_discovery(candidate, match, run_id=run_id))
             for lesson in response.result.get("lessons", []):
@@ -155,6 +238,8 @@ class ResearchCoordinator:
                     lesson["text"], scope=lesson.get("scope", "category"),
                     rationale=lesson.get("rationale", ""), status="proposed",
                     source="agent", run_id=run_id,
+                    research_mode=run.get("researchMode", "package") if run else "package",
+                    target_location=run.get("targetLocation") if run else None,
                 )
             stored_result = dict(response.result)
             stored_result["savedCandidates"] = saved_candidates

@@ -1,11 +1,13 @@
 # Resource Research Agent — Housing first cut
 
-This is a standalone, local research workspace for learning from a Resource Assistant `resource-package.zip` without changing that package. It discovers the package schema, identifies the Housing category, preserves complete imported records, builds a known-resource index, and exposes existing Housing records as research seeds.
+This is a standalone, local Housing research workspace. Its default package-backed mode learns from a Resource Assistant `resource-package.zip` without changing that package: it discovers the schema, identifies Housing, preserves complete imported records, builds a known-resource index, and exposes existing Housing records as research seeds. An explicitly selected standalone-location mode can instead produce exploratory research for a place that does not yet have a resource package.
 
 The app deliberately maintains two separate bodies of data:
 
 - **Imported knowledge** is an immutable snapshot of the package: all records are indexed for duplicate detection, and Housing records become seeds.
 - **Research work** contains candidates and review state. An imported seed is never inserted as a new discovery. A candidate with a strong package match is labeled `already-known` automatically.
+
+Standalone-location runs have no imported knowledge. Their candidates are not compared with the latest package, their location-specific lessons remain separate from package-backed lessons and other locations, and their review copies state that the research is exploratory rather than an official or comprehensive TSO Resources inventory.
 
 The source ZIP is opened read-only. Browser uploads are written to a temporary file only long enough to read and hash them, then deleted. No extracted package directory or modified package is produced.
 
@@ -17,14 +19,15 @@ Hermes and DeepSeek Harness are connected through the same replaceable research-
 
 The workflow is:
 
-1. Import a Resource Assistant package.
+1. Import a Resource Assistant package. Package-backed research remains selected by default.
 2. Choose **Research Housing broadly** or branch from one existing Housing seed.
-3. Edit the assignment and select **Start research**. Runs continue in the background.
-4. Open candidates in the **Candidate inbox** to inspect access, restrictions, availability, pet policy, lived-experience findings, evidence, unknowns, and follow-up branches.
-5. When a candidate resembles an imported resource, use the separate relationship panel to choose **Same resource**, **Same organization, different program**, **Related but distinct**, or **Not related**. The app explains the fields that triggered the comparison; the percentage remains supporting detail rather than the decision.
-6. Independently choose **Accept**, **Research further**, **Already known**, **Wrong category**, or **Reject** for the candidate itself. Written feedback can become an active lesson included in later research runs.
-7. Approve or retire agent-proposed lessons in the **Research lessons** panel.
-8. Choose **Export review copy** on any completed run to download a standalone, read-only HTML report. The file opens directly in a browser without this app or an agent connection and preserves the summary, assignment, interactive candidate profiles, evidence links, candidate decisions, relationship assessments, lessons, and explained match evidence.
+3. If no package exists, explicitly select **Research a location without a package**, enter the location and optionally identify nearby areas whose services may realistically serve it.
+4. Edit the assignment and select **Start research**. Runs continue in the background.
+5. Open candidates in the **Candidate inbox** to inspect access, restrictions, availability, pet policy, lived-experience findings, evidence, unknowns, and follow-up branches.
+6. When a package-backed candidate resembles an imported resource, use the separate relationship panel to choose **Same resource**, **Same organization, different program**, **Related but distinct**, or **Not related**. The app explains the fields that triggered the comparison; the percentage remains supporting detail rather than the decision.
+7. Independently choose **Accept**, **Research further**, **Already known**, **Wrong category**, or **Reject** for the candidate itself. Written feedback can become an active lesson included in later research runs with the same research context.
+8. Approve or retire agent-proposed lessons in the **Research lessons** panel.
+9. Choose **Export review copy** on any completed run to download a standalone, read-only HTML report. The file opens directly in a browser without this app or an agent connection and preserves the summary, assignment, research provenance, interactive candidate profiles, evidence links, candidate decisions, relationship assessments, lessons, and explained match evidence.
 
 Both external harnesses are optional while exploring the app. Choose **Built-in demo** under **Research agent connection** to exercise the complete workflow without an account or model charge.
 
