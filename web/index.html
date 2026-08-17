@@ -71,19 +71,19 @@
       <div class="section-head research-heading">
         <div>
           <p class="step">03 · Agent research</p>
-          <h2>Send Hermes on a Housing assignment</h2>
-          <p class="muted">Hermes researches the public web. This app retains the assignment, evidence, candidates, duplicate decisions, and your teaching.</p>
+          <h2>Send a research agent on a Housing assignment</h2>
+          <p class="muted">Your selected agent researches the public web. This app retains the assignment, evidence, candidates, duplicate decisions, and your teaching.</p>
         </div>
         <div class="agent-state" id="agent-state">
           <span class="agent-dot"></span>
-          <div><strong id="agent-state-title">Checking Hermes…</strong><small id="agent-state-detail"></small></div>
+          <div><strong id="agent-state-title">Checking the research agent…</strong><small id="agent-state-detail"></small></div>
         </div>
       </div>
 
       <div class="setup-callout" id="agent-setup" hidden>
         <div>
-          <strong>One account setup remains</strong>
-          <p>Hermes is installed, but it needs you to choose a provider and model once in Terminal. API keys are never stored in this app.</p>
+          <strong id="agent-setup-title">Connection setup remains</strong>
+          <p id="agent-setup-detail">API keys are never stored in this app.</p>
         </div>
         <button type="button" class="secondary" id="copy-setup">Copy setup command</button>
       </div>
@@ -104,16 +104,18 @@
       </form>
 
       <details class="agent-settings">
-        <summary>Hermes connection settings</summary>
+        <summary>Research agent connection</summary>
         <form id="settings-form">
           <div class="settings-grid">
             <label>Adapter
-              <select id="agent-adapter"><option value="hermes">Hermes</option><option value="demo">Built-in demo</option></select>
+              <select id="agent-adapter"><option value="hermes">Hermes</option><option value="dsh">DeepSeek Harness (experimental)</option><option value="demo">Built-in demo</option></select>
             </label>
-            <label>Hermes profile <input id="agent-profile" placeholder="Optional"></label>
-            <label>Provider override <input id="agent-provider" placeholder="Use Hermes default"></label>
-            <label>Model override <input id="agent-model" placeholder="Use Hermes default"></label>
-            <label>Command override <input id="agent-command" placeholder="Find Hermes automatically"></label>
+            <label data-adapter-only="hermes">Hermes profile <input id="hermes-profile" placeholder="Optional"></label>
+            <label data-adapter-only="hermes">Hermes provider override <input id="hermes-provider" placeholder="Use Hermes default"></label>
+            <label data-adapter-only="hermes">Hermes model override <input id="hermes-model" placeholder="Use Hermes default"></label>
+            <label data-adapter-only="hermes">Hermes command override <input id="hermes-command" placeholder="Find Hermes automatically"></label>
+            <label data-adapter-only="dsh">DSH model override <input id="dsh-model" placeholder="deepseek-v4-flash"></label>
+            <label data-adapter-only="dsh">DSH command override <input id="dsh-command" placeholder="Use the pinned DSH runtime"></label>
             <label>Time limit in seconds <input id="agent-timeout" type="number" min="30" max="7200" value="900"></label>
           </div>
           <button type="submit" class="secondary">Save connection settings</button>
@@ -135,13 +137,13 @@
           <div><p class="step">05 · Human review</p><h2>Candidate inbox</h2></div>
           <span class="count-badge" id="candidate-count">0</span>
         </div>
-        <p class="muted">Hermes findings remain separate from the Resource Assistant package until you decide what they mean.</p>
+        <p class="muted">Agent findings remain separate from the Resource Assistant package until you decide what they mean.</p>
         <div id="candidate-list" class="candidate-list"></div>
       </article>
 
       <article class="panel lessons-panel">
         <div class="section-head"><div><p class="step">06 · Teaching loop</p><h2>Research lessons</h2></div></div>
-        <p class="muted">Active lessons are included in future assignments. Hermes suggestions require your approval.</p>
+        <p class="muted">Active lessons are included in future assignments. Agent suggestions require your approval.</p>
         <form id="lesson-form" class="lesson-form">
           <textarea id="lesson-text" rows="3" placeholder="What should the researcher learn?"></textarea>
           <div class="inline-form"><select id="lesson-scope"><option value="category">Housing lesson</option><option value="general">General lesson</option></select><button type="submit">Add lesson</button></div>

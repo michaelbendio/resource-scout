@@ -1,5 +1,18 @@
 const state = { seeds: [], runs: [], discoveries: [], lessons: [], agent: null, currentCandidate: null, pollTimer: null };
 
+function agentName(agent = state.agent) {
+  if (agent?.displayName) return agent.displayName;
+  const key = agent?.adapter || agent?.settings?.adapter || document.querySelector('#agent-adapter')?.value;
+  return key === 'dsh' ? 'DeepSeek Harness' : key === 'demo' ? 'Built-in demo' : 'Hermes';
+}
+
+function updateAdapterFields() {
+  const adapter = document.querySelector('#agent-adapter').value;
+  document.querySelectorAll('[data-adapter-only]').forEach(field => {
+    field.hidden = !field.dataset.adapterOnly.split(',').includes(adapter);
+  });
+}
+
 async function request(url, options = {}) {
   const response = await fetch(url, options);
   const body = await response.json();
@@ -24,20 +37,26 @@ function showImport(summary) {
 function showAgent(agent) {
   state.agent = agent;
   const card = document.querySelector('#agent-state');
+  const name = agentName(agent);
   card.classList.toggle('ready', Boolean(agent?.ready));
   card.classList.toggle('attention', Boolean(agent?.installed && !agent?.ready));
-  document.querySelector('#agent-state-title').textContent = agent?.ready ? 'Hermes ready' : agent?.installed ? 'Hermes needs setup' : 'Hermes not installed';
-  document.querySelector('#agent-state-detail').textContent = agent?.version || agent?.message || '';
-  document.querySelector('#agent-setup').hidden = !agent?.installed || agent?.ready;
+  document.querySelector('#agent-state-title').textContent = agent?.ready ? `${name} ready` : agent?.installed ? `${name} needs setup` : `${name} not installed`;
+  document.querySelector('#agent-state-detail').textContent = agent?.message || agent?.version || '';
+  document.querySelector('#agent-setup').hidden = Boolean(agent?.ready || agent?.adapter === 'demo');
+  document.querySelector('#agent-setup-title').textContent = agent?.installed ? `Finish ${name} setup` : `Install ${name}`;
+  document.querySelector('#agent-setup-detail').textContent = agent?.message || 'Complete the connection setup, then refresh this page.';
   document.querySelector('#start-research').disabled = !agent?.ready;
   document.querySelector('#copy-setup').dataset.command = agent?.setupCommand || 'hermes setup';
   const settings = agent?.settings || {};
   document.querySelector('#agent-adapter').value = settings.adapter || 'hermes';
-  document.querySelector('#agent-profile').value = settings.profile || '';
-  document.querySelector('#agent-provider').value = settings.provider || '';
-  document.querySelector('#agent-model').value = settings.model || '';
-  document.querySelector('#agent-command').value = settings.command || '';
+  document.querySelector('#hermes-profile').value = settings.hermesProfile || settings.profile || '';
+  document.querySelector('#hermes-provider').value = settings.hermesProvider || settings.provider || '';
+  document.querySelector('#hermes-model').value = settings.hermesModel || settings.model || '';
+  document.querySelector('#hermes-command').value = settings.hermesCommand || settings.command || '';
+  document.querySelector('#dsh-model').value = settings.dshModel || '';
+  document.querySelector('#dsh-command').value = settings.dshCommand || '';
   document.querySelector('#agent-timeout').value = settings.timeoutSeconds || 900;
+  updateAdapterFields();
 }
 
 function renderSeedOptions() {
@@ -374,7 +393,7 @@ function renderCandidates() {
   const target = document.querySelector('#candidate-list');
   document.querySelector('#candidate-count').textContent = state.discoveries.length;
   if (!state.discoveries.length) {
-    target.replaceChildren(emptyState('Hermes candidates will appear here after a research run.'));
+    target.replaceChildren(emptyState('Research candidates will appear here after an agent run.'));
     return;
   }
   target.replaceChildren(...state.discoveries.map(discovery => {
@@ -645,6 +664,8 @@ document.querySelector('#copy-setup').addEventListener('click', async event => {
   }
 });
 
+document.querySelector('#agent-adapter').addEventListener('change', updateAdapterFields);
+
 document.querySelector('#settings-form').addEventListener('submit', async event => {
   event.preventDefault();
   const button = event.currentTarget.querySelector('button');
@@ -652,10 +673,12 @@ document.querySelector('#settings-form').addEventListener('submit', async event 
   try {
     const payload = { settings: {
       adapter: document.querySelector('#agent-adapter').value,
-      profile: document.querySelector('#agent-profile').value.trim(),
-      provider: document.querySelector('#agent-provider').value.trim(),
-      model: document.querySelector('#agent-model').value.trim(),
-      command: document.querySelector('#agent-command').value.trim(),
+      hermesProfile: document.querySelector('#hermes-profile').value.trim(),
+      hermesProvider: document.querySelector('#hermes-provider').value.trim(),
+      hermesModel: document.querySelector('#hermes-model').value.trim(),
+      hermesCommand: document.querySelector('#hermes-command').value.trim(),
+      dshModel: document.querySelector('#dsh-model').value.trim(),
+      dshCommand: document.querySelector('#dsh-command').value.trim(),
       timeoutSeconds: Number(document.querySelector('#agent-timeout').value || 900),
     } };
     const result = await request('/api/agent/settings', {
@@ -673,7 +696,8 @@ document.querySelector('#research-form').addEventListener('submit', async event 
   const button = document.querySelector('#start-research');
   const message = document.querySelector('#research-message');
   button.disabled = true;
-  message.textContent = 'Giving Hermes the assignment and research context…';
+  const name = agentName();
+  message.textContent = `Giving ${name} the assignment and research context…`;
   try {
     const run = await request('/api/research-runs', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -682,7 +706,7 @@ document.querySelector('#research-form').addEventListener('submit', async event 
         seedResourceId: document.querySelector('#research-seed').value,
       }),
     });
-    message.textContent = `Research run ${run.id} started. You may keep reviewing seeds while Hermes works.`;
+    message.textContent = `Research run ${run.id} started. You may keep reviewing seeds while ${name} works.`;
     await loadResearchData();
   } catch (error) {
     message.textContent = error.message;

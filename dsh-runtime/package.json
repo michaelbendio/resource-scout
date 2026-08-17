@@ -1,0 +1,9 @@
+{
+  "name": "resource-research-agent-dsh-runtime",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Pinned DeepSeek Harness runtime for the Resource Research Agent",
+  "dependencies": {
+    "@deepseek-ai/dsh": "0.1.0-rc.6"
+  }
+}

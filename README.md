@@ -11,9 +11,9 @@ The source ZIP is opened read-only. Browser uploads are written to a temporary f
 
 Housing seeds open as readable profiles: category labels, contact details, description, safely rendered Markdown-style information, stored PDF attachments, verification metadata, and an optional raw-JSON view. Only Housing-referenced attachments are copied into the separate research database so their links continue to work after the temporary upload is deleted.
 
-## Hermes research connection
+## Research-agent connections
 
-Hermes is connected through a replaceable research-agent interface. The app owns the research brief, imported context, assignments, candidate records, duplicate decisions, review state, and lessons; Hermes receives one bounded assignment and returns a structured research result. A future DSH adapter can receive the same context without migrating application data out of Hermes.
+Hermes and DeepSeek Harness are connected through the same replaceable research-agent interface. The app owns the research brief, imported context, assignments, candidate records, duplicate decisions, review state, and lessons. The selected harness receives one bounded assignment and returns a structured research result. Switching harnesses does not move or migrate application data.
 
 The workflow is:
 
@@ -22,9 +22,31 @@ The workflow is:
 3. Edit the assignment and select **Start research**. Runs continue in the background.
 4. Open candidates in the **Candidate inbox** to inspect access, restrictions, availability, pet policy, lived-experience findings, evidence, unknowns, and follow-up branches.
 5. Choose **Accept**, **Research further**, **Already known**, **Wrong category**, or **Reject**. Written feedback can become an active lesson included in later research runs.
-6. Approve or retire Hermes-proposed lessons in the **Research lessons** panel.
+6. Approve or retire agent-proposed lessons in the **Research lessons** panel.
 
-Hermes is optional while exploring the app. Choose **Built-in demo** under **Hermes connection settings** to exercise the complete workflow without an account or model charge.
+Both external harnesses are optional while exploring the app. Choose **Built-in demo** under **Research agent connection** to exercise the complete workflow without an account or model charge.
+
+### DeepSeek Harness developer preview
+
+DeepSeek Harness is an experimental adapter pinned to `@deepseek-ai/dsh` version `0.1.0-rc.6`. Its runtime is isolated under `dsh-runtime/`, and its changing command-line details remain inside `DSHCLIAdapter`. Imported records, prompts, discoveries, and reviews do not depend on DSH data structures.
+
+Install the pinned runtime once:
+
+```sh
+./install-dsh.sh
+```
+
+Start the app through the key prompt:
+
+```sh
+./run-dsh.sh
+```
+
+The prompt does not display the key, pass it as a command-line argument, write it to the app database, or save it to a project file. The key exists only in the app process environment. Select **DeepSeek Harness (experimental)** in **Research agent connection**, save, and the status card will show when it is ready.
+
+The DSH research overlay exposes DeepSeek's server-side `web_search` tool and disables shell, filesystem, editing, skill, workflow, and subagent tools. DSH also runs from an empty temporary working directory. `web_fetch` remains disabled in this first connection because DSH's own preview ships it disabled while its HTTP provider lacks a complete SSRF boundary.
+
+### Hermes
 
 To install Hermes using its supported macOS installer:
 
@@ -32,11 +54,11 @@ To install Hermes using its supported macOS installer:
 curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 ```
 
-Then run `hermes setup` once to choose a provider and model. The Resource Research Agent never asks for or stores provider credentials. It discovers the `hermes` command automatically; an explicit command, profile, provider, or model override can be saved in the connection panel.
+Then run `hermes setup` once to choose a provider and model. The Resource Research Agent never stores provider credentials in its database. It discovers the `hermes` command automatically; an explicit command, profile, provider, or model override can be saved in the connection panel.
 
 ## Run the app
 
-Requires Python 3.10 or newer; no third-party packages are needed.
+The core app requires Python 3.10 or newer and no third-party Python packages. The optional DSH connection additionally requires Node.js and the one-time `./install-dsh.sh` step above.
 
 From a Git clone:
 
@@ -49,7 +71,7 @@ cd resource-research-agent
 Or from the downloadable archive:
 
 ```sh
-unzip resource-research-agent-hermes-v3.zip
+unzip resource-research-agent-dsh-v4.zip
 cd resource-research-agent
 ./run.sh
 ```
@@ -97,4 +119,4 @@ PROVO_RESOURCE_PACKAGE=/path/to/provo-resource-package.zip \
   python3 -m unittest discover -s tests -v
 ```
 
-The live-package integration test verifies schema/category discovery and multi-category inclusion. The unit tests also prove that the source ZIP remains byte-for-byte unchanged, full records survive import, non-Housing resources participate in duplicate checks, seeds remain separate from discoveries, unsafe ZIP paths are rejected, Hermes one-shot results are parsed, and research feedback becomes application-owned learning state.
+The live-package integration test verifies schema/category discovery and multi-category inclusion. The unit tests also prove that the source ZIP remains byte-for-byte unchanged, full records survive import, non-Housing resources participate in duplicate checks, seeds remain separate from discoveries, unsafe ZIP paths are rejected, Hermes and DSH one-shot results are normalized through the same adapter result, and research feedback becomes application-owned learning state.

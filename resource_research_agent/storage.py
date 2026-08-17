@@ -390,7 +390,11 @@ class ResearchStore:
         return {row["key"]: json.loads(row["value_json"]) for row in rows}
 
     def save_settings(self, values: dict[str, Any]) -> dict[str, Any]:
-        allowed = {"adapter", "command", "profile", "provider", "model", "timeoutSeconds", "maxTurns"}
+        allowed = {
+            "adapter", "hermesCommand", "hermesProfile", "hermesProvider", "hermesModel",
+            "dshCommand", "dshModel", "command", "profile", "provider", "model",
+            "timeoutSeconds", "maxTurns",
+        }
         with self.connect() as connection:
             for key, value in values.items():
                 if key not in allowed:

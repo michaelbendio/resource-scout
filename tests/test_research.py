@@ -9,7 +9,7 @@ import zipfile
 from pathlib import Path
 from unittest.mock import patch
 
-from resource_research_agent.agents import HermesCLIAdapter
+from resource_research_agent.agents import DSHCLIAdapter, HermesCLIAdapter, build_adapter
 from resource_research_agent.importer import ResourcePackageImporter
 from resource_research_agent.research import ResearchCoordinator
 from resource_research_agent.storage import ResearchStore
@@ -75,7 +75,10 @@ class ResearchWorkflowTests(unittest.TestCase):
         hermes_home.mkdir()
         (hermes_home / "config.yaml").write_text("model:\n  default: fake\n", encoding="utf-8")
         (hermes_home / ".env").write_text("FAKE_API_KEY=present\n", encoding="utf-8")
-        settings = {"command": f"{os.sys.executable} {fake}", "timeoutSeconds": 30}
+        settings = {
+            "hermesCommand": f"{os.sys.executable} {fake}",
+            "dshCommand": "/not/the/hermes/command", "timeoutSeconds": 30,
+        }
         with patch.dict(os.environ, {"HERMES_HOME": str(hermes_home)}):
             adapter = HermesCLIAdapter(settings)
             self.assertTrue(adapter.status()["ready"])
@@ -83,6 +86,54 @@ class ResearchWorkflowTests(unittest.TestCase):
         self.assertEqual("New Place", result.result["candidates"][0]["name"])
         self.assertEqual("Prefer direct services", result.result["lessons"][0]["text"])
         self.assertEqual("fake", result.usage["provider"])
+
+    def test_dsh_adapter_uses_headless_research_overlay_and_parses_json(self) -> None:
+        fake = self.root / "fake_dsh.py"
+        invocation = self.root / "dsh-invocation.json"
+        fake.write_text(
+            "import json, os, pathlib, sys\n"
+            "if '--version' in sys.argv:\n"
+            "    print('dsh 0.test')\n"
+            "    raise SystemExit(0)\n"
+            "patches = [pathlib.Path(sys.argv[i + 1]).read_text() for i, value in enumerate(sys.argv) if value == '--patch']\n"
+            f"pathlib.Path({str(invocation)!r}).write_text(json.dumps({{'argv': sys.argv, 'cwd': os.getcwd(), 'dshHome': os.environ.get('DSH_HOME'), 'patches': patches}}))\n"
+            "print(json.dumps({'summary':'dsh done','candidates':[{'name':'DeepSeek Place'}],'lessons':['Keep the adapter boundary']}))\n",
+            encoding="utf-8",
+        )
+        settings = {
+            "adapter": "dsh", "dshCommand": f"{os.sys.executable} {fake}",
+            "dshModel": "deepseek-v4-flash", "command": "/legacy/hermes/command",
+            "timeoutSeconds": 30,
+        }
+        environment = {
+            "DEEPSEEK_API_KEY": "test-key-not-sent-anywhere",
+            "RESOURCE_RESEARCH_DSH_HOME": str(self.root / "dsh-home"),
+        }
+        with patch.dict(os.environ, environment):
+            adapter = DSHCLIAdapter(settings)
+            self.assertTrue(adapter.status()["ready"])
+            result = adapter.run("Research Housing")
+        call = json.loads(invocation.read_text(encoding="utf-8"))
+        self.assertIn("headless", call["argv"])
+        self.assertEqual(2, call["argv"].count("--patch"))
+        self.assertIn("tool-bash\n  disabled: true", call["patches"][0])
+        self.assertIn("deepseek-v4-flash", call["patches"][1])
+        self.assertNotEqual(str(Path.cwd()), call["cwd"])
+        self.assertEqual(str((self.root / "dsh-home").resolve()), call["dshHome"])
+        self.assertEqual("DeepSeek Place", result.result["candidates"][0]["name"])
+        self.assertEqual("Keep the adapter boundary", result.result["lessons"][0]["text"])
+        self.assertEqual("dsh", result.usage["adapter"])
+
+    def test_dsh_adapter_reports_missing_key_without_storing_it(self) -> None:
+        fake = self.root / "fake_dsh.py"
+        fake.write_text("print('dsh 0.test')\n", encoding="utf-8")
+        settings = {"adapter": "dsh", "dshCommand": f"{os.sys.executable} {fake}"}
+        with patch.dict(os.environ, {"DEEPSEEK_API_KEY": ""}):
+            status = DSHCLIAdapter(settings).status()
+        self.assertTrue(status["installed"])
+        self.assertFalse(status["configured"])
+        self.assertFalse(status["ready"])
+        self.assertIsInstance(build_adapter(settings), DSHCLIAdapter)
 
 
 if __name__ == "__main__":
