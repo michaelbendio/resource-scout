@@ -126,6 +126,11 @@ textarea { resize: vertical; }
 .review-export { display: inline-block; padding: .48rem .7rem; border: 1px solid #bfd0c7; border-radius: 8px; color: var(--forest); background: #e5efe9; font-size: .8rem; font-weight: 750; text-decoration: none; }
 .review-export:hover { background: #d8e8df; }
 .resume-run { padding: .48rem .7rem; font-size: .8rem; }
+.view-candidates { padding: .48rem .7rem; font-size: .8rem; }
+.view-candidates[aria-pressed="true"] { border-color: #6e9a85; color: #244f3d; background: #dff0e7; }
+.candidate-inbox-controls { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .65rem; align-items: center; margin-top: 1rem; }
+.candidate-inbox-controls label { color: #3d4b46; font-size: .78rem; font-weight: 800; }
+.candidate-inbox-controls select { min-width: 0; }
 .candidate { cursor: pointer; }
 .candidate:hover { border-color: #739384; background: #f6faf7; }
 .candidate p { margin-top: .35rem; color: #4d5e57; font-size: .88rem; }

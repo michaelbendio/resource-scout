@@ -1,6 +1,7 @@
 const state = {
   seeds: [], runs: [], discoveries: [], lessons: [], agent: null, latestImport: null,
   currentCandidate: null, pollTimer: null, researchMode: 'package',
+  candidateRunId: null, candidateRunSelectionInitialized: false,
   assignmentDrafts: { package: '', 'standalone-location': '' }, standaloneAutoAssignment: '',
 };
 
@@ -412,6 +413,28 @@ function emptyState(text) {
   return element;
 }
 
+function researchRunTitle(run) {
+  return run.researchMode === 'standalone-location'
+    ? `Housing research · ${run.targetLocation}`
+    : run.seedResourceId
+      ? `Seeded research · ${state.seeds.find(seed => seed.resourceId === run.seedResourceId)?.name || run.seedResourceId}`
+      : 'Broad Housing research';
+}
+
+function candidateCountForRun(runId) {
+  return state.discoveries.filter(discovery => discovery.runId === runId).length;
+}
+
+function selectCandidateRun(runId, { scroll = false } = {}) {
+  state.candidateRunId = runId;
+  state.candidateRunSelectionInitialized = true;
+  renderRuns();
+  renderCandidates();
+  if (scroll) {
+    document.querySelector('.candidates-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
 function renderRuns() {
   const target = document.querySelector('#run-list');
   if (!state.runs.length) {
@@ -424,11 +447,7 @@ function renderRuns() {
     const head = document.createElement('div');
     head.className = 'run-head';
     const title = document.createElement('strong');
-    title.textContent = run.researchMode === 'standalone-location'
-      ? `Housing research · ${run.targetLocation}`
-      : run.seedResourceId
-        ? `Seeded research · ${state.seeds.find(seed => seed.resourceId === run.seedResourceId)?.name || run.seedResourceId}`
-        : 'Broad Housing research';
+    title.textContent = researchRunTitle(run);
     const status = document.createElement('span');
     status.className = `run-status ${run.status}`;
     status.textContent = friendlyStatus(run.status);
@@ -465,22 +484,23 @@ function renderRuns() {
       stages.append(summary, list);
       item.append(stages);
     }
-    if (run.result?.summary) {
-      const summary = document.createElement('p');
-      summary.className = 'run-summary';
-      summary.textContent = run.result.summary;
-      item.append(summary);
-    }
+    const actions = document.createElement('div');
+    actions.className = 'run-actions';
+    const viewCandidates = document.createElement('button');
+    viewCandidates.type = 'button';
+    viewCandidates.className = 'secondary view-candidates';
+    viewCandidates.setAttribute('aria-pressed', String(state.candidateRunId === run.id));
+    viewCandidates.textContent = `View candidates (${candidateCountForRun(run.id)})`;
+    viewCandidates.addEventListener('click', () => selectCandidateRun(run.id, { scroll: true }));
+    actions.append(viewCandidates);
     if (['completed', 'partial'].includes(run.status)) {
-      const actions = document.createElement('div');
-      actions.className = 'run-actions';
       const exportLink = document.createElement('a');
       exportLink.className = 'review-export';
       exportLink.href = `/api/research-runs/${run.id}/review-copy`;
       exportLink.download = '';
       exportLink.textContent = 'Export review copy';
       const detail = document.createElement('small');
-      detail.textContent = 'Standalone, read-only HTML';
+      detail.textContent = 'This run only · standalone, read-only HTML';
       actions.append(exportLink, detail);
       if (run.status === 'partial') {
         const resume = document.createElement('button');
@@ -490,18 +510,21 @@ function renderRuns() {
         resume.addEventListener('click', () => resumeResearchRun(run, resume));
         actions.append(resume);
       }
-      item.append(actions);
     }
     if (run.status === 'failed') {
-      const actions = document.createElement('div');
-      actions.className = 'run-actions';
       const resume = document.createElement('button');
       resume.type = 'button';
       resume.className = 'secondary resume-run';
       resume.textContent = run.progress?.total ? 'Retry failed stage' : 'Retry as staged research';
       resume.addEventListener('click', () => resumeResearchRun(run, resume));
       actions.append(resume);
-      item.append(actions);
+    }
+    item.append(actions);
+    if (run.result?.summary) {
+      const summary = document.createElement('p');
+      summary.className = 'run-summary';
+      summary.textContent = run.result.summary;
+      item.append(summary);
     }
     if (run.error) {
       const error = document.createElement('div');
@@ -516,6 +539,8 @@ function renderRuns() {
 async function resumeResearchRun(run, button) {
   const message = document.querySelector('#research-message');
   button.disabled = true;
+  state.candidateRunId = run.id;
+  state.candidateRunSelectionInitialized = true;
   message.textContent = `Resuming ${run.targetLocation ? `${run.targetLocation} ` : ''}research from the first unfinished stage…`;
   try {
     await request(`/api/research-runs/${run.id}/resume`, {
@@ -567,12 +592,37 @@ function candidateMatchSummary(discovery) {
 
 function renderCandidates() {
   const target = document.querySelector('#candidate-list');
-  document.querySelector('#candidate-count').textContent = state.discoveries.length;
-  if (!state.discoveries.length) {
-    target.replaceChildren(emptyState('Research candidates will appear here after an agent run.'));
+  const filter = document.querySelector('#candidate-run-filter');
+  const all = document.createElement('option');
+  all.value = '';
+  all.textContent = `All candidates (${state.discoveries.length})`;
+  const options = state.runs.map(run => {
+    const option = document.createElement('option');
+    option.value = String(run.id);
+    option.textContent = `${researchRunTitle(run)} · ${candidateCountForRun(run.id)}`;
+    return option;
+  });
+  filter.replaceChildren(all, ...options);
+  filter.value = state.candidateRunId == null ? '' : String(state.candidateRunId);
+
+  const selectedRun = state.runs.find(run => run.id === state.candidateRunId);
+  const discoveries = selectedRun
+    ? state.discoveries.filter(discovery => discovery.runId === selectedRun.id)
+    : state.discoveries;
+  document.querySelector('#candidate-count').textContent = discoveries.length;
+  document.querySelector('#candidate-inbox-title').textContent = selectedRun
+    ? `Candidate inbox · ${researchRunTitle(selectedRun)}`
+    : 'Candidate inbox · All runs';
+  document.querySelector('#candidate-inbox-context').textContent = selectedRun
+    ? `Showing only candidates associated with research run ${selectedRun.id}. Use its run card to export a review copy containing this run’s results.`
+    : 'Showing candidates from every research run. Choose one run to review or export its results separately.';
+  if (!discoveries.length) {
+    target.replaceChildren(emptyState(selectedRun
+      ? 'No candidates have been saved for this research run yet.'
+      : 'Research candidates will appear here after an agent run.'));
     return;
   }
-  target.replaceChildren(...state.discoveries.map(discovery => {
+  target.replaceChildren(...discoveries.map(discovery => {
     const item = document.createElement('div');
     item.className = 'candidate';
     item.tabIndex = 0;
@@ -815,6 +865,13 @@ async function loadResearchData() {
   state.runs = runs.runs;
   state.discoveries = discoveries.discoveries;
   state.lessons = lessons.lessons;
+  if (!state.candidateRunSelectionInitialized) {
+    const latestWithCandidates = state.runs.find(run => candidateCountForRun(run.id) > 0);
+    state.candidateRunId = latestWithCandidates?.id ?? null;
+    state.candidateRunSelectionInitialized = true;
+  } else if (state.candidateRunId != null && !state.runs.some(run => run.id === state.candidateRunId)) {
+    state.candidateRunId = null;
+  }
   renderRuns(); renderCandidates(); renderLessons();
   const active = state.runs.some(run => ['queued', 'running'].includes(run.status));
   if (active && !state.pollTimer) {
@@ -934,6 +991,8 @@ document.querySelector('#research-form').addEventListener('submit', async event 
         regionalScope: researchMode === 'standalone-location' ? document.querySelector('#regional-scope').value.trim() : '',
       }),
     });
+    state.candidateRunId = run.id;
+    state.candidateRunSelectionInitialized = true;
     message.textContent = researchMode === 'standalone-location'
       ? `Research run ${run.id} started for ${targetLocation}. Candidates will appear as each stage finishes and remain separate from the imported package.`
       : `Research run ${run.id} started. Candidates will appear as each stage finishes; you may keep reviewing seeds while ${name} works.`;
@@ -946,6 +1005,10 @@ document.querySelector('#research-form').addEventListener('submit', async event 
 document.querySelector('#refresh-research').addEventListener('click', () => loadResearchData().catch(error => {
   document.querySelector('#research-message').textContent = error.message;
 }));
+
+document.querySelector('#candidate-run-filter').addEventListener('change', event => {
+  selectCandidateRun(event.target.value ? Number(event.target.value) : null);
+});
 
 document.querySelector('#lesson-form').addEventListener('submit', async event => {
   event.preventDefault();

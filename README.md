@@ -25,7 +25,7 @@ The workflow is:
 2. Choose **Research Housing broadly** or branch from one existing Housing seed.
 3. If no package exists, explicitly select **Research a location without a package**, enter the location and optionally identify nearby areas whose services may realistically serve it.
 4. Edit the assignment and select **Start research**. Runs continue in the background, with progress displayed for each bounded stage.
-5. Open candidates in the **Candidate inbox** as stages finish to inspect access, restrictions, availability, pet policy, lived-experience findings, evidence, unknowns, and follow-up branches. If a stage fails, review or export the completed work and use **Resume research** without repeating completed stages.
+5. Use **View candidates** on a research run, or the inbox's run selector, to review that run separately. Open candidates as stages finish to inspect access, restrictions, availability, pet policy, lived-experience findings, evidence, unknowns, and follow-up branches. **All candidates** remains available for cross-run review. If a stage fails, review or export the completed work and use **Resume research** without repeating completed stages.
 6. When a package-backed candidate resembles an imported resource, use the separate relationship panel to choose **Same resource**, **Same organization, different program**, **Related but distinct**, or **Not related**. The app explains the fields that triggered the comparison; the percentage remains supporting detail rather than the decision.
 7. Independently choose **Accept**, **Research further**, **Already known**, **Wrong category**, or **Reject** for the candidate itself. Written feedback can become an active lesson included in later research runs with the same research context.
 8. Approve or retire agent-proposed lessons in the **Research lessons** panel.
@@ -35,7 +35,7 @@ Both external harnesses are optional while exploring the app. Choose **Built-in 
 
 ## Portable review copies
 
-Review copies are generated only when a user clicks **Export review copy**. Nothing is written to an export folder on the server. Each download is one self-contained HTML file with versioned JSON embedded inside it for future migration.
+Review copies are generated only when a user clicks **Export review copy** on a research run. The export always uses that associated run, regardless of which Candidate inbox is visible. Nothing is written to an export folder on the server. Each download is one self-contained HTML file with versioned JSON embedded inside it for future migration.
 
 The export contains only the selected completed or partially completed run, stage status, its candidates, human review notes, run-specific lessons, limited source-package provenance, and the known-resource fields needed to explain duplicate signals. It excludes API keys, connection settings, raw agent output, the research database, seed attachments, and full imported-resource records. The result is intentionally read-only: changes made later in the live Research Agent require a new export.
 

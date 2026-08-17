@@ -156,10 +156,14 @@
 
       <article class="panel candidates-panel">
         <div class="section-head">
-          <div><p class="step">05 · Human review</p><h2>Candidate inbox</h2></div>
+          <div><p class="step">05 · Human review</p><h2 id="candidate-inbox-title">Candidate inbox</h2></div>
           <span class="count-badge" id="candidate-count">0</span>
         </div>
-        <p class="muted">Candidates appear after each research stage finishes and remain separate from any Resource Assistant package until you decide what they mean.</p>
+        <div class="candidate-inbox-controls">
+          <label for="candidate-run-filter">Research run</label>
+          <select id="candidate-run-filter"></select>
+        </div>
+        <p class="muted" id="candidate-inbox-context">Candidates appear after each research stage finishes and remain separate from any Resource Assistant package until you decide what they mean.</p>
         <div id="candidate-list" class="candidate-list"></div>
       </article>
 

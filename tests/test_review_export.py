@@ -141,6 +141,35 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertEqual("Known Home Assistance Program", full_run["result"]["candidates"][0]["name"])
         self.assertEqual("private-provider-detail", full_run["usage"]["provider"])
 
+    def test_review_copy_is_scoped_to_its_associated_run(self) -> None:
+        first_run_id = self.completed_run()
+        second_run_id = self.store.create_research_run(
+            "hermes",
+            "Research a different place",
+            {"selectedSeed": None},
+            research_mode="standalone-location",
+            target_location="Mesa, Arizona",
+        )
+        self.store.mark_run_running(second_run_id)
+        self.store.save_discovery(
+            {"name": "Mesa Run Only", "geography": "Mesa, Arizona"},
+            run_id=second_run_id,
+        )
+        self.store.complete_run(
+            second_run_id,
+            "second raw output",
+            {"summary": "Mesa-only summary", "candidates": []},
+            None,
+        )
+
+        first_html = build_review_copy(self.store, first_run_id).html.decode("utf-8")
+        second_html = build_review_copy(self.store, second_run_id).html.decode("utf-8")
+
+        self.assertIn("Known Home Assistance Program", first_html)
+        self.assertNotIn("Mesa Run Only", first_html)
+        self.assertIn("Mesa Run Only", second_html)
+        self.assertNotIn("Known Home Assistance Program", second_html)
+
     def test_standalone_location_export_has_explicit_provenance_and_no_package(self) -> None:
         run_id = self.store.create_research_run(
             "hermes",
