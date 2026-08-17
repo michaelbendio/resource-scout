@@ -4,6 +4,7 @@ import json
 import os
 import re
 import tempfile
+from email.header import decode_header, make_header
 from email.parser import BytesParser
 from email.policy import default
 from http import HTTPStatus
@@ -24,13 +25,20 @@ MAX_UPLOAD_BYTES = 256 * 1024 * 1024
 
 
 class ResearchHTTPServer(ThreadingHTTPServer):
-    def __init__(self, address: tuple[str, int], store: ResearchStore, web_dir: Path) -> None:
+    def __init__(
+        self,
+        address: tuple[str, int],
+        store: ResearchStore,
+        web_dir: Path,
+        private_url: str | None = None,
+    ) -> None:
         super().__init__(address, ResearchHandler)
         self.store = store
         self.duplicate_index = DuplicateIndex(store)
         self.research = ResearchCoordinator(store)
         self.accepted_resources = AcceptedResourceManager(store)
         self.web_dir = web_dir
+        self.private_url = private_url
 
 
 class ResearchHandler(BaseHTTPRequestHandler):
@@ -47,6 +55,7 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     "ok": True,
                     "latestImport": self.server.store.import_summary(),
                     "agent": self.server.research.agent_status(),
+                    "access": self._access_context(),
                 })
             elif parsed.path == "/api/agent/status":
                 self._json(self.server.research.agent_status())
@@ -263,6 +272,28 @@ class ResearchHandler(BaseHTTPRequestHandler):
         value["generatedResource"] = self.server.store.get_generated_resource(discovery["id"])
         return value
 
+    def _access_context(self) -> dict[str, Any]:
+        requester = None
+        if self.server.private_url:
+            login = self._decoded_header("Tailscale-User-Login")
+            name = self._decoded_header("Tailscale-User-Name")
+            if login or name:
+                requester = {"login": login, "name": name}
+        return {
+            "mode": "tailscale" if self.server.private_url else "local",
+            "privateUrl": self.server.private_url,
+            "requester": requester,
+        }
+
+    def _decoded_header(self, name: str) -> str:
+        value = self.headers.get(name, "").strip()
+        if not value:
+            return ""
+        try:
+            return str(make_header(decode_header(value)))
+        except (LookupError, UnicodeError):
+            return value
+
     def _read_json(self) -> dict[str, Any]:
         length = self._content_length(maximum=5 * 1024 * 1024)
         try:
@@ -330,11 +361,18 @@ class ResearchHandler(BaseHTTPRequestHandler):
         self._json({"ok": False, "error": message}, status)
 
 
-def serve(store_path: str | Path, host: str = "127.0.0.1", port: int = 8765) -> None:
+def serve(
+    store_path: str | Path,
+    host: str = "127.0.0.1",
+    port: int = 8765,
+    private_url: str | None = None,
+) -> None:
     web_dir = Path(__file__).resolve().parent.parent / "web"
     store = ResearchStore(store_path)
-    server = ResearchHTTPServer((host, port), store, web_dir)
+    server = ResearchHTTPServer((host, port), store, web_dir, private_url=private_url)
     print(f"Resource Research Agent is running at http://{host}:{port}")
+    if private_url:
+        print(f"Private Tailscale address: {private_url}")
     print(f"Research database: {store.path}")
     try:
         server.serve_forever()

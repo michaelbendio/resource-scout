@@ -99,7 +99,7 @@ cd resource-research-agent
 Or from the downloadable archive:
 
 ```sh
-unzip resource-research-agent-v5.zip
+unzip resource-research-agent-v6.zip
 cd resource-research-agent
 ./run.sh
 ```
@@ -107,6 +107,22 @@ cd resource-research-agent
 Open <http://127.0.0.1:8765>, choose a `resource-package.zip`, and select **Import package**. Stop the app with Control-C.
 
 The research database is created at `data/research-agent.sqlite3`. It does not contain or modify the source ZIP.
+
+## Private iPad access with Tailscale
+
+For access away from the Mac's local network, install and connect [Tailscale](https://tailscale.com/download) on both the Mac and iPad. Then start the same Research Agent data with:
+
+```sh
+./run-tailscale.sh
+```
+
+The launcher prints a private `https://…ts.net` iPad address and the app displays it in a **Private iPad access** panel. Open that address in Safari on an iPad connected to the same Tailscale network. The Mac must remain on and the launcher window must remain open; on macOS the launcher also prevents idle system sleep while it is running.
+
+On the first run, Tailscale may print a web address asking the tailnet owner to approve HTTPS. Open it, approve Tailscale Serve, and run the launcher again. The Research Agent remains bound to `127.0.0.1`; Tailscale Serve is the only remote entry point. This launcher checks for and refuses an existing public Funnel configuration, and it never runs a Funnel command that would publish the app to the internet.
+
+Normal Mac-only use is unchanged: `./run.sh` still serves only <http://127.0.0.1:8765>. If that launcher is already running, stop it with Control-C before starting `./run-tailscale.sh`.
+
+For a reviewer outside the owner's tailnet, Tailscale supports sharing this Mac with a specific person. Apply a narrow Tailscale access policy so only the intended reviewer can reach it. The identity displayed by the app is informational; Tailscale's sharing and access policy are the security boundary.
 
 ## Command line
 

@@ -51,6 +51,23 @@ function showImport(summary) {
   updateStartResearchState();
 }
 
+function showAccess(access) {
+  const panel = document.querySelector('#private-access');
+  const url = access?.privateUrl || '';
+  panel.hidden = !url;
+  if (!url) return;
+  const link = document.querySelector('#private-access-url');
+  link.href = url;
+  link.textContent = url;
+  const requester = access.requester;
+  document.querySelector('#private-access-detail').textContent = requester?.name
+    ? `Connected securely as ${requester.name}.`
+    : requester?.login
+      ? `Connected securely as ${requester.login}.`
+      : 'Open this address on an iPad connected to your Tailscale network.';
+  document.querySelector('#copy-private-url').dataset.url = url;
+}
+
 function showAgent(agent) {
   state.agent = agent;
   const card = document.querySelector('#agent-state');
@@ -930,6 +947,7 @@ async function loadResearchData() {
 
 async function refresh() {
   const status = await request('/api/status');
+  showAccess(status.access);
   showAgent(status.agent);
   if (status.latestImport) {
     showImport(status.latestImport);
@@ -987,6 +1005,18 @@ document.querySelector('#copy-setup').addEventListener('click', async event => {
     setTimeout(() => { event.currentTarget.textContent = 'Copy setup command'; }, 1500);
   } catch {
     document.querySelector('#research-message').textContent = `Run in Terminal: ${command}`;
+  }
+});
+
+document.querySelector('#copy-private-url').addEventListener('click', async event => {
+  const button = event.currentTarget;
+  const url = button.dataset.url || '';
+  try {
+    await navigator.clipboard.writeText(url);
+    button.textContent = 'Address copied';
+    setTimeout(() => { button.textContent = 'Copy iPad address'; }, 1500);
+  } catch {
+    button.textContent = 'Press and hold the address to copy';
   }
 });
 

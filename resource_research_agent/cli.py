@@ -2,12 +2,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 from .duplicates import DuplicateIndex
 from .importer import ResourcePackageImporter
 from .server import serve
 from .storage import ResearchStore
+from .tailscale import TailscaleAccessError, TailscaleServeManager
 
 
 def parser() -> argparse.ArgumentParser:
@@ -21,6 +23,10 @@ def parser() -> argparse.ArgumentParser:
     serve_command = subcommands.add_parser("serve", help="Run the local review app")
     serve_command.add_argument("--host", default="127.0.0.1")
     serve_command.add_argument("--port", type=int, default=8765)
+    tailscale_command = subcommands.add_parser(
+        "tailscale", help="Run the app privately for devices on this Tailscale network"
+    )
+    tailscale_command.add_argument("--port", type=int, default=8765)
     match_command = subcommands.add_parser("match", help="Check candidate JSON against the known-resource index")
     match_command.add_argument("candidate", help="JSON file containing a candidate object")
     match_command.add_argument("--limit", type=int, default=5)
@@ -43,6 +49,18 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "serve":
         serve(args.database, args.host, args.port)
         return 0
+    if args.command == "tailscale":
+        try:
+            access = TailscaleServeManager().configure(args.port)
+        except TailscaleAccessError as error:
+            print(f"Private iPad access could not start:\n{error}", file=sys.stderr)
+            return 1
+        print("Private iPad access is ready")
+        print(f"Open on an iPad connected to Tailscale: {access.private_url}")
+        print("This address is private to your Tailscale network. Public Funnel is not enabled.")
+        print("Keep this window open while using the app.")
+        serve(args.database, "127.0.0.1", args.port, private_url=access.private_url)
+        return 0
     if args.command == "match":
         candidate = json.loads(Path(args.candidate).read_text(encoding="utf-8"))
         print(json.dumps(DuplicateIndex(store).match(candidate, limit=args.limit), ensure_ascii=False, indent=2))
@@ -55,4 +73,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
