@@ -10,6 +10,8 @@ from pathlib import Path
 from typing import Any, Iterable, Iterator
 from urllib.parse import urlsplit, urlunsplit
 
+from .playbooks import PLAYBOOKS
+
 
 MAX_ARCHIVE_MEMBERS = 10_000
 MAX_JSON_BYTES = 50 * 1024 * 1024
@@ -206,7 +208,13 @@ class ImportedPackage:
     target_resources: list[dict[str, Any]]
     manifest: list[dict[str, Any]]
     root_metadata: dict[str, Any] = field(default_factory=dict)
-    target_assets: dict[str, bytes] = field(default_factory=dict, repr=False)
+    for_groups: list[Any] = field(default_factory=list)
+    seed_assets: dict[str, bytes] = field(default_factory=dict, repr=False)
+
+    @property
+    def target_assets(self) -> dict[str, bytes]:
+        """Compatibility name retained for older callers and tests."""
+        return self.seed_assets
 
     @property
     def multicategory_target_count(self) -> int:
@@ -219,6 +227,7 @@ class ImportedPackage:
             "schema": self.schema.as_dict(),
             "category": {"id": self.target_category_id, "label": self.target_category_label},
             "categoryCount": len(self.categories),
+            "forGroups": self.for_groups,
             "resourceCount": len(self.resources),
             "targetResourceCount": len(self.target_resources),
             "multiCategoryTargetResourceCount": self.multicategory_target_count,
@@ -294,14 +303,24 @@ class ResourcePackageImporter:
                 if target_norm in {_normalized_label(category) for category in resource_category_ids(item)}
             ]
             members_by_name = {info.filename: info for info in infos if not info.is_dir()}
-            target_asset_paths = {
+            supported_category_ids = {
+                str(category["id"])
+                for category in categories
+                if _normalized_label(category["id"]) in PLAYBOOKS
+                or _normalized_label(category["label"]) in PLAYBOOKS
+            }
+            seed_resources = [
+                item for item in resources
+                if supported_category_ids.intersection(resource_category_ids(item))
+            ]
+            seed_asset_paths = {
                 attachment["path"]
-                for resource in target_resources
+                for resource in seed_resources
                 for attachment in resource_attachments(resource)
             }
-            target_assets = {
+            seed_assets = {
                 asset_path: archive.read(members_by_name[asset_path])
-                for asset_path in target_asset_paths
+                for asset_path in seed_asset_paths
                 if asset_path in members_by_name
             }
 
@@ -320,7 +339,8 @@ class ResourcePackageImporter:
                 target_resources=target_resources,
                 manifest=manifest,
                 root_metadata=metadata,
-                target_assets=target_assets,
+                for_groups=list(root.get("forGroups") or []) if isinstance(root.get("forGroups"), list) else [],
+                seed_assets=seed_assets,
             )
 
         after = self._hash(path)

@@ -63,10 +63,22 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 self._json({"settings": self.server.research.agent_status()["settings"]})
             elif parsed.path == "/api/imports":
                 self._json({"imports": self.server.store.list_imports()})
+            elif parsed.path == "/api/categories":
+                query = parse_qs(parsed.query)
+                import_id = int(query["importId"][0]) if query.get("importId") else None
+                effective_import_id = import_id or self.server.store.latest_import_id()
+                self._json({
+                    "categories": self.server.store.list_import_categories(effective_import_id),
+                    "forGroups": (
+                        self.server.store.import_taxonomy(effective_import_id)["forGroups"]
+                        if effective_import_id else []
+                    ),
+                })
             elif parsed.path == "/api/seeds":
                 query = parse_qs(parsed.query)
                 import_id = int(query["importId"][0]) if query.get("importId") else None
-                self._json({"seeds": self.server.store.list_seeds(import_id)})
+                category_id = query.get("categoryId", [None])[0]
+                self._json({"seeds": self.server.store.list_seeds(import_id, category_id)})
             elif parsed.path == "/api/seed-asset":
                 query = parse_qs(parsed.query)
                 if not all(query.get(key) for key in ("importId", "resourceId", "path")):
@@ -137,6 +149,7 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     research_mode=str(payload.get("researchMode") or "package"),
                     target_location=str(payload.get("targetLocation") or "").strip() or None,
                     regional_scope=str(payload.get("regionalScope") or ""),
+                    target_category_id=str(payload.get("categoryId") or "housing"),
                 )
                 self._json(run, HTTPStatus.ACCEPTED)
             elif (run_id := self._path_id(parsed.path, "/api/research-runs", "resume")) is not None:
@@ -175,6 +188,8 @@ class ResearchHandler(BaseHTTPRequestHandler):
                         discovery_id=discovery_id,
                         research_mode=run.get("researchMode", "package") if run else "package",
                         target_location=run.get("targetLocation") if run else None,
+                        target_category_id=run.get("targetCategoryId", "housing") if run else "housing",
+                        target_category_label=run.get("targetCategoryLabel", "Housing") if run else "Housing",
                     )
                 self._json({"discovery": self._with_match_details(discovery), "lesson": lesson})
             elif (discovery_id := self._path_id(
@@ -211,6 +226,8 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     source="human",
                     research_mode=str(payload.get("researchMode") or "package"),
                     target_location=str(payload.get("targetLocation") or "").strip() or None,
+                    target_category_id=str(payload.get("categoryId") or "housing"),
+                    target_category_label=str(payload.get("categoryLabel") or "Housing"),
                 )
                 self._json(lesson, HTTPStatus.CREATED)
             elif (lesson_id := self._path_id(parsed.path, "/api/lessons", "status")) is not None:
@@ -270,6 +287,7 @@ class ResearchHandler(BaseHTTPRequestHandler):
         value = dict(discovery)
         value["matchDetails"] = self.server.duplicate_index.explain_saved_match(discovery)
         value["generatedResource"] = self.server.store.get_generated_resource(discovery["id"])
+        value["taxonomy"] = self.server.accepted_resources.taxonomy_for_discovery(discovery["id"])
         return value
 
     def _access_context(self) -> dict[str, Any]:

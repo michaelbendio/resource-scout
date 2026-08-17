@@ -11,6 +11,20 @@
   },
   "categoryCount": 20,
   "resourceCount": 183,
+  "supportedCategories": {
+    "Housing": {"resourceCount": 28, "multiCategoryResourceCount": 17, "types": []},
+    "Food": {"resourceCount": 15, "multiCategoryResourceCount": 11, "types": ["Meals", "Pantries"]},
+    "Employment": {"resourceCount": 29, "multiCategoryResourceCount": 16, "types": ["Temp Agencies"]}
+  },
+  "forGroups": [
+    "Exiting corrections",
+    "Families with children",
+    "Medically vulnerable",
+    "Seniors",
+    "Spanish speaking",
+    "Veterans",
+    "Women"
+  ],
   "housingResourceCount": 28,
   "housingOnlyResourceCount": 11,
   "multiCategoryHousingResourceCount": 17,

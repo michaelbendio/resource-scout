@@ -339,7 +339,7 @@
     function renderCandidateProfile(item) {
       const candidate = item.candidate || {};
       const profile = document.createElement('div');
-      const summaryText = asText(candidate.description || candidate.housingNeed);
+      const summaryText = asText(candidate.description || candidate.serviceNeed || candidate.housingNeed);
       if (summaryText) {
         const summary = document.createElement('div');
         summary.className = 'candidate-summary';
@@ -358,7 +358,10 @@
       fact(facts, 'Website', candidate.website || candidate.url, true);
       if (facts.children.length) profile.append(facts);
       renderMatch(profile, item.knownResourceMatch, item);
-      section(profile, 'Housing need', candidate.housingNeed);
+      section(profile, `${review.run.targetCategoryLabel || 'Resource'} need`, candidate.serviceNeed || candidate.housingNeed);
+      section(profile, 'Suggested Types', candidate.recommendedTypes);
+      section(profile, 'Suggested For', candidate.recommendedFor);
+      section(profile, 'Classification rationale', candidate.classificationRationale);
       section(profile, 'Eligibility', candidate.eligibility);
       section(profile, 'Barriers and restrictions', candidate.barriers);
       const availability = candidate.availability;
@@ -433,7 +436,7 @@
 
     function candidateDescription(item) {
       const candidate = item.candidate || {};
-      return asText(candidate.housingNeed || candidate.description || candidate.resourceType || 'Awaiting review');
+      return asText(candidate.serviceNeed || candidate.housingNeed || candidate.description || candidate.resourceType || 'Awaiting review');
     }
 
     function renderCandidates() {
@@ -496,6 +499,7 @@
         metric('Run status', friendly(review.run.status)),
         metric('Research agent', friendly(review.run.adapter)),
         metric('Candidates', review.run.candidateCount),
+        metric('Category', review.run.targetCategoryLabel || 'Housing'),
         metric('Research scope', researchScope),
         metric('Source package', packageInfo ? `${packageInfo.sourceName} · package ${packageInfo.packageVersion}` : 'None · standalone exploratory research'),
       );

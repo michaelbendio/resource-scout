@@ -16,6 +16,7 @@ RESOURCE_PACKAGE_SCHEMA_VERSION = 3
 EDITABLE_RESOURCE_FIELDS = (
     "name", "phone", "address", "website", "hours",
     "verifiedOn", "description", "informationText",
+    "categories", "categoryFilters", "forGroups",
 )
 
 
@@ -68,7 +69,7 @@ def _label(value: Any) -> str:
 
 
 def candidate_description(candidate: dict[str, Any]) -> str:
-    for key in ("housingNeed", "description", "resourceType"):
+    for key in ("serviceNeed", "housingNeed", "description", "resourceType"):
         text = _inline(candidate.get(key))
         if text:
             return text
@@ -172,14 +173,24 @@ def candidate_to_resource(
     *,
     resource_id: str | None = None,
     timestamp: datetime | None = None,
+    available_types: Iterable[str] = (),
+    available_for_groups: Iterable[str] = (),
 ) -> dict[str, Any]:
     name = _inline(candidate.get("name") or candidate.get("title"))
     if not name:
         raise GeneratedResourceError("The candidate needs a name before it can become a resource")
     category_id = str(category_id or "").strip()
     if not category_id:
-        raise GeneratedResourceError("The imported Housing category is missing an id")
+        raise GeneratedResourceError("The imported research category is missing an id")
     now = (timestamp or datetime.now(timezone.utc)).astimezone(timezone.utc).isoformat()
+    type_labels = list(dict.fromkeys(str(value) for value in available_types))
+    for_labels = list(dict.fromkeys(str(value) for value in available_for_groups))
+    recommended_types = [
+        value for value in _items(candidate.get("recommendedTypes")) if value in type_labels
+    ]
+    recommended_for = [
+        value for value in _items(candidate.get("recommendedFor")) if value in for_labels
+    ]
     return {
         "id": resource_id or uuid.uuid4().hex,
         "name": name,
@@ -191,8 +202,8 @@ def candidate_to_resource(
         "informationText": candidate_information(candidate),
         "verifiedOn": None,
         "categories": [category_id],
-        "categoryFilters": {},
-        "forGroups": [],
+        "categoryFilters": {category_id: recommended_types} if recommended_types else {},
+        "forGroups": recommended_for,
         "pdfs": [],
         "lastModified": now,
     }
@@ -213,6 +224,17 @@ def _normalized_resource_update(
             next_resource[field] = text or None
         elif field in {"description", "informationText"}:
             next_resource[field] = str(value or "").strip()
+        elif field in {"categories", "forGroups"}:
+            if not isinstance(value, list):
+                raise GeneratedResourceError(f"{field} must be a list")
+            next_resource[field] = list(dict.fromkeys(_inline(item) for item in value if _inline(item)))
+        elif field == "categoryFilters":
+            if not isinstance(value, dict):
+                raise GeneratedResourceError("categoryFilters must be an object")
+            next_resource[field] = {
+                str(key): list(dict.fromkeys(_inline(item) for item in values if _inline(item)))
+                for key, values in value.items() if isinstance(values, list)
+            }
         else:
             next_resource[field] = _inline(value)
     if not str(next_resource.get("name") or "").strip():
@@ -248,11 +270,20 @@ class AcceptedResourceManager:
             raise GeneratedResourceError(
                 "This package-backed run does not identify its source package"
             )
-        category = self.store.import_target_category(int(import_id))
+        category = self.store.import_category(
+            int(import_id), run.get("targetCategoryId", "housing")
+        )
         if not category:
-            raise GeneratedResourceError("The imported Housing category was not found")
+            raise GeneratedResourceError("The research category was not found in the imported package")
+        taxonomy = self.store.import_taxonomy(int(import_id))
+        category_summary = next(
+            (item for item in taxonomy["categories"] if item["id"] == str(category["id"])),
+            {"types": []},
+        )
         resource = candidate_to_resource(
-            discovery["candidate"], str(category["id"])
+            discovery["candidate"], str(category["id"]),
+            available_types=category_summary.get("types", []),
+            available_for_groups=taxonomy["forGroups"],
         )
         return self.store.create_generated_resource(
             discovery_id, int(run["id"]), int(import_id), resource
@@ -272,10 +303,57 @@ class AcceptedResourceManager:
         if not generated:
             raise GeneratedResourceError("Accept this candidate before editing its resource")
         resource = _normalized_resource_update(generated["resource"], updates)
+        self._validate_taxonomy(generated["sourceImportId"], resource)
         updated = self.store.update_generated_resource(discovery_id, resource)
         if not updated:
             raise GeneratedResourceError("Generated resource not found")
         return updated
+
+    def taxonomy_for_discovery(self, discovery_id: int) -> dict[str, Any] | None:
+        discovery = self.store.get_discovery(discovery_id)
+        if not discovery or discovery.get("runId") is None:
+            return None
+        run = self.store.get_run(int(discovery["runId"]))
+        if not run or run.get("sourceImportId") is None:
+            return None
+        taxonomy = self.store.import_taxonomy(int(run["sourceImportId"]))
+        generated = self.store.get_generated_resource(discovery_id)
+        warnings = self._taxonomy_warnings(
+            generated["resource"] if generated else {}, taxonomy
+        )
+        return {**taxonomy, "warnings": warnings}
+
+    @staticmethod
+    def _taxonomy_warnings(resource: dict[str, Any], taxonomy: dict[str, Any]) -> list[str]:
+        categories = {item["id"]: item for item in taxonomy["categories"]}
+        warnings: list[str] = []
+        for category_id in resource.get("categories", []):
+            if category_id not in categories:
+                warnings.append(f"Category {category_id!r} is not in the source package")
+        for category_id, labels in (resource.get("categoryFilters") or {}).items():
+            available = set(categories.get(category_id, {}).get("types", []))
+            for label in labels if isinstance(labels, list) else []:
+                if label not in available:
+                    warnings.append(
+                        f"Type {label!r} is no longer defined for {categories.get(category_id, {}).get('label', category_id)}"
+                    )
+        available_for = set(taxonomy.get("forGroups", []))
+        for label in resource.get("forGroups", []):
+            if label not in available_for:
+                warnings.append(f"For label {label!r} is not in the source package")
+        return warnings
+
+    def _validate_taxonomy(self, import_id: int, resource: dict[str, Any]) -> None:
+        taxonomy = self.store.import_taxonomy(int(import_id))
+        warnings = self._taxonomy_warnings(resource, taxonomy)
+        if warnings:
+            raise GeneratedResourceError("; ".join(warnings))
+        selected = set(resource.get("categories", []))
+        if not selected:
+            raise GeneratedResourceError("Select at least one category")
+        extra_filter_categories = set((resource.get("categoryFilters") or {})) - selected
+        if extra_filter_categories:
+            raise GeneratedResourceError("Types can be selected only for assigned categories")
 
     def build_package(
         self, run_id: int, *, exported_at: datetime | None = None
@@ -293,10 +371,9 @@ class AcceptedResourceManager:
         generated = self.store.list_generated_resources(run_id, accepted_only=True)
         if not generated:
             raise GeneratedResourceError("Accept at least one candidate before exporting a resource package")
-        category = self.store.import_target_category(int(import_id))
         package = self.store.import_summary(int(import_id))
-        if not category or not package:
-            raise GeneratedResourceError("The source package or Housing category is unavailable")
+        if not package:
+            raise GeneratedResourceError("The source package is unavailable")
         if str(package["schema"].get("schemaVersion") or "") != str(
             RESOURCE_PACKAGE_SCHEMA_VERSION
         ):
@@ -306,6 +383,19 @@ class AcceptedResourceManager:
 
         exported = (exported_at or datetime.now(timezone.utc)).astimezone(timezone.utc)
         resources = [item["resource"] for item in generated]
+        for resource in resources:
+            self._validate_taxonomy(int(import_id), resource)
+        category_ids = list(dict.fromkeys(
+            category_id
+            for resource in resources
+            for category_id in resource.get("categories", [])
+        ))
+        categories = []
+        for category_id in category_ids:
+            category = self.store.import_category(int(import_id), category_id)
+            if not category:
+                raise GeneratedResourceError(f"Category {category_id!r} is unavailable")
+            categories.append(category)
         package_version_text = str(package["schema"].get("packageVersion") or "Unknown")
         package_version: int | str = (
             int(package_version_text) if package_version_text.isdigit() else package_version_text
@@ -318,9 +408,9 @@ class AcceptedResourceManager:
                 (str(resource.get("lastModified") or "") for resource in resources),
                 default=exported.isoformat(),
             ) or exported.isoformat(),
-            "categories": [category],
+            "categories": categories,
             "categoryMigrations": [],
-            "forGroups": [],
+            "forGroups": self.store.import_for_groups(int(import_id)),
             "resources": resources,
             "changes": [],
             "deletionRequests": [],
@@ -334,5 +424,8 @@ class AcceptedResourceManager:
             r"(?:-resource-package)?\.zip$", "", str(package["sourceName"]), flags=re.IGNORECASE
         )
         source_slug = re.sub(r"[^a-z0-9]+", "-", source_slug.casefold()).strip("-") or "tso"
-        filename = f"{source_slug}-housing-research-run-{run_id}-resource-package.zip"
+        category_slug = re.sub(
+            r"[^a-z0-9]+", "-", str(run.get("targetCategoryLabel") or "resources").casefold()
+        ).strip("-") or "resources"
+        filename = f"{source_slug}-{category_slug}-research-run-{run_id}-resource-package.zip"
         return ResourcePackageExport(filename=filename, content=target.getvalue(), data=data)

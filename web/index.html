@@ -9,7 +9,7 @@
 <body>
   <header>
     <div>
-      <p class="eyebrow">Housing research workspace</p>
+      <p class="eyebrow" id="workspace-eyebrow">Resource research workspace</p>
       <h1>Resource Research Agent</h1>
       <p class="lede">Import what is already known. Use it to research more deeply. Keep discoveries separate until a human reviews them.</p>
     </div>
@@ -33,7 +33,7 @@
       <div>
         <p class="step">01 · Package intake</p>
         <h2>Connect a Resource Assistant package</h2>
-        <p>The ZIP is read to discover its schema and Housing category. It is never edited, and the uploaded copy is discarded after the snapshot is recorded.</p>
+        <p>The ZIP is read to discover its schema, categories, Types, For groups, and existing resources. It is never edited, and the uploaded copy is discarded after the snapshot is recorded.</p>
       </div>
       <form id="import-form">
         <label class="drop" for="package-input">
@@ -47,9 +47,22 @@
 
     <section class="metrics" id="metrics" hidden>
       <article><span>Package resources</span><strong id="resource-count">—</strong></article>
-      <article><span>Housing resources</span><strong id="housing-count">—</strong></article>
-      <article><span>Multi-category Housing</span><strong id="multi-count">—</strong></article>
+      <article><span id="category-count-label">Housing resources</span><strong id="housing-count">—</strong></article>
+      <article><span id="multi-count-label">Multi-category Housing</span><strong id="multi-count">—</strong></article>
       <article><span>Schema discovered</span><strong id="schema-version">—</strong></article>
+    </section>
+
+    <section class="panel category-panel" id="category-panel" hidden>
+      <div class="section-head">
+        <div>
+          <p class="step">02 · Research category</p>
+          <h2>Choose one category for this research run</h2>
+        </div>
+        <span class="count-badge" id="category-supported-count"></span>
+      </div>
+      <p class="muted">Every category from the package is shown. Housing, Food, and Employment are ready now; the others are visible so the workspace can grow without guessing at the package taxonomy.</p>
+      <div class="category-grid" id="category-grid"></div>
+      <p class="taxonomy-note" id="category-taxonomy-note"></p>
     </section>
 
     <section class="workspace" id="workspace" hidden>
@@ -57,7 +70,7 @@
         <div class="section-head">
           <div>
             <p class="step">02 · Existing knowledge</p>
-            <h2>Housing research seeds</h2>
+            <h2 id="seeds-title">Housing research seeds</h2>
           </div>
           <input id="seed-filter" type="search" placeholder="Filter seeds…" aria-label="Filter research seeds">
         </div>
@@ -83,7 +96,7 @@
       <div class="section-head research-heading">
         <div>
           <p class="step">03 · Agent research</p>
-          <h2>Send a research agent on a Housing assignment</h2>
+          <h2 id="research-heading-title">Send a research agent on a Housing assignment</h2>
           <p class="muted">Your selected agent researches the public web in bounded stages. Candidates are saved after each stage finishes, while the app retains the assignment, evidence, duplicate decisions, and your teaching.</p>
         </div>
         <div class="agent-state" id="agent-state">
@@ -184,7 +197,7 @@
         <p class="muted">Active lessons are included only in future assignments with the same package-backed or standalone-location context. Agent suggestions require your approval.</p>
         <form id="lesson-form" class="lesson-form">
           <textarea id="lesson-text" rows="3" placeholder="What should the researcher learn?"></textarea>
-          <div class="inline-form"><select id="lesson-scope"><option value="category">Housing lesson</option><option value="general">General lesson</option></select><button type="submit">Add lesson</button></div>
+          <div class="inline-form"><select id="lesson-scope"><option value="category" id="category-lesson-option">Housing lesson</option><option value="general">General lesson</option></select><button type="submit">Add lesson</button></div>
         </form>
         <div id="lesson-list" class="lesson-list"></div>
       </article>
@@ -241,7 +254,7 @@
           <p class="step">Accepted resource</p>
           <h3>TSO Resources fields</h3>
         </div>
-        <span class="known-badge">Housing · additions package</span>
+        <span class="known-badge" id="generated-category-badge">Housing · additions package</span>
       </div>
       <p class="muted">This resource is included in the run’s cumulative package only while the candidate remains accepted. Verification stays blank until a reviewer enters it.</p>
       <form id="generated-resource-form" class="generated-resource-form">
@@ -266,6 +279,12 @@
         <label class="span-all">Description
           <textarea id="generated-description" rows="5"></textarea>
         </label>
+        <fieldset class="generated-taxonomy span-all">
+          <legend>Categories, Types, and For</legend>
+          <p class="muted">Categories and labels come from the source package. Nothing is silently renamed when the taxonomy changes.</p>
+          <div id="generated-taxonomy"></div>
+          <div class="taxonomy-warning" id="generated-taxonomy-warning" hidden></div>
+        </fieldset>
         <label class="span-all">Information
           <span class="information-hint">Formatting: use *[space] at the start of a line for bullets, **bold** for bold text, __underline__ for underline, and --- on its own line for a horizontal line.</span>
           <textarea id="generated-information" rows="16"></textarea>
@@ -309,7 +328,7 @@
       <label>Feedback for future research
         <textarea id="review-feedback" rows="4" placeholder="Why? What should the researcher notice next time?"></textarea>
       </label>
-      <label class="check-label"><input id="review-learn" type="checkbox" checked> Save this feedback as an active Housing research lesson</label>
+      <label class="check-label"><input id="review-learn" type="checkbox" checked> <span id="review-learn-label">Save this feedback as an active Housing research lesson</span></label>
       <p class="message" id="review-message" aria-live="polite"></p>
     </section>
     <details class="raw-record"><summary>View candidate JSON</summary><pre id="candidate-json"></pre></details>

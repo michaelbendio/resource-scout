@@ -30,11 +30,17 @@ class ResearchWorkflowTests(unittest.TestCase):
         package_path = self.root / "resources.zip"
         package = {
             "schemaVersion": 3,
-            "categories": [{"id": "housing", "name": "Housing"}],
+            "categories": [
+                {"id": "housing", "name": "Housing"},
+                {"id": "food", "name": "Food", "filters": ["Meals", "Pantries"]},
+                {"id": "employment", "name": "Employment", "filters": ["Temp Agencies"]},
+                {"id": "legal", "name": "Legal"},
+            ],
+            "forGroups": ["Families with children", "Veterans"],
             "resources": [{
                 "id": "known-home", "name": "Known Home", "categories": ["housing"],
                 "website": "https://known.example.org", "address": "1 Main St, Provo, UT",
-            }],
+            }, {"id": "known-pantry", "name": "Known Pantry", "categories": ["food"]}],
         }
         with zipfile.ZipFile(package_path, "w") as archive:
             archive.writestr("tso-resources.json", json.dumps(package))
@@ -145,6 +151,29 @@ class ResearchWorkflowTests(unittest.TestCase):
             if self.store.get_run(run["id"])["status"] in {"completed", "failed"}:
                 break
             time.sleep(0.01)
+
+    def test_food_run_uses_package_taxonomy_food_seeds_and_food_stages(self) -> None:
+        class CapturingAdapter(ResearchAgentAdapter):
+            key = "capture-food"
+
+            def status(self) -> dict[str, object]:
+                return {"adapter": self.key, "ready": True}
+
+            def run(self, prompt: str) -> AgentRunResult:
+                return AgentRunResult(output="done", result={"summary": "done", "candidates": [], "lessons": []})
+
+        coordinator = ResearchCoordinator(self.store, adapter_factory=lambda settings: CapturingAdapter())
+        run = coordinator.start("", target_category_id="food")
+        current = self.store.get_run(run["id"])
+        self.assertEqual("food", current["targetCategoryId"])
+        self.assertEqual("Food", current["targetCategoryLabel"])
+        self.assertEqual([{"id": "known-pantry", "name": "Known Pantry"}], current["prompt"]["knownResources"])
+        self.assertEqual(["Meals", "Pantries"], current["prompt"]["categoryBrief"]["availableTypes"])
+        self.assertEqual(["Families with children", "Veterans"], current["prompt"]["categoryBrief"]["availableForGroups"])
+        self.assertEqual("immediate-food", current["stages"][0]["key"])
+        self.assertIn("food insecurity", current["assignment"])
+        with self.assertRaisesRegex(ValueError, "not supported yet"):
+            coordinator.start("Research legal help", target_category_id="legal")
 
     def test_staged_run_keeps_partial_candidates_and_resumes_without_repeating_work(self) -> None:
         class FlakyStagedAdapter(ResearchAgentAdapter):

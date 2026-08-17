@@ -435,16 +435,29 @@ class DemoAgentAdapter(ResearchAgentAdapter):
         except (IndexError, json.JSONDecodeError):
             prompt_data = {}
         location = str(prompt_data.get("researchContext", {}).get("targetLocation") or "Utah County, Utah")
-        stage_title = str(prompt_data.get("researchStage", {}).get("title") or "Housing research")
+        category = prompt_data.get("categoryBrief", {}).get("category", {})
+        category_label = str(category.get("label") or "Housing")
+        category_id = str(category.get("id") or "housing").casefold()
+        if category_id not in {"housing", "food", "employment"}:
+            category_id = category_label.casefold()
+        stage_title = str(prompt_data.get("researchStage", {}).get("title") or f"{category_label} research")
+        demo_details = {
+            "food": ("Demonstration Community Pantry", "https://example.org/food", "food pantry", "Provides sample emergency groceries while the review workflow is being tested"),
+            "employment": ("Demonstration Employment Center", "https://example.org/employment", "employment services", "Provides sample job-search and training help while the review workflow is being tested"),
+        }
+        name, website, resource_type, service_need = demo_details.get(
+            category_id,
+            ("Demonstration Housing Program", "https://example.org/housing", "transitional housing", "Short-term housing while a permanent placement is arranged"),
+        )
         result = {
             "summary": f"Demo stage “{stage_title}” completed without contacting an external agent.",
             "candidates": [{
-                "name": "Demonstration Housing Program",
+                "name": name,
                 "organization": "Demonstration Organization",
-                "website": "https://example.org/housing",
+                "website": website,
                 "geography": location,
-                "resourceType": "transitional housing",
-                "housingNeed": "Short-term housing while a permanent placement is arranged",
+                "resourceType": resource_type,
+                "serviceNeed": service_need,
                 "accessTimeline": "Unknown — verify before referral",
                 "description": "A sample candidate used to exercise the review workflow.",
                 "eligibility": ["Eligibility not yet verified"],

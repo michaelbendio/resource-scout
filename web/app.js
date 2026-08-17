@@ -3,9 +3,15 @@ const state = {
   currentCandidate: null, pollTimer: null, researchMode: 'package',
   candidateRunId: null, candidateRunSelectionInitialized: false,
   assignmentDrafts: { package: '', 'standalone-location': '' }, standaloneAutoAssignment: '',
+  categories: [], forGroups: [], activeCategoryId: 'housing', categoryAssignmentDrafts: {},
 };
 
 const PACKAGE_DEFAULT_ASSIGNMENT = 'Discover realistic ways a person without adequate housing in Utah County could obtain safe temporary or permanent housing. Follow useful relationships rather than stopping at a directory listing: voucher providers to participating motels, organizations to specific programs, and temporary options to longer-term pathways. Investigate practical access and lived experience as well as official claims.';
+const CATEGORY_DEFAULT_ASSIGNMENTS = {
+  housing: PACKAGE_DEFAULT_ASSIGNMENT,
+  food: 'Discover realistic ways a person facing food insecurity in Utah County can obtain meals and groceries. Follow useful relationships from coordinating organizations to the specific meal sites, pantries, benefit programs, delivery services, and specialized providers people can actually access. Verify schedules, boundaries, eligibility, and the practical intake path.',
+  employment: 'Discover realistic employment resources for people in Utah County who need work, better work, training, or help overcoming barriers to employment. Follow useful relationships from workforce organizations to specific placement programs, employers, training, credentials, apprenticeships, and supported-employment services. Verify costs, eligibility, schedules, and the practical enrollment path.',
+};
 
 const MATCH_ASSESSMENT_LABELS = {
   'same-resource': 'Same resource',
@@ -40,14 +46,102 @@ function showImport(summary) {
   document.querySelector('#status-pill').textContent = `${summary.sourceName} connected`;
   document.querySelector('#status-pill').classList.add('ready');
   document.querySelector('#resource-count').textContent = summary.resourceCount;
-  document.querySelector('#housing-count').textContent = summary.targetResourceCount;
-  document.querySelector('#multi-count').textContent = summary.multiCategoryTargetResourceCount;
+  state.categories = summary.categories || [];
+  state.forGroups = summary.forGroups || [];
+  const supported = state.categories.filter(category => category.supported);
+  if (!supported.some(category => category.id === state.activeCategoryId)) {
+    state.activeCategoryId = supported.find(category => category.id.toLowerCase() === 'housing')?.id
+      || supported[0]?.id || 'housing';
+  }
   document.querySelector('#schema-version').textContent = summary.schema.schemaVersion || 'unversioned';
   document.querySelector('#metrics').hidden = false;
+  document.querySelector('#category-panel').hidden = false;
   document.querySelector('#workspace').hidden = false;
   document.querySelector('#research-panel').hidden = false;
   document.querySelector('#research-results').hidden = false;
   document.querySelector('#package-mode-detail').textContent = `Default · ${summary.sourceName} supplies existing resources, research seeds, and duplicate checking.`;
+  if (selectedResearchMode() === 'package') {
+    document.querySelector('#research-context-note').textContent = `This run will use ${summary.sourceName} for seeds and duplicate checking.`;
+  }
+  renderCategoryChooser();
+  updateCategoryCopy();
+  updateStartResearchState();
+}
+
+function activeCategory() {
+  return state.categories.find(category => category.id === state.activeCategoryId)
+    || { id: 'housing', label: 'Housing', types: [], resourceCount: 0, multiCategoryResourceCount: 0, supported: true };
+}
+
+function categoryKey(category = activeCategory()) {
+  const id = String(category.id || '').toLowerCase();
+  const label = String(category.label || '').toLowerCase();
+  return CATEGORY_DEFAULT_ASSIGNMENTS[id] ? id : CATEGORY_DEFAULT_ASSIGNMENTS[label] ? label : id;
+}
+
+function packageDefaultAssignment() {
+  return CATEGORY_DEFAULT_ASSIGNMENTS[categoryKey()] || PACKAGE_DEFAULT_ASSIGNMENT;
+}
+
+function updateCategoryCopy() {
+  const category = activeCategory();
+  document.querySelector('#housing-count').textContent = category.resourceCount ?? 0;
+  document.querySelector('#multi-count').textContent = category.multiCategoryResourceCount ?? 0;
+  document.querySelector('#category-count-label').textContent = `${category.label} resources`;
+  document.querySelector('#multi-count-label').textContent = `Multi-category ${category.label}`;
+  document.querySelector('#seeds-title').textContent = `${category.label} research seeds`;
+  document.querySelector('#research-heading-title').textContent = `Send a research agent on a ${category.label} assignment`;
+  document.querySelector('#category-lesson-option').textContent = `${category.label} lesson`;
+  document.querySelector('#workspace-eyebrow').textContent = `${category.label} research workspace`;
+  const types = category.types?.length ? category.types.join(', ') : 'None defined in this package';
+  const forGroups = state.forGroups.length ? state.forGroups.join(', ') : 'None defined in this package';
+  document.querySelector('#category-taxonomy-note').textContent = `Types: ${types} · For: ${forGroups}`;
+}
+
+function renderCategoryChooser() {
+  const target = document.querySelector('#category-grid');
+  const supportedCount = state.categories.filter(category => category.supported).length;
+  document.querySelector('#category-supported-count').textContent = `${supportedCount} ready`;
+  target.replaceChildren(...state.categories.map(category => {
+    const label = document.createElement('label');
+    label.className = `category-choice${category.supported ? '' : ' disabled'}`;
+    const input = document.createElement('input');
+    input.type = 'radio'; input.name = 'research-category'; input.value = category.id;
+    input.checked = category.id === state.activeCategoryId;
+    input.disabled = !category.supported;
+    const copy = document.createElement('span');
+    const title = document.createElement('strong'); title.textContent = category.label;
+    const detail = document.createElement('small');
+    detail.textContent = category.supported
+      ? `${category.resourceCount} existing · ${category.types?.length || 0} Type${category.types?.length === 1 ? '' : 's'}`
+      : 'Not yet supported';
+    copy.append(title, detail); label.append(input, copy);
+    if (category.supported) input.addEventListener('change', () => {
+      selectCategory(category.id).catch(error => {
+        document.querySelector('#research-message').textContent = error.message;
+      });
+    });
+    return label;
+  }));
+}
+
+async function selectCategory(categoryId) {
+  const prior = activeCategory();
+  if (selectedResearchMode() === 'package') {
+    state.categoryAssignmentDrafts[prior.id] = document.querySelector('#research-assignment').value;
+  }
+  state.activeCategoryId = categoryId;
+  renderCategoryChooser();
+  updateCategoryCopy();
+  const category = activeCategory();
+  const result = await request(`/api/seeds?categoryId=${encodeURIComponent(category.id)}`);
+  state.seeds = result.seeds;
+  renderSeeds();
+  document.querySelector('#seed-filter').value = '';
+  if (selectedResearchMode() === 'package') {
+    document.querySelector('#research-assignment').value = state.categoryAssignmentDrafts[category.id]
+      || packageDefaultAssignment();
+  }
   updateStartResearchState();
 }
 
@@ -111,7 +205,7 @@ function standaloneDefaultAssignment(location) {
 function updateStartResearchState() {
   const mode = selectedResearchMode();
   const contextReady = mode === 'package'
-    ? Boolean(state.latestImport)
+    ? Boolean(state.latestImport && activeCategory().supported)
     : Boolean(document.querySelector('#target-location')?.value.trim());
   const button = document.querySelector('#start-research');
   if (button) button.disabled = !state.agent?.ready || !contextReady;
@@ -137,7 +231,8 @@ function switchResearchMode() {
   document.querySelector('#package-research-fields').hidden = nextMode !== 'package';
   document.querySelector('#standalone-research-fields').hidden = nextMode !== 'standalone-location';
   if (nextMode === 'package') {
-    assignment.value = state.assignmentDrafts.package || PACKAGE_DEFAULT_ASSIGNMENT;
+    assignment.value = state.categoryAssignmentDrafts[state.activeCategoryId]
+      || state.assignmentDrafts.package || packageDefaultAssignment();
     document.querySelector('#research-context-note').textContent = state.latestImport
       ? `This run will use ${state.latestImport.sourceName} for seeds and duplicate checking.`
       : 'Package-backed research is the default. Import a resource package above before starting.';
@@ -154,7 +249,7 @@ function renderSeedOptions() {
   const current = select.value;
   const broad = document.createElement('option');
   broad.value = '';
-  broad.textContent = 'Research Housing broadly';
+  broad.textContent = `Research ${activeCategory().label} broadly`;
   select.replaceChildren(broad, ...state.seeds.map(seed => {
     const option = document.createElement('option');
     option.value = seed.resourceId;
@@ -437,11 +532,12 @@ function emptyState(text) {
 }
 
 function researchRunTitle(run) {
+  const category = run.targetCategoryLabel || 'Housing';
   return run.researchMode === 'standalone-location'
-    ? `Housing research · ${run.targetLocation}`
+    ? `${category} research · ${run.targetLocation}`
     : run.seedResourceId
-      ? `Seeded research · ${state.seeds.find(seed => seed.resourceId === run.seedResourceId)?.name || run.seedResourceId}`
-      : 'Broad Housing research';
+      ? `${category} from ${run.prompt?.selectedSeed?.name || state.seeds.find(seed => seed.resourceId === run.seedResourceId)?.name || run.seedResourceId}`
+      : `Broad ${category} research`;
 }
 
 function candidateCountForRun(runId) {
@@ -598,7 +694,7 @@ async function resumeResearchRun(run, button) {
 
 function candidateDescription(discovery) {
   const candidate = discovery.candidate || {};
-  return asText(candidate.housingNeed || candidate.description || candidate.resourceType || 'Awaiting review');
+  return asText(candidate.serviceNeed || candidate.housingNeed || candidate.description || candidate.resourceType || 'Awaiting review');
 }
 
 function matchFieldLabel(value) {
@@ -685,8 +781,8 @@ function renderCandidates() {
       const context = document.createElement('small');
       context.className = 'candidate-context';
       context.textContent = run.researchMode === 'standalone-location'
-        ? `Standalone research · ${run.targetLocation}`
-        : 'Package-backed research';
+        ? `${run.targetCategoryLabel || 'Housing'} · Standalone research · ${run.targetLocation}`
+        : `${run.targetCategoryLabel || 'Housing'} · Package-backed research`;
       item.append(head, context, description);
     } else {
       item.append(head, description);
@@ -746,7 +842,7 @@ function renderCandidateProfile(discovery) {
   const candidate = discovery.candidate || {};
   const profile = document.createElement('div');
   profile.className = 'candidate-profile';
-  const summaryText = asText(candidate.description || candidate.housingNeed);
+  const summaryText = asText(candidate.description || candidate.serviceNeed || candidate.housingNeed);
   if (summaryText) {
     const summary = document.createElement('div');
     summary.className = 'candidate-summary';
@@ -765,7 +861,16 @@ function renderCandidateProfile(discovery) {
   addCandidateFact(facts, 'Hours', candidate.hours);
   addCandidateFact(facts, 'Website', candidate.website || candidate.url, true);
   if (facts.children.length) profile.append(facts);
-  addCandidateSection(profile, 'Housing need', candidate.housingNeed);
+  const run = state.runs.find(entry => entry.id === discovery.runId);
+  addCandidateSection(
+    profile,
+    `${run?.targetCategoryLabel || 'Resource'} need`,
+    candidate.serviceNeed || candidate.housingNeed,
+  );
+  addCandidateSection(profile, 'Suggested Types', candidate.recommendedTypes);
+  addCandidateSection(profile, 'Suggested For', candidate.recommendedFor);
+  addCandidateSection(profile, 'Classification rationale', candidate.classificationRationale);
+  addCandidateSection(profile, 'Possible new Types for human review', candidate.suggestedNewTypes);
   addCandidateSection(profile, 'Eligibility', candidate.eligibility);
   addCandidateSection(profile, 'Barriers and restrictions', candidate.barriers);
   const availability = candidate.availability;
@@ -835,6 +940,70 @@ function renderMatchReview(discovery) {
     : '';
 }
 
+function renderGeneratedTaxonomy(discovery, resource) {
+  const target = document.querySelector('#generated-taxonomy');
+  const taxonomy = discovery.taxonomy || { categories: [], forGroups: [], warnings: [] };
+  const selectedCategories = new Set(resource.categories || []);
+  const selectedTypes = resource.categoryFilters || {};
+  const categoryNodes = taxonomy.categories.map(category => {
+    const block = document.createElement('div');
+    block.className = 'taxonomy-category';
+    const categoryLabel = document.createElement('label');
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox'; checkbox.dataset.taxonomyCategory = category.id;
+    checkbox.checked = selectedCategories.has(category.id);
+    const name = document.createElement('strong'); name.textContent = category.label;
+    categoryLabel.append(checkbox, name); block.append(categoryLabel);
+    if (category.types?.length) {
+      const options = document.createElement('div'); options.className = 'taxonomy-options';
+      category.types.forEach(type => {
+        const option = document.createElement('label');
+        const input = document.createElement('input');
+        input.type = 'checkbox'; input.dataset.taxonomyTypeCategory = category.id;
+        input.value = type; input.checked = (selectedTypes[category.id] || []).includes(type);
+        input.disabled = !checkbox.checked;
+        option.append(input, document.createTextNode(type)); options.append(option);
+      });
+      options.hidden = !checkbox.checked;
+      checkbox.addEventListener('change', () => {
+        options.hidden = !checkbox.checked;
+        options.querySelectorAll('input').forEach(input => { input.disabled = !checkbox.checked; });
+      });
+      block.append(options);
+    }
+    return block;
+  });
+  const forHeading = document.createElement('p');
+  forHeading.className = 'taxonomy-subheading'; forHeading.textContent = 'For';
+  const forOptions = document.createElement('div'); forOptions.className = 'taxonomy-options';
+  (taxonomy.forGroups || []).forEach(group => {
+    const label = document.createElement('label');
+    const input = document.createElement('input');
+    input.type = 'checkbox'; input.dataset.taxonomyFor = group;
+    input.checked = (resource.forGroups || []).includes(group);
+    label.append(input, document.createTextNode(group)); forOptions.append(label);
+  });
+  target.replaceChildren(...categoryNodes, forHeading, forOptions);
+  const warning = document.querySelector('#generated-taxonomy-warning');
+  warning.hidden = !(taxonomy.warnings || []).length;
+  warning.textContent = (taxonomy.warnings || []).length
+    ? `Needs human mapping: ${taxonomy.warnings.join(' ')}` : '';
+}
+
+function collectGeneratedTaxonomy() {
+  const categories = [...document.querySelectorAll('[data-taxonomy-category]:checked')]
+    .map(input => input.dataset.taxonomyCategory);
+  const categoryFilters = {};
+  categories.forEach(categoryId => {
+    const selected = [...document.querySelectorAll(`[data-taxonomy-type-category="${CSS.escape(categoryId)}"]:checked`)]
+      .map(input => input.value);
+    if (selected.length) categoryFilters[categoryId] = selected;
+  });
+  const forGroups = [...document.querySelectorAll('[data-taxonomy-for]:checked')]
+    .map(input => input.dataset.taxonomyFor);
+  return { categories, categoryFilters, forGroups };
+}
+
 function renderGeneratedResource(discovery, { open = false } = {}) {
   const panel = document.querySelector('#generated-resource-panel');
   const generated = discovery.generatedResource;
@@ -852,6 +1021,9 @@ function renderGeneratedResource(discovery, { open = false } = {}) {
   document.querySelector('#generated-verified').value = resource.verifiedOn || '';
   document.querySelector('#generated-description').value = resource.description || '';
   document.querySelector('#generated-information').value = resource.informationText || '';
+  const run = state.runs.find(entry => entry.id === discovery.runId);
+  document.querySelector('#generated-category-badge').textContent = `${run?.targetCategoryLabel || 'Resource'} · additions package`;
+  renderGeneratedTaxonomy(discovery, resource);
   document.querySelector('#generated-resource-message').textContent = discovery.status === 'accepted'
     ? 'Included in this run’s cumulative additions package.'
     : 'Draft retained, but excluded from the package unless this candidate is accepted.';
@@ -868,6 +1040,8 @@ function openCandidate(discovery) {
   renderGeneratedResource(discovery);
   renderMatchReview(discovery);
   document.querySelector('#review-feedback').value = discovery.reviewFeedback || '';
+  const run = state.runs.find(entry => entry.id === discovery.runId);
+  document.querySelector('#review-learn-label').textContent = `Save this feedback as an active ${run?.targetCategoryLabel || 'Housing'} research lesson`;
   document.querySelector('#review-message').textContent = '';
   document.querySelector('#candidate-json').textContent = JSON.stringify(discovery.candidate, null, 2);
   document.querySelector('#candidate-dialog').showModal();
@@ -889,7 +1063,7 @@ function renderLessons() {
     const context = lesson.researchMode === 'standalone-location'
       ? lesson.targetLocation
       : 'Package-backed';
-    label.textContent = `${context} · ${lesson.scope === 'general' ? 'General' : 'Housing'} · ${lesson.source}`;
+    label.textContent = `${context} · ${lesson.scope === 'general' ? 'General' : (lesson.targetCategoryLabel || 'Housing')} · ${lesson.source}`;
     const status = document.createElement('span');
     status.className = `lesson-status ${lesson.status}`;
     status.textContent = lesson.status;
@@ -957,7 +1131,7 @@ async function refresh() {
   showAgent(status.agent);
   if (status.latestImport) {
     showImport(status.latestImport);
-    const result = await request('/api/seeds');
+    const result = await request(`/api/seeds?categoryId=${encodeURIComponent(state.activeCategoryId)}`);
     state.seeds = result.seeds;
     renderSeeds();
   } else {
@@ -984,11 +1158,12 @@ document.querySelector('#import-form').addEventListener('submit', async event =>
   try {
     const result = await request('/api/import', { method: 'POST', body: new FormData(form) });
     showImport(result.import);
-    const seeds = await request('/api/seeds');
+    const seeds = await request(`/api/seeds?categoryId=${encodeURIComponent(state.activeCategoryId)}`);
     state.seeds = seeds.seeds;
     renderSeeds();
     switchResearchMode();
-    message.textContent = `Imported ${result.import.targetResourceCount} Housing resources. The source ZIP was not changed.`;
+    const category = activeCategory();
+    message.textContent = `Imported ${category.resourceCount} ${category.label} resources and discovered ${state.categories.length} categories. The source ZIP was not changed.`;
   } catch (error) {
     message.className = 'message error';
     message.textContent = error.message;
@@ -1069,6 +1244,7 @@ document.querySelector('#research-form').addEventListener('submit', async event 
         assignment: document.querySelector('#research-assignment').value,
         researchMode,
         seedResourceId: researchMode === 'package' ? document.querySelector('#research-seed').value : '',
+        categoryId: researchMode === 'package' ? state.activeCategoryId : 'housing',
         targetLocation: researchMode === 'standalone-location' ? targetLocation : '',
         regionalScope: researchMode === 'standalone-location' ? document.querySelector('#regional-scope').value.trim() : '',
       }),
@@ -1110,6 +1286,8 @@ document.querySelector('#lesson-form').addEventListener('submit', async event =>
         scope: document.querySelector('#lesson-scope').value,
         researchMode,
         targetLocation: researchMode === 'standalone-location' ? targetLocation : '',
+        categoryId: researchMode === 'package' ? state.activeCategoryId : 'housing',
+        categoryLabel: researchMode === 'package' ? activeCategory().label : 'Housing',
       }),
     });
     document.querySelector('#lesson-text').value = '';
@@ -1139,11 +1317,11 @@ document.querySelector('#review-actions').addEventListener('click', async event 
     await loadResearchData();
     if (button.dataset.status === 'accepted' && result.discovery.generatedResource) {
       message.textContent = result.lesson
-        ? 'Accepted. A TSO Resources draft was created, and your feedback is now an active Housing lesson.'
+        ? `Accepted. A TSO Resources draft was created, and your feedback is now an active ${result.discovery.taxonomy ? (state.runs.find(run => run.id === result.discovery.runId)?.targetCategoryLabel || 'Housing') : 'Housing'} lesson.`
         : 'Accepted. A TSO Resources draft was created and added to this run’s cumulative package.';
     } else {
       message.textContent = result.lesson
-        ? 'Review saved, and your feedback is now an active Housing lesson.'
+        ? `Review saved, and your feedback is now an active ${state.runs.find(run => run.id === result.discovery.runId)?.targetCategoryLabel || 'Housing'} lesson.`
         : 'Review saved.';
     }
     const status = document.querySelector('#candidate-dialog-status');
@@ -1176,6 +1354,7 @@ document.querySelector('#generated-resource-form').addEventListener('submit', as
         verifiedOn: document.querySelector('#generated-verified').value,
         description: document.querySelector('#generated-description').value,
         informationText: document.querySelector('#generated-information').value,
+        ...collectGeneratedTaxonomy(),
       } }),
     });
     state.currentCandidate = result.discovery;

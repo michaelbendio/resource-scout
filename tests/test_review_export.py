@@ -105,7 +105,7 @@ class ReviewCopyTests(unittest.TestCase):
         data = self.embedded_data(html)
 
         self.assertEqual("broad-housing-research-review-2026-08-17.html", review.filename)
-        self.assertEqual(3, data["reviewCopySchemaVersion"])
+        self.assertEqual(4, data["reviewCopySchemaVersion"])
         self.assertEqual("A concise completed summary with </script> text.", data["run"]["summary"])
         self.assertEqual(1, data["run"]["candidateCount"])
         self.assertEqual("Known Home", data["candidates"][0]["knownResourceMatch"]["name"])
@@ -140,6 +140,25 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertEqual("RAW-AGENT-OUTPUT-MUST-NOT-APPEAR", full_run["output"])
         self.assertEqual("Known Home Assistance Program", full_run["result"]["candidates"][0]["name"])
         self.assertEqual("private-provider-detail", full_run["usage"]["provider"])
+
+    def test_package_category_is_preserved_in_review_title_and_data(self) -> None:
+        run_id = self.store.create_research_run(
+            "hermes", "Find practical food resources", {"selectedSeed": None},
+            self.import_id, None, target_category_id="food", target_category_label="Food",
+        )
+        self.store.mark_run_running(run_id)
+        self.store.save_discovery(
+            {"name": "Community Meal", "serviceNeed": "A meal available tonight"},
+            run_id=run_id,
+        )
+        self.store.complete_run(run_id, "raw", {"summary": "Food research complete"}, None)
+        review = build_review_copy(
+            self.store, run_id,
+            exported_at=datetime(2026, 8, 17, 15, 30, tzinfo=timezone.utc),
+        )
+        self.assertEqual("Broad Food research", review.data["title"])
+        self.assertEqual("Food", review.data["run"]["targetCategoryLabel"])
+        self.assertEqual("broad-food-research-review-2026-08-17.html", review.filename)
 
     def test_review_copy_is_scoped_to_its_associated_run(self) -> None:
         first_run_id = self.completed_run()

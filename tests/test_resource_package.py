@@ -30,8 +30,9 @@ class AcceptedResourcePackageTests(unittest.TestCase):
             "packageVersion": 43,
             "categories": [
                 {"id": "housing", "name": "Housing", "filters": ["Shelter", "Rent help"]},
-                {"id": "food", "name": "Food"},
+                {"id": "food", "name": "Food", "filters": ["Meals", "Pantries"]},
             ],
+            "forGroups": ["Families with children", "Veterans"],
             "resources": [{
                 "id": "known-home",
                 "name": "Known Home",
@@ -182,6 +183,43 @@ class AcceptedResourcePackageTests(unittest.TestCase):
         self.manager.review_candidate(first["id"], "rejected")
         after_rejection = self.manager.build_package(self.run_id).data
         self.assertEqual(["Second accepted resource"], [item["name"] for item in after_rejection["resources"]])
+
+    def test_food_export_preserves_package_types_for_groups_and_multicategory_review(self) -> None:
+        run_id = self.store.create_research_run(
+            "hermes", "Find food resources", {"selectedSeed": None}, self.import_id, None,
+            target_category_id="food", target_category_label="Food",
+        )
+        candidate = self.candidate("Family meal program")
+        candidate.update({
+            "serviceNeed": "Provides a dependable evening meal for families.",
+            "recommendedTypes": ["Meals", "Not a package Type"],
+            "recommendedFor": ["Families with children", "Not a package For label"],
+        })
+        saved = self.store.save_discovery(candidate, run_id=run_id)
+        self.manager.review_candidate(saved["id"], "accepted")
+        generated = self.store.get_generated_resource(saved["id"])["resource"]
+        self.assertEqual(["food"], generated["categories"])
+        self.assertEqual({"food": ["Meals"]}, generated["categoryFilters"])
+        self.assertEqual(["Families with children"], generated["forGroups"])
+
+        self.manager.update_resource(saved["id"], {
+            "categories": ["food", "housing"],
+            "categoryFilters": {"food": ["Meals"], "housing": ["Shelter"]},
+            "forGroups": ["Families with children", "Veterans"],
+        })
+        data = self.manager.build_package(run_id).data
+        self.assertEqual(["food", "housing"], [item["id"] for item in data["categories"]])
+        self.assertEqual(["Families with children", "Veterans"], data["forGroups"])
+        self.assertEqual(
+            {"food": ["Meals"], "housing": ["Shelter"]},
+            data["resources"][0]["categoryFilters"],
+        )
+        self.assertIn("food-research-run", self.manager.build_package(run_id).filename)
+
+        with self.assertRaisesRegex(GeneratedResourceError, "no longer defined"):
+            self.manager.update_resource(saved["id"], {
+                "categories": ["food"], "categoryFilters": {"food": ["Renamed label"]},
+            })
 
     def test_standalone_review_stays_review_only(self) -> None:
         run_id = self.store.create_research_run(

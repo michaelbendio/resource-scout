@@ -16,6 +16,7 @@ from .importer import (
     resource_id,
     resource_name,
 )
+from .playbooks import PLAYBOOKS
 
 
 SCHEMA = """
@@ -36,7 +37,8 @@ CREATE TABLE IF NOT EXISTS imports (
     target_resource_count INTEGER NOT NULL,
     multicategory_target_count INTEGER NOT NULL,
     metadata_json TEXT NOT NULL,
-    manifest_json TEXT NOT NULL
+    manifest_json TEXT NOT NULL,
+    for_groups_json TEXT NOT NULL DEFAULT '[]'
 );
 CREATE TABLE IF NOT EXISTS categories (
     import_id INTEGER NOT NULL REFERENCES imports(id) ON DELETE CASCADE,
@@ -114,6 +116,8 @@ CREATE TABLE IF NOT EXISTS research_runs (
     research_mode TEXT NOT NULL DEFAULT 'package',
     target_location TEXT,
     regional_scope TEXT NOT NULL DEFAULT '',
+    target_category_id TEXT NOT NULL DEFAULT 'housing',
+    target_category_label TEXT NOT NULL DEFAULT 'Housing',
     source_import_id INTEGER REFERENCES imports(id),
     seed_import_id INTEGER,
     seed_resource_id TEXT,
@@ -154,6 +158,8 @@ CREATE TABLE IF NOT EXISTS research_lessons (
     source TEXT NOT NULL,
     research_mode TEXT NOT NULL DEFAULT 'package',
     target_location TEXT,
+    target_category_id TEXT NOT NULL DEFAULT 'housing',
+    target_category_label TEXT NOT NULL DEFAULT 'Housing',
     stage_id INTEGER,
     run_id INTEGER REFERENCES research_runs(id),
     discovery_id INTEGER REFERENCES discoveries(id)
@@ -210,6 +216,8 @@ class ResearchStore:
             "research_mode": "TEXT NOT NULL DEFAULT 'package'",
             "target_location": "TEXT",
             "regional_scope": "TEXT NOT NULL DEFAULT ''",
+            "target_category_id": "TEXT NOT NULL DEFAULT 'housing'",
+            "target_category_label": "TEXT NOT NULL DEFAULT 'Housing'",
         }
         for name, definition in run_additions.items():
             if name not in run_columns:
@@ -231,10 +239,15 @@ class ResearchStore:
             "research_mode": "TEXT NOT NULL DEFAULT 'package'",
             "target_location": "TEXT",
             "stage_id": "INTEGER",
+            "target_category_id": "TEXT NOT NULL DEFAULT 'housing'",
+            "target_category_label": "TEXT NOT NULL DEFAULT 'Housing'",
         }
         for name, definition in lesson_additions.items():
             if name not in lesson_columns:
                 connection.execute(f"ALTER TABLE research_lessons ADD COLUMN {name} {definition}")
+        import_columns = {row["name"] for row in connection.execute("PRAGMA table_info(imports)")}
+        if "for_groups_json" not in import_columns:
+            connection.execute("ALTER TABLE imports ADD COLUMN for_groups_json TEXT NOT NULL DEFAULT '[]'")
 
     @staticmethod
     def _recover_interrupted_runs(connection: sqlite3.Connection) -> None:
@@ -284,8 +297,8 @@ class ResearchStore:
                     source_name, source_sha256, imported_at, json_member, resource_path,
                     category_path, schema_version, package_version, target_category_id,
                     target_category_label, resource_count, target_resource_count,
-                    multicategory_target_count, metadata_json, manifest_json
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    multicategory_target_count, metadata_json, manifest_json, for_groups_json
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     package.source_name,
                     package.sha256,
@@ -302,6 +315,7 @@ class ResearchStore:
                     package.multicategory_target_count,
                     _json(package.root_metadata),
                     _json(package.manifest),
+                    _json(package.for_groups),
                 ),
             )
             import_id = int(cursor.lastrowid)
@@ -310,6 +324,9 @@ class ResearchStore:
                     "INSERT INTO categories VALUES (?, ?, ?, ?)",
                     (import_id, str(category["id"]), str(category["label"]), _json(category["raw"])),
                 )
+            package_category_labels = {
+                str(item["id"]): str(item["label"]) for item in package.categories
+            }
             for resource in package.resources:
                 rid = resource_id(resource)
                 name = resource_name(resource) or rid
@@ -330,7 +347,12 @@ class ResearchStore:
                         "INSERT INTO known_terms VALUES (?, ?, ?, ?, ?)",
                         (import_id, rid, term_type, value, normalized),
                     )
-                if is_target:
+                is_supported_seed = any(
+                    value in PLAYBOOKS
+                    or package_category_labels.get(category_id, "").strip().casefold() in PLAYBOOKS
+                    for category_id, value in ((category_id, category_id.strip().casefold()) for category_id in categories)
+                )
+                if is_supported_seed:
                     relationship_terms = [
                         {"type": kind, "value": value}
                         for kind, value in iter_index_values(resource)
@@ -348,7 +370,7 @@ class ResearchStore:
                         (import_id, rid, name, _json(resource), _json(seed_context)),
                     )
                     for attachment in resource_attachments(resource):
-                        content = package.target_assets.get(attachment["path"])
+                        content = package.seed_assets.get(attachment["path"])
                         if content is None:
                             continue
                         media_type = "application/pdf" if attachment["path"].lower().endswith(".pdf") else "application/octet-stream"
@@ -363,6 +385,86 @@ class ResearchStore:
             row = connection.execute("SELECT id FROM imports ORDER BY id DESC LIMIT 1").fetchone()
         return int(row["id"]) if row else None
 
+    @staticmethod
+    def _taxonomy_labels(values: Any) -> list[str]:
+        if not isinstance(values, list):
+            return []
+        result: list[str] = []
+        for value in values:
+            if isinstance(value, str):
+                label = value.strip()
+            elif isinstance(value, dict):
+                label = str(value.get("label") or value.get("name") or value.get("id") or "").strip()
+            else:
+                label = ""
+            if label and label not in result:
+                result.append(label)
+        return result
+
+    def list_import_categories(self, import_id: int | None = None) -> list[dict[str, Any]]:
+        import_id = import_id or self.latest_import_id()
+        if import_id is None:
+            return []
+        with self.connect() as connection:
+            category_rows = connection.execute(
+                "SELECT category_id, label, raw_json FROM categories WHERE import_id = ? ORDER BY rowid",
+                (import_id,),
+            ).fetchall()
+            resource_rows = connection.execute(
+                "SELECT category_ids_json FROM imported_resources WHERE import_id = ?",
+                (import_id,),
+            ).fetchall()
+        membership = [json.loads(row["category_ids_json"]) for row in resource_rows]
+        result: list[dict[str, Any]] = []
+        for row in category_rows:
+            category_id = str(row["category_id"])
+            raw = json.loads(row["raw_json"])
+            raw_object = raw if isinstance(raw, dict) else {}
+            label = str(row["label"])
+            normalized_id = category_id.strip().casefold()
+            normalized_label = label.strip().casefold()
+            resource_count = sum(category_id in ids for ids in membership)
+            result.append({
+                "id": category_id,
+                "label": label,
+                "types": self._taxonomy_labels(raw_object.get("filters")),
+                "active": raw_object.get("active") is not False,
+                "resourceCount": resource_count,
+                "multiCategoryResourceCount": sum(
+                    category_id in ids and len(ids) > 1 for ids in membership
+                ),
+                "supported": normalized_id in PLAYBOOKS or normalized_label in PLAYBOOKS,
+            })
+        return result
+
+    def import_category(self, import_id: int, category_id: str) -> dict[str, Any] | None:
+        wanted = str(category_id or "").strip().casefold()
+        for category in self.list_import_categories(import_id):
+            if wanted in {category["id"].casefold(), category["label"].casefold()}:
+                with self.connect() as connection:
+                    row = connection.execute(
+                        "SELECT raw_json FROM categories WHERE import_id = ? AND category_id = ?",
+                        (import_id, category["id"]),
+                    ).fetchone()
+                raw = json.loads(row["raw_json"]) if row else {}
+                value = dict(raw) if isinstance(raw, dict) else {}
+                value.update({"id": category["id"], "label": category["label"]})
+                return value
+        return None
+
+    def import_for_groups(self, import_id: int) -> list[Any]:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT for_groups_json FROM imports WHERE id = ?", (import_id,)
+            ).fetchone()
+        return json.loads(row["for_groups_json"]) if row else []
+
+    def import_taxonomy(self, import_id: int) -> dict[str, Any]:
+        return {
+            "categories": self.list_import_categories(import_id),
+            "forGroups": self._taxonomy_labels(self.import_for_groups(import_id)),
+        }
+
     def import_summary(self, import_id: int | None = None) -> dict[str, Any] | None:
         import_id = import_id or self.latest_import_id()
         if import_id is None:
@@ -371,10 +473,12 @@ class ResearchStore:
             row = connection.execute("SELECT * FROM imports WHERE id = ?", (import_id,)).fetchone()
             if not row:
                 return None
-            seeds = connection.execute(
-                "SELECT resource_id, name FROM research_seeds WHERE import_id = ? ORDER BY name COLLATE NOCASE",
-                (import_id,),
-            ).fetchall()
+        categories = self.list_import_categories(import_id)
+        legacy_category = next(
+            (item for item in categories if item["id"] == row["target_category_id"]),
+            {"id": row["target_category_id"], "label": row["target_category_label"]},
+        )
+        seeds = self.list_seeds(import_id, str(legacy_category["id"]))
         return {
             "id": row["id"],
             "sourceName": row["source_name"],
@@ -387,46 +491,43 @@ class ResearchStore:
                 "schemaVersion": row["schema_version"],
                 "packageVersion": row["package_version"],
             },
-            "category": {"id": row["target_category_id"], "label": row["target_category_label"]},
+            "category": {"id": legacy_category["id"], "label": legacy_category["label"]},
+            "categories": categories,
+            "forGroups": self._taxonomy_labels(json.loads(row["for_groups_json"])),
             "resourceCount": row["resource_count"],
             "targetResourceCount": row["target_resource_count"],
             "multiCategoryTargetResourceCount": row["multicategory_target_count"],
             "targetOnlyResourceCount": row["target_resource_count"] - row["multicategory_target_count"],
-            "seedNames": [{"id": seed["resource_id"], "name": seed["name"]} for seed in seeds],
+            "seedNames": [{"id": seed["resourceId"], "name": seed["name"]} for seed in seeds],
         }
 
     def import_target_category(self, import_id: int) -> dict[str, Any] | None:
         with self.connect() as connection:
             row = connection.execute(
-                """SELECT imports.target_category_id, imports.target_category_label,
-                          categories.raw_json
-                   FROM imports
-                   LEFT JOIN categories
-                     ON categories.import_id = imports.id
-                    AND categories.category_id = imports.target_category_id
-                   WHERE imports.id = ?""",
-                (import_id,),
+                "SELECT target_category_id FROM imports WHERE id = ?", (import_id,)
             ).fetchone()
-        if not row:
-            return None
-        raw = json.loads(row["raw_json"]) if row["raw_json"] else {}
-        category = dict(raw) if isinstance(raw, dict) else {}
-        category["id"] = str(row["target_category_id"])
-        category["label"] = str(row["target_category_label"])
-        return category
+        return self.import_category(import_id, str(row["target_category_id"])) if row else None
 
     def list_imports(self) -> list[dict[str, Any]]:
         with self.connect() as connection:
             rows = connection.execute("SELECT id FROM imports ORDER BY id DESC").fetchall()
         return [summary for row in rows if (summary := self.import_summary(int(row["id"]))) is not None]
 
-    def list_seeds(self, import_id: int | None = None) -> list[dict[str, Any]]:
+    def list_seeds(
+        self, import_id: int | None = None, category_id: str | None = None
+    ) -> list[dict[str, Any]]:
         import_id = import_id or self.latest_import_id()
         if import_id is None:
             return []
         with self.connect() as connection:
+            import_row = connection.execute(
+                "SELECT target_category_id FROM imports WHERE id = ?", (import_id,)
+            ).fetchone()
+            if not import_row:
+                return []
+            selected_category_id = str(category_id or import_row["target_category_id"])
             rows = connection.execute(
-                "SELECT * FROM research_seeds WHERE import_id = ? ORDER BY name COLLATE NOCASE",
+                "SELECT * FROM imported_resources WHERE import_id = ? ORDER BY name COLLATE NOCASE",
                 (import_id,),
             ).fetchall()
             category_rows = connection.execute(
@@ -449,7 +550,10 @@ class ResearchStore:
             })
         result: list[dict[str, Any]] = []
         for row in rows:
-            full_record = json.loads(row["full_record_json"])
+            category_ids = json.loads(row["category_ids_json"])
+            if selected_category_id not in category_ids:
+                continue
+            full_record = json.loads(row["raw_json"])
             stored_assets = {asset["path"]: asset for asset in assets_by_resource.get(row["resource_id"], [])}
             attachments = []
             for attachment in resource_attachments(full_record):
@@ -457,7 +561,11 @@ class ResearchStore:
                     "path": attachment["path"], "name": attachment["name"],
                     "mediaType": "application/pdf", "bytes": None, "available": False,
                 }))
-            category_ids = resource_category_ids(full_record)
+            relationship_terms = [
+                {"type": kind, "value": value}
+                for kind, value in iter_index_values(full_record)
+                if kind.startswith("relationship:") or kind in ("organization_name", "program_name")
+            ]
             result.append({
                 "importId": row["import_id"],
                 "resourceId": row["resource_id"],
@@ -468,7 +576,13 @@ class ResearchStore:
                 ],
                 "attachments": attachments,
                 "fullRecord": full_record,
-                "seedContext": json.loads(row["seed_context_json"]),
+                "seedContext": {
+                    "origin": "imported-existing-resource",
+                    "isNewDiscovery": False,
+                    "categoryIds": category_ids,
+                    "relationships": relationship_terms,
+                    "researchInstruction": "Use this known resource as a starting point for deeper research and branching discovery; never present it as newly discovered.",
+                },
             })
         return result
 
@@ -540,6 +654,8 @@ class ResearchStore:
         research_mode: str = "package",
         target_location: str | None = None,
         regional_scope: str = "",
+        target_category_id: str = "housing",
+        target_category_label: str = "Housing",
         stages: list[dict[str, str]] | None = None,
     ) -> int:
         now = datetime.now(timezone.utc).isoformat()
@@ -547,12 +663,13 @@ class ResearchStore:
             cursor = connection.execute(
                 """INSERT INTO research_runs (
                        created_at, status, adapter, assignment, research_mode,
-                       target_location, regional_scope, source_import_id,
+                       target_location, regional_scope, target_category_id,
+                       target_category_label, source_import_id,
                        seed_import_id, seed_resource_id, prompt_json
-                   ) VALUES (?, 'queued', ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                   ) VALUES (?, 'queued', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     now, adapter, assignment, research_mode, target_location,
-                    regional_scope, source_import_id,
+                    regional_scope, target_category_id, target_category_label, source_import_id,
                     source_import_id if seed_resource_id else None, seed_resource_id, _json(prompt),
                 ),
             )
@@ -758,6 +875,7 @@ class ResearchStore:
             rows = connection.execute(
                 """SELECT id, created_at, started_at, completed_at, status, adapter,
                           assignment, research_mode, target_location, regional_scope,
+                          target_category_id, target_category_label,
                           source_import_id, seed_import_id, seed_resource_id, error,
                           json_extract(result_json, '$.summary') AS result_summary,
                           json_extract(result_json, '$.isPartial') AS result_is_partial,
@@ -773,6 +891,8 @@ class ResearchStore:
                 "status": row["status"], "adapter": row["adapter"],
                 "assignment": row["assignment"], "researchMode": row["research_mode"],
                 "targetLocation": row["target_location"], "regionalScope": row["regional_scope"],
+                "targetCategoryId": row["target_category_id"],
+                "targetCategoryLabel": row["target_category_label"],
                 "sourceImportId": row["source_import_id"], "seedImportId": row["seed_import_id"],
                 "seedResourceId": row["seed_resource_id"], "prompt": {"selectedSeed": None},
                 "output": "", "usage": None, "error": row["error"],
@@ -804,6 +924,8 @@ class ResearchStore:
             "completedAt": row["completed_at"], "status": row["status"], "adapter": row["adapter"],
             "assignment": row["assignment"], "researchMode": row["research_mode"],
             "targetLocation": row["target_location"], "regionalScope": row["regional_scope"],
+            "targetCategoryId": row["target_category_id"],
+            "targetCategoryLabel": row["target_category_label"],
             "sourceImportId": row["source_import_id"],
             "seedImportId": row["seed_import_id"],
             "seedResourceId": row["seed_resource_id"], "prompt": json.loads(row["prompt_json"]),
@@ -1015,6 +1137,8 @@ class ResearchStore:
         discovery_id: int | None = None,
         research_mode: str = "package",
         target_location: str | None = None,
+        target_category_id: str = "housing",
+        target_category_label: str = "Housing",
         stage_id: int | None = None,
     ) -> dict[str, Any]:
         text = text.strip()
@@ -1037,10 +1161,12 @@ class ResearchStore:
                 """INSERT INTO research_lessons (
                        created_at, updated_at, scope, text, rationale, status,
                        source, research_mode, target_location, run_id, discovery_id, stage_id
-                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                       , target_category_id, target_category_label
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     now, now, scope, text, rationale.strip(), status, source,
                     research_mode, target_location, run_id, discovery_id, stage_id,
+                    target_category_id, target_category_label,
                 ),
             )
             lesson_id = int(cursor.lastrowid)
@@ -1056,6 +1182,7 @@ class ResearchStore:
         active_only: bool = False,
         research_mode: str | None = None,
         target_location: str | None = None,
+        target_category_id: str | None = None,
     ) -> list[dict[str, Any]]:
         query = "SELECT * FROM research_lessons"
         clauses: list[str] = []
@@ -1069,6 +1196,9 @@ class ResearchStore:
         if research_mode == "standalone-location":
             clauses.append("target_location = ? COLLATE NOCASE")
             parameters.append((target_location or "").strip())
+        if target_category_id is not None:
+            clauses.append("(scope = 'general' OR target_category_id = ? COLLATE NOCASE)")
+            parameters.append(target_category_id.strip())
         if clauses:
             query += " WHERE " + " AND ".join(clauses)
         query += " ORDER BY id DESC"
@@ -1095,4 +1225,6 @@ class ResearchStore:
             "status": row["status"], "source": row["source"], "runId": row["run_id"],
             "discoveryId": row["discovery_id"], "researchMode": row["research_mode"],
             "targetLocation": row["target_location"], "stageId": row["stage_id"],
+            "targetCategoryId": row["target_category_id"],
+            "targetCategoryLabel": row["target_category_label"],
         }

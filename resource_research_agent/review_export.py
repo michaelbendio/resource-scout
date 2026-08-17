@@ -11,7 +11,7 @@ from .duplicates import DuplicateIndex
 from .storage import ResearchStore
 
 
-REVIEW_COPY_SCHEMA_VERSION = 3
+REVIEW_COPY_SCHEMA_VERSION = 4
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_TEMPLATE = PROJECT_ROOT / "web" / "review-copy.html"
 
@@ -45,12 +45,13 @@ def _embedded_json(value: dict[str, Any]) -> str:
 
 
 def _run_title(run: dict[str, Any]) -> str:
+    category = str(run.get("targetCategoryLabel") or "Housing")
     if run.get("researchMode") == "standalone-location" and run.get("targetLocation"):
-        return f"Housing research for {run['targetLocation']}"
+        return f"{category} research for {run['targetLocation']}"
     selected_seed = run.get("prompt", {}).get("selectedSeed")
     if isinstance(selected_seed, dict) and selected_seed.get("name"):
-        return f"Housing research from {selected_seed['name']}"
-    return "Broad Housing research"
+        return f"{category} research from {selected_seed['name']}"
+    return f"Broad {category} research"
 
 
 def _known_resource_match(
@@ -146,6 +147,8 @@ def build_review_copy(
             "researchMode": run.get("researchMode", "package"),
             "targetLocation": run.get("targetLocation"),
             "regionalScope": run.get("regionalScope", ""),
+            "targetCategoryId": run.get("targetCategoryId", "housing"),
+            "targetCategoryLabel": run.get("targetCategoryLabel", "Housing"),
             "summary": str(run["result"].get("summary") or ""),
             "candidateCount": len(candidates),
             "progress": run.get("progress", {"total": 0, "completed": 0, "failed": 0}),
@@ -166,7 +169,10 @@ def build_review_copy(
                 "sourceSha256": package["sourceSha256"],
                 "schemaVersion": package["schema"]["schemaVersion"],
                 "packageVersion": package["schema"]["packageVersion"],
-                "category": package["category"],
+                "category": {
+                    "id": run.get("targetCategoryId", "housing"),
+                    "label": run.get("targetCategoryLabel", "Housing"),
+                },
             }
             if package
             else None

@@ -125,6 +125,33 @@ class ImporterTests(unittest.TestCase):
         self.assertEqual(match["resourceId"], "cross")
         self.assertFalse(match["isTargetCategory"])
 
+    def test_package_taxonomy_and_supported_category_seeds_are_preserved(self) -> None:
+        path = self.package({
+            "resourcePackageSchemaVersion": 3,
+            "categories": [
+                {"id": "housing", "name": "Housing", "filters": []},
+                {"id": "food", "name": "Food", "filters": ["Meals", "Pantries"]},
+                {"id": "employment", "name": "Employment", "filters": ["Temp Agencies"]},
+                {"id": "legal", "name": "Legal", "filters": ["Pro bono"]},
+            ],
+            "forGroups": ["Families with children", "Veterans"],
+            "resources": [
+                {"id": "meal", "name": "Community Meal", "categories": ["food"]},
+                {"id": "work", "name": "Job Center", "categories": ["employment", "legal"]},
+                {"id": "law", "name": "Legal Aid", "categories": ["legal"]},
+            ],
+        })
+        store = ResearchStore(self.root / "taxonomy.sqlite3")
+        import_id = store.save_import(ResourcePackageImporter().read(path))
+        summary = store.import_summary(import_id)
+        categories = {item["id"]: item for item in summary["categories"]}
+        self.assertEqual(["Meals", "Pantries"], categories["food"]["types"])
+        self.assertTrue(categories["employment"]["supported"])
+        self.assertFalse(categories["legal"]["supported"])
+        self.assertEqual(["Families with children", "Veterans"], summary["forGroups"])
+        self.assertEqual(["Community Meal"], [item["name"] for item in store.list_seeds(import_id, "food")])
+        self.assertEqual(["Job Center"], [item["name"] for item in store.list_seeds(import_id, "employment")])
+
 
 if __name__ == "__main__":
     unittest.main()

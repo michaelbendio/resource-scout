@@ -8,15 +8,15 @@ from typing import Any, Callable
 from .agents import AgentRunError, ResearchAgentAdapter, build_adapter, merged_settings
 from .duplicates import DuplicateIndex
 from .importer import normalize_index_value
-from .storage import ResearchStore
-
-
-DEFAULT_ASSIGNMENT = (
-    "Discover realistic ways a person without adequate housing in Utah County could obtain safe "
-    "temporary or permanent housing. Follow useful relationships rather than stopping at a directory "
-    "listing: voucher providers to participating motels, organizations to specific programs, and temporary "
-    "options to longer-term pathways. Investigate practical access and lived experience as well as official claims."
+from .playbooks import (
+    CategoryPlaybook,
+    PLAYBOOKS,
+    normalize_supported_category,
+    output_schema,
+    playbook_for,
+    stages_for,
 )
+from .storage import ResearchStore
 
 
 def standalone_assignment(location: str) -> str:
@@ -26,84 +26,6 @@ def standalone_assignment(location: str) -> str:
         "listing: voucher providers to participating motels, organizations to specific programs, and temporary "
         "options to longer-term pathways. Investigate practical access and lived experience as well as official claims."
     )
-
-
-OUTPUT_SCHEMA = {
-    "summary": "Brief account of the research performed and the most important findings.",
-    "candidates": [{
-        "name": "Resource or program name",
-        "organization": "Parent organization, if distinct",
-        "program": "Program name, if distinct",
-        "website": "Best direct URL",
-        "address": "Physical or service address",
-        "phone": "Contact phone",
-        "hours": "Published service, office, intake, or access hours, or blank if unknown",
-        "geography": "Area served",
-        "resourceType": "shelter, voucher, motel, transitional housing, etc.",
-        "housingNeed": "What need this can actually solve and for whom",
-        "accessTimeline": "tonight, days, weeks, months, long-term, or unknown",
-        "description": "Concise factual description",
-        "eligibility": ["Eligibility facts"],
-        "barriers": ["Costs, referrals, documentation, sobriety, waits, restrictions, transportation"],
-        "availability": {"status": "available, limited, exhausted, suspended, ended, or unknown", "asOf": "YYYY-MM-DD or blank", "evidence": "Source-backed explanation"},
-        "petPolicy": "Pets, service animals, emotional-support animals, fees, or unknown",
-        "experienceAssessment": {"safety": "Assessment with evidence strength", "conditions": "Cleanliness, theft, drugs, rules, staff, belongings, and limitations"},
-        "evidence": [{"url": "Source URL", "title": "Source title", "sourceType": "official, government, news, firsthand, review, blog, transcript, or other", "accessedAt": "YYYY-MM-DD", "publishedAt": "YYYY-MM-DD or blank", "finding": "Relevant fact or carefully attributed experience", "firsthand": False, "reliability": "high, moderate, low, or lead-only"}],
-        "unknowns": ["Questions still requiring research"],
-        "followUpBranches": ["Specific next searches or relationships to pursue"],
-    }],
-    "lessons": [{"scope": "category or general", "text": "Proposed research lesson", "rationale": "What in this run suggests it"}],
-}
-
-
-BROAD_RESEARCH_STAGES = [
-    {
-        "key": "urgent-access",
-        "title": "Immediate safety and emergency access",
-        "instruction": (
-            "Investigate options that can help tonight or within days: emergency and seasonal shelter, domestic-violence "
-            "and family or youth shelter, safe temporary lodging, motel vouchers, coordinated entry, crisis access, "
-            "transportation, pet barriers, and the real intake path."
-        ),
-    },
-    {
-        "key": "stabilization",
-        "title": "Homelessness prevention and stabilization",
-        "instruction": (
-            "Investigate eviction prevention, rent and deposit help, utility help, diversion, rapid rehousing, flexible "
-            "funds, case management, benefits, and other practical pathways that can prevent or shorten homelessness."
-        ),
-    },
-    {
-        "key": "specialized-housing",
-        "title": "Transitional and specialized housing",
-        "instruction": (
-            "Investigate transitional, supportive, recovery, reentry, treatment-linked, medically appropriate, veteran, "
-            "family, youth, LGBTQ+, disability, and other population-specific housing that realistically serves the area."
-        ),
-    },
-    {
-        "key": "long-term-and-gaps",
-        "title": "Permanent pathways and gap review",
-        "instruction": (
-            "Investigate affordable and subsidized housing, housing authorities, waitlists, permanent supportive housing, "
-            "landlord or rental pathways, and important gaps. Cross-check earlier findings, avoid repeating candidates, "
-            "and pursue missing relationships or access details needed for a useful review."
-        ),
-    },
-]
-
-
-FOCUSED_RESEARCH_STAGE = [{
-    "key": "focused-branch",
-    "title": "Focused resource investigation",
-    "instruction": (
-        "Investigate the selected known resource deeply, follow its useful organization, program, provider, referral, "
-        "and access relationships, and return only well-supported new candidates or material clarifications."
-    ),
-}]
-
-
 class ResearchCoordinator:
     def __init__(
         self,
@@ -127,6 +49,7 @@ class ResearchCoordinator:
         research_mode: str = "package",
         target_location: str | None = None,
         regional_scope: str = "",
+        target_category_id: str = "housing",
     ) -> dict[str, Any]:
         if research_mode not in {"package", "standalone-location"}:
             raise ValueError(f"Unsupported research mode: {research_mode}")
@@ -134,14 +57,31 @@ class ResearchCoordinator:
         regional_scope = regional_scope.strip()
         import_summary = None
         import_id = None
+        category_id = "housing"
+        category_label = "Housing"
+        playbook = PLAYBOOKS["housing"]
         if research_mode == "package":
             import_summary = self.store.import_summary()
             if not import_summary:
                 raise ValueError("Import a resource package before starting package-backed research")
             import_id = int(import_summary["id"])
+            category = self.store.import_category(import_id, target_category_id)
+            if not category:
+                raise ValueError("The selected category was not found in the current package")
+            category_id = str(category["id"])
+            category_label = str(category["label"])
+            playbook_key = (
+                normalize_supported_category(category_id)
+                or normalize_supported_category(category_label)
+            )
+            if not playbook_key:
+                raise ValueError(
+                    f"{category_label} is visible for planning but research is not supported yet"
+                )
+            playbook = playbook_for(playbook_key)
             target_location = None
             regional_scope = ""
-            assignment = assignment.strip() or DEFAULT_ASSIGNMENT
+            assignment = assignment.strip() or playbook.default_assignment
         else:
             if not target_location:
                 raise ValueError("Enter a research location for standalone research")
@@ -151,7 +91,10 @@ class ResearchCoordinator:
         selected_seed = None
         if seed_resource_id:
             selected_seed = next(
-                (seed for seed in self.store.list_seeds(import_id) if seed["resourceId"] == seed_resource_id),
+                (
+                    seed for seed in self.store.list_seeds(import_id, category_id)
+                    if seed["resourceId"] == seed_resource_id
+                ),
                 None,
             )
             if not selected_seed:
@@ -163,6 +106,9 @@ class ResearchCoordinator:
             selected_seed,
             target_location,
             regional_scope,
+            category_id,
+            category_label,
+            playbook,
         )
         settings = merged_settings(self.store.get_settings())
         adapter = self.adapter_factory(settings)
@@ -175,7 +121,9 @@ class ResearchCoordinator:
             research_mode=research_mode,
             target_location=target_location,
             regional_scope=regional_scope,
-            stages=self._research_stages(selected_seed),
+            target_category_id=category_id,
+            target_category_label=category_label,
+            stages=self._research_stages(category_id, category_label, selected_seed),
         )
         thread = threading.Thread(
             target=self._execute, args=(run_id, prompt_object, settings),
@@ -185,8 +133,15 @@ class ResearchCoordinator:
         return self.store.get_run(run_id) or {"id": run_id, "status": "queued"}
 
     @staticmethod
-    def _research_stages(selected_seed: dict[str, Any] | None) -> list[dict[str, str]]:
-        return [dict(stage) for stage in (FOCUSED_RESEARCH_STAGE if selected_seed else BROAD_RESEARCH_STAGES)]
+    def _research_stages(
+        category_id: str,
+        category_label: str,
+        selected_seed: dict[str, Any] | None,
+    ) -> list[dict[str, str]]:
+        key = normalize_supported_category(category_id) or normalize_supported_category(category_label)
+        if not key:
+            raise ValueError(f"{category_label} research is not supported yet")
+        return stages_for(key, focused=bool(selected_seed))
 
     def resume(self, run_id: int) -> dict[str, Any]:
         run = self.store.get_run(run_id)
@@ -204,7 +159,11 @@ class ResearchCoordinator:
         if not run.get("stages"):
             self.store.add_run_stages(
                 run_id,
-                self._research_stages(run.get("prompt", {}).get("selectedSeed")),
+                self._research_stages(
+                    run.get("targetCategoryId", "housing"),
+                    run.get("targetCategoryLabel", "Housing"),
+                    run.get("prompt", {}).get("selectedSeed"),
+                ),
             )
             run = self.store.get_run(run_id) or run
         resumed = self.store.prepare_run_resume(run_id)
@@ -225,10 +184,20 @@ class ResearchCoordinator:
         selected_seed: dict[str, Any] | None,
         target_location: str | None,
         regional_scope: str,
+        category_id: str,
+        category_label: str,
+        playbook: CategoryPlaybook,
     ) -> dict[str, Any]:
-        seeds = self.store.list_seeds(int(import_summary["id"])) if import_summary else []
+        seeds = self.store.list_seeds(int(import_summary["id"]), category_id) if import_summary else []
         package_mode = research_mode == "package"
-        category = import_summary["category"] if import_summary else {"id": None, "label": "Housing"}
+        category = {"id": category_id, "label": category_label}
+        taxonomy = self.store.import_taxonomy(int(import_summary["id"])) if import_summary else {
+            "categories": [], "forGroups": []
+        }
+        category_taxonomy = next(
+            (item for item in taxonomy["categories"] if item["id"] == category_id),
+            {"types": []},
+        )
         geographic_focus = (
             "Utah County first; follow viable Salt Lake, Weber, and other Utah options when appropriate."
             if package_mode
@@ -243,6 +212,7 @@ class ResearchCoordinator:
             active_only=True,
             research_mode=research_mode,
             target_location=target_location,
+            target_category_id=category_id,
         )
         rules = [
             "Research the public web only. Do not edit local files or external systems.",
@@ -256,7 +226,7 @@ class ResearchCoordinator:
             rules.insert(1, "No resource package is connected to this run. Treat every credible finding as a candidate for human review.")
             rules.insert(2, "This is exploratory location research, not an official or comprehensive TSO Resources inventory.")
         return {
-            "role": "Housing resource discovery researcher for a human-reviewed social-service directory",
+            "role": f"{category_label} resource discovery researcher for a human-reviewed social-service directory",
             "today": date.today().isoformat(),
             "assignment": assignment,
             "researchContext": {
@@ -267,34 +237,24 @@ class ResearchCoordinator:
                     {
                         "id": import_summary["id"],
                         "name": import_summary["sourceName"],
-                        "category": import_summary["category"],
+                        "category": category,
                     }
                     if import_summary else None
                 ),
             },
             "categoryBrief": {
                 "category": category,
+                "availableTypes": category_taxonomy.get("types", []),
+                "availableForGroups": taxonomy["forGroups"],
                 "geographicFocus": geographic_focus,
-                "scope": [
-                    "Emergency shelter and safe temporary lodging",
-                    "Motel or hotel vouchers and the particular lodging providers that accept them",
-                    "Transitional, supportive, sober, reentry, treatment-linked, and medically appropriate housing",
-                    "Rent, deposit, utility, rapid-rehousing, subsidized, and permanent-housing pathways",
-                    "Pet-friendly options and temporary animal care when pet rules block access",
-                ],
-                "evidenceRules": [
-                    "Use official or authoritative sources for program facts; retain source URLs and dates.",
-                    "Use firsthand accounts, reporting, reviews, blogs, and transcripts carefully for lived experience.",
-                    "Attribute anecdotal claims and never turn a single account into an unqualified fact.",
-                    "Treat funding, capacity, wait lists, and voucher availability as time-varying and record an as-of date.",
-                    "Unknown pet policy, availability, eligibility, or conditions should become an explicit research question.",
-                ],
+                "scope": list(playbook.scope),
+                "evidenceRules": list(playbook.evidence_rules),
             },
             "knownResources": [{"id": seed["resourceId"], "name": seed["name"]} for seed in seeds],
             "selectedSeed": selected_seed,
             "activeLessons": active_lessons,
             "rules": rules,
-            "outputSchema": OUTPUT_SCHEMA,
+            "outputSchema": output_schema(category_label),
         }
 
     @staticmethod
@@ -351,6 +311,8 @@ class ResearchCoordinator:
                         source="agent", run_id=run_id,
                         research_mode=run.get("researchMode", "package"),
                         target_location=run.get("targetLocation"), stage_id=stage["id"],
+                        target_category_id=run.get("targetCategoryId", "housing"),
+                        target_category_label=run.get("targetCategoryLabel", "Housing"),
                     )
                 stored_stage_result = dict(response.result)
                 stored_stage_result["savedCandidates"] = saved_candidates
