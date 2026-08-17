@@ -7,6 +7,7 @@ from typing import Any, Callable
 
 from .agents import AgentRunError, ResearchAgentAdapter, build_adapter, merged_settings
 from .duplicates import DuplicateIndex
+from .importer import normalize_index_value
 from .storage import ResearchStore
 
 
@@ -52,6 +53,54 @@ OUTPUT_SCHEMA = {
     }],
     "lessons": [{"scope": "category or general", "text": "Proposed research lesson", "rationale": "What in this run suggests it"}],
 }
+
+
+BROAD_RESEARCH_STAGES = [
+    {
+        "key": "urgent-access",
+        "title": "Immediate safety and emergency access",
+        "instruction": (
+            "Investigate options that can help tonight or within days: emergency and seasonal shelter, domestic-violence "
+            "and family or youth shelter, safe temporary lodging, motel vouchers, coordinated entry, crisis access, "
+            "transportation, pet barriers, and the real intake path."
+        ),
+    },
+    {
+        "key": "stabilization",
+        "title": "Homelessness prevention and stabilization",
+        "instruction": (
+            "Investigate eviction prevention, rent and deposit help, utility help, diversion, rapid rehousing, flexible "
+            "funds, case management, benefits, and other practical pathways that can prevent or shorten homelessness."
+        ),
+    },
+    {
+        "key": "specialized-housing",
+        "title": "Transitional and specialized housing",
+        "instruction": (
+            "Investigate transitional, supportive, recovery, reentry, treatment-linked, medically appropriate, veteran, "
+            "family, youth, LGBTQ+, disability, and other population-specific housing that realistically serves the area."
+        ),
+    },
+    {
+        "key": "long-term-and-gaps",
+        "title": "Permanent pathways and gap review",
+        "instruction": (
+            "Investigate affordable and subsidized housing, housing authorities, waitlists, permanent supportive housing, "
+            "landlord or rental pathways, and important gaps. Cross-check earlier findings, avoid repeating candidates, "
+            "and pursue missing relationships or access details needed for a useful review."
+        ),
+    },
+]
+
+
+FOCUSED_RESEARCH_STAGE = [{
+    "key": "focused-branch",
+    "title": "Focused resource investigation",
+    "instruction": (
+        "Investigate the selected known resource deeply, follow its useful organization, program, provider, referral, "
+        "and access relationships, and return only well-supported new candidates or material clarifications."
+    ),
+}]
 
 
 class ResearchCoordinator:
@@ -125,6 +174,7 @@ class ResearchCoordinator:
             research_mode=research_mode,
             target_location=target_location,
             regional_scope=regional_scope,
+            stages=self._research_stages(selected_seed),
         )
         thread = threading.Thread(
             target=self._execute, args=(run_id, prompt_object, settings),
@@ -132,6 +182,39 @@ class ResearchCoordinator:
         )
         thread.start()
         return self.store.get_run(run_id) or {"id": run_id, "status": "queued"}
+
+    @staticmethod
+    def _research_stages(selected_seed: dict[str, Any] | None) -> list[dict[str, str]]:
+        return [dict(stage) for stage in (FOCUSED_RESEARCH_STAGE if selected_seed else BROAD_RESEARCH_STAGES)]
+
+    def resume(self, run_id: int) -> dict[str, Any]:
+        run = self.store.get_run(run_id)
+        if not run:
+            raise ValueError("Research run not found")
+        if run["status"] not in {"failed", "partial"}:
+            raise ValueError("Only failed or partial research runs can be resumed")
+        settings = merged_settings(self.store.get_settings())
+        adapter = self.adapter_factory(settings)
+        status = adapter.status()
+        if adapter.key != run["adapter"]:
+            raise ValueError(f"Select the {run['adapter']} connection before resuming this run")
+        if not status.get("ready"):
+            raise ValueError(status.get("message") or "The research agent is not ready")
+        if not run.get("stages"):
+            self.store.add_run_stages(
+                run_id,
+                self._research_stages(run.get("prompt", {}).get("selectedSeed")),
+            )
+            run = self.store.get_run(run_id) or run
+        resumed = self.store.prepare_run_resume(run_id)
+        if not resumed:
+            raise ValueError("Research run not found")
+        thread = threading.Thread(
+            target=self._execute, args=(run_id, run["prompt"], settings),
+            name=f"resource-research-{run_id}-resume", daemon=True,
+        )
+        thread.start()
+        return resumed
 
     def _prompt_object(
         self,
@@ -222,29 +305,143 @@ class ResearchCoordinator:
 
     def _execute(self, run_id: int, prompt_object: dict[str, Any], settings: dict[str, Any]) -> None:
         self.store.mark_run_running(run_id)
-        try:
-            adapter = self.adapter_factory(settings)
-            response = adapter.run(self._prompt_text(prompt_object))
-            duplicate_index = DuplicateIndex(self.store)
-            run = self.store.get_run(run_id)
-            source_import_id = run.get("sourceImportId") if run else None
-            saved_candidates = []
-            for candidate in response.result.get("candidates", []):
-                matches = duplicate_index.match(candidate, import_id=source_import_id, limit=1) if source_import_id else []
-                match = matches[0] if matches else None
-                saved_candidates.append(self.store.save_discovery(candidate, match, run_id=run_id))
-            for lesson in response.result.get("lessons", []):
-                self.store.save_lesson(
-                    lesson["text"], scope=lesson.get("scope", "category"),
-                    rationale=lesson.get("rationale", ""), status="proposed",
-                    source="agent", run_id=run_id,
-                    research_mode=run.get("researchMode", "package") if run else "package",
-                    target_location=run.get("targetLocation") if run else None,
-                )
-            stored_result = dict(response.result)
-            stored_result["savedCandidates"] = saved_candidates
-            self.store.complete_run(run_id, response.output, stored_result, response.usage)
-        except AgentRunError as error:
-            self.store.fail_run(run_id, str(error), error.output)
-        except Exception as error:
-            self.store.fail_run(run_id, f"Unexpected research error: {error}")
+        adapter = self.adapter_factory(settings)
+        duplicate_index = DuplicateIndex(self.store)
+        run = self.store.get_run(run_id)
+        if not run:
+            return
+        source_import_id = run.get("sourceImportId")
+        stages = run.get("stages", [])
+        if not stages:
+            self.store.fail_run(run_id, "This research run has no executable stages")
+            return
+        existing_names = {
+            self._candidate_name_key(discovery.get("candidate", {}))
+            for discovery in self.store.list_discoveries(run_id=run_id)
+        }
+        existing_names.discard("")
+        for stage in stages:
+            if stage["status"] == "completed":
+                continue
+            self.store.mark_stage_running(stage["id"])
+            try:
+                stage_prompt = self._stage_prompt(run_id, prompt_object, stage, len(stages))
+                response = adapter.run(self._prompt_text(stage_prompt))
+                saved_candidates = []
+                for candidate in response.result.get("candidates", []):
+                    name_key = self._candidate_name_key(candidate)
+                    if name_key and name_key in existing_names:
+                        continue
+                    matches = (
+                        duplicate_index.match(candidate, import_id=source_import_id, limit=1)
+                        if source_import_id else []
+                    )
+                    match = matches[0] if matches else None
+                    saved = self.store.save_discovery(
+                        candidate, match, run_id=run_id, stage_id=stage["id"]
+                    )
+                    saved_candidates.append(saved)
+                    if name_key:
+                        existing_names.add(name_key)
+                for lesson in response.result.get("lessons", []):
+                    self.store.save_lesson(
+                        lesson["text"], scope=lesson.get("scope", "category"),
+                        rationale=lesson.get("rationale", ""), status="proposed",
+                        source="agent", run_id=run_id,
+                        research_mode=run.get("researchMode", "package"),
+                        target_location=run.get("targetLocation"), stage_id=stage["id"],
+                    )
+                stored_stage_result = dict(response.result)
+                stored_stage_result["savedCandidates"] = saved_candidates
+                self.store.complete_stage(stage["id"], response.output, stored_stage_result, response.usage)
+                result, output, usage = self._aggregate_progress(run_id)
+                self.store.update_run_progress(run_id, output, result, usage)
+            except AgentRunError as error:
+                self.store.fail_stage(stage["id"], str(error), error.output)
+                self._finish_interrupted_run(run_id, str(error))
+                return
+            except Exception as error:
+                message = f"Unexpected research error: {error}"
+                self.store.fail_stage(stage["id"], message)
+                self._finish_interrupted_run(run_id, message)
+                return
+        result, output, usage = self._aggregate_progress(run_id)
+        self.store.complete_run(run_id, output, result, usage)
+
+    @staticmethod
+    def _candidate_name_key(candidate: dict[str, Any]) -> str:
+        name = str(candidate.get("name") or candidate.get("title") or "")
+        return normalize_index_value("name", name)
+
+    def _stage_prompt(
+        self,
+        run_id: int,
+        prompt_object: dict[str, Any],
+        stage: dict[str, Any],
+        total_stages: int,
+    ) -> dict[str, Any]:
+        completed = []
+        discoveries = self.store.list_discoveries(run_id=run_id)
+        names_by_stage: dict[int, list[str]] = {}
+        for discovery in discoveries:
+            if discovery.get("stageId"):
+                names_by_stage.setdefault(int(discovery["stageId"]), []).append(discovery["name"])
+        for prior in self.store.list_run_stages(run_id):
+            if prior["status"] != "completed" or not prior.get("result"):
+                continue
+            completed.append({
+                "stage": prior["title"],
+                "summary": str(prior["result"].get("summary") or ""),
+                "candidateNames": names_by_stage.get(prior["id"], []),
+            })
+        return {
+            **prompt_object,
+            "researchStage": {
+                "key": stage["key"],
+                "title": stage["title"],
+                "position": stage["position"],
+                "total": total_stages,
+                "instruction": stage["instruction"],
+            },
+            "completedStageFindings": completed,
+            "stageRules": [
+                "Complete only this bounded research stage.",
+                "Do not repeat a candidate named in completedStageFindings unless correcting a material error.",
+                "Return a complete valid JSON result for this stage before doing optional follow-up work.",
+            ],
+        }
+
+    def _aggregate_progress(
+        self, run_id: int
+    ) -> tuple[dict[str, Any], str, dict[str, Any] | None]:
+        stages = self.store.list_run_stages(run_id)
+        completed = [stage for stage in stages if stage["status"] == "completed" and stage.get("result")]
+        summaries = [
+            {"key": stage["key"], "title": stage["title"], "summary": str(stage["result"].get("summary") or "")}
+            for stage in completed
+        ]
+        summary_parts = [f"{item['title']}: {item['summary']}" for item in summaries if item["summary"]]
+        prefix = f"Completed {len(completed)} of {len(stages)} research stages."
+        result = {
+            "summary": "\n\n".join([prefix, *summary_parts]),
+            "stageSummaries": summaries,
+            "savedCandidates": [
+                {"id": item["id"], "status": item["status"], "origin": item["origin"]}
+                for item in self.store.list_discoveries(run_id=run_id)
+            ],
+            "isPartial": len(completed) < len(stages),
+        }
+        output = "\n\n".join(stage["output"] for stage in completed if stage.get("output"))
+        stage_usage = [
+            {"key": stage["key"], "usage": stage["usage"]}
+            for stage in completed if stage.get("usage")
+        ]
+        usage = {"stages": stage_usage} if stage_usage else None
+        return result, output, usage
+
+    def _finish_interrupted_run(self, run_id: int, error: str) -> None:
+        result, output, usage = self._aggregate_progress(run_id)
+        if any(stage["status"] == "completed" for stage in self.store.list_run_stages(run_id)):
+            self.store.partial_run(run_id, error, output, result, usage)
+        else:
+            self.store.fail_run(run_id, error, output)

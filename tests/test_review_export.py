@@ -105,7 +105,7 @@ class ReviewCopyTests(unittest.TestCase):
         data = self.embedded_data(html)
 
         self.assertEqual("broad-housing-research-review-2026-08-17.html", review.filename)
-        self.assertEqual(2, data["reviewCopySchemaVersion"])
+        self.assertEqual(3, data["reviewCopySchemaVersion"])
         self.assertEqual("A concise completed summary with </script> text.", data["run"]["summary"])
         self.assertEqual(1, data["run"]["candidateCount"])
         self.assertEqual("Known Home", data["candidates"][0]["knownResourceMatch"]["name"])
@@ -123,6 +123,23 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertIn("\\u003cscript", html)
         self.assertIn("Content-Security-Policy", html)
         self.assertNotIn("__REVIEW_COPY_DATA__", html)
+
+    def test_run_history_is_compact_but_individual_run_keeps_full_details(self) -> None:
+        run_id = self.completed_run()
+
+        history_run = next(run for run in self.store.list_runs() if run["id"] == run_id)
+        full_run = self.store.get_run(run_id)
+
+        self.assertEqual("", history_run["output"])
+        self.assertIsNone(history_run["usage"])
+        self.assertEqual(
+            {"summary": "A concise completed summary with </script> text.", "isPartial": False},
+            history_run["result"],
+        )
+        self.assertEqual({"selectedSeed": None}, history_run["prompt"])
+        self.assertEqual("RAW-AGENT-OUTPUT-MUST-NOT-APPEAR", full_run["output"])
+        self.assertEqual("Known Home Assistance Program", full_run["result"]["candidates"][0]["name"])
+        self.assertEqual("private-provider-detail", full_run["usage"]["provider"])
 
     def test_standalone_location_export_has_explicit_provenance_and_no_package(self) -> None:
         run_id = self.store.create_research_run(
@@ -179,6 +196,54 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertIn("not an official or comprehensive", data["notice"])
         self.assertIsNone(data["candidates"][0]["knownResourceMatch"])
         self.assertEqual("Mesa, Arizona", data["lessons"][0]["targetLocation"])
+
+    def test_partial_staged_run_can_be_exported_with_progress_and_failure_context(self) -> None:
+        run_id = self.store.create_research_run(
+            "hermes",
+            "Research Mesa Housing",
+            {"selectedSeed": None},
+            research_mode="standalone-location",
+            target_location="Mesa, Arizona",
+            stages=[
+                {"key": "urgent", "title": "Urgent access", "instruction": "Find urgent options"},
+                {"key": "long-term", "title": "Long-term paths", "instruction": "Find long-term options"},
+            ],
+        )
+        self.store.mark_run_running(run_id)
+        stages = self.store.list_run_stages(run_id)
+        self.store.mark_stage_running(stages[0]["id"])
+        self.store.save_discovery(
+            {"name": "Mesa Emergency Lead", "geography": "Mesa, Arizona"},
+            run_id=run_id,
+            stage_id=stages[0]["id"],
+        )
+        self.store.complete_stage(
+            stages[0]["id"], "stage output", {"summary": "Urgent findings"}, None
+        )
+        self.store.mark_stage_running(stages[1]["id"])
+        self.store.fail_stage(
+            stages[1]["id"], "Hermes research exceeded the 900-second limit", "partial output"
+        )
+        result = {
+            "summary": "Completed 1 of 2 research stages.\n\nUrgent access: Urgent findings",
+            "isPartial": True,
+        }
+        self.store.partial_run(
+            run_id,
+            "Hermes research exceeded the 900-second limit",
+            "stage output",
+            result,
+            None,
+        )
+
+        review = build_review_copy(self.store, run_id)
+        data = self.embedded_data(review.html.decode("utf-8"))
+        self.assertEqual("partial", data["run"]["status"])
+        self.assertEqual({"total": 2, "completed": 1, "failed": 1}, data["run"]["progress"])
+        self.assertEqual(["completed", "failed"], [stage["status"] for stage in data["run"]["stages"]])
+        self.assertIn("stopped after 1 of 2 stages", data["notice"])
+        self.assertIn("900-second limit", data["run"]["stages"][1]["error"])
+        self.assertEqual("Mesa Emergency Lead", data["candidates"][0]["name"])
 
     def test_incomplete_run_cannot_be_exported(self) -> None:
         run_id = self.store.create_research_run(

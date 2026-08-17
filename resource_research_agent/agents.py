@@ -48,6 +48,16 @@ class AgentRunError(RuntimeError):
         self.output = output
 
 
+def _timeout_output(error: subprocess.TimeoutExpired) -> str:
+    parts = []
+    for value in (error.stdout, error.stderr):
+        if isinstance(value, bytes):
+            parts.append(value.decode("utf-8", "replace"))
+        elif value:
+            parts.append(str(value))
+    return "".join(parts)
+
+
 class ResearchAgentAdapter(ABC):
     key = "unknown"
 
@@ -247,7 +257,7 @@ class HermesCLIAdapter(ResearchAgentAdapter):
                     env={**os.environ, "NO_COLOR": "1"},
                 )
             except subprocess.TimeoutExpired as exc:
-                output = (exc.stdout or "") + (exc.stderr or "")
+                output = _timeout_output(exc)
                 raise AgentRunError(f"Hermes research exceeded the {timeout}-second limit", output) from exc
             except OSError as exc:
                 raise AgentRunError(f"Could not start Hermes: {exc}") from exc
@@ -385,7 +395,7 @@ class DSHCLIAdapter(ResearchAgentAdapter):
                     cwd=workspace, env=environment,
                 )
             except subprocess.TimeoutExpired as exc:
-                output = (exc.stdout or "") + (exc.stderr or "")
+                output = _timeout_output(exc)
                 raise AgentRunError(
                     f"DeepSeek Harness research exceeded the {timeout}-second limit", output
                 ) from exc
@@ -420,13 +430,19 @@ class DemoAgentAdapter(ResearchAgentAdapter):
         }
 
     def run(self, prompt: str) -> AgentRunResult:
+        try:
+            prompt_data = json.loads(prompt.split("\n\n", 1)[1])
+        except (IndexError, json.JSONDecodeError):
+            prompt_data = {}
+        location = str(prompt_data.get("researchContext", {}).get("targetLocation") or "Utah County, Utah")
+        stage_title = str(prompt_data.get("researchStage", {}).get("title") or "Housing research")
         result = {
-            "summary": "Demo research completed without contacting an external agent.",
+            "summary": f"Demo stage “{stage_title}” completed without contacting an external agent.",
             "candidates": [{
                 "name": "Demonstration Housing Program",
                 "organization": "Demonstration Organization",
                 "website": "https://example.org/housing",
-                "geography": "Utah County, Utah",
+                "geography": location,
                 "resourceType": "transitional housing",
                 "housingNeed": "Short-term housing while a permanent placement is arranged",
                 "accessTimeline": "Unknown — verify before referral",

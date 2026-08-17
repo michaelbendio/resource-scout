@@ -47,6 +47,10 @@
     .metric span { display: block; color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
     .metric strong { display: block; margin-top: .18rem; overflow-wrap: anywhere; }
     .summary { max-width: 85ch; color: #34433e; font-size: 1.05rem; white-space: pre-line; }
+    .stage-list { display: grid; gap: .6rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+    .stage-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .7rem; padding: .8rem .9rem; border: 1px solid var(--line); border-radius: 10px; background: white; }
+    .stage-list small { color: var(--muted); }
+    .stage-list .stage-error { grid-column: 1 / -1; color: var(--red); }
     details { margin-top: 1rem; }
     summary { color: var(--forest); font-weight: 780; cursor: pointer; }
     .assignment { max-width: 86ch; padding: .9rem 1rem; border-left: 3px solid #92b4a4; background: #f2f6f3; white-space: pre-line; }
@@ -61,7 +65,10 @@
     .candidate-description { margin: 0; color: #4d5e57; font-size: .88rem; }
     .status { display: inline-flex; align-self: start; justify-self: end; align-items: center; justify-content: center; width: auto; height: auto; min-width: 0; min-height: 0; max-height: 2rem; padding: .25rem .55rem; border-radius: 999px; color: #4a5b55; background: #e8ece9; font-size: .7rem; font-weight: 800; line-height: 1.1; white-space: nowrap; text-transform: capitalize; }
     .status.accepted, .status.active { color: #205f48; background: #dff0e7; }
+    .status.completed { color: #205f48; background: #dff0e7; }
+    .status.partial, .status.running, .status.queued { color: #795118; background: #fff0d4; }
     .status.rejected, .status.wrong-category { color: var(--red); background: #f6e3e0; }
+    .status.failed { color: var(--red); background: #f6e3e0; }
     .status.already-known { color: #5e4b1a; background: #f5eacb; }
     .signal-summary { margin: .15rem 0 0; padding-top: .45rem; color: var(--amber); font-size: .8rem; font-weight: 750; }
     .empty { padding: 1rem; border: 1px dashed #c6ccc8; border-radius: 10px; color: var(--muted); text-align: center; }
@@ -129,9 +136,15 @@
       <p id="notice"></p>
     </section>
 
+    <section class="panel" id="stages-panel" hidden>
+      <p class="section-label">Research progress</p>
+      <h2>Stage progress</h2>
+      <ul class="stage-list" id="stage-list"></ul>
+    </section>
+
     <section class="panel">
       <p class="section-label">Research trail</p>
-      <h2>Completed run</h2>
+      <h2>Research run</h2>
       <div class="metadata" id="metadata"></div>
       <p class="summary" id="summary"></p>
       <details>
@@ -480,11 +493,31 @@
         : 'Imported package';
       document.querySelector('#metadata').replaceChildren(
         metric('Completed', formatWhen(review.run.completedAt)),
+        metric('Run status', friendly(review.run.status)),
         metric('Research agent', friendly(review.run.adapter)),
         metric('Candidates', review.run.candidateCount),
         metric('Research scope', researchScope),
         metric('Source package', packageInfo ? `${packageInfo.sourceName} · package ${packageInfo.packageVersion}` : 'None · standalone exploratory research'),
       );
+      if (review.run.stages?.length) {
+        document.querySelector('#stages-panel').hidden = false;
+        document.querySelector('#stage-list').replaceChildren(...review.run.stages.map(stage => {
+          const item = document.createElement('li');
+          const title = document.createElement('strong');
+          title.textContent = stage.title;
+          const status = document.createElement('span');
+          status.className = `status ${stage.status}`;
+          status.textContent = friendly(stage.status);
+          item.append(title, status);
+          if (stage.error) {
+            const error = document.createElement('small');
+            error.className = 'stage-error';
+            error.textContent = stage.error;
+            item.append(error);
+          }
+          return item;
+        }));
+      }
 
       const statuses = [...new Set(review.candidates.map(item => item.status))].sort();
       const filter = document.querySelector('#status-filter');

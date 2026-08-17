@@ -436,13 +436,42 @@ function renderRuns() {
     const time = document.createElement('small');
     time.textContent = `${formatWhen(run.createdAt)} · ${run.adapter} · ${run.researchMode === 'standalone-location' ? 'standalone location' : 'package-backed'}`;
     item.append(head, time);
+    if (run.progress?.total) {
+      const progress = document.createElement('div');
+      progress.className = 'run-progress';
+      progress.textContent = `${run.progress.completed} of ${run.progress.total} research stages completed`;
+      item.append(progress);
+      const stages = document.createElement('details');
+      stages.className = 'run-stages';
+      const summary = document.createElement('summary');
+      summary.textContent = 'View stage progress';
+      const list = document.createElement('ol');
+      (run.stages || []).forEach(stage => {
+        const entry = document.createElement('li');
+        const stageTitle = document.createElement('span');
+        stageTitle.textContent = stage.title;
+        const stageStatus = document.createElement('small');
+        stageStatus.className = `stage-status ${stage.status}`;
+        stageStatus.textContent = friendlyStatus(stage.status);
+        entry.append(stageTitle, stageStatus);
+        if (stage.error) {
+          const error = document.createElement('div');
+          error.className = 'stage-error';
+          error.textContent = stage.error;
+          entry.append(error);
+        }
+        list.append(entry);
+      });
+      stages.append(summary, list);
+      item.append(stages);
+    }
     if (run.result?.summary) {
       const summary = document.createElement('p');
       summary.className = 'run-summary';
       summary.textContent = run.result.summary;
       item.append(summary);
     }
-    if (run.status === 'completed') {
+    if (['completed', 'partial'].includes(run.status)) {
       const actions = document.createElement('div');
       actions.className = 'run-actions';
       const exportLink = document.createElement('a');
@@ -453,6 +482,25 @@ function renderRuns() {
       const detail = document.createElement('small');
       detail.textContent = 'Standalone, read-only HTML';
       actions.append(exportLink, detail);
+      if (run.status === 'partial') {
+        const resume = document.createElement('button');
+        resume.type = 'button';
+        resume.className = 'secondary resume-run';
+        resume.textContent = 'Resume research';
+        resume.addEventListener('click', () => resumeResearchRun(run, resume));
+        actions.append(resume);
+      }
+      item.append(actions);
+    }
+    if (run.status === 'failed') {
+      const actions = document.createElement('div');
+      actions.className = 'run-actions';
+      const resume = document.createElement('button');
+      resume.type = 'button';
+      resume.className = 'secondary resume-run';
+      resume.textContent = run.progress?.total ? 'Retry failed stage' : 'Retry as staged research';
+      resume.addEventListener('click', () => resumeResearchRun(run, resume));
+      actions.append(resume);
       item.append(actions);
     }
     if (run.error) {
@@ -463,6 +511,22 @@ function renderRuns() {
     }
     return item;
   }));
+}
+
+async function resumeResearchRun(run, button) {
+  const message = document.querySelector('#research-message');
+  button.disabled = true;
+  message.textContent = `Resuming ${run.targetLocation ? `${run.targetLocation} ` : ''}research from the first unfinished stage…`;
+  try {
+    await request(`/api/research-runs/${run.id}/resume`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    message.textContent = `Research run ${run.id} resumed. Completed stages will not be repeated.`;
+    await loadResearchData();
+  } catch (error) {
+    message.textContent = error.message;
+    button.disabled = false;
+  }
 }
 
 function candidateDescription(discovery) {
@@ -871,8 +935,8 @@ document.querySelector('#research-form').addEventListener('submit', async event 
       }),
     });
     message.textContent = researchMode === 'standalone-location'
-      ? `Research run ${run.id} started for ${targetLocation}. Its candidates will remain separate from the imported package.`
-      : `Research run ${run.id} started. You may keep reviewing seeds while ${name} works.`;
+      ? `Research run ${run.id} started for ${targetLocation}. Candidates will appear as each stage finishes and remain separate from the imported package.`
+      : `Research run ${run.id} started. Candidates will appear as each stage finishes; you may keep reviewing seeds while ${name} works.`;
     await loadResearchData();
   } catch (error) {
     message.textContent = error.message;

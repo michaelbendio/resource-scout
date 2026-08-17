@@ -11,7 +11,7 @@ from .duplicates import DuplicateIndex
 from .storage import ResearchStore
 
 
-REVIEW_COPY_SCHEMA_VERSION = 2
+REVIEW_COPY_SCHEMA_VERSION = 3
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_TEMPLATE = PROJECT_ROOT / "web" / "review-copy.html"
 
@@ -79,8 +79,8 @@ def build_review_copy(
     run = store.get_run(run_id)
     if not run:
         raise ReviewCopyError("Research run not found")
-    if run["status"] != "completed" or not isinstance(run.get("result"), dict):
-        raise ReviewCopyError("Only completed research runs can be exported")
+    if run["status"] not in {"completed", "partial"} or not isinstance(run.get("result"), dict):
+        raise ReviewCopyError("Only completed or partially completed research runs can be exported")
 
     discoveries = list(reversed(store.list_discoveries(run_id=run_id)))
     lessons = [lesson for lesson in reversed(store.list_lessons()) if lesson.get("runId") == run_id]
@@ -123,6 +123,12 @@ def build_review_copy(
         "exportedAt": exported.astimezone(timezone.utc).isoformat(),
         "title": title,
         "notice": (
+            (
+                f"This research run stopped after {run['progress']['completed']} of {run['progress']['total']} stages. "
+                "The completed-stage findings remain available for review, but the research is incomplete. "
+            )
+            if run["status"] == "partial" else ""
+        ) + (
             "Read-only exploratory location research for human review; it is not an official or comprehensive "
             "TSO Resources inventory. Availability, eligibility, and other facts may change; verify important "
             "details before assisting a client or adding a resource to TSO Resources."
@@ -134,6 +140,7 @@ def build_review_copy(
             "createdAt": run["createdAt"],
             "startedAt": run["startedAt"],
             "completedAt": run["completedAt"],
+            "status": run["status"],
             "adapter": run["adapter"],
             "assignment": run["assignment"],
             "researchMode": run.get("researchMode", "package"),
@@ -141,6 +148,17 @@ def build_review_copy(
             "regionalScope": run.get("regionalScope", ""),
             "summary": str(run["result"].get("summary") or ""),
             "candidateCount": len(candidates),
+            "progress": run.get("progress", {"total": 0, "completed": 0, "failed": 0}),
+            "stages": [
+                {
+                    "title": stage["title"],
+                    "position": stage["position"],
+                    "status": stage["status"],
+                    "completedAt": stage["completedAt"],
+                    "error": stage["error"],
+                }
+                for stage in run.get("stages", [])
+            ],
         },
         "sourcePackage": (
             {

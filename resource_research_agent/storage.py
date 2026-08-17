@@ -96,6 +96,7 @@ CREATE TABLE IF NOT EXISTS discoveries (
     notes TEXT NOT NULL DEFAULT '',
     match_assessment TEXT,
     match_assessed_at TEXT,
+    stage_id INTEGER,
     FOREIGN KEY (matched_import_id, matched_resource_id) REFERENCES imported_resources(import_id, resource_id)
 );
 CREATE TABLE IF NOT EXISTS agent_settings (
@@ -124,6 +125,24 @@ CREATE TABLE IF NOT EXISTS research_runs (
     FOREIGN KEY (seed_import_id, seed_resource_id)
         REFERENCES research_seeds(import_id, resource_id)
 );
+CREATE TABLE IF NOT EXISTS research_run_stages (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL REFERENCES research_runs(id) ON DELETE CASCADE,
+    stage_key TEXT NOT NULL,
+    title TEXT NOT NULL,
+    instruction TEXT NOT NULL,
+    position INTEGER NOT NULL,
+    status TEXT NOT NULL DEFAULT 'queued',
+    created_at TEXT NOT NULL,
+    started_at TEXT,
+    completed_at TEXT,
+    output_text TEXT NOT NULL DEFAULT '',
+    result_json TEXT,
+    usage_json TEXT,
+    error TEXT NOT NULL DEFAULT '',
+    UNIQUE (run_id, stage_key),
+    UNIQUE (run_id, position)
+);
 CREATE TABLE IF NOT EXISTS research_lessons (
     id INTEGER PRIMARY KEY,
     created_at TEXT NOT NULL,
@@ -135,6 +154,7 @@ CREATE TABLE IF NOT EXISTS research_lessons (
     source TEXT NOT NULL,
     research_mode TEXT NOT NULL DEFAULT 'package',
     target_location TEXT,
+    stage_id INTEGER,
     run_id INTEGER REFERENCES research_runs(id),
     discovery_id INTEGER REFERENCES discoveries(id)
 );
@@ -152,6 +172,7 @@ class ResearchStore:
         with self.connect() as connection:
             connection.executescript(SCHEMA)
             self._migrate(connection)
+            self._recover_interrupted_runs(connection)
 
     @staticmethod
     def _migrate(connection: sqlite3.Connection) -> None:
@@ -162,6 +183,7 @@ class ResearchStore:
             "review_feedback": "TEXT NOT NULL DEFAULT ''",
             "match_assessment": "TEXT",
             "match_assessed_at": "TEXT",
+            "stage_id": "INTEGER",
         }
         for name, definition in additions.items():
             if name not in columns:
@@ -186,10 +208,35 @@ class ResearchStore:
         lesson_additions = {
             "research_mode": "TEXT NOT NULL DEFAULT 'package'",
             "target_location": "TEXT",
+            "stage_id": "INTEGER",
         }
         for name, definition in lesson_additions.items():
             if name not in lesson_columns:
                 connection.execute(f"ALTER TABLE research_lessons ADD COLUMN {name} {definition}")
+
+    @staticmethod
+    def _recover_interrupted_runs(connection: sqlite3.Connection) -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        message = "The app stopped before this research stage finished. Resume the run to retry it."
+        connection.execute(
+            """UPDATE research_run_stages
+               SET status = 'failed', completed_at = ?, error = ?
+               WHERE status = 'running'""",
+            (now, message),
+        )
+        connection.execute(
+            """UPDATE research_runs
+               SET status = CASE
+                       WHEN EXISTS (
+                           SELECT 1 FROM research_run_stages AS stage
+                           WHERE stage.run_id = research_runs.id AND stage.status = 'completed'
+                       ) THEN 'partial'
+                       ELSE 'failed'
+                   END,
+                   completed_at = ?, error = ?
+               WHERE status IN ('queued', 'running')""",
+            (now, message),
+        )
 
     @contextmanager
     def connect(self) -> Iterator[sqlite3.Connection]:
@@ -451,6 +498,7 @@ class ResearchStore:
         research_mode: str = "package",
         target_location: str | None = None,
         regional_scope: str = "",
+        stages: list[dict[str, str]] | None = None,
     ) -> int:
         now = datetime.now(timezone.utc).isoformat()
         with self.connect() as connection:
@@ -466,15 +514,169 @@ class ResearchStore:
                     source_import_id if seed_resource_id else None, seed_resource_id, _json(prompt),
                 ),
             )
-        return int(cursor.lastrowid)
+            run_id = int(cursor.lastrowid)
+            for position, stage in enumerate(stages or [], start=1):
+                connection.execute(
+                    """INSERT INTO research_run_stages (
+                           run_id, stage_key, title, instruction, position, created_at
+                       ) VALUES (?, ?, ?, ?, ?, ?)""",
+                    (
+                        run_id,
+                        str(stage["key"]),
+                        str(stage["title"]),
+                        str(stage["instruction"]),
+                        position,
+                        now,
+                    ),
+                )
+        return run_id
 
     def mark_run_running(self, run_id: int) -> None:
         now = datetime.now(timezone.utc).isoformat()
         with self.connect() as connection:
             connection.execute(
-                "UPDATE research_runs SET status = 'running', started_at = ? WHERE id = ?",
+                """UPDATE research_runs
+                   SET status = 'running', started_at = COALESCE(started_at, ?),
+                       completed_at = NULL, error = '' WHERE id = ?""",
                 (now, run_id),
             )
+
+    def list_run_stages(self, run_id: int) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                "SELECT * FROM research_run_stages WHERE run_id = ? ORDER BY position",
+                (run_id,),
+            ).fetchall()
+        return [self._stage_dict(row) for row in rows]
+
+    def _list_run_stage_summaries(self, run_id: int) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT id, run_id, stage_key, title, position, status,
+                          created_at, started_at, completed_at, error
+                   FROM research_run_stages WHERE run_id = ? ORDER BY position""",
+                (run_id,),
+            ).fetchall()
+        return [
+            {
+                "id": row["id"], "runId": row["run_id"], "key": row["stage_key"],
+                "title": row["title"], "position": row["position"],
+                "status": row["status"], "createdAt": row["created_at"],
+                "startedAt": row["started_at"], "completedAt": row["completed_at"],
+                "error": row["error"],
+            }
+            for row in rows
+        ]
+
+    def add_run_stages(self, run_id: int, stages: list[dict[str, str]]) -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            existing = connection.execute(
+                "SELECT COUNT(*) AS count FROM research_run_stages WHERE run_id = ?", (run_id,)
+            ).fetchone()
+            if existing and existing["count"]:
+                raise ValueError("Research stages already exist for this run")
+            if not connection.execute("SELECT id FROM research_runs WHERE id = ?", (run_id,)).fetchone():
+                raise ValueError("Research run not found")
+            for position, stage in enumerate(stages, start=1):
+                connection.execute(
+                    """INSERT INTO research_run_stages (
+                           run_id, stage_key, title, instruction, position, created_at
+                       ) VALUES (?, ?, ?, ?, ?, ?)""",
+                    (
+                        run_id, str(stage["key"]), str(stage["title"]),
+                        str(stage["instruction"]), position, now,
+                    ),
+                )
+
+    def mark_stage_running(self, stage_id: int) -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            connection.execute(
+                """UPDATE research_run_stages
+                   SET status = 'running', started_at = ?, completed_at = NULL, error = ''
+                   WHERE id = ?""",
+                (now, stage_id),
+            )
+
+    def complete_stage(
+        self,
+        stage_id: int,
+        output: str,
+        result: dict[str, Any],
+        usage: dict[str, Any] | None,
+    ) -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            connection.execute(
+                """UPDATE research_run_stages
+                   SET status = 'completed', completed_at = ?, output_text = ?,
+                       result_json = ?, usage_json = ?, error = ''
+                   WHERE id = ?""",
+                (now, output, _json(result), _json(usage) if usage else None, stage_id),
+            )
+
+    def fail_stage(self, stage_id: int, error: str, output: str = "") -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            connection.execute(
+                """UPDATE research_run_stages
+                   SET status = 'failed', completed_at = ?, output_text = ?, error = ?
+                   WHERE id = ?""",
+                (now, output, error, stage_id),
+            )
+
+    def update_run_progress(
+        self,
+        run_id: int,
+        output: str,
+        result: dict[str, Any],
+        usage: dict[str, Any] | None,
+    ) -> None:
+        with self.connect() as connection:
+            connection.execute(
+                """UPDATE research_runs
+                   SET output_text = ?, result_json = ?, usage_json = ? WHERE id = ?""",
+                (output, _json(result), _json(usage) if usage else None, run_id),
+            )
+
+    def partial_run(
+        self,
+        run_id: int,
+        error: str,
+        output: str,
+        result: dict[str, Any],
+        usage: dict[str, Any] | None,
+    ) -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            connection.execute(
+                """UPDATE research_runs
+                   SET status = 'partial', completed_at = ?, output_text = ?,
+                       result_json = ?, usage_json = ?, error = ? WHERE id = ?""",
+                (now, output, _json(result), _json(usage) if usage else None, error, run_id),
+            )
+
+    def prepare_run_resume(self, run_id: int) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute("SELECT status FROM research_runs WHERE id = ?", (run_id,)).fetchone()
+            if not row:
+                return None
+            if row["status"] not in {"failed", "partial"}:
+                raise ValueError("Only failed or partial research runs can be resumed")
+            connection.execute(
+                """UPDATE research_run_stages
+                   SET status = 'queued', started_at = NULL, completed_at = NULL,
+                       output_text = '', result_json = NULL, usage_json = NULL, error = ''
+                   WHERE run_id = ? AND status IN ('failed', 'running')""",
+                (run_id,),
+            )
+            connection.execute(
+                """UPDATE research_runs
+                   SET status = 'queued', completed_at = NULL, error = '' WHERE id = ?""",
+                (run_id,),
+            )
+        return self.get_run(run_id)
 
     def complete_run(
         self, run_id: int, output: str, result: dict[str, Any], usage: dict[str, Any] | None
@@ -502,14 +704,56 @@ class ResearchStore:
     def get_run(self, run_id: int) -> dict[str, Any] | None:
         with self.connect() as connection:
             row = connection.execute("SELECT * FROM research_runs WHERE id = ?", (run_id,)).fetchone()
-        return self._run_dict(row) if row else None
+        if not row:
+            return None
+        value = self._run_dict(row)
+        value["stages"] = self.list_run_stages(run_id)
+        value["progress"] = self._stage_progress(value["stages"])
+        return value
 
     def list_runs(self, limit: int = 30) -> list[dict[str, Any]]:
         with self.connect() as connection:
             rows = connection.execute(
-                "SELECT * FROM research_runs ORDER BY id DESC LIMIT ?", (max(1, min(limit, 100)),)
+                """SELECT id, created_at, started_at, completed_at, status, adapter,
+                          assignment, research_mode, target_location, regional_scope,
+                          source_import_id, seed_import_id, seed_resource_id, error,
+                          json_extract(result_json, '$.summary') AS result_summary,
+                          json_extract(result_json, '$.isPartial') AS result_is_partial,
+                          result_json IS NOT NULL AS has_result
+                   FROM research_runs ORDER BY id DESC LIMIT ?""",
+                (max(1, min(limit, 100)),),
             ).fetchall()
-        return [self._run_dict(row) for row in rows]
+        result = []
+        for row in rows:
+            value = {
+                "id": row["id"], "createdAt": row["created_at"],
+                "startedAt": row["started_at"], "completedAt": row["completed_at"],
+                "status": row["status"], "adapter": row["adapter"],
+                "assignment": row["assignment"], "researchMode": row["research_mode"],
+                "targetLocation": row["target_location"], "regionalScope": row["regional_scope"],
+                "sourceImportId": row["source_import_id"], "seedImportId": row["seed_import_id"],
+                "seedResourceId": row["seed_resource_id"], "prompt": {"selectedSeed": None},
+                "output": "", "usage": None, "error": row["error"],
+                "result": (
+                    {
+                        "summary": str(row["result_summary"] or ""),
+                        "isPartial": bool(row["result_is_partial"]),
+                    }
+                    if row["has_result"] else None
+                ),
+            }
+            value["stages"] = self._list_run_stage_summaries(int(row["id"]))
+            value["progress"] = self._stage_progress(value["stages"])
+            result.append(value)
+        return result
+
+    @staticmethod
+    def _stage_progress(stages: list[dict[str, Any]]) -> dict[str, int]:
+        return {
+            "total": len(stages),
+            "completed": sum(stage["status"] == "completed" for stage in stages),
+            "failed": sum(stage["status"] == "failed" for stage in stages),
+        }
 
     @staticmethod
     def _run_dict(row: sqlite3.Row) -> dict[str, Any]:
@@ -527,12 +771,26 @@ class ResearchStore:
             "error": row["error"],
         }
 
+    @staticmethod
+    def _stage_dict(row: sqlite3.Row) -> dict[str, Any]:
+        return {
+            "id": row["id"], "runId": row["run_id"], "key": row["stage_key"],
+            "title": row["title"], "instruction": row["instruction"],
+            "position": row["position"], "status": row["status"],
+            "createdAt": row["created_at"], "startedAt": row["started_at"],
+            "completedAt": row["completed_at"], "output": row["output_text"],
+            "result": json.loads(row["result_json"]) if row["result_json"] else None,
+            "usage": json.loads(row["usage_json"]) if row["usage_json"] else None,
+            "error": row["error"],
+        }
+
     def save_discovery(
         self,
         candidate: dict[str, Any],
         match: dict[str, Any] | None = None,
         notes: str = "",
         run_id: int | None = None,
+        stage_id: int | None = None,
     ) -> dict[str, Any]:
         now = datetime.now(timezone.utc).isoformat()
         duplicate = bool(match and match.get("score", 0) >= 0.86)
@@ -543,14 +801,14 @@ class ResearchStore:
             cursor = connection.execute(
                 """INSERT INTO discoveries (
                     created_at, updated_at, status, origin, name, candidate_json,
-                    matched_import_id, matched_resource_id, duplicate_score, notes, run_id
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    matched_import_id, matched_resource_id, duplicate_score, notes, run_id, stage_id
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     now, now, status, origin, name, _json(candidate),
                     match.get("importId") if match else None,
                     match.get("resourceId") if match else None,
                     match.get("score") if match else None,
-                    notes, run_id,
+                    notes, run_id, stage_id,
                 ),
             )
             discovery_id = int(cursor.lastrowid)
@@ -617,6 +875,7 @@ class ResearchStore:
             "id": row["id"], "createdAt": row["created_at"], "updatedAt": row["updated_at"],
             "status": row["status"], "origin": row["origin"], "name": row["name"],
             "candidate": json.loads(row["candidate_json"]), "runId": row["run_id"],
+            "stageId": row["stage_id"],
             "match": (
                 {"importId": row["matched_import_id"], "resourceId": row["matched_resource_id"], "score": row["duplicate_score"]}
                 if row["matched_resource_id"] else None
@@ -638,6 +897,7 @@ class ResearchStore:
         discovery_id: int | None = None,
         research_mode: str = "package",
         target_location: str | None = None,
+        stage_id: int | None = None,
     ) -> dict[str, Any]:
         text = text.strip()
         if not text:
@@ -658,11 +918,11 @@ class ResearchStore:
             cursor = connection.execute(
                 """INSERT INTO research_lessons (
                        created_at, updated_at, scope, text, rationale, status,
-                       source, research_mode, target_location, run_id, discovery_id
-                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                       source, research_mode, target_location, run_id, discovery_id, stage_id
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     now, now, scope, text, rationale.strip(), status, source,
-                    research_mode, target_location, run_id, discovery_id,
+                    research_mode, target_location, run_id, discovery_id, stage_id,
                 ),
             )
             lesson_id = int(cursor.lastrowid)
@@ -716,5 +976,5 @@ class ResearchStore:
             "scope": row["scope"], "text": row["text"], "rationale": row["rationale"],
             "status": row["status"], "source": row["source"], "runId": row["run_id"],
             "discoveryId": row["discovery_id"], "researchMode": row["research_mode"],
-            "targetLocation": row["target_location"],
+            "targetLocation": row["target_location"], "stageId": row["stage_id"],
         }

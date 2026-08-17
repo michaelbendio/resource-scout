@@ -123,6 +123,8 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     regional_scope=str(payload.get("regionalScope") or ""),
                 )
                 self._json(run, HTTPStatus.ACCEPTED)
+            elif (run_id := self._path_id(parsed.path, "/api/research-runs", "resume")) is not None:
+                self._json(self.server.research.resume(run_id), HTTPStatus.ACCEPTED)
             elif parsed.path == "/api/duplicate-check":
                 payload = self._read_json()
                 candidate = payload.get("candidate", payload)

@@ -72,7 +72,7 @@
         <div>
           <p class="step">03 · Agent research</p>
           <h2>Send a research agent on a Housing assignment</h2>
-          <p class="muted">Your selected agent researches the public web. This app retains the assignment, evidence, candidates, duplicate decisions, and your teaching.</p>
+          <p class="muted">Your selected agent researches the public web in bounded stages. Candidates are saved after each stage finishes, while the app retains the assignment, evidence, duplicate decisions, and your teaching.</p>
         </div>
         <div class="agent-state" id="agent-state">
           <span class="agent-dot"></span>
@@ -138,7 +138,7 @@
             <label data-adapter-only="hermes">Hermes command override <input id="hermes-command" placeholder="Find Hermes automatically"></label>
             <label data-adapter-only="dsh">DSH model override <input id="dsh-model" placeholder="deepseek-v4-flash"></label>
             <label data-adapter-only="dsh">DSH command override <input id="dsh-command" placeholder="Use the pinned DSH runtime"></label>
-            <label>Time limit in seconds <input id="agent-timeout" type="number" min="30" max="7200" value="900"></label>
+            <label>Time limit per stage in seconds <input id="agent-timeout" type="number" min="30" max="7200" value="900"></label>
           </div>
           <button type="submit" class="secondary">Save connection settings</button>
         </form>
@@ -159,7 +159,7 @@
           <div><p class="step">05 · Human review</p><h2>Candidate inbox</h2></div>
           <span class="count-badge" id="candidate-count">0</span>
         </div>
-        <p class="muted">Agent findings remain separate from any Resource Assistant package until you decide what they mean.</p>
+        <p class="muted">Candidates appear after each research stage finishes and remain separate from any Resource Assistant package until you decide what they mean.</p>
         <div id="candidate-list" class="candidate-list"></div>
       </article>
 

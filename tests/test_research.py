@@ -10,6 +10,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from resource_research_agent.agents import (
+    AgentRunError,
     AgentRunResult,
     DSHCLIAdapter,
     HermesCLIAdapter,
@@ -144,6 +145,148 @@ class ResearchWorkflowTests(unittest.TestCase):
             if self.store.get_run(run["id"])["status"] in {"completed", "failed"}:
                 break
             time.sleep(0.01)
+
+    def test_staged_run_keeps_partial_candidates_and_resumes_without_repeating_work(self) -> None:
+        class FlakyStagedAdapter(ResearchAgentAdapter):
+            key = "staged-test"
+
+            def __init__(self) -> None:
+                self.calls: dict[str, int] = {}
+                self.failed_once = False
+
+            def status(self) -> dict[str, object]:
+                return {"adapter": self.key, "ready": True}
+
+            def run(self, prompt: str) -> AgentRunResult:
+                payload = json.loads(prompt.split("\n\n", 1)[1])
+                key = payload["researchStage"]["key"]
+                self.calls[key] = self.calls.get(key, 0) + 1
+                if key == "stabilization" and not self.failed_once:
+                    self.failed_once = True
+                    raise AgentRunError("Hermes research exceeded the 900-second limit", "partial output")
+                return AgentRunResult(
+                    output=f"output for {key}",
+                    result={
+                        "summary": f"summary for {key}",
+                        "candidates": [{"name": f"{key} candidate", "geography": "Mesa, Arizona"}],
+                        "lessons": [],
+                    },
+                    usage={"stage": key},
+                )
+
+        adapter = FlakyStagedAdapter()
+        coordinator = ResearchCoordinator(self.store, adapter_factory=lambda settings: adapter)
+        run = coordinator.start(
+            "Research Mesa Housing",
+            research_mode="standalone-location",
+            target_location="Mesa, Arizona",
+        )
+        for _ in range(300):
+            partial = self.store.get_run(run["id"])
+            if partial and partial["status"] in {"partial", "failed", "completed"}:
+                break
+            time.sleep(0.01)
+
+        self.assertEqual("partial", partial["status"])
+        self.assertEqual({"total": 4, "completed": 1, "failed": 1}, partial["progress"])
+        self.assertEqual(
+            ["completed", "failed", "queued", "queued"],
+            [stage["status"] for stage in partial["stages"]],
+        )
+        first_candidates = self.store.list_discoveries(run_id=run["id"])
+        self.assertEqual(["urgent-access candidate"], [item["name"] for item in first_candidates])
+        self.assertTrue(partial["result"]["isPartial"])
+        self.assertIn("Completed 1 of 4", partial["result"]["summary"])
+
+        coordinator.resume(run["id"])
+        for _ in range(500):
+            completed = self.store.get_run(run["id"])
+            if completed and completed["status"] == "completed":
+                break
+            time.sleep(0.01)
+
+        self.assertEqual("completed", completed["status"])
+        self.assertEqual({"total": 4, "completed": 4, "failed": 0}, completed["progress"])
+        self.assertEqual(1, adapter.calls["urgent-access"])
+        self.assertEqual(2, adapter.calls["stabilization"])
+        self.assertEqual(1, adapter.calls["specialized-housing"])
+        self.assertEqual(1, adapter.calls["long-term-and-gaps"])
+        self.assertEqual(4, len(self.store.list_discoveries(run_id=run["id"])))
+        self.assertFalse(completed["result"]["isPartial"])
+
+    def test_legacy_failed_run_is_upgraded_to_stages_when_resumed(self) -> None:
+        class LegacyResumeAdapter(ResearchAgentAdapter):
+            key = "legacy-test"
+
+            def status(self) -> dict[str, object]:
+                return {"adapter": self.key, "ready": True}
+
+            def run(self, prompt: str) -> AgentRunResult:
+                payload = json.loads(prompt.split("\n\n", 1)[1])
+                key = payload["researchStage"]["key"]
+                return AgentRunResult(
+                    output=key,
+                    result={"summary": key, "candidates": [{"name": f"{key} lead"}], "lessons": []},
+                )
+
+        prompt = {
+            "assignment": "Research Mesa Housing",
+            "researchContext": {
+                "mode": "standalone-location",
+                "targetLocation": "Mesa, Arizona",
+                "regionalScope": None,
+                "sourcePackage": None,
+            },
+            "selectedSeed": None,
+            "knownResources": [],
+            "activeLessons": [],
+            "rules": [],
+            "outputSchema": {},
+        }
+        run_id = self.store.create_research_run(
+            "legacy-test",
+            "Research Mesa Housing",
+            prompt,
+            research_mode="standalone-location",
+            target_location="Mesa, Arizona",
+        )
+        self.store.fail_run(run_id, "Hermes research exceeded the 900-second limit")
+        coordinator = ResearchCoordinator(
+            self.store, adapter_factory=lambda settings: LegacyResumeAdapter()
+        )
+        resumed = coordinator.resume(run_id)
+        self.assertEqual(4, resumed["progress"]["total"])
+        for _ in range(500):
+            completed = self.store.get_run(run_id)
+            if completed and completed["status"] == "completed":
+                break
+            time.sleep(0.01)
+        self.assertEqual("completed", completed["status"])
+        self.assertEqual(4, completed["progress"]["completed"])
+
+    def test_restart_converts_an_interrupted_staged_run_to_resumable_partial(self) -> None:
+        run_id = self.store.create_research_run(
+            "demo",
+            "Research Mesa",
+            {"selectedSeed": None},
+            research_mode="standalone-location",
+            target_location="Mesa, Arizona",
+            stages=[
+                {"key": "one", "title": "First", "instruction": "First stage"},
+                {"key": "two", "title": "Second", "instruction": "Second stage"},
+            ],
+        )
+        self.store.mark_run_running(run_id)
+        stages = self.store.list_run_stages(run_id)
+        self.store.mark_stage_running(stages[0]["id"])
+        self.store.complete_stage(stages[0]["id"], "done", {"summary": "done"}, None)
+        self.store.mark_stage_running(stages[1]["id"])
+
+        reopened = ResearchStore(self.store.path)
+        recovered = reopened.get_run(run_id)
+        self.assertEqual("partial", recovered["status"])
+        self.assertEqual(["completed", "failed"], [stage["status"] for stage in recovered["stages"]])
+        self.assertIn("app stopped", recovered["error"].lower())
 
     def test_hermes_cli_adapter_uses_oneshot_and_parses_json(self) -> None:
         fake = self.root / "fake_hermes.py"
