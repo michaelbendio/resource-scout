@@ -55,6 +55,7 @@ function showAccess(access) {
   const panel = document.querySelector('#private-access');
   const url = access?.privateUrl || '';
   panel.hidden = !url;
+  document.querySelector('main').classList.toggle('private-access-active', Boolean(url));
   if (!url) return;
   const link = document.querySelector('#private-access-url');
   link.href = url;

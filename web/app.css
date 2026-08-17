@@ -26,6 +26,7 @@ p { margin: .7rem 0 0; }
 .pill { padding: .55rem .85rem; background: rgba(255,255,255,.1); white-space: nowrap; }
 .pill.ready { color: #0b3528; background: #a8ddc6; }
 main { width: min(1220px, 92vw); margin: -1.2rem auto 5rem; }
+main.private-access-active { margin-top: 1rem; }
 .private-access { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 1rem; align-items: center; margin-bottom: 1rem; padding: 1.15rem 1.3rem; border: 1px solid #9ec8b4; border-radius: 16px; color: #173d30; background: #e8f5ed; box-shadow: var(--shadow); }
 .private-access[hidden] { display: none; }
 .private-access-icon { display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 50%; color: white; background: #277356; font-size: 1.25rem; font-weight: 900; }
