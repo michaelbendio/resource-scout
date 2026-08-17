@@ -222,6 +222,48 @@
       <p class="candidate-status" id="candidate-dialog-status"></p>
     </div>
     <div id="candidate-profile"></div>
+    <details class="generated-resource-box" id="generated-resource-panel" hidden>
+      <summary>View or edit generated TSO resource</summary>
+      <div class="generated-resource-heading">
+        <div>
+          <p class="step">Accepted resource</p>
+          <h3>TSO Resources fields</h3>
+        </div>
+        <span class="known-badge">Housing · additions package</span>
+      </div>
+      <p class="muted">This resource is included in the run’s cumulative package only while the candidate remains accepted. Verification stays blank until a reviewer enters it.</p>
+      <form id="generated-resource-form" class="generated-resource-form">
+        <label class="span-all">Name
+          <input id="generated-name" required>
+        </label>
+        <label>Phone
+          <input id="generated-phone">
+        </label>
+        <label>Address
+          <input id="generated-address">
+        </label>
+        <label>Website
+          <input id="generated-website" type="url">
+        </label>
+        <label>Hours
+          <input id="generated-hours">
+        </label>
+        <label>Verified
+          <input id="generated-verified" placeholder="MM/YY">
+        </label>
+        <label class="span-all">Description
+          <textarea id="generated-description" rows="5"></textarea>
+        </label>
+        <label class="span-all">Information
+          <span class="information-hint">Formatting: use *[space] at the start of a line for bullets, **bold** for bold text, __underline__ for underline, and --- on its own line for a horizontal line.</span>
+          <textarea id="generated-information" rows="16"></textarea>
+        </label>
+        <div class="generated-resource-actions span-all">
+          <button type="submit" class="secondary">Save generated resource</button>
+          <p class="message" id="generated-resource-message" aria-live="polite"></p>
+        </div>
+      </form>
+    </details>
     <section class="match-review-box" id="match-review-panel" hidden>
       <p class="step">Known-resource relationship</p>
       <h3>How is this candidate related?</h3>

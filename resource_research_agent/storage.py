@@ -158,6 +158,16 @@ CREATE TABLE IF NOT EXISTS research_lessons (
     run_id INTEGER REFERENCES research_runs(id),
     discovery_id INTEGER REFERENCES discoveries(id)
 );
+CREATE TABLE IF NOT EXISTS generated_resources (
+    discovery_id INTEGER PRIMARY KEY REFERENCES discoveries(id) ON DELETE CASCADE,
+    run_id INTEGER NOT NULL REFERENCES research_runs(id) ON DELETE CASCADE,
+    source_import_id INTEGER NOT NULL REFERENCES imports(id),
+    resource_id TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    resource_json TEXT NOT NULL,
+    UNIQUE (run_id, resource_id)
+);
 """
 
 
@@ -204,6 +214,18 @@ class ResearchStore:
         for name, definition in run_additions.items():
             if name not in run_columns:
                 connection.execute(f"ALTER TABLE research_runs ADD COLUMN {name} {definition}")
+        connection.execute(
+            """UPDATE research_runs
+               SET source_import_id = (
+                   SELECT imports.id
+                   FROM imports
+                   WHERE imports.imported_at <= research_runs.created_at
+                   ORDER BY imports.imported_at DESC, imports.id DESC
+                   LIMIT 1
+               )
+               WHERE research_mode = 'package'
+                 AND source_import_id IS NULL"""
+        )
         lesson_columns = {row["name"] for row in connection.execute("PRAGMA table_info(research_lessons)")}
         lesson_additions = {
             "research_mode": "TEXT NOT NULL DEFAULT 'package'",
@@ -372,6 +394,26 @@ class ResearchStore:
             "targetOnlyResourceCount": row["target_resource_count"] - row["multicategory_target_count"],
             "seedNames": [{"id": seed["resource_id"], "name": seed["name"]} for seed in seeds],
         }
+
+    def import_target_category(self, import_id: int) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT imports.target_category_id, imports.target_category_label,
+                          categories.raw_json
+                   FROM imports
+                   LEFT JOIN categories
+                     ON categories.import_id = imports.id
+                    AND categories.category_id = imports.target_category_id
+                   WHERE imports.id = ?""",
+                (import_id,),
+            ).fetchone()
+        if not row:
+            return None
+        raw = json.loads(row["raw_json"]) if row["raw_json"] else {}
+        category = dict(raw) if isinstance(raw, dict) else {}
+        category["id"] = str(row["target_category_id"])
+        category["label"] = str(row["target_category_label"])
+        return category
 
     def list_imports(self) -> list[dict[str, Any]]:
         with self.connect() as connection:
@@ -828,6 +870,82 @@ class ResearchStore:
             )
             row = connection.execute("SELECT * FROM discoveries WHERE id = ?", (discovery_id,)).fetchone()
         return self._discovery_dict(row) if row else None
+
+    def get_discovery(self, discovery_id: int) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM discoveries WHERE id = ?", (discovery_id,)
+            ).fetchone()
+        return self._discovery_dict(row) if row else None
+
+    def create_generated_resource(
+        self,
+        discovery_id: int,
+        run_id: int,
+        source_import_id: int,
+        resource: dict[str, Any],
+    ) -> dict[str, Any]:
+        resource_id = str(resource.get("id") or "").strip()
+        if not resource_id:
+            raise ValueError("Generated resource id is required")
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            connection.execute(
+                """INSERT OR IGNORE INTO generated_resources (
+                       discovery_id, run_id, source_import_id, resource_id,
+                       created_at, updated_at, resource_json
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                (discovery_id, run_id, source_import_id, resource_id, now, now, _json(resource)),
+            )
+        return self.get_generated_resource(discovery_id) or {}
+
+    def get_generated_resource(self, discovery_id: int) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM generated_resources WHERE discovery_id = ?", (discovery_id,)
+            ).fetchone()
+        return self._generated_resource_dict(row) if row else None
+
+    def update_generated_resource(
+        self, discovery_id: int, resource: dict[str, Any]
+    ) -> dict[str, Any] | None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            cursor = connection.execute(
+                """UPDATE generated_resources
+                   SET updated_at = ?, resource_json = ? WHERE discovery_id = ?""",
+                (now, _json(resource), discovery_id),
+            )
+            if not cursor.rowcount:
+                return None
+        return self.get_generated_resource(discovery_id)
+
+    def list_generated_resources(
+        self, run_id: int, *, accepted_only: bool = False
+    ) -> list[dict[str, Any]]:
+        query = (
+            """SELECT generated_resources.*
+               FROM generated_resources
+               JOIN discoveries ON discoveries.id = generated_resources.discovery_id
+               WHERE generated_resources.run_id = ?"""
+        )
+        parameters: list[Any] = [run_id]
+        if accepted_only:
+            query += " AND discoveries.status = ?"
+            parameters.append("accepted")
+        query += " ORDER BY generated_resources.discovery_id"
+        with self.connect() as connection:
+            rows = connection.execute(query, tuple(parameters)).fetchall()
+        return [self._generated_resource_dict(row) for row in rows]
+
+    @staticmethod
+    def _generated_resource_dict(row: sqlite3.Row) -> dict[str, Any]:
+        return {
+            "discoveryId": row["discovery_id"], "runId": row["run_id"],
+            "sourceImportId": row["source_import_id"], "resourceId": row["resource_id"],
+            "createdAt": row["created_at"], "updatedAt": row["updated_at"],
+            "resource": json.loads(row["resource_json"]),
+        }
 
     def assess_discovery_match(self, discovery_id: int, assessment: str) -> dict[str, Any] | None:
         allowed = {

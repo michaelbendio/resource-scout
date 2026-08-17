@@ -173,6 +173,18 @@ textarea { resize: vertical; }
 .match-assessment-options small { margin-top: .1rem; color: var(--muted); font-weight: 500; }
 .match-assessment-actions { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; margin-top: 1rem; }
 .match-assessment-actions .message { min-height: 0; }
+.generated-resource-box { margin-top: 1.5rem; padding: 1.2rem; border: 1px solid #b9d0c4; border-radius: 12px; background: #f2f8f4; }
+.generated-resource-box > summary { color: var(--forest); cursor: pointer; font-weight: 800; }
+.generated-resource-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: center; margin-top: 1rem; }
+.generated-resource-heading h3 { margin: .1rem 0 0; font: 600 1.3rem ui-serif, Georgia, serif; }
+.generated-resource-heading .known-badge { display: inline-block; }
+.generated-resource-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; margin-top: 1rem; }
+.generated-resource-form label { display: grid; gap: .35rem; color: #33443d; font-size: .78rem; font-weight: 800; }
+.generated-resource-form .span-all { grid-column: 1 / -1; }
+.generated-resource-form textarea { resize: vertical; }
+.information-hint { color: var(--muted); font-size: .76rem; font-weight: 500; line-height: 1.45; }
+.generated-resource-actions { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; }
+.generated-resource-actions .message { min-height: 0; }
 .review-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
 .review-box textarea { margin-top: .3rem; }
 .check-label { display: flex !important; grid-template-columns: none; flex-direction: row; gap: .5rem !important; align-items: flex-start; margin-top: .8rem; font-weight: 600 !important; }
@@ -222,5 +234,5 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; background:
 }
 @media (max-width: 520px) { .seed-list, .metrics { grid-template-columns: 1fr; } .section-head { display: block; } #seed-filter { width: 100%; margin-top: 1rem; } }
 @media (max-width: 640px) { .contact-grid, .attachment-list { grid-template-columns: 1fr; } }
-@media (max-width: 600px) { .settings-grid, .candidate-facts { grid-template-columns: 1fr; } .setup-callout, .form-actions { display: block; } .setup-callout button, .form-actions span { margin-top: .8rem; } }
+@media (max-width: 600px) { .settings-grid, .candidate-facts, .generated-resource-form { grid-template-columns: 1fr; } .setup-callout, .form-actions, .generated-resource-heading { display: block; } .setup-callout button, .form-actions span, .generated-resource-heading .known-badge { margin-top: .8rem; } }
 @media (max-width: 700px) { .research-context-options, .standalone-fields { grid-template-columns: 1fr; } }

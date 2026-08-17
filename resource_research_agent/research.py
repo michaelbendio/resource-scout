@@ -37,6 +37,7 @@ OUTPUT_SCHEMA = {
         "website": "Best direct URL",
         "address": "Physical or service address",
         "phone": "Contact phone",
+        "hours": "Published service, office, intake, or access hours, or blank if unknown",
         "geography": "Area served",
         "resourceType": "shelter, voucher, motel, transitional housing, etc.",
         "housingNeed": "What need this can actually solve and for whom",

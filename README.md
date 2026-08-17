@@ -2,14 +2,15 @@
 
 This is a standalone, local Housing research workspace. Its default package-backed mode learns from a Resource Assistant `resource-package.zip` without changing that package: it discovers the schema, identifies Housing, preserves complete imported records, builds a known-resource index, and exposes existing Housing records as research seeds. An explicitly selected standalone-location mode can instead produce exploratory research for a place that does not yet have a resource package.
 
-The app deliberately maintains two separate bodies of data:
+The app deliberately maintains separate bodies of data:
 
 - **Imported knowledge** is an immutable snapshot of the package: all records are indexed for duplicate detection, and Housing records become seeds.
 - **Research work** contains candidates and review state. An imported seed is never inserted as a new discovery. A candidate with a strong package match is labeled `already-known` automatically.
+- **Accepted resources** are persistent, reviewer-editable drafts associated with one package-backed research run. They are never written into the imported snapshot.
 
 Standalone-location runs have no imported knowledge. Their candidates are not compared with the latest package, their location-specific lessons remain separate from package-backed lessons and other locations, and their review copies state that the research is exploratory rather than an official or comprehensive TSO Resources inventory.
 
-The source ZIP is opened read-only. Browser uploads are written to a temporary file only long enough to read and hash them, then deleted. No extracted package directory or modified package is produced.
+The source ZIP is opened read-only. Browser uploads are written to a temporary file only long enough to read and hash them, then deleted. The app never produces a modified copy of that package. Its optional resource-package export is a new, lightweight additions package containing only accepted resources and the Housing category definition needed to merge them.
 
 Housing seeds open as readable profiles: category labels, contact details, description, safely rendered Markdown-style information, stored PDF attachments, verification metadata, and an optional raw-JSON view. Only Housing-referenced attachments are copied into the separate research database so their links continue to work after the temporary upload is deleted.
 
@@ -27,9 +28,10 @@ The workflow is:
 4. Edit the assignment and select **Start research**. Runs continue in the background, with progress displayed for each bounded stage.
 5. Use **View candidates** on a research run, or the inbox's run selector, to review that run separately. Open candidates as stages finish to inspect access, restrictions, availability, pet policy, lived-experience findings, evidence, unknowns, and follow-up branches. **All candidates** remains available for cross-run review. If a stage fails, review or export the completed work and use **Resume research** without repeating completed stages.
 6. When a package-backed candidate resembles an imported resource, use the separate relationship panel to choose **Same resource**, **Same organization, different program**, **Related but distinct**, or **Not related**. The app explains the fields that triggered the comparison; the percentage remains supporting detail rather than the decision.
-7. Independently choose **Accept**, **Research further**, **Already known**, **Wrong category**, or **Reject** for the candidate itself. Written feedback can become an active lesson included in later research runs with the same research context.
-8. Approve or retire agent-proposed lessons in the **Research lessons** panel.
-9. Choose **Export review copy** on any completed run to download a standalone, read-only HTML report. The file opens directly in a browser without this app or an agent connection and preserves the summary, assignment, research provenance, interactive candidate profiles, evidence links, candidate decisions, relationship assessments, lessons, and explained match evidence.
+7. Independently choose **Accept**, **Research further**, **Already known**, **Wrong category**, or **Reject** for the candidate itself. In a package-backed run, **Accept** immediately creates a persistent TSO Resources draft. Open **View or edit generated TSO resource** to review its Name, contact fields, Hours, Description, Information, and optional Verified month before export. Written feedback can become an active lesson included in later research runs with the same research context.
+8. Choose **Export resource package** on that run whenever one or more candidates are accepted. The cumulative ZIP always reflects the run's currently accepted resources and saved edits. Rejecting or reclassifying a candidate removes it from the next export without deleting its retained draft.
+9. Approve or retire agent-proposed lessons in the **Research lessons** panel.
+10. Choose **Export review copy** on any completed run to download a standalone, read-only HTML report. The file opens directly in a browser without this app or an agent connection and preserves the summary, assignment, research provenance, interactive candidate profiles, evidence links, candidate decisions, relationship assessments, lessons, and explained match evidence.
 
 Both external harnesses are optional while exploring the app. Choose **Built-in demo** under **Research agent connection** to exercise the complete workflow without an account or model charge.
 
@@ -38,6 +40,19 @@ Both external harnesses are optional while exploring the app. Choose **Built-in 
 Review copies are generated only when a user clicks **Export review copy** on a research run. The export always uses that associated run, regardless of which Candidate inbox is visible. Nothing is written to an export folder on the server. Each download is one self-contained HTML file with versioned JSON embedded inside it for future migration.
 
 The export contains only the selected completed or partially completed run, stage status, its candidates, human review notes, run-specific lessons, limited source-package provenance, and the known-resource fields needed to explain duplicate signals. It excludes API keys, connection settings, raw agent output, the research database, seed attachments, and full imported-resource records. The result is intentionally read-only: changes made later in the live Research Agent require a new export.
+
+## Mergeable accepted-resource packages
+
+Resource-package export is available only for research runs that started from an imported TSO Resources package. It is scoped to the run whose **Export resource package** button is clicked; accepting candidates in a different run cannot affect it. Each download contains:
+
+- the current schema and source package version;
+- the unchanged imported Housing category definition;
+- only the run's currently accepted, reviewer-edited resources; and
+- no imported baseline resources, PDFs, other attachments, credentials, or research internals.
+
+The downloaded ZIP is ready for an ordinary TSO Resources user to merge through **Merge Resources**. The Research Agent does not perform that merge. Repeated exports are cumulative snapshots, so a reviewer can stop, return later, accept or edit more candidates, and download the latest set. Stable resource IDs allow TSO Resources' normal timestamp-aware merge to recognize a later corrected export of the same accepted resource.
+
+The candidate's card summary becomes the generated resource's Description. Contact details and Hours fill their matching fields; the remaining research details become formatted Information using TSO Resources' `* ` bullets, `**bold**`, `__underline__`, and `---` divider conventions. Verified remains blank unless a reviewer enters `MM/YY`.
 
 ### DeepSeek Harness developer preview
 
@@ -84,7 +99,7 @@ cd resource-research-agent
 Or from the downloadable archive:
 
 ```sh
-unzip resource-research-agent-dsh-v4.zip
+unzip resource-research-agent-v5.zip
 cd resource-research-agent
 ./run.sh
 ```
@@ -132,4 +147,4 @@ PROVO_RESOURCE_PACKAGE=/path/to/provo-resource-package.zip \
   python3 -m unittest discover -s tests -v
 ```
 
-The live-package integration test verifies schema/category discovery and multi-category inclusion. The unit tests also prove that the source ZIP remains byte-for-byte unchanged, full records survive import, non-Housing resources participate in duplicate checks, seeds remain separate from discoveries, unsafe ZIP paths are rejected, Hermes and DSH one-shot results are normalized through the same adapter result, research feedback becomes application-owned learning state, and completed runs export without credentials or raw package records.
+The live-package integration test verifies schema/category discovery and multi-category inclusion. The unit tests also prove that the source ZIP remains byte-for-byte unchanged, full records survive import, non-Housing resources participate in duplicate checks, seeds remain separate from discoveries, unsafe ZIP paths are rejected, Hermes and DSH one-shot results are normalized through the same adapter result, research feedback becomes application-owned learning state, completed runs export without credentials or raw package records, and accepted-resource packages remain cumulative, run-scoped, editable, additions-only, and asset-free.

@@ -425,6 +425,14 @@ function candidateCountForRun(runId) {
   return state.discoveries.filter(discovery => discovery.runId === runId).length;
 }
 
+function acceptedResourceCountForRun(runId) {
+  return state.discoveries.filter(discovery => (
+    discovery.runId === runId
+    && discovery.status === 'accepted'
+    && discovery.generatedResource
+  )).length;
+}
+
 function selectCandidateRun(runId, { scroll = false } = {}) {
   state.candidateRunId = runId;
   state.candidateRunSelectionInitialized = true;
@@ -493,6 +501,17 @@ function renderRuns() {
     viewCandidates.textContent = `View candidates (${candidateCountForRun(run.id)})`;
     viewCandidates.addEventListener('click', () => selectCandidateRun(run.id, { scroll: true }));
     actions.append(viewCandidates);
+    const acceptedResourceCount = acceptedResourceCountForRun(run.id);
+    if (run.researchMode === 'package' && acceptedResourceCount) {
+      const packageLink = document.createElement('a');
+      packageLink.className = 'review-export';
+      packageLink.href = `/api/research-runs/${run.id}/resource-package`;
+      packageLink.download = '';
+      packageLink.textContent = `Export resource package (${acceptedResourceCount})`;
+      const packageDetail = document.createElement('small');
+      packageDetail.textContent = 'Accepted resources only · no imported resources or PDFs';
+      actions.append(packageLink, packageDetail);
+    }
     if (['completed', 'partial'].includes(run.status)) {
       const exportLink = document.createElement('a');
       exportLink.className = 'review-export';
@@ -614,7 +633,9 @@ function renderCandidates() {
     ? `Candidate inbox · ${researchRunTitle(selectedRun)}`
     : 'Candidate inbox · All runs';
   document.querySelector('#candidate-inbox-context').textContent = selectedRun
-    ? `Showing only candidates associated with research run ${selectedRun.id}. Use its run card to export a review copy containing this run’s results.`
+    ? selectedRun.researchMode === 'package'
+      ? `Showing only candidates associated with research run ${selectedRun.id}. Use its run card to export accepted resources or a review copy for this run.`
+      : `Showing only candidates associated with research run ${selectedRun.id}. Use its run card to export a review copy containing this run’s results.`
     : 'Showing candidates from every research run. Choose one run to review or export its results separately.';
   if (!discoveries.length) {
     target.replaceChildren(emptyState(selectedRun
@@ -718,6 +739,7 @@ function renderCandidateProfile(discovery) {
   addCandidateFact(facts, 'Access timeline', candidate.accessTimeline);
   addCandidateFact(facts, 'Phone', candidate.phone);
   addCandidateFact(facts, 'Address', candidate.address);
+  addCandidateFact(facts, 'Hours', candidate.hours);
   addCandidateFact(facts, 'Website', candidate.website || candidate.url, true);
   if (facts.children.length) profile.append(facts);
   addCandidateSection(profile, 'Housing need', candidate.housingNeed);
@@ -790,6 +812,29 @@ function renderMatchReview(discovery) {
     : '';
 }
 
+function renderGeneratedResource(discovery, { open = false } = {}) {
+  const panel = document.querySelector('#generated-resource-panel');
+  const generated = discovery.generatedResource;
+  panel.hidden = !generated;
+  if (!generated) {
+    panel.open = false;
+    return;
+  }
+  const resource = generated.resource || {};
+  document.querySelector('#generated-name').value = resource.name || '';
+  document.querySelector('#generated-phone').value = resource.phone || '';
+  document.querySelector('#generated-address').value = resource.address || '';
+  document.querySelector('#generated-website').value = resource.website || '';
+  document.querySelector('#generated-hours').value = resource.hours || '';
+  document.querySelector('#generated-verified').value = resource.verifiedOn || '';
+  document.querySelector('#generated-description').value = resource.description || '';
+  document.querySelector('#generated-information').value = resource.informationText || '';
+  document.querySelector('#generated-resource-message').textContent = discovery.status === 'accepted'
+    ? 'Included in this run’s cumulative additions package.'
+    : 'Draft retained, but excluded from the package unless this candidate is accepted.';
+  if (open) panel.open = true;
+}
+
 function openCandidate(discovery) {
   state.currentCandidate = discovery;
   document.querySelector('#candidate-dialog-name').textContent = discovery.name;
@@ -797,6 +842,7 @@ function openCandidate(discovery) {
   status.className = `candidate-status ${discovery.status}`;
   status.textContent = friendlyStatus(discovery.status);
   document.querySelector('#candidate-profile').replaceChildren(renderCandidateProfile(discovery));
+  renderGeneratedResource(discovery);
   renderMatchReview(discovery);
   document.querySelector('#review-feedback').value = discovery.reviewFeedback || '';
   document.querySelector('#review-message').textContent = '';
@@ -1053,16 +1099,59 @@ document.querySelector('#review-actions').addEventListener('click', async event 
         scope: 'category',
       }),
     });
-    message.textContent = result.lesson ? 'Review saved, and your feedback is now an active Housing lesson.' : 'Review saved.';
     state.currentCandidate = result.discovery;
     await loadResearchData();
+    if (button.dataset.status === 'accepted' && result.discovery.generatedResource) {
+      message.textContent = result.lesson
+        ? 'Accepted. A TSO Resources draft was created, and your feedback is now an active Housing lesson.'
+        : 'Accepted. A TSO Resources draft was created and added to this run’s cumulative package.';
+    } else {
+      message.textContent = result.lesson
+        ? 'Review saved, and your feedback is now an active Housing lesson.'
+        : 'Review saved.';
+    }
     const status = document.querySelector('#candidate-dialog-status');
     status.className = `candidate-status ${result.discovery.status}`;
     status.textContent = friendlyStatus(result.discovery.status);
+    renderGeneratedResource(result.discovery, { open: button.dataset.status === 'accepted' });
   } catch (error) {
     message.textContent = error.message;
   } finally {
     document.querySelectorAll('#review-actions button').forEach(item => { item.disabled = false; });
+  }
+});
+
+document.querySelector('#generated-resource-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  if (!state.currentCandidate?.generatedResource) return;
+  const button = event.currentTarget.querySelector('button[type="submit"]');
+  const message = document.querySelector('#generated-resource-message');
+  button.disabled = true;
+  message.textContent = 'Saving the generated resource…';
+  try {
+    const result = await request(`/api/discoveries/${state.currentCandidate.id}/generated-resource`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ resource: {
+        name: document.querySelector('#generated-name').value,
+        phone: document.querySelector('#generated-phone').value,
+        address: document.querySelector('#generated-address').value,
+        website: document.querySelector('#generated-website').value,
+        hours: document.querySelector('#generated-hours').value,
+        verifiedOn: document.querySelector('#generated-verified').value,
+        description: document.querySelector('#generated-description').value,
+        informationText: document.querySelector('#generated-information').value,
+      } }),
+    });
+    state.currentCandidate = result.discovery;
+    await loadResearchData();
+    renderGeneratedResource(result.discovery, { open: true });
+    document.querySelector('#generated-resource-message').textContent = result.discovery.status === 'accepted'
+      ? 'Saved. The updated resource is in this run’s cumulative additions package.'
+      : 'Saved as a draft. It will be included only if this candidate is accepted.';
+  } catch (error) {
+    message.textContent = error.message;
+  } finally {
+    button.disabled = false;
   }
 });
 
