@@ -62,7 +62,12 @@ class TailscaleServeManagerTests(unittest.TestCase):
     def test_configures_private_serve_and_returns_ipad_address(self) -> None:
         runner = FakeTailscale([
             completed([], stdout=tailscale_status()),
-            completed([], stdout="{}"),
+            completed([], stdout=json.dumps({
+                "TCP": {"443": {"HTTPS": True}},
+                "Web": {"research-mac.example.ts.net:443": {
+                    "Handlers": {"/": {"Proxy": "http://127.0.0.1:8765"}}
+                }},
+            })),
             completed([], stdout="Available within your tailnet"),
             completed([], stdout=json.dumps({"Web": {"https:443": {"Handlers": {}}}})),
         ])

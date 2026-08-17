@@ -63,6 +63,17 @@ class TailscaleServeManager:
         except (OSError, subprocess.SubprocessError) as error:
             raise TailscaleAccessError(f"Tailscale could not be reached: {error}") from error
 
+    @staticmethod
+    def _contains_public_funnel(value: Any) -> bool:
+        """The Funnel status JSON also includes tailnet-only Serve routes."""
+        if isinstance(value, dict):
+            if value.get("AllowFunnel") is True:
+                return True
+            return any(TailscaleServeManager._contains_public_funnel(item) for item in value.values())
+        if isinstance(value, list):
+            return any(TailscaleServeManager._contains_public_funnel(item) for item in value)
+        return False
+
     def _json(self, *arguments: str) -> dict[str, Any]:
         completed = self._run(*arguments)
         if completed.returncode != 0:
@@ -102,7 +113,7 @@ class TailscaleServeManager:
             )
 
         funnel_status = self._json("funnel", "status", "--json")
-        if funnel_status:
+        if self._contains_public_funnel(funnel_status):
             raise TailscaleAccessError(
                 "Public Tailscale Funnel is currently configured on this Mac. This private launcher "
                 "will not change or share a Funnel configuration. Disable Funnel first, then try again."
