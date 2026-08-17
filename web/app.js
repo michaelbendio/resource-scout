@@ -1,5 +1,12 @@
 const state = { seeds: [], runs: [], discoveries: [], lessons: [], agent: null, currentCandidate: null, pollTimer: null };
 
+const MATCH_ASSESSMENT_LABELS = {
+  'same-resource': 'Same resource',
+  'same-organization-different-program': 'Same organization, different program',
+  'related-distinct': 'Related but distinct',
+  'not-related': 'Not related',
+};
+
 function agentName(agent = state.agent) {
   if (agent?.displayName) return agent.displayName;
   const key = agent?.adapter || agent?.settings?.adapter || document.querySelector('#agent-adapter')?.value;
@@ -402,6 +409,37 @@ function candidateDescription(discovery) {
   return asText(candidate.housingNeed || candidate.description || candidate.resourceType || 'Awaiting review');
 }
 
+function matchFieldLabel(value) {
+  const field = String(value || 'field').replace(/^relationship:/, '');
+  return readableCategory(field).toLowerCase();
+}
+
+function primaryMatchExplanation(match) {
+  const signal = match?.signals?.[0];
+  if (!signal) return `The candidate resembles ${match?.name || 'an imported resource'}.`;
+  const percentage = Math.round(signal.strength * 100);
+  const candidateField = String(signal.candidateField || '');
+  if (['name', 'alias', 'name_variant', 'organization_name', 'program_name'].includes(candidateField)) {
+    return `Similar name: ${match.name}. The compared names are ${percentage}% similar.`;
+  }
+  if (candidateField === 'website') {
+    return `Similar website: ${match.name}. The website signal is ${percentage}%.`;
+  }
+  if (candidateField === 'address') {
+    return `Similar address: ${match.name}. The address signal is ${percentage}%.`;
+  }
+  return `Similar ${matchFieldLabel(candidateField)}: ${match.name}. The signal is ${percentage}%.`;
+}
+
+function candidateMatchSummary(discovery) {
+  const match = discovery.matchDetails;
+  if (!match) return '';
+  const assessment = discovery.matchAssessment;
+  if (assessment === 'not-related') return `Match reviewed: not related to ${match.name}`;
+  if (assessment) return `${MATCH_ASSESSMENT_LABELS[assessment]}: ${match.name}`;
+  return `Possible related resource: ${match.name}`;
+}
+
 function renderCandidates() {
   const target = document.querySelector('#candidate-list');
   document.querySelector('#candidate-count').textContent = state.discoveries.length;
@@ -424,10 +462,10 @@ function renderCandidates() {
     const description = document.createElement('p');
     description.textContent = candidateDescription(discovery);
     item.append(head, description);
-    if (discovery.match) {
+    if (discovery.matchDetails) {
       const match = document.createElement('p');
       match.className = 'candidate-match';
-      match.textContent = `Known-resource signal: ${Math.round(discovery.match.score * 100)}%`;
+      match.textContent = candidateMatchSummary(discovery);
       item.append(match);
     }
     const open = () => openCandidate(discovery);
@@ -543,6 +581,30 @@ function renderCandidateProfile(discovery) {
   return profile;
 }
 
+function renderMatchReview(discovery) {
+  const panel = document.querySelector('#match-review-panel');
+  const match = discovery.matchDetails;
+  panel.hidden = !match;
+  if (!match) return;
+  const assessment = discovery.matchAssessment;
+  document.querySelector('#match-review-heading').textContent = assessment
+    ? `Relationship recorded: ${MATCH_ASSESSMENT_LABELS[assessment]}`
+    : 'Possible relationship to an existing resource';
+  document.querySelector('#match-review-detail').textContent = primaryMatchExplanation(match);
+  const signals = document.querySelector('#match-review-signals');
+  signals.replaceChildren(...(match.signals || []).map(signal => {
+    const item = document.createElement('div');
+    item.textContent = `Candidate ${matchFieldLabel(signal.candidateField)} “${signal.candidateValue}” compared with imported ${matchFieldLabel(signal.knownField)} “${signal.knownValue}”.`;
+    return item;
+  }));
+  document.querySelectorAll('input[name="match-assessment"]').forEach(input => {
+    input.checked = input.value === assessment;
+  });
+  document.querySelector('#match-assessment-message').textContent = assessment
+    ? 'Relationship assessment saved.'
+    : '';
+}
+
 function openCandidate(discovery) {
   state.currentCandidate = discovery;
   document.querySelector('#candidate-dialog-name').textContent = discovery.name;
@@ -550,6 +612,7 @@ function openCandidate(discovery) {
   status.className = `candidate-status ${discovery.status}`;
   status.textContent = friendlyStatus(discovery.status);
   document.querySelector('#candidate-profile').replaceChildren(renderCandidateProfile(discovery));
+  renderMatchReview(discovery);
   document.querySelector('#review-feedback').value = discovery.reviewFeedback || '';
   document.querySelector('#review-message').textContent = '';
   document.querySelector('#candidate-json').textContent = JSON.stringify(discovery.candidate, null, 2);
@@ -768,6 +831,32 @@ document.querySelector('#review-actions').addEventListener('click', async event 
     message.textContent = error.message;
   } finally {
     document.querySelectorAll('#review-actions button').forEach(item => { item.disabled = false; });
+  }
+});
+
+document.querySelector('#save-match-assessment').addEventListener('click', async () => {
+  if (!state.currentCandidate?.matchDetails) return;
+  const selected = document.querySelector('input[name="match-assessment"]:checked');
+  const message = document.querySelector('#match-assessment-message');
+  if (!selected) {
+    message.textContent = 'Choose the relationship that best fits before saving.';
+    return;
+  }
+  const button = document.querySelector('#save-match-assessment');
+  button.disabled = true;
+  message.textContent = 'Saving the relationship assessment…';
+  try {
+    const result = await request(`/api/discoveries/${state.currentCandidate.id}/match-assessment`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ assessment: selected.value }),
+    });
+    state.currentCandidate = result.discovery;
+    await loadResearchData();
+    renderMatchReview(result.discovery);
+  } catch (error) {
+    message.textContent = error.message;
+  } finally {
+    button.disabled = false;
   }
 });
 

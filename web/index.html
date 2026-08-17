@@ -196,6 +196,27 @@
       <p class="candidate-status" id="candidate-dialog-status"></p>
     </div>
     <div id="candidate-profile"></div>
+    <section class="match-review-box" id="match-review-panel" hidden>
+      <p class="step">Known-resource relationship</p>
+      <h3>How is this candidate related?</h3>
+      <div class="match-review-summary">
+        <strong id="match-review-heading"></strong>
+        <p id="match-review-detail"></p>
+      </div>
+      <div id="match-review-signals" class="match-review-signals"></div>
+      <p class="muted">The similarity is a review clue, not proof that the two records represent the same resource.</p>
+      <fieldset class="match-assessment-options">
+        <legend>Your relationship assessment</legend>
+        <label><input type="radio" name="match-assessment" value="same-resource"> <span><strong>Same resource</strong><small>Already represented by the imported record.</small></span></label>
+        <label><input type="radio" name="match-assessment" value="same-organization-different-program"> <span><strong>Same organization, different program</strong><small>Keep reviewing the program as a potentially new resource.</small></span></label>
+        <label><input type="radio" name="match-assessment" value="related-distinct"> <span><strong>Related but distinct</strong><small>An affiliate or related organization that should remain separate.</small></span></label>
+        <label><input type="radio" name="match-assessment" value="not-related"> <span><strong>Not related</strong><small>Dismiss this similarity warning without discarding the candidate.</small></span></label>
+      </fieldset>
+      <div class="match-assessment-actions">
+        <button type="button" class="secondary" id="save-match-assessment">Save relationship assessment</button>
+        <p class="message" id="match-assessment-message" aria-live="polite"></p>
+      </div>
+    </section>
     <section class="review-box">
       <h3>Your decision</h3>
       <div class="review-actions" id="review-actions">

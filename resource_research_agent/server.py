@@ -68,7 +68,12 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 else:
                     self._binary(asset["content"], asset["mediaType"], asset["name"])
             elif parsed.path == "/api/discoveries":
-                self._json({"discoveries": self.server.store.list_discoveries()})
+                self._json({
+                    "discoveries": [
+                        self._with_match_details(discovery)
+                        for discovery in self.server.store.list_discoveries()
+                    ]
+                })
             elif parsed.path == "/api/research-runs":
                 self._json({"runs": self.server.store.list_runs()})
             elif (run_id := self._path_id(parsed.path, "/api/research-runs", "review-copy")) is not None:
@@ -142,7 +147,18 @@ class ResearchHandler(BaseHTTPRequestHandler):
                         rationale=f"Human review of {discovery['name']}", source="human-feedback",
                         discovery_id=discovery_id,
                     )
-                self._json({"discovery": discovery, "lesson": lesson})
+                self._json({"discovery": self._with_match_details(discovery), "lesson": lesson})
+            elif (discovery_id := self._path_id(
+                parsed.path, "/api/discoveries", "match-assessment"
+            )) is not None:
+                payload = self._read_json()
+                discovery = self.server.store.assess_discovery_match(
+                    discovery_id, str(payload.get("assessment", ""))
+                )
+                if not discovery:
+                    self._error(HTTPStatus.NOT_FOUND, "Candidate not found")
+                    return
+                self._json({"discovery": self._with_match_details(discovery)})
             elif parsed.path == "/api/lessons":
                 payload = self._read_json()
                 lesson = self.server.store.save_lesson(
@@ -203,6 +219,11 @@ class ResearchHandler(BaseHTTPRequestHandler):
         ending = f"/{re.escape(suffix)}" if suffix else ""
         match = re.fullmatch(re.escape(prefix) + r"/(\d+)" + ending, path)
         return int(match.group(1)) if match else None
+
+    def _with_match_details(self, discovery: dict[str, Any]) -> dict[str, Any]:
+        value = dict(discovery)
+        value["matchDetails"] = self.server.duplicate_index.explain_saved_match(discovery)
+        return value
 
     def _read_json(self) -> dict[str, Any]:
         length = self._content_length(maximum=5 * 1024 * 1024)

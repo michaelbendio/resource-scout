@@ -8,7 +8,6 @@ from pathlib import Path
 from typing import Any
 
 from .duplicates import DuplicateIndex
-from .importer import resource_name
 from .storage import ResearchStore
 
 
@@ -53,38 +52,18 @@ def _run_title(run: dict[str, Any]) -> str:
 
 
 def _known_resource_match(
-    store: ResearchStore, index: DuplicateIndex, discovery: dict[str, Any]
+    index: DuplicateIndex, discovery: dict[str, Any]
 ) -> dict[str, Any] | None:
-    stored = discovery.get("match")
-    if not stored:
+    explained = index.explain_saved_match(discovery)
+    if not explained:
         return None
-    import_id = int(stored["importId"])
-    resource_id = str(stored["resourceId"])
-    recomputed = next(
-        (
-            match
-            for match in index.match(discovery.get("candidate", {}), import_id=import_id, limit=100)
-            if match["resourceId"] == resource_id
-        ),
-        None,
-    )
-    if recomputed:
-        return {
-            "resourceId": resource_id,
-            "name": recomputed["name"],
-            "isHousingResource": recomputed["isTargetCategory"],
-            "score": recomputed["score"],
-            "classification": recomputed["classification"],
-            "signals": recomputed["signals"],
-        }
-    record = store.full_resource(import_id, resource_id)
     return {
-        "resourceId": resource_id,
-        "name": resource_name(record or {}) or resource_id,
-        "isHousingResource": None,
-        "score": stored.get("score"),
-        "classification": "historical-signal",
-        "signals": [],
+        "resourceId": explained["resourceId"],
+        "name": explained["name"],
+        "isHousingResource": explained["isTargetCategory"],
+        "score": explained["score"],
+        "classification": explained["classification"],
+        "signals": explained["signals"],
     }
 
 
@@ -113,9 +92,11 @@ def build_review_copy(
             "createdAt": discovery["createdAt"],
             "reviewedAt": discovery["reviewedAt"],
             "reviewFeedback": discovery["reviewFeedback"],
+            "matchAssessment": discovery["matchAssessment"],
+            "matchAssessedAt": discovery["matchAssessedAt"],
             "notes": discovery["notes"],
             "candidate": discovery["candidate"],
-            "knownResourceMatch": _known_resource_match(store, index, discovery),
+            "knownResourceMatch": _known_resource_match(index, discovery),
         })
 
     import_id = run.get("sourceImportId") or run.get("seedImportId")

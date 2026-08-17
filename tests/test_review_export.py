@@ -71,6 +71,7 @@ class ReviewCopyTests(unittest.TestCase):
         self.store.review_discovery(
             saved["id"], "research-further", "Confirm funding before referral. <script>alert(1)</script>"
         )
+        self.store.assess_discovery_match(saved["id"], "same-organization-different-program")
         self.store.save_lesson(
             "Verify time-varying funding.", rationale="Availability changes.",
             status="proposed", source="agent", run_id=run_id,
@@ -109,6 +110,9 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertEqual("Known Home", data["candidates"][0]["knownResourceMatch"]["name"])
         self.assertTrue(data["candidates"][0]["knownResourceMatch"]["signals"])
         self.assertEqual("research-further", data["candidates"][0]["status"])
+        self.assertEqual(
+            "same-organization-different-program", data["candidates"][0]["matchAssessment"]
+        )
         self.assertIn("Confirm funding", data["candidates"][0]["reviewFeedback"])
         self.assertEqual("Verify time-varying funding.", data["lessons"][0]["text"])
         self.assertNotIn("RAW-AGENT-OUTPUT-MUST-NOT-APPEAR", html)
@@ -126,6 +130,13 @@ class ReviewCopyTests(unittest.TestCase):
         with self.assertRaisesRegex(ReviewCopyError, "Only completed"):
             build_review_copy(self.store, run_id)
 
+    def test_match_assessment_requires_a_saved_match(self) -> None:
+        saved = self.store.save_discovery({"name": "Unmatched candidate"})
+        with self.assertRaisesRegex(ValueError, "does not have"):
+            self.store.assess_discovery_match(saved["id"], "not-related")
+        with self.assertRaisesRegex(ValueError, "Unsupported"):
+            self.store.assess_discovery_match(saved["id"], "maybe")
+
     def test_http_endpoint_downloads_the_review_copy(self) -> None:
         run_id = self.completed_run()
         web_dir = Path(__file__).resolve().parent.parent / "web"
@@ -142,6 +153,20 @@ class ReviewCopyTests(unittest.TestCase):
                 self.assertIn("attachment;", response.headers["Content-Disposition"])
                 self.assertIn("broad-housing-research-review-2026-08-17.html", response.headers["Content-Disposition"])
                 self.assertIn("Known Home Assistance Program", body)
+            discoveries_url = f"http://127.0.0.1:{port}/api/discoveries"
+            with urllib.request.urlopen(discoveries_url, timeout=5) as response:
+                discoveries = json.loads(response.read())["discoveries"]
+                self.assertEqual("Known Home", discoveries[0]["matchDetails"]["name"])
+            assessment_request = urllib.request.Request(
+                f"http://127.0.0.1:{port}/api/discoveries/{discoveries[0]['id']}/match-assessment",
+                data=json.dumps({"assessment": "related-distinct"}).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(assessment_request, timeout=5) as response:
+                assessed = json.loads(response.read())["discovery"]
+                self.assertEqual("related-distinct", assessed["matchAssessment"])
+                self.assertEqual("Known Home", assessed["matchDetails"]["name"])
         finally:
             server.shutdown()
             server.server_close()

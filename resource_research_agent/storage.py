@@ -94,6 +94,8 @@ CREATE TABLE IF NOT EXISTS discoveries (
     matched_resource_id TEXT,
     duplicate_score REAL,
     notes TEXT NOT NULL DEFAULT '',
+    match_assessment TEXT,
+    match_assessed_at TEXT,
     FOREIGN KEY (matched_import_id, matched_resource_id) REFERENCES imported_resources(import_id, resource_id)
 );
 CREATE TABLE IF NOT EXISTS agent_settings (
@@ -153,6 +155,8 @@ class ResearchStore:
             "run_id": "INTEGER",
             "reviewed_at": "TEXT",
             "review_feedback": "TEXT NOT NULL DEFAULT ''",
+            "match_assessment": "TEXT",
+            "match_assessed_at": "TEXT",
         }
         for name, definition in additions.items():
             if name not in columns:
@@ -538,6 +542,35 @@ class ResearchStore:
             row = connection.execute("SELECT * FROM discoveries WHERE id = ?", (discovery_id,)).fetchone()
         return self._discovery_dict(row) if row else None
 
+    def assess_discovery_match(self, discovery_id: int, assessment: str) -> dict[str, Any] | None:
+        allowed = {
+            "same-resource",
+            "same-organization-different-program",
+            "related-distinct",
+            "not-related",
+        }
+        if assessment not in allowed:
+            raise ValueError(f"Unsupported match assessment: {assessment}")
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT matched_resource_id FROM discoveries WHERE id = ?", (discovery_id,)
+            ).fetchone()
+            if not row:
+                return None
+            if not row["matched_resource_id"]:
+                raise ValueError("This candidate does not have a known-resource match to assess")
+            connection.execute(
+                """UPDATE discoveries
+                   SET match_assessment = ?, match_assessed_at = ?, updated_at = ?
+                   WHERE id = ?""",
+                (assessment, now, now, discovery_id),
+            )
+            updated = connection.execute(
+                "SELECT * FROM discoveries WHERE id = ?", (discovery_id,)
+            ).fetchone()
+        return self._discovery_dict(updated) if updated else None
+
     def list_discoveries(self, run_id: int | None = None) -> list[dict[str, Any]]:
         query = "SELECT * FROM discoveries"
         parameters: tuple[Any, ...] = ()
@@ -561,6 +594,8 @@ class ResearchStore:
             ),
             "notes": row["notes"], "reviewedAt": row["reviewed_at"],
             "reviewFeedback": row["review_feedback"],
+            "matchAssessment": row["match_assessment"],
+            "matchAssessedAt": row["match_assessed_at"],
         }
 
     def save_lesson(

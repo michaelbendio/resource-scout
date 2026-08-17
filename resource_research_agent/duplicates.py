@@ -4,7 +4,7 @@ from collections import defaultdict
 from difflib import SequenceMatcher
 from typing import Any
 
-from .importer import iter_index_values, normalize_index_value
+from .importer import iter_index_values, normalize_index_value, resource_name
 from .storage import ResearchStore
 
 
@@ -70,6 +70,35 @@ class DuplicateIndex:
                 }
             )
         return sorted(matches, key=lambda item: item["score"], reverse=True)[:limit]
+
+    def explain_saved_match(self, discovery: dict[str, Any]) -> dict[str, Any] | None:
+        stored = discovery.get("match")
+        if not stored:
+            return None
+        import_id = int(stored["importId"])
+        resource_id = str(stored["resourceId"])
+        recomputed = next(
+            (
+                match
+                for match in self.match(
+                    discovery.get("candidate", {}), import_id=import_id, limit=100
+                )
+                if match["resourceId"] == resource_id
+            ),
+            None,
+        )
+        if recomputed:
+            return recomputed
+        record = self.store.full_resource(import_id, resource_id)
+        return {
+            "importId": import_id,
+            "resourceId": resource_id,
+            "name": resource_name(record or {}) or resource_id,
+            "isTargetCategory": None,
+            "score": stored.get("score"),
+            "classification": "historical-signal",
+            "signals": [],
+        }
 
     @staticmethod
     def _signal(candidate_type: str, candidate: str, known_type: str, known: str) -> float:
