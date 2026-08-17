@@ -8,6 +8,7 @@ import threading
 import unittest
 import urllib.request
 from pathlib import Path
+from unittest.mock import patch
 
 from resource_research_agent.server import ResearchHTTPServer
 from resource_research_agent.storage import ResearchStore
@@ -46,6 +47,18 @@ def tailscale_status(online: bool = True) -> str:
 
 
 class TailscaleServeManagerTests(unittest.TestCase):
+    @patch("resource_research_agent.tailscale.subprocess.run")
+    def test_first_use_serve_inherits_the_terminal_without_a_timeout(self, run) -> None:
+        run.return_value = completed([])
+
+        TailscaleServeManager._run_subprocess(
+            ["/fake/tailscale", "serve", "--bg", "8765"]
+        )
+
+        run.assert_called_once_with(
+            ["/fake/tailscale", "serve", "--bg", "8765"], text=True, check=False
+        )
+
     def test_configures_private_serve_and_returns_ipad_address(self) -> None:
         runner = FakeTailscale([
             completed([], stdout=tailscale_status()),

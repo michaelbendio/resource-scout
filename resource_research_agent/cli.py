@@ -52,6 +52,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "tailscale":
         try:
             access = TailscaleServeManager().configure(args.port)
+        except KeyboardInterrupt:
+            print("\nPrivate iPad setup stopped.", file=sys.stderr)
+            return 130
         except TailscaleAccessError as error:
             print(f"Private iPad access could not start:\n{error}", file=sys.stderr)
             return 1

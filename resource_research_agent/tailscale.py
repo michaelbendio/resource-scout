@@ -51,6 +51,10 @@ class TailscaleServeManager:
 
     @staticmethod
     def _run_subprocess(command: list[str]) -> subprocess.CompletedProcess[str]:
+        if command[1:3] == ["serve", "--bg"]:
+            # First use can wait while Tailscale prints an HTTPS approval link.
+            # Inherit the terminal so the user can see and act on that link.
+            return subprocess.run(command, text=True, check=False)
         return subprocess.run(command, capture_output=True, text=True, timeout=30, check=False)
 
     def _run(self, *arguments: str) -> subprocess.CompletedProcess[str]:
