@@ -11,7 +11,6 @@ from .importer import normalize_index_value
 from .playbooks import (
     CategoryPlaybook,
     PLAYBOOKS,
-    normalize_supported_category,
     output_schema,
     playbook_for,
     stages_for,
@@ -70,15 +69,7 @@ class ResearchCoordinator:
                 raise ValueError("The selected category was not found in the current package")
             category_id = str(category["id"])
             category_label = str(category["label"])
-            playbook_key = (
-                normalize_supported_category(category_id)
-                or normalize_supported_category(category_label)
-            )
-            if not playbook_key:
-                raise ValueError(
-                    f"{category_label} is visible for planning but research is not supported yet"
-                )
-            playbook = playbook_for(playbook_key)
+            playbook = playbook_for(category_id, category_label)
             target_location = None
             regional_scope = ""
             assignment = assignment.strip() or playbook.default_assignment
@@ -138,10 +129,7 @@ class ResearchCoordinator:
         category_label: str,
         selected_seed: dict[str, Any] | None,
     ) -> list[dict[str, str]]:
-        key = normalize_supported_category(category_id) or normalize_supported_category(category_label)
-        if not key:
-            raise ValueError(f"{category_label} research is not supported yet")
-        return stages_for(key, focused=bool(selected_seed))
+        return stages_for(category_id, category_label, focused=bool(selected_seed))
 
     def resume(self, run_id: int) -> dict[str, Any]:
         run = self.store.get_run(run_id)

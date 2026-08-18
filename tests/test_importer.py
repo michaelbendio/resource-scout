@@ -125,7 +125,7 @@ class ImporterTests(unittest.TestCase):
         self.assertEqual(match["resourceId"], "cross")
         self.assertFalse(match["isTargetCategory"])
 
-    def test_package_taxonomy_and_supported_category_seeds_are_preserved(self) -> None:
+    def test_package_taxonomy_and_all_category_seeds_are_preserved(self) -> None:
         path = self.package({
             "resourcePackageSchemaVersion": 3,
             "categories": [
@@ -147,10 +147,41 @@ class ImporterTests(unittest.TestCase):
         categories = {item["id"]: item for item in summary["categories"]}
         self.assertEqual(["Meals", "Pantries"], categories["food"]["types"])
         self.assertTrue(categories["employment"]["supported"])
-        self.assertFalse(categories["legal"]["supported"])
+        self.assertTrue(categories["legal"]["supported"])
         self.assertEqual(["Families with children", "Veterans"], summary["forGroups"])
         self.assertEqual(["Community Meal"], [item["name"] for item in store.list_seeds(import_id, "food")])
         self.assertEqual(["Job Center"], [item["name"] for item in store.list_seeds(import_id, "employment")])
+        self.assertEqual(
+            ["Job Center", "Legal Aid"],
+            [item["name"] for item in store.list_seeds(import_id, "legal")],
+        )
+
+    def test_existing_imports_gain_seeds_for_every_category_on_upgrade(self) -> None:
+        path = self.package({
+            "categories": [
+                {"id": "housing", "name": "Housing"},
+                {"id": "legal", "name": "Legal"},
+            ],
+            "resources": [
+                {"id": "home", "name": "Known Home", "categories": ["housing"]},
+                {"id": "law", "name": "Legal Aid", "categories": ["legal"]},
+            ],
+        })
+        database = self.root / "upgrade.sqlite3"
+        store = ResearchStore(database)
+        import_id = store.save_import(ResourcePackageImporter().read(path))
+        with store.connect() as connection:
+            connection.execute(
+                "DELETE FROM research_seeds WHERE import_id = ? AND resource_id = 'law'",
+                (import_id,),
+            )
+
+        upgraded = ResearchStore(database)
+
+        self.assertEqual(
+            ["Legal Aid"],
+            [item["name"] for item in upgraded.list_seeds(import_id, "legal")],
+        )
 
 
 if __name__ == "__main__":

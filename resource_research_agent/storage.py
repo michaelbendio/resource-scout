@@ -16,7 +16,6 @@ from .importer import (
     resource_id,
     resource_name,
 )
-from .playbooks import PLAYBOOKS
 
 
 SCHEMA = """
@@ -188,6 +187,7 @@ class ResearchStore:
         with self.connect() as connection:
             connection.executescript(SCHEMA)
             self._migrate(connection)
+            self._backfill_research_seeds(connection)
             self._recover_interrupted_runs(connection)
 
     @staticmethod
@@ -248,6 +248,47 @@ class ResearchStore:
         import_columns = {row["name"] for row in connection.execute("PRAGMA table_info(imports)")}
         if "for_groups_json" not in import_columns:
             connection.execute("ALTER TABLE imports ADD COLUMN for_groups_json TEXT NOT NULL DEFAULT '[]'")
+
+    @staticmethod
+    def _backfill_research_seeds(connection: sqlite3.Connection) -> None:
+        """Make every imported category usable after upgrading older databases."""
+        rows = connection.execute(
+            """SELECT resource.import_id, resource.resource_id, resource.name,
+                      resource.category_ids_json, resource.raw_json
+               FROM imported_resources AS resource
+               LEFT JOIN research_seeds AS seed
+                 ON seed.import_id = resource.import_id
+                AND seed.resource_id = resource.resource_id
+               WHERE seed.resource_id IS NULL"""
+        ).fetchall()
+        for row in rows:
+            categories = json.loads(row["category_ids_json"])
+            if not categories:
+                continue
+            resource = json.loads(row["raw_json"])
+            relationship_terms = [
+                {"type": kind, "value": value}
+                for kind, value in iter_index_values(resource)
+                if kind.startswith("relationship:")
+                or kind in ("organization_name", "program_name")
+            ]
+            seed_context = {
+                "origin": "imported-existing-resource",
+                "isNewDiscovery": False,
+                "categoryIds": categories,
+                "relationships": relationship_terms,
+                "researchInstruction": "Use this known resource as a starting point for deeper research and branching discovery; never present it as newly discovered.",
+            }
+            connection.execute(
+                "INSERT INTO research_seeds VALUES (?, ?, ?, ?, ?)",
+                (
+                    int(row["import_id"]),
+                    str(row["resource_id"]),
+                    str(row["name"]),
+                    _json(resource),
+                    _json(seed_context),
+                ),
+            )
 
     @staticmethod
     def _recover_interrupted_runs(connection: sqlite3.Connection) -> None:
@@ -324,9 +365,6 @@ class ResearchStore:
                     "INSERT INTO categories VALUES (?, ?, ?, ?)",
                     (import_id, str(category["id"]), str(category["label"]), _json(category["raw"])),
                 )
-            package_category_labels = {
-                str(item["id"]): str(item["label"]) for item in package.categories
-            }
             for resource in package.resources:
                 rid = resource_id(resource)
                 name = resource_name(resource) or rid
@@ -347,12 +385,7 @@ class ResearchStore:
                         "INSERT INTO known_terms VALUES (?, ?, ?, ?, ?)",
                         (import_id, rid, term_type, value, normalized),
                     )
-                is_supported_seed = any(
-                    value in PLAYBOOKS
-                    or package_category_labels.get(category_id, "").strip().casefold() in PLAYBOOKS
-                    for category_id, value in ((category_id, category_id.strip().casefold()) for category_id in categories)
-                )
-                if is_supported_seed:
+                if categories:
                     relationship_terms = [
                         {"type": kind, "value": value}
                         for kind, value in iter_index_values(resource)
@@ -421,8 +454,6 @@ class ResearchStore:
             raw = json.loads(row["raw_json"])
             raw_object = raw if isinstance(raw, dict) else {}
             label = str(row["label"])
-            normalized_id = category_id.strip().casefold()
-            normalized_label = label.strip().casefold()
             resource_count = sum(category_id in ids for ids in membership)
             result.append({
                 "id": category_id,
@@ -433,7 +464,7 @@ class ResearchStore:
                 "multiCategoryResourceCount": sum(
                     category_id in ids and len(ids) > 1 for ids in membership
                 ),
-                "supported": normalized_id in PLAYBOOKS or normalized_label in PLAYBOOKS,
+                "supported": True,
             })
         return result
 

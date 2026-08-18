@@ -10,7 +10,6 @@ from pathlib import Path
 from typing import Any, Iterable, Iterator
 from urllib.parse import urlsplit, urlunsplit
 
-from .playbooks import PLAYBOOKS
 
 
 MAX_ARCHIVE_MEMBERS = 10_000
@@ -303,16 +302,7 @@ class ResourcePackageImporter:
                 if target_norm in {_normalized_label(category) for category in resource_category_ids(item)}
             ]
             members_by_name = {info.filename: info for info in infos if not info.is_dir()}
-            supported_category_ids = {
-                str(category["id"])
-                for category in categories
-                if _normalized_label(category["id"]) in PLAYBOOKS
-                or _normalized_label(category["label"]) in PLAYBOOKS
-            }
-            seed_resources = [
-                item for item in resources
-                if supported_category_ids.intersection(resource_category_ids(item))
-            ]
+            seed_resources = resources
             seed_asset_paths = {
                 attachment["path"]
                 for resource in seed_resources

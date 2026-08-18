@@ -174,14 +174,77 @@ FOCUSED_RESEARCH_STAGE = ({
 
 def normalize_supported_category(category_id: str) -> str | None:
     wanted = str(category_id or "").strip().casefold()
-    return wanted if wanted in PLAYBOOKS else None
+    return wanted or None
 
 
-def playbook_for(category_id: str) -> CategoryPlaybook:
+def _generic_playbook(category_id: str, category_label: str) -> CategoryPlaybook:
+    label = str(category_label or category_id).strip() or "Resource"
+    subject = label.casefold()
+    return CategoryPlaybook(
+        category_id=str(category_id).strip() or subject,
+        label=label,
+        default_assignment=(
+            f"Discover realistic {subject} resources for people in Utah County. Follow useful relationships "
+            "from coordinating organizations and broad directories to the specific programs, providers, benefits, "
+            "and practical services people can actually access. Verify eligibility, costs, schedules, service areas, "
+            "availability, and the real intake or enrollment path."
+        ),
+        scope=(
+            f"Immediate and direct {subject} services",
+            f"Ongoing, preventive, and longer-term {subject} support",
+            "Public benefits, nonprofit programs, government services, and credible private options",
+            "Population-specific access and barriers involving disability, language, age, family status, documentation, transportation, cost, or referrals",
+            "The actual intake path, eligibility, schedule, service area, availability, and important gaps",
+        ),
+        evidence_rules=COMMON_EVIDENCE_RULES,
+        stages=(
+            {
+                "key": "direct-access",
+                "title": f"Direct {label} access",
+                "instruction": (
+                    f"Investigate direct {subject} services a person can use now or soon. Verify the actual provider, "
+                    "service, location or service area, eligibility, schedule, cost, and first access step."
+                ),
+            },
+            {
+                "key": "ongoing-support",
+                "title": f"Ongoing {label} support",
+                "instruction": (
+                    f"Investigate ongoing, preventive, and longer-term {subject} help, including government benefits, "
+                    "nonprofit programs, referrals, case management, education, and other realistic pathways."
+                ),
+            },
+            {
+                "key": "specialized-access",
+                "title": "Specialized access and barriers",
+                "instruction": (
+                    f"Investigate {subject} resources for people facing population-specific or practical barriers. "
+                    "Check disability access, language, age, family status, documentation, transportation, cost, "
+                    "referral requirements, and other restrictions relevant to this category."
+                ),
+            },
+            {
+                "key": "category-gaps",
+                "title": f"{label} gap review",
+                "instruction": (
+                    "Cross-check earlier findings, avoid repeated candidates, verify time-sensitive claims, follow useful "
+                    f"provider and referral relationships, and identify geographic, population, schedule, or service gaps in {subject}."
+                ),
+            },
+        ),
+    )
+
+
+def playbook_for(category_id: str, category_label: str | None = None) -> CategoryPlaybook:
     normalized = normalize_supported_category(category_id)
     if not normalized:
-        raise ValueError("Research is currently available for Housing, Food, and Employment")
-    return PLAYBOOKS[normalized]
+        raise ValueError("A research category is required")
+    label_key = normalize_supported_category(category_label or "")
+    if normalized in PLAYBOOKS:
+        return PLAYBOOKS[normalized]
+    if label_key in PLAYBOOKS:
+        return PLAYBOOKS[label_key]
+    return _generic_playbook(category_id, category_label or category_id)
 
 
 def output_schema(category_label: str) -> dict[str, Any]:
@@ -220,6 +283,10 @@ def output_schema(category_label: str) -> dict[str, Any]:
     }
 
 
-def stages_for(category_id: str, focused: bool = False) -> list[dict[str, str]]:
-    source = FOCUSED_RESEARCH_STAGE if focused else playbook_for(category_id).stages
+def stages_for(
+    category_id: str,
+    category_label: str | None = None,
+    focused: bool = False,
+) -> list[dict[str, str]]:
+    source = FOCUSED_RESEARCH_STAGE if focused else playbook_for(category_id, category_label).stages
     return [deepcopy(stage) for stage in source]

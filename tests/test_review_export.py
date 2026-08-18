@@ -104,7 +104,8 @@ class ReviewCopyTests(unittest.TestCase):
         html = review.html.decode("utf-8")
         data = self.embedded_data(html)
 
-        self.assertEqual("broad-housing-research-review-2026-08-17.html", review.filename)
+        completed_date = data["run"]["completedAt"][:10]
+        self.assertEqual(f"broad-housing-research-review-{completed_date}.html", review.filename)
         self.assertEqual(4, data["reviewCopySchemaVersion"])
         self.assertEqual("A concise completed summary with </script> text.", data["run"]["summary"])
         self.assertEqual(1, data["run"]["candidateCount"])
@@ -158,7 +159,8 @@ class ReviewCopyTests(unittest.TestCase):
         )
         self.assertEqual("Broad Food research", review.data["title"])
         self.assertEqual("Food", review.data["run"]["targetCategoryLabel"])
-        self.assertEqual("broad-food-research-review-2026-08-17.html", review.filename)
+        completed_date = review.data["run"]["completedAt"][:10]
+        self.assertEqual(f"broad-food-research-review-{completed_date}.html", review.filename)
 
     def test_review_copy_is_scoped_to_its_associated_run(self) -> None:
         first_run_id = self.completed_run()
@@ -321,7 +323,11 @@ class ReviewCopyTests(unittest.TestCase):
                 body = response.read().decode("utf-8")
                 self.assertEqual("text/html; charset=utf-8", response.headers.get_content_type() + "; charset=" + response.headers.get_content_charset())
                 self.assertIn("attachment;", response.headers["Content-Disposition"])
-                self.assertIn("broad-housing-research-review-2026-08-17.html", response.headers["Content-Disposition"])
+                completed_date = self.store.get_run(run_id)["completedAt"][:10]
+                self.assertIn(
+                    f"broad-housing-research-review-{completed_date}.html",
+                    response.headers["Content-Disposition"],
+                )
                 self.assertIn("Known Home Assistance Program", body)
             discoveries_url = f"http://127.0.0.1:{port}/api/discoveries"
             with urllib.request.urlopen(discoveries_url, timeout=5) as response:

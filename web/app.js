@@ -80,7 +80,8 @@ function categoryKey(category = activeCategory()) {
 }
 
 function packageDefaultAssignment() {
-  return CATEGORY_DEFAULT_ASSIGNMENTS[categoryKey()] || PACKAGE_DEFAULT_ASSIGNMENT;
+  const category = activeCategory();
+  return CATEGORY_DEFAULT_ASSIGNMENTS[categoryKey()] || `Discover realistic ${category.label.toLowerCase()} resources for people in Utah County. Follow useful relationships from coordinating organizations and broad directories to the specific programs, providers, benefits, and practical services people can actually access. Verify eligibility, costs, schedules, service areas, availability, and the real intake or enrollment path.`;
 }
 
 function updateCategoryCopy() {
@@ -114,7 +115,7 @@ function renderCategoryChooser() {
     const detail = document.createElement('small');
     detail.textContent = category.supported
       ? `${category.resourceCount} existing · ${category.types?.length || 0} Type${category.types?.length === 1 ? '' : 's'}`
-      : 'Not yet supported';
+      : 'Unavailable';
     copy.append(title, detail); label.append(input, copy);
     if (category.supported) input.addEventListener('change', () => {
       selectCategory(category.id).catch(error => {

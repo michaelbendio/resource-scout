@@ -437,9 +437,7 @@ class DemoAgentAdapter(ResearchAgentAdapter):
         location = str(prompt_data.get("researchContext", {}).get("targetLocation") or "Utah County, Utah")
         category = prompt_data.get("categoryBrief", {}).get("category", {})
         category_label = str(category.get("label") or "Housing")
-        category_id = str(category.get("id") or "housing").casefold()
-        if category_id not in {"housing", "food", "employment"}:
-            category_id = category_label.casefold()
+        category_id = str(category.get("id") or category_label).casefold()
         stage_title = str(prompt_data.get("researchStage", {}).get("title") or f"{category_label} research")
         demo_details = {
             "food": ("Demonstration Community Pantry", "https://example.org/food", "food pantry", "Provides sample emergency groceries while the review workflow is being tested"),
@@ -447,7 +445,12 @@ class DemoAgentAdapter(ResearchAgentAdapter):
         }
         name, website, resource_type, service_need = demo_details.get(
             category_id,
-            ("Demonstration Housing Program", "https://example.org/housing", "transitional housing", "Short-term housing while a permanent placement is arranged"),
+            (
+                f"Demonstration {category_label} Program",
+                f"https://example.org/{re.sub(r'[^a-z0-9]+', '-', category_id).strip('-') or 'resource'}",
+                f"{category_label.casefold()} services",
+                f"Provides sample {category_label.casefold()} help while the review workflow is being tested",
+            ),
         )
         result = {
             "summary": f"Demo stage “{stage_title}” completed without contacting an external agent.",
@@ -463,7 +466,7 @@ class DemoAgentAdapter(ResearchAgentAdapter):
                 "eligibility": ["Eligibility not yet verified"],
                 "barriers": ["Availability unknown"],
                 "availability": {"status": "unknown", "asOf": "", "evidence": ""},
-                "petPolicy": "Unknown",
+                **({"petPolicy": "Unknown"} if category_id == "housing" else {}),
                 "evidence": [],
                 "unknowns": ["Confirm that the program exists before accepting this demo record"],
                 "followUpBranches": [],

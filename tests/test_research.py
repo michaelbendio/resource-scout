@@ -172,8 +172,18 @@ class ResearchWorkflowTests(unittest.TestCase):
         self.assertEqual(["Families with children", "Veterans"], current["prompt"]["categoryBrief"]["availableForGroups"])
         self.assertEqual("immediate-food", current["stages"][0]["key"])
         self.assertIn("food insecurity", current["assignment"])
-        with self.assertRaisesRegex(ValueError, "not supported yet"):
-            coordinator.start("Research legal help", target_category_id="legal")
+        legal_run = coordinator.start("", target_category_id="legal")
+        legal = self.store.get_run(legal_run["id"])
+        self.assertEqual("legal", legal["targetCategoryId"])
+        self.assertEqual("Legal", legal["targetCategoryLabel"])
+        self.assertEqual("direct-access", legal["stages"][0]["key"])
+        self.assertIn("legal resources", legal["assignment"])
+        for _ in range(200):
+            legal = self.store.get_run(legal_run["id"])
+            if legal and legal["status"] in {"completed", "failed"}:
+                break
+            time.sleep(0.01)
+        self.assertEqual("completed", legal["status"])
 
     def test_staged_run_keeps_partial_candidates_and_resumes_without_repeating_work(self) -> None:
         class FlakyStagedAdapter(ResearchAgentAdapter):

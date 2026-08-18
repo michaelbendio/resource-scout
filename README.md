@@ -1,10 +1,10 @@
 # Resource Research Agent — category research foundation
 
-This is a standalone, local resource research workspace. Its default package-backed mode learns from a Resource Assistant `resource-package.zip` without changing that package: it discovers the schema and taxonomy, preserves complete imported records, builds a known-resource index, and exposes existing records in the selected category as research seeds. Housing, Food, and Employment have research playbooks now; every other package category is shown but disabled until its playbook is designed. The explicitly selected standalone-location mode remains Housing-only exploratory research for a place that does not yet have a resource package.
+This is a standalone, local resource research workspace. Its default package-backed mode learns from a Resource Assistant `resource-package.zip` without changing that package: it discovers the schema and taxonomy, preserves complete imported records, builds a known-resource index, and exposes existing records in any selected category as research seeds. Housing, Food, and Employment use specialized research playbooks; every other discovered package category uses a category-aware four-stage workflow covering direct access, ongoing support, specialized barriers, and gap review. The explicitly selected standalone-location mode remains Housing-only exploratory research for a place that does not yet have a resource package.
 
 The app deliberately maintains separate bodies of data:
 
-- **Imported knowledge** is an immutable snapshot of the package: all records are indexed for duplicate detection, and Housing, Food, or Employment records become seeds when that category is selected.
+- **Imported knowledge** is an immutable snapshot of the package: all records are indexed for duplicate detection and become seeds when their category is selected.
 - **Research work** contains candidates and review state. An imported seed is never inserted as a new discovery. A candidate with a strong package match is labeled `already-known` automatically.
 - **Accepted resources** are persistent, reviewer-editable drafts associated with one package-backed research run. They are never written into the imported snapshot.
 
@@ -23,7 +23,7 @@ Broad assignments run as four persisted, category-specific stages. Candidates ar
 The workflow is:
 
 1. Import a Resource Assistant package. Package-backed research remains selected by default.
-2. Choose Housing, Food, or Employment, then research the category broadly or branch from one of its existing seeds. The package's Types and global For groups are included in the research brief.
+2. Choose any category discovered in the package, then research it broadly or branch from one of its existing seeds. The package's Types and global For groups are included in the research brief.
 3. If no package exists, explicitly select **Research a location without a package**, enter the location and optionally identify nearby areas whose services may realistically serve it.
 4. Edit the assignment and select **Start research**. Runs continue in the background, with progress displayed for each bounded stage.
 5. Use **View candidates** on a research run, or the inbox's run selector, to review that run separately. Open candidates as stages finish to inspect access, restrictions, availability, pet policy, lived-experience findings, evidence, unknowns, and follow-up branches. **All candidates** remains available for cross-run review. If a stage fails, review or export the completed work and use **Resume research** without repeating completed stages.
@@ -155,7 +155,7 @@ For each import it records:
 - all category definitions;
 - all complete resource records, including unknown extension fields;
 - each category's concise Types, the package's global For definitions, and category resource counts;
-- which resources belong to each supported category, including multi-category records.
+- which resources belong to each discovered category, including multi-category records.
 
 The identity index uses available names, aliases, websites/domains, addresses, organization/provider/program fields, and conservative name variants. The match result explains its signals; it does not silently merge records.
 
@@ -167,4 +167,4 @@ PROVO_RESOURCE_PACKAGE=/path/to/provo-resource-package.zip \
   python3 -m unittest discover -s tests -v
 ```
 
-The live-package integration test verifies schema/category discovery and multi-category inclusion. The unit tests also prove that the source ZIP remains byte-for-byte unchanged, full records survive import, category Types and For definitions survive import and export, Food and Employment seeds remain separate from discoveries, unsupported categories cannot start runs, non-selected resources still participate in duplicate checks, unsafe ZIP paths are rejected, Hermes and DSH one-shot results are normalized through the same adapter result, and accepted-resource packages remain cumulative, run-scoped, editable, multi-category, additions-only, and asset-free.
+The live-package integration test verifies schema/category discovery and multi-category inclusion. The unit tests also prove that the source ZIP remains byte-for-byte unchanged, full records survive import, every discovered category can supply seeds and start research, category Types and For definitions survive import and export, imported seeds remain separate from discoveries, non-selected resources still participate in duplicate checks, unsafe ZIP paths are rejected, Hermes and DSH one-shot results are normalized through the same adapter result, and accepted-resource packages remain cumulative, run-scoped, editable, multi-category, additions-only, and asset-free.
