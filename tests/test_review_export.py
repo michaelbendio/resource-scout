@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import json
+import base64
+import io
 import re
+import subprocess
 import tempfile
 import threading
 import time
@@ -27,7 +30,8 @@ class ReviewCopyTests(unittest.TestCase):
         package = {
             "resourcePackageSchemaVersion": 3,
             "packageVersion": 43,
-            "categories": [{"id": "housing", "name": "Housing"}],
+            "categories": [{"id": "housing", "name": "Housing", "filters": ["Shelter"]}],
+            "forGroups": ["Veterans"],
             "resources": [{
                 "id": "known-home",
                 "name": "Known Home",
@@ -58,6 +62,8 @@ class ReviewCopyTests(unittest.TestCase):
             "organization": "Known Home",
             "website": "https://known.example.org/assistance",
             "housingNeed": "Short-term rent assistance",
+            "recommendedTypes": ["Shelter"],
+            "recommendedFor": ["Veterans"],
             "evidence": [{
                 "url": "https://known.example.org/assistance",
                 "title": "Official program page",
@@ -105,8 +111,10 @@ class ReviewCopyTests(unittest.TestCase):
         data = self.embedded_data(html)
 
         completed_date = data["run"]["completedAt"][:10]
-        self.assertEqual(f"broad-housing-research-review-{completed_date}.html", review.filename)
-        self.assertEqual(4, data["reviewCopySchemaVersion"])
+        self.assertEqual(f"housing-research-review-{completed_date}.html", review.filename)
+        self.assertEqual(5, data["reviewCopySchemaVersion"])
+        self.assertEqual(1, data["reviewFeedbackSchemaVersion"])
+        self.assertTrue(data["reviewId"])
         self.assertEqual("A concise completed summary with </script> text.", data["run"]["summary"])
         self.assertEqual(1, data["run"]["candidateCount"])
         self.assertEqual("Known Home", data["candidates"][0]["knownResourceMatch"]["name"])
@@ -116,6 +124,16 @@ class ReviewCopyTests(unittest.TestCase):
             "same-organization-different-program", data["candidates"][0]["matchAssessment"]
         )
         self.assertIn("Confirm funding", data["candidates"][0]["reviewFeedback"])
+        self.assertTrue(data["candidates"][0]["resourceDraft"]["id"])
+        self.assertEqual(["housing"], data["candidates"][0]["resourceDraft"]["categories"])
+        self.assertEqual(
+            {"housing": ["Shelter"]},
+            data["candidates"][0]["resourceDraft"]["categoryFilters"],
+        )
+        self.assertEqual(["Veterans"], data["candidates"][0]["resourceDraft"]["forGroups"])
+        self.assertEqual(["Veterans"], data["sourcePackage"]["forGroups"])
+        self.assertTrue(data["sourcePackage"]["packageEligible"])
+        self.assertEqual(3, data["sourcePackage"]["resourcePackageSchemaVersion"])
         self.assertEqual("Verify time-varying funding.", data["lessons"][0]["text"])
         self.assertNotIn("RAW-AGENT-OUTPUT-MUST-NOT-APPEAR", html)
         self.assertNotIn("private-provider-detail", html)
@@ -124,6 +142,9 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertIn("\\u003cscript", html)
         self.assertIn("Content-Security-Policy", html)
         self.assertNotIn("__REVIEW_COPY_DATA__", html)
+        self.assertNotIn("__REVIEW_COPY_SCRIPT__", html)
+        self.assertIn("Download review feedback", html)
+        self.assertIn("Download resource package", html)
 
     def test_run_history_is_compact_but_individual_run_keeps_full_details(self) -> None:
         run_id = self.completed_run()
@@ -157,10 +178,10 @@ class ReviewCopyTests(unittest.TestCase):
             self.store, run_id,
             exported_at=datetime(2026, 8, 17, 15, 30, tzinfo=timezone.utc),
         )
-        self.assertEqual("Broad Food research", review.data["title"])
+        self.assertEqual("Food research", review.data["title"])
         self.assertEqual("Food", review.data["run"]["targetCategoryLabel"])
         completed_date = review.data["run"]["completedAt"][:10]
-        self.assertEqual(f"broad-food-research-review-{completed_date}.html", review.filename)
+        self.assertEqual(f"food-research-review-{completed_date}.html", review.filename)
 
     def test_review_copy_is_scoped_to_its_associated_run(self) -> None:
         first_run_id = self.completed_run()
@@ -243,6 +264,7 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertEqual("Mesa, Arizona", data["run"]["targetLocation"])
         self.assertEqual("Maricopa County", data["run"]["regionalScope"])
         self.assertIsNone(data["sourcePackage"])
+        self.assertIsNone(data["candidates"][0]["resourceDraft"])
         self.assertIn("not an official or comprehensive", data["notice"])
         self.assertIsNone(data["candidates"][0]["knownResourceMatch"])
         self.assertEqual("Mesa, Arizona", data["lessons"][0]["targetLocation"])
@@ -325,7 +347,7 @@ class ReviewCopyTests(unittest.TestCase):
                 self.assertIn("attachment;", response.headers["Content-Disposition"])
                 completed_date = self.store.get_run(run_id)["completedAt"][:10]
                 self.assertIn(
-                    f"broad-housing-research-review-{completed_date}.html",
+                    f"housing-research-review-{completed_date}.html",
                     response.headers["Content-Disposition"],
                 )
                 self.assertIn("Known Home Assistance Program", body)
@@ -347,6 +369,60 @@ class ReviewCopyTests(unittest.TestCase):
             server.shutdown()
             server.server_close()
             thread.join(timeout=5)
+
+    def test_review_resource_ids_are_stable_across_exports(self) -> None:
+        run_id = self.completed_run()
+        first = build_review_copy(
+            self.store, run_id,
+            exported_at=datetime(2026, 8, 17, 15, 30, tzinfo=timezone.utc),
+        ).data
+        second = build_review_copy(
+            self.store, run_id,
+            exported_at=datetime(2026, 8, 18, 15, 30, tzinfo=timezone.utc),
+        ).data
+        self.assertEqual(first["reviewId"], second["reviewId"])
+        self.assertEqual(
+            first["candidates"][0]["resourceDraft"]["id"],
+            second["candidates"][0]["resourceDraft"]["id"],
+        )
+
+    def test_review_javascript_builds_openable_additions_only_package(self) -> None:
+        review = build_review_copy(self.store, self.completed_run()).data
+        script = r"""
+const fs = require('fs');
+(0, eval)(fs.readFileSync('web/review-copy.js', 'utf8'));
+const review = JSON.parse(fs.readFileSync(0, 'utf8'));
+const state = ReviewAppCore.initialState(review);
+const item = review.candidates[0];
+state.candidates[item.id].decision = 'accepted';
+const built = ReviewAppCore.buildResourcePackage(review, state, '2026-08-18T12:00:00+00:00');
+const zip = built.errors.length ? null : ReviewAppCore.createZipBytes('tso-resources.json', JSON.stringify(built.data, null, 2));
+state.candidates[item.id].matchAssessment = 'same-resource';
+const duplicateErrors = ReviewAppCore.buildResourcePackage(review, state).errors;
+state.candidates[item.id].matchAssessment = 'same-organization-different-program';
+state.candidates[item.id].resourceDraft.verifiedOn = '13/26';
+const verifiedErrors = ReviewAppCore.buildResourcePackage(review, state).errors;
+process.stdout.write(JSON.stringify({ errors: built.errors, emptyErrors: ReviewAppCore.buildResourcePackage(review, ReviewAppCore.initialState(review)).errors, duplicateErrors, verifiedErrors, zip: zip && Buffer.from(zip).toString('base64') }));
+"""
+        completed = subprocess.run(
+            ["node", "-e", script], input=json.dumps(review), text=True,
+            capture_output=True, check=True,
+        )
+        result = json.loads(completed.stdout)
+        self.assertEqual([], result["errors"])
+        self.assertTrue(any("Accept at least one" in error for error in result["emptyErrors"]))
+        self.assertTrue(any("same resource" in error for error in result["duplicateErrors"]))
+        self.assertTrue(any("MM/YY" in error for error in result["verifiedErrors"]))
+        with zipfile.ZipFile(io.BytesIO(base64.b64decode(result["zip"]))) as archive:
+            self.assertEqual(["tso-resources.json"], archive.namelist())
+            package = json.loads(archive.read("tso-resources.json"))
+        self.assertEqual(3, package["resourcePackageSchemaVersion"])
+        self.assertEqual(43, package["packageVersion"])
+        self.assertEqual(1, len(package["resources"]))
+        self.assertEqual("Known Home Assistance Program", package["resources"][0]["name"])
+        self.assertEqual(["housing"], package["resources"][0]["categories"])
+        self.assertEqual(["Veterans"], package["forGroups"])
+        self.assertEqual({"housing": ["Shelter"]}, package["resources"][0]["categoryFilters"])
 
     def test_http_starts_explicit_standalone_location_without_using_latest_import(self) -> None:
         self.store.save_settings({"adapter": "demo"})

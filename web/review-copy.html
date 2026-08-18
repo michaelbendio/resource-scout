@@ -4,579 +4,102 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'">
-  <title>Housing research review</title>
+  <title>Research review</title>
   <style>
-    :root {
-      color-scheme: light;
-      --ink: #17221f;
-      --muted: #61706a;
-      --paper: #f3f1e9;
-      --panel: #fffefa;
-      --line: #d7d9d0;
-      --forest: #174b3b;
-      --mint: #d8ebe1;
-      --amber: #9a641e;
-      --amber-bg: #fff4de;
-      --red: #873d35;
-      --shadow: 0 18px 55px rgba(22, 45, 37, .08);
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.52 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    header { padding: 3.3rem max(5vw, 1.4rem) 3.8rem; color: #f7fbf8; background: var(--forest); }
-    header > div { width: min(1120px, 100%); margin: auto; }
-    h1, h2, h3 { margin: 0; font-family: ui-serif, Georgia, serif; font-weight: 600; line-height: 1.12; }
-    h1 { max-width: 850px; font-size: clamp(2.3rem, 6vw, 4.6rem); }
-    h2 { font-size: clamp(1.55rem, 3vw, 2rem); }
-    h3 { font-size: 1.18rem; }
-    p { margin: .7rem 0 0; }
-    a { color: #11634b; font-weight: 730; overflow-wrap: anywhere; }
-    button, input, select { font: inherit; }
-    button { border: 0; border-radius: 9px; padding: .78rem 1rem; color: white; background: var(--forest); font-weight: 750; cursor: pointer; }
-    button:hover { background: #0e382b; }
-    .eyebrow, .section-label { margin: 0 0 .55rem; text-transform: uppercase; letter-spacing: .14em; font-size: .73rem; font-weight: 800; }
-    .eyebrow { color: #a8d9c3; }
-    .section-label { color: var(--forest); }
-    .lede { max-width: 760px; color: #c9dbd3; font-size: 1.05rem; }
-    .read-only { display: inline-block; margin-top: 1.4rem; padding: .48rem .75rem; border-radius: 999px; color: #173e31; background: #a8ddc6; font-size: .8rem; font-weight: 800; }
-    main { width: min(1120px, 92vw); margin: -1.8rem auto 5rem; }
-    .panel { margin-bottom: 1rem; padding: clamp(1.35rem, 3vw, 2.2rem); border: 1px solid var(--line); border-radius: 18px; background: var(--panel); box-shadow: var(--shadow); }
-    .notice { border-color: #d8bd8e; background: #fff9ec; }
-    .notice strong { color: #704b19; }
-    .metadata { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: .75rem; margin-top: 1.3rem; }
-    .metric { padding: .9rem 1rem; border-radius: 12px; background: #edf3ef; }
-    .metric span { display: block; color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
-    .metric strong { display: block; margin-top: .18rem; overflow-wrap: anywhere; }
-    .summary { max-width: 85ch; color: #34433e; font-size: 1.05rem; white-space: pre-line; }
-    .stage-list { display: grid; gap: .6rem; margin: 1rem 0 0; padding: 0; list-style: none; }
-    .stage-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .7rem; padding: .8rem .9rem; border: 1px solid var(--line); border-radius: 10px; background: white; }
-    .stage-list small { color: var(--muted); }
-    .stage-list .stage-error { grid-column: 1 / -1; color: var(--red); }
-    details { margin-top: 1rem; }
-    summary { color: var(--forest); font-weight: 780; cursor: pointer; }
-    .assignment { max-width: 86ch; padding: .9rem 1rem; border-left: 3px solid #92b4a4; background: #f2f6f3; white-space: pre-line; }
-    .toolbar { display: grid; grid-template-columns: minmax(0, 1fr) minmax(190px, .35fr); gap: .7rem; margin-top: 1.2rem; }
-    .toolbar input, .toolbar select { width: 100%; border: 1px solid #bdc6c1; border-radius: 9px; padding: .72rem .8rem; color: var(--ink); background: white; }
-    .candidate-count { margin-top: .65rem; color: var(--muted); font-size: .85rem; }
-    .candidate-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin-top: 1rem; }
-    .candidate { display: grid; align-content: start; gap: .5rem; width: 100%; min-height: 180px; padding: 1rem; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); background: white; text-align: left; font-weight: 400; }
-    .candidate:hover { border-color: #739384; background: #f6faf7; }
-    .candidate-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .7rem; align-items: start; }
-    .candidate-head strong { line-height: 1.3; }
-    .candidate-description { margin: 0; color: #4d5e57; font-size: .88rem; }
-    .status { display: inline-flex; align-self: start; justify-self: end; align-items: center; justify-content: center; width: auto; height: auto; min-width: 0; min-height: 0; max-height: 2rem; padding: .25rem .55rem; border-radius: 999px; color: #4a5b55; background: #e8ece9; font-size: .7rem; font-weight: 800; line-height: 1.1; white-space: nowrap; text-transform: capitalize; }
-    .status.accepted, .status.active { color: #205f48; background: #dff0e7; }
-    .status.completed { color: #205f48; background: #dff0e7; }
-    .status.partial, .status.running, .status.queued { color: #795118; background: #fff0d4; }
-    .status.rejected, .status.wrong-category { color: var(--red); background: #f6e3e0; }
-    .status.failed { color: var(--red); background: #f6e3e0; }
-    .status.already-known { color: #5e4b1a; background: #f5eacb; }
-    .signal-summary { margin: .15rem 0 0; padding-top: .45rem; color: var(--amber); font-size: .8rem; font-weight: 750; }
-    .empty { padding: 1rem; border: 1px dashed #c6ccc8; border-radius: 10px; color: var(--muted); text-align: center; }
-    .lesson-list { display: grid; gap: .65rem; margin-top: 1rem; }
-    .lesson { padding: .9rem 1rem; border: 1px solid var(--line); border-radius: 10px; background: white; }
-    .lesson-head { display: flex; justify-content: space-between; gap: .7rem; }
-    .lesson small { color: var(--muted); }
-    dialog { width: min(960px, 94vw); max-height: 92vh; overflow: auto; border: 1px solid var(--line); border-radius: 18px; padding: clamp(1.35rem, 4vw, 2.6rem); color: var(--ink); background: var(--panel); box-shadow: 0 30px 90px rgba(0,0,0,.25); }
-    dialog::backdrop { background: rgba(10, 27, 21, .68); }
-    .close { position: sticky; z-index: 2; top: 0; float: right; width: 2.2rem; height: 2.2rem; padding: 0; margin: -.5rem -.5rem 0 1rem; border-radius: 50%; font-size: 1.45rem; }
-    .dialog-heading { padding-right: 2.5rem; }
-    .dialog-heading h2 { max-width: 730px; font-size: clamp(2rem, 5vw, 3rem); }
-    .candidate-profile { display: grid; gap: 1rem; margin-top: 1.4rem; }
-    .candidate-summary { padding: 1rem; border-radius: 10px; background: #edf4f0; white-space: pre-line; }
-    .candidate-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
-    .candidate-fact { padding: .85rem .95rem; border: 1px solid var(--line); border-radius: 9px; background: white; overflow-wrap: anywhere; white-space: pre-line; }
-    .candidate-fact strong { display: block; margin-bottom: .2rem; color: var(--muted); font-size: .72rem; letter-spacing: .07em; text-transform: uppercase; }
-    .candidate-section { padding-top: 1rem; border-top: 1px solid var(--line); }
-    .candidate-section h3 { margin-bottom: .6rem; }
-    .candidate-section p { margin-top: 0; white-space: pre-line; }
-    .candidate-section ul { margin: .4rem 0; padding-left: 1.3rem; }
-    .candidate-section li + li { margin-top: .3rem; }
-    .evidence-card { padding: .8rem .9rem; border-left: 3px solid #7ea38f; background: #f4f7f5; }
-    .evidence-card + .evidence-card { margin-top: .55rem; }
-    .evidence-card small { display: block; margin-top: .25rem; color: var(--muted); }
-    .match-card { padding: 1rem; border: 1px solid #e3c28d; border-radius: 11px; background: var(--amber-bg); }
-    .match-card h3 { color: #704b19; }
-    .match-card > p { margin-top: .35rem; }
-    .match-card ul { margin-bottom: 0; }
-    .review-note { padding: 1rem; border-radius: 10px; background: #f0f3ef; }
-    .review-note strong { display: block; }
-    footer { margin-top: 2rem; color: var(--muted); font-size: .8rem; text-align: center; }
-    @media (max-width: 760px) {
-      .metadata, .candidate-list, .candidate-facts { grid-template-columns: 1fr 1fr; }
-      .toolbar { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 520px) {
-      .metadata, .candidate-list, .candidate-facts { grid-template-columns: 1fr; }
-    }
-    @media print {
-      body { background: white; }
-      header { padding: 1.4rem 0; color: var(--ink); background: white; border-bottom: 2px solid var(--forest); }
-      header .eyebrow, header .lede { color: var(--muted); }
-      main { width: 100%; margin: 1rem 0; }
-      .panel { box-shadow: none; break-inside: avoid; }
-      .toolbar, .close { display: none; }
-      .candidate-list { grid-template-columns: 1fr; }
-      .candidate { min-height: 0; break-inside: avoid; }
-    }
+    :root { color-scheme:light; --ink:#17221f; --muted:#61706a; --paper:#f3f1e9; --panel:#fffefa; --line:#d7d9d0; --forest:#174b3b; --amber-bg:#fff4de; --red:#873d35; --shadow:0 18px 55px rgba(22,45,37,.08); }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.52 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    header { padding:3.3rem max(5vw,1.4rem) 3.8rem; color:#f7fbf8; background:var(--forest); }
+    header>div { width:min(1120px,100%); margin:auto; }
+    h1,h2,h3 { margin:0; font-family:ui-serif,Georgia,serif; font-weight:600; line-height:1.12; }
+    h1 { max-width:850px; font-size:clamp(2.3rem,6vw,4.6rem); } h2 { font-size:clamp(1.55rem,3vw,2rem); } h3 { font-size:1.18rem; }
+    p { margin:.7rem 0 0; } a { color:#11634b; font-weight:730; overflow-wrap:anywhere; }
+    button,input,select,textarea { font:inherit; }
+    input,select,textarea { width:100%; border:1px solid #bdc6c1; border-radius:9px; padding:.72rem .8rem; color:var(--ink); background:white; }
+    textarea { resize:vertical; }
+    button { border:0; border-radius:9px; padding:.78rem 1rem; color:white; background:var(--forest); font-weight:750; cursor:pointer; }
+    button:hover { background:#0e382b; } button:disabled { cursor:not-allowed; opacity:.48; }
+    .eyebrow,.section-label { margin:0 0 .55rem; text-transform:uppercase; letter-spacing:.14em; font-size:.73rem; font-weight:800; }
+    .eyebrow { color:#a8d9c3; } .section-label { color:var(--forest); } .lede { max-width:790px; color:#c9dbd3; font-size:1.05rem; }
+    .editable-badge { display:inline-block; margin-top:1.4rem; padding:.48rem .75rem; border-radius:999px; color:#173e31; background:#a8ddc6; font-size:.8rem; font-weight:800; }
+    main { width:min(1120px,92vw); margin:-1.8rem auto 5rem; }
+    .panel { margin-bottom:1rem; padding:clamp(1.35rem,3vw,2.2rem); border:1px solid var(--line); border-radius:18px; background:var(--panel); box-shadow:var(--shadow); }
+    .notice { border-color:#d8bd8e; background:#fff9ec; } .notice strong { color:#704b19; }
+    .metadata { display:grid; grid-template-columns:repeat(auto-fit,minmax(175px,1fr)); gap:.75rem; margin-top:1.3rem; }
+    .metric { padding:.9rem 1rem; border-radius:12px; background:#edf3ef; } .metric span { display:block; color:var(--muted); font-size:.72rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; }
+    .metric strong { display:block; margin-top:.18rem; overflow-wrap:anywhere; }
+    .summary { max-width:85ch; color:#34433e; font-size:1.05rem; white-space:pre-line; }
+    .stage-list { display:grid; gap:.6rem; margin:1rem 0 0; padding:0; list-style:none; }
+    .stage-list li { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.7rem; padding:.8rem .9rem; border:1px solid var(--line); border-radius:10px; background:white; }
+    .stage-list .stage-error { grid-column:1/-1; color:var(--red); }
+    details { margin-top:1rem; } summary { color:var(--forest); font-weight:780; cursor:pointer; }
+    .assignment { max-width:86ch; padding:.9rem 1rem; border-left:3px solid #92b4a4; background:#f2f6f3; white-space:pre-line; }
+    .review-controls { display:grid; grid-template-columns:minmax(220px,.55fr) minmax(0,1fr); gap:1rem 1.4rem; align-items:end; margin-top:1.2rem; }
+    .reviewer-field { display:grid; gap:.35rem; font-weight:750; } .reviewer-field small,.muted,#save-state,#action-message { color:var(--muted); font-weight:400; }
+    .action-buttons { display:flex; flex-wrap:wrap; gap:.6rem; }
+    .file-button { position:relative; display:inline-flex; align-items:center; border:1px solid #7e998e; border-radius:9px; padding:.72rem 1rem; color:var(--forest); background:white; font-weight:750; cursor:pointer; }
+    .file-button input { position:absolute; width:1px; height:1px; opacity:0; }
+    #save-state,#action-message { grid-column:1/-1; margin:0; font-size:.88rem; } #action-message { min-height:1.3em; color:#704b19; }
+    .toolbar { display:grid; grid-template-columns:minmax(0,1fr) minmax(190px,.35fr); gap:.7rem; margin-top:1.2rem; }
+    .candidate-count { margin-top:.65rem; color:var(--muted); font-size:.85rem; }
+    .candidate-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.75rem; margin-top:1rem; }
+    .candidate { display:grid; align-content:start; gap:.5rem; width:100%; min-height:180px; padding:1rem; border:1px solid var(--line); border-radius:12px; color:var(--ink); background:white; text-align:left; font-weight:400; }
+    .candidate:hover { border-color:#739384; background:#f6faf7; }
+    .candidate-head { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.7rem; align-items:start; } .candidate-description { margin:0; color:#4d5e57; font-size:.88rem; }
+    .status { display:inline-flex; align-self:start; justify-self:end; padding:.25rem .55rem; border-radius:999px; color:#4a5b55; background:#e8ece9; font-size:.7rem; font-weight:800; white-space:nowrap; text-transform:capitalize; }
+    .status.accepted,.status.completed { color:#205f48; background:#dff0e7; } .status.partial,.status.running,.status.queued,.status.research-further { color:#795118; background:#fff0d4; }
+    .status.rejected,.status.wrong-category,.status.failed { color:var(--red); background:#f6e3e0; } .status.already-known { color:#5e4b1a; background:#f5eacb; }
+    .signal-summary { margin:.15rem 0 0; padding-top:.45rem; color:#9a641e; font-size:.8rem; font-weight:750; }
+    .empty { padding:1rem; border:1px dashed #c6ccc8; border-radius:10px; color:var(--muted); text-align:center; }
+    .lesson-list { display:grid; gap:.65rem; margin-top:1rem; } .lesson { padding:.9rem 1rem; border:1px solid var(--line); border-radius:10px; background:white; }
+    dialog { width:min(1000px,94vw); max-height:92vh; overflow:auto; border:1px solid var(--line); border-radius:18px; padding:clamp(1.35rem,4vw,2.6rem); color:var(--ink); background:var(--panel); box-shadow:0 30px 90px rgba(0,0,0,.25); }
+    dialog::backdrop { background:rgba(10,27,21,.68); }
+    .close { position:sticky; z-index:2; top:0; float:right; width:2.2rem; height:2.2rem; padding:0; margin:-.5rem -.5rem 0 1rem; border-radius:50%; font-size:1.45rem; }
+    .dialog-heading { padding-right:2.5rem; } .dialog-heading h2 { max-width:730px; font-size:clamp(2rem,5vw,3rem); }
+    .candidate-profile { display:grid; gap:1.2rem; margin-top:1.4rem; }
+    .review-editor,.candidate-details,.resource-editor { padding:1.1rem; border:1px solid var(--line); border-radius:13px; background:#f8faf8; }
+    .decision-grid { display:flex; flex-wrap:wrap; gap:.5rem; margin:.9rem 0 1rem; } .decision { color:var(--forest); border:1px solid #94aa9f; background:white; }
+    .decision:hover,.decision.selected { color:white; background:var(--forest); }
+    .field { display:grid; gap:.35rem; margin-top:.75rem; font-weight:750; } .choice-check { display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0; font-weight:600; }
+    .choice-check input { width:auto; margin:.28rem 0 0; }
+    .match-card,.choice-fieldset { margin:1rem 0; padding:.9rem 1rem; border:1px solid #e3c28d; border-radius:11px; background:var(--amber-bg); }
+    .match-card legend,.choice-fieldset legend { padding:0 .35rem; font-weight:800; }
+    .resource-editor { margin-top:1.2rem; background:white; } .resource-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.2rem .8rem; }
+    .resource-fields .field:nth-last-child(-n+2) { grid-column:1/-1; } .choice-fieldset { border-color:var(--line); background:#f5f7f4; }
+    .nested-choices { margin:.5rem 0 .8rem 1.5rem; padding:.7rem .9rem; border-left:3px solid #aac1b5; background:white; }
+    .validation-errors { color:var(--red); } .standalone-note { padding:.8rem; border-radius:9px; background:var(--amber-bg); color:#704b19; }
+    .candidate-summary { padding:1rem; border-radius:10px; background:#edf4f0; white-space:pre-line; }
+    .candidate-facts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; margin-top:1rem; }
+    .candidate-fact { padding:.85rem .95rem; border:1px solid var(--line); border-radius:9px; background:white; overflow-wrap:anywhere; white-space:pre-line; }
+    .candidate-fact strong { display:block; margin-bottom:.2rem; color:var(--muted); font-size:.72rem; letter-spacing:.07em; text-transform:uppercase; }
+    .candidate-section { margin-top:1rem; padding-top:1rem; border-top:1px solid var(--line); } .candidate-section h3 { margin-bottom:.6rem; } .candidate-section p { margin-top:0; white-space:pre-line; }
+    .evidence-card { padding:.8rem .9rem; border-left:3px solid #7ea38f; background:#f4f7f5; } .evidence-card+.evidence-card { margin-top:.55rem; }
+    footer { margin-top:2rem; color:var(--muted); font-size:.8rem; text-align:center; }
+    @media(max-width:760px) { .candidate-list,.candidate-facts,.resource-fields,.review-controls { grid-template-columns:1fr; } .toolbar { grid-template-columns:1fr; } .resource-fields .field:nth-last-child(-n+2) { grid-column:auto; } }
+    @media(max-width:520px) { .metadata,.candidate-list,.candidate-facts { grid-template-columns:1fr; } }
+    @media print { body{background:white} header{padding:1.4rem 0;color:var(--ink);background:white;border-bottom:2px solid var(--forest)} header .eyebrow,header .lede{color:var(--muted)} main{width:100%;margin:1rem 0}.panel{box-shadow:none;break-inside:avoid}.toolbar,.close,.review-actions{display:none}.candidate-list{grid-template-columns:1fr}.candidate{min-height:0;break-inside:avoid} }
   </style>
 </head>
 <body>
-  <header>
-    <div>
-      <p class="eyebrow">TSO Resources · Research review copy</p>
-      <h1 id="title">Housing research review</h1>
-      <p class="lede">A portable record of agent research prepared for human review.</p>
-      <span class="read-only">Read-only · no agent connection required</span>
-    </div>
-  </header>
-
+  <header><div><p class="eyebrow">TSO Resources · Research review copy</p><h1 id="title">Research review</h1><p class="lede">Review candidates, save feedback, and package accepted resources without reconnecting to the research agent.</p><span class="editable-badge">Editable review · no agent connection required</span></div></header>
   <main>
-    <section class="panel notice">
-      <strong>Review before use</strong>
-      <p id="notice"></p>
-    </section>
-
-    <section class="panel" id="stages-panel" hidden>
-      <p class="section-label">Research progress</p>
-      <h2>Stage progress</h2>
-      <ul class="stage-list" id="stage-list"></ul>
-    </section>
-
-    <section class="panel">
-      <p class="section-label">Research trail</p>
-      <h2>Research run</h2>
-      <div class="metadata" id="metadata"></div>
-      <p class="summary" id="summary"></p>
-      <details>
-        <summary>View the research assignment</summary>
-        <p class="assignment" id="assignment"></p>
-      </details>
-    </section>
-
-    <section class="panel">
-      <p class="section-label">Human review</p>
-      <h2>Research candidates</h2>
-      <div class="toolbar">
-        <input id="search" type="search" placeholder="Search candidates" aria-label="Search candidates">
-        <select id="status-filter" aria-label="Filter candidates by review status">
-          <option value="">All review statuses</option>
-        </select>
+    <section class="panel notice"><strong>Review before use</strong><p id="notice"></p></section>
+    <section class="panel review-actions">
+      <p class="section-label">Review progress</p><h2>Save, resume, and download</h2>
+      <div class="review-controls">
+        <label class="reviewer-field">Reviewer name <small>Optional</small><input id="reviewer-name" autocomplete="name"></label>
+        <div class="action-buttons"><button type="button" id="download-feedback">Download review feedback</button><button type="button" id="download-package">Download resource package</button><label class="file-button">Resume from review feedback…<input id="resume-feedback" type="file" accept=".json,application/json"></label></div>
+        <p id="save-state"></p><p id="action-message" aria-live="polite"></p>
       </div>
-      <p class="candidate-count" id="candidate-count"></p>
-      <div class="candidate-list" id="candidate-list"></div>
     </section>
-
-    <section class="panel" id="lessons-panel" hidden>
-      <p class="section-label">Teaching loop</p>
-      <h2>Lessons proposed by this run</h2>
-      <div class="lesson-list" id="lesson-list"></div>
-    </section>
-
+    <section class="panel" id="stages-panel" hidden><p class="section-label">Research progress</p><h2>Stage progress</h2><ul class="stage-list" id="stage-list"></ul></section>
+    <section class="panel"><p class="section-label">Research trail</p><h2>Research run</h2><div class="metadata" id="metadata"></div><p class="summary" id="summary"></p><details><summary>View the research assignment</summary><p class="assignment" id="assignment"></p></details></section>
+    <section class="panel"><p class="section-label">Human review</p><h2>Research candidates</h2><div class="toolbar"><input id="search" type="search" placeholder="Search candidates" aria-label="Search candidates"><select id="status-filter" aria-label="Filter candidates by review status"><option value="">All review statuses</option></select></div><p class="candidate-count" id="candidate-count"></p><div class="candidate-list" id="candidate-list"></div></section>
+    <section class="panel" id="lessons-panel" hidden><p class="section-label">Research guidance</p><h2>Lessons proposed by this run</h2><div class="lesson-list" id="lesson-list"></div></section>
     <footer id="footer"></footer>
   </main>
-
-  <dialog id="candidate-dialog">
-    <button type="button" class="close" id="close-dialog" aria-label="Close">×</button>
-    <div class="dialog-heading">
-      <p class="section-label">Research candidate</p>
-      <h2 id="candidate-name"></h2>
-      <span class="status" id="candidate-status"></span>
-    </div>
-    <div class="candidate-profile" id="candidate-profile"></div>
-  </dialog>
-
+  <dialog id="candidate-dialog"><button type="button" class="close" id="close-dialog" aria-label="Close">×</button><div class="dialog-heading"><p class="section-label">Research candidate</p><h2 id="candidate-name"></h2><span class="status" id="candidate-status"></span></div><div class="candidate-profile" id="candidate-profile"></div></dialog>
   <script id="review-data" type="application/json">__REVIEW_COPY_DATA__</script>
-  <script>
-    'use strict';
-    const review = JSON.parse(document.querySelector('#review-data').textContent);
-    const state = { search: '', status: '' };
-    const matchAssessmentLabels = {
-      'same-resource': 'Same resource',
-      'same-organization-different-program': 'Same organization, different program',
-      'related-distinct': 'Related but distinct',
-      'not-related': 'Not related',
-    };
-
-    function asText(value) {
-      if (value == null) return '';
-      if (Array.isArray(value)) return value.map(asText).filter(Boolean).join('\n');
-      if (typeof value === 'object') return value.name || value.label || value.value || JSON.stringify(value);
-      return String(value).trim();
-    }
-
-    function friendly(value) {
-      return String(value || '').replaceAll('-', ' ');
-    }
-
-    function formatWhen(value) {
-      if (!value) return 'Not recorded';
-      const date = new Date(value);
-      return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
-    }
-
-    function safeHref(value) {
-      const raw = asText(value);
-      if (!raw) return null;
-      if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw)) return `mailto:${raw}`;
-      const candidate = /^[a-z][a-z0-9+.-]*:/i.test(raw) ? raw : `https://${raw}`;
-      try {
-        const url = new URL(candidate);
-        return ['http:', 'https:', 'mailto:'].includes(url.protocol) ? url.href : null;
-      } catch { return null; }
-    }
-
-    function metric(label, value) {
-      const item = document.createElement('div');
-      item.className = 'metric';
-      const caption = document.createElement('span');
-      caption.textContent = label;
-      const content = document.createElement('strong');
-      content.textContent = asText(value) || 'Not recorded';
-      item.append(caption, content);
-      return item;
-    }
-
-    function section(target, title, value) {
-      const values = Array.isArray(value) ? value.map(asText).filter(Boolean) : [asText(value)].filter(Boolean);
-      if (!values.length) return;
-      const wrapper = document.createElement('section');
-      wrapper.className = 'candidate-section';
-      const heading = document.createElement('h3');
-      heading.textContent = title;
-      wrapper.append(heading);
-      if (Array.isArray(value)) {
-        const list = document.createElement('ul');
-        values.forEach(entry => {
-          const item = document.createElement('li');
-          item.textContent = entry;
-          list.append(item);
-        });
-        wrapper.append(list);
-      } else {
-        const paragraph = document.createElement('p');
-        paragraph.textContent = values[0];
-        wrapper.append(paragraph);
-      }
-      target.append(wrapper);
-    }
-
-    function fact(target, label, value, link = false) {
-      const text = asText(value);
-      if (!text) return;
-      const item = document.createElement('div');
-      item.className = 'candidate-fact';
-      const heading = document.createElement('strong');
-      heading.textContent = label;
-      const content = document.createElement('div');
-      const href = link ? safeHref(text) : null;
-      if (href) {
-        const anchor = document.createElement('a');
-        anchor.href = href;
-        anchor.target = '_blank';
-        anchor.rel = 'noopener noreferrer';
-        anchor.textContent = text;
-        content.append(anchor);
-      } else {
-        content.textContent = text;
-      }
-      item.append(heading, content);
-      target.append(item);
-    }
-
-    function signalText(signal) {
-      const left = friendly(signal.candidateField);
-      const right = friendly(signal.knownField);
-      return `${left} “${signal.candidateValue}” resembles ${right} “${signal.knownValue}” (${Math.round(signal.strength * 100)}%)`;
-    }
-
-    function primaryMatchExplanation(match) {
-      const signal = match?.signals?.[0];
-      if (!signal) return `The candidate resembles ${match?.name || 'an imported resource'}.`;
-      const percentage = Math.round(signal.strength * 100);
-      const candidateField = String(signal.candidateField || '');
-      if (['name', 'alias', 'name_variant', 'organization_name', 'program_name'].includes(candidateField)) {
-        return `Similar name: ${match.name}. The compared names are ${percentage}% similar.`;
-      }
-      if (candidateField === 'website') return `Similar website: ${match.name}. The website signal is ${percentage}%.`;
-      if (candidateField === 'address') return `Similar address: ${match.name}. The address signal is ${percentage}%.`;
-      return `Possible relationship to ${match.name}. The similarity signal is ${percentage}%.`;
-    }
-
-    function candidateMatchSummary(item) {
-      const match = item.knownResourceMatch;
-      if (!match) return '';
-      if (item.matchAssessment === 'not-related') return `Match reviewed: not related to ${match.name}`;
-      if (item.matchAssessment) return `${matchAssessmentLabels[item.matchAssessment]}: ${match.name}`;
-      return `Possible related resource: ${match.name}`;
-    }
-
-    function renderMatch(target, match, item) {
-      if (!match) return;
-      const card = document.createElement('section');
-      card.className = 'match-card';
-      const heading = document.createElement('h3');
-      heading.textContent = item.matchAssessment ? 'Relationship assessment' : 'Possible relationship to an existing resource';
-      const summary = document.createElement('p');
-      summary.textContent = item.matchAssessment
-        ? `${matchAssessmentLabels[item.matchAssessment]}: ${match.name}`
-        : primaryMatchExplanation(match);
-      card.append(heading, summary);
-      if (match.signals.length) {
-        const list = document.createElement('ul');
-        match.signals.forEach(signal => {
-          const item = document.createElement('li');
-          item.textContent = signalText(signal);
-          list.append(item);
-        });
-        card.append(list);
-      }
-      const caution = document.createElement('p');
-      caution.textContent = 'This is a similarity warning, not proof that the candidate is the same resource.';
-      card.append(caution);
-      target.append(card);
-    }
-
-    function renderCandidateProfile(item) {
-      const candidate = item.candidate || {};
-      const profile = document.createElement('div');
-      const summaryText = asText(candidate.description || candidate.serviceNeed || candidate.housingNeed);
-      if (summaryText) {
-        const summary = document.createElement('div');
-        summary.className = 'candidate-summary';
-        summary.textContent = summaryText;
-        profile.append(summary);
-      }
-      const facts = document.createElement('div');
-      facts.className = 'candidate-facts';
-      fact(facts, 'Organization', candidate.organization);
-      fact(facts, 'Program', candidate.program);
-      fact(facts, 'Type', candidate.resourceType);
-      fact(facts, 'Area served', candidate.geography);
-      fact(facts, 'Access timeline', candidate.accessTimeline);
-      fact(facts, 'Phone', candidate.phone);
-      fact(facts, 'Address', candidate.address);
-      fact(facts, 'Website', candidate.website || candidate.url, true);
-      if (facts.children.length) profile.append(facts);
-      renderMatch(profile, item.knownResourceMatch, item);
-      section(profile, `${review.run.targetCategoryLabel || 'Resource'} need`, candidate.serviceNeed || candidate.housingNeed);
-      section(profile, 'Suggested Types', candidate.recommendedTypes);
-      section(profile, 'Suggested For', candidate.recommendedFor);
-      section(profile, 'Classification rationale', candidate.classificationRationale);
-      section(profile, 'Eligibility', candidate.eligibility);
-      section(profile, 'Barriers and restrictions', candidate.barriers);
-      const availability = candidate.availability;
-      if (availability) section(profile, 'Availability', typeof availability === 'object'
-        ? [availability.status, availability.asOf ? `As of ${availability.asOf}` : '', availability.evidence].filter(Boolean)
-        : availability);
-      section(profile, 'Pet policy', candidate.petPolicy);
-      const experience = candidate.experienceAssessment;
-      if (experience) section(profile, 'Lived experience and conditions', typeof experience === 'object'
-        ? Object.entries(experience).map(([key, value]) => `${friendly(key)}: ${asText(value)}`)
-        : experience);
-      section(profile, 'Unknowns to pursue', candidate.unknowns);
-      section(profile, 'Follow-up branches', candidate.followUpBranches);
-
-      const evidence = Array.isArray(candidate.evidence) ? candidate.evidence : [];
-      if (evidence.length) {
-        const wrapper = document.createElement('section');
-        wrapper.className = 'candidate-section';
-        const heading = document.createElement('h3');
-        heading.textContent = 'Evidence';
-        wrapper.append(heading);
-        evidence.forEach(source => {
-          const card = document.createElement('div');
-          card.className = 'evidence-card';
-          const href = safeHref(source.url);
-          const title = asText(source.title || source.url || 'Evidence source');
-          if (href) {
-            const anchor = document.createElement('a');
-            anchor.href = href;
-            anchor.target = '_blank';
-            anchor.rel = 'noopener noreferrer';
-            anchor.textContent = title;
-            card.append(anchor);
-          } else {
-            const label = document.createElement('strong');
-            label.textContent = title;
-            card.append(label);
-          }
-          const finding = document.createElement('div');
-          finding.textContent = asText(source.finding || source.quoteOrFinding);
-          const meta = document.createElement('small');
-          meta.textContent = [source.sourceType, source.firsthand ? 'firsthand' : '', source.reliability, source.accessedAt ? `accessed ${source.accessedAt}` : ''].filter(Boolean).join(' · ');
-          card.append(finding, meta);
-          wrapper.append(card);
-        });
-        profile.append(wrapper);
-      }
-
-      if (item.reviewFeedback || item.notes) {
-        const note = document.createElement('section');
-        note.className = 'review-note';
-        const heading = document.createElement('strong');
-        heading.textContent = 'Reviewer notes';
-        const text = document.createElement('p');
-        text.textContent = item.reviewFeedback || item.notes;
-        note.append(heading, text);
-        profile.append(note);
-      }
-      return profile;
-    }
-
-    function openCandidate(item) {
-      document.querySelector('#candidate-name').textContent = item.name;
-      const status = document.querySelector('#candidate-status');
-      status.className = `status ${item.status}`;
-      status.textContent = friendly(item.status);
-      document.querySelector('#candidate-profile').replaceChildren(renderCandidateProfile(item));
-      const dialog = document.querySelector('#candidate-dialog');
-      dialog.showModal();
-      dialog.scrollTop = 0;
-    }
-
-    function candidateDescription(item) {
-      const candidate = item.candidate || {};
-      return asText(candidate.serviceNeed || candidate.housingNeed || candidate.description || candidate.resourceType || 'Awaiting review');
-    }
-
-    function renderCandidates() {
-      const wanted = state.search.toLocaleLowerCase();
-      const candidates = review.candidates.filter(item => {
-        if (state.status && item.status !== state.status) return false;
-        if (!wanted) return true;
-        return [item.name, candidateDescription(item), item.candidate.organization, item.candidate.program]
-          .map(asText).join(' ').toLocaleLowerCase().includes(wanted);
-      });
-      document.querySelector('#candidate-count').textContent = `${candidates.length} of ${review.candidates.length} candidates shown`;
-      const target = document.querySelector('#candidate-list');
-      if (!candidates.length) {
-        const empty = document.createElement('div');
-        empty.className = 'empty';
-        empty.textContent = 'No candidates match this filter.';
-        target.replaceChildren(empty);
-        return;
-      }
-      target.replaceChildren(...candidates.map(item => {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'candidate';
-        const head = document.createElement('div');
-        head.className = 'candidate-head';
-        const name = document.createElement('strong');
-        name.textContent = item.name;
-        const status = document.createElement('span');
-        status.className = `status ${item.status}`;
-        status.textContent = friendly(item.status);
-        head.append(name, status);
-        const description = document.createElement('p');
-        description.className = 'candidate-description';
-        description.textContent = candidateDescription(item);
-        button.append(head, description);
-        if (item.knownResourceMatch) {
-          const signal = document.createElement('p');
-          signal.className = 'signal-summary';
-          signal.textContent = candidateMatchSummary(item);
-          button.append(signal);
-        }
-        button.addEventListener('click', () => openCandidate(item));
-        return button;
-      }));
-    }
-
-    function initialize() {
-      document.title = `${review.title} · Review copy`;
-      document.querySelector('#title').textContent = review.title;
-      document.querySelector('#notice').textContent = review.notice;
-      document.querySelector('#summary').textContent = review.run.summary || 'No summary was provided.';
-      document.querySelector('#assignment').textContent = review.run.assignment;
-      const packageInfo = review.sourcePackage;
-      const standalone = review.run.researchMode === 'standalone-location';
-      const researchScope = standalone
-        ? `${review.run.targetLocation}${review.run.regionalScope ? ` · also considered ${review.run.regionalScope}` : ''}`
-        : 'Imported package';
-      document.querySelector('#metadata').replaceChildren(
-        metric('Completed', formatWhen(review.run.completedAt)),
-        metric('Run status', friendly(review.run.status)),
-        metric('Research agent', friendly(review.run.adapter)),
-        metric('Candidates', review.run.candidateCount),
-        metric('Category', review.run.targetCategoryLabel || 'Housing'),
-        metric('Research scope', researchScope),
-        metric('Source package', packageInfo ? `${packageInfo.sourceName} · package ${packageInfo.packageVersion}` : 'None · standalone exploratory research'),
-      );
-      if (review.run.stages?.length) {
-        document.querySelector('#stages-panel').hidden = false;
-        document.querySelector('#stage-list').replaceChildren(...review.run.stages.map(stage => {
-          const item = document.createElement('li');
-          const title = document.createElement('strong');
-          title.textContent = stage.title;
-          const status = document.createElement('span');
-          status.className = `status ${stage.status}`;
-          status.textContent = friendly(stage.status);
-          item.append(title, status);
-          if (stage.error) {
-            const error = document.createElement('small');
-            error.className = 'stage-error';
-            error.textContent = stage.error;
-            item.append(error);
-          }
-          return item;
-        }));
-      }
-
-      const statuses = [...new Set(review.candidates.map(item => item.status))].sort();
-      const filter = document.querySelector('#status-filter');
-      statuses.forEach(value => {
-        const option = document.createElement('option');
-        option.value = value;
-        option.textContent = friendly(value);
-        filter.append(option);
-      });
-      document.querySelector('#search').addEventListener('input', event => {
-        state.search = event.target.value;
-        renderCandidates();
-      });
-      filter.addEventListener('change', event => {
-        state.status = event.target.value;
-        renderCandidates();
-      });
-      renderCandidates();
-
-      if (review.lessons.length) {
-        document.querySelector('#lessons-panel').hidden = false;
-        document.querySelector('#lesson-list').replaceChildren(...review.lessons.map(lesson => {
-          const item = document.createElement('div');
-          item.className = 'lesson';
-          const head = document.createElement('div');
-          head.className = 'lesson-head';
-          const scope = document.createElement('small');
-          scope.textContent = `${friendly(lesson.scope)} · ${friendly(lesson.source)}`;
-          const status = document.createElement('span');
-          status.className = `status ${lesson.status}`;
-          status.textContent = friendly(lesson.status);
-          head.append(scope, status);
-          const text = document.createElement('p');
-          text.textContent = lesson.text;
-          item.append(head, text);
-          if (lesson.rationale) {
-            const rationale = document.createElement('small');
-            rationale.textContent = lesson.rationale;
-            item.append(rationale);
-          }
-          return item;
-        }));
-      }
-
-      const packageText = packageInfo
-        ? `${packageInfo.sourceName}; schema ${packageInfo.schemaVersion}; package ${packageInfo.packageVersion}`
-        : `Standalone location research; ${review.run.targetLocation || 'location not recorded'}`;
-      document.querySelector('#footer').textContent = `Exported ${formatWhen(review.exportedAt)} · ${packageText} · Review-copy schema ${review.reviewCopySchemaVersion}`;
-    }
-
-    document.querySelector('#close-dialog').addEventListener('click', () => document.querySelector('#candidate-dialog').close());
-    document.querySelector('#candidate-dialog').addEventListener('click', event => {
-      if (event.target === event.currentTarget) event.currentTarget.close();
-    });
-    initialize();
-  </script>
+  <script>__REVIEW_COPY_SCRIPT__</script>
 </body>
 </html>

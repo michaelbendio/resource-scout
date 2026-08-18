@@ -1,29 +1,27 @@
 # Resource Research Agent — category research foundation
 
-This is a standalone, local resource research workspace. Its default package-backed mode learns from a Resource Assistant `resource-package.zip` without changing that package: it discovers the schema and taxonomy, preserves complete imported records, builds a known-resource index, and exposes existing records in any selected category as research seeds. Housing, Food, and Employment use specialized research playbooks; every other discovered package category uses a category-aware four-stage workflow covering direct access, ongoing support, specialized barriers, and gap review. The explicitly selected standalone-location mode remains Housing-only exploratory research for a place that does not yet have a resource package.
+This is a standalone, local resource research workspace. Its default package-backed mode learns from a Resource Assistant `resource-package.zip` without changing that package: it discovers the schema and taxonomy, preserves complete imported records, and builds a known-resource index. Every discovered package category uses its Types, For groups, existing-resource context, and category-aware research guidance. The explicitly selected standalone-location mode remains Housing-only exploratory research for a place that does not yet have a resource package.
 
 The app deliberately maintains separate bodies of data:
 
-- **Imported knowledge** is an immutable snapshot of the package: all records are indexed for duplicate detection and become seeds when their category is selected.
-- **Research work** contains candidates and review state. An imported seed is never inserted as a new discovery. A candidate with a strong package match is labeled `already-known` automatically.
+- **Imported knowledge** is an immutable snapshot of the package: all records are indexed for research context and duplicate detection.
+- **Research work** contains candidates and review state. An imported resource is never inserted as a new discovery. A candidate with a strong package match is labeled `already-known` automatically.
 - **Accepted resources** are persistent, reviewer-editable drafts associated with one package-backed research run. They are never written into the imported snapshot.
 
 Standalone-location runs have no imported knowledge. Their candidates are not compared with the latest package, their location-specific lessons remain separate from package-backed lessons and other locations, and their review copies state that the research is exploratory rather than an official or comprehensive TSO Resources inventory.
 
 The source ZIP is opened read-only. Browser uploads are written to a temporary file only long enough to read and hash them, then deleted. The app never produces a modified copy of that package. Its optional resource-package export is a new, lightweight additions package containing only accepted resources and the unchanged category and For definitions needed to merge them.
 
-Seeds open as readable profiles: category labels, contact details, description, safely rendered Markdown-style information, stored PDF attachments, verification metadata, and an optional raw-JSON view. Attachments referenced by supported-category seeds are copied into the separate research database so their links continue to work after the temporary upload is deleted.
-
 ## Research-agent connections
 
 Hermes and DeepSeek Harness are connected through the same replaceable research-agent interface. The app owns the research brief, imported context, assignments, candidate records, duplicate decisions, review state, and lessons. The selected harness receives one bounded assignment and returns a structured research result. Switching harnesses does not move or migrate application data.
 
-Broad assignments run as four persisted, category-specific stages. Candidates are saved after each completed stage rather than waiting for the entire assignment. If a later stage times out or fails, the run becomes **partial**: completed candidates remain reviewable and exportable, and **Resume research** retries only the unfinished stage before continuing. Focused research branching from one imported seed remains a single bounded stage.
+Category research runs as four persisted, category-specific stages. Candidates are saved after each completed stage rather than waiting for the entire assignment. If a later stage times out or fails, the run becomes **partial**: completed candidates remain reviewable and exportable, and **Resume research** retries only the unfinished stage before continuing.
 
 The workflow is:
 
-1. Import a Resource Assistant package. Package-backed research remains selected by default.
-2. Choose any category discovered in the package, then research it broadly or branch from one of its existing seeds. The package's Types and global For groups are included in the research brief.
+1. Choose a Resource Assistant package. It connects automatically, and package-backed research remains selected by default.
+2. Choose any category discovered in the package. Its existing resources, Types, and global For groups are included as research context.
 3. If no package exists, explicitly select **Research a location without a package**, enter the location and optionally identify nearby areas whose services may realistically serve it.
 4. Edit the assignment and select **Start research**. Runs continue in the background, with progress displayed for each bounded stage.
 5. Use **View candidates** on a research run, or the inbox's run selector, to review that run separately. Open candidates as stages finish to inspect access, restrictions, availability, pet policy, lived-experience findings, evidence, unknowns, and follow-up branches. **All candidates** remains available for cross-run review. If a stage fails, review or export the completed work and use **Resume research** without repeating completed stages.
@@ -31,7 +29,7 @@ The workflow is:
 7. Independently choose **Accept**, **Research further**, **Already known**, **Wrong category**, or **Reject** for the candidate itself. In a package-backed run, **Accept** immediately creates a persistent TSO Resources draft. Open **View or edit generated TSO resource** to review its Name, contact fields, Hours, Description, Information, categories, category-specific Types, global For groups, and optional Verified month before export. Written feedback can become an active lesson included in later research runs for that category and context.
 8. Choose **Export resource package** on that run whenever one or more candidates are accepted. The cumulative ZIP always reflects the run's currently accepted resources and saved edits. Rejecting or reclassifying a candidate removes it from the next export without deleting its retained draft.
 9. Approve or retire agent-proposed lessons in the **Research lessons** panel.
-10. Choose **Export review copy** on any completed run to download a standalone, read-only HTML report. The file opens directly in a browser without this app or an agent connection and preserves the summary, assignment, research provenance, interactive candidate profiles, evidence links, candidate decisions, relationship assessments, lessons, and explained match evidence.
+10. Choose **Export review copy** on any completed run to download a standalone review app. It opens directly in a browser without this app or an agent connection. A reviewer can make decisions, assess possible duplicates, edit accepted resource drafts, save and resume progress with a review-feedback file, and separately download the accepted-resource package.
 
 Both external harnesses are optional while exploring the app. Choose **Built-in demo** under **Research agent connection** to exercise the complete workflow without an account or model charge.
 
@@ -39,7 +37,9 @@ Both external harnesses are optional while exploring the app. Choose **Built-in 
 
 Review copies are generated only when a user clicks **Export review copy** on a research run. The export always uses that associated run, regardless of which Candidate inbox is visible. Nothing is written to an export folder on the server. Each download is one self-contained HTML file with versioned JSON embedded inside it for future migration.
 
-The export contains only the selected completed or partially completed run, stage status, its candidates, human review notes, run-specific lessons, limited source-package provenance, and the known-resource fields needed to explain duplicate signals. It excludes API keys, connection settings, raw agent output, the research database, seed attachments, and full imported-resource records. The result is intentionally read-only: changes made later in the live Research Agent require a new export.
+The export contains only the selected completed or partially completed run, stage status, its candidates, human review notes, editable resource drafts, run-specific lessons, the source taxonomy needed for valid package creation, limited source-package provenance, and the known-resource fields needed to explain duplicate signals. It excludes API keys, connection settings, raw agent output, the research database, attachments, and full imported-resource records.
+
+Review progress is saved locally by the browser when available. **Download review feedback** creates the portable JSON checkpoint used to pause, move, back up, or resume the review. That file records every decision, note, future-research flag, relationship assessment, resource draft, stable ID, timestamp, and source-package identity. The live agent does not consume this feedback yet. **Download resource package** is separate: it is unavailable with no accepted candidates, contains one resource when one is accepted, and grows cumulatively as more are accepted. Standalone-location review copies can save feedback but cannot create a resource package.
 
 ## Mergeable accepted-resource packages
 
@@ -75,7 +75,7 @@ Start the app through the key prompt:
 
 The prompt does not display the key, pass it as a command-line argument, write it to the app database, or save it to a project file. The key exists only in the app process environment. Select **DeepSeek Harness (experimental)** in **Research agent connection**, save, and the status card will show when it is ready.
 
-The DSH research overlay exposes DeepSeek's server-side `web_search` tool and disables shell, filesystem, editing, skill, workflow, and subagent tools. DSH also runs from an empty temporary working directory. `web_fetch` remains disabled in this first connection because DSH's own preview ships it disabled while its HTTP provider lacks a complete SSRF boundary.
+The DSH research overlay gives DeepSeek a social-service resource researcher persona, exposes DeepSeek's server-side `web_search` tool, and disables shell, filesystem, editing, skill, workflow, and subagent tools. DSH also runs from an empty temporary working directory. `web_fetch` remains disabled in this first connection because DSH's own preview ships it disabled while its HTTP provider lacks a complete SSRF boundary.
 
 ### Hermes
 
@@ -107,7 +107,7 @@ cd resource-research-agent
 ./run.sh
 ```
 
-Open <http://127.0.0.1:8765>, choose a `resource-package.zip`, and select **Import package**. Stop the app with Control-C.
+Open <http://127.0.0.1:8765> and choose a `resource-package.zip`; it connects automatically. Stop the app with Control-C.
 
 The research database is created at `data/research-agent.sqlite3`. It does not contain or modify the source ZIP.
 
@@ -167,4 +167,4 @@ PROVO_RESOURCE_PACKAGE=/path/to/provo-resource-package.zip \
   python3 -m unittest discover -s tests -v
 ```
 
-The live-package integration test verifies schema/category discovery and multi-category inclusion. The unit tests also prove that the source ZIP remains byte-for-byte unchanged, full records survive import, every discovered category can supply seeds and start research, category Types and For definitions survive import and export, imported seeds remain separate from discoveries, non-selected resources still participate in duplicate checks, unsafe ZIP paths are rejected, Hermes and DSH one-shot results are normalized through the same adapter result, and accepted-resource packages remain cumulative, run-scoped, editable, multi-category, additions-only, and asset-free.
+The live-package integration test verifies schema/category discovery and multi-category inclusion. The unit tests also prove that the source ZIP remains byte-for-byte unchanged, full records survive import, every discovered category can start research, category Types and For definitions survive import and export, imported resources remain separate from discoveries, non-selected resources still participate in duplicate checks, unsafe ZIP paths are rejected, Hermes and DSH one-shot results are normalized through the same adapter result, editable review copies produce openable additions-only ZIPs, and accepted-resource packages remain cumulative, run-scoped, editable, multi-category, and asset-free.

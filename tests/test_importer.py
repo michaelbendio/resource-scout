@@ -183,6 +183,29 @@ class ImporterTests(unittest.TestCase):
             [item["name"] for item in upgraded.list_seeds(import_id, "legal")],
         )
 
+    def test_reimport_backfills_for_groups_for_historical_runs(self) -> None:
+        path = self.package({
+            "resourcePackageSchemaVersion": 3,
+            "categories": [{"id": "housing", "name": "Housing"}],
+            "forGroups": ["Families with children", "Veterans"],
+            "resources": [{"id": "home", "name": "Known Home", "categories": ["housing"]}],
+        })
+        store = ResearchStore(self.root / "for-upgrade.sqlite3")
+        package = ResourcePackageImporter().read(path)
+        historical_import_id = store.save_import(package)
+        with store.connect() as connection:
+            connection.execute(
+                "UPDATE imports SET for_groups_json = '[]' WHERE id = ?",
+                (historical_import_id,),
+            )
+
+        store.save_import(package)
+
+        self.assertEqual(
+            ["Families with children", "Veterans"],
+            store.import_for_groups(historical_import_id),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

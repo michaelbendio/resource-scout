@@ -360,6 +360,17 @@ class ResearchStore:
                 ),
             )
             import_id = int(cursor.lastrowid)
+            if package.for_groups:
+                # Re-importing the same package should also repair older snapshots
+                # created before top-level For definitions were retained. Historical
+                # runs remain linked to those snapshot ids.
+                connection.execute(
+                    """UPDATE imports
+                       SET for_groups_json = ?
+                       WHERE source_sha256 = ?
+                         AND (for_groups_json IS NULL OR for_groups_json = '[]')""",
+                    (_json(package.for_groups), package.sha256),
+                )
             for category in package.categories:
                 connection.execute(
                     "INSERT INTO categories VALUES (?, ?, ?, ?)",

@@ -1,5 +1,5 @@
 const state = {
-  seeds: [], runs: [], discoveries: [], lessons: [], agent: null, latestImport: null,
+  runs: [], discoveries: [], lessons: [], agent: null, latestImport: null,
   currentCandidate: null, pollTimer: null, researchMode: 'package',
   candidateRunId: null, candidateRunSelectionInitialized: false,
   assignmentDrafts: { package: '', 'standalone-location': '' }, standaloneAutoAssignment: '',
@@ -43,9 +43,18 @@ async function request(url, options = {}) {
 function showImport(summary) {
   if (!summary) return;
   state.latestImport = summary;
-  document.querySelector('#status-pill').textContent = `${summary.sourceName} connected`;
-  document.querySelector('#status-pill').classList.add('ready');
-  document.querySelector('#resource-count').textContent = summary.resourceCount;
+  document.querySelector('#package-status-name').textContent = summary.sourceName;
+  document.querySelector('#package-status').hidden = false;
+  document.querySelector('#file-label').textContent = 'Choose a different package…';
+  document.querySelector('#package-details').hidden = false;
+  document.querySelector('#package-details-copy').textContent = [
+    `Package ${summary.schema.packageVersion || 'version not recorded'}`,
+    `schema ${summary.schema.schemaVersion || 'not recorded'}`,
+    `${summary.resourceCount} resources`,
+    `${(summary.categories || []).length} categories`,
+    `imported ${formatWhen(summary.importedAt)}`,
+    `SHA-256 ${summary.sourceSha256}`,
+  ].join(' · ');
   state.categories = summary.categories || [];
   state.forGroups = summary.forGroups || [];
   const supported = state.categories.filter(category => category.supported);
@@ -53,15 +62,12 @@ function showImport(summary) {
     state.activeCategoryId = supported.find(category => category.id.toLowerCase() === 'housing')?.id
       || supported[0]?.id || 'housing';
   }
-  document.querySelector('#schema-version').textContent = summary.schema.schemaVersion || 'unversioned';
-  document.querySelector('#metrics').hidden = false;
   document.querySelector('#category-panel').hidden = false;
-  document.querySelector('#workspace').hidden = false;
   document.querySelector('#research-panel').hidden = false;
   document.querySelector('#research-results').hidden = false;
-  document.querySelector('#package-mode-detail').textContent = `Default · ${summary.sourceName} supplies existing resources, research seeds, and duplicate checking.`;
+  document.querySelector('#package-mode-detail').textContent = 'Default · existing resources provide research context and automatic duplicate checking.';
   if (selectedResearchMode() === 'package') {
-    document.querySelector('#research-context-note').textContent = `This run will use ${summary.sourceName} for seeds and duplicate checking.`;
+    document.querySelector('#research-context-note').textContent = 'Existing resources in the connected package are used as context and will not be returned as new discoveries.';
   }
   renderCategoryChooser();
   updateCategoryCopy();
@@ -86,14 +92,8 @@ function packageDefaultAssignment() {
 
 function updateCategoryCopy() {
   const category = activeCategory();
-  document.querySelector('#housing-count').textContent = category.resourceCount ?? 0;
-  document.querySelector('#multi-count').textContent = category.multiCategoryResourceCount ?? 0;
-  document.querySelector('#category-count-label').textContent = `${category.label} resources`;
-  document.querySelector('#multi-count-label').textContent = `Multi-category ${category.label}`;
-  document.querySelector('#seeds-title').textContent = `${category.label} research seeds`;
   document.querySelector('#research-heading-title').textContent = `Send a research agent on a ${category.label} assignment`;
   document.querySelector('#category-lesson-option').textContent = `${category.label} lesson`;
-  document.querySelector('#workspace-eyebrow').textContent = `${category.label} research workspace`;
   const types = category.types?.length ? category.types.join(', ') : 'None defined in this package';
   const forGroups = state.forGroups.length ? state.forGroups.join(', ') : 'None defined in this package';
   document.querySelector('#category-taxonomy-note').textContent = `Types: ${types} · For: ${forGroups}`;
@@ -102,7 +102,7 @@ function updateCategoryCopy() {
 function renderCategoryChooser() {
   const target = document.querySelector('#category-grid');
   const supportedCount = state.categories.filter(category => category.supported).length;
-  document.querySelector('#category-supported-count').textContent = `${supportedCount} ready`;
+  document.querySelector('#category-supported-count').textContent = `${supportedCount} categories`;
   target.replaceChildren(...state.categories.map(category => {
     const label = document.createElement('label');
     label.className = `category-choice${category.supported ? '' : ' disabled'}`;
@@ -135,10 +135,6 @@ async function selectCategory(categoryId) {
   renderCategoryChooser();
   updateCategoryCopy();
   const category = activeCategory();
-  const result = await request(`/api/seeds?categoryId=${encodeURIComponent(category.id)}`);
-  state.seeds = result.seeds;
-  renderSeeds();
-  document.querySelector('#seed-filter').value = '';
   if (selectedResearchMode() === 'package') {
     document.querySelector('#research-assignment').value = state.categoryAssignmentDrafts[category.id]
       || packageDefaultAssignment();
@@ -229,55 +225,19 @@ function switchResearchMode() {
   const assignment = document.querySelector('#research-assignment');
   state.assignmentDrafts[state.researchMode] = assignment.value;
   state.researchMode = nextMode;
-  document.querySelector('#package-research-fields').hidden = nextMode !== 'package';
   document.querySelector('#standalone-research-fields').hidden = nextMode !== 'standalone-location';
   if (nextMode === 'package') {
     assignment.value = state.categoryAssignmentDrafts[state.activeCategoryId]
       || state.assignmentDrafts.package || packageDefaultAssignment();
     document.querySelector('#research-context-note').textContent = state.latestImport
-      ? `This run will use ${state.latestImport.sourceName} for seeds and duplicate checking.`
+      ? 'Existing resources in the connected package are used as context and will not be returned as new discoveries.'
       : 'Package-backed research is the default. Import a resource package above before starting.';
   } else {
     state.standaloneAutoAssignment = standaloneDefaultAssignment(document.querySelector('#target-location').value);
     assignment.value = state.assignmentDrafts['standalone-location'] || state.standaloneAutoAssignment;
-    document.querySelector('#research-context-note').textContent = 'This exploratory run will not use imported seeds, compare candidates with the connected package, or claim to be an official TSO Resources inventory.';
+    document.querySelector('#research-context-note').textContent = 'This exploratory run will not compare candidates with a connected package or claim to be an official TSO Resources inventory.';
   }
   updateStartResearchState();
-}
-
-function renderSeedOptions() {
-  const select = document.querySelector('#research-seed');
-  const current = select.value;
-  const broad = document.createElement('option');
-  broad.value = '';
-  broad.textContent = `Research ${activeCategory().label} broadly`;
-  select.replaceChildren(broad, ...state.seeds.map(seed => {
-    const option = document.createElement('option');
-    option.value = seed.resourceId;
-    option.textContent = `Branch from ${seed.name}`;
-    return option;
-  }));
-  if ([...select.options].some(option => option.value === current)) select.value = current;
-}
-
-function renderSeeds(filter = '') {
-  const list = document.querySelector('#seed-list');
-  const wanted = filter.trim().toLowerCase();
-  const seeds = state.seeds.filter(seed => seed.name.toLowerCase().includes(wanted));
-  list.replaceChildren(...seeds.map(seed => {
-    const item = document.createElement('div');
-    item.className = 'seed';
-    item.tabIndex = 0;
-    const categories = seed.fullRecord.categories || [];
-    item.innerHTML = `<strong></strong><small></small>`;
-    item.querySelector('strong').textContent = seed.name;
-    item.querySelector('small').textContent = `${categories.length} categor${categories.length === 1 ? 'y' : 'ies'} · existing`;
-    const open = () => openSeed(seed);
-    item.addEventListener('click', open);
-    item.addEventListener('keydown', event => { if (event.key === 'Enter') open(); });
-    return item;
-  }));
-  renderSeedOptions();
 }
 
 function asText(value) {
@@ -417,102 +377,9 @@ function appendLinkifiedValue(target, value) {
   });
 }
 
-function addContact(label, value, linkify = false) {
-  const text = asText(value);
-  if (!text) return;
-  const wrapper = document.createElement('div');
-  wrapper.className = 'contact-item';
-  const term = document.createElement('dt');
-  term.textContent = label;
-  const detail = document.createElement('dd');
-  if (linkify) appendLinkifiedValue(detail, text);
-  else detail.textContent = text;
-  wrapper.append(term, detail);
-  document.querySelector('#record-contact').append(wrapper);
-}
-
 function readableCategory(category) {
   const raw = asText(category);
   return raw.split(/[-_]/).map(word => word.toUpperCase() === 'ID' ? 'ID' : word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-}
-
-function formatBytes(bytes) {
-  if (!Number.isFinite(bytes)) return '';
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
-
-function openSeed(seed) {
-  const record = seed.fullRecord;
-  document.querySelector('#record-name').textContent = seed.name;
-
-  const categories = document.querySelector('#record-categories');
-  categories.replaceChildren(...(seed.categories || record.categories || []).map(category => {
-    const chip = document.createElement('span');
-    chip.textContent = category.label || readableCategory(category.id || category);
-    return chip;
-  }));
-
-  const contact = document.querySelector('#record-contact');
-  contact.replaceChildren();
-  addContact('Phone', record.phone);
-  addContact('Address', record.address);
-  addContact('Website or email', record.website || record.url, true);
-  addContact('Hours', record.hours);
-
-  const description = asText(record.description);
-  document.querySelector('#record-description').textContent = description;
-  document.querySelector('#record-description-section').hidden = !description;
-
-  const information = asText(record.informationText || record.information || record.details);
-  renderMarkdown(document.querySelector('#record-information'), information);
-  document.querySelector('#record-information-section').hidden = !information;
-
-  const attachmentList = document.querySelector('#record-attachments');
-  const attachments = seed.attachments || [];
-  attachmentList.replaceChildren(...attachments.map(attachment => {
-    const item = attachment.available ? document.createElement('a') : document.createElement('div');
-    item.className = `attachment ${attachment.available ? '' : 'unavailable'}`;
-    if (attachment.available) {
-      const parameters = new URLSearchParams({
-        importId: seed.importId, resourceId: seed.resourceId, path: attachment.path,
-      });
-      item.href = `/api/seed-asset?${parameters}`;
-      item.target = '_blank';
-      item.rel = 'noopener noreferrer';
-    }
-    const name = document.createElement('strong');
-    name.textContent = attachment.name;
-    const detail = document.createElement('small');
-    detail.textContent = attachment.available ? (formatBytes(attachment.bytes) || 'Stored package attachment') : 'Attachment reference only';
-    item.append(name, detail);
-    return item;
-  }));
-  document.querySelector('#record-attachments-section').hidden = !attachments.length;
-  document.querySelector('#record-attachment-note').hidden = !attachments.some(attachment => !attachment.available);
-
-  const metadata = document.querySelector('#record-metadata');
-  metadata.replaceChildren();
-  const metadataValues = [
-    ['Resource ID', seed.resourceId],
-    ['Verified', record.verifiedOn],
-    ['Last modified', record.lastModified ? new Date(record.lastModified).toLocaleDateString() : ''],
-  ];
-  for (const [label, value] of metadataValues) {
-    if (!value) continue;
-    const item = document.createElement('span');
-    const strong = document.createElement('strong');
-    strong.textContent = `${label}: `;
-    item.append(strong, document.createTextNode(value));
-    metadata.append(item);
-  }
-
-  document.querySelector('#record-json').textContent = JSON.stringify(record, null, 2);
-  document.querySelector('.raw-record').open = false;
-  const dialog = document.querySelector('#record-dialog');
-  dialog.showModal();
-  dialog.scrollTop = 0;
 }
 
 function friendlyStatus(value) {
@@ -537,8 +404,8 @@ function researchRunTitle(run) {
   return run.researchMode === 'standalone-location'
     ? `${category} research · ${run.targetLocation}`
     : run.seedResourceId
-      ? `${category} from ${run.prompt?.selectedSeed?.name || state.seeds.find(seed => seed.resourceId === run.seedResourceId)?.name || run.seedResourceId}`
-      : `Broad ${category} research`;
+      ? `${category} research from ${run.prompt?.selectedSeed?.name || run.seedResourceId}`
+      : `${category} research`;
 }
 
 function candidateCountForRun(runId) {
@@ -1132,51 +999,47 @@ async function refresh() {
   showAgent(status.agent);
   if (status.latestImport) {
     showImport(status.latestImport);
-    const result = await request(`/api/seeds?categoryId=${encodeURIComponent(state.activeCategoryId)}`);
-    state.seeds = result.seeds;
-    renderSeeds();
   } else {
     state.latestImport = null;
-    state.seeds = [];
-    renderSeedOptions();
     updateStartResearchState();
   }
   await loadResearchData();
 }
 
-document.querySelector('#package-input').addEventListener('change', event => {
-  document.querySelector('#file-label').textContent = event.target.files[0]?.name || 'Choose resource-package.zip';
-});
-
-document.querySelector('#import-form').addEventListener('submit', async event => {
-  event.preventDefault();
-  const form = event.currentTarget;
-  const button = form.querySelector('button');
+async function importSelectedPackage() {
+  const form = document.querySelector('#import-form');
+  const input = document.querySelector('#package-input');
+  if (!input.files[0]) return;
+  const chooser = form.querySelector('.package-button');
   const message = document.querySelector('#import-message');
-  button.disabled = true;
+  chooser.classList.add('busy');
   message.className = 'message';
+  document.querySelector('#file-label').textContent = 'Reading package…';
   message.textContent = 'Reading the package and building the known-resource index…';
   try {
     const result = await request('/api/import', { method: 'POST', body: new FormData(form) });
     showImport(result.import);
-    const seeds = await request(`/api/seeds?categoryId=${encodeURIComponent(state.activeCategoryId)}`);
-    state.seeds = seeds.seeds;
-    renderSeeds();
     switchResearchMode();
-    const category = activeCategory();
-    message.textContent = `Imported ${category.resourceCount} ${category.label} resources and discovered ${state.categories.length} categories. The source ZIP was not changed.`;
+    message.textContent = `${result.import.sourceName} connected. The source ZIP was not changed.`;
   } catch (error) {
     message.className = 'message error';
     message.textContent = error.message;
+    document.querySelector('#file-label').textContent = state.latestImport
+      ? 'Choose a different package…' : 'Choose resource package…';
   } finally {
-    button.disabled = false;
+    chooser.classList.remove('busy');
+    input.value = '';
   }
+}
+
+document.querySelector('#package-input').addEventListener('change', () => {
+  importSelectedPackage();
 });
 
-document.querySelector('#seed-filter').addEventListener('input', event => renderSeeds(event.target.value));
+document.querySelector('#import-form').addEventListener('submit', event => event.preventDefault());
+
 document.querySelectorAll('input[name="research-mode"]').forEach(input => input.addEventListener('change', switchResearchMode));
 document.querySelector('#target-location').addEventListener('input', updateStandaloneAutoAssignment);
-document.querySelector('#close-dialog').addEventListener('click', () => document.querySelector('#record-dialog').close());
 document.querySelector('#close-candidate').addEventListener('click', () => document.querySelector('#candidate-dialog').close());
 
 document.querySelector('#copy-setup').addEventListener('click', async event => {
@@ -1244,7 +1107,7 @@ document.querySelector('#research-form').addEventListener('submit', async event 
       body: JSON.stringify({
         assignment: document.querySelector('#research-assignment').value,
         researchMode,
-        seedResourceId: researchMode === 'package' ? document.querySelector('#research-seed').value : '',
+        seedResourceId: '',
         categoryId: researchMode === 'package' ? state.activeCategoryId : 'housing',
         targetLocation: researchMode === 'standalone-location' ? targetLocation : '',
         regionalScope: researchMode === 'standalone-location' ? document.querySelector('#regional-scope').value.trim() : '',
@@ -1254,7 +1117,7 @@ document.querySelector('#research-form').addEventListener('submit', async event 
     state.candidateRunSelectionInitialized = true;
     message.textContent = researchMode === 'standalone-location'
       ? `Research run ${run.id} started for ${targetLocation}. Candidates will appear as each stage finishes and remain separate from the imported package.`
-      : `Research run ${run.id} started. Candidates will appear as each stage finishes; you may keep reviewing seeds while ${name} works.`;
+      : `Research run ${run.id} started. Candidates will appear as each stage finishes while ${name} works.`;
     await loadResearchData();
   } catch (error) {
     message.textContent = error.message;
@@ -1395,36 +1258,6 @@ document.querySelector('#save-match-assessment').addEventListener('click', async
   } finally {
     button.disabled = false;
   }
-});
-
-document.querySelector('#check-form').addEventListener('submit', async event => {
-  event.preventDefault();
-  const candidate = {
-    name: document.querySelector('#candidate-name').value,
-    website: document.querySelector('#candidate-website').value,
-    address: document.querySelector('#candidate-address').value,
-  };
-  const target = document.querySelector('#match-results');
-  target.textContent = 'Checking…';
-  try {
-    const result = await request('/api/duplicate-check', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ candidate }),
-    });
-    if (!result.matches.length) {
-      target.textContent = 'No credible match in the imported package.';
-      return;
-    }
-    target.replaceChildren(...result.matches.map(match => {
-      const item = document.createElement('div');
-      item.className = `match ${match.classification === 'already-known' ? 'exact' : ''}`;
-      const heading = document.createElement('strong');
-      heading.textContent = match.name;
-      const detail = document.createElement('span');
-      detail.textContent = `${match.classification === 'already-known' ? 'Already known' : 'Possible duplicate'} · ${Math.round(match.score * 100)}% signal`;
-      item.append(heading, detail);
-      return item;
-    }));
-  } catch (error) { target.textContent = error.message; }
 });
 
 state.assignmentDrafts.package = document.querySelector('#research-assignment').value;

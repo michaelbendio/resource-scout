@@ -9,11 +9,9 @@
 <body>
   <header>
     <div>
-      <p class="eyebrow" id="workspace-eyebrow">Resource research workspace</p>
       <h1>Resource Research Agent</h1>
       <p class="lede">Import what is already known. Use it to research more deeply. Keep discoveries separate until a human reviews them.</p>
     </div>
-    <span class="pill" id="status-pill">No package imported</span>
   </header>
 
   <main>
@@ -32,24 +30,25 @@
     <section class="panel import-panel">
       <div>
         <p class="step">01 · Package intake</p>
-        <h2>Connect a Resource Assistant package</h2>
-        <p>The ZIP is read to discover its schema, categories, Types, For groups, and existing resources. It is never edited, and the uploaded copy is discarded after the snapshot is recorded.</p>
+        <h2>Connect a resource package</h2>
+        <p>Select a resource-package ZIP to load its categories, existing resources, Types, and For groups.</p>
       </div>
       <form id="import-form">
-        <label class="drop" for="package-input">
-          <span id="file-label">Choose resource-package.zip</span>
+        <div class="package-status" id="package-status" hidden>
+          <span class="package-status-icon" aria-hidden="true">✓</span>
+          <div><strong id="package-status-name"></strong><small>Connected</small></div>
+        </div>
+        <label class="package-button" for="package-input">
+          <span id="file-label">Choose resource package…</span>
           <input id="package-input" name="package" type="file" accept=".zip,application/zip" required>
         </label>
-        <button type="submit">Import package</button>
+        <p class="package-safety">The source ZIP is read only. The app records a separate research snapshot and never changes the original file.</p>
+        <details id="package-details" hidden>
+          <summary>Package details</summary>
+          <p id="package-details-copy"></p>
+        </details>
       </form>
       <p class="message" id="import-message" aria-live="polite"></p>
-    </section>
-
-    <section class="metrics" id="metrics" hidden>
-      <article><span>Package resources</span><strong id="resource-count">—</strong></article>
-      <article><span id="category-count-label">Housing resources</span><strong id="housing-count">—</strong></article>
-      <article><span id="multi-count-label">Multi-category Housing</span><strong id="multi-count">—</strong></article>
-      <article><span>Schema discovered</span><strong id="schema-version">—</strong></article>
     </section>
 
     <section class="panel category-panel" id="category-panel" hidden>
@@ -60,36 +59,9 @@
         </div>
         <span class="count-badge" id="category-supported-count"></span>
       </div>
-      <p class="muted">Every category discovered in the package is available for research. Housing, Food, and Employment use specialized playbooks; all other categories use a category-aware access, support, barriers, and gap-review workflow.</p>
+      <p class="muted">Choose a category to focus the research. The agent uses existing resources, Types, For groups, and category-aware research guidance from the connected package.</p>
       <div class="category-grid" id="category-grid"></div>
       <p class="taxonomy-note" id="category-taxonomy-note"></p>
-    </section>
-
-    <section class="workspace" id="workspace" hidden>
-      <article class="panel seeds-panel">
-        <div class="section-head">
-          <div>
-            <p class="step">02 · Existing knowledge</p>
-            <h2 id="seeds-title">Housing research seeds</h2>
-          </div>
-          <input id="seed-filter" type="search" placeholder="Filter seeds…" aria-label="Filter research seeds">
-        </div>
-        <p class="muted">These are existing resources, not discoveries. Open one to see the complete source record and its branching context.</p>
-        <div id="seed-list" class="seed-list"></div>
-      </article>
-
-      <aside class="panel checker-panel">
-        <p class="step">02 · Known-resource guard</p>
-        <h2>Check a candidate</h2>
-        <p class="muted">Names, aliases, websites, addresses, and organization/program relationships are compared against every imported resource.</p>
-        <form id="check-form">
-          <label>Name<input id="candidate-name" required placeholder="Organization or program"></label>
-          <label>Website<input id="candidate-website" placeholder="example.org/program"></label>
-          <label>Address<input id="candidate-address" placeholder="Street, city, state"></label>
-          <button type="submit">Check known resources</button>
-        </form>
-        <div id="match-results" aria-live="polite"></div>
-      </aside>
     </section>
 
     <section class="panel research-panel" id="research-panel">
@@ -125,13 +97,6 @@
             <span><strong>Research a location without a package</strong><small>Exploratory research kept separate from any imported office package.</small></span>
           </label>
         </fieldset>
-        <div id="package-research-fields">
-          <label>Research starting point
-            <select id="research-seed">
-              <option value="">Research Housing broadly</option>
-            </select>
-          </label>
-        </div>
         <div class="standalone-fields" id="standalone-research-fields" hidden>
           <label>Research location
             <input id="target-location" placeholder="Mesa, Arizona" autocomplete="off">
@@ -140,7 +105,7 @@
             <input id="regional-scope" placeholder="Maricopa County and nearby programs serving Mesa" autocomplete="off">
           </label>
         </div>
-        <p class="research-context-note" id="research-context-note">Package-backed research is the default and uses the connected package for seeds and duplicate checking.</p>
+        <p class="research-context-note" id="research-context-note">Existing resources in the connected package are used as context and will not be returned as new discoveries.</p>
         <label>Assignment
           <textarea id="research-assignment" rows="6">Discover realistic ways a person without adequate housing in Utah County could obtain safe temporary or permanent housing. Follow useful relationships rather than stopping at a directory listing: voucher providers to participating motels, organizations to specific programs, and temporary options to longer-term pathways. Investigate practical access and lived experience as well as official claims.</textarea>
         </label>
@@ -203,41 +168,6 @@
       </article>
     </section>
   </main>
-
-  <dialog id="record-dialog">
-    <button class="close" id="close-dialog" aria-label="Close">×</button>
-    <div class="record-heading">
-      <p class="step">Existing research seed</p>
-      <h2 id="record-name"></h2>
-      <p class="known-badge">Already known · use as a research starting point</p>
-      <div class="category-chips" id="record-categories"></div>
-    </div>
-
-    <dl class="contact-grid" id="record-contact"></dl>
-
-    <section class="record-section" id="record-description-section" hidden>
-      <h3>About this resource</h3>
-      <p id="record-description"></p>
-    </section>
-
-    <section class="record-section" id="record-information-section" hidden>
-      <h3>Information</h3>
-      <div class="markdown" id="record-information"></div>
-    </section>
-
-    <section class="record-section" id="record-attachments-section" hidden>
-      <h3>Attachments</h3>
-      <div class="attachment-list" id="record-attachments"></div>
-      <p class="attachment-note" id="record-attachment-note" hidden>Re-import this resource package once to make these stored attachments openable.</p>
-    </section>
-
-    <div class="record-metadata" id="record-metadata"></div>
-
-    <details class="raw-record">
-      <summary>View raw JSON</summary>
-      <pre id="record-json"></pre>
-    </details>
-  </dialog>
 
   <dialog id="candidate-dialog">
     <button class="close" id="close-candidate" aria-label="Close">×</button>
