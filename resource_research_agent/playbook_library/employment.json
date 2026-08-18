@@ -1,0 +1,30 @@
+{
+  "categoryId": "employment",
+  "label": "Employment",
+  "aliases": [],
+  "assignment": "Discover realistic employment resources for people in {service_area} who need work, better work, training, or help overcoming barriers to employment. Follow useful relationships from workforce organizations to specific placement programs, employers, training, credentials, apprenticeships, and supported-employment services. Verify costs, eligibility, schedules, and the practical enrollment path.",
+  "include": [
+    "Immediate job search, placement, staffing, and hiring pathways",
+    "Training, credentials, apprenticeships, education, and career advancement",
+    "Supported employment and help with disability, reentry, language, transportation, or documentation barriers",
+    "Work clothing, tools, childcare, transportation, and other employment supports",
+    "The actual enrollment path, costs, schedules, placement claims, and availability"
+  ],
+  "exclude": [
+    "Generic job boards without a local support, placement, or verified hiring pathway",
+    "Commercial training whose cost or outcomes cannot be established",
+    "Stale job openings presented as durable resources"
+  ],
+  "verificationQuestions": [
+    "Does the program provide placement, training, support, or merely information?",
+    "What eligibility, prerequisites, cost, schedule, and enrollment steps apply?",
+    "What employment barriers can it actually address?",
+    "Are hiring, credential, wage, and outcome claims current and supportable?"
+  ],
+  "stages": [
+    {"key": "job-access", "title": "Immediate job access and placement", "instruction": "Investigate job-search help, workforce centers, staffing and placement, current hiring pathways, and the practical steps a person can take now."},
+    {"key": "training-credentials", "title": "Training and credentials", "instruction": "Investigate short-term training, credentials, apprenticeships, education, scholarships, and career pathways, including cost, schedule, prerequisites, and likely time to benefit."},
+    {"key": "barrier-aware-employment", "title": "Barrier-aware and supported employment", "instruction": "Investigate supported employment and services addressing disability, reentry, language, age, transportation, childcare, clothing, tools, identification, and other barriers."},
+    {"key": "employment-gaps", "title": "Opportunity and gap review", "instruction": "Cross-check earlier findings, verify service boundaries and outcome claims, avoid repeated candidates, and identify important population or access gaps."}
+  ]
+}

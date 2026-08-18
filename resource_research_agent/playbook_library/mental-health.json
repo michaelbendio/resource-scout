@@ -1,0 +1,30 @@
+{
+  "categoryId": "mental-health",
+  "label": "Mental Health",
+  "aliases": ["behavioral health"],
+  "assignment": "Discover realistic mental-health resources for people in {service_area}, from crisis response and urgent assessment through counseling, psychiatry, medication, peer support, and continuing care. Follow health systems and referral lines to specific programs while verifying clinical scope, age, payment, current appointments, crisis hours, language, accessibility, and the real intake path.",
+  "include": [
+    "Crisis lines, mobile crisis, receiving centers, urgent assessment, and suicide-safety support",
+    "Counseling, psychiatry, medication management, groups, peer support, and case management",
+    "Community mental-health, Medicaid, uninsured, sliding-scale, school, and telehealth pathways",
+    "Services for children, families, trauma survivors, severe mental illness, perinatal needs, reentry, and co-occurring conditions",
+    "Hospital discharge, ongoing-care transitions, transportation, language, and disability access"
+  ],
+  "exclude": [
+    "Emergency services presented as routine continuing care without a follow-up pathway",
+    "Provider directories without verified availability, payer acceptance, or intake",
+    "Unlicensed wellness services presented as substitutes for needed clinical treatment"
+  ],
+  "verificationQuestions": [
+    "Is this crisis response, assessment, therapy, psychiatry, medication, peer support, or case management?",
+    "Which ages, diagnoses, acuity levels, insurance plans, or income groups are served?",
+    "Are appointments or crisis slots currently available and how long is the wait?",
+    "What happens after an urgent encounter or hospital discharge?"
+  ],
+  "stages": [
+    {"key": "mental-crisis", "title": "Crisis and urgent response", "instruction": "Investigate crisis calls and text, mobile response, receiving and stabilization centers, suicide-safety support, urgent assessment, after-hours access, transport, and the handoff into follow-up care."},
+    {"key": "mental-treatment", "title": "Counseling, psychiatry, and medication", "instruction": "Investigate therapy, psychiatry, medication management, groups, case management, community mental-health, payer and sliding-scale options, waitlists, and referral requirements."},
+    {"key": "mental-specialized", "title": "Specialized and continuing support", "instruction": "Investigate child, family, perinatal, trauma, severe-mental-illness, peer, school, reentry, co-occurring, multilingual, telehealth, and disability-accessible services."},
+    {"key": "mental-gaps", "title": "Continuity and availability review", "instruction": "Cross-check current appointment access, age and acuity exclusions, payer acceptance, crisis-to-treatment handoffs, medication continuity, transport, language, and after-hours gaps. Distinguish licensed clinical care from general wellness support."}
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "categoryId": "disability",
+  "label": "Disability",
+  "aliases": [],
+  "assignment": "Discover realistic disability resources for people in {service_area}, including benefits, independent living, assistive technology, home- and community-based support, advocacy, employment, transportation, and caregiver help. Follow broad agencies to specific programs while verifying disability criteria, age, funding, waitlists, service area, and the real application or assessment path.",
+  "include": [
+    "Disability benefits, Medicaid pathways, waivers, and benefits counseling",
+    "Independent-living skills, personal assistance, home modifications, and community support",
+    "Assistive technology, durable equipment, communication access, and device lending",
+    "Advocacy, legal rights, education, employment, transportation, recreation, and peer support",
+    "Caregiver training, respite, navigation, and services across childhood-to-adult transitions"
+  ],
+  "exclude": [
+    "General services that merely claim accessibility without a disability-specific benefit or accommodation",
+    "Equipment sellers without a subsidy, loan, reuse, assessment, or hardship-access program",
+    "Programs whose diagnostic, age, waiver, or geographic limits make local access unrealistic"
+  ],
+  "verificationQuestions": [
+    "Which disabilities, functional needs, ages, or benefit statuses qualify?",
+    "Is diagnosis or professional referral required, and who performs assessments?",
+    "What funding source, cost share, waitlist, and service limit applies?",
+    "Are communication, physical, sensory, cognitive, and language accommodations actually available?"
+  ],
+  "stages": [
+    {"key": "disability-benefits", "title": "Benefits and navigation", "instruction": "Investigate SSI and SSDI help, Medicaid and waiver pathways, benefits counseling, disability determination support, case navigation, and the actual application, appeal, or assessment process."},
+    {"key": "independent-living", "title": "Independent living and equipment", "instruction": "Investigate personal assistance, independent-living skills, home modifications, assistive technology, durable equipment, communication access, device lending, repair, reuse, and funding."},
+    {"key": "disability-participation", "title": "Participation and caregiver support", "instruction": "Investigate advocacy, education transitions, employment, transportation, recreation, peer support, respite, caregiver help, and services responsive to intellectual, developmental, physical, sensory, and psychiatric disabilities."},
+    {"key": "disability-gaps", "title": "Waitlists and access gap review", "instruction": "Cross-check diagnostic and functional criteria, age transitions, waiver status, waitlists, rural reach, accommodations, and costs. Identify services described as accessible that lack a practical access path."}
+  ]
+}

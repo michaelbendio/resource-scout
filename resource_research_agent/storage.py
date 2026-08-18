@@ -446,6 +446,8 @@ class ResearchStore:
         return result
 
     def list_import_categories(self, import_id: int | None = None) -> list[dict[str, Any]]:
+        from .playbooks import playbook_for
+
         import_id = import_id or self.latest_import_id()
         if import_id is None:
             return []
@@ -466,6 +468,7 @@ class ResearchStore:
             raw_object = raw if isinstance(raw, dict) else {}
             label = str(row["label"])
             resource_count = sum(category_id in ids for ids in membership)
+            playbook = playbook_for(category_id, label)
             result.append({
                 "id": category_id,
                 "label": label,
@@ -476,6 +479,10 @@ class ResearchStore:
                     category_id in ids and len(ids) > 1 for ids in membership
                 ),
                 "supported": True,
+                "defaultAssignment": playbook.default_assignment,
+                "playbookVersion": playbook.library_version,
+                "playbookSource": playbook.source,
+                "specializedPlaybook": playbook.source != "generated fallback",
             })
         return result
 

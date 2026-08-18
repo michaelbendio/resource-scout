@@ -176,8 +176,12 @@ class ResearchWorkflowTests(unittest.TestCase):
         legal = self.store.get_run(legal_run["id"])
         self.assertEqual("legal", legal["targetCategoryId"])
         self.assertEqual("Legal", legal["targetCategoryLabel"])
-        self.assertEqual("direct-access", legal["stages"][0]["key"])
-        self.assertIn("legal resources", legal["assignment"])
+        self.assertEqual("legal-urgent", legal["stages"][0]["key"])
+        self.assertIn("civil legal help", legal["assignment"])
+        self.assertEqual("1.0.0", legal["prompt"]["categoryBrief"]["playbookVersion"])
+        self.assertEqual("legal.json", legal["prompt"]["categoryBrief"]["playbookSource"])
+        self.assertTrue(legal["prompt"]["categoryBrief"]["exclude"])
+        self.assertTrue(legal["prompt"]["categoryBrief"]["verificationQuestions"])
         for _ in range(200):
             legal = self.store.get_run(legal_run["id"])
             if legal and legal["status"] in {"completed", "failed"}:

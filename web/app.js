@@ -7,11 +7,6 @@ const state = {
 };
 
 const PACKAGE_DEFAULT_ASSIGNMENT = 'Discover realistic ways a person without adequate housing in Utah County could obtain safe temporary or permanent housing. Follow useful relationships rather than stopping at a directory listing: voucher providers to participating motels, organizations to specific programs, and temporary options to longer-term pathways. Investigate practical access and lived experience as well as official claims.';
-const CATEGORY_DEFAULT_ASSIGNMENTS = {
-  housing: PACKAGE_DEFAULT_ASSIGNMENT,
-  food: 'Discover realistic ways a person facing food insecurity in Utah County can obtain meals and groceries. Follow useful relationships from coordinating organizations to the specific meal sites, pantries, benefit programs, delivery services, and specialized providers people can actually access. Verify schedules, boundaries, eligibility, and the practical intake path.',
-  employment: 'Discover realistic employment resources for people in Utah County who need work, better work, training, or help overcoming barriers to employment. Follow useful relationships from workforce organizations to specific placement programs, employers, training, credentials, apprenticeships, and supported-employment services. Verify costs, eligibility, schedules, and the practical enrollment path.',
-};
 
 const MATCH_ASSESSMENT_LABELS = {
   'same-resource': 'Same resource',
@@ -76,18 +71,12 @@ function showImport(summary) {
 
 function activeCategory() {
   return state.categories.find(category => category.id === state.activeCategoryId)
-    || { id: 'housing', label: 'Housing', types: [], resourceCount: 0, multiCategoryResourceCount: 0, supported: true };
-}
-
-function categoryKey(category = activeCategory()) {
-  const id = String(category.id || '').toLowerCase();
-  const label = String(category.label || '').toLowerCase();
-  return CATEGORY_DEFAULT_ASSIGNMENTS[id] ? id : CATEGORY_DEFAULT_ASSIGNMENTS[label] ? label : id;
+    || { id: 'housing', label: 'Housing', types: [], resourceCount: 0, multiCategoryResourceCount: 0, supported: true, defaultAssignment: PACKAGE_DEFAULT_ASSIGNMENT };
 }
 
 function packageDefaultAssignment() {
   const category = activeCategory();
-  return CATEGORY_DEFAULT_ASSIGNMENTS[categoryKey()] || `Discover realistic ${category.label.toLowerCase()} resources for people in Utah County. Follow useful relationships from coordinating organizations and broad directories to the specific programs, providers, benefits, and practical services people can actually access. Verify eligibility, costs, schedules, service areas, availability, and the real intake or enrollment path.`;
+  return category.defaultAssignment || `Discover realistic ${category.label.toLowerCase()} resources for people in Utah County. Follow useful relationships from coordinating organizations and broad directories to the specific programs, providers, benefits, and practical services people can actually access. Verify eligibility, costs, schedules, service areas, availability, and the real intake or enrollment path.`;
 }
 
 function updateCategoryCopy() {

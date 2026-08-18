@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "libraryVersion": "1.0.0",
+  "defaultServiceArea": "Utah County",
+  "evidenceRules": [
+    "Use official or authoritative sources for program facts; retain source URLs and dates.",
+    "Use firsthand accounts, reporting, reviews, blogs, and transcripts carefully for lived experience.",
+    "Attribute anecdotal claims and never turn a single account into an unqualified fact.",
+    "Treat funding, capacity, schedules, eligibility, and availability as time-varying and record an as-of date.",
+    "Turn important unknowns into explicit research questions rather than filling gaps by inference."
+  ]
+}

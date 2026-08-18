@@ -1,0 +1,30 @@
+{
+  "categoryId": "food",
+  "label": "Food",
+  "aliases": [],
+  "assignment": "Discover realistic ways a person facing food insecurity in {service_area} can obtain meals and groceries. Follow useful relationships from coordinating organizations to the specific meal sites, pantries, benefit programs, delivery services, and specialized providers people can actually access. Verify schedules, boundaries, eligibility, and the practical intake path.",
+  "include": [
+    "Meals available today, including community meals and emergency food",
+    "Food pantries, recurring groceries, mobile distribution, and delivery",
+    "SNAP, WIC, school, senior, and other benefit or nutrition pathways",
+    "Dietary, disability, transportation, documentation, and service-area barriers",
+    "The actual schedule, intake path, limits, and availability"
+  ],
+  "exclude": [
+    "Ordinary grocery stores or restaurants without a hardship-access program",
+    "One-time food events that have ended or cannot be dated and verified",
+    "Broad directories without a confirmed meal, pantry, benefit, or delivery service"
+  ],
+  "verificationQuestions": [
+    "When and where can food actually be obtained, and is an appointment required?",
+    "What identification, address, income, household, or frequency rules apply?",
+    "Are delivery, dietary accommodations, and language access available?",
+    "Is the published schedule and inventory status current?"
+  ],
+  "stages": [
+    {"key": "immediate-food", "title": "Meals and emergency food", "instruction": "Investigate dependable meals and emergency food available today or within days, including the actual locations, schedules, eligibility, and access steps."},
+    {"key": "pantries-groceries", "title": "Pantries and recurring groceries", "instruction": "Investigate food pantries, mobile distributions, recurring groceries, delivery, frequency limits, geographic boundaries, identification requirements, and transportation barriers."},
+    {"key": "benefits-specialized", "title": "Benefits and specialized access", "instruction": "Investigate benefit enrollment and food resources for children, families, seniors, medically vulnerable people, veterans, people leaving corrections, Spanish speakers, and others with specialized access needs."},
+    {"key": "food-gaps", "title": "Availability and gap review", "instruction": "Cross-check schedules and availability, identify geographic or time-of-day gaps, avoid repeated candidates, and pursue missing referral relationships needed for a useful review."}
+  ]
+}

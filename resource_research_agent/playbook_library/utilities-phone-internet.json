@@ -1,0 +1,30 @@
+{
+  "categoryId": "utilities-phone-internet",
+  "label": "Utilities, Phone, Internet",
+  "aliases": ["utilities phone internet"],
+  "assignment": "Discover realistic help for people in {service_area} who need to establish, retain, or restore electricity, gas, water, heating, cooling, phone, or internet service. Follow utility providers and coordinating agencies to specific bill assistance, shutoff prevention, arrears, deposit, weatherization, low-cost phone, device, and internet programs. Verify funding, provider, account status, eligibility, covered charges, equipment, and application timing.",
+  "include": [
+    "Energy, gas, water, sewer, heating, cooling, arrears, deposit, and shutoff-prevention assistance",
+    "Weatherization, efficiency, furnace, cooling, and medically necessary utility protections",
+    "Low-cost phone, mobile service, internet, hotspots, devices, and digital-access support",
+    "Provider payment plans, forgiveness, discounts, public benefits, and emergency funds",
+    "Current funding, account-holder, landlord, documentation, equipment, and application requirements"
+  ],
+  "exclude": [
+    "Ordinary commercial phone, internet, or utility plans without an affordability program",
+    "Expired national discounts or promotional pricing presented as ongoing assistance",
+    "Programs incompatible with the applicant's utility provider, account status, residence, or landlord arrangement"
+  ],
+  "verificationQuestions": [
+    "Which provider, utility, charge, account status, and service address qualify?",
+    "Is funding open, and can it prevent shutoff or restore disconnected service in time?",
+    "What income, notice, account-holder, landlord, citizenship, or documentation rules apply?",
+    "For phone and internet, what are the continuing price, equipment cost, data limits, and coverage?"
+  ],
+  "stages": [
+    {"key": "utilities-emergency", "title": "Shutoff prevention and restoration", "instruction": "Investigate energy, gas, water, sewer, heating, cooling, arrears, deposits, emergency funds, medical protections, payment plans, and the fastest route to prevent or reverse disconnection."},
+    {"key": "utilities-efficiency", "title": "Ongoing affordability and home systems", "instruction": "Investigate discounts, forgiveness, budget billing, weatherization, efficiency, furnace and cooling repair, landlord issues, and longer-term ways to reduce essential utility costs."},
+    {"key": "connectivity", "title": "Phone, internet, and devices", "instruction": "Investigate low-cost mobile and internet service, phones, devices, hotspots, digital navigation, coverage, equipment, ongoing prices, data limits, and replacement policies."},
+    {"key": "utilities-gaps", "title": "Funding and provider gap review", "instruction": "Recheck funding status, utility-provider compatibility, shutoff deadlines, account and landlord rules, rural connectivity, equipment costs, and expired programs. Identify households unable to bridge application processing and disconnection."}
+  ]
+}
