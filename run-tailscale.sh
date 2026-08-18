@@ -1,9 +1,10 @@
 #!/bin/sh
 set -eu
 cd "$(dirname "$0")"
+RESOURCE_RESEARCH_PYTHON="${RESOURCE_RESEARCH_PYTHON:-python3}"
 
 if command -v caffeinate >/dev/null 2>&1; then
-  exec caffeinate -i python3 -m resource_research_agent --database data/research-agent.sqlite3 tailscale "$@"
+  exec caffeinate -i "$RESOURCE_RESEARCH_PYTHON" -m resource_research_agent --database data/research-agent.sqlite3 tailscale "$@"
 fi
 
-exec python3 -m resource_research_agent --database data/research-agent.sqlite3 tailscale "$@"
+exec "$RESOURCE_RESEARCH_PYTHON" -m resource_research_agent --database data/research-agent.sqlite3 tailscale "$@"

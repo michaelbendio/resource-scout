@@ -133,6 +133,26 @@ Normal Mac-only use is unchanged: `./run.sh` still serves only <http://127.0.0.1
 
 For a reviewer outside the owner's tailnet, Tailscale supports sharing this Mac with a specific person. Apply a narrow Tailscale access policy so only the intended reviewer can reach it. The identity displayed by the app is informational; Tailscale's sharing and access policy are the security boundary.
 
+## Keep the agent running in the background on macOS
+
+The macOS background service starts the DeepSeek-and-Tailscale launcher when you sign in, keeps it running if it exits, and uses this clone's existing `data/research-agent.sqlite3`. Install it from the clone that should be the agent's permanent home. First run `./run-dsh.sh` once if the DeepSeek key has not already been saved in Keychain, then stop that foreground copy and install the service:
+
+```sh
+./background-service.sh install
+```
+
+The service does not need a Terminal window. The Mac must remain signed in, awake, online, and connected to Tailscale. Use these commands from the same clone when needed:
+
+```sh
+./background-service.sh status
+./background-service.sh restart
+./background-service.sh logs
+./background-service.sh stop
+./background-service.sh start
+```
+
+Use `restart` after updating the agent. `uninstall` removes only the macOS startup entry; it leaves the research database and log files in `data/` untouched. The private address remains the Mac's `https://…ts.net` Tailscale address. The agent continues to listen only on localhost, and the service never enables public Tailscale Funnel.
+
 ## Command line
 
 Import a package and print a report:
