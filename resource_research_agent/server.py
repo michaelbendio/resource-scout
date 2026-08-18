@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urlsplit
 
+from . import __version__
 from .duplicates import DuplicateIndex
 from .importer import PackageImportError, ResourcePackageImporter
 from .review_export import build_review_copy
@@ -53,6 +54,7 @@ class ResearchHandler(BaseHTTPRequestHandler):
             if parsed.path == "/api/status":
                 self._json({
                     "ok": True,
+                    "version": __version__,
                     "latestImport": self.server.store.import_summary(),
                     "agent": self.server.research.agent_status(),
                     "access": self._access_context(),

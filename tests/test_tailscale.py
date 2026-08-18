@@ -10,6 +10,7 @@ import urllib.request
 from pathlib import Path
 from unittest.mock import patch
 
+from resource_research_agent import __version__
 from resource_research_agent.server import ResearchHTTPServer
 from resource_research_agent.storage import ResearchStore
 from resource_research_agent.tailscale import TailscaleAccessError, TailscaleServeManager
@@ -145,7 +146,9 @@ class TailscaleStatusAPITests(unittest.TestCase):
                     },
                 )
                 with urllib.request.urlopen(request, timeout=5) as response:
-                    access = json.loads(response.read())["access"]
+                    status = json.loads(response.read())
+                    access = status["access"]
+                self.assertEqual(__version__, status["version"])
                 self.assertEqual("tailscale", access["mode"])
                 self.assertEqual(
                     "https://research-mac.example.ts.net", access["privateUrl"]

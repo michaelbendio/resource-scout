@@ -67,13 +67,13 @@ Install the pinned runtime once:
 ./install-dsh.sh
 ```
 
-Start the app through the key prompt:
+Start the app through the Keychain-aware launcher:
 
 ```sh
 ./run-dsh.sh
 ```
 
-The prompt does not display the key, pass it as a command-line argument, write it to the app database, or save it to a project file. The key exists only in the app process environment. Select **DeepSeek Harness (experimental)** in **Research agent connection**, save, and the status card will show when it is ready.
+On macOS, the first launch securely prompts once to save the key in the user's Keychain; later launches retrieve it automatically. A `DEEPSEEK_API_KEY` already present in the environment takes precedence. On systems without the macOS `security` command, the launcher falls back to a hidden prompt for that launch. The key is never written to the app database or a project file. Select **DeepSeek Harness (experimental)** in **Research agent connection**, save, and the status card will show when it is ready.
 
 The DSH research overlay gives DeepSeek a social-service resource researcher persona, exposes DeepSeek's server-side `web_search` tool, and disables shell, filesystem, editing, skill, workflow, and subagent tools. DSH also runs from an empty temporary working directory. `web_fetch` remains disabled in this first connection because DSH's own preview ships it disabled while its HTTP provider lacks a complete SSRF boundary.
 

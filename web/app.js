@@ -995,6 +995,7 @@ async function loadResearchData() {
 
 async function refresh() {
   const status = await request('/api/status');
+  if (status.version) document.querySelector('#app-version').textContent = `v${status.version}`;
   showAccess(status.access);
   showAgent(status.agent);
   if (status.latestImport) {
