@@ -100,6 +100,15 @@ def candidate_information(candidate: dict[str, Any]) -> str:
         details.append(f"Research description: {research_description}")
     sections.append(_section("Resource details", details))
 
+    contact_details = []
+    for address in _items(candidate.get("additionalAddresses")):
+        contact_details.append(f"Additional address: {address}")
+    for phone in _items(candidate.get("additionalPhoneNumbers")):
+        contact_details.append(f"Additional phone: {phone}")
+    sections.append(_section("Additional locations and contacts", contact_details))
+
+    sections.append(_section("Services provided", _items(candidate.get("servicesProvided"))))
+
     access = []
     if text := _inline(candidate.get("accessTimeline")):
         access.append(f"Access timeline: {text}")
@@ -115,7 +124,10 @@ def candidate_information(candidate: dict[str, Any]) -> str:
         access.append(f"Availability: {text}")
     sections.append(_section("Access and availability", access))
 
-    sections.append(_section("Eligibility", _items(candidate.get("eligibility"))))
+    sections.append(_section("Eligibility requirements", _items(candidate.get("eligibility"))))
+    sections.append(_section("What to expect", _items(candidate.get("whatToExpect"))))
+    sections.append(_section("How to best connect", _items(candidate.get("howToBestConnect"))))
+    sections.append(_section("Additional notes", _items(candidate.get("additionalNotes"))))
     sections.append(_section("Barriers and restrictions", _items(candidate.get("barriers"))))
     if text := _inline(candidate.get("petPolicy")):
         sections.append(_section("Pet and service-animal information", [text]))

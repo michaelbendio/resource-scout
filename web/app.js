@@ -714,7 +714,9 @@ function renderCandidateProfile(discovery) {
   addCandidateFact(facts, 'Area served', candidate.geography);
   addCandidateFact(facts, 'Access timeline', candidate.accessTimeline);
   addCandidateFact(facts, 'Phone', candidate.phone);
+  addCandidateFact(facts, 'Other phone numbers', candidate.additionalPhoneNumbers);
   addCandidateFact(facts, 'Address', candidate.address);
+  addCandidateFact(facts, 'Other addresses', candidate.additionalAddresses);
   addCandidateFact(facts, 'Hours', candidate.hours);
   addCandidateFact(facts, 'Website', candidate.website || candidate.url, true);
   if (facts.children.length) profile.append(facts);
@@ -724,11 +726,15 @@ function renderCandidateProfile(discovery) {
     `${run?.targetCategoryLabel || 'Resource'} need`,
     candidate.serviceNeed || candidate.housingNeed,
   );
+  addCandidateSection(profile, 'Services provided', candidate.servicesProvided);
   addCandidateSection(profile, 'Suggested Types', candidate.recommendedTypes);
   addCandidateSection(profile, 'Suggested For', candidate.recommendedFor);
   addCandidateSection(profile, 'Classification rationale', candidate.classificationRationale);
   addCandidateSection(profile, 'Possible new Types for human review', candidate.suggestedNewTypes);
-  addCandidateSection(profile, 'Eligibility', candidate.eligibility);
+  addCandidateSection(profile, 'Eligibility requirements', candidate.eligibility);
+  addCandidateSection(profile, 'What to expect', candidate.whatToExpect);
+  addCandidateSection(profile, 'How to best connect', candidate.howToBestConnect);
+  addCandidateSection(profile, 'Additional notes', candidate.additionalNotes);
   addCandidateSection(profile, 'Barriers and restrictions', candidate.barriers);
   const availability = candidate.availability;
   if (availability) addCandidateSection(profile, 'Availability', typeof availability === 'object'

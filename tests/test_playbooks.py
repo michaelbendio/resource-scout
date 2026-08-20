@@ -5,6 +5,7 @@ import unittest
 from resource_research_agent.playbooks import (
     PLAYBOOKS,
     PLAYBOOK_LIBRARY_VERSION,
+    output_schema,
     playbook_for,
 )
 
@@ -35,7 +36,7 @@ EXPECTED_CATEGORIES = {
 
 class PlaybookLibraryTests(unittest.TestCase):
     def test_every_package_category_has_a_human_reviewable_playbook(self) -> None:
-        self.assertEqual("1.0.0", PLAYBOOK_LIBRARY_VERSION)
+        self.assertEqual("1.1.0", PLAYBOOK_LIBRARY_VERSION)
         self.assertEqual(EXPECTED_CATEGORIES, set(PLAYBOOKS))
         for category_id, playbook in PLAYBOOKS.items():
             with self.subTest(category=category_id):
@@ -44,6 +45,14 @@ class PlaybookLibraryTests(unittest.TestCase):
                 self.assertTrue(playbook.scope)
                 self.assertTrue(playbook.exclusions)
                 self.assertTrue(playbook.verification_questions)
+                self.assertEqual(
+                    [
+                        "identity-and-contact", "services-provided",
+                        "eligibility-requirements", "what-to-expect",
+                        "how-to-best-connect", "additional-notes",
+                    ],
+                    [item["key"] for item in playbook.resource_gathering_requirements],
+                )
                 self.assertIn("Utah County", playbook.default_assignment)
 
     def test_clothing_playbook_rejects_ordinary_retail_search_results(self) -> None:
@@ -64,6 +73,18 @@ class PlaybookLibraryTests(unittest.TestCase):
         self.assertEqual("generated fallback", playbook.source)
         self.assertEqual(4, len(playbook.stages))
         self.assertTrue(playbook.exclusions)
+        self.assertEqual(
+            PLAYBOOKS["housing"].resource_gathering_requirements,
+            playbook.resource_gathering_requirements,
+        )
+
+    def test_output_schema_has_curator_ready_gathering_fields(self) -> None:
+        candidate = output_schema("Food")["candidates"][0]
+        for field in (
+            "additionalAddresses", "additionalPhoneNumbers", "servicesProvided",
+            "eligibility", "whatToExpect", "howToBestConnect", "additionalNotes",
+        ):
+            self.assertIn(field, candidate)
 
 
 if __name__ == "__main__":

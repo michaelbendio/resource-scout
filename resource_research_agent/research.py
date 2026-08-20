@@ -206,6 +206,7 @@ class ResearchCoordinator:
             "Research the public web only. Do not edit local files or external systems.",
             "Return only one valid JSON object matching outputSchema. Do not wrap it in Markdown.",
             "Prefer a few well-investigated candidates over a large list of shallow directory entries.",
+            "Investigate every resourceGatheringRequirement for every candidate. Put verified findings in its designated output fields and put material unanswered questions in unknowns rather than silently omitting them.",
         ]
         if package_mode:
             rules.insert(1, "Do not edit the imported package.")
@@ -242,6 +243,9 @@ class ResearchCoordinator:
                 "verificationQuestions": list(playbook.verification_questions),
                 "evidenceRules": list(playbook.evidence_rules),
             },
+            "resourceGatheringRequirements": [
+                dict(requirement) for requirement in playbook.resource_gathering_requirements
+            ],
             "knownResources": [{"id": seed["resourceId"], "name": seed["name"]} for seed in seeds],
             "selectedSeed": selected_seed,
             "activeLessons": active_lessons,

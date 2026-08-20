@@ -19,6 +19,7 @@ class CategoryPlaybook:
     exclusions: tuple[str, ...]
     verification_questions: tuple[str, ...]
     evidence_rules: tuple[str, ...]
+    resource_gathering_requirements: tuple[dict[str, Any], ...]
     stages: tuple[dict[str, str], ...]
     library_version: str
     source: str
@@ -75,6 +76,44 @@ def _stages(value: Any, path: Path) -> tuple[dict[str, str], ...]:
     return tuple(stages)
 
 
+def _resource_gathering_requirements(
+    value: Any, path: Path
+) -> tuple[dict[str, Any], ...]:
+    if not isinstance(value, list) or not value:
+        raise RuntimeError(
+            f"{path.name}: resourceGatheringRequirements must be a non-empty JSON array"
+        )
+    requirements: list[dict[str, Any]] = []
+    for position, item in enumerate(value, start=1):
+        if not isinstance(item, dict):
+            raise RuntimeError(
+                f"{path.name}: resource gathering requirement {position} must be a JSON object"
+            )
+        output_fields = _text_list(
+            item.get("outputFields"),
+            f"resourceGatheringRequirements[{position}].outputFields",
+            path,
+        )
+        requirements.append({
+            "key": _text(
+                item.get("key"), f"resourceGatheringRequirements[{position}].key", path
+            ),
+            "label": _text(
+                item.get("label"), f"resourceGatheringRequirements[{position}].label", path
+            ),
+            "instruction": _text(
+                item.get("instruction"),
+                f"resourceGatheringRequirements[{position}].instruction",
+                path,
+            ),
+            "outputFields": list(output_fields),
+        })
+    keys = [item["key"] for item in requirements]
+    if len(set(keys)) != len(keys):
+        raise RuntimeError(f"{path.name}: resource gathering requirement keys must be unique")
+    return tuple(requirements)
+
+
 def _load_library() -> tuple[dict[str, CategoryPlaybook], dict[str, str], str, str]:
     base_path = PLAYBOOK_LIBRARY_DIR / "base.json"
     base = _read_object(base_path)
@@ -85,6 +124,9 @@ def _load_library() -> tuple[dict[str, CategoryPlaybook], dict[str, str], str, s
         base.get("defaultServiceArea"), "defaultServiceArea", base_path
     )
     evidence_rules = _text_list(base.get("evidenceRules"), "evidenceRules", base_path)
+    resource_gathering_requirements = _resource_gathering_requirements(
+        base.get("resourceGatheringRequirements"), base_path
+    )
     playbooks: dict[str, CategoryPlaybook] = {}
     aliases: dict[str, str] = {}
     for path in sorted(PLAYBOOK_LIBRARY_DIR.glob("*.json")):
@@ -116,6 +158,7 @@ def _load_library() -> tuple[dict[str, CategoryPlaybook], dict[str, str], str, s
                 value.get("verificationQuestions"), "verificationQuestions", path
             ),
             evidence_rules=evidence_rules,
+            resource_gathering_requirements=resource_gathering_requirements,
             stages=_stages(value.get("stages"), path),
             library_version=library_version,
             source=path.name,
@@ -178,6 +221,7 @@ def _generic_playbook(category_id: str, category_label: str) -> CategoryPlaybook
             "Is it currently available in the service area?",
         ),
         evidence_rules=next(iter(PLAYBOOKS.values())).evidence_rules,
+        resource_gathering_requirements=next(iter(PLAYBOOKS.values())).resource_gathering_requirements,
         stages=(
             {"key": "direct-access", "title": f"Direct {label} access", "instruction": f"Investigate direct {subject} services a person can use now or soon. Verify the actual provider, service, location or service area, eligibility, schedule, cost, and first access step."},
             {"key": "ongoing-support", "title": f"Ongoing {label} support", "instruction": f"Investigate ongoing, preventive, and longer-term {subject} help, including government benefits, nonprofit programs, referrals, case management, education, and other realistic pathways."},
@@ -217,15 +261,21 @@ def output_schema(category_label: str) -> dict[str, Any]:
             "organization": "Parent organization, if distinct",
             "program": "Program name, if distinct",
             "website": "Best direct URL",
-            "address": "Physical or service address",
-            "phone": "Contact phone",
+            "address": "Best primary physical, service, or intake address, or blank if none applies",
+            "additionalAddresses": ["Other service locations, with their purpose when known"],
+            "phone": "Best public phone number for beginning access",
+            "additionalPhoneNumbers": ["Other useful phone numbers, with their purpose when known"],
             "hours": "Published service, office, intake, or access hours, or blank if unknown",
             "geography": "Area served",
             "resourceType": f"Concise description of the {category_label.lower()} service",
             "serviceNeed": "What need this can actually solve and for whom",
             "accessTimeline": "How soon someone can benefit, or unknown",
             "description": "Concise factual description",
-            "eligibility": ["Eligibility facts"],
+            "servicesProvided": ["Specific assistance, programs, benefits, or practical services offered"],
+            "eligibility": ["Who qualifies, including age, income, geography, documentation, and referral requirements"],
+            "whatToExpect": ["What happens when someone calls, visits, or applies, including appointments, waits, intake, paperwork, and language access"],
+            "howToBestConnect": ["Practical tips for successful access, including appointment or walk-in guidance and direct application links"],
+            "additionalNotes": ["Useful strengths, barriers, populations served, or other curator-relevant insights"],
             "barriers": ["Costs, referrals, documentation, waits, restrictions, transportation, or other barriers"],
             "availability": {"status": "available, limited, exhausted, suspended, ended, or unknown", "asOf": "YYYY-MM-DD or blank", "evidence": "Source-backed explanation"},
             **({"petPolicy": "Pets, service animals, emotional-support animals, fees, or unknown"} if category_label.casefold() == "housing" else {}),

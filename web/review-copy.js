@@ -370,12 +370,16 @@
     const facts = element('div', 'candidate-facts');
     fact(facts, 'Organization', candidate.organization); fact(facts, 'Program', candidate.program); fact(facts, 'Type', candidate.resourceType);
     fact(facts, 'Area served', candidate.geography); fact(facts, 'Access timeline', candidate.accessTimeline); fact(facts, 'Phone', candidate.phone);
-    fact(facts, 'Address', candidate.address); fact(facts, 'Website', candidate.website || candidate.url, true);
+    fact(facts, 'Other phone numbers', candidate.additionalPhoneNumbers); fact(facts, 'Address', candidate.address);
+    fact(facts, 'Other addresses', candidate.additionalAddresses); fact(facts, 'Hours', candidate.hours); fact(facts, 'Website', candidate.website || candidate.url, true);
     if (facts.children.length) wrapper.append(facts);
     section(wrapper, `${review.run.targetCategoryLabel || 'Resource'} need`, candidate.serviceNeed || candidate.housingNeed);
+    section(wrapper, 'Services provided', candidate.servicesProvided);
     section(wrapper, 'Suggested Types', candidate.recommendedTypes); section(wrapper, 'Suggested For', candidate.recommendedFor);
-    section(wrapper, 'Classification rationale', candidate.classificationRationale); section(wrapper, 'Eligibility', candidate.eligibility);
-    section(wrapper, 'Barriers and restrictions', candidate.barriers); section(wrapper, 'Unknowns to pursue', candidate.unknowns);
+    section(wrapper, 'Classification rationale', candidate.classificationRationale); section(wrapper, 'Eligibility requirements', candidate.eligibility);
+    section(wrapper, 'What to expect', candidate.whatToExpect); section(wrapper, 'How to best connect', candidate.howToBestConnect);
+    section(wrapper, 'Additional notes', candidate.additionalNotes); section(wrapper, 'Barriers and restrictions', candidate.barriers);
+    section(wrapper, 'Unknowns to pursue', candidate.unknowns); section(wrapper, 'Follow-up branches', candidate.followUpBranches);
     const evidence = Array.isArray(candidate.evidence) ? candidate.evidence : [];
     if (evidence.length) {
       const evidenceSection = element('section', 'candidate-section'); evidenceSection.append(element('h3', '', 'Evidence'));

@@ -1,8 +1,10 @@
 # Research playbook library
 
-Version 1.0.0
+Version 1.1.0
 
 These files are the human-reviewed source of truth for category research. Each category has one JSON file named for its category ID. The application reads and validates the library when it starts; a malformed file stops startup with a message naming the file and field that needs attention.
+
+`base.json` also contains `resourceGatheringRequirements`, the shared, human-reviewed information-gathering template applied to every category. It specifies what the agent should learn about identity and contact information, services, eligibility, what a person should expect, the best way to connect, and additional practical notes. Category playbooks add subject-specific direction without replacing these shared requirements.
 
 To sharpen a playbook, edit its ordinary-language fields:
 

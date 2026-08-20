@@ -65,12 +65,18 @@ class AcceptedResourcePackageTests(unittest.TestCase):
             "address": "10 Center Street, Provo, UT",
             "website": "https://helpful.example.org/housing",
             "hours": "Monday-Friday, 9-5",
+            "additionalAddresses": ["20 South Street, Provo, UT — document drop-off"],
+            "additionalPhoneNumbers": ["801-555-0101 — Spanish intake"],
             "resourceType": "Housing navigation",
             "housingNeed": "Helps people locate and apply for stable housing.",
             "description": "A longer researcher explanation for the Information field.",
             "geography": "Utah County",
             "accessTimeline": "Call for an intake appointment.",
             "eligibility": ["Adults experiencing homelessness", "Utah County resident"],
+            "servicesProvided": ["Housing search", "Application assistance"],
+            "whatToExpect": ["Call first, then complete a 30-minute intake"],
+            "howToBestConnect": ["Call weekday mornings for the shortest wait"],
+            "additionalNotes": ["Spanish-language intake is available"],
             "barriers": ["Photo identification may be requested"],
             "availability": {
                 "status": "Accepting referrals",
@@ -117,6 +123,12 @@ class AcceptedResourcePackageTests(unittest.TestCase):
         self.assertEqual(["housing"], resource["categories"])
         self.assertEqual([], resource["pdfs"])
         self.assertIn("**Resource details**", resource["informationText"])
+        self.assertIn("**Additional locations and contacts**", resource["informationText"])
+        self.assertIn("**Services provided**", resource["informationText"])
+        self.assertIn("**Eligibility requirements**", resource["informationText"])
+        self.assertIn("**What to expect**", resource["informationText"])
+        self.assertIn("**How to best connect**", resource["informationText"])
+        self.assertIn("**Additional notes**", resource["informationText"])
         self.assertIn("* Research description: A longer researcher explanation", resource["informationText"])
         self.assertIn("**Verify before referral**", resource["informationText"])
         self.assertIn("---", resource["informationText"])
