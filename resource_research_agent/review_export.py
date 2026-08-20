@@ -13,7 +13,7 @@ from .resource_package import RESOURCE_PACKAGE_SCHEMA_VERSION, candidate_to_reso
 from .storage import ResearchStore
 
 
-REVIEW_COPY_SCHEMA_VERSION = 5
+REVIEW_COPY_SCHEMA_VERSION = 6
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_TEMPLATE = PROJECT_ROOT / "web" / "review-copy.html"
 DEFAULT_SCRIPT = PROJECT_ROOT / "web" / "review-copy.js"
@@ -257,5 +257,5 @@ def build_review_copy(
         raise RuntimeError("Review-copy script may not contain a closing script tag")
     html = template.replace(data_marker, _embedded_json(data)).replace(script_marker, script)
     html = html.encode("utf-8")
-    filename = f"{_slug(title)}-review-{completed_date}.html"
+    filename = f"{_slug(title)}-curator-{completed_date}.html"
     return ReviewCopy(filename=filename, html=html, data=data)

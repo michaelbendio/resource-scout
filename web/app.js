@@ -493,7 +493,7 @@ function renderRuns() {
       exportLink.className = 'review-export';
       exportLink.href = `/api/research-runs/${run.id}/review-copy`;
       exportLink.download = '';
-      exportLink.textContent = 'Export review copy';
+      exportLink.textContent = 'Export Resource Curator';
       const detail = document.createElement('small');
       detail.textContent = 'This run only · standalone, read-only HTML';
       actions.append(exportLink, detail);
@@ -610,8 +610,8 @@ function renderCandidates() {
     : 'Candidate inbox · All runs';
   document.querySelector('#candidate-inbox-context').textContent = selectedRun
     ? selectedRun.researchMode === 'package'
-      ? `Showing only candidates associated with research run ${selectedRun.id}. Use its run card to export accepted resources or a review copy for this run.`
-      : `Showing only candidates associated with research run ${selectedRun.id}. Use its run card to export a review copy containing this run’s results.`
+      ? `Showing only candidates associated with research run ${selectedRun.id}. Use its run card to export accepted resources or a Resource Curator for this run.`
+      : `Showing only candidates associated with research run ${selectedRun.id}. Use its run card to export a Resource Curator containing this run’s results.`
     : 'Showing candidates from every research run. Choose one run to review or export its results separately.';
   if (!discoveries.length) {
     target.replaceChildren(emptyState(selectedRun

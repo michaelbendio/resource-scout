@@ -74,6 +74,28 @@
     .candidate-fact strong { display:block; margin-bottom:.2rem; color:var(--muted); font-size:.72rem; letter-spacing:.07em; text-transform:uppercase; }
     .candidate-section { margin-top:1rem; padding-top:1rem; border-top:1px solid var(--line); } .candidate-section h3 { margin-bottom:.6rem; } .candidate-section p { margin-top:0; white-space:pre-line; }
     .evidence-card { padding:.8rem .9rem; border-left:3px solid #7ea38f; background:#f4f7f5; } .evidence-card+.evidence-card { margin-top:.55rem; }
+    .curator-workspace { width:98vw; max-width:none; height:96vh; max-height:none; padding:0; overflow:hidden; border-radius:12px; background:#e9eeeb; }
+    .workspace-toolbar { position:absolute; z-index:50; inset:0 0 auto; display:grid; grid-template-columns:auto auto minmax(0,1fr) auto auto auto; gap:.55rem; align-items:center; height:66px; padding:.7rem .85rem; color:white; background:var(--forest); }
+    .workspace-toolbar .close { position:static; float:none; width:auto; height:auto; margin:0; border:1px solid #92b4a4; border-radius:8px; padding:.55rem .75rem; color:white; background:transparent; font-size:1rem; }
+    .workspace-heading { min-width:0; } .workspace-heading .section-label { margin:0; color:#a8d9c3; } .workspace-heading h2 { overflow:hidden; color:white; font:700 1.2rem/1.2 ui-sans-serif,system-ui,sans-serif; text-overflow:ellipsis; white-space:nowrap; }
+    .workspace-nav { padding:.55rem .75rem; color:var(--forest); background:white; }
+    #workspace-save-work { padding:.55rem .75rem; color:var(--forest); background:#b7e2cf; } #workspace-save-state { font-size:.78rem; white-space:nowrap; }
+    .workspace-canvas { position:absolute; inset:66px 0 0; overflow:hidden; }
+    .work-window { position:absolute; display:grid; grid-template-rows:auto minmax(0,1fr); min-width:300px; min-height:210px; overflow:hidden; resize:both; border:1px solid #8fa198; border-radius:12px; background:var(--panel); box-shadow:0 15px 45px rgba(14,35,28,.22); }
+    #research-window { z-index:2; left:1.5%; top:2%; width:48%; height:65%; }
+    #editor-window { z-index:3; right:1.5%; top:5%; width:48%; height:76%; }
+    #notes-window { z-index:4; left:8%; bottom:2%; width:55%; height:38%; }
+    .window-titlebar { display:flex; justify-content:space-between; gap:1rem; align-items:center; padding:.65rem .8rem; color:white; background:#315d50; cursor:move; user-select:none; touch-action:none; }
+    .window-titlebar h3 { color:white; font:750 1rem/1.2 ui-sans-serif,system-ui,sans-serif; }
+    .window-body { overflow:auto; padding:1rem; }
+    .window-body .candidate-details,.window-body .review-editor,.window-body .resource-editor { margin:0; padding:0; border:0; background:transparent; }
+    .notes-toolbar { display:flex; gap:.45rem; margin-bottom:.7rem; } .notes-toolbar button { padding:.45rem .75rem; color:var(--forest); border:1px solid #94aa9f; background:white; }
+    .notes-toolbar button.selected { color:white; background:var(--forest); }
+    .notes-editor { min-height:calc(100% - 3rem); resize:none; }
+    .notes-preview { display:grid; gap:.45rem; align-content:start; white-space:pre-wrap; }
+    .notes-preview p { margin:0; } .notes-preview hr { width:100%; border:0; border-top:1px solid var(--line); }
+    .notes-check { display:flex; gap:.55rem; align-items:flex-start; } .notes-check input { width:auto; margin:.3rem 0 0; }
+    .notes-bullet { display:grid; grid-template-columns:auto 1fr; gap:.55rem; } .notes-empty { color:var(--muted); font-style:italic; }
     footer { margin-top:2rem; color:var(--muted); font-size:.8rem; text-align:center; }
     @media(max-width:760px) { .candidate-list,.candidate-facts,.resource-fields,.review-controls { grid-template-columns:1fr; } .toolbar { grid-template-columns:1fr; } .resource-fields .field:nth-last-child(-n+2) { grid-column:auto; } }
     @media(max-width:520px) { .metadata,.candidate-list,.candidate-facts { grid-template-columns:1fr; } }
@@ -81,14 +103,14 @@
   </style>
 </head>
 <body>
-  <header><div><p class="eyebrow">TSO Resources · Research review copy</p><h1 id="title">Research review</h1><p class="lede">Review candidates, save feedback, and package accepted resources without reconnecting to the research agent.</p><span class="editable-badge">Editable review · no agent connection required</span></div></header>
+  <header><div><p class="eyebrow">TSO Resources · Resource Curator</p><h1 id="title">Resource Curator</h1><p class="lede">Investigate candidates, keep interview notes and checklists, and prepare resources without reconnecting to Scout.</p><span class="editable-badge">Curator v0.17.0 · no agent connection required</span></div></header>
   <main>
     <section class="panel notice"><strong>Review before use</strong><p id="notice"></p></section>
     <section class="panel review-actions">
       <p class="section-label">Review progress</p><h2>Save, resume, and download</h2>
       <div class="review-controls">
         <label class="reviewer-field">Reviewer name <small>Optional</small><input id="reviewer-name" autocomplete="name"></label>
-        <div class="action-buttons"><button type="button" id="download-feedback">Download review feedback</button><button type="button" id="download-package">Download resource package</button><label class="file-button">Resume from review feedback…<input id="resume-feedback" type="file" accept=".json,application/json"></label></div>
+        <div class="action-buttons"><button type="button" id="download-feedback">Save work</button><button type="button" id="download-package">Save a resource package</button><label class="file-button">Open saved work…<input id="resume-feedback" type="file" accept=".json,application/json"></label></div>
         <p id="save-state"></p><p id="action-message" aria-live="polite"></p>
       </div>
     </section>
@@ -98,7 +120,14 @@
     <section class="panel" id="lessons-panel" hidden><p class="section-label">Research guidance</p><h2>Lessons proposed by this run</h2><div class="lesson-list" id="lesson-list"></div></section>
     <footer id="footer"></footer>
   </main>
-  <dialog id="candidate-dialog"><button type="button" class="close" id="close-dialog" aria-label="Close">×</button><div class="dialog-heading"><p class="section-label">Research candidate</p><h2 id="candidate-name"></h2><span class="status" id="candidate-status"></span></div><div class="candidate-profile" id="candidate-profile"></div></dialog>
+  <dialog id="candidate-dialog" class="curator-workspace">
+    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" class="workspace-nav" id="next-candidate">Next</button><div><button type="button" id="workspace-save-work">Save work</button><span id="workspace-save-state" aria-live="polite"></span></div></div>
+    <div class="workspace-canvas" id="workspace-canvas">
+      <section class="work-window" id="research-window"><div class="window-titlebar"><h3>Candidate Research</h3></div><div class="window-body" id="candidate-research"></div></section>
+      <section class="work-window" id="editor-window"><div class="window-titlebar"><h3>Resource Editors</h3></div><div class="window-body" id="candidate-editor"></div></section>
+      <section class="work-window" id="notes-window"><div class="window-titlebar"><h3>Notes</h3></div><div class="window-body" id="candidate-notes"></div></section>
+    </div>
+  </dialog>
   <script id="review-data" type="application/json">__REVIEW_COPY_DATA__</script>
   <script>__REVIEW_COPY_SCRIPT__</script>
 </body>

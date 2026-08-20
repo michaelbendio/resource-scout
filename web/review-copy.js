@@ -3,8 +3,8 @@
 (function (root) {
   const DECISIONS = ['accepted', 'research-further', 'already-known', 'wrong-category', 'rejected'];
   const DECISION_LABELS = {
-    accepted: 'Accept',
-    'research-further': 'Research further',
+    accepted: 'Ready for package',
+    'research-further': 'In progress',
     'already-known': 'Already known',
     'wrong-category': 'Wrong category',
     rejected: 'Reject',
@@ -25,6 +25,25 @@
     if (Array.isArray(value)) return value.map(asText).filter(Boolean).join('\n');
     if (typeof value === 'object') return value.name || value.label || value.value || JSON.stringify(value);
     return String(value).trim();
+  }
+
+  function checklistItems(notes) {
+    const items = [];
+    String(notes || '').split(/\r?\n/).forEach((line, lineIndex) => {
+      const match = line.match(/^\s*[-*]\s+\[([ xX])\]\s+(.*)$/);
+      if (match) items.push({ lineIndex, checked: match[1].toLocaleLowerCase() === 'x', text: match[2] });
+    });
+    return items;
+  }
+
+  function toggleChecklistItem(notes, lineIndex, checked) {
+    const lines = String(notes || '').split(/\r?\n/);
+    if (lineIndex < 0 || lineIndex >= lines.length) return String(notes || '');
+    lines[lineIndex] = lines[lineIndex].replace(
+      /^(\s*[-*]\s+)\[[ xX]\]/,
+      `$1[${checked ? 'x' : ' '}]`,
+    );
+    return lines.join('\n');
   }
 
   function friendly(value) {
@@ -50,6 +69,7 @@
         decision: normalizeDecision(item.status),
         feedback: asText(item.reviewFeedback || item.notes),
         sourceNotes: asText(item.notes),
+        curatorNotes: asText(item.notes),
         originalReviewFeedback: asText(item.reviewFeedback),
         useForFutureResearch: Boolean(item.useForFutureResearch),
         matchAssessment: item.matchAssessment || '',
@@ -81,7 +101,14 @@
     const expected = review.candidates.map(item => String(item.id)).sort();
     const received = Object.keys(feedback.candidates || {}).map(String).sort();
     if (JSON.stringify(expected) !== JSON.stringify(received)) throw new Error('The candidate list does not match this review copy.');
-    return clone(feedback);
+    const restored = clone(feedback);
+    review.candidates.forEach(item => {
+      const itemState = restored.candidates[item.id];
+      if (typeof itemState.curatorNotes !== 'string') {
+        itemState.curatorNotes = asText(itemState.sourceNotes || item.notes);
+      }
+    });
+    return restored;
   }
 
   function validateDraft(review, item, itemState) {
@@ -208,13 +235,13 @@
     return concatBytes([local, bytes, central, end]);
   }
 
-  const core = { DECISIONS, DECISION_LABELS, MATCH_LABELS, initialState, validateFeedback, validateDraft, buildResourcePackage, createZipBytes };
+  const core = { DECISIONS, DECISION_LABELS, MATCH_LABELS, initialState, validateFeedback, validateDraft, buildResourcePackage, createZipBytes, checklistItems, toggleChecklistItem };
   root.ReviewAppCore = core;
   if (typeof document === 'undefined') return;
 
   const review = JSON.parse(document.querySelector('#review-data').textContent);
   const storageKey = `resource-research-review:${review.reviewId}`;
-  const view = { search: '', status: '', currentId: null, dirty: false, persisted: false };
+  const view = { search: '', status: '', currentId: null, dirty: false, persisted: false, notesMode: 'edit', topWindow: 10 };
   let state = initialState(review);
 
   function formatWhen(value) {
@@ -293,7 +320,17 @@
   }
 
   function feedbackFilename() {
-    return `${slug(review.title)}-run-${review.run.id}-review-feedback.json`;
+    return `${slug(review.title)}-run-${review.run.id}-curator-work.json`;
+  }
+
+  function saveWork() {
+    download(feedbackFilename(), JSON.stringify(feedbackPayload(), null, 2), 'application/json');
+    view.dirty = false; updateActions('Work saved.');
+    const workspaceState = document.querySelector('#workspace-save-state');
+    if (workspaceState) {
+      workspaceState.textContent = 'Saved';
+      setTimeout(() => { workspaceState.textContent = ''; }, 1800);
+    }
   }
 
   function packageFilename() {
@@ -304,7 +341,7 @@
   function updateActions(message = '') {
     const accepted = review.candidates.filter(item => candidateState(item).decision === 'accepted').length;
     const packageButton = document.querySelector('#download-package');
-    packageButton.textContent = accepted ? `Download resource package (${accepted})` : 'Download resource package';
+    packageButton.textContent = accepted ? `Save a resource package (${accepted})` : 'Save a resource package';
     packageButton.disabled = !review.sourcePackage?.packageEligible || accepted === 0;
     packageButton.title = review.sourcePackage?.packageEligible
       ? ''
@@ -312,8 +349,8 @@
         ? 'Resource-package download currently requires a source package using schema 3.'
         : 'Standalone research can save feedback but cannot create a resource package.';
     document.querySelector('#save-state').textContent = view.persisted
-      ? 'Progress is saved in this browser. Download review feedback to move or back up the work.'
-      : 'Download review feedback to save progress and resume later.';
+      ? 'Progress is saved in this browser. Save work to move or back up the work.'
+      : 'Save work to keep progress and resume later.';
     if (message) document.querySelector('#action-message').textContent = message;
   }
 
@@ -395,6 +432,83 @@
     return wrapper;
   }
 
+  function appendFormattedText(target, text) {
+    const parts = String(text || '').split(/(\*\*[^*]+\*\*|__[^_]+__)/g).filter(Boolean);
+    parts.forEach(part => {
+      if (part.startsWith('**') && part.endsWith('**')) target.append(element('strong', '', part.slice(2, -2)));
+      else if (part.startsWith('__') && part.endsWith('__')) {
+        const underlined = element('span', '', part.slice(2, -2)); underlined.style.textDecoration = 'underline'; target.append(underlined);
+      } else target.append(document.createTextNode(part));
+    });
+  }
+
+  function notesPreview(item, itemState) {
+    const preview = element('div', 'notes-preview');
+    const lines = String(itemState.curatorNotes || '').split(/\r?\n/);
+    let hasContent = false;
+    lines.forEach((line, lineIndex) => {
+      const checklist = line.match(/^\s*[-*]\s+\[([ xX])\]\s+(.*)$/);
+      if (checklist) {
+        hasContent = true;
+        const label = element('label', 'notes-check'); const input = document.createElement('input'); input.type = 'checkbox'; input.checked = checklist[1].toLocaleLowerCase() === 'x';
+        const content = element('span'); appendFormattedText(content, checklist[2]);
+        input.addEventListener('change', () => { itemState.curatorNotes = toggleChecklistItem(itemState.curatorNotes, lineIndex, input.checked); persist(); renderNotes(item); });
+        label.append(input, content); preview.append(label); return;
+      }
+      if (/^\s*---\s*$/.test(line)) { hasContent = true; preview.append(document.createElement('hr')); return; }
+      const bullet = line.match(/^\s*[-*]\s+(.*)$/);
+      if (bullet) {
+        hasContent = true;
+        const row = element('div', 'notes-bullet'); row.append(element('span', '', '•')); const content = element('span'); appendFormattedText(content, bullet[1]); row.append(content); preview.append(row); return;
+      }
+      if (line.trim()) { hasContent = true; const paragraph = element('p'); appendFormattedText(paragraph, line); preview.append(paragraph); }
+    });
+    if (!hasContent) preview.append(element('p', 'notes-empty', 'Notes and checklist items will appear here.'));
+    return preview;
+  }
+
+  function renderNotes(item) {
+    const itemState = candidateState(item);
+    const target = document.querySelector('#candidate-notes');
+    const toolbar = element('div', 'notes-toolbar');
+    const editButton = element('button', view.notesMode === 'edit' ? 'selected' : '', 'Edit'); editButton.type = 'button';
+    const previewButton = element('button', view.notesMode === 'preview' ? 'selected' : '', 'Preview'); previewButton.type = 'button';
+    editButton.addEventListener('click', () => { view.notesMode = 'edit'; renderNotes(item); });
+    previewButton.addEventListener('click', () => { view.notesMode = 'preview'; renderNotes(item); });
+    toolbar.append(editButton, previewButton); target.replaceChildren(toolbar);
+    if (view.notesMode === 'preview') target.append(notesPreview(item, itemState));
+    else {
+      const textarea = element('textarea', 'notes-editor'); textarea.value = itemState.curatorNotes || '';
+      textarea.placeholder = 'Interview notes and checklist\n\n- [ ] Call the organization\n- [ ] Confirm eligibility\n\nUse **bold**, __underline__, bullets, and --- for a divider.';
+      textarea.addEventListener('input', () => { itemState.curatorNotes = textarea.value; persist(); });
+      target.append(textarea);
+    }
+  }
+
+  function bringWindowToFront(windowElement) {
+    view.topWindow += 1; windowElement.style.zIndex = String(view.topWindow);
+  }
+
+  function setupWorkspaceWindows() {
+    document.querySelectorAll('.work-window').forEach(windowElement => {
+      windowElement.addEventListener('pointerdown', () => bringWindowToFront(windowElement));
+      const handle = windowElement.querySelector('.window-titlebar');
+      handle.addEventListener('pointerdown', event => {
+        if (event.button !== 0) return;
+        bringWindowToFront(windowElement); handle.setPointerCapture(event.pointerId);
+        const canvas = document.querySelector('#workspace-canvas').getBoundingClientRect();
+        const start = windowElement.getBoundingClientRect(); const offsetX = event.clientX - start.left; const offsetY = event.clientY - start.top;
+        const move = moveEvent => {
+          const left = Math.max(0, Math.min(canvas.width - 80, moveEvent.clientX - canvas.left - offsetX));
+          const top = Math.max(0, Math.min(canvas.height - 44, moveEvent.clientY - canvas.top - offsetY));
+          windowElement.style.left = `${left}px`; windowElement.style.top = `${top}px`; windowElement.style.right = 'auto'; windowElement.style.bottom = 'auto';
+        };
+        const stop = () => { handle.removeEventListener('pointermove', move); handle.removeEventListener('pointerup', stop); handle.removeEventListener('pointercancel', stop); };
+        handle.addEventListener('pointermove', move); handle.addEventListener('pointerup', stop); handle.addEventListener('pointercancel', stop);
+      });
+    });
+  }
+
   function inputField(label, field, value, multiline = false) {
     const wrapper = element('label', 'field'); wrapper.append(document.createTextNode(label));
     const input = multiline ? document.createElement('textarea') : document.createElement('input');
@@ -449,8 +563,6 @@
       })));
       box.append(forGroups);
     }
-    const errors = validateDraft(review, item, itemState);
-    if (errors.length) { const list = element('ul', 'validation-errors'); errors.forEach(error => list.append(element('li', '', error))); box.append(list); }
     return box;
   }
 
@@ -491,8 +603,13 @@
     const item = review.candidates.find(candidate => String(candidate.id) === String(id));
     document.querySelector('#candidate-name').textContent = item.name;
     const status = document.querySelector('#candidate-status'); status.className = `status ${candidateState(item).decision || 'unreviewed'}`; status.textContent = decisionText(item);
-    document.querySelector('#candidate-profile').replaceChildren(renderReviewEditor(item), candidateDetails(item));
-    const dialog = document.querySelector('#candidate-dialog'); if (!dialog.open) dialog.showModal(); dialog.scrollTop = 0;
+    document.querySelector('#candidate-research').replaceChildren(candidateDetails(item));
+    document.querySelector('#candidate-editor').replaceChildren(renderReviewEditor(item));
+    renderNotes(item);
+    const position = review.candidates.findIndex(candidate => String(candidate.id) === String(id));
+    document.querySelector('#previous-candidate').disabled = position <= 0;
+    document.querySelector('#next-candidate').disabled = position < 0 || position >= review.candidates.length - 1;
+    const dialog = document.querySelector('#candidate-dialog'); if (!dialog.open) dialog.showModal();
   }
 
   function renderStages() {
@@ -514,7 +631,7 @@
 
   function initialize() {
     restoreLocal();
-    document.title = `${review.title} · Review copy`; document.querySelector('#title').textContent = review.title;
+    document.title = `${review.title} · Resource Curator`; document.querySelector('#title').textContent = review.title;
     document.querySelector('#notice').textContent = review.notice; document.querySelector('#summary').textContent = review.run.summary || 'No summary was provided.';
     document.querySelector('#assignment').textContent = review.run.assignment;
     const packageInfo = review.sourcePackage; const standalone = review.run.researchMode === 'standalone-location';
@@ -526,9 +643,8 @@
     document.querySelector('#search').addEventListener('input', event => { view.search = event.target.value; renderCandidates(); });
     filter.addEventListener('change', event => { view.status = event.target.value; renderCandidates(); });
     const reviewer = document.querySelector('#reviewer-name'); reviewer.value = state.reviewerName || ''; reviewer.addEventListener('input', () => { state.reviewerName = reviewer.value; persist(); });
-    document.querySelector('#download-feedback').addEventListener('click', () => {
-      download(feedbackFilename(), JSON.stringify(feedbackPayload(), null, 2), 'application/json'); view.dirty = false; updateActions('Review feedback downloaded.');
-    });
+    document.querySelector('#download-feedback').addEventListener('click', saveWork);
+    document.querySelector('#workspace-save-work').addEventListener('click', saveWork);
     document.querySelector('#download-package').addEventListener('click', () => {
       const built = buildResourcePackage(review, state);
       if (built.errors.length) { document.querySelector('#action-message').textContent = built.errors.join(' '); if (view.currentId) openCandidate(view.currentId); return; }
@@ -539,16 +655,24 @@
     const resume = document.querySelector('#resume-feedback');
     resume.addEventListener('change', async () => {
       const file = resume.files?.[0]; if (!file) return;
-      try { state = validateFeedback(review, JSON.parse(await file.text())); persist(false); view.dirty = false; reviewer.value = state.reviewerName || ''; renderCandidates(); updateActions('Saved review progress reopened.'); }
+      try { state = validateFeedback(review, JSON.parse(await file.text())); persist(false); view.dirty = false; reviewer.value = state.reviewerName || ''; renderCandidates(); if (view.currentId) openCandidate(view.currentId); updateActions('Saved work opened.'); }
       catch (error) { updateActions(error.message); }
       finally { resume.value = ''; }
     });
     document.querySelector('#close-dialog').addEventListener('click', () => document.querySelector('#candidate-dialog').close());
+    document.querySelector('#previous-candidate').addEventListener('click', () => {
+      const position = review.candidates.findIndex(candidate => String(candidate.id) === String(view.currentId));
+      if (position > 0) openCandidate(review.candidates[position - 1].id);
+    });
+    document.querySelector('#next-candidate').addEventListener('click', () => {
+      const position = review.candidates.findIndex(candidate => String(candidate.id) === String(view.currentId));
+      if (position >= 0 && position < review.candidates.length - 1) openCandidate(review.candidates[position + 1].id);
+    });
     document.querySelector('#candidate-dialog').addEventListener('click', event => { if (event.target === event.currentTarget) event.currentTarget.close(); });
     window.addEventListener('beforeunload', event => { if (view.dirty && !view.persisted) { event.preventDefault(); event.returnValue = ''; } });
-    renderCandidates(); updateActions();
+    setupWorkspaceWindows(); renderCandidates(); updateActions();
     const packageText = packageInfo ? `${packageInfo.sourceName}; schema ${packageInfo.schemaVersion}; package ${packageInfo.packageVersion}` : `Standalone location research; ${review.run.targetLocation || 'location not recorded'}`;
-    document.querySelector('#footer').textContent = `Exported ${formatWhen(review.exportedAt)} · ${packageText} · Review-copy schema ${review.reviewCopySchemaVersion}`;
+    document.querySelector('#footer').textContent = `Resource Curator v0.17.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
   }
 
   initialize();

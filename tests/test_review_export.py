@@ -111,8 +111,8 @@ class ReviewCopyTests(unittest.TestCase):
         data = self.embedded_data(html)
 
         completed_date = data["run"]["completedAt"][:10]
-        self.assertEqual(f"housing-research-review-{completed_date}.html", review.filename)
-        self.assertEqual(5, data["reviewCopySchemaVersion"])
+        self.assertEqual(f"housing-research-curator-{completed_date}.html", review.filename)
+        self.assertEqual(6, data["reviewCopySchemaVersion"])
         self.assertEqual(1, data["reviewFeedbackSchemaVersion"])
         self.assertTrue(data["reviewId"])
         self.assertEqual("A concise completed summary with </script> text.", data["run"]["summary"])
@@ -143,8 +143,11 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertIn("Content-Security-Policy", html)
         self.assertNotIn("__REVIEW_COPY_DATA__", html)
         self.assertNotIn("__REVIEW_COPY_SCRIPT__", html)
-        self.assertIn("Download review feedback", html)
-        self.assertIn("Download resource package", html)
+        self.assertIn("Save work", html)
+        self.assertIn("Save a resource package", html)
+        self.assertIn("Candidate Research", html)
+        self.assertIn("Resource Editors", html)
+        self.assertIn("Notes", html)
 
     def test_run_history_is_compact_but_individual_run_keeps_full_details(self) -> None:
         run_id = self.completed_run()
@@ -181,7 +184,7 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertEqual("Food research", review.data["title"])
         self.assertEqual("Food", review.data["run"]["targetCategoryLabel"])
         completed_date = review.data["run"]["completedAt"][:10]
-        self.assertEqual(f"food-research-review-{completed_date}.html", review.filename)
+        self.assertEqual(f"food-research-curator-{completed_date}.html", review.filename)
 
     def test_review_copy_is_scoped_to_its_associated_run(self) -> None:
         first_run_id = self.completed_run()
@@ -256,7 +259,7 @@ class ReviewCopyTests(unittest.TestCase):
         )
         data = self.embedded_data(review.html.decode("utf-8"))
         self.assertEqual(
-            f"housing-research-for-mesa-arizona-review-{data['run']['completedAt'][:10]}.html",
+            f"housing-research-for-mesa-arizona-curator-{data['run']['completedAt'][:10]}.html",
             review.filename,
         )
         self.assertEqual("Housing research for Mesa, Arizona", data["title"])
@@ -347,7 +350,7 @@ class ReviewCopyTests(unittest.TestCase):
                 self.assertIn("attachment;", response.headers["Content-Disposition"])
                 completed_date = self.store.get_run(run_id)["completedAt"][:10]
                 self.assertIn(
-                    f"housing-research-review-{completed_date}.html",
+                    f"housing-research-curator-{completed_date}.html",
                     response.headers["Content-Disposition"],
                 )
                 self.assertIn("Known Home Assistance Program", body)
@@ -394,6 +397,10 @@ const fs = require('fs');
 const review = JSON.parse(fs.readFileSync(0, 'utf8'));
 const state = ReviewAppCore.initialState(review);
 const item = review.candidates[0];
+state.candidates[item.id].curatorNotes = '**Interview**\n- [ ] Confirm hours\n- [x] Confirm service area';
+const checklistBefore = ReviewAppCore.checklistItems(state.candidates[item.id].curatorNotes);
+state.candidates[item.id].curatorNotes = ReviewAppCore.toggleChecklistItem(state.candidates[item.id].curatorNotes, 1, true);
+const checklistAfter = ReviewAppCore.checklistItems(state.candidates[item.id].curatorNotes);
 state.candidates[item.id].decision = 'accepted';
 const built = ReviewAppCore.buildResourcePackage(review, state, '2026-08-18T12:00:00+00:00');
 const zip = built.errors.length ? null : ReviewAppCore.createZipBytes('tso-resources.json', JSON.stringify(built.data, null, 2));
@@ -402,7 +409,7 @@ const duplicateErrors = ReviewAppCore.buildResourcePackage(review, state).errors
 state.candidates[item.id].matchAssessment = 'same-organization-different-program';
 state.candidates[item.id].resourceDraft.verifiedOn = '13/26';
 const verifiedErrors = ReviewAppCore.buildResourcePackage(review, state).errors;
-process.stdout.write(JSON.stringify({ errors: built.errors, emptyErrors: ReviewAppCore.buildResourcePackage(review, ReviewAppCore.initialState(review)).errors, duplicateErrors, verifiedErrors, zip: zip && Buffer.from(zip).toString('base64') }));
+process.stdout.write(JSON.stringify({ errors: built.errors, emptyErrors: ReviewAppCore.buildResourcePackage(review, ReviewAppCore.initialState(review)).errors, duplicateErrors, verifiedErrors, checklistBefore, checklistAfter, savedNotes: state.candidates[item.id].curatorNotes, zip: zip && Buffer.from(zip).toString('base64') }));
 """
         completed = subprocess.run(
             ["node", "-e", script], input=json.dumps(review), text=True,
@@ -413,6 +420,9 @@ process.stdout.write(JSON.stringify({ errors: built.errors, emptyErrors: ReviewA
         self.assertTrue(any("Accept at least one" in error for error in result["emptyErrors"]))
         self.assertTrue(any("same resource" in error for error in result["duplicateErrors"]))
         self.assertTrue(any("MM/YY" in error for error in result["verifiedErrors"]))
+        self.assertEqual([False, True], [item["checked"] for item in result["checklistBefore"]])
+        self.assertEqual([True, True], [item["checked"] for item in result["checklistAfter"]])
+        self.assertIn("- [x] Confirm hours", result["savedNotes"])
         with zipfile.ZipFile(io.BytesIO(base64.b64decode(result["zip"]))) as archive:
             self.assertEqual(["tso-resources.json"], archive.namelist())
             package = json.loads(archive.read("tso-resources.json"))
