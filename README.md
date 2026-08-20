@@ -1,4 +1,4 @@
-# Resource Research Agent — category research foundation
+# Resource Scout — category research foundation
 
 This is a standalone, local resource research workspace. Its default package-backed mode learns from a Resource Assistant `resource-package.zip` without changing that package: it discovers the schema and taxonomy, preserves complete imported records, and builds a known-resource index. Every discovered package category uses its Types, For groups, existing-resource context, and category-aware research guidance. The explicitly selected standalone-location mode remains Housing-only exploratory research for a place that does not yet have a resource package.
 
@@ -12,7 +12,7 @@ Standalone-location runs have no imported knowledge. Their candidates are not co
 
 The source ZIP is opened read-only. Browser uploads are written to a temporary file only long enough to read and hash them, then deleted. The app never produces a modified copy of that package. Its optional resource-package export is a new, lightweight additions package containing only resources marked **Ready for package**, their curator-attached PDFs, and the unchanged category and For definitions needed to merge them.
 
-## Research-agent connections
+## Research connections
 
 Hermes and DeepSeek Harness are connected through the same replaceable research-agent interface. The app owns the research brief, imported context, assignments, candidate records, duplicate decisions, review state, and lessons. The selected harness receives one bounded assignment and returns a structured research result. Switching harnesses does not move or migrate application data.
 
@@ -61,7 +61,7 @@ Resource-package export is available only for research runs that started from an
 - only the run's currently ready, curator-edited resources and their attached PDFs; and
 - no imported baseline resources or assets, credentials, or research internals.
 
-The downloaded ZIP is ready for an ordinary TSO Resources user to merge through **Merge Resources**. The Research Agent does not perform that merge. Repeated exports are cumulative snapshots, so a curator can stop, return later, prepare or edit more candidates, and download the latest ready set. Stable resource IDs allow TSO Resources' normal timestamp-aware merge to recognize a later corrected export of the same resource.
+The downloaded ZIP is ready for an ordinary TSO Resources user to merge through **Merge Resources**. Resource Scout does not perform that merge. Repeated exports are cumulative snapshots, so a curator can stop, return later, prepare or edit more candidates, and download the latest ready set. Stable resource IDs allow TSO Resources' normal timestamp-aware merge to recognize a later corrected export of the same resource.
 
 The candidate's service-need summary becomes the generated resource's Description. Contact details and Hours fill their matching fields; the remaining research details become formatted Information using TSO Resources' `* ` bullets, `**bold**`, `__underline__`, and `---` divider conventions. Verified remains blank unless a reviewer enters `MM/YY`. Agent suggestions preselect only Type and For labels that exist in the imported package; the human reviewer remains responsible for classification. Missing or renamed labels are reported for explicit mapping and are never silently changed.
 
@@ -95,7 +95,7 @@ To install Hermes using its supported macOS installer:
 curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 ```
 
-Then run `hermes setup` once to choose a provider and model. The Resource Research Agent never stores provider credentials in its database. It discovers the `hermes` command automatically; an explicit command, profile, provider, or model override can be saved in the connection panel.
+Then run `hermes setup` once to choose a provider and model. Resource Scout never stores provider credentials in its database. It discovers the `hermes` command automatically; an explicit command, profile, provider, or model override can be saved in the connection panel.
 
 ## Run the app
 
@@ -104,8 +104,8 @@ The core app requires Python 3.10 or newer and no third-party Python packages. T
 From a Git clone:
 
 ```sh
-git clone https://github.com/michaelbendio/resource-research-agent.git
-cd resource-research-agent
+git clone https://github.com/michaelbendio/resource-scout.git
+cd resource-scout
 ./run.sh
 ```
 
@@ -123,7 +123,7 @@ The research database is created at `data/research-agent.sqlite3`. It does not c
 
 ## Private iPad access with Tailscale
 
-For access away from the Mac's local network, install and connect [Tailscale](https://tailscale.com/download) on both the Mac and iPad. Then start the same Research Agent data with:
+For access away from the Mac's local network, install and connect [Tailscale](https://tailscale.com/download) on both the Mac and iPad. Then start the same Resource Scout data with:
 
 ```sh
 ./run-tailscale.sh
@@ -131,7 +131,7 @@ For access away from the Mac's local network, install and connect [Tailscale](ht
 
 The launcher prints a private `https://…ts.net` iPad address and the app displays it in a **Private iPad access** panel. Open that address in Safari on an iPad connected to the same Tailscale network. The Mac must remain on and the launcher window must remain open; on macOS the launcher also prevents idle system sleep while it is running.
 
-On the first run, Tailscale may print a web address asking the tailnet owner to approve HTTPS. Open it, approve Tailscale Serve, and run the launcher again. The Research Agent remains bound to `127.0.0.1`; Tailscale Serve is the only remote entry point. This launcher checks for and refuses an existing public Funnel configuration, and it never runs a Funnel command that would publish the app to the internet.
+On the first run, Tailscale may print a web address asking the tailnet owner to approve HTTPS. Open it, approve Tailscale Serve, and run the launcher again. Resource Scout remains bound to `127.0.0.1`; Tailscale Serve is the only remote entry point. This launcher checks for and refuses an existing public Funnel configuration, and it never runs a Funnel command that would publish the app to the internet.
 
 Normal Mac-only use is unchanged: `./run.sh` still serves only <http://127.0.0.1:8765>. If that launcher is already running, stop it with Control-C before starting `./run-tailscale.sh`.
 
