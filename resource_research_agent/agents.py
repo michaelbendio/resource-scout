@@ -140,6 +140,28 @@ def _validate_result(value: dict[str, Any], agent_name: str = "Research agent") 
     value["candidates"] = clean_candidates
     value["lessons"] = clean_lessons
     value["summary"] = str(value.get("summary", "")).strip()
+    sections = value.get("summarySections", {})
+    if not isinstance(sections, dict):
+        sections = {}
+    value["summarySections"] = {
+        "overview": str(sections.get("overview", "")).strip(),
+        "keyFindings": [
+            str(item).strip() for item in sections.get("keyFindings", [])
+            if isinstance(item, str) and item.strip()
+        ] if isinstance(sections.get("keyFindings", []), list) else [],
+        "cautions": [
+            str(item).strip() for item in sections.get("cautions", [])
+            if isinstance(item, str) and item.strip()
+        ] if isinstance(sections.get("cautions", []), list) else [],
+        "accessSteps": [
+            str(item).strip() for item in sections.get("accessSteps", [])
+            if isinstance(item, str) and item.strip()
+        ] if isinstance(sections.get("accessSteps", []), list) else [],
+        "gaps": [
+            str(item).strip() for item in sections.get("gaps", [])
+            if isinstance(item, str) and item.strip()
+        ] if isinstance(sections.get("gaps", []), list) else [],
+    }
     return value
 
 

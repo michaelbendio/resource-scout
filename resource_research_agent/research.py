@@ -366,6 +366,7 @@ class ResearchCoordinator:
             "stageRules": [
                 "Complete only this bounded research stage.",
                 "Do not repeat a candidate named in completedStageFindings unless correcting a material error.",
+                "Make summarySections easy for a human to scan: use a short overview and separate array items instead of embedding (1), (2), or (3) in a prose paragraph.",
                 "Return a complete valid JSON result for this stage before doing optional follow-up work.",
             ],
         }
@@ -375,10 +376,15 @@ class ResearchCoordinator:
     ) -> tuple[dict[str, Any], str, dict[str, Any] | None]:
         stages = self.store.list_run_stages(run_id)
         completed = [stage for stage in stages if stage["status"] == "completed" and stage.get("result")]
-        summaries = [
-            {"key": stage["key"], "title": stage["title"], "summary": str(stage["result"].get("summary") or "")}
-            for stage in completed
-        ]
+        summaries = []
+        for stage in completed:
+            sections = stage["result"].get("summarySections", {})
+            summaries.append({
+                "key": stage["key"],
+                "title": stage["title"],
+                "summary": str(stage["result"].get("summary") or ""),
+                "summarySections": sections if isinstance(sections, dict) else {},
+            })
         summary_parts = [f"{item['title']}: {item['summary']}" for item in summaries if item["summary"]]
         prefix = f"Completed {len(completed)} of {len(stages)} research stages."
         result = {

@@ -479,6 +479,117 @@ function selectCandidateRun(runId, { scroll = false } = {}) {
   }
 }
 
+function appendLabeledSummaryText(target, text) {
+  const match = String(text || '').match(/^([^:]{2,40}):\s*(.*)$/s);
+  if (!match || !/^(key findings?|major caution|caution|typical first step|first step|gap identified|strongest gap found)$/i.test(match[1].replace(/^the\s+/i, ''))) {
+    target.textContent = text;
+    return;
+  }
+  const label = document.createElement('strong');
+  label.textContent = `${match[1]}: `;
+  target.append(label, document.createTextNode(match[2]));
+}
+
+function renderLegacySummary(text) {
+  const content = document.createElement('div');
+  content.className = 'stage-summary-content';
+  const normalized = String(text || '')
+    .replace(/\s+The typical first step is(?: to)?\s+([a-z])/gi, (_, firstLetter) => `\n\nTypical first step: ${firstLetter.toUpperCase()}`)
+    .replace(/\s+(?=(?:Key findings?|Major caution|Caution|(?:The\s+)?Typical first step|Gap identified|The strongest gap found):)/gi, '\n\n')
+    .replace(/\s+\((\d+)\)\s+/g, '\n\n($1) ')
+    .replace(/\s+(?=(?:Most |Known resources|Prior-stage candidates|Also surfaced a lead|None of these|Phones are left blank))/g, '\n\n');
+  const blocks = normalized.split(/\n{2,}/).map(value => value.trim()).filter(Boolean);
+  let list = null;
+  blocks.forEach(block => {
+    const numbered = block.match(/^\((\d+)\)\s+([\s\S]+)$/);
+    if (numbered) {
+      if (!list) {
+        list = document.createElement('ol');
+        content.append(list);
+      }
+      const item = document.createElement('li');
+      item.textContent = numbered[2];
+      list.append(item);
+      return;
+    }
+    list = null;
+    const paragraph = document.createElement('p');
+    appendLabeledSummaryText(paragraph, block);
+    content.append(paragraph);
+  });
+  return content;
+}
+
+function appendSummarySection(target, title, items, className, { ordered = false } = {}) {
+  if (!Array.isArray(items) || !items.length) return;
+  const section = document.createElement('section');
+  section.className = `summary-section ${className}`;
+  const heading = document.createElement('h5');
+  heading.textContent = title;
+  const list = document.createElement(ordered ? 'ol' : 'ul');
+  items.forEach(value => {
+    const item = document.createElement('li');
+    item.textContent = value;
+    list.append(item);
+  });
+  section.append(heading, list);
+  target.append(section);
+}
+
+function renderStageSummary(stage) {
+  const card = document.createElement('section');
+  card.className = 'stage-summary-card';
+  const heading = document.createElement('h4');
+  heading.textContent = stage.title || 'Research stage';
+  card.append(heading);
+  const sections = stage.summarySections;
+  const hasStructuredSummary = sections && typeof sections === 'object' && (
+    sections.overview
+    || sections.keyFindings?.length
+    || sections.cautions?.length
+    || sections.accessSteps?.length
+    || sections.gaps?.length
+  );
+  if (!hasStructuredSummary) {
+    card.append(renderLegacySummary(stage.summary));
+    return card;
+  }
+  if (sections.overview) {
+    const overview = document.createElement('p');
+    overview.className = 'stage-overview';
+    overview.textContent = sections.overview;
+    card.append(overview);
+  }
+  appendSummarySection(card, 'Key findings', sections.keyFindings, 'key-findings', { ordered: true });
+  appendSummarySection(card, 'Cautions', sections.cautions, 'cautions');
+  appendSummarySection(card, 'Practical access', sections.accessSteps, 'access-steps');
+  appendSummarySection(card, 'Gaps and unanswered questions', sections.gaps, 'gaps');
+  return card;
+}
+
+function renderRunFindings(run) {
+  const summaries = Array.isArray(run.result?.stageSummaries) ? run.result.stageSummaries : [];
+  const details = document.createElement('details');
+  details.className = 'run-findings';
+  const toggle = document.createElement('summary');
+  toggle.textContent = summaries.length
+    ? `Show full findings (${summaries.length} stage${summaries.length === 1 ? '' : 's'})`
+    : 'Show full findings';
+  const content = document.createElement('div');
+  content.className = 'run-findings-content';
+  if (summaries.length) {
+    summaries.forEach((stage, index) => {
+      const card = renderStageSummary(stage);
+      card.querySelector('h4').textContent = `${index + 1}. ${card.querySelector('h4').textContent}`;
+      content.append(card);
+    });
+  } else {
+    content.append(renderLegacySummary(run.result?.summary));
+  }
+  details.append(toggle, content);
+  return details;
+}
+
 function renderRuns() {
   const target = document.querySelector('#run-list');
   if (!state.runs.length) {
@@ -575,12 +686,7 @@ function renderRuns() {
       actions.append(resume);
     }
     item.append(actions);
-    if (run.result?.summary) {
-      const summary = document.createElement('p');
-      summary.className = 'run-summary';
-      summary.textContent = run.result.summary;
-      item.append(summary);
-    }
+    if (run.result?.summary || run.result?.stageSummaries?.length) item.append(renderRunFindings(run));
     if (run.error) {
       const error = document.createElement('div');
       error.className = 'run-error';

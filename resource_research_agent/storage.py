@@ -927,6 +927,7 @@ class ResearchStore:
                           target_category_id, target_category_label,
                           source_import_id, seed_import_id, seed_resource_id, error,
                           json_extract(result_json, '$.summary') AS result_summary,
+                          json_extract(result_json, '$.stageSummaries') AS result_stage_summaries,
                           json_extract(result_json, '$.isPartial') AS result_is_partial,
                           result_json IS NOT NULL AS has_result
                    FROM research_runs ORDER BY id DESC LIMIT ?""",
@@ -948,6 +949,7 @@ class ResearchStore:
                 "result": (
                     {
                         "summary": str(row["result_summary"] or ""),
+                        "stageSummaries": self._safe_stage_summaries(row["result_stage_summaries"]),
                         "isPartial": bool(row["result_is_partial"]),
                     }
                     if row["has_result"] else None
@@ -957,6 +959,16 @@ class ResearchStore:
             value["progress"] = self._stage_progress(value["stages"])
             result.append(value)
         return result
+
+    @staticmethod
+    def _safe_stage_summaries(value: str | None) -> list[dict[str, Any]]:
+        try:
+            parsed = json.loads(value or "[]")
+        except (TypeError, json.JSONDecodeError):
+            return []
+        if not isinstance(parsed, list):
+            return []
+        return [item for item in parsed if isinstance(item, dict)]
 
     @staticmethod
     def _stage_progress(stages: list[dict[str, Any]]) -> dict[str, int]:

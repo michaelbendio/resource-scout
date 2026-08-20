@@ -158,7 +158,11 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertEqual("", history_run["output"])
         self.assertIsNone(history_run["usage"])
         self.assertEqual(
-            {"summary": "A concise completed summary with </script> text.", "isPartial": False},
+            {
+                "summary": "A concise completed summary with </script> text.",
+                "stageSummaries": [],
+                "isPartial": False,
+            },
             history_run["result"],
         )
         self.assertEqual({"selectedSeed": None}, history_run["prompt"])

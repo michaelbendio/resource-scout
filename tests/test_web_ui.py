@@ -27,6 +27,14 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertIn("grid-template-columns: minmax(280px, var(--runs-pane-width)) 16px minmax(360px, 1fr)", self.css)
         self.assertIn(".research-divider { display: none; }", self.css)
 
+    def test_run_findings_render_as_expandable_stage_sections_and_lists(self) -> None:
+        self.assertIn("function renderRunFindings(run)", self.javascript)
+        self.assertIn("function renderStageSummary(stage)", self.javascript)
+        self.assertIn("document.createElement('ol')", self.javascript)
+        self.assertIn("Show full findings", self.javascript)
+        self.assertIn("stage-summary-card", self.css)
+        self.assertNotIn("summary.textContent = run.result.summary", self.javascript)
+
 
 if __name__ == "__main__":
     unittest.main()

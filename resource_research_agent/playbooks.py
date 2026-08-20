@@ -255,7 +255,14 @@ def playbook_for(
 
 def output_schema(category_label: str) -> dict[str, Any]:
     return {
-        "summary": "Brief account of the research performed and the most important findings.",
+        "summary": "A brief plain-language account of the research performed. Do not put an inline numbered list here; use summarySections for readable findings.",
+        "summarySections": {
+            "overview": "Two or three concise sentences stating the stage's most important conclusion.",
+            "keyFindings": ["Separate factual finding; one idea per item, without a number prefix"],
+            "cautions": ["Important limitation, changing condition, or warning"],
+            "accessSteps": ["Practical first step a person or referrer should take"],
+            "gaps": ["Important unmet need or unanswered system-level question"],
+        },
         "candidates": [{
             "name": "Resource or program name",
             "organization": "Parent organization, if distinct",

@@ -189,6 +189,7 @@ class ResearchWorkflowTests(unittest.TestCase):
         candidate_schema = legal["prompt"]["outputSchema"]["candidates"][0]
         self.assertIn("servicesProvided", candidate_schema)
         self.assertIn("howToBestConnect", candidate_schema)
+        self.assertIn("keyFindings", legal["prompt"]["outputSchema"]["summarySections"])
         for _ in range(200):
             legal = self.store.get_run(legal_run["id"])
             if legal and legal["status"] in {"completed", "failed"}:
@@ -218,6 +219,13 @@ class ResearchWorkflowTests(unittest.TestCase):
                     output=f"output for {key}",
                     result={
                         "summary": f"summary for {key}",
+                        "summarySections": {
+                            "overview": f"Overview for {key}",
+                            "keyFindings": [f"Finding for {key}"],
+                            "cautions": [],
+                            "accessSteps": [f"Call about {key}"],
+                            "gaps": [],
+                        },
                         "candidates": [{"name": f"{key} candidate", "geography": "Mesa, Arizona"}],
                         "lessons": [],
                     },
@@ -263,6 +271,15 @@ class ResearchWorkflowTests(unittest.TestCase):
         self.assertEqual(1, adapter.calls["long-term-and-gaps"])
         self.assertEqual(4, len(self.store.list_discoveries(run_id=run["id"])))
         self.assertFalse(completed["result"]["isPartial"])
+        self.assertEqual(
+            "Overview for urgent-access",
+            completed["result"]["stageSummaries"][0]["summarySections"]["overview"],
+        )
+        history = next(item for item in self.store.list_runs() if item["id"] == run["id"])
+        self.assertEqual(
+            ["Finding for urgent-access"],
+            history["result"]["stageSummaries"][0]["summarySections"]["keyFindings"],
+        )
 
     def test_legacy_failed_run_is_upgraded_to_stages_when_resumed(self) -> None:
         class LegacyResumeAdapter(ResearchAgentAdapter):
@@ -347,7 +364,7 @@ class ResearchWorkflowTests(unittest.TestCase):
             "    raise SystemExit(0)\n"
             "usage = pathlib.Path(sys.argv[sys.argv.index('--usage-file') + 1])\n"
             "usage.write_text(json.dumps({'provider': 'fake', 'completed': True}))\n"
-            "print(json.dumps({'summary':'done','candidates':[{'name':'New Place'}],'lessons':['Prefer direct services']}))\n",
+            "print(json.dumps({'summary':'done','summarySections':{'overview':' concise overview ','keyFindings':[' one finding ',7],'cautions':'not a list','accessSteps':[' call first '],'gaps':[]},'candidates':[{'name':'New Place'}],'lessons':['Prefer direct services']}))\n",
             encoding="utf-8",
         )
         hermes_home = self.root / "hermes-home"
@@ -364,6 +381,10 @@ class ResearchWorkflowTests(unittest.TestCase):
             result = adapter.run("Research Housing")
         self.assertEqual("New Place", result.result["candidates"][0]["name"])
         self.assertEqual("Prefer direct services", result.result["lessons"][0]["text"])
+        self.assertEqual("concise overview", result.result["summarySections"]["overview"])
+        self.assertEqual(["one finding"], result.result["summarySections"]["keyFindings"])
+        self.assertEqual([], result.result["summarySections"]["cautions"])
+        self.assertEqual(["call first"], result.result["summarySections"]["accessSteps"])
         self.assertEqual("fake", result.usage["provider"])
 
     def test_dsh_adapter_uses_headless_research_overlay_and_parses_json(self) -> None:

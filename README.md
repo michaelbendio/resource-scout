@@ -18,6 +18,8 @@ Hermes and DeepSeek Harness are connected through the same replaceable research-
 
 Category research runs as four persisted, category-specific stages. Candidates are saved after each completed stage rather than waiting for the entire assignment. If a later stage times out or fails, the run becomes **partial**: completed candidates remain reviewable and exportable, and **Resume research** retries only the unfinished stage before continuing.
 
+**Recent runs** presents completed findings behind **Show full findings**, with one card per research stage. Inline `(1)`, `(2)`, and similar findings from older runs are rendered as numbered lists rather than a single paragraph. New stages return a short overview plus separate key findings, cautions, practical access steps, and gaps so the research remains scannable without changing or rerunning earlier results.
+
 ## Human-reviewed category playbooks
 
 Every category in the current resource package has a specialized playbook in `resource_research_agent/playbook_library/`. Each category is one readable JSON file containing its assignment, what to include, what to exclude, verification questions, and four research stages. `base.json` holds the shared evidence rules, Stephanie's resource-gathering requirements, default service area, and the playbook-library version. Those shared requirements ask every category for consistent organization and contact details, services, eligibility, what to expect, the best way to connect, and additional practical notes. Category playbooks supplement rather than replace that common direction. The adjacent editing guide explains how a human can review and sharpen the guidance without changing Python code.
