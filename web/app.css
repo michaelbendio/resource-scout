@@ -23,7 +23,7 @@ p { margin: .7rem 0 0; }
 .step { color: var(--forest); }
 .lede { max-width: 720px; color: #c9dbd3; font-size: 1.05rem; }
 .known-badge { display: inline-block; border-radius: 999px; font-size: .82rem; font-weight: 750; }
-main { width: min(1220px, 92vw); margin: -1.2rem auto 5rem; }
+main { width: min(1800px, 96vw); margin: -1.2rem auto 5rem; }
 main.private-access-active { margin-top: 1rem; }
 .private-access { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 1rem; align-items: center; margin-bottom: 1rem; padding: 1.15rem 1.3rem; border: 1px solid #9ec8b4; border-radius: 16px; color: #173d30; background: #e8f5ed; box-shadow: var(--shadow); }
 .private-access[hidden] { display: none; }
@@ -104,8 +104,15 @@ textarea { resize: vertical; }
 .agent-settings form { margin-top: 1rem; }
 .settings-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; }
 .agent-settings button { justify-self: start; }
-.research-results { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.25fr); gap: 1rem; margin-top: 1rem; align-items: start; }
-.lessons-panel { grid-column: 1 / -1; }
+.research-results { --runs-pane-width: 40%; display: grid; grid-template-columns: minmax(280px, var(--runs-pane-width)) 16px minmax(360px, 1fr); gap: 0; margin-top: 1rem; align-items: start; }
+.research-divider { position: relative; align-self: stretch; min-height: 9rem; cursor: col-resize; touch-action: none; outline: none; }
+.research-divider::before { content: ""; position: absolute; inset: 0 5px; border-radius: 999px; background: #d5ded9; transition: background .15s ease; }
+.research-divider span { position: sticky; top: 1rem; display: block; width: 6px; height: 56px; margin: 1rem auto; border-radius: 999px; background: #789387; box-shadow: inset 2px 0 rgba(255,255,255,.45), inset -2px 0 rgba(23,75,59,.18); }
+.research-divider:hover::before, .research-divider:focus-visible::before, .research-divider.dragging::before { background: #a9c6b8; }
+.research-divider:focus-visible { box-shadow: 0 0 0 3px rgba(23,75,59,.22); border-radius: 8px; }
+.research-divider.dragging { cursor: col-resize; }
+body.resizing-research-panes { cursor: col-resize; user-select: none; }
+.lessons-panel { grid-column: 1 / -1; margin-top: 1rem; }
 .run-list, .candidate-list, .lesson-list { display: grid; gap: .7rem; margin-top: 1rem; }
 .run, .candidate, .lesson { padding: .9rem 1rem; border: 1px solid var(--line); border-radius: 10px; background: white; }
 .run { display: grid; gap: .35rem; }
@@ -257,6 +264,8 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; background:
   .metrics { grid-template-columns: repeat(2, 1fr); }
   .workspace > * + * { margin-top: 1rem; }
   .research-results { grid-template-columns: 1fr; }
+  .candidates-panel { margin-top: 1rem; }
+  .research-divider { display: none; }
   .lessons-panel { grid-column: auto; }
   .settings-grid { grid-template-columns: 1fr 1fr; }
 }
