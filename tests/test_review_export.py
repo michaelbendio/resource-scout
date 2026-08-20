@@ -148,6 +148,9 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertIn("Candidate Research", html)
         self.assertIn("Resource Editors", html)
         self.assertIn("Notes", html)
+        self.assertNotIn("Research progress", html)
+        self.assertNotIn("Stage progress", html)
+        self.assertNotIn('id="stages-panel"', html)
 
     def test_run_history_is_compact_but_individual_run_keeps_full_details(self) -> None:
         run_id = self.completed_run()

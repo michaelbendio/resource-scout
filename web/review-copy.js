@@ -753,15 +753,6 @@
     const dialog = document.querySelector('#candidate-dialog'); if (!dialog.open) dialog.showModal();
   }
 
-  function renderStages() {
-    if (!review.run.stages?.length) return;
-    document.querySelector('#stages-panel').hidden = false;
-    document.querySelector('#stage-list').replaceChildren(...review.run.stages.map(stage => {
-      const item = element('li'); item.append(element('strong', '', stage.title), element('span', `status ${stage.status}`, friendly(stage.status)));
-      if (stage.error) item.append(element('small', 'stage-error', stage.error)); return item;
-    }));
-  }
-
   function renderLessons() {
     if (!review.lessons?.length) return;
     document.querySelector('#lessons-panel').hidden = false;
@@ -779,7 +770,7 @@
     document.querySelector('#metadata').replaceChildren(metric('Completed', formatWhen(review.run.completedAt)), metric('Run status', friendly(review.run.status)),
       metric('Research agent', friendly(review.run.adapter)), metric('Candidates', review.run.candidateCount), metric('Category', review.run.targetCategoryLabel),
       metric('Research scope', standalone ? review.run.targetLocation : 'Connected package'), metric('Source package', packageInfo ? `${packageInfo.sourceName} · package ${packageInfo.packageVersion}` : 'None'));
-    renderStages(); renderLessons();
+    renderLessons();
     const filter = document.querySelector('#status-filter'); DECISIONS.forEach(value => { const option = document.createElement('option'); option.value = value; option.textContent = DECISION_LABELS[value]; filter.append(option); });
     document.querySelector('#search').addEventListener('input', event => { view.search = event.target.value; renderCandidates(); });
     filter.addEventListener('change', event => { view.status = event.target.value; renderCandidates(); });

@@ -29,9 +29,6 @@
     .metric { padding:.9rem 1rem; border-radius:12px; background:#edf3ef; } .metric span { display:block; color:var(--muted); font-size:.72rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; }
     .metric strong { display:block; margin-top:.18rem; overflow-wrap:anywhere; }
     .summary { max-width:85ch; color:#34433e; font-size:1.05rem; white-space:pre-line; }
-    .stage-list { display:grid; gap:.6rem; margin:1rem 0 0; padding:0; list-style:none; }
-    .stage-list li { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.7rem; padding:.8rem .9rem; border:1px solid var(--line); border-radius:10px; background:white; }
-    .stage-list .stage-error { grid-column:1/-1; color:var(--red); }
     details { margin-top:1rem; } summary { color:var(--forest); font-weight:780; cursor:pointer; }
     .assignment { max-width:86ch; padding:.9rem 1rem; border-left:3px solid #92b4a4; background:#f2f6f3; white-space:pre-line; }
     .review-controls { display:grid; grid-template-columns:minmax(220px,.55fr) minmax(0,1fr); gap:1rem 1.4rem; align-items:end; margin-top:1.2rem; }
@@ -117,7 +114,6 @@
         <p id="save-state"></p><p id="action-message" aria-live="polite"></p>
       </div>
     </section>
-    <section class="panel" id="stages-panel" hidden><p class="section-label">Research progress</p><h2>Stage progress</h2><ul class="stage-list" id="stage-list"></ul></section>
     <section class="panel"><p class="section-label">Research trail</p><h2>Research run</h2><div class="metadata" id="metadata"></div><p class="summary" id="summary"></p><details><summary>View the research assignment</summary><p class="assignment" id="assignment"></p></details></section>
     <section class="panel"><p class="section-label">Human review</p><h2>Research candidates</h2><div class="toolbar"><input id="search" type="search" placeholder="Search candidates" aria-label="Search candidates"><select id="status-filter" aria-label="Filter candidates by review status"><option value="">All review statuses</option></select></div><p class="candidate-count" id="candidate-count"></p><div class="candidate-list" id="candidate-list"></div></section>
     <section class="panel" id="lessons-panel" hidden><p class="section-label">Research guidance</p><h2>Lessons proposed by this run</h2><div class="lesson-list" id="lesson-list"></div></section>
