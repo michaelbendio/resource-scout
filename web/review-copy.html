@@ -31,6 +31,10 @@
     .summary { max-width:85ch; color:#34433e; font-size:1.05rem; white-space:pre-line; }
     details { margin-top:1rem; } summary { color:var(--forest); font-weight:780; cursor:pointer; }
     .assignment { max-width:86ch; padding:.9rem 1rem; border-left:3px solid #92b4a4; background:#f2f6f3; white-space:pre-line; }
+    .work-file-guidance { margin-top:1.2rem; padding:1rem 1.1rem; border:1px solid #b9d0c4; border-radius:12px; background:#f2f8f4; }
+    .work-file-guidance h3 { font-family:ui-sans-serif,system-ui,sans-serif; font-size:1rem; font-weight:800; }
+    .work-file-guidance ul { margin:.65rem 0 0; padding-left:1.25rem; }
+    .work-file-guidance li+li { margin-top:.5rem; }
     .review-controls { display:grid; grid-template-columns:minmax(220px,.55fr) minmax(0,1fr); gap:1rem 1.4rem; align-items:end; margin-top:1.2rem; }
     .reviewer-field { display:grid; gap:.35rem; font-weight:750; } .reviewer-field small,.muted,#save-state,#action-message { color:var(--muted); font-weight:400; }
     .action-buttons { display:flex; flex-wrap:wrap; gap:.6rem; }
@@ -108,6 +112,14 @@
     <section class="panel notice"><strong>Review before use</strong><p id="notice"></p></section>
     <section class="panel review-actions">
       <p class="section-label">Review progress</p><h2>Save, resume, and download</h2>
+      <div class="work-file-guidance">
+        <h3>Your saved-work JSON matters</h3>
+        <ul>
+          <li>The Curator saves automatically in this browser when browser storage is available. Choose <strong>Save work</strong> regularly to download a portable JSON work file containing every decision, note, checklist item, resource edit, and PDF you add.</li>
+          <li>Keep the JSON with this Curator HTML. To continue in another browser or on another device, open the HTML and choose <strong>Open saved work</strong>. When your review is finished, send the JSON back to the person who provided the Curator. The HTML does not update itself.</li>
+          <li><strong>Save a resource package</strong> is separate. It creates a ZIP of only the resources marked <strong>Ready for package</strong>; it is not a backup of all review work.</li>
+        </ul>
+      </div>
       <div class="review-controls">
         <label class="reviewer-field">Reviewer name <small>Optional</small><input id="reviewer-name" autocomplete="name"></label>
         <div class="action-buttons"><button type="button" id="download-feedback">Save work</button><button type="button" id="download-package">Save a resource package</button><label class="file-button">Open saved work…<input id="resume-feedback" type="file" accept=".json,application/json"></label></div>
