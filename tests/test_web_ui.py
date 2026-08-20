@@ -23,6 +23,12 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertIn("<title>Resource Scout</title>", self.html)
         self.assertIn("<h1>Resource Scout</h1>", self.html)
 
+    def test_version_is_in_the_green_header(self) -> None:
+        header = self.html[self.html.index("<header>"):self.html.index("</header>")]
+        self.assertIn('class="header-version" id="app-version"', header)
+        self.assertNotIn('class="app-footer"', self.html)
+        self.assertIn(".header-version { position: absolute;", self.css)
+
     def test_divider_supports_pointer_keyboard_and_responsive_layouts(self) -> None:
         self.assertIn("divider.addEventListener('pointerdown'", self.javascript)
         self.assertIn("divider.addEventListener('pointermove'", self.javascript)

@@ -635,6 +635,23 @@
   function setupWorkspaceWindows() {
     document.querySelectorAll('.work-window').forEach(windowElement => {
       windowElement.addEventListener('pointerdown', () => bringWindowToFront(windowElement));
+      const resizeHandle = windowElement.querySelector('.window-resize-handle');
+      resizeHandle.addEventListener('pointerdown', event => {
+        if (event.button !== 0) return;
+        event.preventDefault(); event.stopPropagation(); bringWindowToFront(windowElement); resizeHandle.setPointerCapture(event.pointerId);
+        const canvas = document.querySelector('#workspace-canvas').getBoundingClientRect();
+        const start = windowElement.getBoundingClientRect();
+        const startX = event.clientX; const startY = event.clientY;
+        const maximumWidth = Math.max(300, canvas.right - start.left);
+        const maximumHeight = Math.max(210, canvas.bottom - start.top);
+        windowElement.style.right = 'auto'; windowElement.style.bottom = 'auto';
+        const move = moveEvent => {
+          windowElement.style.width = `${Math.max(300, Math.min(maximumWidth, start.width + moveEvent.clientX - startX))}px`;
+          windowElement.style.height = `${Math.max(210, Math.min(maximumHeight, start.height + moveEvent.clientY - startY))}px`;
+        };
+        const stop = () => { resizeHandle.removeEventListener('pointermove', move); resizeHandle.removeEventListener('pointerup', stop); resizeHandle.removeEventListener('pointercancel', stop); };
+        resizeHandle.addEventListener('pointermove', move); resizeHandle.addEventListener('pointerup', stop); resizeHandle.addEventListener('pointercancel', stop);
+      });
       const handle = windowElement.querySelector('.window-titlebar');
       handle.addEventListener('pointerdown', event => {
         if (event.button !== 0) return;

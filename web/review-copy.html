@@ -90,12 +90,14 @@
     .workspace-nav { padding:.55rem .75rem; color:var(--forest); background:white; }
     .workspace-actions { display:flex; gap:.4rem; align-items:center; } #workspace-save-work,#workspace-download-package { padding:.55rem .7rem; color:var(--forest); background:#b7e2cf; } #workspace-save-state { font-size:.78rem; white-space:nowrap; }
     .workspace-canvas { position:absolute; inset:66px 0 0; overflow:hidden; }
-    .work-window { position:absolute; display:grid; grid-template-rows:auto minmax(0,1fr); min-width:300px; min-height:210px; overflow:hidden; resize:both; border:1px solid #8fa198; border-radius:12px; background:var(--panel); box-shadow:0 15px 45px rgba(14,35,28,.22); }
+    .work-window { position:absolute; display:grid; grid-template-rows:auto minmax(0,1fr); min-width:300px; min-height:210px; overflow:hidden; border:1px solid #8fa198; border-radius:12px; background:var(--panel); box-shadow:0 15px 45px rgba(14,35,28,.22); }
     #research-window { z-index:2; left:1.5%; top:2%; width:48%; height:65%; }
     #editor-window { z-index:3; right:1.5%; top:5%; width:48%; height:76%; }
     #notes-window { z-index:4; left:8%; bottom:2%; width:55%; height:38%; }
     .window-titlebar { display:flex; justify-content:space-between; gap:1rem; align-items:center; padding:.65rem .8rem; color:white; background:#315d50; cursor:move; user-select:none; touch-action:none; }
     .window-titlebar h3 { color:white; font:750 1rem/1.2 ui-sans-serif,system-ui,sans-serif; }
+    .window-resize-handle { position:absolute; z-index:5; right:0; bottom:0; width:28px; height:28px; cursor:nwse-resize; touch-action:none; }
+    .window-resize-handle::after { content:""; position:absolute; right:5px; bottom:5px; width:12px; height:12px; border-right:3px solid #527467; border-bottom:3px solid #527467; }
     .window-body { overflow:auto; padding:1rem; }
     .window-body .candidate-details,.window-body .review-editor,.window-body .resource-editor { margin:0; padding:0; border:0; background:transparent; }
     .notes-toolbar { display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; margin-bottom:.7rem; } .notes-toolbar button { flex:0 0 auto; padding:.45rem .75rem; color:var(--forest); border:1px solid #94aa9f; background:white; }
@@ -140,9 +142,9 @@
   <dialog id="candidate-dialog" class="curator-workspace">
     <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" class="workspace-nav" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span id="workspace-save-state" aria-live="polite"></span></div></div>
     <div class="workspace-canvas" id="workspace-canvas">
-      <section class="work-window" id="research-window"><div class="window-titlebar"><h3>Candidate Research</h3></div><div class="window-body" id="candidate-research"></div></section>
-      <section class="work-window" id="editor-window"><div class="window-titlebar"><h3>Resource Editors</h3></div><div class="window-body" id="candidate-editor"></div></section>
-      <section class="work-window" id="notes-window"><div class="window-titlebar"><h3 id="notes-window-title">Notes</h3></div><div class="window-body" id="candidate-notes"></div></section>
+      <section class="work-window" id="research-window"><div class="window-titlebar"><h3>Candidate Research</h3></div><div class="window-body" id="candidate-research"></div><div class="window-resize-handle" role="separator" aria-label="Resize Candidate Research window"></div></section>
+      <section class="work-window" id="editor-window"><div class="window-titlebar"><h3>Resource Editors</h3></div><div class="window-body" id="candidate-editor"></div><div class="window-resize-handle" role="separator" aria-label="Resize Resource Editors window"></div></section>
+      <section class="work-window" id="notes-window"><div class="window-titlebar"><h3 id="notes-window-title">Notes</h3></div><div class="window-body" id="candidate-notes"></div><div class="window-resize-handle" role="separator" aria-label="Resize Notes window"></div></section>
     </div>
   </dialog>
   <script id="review-data" type="application/json">__REVIEW_COPY_DATA__</script>
