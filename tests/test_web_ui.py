@@ -35,6 +35,14 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertIn("stage-summary-card", self.css)
         self.assertNotIn("summary.textContent = run.result.summary", self.javascript)
 
+    def test_runs_show_place_duration_and_candidate_context(self) -> None:
+        self.assertIn("function formatDuration(run)", self.javascript)
+        self.assertIn("function runPlace(run)", self.javascript)
+        self.assertIn("` · Duration ${duration}`", self.javascript)
+        self.assertIn("run.sourceOfficeName || run.sourceServiceArea", self.javascript)
+        self.assertIn("const importChanged = state.latestImport?.id !== summary.id", self.javascript)
+        self.assertIn("summary.serviceArea", self.javascript)
+
 
 if __name__ == "__main__":
     unittest.main()

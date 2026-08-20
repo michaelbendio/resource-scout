@@ -38,6 +38,15 @@ RELATION_KEYS = (
 )
 ATTACHMENT_KEYS = ("pdf", "pdfs", "document", "documents", "attachment", "attachments")
 
+# Resource packages do not yet carry an office/service-area contract. Recognize
+# explicit metadata when it appears, and keep today's office fallback in one
+# place so it can later be replaced by editable package metadata.
+KNOWN_PACKAGE_IDENTITIES = {
+    "mesa": ("Mesa TSO", "Mesa and Maricopa County, Arizona"),
+    "provo": ("Provo TSO", "Utah County, Utah"),
+    "albuquerque": ("Albuquerque TSO", "Albuquerque, New Mexico"),
+}
+
 
 class PackageImportError(ValueError):
     """Raised when a ZIP is safe to read but is not a recognizable resource package."""
@@ -71,6 +80,28 @@ def _first_string(record: dict[str, Any], keys: Iterable[str]) -> str:
         for value in _string_values(record.get(key)):
             return value
     return ""
+
+
+def package_identity(source_name: str, metadata: dict[str, Any]) -> tuple[str, str, str]:
+    office_name = _first_string(
+        metadata, ("officeName", "tsoOfficeName", "resourceOfficeName")
+    )
+    service_area = _first_string(
+        metadata, ("serviceArea", "researchLocation", "serviceLocation")
+    )
+    if office_name and service_area:
+        return office_name, service_area, "package-metadata"
+
+    stem = Path(source_name).name
+    stem = re.sub(r"\.zip$", "", stem, flags=re.IGNORECASE)
+    stem = re.sub(r"-(?:resource-package|resources?)$", "", stem, flags=re.IGNORECASE)
+    slug = re.sub(r"[^a-z0-9]+", "-", stem.casefold()).strip("-")
+    known = KNOWN_PACKAGE_IDENTITIES.get(slug)
+    if known:
+        return office_name or known[0], service_area or known[1], "filename-fallback"
+
+    label = " ".join(part.capitalize() for part in slug.split("-") if part) or "Connected"
+    return office_name or f"{label} TSO", service_area or label, "filename-fallback"
 
 
 def _category_id(category: Any) -> str:
@@ -148,9 +179,11 @@ def _walk_collections(value: Any, path: tuple[str, ...] = (), depth: int = 0) ->
 
 
 def _resource_collection_score(path: tuple[str, ...], values: list[Any]) -> float:
-    if not values or not all(isinstance(item, dict) for item in values):
-        return -1
     key = path[-1] if path else ""
+    if not values:
+        return 6 if key in RESOURCE_KEYS else -1
+    if not all(isinstance(item, dict) for item in values):
+        return -1
     sample = values[: min(len(values), 50)]
     name_ratio = sum(bool(resource_name(item)) for item in sample) / len(sample)
     id_ratio = sum(bool(_first_string(item, ("id", "resourceId", "key", "slug"))) for item in sample) / len(sample)
@@ -211,6 +244,17 @@ class ImportedPackage:
     seed_assets: dict[str, bytes] = field(default_factory=dict, repr=False)
 
     @property
+    def identity(self) -> dict[str, str]:
+        office_name, service_area, source = package_identity(
+            self.source_name, self.root_metadata
+        )
+        return {
+            "officeName": office_name,
+            "serviceArea": service_area,
+            "identitySource": source,
+        }
+
+    @property
     def target_assets(self) -> dict[str, bytes]:
         """Compatibility name retained for older callers and tests."""
         return self.seed_assets
@@ -223,6 +267,7 @@ class ImportedPackage:
         return {
             "sourceName": self.source_name,
             "sourceSha256": self.sha256,
+            **self.identity,
             "schema": self.schema.as_dict(),
             "category": {"id": self.target_category_id, "label": self.target_category_label},
             "categoryCount": len(self.categories),

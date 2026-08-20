@@ -197,6 +197,50 @@ class ResearchWorkflowTests(unittest.TestCase):
             time.sleep(0.01)
         self.assertEqual("completed", legal["status"])
 
+    def test_mesa_package_localizes_assignment_prompt_and_run_identity(self) -> None:
+        mesa_path = self.root / "mesa-resource-package.zip"
+        with zipfile.ZipFile(mesa_path, "w") as archive:
+            archive.writestr("tso-resources.json", json.dumps({
+                "schemaVersion": 3,
+                "categories": [{"id": "food", "name": "Food", "filters": ["Meals"]}],
+                "resources": [],
+            }))
+        import_id = self.store.save_import(ResourcePackageImporter("food").read(mesa_path))
+
+        class CapturingAdapter(ResearchAgentAdapter):
+            key = "capture-mesa"
+
+            def status(self) -> dict[str, object]:
+                return {"adapter": self.key, "ready": True}
+
+            def run(self, prompt: str) -> AgentRunResult:
+                return AgentRunResult(
+                    output="done",
+                    result={"summary": "done", "candidates": [], "lessons": []},
+                )
+
+        coordinator = ResearchCoordinator(
+            self.store, adapter_factory=lambda settings: CapturingAdapter()
+        )
+        run = coordinator.start(
+            "Discover realistic ways a person facing food insecurity in Utah County can obtain meals and groceries.",
+            target_category_id="food",
+        )
+        current = self.store.get_run(run["id"])
+        self.assertEqual(import_id, current["sourceImportId"])
+        self.assertEqual("Mesa TSO", current["sourceOfficeName"])
+        self.assertEqual(
+            "Mesa and Maricopa County, Arizona", current["sourceServiceArea"]
+        )
+        self.assertIn("Mesa and Maricopa County, Arizona", current["assignment"])
+        self.assertNotIn("Utah County", current["assignment"])
+        self.assertIn(
+            "Mesa and Maricopa County, Arizona first",
+            current["prompt"]["categoryBrief"]["geographicFocus"],
+        )
+        history = next(item for item in self.store.list_runs() if item["id"] == run["id"])
+        self.assertEqual("Mesa TSO", history["sourceOfficeName"])
+
     def test_staged_run_keeps_partial_candidates_and_resumes_without_repeating_work(self) -> None:
         class FlakyStagedAdapter(ResearchAgentAdapter):
             key = "staged-test"

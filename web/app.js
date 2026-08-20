@@ -97,12 +97,15 @@ async function request(url, options = {}) {
 
 function showImport(summary) {
   if (!summary) return;
+  const importChanged = state.latestImport?.id !== summary.id;
   state.latestImport = summary;
   document.querySelector('#package-status-name').textContent = summary.sourceName;
   document.querySelector('#package-status').hidden = false;
   document.querySelector('#file-label').textContent = 'Choose a different package…';
   document.querySelector('#package-details').hidden = false;
   document.querySelector('#package-details-copy').textContent = [
+    summary.officeName,
+    summary.serviceArea,
     `Package ${summary.schema.packageVersion || 'version not recorded'}`,
     `schema ${summary.schema.schemaVersion || 'not recorded'}`,
     `${summary.resourceCount} resources`,
@@ -112,6 +115,10 @@ function showImport(summary) {
   ].join(' · ');
   state.categories = summary.categories || [];
   state.forGroups = summary.forGroups || [];
+  if (importChanged) {
+    state.categoryAssignmentDrafts = {};
+    state.assignmentDrafts.package = '';
+  }
   const supported = state.categories.filter(category => category.supported);
   if (!supported.some(category => category.id === state.activeCategoryId)) {
     state.activeCategoryId = supported.find(category => category.id.toLowerCase() === 'housing')?.id
@@ -126,6 +133,10 @@ function showImport(summary) {
   }
   renderCategoryChooser();
   updateCategoryCopy();
+  if (importChanged && selectedResearchMode() === 'package') {
+    document.querySelector('#research-assignment').value = packageDefaultAssignment();
+    state.assignmentDrafts.package = packageDefaultAssignment();
+  }
   updateStartResearchState();
 }
 
@@ -441,6 +452,26 @@ function formatWhen(value) {
   return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
 }
 
+function formatDuration(run) {
+  if (!run.startedAt) return '';
+  const start = new Date(run.startedAt).getTime();
+  const end = new Date(run.completedAt || Date.now()).getTime();
+  if (!Number.isFinite(start) || !Number.isFinite(end) || end < start) return '';
+  const totalSeconds = Math.max(0, Math.round((end - start) / 1000));
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  if (hours) return `${hours} hr ${minutes} min`;
+  if (minutes) return `${minutes} min ${seconds} sec`;
+  return `${seconds} sec`;
+}
+
+function runPlace(run) {
+  return run.researchMode === 'standalone-location'
+    ? run.targetLocation
+    : run.sourceOfficeName || run.sourceServiceArea || 'Connected package';
+}
+
 function emptyState(text) {
   const element = document.createElement('div');
   element.className = 'empty-state';
@@ -450,11 +481,10 @@ function emptyState(text) {
 
 function researchRunTitle(run) {
   const category = run.targetCategoryLabel || 'Housing';
-  return run.researchMode === 'standalone-location'
-    ? `${category} research · ${run.targetLocation}`
-    : run.seedResourceId
+  const research = run.seedResourceId
       ? `${category} research from ${run.prompt?.selectedSeed?.name || run.seedResourceId}`
       : `${category} research`;
+  return `${research} · ${runPlace(run)}`;
 }
 
 function candidateCountForRun(runId) {
@@ -608,7 +638,8 @@ function renderRuns() {
     status.textContent = friendlyStatus(run.status);
     head.append(title, status);
     const time = document.createElement('small');
-    time.textContent = `${formatWhen(run.createdAt)} · ${run.adapter} · ${run.researchMode === 'standalone-location' ? 'standalone location' : 'package-backed'}`;
+    const duration = formatDuration(run);
+    time.textContent = `${formatWhen(run.createdAt)}${duration ? ` · Duration ${duration}` : ''} · ${run.adapter} · ${run.researchMode === 'standalone-location' ? 'standalone location' : 'package-backed'}`;
     item.append(head, time);
     if (run.progress?.total) {
       const progress = document.createElement('div');
@@ -805,7 +836,7 @@ function renderCandidates() {
       context.className = 'candidate-context';
       context.textContent = run.researchMode === 'standalone-location'
         ? `${run.targetCategoryLabel || 'Housing'} · Standalone research · ${run.targetLocation}`
-        : `${run.targetCategoryLabel || 'Housing'} · Package-backed research`;
+        : `${run.targetCategoryLabel || 'Housing'} · Package-backed research · ${run.sourceOfficeName || run.sourceServiceArea || 'Connected package'}`;
       item.append(head, context, description);
     } else {
       item.append(head, description);

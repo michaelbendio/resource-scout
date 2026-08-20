@@ -11,6 +11,7 @@ from .importer import (
     ImportedPackage,
     iter_index_values,
     normalize_index_value,
+    package_identity,
     resource_attachments,
     resource_category_ids,
     resource_id,
@@ -37,7 +38,10 @@ CREATE TABLE IF NOT EXISTS imports (
     multicategory_target_count INTEGER NOT NULL,
     metadata_json TEXT NOT NULL,
     manifest_json TEXT NOT NULL,
-    for_groups_json TEXT NOT NULL DEFAULT '[]'
+    for_groups_json TEXT NOT NULL DEFAULT '[]',
+    office_name TEXT NOT NULL DEFAULT '',
+    service_area TEXT NOT NULL DEFAULT '',
+    identity_source TEXT NOT NULL DEFAULT ''
 );
 CREATE TABLE IF NOT EXISTS categories (
     import_id INTEGER NOT NULL REFERENCES imports(id) ON DELETE CASCADE,
@@ -248,6 +252,24 @@ class ResearchStore:
         import_columns = {row["name"] for row in connection.execute("PRAGMA table_info(imports)")}
         if "for_groups_json" not in import_columns:
             connection.execute("ALTER TABLE imports ADD COLUMN for_groups_json TEXT NOT NULL DEFAULT '[]'")
+        import_additions = {
+            "office_name": "TEXT NOT NULL DEFAULT ''",
+            "service_area": "TEXT NOT NULL DEFAULT ''",
+            "identity_source": "TEXT NOT NULL DEFAULT ''",
+        }
+        for name, definition in import_additions.items():
+            if name not in import_columns:
+                connection.execute(f"ALTER TABLE imports ADD COLUMN {name} {definition}")
+        rows = connection.execute(
+            "SELECT id, source_name, metadata_json FROM imports WHERE office_name = '' OR service_area = ''"
+        ).fetchall()
+        for row in rows:
+            metadata = json.loads(row["metadata_json"] or "{}")
+            office_name, service_area, source = package_identity(row["source_name"], metadata)
+            connection.execute(
+                "UPDATE imports SET office_name = ?, service_area = ?, identity_source = ? WHERE id = ?",
+                (office_name, service_area, source, row["id"]),
+            )
 
     @staticmethod
     def _backfill_research_seeds(connection: sqlite3.Connection) -> None:
@@ -338,8 +360,9 @@ class ResearchStore:
                     source_name, source_sha256, imported_at, json_member, resource_path,
                     category_path, schema_version, package_version, target_category_id,
                     target_category_label, resource_count, target_resource_count,
-                    multicategory_target_count, metadata_json, manifest_json, for_groups_json
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    multicategory_target_count, metadata_json, manifest_json, for_groups_json,
+                    office_name, service_area, identity_source
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     package.source_name,
                     package.sha256,
@@ -357,6 +380,9 @@ class ResearchStore:
                     _json(package.root_metadata),
                     _json(package.manifest),
                     _json(package.for_groups),
+                    package.identity["officeName"],
+                    package.identity["serviceArea"],
+                    package.identity["identitySource"],
                 ),
             )
             import_id = int(cursor.lastrowid)
@@ -452,6 +478,9 @@ class ResearchStore:
         if import_id is None:
             return []
         with self.connect() as connection:
+            import_row = connection.execute(
+                "SELECT service_area FROM imports WHERE id = ?", (import_id,)
+            ).fetchone()
             category_rows = connection.execute(
                 "SELECT category_id, label, raw_json FROM categories WHERE import_id = ? ORDER BY rowid",
                 (import_id,),
@@ -468,7 +497,9 @@ class ResearchStore:
             raw_object = raw if isinstance(raw, dict) else {}
             label = str(row["label"])
             resource_count = sum(category_id in ids for ids in membership)
-            playbook = playbook_for(category_id, label)
+            playbook = playbook_for(
+                category_id, label, import_row["service_area"] if import_row else None
+            )
             result.append({
                 "id": category_id,
                 "label": label,
@@ -532,6 +563,9 @@ class ResearchStore:
             "id": row["id"],
             "sourceName": row["source_name"],
             "sourceSha256": row["source_sha256"],
+            "officeName": row["office_name"],
+            "serviceArea": row["service_area"],
+            "identitySource": row["identity_source"],
             "importedAt": row["imported_at"],
             "schema": {
                 "jsonMember": row["json_member"],
@@ -922,15 +956,22 @@ class ResearchStore:
     def list_runs(self, limit: int = 30) -> list[dict[str, Any]]:
         with self.connect() as connection:
             rows = connection.execute(
-                """SELECT id, created_at, started_at, completed_at, status, adapter,
-                          assignment, research_mode, target_location, regional_scope,
-                          target_category_id, target_category_label,
-                          source_import_id, seed_import_id, seed_resource_id, error,
+                """SELECT research_runs.id, research_runs.created_at, research_runs.started_at,
+                          research_runs.completed_at, research_runs.status, research_runs.adapter,
+                          research_runs.assignment, research_runs.research_mode,
+                          research_runs.target_location, research_runs.regional_scope,
+                          research_runs.target_category_id, research_runs.target_category_label,
+                          research_runs.source_import_id, research_runs.seed_import_id,
+                          research_runs.seed_resource_id, research_runs.error,
+                          imports.office_name AS source_office_name,
+                          imports.service_area AS source_service_area,
                           json_extract(result_json, '$.summary') AS result_summary,
                           json_extract(result_json, '$.stageSummaries') AS result_stage_summaries,
                           json_extract(result_json, '$.isPartial') AS result_is_partial,
                           result_json IS NOT NULL AS has_result
-                   FROM research_runs ORDER BY id DESC LIMIT ?""",
+                   FROM research_runs
+                   LEFT JOIN imports ON imports.id = research_runs.source_import_id
+                   ORDER BY research_runs.id DESC LIMIT ?""",
                 (max(1, min(limit, 100)),),
             ).fetchall()
         result = []
@@ -944,6 +985,8 @@ class ResearchStore:
                 "targetCategoryId": row["target_category_id"],
                 "targetCategoryLabel": row["target_category_label"],
                 "sourceImportId": row["source_import_id"], "seedImportId": row["seed_import_id"],
+                "sourceOfficeName": row["source_office_name"],
+                "sourceServiceArea": row["source_service_area"],
                 "seedResourceId": row["seed_resource_id"], "prompt": {"selectedSeed": None},
                 "output": "", "usage": None, "error": row["error"],
                 "result": (
@@ -980,7 +1023,7 @@ class ResearchStore:
 
     @staticmethod
     def _run_dict(row: sqlite3.Row) -> dict[str, Any]:
-        return {
+        value = {
             "id": row["id"], "createdAt": row["created_at"], "startedAt": row["started_at"],
             "completedAt": row["completed_at"], "status": row["status"], "adapter": row["adapter"],
             "assignment": row["assignment"], "researchMode": row["research_mode"],
@@ -995,6 +1038,10 @@ class ResearchStore:
             "usage": json.loads(row["usage_json"]) if row["usage_json"] else None,
             "error": row["error"],
         }
+        source_package = value["prompt"].get("researchContext", {}).get("sourcePackage") or {}
+        value["sourceOfficeName"] = source_package.get("officeName")
+        value["sourceServiceArea"] = source_package.get("serviceArea")
+        return value
 
     @staticmethod
     def _stage_dict(row: sqlite3.Row) -> dict[str, Any]:

@@ -68,6 +68,31 @@ class ImporterTests(unittest.TestCase):
         self.assertEqual([item["id"] for item in imported.target_resources], ["h"])
         self.assertIsNone(imported.schema.category_path)
 
+    def test_package_identity_uses_metadata_then_known_filename_fallback(self) -> None:
+        mesa = self.package({
+            "categories": [{"id": "housing", "label": "Housing"}],
+            "resources": [],
+        })
+        mesa_named = mesa.with_name("mesa-resource-package.zip")
+        mesa.rename(mesa_named)
+        imported = ResourcePackageImporter().read(mesa_named)
+        self.assertEqual("Mesa TSO", imported.identity["officeName"])
+        self.assertEqual(
+            "Mesa and Maricopa County, Arizona", imported.identity["serviceArea"]
+        )
+        self.assertEqual("filename-fallback", imported.identity["identitySource"])
+
+        explicit = self.package({
+            "officeName": "East Valley TSO",
+            "serviceArea": "East Valley, Arizona",
+            "categories": [{"id": "housing", "label": "Housing"}],
+            "resources": [],
+        })
+        explicit_import = ResourcePackageImporter().read(explicit)
+        self.assertEqual("East Valley TSO", explicit_import.identity["officeName"])
+        self.assertEqual("East Valley, Arizona", explicit_import.identity["serviceArea"])
+        self.assertEqual("package-metadata", explicit_import.identity["identitySource"])
+
     def test_missing_target_category_is_explained(self) -> None:
         path = self.package({"resources": [{"id": "f", "name": "Food", "categories": ["food"]}]})
         with self.assertRaisesRegex(PackageImportError, "was not found"):

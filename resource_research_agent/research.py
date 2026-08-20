@@ -11,6 +11,7 @@ from .importer import normalize_index_value
 from .playbooks import (
     CategoryPlaybook,
     PLAYBOOKS,
+    DEFAULT_SERVICE_AREA,
     output_schema,
     playbook_for,
     stages_for,
@@ -69,10 +70,13 @@ class ResearchCoordinator:
                 raise ValueError("The selected category was not found in the current package")
             category_id = str(category["id"])
             category_label = str(category["label"])
-            playbook = playbook_for(category_id, category_label)
+            service_area = str(import_summary.get("serviceArea") or DEFAULT_SERVICE_AREA)
+            playbook = playbook_for(category_id, category_label, service_area)
             target_location = None
             regional_scope = ""
-            assignment = assignment.strip() or playbook.default_assignment
+            assignment = (assignment.strip() or playbook.default_assignment).replace(
+                DEFAULT_SERVICE_AREA, service_area
+            )
         else:
             if not target_location:
                 raise ValueError("Enter a research location for standalone research")
@@ -187,7 +191,9 @@ class ResearchCoordinator:
             {"types": []},
         )
         geographic_focus = (
-            "Utah County first; follow viable Salt Lake, Weber, and other Utah options when appropriate."
+            f"{import_summary['serviceArea']} first. Follow nearby or regional options only when they "
+            f"realistically serve people in {import_summary['serviceArea']}; state service areas and "
+            "transportation barriers explicitly."
             if package_mode
             else (
                 f"{target_location} first. Also investigate {regional_scope} when those resources realistically serve "
@@ -226,6 +232,8 @@ class ResearchCoordinator:
                     {
                         "id": import_summary["id"],
                         "name": import_summary["sourceName"],
+                        "officeName": import_summary["officeName"],
+                        "serviceArea": import_summary["serviceArea"],
                         "category": category,
                     }
                     if import_summary else None
