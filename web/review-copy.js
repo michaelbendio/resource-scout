@@ -139,6 +139,7 @@
         categoryLabel: review.run.targetCategoryLabel,
       },
       taxonomyDraft: initialTaxonomyDraft(review),
+      removedCandidateIds: [],
       reviewerName: '',
       updatedAt: review.exportedAt,
       candidates,
@@ -151,11 +152,19 @@
     if ((feedback.sourceSha256 || null) !== (review.sourcePackage?.sourceSha256 || null)) throw new Error('The source package does not match this review copy.');
     const expected = review.candidates.map(item => String(item.id)).sort();
     const received = Object.keys(feedback.candidates || {}).map(String).sort();
-    if (JSON.stringify(expected) !== JSON.stringify(received)) throw new Error('The candidate list does not match this review copy.');
+    const removed = Array.isArray(feedback.removedCandidateIds)
+      ? [...new Set(feedback.removedCandidateIds.map(String))].sort()
+      : [];
+    const remaining = new Set(received);
+    if (removed.some(id => remaining.has(id)) || JSON.stringify([...received, ...removed].sort()) !== JSON.stringify(expected)) {
+      throw new Error('The candidate list does not match this review copy.');
+    }
     const restored = clone(feedback);
+    restored.removedCandidateIds = removed;
     restored.taxonomyDraft = normalizeTaxonomyDraft(review, restored.taxonomyDraft);
     review.candidates.forEach(item => {
       const itemState = restored.candidates[item.id];
+      if (!itemState) return;
       if (typeof itemState.curatorNotes !== 'string') {
         itemState.curatorNotes = asText(itemState.sourceNotes || item.notes);
       }
@@ -231,6 +240,7 @@
     });
     return {
       errors: [],
+      candidateIds: acceptedItems.map(item => String(item.id)),
       resources,
       pdfAssets,
       data: {
@@ -247,6 +257,20 @@
         deletions: [],
       },
     };
+  }
+
+  function removePackagedCandidates(review, state, candidateIds) {
+    const knownIds = new Set(review.candidates.map(item => String(item.id)));
+    const removed = new Set((state.removedCandidateIds || []).map(String));
+    let count = 0;
+    [...new Set((candidateIds || []).map(String))].forEach(id => {
+      if (!knownIds.has(id) || !Object.hasOwn(state.candidates || {}, id)) return;
+      delete state.candidates[id];
+      removed.add(id);
+      count += 1;
+    });
+    state.removedCandidateIds = [...removed];
+    return count;
   }
 
   let crcTable;
@@ -320,7 +344,7 @@
     return concatBytes([...locals, centralBytes, end]);
   }
 
-  const core = { DECISIONS, DECISION_LABELS, MATCH_LABELS, initialState, validateFeedback, validateDraft, buildResourcePackage, createZipBytes, createZipArchive, base64ToBytes, checklistItems, toggleChecklistItem };
+  const core = { DECISIONS, DECISION_LABELS, MATCH_LABELS, initialState, validateFeedback, validateDraft, buildResourcePackage, removePackagedCandidates, createZipBytes, createZipArchive, base64ToBytes, checklistItems, toggleChecklistItem };
   root.ReviewAppCore = core;
   if (typeof document === 'undefined') return;
 
@@ -373,6 +397,10 @@
     return state.candidates[item.id];
   }
 
+  function remainingCandidates() {
+    return review.candidates.filter(item => Object.hasOwn(state.candidates, item.id));
+  }
+
   function decisionText(item) {
     return DECISION_LABELS[candidateState(item).decision] || 'Not reviewed';
   }
@@ -392,7 +420,7 @@
       title: review.title,
       exportedAt: review.exportedAt,
       runStatus: review.run.status,
-      candidates: review.candidates.map(item => ({
+      candidates: remainingCandidates().map(item => ({
         id: item.id,
         name: item.name,
         origin: item.origin,
@@ -431,7 +459,12 @@
       }
     });
     download(packageFilename(), createZipArchive(entries), 'application/zip');
-    updateActions(`${built.resources.length}-resource package saved.${review.run.status === 'partial' ? ' This run was incomplete; review the stage warning before use.' : ''}`);
+    const removedCount = removePackagedCandidates(review, state, built.candidateIds);
+    view.currentId = null;
+    document.querySelector('#candidate-dialog').close();
+    persist();
+    renderCandidates();
+    updateActions(`${built.resources.length}-resource package saved; ${removedCount} ${removedCount === 1 ? 'candidate was' : 'candidates were'} removed from Curator.${review.run.status === 'partial' ? ' This run was incomplete; review the stage warning before use.' : ''}`);
     const workspaceState = document.querySelector('#workspace-save-state');
     workspaceState.textContent = 'Package saved';
     setTimeout(() => { workspaceState.textContent = ''; }, 1800);
@@ -443,7 +476,7 @@
   }
 
   function updateActions(message = '') {
-    const accepted = review.candidates.filter(item => candidateState(item).decision === 'accepted').length;
+    const accepted = remainingCandidates().filter(item => candidateState(item).decision === 'accepted').length;
     const packageButton = document.querySelector('#download-package');
     packageButton.textContent = accepted ? `Save a resource package (${accepted})` : 'Save a resource package';
     packageButton.disabled = !review.sourcePackage?.packageEligible || accepted === 0;
@@ -464,16 +497,17 @@
 
   function renderCandidates() {
     const wanted = view.search.toLocaleLowerCase();
-    const candidates = review.candidates.filter(item => {
+    const remaining = remainingCandidates();
+    const candidates = remaining.filter(item => {
       const itemState = candidateState(item);
       if (view.status && itemState.decision !== view.status) return false;
       if (!wanted) return true;
       return [item.name, asText(item.candidate?.organization), asText(item.candidate?.program), asText(item.candidate?.description), itemState.feedback]
         .join(' ').toLocaleLowerCase().includes(wanted);
     });
-    document.querySelector('#candidate-count').textContent = `${candidates.length} of ${review.candidates.length} candidates shown`;
+    document.querySelector('#candidate-count').textContent = `${candidates.length} of ${remaining.length} remaining candidates shown`;
     const target = document.querySelector('#candidate-list');
-    if (!candidates.length) { target.replaceChildren(element('div', 'empty', 'No candidates match this filter.')); return; }
+    if (!candidates.length) { target.replaceChildren(element('div', 'empty', remaining.length ? 'No candidates match this filter.' : 'No candidates remain in Curator.')); return; }
     target.replaceChildren(...candidates.map(item => {
       const button = element('button', 'candidate'); button.type = 'button';
       const head = element('div', 'candidate-head');
@@ -868,16 +902,18 @@
 
   function openCandidate(id) {
     view.currentId = id;
-    const item = review.candidates.find(candidate => String(candidate.id) === String(id));
+    const item = remainingCandidates().find(candidate => String(candidate.id) === String(id));
+    if (!item) return;
     document.querySelector('#candidate-name').textContent = item.name;
     document.querySelector('#notes-window-title').textContent = `Notes — ${item.name}`;
     const status = document.querySelector('#candidate-status'); status.className = `status ${candidateState(item).decision || 'unreviewed'}`; status.textContent = decisionText(item);
     document.querySelector('#candidate-research').replaceChildren(candidateDetails(item));
     document.querySelector('#candidate-editor').replaceChildren(renderReviewEditor(item));
     renderNotes(item);
-    const position = review.candidates.findIndex(candidate => String(candidate.id) === String(id));
+    const candidates = remainingCandidates();
+    const position = candidates.findIndex(candidate => String(candidate.id) === String(id));
     document.querySelector('#previous-candidate').disabled = position <= 0;
-    document.querySelector('#next-candidate').disabled = position < 0 || position >= review.candidates.length - 1;
+    document.querySelector('#next-candidate').disabled = position < 0 || position >= candidates.length - 1;
     const dialog = document.querySelector('#candidate-dialog'); if (!dialog.open) dialog.showModal();
   }
 
@@ -910,24 +946,31 @@
     const resume = document.querySelector('#resume-feedback');
     resume.addEventListener('change', async () => {
       const file = resume.files?.[0]; if (!file) return;
-      try { state = validateFeedback(review, JSON.parse(await file.text())); persist(false); view.dirty = false; reviewer.value = state.reviewerName || ''; renderCandidates(); if (view.currentId) openCandidate(view.currentId); updateActions('Saved work opened.'); }
+      try {
+        state = validateFeedback(review, JSON.parse(await file.text())); persist(false); view.dirty = false; reviewer.value = state.reviewerName || ''; renderCandidates();
+        if (view.currentId && Object.hasOwn(state.candidates, view.currentId)) openCandidate(view.currentId);
+        else { view.currentId = null; document.querySelector('#candidate-dialog').close(); }
+        updateActions('Saved work opened.');
+      }
       catch (error) { updateActions(error.message); }
       finally { resume.value = ''; }
     });
     document.querySelector('#close-dialog').addEventListener('click', () => document.querySelector('#candidate-dialog').close());
     document.querySelector('#previous-candidate').addEventListener('click', () => {
-      const position = review.candidates.findIndex(candidate => String(candidate.id) === String(view.currentId));
-      if (position > 0) openCandidate(review.candidates[position - 1].id);
+      const candidates = remainingCandidates();
+      const position = candidates.findIndex(candidate => String(candidate.id) === String(view.currentId));
+      if (position > 0) openCandidate(candidates[position - 1].id);
     });
     document.querySelector('#next-candidate').addEventListener('click', () => {
-      const position = review.candidates.findIndex(candidate => String(candidate.id) === String(view.currentId));
-      if (position >= 0 && position < review.candidates.length - 1) openCandidate(review.candidates[position + 1].id);
+      const candidates = remainingCandidates();
+      const position = candidates.findIndex(candidate => String(candidate.id) === String(view.currentId));
+      if (position >= 0 && position < candidates.length - 1) openCandidate(candidates[position + 1].id);
     });
     document.querySelector('#candidate-dialog').addEventListener('click', event => { if (event.target === event.currentTarget) event.currentTarget.close(); });
     window.addEventListener('beforeunload', event => { if (view.dirty && !view.persisted) { event.preventDefault(); event.returnValue = ''; } });
     setupWorkspaceWindows(); renderCandidates(); updateActions();
     const packageText = packageInfo ? `${packageInfo.sourceName}; schema ${packageInfo.schemaVersion}; package ${packageInfo.packageVersion}` : `Standalone location research; ${review.run.targetLocation || 'location not recorded'}`;
-    document.querySelector('#footer').textContent = `Resource Curator v0.19.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
+    document.querySelector('#footer').textContent = `Resource Curator v0.20.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
   }
 
   initialize();

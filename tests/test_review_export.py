@@ -112,7 +112,7 @@ class ReviewCopyTests(unittest.TestCase):
 
         completed_date = data["run"]["completedAt"][:10]
         self.assertEqual(f"housing-research-curator-{completed_date}.html", review.filename)
-        self.assertEqual(8, data["reviewCopySchemaVersion"])
+        self.assertEqual(9, data["reviewCopySchemaVersion"])
         self.assertEqual(1, data["reviewFeedbackSchemaVersion"])
         self.assertTrue(data["reviewId"])
         self.assertEqual("A concise completed summary with </script> text.", data["run"]["summary"])
@@ -419,10 +419,15 @@ const independentNotes = {
   first: twoCandidateState.candidates[item.id].curatorNotes,
   second: twoCandidateState.candidates[secondItem.id].curatorNotes,
 };
+twoCandidateState.candidates[item.id].decision = 'accepted';
+const queueBuilt = ReviewAppCore.buildResourcePackage(twoCandidateReview, twoCandidateState);
+const queueRemoved = ReviewAppCore.removePackagedCandidates(twoCandidateReview, twoCandidateState, queueBuilt.candidateIds);
+const queueRemaining = Object.keys(twoCandidateState.candidates);
 state.candidates[item.id].curatorNotes = '**Interview**\n- [ ] Confirm hours\n- [x] Confirm service area';
 const checklistBefore = ReviewAppCore.checklistItems(state.candidates[item.id].curatorNotes);
 state.candidates[item.id].curatorNotes = ReviewAppCore.toggleChecklistItem(state.candidates[item.id].curatorNotes, 1, true);
 const checklistAfter = ReviewAppCore.checklistItems(state.candidates[item.id].curatorNotes);
+const savedNotes = state.candidates[item.id].curatorNotes;
 state.candidates[item.id].decision = 'accepted';
 state.taxonomyDraft.categoryTypes.housing.push('Bridge housing');
 state.taxonomyDraft.forGroups.push('Young adults');
@@ -438,7 +443,10 @@ const zip = built.errors.length ? null : ReviewAppCore.createZipArchive([
   { name: 'tso-resources.json', content: JSON.stringify(built.data, null, 2) },
   { name: pdfPath, content: ReviewAppCore.base64ToBytes(built.pdfAssets[pdfPath].data) },
 ]);
-process.stdout.write(JSON.stringify({ errors: built.errors, emptyErrors: ReviewAppCore.buildResourcePackage(review, ReviewAppCore.initialState(review)).errors, independentNotes, checklistBefore, checklistAfter, savedNotes: state.candidates[item.id].curatorNotes, pdfPath, zip: zip && Buffer.from(zip).toString('base64') }));
+const removedCount = ReviewAppCore.removePackagedCandidates(review, state, built.candidateIds);
+const restored = ReviewAppCore.validateFeedback(review, JSON.parse(JSON.stringify(state)));
+const repeatErrors = ReviewAppCore.buildResourcePackage(review, restored).errors;
+process.stdout.write(JSON.stringify({ errors: built.errors, emptyErrors: ReviewAppCore.buildResourcePackage(review, ReviewAppCore.initialState(review)).errors, independentNotes, queueErrors: queueBuilt.errors, queueRemoved, queueRemaining, checklistBefore, checklistAfter, savedNotes, pdfPath, zip: zip && Buffer.from(zip).toString('base64'), removedCount, removedCandidateIds: restored.removedCandidateIds, remainingCandidateIds: Object.keys(restored.candidates), repeatErrors }));
 """
         completed = subprocess.run(
             ["node", "-e", script], input=json.dumps(review), text=True,
@@ -449,9 +457,16 @@ process.stdout.write(JSON.stringify({ errors: built.errors, emptyErrors: ReviewA
         self.assertTrue(any("Ready for package" in error for error in result["emptyErrors"]))
         self.assertEqual("Notes for the first candidate only", result["independentNotes"]["first"])
         self.assertEqual("", result["independentNotes"]["second"])
+        self.assertEqual([], result["queueErrors"])
+        self.assertEqual(1, result["queueRemoved"])
+        self.assertEqual([f'{review["candidates"][0]["id"]}-second'], result["queueRemaining"])
         self.assertEqual([False, True], [item["checked"] for item in result["checklistBefore"]])
         self.assertEqual([True, True], [item["checked"] for item in result["checklistAfter"]])
         self.assertIn("- [x] Confirm hours", result["savedNotes"])
+        self.assertEqual(1, result["removedCount"])
+        self.assertEqual([str(review["candidates"][0]["id"])], result["removedCandidateIds"])
+        self.assertEqual([], result["remainingCandidateIds"])
+        self.assertTrue(any("Ready for package" in error for error in result["repeatErrors"]))
         with zipfile.ZipFile(io.BytesIO(base64.b64decode(result["zip"]))) as archive:
             self.assertEqual(["tso-resources.json", result["pdfPath"]], archive.namelist())
             package = json.loads(archive.read("tso-resources.json"))
