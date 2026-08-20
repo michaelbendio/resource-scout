@@ -76,6 +76,7 @@
         reviewedAt: item.reviewedAt || null,
         updatedAt: item.updatedAt || review.exportedAt,
         resourceDraft: item.resourceDraft ? clone(item.resourceDraft) : null,
+        pdfAssets: {},
       };
     });
     return {
@@ -107,6 +108,7 @@
       if (typeof itemState.curatorNotes !== 'string') {
         itemState.curatorNotes = asText(itemState.sourceNotes || item.notes);
       }
+      if (!itemState.pdfAssets || typeof itemState.pdfAssets !== 'object') itemState.pdfAssets = {};
     });
     return restored;
   }
@@ -115,7 +117,7 @@
     const errors = [];
     const resource = itemState.resourceDraft;
     const source = review.sourcePackage;
-    if (!resource) return ['The accepted candidate does not have a resource draft.'];
+    if (!resource) return ['The ready candidate does not have a resource draft.'];
     if (!asText(resource.name)) errors.push('Name is required.');
     const summaries = source?.categorySummaries || [];
     const categoryMap = new Map(summaries.map(category => [String(category.id), category]));
@@ -148,8 +150,7 @@
     const source = review.sourcePackage;
     if (!source?.packageEligible) errors.push('This review copy cannot create a resource package.');
     const acceptedItems = review.candidates.filter(item => state.candidates?.[item.id]?.decision === 'accepted');
-    if (!acceptedItems.length) errors.push('Accept at least one candidate before downloading a resource package.');
-    acceptedItems.forEach(item => validateDraft(review, item, state.candidates[item.id]).forEach(error => errors.push(`${item.name}: ${error}`)));
+    if (!acceptedItems.length) errors.push('Mark at least one candidate Ready for package before downloading a resource package.');
     if (errors.length) return { errors, data: null, resources: [] };
 
     const resources = acceptedItems.map(item => clone(state.candidates[item.id].resourceDraft));
@@ -159,9 +160,17 @@
     const packageVersionText = String(source.packageVersion ?? 'Unknown');
     const packageVersion = /^\d+$/.test(packageVersionText) ? Number(packageVersionText) : packageVersionText;
     const lastModified = resources.map(resource => asText(resource.lastModified)).filter(Boolean).sort().at(-1) || now;
+    const referencedPDFs = new Set(resources.flatMap(resource => (resource.pdfs || []).map(pdf => pdf.path).filter(Boolean)));
+    const pdfAssets = {};
+    acceptedItems.forEach(item => {
+      Object.entries(state.candidates[item.id].pdfAssets || {}).forEach(([path, asset]) => {
+        if (referencedPDFs.has(path)) pdfAssets[path] = clone(asset);
+      });
+    });
     return {
       errors: [],
       resources,
+      pdfAssets,
       data: {
         resourcePackageSchemaVersion: source.resourcePackageSchemaVersion,
         packageVersion,
@@ -200,6 +209,13 @@
     return result;
   }
 
+  function base64ToBytes(value) {
+    const binary = atob(String(value || ''));
+    const bytes = new Uint8Array(binary.length);
+    for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+    return bytes;
+  }
+
   function zipDate(date = new Date()) {
     const year = Math.max(1980, date.getFullYear());
     return {
@@ -209,39 +225,46 @@
   }
 
   function createZipBytes(filename, content, date = new Date()) {
+    return createZipArchive([{ name: filename, content }], date);
+  }
+
+  function createZipArchive(entries, date = new Date()) {
     const encoder = new TextEncoder();
-    const name = encoder.encode(filename);
-    const bytes = content instanceof Uint8Array ? content : encoder.encode(String(content));
-    const checksum = crc32(bytes);
     const stamp = zipDate(date);
-    const local = new Uint8Array(30 + name.length);
-    const localView = new DataView(local.buffer);
-    localView.setUint32(0, 0x04034b50, true); localView.setUint16(4, 20, true); localView.setUint16(6, 0x0800, true);
-    localView.setUint16(8, 0, true); localView.setUint16(10, stamp.time, true); localView.setUint16(12, stamp.date, true);
-    localView.setUint32(14, checksum, true); localView.setUint32(18, bytes.length, true); localView.setUint32(22, bytes.length, true);
-    localView.setUint16(26, name.length, true); localView.setUint16(28, 0, true); local.set(name, 30);
-    const central = new Uint8Array(46 + name.length);
-    const centralView = new DataView(central.buffer);
-    centralView.setUint32(0, 0x02014b50, true); centralView.setUint16(4, 20, true); centralView.setUint16(6, 20, true);
-    centralView.setUint16(8, 0x0800, true); centralView.setUint16(10, 0, true); centralView.setUint16(12, stamp.time, true); centralView.setUint16(14, stamp.date, true);
-    centralView.setUint32(16, checksum, true); centralView.setUint32(20, bytes.length, true); centralView.setUint32(24, bytes.length, true);
-    centralView.setUint16(28, name.length, true); centralView.setUint16(30, 0, true); centralView.setUint16(32, 0, true);
-    centralView.setUint16(34, 0, true); centralView.setUint16(36, 0, true); centralView.setUint32(38, 0, true); centralView.setUint32(42, 0, true); central.set(name, 46);
+    const locals = []; const centrals = []; let offset = 0;
+    entries.forEach(entry => {
+      const name = encoder.encode(String(entry.name));
+      const bytes = entry.content instanceof Uint8Array ? entry.content : encoder.encode(String(entry.content));
+      const checksum = crc32(bytes);
+      const local = new Uint8Array(30 + name.length); const localView = new DataView(local.buffer);
+      localView.setUint32(0, 0x04034b50, true); localView.setUint16(4, 20, true); localView.setUint16(6, 0x0800, true);
+      localView.setUint16(8, 0, true); localView.setUint16(10, stamp.time, true); localView.setUint16(12, stamp.date, true);
+      localView.setUint32(14, checksum, true); localView.setUint32(18, bytes.length, true); localView.setUint32(22, bytes.length, true);
+      localView.setUint16(26, name.length, true); localView.setUint16(28, 0, true); local.set(name, 30);
+      const central = new Uint8Array(46 + name.length); const centralView = new DataView(central.buffer);
+      centralView.setUint32(0, 0x02014b50, true); centralView.setUint16(4, 20, true); centralView.setUint16(6, 20, true);
+      centralView.setUint16(8, 0x0800, true); centralView.setUint16(10, 0, true); centralView.setUint16(12, stamp.time, true); centralView.setUint16(14, stamp.date, true);
+      centralView.setUint32(16, checksum, true); centralView.setUint32(20, bytes.length, true); centralView.setUint32(24, bytes.length, true);
+      centralView.setUint16(28, name.length, true); centralView.setUint16(30, 0, true); centralView.setUint16(32, 0, true);
+      centralView.setUint16(34, 0, true); centralView.setUint16(36, 0, true); centralView.setUint32(38, 0, true); centralView.setUint32(42, offset, true); central.set(name, 46);
+      locals.push(local, bytes); centrals.push(central); offset += local.length + bytes.length;
+    });
+    const centralBytes = concatBytes(centrals);
     const end = new Uint8Array(22);
     const endView = new DataView(end.buffer);
     endView.setUint32(0, 0x06054b50, true); endView.setUint16(4, 0, true); endView.setUint16(6, 0, true);
-    endView.setUint16(8, 1, true); endView.setUint16(10, 1, true); endView.setUint32(12, central.length, true);
-    endView.setUint32(16, local.length + bytes.length, true); endView.setUint16(20, 0, true);
-    return concatBytes([local, bytes, central, end]);
+    endView.setUint16(8, entries.length, true); endView.setUint16(10, entries.length, true); endView.setUint32(12, centralBytes.length, true);
+    endView.setUint32(16, offset, true); endView.setUint16(20, 0, true);
+    return concatBytes([...locals, centralBytes, end]);
   }
 
-  const core = { DECISIONS, DECISION_LABELS, MATCH_LABELS, initialState, validateFeedback, validateDraft, buildResourcePackage, createZipBytes, checklistItems, toggleChecklistItem };
+  const core = { DECISIONS, DECISION_LABELS, MATCH_LABELS, initialState, validateFeedback, validateDraft, buildResourcePackage, createZipBytes, createZipArchive, base64ToBytes, checklistItems, toggleChecklistItem };
   root.ReviewAppCore = core;
   if (typeof document === 'undefined') return;
 
   const review = JSON.parse(document.querySelector('#review-data').textContent);
   const storageKey = `resource-research-review:${review.reviewId}`;
-  const view = { search: '', status: '', currentId: null, dirty: false, persisted: false, notesMode: 'edit', topWindow: 10 };
+  const view = { search: '', status: '', currentId: null, dirty: false, persisted: false, notesMode: 'edit', editorTab: 'resource', informationMode: 'preview', topWindow: 10 };
   let state = initialState(review);
 
   function formatWhen(value) {
@@ -333,6 +356,25 @@
     }
   }
 
+  function saveResourcePackage() {
+    const built = buildResourcePackage(review, state);
+    if (built.errors.length) {
+      updateActions(built.errors.join(' '));
+      return;
+    }
+    const entries = [{ name: 'tso-resources.json', content: JSON.stringify(built.data, null, 2) }];
+    Object.entries(built.pdfAssets || {}).forEach(([path, asset]) => {
+      if (/^pdfs\/[A-Za-z0-9%._-]+\/[A-Za-z0-9._-]+\.pdf$/i.test(path) && !path.includes('..')) {
+        entries.push({ name: path, content: base64ToBytes(asset.data) });
+      }
+    });
+    download(packageFilename(), createZipArchive(entries), 'application/zip');
+    updateActions(`${built.resources.length}-resource package saved.${review.run.status === 'partial' ? ' This run was incomplete; review the stage warning before use.' : ''}`);
+    const workspaceState = document.querySelector('#workspace-save-state');
+    workspaceState.textContent = 'Package saved';
+    setTimeout(() => { workspaceState.textContent = ''; }, 1800);
+  }
+
   function packageFilename() {
     const source = String(review.sourcePackage?.sourceName || 'tso').replace(/(?:-resource-package)?\.zip$/i, '');
     return `${slug(source)}-${slug(review.run.targetCategoryLabel)}-research-run-${review.run.id}-resource-package.zip`;
@@ -348,6 +390,10 @@
       : review.sourcePackage
         ? 'Resource-package download currently requires a source package using schema 3.'
         : 'Standalone research can save feedback but cannot create a resource package.';
+    const workspacePackageButton = document.querySelector('#workspace-download-package');
+    workspacePackageButton.textContent = accepted ? `Save package (${accepted})` : 'Save package';
+    workspacePackageButton.disabled = packageButton.disabled;
+    workspacePackageButton.title = packageButton.title;
     document.querySelector('#save-state').textContent = view.persisted
       ? 'Progress is saved in this browser. Save work to move or back up the work.'
       : 'Save work to keep progress and resume later.';
@@ -521,27 +567,54 @@
     input.addEventListener('change', () => onChange(input.checked)); wrapper.append(input, document.createTextNode(label)); return wrapper;
   }
 
-  function renderResourceEditor(item, itemState) {
-    const resource = itemState.resourceDraft;
-    const box = element('section', 'resource-editor');
-    box.append(element('p', 'section-label', 'Accepted resource draft'), element('h3', '', 'TSO Resources fields'));
-    const intro = element('p', 'muted', 'Review and edit this new resource. Only accepted drafts are included in the downloaded package.'); box.append(intro);
-    const fields = element('div', 'resource-fields');
-    fields.append(inputField('Name', 'name', resource.name), inputField('Phone', 'phone', resource.phone), inputField('Address', 'address', resource.address),
-      inputField('Website', 'website', resource.website), inputField('Hours', 'hours', resource.hours), inputField('Verified (MM/YY)', 'verifiedOn', resource.verifiedOn),
-      inputField('Description', 'description', resource.description, true), inputField('Information', 'informationText', resource.informationText, true));
-    fields.querySelectorAll('[data-resource-field]').forEach(input => input.addEventListener('input', () => {
-      resource[input.dataset.resourceField] = input.value; resource.lastModified = new Date().toISOString(); persist();
-    }));
-    box.append(fields);
+  function touchResource(resource) {
+    resource.lastModified = new Date().toISOString(); persist();
+  }
 
-    const categories = element('fieldset', 'choice-fieldset'); categories.append(element('legend', '', 'Categories'));
+  function safePDFFileName(name) {
+    const base = String(name || 'attachment.pdf').split(/[\\/]/).at(-1) || 'attachment.pdf';
+    const safe = base.replace(/[^A-Za-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '') || 'attachment.pdf';
+    return /\.pdf$/i.test(safe) ? safe : `${safe}.pdf`;
+  }
+
+  function randomId() {
+    const bytes = new Uint8Array(16); crypto.getRandomValues(bytes);
+    return Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
+  }
+
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => resolve(String(reader.result || '').split(',', 2)[1] || ''));
+      reader.addEventListener('error', () => reject(reader.error || new Error('Unable to read the PDF.')));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function formattedTextPreview(text) {
+    const preview = element('div', 'information-preview notes-preview'); let hasContent = false;
+    String(text || '').split(/\r?\n/).forEach(line => {
+      if (/^\s*---\s*$/.test(line)) { hasContent = true; preview.append(document.createElement('hr')); return; }
+      const bullet = line.match(/^\s*[-*]\s+(.*)$/);
+      if (bullet) {
+        hasContent = true; const row = element('div', 'notes-bullet'); row.append(element('span', '', '•'));
+        const content = element('span'); appendFormattedText(content, bullet[1]); row.append(content); preview.append(row); return;
+      }
+      if (line.trim()) { hasContent = true; const paragraph = element('p'); appendFormattedText(paragraph, line); preview.append(paragraph); }
+    });
+    if (!hasContent) preview.append(element('p', 'notes-empty', 'No Information has been entered.'));
+    return preview;
+  }
+
+  function renderCategoriesEditor(item, itemState, resource) {
+    const categories = element('div', 'editor-choice-list');
     (review.sourcePackage?.categorySummaries || []).forEach(category => {
       const id = String(category.id); const selected = (resource.categories || []).includes(id);
-      categories.append(checkbox(categoryLabel(category), selected, checked => {
+      const option = element('div', 'editor-choice-group');
+      option.append(checkbox(categoryLabel(category), selected, checked => {
         resource.categories = checked ? [...new Set([...(resource.categories || []), id])] : (resource.categories || []).filter(value => value !== id);
         if (!checked && resource.categoryFilters) delete resource.categoryFilters[id];
-        resource.lastModified = new Date().toISOString(); persist(); openCandidate(item.id);
+        touchResource(resource); openCandidate(item.id);
       }));
       if (selected && category.types?.length) {
         const types = element('div', 'nested-choices'); types.append(element('strong', '', `${categoryLabel(category)} Types`));
@@ -549,20 +622,89 @@
           resource.categoryFilters ||= {}; const values = resource.categoryFilters[id] || [];
           resource.categoryFilters[id] = checked ? [...new Set([...values, type])] : values.filter(value => value !== type);
           if (!resource.categoryFilters[id].length) delete resource.categoryFilters[id];
-          resource.lastModified = new Date().toISOString(); persist();
+          touchResource(resource);
         })));
-        categories.append(types);
+        option.append(types);
       }
+      categories.append(option);
     });
-    box.append(categories);
-    if (review.sourcePackage?.forGroups?.length) {
-      const forGroups = element('fieldset', 'choice-fieldset'); forGroups.append(element('legend', '', 'For'));
-      review.sourcePackage.forGroups.forEach(label => forGroups.append(checkbox(label, (resource.forGroups || []).includes(label), checked => {
-        const values = resource.forGroups || []; resource.forGroups = checked ? [...new Set([...values, label])] : values.filter(value => value !== label);
-        resource.lastModified = new Date().toISOString(); persist();
-      })));
-      box.append(forGroups);
+    return categories;
+  }
+
+  function renderForEditor(resource) {
+    const forGroups = element('div', 'editor-choice-list');
+    forGroups.append(element('p', 'muted', 'Check only if this resource is specifically intended for this group.'));
+    (review.sourcePackage?.forGroups || []).forEach(label => forGroups.append(checkbox(label, (resource.forGroups || []).includes(label), checked => {
+      const values = resource.forGroups || [];
+      resource.forGroups = checked ? [...new Set([...values, label])] : values.filter(value => value !== label);
+      touchResource(resource);
+    })));
+    return forGroups;
+  }
+
+  function renderPDFEditor(item, itemState, resource) {
+    const section = element('section', 'pdf-editor'); section.append(element('h3', '', 'PDF attachments'));
+    const list = element('div', 'pdf-list');
+    const pdfs = Array.isArray(resource.pdfs) ? resource.pdfs : [];
+    if (!pdfs.length) list.append(element('p', 'muted', 'No PDFs attached.'));
+    pdfs.forEach(pdf => {
+      const row = element('div', 'pdf-row'); row.append(element('span', '', pdf.name || 'PDF'));
+      const remove = element('button', 'secondary', 'Remove PDF'); remove.type = 'button';
+      remove.addEventListener('click', () => {
+        resource.pdfs = pdfs.filter(existing => existing.id !== pdf.id); delete itemState.pdfAssets[pdf.path];
+        touchResource(resource); openCandidate(item.id);
+      });
+      row.append(remove); list.append(row);
+    });
+    const picker = document.createElement('input'); picker.type = 'file'; picker.accept = 'application/pdf,.pdf'; picker.multiple = true; picker.hidden = true;
+    picker.addEventListener('change', async () => {
+      const files = Array.from(picker.files || []).filter(file => file.type === 'application/pdf' || /\.pdf$/i.test(file.name));
+      resource.pdfs ||= []; itemState.pdfAssets ||= {};
+      for (const file of files) {
+        const id = randomId(); const name = safePDFFileName(file.name); const path = `pdfs/${encodeURIComponent(resource.id || 'resource')}/${id}-${name}`;
+        resource.pdfs.push({ id, name: file.name || name, path });
+        itemState.pdfAssets[path] = { name: file.name || name, type: 'application/pdf', data: await fileToBase64(file) };
+      }
+      if (files.length) { touchResource(resource); openCandidate(item.id); }
+    });
+    const attach = element('button', 'secondary', 'Attach PDF'); attach.type = 'button'; attach.addEventListener('click', () => picker.click());
+    section.append(list, picker, attach); return section;
+  }
+
+  function renderResourceFields(item, itemState, resource) {
+    const content = element('div'); const fields = element('div', 'resource-fields');
+    fields.append(inputField('Name', 'name', resource.name), inputField('Phone', 'phone', resource.phone), inputField('Address', 'address', resource.address),
+      inputField('Website', 'website', resource.website), inputField('Hours', 'hours', resource.hours), inputField('Verified (MM/YY)', 'verifiedOn', resource.verifiedOn),
+      inputField('Description', 'description', resource.description, true));
+    fields.querySelectorAll('[data-resource-field]').forEach(input => input.addEventListener('input', () => {
+      resource[input.dataset.resourceField] = input.value; touchResource(resource);
+    }));
+    content.append(fields, renderPDFEditor(item, itemState, resource));
+    const information = element('section', 'information-editor'); information.append(element('h3', '', 'Information'));
+    const tabs = element('div', 'information-tabs');
+    const edit = element('button', view.informationMode === 'edit' ? 'selected' : '', 'Edit'); const preview = element('button', view.informationMode === 'preview' ? 'selected' : '', 'Preview');
+    edit.type = preview.type = 'button'; edit.addEventListener('click', () => { view.informationMode = 'edit'; openCandidate(item.id); }); preview.addEventListener('click', () => { view.informationMode = 'preview'; openCandidate(item.id); }); tabs.append(edit, preview);
+    information.append(tabs, element('p', 'muted', 'Formatting: use * followed by a space for bullets, **bold**, __underline__, and --- on its own line for a divider.'));
+    if (view.informationMode === 'preview') information.append(formattedTextPreview(resource.informationText));
+    else {
+      const input = inputField('Information', 'informationText', resource.informationText, true); input.querySelector('textarea').addEventListener('input', event => { resource.informationText = event.target.value; touchResource(resource); }); information.append(input);
     }
+    content.append(information); return content;
+  }
+
+  function renderResourceEditor(item, itemState) {
+    const resource = itemState.resourceDraft;
+    const box = element('section', 'resource-editor');
+    box.append(element('p', 'section-label', 'Resource draft'), element('h3', '', 'TSO Resources editors'));
+    const tabs = element('div', 'resource-editor-tabs');
+    [['categories', 'Categories'], ['resource', 'Resource'], ['for', 'For']].forEach(([value, label]) => {
+      const button = element('button', view.editorTab === value ? 'selected' : '', label); button.type = 'button';
+      button.addEventListener('click', () => { view.editorTab = value; openCandidate(item.id); }); tabs.append(button);
+    });
+    box.append(tabs);
+    if (view.editorTab === 'categories') box.append(renderCategoriesEditor(item, itemState, resource));
+    else if (view.editorTab === 'for') box.append(renderForEditor(resource));
+    else box.append(renderResourceFields(item, itemState, resource));
     return box;
   }
 
@@ -589,12 +731,10 @@
     const textarea = feedback.querySelector('textarea'); textarea.removeAttribute('data-resource-field'); textarea.placeholder = 'Why? What should the researcher notice next time?';
     textarea.addEventListener('input', () => { itemState.feedback = textarea.value; persist(); }); editor.append(feedback);
     editor.append(checkbox('Use this feedback in future research', itemState.useForFutureResearch, checked => { itemState.useForFutureResearch = checked; persist(); }));
-    if (itemState.decision === 'accepted') {
-      if (review.sourcePackage?.packageEligible && itemState.resourceDraft) editor.append(renderResourceEditor(item, itemState));
-      else editor.append(element('p', 'standalone-note', review.sourcePackage
-        ? 'This source package does not use the supported package schema. The review can save the acceptance and feedback, but it cannot create a resource package.'
-        : 'This standalone review can save the acceptance and feedback, but it cannot create a resource package.'));
-    }
+    if (review.sourcePackage?.packageEligible && itemState.resourceDraft) editor.append(renderResourceEditor(item, itemState));
+    else if (itemState.decision === 'accepted') editor.append(element('p', 'standalone-note', review.sourcePackage
+      ? 'This source package does not use the supported package schema. The work and decision can be saved, but it cannot create a resource package.'
+      : 'This standalone Curator can save work and decisions, but it cannot create a resource package.'));
     return editor;
   }
 
@@ -602,6 +742,7 @@
     view.currentId = id;
     const item = review.candidates.find(candidate => String(candidate.id) === String(id));
     document.querySelector('#candidate-name').textContent = item.name;
+    document.querySelector('#notes-window-title').textContent = `Notes — ${item.name}`;
     const status = document.querySelector('#candidate-status'); status.className = `status ${candidateState(item).decision || 'unreviewed'}`; status.textContent = decisionText(item);
     document.querySelector('#candidate-research').replaceChildren(candidateDetails(item));
     document.querySelector('#candidate-editor').replaceChildren(renderReviewEditor(item));
@@ -645,13 +786,8 @@
     const reviewer = document.querySelector('#reviewer-name'); reviewer.value = state.reviewerName || ''; reviewer.addEventListener('input', () => { state.reviewerName = reviewer.value; persist(); });
     document.querySelector('#download-feedback').addEventListener('click', saveWork);
     document.querySelector('#workspace-save-work').addEventListener('click', saveWork);
-    document.querySelector('#download-package').addEventListener('click', () => {
-      const built = buildResourcePackage(review, state);
-      if (built.errors.length) { document.querySelector('#action-message').textContent = built.errors.join(' '); if (view.currentId) openCandidate(view.currentId); return; }
-      const bytes = createZipBytes('tso-resources.json', JSON.stringify(built.data, null, 2));
-      download(packageFilename(), bytes, 'application/zip');
-      updateActions(`${built.resources.length}-resource package downloaded.${review.run.status === 'partial' ? ' This run was incomplete; review the stage warning before use.' : ''}`);
-    });
+    document.querySelector('#download-package').addEventListener('click', saveResourcePackage);
+    document.querySelector('#workspace-download-package').addEventListener('click', saveResourcePackage);
     const resume = document.querySelector('#resume-feedback');
     resume.addEventListener('change', async () => {
       const file = resume.files?.[0]; if (!file) return;
@@ -672,7 +808,7 @@
     window.addEventListener('beforeunload', event => { if (view.dirty && !view.persisted) { event.preventDefault(); event.returnValue = ''; } });
     setupWorkspaceWindows(); renderCandidates(); updateActions();
     const packageText = packageInfo ? `${packageInfo.sourceName}; schema ${packageInfo.schemaVersion}; package ${packageInfo.packageVersion}` : `Standalone location research; ${review.run.targetLocation || 'location not recorded'}`;
-    document.querySelector('#footer').textContent = `Resource Curator v0.17.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
+    document.querySelector('#footer').textContent = `Resource Curator v0.18.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
   }
 
   initialize();

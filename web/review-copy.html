@@ -67,6 +67,9 @@
     .resource-editor { margin-top:1.2rem; background:white; } .resource-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.2rem .8rem; }
     .resource-fields .field:nth-last-child(-n+2) { grid-column:1/-1; } .choice-fieldset { border-color:var(--line); background:#f5f7f4; }
     .nested-choices { margin:.5rem 0 .8rem 1.5rem; padding:.7rem .9rem; border-left:3px solid #aac1b5; background:white; }
+    .resource-editor-tabs,.information-tabs { display:flex; gap:.45rem; margin:.9rem 0; } .resource-editor-tabs button,.information-tabs button,.secondary { padding:.55rem .75rem; color:var(--forest); border:1px solid #94aa9f; background:white; } .resource-editor-tabs button.selected,.information-tabs button.selected { color:white; background:var(--forest); }
+    .editor-choice-list { display:grid; gap:.45rem; } .editor-choice-group { padding:.35rem .55rem; border:1px solid var(--line); border-radius:9px; background:white; }
+    .pdf-editor,.information-editor { margin-top:1.2rem; padding-top:1rem; border-top:1px solid var(--line); } .pdf-list { display:grid; gap:.45rem; margin:.6rem 0; } .pdf-row { display:flex; justify-content:space-between; gap:.7rem; align-items:center; padding:.55rem .7rem; border:1px solid var(--line); border-radius:8px; background:white; }
     .validation-errors { color:var(--red); } .standalone-note { padding:.8rem; border-radius:9px; background:var(--amber-bg); color:#704b19; }
     .candidate-summary { padding:1rem; border-radius:10px; background:#edf4f0; white-space:pre-line; }
     .candidate-facts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; margin-top:1rem; }
@@ -79,7 +82,7 @@
     .workspace-toolbar .close { position:static; float:none; width:auto; height:auto; margin:0; border:1px solid #92b4a4; border-radius:8px; padding:.55rem .75rem; color:white; background:transparent; font-size:1rem; }
     .workspace-heading { min-width:0; } .workspace-heading .section-label { margin:0; color:#a8d9c3; } .workspace-heading h2 { overflow:hidden; color:white; font:700 1.2rem/1.2 ui-sans-serif,system-ui,sans-serif; text-overflow:ellipsis; white-space:nowrap; }
     .workspace-nav { padding:.55rem .75rem; color:var(--forest); background:white; }
-    #workspace-save-work { padding:.55rem .75rem; color:var(--forest); background:#b7e2cf; } #workspace-save-state { font-size:.78rem; white-space:nowrap; }
+    .workspace-actions { display:flex; gap:.4rem; align-items:center; } #workspace-save-work,#workspace-download-package { padding:.55rem .7rem; color:var(--forest); background:#b7e2cf; } #workspace-save-state { font-size:.78rem; white-space:nowrap; }
     .workspace-canvas { position:absolute; inset:66px 0 0; overflow:hidden; }
     .work-window { position:absolute; display:grid; grid-template-rows:auto minmax(0,1fr); min-width:300px; min-height:210px; overflow:hidden; resize:both; border:1px solid #8fa198; border-radius:12px; background:var(--panel); box-shadow:0 15px 45px rgba(14,35,28,.22); }
     #research-window { z-index:2; left:1.5%; top:2%; width:48%; height:65%; }
@@ -103,7 +106,7 @@
   </style>
 </head>
 <body>
-  <header><div><p class="eyebrow">TSO Resources · Resource Curator</p><h1 id="title">Resource Curator</h1><p class="lede">Investigate candidates, keep interview notes and checklists, and prepare resources without reconnecting to Scout.</p><span class="editable-badge">Curator v0.17.0 · no agent connection required</span></div></header>
+  <header><div><p class="eyebrow">TSO Resources · Resource Curator</p><h1 id="title">Resource Curator</h1><p class="lede">Investigate candidates, keep interview notes and checklists, and prepare resources without reconnecting to Scout.</p><span class="editable-badge">Curator v0.18.0 · no agent connection required</span></div></header>
   <main>
     <section class="panel notice"><strong>Review before use</strong><p id="notice"></p></section>
     <section class="panel review-actions">
@@ -121,11 +124,11 @@
     <footer id="footer"></footer>
   </main>
   <dialog id="candidate-dialog" class="curator-workspace">
-    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" class="workspace-nav" id="next-candidate">Next</button><div><button type="button" id="workspace-save-work">Save work</button><span id="workspace-save-state" aria-live="polite"></span></div></div>
+    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" class="workspace-nav" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span id="workspace-save-state" aria-live="polite"></span></div></div>
     <div class="workspace-canvas" id="workspace-canvas">
       <section class="work-window" id="research-window"><div class="window-titlebar"><h3>Candidate Research</h3></div><div class="window-body" id="candidate-research"></div></section>
       <section class="work-window" id="editor-window"><div class="window-titlebar"><h3>Resource Editors</h3></div><div class="window-body" id="candidate-editor"></div></section>
-      <section class="work-window" id="notes-window"><div class="window-titlebar"><h3>Notes</h3></div><div class="window-body" id="candidate-notes"></div></section>
+      <section class="work-window" id="notes-window"><div class="window-titlebar"><h3 id="notes-window-title">Notes</h3></div><div class="window-body" id="candidate-notes"></div></section>
     </div>
   </dialog>
   <script id="review-data" type="application/json">__REVIEW_COPY_DATA__</script>
