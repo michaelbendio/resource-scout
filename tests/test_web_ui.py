@@ -19,6 +19,10 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertLess(self.html.index('class="panel runs-panel"'), self.html.index('id="research-divider"'))
         self.assertLess(self.html.index('id="research-divider"'), self.html.index('class="panel candidates-panel"'))
 
+    def test_top_bar_uses_resource_scout_name(self) -> None:
+        self.assertIn("<title>Resource Scout</title>", self.html)
+        self.assertIn("<h1>Resource Scout</h1>", self.html)
+
     def test_divider_supports_pointer_keyboard_and_responsive_layouts(self) -> None:
         self.assertIn("divider.addEventListener('pointerdown'", self.javascript)
         self.assertIn("divider.addEventListener('pointermove'", self.javascript)
