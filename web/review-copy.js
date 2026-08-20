@@ -521,11 +521,12 @@
     const previewButton = element('button', view.notesMode === 'preview' ? 'selected' : '', 'Preview'); previewButton.type = 'button';
     editButton.addEventListener('click', () => { view.notesMode = 'edit'; renderNotes(item); });
     previewButton.addEventListener('click', () => { view.notesMode = 'preview'; renderNotes(item); });
-    toolbar.append(editButton, previewButton); target.replaceChildren(toolbar);
+    const formattingHelp = element('span', 'notes-format-help', 'Formatting: - [ ] checklist, * bullet, **bold**, __underline__, and --- for a divider.');
+    toolbar.append(editButton, previewButton, formattingHelp); target.replaceChildren(toolbar);
     if (view.notesMode === 'preview') target.append(notesPreview(item, itemState));
     else {
       const textarea = element('textarea', 'notes-editor'); textarea.value = itemState.curatorNotes || '';
-      textarea.placeholder = 'Interview notes and checklist\n\n- [ ] Call the organization\n- [ ] Confirm eligibility\n\nUse **bold**, __underline__, bullets, and --- for a divider.';
+      textarea.placeholder = 'Interview notes and checklist';
       textarea.addEventListener('input', () => { itemState.curatorNotes = textarea.value; persist(); });
       target.append(textarea);
     }

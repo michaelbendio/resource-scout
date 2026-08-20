@@ -93,8 +93,9 @@
     .window-titlebar h3 { color:white; font:750 1rem/1.2 ui-sans-serif,system-ui,sans-serif; }
     .window-body { overflow:auto; padding:1rem; }
     .window-body .candidate-details,.window-body .review-editor,.window-body .resource-editor { margin:0; padding:0; border:0; background:transparent; }
-    .notes-toolbar { display:flex; gap:.45rem; margin-bottom:.7rem; } .notes-toolbar button { padding:.45rem .75rem; color:var(--forest); border:1px solid #94aa9f; background:white; }
+    .notes-toolbar { display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; margin-bottom:.7rem; } .notes-toolbar button { flex:0 0 auto; padding:.45rem .75rem; color:var(--forest); border:1px solid #94aa9f; background:white; }
     .notes-toolbar button.selected { color:white; background:var(--forest); }
+    .notes-format-help { flex:1 1 260px; color:var(--muted); font-size:.78rem; }
     .notes-editor { min-height:calc(100% - 3rem); resize:none; }
     .notes-preview { display:grid; gap:.45rem; align-content:start; white-space:pre-wrap; }
     .notes-preview p { margin:0; } .notes-preview hr { width:100%; border:0; border-top:1px solid var(--line); }

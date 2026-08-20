@@ -152,6 +152,7 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertIn("Candidate Research", html)
         self.assertIn("Resource Editors", html)
         self.assertIn("Notes", html)
+        self.assertIn("Formatting: - [ ] checklist", html)
         self.assertNotIn("Research progress", html)
         self.assertNotIn("Stage progress", html)
         self.assertNotIn('id="stages-panel"', html)
