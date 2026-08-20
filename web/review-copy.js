@@ -350,13 +350,19 @@
 
   const review = JSON.parse(document.querySelector('#review-data').textContent);
   const storageKey = `resource-research-review:${review.reviewId}`;
-  const view = { search: '', status: '', currentId: null, dirty: false, persisted: false, notesMode: 'edit', editorTab: 'resource', informationMode: 'preview', topWindow: 10 };
+  const view = { search: '', status: '', currentId: null, dirty: false, persisted: false, notesMode: 'edit', editorTab: 'resource', informationMode: 'preview', topWindow: 10, saveGuidanceSeen: false, packageGuidanceSeen: false };
   let state = initialState(review);
 
   function formatWhen(value) {
     if (!value) return 'Not recorded';
     const date = new Date(value);
     return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
+  }
+
+  function formatCompactWhen(value) {
+    if (!value) return 'date not recorded';
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? value : date.toLocaleString([], { month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit' });
   }
 
   function safeHref(value) {
@@ -446,6 +452,11 @@
     }
   }
 
+  function requestSaveWork() {
+    if (view.saveGuidanceSeen) { saveWork(); return; }
+    document.querySelector('#save-work-dialog').showModal();
+  }
+
   function saveResourcePackage() {
     const built = buildResourcePackage(review, state);
     if (built.errors.length) {
@@ -468,6 +479,11 @@
     const workspaceState = document.querySelector('#workspace-save-state');
     workspaceState.textContent = 'Package saved';
     setTimeout(() => { workspaceState.textContent = ''; }, 1800);
+  }
+
+  function requestSaveResourcePackage() {
+    if (view.packageGuidanceSeen) { saveResourcePackage(); return; }
+    document.querySelector('#save-package-dialog').showModal();
   }
 
   function packageFilename() {
@@ -505,7 +521,9 @@
       return [item.name, asText(item.candidate?.organization), asText(item.candidate?.program), asText(item.candidate?.description), itemState.feedback]
         .join(' ').toLocaleLowerCase().includes(wanted);
     });
-    document.querySelector('#candidate-count').textContent = `${candidates.length} of ${remaining.length} remaining candidates shown`;
+    const reviewed = remaining.filter(item => Boolean(candidateState(item).decision)).length;
+    const ready = remaining.filter(item => candidateState(item).decision === 'accepted').length;
+    document.querySelector('#candidate-count').textContent = `${candidates.length} of ${remaining.length} candidates shown · ${reviewed} reviewed · ${ready} ready`;
     const target = document.querySelector('#candidate-list');
     if (!candidates.length) { target.replaceChildren(element('div', 'empty', remaining.length ? 'No candidates match this filter.' : 'No candidates remain in Curator.')); return; }
     target.replaceChildren(...candidates.map(item => {
@@ -632,25 +650,41 @@
     view.topWindow += 1; windowElement.style.zIndex = String(view.topWindow);
   }
 
+  function resetWorkspaceLayout() {
+    view.topWindow = 10;
+    document.querySelectorAll('.work-window').forEach(windowElement => {
+      ['left', 'top', 'right', 'bottom', 'width', 'height', 'zIndex'].forEach(property => { windowElement.style[property] = ''; });
+    });
+  }
+
   function setupWorkspaceWindows() {
     document.querySelectorAll('.work-window').forEach(windowElement => {
       windowElement.addEventListener('pointerdown', () => bringWindowToFront(windowElement));
-      const resizeHandle = windowElement.querySelector('.window-resize-handle');
-      resizeHandle.addEventListener('pointerdown', event => {
-        if (event.button !== 0) return;
-        event.preventDefault(); event.stopPropagation(); bringWindowToFront(windowElement); resizeHandle.setPointerCapture(event.pointerId);
-        const canvas = document.querySelector('#workspace-canvas').getBoundingClientRect();
-        const start = windowElement.getBoundingClientRect();
-        const startX = event.clientX; const startY = event.clientY;
-        const maximumWidth = Math.max(300, canvas.right - start.left);
-        const maximumHeight = Math.max(210, canvas.bottom - start.top);
-        windowElement.style.right = 'auto'; windowElement.style.bottom = 'auto';
-        const move = moveEvent => {
-          windowElement.style.width = `${Math.max(300, Math.min(maximumWidth, start.width + moveEvent.clientX - startX))}px`;
-          windowElement.style.height = `${Math.max(210, Math.min(maximumHeight, start.height + moveEvent.clientY - startY))}px`;
-        };
-        const stop = () => { resizeHandle.removeEventListener('pointermove', move); resizeHandle.removeEventListener('pointerup', stop); resizeHandle.removeEventListener('pointercancel', stop); };
-        resizeHandle.addEventListener('pointermove', move); resizeHandle.addEventListener('pointerup', stop); resizeHandle.addEventListener('pointercancel', stop);
+      const handles = windowElement.querySelector('.window-resize-handles');
+      ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'].forEach(direction => {
+        const resizeHandle = element('div', 'window-resize-handle'); resizeHandle.dataset.resize = direction; handles.append(resizeHandle);
+        resizeHandle.addEventListener('pointerdown', event => {
+          if (event.button !== 0) return;
+          event.preventDefault(); event.stopPropagation(); bringWindowToFront(windowElement); resizeHandle.setPointerCapture(event.pointerId);
+          const canvas = document.querySelector('#workspace-canvas').getBoundingClientRect();
+          const start = windowElement.getBoundingClientRect(); const startX = event.clientX; const startY = event.clientY;
+          const startLeft = start.left - canvas.left; const startTop = start.top - canvas.top;
+          const startRight = startLeft + start.width; const startBottom = startTop + start.height;
+          windowElement.style.right = 'auto'; windowElement.style.bottom = 'auto';
+          const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
+          const move = moveEvent => {
+            const dx = moveEvent.clientX - startX; const dy = moveEvent.clientY - startY;
+            let left = startLeft; let right = startRight; let top = startTop; let bottom = startBottom;
+            if (direction.includes('e')) right = clamp(startRight + dx, startLeft + 300, canvas.width);
+            if (direction.includes('w')) left = clamp(startLeft + dx, 0, startRight - 300);
+            if (direction.includes('s')) bottom = clamp(startBottom + dy, startTop + 210, canvas.height);
+            if (direction.includes('n')) top = clamp(startTop + dy, 0, startBottom - 210);
+            windowElement.style.left = `${left}px`; windowElement.style.top = `${top}px`;
+            windowElement.style.width = `${right - left}px`; windowElement.style.height = `${bottom - top}px`;
+          };
+          const stop = () => { resizeHandle.removeEventListener('pointermove', move); resizeHandle.removeEventListener('pointerup', stop); resizeHandle.removeEventListener('pointercancel', stop); };
+          resizeHandle.addEventListener('pointermove', move); resizeHandle.addEventListener('pointerup', stop); resizeHandle.addEventListener('pointercancel', stop);
+        });
       });
       const handle = windowElement.querySelector('.window-titlebar');
       handle.addEventListener('pointerdown', event => {
@@ -674,6 +708,13 @@
     const input = multiline ? document.createElement('textarea') : document.createElement('input');
     if (multiline) input.rows = field === 'informationText' ? 8 : 3;
     input.value = value || ''; input.dataset.resourceField = field; wrapper.append(input); return wrapper;
+  }
+
+  function autoSizeInformation(textarea) {
+    textarea.style.height = 'auto';
+    const limit = Math.min(512, Math.max(240, window.innerHeight * 0.4));
+    textarea.style.height = `${Math.min(textarea.scrollHeight, limit)}px`;
+    textarea.style.overflowY = textarea.scrollHeight > limit ? 'auto' : 'hidden';
   }
 
   function checkbox(label, checked, onChange) {
@@ -771,8 +812,8 @@
 
   function renderResourceClassifications(item, resource) {
     const section = element('section', 'resource-classification-editor');
-    section.append(element('h3', '', 'Categories, Types, and For'));
-    const categories = element('div', 'editor-choice-list');
+    section.append(element('h3', '', 'Categories'));
+    const categories = element('div', 'editor-choice-list resource-category-grid');
     (review.sourcePackage?.categorySummaries || []).forEach(category => {
       const id = String(category.id); const selected = (resource.categories || []).includes(id);
       const option = element('div', 'editor-choice-group');
@@ -783,7 +824,7 @@
       }));
       const availableTypes = state.taxonomyDraft.categoryTypes[id] || [];
       if (selected && availableTypes.length) {
-        const types = element('div', 'nested-choices'); types.append(element('strong', '', `${categoryLabel(category)} Types`));
+        const types = element('div', 'nested-choices');
         availableTypes.forEach(type => types.append(checkbox(type, (resource.categoryFilters?.[id] || []).includes(type), checked => {
           resource.categoryFilters ||= {}; const values = resource.categoryFilters[id] || [];
           resource.categoryFilters[id] = checked ? [...new Set([...values, type])] : values.filter(value => value !== type);
@@ -794,15 +835,15 @@
       }
       categories.append(option);
     });
+    const forSection = element('section', 'resource-for-section'); forSection.append(element('h3', '', 'For'));
     const forGroups = element('div', 'nested-choices resource-for-choices');
-    forGroups.append(element('strong', '', 'For'));
     if (!state.taxonomyDraft.forGroups.length) forGroups.append(element('p', 'muted', 'No For groups defined.'));
     state.taxonomyDraft.forGroups.forEach(label => forGroups.append(checkbox(label, (resource.forGroups || []).includes(label), checked => {
       const values = resource.forGroups || [];
       resource.forGroups = checked ? [...new Set([...values, label])] : values.filter(value => value !== label);
       touchResource(resource);
     })));
-    section.append(categories, forGroups); return section;
+    forSection.append(forGroups); section.append(categories, forSection); return section;
   }
 
   function renderForEditor(item) {
@@ -866,7 +907,9 @@
     information.append(tabs, element('p', 'muted', 'Formatting: use * followed by a space for bullets, **bold**, __underline__, and --- on its own line for a divider.'));
     if (view.informationMode === 'preview') information.append(formattedTextPreview(resource.informationText));
     else {
-      const input = inputField('Information', 'informationText', resource.informationText, true); input.querySelector('textarea').addEventListener('input', event => { resource.informationText = event.target.value; touchResource(resource); }); information.append(input);
+      const input = inputField('Information', 'informationText', resource.informationText, true); const textarea = input.querySelector('textarea');
+      textarea.addEventListener('input', event => { resource.informationText = event.target.value; touchResource(resource); autoSizeInformation(textarea); });
+      information.append(input); requestAnimationFrame(() => autoSizeInformation(textarea));
     }
     content.append(information); return content;
   }
@@ -942,24 +985,43 @@
     }));
   }
 
+  function renderRunFindings() {
+    const target = document.querySelector('#summary'); const raw = asText(review.run.summary);
+    const parts = raw.split(/\n\s*\n/).map(part => part.trim()).filter(Boolean);
+    const findings = parts.filter((part, index) => !(index === 0 && /^Completed \d+ of \d+ research stages?\.?$/i.test(part)));
+    const content = findings.length ? findings : parts;
+    target.replaceChildren(...content.map(part => {
+      const section = element('section', 'stage-finding'); const separator = part.indexOf(':');
+      if (separator > 0 && separator < 100) section.append(element('h3', '', part.slice(0, separator)), element('p', '', part.slice(separator + 1).trim()));
+      else section.append(element('p', '', part));
+      return section;
+    }));
+    const stageCount = review.run.stages?.length || review.run.progress?.total || content.length;
+    document.querySelector('#findings-summary').textContent = `Research findings — ${stageCount} ${stageCount === 1 ? 'stage' : 'stages'}`;
+  }
+
   function initialize() {
     restoreLocal();
     document.title = `${review.title} · Resource Curator`; document.querySelector('#title').textContent = review.title;
-    document.querySelector('#notice').textContent = review.notice; document.querySelector('#summary').textContent = review.run.summary || 'No summary was provided.';
+    document.querySelector('#notice').textContent = review.notice; renderRunFindings();
     document.querySelector('#assignment').textContent = review.run.assignment;
     const packageInfo = review.sourcePackage; const standalone = review.run.researchMode === 'standalone-location';
-    document.querySelector('#metadata').replaceChildren(metric('Completed', formatWhen(review.run.completedAt)), metric('Run status', friendly(review.run.status)),
-      metric('Research agent', friendly(review.run.adapter)), metric('Candidates', review.run.candidateCount), metric('Category', review.run.targetCategoryLabel),
-      metric('Research scope', standalone ? review.run.targetLocation : 'Connected package'), metric('Source package', packageInfo ? `${packageInfo.sourceName} · package ${packageInfo.packageVersion}` : 'None'));
+    const packageLabel = packageInfo ? `${packageInfo.sourceName.replace(/\.zip$/i, '')} ${packageInfo.packageVersion}` : (standalone ? review.run.targetLocation : 'no package');
+    document.querySelector('#run-compact').textContent = `${formatCompactWhen(review.run.completedAt)}, ${review.run.targetCategoryLabel}, ${packageLabel}${review.run.status === 'completed' ? '' : `, ${friendly(review.run.status)}`}`;
     renderLessons();
     const filter = document.querySelector('#status-filter'); DECISIONS.forEach(value => { const option = document.createElement('option'); option.value = value; option.textContent = DECISION_LABELS[value]; filter.append(option); });
     document.querySelector('#search').addEventListener('input', event => { view.search = event.target.value; renderCandidates(); });
     filter.addEventListener('change', event => { view.status = event.target.value; renderCandidates(); });
     const reviewer = document.querySelector('#reviewer-name'); reviewer.value = state.reviewerName || ''; reviewer.addEventListener('input', () => { state.reviewerName = reviewer.value; persist(); });
-    document.querySelector('#download-feedback').addEventListener('click', saveWork);
-    document.querySelector('#workspace-save-work').addEventListener('click', saveWork);
-    document.querySelector('#download-package').addEventListener('click', saveResourcePackage);
-    document.querySelector('#workspace-download-package').addEventListener('click', saveResourcePackage);
+    document.querySelector('#download-feedback').addEventListener('click', requestSaveWork);
+    document.querySelector('#workspace-save-work').addEventListener('click', requestSaveWork);
+    document.querySelector('#download-package').addEventListener('click', requestSaveResourcePackage);
+    document.querySelector('#workspace-download-package').addEventListener('click', requestSaveResourcePackage);
+    document.querySelector('#cancel-save-work').addEventListener('click', () => document.querySelector('#save-work-dialog').close());
+    document.querySelector('#continue-save-work').addEventListener('click', () => { view.saveGuidanceSeen = true; document.querySelector('#save-work-dialog').close(); saveWork(); });
+    document.querySelector('#cancel-save-package').addEventListener('click', () => document.querySelector('#save-package-dialog').close());
+    document.querySelector('#continue-save-package').addEventListener('click', () => { view.packageGuidanceSeen = true; document.querySelector('#save-package-dialog').close(); saveResourcePackage(); });
+    document.querySelector('#reset-window-layout').addEventListener('click', resetWorkspaceLayout);
     const resume = document.querySelector('#resume-feedback');
     resume.addEventListener('change', async () => {
       const file = resume.files?.[0]; if (!file) return;

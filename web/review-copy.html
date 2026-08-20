@@ -8,27 +8,27 @@
   <style>
     :root { color-scheme:light; --ink:#17221f; --muted:#61706a; --paper:#f3f1e9; --panel:#fffefa; --line:#d7d9d0; --forest:#174b3b; --amber-bg:#fff4de; --red:#873d35; --shadow:0 18px 55px rgba(22,45,37,.08); }
     * { box-sizing:border-box; }
-    body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.52 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
-    header { padding:3.3rem max(5vw,1.4rem) 3.8rem; color:#f7fbf8; background:var(--forest); }
+    body { margin:0; background:var(--paper); color:var(--ink); font:15px/1.46 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    header { padding:2rem max(5vw,1.4rem) 2.5rem; color:#f7fbf8; background:var(--forest); }
     header>div { width:min(1120px,100%); margin:auto; }
     h1,h2,h3 { margin:0; font-family:ui-serif,Georgia,serif; font-weight:600; line-height:1.12; }
-    h1 { max-width:850px; font-size:clamp(2.3rem,6vw,4.6rem); } h2 { font-size:clamp(1.55rem,3vw,2rem); } h3 { font-size:1.18rem; }
+    h1 { max-width:850px; font-size:clamp(2rem,4vw,3.2rem); } h2 { font-size:clamp(1.35rem,2.4vw,1.7rem); } h3 { font-size:1.1rem; }
     p { margin:.7rem 0 0; } a { color:#11634b; font-weight:730; overflow-wrap:anywhere; }
-    button,input,select,textarea { font:inherit; }
+    button { font:inherit; } input,select,textarea { font:16px/1.45 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
     input,select,textarea { width:100%; border:1px solid #bdc6c1; border-radius:9px; padding:.72rem .8rem; color:var(--ink); background:white; }
     textarea { resize:vertical; }
-    button { border:0; border-radius:9px; padding:.78rem 1rem; color:white; background:var(--forest); font-weight:750; cursor:pointer; }
+    button { border:0; border-radius:9px; padding:.7rem .9rem; color:white; background:var(--forest); font-weight:700; cursor:pointer; }
     button:hover { background:#0e382b; } button:disabled { cursor:not-allowed; opacity:.48; }
     .eyebrow,.section-label { margin:0 0 .55rem; text-transform:uppercase; letter-spacing:.14em; font-size:.73rem; font-weight:800; }
     .eyebrow { color:#a8d9c3; } .section-label { color:var(--forest); } .lede { max-width:790px; color:#c9dbd3; font-size:1.05rem; }
     .editable-badge { display:inline-block; margin-top:1.4rem; padding:.48rem .75rem; border-radius:999px; color:#173e31; background:#a8ddc6; font-size:.8rem; font-weight:800; }
-    main { width:min(1120px,92vw); margin:-1.8rem auto 5rem; }
-    .panel { margin-bottom:1rem; padding:clamp(1.35rem,3vw,2.2rem); border:1px solid var(--line); border-radius:18px; background:var(--panel); box-shadow:var(--shadow); }
+    main { width:min(1120px,94vw); margin:-1.2rem auto 4rem; }
+    .panel { margin-bottom:.8rem; padding:clamp(1.1rem,2.2vw,1.65rem); border:1px solid var(--line); border-radius:16px; background:var(--panel); box-shadow:var(--shadow); }
     .notice { border-color:#d8bd8e; background:#fff9ec; } .notice strong { color:#704b19; }
-    .metadata { display:grid; grid-template-columns:repeat(auto-fit,minmax(175px,1fr)); gap:.75rem; margin-top:1.3rem; }
+    .run-heading { display:flex; flex-wrap:wrap; gap:.4rem .75rem; align-items:baseline; } .run-compact { color:var(--muted); font-size:.86rem; }
     .metric { padding:.9rem 1rem; border-radius:12px; background:#edf3ef; } .metric span { display:block; color:var(--muted); font-size:.72rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; }
     .metric strong { display:block; margin-top:.18rem; overflow-wrap:anywhere; }
-    .summary { max-width:85ch; color:#34433e; font-size:1.05rem; white-space:pre-line; }
+    .summary { display:grid; gap:.85rem; max-width:90ch; color:#34433e; font-size:.96rem; } .stage-finding h3 { font:700 .92rem/1.3 ui-sans-serif,system-ui,sans-serif; } .stage-finding p { margin:.25rem 0 0; }
     details { margin-top:1rem; } summary { color:var(--forest); font-weight:780; cursor:pointer; }
     .assignment { max-width:86ch; padding:.9rem 1rem; border-left:3px solid #92b4a4; background:#f2f6f3; white-space:pre-line; }
     .work-file-guidance { margin-top:1.2rem; padding:1rem 1.1rem; border:1px solid #b9d0c4; border-radius:12px; background:#f2f8f4; }
@@ -67,15 +67,16 @@
     .match-card legend,.choice-fieldset legend { padding:0 .35rem; font-weight:800; }
     .resource-editor { margin-top:1.2rem; background:white; } .resource-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.2rem .8rem; }
     .resource-fields .field:nth-last-child(-n+2) { grid-column:1/-1; } .choice-fieldset { border-color:var(--line); background:#f5f7f4; }
-    .nested-choices { margin:.5rem 0 .8rem 1.5rem; padding:.7rem .9rem; border-left:3px solid #aac1b5; background:white; }
+    .nested-choices { margin:.45rem 0 .5rem 1.4rem; padding:.55rem .7rem; border-left:3px solid #aac1b5; background:white; }
     .resource-editor-tabs,.information-tabs { display:flex; gap:.45rem; margin:.9rem 0; } .resource-editor-tabs button,.information-tabs button,.secondary { padding:.55rem .75rem; color:var(--forest); border:1px solid #94aa9f; background:white; } .resource-editor-tabs button.selected,.information-tabs button.selected { color:white; background:var(--forest); }
-    .editor-choice-list { display:grid; gap:.45rem; } .editor-choice-group { padding:.35rem .55rem; border:1px solid var(--line); border-radius:9px; background:white; }
+    .editor-choice-list { display:grid; gap:.45rem; } .resource-category-grid { grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); align-items:start; gap:.6rem; } .editor-choice-group { padding:.45rem .6rem; border:1px solid var(--line); border-radius:9px; background:white; }
     .taxonomy-heading { display:block; margin:.15rem 0 .55rem; } .taxonomy-value-list { display:grid; gap:.4rem; }
     .taxonomy-value-row { display:flex; justify-content:space-between; gap:.7rem; align-items:center; padding:.5rem .6rem; border-radius:8px; background:#f5f7f4; }
     .taxonomy-add-row { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.5rem; margin-top:.6rem; }
     .resource-classification-editor { margin-top:1.2rem; padding-top:1rem; border-top:1px solid var(--line); } .resource-classification-editor h3 { margin-bottom:.7rem; }
-    .resource-for-choices { margin-left:0; }
+    .resource-for-section { margin-top:1rem; padding-top:.85rem; border-top:1px solid var(--line); } .resource-for-choices { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); margin-left:0; padding:0; border:0; }
     .pdf-editor,.information-editor { margin-top:1.2rem; padding-top:1rem; border-top:1px solid var(--line); } .pdf-list { display:grid; gap:.45rem; margin:.6rem 0; } .pdf-row { display:flex; justify-content:space-between; gap:.7rem; align-items:center; padding:.55rem .7rem; border:1px solid var(--line); border-radius:8px; background:white; }
+    .information-editor textarea { min-height:10rem; max-height:32rem; overflow-y:auto; font-weight:400; line-height:1.45; }
     .validation-errors { color:var(--red); } .standalone-note { padding:.8rem; border-radius:9px; background:var(--amber-bg); color:#704b19; }
     .candidate-summary { padding:1rem; border-radius:10px; background:#edf4f0; white-space:pre-line; }
     .candidate-facts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; margin-top:1rem; }
@@ -88,7 +89,7 @@
     .workspace-toolbar .close { position:static; float:none; width:auto; height:auto; margin:0; border:1px solid #92b4a4; border-radius:8px; padding:.55rem .75rem; color:white; background:transparent; font-size:1rem; }
     .workspace-heading { min-width:0; } .workspace-heading .section-label { margin:0; color:#a8d9c3; } .workspace-heading h2 { overflow:hidden; color:white; font:700 1.2rem/1.2 ui-sans-serif,system-ui,sans-serif; text-overflow:ellipsis; white-space:nowrap; }
     .workspace-nav { padding:.55rem .75rem; color:var(--forest); background:white; }
-    .workspace-actions { display:flex; gap:.4rem; align-items:center; } #workspace-save-work,#workspace-download-package { padding:.55rem .7rem; color:var(--forest); background:#b7e2cf; } #workspace-save-state { font-size:.78rem; white-space:nowrap; }
+    .workspace-actions { display:flex; gap:.4rem; align-items:center; } #reset-window-layout { padding:.5rem .65rem; color:white; border:1px solid #92b4a4; background:transparent; } #workspace-save-work,#workspace-download-package { padding:.55rem .7rem; color:var(--forest); background:#b7e2cf; } #workspace-save-state { font-size:.78rem; white-space:nowrap; }
     .workspace-canvas { position:absolute; inset:66px 0 0; overflow:hidden; }
     .work-window { position:absolute; display:grid; grid-template-rows:auto minmax(0,1fr); min-width:300px; min-height:210px; overflow:hidden; border:1px solid #8fa198; border-radius:12px; background:var(--panel); box-shadow:0 15px 45px rgba(14,35,28,.22); }
     #research-window { z-index:2; left:1.5%; top:2%; width:48%; height:65%; }
@@ -96,8 +97,15 @@
     #notes-window { z-index:4; left:8%; bottom:2%; width:55%; height:38%; }
     .window-titlebar { display:flex; justify-content:space-between; gap:1rem; align-items:center; padding:.65rem .8rem; color:white; background:#315d50; cursor:move; user-select:none; touch-action:none; }
     .window-titlebar h3 { color:white; font:750 1rem/1.2 ui-sans-serif,system-ui,sans-serif; }
-    .window-resize-handle { position:absolute; z-index:5; right:0; bottom:0; width:28px; height:28px; cursor:nwse-resize; touch-action:none; }
-    .window-resize-handle::after { content:""; position:absolute; right:5px; bottom:5px; width:12px; height:12px; border-right:3px solid #527467; border-bottom:3px solid #527467; }
+    .window-resize-handle { position:absolute; z-index:5; touch-action:none; }
+    .window-resize-handle[data-resize="n"],.window-resize-handle[data-resize="s"] { left:18px; right:18px; height:10px; cursor:ns-resize; }
+    .window-resize-handle[data-resize="n"] { top:0; } .window-resize-handle[data-resize="s"] { bottom:0; }
+    .window-resize-handle[data-resize="e"],.window-resize-handle[data-resize="w"] { top:18px; bottom:18px; width:10px; cursor:ew-resize; }
+    .window-resize-handle[data-resize="e"] { right:0; } .window-resize-handle[data-resize="w"] { left:0; }
+    .window-resize-handle[data-resize="ne"],.window-resize-handle[data-resize="nw"],.window-resize-handle[data-resize="se"],.window-resize-handle[data-resize="sw"] { width:20px; height:20px; }
+    .window-resize-handle[data-resize="ne"] { top:0; right:0; cursor:nesw-resize; } .window-resize-handle[data-resize="nw"] { top:0; left:0; cursor:nwse-resize; }
+    .window-resize-handle[data-resize="se"] { right:0; bottom:0; cursor:nwse-resize; } .window-resize-handle[data-resize="sw"] { left:0; bottom:0; cursor:nesw-resize; }
+    .window-resize-handle[data-resize="se"]::after { content:""; position:absolute; right:4px; bottom:4px; width:10px; height:10px; border-right:2px solid #527467; border-bottom:2px solid #527467; }
     .window-body { overflow:auto; padding:1rem; }
     .window-body .candidate-details,.window-body .review-editor,.window-body .resource-editor { margin:0; padding:0; border:0; background:transparent; }
     .notes-toolbar { display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; margin-bottom:.7rem; } .notes-toolbar button { flex:0 0 auto; padding:.45rem .75rem; color:var(--forest); border:1px solid #94aa9f; background:white; }
@@ -109,6 +117,7 @@
     .notes-check { display:flex; gap:.55rem; align-items:flex-start; } .notes-check input { width:auto; margin:.3rem 0 0; }
     .notes-bullet { display:grid; grid-template-columns:auto 1fr; gap:.55rem; } .notes-empty { color:var(--muted); font-style:italic; }
     footer { margin-top:2rem; color:var(--muted); font-size:.8rem; text-align:center; }
+    .guidance-dialog { width:min(620px,92vw); padding:1.3rem; } .guidance-dialog h2 { font-family:ui-sans-serif,system-ui,sans-serif; } .guidance-dialog ul { padding-left:1.25rem; } .guidance-dialog li+li { margin-top:.55rem; } .guidance-actions { display:flex; justify-content:flex-end; gap:.55rem; margin-top:1rem; } .guidance-actions .secondary { color:var(--forest); background:white; }
     @media(max-width:760px) { .candidate-list,.candidate-facts,.resource-fields,.review-controls { grid-template-columns:1fr; } .toolbar { grid-template-columns:1fr; } .resource-fields .field:nth-last-child(-n+2) { grid-column:auto; } }
     @media(max-width:520px) { .metadata,.candidate-list,.candidate-facts,.taxonomy-add-row { grid-template-columns:1fr; } }
     @media print { body{background:white} header{padding:1.4rem 0;color:var(--ink);background:white;border-bottom:2px solid var(--forest)} header .eyebrow,header .lede{color:var(--muted)} main{width:100%;margin:1rem 0}.panel{box-shadow:none;break-inside:avoid}.toolbar,.close,.review-actions{display:none}.candidate-list{grid-template-columns:1fr}.candidate{min-height:0;break-inside:avoid} }
@@ -120,33 +129,27 @@
     <section class="panel notice"><strong>Review before use</strong><p id="notice"></p></section>
     <section class="panel review-actions">
       <p class="section-label">Review progress</p><h2>Save, resume, and download</h2>
-      <div class="work-file-guidance">
-        <h3>Your saved-work JSON matters</h3>
-        <ul>
-          <li>The Curator saves automatically in this browser when browser storage is available. Choose <strong>Save work</strong> regularly to download a portable JSON work file containing every decision, note, checklist item, resource edit, and PDF you add.</li>
-          <li>Keep the JSON with this Curator HTML. To continue in another browser or on another device, open the HTML and choose <strong>Open saved work</strong>. When your review is finished, send the JSON back to the person who provided the Curator. The HTML does not update itself.</li>
-          <li><strong>Save a resource package</strong> is separate. It creates a ZIP of only the resources marked <strong>Ready for package</strong>, then removes those candidates from Curator; it is not a backup of all review work.</li>
-        </ul>
-      </div>
       <div class="review-controls">
         <label class="reviewer-field">Reviewer name <small>Optional</small><input id="reviewer-name" autocomplete="name"></label>
         <div class="action-buttons"><button type="button" id="download-feedback">Save work</button><button type="button" id="download-package">Save a resource package</button><label class="file-button">Open saved work…<input id="resume-feedback" type="file" accept=".json,application/json"></label></div>
         <p id="save-state"></p><p id="action-message" aria-live="polite"></p>
       </div>
     </section>
-    <section class="panel"><p class="section-label">Research trail</p><h2>Research run</h2><div class="metadata" id="metadata"></div><p class="summary" id="summary"></p><details><summary>View the research assignment</summary><p class="assignment" id="assignment"></p></details></section>
+    <section class="panel"><p class="section-label">Research trail</p><div class="run-heading"><h2>Research run</h2><span class="run-compact" id="run-compact"></span></div><details><summary id="findings-summary">Research findings</summary><div class="summary" id="summary"></div></details><details><summary>View the research assignment</summary><p class="assignment" id="assignment"></p></details></section>
     <section class="panel"><p class="section-label">Human review</p><h2>Research candidates</h2><div class="toolbar"><input id="search" type="search" placeholder="Search candidates" aria-label="Search candidates"><select id="status-filter" aria-label="Filter candidates by review status"><option value="">All review statuses</option></select></div><p class="candidate-count" id="candidate-count"></p><div class="candidate-list" id="candidate-list"></div></section>
-    <section class="panel" id="lessons-panel" hidden><p class="section-label">Research guidance</p><h2>Lessons proposed by this run</h2><div class="lesson-list" id="lesson-list"></div></section>
+    <section class="panel" id="lessons-panel" hidden><p class="section-label">Research guidance</p><details><summary><strong>Lessons proposed by this run</strong></summary><div class="lesson-list" id="lesson-list"></div></details></section>
     <footer id="footer"></footer>
   </main>
   <dialog id="candidate-dialog" class="curator-workspace">
-    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" class="workspace-nav" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span id="workspace-save-state" aria-live="polite"></span></div></div>
+    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" class="workspace-nav" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="reset-window-layout">Reset layout</button><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span id="workspace-save-state" aria-live="polite"></span></div></div>
     <div class="workspace-canvas" id="workspace-canvas">
-      <section class="work-window" id="research-window"><div class="window-titlebar"><h3>Candidate Research</h3></div><div class="window-body" id="candidate-research"></div><div class="window-resize-handle" role="separator" aria-label="Resize Candidate Research window"></div></section>
-      <section class="work-window" id="editor-window"><div class="window-titlebar"><h3>Resource Editors</h3></div><div class="window-body" id="candidate-editor"></div><div class="window-resize-handle" role="separator" aria-label="Resize Resource Editors window"></div></section>
-      <section class="work-window" id="notes-window"><div class="window-titlebar"><h3 id="notes-window-title">Notes</h3></div><div class="window-body" id="candidate-notes"></div><div class="window-resize-handle" role="separator" aria-label="Resize Notes window"></div></section>
+      <section class="work-window" id="research-window"><div class="window-titlebar"><h3>Candidate Research</h3></div><div class="window-body" id="candidate-research"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
+      <section class="work-window" id="editor-window"><div class="window-titlebar"><h3>Resource Editors</h3></div><div class="window-body" id="candidate-editor"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
+      <section class="work-window" id="notes-window"><div class="window-titlebar"><h3 id="notes-window-title">Notes</h3></div><div class="window-body" id="candidate-notes"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
     </div>
   </dialog>
+  <dialog id="save-work-dialog" class="guidance-dialog"><h2>Save work</h2><ul><li>The Curator saves automatically in this browser when browser storage is available. Choose <strong>Save work</strong> regularly to download a portable JSON work file containing every decision, note, checklist item, resource edit, and PDF you add.</li><li>Keep the JSON with this Curator HTML. To continue in another browser or on another device, open the HTML and choose <strong>Open saved work</strong>. When your review is finished, send the JSON back to the person who provided the Curator. The HTML does not update itself.</li></ul><div class="guidance-actions"><button type="button" class="secondary" id="cancel-save-work">Cancel</button><button type="button" id="continue-save-work">Continue</button></div></dialog>
+  <dialog id="save-package-dialog" class="guidance-dialog"><h2>Save a resource package</h2><p>This creates a ZIP containing only resources marked <strong>Ready for package</strong>, then removes those candidates from Curator; it is not a backup of all review work.</p><div class="guidance-actions"><button type="button" class="secondary" id="cancel-save-package">Cancel</button><button type="button" id="continue-save-package">Continue</button></div></dialog>
   <script id="review-data" type="application/json">__REVIEW_COPY_DATA__</script>
   <script>__REVIEW_COPY_SCRIPT__</script>
 </body>
