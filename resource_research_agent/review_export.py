@@ -13,7 +13,7 @@ from .resource_package import RESOURCE_PACKAGE_SCHEMA_VERSION, candidate_to_reso
 from .storage import ResearchStore
 
 
-REVIEW_COPY_SCHEMA_VERSION = 7
+REVIEW_COPY_SCHEMA_VERSION = 8
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_TEMPLATE = PROJECT_ROOT / "web" / "review-copy.html"
 DEFAULT_SCRIPT = PROJECT_ROOT / "web" / "review-copy.js"

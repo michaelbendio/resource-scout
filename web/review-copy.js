@@ -62,6 +62,55 @@
     return asText(category?.label || category?.name || category?.id) || 'Category';
   }
 
+  function initialTaxonomyDraft(review) {
+    const categoryTypes = {};
+    (review.sourcePackage?.categorySummaries || []).forEach(category => {
+      categoryTypes[String(category.id)] = Array.isArray(category.types)
+        ? [...new Set(category.types.map(asText).filter(Boolean))]
+        : [];
+    });
+    return {
+      categoryTypes,
+      forGroups: [...new Set((review.sourcePackage?.forGroups || []).map(asText).filter(Boolean))],
+      modifiedCategoryIds: [],
+      updatedAt: null,
+    };
+  }
+
+  function normalizeTaxonomyDraft(review, value) {
+    const fallback = initialTaxonomyDraft(review);
+    if (!value || typeof value !== 'object') return fallback;
+    const categoryTypes = {};
+    Object.keys(fallback.categoryTypes).forEach(id => {
+      const values = value.categoryTypes?.[id];
+      categoryTypes[id] = Array.isArray(values)
+        ? [...new Set(values.map(asText).filter(Boolean))]
+        : fallback.categoryTypes[id];
+    });
+    return {
+      categoryTypes,
+      forGroups: Array.isArray(value.forGroups)
+        ? [...new Set(value.forGroups.map(asText).filter(Boolean))]
+        : fallback.forGroups,
+      modifiedCategoryIds: Array.isArray(value.modifiedCategoryIds)
+        ? [...new Set(value.modifiedCategoryIds.map(String))].filter(id => Object.hasOwn(categoryTypes, id))
+        : [],
+      updatedAt: asText(value.updatedAt) || null,
+    };
+  }
+
+  function packageCategories(review, taxonomyDraft, categoryIds, now) {
+    const rawCategories = review.sourcePackage?.categories || [];
+    return categoryIds.map(id => {
+      const raw = rawCategories.find(category => String(category.id) === String(id));
+      if (!raw) return null;
+      const category = clone(raw);
+      category.filters = clone(taxonomyDraft.categoryTypes[String(id)] || []);
+      if (taxonomyDraft.modifiedCategoryIds.includes(String(id))) category.lastModified = taxonomyDraft.updatedAt || now;
+      return category;
+    }).filter(Boolean);
+  }
+
   function initialState(review) {
     const candidates = {};
     review.candidates.forEach(item => {
@@ -89,6 +138,7 @@
         categoryId: review.run.targetCategoryId,
         categoryLabel: review.run.targetCategoryLabel,
       },
+      taxonomyDraft: initialTaxonomyDraft(review),
       reviewerName: '',
       updatedAt: review.exportedAt,
       candidates,
@@ -103,6 +153,7 @@
     const received = Object.keys(feedback.candidates || {}).map(String).sort();
     if (JSON.stringify(expected) !== JSON.stringify(received)) throw new Error('The candidate list does not match this review copy.');
     const restored = clone(feedback);
+    restored.taxonomyDraft = normalizeTaxonomyDraft(review, restored.taxonomyDraft);
     review.candidates.forEach(item => {
       const itemState = restored.candidates[item.id];
       if (typeof itemState.curatorNotes !== 'string') {
@@ -113,12 +164,13 @@
     return restored;
   }
 
-  function validateDraft(review, item, itemState) {
+  function validateDraft(review, item, itemState, taxonomyValue = null) {
     const errors = [];
     const resource = itemState.resourceDraft;
     const source = review.sourcePackage;
     if (!resource) return ['The ready candidate does not have a resource draft.'];
     if (!asText(resource.name)) errors.push('Name is required.');
+    const taxonomyDraft = normalizeTaxonomyDraft(review, taxonomyValue);
     const summaries = source?.categorySummaries || [];
     const categoryMap = new Map(summaries.map(category => [String(category.id), category]));
     const categories = Array.isArray(resource.categories) ? [...new Set(resource.categories.map(String))] : [];
@@ -129,12 +181,12 @@
     const filters = resource.categoryFilters && typeof resource.categoryFilters === 'object' ? resource.categoryFilters : {};
     Object.entries(filters).forEach(([id, values]) => {
       if (!categories.includes(id)) errors.push(`Types are selected for unassigned category “${id}”.`);
-      const allowed = new Set(categoryMap.get(id)?.types || []);
+      const allowed = new Set(taxonomyDraft.categoryTypes[id] || []);
       (Array.isArray(values) ? values : []).forEach(value => {
         if (!allowed.has(value)) errors.push(`Type “${value}” is not defined for ${categoryLabel(categoryMap.get(id) || { id })}.`);
       });
     });
-    const allowedFor = new Set(source?.forGroups || []);
+    const allowedFor = new Set(taxonomyDraft.forGroups);
     (Array.isArray(resource.forGroups) ? resource.forGroups : []).forEach(value => {
       if (!allowedFor.has(value)) errors.push(`For label “${value}” is not in the source package.`);
     });
@@ -151,15 +203,25 @@
     if (!source?.packageEligible) errors.push('This review copy cannot create a resource package.');
     const acceptedItems = review.candidates.filter(item => state.candidates?.[item.id]?.decision === 'accepted');
     if (!acceptedItems.length) errors.push('Mark at least one candidate Ready for package before downloading a resource package.');
+    const taxonomyDraft = normalizeTaxonomyDraft(review, state.taxonomyDraft);
+    acceptedItems.forEach(item => {
+      validateDraft(review, item, state.candidates[item.id], taxonomyDraft)
+        .forEach(error => errors.push(`${item.name}: ${error}`));
+    });
     if (errors.length) return { errors, data: null, resources: [] };
 
     const resources = acceptedItems.map(item => clone(state.candidates[item.id].resourceDraft));
-    const categoryIds = [...new Set(resources.flatMap(resource => resource.categories || []))];
-    const rawCategories = source.categories || [];
-    const categories = categoryIds.map(id => rawCategories.find(category => String(category.id) === String(id))).filter(Boolean).map(clone);
+    const categoryIds = [...new Set([
+      ...resources.flatMap(resource => resource.categories || []),
+      ...taxonomyDraft.modifiedCategoryIds,
+    ])];
+    const categories = packageCategories(review, taxonomyDraft, categoryIds, now);
     const packageVersionText = String(source.packageVersion ?? 'Unknown');
     const packageVersion = /^\d+$/.test(packageVersionText) ? Number(packageVersionText) : packageVersionText;
-    const lastModified = resources.map(resource => asText(resource.lastModified)).filter(Boolean).sort().at(-1) || now;
+    const lastModified = [
+      ...resources.map(resource => asText(resource.lastModified)),
+      asText(taxonomyDraft.updatedAt),
+    ].filter(Boolean).sort().at(-1) || now;
     const referencedPDFs = new Set(resources.flatMap(resource => (resource.pdfs || []).map(pdf => pdf.path).filter(Boolean)));
     const pdfAssets = {};
     acceptedItems.forEach(item => {
@@ -178,7 +240,7 @@
         lastModified,
         categories,
         categoryMigrations: [],
-        forGroups: clone(source.forGroups || []),
+        forGroups: clone(taxonomyDraft.forGroups),
         resources,
         changes: [],
         deletionRequests: [],
@@ -607,7 +669,58 @@
     return preview;
   }
 
-  function renderCategoriesEditor(item, itemState, resource) {
+  function rerenderCandidate(item) {
+    persist();
+    openCandidate(item.id);
+  }
+
+  function markTaxonomyChanged(categoryId = null) {
+    if (categoryId && !state.taxonomyDraft.modifiedCategoryIds.includes(categoryId)) {
+      state.taxonomyDraft.modifiedCategoryIds.push(categoryId);
+    }
+    state.taxonomyDraft.updatedAt = new Date().toISOString();
+  }
+
+  function taxonomyAddRow(placeholder, buttonLabel, onAdd) {
+    const row = element('div', 'taxonomy-add-row');
+    const input = document.createElement('input'); input.placeholder = placeholder;
+    const button = element('button', 'secondary', buttonLabel); button.type = 'button';
+    const submit = () => {
+      const value = input.value.trim();
+      if (!value) return;
+      if (onAdd(value) !== false) input.value = '';
+    };
+    button.addEventListener('click', submit);
+    input.addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); submit(); } });
+    row.append(input, button); return row;
+  }
+
+  function renderCategoriesEditor(item) {
+    const categories = element('div', 'editor-choice-list');
+    categories.append(element('p', 'muted', 'Add Types that are not already available within a category. Type deletion remains in TSO Resources.'));
+    (review.sourcePackage?.categorySummaries || []).forEach(category => {
+      const id = String(category.id);
+      const option = element('div', 'editor-choice-group');
+      option.append(element('strong', 'taxonomy-heading', categoryLabel(category)));
+      const typeList = element('div', 'taxonomy-value-list');
+      const types = state.taxonomyDraft.categoryTypes[id] || [];
+      if (!types.length) typeList.append(element('p', 'muted', 'No Types defined.'));
+      types.forEach(type => {
+        const row = element('div', 'taxonomy-value-row'); row.append(element('span', '', type));
+        typeList.append(row);
+      });
+      option.append(typeList, taxonomyAddRow('New Type', 'Add Type', value => {
+        if (types.some(existing => existing.toLocaleLowerCase() === value.toLocaleLowerCase())) return false;
+        state.taxonomyDraft.categoryTypes[id] = [...types, value]; markTaxonomyChanged(id); rerenderCandidate(item); return true;
+      }));
+      categories.append(option);
+    });
+    return categories;
+  }
+
+  function renderResourceClassifications(item, resource) {
+    const section = element('section', 'resource-classification-editor');
+    section.append(element('h3', '', 'Categories, Types, and For'));
     const categories = element('div', 'editor-choice-list');
     (review.sourcePackage?.categorySummaries || []).forEach(category => {
       const id = String(category.id); const selected = (resource.categories || []).includes(id);
@@ -617,9 +730,10 @@
         if (!checked && resource.categoryFilters) delete resource.categoryFilters[id];
         touchResource(resource); openCandidate(item.id);
       }));
-      if (selected && category.types?.length) {
+      const availableTypes = state.taxonomyDraft.categoryTypes[id] || [];
+      if (selected && availableTypes.length) {
         const types = element('div', 'nested-choices'); types.append(element('strong', '', `${categoryLabel(category)} Types`));
-        category.types.forEach(type => types.append(checkbox(type, (resource.categoryFilters?.[id] || []).includes(type), checked => {
+        availableTypes.forEach(type => types.append(checkbox(type, (resource.categoryFilters?.[id] || []).includes(type), checked => {
           resource.categoryFilters ||= {}; const values = resource.categoryFilters[id] || [];
           resource.categoryFilters[id] = checked ? [...new Set([...values, type])] : values.filter(value => value !== type);
           if (!resource.categoryFilters[id].length) delete resource.categoryFilters[id];
@@ -629,17 +743,30 @@
       }
       categories.append(option);
     });
-    return categories;
-  }
-
-  function renderForEditor(resource) {
-    const forGroups = element('div', 'editor-choice-list');
-    forGroups.append(element('p', 'muted', 'Check only if this resource is specifically intended for this group.'));
-    (review.sourcePackage?.forGroups || []).forEach(label => forGroups.append(checkbox(label, (resource.forGroups || []).includes(label), checked => {
+    const forGroups = element('div', 'nested-choices resource-for-choices');
+    forGroups.append(element('strong', '', 'For'));
+    if (!state.taxonomyDraft.forGroups.length) forGroups.append(element('p', 'muted', 'No For groups defined.'));
+    state.taxonomyDraft.forGroups.forEach(label => forGroups.append(checkbox(label, (resource.forGroups || []).includes(label), checked => {
       const values = resource.forGroups || [];
       resource.forGroups = checked ? [...new Set([...values, label])] : values.filter(value => value !== label);
       touchResource(resource);
     })));
+    section.append(categories, forGroups); return section;
+  }
+
+  function renderForEditor(item) {
+    const forGroups = element('div', 'editor-choice-list');
+    forGroups.append(element('p', 'muted', 'Add For groups that are not already available. For-group deletion remains in TSO Resources.'));
+    const list = element('div', 'taxonomy-value-list');
+    if (!state.taxonomyDraft.forGroups.length) list.append(element('p', 'muted', 'No For groups defined.'));
+    state.taxonomyDraft.forGroups.forEach(label => {
+      const row = element('div', 'taxonomy-value-row'); row.append(element('span', '', label));
+      list.append(row);
+    });
+    forGroups.append(list, taxonomyAddRow('New For group', 'Add For group', value => {
+      if (state.taxonomyDraft.forGroups.some(existing => existing.toLocaleLowerCase() === value.toLocaleLowerCase())) return false;
+      state.taxonomyDraft.forGroups.push(value); markTaxonomyChanged(); rerenderCandidate(item); return true;
+    }));
     return forGroups;
   }
 
@@ -680,7 +807,7 @@
     fields.querySelectorAll('[data-resource-field]').forEach(input => input.addEventListener('input', () => {
       resource[input.dataset.resourceField] = input.value; touchResource(resource);
     }));
-    content.append(fields, renderPDFEditor(item, itemState, resource));
+    content.append(fields, renderResourceClassifications(item, resource), renderPDFEditor(item, itemState, resource));
     const information = element('section', 'information-editor'); information.append(element('h3', '', 'Information'));
     const tabs = element('div', 'information-tabs');
     const edit = element('button', view.informationMode === 'edit' ? 'selected' : '', 'Edit'); const preview = element('button', view.informationMode === 'preview' ? 'selected' : '', 'Preview');
@@ -703,8 +830,8 @@
       button.addEventListener('click', () => { view.editorTab = value; openCandidate(item.id); }); tabs.append(button);
     });
     box.append(tabs);
-    if (view.editorTab === 'categories') box.append(renderCategoriesEditor(item, itemState, resource));
-    else if (view.editorTab === 'for') box.append(renderForEditor(resource));
+    if (view.editorTab === 'categories') box.append(renderCategoriesEditor(item));
+    else if (view.editorTab === 'for') box.append(renderForEditor(item));
     else box.append(renderResourceFields(item, itemState, resource));
     return box;
   }

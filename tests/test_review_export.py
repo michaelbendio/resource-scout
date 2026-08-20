@@ -112,7 +112,7 @@ class ReviewCopyTests(unittest.TestCase):
 
         completed_date = data["run"]["completedAt"][:10]
         self.assertEqual(f"housing-research-curator-{completed_date}.html", review.filename)
-        self.assertEqual(7, data["reviewCopySchemaVersion"])
+        self.assertEqual(8, data["reviewCopySchemaVersion"])
         self.assertEqual(1, data["reviewFeedbackSchemaVersion"])
         self.assertTrue(data["reviewId"])
         self.assertEqual("A concise completed summary with </script> text.", data["run"]["summary"])
@@ -424,6 +424,12 @@ const checklistBefore = ReviewAppCore.checklistItems(state.candidates[item.id].c
 state.candidates[item.id].curatorNotes = ReviewAppCore.toggleChecklistItem(state.candidates[item.id].curatorNotes, 1, true);
 const checklistAfter = ReviewAppCore.checklistItems(state.candidates[item.id].curatorNotes);
 state.candidates[item.id].decision = 'accepted';
+state.taxonomyDraft.categoryTypes.housing.push('Bridge housing');
+state.taxonomyDraft.forGroups.push('Young adults');
+state.taxonomyDraft.modifiedCategoryIds.push('housing');
+state.taxonomyDraft.updatedAt = '2026-08-18T11:30:00+00:00';
+state.candidates[item.id].resourceDraft.categoryFilters.housing = ['Bridge housing'];
+state.candidates[item.id].resourceDraft.forGroups = ['Young adults'];
 const pdfPath = `pdfs/${state.candidates[item.id].resourceDraft.id}/guide-test.pdf`;
 state.candidates[item.id].resourceDraft.pdfs = [{ id: 'guide', name: 'Guide.pdf', path: pdfPath }];
 state.candidates[item.id].pdfAssets[pdfPath] = { name: 'Guide.pdf', type: 'application/pdf', data: Buffer.from('%PDF curator test').toString('base64') };
@@ -455,8 +461,15 @@ process.stdout.write(JSON.stringify({ errors: built.errors, emptyErrors: ReviewA
         self.assertEqual(1, len(package["resources"]))
         self.assertEqual("Known Home Assistance Program", package["resources"][0]["name"])
         self.assertEqual(["housing"], package["resources"][0]["categories"])
-        self.assertEqual(["Veterans"], package["forGroups"])
-        self.assertEqual({"housing": ["Shelter"]}, package["resources"][0]["categoryFilters"])
+        self.assertEqual(["Veterans", "Young adults"], package["forGroups"])
+        self.assertEqual(
+            ["Shelter", "Bridge housing"], package["categories"][0]["filters"]
+        )
+        self.assertEqual(
+            {"housing": ["Bridge housing"]}, package["resources"][0]["categoryFilters"]
+        )
+        self.assertEqual(["Young adults"], package["resources"][0]["forGroups"])
+        self.assertEqual([], package["deletionRequests"])
         self.assertEqual(
             [{"id": "guide", "name": "Guide.pdf", "path": result["pdfPath"]}],
             package["resources"][0]["pdfs"],

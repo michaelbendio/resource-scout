@@ -47,17 +47,17 @@ Curators are generated only when a user clicks **Export Resource Curator** on a 
 
 The export contains only the selected completed or partially completed run, stage status, its candidates, human review notes, editable resource drafts, run-specific lessons, the source taxonomy needed for valid package creation, limited source-package provenance, and the known-resource fields needed to explain duplicate signals. It excludes API keys, connection settings, raw agent output, the research database, source-package attachments, and full imported-resource records.
 
-Curator progress is saved locally by the browser when available. Each candidate has its own notes and clickable checklist; changing candidates changes the Notes window to that candidate's work. **Save work** creates the portable JSON checkpoint used to pause, move, back up, or resume the work. It records every decision, curator note, checklist state, future-research flag, relationship assessment, resource draft, curator-attached PDF, stable ID, timestamp, and source-package identity. Scout does not consume this feedback yet. **Save a resource package** is separate: it is unavailable with no ready candidates, contains one resource when one is ready, and grows cumulatively as more are made ready. Standalone-location Curators can save work but cannot create a resource package.
+Curator progress is saved locally by the browser when available. Each candidate has its own notes and clickable checklist; changing candidates changes the Notes window to that candidate's work. **Save work** creates the portable JSON checkpoint used to pause, move, back up, or resume the work. It records every decision, curator note, checklist state, future-research flag, relationship assessment, resource draft, curator taxonomy edits, curator-attached PDF, stable ID, timestamp, and source-package identity. Scout does not consume this feedback yet. **Save a resource package** is separate: it is unavailable with no ready candidates, contains one resource when one is ready, and grows cumulatively as more are made ready. Standalone-location Curators can save work but cannot create a resource package.
 
-The right-hand Resource Editors window has separate **Categories**, **Resource**, and **For** tabs. The curator can assign category Types, edit the resource's contact and descriptive fields, compose formatted Information, identify cross-category groups, and attach PDFs. Only curator-added PDFs travel with portable work and ready-resource packages; the original source package remains untouched.
+The right-hand Resource Editors window has separate **Categories**, **Resource**, and **For** tabs. **Categories** can add Types within each category, while **For** can add global For groups. Curator is additive-only for governed taxonomy: Type and For-group deletion remains in TSO Resources. **Resource** edits contact and descriptive fields, composes formatted Information, assigns Categories and their Types, chooses For groups, and attaches PDFs. Only curator-added PDFs travel with portable work and ready-resource packages; the original source package remains untouched.
 
 ## Mergeable ready-resource packages
 
 Resource-package export is available only for research runs that started from an imported TSO Resources package. It is scoped to the run whose **Export resource package** button is clicked; accepting candidates in a different run cannot affect it. Each download contains:
 
 - the current schema and source package version;
-- the unchanged imported definitions for every category assigned during review;
-- the source package's For definitions;
+- the imported definition for every category assigned during review, with the Curator's Type edits applied;
+- the source package's For definitions with the Curator's edits applied;
 - only the run's currently ready, curator-edited resources and their attached PDFs; and
 - no imported baseline resources or assets, credentials, or research internals.
 
