@@ -12,6 +12,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from .dsh_configuration import (
+    DEEPSEEK_CONFIGURATION,
+    LOCAL_QWEN_CONFIGURATION,
+    resolve_dsh_configuration,
+)
+from .local_qwen import LocalQwenError, validated_health
+
 
 DEFAULT_SETTINGS: dict[str, Any] = {
     "adapter": "hermes",
@@ -20,6 +27,7 @@ DEFAULT_SETTINGS: dict[str, Any] = {
     "hermesProvider": "",
     "hermesModel": "",
     "dshCommand": "",
+    "dshConfiguration": DEEPSEEK_CONFIGURATION,
     "dshModel": "",
     # Legacy shared keys remain readable so existing databases keep working.
     "command": "",
@@ -32,7 +40,7 @@ DEFAULT_SETTINGS: dict[str, Any] = {
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DSH_DEFAULT_MODEL = "deepseek-v4-flash"
+DSH_DEFAULT_MODEL = resolve_dsh_configuration(DEEPSEEK_CONFIGURATION).model
 
 
 @dataclass(frozen=True)
@@ -106,6 +114,33 @@ def _extract_json_object(output: str, agent_name: str = "Research agent") -> dic
     last = text.rfind("}")
     if 0 <= first < last:
         candidates.append(text[first : last + 1])
+    # Local models occasionally exhaust their generation budget after emitting a
+    # complete object except for its final top-level brace. Repair only that
+    # exact shape; broader malformed or truncated JSON must remain a hard error.
+    stack: list[str] = []
+    in_string = False
+    escaped = False
+    structurally_valid = True
+    for character in text:
+        if in_string:
+            if escaped:
+                escaped = False
+            elif character == "\\":
+                escaped = True
+            elif character == '"':
+                in_string = False
+            continue
+        if character == '"':
+            in_string = True
+        elif character in "{[":
+            stack.append(character)
+        elif character in "}]":
+            expected = "{" if character == "}" else "["
+            if not stack or stack.pop() != expected:
+                structurally_valid = False
+                break
+    if structurally_valid and not in_string and stack == ["{"] and text.startswith("{"):
+        candidates.append(text + "}")
     for candidate in candidates:
         try:
             value = json.loads(candidate)
@@ -317,7 +352,7 @@ def _dsh_command_candidates(configured: str = "") -> list[list[str]]:
 
 
 class DSHCLIAdapter(ResearchAgentAdapter):
-    """Experimental DeepSeek Harness adapter using its supported headless profile."""
+    """Experimental DSH adapter using its supported headless profile."""
 
     key = "dsh"
 
@@ -332,18 +367,36 @@ class DSHCLIAdapter(ResearchAgentAdapter):
                 return candidate
         return None
 
+    def _configuration(self):
+        key = str(self.settings.get("dshConfiguration", DEEPSEEK_CONFIGURATION))
+        try:
+            return resolve_dsh_configuration(key)
+        except ValueError as exc:
+            raise AgentRunError(str(exc)) from exc
+
     def status(self) -> dict[str, Any]:
         command = self._command()
-        configured = bool(os.environ.get("DEEPSEEK_API_KEY", "").strip())
-        model = str(self.settings.get("dshModel", "")).strip()
-        model = model or DSH_DEFAULT_MODEL
+        try:
+            configuration = self._configuration()
+        except AgentRunError as exc:
+            return {
+                "adapter": self.key, "displayName": "DSH", "installed": bool(command),
+                "configured": False, "ready": False, "version": "", "command": "",
+                "message": str(exc), "experimental": True,
+            }
+        is_local = configuration.key == LOCAL_QWEN_CONFIGURATION
+        configured = is_local or bool(os.environ.get("DEEPSEEK_API_KEY", "").strip())
+        model = configuration.model
+        if not is_local:
+            model = str(self.settings.get("dshModel", "")).strip() or model
         if not command:
             return {
-                "adapter": self.key, "displayName": "DeepSeek Harness", "installed": False,
+                "adapter": self.key, "displayName": "DSH", "installed": False,
                 "configured": configured, "ready": False, "version": "", "command": "",
-                "model": model,
-                "message": "DeepSeek Harness is not installed. Run ./install-dsh.sh once.",
+                "message": "DSH is not installed. Run ./install-dsh.sh once.",
                 "setupCommand": "./install-dsh.sh",
+                **configuration.as_status(),
+                "model": model,
             }
         version = "installed"
         error = ""
@@ -357,38 +410,64 @@ class DSHCLIAdapter(ResearchAgentAdapter):
                 error = (completed.stderr or completed.stdout).strip()
         except (OSError, subprocess.TimeoutExpired) as exc:
             error = str(exc)
-        ready = not error and configured
+        local_error = ""
+        if is_local and not error:
+            try:
+                validated_health(timeout=2.0)
+            except LocalQwenError as exc:
+                local_error = str(exc)
+        ready = not error and not local_error and configured
         if error:
-            message = f"DeepSeek Harness was found but its version check failed: {error}"
+            message = f"DSH was found but its version check failed: {error}"
+        elif local_error:
+            message = local_error
         elif not configured:
-            message = "DeepSeek Harness is installed. Start this app with DEEPSEEK_API_KEY available."
+            message = "DSH is installed. Start this app with DEEPSEEK_API_KEY available."
+        elif is_local:
+            message = "DSH, Local Qwen, DDGS search, and safe page retrieval are ready with no metered services."
         else:
-            message = "DeepSeek Harness is installed and the API key is available."
+            message = "DSH is installed and the DeepSeek API key is available."
         return {
-            "adapter": self.key, "displayName": "DeepSeek Harness", "installed": True,
+            "adapter": self.key, "displayName": "DSH", "installed": True,
             "configured": configured, "ready": ready, "version": version,
             "command": " ".join(shlex.quote(part) for part in command),
-            "model": model, "message": message,
-            "setupCommand": "./run-dsh.sh",
+            "message": message,
+            "setupCommand": "./local-qwen.sh serve" if is_local else "./run-dsh.sh",
             "experimental": True,
+            **configuration.as_status(),
+            "model": model,
         }
 
     def run(self, prompt: str) -> AgentRunResult:
         command = self._command()
         if not command:
-            raise AgentRunError("DeepSeek Harness is not installed or its command cannot be found")
-        if not os.environ.get("DEEPSEEK_API_KEY", "").strip():
+            raise AgentRunError("DSH is not installed or its command cannot be found")
+        configuration = self._configuration()
+        is_local = configuration.key == LOCAL_QWEN_CONFIGURATION
+        if not is_local and not os.environ.get("DEEPSEEK_API_KEY", "").strip():
             raise AgentRunError("DEEPSEEK_API_KEY must be available when the app starts")
+        if is_local:
+            try:
+                validated_health(timeout=2.0)
+            except LocalQwenError as exc:
+                raise AgentRunError(str(exc)) from exc
         timeout = max(30, min(int(self.settings.get("timeoutSeconds", 900)), 7200))
-        model = str(self.settings.get("dshModel", "")).strip()
-        model = model or DSH_DEFAULT_MODEL
+        model = configuration.model
+        if not is_local:
+            model = str(self.settings.get("dshModel", "")).strip() or model
         if not re.fullmatch(r"[A-Za-z0-9._:/-]+", model):
-            raise AgentRunError("The DeepSeek model name contains unsupported characters")
+            raise AgentRunError("The DSH model name contains unsupported characters")
         base_patch = PROJECT_ROOT / "dsh-research.patch.yml"
         if not base_patch.is_file():
-            raise AgentRunError(f"DeepSeek research configuration is missing: {base_patch}")
+            raise AgentRunError(f"DSH research configuration is missing: {base_patch}")
+        route_patch = PROJECT_ROOT / "dsh-local-qwen.patch.yml" if is_local else None
+        if route_patch is not None and not route_patch.is_file():
+            raise AgentRunError(f"Local Qwen DSH configuration is missing: {route_patch}")
         dsh_home = Path(
-            os.environ.get("RESOURCE_RESEARCH_DSH_HOME", str(PROJECT_ROOT / "data" / "dsh-home"))
+            os.environ.get(
+                "RESOURCE_RESEARCH_DSH_HOME",
+                str(PROJECT_ROOT / "dsh-runtime" / ".dsh-home"),
+            )
         ).expanduser().resolve()
         dsh_home.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="resource-research-dsh-") as directory:
@@ -397,20 +476,31 @@ class DSHCLIAdapter(ResearchAgentAdapter):
             model_patch.write_text(
                 "- id: agent-default-model\n"
                 "  config:\n"
-                "    provider: deepseek-official\n"
+                f"    provider: {configuration.model_provider}\n"
                 f"    model: {json.dumps(model)}\n",
                 encoding="utf-8",
             )
             arguments = [
                 *command, "--profile", "headless",
-                "--patch", str(base_patch), "--patch", str(model_patch), prompt,
+                "--patch", str(base_patch),
             ]
+            if route_patch is not None:
+                arguments.extend(["--patch", str(route_patch)])
+            arguments.extend(["--patch", str(model_patch), prompt])
             environment = {
                 **os.environ,
                 "DSH_HOME": str(dsh_home),
                 "DSH_TOOLS_MODE": "native",
                 "NO_COLOR": "1",
             }
+            if is_local:
+                environment.pop("DEEPSEEK_API_KEY", None)
+                # DSH's OpenAI-compatible transport requires a token-shaped
+                # value. MLX is loopback-only and does not authenticate it.
+                environment["RESOURCE_SCOUT_LOCAL_QWEN_TOKEN"] = "local-loopback"
+                environment["RESOURCE_SCOUT_DDGS_PYTHON"] = str(
+                    PROJECT_ROOT / "dsh-runtime" / ".venv-ddgs" / "bin" / "python"
+                )
             try:
                 completed = subprocess.run(
                     arguments, capture_output=True, text=True, timeout=timeout, check=False,
@@ -419,21 +509,30 @@ class DSHCLIAdapter(ResearchAgentAdapter):
             except subprocess.TimeoutExpired as exc:
                 output = _timeout_output(exc)
                 raise AgentRunError(
-                    f"DeepSeek Harness research exceeded the {timeout}-second limit", output
+                    f"DSH research exceeded the {timeout}-second limit", output
                 ) from exc
             except OSError as exc:
-                raise AgentRunError(f"Could not start DeepSeek Harness: {exc}") from exc
+                raise AgentRunError(f"Could not start DSH: {exc}") from exc
             output = completed.stdout.strip()
             if completed.returncode != 0:
                 detail = completed.stderr.strip() or output or f"exit code {completed.returncode}"
-                raise AgentRunError(f"DeepSeek Harness research failed: {detail}", output)
+                raise AgentRunError(f"DSH research failed: {detail}", output)
             result = _validate_result(
-                _extract_json_object(output, "DeepSeek Harness"), "DeepSeek Harness"
+                _extract_json_object(output, "DSH"), "DSH"
             )
             usage = {
                 "adapter": self.key,
-                "provider": "deepseek-official",
+                "configuration": configuration.key,
+                "provider": configuration.model_provider,
                 "model": model,
+                "runtime": "mlx-lm" if is_local else "deepseek-api",
+                "quantization": "4-bit" if is_local else "provider-managed",
+                "endpoint": configuration.model_endpoint,
+                "searchProvider": configuration.search_provider,
+                "fetchProvider": configuration.fetch_provider,
+                "reasoning": configuration.reasoning,
+                "contextWindow": configuration.context_window,
+                "metered": configuration.metered,
                 "reportedTokenUsage": False,
             }
             return AgentRunResult(output=output, result=result, usage=usage)

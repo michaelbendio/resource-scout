@@ -121,13 +121,16 @@
         <form id="settings-form">
           <div class="settings-grid">
             <label>Adapter
-              <select id="agent-adapter"><option value="hermes">Hermes</option><option value="dsh">DeepSeek Harness (experimental)</option><option value="demo">Built-in demo</option></select>
+              <select id="agent-adapter"><option value="hermes">Hermes</option><option value="dsh">DSH (experimental)</option><option value="demo">Built-in demo</option></select>
             </label>
             <label data-adapter-only="hermes">Hermes profile <input id="hermes-profile" placeholder="Optional"></label>
             <label data-adapter-only="hermes">Hermes provider override <input id="hermes-provider" placeholder="Use Hermes default"></label>
             <label data-adapter-only="hermes">Hermes model override <input id="hermes-model" placeholder="Use Hermes default"></label>
             <label data-adapter-only="hermes">Hermes command override <input id="hermes-command" placeholder="Find Hermes automatically"></label>
-            <label data-adapter-only="dsh">DSH model override <input id="dsh-model" placeholder="deepseek-v4-flash"></label>
+            <label data-adapter-only="dsh">DSH configuration
+              <select id="dsh-configuration"><option value="local-qwen">Local Qwen — no metered services</option><option value="deepseek">DeepSeek — metered</option></select>
+            </label>
+            <label data-adapter-only="dsh" data-dsh-configuration-only="deepseek">DeepSeek model override <input id="dsh-model" placeholder="deepseek-v4-flash"></label>
             <label data-adapter-only="dsh">DSH command override <input id="dsh-command" placeholder="Use the pinned DSH runtime"></label>
             <label>Time limit per stage in seconds <input id="agent-timeout" type="number" min="30" max="7200" value="900"></label>
           </div>

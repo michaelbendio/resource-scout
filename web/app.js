@@ -78,13 +78,17 @@ function setupResearchPaneResizer() {
 function agentName(agent = state.agent) {
   if (agent?.displayName) return agent.displayName;
   const key = agent?.adapter || agent?.settings?.adapter || document.querySelector('#agent-adapter')?.value;
-  return key === 'dsh' ? 'DeepSeek Harness' : key === 'demo' ? 'Built-in demo' : 'Hermes';
+  return key === 'dsh' ? 'DSH' : key === 'demo' ? 'Built-in demo' : 'Hermes';
 }
 
 function updateAdapterFields() {
   const adapter = document.querySelector('#agent-adapter').value;
+  const dshConfiguration = document.querySelector('#dsh-configuration').value;
   document.querySelectorAll('[data-adapter-only]').forEach(field => {
-    field.hidden = !field.dataset.adapterOnly.split(',').includes(adapter);
+    const adapterMatches = field.dataset.adapterOnly.split(',').includes(adapter);
+    const configurationMatches = !field.dataset.dshConfigurationOnly
+      || field.dataset.dshConfigurationOnly === dshConfiguration;
+    field.hidden = !(adapterMatches && configurationMatches);
   });
 }
 
@@ -243,6 +247,7 @@ function showAgent(agent) {
   document.querySelector('#hermes-provider').value = settings.hermesProvider || settings.provider || '';
   document.querySelector('#hermes-model').value = settings.hermesModel || settings.model || '';
   document.querySelector('#hermes-command').value = settings.hermesCommand || settings.command || '';
+  document.querySelector('#dsh-configuration').value = settings.dshConfiguration || 'deepseek';
   document.querySelector('#dsh-model').value = settings.dshModel || '';
   document.querySelector('#dsh-command').value = settings.dshCommand || '';
   document.querySelector('#agent-timeout').value = settings.timeoutSeconds || 900;
@@ -1259,6 +1264,7 @@ document.querySelector('#copy-private-url').addEventListener('click', async even
 });
 
 document.querySelector('#agent-adapter').addEventListener('change', updateAdapterFields);
+document.querySelector('#dsh-configuration').addEventListener('change', updateAdapterFields);
 
 document.querySelector('#settings-form').addEventListener('submit', async event => {
   event.preventDefault();
@@ -1271,6 +1277,7 @@ document.querySelector('#settings-form').addEventListener('submit', async event 
       hermesProvider: document.querySelector('#hermes-provider').value.trim(),
       hermesModel: document.querySelector('#hermes-model').value.trim(),
       hermesCommand: document.querySelector('#hermes-command').value.trim(),
+      dshConfiguration: document.querySelector('#dsh-configuration').value,
       dshModel: document.querySelector('#dsh-model').value.trim(),
       dshCommand: document.querySelector('#dsh-command').value.trim(),
       timeoutSeconds: Number(document.querySelector('#agent-timeout').value || 900),

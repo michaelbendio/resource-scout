@@ -552,6 +552,10 @@ process.stdout.write(JSON.stringify({ errors: built.errors, emptyErrors: ReviewA
                     break
                 time.sleep(0.01)
             self.assertEqual("completed", completed["status"])
+            # The run status is committed immediately before the daemon worker
+            # returns; let that worker leave its final database context before
+            # the test's temporary directory is removed.
+            time.sleep(0.05)
             discoveries = self.store.list_discoveries(run_id=run["id"])
             self.assertTrue(discoveries)
             self.assertTrue(all(discovery["match"] is None for discovery in discoveries))

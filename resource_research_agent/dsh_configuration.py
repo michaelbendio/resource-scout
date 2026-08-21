@@ -53,7 +53,7 @@ CONFIGURATIONS: dict[str, DSHConfiguration] = {
         key=LOCAL_QWEN_CONFIGURATION,
         display_name="Local Qwen - no metered services",
         model_provider="qwen-local",
-        model="mlx-community/Qwen3.8-27B-8bit",
+        model="mlx-community/Qwen3.8-27B-4bit",
         model_endpoint="http://127.0.0.1:8080/v1",
         context_window=65_536,
         reasoning="medium",
@@ -118,4 +118,3 @@ def local_model_catalog_error(
             f"{configuration.model_endpoint}/models. Start the pinned MLX model server first."
         )
     return ""
-

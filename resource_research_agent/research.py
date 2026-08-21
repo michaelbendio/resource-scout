@@ -268,7 +268,14 @@ class ResearchCoordinator:
             + json.dumps(prompt_object, ensure_ascii=False, indent=2)
         )
 
-    def _execute(self, run_id: int, prompt_object: dict[str, Any], settings: dict[str, Any]) -> None:
+    def _execute(
+        self,
+        run_id: int,
+        prompt_object: dict[str, Any],
+        settings: dict[str, Any],
+        *,
+        stage_limit: int | None = None,
+    ) -> None:
         self.store.mark_run_running(run_id)
         adapter = self.adapter_factory(settings)
         duplicate_index = DuplicateIndex(self.store)
@@ -285,13 +292,18 @@ class ResearchCoordinator:
             for discovery in self.store.list_discoveries(run_id=run_id)
         }
         existing_names.discard("")
+        completed_this_execution = 0
         for stage in stages:
             if stage["status"] == "completed":
                 continue
-            self.store.mark_stage_running(stage["id"])
+            attempt_id = None
             try:
                 stage_prompt = self._stage_prompt(run_id, prompt_object, stage, len(stages))
-                response = adapter.run(self._prompt_text(stage_prompt))
+                prompt_text = self._prompt_text(stage_prompt)
+                attempt_id = self.store.mark_stage_running(
+                    stage["id"], prompt_chars=len(prompt_text)
+                )
+                response = adapter.run(prompt_text)
                 saved_candidates = []
                 for candidate in response.result.get("candidates", []):
                     name_key = self._candidate_name_key(candidate)
@@ -320,16 +332,34 @@ class ResearchCoordinator:
                     )
                 stored_stage_result = dict(response.result)
                 stored_stage_result["savedCandidates"] = saved_candidates
-                self.store.complete_stage(stage["id"], response.output, stored_stage_result, response.usage)
+                self.store.complete_stage(
+                    stage["id"], response.output, stored_stage_result, response.usage,
+                    attempt_id=attempt_id,
+                )
                 result, output, usage = self._aggregate_progress(run_id)
                 self.store.update_run_progress(run_id, output, result, usage)
+                completed_this_execution += 1
+                if stage_limit is not None and completed_this_execution >= stage_limit:
+                    remaining = [
+                        item for item in self.store.list_run_stages(run_id)
+                        if item["status"] != "completed"
+                    ]
+                    if remaining:
+                        self.store.partial_run(
+                            run_id,
+                            f"Benchmark calibration paused after {completed_this_execution} stage.",
+                            output, result, usage,
+                        )
+                        return
             except AgentRunError as error:
-                self.store.fail_stage(stage["id"], str(error), error.output)
+                self.store.fail_stage(
+                    stage["id"], str(error), error.output, attempt_id=attempt_id
+                )
                 self._finish_interrupted_run(run_id, str(error))
                 return
             except Exception as error:
                 message = f"Unexpected research error: {error}"
-                self.store.fail_stage(stage["id"], message)
+                self.store.fail_stage(stage["id"], message, attempt_id=attempt_id)
                 self._finish_interrupted_run(run_id, message)
                 return
         result, output, usage = self._aggregate_progress(run_id)

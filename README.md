@@ -83,9 +83,49 @@ Start the app through the Keychain-aware launcher:
 ./run-dsh.sh
 ```
 
-On macOS, the first launch securely prompts once to save the key in the user's Keychain; later launches retrieve it automatically. A `DEEPSEEK_API_KEY` already present in the environment takes precedence. On systems without the macOS `security` command, the launcher falls back to a hidden prompt for that launch. The key is never written to the app database or a project file. Select **DeepSeek Harness (experimental)** in **Research agent connection**, save, and the status card will show when it is ready.
+On macOS, the first launch securely prompts once to save the key in the user's Keychain; later launches retrieve it automatically. A `DEEPSEEK_API_KEY` already present in the environment takes precedence. On systems without the macOS `security` command, the launcher falls back to a hidden prompt for that launch. The key is never written to the app database or a project file. Select **DSH (experimental)** and **DeepSeek — metered** in **Research agent connection**, save, and the status card will show when it is ready.
 
 The DSH research overlay gives DeepSeek a social-service resource researcher persona, exposes DeepSeek's server-side `web_search` tool, and disables shell, filesystem, editing, skill, workflow, and subagent tools. DSH also runs from an empty temporary working directory. `web_fetch` remains disabled in this first connection because DSH's own preview ships it disabled while its HTTP provider lacks a complete SSRF boundary.
+
+### Phase 1 Local Qwen runtime
+
+The experimental no-metered-services path uses the pinned `mlx-community/Qwen3.8-27B-4bit` model through MLX LM. It is deliberately foreground-only and does not alter Resource Scout's existing background service. Mesa calibration proved the path operational, private, and unmetered, but it was slower and materially less complete than the frozen DeepSeek baseline, so it remains an opt-in experiment rather than the production replacement.
+
+Install or update MLX LM with Homebrew, then stop Homebrew's generic service if it is running. The project installer verifies MLX, installs the pinned DSH runtime, and creates an isolated Python environment for the free DDGS search plugin:
+
+```sh
+brew install mlx-lm
+brew services stop mlx-lm
+./install-local-qwen.sh
+```
+
+Start the pinned model on loopback. The first 4-bit start downloads about 16.1 GB into the Hugging Face cache:
+
+```sh
+./local-qwen.sh serve
+```
+
+Keep that terminal open. From another terminal, verify both the exact model catalog entry and a real completion:
+
+```sh
+./local-qwen.sh catalog
+./local-qwen.sh health
+```
+
+The live health check records which running server completed the validation; Resource Scout fails closed if that process changes until health is run again. In Scout, choose **DSH (experimental)** and **Local Qwen — no metered services**. That path uses the project-owned DDGS search and safe page fetch plugins and removes `DEEPSEEK_API_KEY` from the DSH child process. DeepSeek remains a separate, explicitly metered comparison choice.
+
+Stop the Phase 1 model server with Control-C in its terminal. The launcher exposes a loopback-only compatibility endpoint at `127.0.0.1:8080` and keeps MLX itself on loopback at port 8081. The compatibility endpoint adapts DSH's OpenAI-style message roles and token field for Qwen; it never forwards requests off the Mac. The launcher selects the pinned model explicitly and refuses to start while another API is using port 8080. Set `RESOURCE_SCOUT_MLX_SERVER` only when testing a specific MLX executable outside Homebrew.
+
+Before Mesa calibration, freeze the historical comparison into an ignored, separate benchmark directory:
+
+```sh
+./prepare-mesa-benchmark.py \
+  --database data/research-agent.sqlite3 \
+  --mesa-package /path/to/mesa-resource-package.zip \
+  --output-directory data/benchmarks/mesa-qwen-YYYY-MM-DD
+```
+
+The command refuses a package whose SHA-256 differs from the Mesa imports, requires exactly 20 completed four-stage DSH runs, copies the database through SQLite's consistent backup operation, and writes a machine-readable baseline manifest. Qwen calibration and comparison use the copied database, never the live one.
 
 ### Hermes
 

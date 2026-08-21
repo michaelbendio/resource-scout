@@ -4,6 +4,8 @@
   "version": "0.1.0",
   "description": "Pinned DeepSeek Harness runtime for the Resource Research Agent",
   "dependencies": {
-    "@deepseek-ai/dsh": "0.1.0-rc.6"
+    "@deepseek-ai/dsh": "0.1.0-rc.6",
+    "@resource-scout/dsh-web-fetch-safe": "file:../dsh-plugins/web-fetch-safe",
+    "@resource-scout/dsh-web-search-ddgs": "file:../dsh-plugins/web-search-ddgs"
   }
 }

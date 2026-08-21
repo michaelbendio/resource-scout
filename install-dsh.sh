@@ -9,6 +9,6 @@ if ! command -v npm >/dev/null 2>&1; then
 fi
 
 echo "Installing the pinned DeepSeek Harness developer preview..."
-npm ci --prefix dsh-runtime --cache dsh-runtime/.npm-cache --no-audit --no-fund
+npm ci --prefix dsh-runtime --cache dsh-runtime/.npm-cache --install-links --no-audit --no-fund
 echo "DeepSeek Harness is installed."
 echo "Start the app with ./run-dsh.sh and enter your API key when prompted."

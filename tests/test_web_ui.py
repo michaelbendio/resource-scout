@@ -23,6 +23,17 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertIn("<title>Resource Scout</title>", self.html)
         self.assertIn("<h1>Resource Scout</h1>", self.html)
 
+    def test_dsh_offers_explicit_local_and_metered_configurations(self) -> None:
+        self.assertIn('id="dsh-configuration"', self.html)
+        self.assertIn("Local Qwen — no metered services", self.html)
+        self.assertIn("DeepSeek — metered", self.html)
+        self.assertNotIn("DeepSeek Harness (experimental)", self.html)
+        self.assertIn(
+            "dshConfiguration: document.querySelector('#dsh-configuration').value",
+            self.javascript,
+        )
+        self.assertIn('data-dsh-configuration-only="deepseek"', self.html)
+
     def test_version_is_in_the_green_header(self) -> None:
         header = self.html[self.html.index("<header>"):self.html.index("</header>")]
         self.assertIn('class="header-version" id="app-version"', header)

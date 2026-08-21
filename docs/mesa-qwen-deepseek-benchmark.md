@@ -1,6 +1,6 @@
 # Mesa Qwen versus DeepSeek Benchmark
 
-Status: Approved for implementation. Qwen benchmark runs begin only after the preceding Phase 1 gates pass.
+Status: Phase 1 calibration complete. The full 20-category run was not started because the local configuration failed the Calibration B quality and throughput gate.
 
 ## Purpose
 
@@ -122,13 +122,49 @@ Choose a representative stage with several expected searches and primary-source 
 
 Gate: the stage completes correctly without metered traffic or unsafe fetching.
 
+Recorded calibration evidence (2026-08-21):
+
+- 8-bit attempt 1 was stopped and retained as a failed attempt after 30 minutes 25 seconds. Six full-page fetch turns had grown as large as 33,088 prompt tokens and the stage had not returned a result.
+- 8-bit attempt 2 capped fetched text at 30,000 characters and instructed Qwen to use no more than two searches and five fetches. It completed in 33 minutes 21 seconds with six valid candidates, 40,791 output characters, and no metered traffic.
+- The matching DeepSeek stage completed in 11 minutes 53 seconds with ten candidates and 62,717 output characters.
+- The tuned 8-bit output was detailed and Mesa-focused, but it remained about 2.8 times slower, found fewer candidates, and averaged fewer evidence items per candidate (1.7 versus 3.3).
+- Result: do not advance the 8-bit configuration unchanged. Calibration restarts with `mlx-community/Qwen3.8-27B-4bit`, retaining the tuned fetch and tool budgets, to test whether faster decode preserves acceptable quality.
+- The 4-bit attempt completed in 17 minutes 58 seconds using about 15.2 GB resident memory. It returned five candidates, 35,890 output characters, 13 evidence items across 12 domains, and no metered traffic.
+- Compared with tuned 8-bit, 4-bit was 46% faster, used roughly half the resident memory, and improved evidence density from 1.7 to 2.6 items per candidate, although it returned one fewer candidate. Compared with DeepSeek, it was about 1.5 times slower and returned half as many candidates in this stage.
+- Result: 4-bit passes Calibration A's correctness, safety, and operational gate. Calibration B uses this configuration unchanged so the complete-category comparison can show whether lower stage quantity persists or is offset by specificity and source quality.
+
 ### Calibration B: one complete category
 
 Run all four stages sequentially for one representative category. Compare its result with the corresponding DeepSeek baseline and project the full 20-category duration.
 
 Gate: decide explicitly whether to continue unchanged, adjust reasoning, change quantization/runtime, improve search or fetching, or stop. Any configuration change restarts calibration so the 20-category run uses one consistent stack.
 
+Recorded Housing evidence (2026-08-21):
+
+| Measure | Local Qwen 4-bit | DeepSeek baseline |
+|---|---:|---:|
+| Successful stage time | 71.6 minutes | 44.2 minutes |
+| Candidates | 13 | 30 |
+| Raw stage output | 126,619 characters | 213,395 characters |
+| Evidence items | 43 | 113 |
+| Unique evidence domains | 33 | 60 |
+| Evidence items per candidate | 3.31 | 3.77 |
+| Candidates with evidence | 13 of 13 | 30 of 30 |
+| Candidates with official, government, or direct-provider evidence | 9 of 13 | 27 of 30 |
+
+Qwen stage results were 5, 3, 3, and 2 candidates in 17:58, 19:16, 16:35, and 17:48. The fourth stage emitted a substantively complete 29,547-character JSON result but omitted its final top-level closing brace. A narrowly scoped parser repair added only that single missing brace, after verifying that strings and every nested object and array were otherwise balanced. The captured attempt was then accepted without another model or web run; the original completion time and raw output remain preserved.
+
+The Qwen result contains several strong Mesa or Maricopa County resources and explicit unknowns, but its breadth is materially below the baseline. Seven resource families clearly overlap the DeepSeek set despite naming differences. Qwen also surfaced six different entries, including I-HELP, AHCCCS Housing Programs, and Eden Village, while DeepSeek covered substantially more emergency, family, eviction-prevention, medical-respite, and transitional programs. Two Qwen entries in the final stage are less immediately actionable for Mesa: a Phoenix-administered waitlist and a 21-unit Mesa development that was not yet accepting applications.
+
+Gate decision: do not begin the 20-category run unchanged. This configuration is 62% slower for Housing and produced 57% fewer candidates with slightly lower evidence density. Applying its observed time ratio to the 15.33-hour DeepSeek baseline projects about 24.8 successful-attempt hours for 20 categories, before retries. Applying its candidate ratio projects only about 232 candidates versus 536. Keep the 4-bit model and local runtime, but recalibrate the agent policy for greater breadth, explicit per-stage candidate targets, and deterministic search/fetch limits. Any tuned result is a new calibration and must not be mixed into the final 20-category dataset.
+
+A second Calibration A tried that tuning with a six-to-eight candidate target, four searches, seven fetches, eight search results per query, and shorter fetched text. It completed correctly in 19.0 minutes with six candidates and 38,279 output characters, but produced only 11 evidence items across 10 domains. That was one more candidate than the conservative 4-bit run, at slightly greater elapsed time, while evidence density fell from 2.60 to 1.83 items per candidate. Several results were broad routing concepts rather than clearly named, actionable programs. It remained far behind the matching DeepSeek stage's ten candidates and 33 evidence items.
+
+Final Phase 1 decision: stop before another category or the full run. Retain the original conservative two-search/five-fetch policy as the opt-in local configuration, now enforced deterministically by the Resource Scout plugins. Local Qwen is operational, private, and unmetered, but this evidence does not justify replacing the current DeepSeek research path. Phase 2 replacement work is therefore not started. A future model/runtime/search change must begin a new labeled calibration rather than reuse these results.
+
 ### Full run: 20 categories
+
+Not executed in Phase 1 because Calibration B and the tuned Calibration A retry failed their gates.
 
 - Run one category at a time.
 - Run stages in their normal order.

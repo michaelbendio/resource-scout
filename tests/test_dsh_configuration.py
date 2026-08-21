@@ -17,7 +17,7 @@ class DSHConfigurationTests(unittest.TestCase):
         configuration = resolve_dsh_configuration(LOCAL_QWEN_CONFIGURATION)
 
         self.assertEqual("qwen-local", configuration.model_provider)
-        self.assertEqual("mlx-community/Qwen3.8-27B-8bit", configuration.model)
+        self.assertEqual("mlx-community/Qwen3.8-27B-4bit", configuration.model)
         self.assertEqual("http://127.0.0.1:8080/v1", configuration.model_endpoint)
         self.assertEqual(65_536, configuration.context_window)
         self.assertEqual("medium", configuration.reasoning)

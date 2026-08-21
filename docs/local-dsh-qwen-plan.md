@@ -1,6 +1,6 @@
 # Local DSH and Qwen Plan
 
-Status: Approved for implementation. This document defines scope; implementation still follows the tested phase gates below.
+Status: Phase 1 implementation and calibration complete. The production cutover gate failed, so Phase 2 was not started.
 
 ## Objective
 
@@ -13,7 +13,7 @@ Resource Scout continues to own the research workflow, prompts, imported package
 - Keep DSH as the harness.
 - Keep the implementation in the Resource Scout repository initially.
 - Use DSH's existing generic `dsh-llm-pi-ai` adapter for the local model endpoint.
-- Start with `mlx-community/Qwen3.8-27B-8bit` served through an OpenAI-compatible MLX endpoint on `127.0.0.1:8080`.
+- Use `mlx-community/Qwen3.8-27B-4bit` through an OpenAI-compatible MLX endpoint on `127.0.0.1:8080`. Calibration rejected the 8-bit artifact for throughput and selected 4-bit for the final Phase 1 evaluation.
 - Start with a 65,536-token context limit and medium reasoning effort.
 - Add a Resource Scout-owned DDGS search provider for DSH.
 - Add a Resource Scout-owned safe HTTP fetch provider for DSH.
@@ -32,7 +32,7 @@ Resource Scout
     | one bounded stage prompt / one structured result
     v
 DSH headless composition
-    |-- local model provider --> MLX --> Qwen3.8-27B 8-bit
+    |-- local model provider --> MLX --> Qwen3.8-27B (calibration-selected quantization)
     |-- web_search -----------> DDGS
     `-- web_fetch ------------> safe local HTTP fetcher
 ```
@@ -201,11 +201,13 @@ Run the benchmark defined in `docs/mesa-qwen-deepseek-benchmark.md`. It starts w
 
 Gate: the 20-category comparison is complete and its quality, quantity, reliability, and timing criteria justify production use. A failed gate sends the work back to the relevant Phase 1 component; it does not trigger production cutover.
 
+Recorded outcome: the initial one-stage calibration passed operationally, but the complete Housing calibration was 62% slower than DeepSeek and produced 57% fewer candidates. A broader-search retry increased a representative stage by only one candidate while reducing evidence density. The gate failed, so the remaining 19 categories were not run.
+
 ### Phase 1 endpoint
 
 - Local Qwen research works through DSH in the foreground.
 - Search and page retrieval require no paid provider.
-- One isolated Mesa benchmark database contains the complete comparison.
+- One isolated Mesa benchmark database contains the frozen 20-category DeepSeek baseline, all Qwen calibration attempts, their raw outputs, and the completed Housing comparison.
 - The DeepSeek production service and live research database remain untouched.
 - The full automated test suite passes.
 - Phase 1 changes are reviewed, committed, and pushed.
@@ -213,6 +215,8 @@ Gate: the 20-category comparison is complete and its quality, quantity, reliabil
 ## Phase 2: production cutover
 
 Phase 2 operationalizes the proven Phase 1 configuration. It is not another model experiment.
+
+Status: not started. The Phase 1 evidence does not justify replacing the current production path with this Qwen configuration.
 
 ### Step 1: lock the approved stack
 
@@ -291,7 +295,7 @@ During Phase 2 stabilization:
 The following are optional improvements after Phase 2 and must not delay elimination of metered charges:
 
 - Benchmark BaseRT against the approved MLX baseline.
-- Compare 4-bit and 8-bit Qwen variants.
+- Revisit 4-bit versus 8-bit only if the selected 4-bit calibration reveals a material quality loss.
 - Replace DDGS with self-hosted SearXNG if discovery quality warrants it.
 - Add narrowly scoped browser automation for proven JavaScript-only coverage gaps.
 - Experiment with longer context or other reasoning levels.

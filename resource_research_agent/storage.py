@@ -150,6 +150,22 @@ CREATE TABLE IF NOT EXISTS research_run_stages (
     UNIQUE (run_id, stage_key),
     UNIQUE (run_id, position)
 );
+CREATE TABLE IF NOT EXISTS research_stage_attempts (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL REFERENCES research_runs(id) ON DELETE CASCADE,
+    stage_id INTEGER NOT NULL REFERENCES research_run_stages(id) ON DELETE CASCADE,
+    attempt_number INTEGER NOT NULL,
+    started_at TEXT NOT NULL,
+    completed_at TEXT,
+    status TEXT NOT NULL,
+    prompt_chars INTEGER NOT NULL DEFAULT 0,
+    output_chars INTEGER NOT NULL DEFAULT 0,
+    output_text TEXT NOT NULL DEFAULT '',
+    result_json TEXT,
+    usage_json TEXT,
+    error TEXT NOT NULL DEFAULT '',
+    UNIQUE (stage_id, attempt_number)
+);
 CREATE TABLE IF NOT EXISTS research_lessons (
     id INTEGER PRIMARY KEY,
     created_at TEXT NOT NULL,
@@ -316,6 +332,12 @@ class ResearchStore:
     def _recover_interrupted_runs(connection: sqlite3.Connection) -> None:
         now = datetime.now(timezone.utc).isoformat()
         message = "The app stopped before this research stage finished. Resume the run to retry it."
+        connection.execute(
+            """UPDATE research_stage_attempts
+               SET status = 'failed', completed_at = ?, error = ?
+               WHERE status = 'running'""",
+            (now, message),
+        )
         connection.execute(
             """UPDATE research_run_stages
                SET status = 'failed', completed_at = ?, error = ?
@@ -712,7 +734,7 @@ class ResearchStore:
     def save_settings(self, values: dict[str, Any]) -> dict[str, Any]:
         allowed = {
             "adapter", "hermesCommand", "hermesProfile", "hermesProvider", "hermesModel",
-            "dshCommand", "dshModel", "command", "profile", "provider", "model",
+            "dshCommand", "dshConfiguration", "dshModel", "command", "profile", "provider", "model",
             "timeoutSeconds", "maxTurns",
         }
         with self.connect() as connection:
@@ -831,15 +853,34 @@ class ResearchStore:
                     ),
                 )
 
-    def mark_stage_running(self, stage_id: int) -> None:
+    def mark_stage_running(self, stage_id: int, *, prompt_chars: int = 0) -> int:
         now = datetime.now(timezone.utc).isoformat()
         with self.connect() as connection:
+            stage = connection.execute(
+                "SELECT run_id FROM research_run_stages WHERE id = ?", (stage_id,)
+            ).fetchone()
+            if not stage:
+                raise ValueError("Research stage not found")
+            attempt_number = int(
+                connection.execute(
+                    "SELECT COALESCE(MAX(attempt_number), 0) + 1 AS value "
+                    "FROM research_stage_attempts WHERE stage_id = ?",
+                    (stage_id,),
+                ).fetchone()["value"]
+            )
             connection.execute(
                 """UPDATE research_run_stages
                    SET status = 'running', started_at = ?, completed_at = NULL, error = ''
                    WHERE id = ?""",
                 (now, stage_id),
             )
+            cursor = connection.execute(
+                """INSERT INTO research_stage_attempts (
+                       run_id, stage_id, attempt_number, started_at, status, prompt_chars
+                   ) VALUES (?, ?, ?, ?, 'running', ?)""",
+                (stage["run_id"], stage_id, attempt_number, now, max(0, prompt_chars)),
+            )
+        return int(cursor.lastrowid)
 
     def complete_stage(
         self,
@@ -847,6 +888,8 @@ class ResearchStore:
         output: str,
         result: dict[str, Any],
         usage: dict[str, Any] | None,
+        *,
+        attempt_id: int | None = None,
     ) -> None:
         now = datetime.now(timezone.utc).isoformat()
         with self.connect() as connection:
@@ -857,8 +900,21 @@ class ResearchStore:
                    WHERE id = ?""",
                 (now, output, _json(result), _json(usage) if usage else None, stage_id),
             )
+            if attempt_id is not None:
+                connection.execute(
+                    """UPDATE research_stage_attempts
+                       SET status = 'completed', completed_at = ?, output_chars = ?,
+                           output_text = ?, result_json = ?, usage_json = ?, error = ''
+                       WHERE id = ? AND stage_id = ?""",
+                    (
+                        now, len(output), output, _json(result),
+                        _json(usage) if usage else None, attempt_id, stage_id,
+                    ),
+                )
 
-    def fail_stage(self, stage_id: int, error: str, output: str = "") -> None:
+    def fail_stage(
+        self, stage_id: int, error: str, output: str = "", *, attempt_id: int | None = None
+    ) -> None:
         now = datetime.now(timezone.utc).isoformat()
         with self.connect() as connection:
             connection.execute(
@@ -867,6 +923,33 @@ class ResearchStore:
                    WHERE id = ?""",
                 (now, output, error, stage_id),
             )
+            if attempt_id is not None:
+                connection.execute(
+                    """UPDATE research_stage_attempts
+                       SET status = 'failed', completed_at = ?, output_chars = ?,
+                           output_text = ?, error = ? WHERE id = ? AND stage_id = ?""",
+                    (now, len(output), output, error, attempt_id, stage_id),
+                )
+
+    def list_stage_attempts(self, stage_id: int) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                "SELECT * FROM research_stage_attempts WHERE stage_id = ? ORDER BY attempt_number",
+                (stage_id,),
+            ).fetchall()
+        return [
+            {
+                "id": row["id"], "runId": row["run_id"], "stageId": row["stage_id"],
+                "attemptNumber": row["attempt_number"], "startedAt": row["started_at"],
+                "completedAt": row["completed_at"], "status": row["status"],
+                "promptChars": row["prompt_chars"], "outputChars": row["output_chars"],
+                "output": row["output_text"],
+                "result": json.loads(row["result_json"]) if row["result_json"] else None,
+                "usage": json.loads(row["usage_json"]) if row["usage_json"] else None,
+                "error": row["error"],
+            }
+            for row in rows
+        ]
 
     def update_run_progress(
         self,

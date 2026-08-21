@@ -15,6 +15,7 @@ from resource_research_agent.agents import (
     DSHCLIAdapter,
     HermesCLIAdapter,
     ResearchAgentAdapter,
+    _extract_json_object,
     build_adapter,
 )
 from resource_research_agent.importer import ResourcePackageImporter
@@ -48,6 +49,22 @@ class ResearchWorkflowTests(unittest.TestCase):
 
     def tearDown(self) -> None:
         self.directory.cleanup()
+
+    def test_json_extraction_repairs_only_a_missing_top_level_closing_brace(self) -> None:
+        repaired = _extract_json_object(
+            '{"candidates":[{"name":"Mesa Housing"}],"lessons":[]'
+        )
+        self.assertEqual("Mesa Housing", repaired["candidates"][0]["name"])
+
+        malformed_values = (
+            '{"candidates":[{"name":"Mesa Housing"}],"lessons":',
+            '{"candidates":[{"name":"Mesa Housing}],"lessons":[]',
+            '{"candidates":[],"lessons":[],}',
+        )
+        for malformed in malformed_values:
+            with self.subTest(malformed=malformed):
+                with self.assertRaises(AgentRunError):
+                    _extract_json_object(malformed)
 
     def test_demo_research_run_creates_separate_candidate_and_review_lesson(self) -> None:
         self.store.save_settings({"adapter": "demo"})
@@ -240,6 +257,12 @@ class ResearchWorkflowTests(unittest.TestCase):
         )
         history = next(item for item in self.store.list_runs() if item["id"] == run["id"])
         self.assertEqual("Mesa TSO", history["sourceOfficeName"])
+        for _ in range(200):
+            current = self.store.get_run(run["id"])
+            if current and current["status"] in {"completed", "failed", "partial"}:
+                break
+            time.sleep(0.01)
+        self.assertEqual("completed", current["status"])
 
     def test_staged_run_keeps_partial_candidates_and_resumes_without_repeating_work(self) -> None:
         class FlakyStagedAdapter(ResearchAgentAdapter):
@@ -398,6 +421,32 @@ class ResearchWorkflowTests(unittest.TestCase):
         self.assertEqual("partial", recovered["status"])
         self.assertEqual(["completed", "failed"], [stage["status"] for stage in recovered["stages"]])
         self.assertIn("app stopped", recovered["error"].lower())
+        interrupted = reopened.list_stage_attempts(stages[1]["id"])
+        self.assertEqual("failed", interrupted[0]["status"])
+        self.assertIn("app stopped", interrupted[0]["error"].lower())
+
+    def test_stage_attempts_preserve_success_and_retry_provenance(self) -> None:
+        run_id = self.store.create_research_run(
+            "dsh", "Research Mesa", {"selectedSeed": None},
+            research_mode="standalone-location", target_location="Mesa, Arizona",
+            stages=[{"key": "one", "title": "First", "instruction": "Research"}],
+        )
+        stage_id = self.store.list_run_stages(run_id)[0]["id"]
+        failed_attempt = self.store.mark_stage_running(stage_id, prompt_chars=321)
+        self.store.fail_stage(stage_id, "temporary failure", "partial", attempt_id=failed_attempt)
+        completed_attempt = self.store.mark_stage_running(stage_id, prompt_chars=654)
+        self.store.complete_stage(
+            stage_id, "finished", {"summary": "done"}, {"model": "local"},
+            attempt_id=completed_attempt,
+        )
+
+        attempts = self.store.list_stage_attempts(stage_id)
+        self.assertEqual([1, 2], [item["attemptNumber"] for item in attempts])
+        self.assertEqual(["failed", "completed"], [item["status"] for item in attempts])
+        self.assertEqual(321, attempts[0]["promptChars"])
+        self.assertEqual("temporary failure", attempts[0]["error"])
+        self.assertEqual(8, attempts[1]["outputChars"])
+        self.assertEqual("local", attempts[1]["usage"]["model"])
 
     def test_hermes_cli_adapter_uses_oneshot_and_parses_json(self) -> None:
         fake = self.root / "fake_hermes.py"
@@ -478,6 +527,64 @@ class ResearchWorkflowTests(unittest.TestCase):
         self.assertFalse(status["configured"])
         self.assertFalse(status["ready"])
         self.assertIsInstance(build_adapter(settings), DSHCLIAdapter)
+
+    def test_dsh_adapter_routes_local_qwen_without_a_deepseek_key(self) -> None:
+        fake = self.root / "fake_local_dsh.py"
+        invocation = self.root / "local-dsh-invocation.json"
+        fake.write_text(
+            "import json, os, pathlib, sys\n"
+            "if '--version' in sys.argv:\n"
+            "    print('dsh 0.test')\n"
+            "    raise SystemExit(0)\n"
+            "patches = [pathlib.Path(sys.argv[i + 1]).read_text() for i, value in enumerate(sys.argv) if value == '--patch']\n"
+            f"pathlib.Path({str(invocation)!r}).write_text(json.dumps({{'argv': sys.argv, 'hasDeepSeekKey': 'DEEPSEEK_API_KEY' in os.environ, 'patches': patches}}))\n"
+            "print(json.dumps({'summary':'local done','candidates':[{'name':'Qwen Place'}],'lessons':[]}))\n",
+            encoding="utf-8",
+        )
+        settings = {
+            "adapter": "dsh",
+            "dshConfiguration": "local-qwen",
+            "dshCommand": f"{os.sys.executable} {fake}",
+            "dshModel": "deepseek-v4-flash",
+            "timeoutSeconds": 30,
+        }
+        with patch.dict(os.environ, {"DEEPSEEK_API_KEY": "must-not-be-forwarded"}):
+            with patch("resource_research_agent.agents.validated_health", return_value={"ready": True}):
+                adapter = DSHCLIAdapter(settings)
+                status = adapter.status()
+                result = adapter.run("Research Housing")
+
+        call = json.loads(invocation.read_text(encoding="utf-8"))
+        self.assertTrue(status["ready"])
+        self.assertEqual("Local Qwen - no metered services", status["configurationDisplayName"])
+        self.assertEqual(3, call["argv"].count("--patch"))
+        self.assertFalse(call["hasDeepSeekKey"])
+        self.assertIn("provider: qwen-local", call["patches"][1])
+        self.assertIn("disabled: true", call["patches"][1])
+        self.assertIn("provider: qwen-local", call["patches"][2])
+        self.assertNotIn("deepseek-v4-flash", call["patches"][2])
+        self.assertEqual("Qwen Place", result.result["candidates"][0]["name"])
+        self.assertEqual("local-qwen", result.usage["configuration"])
+        self.assertEqual("qwen-local", result.usage["provider"])
+        self.assertEqual("mlx-lm", result.usage["runtime"])
+        self.assertEqual("4-bit", result.usage["quantization"])
+        self.assertEqual("ddgs", result.usage["searchProvider"])
+        self.assertEqual("safe-http", result.usage["fetchProvider"])
+        self.assertFalse(result.usage["metered"])
+
+    def test_dsh_configuration_selection_round_trips_through_settings(self) -> None:
+        saved = self.store.save_settings({
+            "adapter": "dsh",
+            "dshConfiguration": "local-qwen",
+            "dshModel": "must-not-override-local-qwen",
+        })
+
+        self.assertEqual("dsh", saved["adapter"])
+        self.assertEqual("local-qwen", saved["dshConfiguration"])
+        self.assertEqual("must-not-override-local-qwen", saved["dshModel"])
+        adapter = build_adapter(saved)
+        self.assertIsInstance(adapter, DSHCLIAdapter)
+        self.assertEqual("local-qwen", adapter._configuration().key)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 data/
 dsh-runtime/node_modules/
 dsh-runtime/.npm-cache/
+dsh-runtime/.dsh-home/
 *.sqlite3
 __pycache__/
 .DS_Store
