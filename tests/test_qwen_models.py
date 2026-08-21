@@ -10,6 +10,7 @@ from resource_research_agent.optimization import HOUSING_FACTUAL_FIELDS
 from resource_research_agent.optimization_models import (
     OptimizationModelError,
     OptimizationModelPipeline,
+    restore_frozen_source_envelopes,
 )
 from resource_research_agent.optimization_pipeline import OptimizationDiscoveryPipeline
 from resource_research_agent.storage import ResearchStore
@@ -168,6 +169,28 @@ class SeededFixtureModels:
 
 
 class ModelPipelineTests(unittest.TestCase):
+    def test_frozen_source_envelope_is_restored_without_hiding_invented_ids(self) -> None:
+        packet = {
+            "sources": [
+                {
+                    "id": 7,
+                    "canonical_url": "https://example.org/program",
+                    "authority": "direct-provider",
+                    "page_identity_key": "example::program",
+                    "extract": {"title": "Program", "text": "Frozen exact text"},
+                }
+            ]
+        }
+        dossier = {
+            "sources": [
+                {"id": "7", "extract": "model summary", "supports": []},
+                {"id": "invented", "extract": "made up", "supports": []},
+            ]
+        }
+        restored = restore_frozen_source_envelopes(dossier, packet)
+        self.assertEqual("Frozen exact text", restored["sources"][0]["extract"])
+        self.assertEqual("made up", restored["sources"][1]["extract"])
+
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory()
         self.store = ResearchStore(Path(self.temporary.name) / "research.sqlite3")

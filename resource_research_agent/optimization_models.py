@@ -153,6 +153,40 @@ def validate_dossier_for_packet(
     return issues
 
 
+def restore_frozen_source_envelopes(
+    dossier: dict[str, Any], packet: dict[str, Any]
+) -> dict[str, Any]:
+    restored = json.loads(canonical_json(dossier))
+    packet_sources = {
+        str(source.get("id")): source
+        for source in packet.get("sources", [])
+        if isinstance(source, dict) and source.get("id") is not None
+    }
+    sources = []
+    for source in restored.get("sources", []):
+        if not isinstance(source, dict):
+            sources.append(source)
+            continue
+        frozen = packet_sources.get(str(source.get("id") or ""))
+        if frozen is None:
+            sources.append(source)
+            continue
+        page_identity_key = str(frozen.get("page_identity_key") or "")
+        sources.append(
+            {
+                **source,
+                "url": frozen.get("canonical_url"),
+                "title": frozen.get("extract", {}).get("title", ""),
+                "extract": frozen.get("extract", {}).get("text"),
+                "authority": frozen.get("authority"),
+                "pageIdentityKey": page_identity_key,
+                "pageOrganizationKey": page_identity_key.split("::", 1)[0],
+            }
+        )
+    restored["sources"] = sources
+    return restored
+
+
 class OptimizationModelPipeline:
     def __init__(
         self,
@@ -436,7 +470,8 @@ class OptimizationModelPipeline:
                 ],
                 "rules": [
                     "Return every required factual field under verifiedDossier.fields.",
-                    "Preserve frozen source text and identity exactly.",
+                    "Preserve source ids and identity exactly.",
+                    "Scout restores immutable source text, URL, authority, and page identity from the frozen packet after this response.",
                     "Do not add sources or replacement facts.",
                     "Do not use markdown fences or commentary outside the JSON object.",
                 ],
@@ -448,6 +483,7 @@ class OptimizationModelPipeline:
             verified = invocation.result.get("verifiedDossier")
             if not isinstance(verified, dict):
                 raise OptimizationModelError("Verifier returned no verifiedDossier object")
+            verified = restore_frozen_source_envelopes(verified, packet)
             verifier_findings = invocation.result.get("findings", [])
             if not isinstance(verifier_findings, list):
                 raise OptimizationModelError("Verifier findings must be an array")
