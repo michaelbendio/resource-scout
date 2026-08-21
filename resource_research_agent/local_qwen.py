@@ -21,6 +21,10 @@ MLX_SERVER_ENV = "RESOURCE_SCOUT_MLX_SERVER"
 HOMEBREW_MLX_SERVER = Path("/opt/homebrew/opt/mlx-lm/bin/mlx_lm.server")
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 HEALTH_STAMP = PROJECT_ROOT / "data" / "local-qwen-health.json"
+PINNED_MODELS = {
+    "4-bit": "mlx-community/Qwen3.8-27B-4bit",
+    "8-bit": "mlx-community/Qwen3.8-27B-8bit",
+}
 
 
 class LocalQwenError(RuntimeError):
@@ -41,7 +45,9 @@ def find_mlx_server(environment: dict[str, str] | None = None) -> Path | None:
     return None
 
 
-def server_command(executable: Path, *, port: int = 8081) -> list[str]:
+def server_command(
+    executable: Path, *, port: int = 8081, model: str | None = None
+) -> list[str]:
     configuration = resolve_dsh_configuration(LOCAL_QWEN_CONFIGURATION)
     endpoint = configuration.model_endpoint.removesuffix("/v1")
     if endpoint != "http://127.0.0.1:8080":
@@ -49,7 +55,7 @@ def server_command(executable: Path, *, port: int = 8081) -> list[str]:
     return [
         str(executable),
         "--model",
-        configuration.model,
+        model or configuration.model,
         "--host",
         "127.0.0.1",
         "--port",
@@ -179,23 +185,24 @@ def _request_json(
     return value
 
 
-def catalog_health(timeout: float = 5.0) -> dict[str, Any]:
+def catalog_health(timeout: float = 5.0, *, model: str | None = None) -> dict[str, Any]:
     configuration = resolve_dsh_configuration(LOCAL_QWEN_CONFIGURATION)
+    expected_model = model or configuration.model
     value = _request_json(f"{configuration.model_endpoint}/models", timeout=timeout)
     entries = value.get("data")
     if not isinstance(entries, list):
         raise LocalQwenError("Local Qwen model catalog did not contain a data array")
     model_entries = [entry for entry in entries if isinstance(entry, dict)]
     model_ids = [str(entry.get("id")) for entry in model_entries]
-    if configuration.model not in model_ids:
+    if expected_model not in model_ids:
         raise LocalQwenError(
-            f"The MLX server does not report {configuration.model}. "
+            f"The MLX server does not report {expected_model}. "
             "Download or start the pinned model before continuing."
         )
     return {
         "ready": True,
         "endpoint": configuration.model_endpoint,
-        "model": configuration.model,
+        "model": expected_model,
         "availableModels": model_ids,
     }
 
@@ -228,14 +235,17 @@ def server_identity() -> dict[str, Any]:
     return {"serverPid": int(pid), "serverStarted": started}
 
 
-def completion_health(timeout: float = 300.0) -> dict[str, Any]:
+def completion_health(
+    timeout: float = 300.0, *, model: str | None = None
+) -> dict[str, Any]:
     configuration = resolve_dsh_configuration(LOCAL_QWEN_CONFIGURATION)
-    catalog_health(timeout=min(timeout, 5.0))
+    expected_model = model or configuration.model
+    catalog_health(timeout=min(timeout, 5.0), model=expected_model)
     value = _request_json(
         f"{configuration.model_endpoint}/chat/completions",
         timeout=timeout,
         payload={
-            "model": configuration.model,
+            "model": expected_model,
             "messages": [
                 {"role": "user", "content": "Reply with exactly: LOCAL_QWEN_READY"}
             ],
@@ -254,7 +264,7 @@ def completion_health(timeout: float = 300.0) -> dict[str, Any]:
     if "LOCAL_QWEN_READY" not in content:
         raise LocalQwenError("Local Qwen completion did not return the readiness marker")
     return {
-        **catalog_health(timeout=min(timeout, 5.0)),
+        **catalog_health(timeout=min(timeout, 5.0), model=expected_model),
         **server_identity(),
         "completion": content,
     }
@@ -289,7 +299,7 @@ def validated_health(timeout: float = 2.0, path: Path = HEALTH_STAMP) -> dict[st
     return {**catalog, **identity, "validated": True}
 
 
-def _serve() -> int:
+def _serve(model: str | None = None) -> int:
     executable = find_mlx_server()
     if executable is None:
         raise LocalQwenError(
@@ -304,9 +314,10 @@ def _serve() -> int:
         raise LocalQwenError(
             "Port 8080 is already serving an MLX API. Stop that process before starting the pinned Local Qwen server."
         )
-    command = server_command(executable, port=8081)
+    expected_model = model or configuration.model
+    command = server_command(executable, port=8081, model=expected_model)
     print(
-        f"Starting {configuration.model} behind the local compatibility endpoint "
+        f"Starting {expected_model} behind the local compatibility endpoint "
         f"{configuration.model_endpoint}",
         flush=True,
     )
@@ -335,14 +346,16 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Manage the Phase 1 Local Qwen runtime")
     parser.add_argument("action", choices=("serve", "catalog", "health"))
     parser.add_argument("--timeout", type=float, default=None)
+    parser.add_argument("--quantization", choices=tuple(PINNED_MODELS), default="4-bit")
     arguments = parser.parse_args(argv)
+    model = PINNED_MODELS[arguments.quantization]
     try:
         if arguments.action == "serve":
-            return _serve()
+            return _serve(model)
         if arguments.action == "catalog":
-            result = catalog_health(timeout=arguments.timeout or 5.0)
+            result = catalog_health(timeout=arguments.timeout or 5.0, model=model)
         else:
-            result = completion_health(timeout=arguments.timeout or 300.0)
+            result = completion_health(timeout=arguments.timeout or 300.0, model=model)
             write_health_stamp(result)
     except LocalQwenError as exc:
         print(str(exc), file=sys.stderr)

@@ -14,6 +14,7 @@ from resource_research_agent.dsh_configuration import (
 )
 from resource_research_agent.local_qwen import (
     LocalQwenError,
+    PINNED_MODELS,
     catalog_health,
     completion_health,
     find_mlx_server,
@@ -57,6 +58,11 @@ class LocalQwenRuntimeTests(unittest.TestCase):
             {"enable_thinking": True, "reasoning_effort": "medium"},
             json.loads(command[command.index("--chat-template-args") + 1]),
         )
+
+    def test_server_command_can_select_either_pinned_quantization(self) -> None:
+        for quantization, model in PINNED_MODELS.items():
+            command = server_command(Path("/test/mlx_lm.server"), model=model)
+            self.assertEqual(model, command[command.index("--model") + 1], quantization)
 
     def test_compatibility_payload_adapts_dsh_without_changing_the_input(self) -> None:
         original = {
