@@ -1,14 +1,6 @@
 'use strict';
 
 (function (root) {
-  const DECISIONS = ['accepted', 'research-further', 'already-known', 'wrong-category', 'rejected'];
-  const DECISION_LABELS = {
-    accepted: 'Ready for package',
-    'research-further': 'In progress',
-    'already-known': 'Already known',
-    'wrong-category': 'Wrong category',
-    rejected: 'Reject',
-  };
   const MATCH_LABELS = {
     'same-resource': 'Same resource',
     'same-organization-different-program': 'Same organization, different program',
@@ -55,7 +47,7 @@
   }
 
   function normalizeDecision(value) {
-    return DECISIONS.includes(value) ? value : '';
+    return value === 'accepted' ? 'accepted' : '';
   }
 
   function categoryLabel(category) {
@@ -116,11 +108,9 @@
     review.candidates.forEach(item => {
       candidates[item.id] = {
         decision: normalizeDecision(item.status),
-        feedback: asText(item.reviewFeedback || item.notes),
         sourceNotes: asText(item.notes),
         curatorNotes: asText(item.notes),
         originalReviewFeedback: asText(item.reviewFeedback),
-        useForFutureResearch: Boolean(item.useForFutureResearch),
         matchAssessment: item.matchAssessment || '',
         reviewedAt: item.reviewedAt || null,
         updatedAt: item.updatedAt || review.exportedAt,
@@ -165,6 +155,7 @@
     review.candidates.forEach(item => {
       const itemState = restored.candidates[item.id];
       if (!itemState) return;
+      itemState.decision = normalizeDecision(itemState.decision);
       if (typeof itemState.curatorNotes !== 'string') {
         itemState.curatorNotes = asText(itemState.sourceNotes || item.notes);
       }
@@ -344,13 +335,13 @@
     return concatBytes([...locals, centralBytes, end]);
   }
 
-  const core = { DECISIONS, DECISION_LABELS, MATCH_LABELS, initialState, validateFeedback, validateDraft, buildResourcePackage, removePackagedCandidates, createZipBytes, createZipArchive, base64ToBytes, checklistItems, toggleChecklistItem };
+  const core = { MATCH_LABELS, initialState, validateFeedback, validateDraft, buildResourcePackage, removePackagedCandidates, createZipBytes, createZipArchive, base64ToBytes, checklistItems, toggleChecklistItem };
   root.ReviewAppCore = core;
   if (typeof document === 'undefined') return;
 
   const review = JSON.parse(document.querySelector('#review-data').textContent);
   const storageKey = `resource-research-review:${review.reviewId}`;
-  const view = { search: '', status: '', currentId: null, dirty: false, persisted: false, notesMode: 'edit', editorTab: 'resource', informationMode: 'preview', topWindow: 10, saveGuidanceSeen: false, packageGuidanceSeen: false };
+  const view = { search: '', status: '', currentId: null, dirty: false, persisted: false, notesMode: 'edit', editorTab: 'resource', informationMode: 'preview', openTaxonomyCategoryId: null, topWindow: 10, saveGuidanceSeen: false, packageGuidanceSeen: false };
   let state = initialState(review);
 
   function formatWhen(value) {
@@ -408,7 +399,11 @@
   }
 
   function decisionText(item) {
-    return DECISION_LABELS[candidateState(item).decision] || 'Not reviewed';
+    return candidateState(item).decision === 'accepted' ? 'Ready for package' : 'Not ready';
+  }
+
+  function decisionClass(item) {
+    return candidateState(item).decision === 'accepted' ? 'accepted' : 'not-ready';
   }
 
   function download(filename, content, type) {
@@ -516,20 +511,21 @@
     const remaining = remainingCandidates();
     const candidates = remaining.filter(item => {
       const itemState = candidateState(item);
-      if (view.status && itemState.decision !== view.status) return false;
+      const ready = itemState.decision === 'accepted';
+      if (view.status === 'ready' && !ready) return false;
+      if (view.status === 'not-ready' && ready) return false;
       if (!wanted) return true;
-      return [item.name, asText(item.candidate?.organization), asText(item.candidate?.program), asText(item.candidate?.description), itemState.feedback]
+      return [item.name, asText(item.candidate?.organization), asText(item.candidate?.program), asText(item.candidate?.description)]
         .join(' ').toLocaleLowerCase().includes(wanted);
     });
-    const reviewed = remaining.filter(item => Boolean(candidateState(item).decision)).length;
     const ready = remaining.filter(item => candidateState(item).decision === 'accepted').length;
-    document.querySelector('#candidate-count').textContent = `${candidates.length} of ${remaining.length} candidates shown · ${reviewed} reviewed · ${ready} ready`;
+    document.querySelector('#candidate-count').textContent = `${candidates.length} of ${remaining.length} candidates shown · ${ready} ready`;
     const target = document.querySelector('#candidate-list');
     if (!candidates.length) { target.replaceChildren(element('div', 'empty', remaining.length ? 'No candidates match this filter.' : 'No candidates remain in Curator.')); return; }
     target.replaceChildren(...candidates.map(item => {
       const button = element('button', 'candidate'); button.type = 'button';
       const head = element('div', 'candidate-head');
-      const status = element('span', `status ${candidateState(item).decision || 'unreviewed'}`, decisionText(item));
+      const status = element('span', `status ${decisionClass(item)}`, decisionText(item));
       head.append(element('strong', '', item.name), status);
       const description = asText(item.candidate?.serviceNeed || item.candidate?.housingNeed || item.candidate?.description || item.candidate?.resourceType || 'Awaiting review');
       button.append(head, element('p', 'candidate-description', description));
@@ -677,8 +673,8 @@
             let left = startLeft; let right = startRight; let top = startTop; let bottom = startBottom;
             if (direction.includes('e')) right = clamp(startRight + dx, startLeft + 300, canvas.width);
             if (direction.includes('w')) left = clamp(startLeft + dx, 0, startRight - 300);
-            if (direction.includes('s')) bottom = clamp(startBottom + dy, startTop + 210, canvas.height);
-            if (direction.includes('n')) top = clamp(startTop + dy, 0, startBottom - 210);
+            if (direction.includes('s')) bottom = clamp(startBottom + dy, startTop + 60, canvas.height);
+            if (direction.includes('n')) top = clamp(startTop + dy, 0, startBottom - 60);
             windowElement.style.left = `${left}px`; windowElement.style.top = `${top}px`;
             windowElement.style.width = `${right - left}px`; windowElement.style.height = `${bottom - top}px`;
           };
@@ -790,10 +786,20 @@
   function renderCategoriesEditor(item) {
     const categories = element('div', 'editor-choice-list');
     categories.append(element('p', 'muted', 'Add Types that are not already available within a category. Type deletion remains in TSO Resources.'));
+    const grid = element('div', 'taxonomy-category-grid');
     (review.sourcePackage?.categorySummaries || []).forEach(category => {
       const id = String(category.id);
-      const option = element('div', 'editor-choice-group');
-      option.append(element('strong', 'taxonomy-heading', categoryLabel(category)));
+      const expanded = view.openTaxonomyCategoryId === id;
+      const option = element('section', `taxonomy-category ${expanded ? 'expanded' : ''}`);
+      const heading = element('button', 'taxonomy-category-button', categoryLabel(category));
+      heading.type = 'button';
+      heading.setAttribute('aria-expanded', String(expanded));
+      heading.addEventListener('click', () => {
+        view.openTaxonomyCategoryId = expanded ? null : id;
+        openCandidate(item.id);
+      });
+      option.append(heading);
+      if (!expanded) { grid.append(option); return; }
       const typeList = element('div', 'taxonomy-value-list');
       const types = state.taxonomyDraft.categoryTypes[id] || [];
       if (!types.length) typeList.append(element('p', 'muted', 'No Types defined.'));
@@ -801,12 +807,13 @@
         const row = element('div', 'taxonomy-value-row'); row.append(element('span', '', type));
         typeList.append(row);
       });
-      option.append(typeList, taxonomyAddRow('New Type', 'Add Type', value => {
+      option.append(typeList, taxonomyAddRow('New Type', 'New', value => {
         if (types.some(existing => existing.toLocaleLowerCase() === value.toLocaleLowerCase())) return false;
         state.taxonomyDraft.categoryTypes[id] = [...types, value]; markTaxonomyChanged(id); rerenderCandidate(item); return true;
       }));
-      categories.append(option);
+      grid.append(option);
     });
+    categories.append(grid);
     return categories;
   }
 
@@ -932,14 +939,14 @@
 
   function renderReviewEditor(item) {
     const itemState = candidateState(item);
-    const editor = element('section', 'review-editor'); editor.append(element('p', 'section-label', 'Your review'), element('h3', '', 'Decision and feedback'));
-    const decisions = element('div', 'decision-grid');
-    DECISIONS.forEach(value => {
-      const button = element('button', `decision ${value === itemState.decision ? 'selected' : ''}`, DECISION_LABELS[value]); button.type = 'button';
-      button.addEventListener('click', () => { itemState.decision = value; itemState.reviewedAt = new Date().toISOString(); persist(); renderCandidates(); openCandidate(item.id); });
-      decisions.append(button);
+    const editor = element('section', 'review-editor'); editor.append(element('p', 'section-label', 'Your review'));
+    const ready = checkbox('Ready for package', itemState.decision === 'accepted', checked => {
+      itemState.decision = checked ? 'accepted' : '';
+      itemState.reviewedAt = new Date().toISOString();
+      persist(); renderCandidates(); openCandidate(item.id);
     });
-    editor.append(decisions);
+    ready.classList.add('ready-toggle');
+    editor.append(ready);
     if (item.knownResourceMatch) {
       const match = element('fieldset', 'match-card'); match.append(element('legend', '', `Relationship to ${item.knownResourceMatch.name}`), element('p', 'muted', 'Choose the best description of the relationship. This similarity warning is not proof of a duplicate.'));
       Object.entries(MATCH_LABELS).forEach(([value, label]) => {
@@ -949,10 +956,6 @@
       });
       editor.append(match);
     }
-    const feedback = inputField('Feedback for future research', 'feedback', itemState.feedback, true); feedback.classList.add('feedback-field');
-    const textarea = feedback.querySelector('textarea'); textarea.removeAttribute('data-resource-field'); textarea.placeholder = 'Why? What should the researcher notice next time?';
-    textarea.addEventListener('input', () => { itemState.feedback = textarea.value; persist(); }); editor.append(feedback);
-    editor.append(checkbox('Use this feedback in future research', itemState.useForFutureResearch, checked => { itemState.useForFutureResearch = checked; persist(); }));
     if (review.sourcePackage?.packageEligible && itemState.resourceDraft) editor.append(renderResourceEditor(item, itemState));
     else if (itemState.decision === 'accepted') editor.append(element('p', 'standalone-note', review.sourcePackage
       ? 'This source package does not use the supported package schema. The work and decision can be saved, but it cannot create a resource package.'
@@ -966,7 +969,7 @@
     if (!item) return;
     document.querySelector('#candidate-name').textContent = item.name;
     document.querySelector('#notes-window-title').textContent = `Notes — ${item.name}`;
-    const status = document.querySelector('#candidate-status'); status.className = `status ${candidateState(item).decision || 'unreviewed'}`; status.textContent = decisionText(item);
+    const status = document.querySelector('#candidate-status'); status.className = `status ${decisionClass(item)}`; status.textContent = decisionText(item);
     document.querySelector('#candidate-research').replaceChildren(candidateDetails(item));
     document.querySelector('#candidate-editor').replaceChildren(renderReviewEditor(item));
     renderNotes(item);
@@ -1009,7 +1012,7 @@
     const packageLabel = packageInfo ? `${packageInfo.sourceName.replace(/\.zip$/i, '')} ${packageInfo.packageVersion}` : (standalone ? review.run.targetLocation : 'no package');
     document.querySelector('#run-compact').textContent = `${formatCompactWhen(review.run.completedAt)}, ${review.run.targetCategoryLabel}, ${packageLabel}${review.run.status === 'completed' ? '' : `, ${friendly(review.run.status)}`}`;
     renderLessons();
-    const filter = document.querySelector('#status-filter'); DECISIONS.forEach(value => { const option = document.createElement('option'); option.value = value; option.textContent = DECISION_LABELS[value]; filter.append(option); });
+    const filter = document.querySelector('#status-filter');
     document.querySelector('#search').addEventListener('input', event => { view.search = event.target.value; renderCandidates(); });
     filter.addEventListener('change', event => { view.status = event.target.value; renderCandidates(); });
     const reviewer = document.querySelector('#reviewer-name'); reviewer.value = state.reviewerName || ''; reviewer.addEventListener('input', () => { state.reviewerName = reviewer.value; persist(); });
