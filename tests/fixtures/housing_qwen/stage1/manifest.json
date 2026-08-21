@@ -1,0 +1,191 @@
+{
+  "existingResources": [
+    {
+      "resourceId": "existing-mesacan",
+      "organization": "A New Leaf",
+      "program": "MesaCAN"
+    },
+    {
+      "resourceId": "existing-hamc-voucher",
+      "organization": "Housing Authority of Maricopa County",
+      "program": "Housing Choice Voucher"
+    }
+  ],
+  "searchResults": {
+    "official-city-1": [
+      {
+        "url": "https://mesaaz.gov/housing/off-the-streets?utm_source=fixture",
+        "title": "Off the Streets",
+        "snippet": "Fixture city emergency-access program.",
+        "identity": {
+          "organization": "City of Mesa",
+          "program": "Off the Streets",
+          "directDomains": [],
+          "decisionReason": "The result names one city program."
+        }
+      }
+    ],
+    "official-county-1": [
+      {
+        "url": "https://maricopa.gov/housing/voucher",
+        "title": "Housing Choice Voucher",
+        "snippet": "Fixture county housing-authority result.",
+        "identity": {
+          "organization": "Housing Authority of Maricopa County",
+          "program": "Housing Choice Voucher",
+          "directDomains": ["maricopa.gov"],
+          "decisionReason": "Exact organization-plus-program identity."
+        }
+      }
+    ],
+    "official-state-1": [
+      {
+        "url": "https://housing.az.gov/emergency/shelter-referral",
+        "title": "State Shelter Referral",
+        "snippet": "Fixture authoritative statewide referral path.",
+        "identity": {
+          "organization": "Arizona Department of Housing",
+          "program": "State Shelter Referral",
+          "directDomains": [],
+          "decisionReason": "The state page describes one named referral program."
+        }
+      }
+    ],
+    "coordinated-entry-and-211-1": [
+      {
+        "url": "https://keystochangeaz.example/brian-garcia-welcome-center",
+        "title": "Brian Garcia Welcome Center",
+        "snippet": "Fixture coordinated-entry access point.",
+        "identity": {
+          "organization": "Keys to Change",
+          "program": "Brian Garcia Welcome Center",
+          "directDomains": ["keystochangeaz.example"],
+          "decisionReason": "The access point is retained separately from shelter operators."
+        }
+      }
+    ],
+    "direct-providers-1": [
+      {
+        "url": "https://turnanewleaf.example/services/rapid-re-housing/",
+        "title": "Rapid Re-Housing",
+        "snippet": "Fixture direct-provider program page.",
+        "identity": {
+          "organization": "A New Leaf",
+          "program": "Rapid Re-Housing",
+          "directDomains": ["turnanewleaf.example"],
+          "decisionReason": "This is distinct from the existing MesaCAN program."
+        }
+      }
+    ],
+    "specialized-safety-1": [
+      {
+        "url": "https://umom.example/housing/halle-womens-center",
+        "title": "Halle Women's Center",
+        "snippet": "Fixture specialized shelter page.",
+        "identity": {
+          "organization": "UMOM New Day Centers",
+          "program": "Halle Women's Center",
+          "directDomains": ["umom.example"],
+          "decisionReason": "The result identifies the women's center separately from family shelter."
+        }
+      }
+    ],
+    "temporary-lodging-1": [
+      {
+        "url": "https://bridgehousing.example/programs/emergency-lodging",
+        "title": "Emergency Lodging Program",
+        "snippet": "Fixture temporary-lodging program.",
+        "identity": {
+          "organization": "Bridge Housing Network",
+          "program": "Emergency Lodging Program",
+          "directDomains": ["bridgehousing.example"],
+          "decisionReason": "The result names one actionable lodging program."
+        }
+      }
+    ],
+    "regional-serving-target-1": [
+      {
+        "url": "https://cassaz.example/emergency-shelter/mesa-access",
+        "title": "CASS Emergency Shelter Mesa Access",
+        "snippet": "Fixture regional program explicitly serving Mesa.",
+        "identity": {
+          "organization": "Central Arizona Shelter Services",
+          "program": "Emergency Shelter",
+          "directDomains": ["cassaz.example"],
+          "decisionReason": "The page explicitly describes the shelter program and Mesa access."
+        }
+      }
+    ],
+    "access-barriers-1": [
+      {
+        "url": "https://lostourhome.example/programs/temporary-care",
+        "title": "Temporary Care Program",
+        "snippet": "Fixture pet-barrier support program.",
+        "identity": {
+          "organization": "Lost Our Home",
+          "program": "Temporary Care Program",
+          "directDomains": ["lostourhome.example"],
+          "decisionReason": "The program addresses a documented pet barrier to shelter access."
+        }
+      }
+    ]
+  },
+  "fetches": {
+    "https://mesaaz.gov/housing/off-the-streets": {
+      "pageFile": "pages/city-off-the-streets.txt",
+      "pageOrganization": "City of Mesa",
+      "pageProgram": "Off the Streets",
+      "statusCode": 200,
+      "contentType": "text/plain"
+    },
+    "https://housing.az.gov/emergency/shelter-referral": {
+      "pageFile": "pages/state-shelter-referral.txt",
+      "pageOrganization": "Arizona Department of Housing",
+      "pageProgram": "State Shelter Referral",
+      "statusCode": 200,
+      "contentType": "text/plain"
+    },
+    "https://keystochangeaz.example/brian-garcia-welcome-center": {
+      "pageFile": "pages/brian-garcia-welcome-center.txt",
+      "pageOrganization": "Keys to Change",
+      "pageProgram": "Brian Garcia Welcome Center",
+      "statusCode": 200,
+      "contentType": "text/plain"
+    },
+    "https://turnanewleaf.example/services/rapid-re-housing": {
+      "pageFile": "pages/a-new-leaf-rapid-rehousing.txt",
+      "pageOrganization": "A New Leaf",
+      "pageProgram": "Rapid Re-Housing",
+      "statusCode": 200,
+      "contentType": "text/plain"
+    },
+    "https://umom.example/housing/halle-womens-center": {
+      "pageFile": "pages/umom-halle.txt",
+      "pageOrganization": "UMOM New Day Centers",
+      "pageProgram": "Halle Women's Center",
+      "statusCode": 200,
+      "contentType": "text/plain"
+    },
+    "https://bridgehousing.example/programs/emergency-lodging": {
+      "pageFile": "pages/emergency-lodging.txt",
+      "pageOrganization": "Bridge Housing Network",
+      "pageProgram": "Emergency Lodging Program",
+      "statusCode": 200,
+      "contentType": "text/plain"
+    },
+    "https://cassaz.example/emergency-shelter/mesa-access": {
+      "pageFile": "pages/cass-emergency-shelter.txt",
+      "pageOrganization": "Central Arizona Shelter Services",
+      "pageProgram": "Emergency Shelter",
+      "statusCode": 200,
+      "contentType": "text/plain"
+    },
+    "https://lostourhome.example/programs/temporary-care": {
+      "pageFile": "pages/temporary-pet-care.txt",
+      "pageOrganization": "Lost Our Home",
+      "pageProgram": "Temporary Care Program",
+      "statusCode": 200,
+      "contentType": "text/plain"
+    }
+  }
+}

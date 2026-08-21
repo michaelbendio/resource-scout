@@ -297,6 +297,17 @@ CREATE TABLE IF NOT EXISTS optimization_queries (
     UNIQUE (branch_id, query_key),
     UNIQUE (branch_id, position)
 );
+CREATE TABLE IF NOT EXISTS optimization_query_attempts (
+    id INTEGER PRIMARY KEY,
+    query_id INTEGER NOT NULL REFERENCES optimization_queries(id) ON DELETE CASCADE,
+    attempt_number INTEGER NOT NULL CHECK (attempt_number > 0),
+    started_at TEXT NOT NULL,
+    completed_at TEXT,
+    status TEXT NOT NULL CHECK (status IN ('running', 'completed', 'failed', 'cancelled')),
+    result_json TEXT,
+    error TEXT NOT NULL DEFAULT '',
+    UNIQUE (query_id, attempt_number)
+);
 CREATE TABLE IF NOT EXISTS optimization_discovery_leads (
     id INTEGER PRIMARY KEY,
     run_id INTEGER NOT NULL REFERENCES optimization_runs(id) ON DELETE CASCADE,
@@ -310,6 +321,21 @@ CREATE TABLE IF NOT EXISTS optimization_discovery_leads (
     ),
     failure_reason TEXT NOT NULL DEFAULT '',
     UNIQUE (run_id, canonical_url)
+);
+CREATE TABLE IF NOT EXISTS optimization_fetch_attempts (
+    id INTEGER PRIMARY KEY,
+    lead_id INTEGER NOT NULL REFERENCES optimization_discovery_leads(id) ON DELETE CASCADE,
+    attempt_number INTEGER NOT NULL CHECK (attempt_number > 0),
+    started_at TEXT NOT NULL,
+    completed_at TEXT,
+    status TEXT NOT NULL CHECK (status IN ('running', 'completed', 'failed', 'rejected', 'cancelled')),
+    final_url TEXT,
+    status_code INTEGER,
+    content_type TEXT,
+    truncated INTEGER CHECK (truncated IN (0, 1)),
+    extract_sha256 TEXT CHECK (extract_sha256 IS NULL OR length(extract_sha256) = 64),
+    error TEXT NOT NULL DEFAULT '',
+    UNIQUE (lead_id, attempt_number)
 );
 CREATE TABLE IF NOT EXISTS optimization_lead_queries (
     lead_id INTEGER NOT NULL REFERENCES optimization_discovery_leads(id) ON DELETE CASCADE,
@@ -332,6 +358,7 @@ CREATE TABLE IF NOT EXISTS optimization_candidate_identities (
     ),
     package_resource_id TEXT,
     decision_reason TEXT NOT NULL,
+    metadata_json TEXT NOT NULL DEFAULT '{}',
     UNIQUE (run_id, identity_key)
 );
 CREATE TABLE IF NOT EXISTS optimization_identity_leads (
@@ -525,6 +552,7 @@ class ResearchStore:
             self._migrate(connection)
             self._backfill_research_seeds(connection)
             self._recover_interrupted_runs(connection)
+            self._recover_interrupted_optimization(connection)
 
     @staticmethod
     def _migrate(connection: sqlite3.Connection) -> None:
@@ -592,6 +620,17 @@ class ResearchStore:
         for name, definition in import_additions.items():
             if name not in import_columns:
                 connection.execute(f"ALTER TABLE imports ADD COLUMN {name} {definition}")
+        optimization_identity_columns = {
+            row["name"]
+            for row in connection.execute(
+                "PRAGMA table_info(optimization_candidate_identities)"
+            )
+        }
+        if "metadata_json" not in optimization_identity_columns:
+            connection.execute(
+                "ALTER TABLE optimization_candidate_identities "
+                "ADD COLUMN metadata_json TEXT NOT NULL DEFAULT '{}'"
+            )
         rows = connection.execute(
             "SELECT id, source_name, metadata_json FROM imports WHERE office_name = '' OR service_area = ''"
         ).fetchall()
@@ -672,6 +711,52 @@ class ResearchStore:
                    completed_at = ?, error = ?
                WHERE status IN ('queued', 'running')""",
             (now, message),
+        )
+
+    @staticmethod
+    def _recover_interrupted_optimization(connection: sqlite3.Connection) -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        message = (
+            "The app stopped before this optimization item finished. "
+            "Resume the labeled run to retry only this item."
+        )
+        connection.execute(
+            """UPDATE optimization_query_attempts
+               SET status = 'failed', completed_at = ?, error = ?
+               WHERE status = 'running'""",
+            (now, message),
+        )
+        connection.execute(
+            """UPDATE optimization_fetch_attempts
+               SET status = 'failed', completed_at = ?, error = ?
+               WHERE status = 'running'""",
+            (now, message),
+        )
+        connection.execute(
+            """UPDATE optimization_model_attempts
+               SET status = 'failed', completed_at = ?, error = ?
+               WHERE status = 'running'""",
+            (now, message),
+        )
+        connection.execute(
+            """UPDATE optimization_queries
+               SET status = 'failed', error = ? WHERE status = 'running'""",
+            (message,),
+        )
+        connection.execute(
+            """UPDATE optimization_coverage_branches
+               SET status = 'failed' WHERE status = 'running'"""
+        )
+        connection.execute(
+            """UPDATE optimization_checkpoints
+               SET status = 'failed', updated_at = ? WHERE status = 'running'""",
+            (now,),
+        )
+        connection.execute(
+            """UPDATE optimization_runs
+               SET status = 'partial', current_phase = 'resume-required', error = ?
+               WHERE status = 'running'""",
+            (message,),
         )
 
     @contextmanager

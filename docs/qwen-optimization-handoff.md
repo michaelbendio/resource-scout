@@ -1,6 +1,6 @@
 # Qwen optimization handoff
 
-Status: Checkpoint A implemented and verified on 2026-08-21; awaiting explicit approval before Checkpoint B.
+Status: Checkpoints A and B implemented and verified on 2026-08-21; Checkpoint C is next. No new model calibration has run yet.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
@@ -355,6 +355,8 @@ Gate: deterministic tests demonstrate that known conflations and unsupported-fie
 - Verify interruption and resume.
 
 Gate: one fixture-driven Housing stage produces a complete, inspectable evidence corpus without invoking Qwen.
+
+Recorded outcome (2026-08-21): the deterministic Housing fixture executed all nine required coverage branches and 27 saturated queries, retained nine resolved or excluded identity decisions, excluded one exact package match, fetched eight retained sources, and froze eight one-candidate evidence packets without invoking a model. Query, fetch, process-restart, and resume tests proved completed work is not repeated. The full Python suite passed 108 tests with one optional package skip, and the JavaScript plugin suite passed 20 tests.
 
 ### Checkpoint C: candidate extraction and verification
 
