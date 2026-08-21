@@ -1,4 +1,4 @@
-import { SafeFetchProvider } from "./index.js";
+import { SafeFetchProvider } from "../../dsh-runtime/node_modules/@resource-scout/dsh-web-fetch-safe/index.js";
 
 
 let input = "";

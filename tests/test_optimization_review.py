@@ -6,6 +6,7 @@ import unittest
 from pathlib import Path
 
 from resource_research_agent.optimization_review import (
+    CachedSearchClient,
     cache_housing_searches,
     identity_review_template,
     reviewed_identity_decisions,
@@ -64,6 +65,21 @@ class OptimizationReviewTests(unittest.TestCase):
         review["decisions"]["https://example.org/"]["disposition"] = "excluded"
         with self.assertRaisesRegex(OptimizationRuntimeError, "lacks a reason"):
             validate_identity_review(cache, review)
+
+    def test_cached_search_is_exact_and_bounded(self) -> None:
+        client = CachedSearchClient(
+            {
+                "queries": {
+                    "q": {
+                        "query": "exact query",
+                        "sources": [{"url": f"https://example.org/{index}"} for index in range(3)],
+                    }
+                }
+            }
+        )
+        self.assertEqual(2, len(client("exact query", 2)))
+        with self.assertRaisesRegex(OptimizationRuntimeError, "no entry"):
+            client("changed query", 8)
 
 
 if __name__ == "__main__":

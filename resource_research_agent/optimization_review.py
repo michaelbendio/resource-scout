@@ -133,3 +133,20 @@ def reviewed_identity_decisions(review: dict[str, Any]) -> dict[str, dict[str, A
             if isinstance(identity, dict):
                 result[url] = identity
     return result
+
+
+class CachedSearchClient:
+    def __init__(self, cache: dict[str, Any]) -> None:
+        self.by_query = {
+            str(record.get("query") or ""): record.get("sources", [])
+            for record in cache.get("queries", {}).values()
+            if isinstance(record, dict)
+        }
+
+    def __call__(self, query: str, max_results: int) -> list[dict[str, Any]]:
+        if query not in self.by_query:
+            raise OptimizationRuntimeError(f"Fixed search cache has no entry for query: {query}")
+        sources = self.by_query[query]
+        if not isinstance(sources, list):
+            raise OptimizationRuntimeError("Fixed search cache contains an invalid source list")
+        return [dict(source) for source in sources[:max_results] if isinstance(source, dict)]

@@ -10,6 +10,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class DSHPluginTests(unittest.TestCase):
+    def test_safe_fetch_cli_uses_the_installed_dsh_plugin(self) -> None:
+        helper = (ROOT / "dsh-plugins" / "web-fetch-safe" / "fetch-cli.js").read_text()
+        self.assertIn(
+            "dsh-runtime/node_modules/@resource-scout/dsh-web-fetch-safe/index.js",
+            helper,
+        )
+
     def test_ddgs_provider_node_suite(self) -> None:
         node = shutil.which("node")
         installed = (
