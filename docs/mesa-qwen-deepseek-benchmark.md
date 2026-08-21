@@ -1,0 +1,285 @@
+# Mesa Qwen versus DeepSeek Benchmark
+
+Status: Approved for implementation. Qwen benchmark runs begin only after the preceding Phase 1 gates pass.
+
+## Purpose
+
+Compare the quantity, quality, reliability, and elapsed processing time of Resource Scout research performed by:
+
+- The existing DSH and DeepSeek path.
+- DSH with local Qwen3.8-27B, free search, and safe local page retrieval.
+
+This is a comparison of the complete research configurations, not merely a model trivia test. The Qwen side includes the local model, DDGS discovery, safe fetching, DSH tool behavior, and Resource Scout prompts. The DeepSeek side includes the historical DSH configuration and DeepSeek server-side search.
+
+## Frozen DeepSeek baseline
+
+The active Resource Scout database currently contains 20 completed Mesa research runs, each with four completed stages.
+
+Baseline totals:
+
+- Categories: 20
+- Completed stages: 80
+- Saved candidates: 536
+- Mean candidates per category: 26.8
+- Successful final-attempt stage time: 15.33 hours
+- Mean successful final-attempt time per category: 46.0 minutes
+- Mean successful final-attempt time per stage: 11.5 minutes
+- Fastest category: Employment, 35.8 minutes
+- Slowest category: Seniors, 50.7 minutes
+- Smallest candidate set: Transportation, 18
+- Largest candidate set: Utilities, Phone, Internet, 33
+
+The 20-category baseline is:
+
+| Category | Candidates | Successful final-attempt minutes |
+|---|---:|---:|
+| Housing | 30 | 44.2 |
+| Food | 24 | 45.4 |
+| Employment | 24 | 35.8 |
+| Mental Health | 29 | 45.3 |
+| Medical, Dental, Vision | 32 | 46.0 |
+| Reentry Support | 30 | 48.8 |
+| Addiction | 25 | 40.9 |
+| Children/Pregnancy | 28 | 44.9 |
+| Clothing/Household | 26 | 47.6 |
+| Disability | 31 | 44.3 |
+| Domestic Violence | 29 | 49.8 |
+| Education | 26 | 44.5 |
+| Financial Assistance | 24 | 50.6 |
+| Homeless Services | 26 | 48.7 |
+| Immigration | 26 | 49.0 |
+| Legal | 30 | 48.8 |
+| Seniors | 22 | 50.7 |
+| Transportation | 18 | 45.9 |
+| Utilities, Phone, Internet | 33 | 46.1 |
+| Veterans | 23 | 42.8 |
+
+The imported Mesa package contains 22 category definitions. ID Recovery and Miscellaneous are not represented in the historical 20-run baseline, so they are excluded from this comparison. They may be researched separately later but must not be added only to one side of this benchmark.
+
+## Timing caveat
+
+Resource Scout resets a stage's `started_at` timestamp when a failed stage is resumed. The 15.33-hour figure therefore sums the successful final attempts and avoids long wall-clock gaps, but it does not include time spent in overwritten failed attempts. Run-level wall time is also unsuitable because several runs overlapped and some completed after restart gaps.
+
+The report must present timing in separate categories:
+
+1. Successful-attempt processing time, available consistently for both configurations.
+2. Failed-attempt and retry time, reconstructed for DeepSeek when evidence exists and captured prospectively for every Qwen attempt.
+3. End-to-end wall time for the Qwen benchmark schedule.
+4. Throughput under the chosen sequential schedule.
+
+Unknown historical failed-attempt time must remain labeled unknown rather than estimated into the primary number.
+
+## Isolation and reproducibility
+
+The benchmark must not run against the live production database.
+
+Before Qwen research begins:
+
+- Copy the live database to a dated benchmark database.
+- Record SHA-256 hashes for the source database, benchmark copy, and Mesa resource package.
+- Record the 20 baseline run IDs and their four stage IDs.
+- Export a machine-readable baseline manifest containing prompts, stage definitions, results, candidates, sources, timestamps, errors, and available usage data.
+- Preserve the original files unchanged.
+- Use the exact baseline `prompt_json`, category, assignment, service area, imported package snapshot, stage keys, stage titles, and stage instructions for the Qwen run.
+- Prevent proposed Qwen lessons or discoveries from changing the starting context of another category.
+
+Later stages within a Qwen category should receive that Qwen run's prior-stage findings, just as the production workflow operates. This measures the real end-to-end research system. If a model-only replay is later desired, it should be a separately labeled experiment using captured identical stage prompts.
+
+## Attempt recording
+
+Every Qwen stage attempt must retain rather than overwrite:
+
+- Run, category, and stage identity.
+- Attempt number.
+- Start and completion timestamps.
+- Status and error.
+- Resolved model, quantization, runtime, context, and reasoning level.
+- Search and fetch providers.
+- Prompt size when available.
+- Model usage and generation metrics when available.
+- Search count and fetch count.
+- Raw output size.
+- Parsed-result success or failure.
+
+This attempt history is benchmark provenance and should also improve ordinary Resource Scout diagnostics.
+
+## Execution schedule
+
+Do not launch all 20 local runs immediately and do not run them concurrently on the single Mac model server.
+
+### Calibration A: one stage
+
+Choose a representative stage with several expected searches and primary-source checks. Record:
+
+- Model load time.
+- Prompt-processing time.
+- Total stage time.
+- Search and fetch activity.
+- Candidate count.
+- Structured-output validity.
+- Peak memory pressure.
+- Errors or retries.
+
+Gate: the stage completes correctly without metered traffic or unsafe fetching.
+
+### Calibration B: one complete category
+
+Run all four stages sequentially for one representative category. Compare its result with the corresponding DeepSeek baseline and project the full 20-category duration.
+
+Gate: decide explicitly whether to continue unchanged, adjust reasoning, change quantization/runtime, improve search or fetching, or stop. Any configuration change restarts calibration so the 20-category run uses one consistent stack.
+
+### Full run: 20 categories
+
+- Run one category at a time.
+- Run stages in their normal order.
+- Permit pause and restart between categories.
+- Use one locked configuration for all 20 categories.
+- Record every failure and retry.
+- Do not silently rerun a poor result until it looks better. A retry must have a recorded operational reason.
+
+## Quantity measurements
+
+Measure all 20 categories and all candidates.
+
+### Output volume
+
+- Candidates per category and stage.
+- Total candidates.
+- Unique organizations and programs after normalization.
+- Candidate overlap between Qwen and DeepSeek.
+- Candidates unique to each configuration.
+- Output size and structured sections produced.
+
+### Duplication and novelty
+
+- Strong matches to the imported Mesa package.
+- Duplicate candidates within a category.
+- Duplicate candidates across categories.
+- Same organization represented as legitimately distinct programs.
+- Broad directories incorrectly presented as individual resources.
+
+### Evidence and completeness
+
+- Sources per candidate.
+- Unique source domains.
+- Share of candidates with at least one reachable source.
+- Share with an official or direct-provider source.
+- Broken or blocked URLs.
+- Presence of service area, eligibility, cost, hours, contact, intake, and restrictions.
+- Explicit unknowns rather than unsupported assertions.
+
+Quantity is not treated as quality. More candidates may indicate better coverage, duplication, fragmentation, or noise; the quality review determines which.
+
+## Reliability and performance measurements
+
+- First-attempt completion rate.
+- Structured-output validation rate.
+- Tool-call errors.
+- Empty-search and fetch-failure rates.
+- Retry count and reason.
+- Successful-attempt time per stage and category.
+- Total failed-attempt time.
+- Total benchmark wall time.
+- Model load and restart events.
+- Peak memory pressure.
+- Resource Scout responsiveness during sustained research.
+
+The primary speed comparison uses summed successful-attempt stage time. Failure overhead is reported separately and also included in a secondary total-work figure where both sides have evidence.
+
+## Quality evaluation
+
+Quality has two layers: automated evidence checks over every candidate and blinded human review.
+
+### Automated checks over every candidate
+
+- Required structure is valid.
+- Candidate name and category are usable.
+- URLs are syntactically valid and reachable when checked.
+- Claims have cited evidence.
+- Official/direct sources are distinguished from directories and lived-experience sources.
+- Key access fields are present or explicitly unknown.
+- Duplicate signals are calculated consistently.
+- Unsupported time-sensitive claims are flagged.
+
+Automated checks are quality indicators, not final judgments.
+
+### Blinded human review
+
+Generate a benchmark review kit that hides model names, timing, and configuration. Randomize which result is labeled A or B independently for each category and retain the mapping separately until review is complete.
+
+The kit should support all candidates. If reviewing every candidate is impractical, select a reproducible stratified sample before looking at model identity, with representation from every category and every stage.
+
+Candidate-level judgments:
+
+- Acceptable resource.
+- Research further.
+- Already known.
+- Wrong category.
+- Reject.
+- Critical factual or safety problem.
+
+Candidate quality dimensions, scored consistently:
+
+- Correctness and evidentiary support.
+- Practical actionability.
+- Specificity of the actual program or service.
+- Eligibility and service-area clarity.
+- Contact and intake usefulness.
+- Appropriate handling of uncertainty.
+- Source quality and recency.
+
+Category-level judgments:
+
+- Which result set has better useful coverage: A, B, or tie?
+- Which contains less duplication or noise?
+- Which gives a curator better material with less corrective work?
+- Are important service pathways missing from either set?
+
+The model-identity mapping is revealed only after judgments are saved.
+
+## Curator artifacts
+
+The existing Curator format should remain the basis for practical candidate review. The benchmark may add a batch export or comparison wrapper, but it should not create a separate incompatible review model.
+
+Expected artifacts:
+
+- A frozen DeepSeek baseline manifest.
+- A Qwen result manifest with complete attempt provenance.
+- Curator-compatible exports for both configurations.
+- A randomized A/B review kit.
+- A hidden A/B mapping file.
+- Machine-readable review decisions.
+- A final CSV or JSON metrics table.
+- A readable comparison report.
+
+Export files remain explicit user downloads. Their destination is chosen through the browser or device file picker; the server must not assume a Downloads folder or silently write them to an export directory.
+
+## Pass criteria for Phase 1
+
+Production cutover requires all of the following:
+
+- All 20 Qwen categories complete under one locked configuration, or any excluded category has a documented, approved reason.
+- No metered model or search request occurs.
+- Structured output is reliable enough for unattended staged execution.
+- Every retained candidate has reachable evidence or a clearly stated unresolved limitation.
+- No unacceptable increase in fabricated, misleading, wrong-category, or unsafe candidates.
+- Human review finds Qwen practically comparable to or better than DeepSeek after considering corrective effort.
+- Search coverage does not systematically omit important provider classes.
+- Duplicate and already-known rates remain acceptable.
+- Runtime, memory pressure, and operational stability are acceptable for overnight or multi-day use.
+- All automated tests pass.
+
+Failure of a criterion does not automatically reject Qwen. It identifies whether the next iteration belongs in model settings, search, fetching, prompting, or runtime performance. The full benchmark is repeated only after the configuration is locked again.
+
+## Benchmark endpoint
+
+The benchmark is complete when the project contains enough preserved evidence to answer, by category and overall:
+
+- Which configuration found more candidates?
+- Which found more unique, usable resources?
+- Which produced more duplicates or noise?
+- Which provided stronger and more reachable evidence?
+- Which required less curator correction?
+- Which was more reliable?
+- How long did successful work and failed work take?
+- Is the local Qwen configuration good enough to become Resource Scout's default production path?
