@@ -1,0 +1,37 @@
+{
+  "name": "UMOM family shelter and Halle Women's Center remain separate programs",
+  "requiredFields": ["eligibility"],
+  "expectedIssueCodes": ["multiple-program-identities"],
+  "dossier": {
+    "candidateIdentity": {
+      "organization": "UMOM New Day Centers",
+      "program": "Family Shelter and Halle Women's Center",
+      "identityKey": "umom new day centers::family shelter and halle women s center",
+      "componentIdentityKeys": [
+        "umom new day centers::family shelter",
+        "umom new day centers::halle women s center"
+      ]
+    },
+    "sources": [
+      {
+        "id": "umom-family-page",
+        "url": "https://fixture.invalid/umom/program-boundaries",
+        "extract": "Fixture extract: Family Shelter and Halle Women's Center have separate program pages and populations.",
+        "authority": "direct-provider",
+        "pageIdentityKey": "umom new day centers::family shelter and halle women s center",
+        "pageOrganizationKey": "umom new day centers",
+        "supports": [
+          {"field": "eligibility", "value": ["Families and individual women"], "scope": "program"}
+        ],
+        "contradicts": []
+      }
+    ],
+    "fields": {
+      "eligibility": {
+        "status": "supported",
+        "value": ["Families and individual women"],
+        "evidenceIds": ["umom-family-page"]
+      }
+    }
+  }
+}

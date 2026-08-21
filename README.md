@@ -41,6 +41,14 @@ The workflow is:
 
 Both external harnesses are optional while exploring the app. Choose **Built-in demo** under **Research agent connection** to exercise the complete workflow without an account or model charge.
 
+### Scout, Curator, vetter, and final package
+
+Resource Scout research is the beginning of the resource-creation workflow, not its authority. Scout produces candidates and evidence for Resource Curator. A curator decides which candidates warrant follow-up and preserves the candidate, evidence, decisions, and draft. A vetter then conducts a phone interview with a contact person for each candidate being prepared as a resource. The vetter resolves practical access details and corrections from that interview, prepares the resource, and creates an additions resource package. That package is merged into TSO Resources, where the office reviews the result and saves a new complete resource package.
+
+The newly saved, phone-vetted TSO Resources package is the ground truth for retrospective Scout evaluation. Evaluation compares each preserved Scout candidate with its corresponding final resource, using an explicit candidate-to-draft-to-final-resource link rather than name similarity alone. Preserve the Scout candidate snapshot, Curator work, additions package, and the TSO Resources packages from before and after the merge. Record whether each candidate field was confirmed, corrected, added during vetting, omitted from the final resource, or remained unknown. An explicit Scout unknown counts against completeness but is not an accuracy error.
+
+Vetting remains ordinary resource preparation. Vetters are not asked to score the model or its candidates, and Qwen does not judge its own work. Scout scoring is computed afterward from the preserved linkage and package comparison. Candidate yield counts only unique, usable candidates that become corresponding resources in a final saved package; the comparison must keep accuracy, completeness, source quality, usable yield, and elapsed research time as separate measures in that order.
+
 ## Portable Resource Curator
 
 Curators are generated only when a user clicks **Export Resource Curator** on a research run. The export always uses that associated run, regardless of which Candidate inbox is visible. Nothing is written to an export folder on the server. Each download is one self-contained HTML file with versioned JSON embedded inside it for future migration.

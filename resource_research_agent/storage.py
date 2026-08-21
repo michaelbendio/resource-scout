@@ -17,6 +17,7 @@ from .importer import (
     resource_id,
     resource_name,
 )
+from .optimization import configuration_snapshot
 
 
 SCHEMA = """
@@ -192,6 +193,321 @@ CREATE TABLE IF NOT EXISTS generated_resources (
     updated_at TEXT NOT NULL,
     resource_json TEXT NOT NULL,
     UNIQUE (run_id, resource_id)
+);
+CREATE TABLE IF NOT EXISTS optimization_configurations (
+    id INTEGER PRIMARY KEY,
+    created_at TEXT NOT NULL,
+    configuration_hash TEXT NOT NULL UNIQUE CHECK (length(configuration_hash) = 64),
+    label TEXT NOT NULL,
+    model_artifact TEXT NOT NULL,
+    quantization TEXT NOT NULL CHECK (quantization IN ('4-bit', '8-bit', 'none')),
+    model_provider TEXT NOT NULL,
+    model_endpoint TEXT NOT NULL,
+    mlx_version TEXT NOT NULL,
+    dsh_version TEXT NOT NULL,
+    search_provider TEXT NOT NULL,
+    fetch_provider TEXT NOT NULL,
+    search_plugin_version TEXT NOT NULL,
+    fetch_plugin_version TEXT NOT NULL,
+    prompt_policy_version TEXT NOT NULL,
+    playbook_version TEXT NOT NULL,
+    source_package_sha256 TEXT NOT NULL CHECK (length(source_package_sha256) = 64),
+    source_package_version TEXT NOT NULL,
+    target_location TEXT NOT NULL,
+    regional_scope TEXT NOT NULL,
+    target_category_id TEXT NOT NULL,
+    stage_key TEXT NOT NULL,
+    limits_json TEXT NOT NULL,
+    stopping_rules_json TEXT NOT NULL,
+    query_plan_json TEXT NOT NULL,
+    snapshot_json TEXT NOT NULL
+);
+CREATE TRIGGER IF NOT EXISTS optimization_configurations_immutable
+BEFORE UPDATE ON optimization_configurations
+BEGIN
+    SELECT RAISE(ABORT, 'optimization configuration snapshots are immutable');
+END;
+CREATE TABLE IF NOT EXISTS optimization_runs (
+    id INTEGER PRIMARY KEY,
+    created_at TEXT NOT NULL,
+    started_at TEXT,
+    completed_at TEXT,
+    label TEXT NOT NULL UNIQUE,
+    configuration_id INTEGER NOT NULL REFERENCES optimization_configurations(id),
+    corpus_id INTEGER REFERENCES optimization_corpora(id),
+    run_kind TEXT NOT NULL CHECK (
+        run_kind IN ('discovery', 'model-evaluation', 'end-to-end')
+    ),
+    status TEXT NOT NULL CHECK (
+        status IN ('queued', 'running', 'partial', 'completed', 'failed', 'cancelled')
+    ),
+    current_phase TEXT NOT NULL,
+    error TEXT NOT NULL DEFAULT '',
+    CHECK (run_kind != 'model-evaluation' OR corpus_id IS NOT NULL),
+    UNIQUE (id, corpus_id)
+);
+CREATE TABLE IF NOT EXISTS optimization_checkpoints (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL REFERENCES optimization_runs(id) ON DELETE CASCADE,
+    phase TEXT NOT NULL,
+    item_type TEXT NOT NULL,
+    item_key TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (
+        status IN ('queued', 'running', 'completed', 'failed', 'not-applicable')
+    ),
+    attempt_count INTEGER NOT NULL DEFAULT 0 CHECK (attempt_count >= 0),
+    state_json TEXT NOT NULL DEFAULT '{}',
+    state_sha256 TEXT NOT NULL CHECK (length(state_sha256) = 64),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    UNIQUE (run_id, phase, item_type, item_key)
+);
+CREATE TABLE IF NOT EXISTS optimization_coverage_branches (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL REFERENCES optimization_runs(id) ON DELETE CASCADE,
+    branch_key TEXT NOT NULL,
+    purpose TEXT NOT NULL,
+    required INTEGER NOT NULL CHECK (required IN (0, 1)),
+    status TEXT NOT NULL CHECK (
+        status IN ('queued', 'running', 'saturated', 'maximum-reached', 'not-applicable', 'failed')
+    ),
+    not_applicable_reason TEXT NOT NULL DEFAULT '',
+    minimum_queries INTEGER NOT NULL CHECK (minimum_queries > 0),
+    maximum_queries INTEGER NOT NULL CHECK (maximum_queries >= minimum_queries),
+    saturation_queries INTEGER NOT NULL CHECK (saturation_queries > 0),
+    consecutive_no_new_leads INTEGER NOT NULL DEFAULT 0 CHECK (consecutive_no_new_leads >= 0),
+    executed_query_count INTEGER NOT NULL DEFAULT 0 CHECK (executed_query_count >= 0),
+    new_lead_count INTEGER NOT NULL DEFAULT 0 CHECK (new_lead_count >= 0),
+    UNIQUE (run_id, branch_key)
+);
+CREATE TABLE IF NOT EXISTS optimization_queries (
+    id INTEGER PRIMARY KEY,
+    branch_id INTEGER NOT NULL REFERENCES optimization_coverage_branches(id) ON DELETE CASCADE,
+    query_key TEXT NOT NULL,
+    position INTEGER NOT NULL CHECK (position > 0),
+    purpose TEXT NOT NULL,
+    query_text TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (
+        status IN ('planned', 'running', 'completed', 'failed', 'cancelled')
+    ),
+    executed_at TEXT,
+    new_lead_count INTEGER NOT NULL DEFAULT 0 CHECK (new_lead_count >= 0),
+    result_json TEXT,
+    error TEXT NOT NULL DEFAULT '',
+    UNIQUE (branch_id, query_key),
+    UNIQUE (branch_id, position)
+);
+CREATE TABLE IF NOT EXISTS optimization_discovery_leads (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL REFERENCES optimization_runs(id) ON DELETE CASCADE,
+    canonical_url TEXT NOT NULL,
+    title TEXT NOT NULL,
+    snippet TEXT NOT NULL,
+    discovered_at TEXT NOT NULL,
+    redirect_url TEXT,
+    fetch_status TEXT NOT NULL DEFAULT 'pending' CHECK (
+        fetch_status IN ('pending', 'fetched', 'failed', 'rejected', 'not-selected')
+    ),
+    failure_reason TEXT NOT NULL DEFAULT '',
+    UNIQUE (run_id, canonical_url)
+);
+CREATE TABLE IF NOT EXISTS optimization_lead_queries (
+    lead_id INTEGER NOT NULL REFERENCES optimization_discovery_leads(id) ON DELETE CASCADE,
+    query_id INTEGER NOT NULL REFERENCES optimization_queries(id) ON DELETE CASCADE,
+    result_rank INTEGER NOT NULL CHECK (result_rank > 0),
+    result_url TEXT NOT NULL,
+    PRIMARY KEY (lead_id, query_id)
+);
+CREATE TABLE IF NOT EXISTS optimization_candidate_identities (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL REFERENCES optimization_runs(id) ON DELETE CASCADE,
+    organization TEXT NOT NULL,
+    program TEXT NOT NULL,
+    identity_key TEXT NOT NULL,
+    boundary_state TEXT NOT NULL CHECK (
+        boundary_state IN ('resolved', 'uncertain-boundary', 'possible-renaming', 'possible-duplicate', 'excluded-existing')
+    ),
+    package_match_state TEXT NOT NULL CHECK (
+        package_match_state IN ('not-matched', 'same-program', 'different-program', 'ambiguous')
+    ),
+    package_resource_id TEXT,
+    decision_reason TEXT NOT NULL,
+    UNIQUE (run_id, identity_key)
+);
+CREATE TABLE IF NOT EXISTS optimization_identity_leads (
+    identity_id INTEGER NOT NULL REFERENCES optimization_candidate_identities(id) ON DELETE CASCADE,
+    lead_id INTEGER NOT NULL REFERENCES optimization_discovery_leads(id) ON DELETE CASCADE,
+    relationship TEXT NOT NULL CHECK (
+        relationship IN ('describes-program', 'describes-organization', 'possible-match', 'excluded')
+    ),
+    PRIMARY KEY (identity_id, lead_id)
+);
+CREATE TABLE IF NOT EXISTS optimization_evidence_sources (
+    id INTEGER PRIMARY KEY,
+    identity_id INTEGER NOT NULL REFERENCES optimization_candidate_identities(id) ON DELETE CASCADE,
+    canonical_url TEXT NOT NULL,
+    authority TEXT NOT NULL CHECK (
+        authority IN ('direct-provider', 'government-referral', 'reputable-secondary', 'directory-lead')
+    ),
+    page_identity_key TEXT NOT NULL,
+    fetched_at TEXT NOT NULL,
+    final_url TEXT NOT NULL,
+    status_code INTEGER NOT NULL,
+    content_type TEXT NOT NULL,
+    truncated INTEGER NOT NULL CHECK (truncated IN (0, 1)),
+    extract_json TEXT NOT NULL,
+    extract_sha256 TEXT NOT NULL CHECK (length(extract_sha256) = 64),
+    UNIQUE (identity_id, canonical_url)
+);
+CREATE TABLE IF NOT EXISTS optimization_corpora (
+    id INTEGER PRIMARY KEY,
+    discovery_run_id INTEGER NOT NULL REFERENCES optimization_runs(id),
+    created_at TEXT NOT NULL,
+    frozen_at TEXT,
+    status TEXT NOT NULL CHECK (status IN ('building', 'frozen')),
+    ledger_sha256 TEXT NOT NULL CHECK (length(ledger_sha256) = 64),
+    identities_sha256 TEXT NOT NULL CHECK (length(identities_sha256) = 64),
+    sources_sha256 TEXT NOT NULL CHECK (length(sources_sha256) = 64),
+    packets_sha256 TEXT NOT NULL CHECK (length(packets_sha256) = 64),
+    corpus_sha256 TEXT NOT NULL UNIQUE CHECK (length(corpus_sha256) = 64)
+);
+CREATE TRIGGER IF NOT EXISTS optimization_frozen_corpora_no_update
+BEFORE UPDATE ON optimization_corpora
+WHEN OLD.status = 'frozen'
+BEGIN
+    SELECT RAISE(ABORT, 'frozen optimization corpora are immutable');
+END;
+CREATE TRIGGER IF NOT EXISTS optimization_frozen_corpora_no_delete
+BEFORE DELETE ON optimization_corpora
+WHEN OLD.status = 'frozen'
+BEGIN
+    SELECT RAISE(ABORT, 'frozen optimization corpora are immutable');
+END;
+CREATE TABLE IF NOT EXISTS optimization_evidence_packets (
+    id INTEGER PRIMARY KEY,
+    corpus_id INTEGER NOT NULL REFERENCES optimization_corpora(id) ON DELETE CASCADE,
+    identity_key TEXT NOT NULL,
+    packet_json TEXT NOT NULL,
+    packet_sha256 TEXT NOT NULL CHECK (length(packet_sha256) = 64),
+    UNIQUE (corpus_id, identity_key),
+    UNIQUE (corpus_id, packet_sha256),
+    UNIQUE (id, corpus_id)
+);
+CREATE TRIGGER IF NOT EXISTS optimization_frozen_packets_no_insert
+BEFORE INSERT ON optimization_evidence_packets
+WHEN (SELECT status FROM optimization_corpora WHERE id = NEW.corpus_id) = 'frozen'
+BEGIN
+    SELECT RAISE(ABORT, 'frozen optimization evidence packets are immutable');
+END;
+CREATE TRIGGER IF NOT EXISTS optimization_frozen_packets_no_update
+BEFORE UPDATE ON optimization_evidence_packets
+WHEN (SELECT status FROM optimization_corpora WHERE id = OLD.corpus_id) = 'frozen'
+BEGIN
+    SELECT RAISE(ABORT, 'frozen optimization evidence packets are immutable');
+END;
+CREATE TRIGGER IF NOT EXISTS optimization_frozen_packets_no_delete
+BEFORE DELETE ON optimization_evidence_packets
+WHEN (SELECT status FROM optimization_corpora WHERE id = OLD.corpus_id) = 'frozen'
+BEGIN
+    SELECT RAISE(ABORT, 'frozen optimization evidence packets are immutable');
+END;
+CREATE TABLE IF NOT EXISTS optimization_model_attempts (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL,
+    packet_id INTEGER NOT NULL,
+    corpus_id INTEGER NOT NULL REFERENCES optimization_corpora(id),
+    operation TEXT NOT NULL CHECK (operation IN ('extract', 'verify')),
+    attempt_number INTEGER NOT NULL CHECK (attempt_number > 0),
+    started_at TEXT NOT NULL,
+    completed_at TEXT,
+    status TEXT NOT NULL CHECK (status IN ('running', 'completed', 'failed', 'cancelled')),
+    prompt_sha256 TEXT NOT NULL CHECK (length(prompt_sha256) = 64),
+    raw_output TEXT NOT NULL DEFAULT '',
+    parsed_json TEXT,
+    usage_json TEXT,
+    error TEXT NOT NULL DEFAULT '',
+    UNIQUE (run_id, packet_id, operation, attempt_number),
+    FOREIGN KEY (run_id, corpus_id)
+        REFERENCES optimization_runs(id, corpus_id) ON DELETE CASCADE,
+    FOREIGN KEY (packet_id, corpus_id)
+        REFERENCES optimization_evidence_packets(id, corpus_id)
+);
+CREATE TABLE IF NOT EXISTS optimization_candidate_dossiers (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL REFERENCES optimization_runs(id) ON DELETE CASCADE,
+    packet_id INTEGER NOT NULL REFERENCES optimization_evidence_packets(id),
+    extraction_attempt_id INTEGER NOT NULL REFERENCES optimization_model_attempts(id),
+    dossier_json TEXT NOT NULL,
+    dossier_sha256 TEXT NOT NULL CHECK (length(dossier_sha256) = 64),
+    UNIQUE (run_id, packet_id)
+);
+CREATE TABLE IF NOT EXISTS optimization_verifications (
+    id INTEGER PRIMARY KEY,
+    dossier_id INTEGER NOT NULL REFERENCES optimization_candidate_dossiers(id) ON DELETE CASCADE,
+    verification_attempt_id INTEGER NOT NULL REFERENCES optimization_model_attempts(id),
+    status TEXT NOT NULL CHECK (status IN ('passed', 'failed', 'needs-review')),
+    verified_dossier_json TEXT NOT NULL,
+    verified_dossier_sha256 TEXT NOT NULL CHECK (length(verified_dossier_sha256) = 64),
+    findings_json TEXT NOT NULL,
+    UNIQUE (dossier_id)
+);
+CREATE TABLE IF NOT EXISTS optimization_comparisons (
+    id INTEGER PRIMARY KEY,
+    created_at TEXT NOT NULL,
+    label TEXT NOT NULL UNIQUE,
+    corpus_id INTEGER NOT NULL REFERENCES optimization_corpora(id),
+    four_bit_run_id INTEGER NOT NULL,
+    eight_bit_run_id INTEGER NOT NULL,
+    status TEXT NOT NULL CHECK (
+        status IN ('planned', 'blinded-review', 'priorities-scored', 'revealed', 'decided')
+    ),
+    priorities_one_through_four_json TEXT NOT NULL DEFAULT '{}',
+    timing_json TEXT NOT NULL DEFAULT '{}',
+    decision_json TEXT NOT NULL DEFAULT '{}',
+    CHECK (four_bit_run_id != eight_bit_run_id),
+    FOREIGN KEY (four_bit_run_id, corpus_id)
+        REFERENCES optimization_runs(id, corpus_id),
+    FOREIGN KEY (eight_bit_run_id, corpus_id)
+        REFERENCES optimization_runs(id, corpus_id)
+);
+CREATE TRIGGER IF NOT EXISTS optimization_comparison_configuration_guard
+BEFORE INSERT ON optimization_comparisons
+BEGIN
+    SELECT CASE
+        WHEN (SELECT status FROM optimization_corpora WHERE id = NEW.corpus_id) != 'frozen'
+        THEN RAISE(ABORT, 'optimization comparisons require a frozen corpus')
+    END;
+    SELECT CASE
+        WHEN (
+            SELECT configuration.quantization
+            FROM optimization_runs AS run
+            JOIN optimization_configurations AS configuration
+              ON configuration.id = run.configuration_id
+            WHERE run.id = NEW.four_bit_run_id
+        ) != '4-bit'
+        THEN RAISE(ABORT, 'four-bit comparison run must use a 4-bit configuration')
+    END;
+    SELECT CASE
+        WHEN (
+            SELECT configuration.quantization
+            FROM optimization_runs AS run
+            JOIN optimization_configurations AS configuration
+              ON configuration.id = run.configuration_id
+            WHERE run.id = NEW.eight_bit_run_id
+        ) != '8-bit'
+        THEN RAISE(ABORT, 'eight-bit comparison run must use an 8-bit configuration')
+    END;
+END;
+CREATE TABLE IF NOT EXISTS optimization_audits (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL REFERENCES optimization_runs(id) ON DELETE CASCADE,
+    audit_type TEXT NOT NULL CHECK (
+        audit_type IN ('coverage', 'candidate-completeness', 'quality-gate', 'comparison')
+    ),
+    created_at TEXT NOT NULL,
+    report_json TEXT NOT NULL,
+    report_sha256 TEXT NOT NULL CHECK (length(report_sha256) = 64),
+    UNIQUE (run_id, audit_type)
 );
 """
 
@@ -747,6 +1063,74 @@ class ResearchStore:
                     (key, _json(value)),
                 )
         return self.get_settings()
+
+    def save_optimization_configuration(self, value: dict[str, Any]) -> int:
+        record = configuration_snapshot(value)
+        snapshot = record["snapshot"]
+        with self.connect() as connection:
+            existing = connection.execute(
+                "SELECT id, snapshot_json FROM optimization_configurations WHERE configuration_hash = ?",
+                (record["configurationHash"],),
+            ).fetchone()
+            if existing:
+                if json.loads(existing["snapshot_json"]) != snapshot:
+                    raise ValueError("Optimization configuration hash collision")
+                return int(existing["id"])
+            cursor = connection.execute(
+                """INSERT INTO optimization_configurations (
+                       created_at, configuration_hash, label, model_artifact, quantization,
+                       model_provider, model_endpoint, mlx_version, dsh_version,
+                       search_provider, fetch_provider, search_plugin_version,
+                       fetch_plugin_version, prompt_policy_version, playbook_version,
+                       source_package_sha256, source_package_version, target_location,
+                       regional_scope, target_category_id, stage_key, limits_json,
+                       stopping_rules_json, query_plan_json, snapshot_json
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    datetime.now(timezone.utc).isoformat(),
+                    record["configurationHash"],
+                    record["label"],
+                    snapshot["modelArtifact"],
+                    snapshot["quantization"],
+                    snapshot["modelProvider"],
+                    snapshot["modelEndpoint"],
+                    snapshot["mlxVersion"],
+                    snapshot["dshVersion"],
+                    snapshot["searchProvider"],
+                    snapshot["fetchProvider"],
+                    snapshot["searchPluginVersion"],
+                    snapshot["fetchPluginVersion"],
+                    snapshot["promptPolicyVersion"],
+                    snapshot["playbookVersion"],
+                    snapshot["sourcePackageSha256"],
+                    snapshot["sourcePackageVersion"],
+                    snapshot["targetLocation"],
+                    snapshot["regionalScope"],
+                    snapshot["targetCategoryId"],
+                    snapshot["stageKey"],
+                    _json(snapshot["limits"]),
+                    _json(snapshot["stoppingRules"]),
+                    _json(snapshot["queryPlan"]),
+                    _json(snapshot),
+                ),
+            )
+        return int(cursor.lastrowid)
+
+    def optimization_configuration(self, configuration_id: int) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM optimization_configurations WHERE id = ?",
+                (configuration_id,),
+            ).fetchone()
+        if not row:
+            return None
+        return {
+            "id": int(row["id"]),
+            "createdAt": row["created_at"],
+            "configurationHash": row["configuration_hash"],
+            "label": row["label"],
+            "snapshot": json.loads(row["snapshot_json"]),
+        }
 
     def create_research_run(
         self,

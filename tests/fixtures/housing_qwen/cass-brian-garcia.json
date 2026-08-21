@@ -1,0 +1,37 @@
+{
+  "name": "Brian Garcia Welcome Center cannot be silently attributed to CASS",
+  "requiredFields": ["address"],
+  "expectedIssueCodes": ["multiple-program-identities", "cross-program-evidence"],
+  "dossier": {
+    "candidateIdentity": {
+      "organization": "Central Arizona Shelter Services",
+      "program": "Brian Garcia Welcome Center",
+      "identityKey": "central arizona shelter services::brian garcia welcome center",
+      "componentIdentityKeys": [
+        "central arizona shelter services::emergency shelter",
+        "keys to change::brian garcia welcome center"
+      ]
+    },
+    "sources": [
+      {
+        "id": "welcome-center-page",
+        "url": "https://fixture.invalid/keys-to-change/brian-garcia-welcome-center",
+        "extract": "Fixture extract: the Brian Garcia Welcome Center is identified as its own access point under Keys to Change.",
+        "authority": "direct-provider",
+        "pageIdentityKey": "keys to change::brian garcia welcome center",
+        "pageOrganizationKey": "keys to change",
+        "supports": [
+          {"field": "address", "value": "206 S 12th Ave, Phoenix, AZ", "scope": "program"}
+        ],
+        "contradicts": []
+      }
+    ],
+    "fields": {
+      "address": {
+        "status": "supported",
+        "value": "206 S 12th Ave, Phoenix, AZ",
+        "evidenceIds": ["welcome-center-page"]
+      }
+    }
+  }
+}

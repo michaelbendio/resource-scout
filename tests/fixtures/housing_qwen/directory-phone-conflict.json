@@ -1,0 +1,46 @@
+{
+  "name": "A directory-only phone cannot override a direct-program phone",
+  "requiredFields": ["phone"],
+  "expectedIssueCodes": ["lead-only-sensitive-field", "unresolved-conflict"],
+  "dossier": {
+    "candidateIdentity": {
+      "organization": "Example Housing Provider",
+      "program": "Emergency Access",
+      "identityKey": "example housing provider::emergency access",
+      "componentIdentityKeys": ["example housing provider::emergency access"]
+    },
+    "sources": [
+      {
+        "id": "provider-contact",
+        "url": "https://fixture.invalid/provider/emergency-access",
+        "extract": "Fixture direct-program extract: call 480-000-0200 for Emergency Access.",
+        "authority": "direct-provider",
+        "pageIdentityKey": "example housing provider::emergency access",
+        "pageOrganizationKey": "example housing provider",
+        "supports": [
+          {"field": "phone", "value": "480-000-0200", "scope": "program"}
+        ],
+        "contradicts": []
+      },
+      {
+        "id": "directory-contact",
+        "url": "https://fixture.invalid/directory/emergency-access",
+        "extract": "Fixture directory extract: lists 480-000-0299.",
+        "authority": "directory-lead",
+        "pageIdentityKey": "example housing provider::emergency access",
+        "pageOrganizationKey": "example housing provider",
+        "supports": [
+          {"field": "phone", "value": "480-000-0299", "scope": "program"}
+        ],
+        "contradicts": []
+      }
+    ],
+    "fields": {
+      "phone": {
+        "status": "supported",
+        "value": "480-000-0299",
+        "evidenceIds": ["directory-contact"]
+      }
+    }
+  }
+}

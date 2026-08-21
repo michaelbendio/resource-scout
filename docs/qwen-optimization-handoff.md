@@ -1,11 +1,12 @@
 # Qwen optimization handoff
 
-Status: Ready for a fresh Codex task to begin design validation and implementation.
+Status: Checkpoint A implemented and verified on 2026-08-21; awaiting explicit approval before Checkpoint B.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
 - `docs/local-dsh-qwen-plan.md`
 - `docs/mesa-qwen-deepseek-benchmark.md`
+- `docs/qwen-optimization-design.md` (Checkpoint A deterministic design)
 - `README.md`
 
 Do not infer that Phase 2 production cutover has started. The current local path is operational but remains an opt-in experiment because the first Housing gate failed.

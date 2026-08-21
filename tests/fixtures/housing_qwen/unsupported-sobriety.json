@@ -1,0 +1,21 @@
+{
+  "name": "A sobriety restriction cannot be inferred without evidence",
+  "requiredFields": ["barriers"],
+  "expectedIssueCodes": ["missing-evidence"],
+  "dossier": {
+    "candidateIdentity": {
+      "organization": "Example Shelter",
+      "program": "Emergency Shelter",
+      "identityKey": "example shelter::emergency shelter",
+      "componentIdentityKeys": ["example shelter::emergency shelter"]
+    },
+    "sources": [],
+    "fields": {
+      "barriers": {
+        "status": "supported",
+        "value": ["Must be sober"],
+        "evidenceIds": []
+      }
+    }
+  }
+}
