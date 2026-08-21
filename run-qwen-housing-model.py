@@ -33,7 +33,7 @@ if not row:
 configuration = json.loads(row["snapshot_json"])
 configuration.update(
     {
-        "label": f"mesa-housing-urgent-{arguments.quantization}-reviewed-corpus-v1",
+        "label": f"mesa-housing-urgent-{arguments.quantization}-reviewed-corpus-v2",
         "modelArtifact": PINNED_MODELS[arguments.quantization],
         "quantization": arguments.quantization,
         "modelProvider": "qwen-local",
@@ -43,7 +43,11 @@ configuration.update(
         "promptPolicyVersion": "candidate-dossier-and-independent-verifier-v2",
     }
 )
-client = LocalQwenJSONClient(arguments.quantization)
+configuration["limits"] = {
+    **configuration["limits"],
+    "modelRequestTimeoutSeconds": 7200,
+}
+client = LocalQwenJSONClient(arguments.quantization, timeout_seconds=7200)
 print(json.dumps(client.validate(), indent=2, sort_keys=True), flush=True)
 pipeline = OptimizationModelPipeline(
     store,
