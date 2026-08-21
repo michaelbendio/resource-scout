@@ -62,6 +62,15 @@ def normalize_results(rows: Iterable[Any], max_results: int) -> dict[str, Any]:
     return {"sources": sources, "truncated": dropped}
 
 
+def search_rows(query: str, max_results: int, ddgs_factory: Any) -> Iterable[Any]:
+    try:
+        return ddgs_factory(timeout=30).text(query, max_results=max_results * 2)
+    except Exception as exc:
+        if str(exc).strip().casefold() in {"no results found", "no results found."}:
+            return []
+        raise
+
+
 def main() -> int:
     try:
         request = json.load(sys.stdin)
@@ -71,7 +80,7 @@ def main() -> int:
             raise ValueError("query is empty")
         from ddgs import DDGS
 
-        rows = DDGS(timeout=30).text(query, max_results=max_results * 2)
+        rows = search_rows(query, max_results, DDGS)
         json.dump(normalize_results(rows, max_results), sys.stdout, ensure_ascii=False)
         return 0
     except Exception as exc:

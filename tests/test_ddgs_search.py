@@ -14,6 +14,27 @@ SPEC.loader.exec_module(MODULE)
 
 
 class DDGSSearchNormalizationTests(unittest.TestCase):
+    def test_explicit_no_results_condition_is_an_empty_success(self) -> None:
+        class EmptyDDGS:
+            def __init__(self, **_kwargs):
+                pass
+
+            def text(self, *_args, **_kwargs):
+                raise RuntimeError("No results found.")
+
+        self.assertEqual([], MODULE.search_rows("empty query", 8, EmptyDDGS))
+
+    def test_other_provider_errors_remain_failures(self) -> None:
+        class BrokenDDGS:
+            def __init__(self, **_kwargs):
+                pass
+
+            def text(self, *_args, **_kwargs):
+                raise RuntimeError("network unavailable")
+
+        with self.assertRaisesRegex(RuntimeError, "network unavailable"):
+            MODULE.search_rows("broken query", 8, BrokenDDGS)
+
     def test_normalizes_deduplicates_and_limits_results(self) -> None:
         result = MODULE.normalize_results(
             [
