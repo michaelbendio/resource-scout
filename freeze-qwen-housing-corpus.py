@@ -30,7 +30,10 @@ validate_identity_review(cache, review)
 package = ResourcePackageImporter("housing").read(arguments.package)
 plan = build_housing_urgent_query_plan("Mesa", "Maricopa County and nearby areas")
 configuration = {
-    "label": "mesa-housing-urgent-reviewed-ddgs-2026-08-21",
+    "label": (
+        "mesa-housing-urgent-reviewed-ddgs-2026-08-21-"
+        f"{sha256_json(review)[:12]}"
+    ),
     "modelArtifact": "none",
     "quantization": "none",
     "modelProvider": "none",
