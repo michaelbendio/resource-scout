@@ -1005,8 +1005,9 @@
 
   function initialize() {
     restoreLocal();
-    document.title = `${review.title} · Resource Curator`; document.querySelector('#title').textContent = review.title;
-    document.querySelector('#notice').textContent = review.notice; renderRunFindings();
+    document.title = `${review.title} · Resource Curator`;
+    document.querySelector('#candidate-list-name').textContent = review.run.targetCategoryLabel;
+    renderRunFindings();
     document.querySelector('#assignment').textContent = review.run.assignment;
     const packageInfo = review.sourcePackage; const standalone = review.run.researchMode === 'standalone-location';
     const packageLabel = packageInfo ? `${packageInfo.sourceName.replace(/\.zip$/i, '')} ${packageInfo.packageVersion}` : (standalone ? review.run.targetLocation : 'no package');
