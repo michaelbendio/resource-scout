@@ -86,6 +86,7 @@ class OptimizationPersistenceTests(unittest.TestCase):
             "optimization_model_attempts",
             "optimization_candidate_dossiers",
             "optimization_verifications",
+            "optimization_gap_queries",
             "optimization_comparisons",
             "optimization_audits",
         }

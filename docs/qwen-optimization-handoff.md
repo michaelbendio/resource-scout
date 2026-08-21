@@ -1,6 +1,6 @@
 # Qwen optimization handoff
 
-Status: Checkpoints A and B implemented and verified on 2026-08-21; Checkpoint C is next. No new model calibration has run yet.
+Status: Checkpoints A through C implemented and verified on 2026-08-21; Checkpoint D is next. No new live model calibration has run yet.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
@@ -365,6 +365,8 @@ Recorded outcome (2026-08-21): the deterministic Housing fixture executed all ni
 - Implement completeness and gap-sweep reporting.
 
 Gate: seeded factual and attribution defects are caught, and every required field is supported, conflicting, or unknown.
+
+Recorded outcome (2026-08-21): fixture extraction and independent fresh-context verification processed one frozen candidate packet at a time. Deterministic checks caught seeded program conflation, packet-identity changes, cross-program contact transfer, altered source records, incorrect jurisdiction, directory/contact issues, unsupported sobriety, and missing evidence. The verifier removed or separated those claims without inventing replacements, and all 184 fixture factual-field findings ended in an explicit supported, conflicting, or unknown state. A deliberately omitted medical-respite need produced one persisted targeted gap query. Extraction, verification, and gap-audit resume tests retained failed attempts and did not repeat completed model work. The full Python suite passed 112 tests with one optional package skip, and the JavaScript plugin suite passed 20 tests.
 
 ### Checkpoint D: frozen-corpus quantization comparison
 

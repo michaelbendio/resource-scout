@@ -1,6 +1,6 @@
 # Qwen optimization deterministic design
 
-Status: Checkpoint A design and Checkpoint B deterministic discovery implementation for the workflow defined by `qwen-optimization-handoff.md`.
+Status: Checkpoints A through C implemented for deterministic discovery, candidate dossiers, fresh-context verification, completeness, and gap-audit reporting.
 
 This document fixes the data boundaries, persistence records, Housing regression fixtures, coverage matrix, stopping behavior, quality gate, and downstream ground-truth linkage before any new model run. It does not authorize Checkpoint B or production cutover.
 

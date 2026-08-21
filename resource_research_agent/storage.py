@@ -478,6 +478,21 @@ CREATE TABLE IF NOT EXISTS optimization_verifications (
     findings_json TEXT NOT NULL,
     UNIQUE (dossier_id)
 );
+CREATE TABLE IF NOT EXISTS optimization_gap_queries (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL REFERENCES optimization_runs(id) ON DELETE CASCADE,
+    corpus_id INTEGER NOT NULL REFERENCES optimization_corpora(id),
+    need_key TEXT NOT NULL,
+    need_label TEXT NOT NULL,
+    reason TEXT NOT NULL,
+    query_text TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (
+        status IN ('planned', 'running', 'completed', 'failed', 'not-needed')
+    ),
+    result_json TEXT,
+    error TEXT NOT NULL DEFAULT '',
+    UNIQUE (run_id, need_key)
+);
 CREATE TABLE IF NOT EXISTS optimization_comparisons (
     id INTEGER PRIMARY KEY,
     created_at TEXT NOT NULL,

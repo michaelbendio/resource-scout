@@ -499,6 +499,13 @@ class OptimizationDiscoveryPipeline:
                 }
             ),
             "reviewedAuthority": decision.get("reviewedAuthority"),
+            "coverageTags": sorted(
+                {
+                    str(tag).strip()
+                    for tag in decision.get("coverageTags", [])
+                    if str(tag).strip()
+                }
+            ),
         }
         cursor = connection.execute(
             """INSERT INTO optimization_candidate_identities (
@@ -731,6 +738,7 @@ class OptimizationDiscoveryPipeline:
                 raise OptimizationPipelineError(
                     f"Resolved identity {identity['identity_key']} has no fetched evidence"
                 )
+            identity_metadata = json.loads(identity["metadata_json"] or "{}")
             packets.append(
                 {
                     "schemaVersion": 1,
@@ -739,6 +747,7 @@ class OptimizationDiscoveryPipeline:
                         "program": identity["program"],
                         "identityKey": identity["identity_key"],
                         "boundaryState": identity["boundary_state"],
+                        "coverageTags": identity_metadata.get("coverageTags", []),
                     },
                     "packageMatch": {
                         "state": identity["package_match_state"],

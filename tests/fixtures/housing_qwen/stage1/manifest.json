@@ -20,6 +20,7 @@
         "identity": {
           "organization": "City of Mesa",
           "program": "Off the Streets",
+          "coverageTags": ["emergency-adult", "transportation"],
           "directDomains": [],
           "decisionReason": "The result names one city program."
         }
@@ -46,6 +47,7 @@
         "identity": {
           "organization": "Arizona Department of Housing",
           "program": "State Shelter Referral",
+          "coverageTags": ["authoritative-referral"],
           "directDomains": [],
           "decisionReason": "The state page describes one named referral program."
         }
@@ -59,6 +61,7 @@
         "identity": {
           "organization": "Keys to Change",
           "program": "Brian Garcia Welcome Center",
+          "coverageTags": ["coordinated-entry"],
           "directDomains": ["keystochangeaz.example"],
           "decisionReason": "The access point is retained separately from shelter operators."
         }
@@ -72,6 +75,7 @@
         "identity": {
           "organization": "A New Leaf",
           "program": "Rapid Re-Housing",
+          "coverageTags": ["rapid-rehousing"],
           "directDomains": ["turnanewleaf.example"],
           "decisionReason": "This is distinct from the existing MesaCAN program."
         }
@@ -85,6 +89,7 @@
         "identity": {
           "organization": "UMOM New Day Centers",
           "program": "Halle Women's Center",
+          "coverageTags": ["specialized-women"],
           "directDomains": ["umom.example"],
           "decisionReason": "The result identifies the women's center separately from family shelter."
         }
@@ -98,6 +103,7 @@
         "identity": {
           "organization": "Bridge Housing Network",
           "program": "Emergency Lodging Program",
+          "coverageTags": ["temporary-lodging"],
           "directDomains": ["bridgehousing.example"],
           "decisionReason": "The result names one actionable lodging program."
         }
@@ -111,6 +117,7 @@
         "identity": {
           "organization": "Central Arizona Shelter Services",
           "program": "Emergency Shelter",
+          "coverageTags": ["regional-serving-mesa"],
           "directDomains": ["cassaz.example"],
           "decisionReason": "The page explicitly describes the shelter program and Mesa access."
         }
@@ -124,6 +131,7 @@
         "identity": {
           "organization": "Lost Our Home",
           "program": "Temporary Care Program",
+          "coverageTags": ["pet-barrier"],
           "directDomains": ["lostourhome.example"],
           "decisionReason": "The program addresses a documented pet barrier to shelter access."
         }
