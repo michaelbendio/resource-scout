@@ -160,6 +160,7 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertIn("resizeHandle.addEventListener('pointermove'", html)
         self.assertIn('min-height:60px', html)
         self.assertIn('.workspace-toolbar button,#candidate-status { min-height:40px; }', html)
+        self.assertIn('<span class="workspace-version">v0.20.0</span>', html)
         self.assertIn('id="reset-window-layout"', html)
         self.assertIn('class="run-compact"', html)
         self.assertIn('resource-category-grid', html)
