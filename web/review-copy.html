@@ -59,7 +59,9 @@
     .dialog-heading { padding-right:2.5rem; } .dialog-heading h2 { max-width:730px; font-size:clamp(2rem,5vw,3rem); }
     .candidate-profile { display:grid; gap:1.2rem; margin-top:1.4rem; }
     .review-editor,.candidate-details,.resource-editor { padding:1.1rem; border:1px solid var(--line); border-radius:13px; background:#f8faf8; }
-    .ready-toggle { width:fit-content; margin:.4rem 0 1rem; padding:.65rem .85rem; border:1px solid #8daf9f; border-radius:10px; color:var(--forest); background:#edf6f1; font-weight:800; }
+    .review-decision-actions { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:.4rem 0 1rem; }
+    .ready-toggle { width:fit-content; margin:0; padding:.65rem .85rem; border:1px solid #8daf9f; border-radius:10px; color:var(--forest); background:#edf6f1; font-weight:800; }
+    .resource-print-button { align-self:stretch; }
     .field { display:grid; gap:.35rem; margin-top:.75rem; font-weight:750; } .choice-check { display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0; font-weight:600; }
     .choice-check input { width:auto; margin:.28rem 0 0; }
     .match-card,.choice-fieldset { margin:1rem 0; padding:.9rem 1rem; border:1px solid #e3c28d; border-radius:11px; background:var(--amber-bg); }
@@ -126,14 +128,20 @@
     .notes-check { display:flex; gap:.55rem; align-items:flex-start; } .notes-check input { width:auto; margin:.3rem 0 0; }
     .notes-bullet { display:grid; grid-template-columns:auto 1fr; gap:.55rem; } .notes-empty { color:var(--muted); font-style:italic; }
     footer { margin-top:2rem; color:var(--muted); font-size:.8rem; text-align:center; }
+    .resource-print-sheet { display:none; }
     .guidance-dialog { width:min(620px,92vw); padding:1.3rem; } .guidance-dialog h2 { font-family:ui-sans-serif,system-ui,sans-serif; } .guidance-dialog ul { padding-left:1.25rem; } .guidance-dialog li+li { margin-top:.55rem; } .guidance-actions { display:flex; justify-content:flex-end; gap:.55rem; margin-top:1rem; } .guidance-actions .secondary { color:var(--forest); background:white; }
     @media(max-width:760px) { .candidate-list,.candidate-facts,.resource-fields,.review-controls { grid-template-columns:1fr; } .toolbar { grid-template-columns:1fr; } .resource-fields .field:nth-last-child(-n+2) { grid-column:auto; } }
     @media(max-width:520px) { .metadata,.candidate-list,.candidate-facts,.taxonomy-add-row { grid-template-columns:1fr; } }
-    @media print { body{background:white} header{padding:1.4rem 0;color:var(--ink);background:white;border-bottom:2px solid var(--forest)} header .eyebrow,header .lede{color:var(--muted)} main{width:100%;margin:1rem 0}.panel{box-shadow:none;break-inside:avoid}.toolbar,.close,.review-actions{display:none}.candidate-list{grid-template-columns:1fr}.candidate{min-height:0;break-inside:avoid} }
+    @media print {
+      body{background:white} header{padding:1.4rem 0;color:var(--ink);background:white;border-bottom:2px solid var(--forest)} header .eyebrow,header .lede{color:var(--muted)} main{width:100%;margin:1rem 0}.panel{box-shadow:none;break-inside:avoid}.toolbar,.close,.review-actions{display:none}.candidate-list{grid-template-columns:1fr}.candidate{min-height:0;break-inside:avoid}
+      body.printing-resource > *:not(#resource-print-sheet){display:none!important}
+      body.printing-resource #resource-print-sheet{display:block!important;color:#17221f;font:11pt/1.35 Arial,sans-serif}
+      .resource-print-card{max-width:7in;margin:0 auto}.resource-print-card h1{margin:0 0 8pt;font:700 18pt/1.2 Georgia,serif}.resource-print-description{margin:0 0 10pt}.resource-print-field{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:5pt;margin:4pt 0;white-space:pre-line}.resource-print-separator{margin:10pt 0;border:0;border-top:1px solid #999}.resource-print-card .notes-preview{gap:4pt}.resource-print-card .notes-preview p{margin:0}.resource-print-card .notes-bullet{break-inside:avoid}
+    }
   </style>
 </head>
 <body>
-  <header><div><div class="header-title-row"><h1>Resource Curator</h1><span class="header-list-name" id="candidate-list-name"></span></div><p class="lede">Investigate candidates, keep interview notes and checklists, and prepare resources without reconnecting to Scout.</p></div><span class="header-version">v0.20.0</span></header>
+  <header><div><div class="header-title-row"><h1>Resource Curator</h1><span class="header-list-name" id="candidate-list-name"></span></div><p class="lede">Investigate candidates, keep interview notes and checklists, and prepare resources without reconnecting to Scout.</p></div><span class="header-version">v0.21.0</span></header>
   <main>
     <section class="panel review-actions">
       <p class="section-label">Review progress</p><h2>Save, resume, and download</h2>
@@ -144,12 +152,12 @@
       </div>
     </section>
     <section class="panel"><p class="section-label">Research trail</p><div class="run-heading"><h2>Research run</h2><span class="run-compact" id="run-compact"></span></div><details><summary id="findings-summary">Research findings</summary><div class="summary" id="summary"></div></details><details><summary>View the research assignment</summary><p class="assignment" id="assignment"></p></details></section>
-    <section class="panel"><p class="section-label">Human review</p><h2>Research candidates</h2><div class="toolbar"><input id="search" type="search" placeholder="Search candidates" aria-label="Search candidates"><select id="status-filter" aria-label="Filter candidates by package readiness"><option value="">All candidates</option><option value="ready">Ready for package</option><option value="not-ready">Not ready</option></select></div><p class="candidate-count" id="candidate-count"></p><div class="candidate-list" id="candidate-list"></div></section>
+    <section class="panel"><p class="section-label">Human review</p><h2>Research candidates</h2><div class="toolbar"><input id="search" type="search" placeholder="Search candidates" aria-label="Search candidates"><select id="status-filter" aria-label="Filter candidates by package readiness"><option value="">All candidates</option><option value="ready">Ready for package</option><option value="not-ready">Awaiting review</option></select></div><p class="candidate-count" id="candidate-count"></p><div class="candidate-list" id="candidate-list"></div></section>
     <section class="panel" id="lessons-panel" hidden><p class="section-label">Research guidance</p><details><summary><strong>Lessons proposed by this run</strong></summary><div class="lesson-list" id="lesson-list"></div></details></section>
     <footer id="footer"></footer>
   </main>
   <dialog id="candidate-dialog" class="curator-workspace">
-    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" class="workspace-nav" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="reset-window-layout">Reset layout</button><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span class="workspace-version">v0.20.0</span><span id="workspace-save-state" aria-live="polite"></span></div></div>
+    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" class="workspace-nav" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="reset-window-layout">Reset layout</button><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span class="workspace-version">v0.21.0</span><span id="workspace-save-state" aria-live="polite"></span></div></div>
     <div class="workspace-canvas" id="workspace-canvas">
       <section class="work-window" id="research-window"><div class="window-titlebar"><h3>Candidate Research</h3></div><div class="window-body" id="candidate-research"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
       <section class="work-window" id="editor-window"><div class="window-titlebar"><h3>Resource Editors</h3></div><div class="window-body" id="candidate-editor"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
@@ -158,6 +166,7 @@
   </dialog>
   <dialog id="save-work-dialog" class="guidance-dialog"><h2>Save work</h2><ul><li>The Curator saves automatically in this browser when browser storage is available. Choose <strong>Save work</strong> regularly to download a portable JSON work file containing every decision, note, checklist item, resource edit, and PDF you add.</li><li>Keep the JSON with this Curator HTML. To continue in another browser or on another device, open the HTML and choose <strong>Open saved work</strong>. When your review is finished, send the JSON back to the person who provided the Curator. The HTML does not update itself.</li></ul><div class="guidance-actions"><button type="button" class="secondary" id="cancel-save-work">Cancel</button><button type="button" id="continue-save-work">Continue</button></div></dialog>
   <dialog id="save-package-dialog" class="guidance-dialog"><h2>Save a resource package</h2><p>This creates a ZIP containing only resources marked <strong>Ready for package</strong>, then removes those candidates from Curator; it is not a backup of all review work.</p><div class="guidance-actions"><button type="button" class="secondary" id="cancel-save-package">Cancel</button><button type="button" id="continue-save-package">Continue</button></div></dialog>
+  <section id="resource-print-sheet" class="resource-print-sheet" aria-hidden="true"></section>
   <script id="review-data" type="application/json">__REVIEW_COPY_DATA__</script>
   <script>__REVIEW_COPY_SCRIPT__</script>
 </body>

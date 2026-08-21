@@ -399,7 +399,7 @@
   }
 
   function decisionText(item) {
-    return candidateState(item).decision === 'accepted' ? 'Ready for package' : 'Not ready';
+    return candidateState(item).decision === 'accepted' ? 'Ready for package' : 'Awaiting review';
   }
 
   function decisionClass(item) {
@@ -757,6 +757,32 @@
     return preview;
   }
 
+  function appendPrintableField(target, label, value) {
+    const text = asText(value);
+    if (!text) return;
+    const row = element('div', 'resource-print-field');
+    row.append(element('strong', '', `${label}:`), element('span', '', text));
+    target.append(row);
+  }
+
+  function printResourceDraft(resource) {
+    if (!resource) return;
+    const sheet = document.querySelector('#resource-print-sheet');
+    const content = element('article', 'resource-print-card');
+    content.append(element('h1', '', asText(resource.name) || 'Resource'));
+    if (asText(resource.description)) content.append(element('p', 'resource-print-description', asText(resource.description)));
+    appendPrintableField(content, 'Phone', resource.phone);
+    appendPrintableField(content, 'Address', resource.address);
+    appendPrintableField(content, 'Website', resource.website);
+    appendPrintableField(content, 'Hours', resource.hours);
+    if (asText(resource.informationText)) {
+      content.append(element('hr', 'resource-print-separator'), formattedTextPreview(resource.informationText));
+    }
+    sheet.replaceChildren(content);
+    document.body.classList.add('printing-resource');
+    try { window.print(); } finally { document.body.classList.remove('printing-resource'); }
+  }
+
   function rerenderCandidate(item) {
     persist();
     openCandidate(item.id);
@@ -940,13 +966,18 @@
   function renderReviewEditor(item) {
     const itemState = candidateState(item);
     const editor = element('section', 'review-editor'); editor.append(element('p', 'section-label', 'Your review'));
+    const actions = element('div', 'review-decision-actions');
     const ready = checkbox('Ready for package', itemState.decision === 'accepted', checked => {
       itemState.decision = checked ? 'accepted' : '';
       itemState.reviewedAt = new Date().toISOString();
       persist(); renderCandidates(); openCandidate(item.id);
     });
     ready.classList.add('ready-toggle');
-    editor.append(ready);
+    const print = element('button', 'secondary resource-print-button', 'Print');
+    print.type = 'button'; print.disabled = !itemState.resourceDraft;
+    print.title = itemState.resourceDraft ? 'Print the client-facing resource information' : 'No resource draft is available to print';
+    print.addEventListener('click', () => printResourceDraft(itemState.resourceDraft));
+    actions.append(ready, print); editor.append(actions);
     if (item.knownResourceMatch) {
       const match = element('fieldset', 'match-card'); match.append(element('legend', '', `Relationship to ${item.knownResourceMatch.name}`), element('p', 'muted', 'Choose the best description of the relationship. This similarity warning is not proof of a duplicate.'));
       Object.entries(MATCH_LABELS).forEach(([value, label]) => {
@@ -1053,7 +1084,7 @@
     window.addEventListener('beforeunload', event => { if (view.dirty && !view.persisted) { event.preventDefault(); event.returnValue = ''; } });
     setupWorkspaceWindows(); renderCandidates(); updateActions();
     const packageText = packageInfo ? `${packageInfo.sourceName}; schema ${packageInfo.schemaVersion}; package ${packageInfo.packageVersion}` : `Standalone location research; ${review.run.targetLocation || 'location not recorded'}`;
-    document.querySelector('#footer').textContent = `Resource Curator v0.20.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
+    document.querySelector('#footer').textContent = `Resource Curator v0.21.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
   }
 
   initialize();
