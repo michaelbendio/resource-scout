@@ -167,6 +167,8 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertNotIn('TSO Resources · Resource Curator', html)
         self.assertNotIn('Curator v0.20.0 · no agent connection required', html)
         self.assertNotIn('Review before use', html)
+        self.assertIn('margin:.8rem auto 4rem', html)
+        self.assertIn('#action-message:empty { display:none; }', html)
         self.assertIn('id="reset-window-layout"', html)
         self.assertIn('class="run-compact"', html)
         self.assertIn('resource-category-grid', html)
