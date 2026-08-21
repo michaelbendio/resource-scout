@@ -53,6 +53,11 @@ class OptimizationRuntimeTests(unittest.TestCase):
             _extract_object('<think>private reasoning</think>\n{"status":"ok"}'),
         )
 
+    def test_local_client_has_no_metered_or_fallback_configuration(self) -> None:
+        client = LocalQwenJSONClient("4-bit")
+        self.assertEqual("http://127.0.0.1:8080/v1", client.endpoint)
+        self.assertEqual("mlx-community/Qwen3.8-27B-4bit", client.model)
+
 
 if __name__ == "__main__":
     unittest.main()

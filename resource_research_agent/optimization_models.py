@@ -306,6 +306,38 @@ class OptimizationModelPipeline:
                 "Do not transfer facts between programs in the same organization.",
             ],
             "requiredFields": list(HOUSING_FACTUAL_FIELDS),
+            "outputContract": {
+                "candidateIdentity": {
+                    "organization": "copy from evidencePacket.candidateIdentity",
+                    "program": "copy from evidencePacket.candidateIdentity",
+                    "identityKey": "copy exactly",
+                    "componentIdentityKeys": ["the one exact identityKey"],
+                },
+                "sources": (
+                    "Copy each used source as an object with id, url, title, extract, authority, "
+                    "pageIdentityKey, pageOrganizationKey, supports, and contradicts. "
+                    "Every supports or contradicts item has field, value, and scope."
+                ),
+                "fields": {
+                    "supported": {
+                        "status": "supported",
+                        "value": "exact supported value",
+                        "evidenceIds": ["source id"],
+                    },
+                    "conflicting": {
+                        "status": "conflicting",
+                        "alternatives": [
+                            {"value": "one source value", "evidenceIds": ["source id"]}
+                        ],
+                    },
+                    "unknown": {"status": "unknown", "reason": "specific reason"},
+                },
+                "rules": [
+                    "Return every requiredFields key exactly once under fields.",
+                    "Do not add factual values outside fields or sources.",
+                    "Do not use markdown fences or commentary outside the JSON object.",
+                ],
+            },
             "evidencePacket": packet,
         }
         attempt_id = self._start_attempt(run_id, packet_id, "extract", prompt)
@@ -391,6 +423,24 @@ class OptimizationModelPipeline:
                 "duplicate or fragmented identity",
                 "missing required fields",
             ],
+            "outputContract": {
+                "status": "passed or needs-review",
+                "verifiedDossier": "the complete corrected dossier in the extraction contract",
+                "findings": [
+                    {
+                        "code": "short finding code",
+                        "field": "field name when applicable",
+                        "action": "removed, downgraded, separated, or flagged",
+                        "reason": "evidence-based explanation",
+                    }
+                ],
+                "rules": [
+                    "Return every required factual field under verifiedDossier.fields.",
+                    "Preserve frozen source text and identity exactly.",
+                    "Do not add sources or replacement facts.",
+                    "Do not use markdown fences or commentary outside the JSON object.",
+                ],
+            },
         }
         attempt_id = self._start_attempt(run_id, packet_id, "verify", prompt)
         try:

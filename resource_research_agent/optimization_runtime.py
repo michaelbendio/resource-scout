@@ -227,5 +227,14 @@ class LocalQwenJSONClient:
             content = str(value["choices"][0]["message"]["content"])
         except (KeyError, IndexError, TypeError) as error:
             raise OptimizationModelError("Local Qwen response contained no completion") from error
-        usage = value.get("usage") if isinstance(value.get("usage"), dict) else None
+        reported = value.get("usage") if isinstance(value.get("usage"), dict) else {}
+        usage = {
+            **reported,
+            "provider": "qwen-local",
+            "model": self.model,
+            "quantization": self.quantization,
+            "endpoint": self.endpoint,
+            "metered": False,
+            "fallbacks": [],
+        }
         return ModelInvocation(result=_extract_object(content), raw_output=content, usage=usage)

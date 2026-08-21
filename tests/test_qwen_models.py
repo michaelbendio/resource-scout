@@ -231,12 +231,14 @@ class ModelPipelineTests(unittest.TestCase):
         self.assertTrue(
             all(prompt["operation"] == "extract-candidate-dossier" for prompt in models.extract_prompts)
         )
+        self.assertTrue(all(prompt.get("outputContract") for prompt in models.extract_prompts))
         self.assertTrue(
             all(
                 prompt["operation"] == "verify-candidate-dossier-fresh-context"
                 for prompt in models.verify_prompts
             )
         )
+        self.assertTrue(all(prompt.get("outputContract") for prompt in models.verify_prompts))
         detected_codes = {
             finding["code"]
             for prompt in models.verify_prompts
