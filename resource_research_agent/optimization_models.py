@@ -285,6 +285,54 @@ def restore_frozen_source_envelopes(
     return restored
 
 
+def remediate_invalid_factual_fields(
+    dossier: dict[str, Any],
+    issues: Iterable[dict[str, str]],
+) -> tuple[dict[str, Any], list[dict[str, str]]]:
+    """Remove residual factual claims that Scout's validator cannot substantiate.
+
+    This is deliberately narrower than repairing an arbitrary invalid dossier. It may
+    only replace a Housing factual-field finding with an explicit unknown. Identity,
+    source-envelope, and other structural defects remain failures for human diagnosis.
+    """
+
+    remediated = json.loads(canonical_json(dossier))
+    fields = remediated.get("fields")
+    if not isinstance(fields, dict):
+        return remediated, []
+    codes_by_field: dict[str, set[str]] = {}
+    for issue in issues:
+        field = str(issue.get("field") or "")
+        code = str(issue.get("code") or "")
+        if field not in HOUSING_FACTUAL_FIELDS or field not in fields or not code:
+            continue
+        codes_by_field.setdefault(field, set()).add(code)
+    findings = []
+    for field in HOUSING_FACTUAL_FIELDS:
+        codes = sorted(codes_by_field.get(field, ()))
+        if not codes:
+            continue
+        fields[field] = {
+            "status": "unknown",
+            "reason": (
+                "Scout removed a residual claim that did not pass deterministic "
+                f"evidence validation ({', '.join(codes)})."
+            ),
+        }
+        findings.append(
+            {
+                "code": "deterministic-field-downgrade",
+                "field": field,
+                "action": "downgraded",
+                "reason": (
+                    "The verifier left a factual-field claim with deterministic "
+                    f"validation findings: {', '.join(codes)}"
+                ),
+            }
+        )
+    return remediated, findings
+
+
 class OptimizationModelPipeline:
     def __init__(
         self,
@@ -440,6 +488,9 @@ class OptimizationModelPipeline:
                 "Use only the supplied frozen evidence packet.",
                 "Return one organization-plus-program candidate dossier.",
                 "Bind every supported or conflicting field value to exact source ids.",
+                "Each retained value must exactly equal the JSON value in every cited source support binding.",
+                "Use only program or organization as an evidence-binding scope.",
+                "Use conflicting only for two or more genuinely incompatible values, not complementary details.",
                 "Return unknown with a reason instead of inferring a missing fact.",
                 "Do not transfer facts between programs in the same organization.",
             ],
@@ -454,7 +505,9 @@ class OptimizationModelPipeline:
                 "sources": (
                     "Copy each used source as an object with id, url, title, extract, authority, "
                     "pageIdentityKey, pageOrganizationKey, supports, and contradicts. "
-                    "Every supports or contradicts item has field, value, and scope."
+                    "Every supports or contradicts item has field, value, and scope; scope must "
+                    "be exactly program or organization, and value must be the exact JSON value "
+                    "retained for that field or conflict alternative."
                 ),
                 "fields": {
                     "supported": {
@@ -591,6 +644,10 @@ class OptimizationModelPipeline:
             verifier_findings = invocation.result.get("findings", [])
             if not isinstance(verifier_findings, list):
                 raise OptimizationModelError("Verifier findings must be an array")
+            post_verifier_issues = validate_dossier_for_packet(verified, packet)
+            verified, deterministic_remediation = remediate_invalid_factual_fields(
+                verified, post_verifier_issues
+            )
             final_issues = validate_dossier_for_packet(verified, packet)
         except BaseException as error:
             self._fail_attempt(attempt_id, str(error))
@@ -599,6 +656,8 @@ class OptimizationModelPipeline:
         status = (
             "failed"
             if final_issues
+            else "needs-review"
+            if deterministic_remediation
             else requested_status
             if requested_status in {"passed", "needs-review"}
             else "failed"
@@ -606,6 +665,8 @@ class OptimizationModelPipeline:
         findings = {
             "initialDeterministicFindings": deterministic_findings,
             "verifierFindings": verifier_findings,
+            "postVerifierDeterministicFindings": post_verifier_issues,
+            "deterministicRemediationFindings": deterministic_remediation,
             "finalDeterministicFindings": final_issues,
         }
         with self.store.connect() as connection:

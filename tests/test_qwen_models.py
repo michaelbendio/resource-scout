@@ -10,6 +10,7 @@ from resource_research_agent.optimization import HOUSING_FACTUAL_FIELDS
 from resource_research_agent.optimization_models import (
     OptimizationModelError,
     OptimizationModelPipeline,
+    remediate_invalid_factual_fields,
     restore_frozen_source_envelopes,
 )
 from resource_research_agent.optimization_pipeline import OptimizationDiscoveryPipeline
@@ -169,6 +170,28 @@ class SeededFixtureModels:
 
 
 class ModelPipelineTests(unittest.TestCase):
+    def test_deterministic_remediation_only_downgrades_factual_fields(self) -> None:
+        dossier = {
+            "fields": {
+                "phone": {"status": "supported", "value": "480-555-0100"},
+            }
+        }
+        remediated, findings = remediate_invalid_factual_fields(
+            dossier,
+            [
+                {"code": "missing-evidence", "field": "phone", "message": "bad"},
+                {
+                    "code": "altered-source",
+                    "field": "url",
+                    "message": "structural defect",
+                },
+            ],
+        )
+        self.assertEqual("unknown", remediated["fields"]["phone"]["status"])
+        self.assertEqual("deterministic-field-downgrade", findings[0]["code"])
+        self.assertEqual("phone", findings[0]["field"])
+        self.assertEqual({"status": "supported", "value": "480-555-0100"}, dossier["fields"]["phone"])
+
     def test_frozen_source_envelope_is_restored_without_hiding_invented_ids(self) -> None:
         packet = {
             "sources": [
@@ -256,6 +279,13 @@ class ModelPipelineTests(unittest.TestCase):
             all(prompt["operation"] == "extract-candidate-dossier" for prompt in models.extract_prompts)
         )
         self.assertTrue(all(prompt.get("outputContract") for prompt in models.extract_prompts))
+        self.assertTrue(
+            all(
+                "Use only program or organization as an evidence-binding scope."
+                in prompt["instructions"]
+                for prompt in models.extract_prompts
+            )
+        )
         self.assertTrue(
             all(
                 prompt["operation"] == "verify-candidate-dossier-fresh-context"
@@ -375,6 +405,51 @@ class ModelPipelineTests(unittest.TestCase):
         self.assertEqual(1, completeness["failedCount"])
         self.assertEqual(1, quality["verificationNeedsReview"])
         self.assertEqual(1, quality["verificationFailures"])
+
+    def test_residual_invalid_field_is_removed_and_requires_review(self) -> None:
+        models = SeededFixtureModels()
+
+        def leave_unsupported_phone(prompt: dict) -> dict:
+            result = models.verify(prompt)
+            if prompt["candidateIdentity"]["program"] == "Rapid Re-Housing":
+                source_id = result["verifiedDossier"]["sources"][0]["id"]
+                result["verifiedDossier"]["fields"]["phone"] = {
+                    "status": "supported",
+                    "value": "480-555-0199",
+                    "evidenceIds": [source_id],
+                }
+            return result
+
+        pipeline = self.pipeline(
+            models,
+            "model-fixture-residual-field-remediation",
+            verify=leave_unsupported_phone,
+        )
+        result = pipeline.run()
+        self.assertTrue(result.quality_gate_passed)
+        self.assertEqual(7, result.passed_count)
+        self.assertEqual(1, result.needs_review_count)
+        self.assertEqual(0, result.failed_count)
+        with self.store.connect() as connection:
+            row = connection.execute(
+                """SELECT verification.verified_dossier_json, verification.findings_json
+                   FROM optimization_verifications AS verification
+                   JOIN optimization_candidate_dossiers AS dossier
+                     ON dossier.id = verification.dossier_id
+                   JOIN optimization_evidence_packets AS packet
+                     ON packet.id = dossier.packet_id
+                   WHERE dossier.run_id = ?
+                     AND packet.identity_key = 'a new leaf::rapid re housing'""",
+                (result.run_id,),
+            ).fetchone()
+        verified = json.loads(row["verified_dossier_json"])
+        findings = json.loads(row["findings_json"])
+        self.assertEqual("unknown", verified["fields"]["phone"]["status"])
+        self.assertEqual([], findings["finalDeterministicFindings"])
+        self.assertEqual(
+            "deterministic-field-downgrade",
+            findings["deterministicRemediationFindings"][0]["code"],
+        )
 
     def test_verifier_failure_resumes_without_repeating_extraction(self) -> None:
         models = SeededFixtureModels()
