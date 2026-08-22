@@ -10,7 +10,7 @@ from typing import Any
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 
-from .local_qwen import catalog_health
+from .local_qwen import LOCAL_QWEN_MAX_COMPLETION_TOKENS, catalog_health
 from .optimization_models import ModelInvocation, OptimizationModelError
 from .optimization_pipeline import canonicalize_discovery_url
 
@@ -193,16 +193,25 @@ class LocalQwenJSONClient:
         *,
         endpoint: str = "http://127.0.0.1:8080/v1",
         timeout_seconds: int = 900,
+        max_completion_tokens: int = LOCAL_QWEN_MAX_COMPLETION_TOKENS,
     ) -> None:
         if quantization not in PINNED_MODELS:
             raise ValueError("Quantization must be 4-bit or 8-bit")
         parsed = urlsplit(endpoint)
         if parsed.scheme != "http" or parsed.hostname not in {"127.0.0.1", "localhost", "::1"}:
             raise ValueError("Local Qwen endpoint must be loopback HTTP")
+        if not isinstance(max_completion_tokens, int) or isinstance(max_completion_tokens, bool):
+            raise ValueError("Local Qwen completion allowance must be an integer")
+        if not 1 <= max_completion_tokens <= LOCAL_QWEN_MAX_COMPLETION_TOKENS:
+            raise ValueError(
+                "Local Qwen completion allowance must be between 1 and "
+                f"{LOCAL_QWEN_MAX_COMPLETION_TOKENS} tokens"
+            )
         self.quantization = quantization
         self.model = PINNED_MODELS[quantization]
         self.endpoint = endpoint.rstrip("/")
         self.timeout_seconds = timeout_seconds
+        self.max_completion_tokens = max_completion_tokens
 
     def validate(self) -> dict[str, Any]:
         return catalog_health(timeout=5, model=self.model)
@@ -222,7 +231,7 @@ class LocalQwenJSONClient:
                 {"role": "user", "content": json.dumps(prompt, ensure_ascii=False)},
             ],
             "temperature": 0,
-            "max_tokens": 16384,
+            "max_tokens": self.max_completion_tokens,
         }
         request = Request(
             f"{self.endpoint}/chat/completions",
@@ -236,7 +245,8 @@ class LocalQwenJSONClient:
         except Exception as error:
             raise OptimizationModelError(f"Local Qwen request failed: {error}") from error
         try:
-            content = str(value["choices"][0]["message"]["content"])
+            choice = value["choices"][0]
+            content = str(choice["message"]["content"])
         except (KeyError, IndexError, TypeError) as error:
             raise OptimizationModelError("Local Qwen response contained no completion") from error
         reported = value.get("usage") if isinstance(value.get("usage"), dict) else {}
@@ -249,10 +259,24 @@ class LocalQwenJSONClient:
             "metered": False,
             "fallbacks": [],
         }
+        finish_reason = choice.get("finish_reason") if isinstance(choice, dict) else None
+        if finish_reason is not None:
+            usage["finishReason"] = str(finish_reason)
         try:
             result = _extract_object(content)
         except OptimizationModelError as error:
+            completion_tokens = reported.get("completion_tokens")
+            exhausted_allowance = finish_reason == "length" or (
+                isinstance(completion_tokens, int)
+                and completion_tokens >= self.max_completion_tokens
+            )
+            message = (
+                f"Local Qwen hit the {self.max_completion_tokens}-token completion limit "
+                "before returning one valid JSON object"
+                if exhausted_allowance
+                else str(error)
+            )
             raise OptimizationModelError(
-                str(error), raw_output=content, usage=usage
+                message, raw_output=content, usage=usage
             ) from error
         return ModelInvocation(result=result, raw_output=content, usage=usage)

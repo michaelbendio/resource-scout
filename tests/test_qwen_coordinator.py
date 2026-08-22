@@ -14,12 +14,13 @@ class CoordinatorTests(unittest.TestCase):
             "resource_research_agent.optimization_runtime", fromlist=["PINNED_MODELS"]
         ).PINNED_MODELS))
 
-    def test_corrected_comparison_uses_separate_v3_provenance(self) -> None:
+    def test_corrected_comparison_uses_separate_v9_provenance(self) -> None:
         root = Path(__file__).parents[1]
         coordinator = (root / "run-qwen-quantization-comparison.py").read_text()
         runner = (root / "run-qwen-housing-model.py").read_text()
-        self.assertIn("reviewed-corpus-v8", coordinator)
-        self.assertIn("quantization-v8", coordinator)
+        self.assertIn("reviewed-corpus-v9", coordinator)
+        self.assertIn("quantization-v9", coordinator)
+        self.assertIn('"modelMaxCompletionTokens": LOCAL_QWEN_MAX_COMPLETION_TOKENS', runner)
         self.assertIn('"localQwenProxyTimeoutSeconds": 7200', runner)
 
     def test_comparison_recompute_uses_only_persisted_runs(self) -> None:

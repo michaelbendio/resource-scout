@@ -5,6 +5,7 @@ import argparse
 import json
 from pathlib import Path
 
+from resource_research_agent.local_qwen import LOCAL_QWEN_MAX_COMPLETION_TOKENS
 from resource_research_agent.optimization_models import OptimizationModelPipeline
 from resource_research_agent.optimization_runtime import LocalQwenJSONClient, PINNED_MODELS
 from resource_research_agent.mlx_server_workaround import WORKAROUND_VERSION
@@ -34,7 +35,7 @@ if not row:
 configuration = json.loads(row["snapshot_json"])
 configuration.update(
     {
-        "label": f"mesa-housing-urgent-{arguments.quantization}-reviewed-corpus-v8",
+        "label": f"mesa-housing-urgent-{arguments.quantization}-reviewed-corpus-v9",
         "modelArtifact": PINNED_MODELS[arguments.quantization],
         "quantization": arguments.quantization,
         "modelProvider": "qwen-local",
@@ -47,9 +48,14 @@ configuration.update(
 )
 configuration["limits"] = {
     **configuration["limits"],
+    "modelMaxCompletionTokens": LOCAL_QWEN_MAX_COMPLETION_TOKENS,
     "modelRequestTimeoutSeconds": 7200,
 }
-client = LocalQwenJSONClient(arguments.quantization, timeout_seconds=7200)
+client = LocalQwenJSONClient(
+    arguments.quantization,
+    timeout_seconds=7200,
+    max_completion_tokens=LOCAL_QWEN_MAX_COMPLETION_TOKENS,
+)
 print(json.dumps(client.validate(), indent=2, sort_keys=True), flush=True)
 pipeline = OptimizationModelPipeline(
     store,

@@ -14,6 +14,7 @@ from resource_research_agent.dsh_configuration import (
 )
 from resource_research_agent.local_qwen import (
     BACKEND_REQUEST_TIMEOUT_SECONDS,
+    LOCAL_QWEN_MAX_COMPLETION_TOKENS,
     LocalQwenError,
     PINNED_MODELS,
     catalog_health,
@@ -66,6 +67,10 @@ class LocalQwenRuntimeTests(unittest.TestCase):
         self.assertEqual(configuration.model, command[command.index("--model") + 1])
         self.assertEqual("127.0.0.1", command[command.index("--host") + 1])
         self.assertEqual("8081", command[command.index("--port") + 1])
+        self.assertEqual(
+            str(LOCAL_QWEN_MAX_COMPLETION_TOKENS),
+            command[command.index("--max-tokens") + 1],
+        )
         self.assertEqual(
             {"enable_thinking": True, "reasoning_effort": "medium"},
             json.loads(command[command.index("--chat-template-args") + 1]),

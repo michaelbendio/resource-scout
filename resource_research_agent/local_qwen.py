@@ -24,6 +24,7 @@ HOMEBREW_MLX_SERVER = Path("/opt/homebrew/opt/mlx-lm/bin/mlx_lm.server")
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 HEALTH_STAMP = PROJECT_ROOT / "data" / "local-qwen-health.json"
 BACKEND_REQUEST_TIMEOUT_SECONDS = 7200
+LOCAL_QWEN_MAX_COMPLETION_TOKENS = 32768
 PINNED_MODELS = {
     "4-bit": "mlx-community/Qwen3.8-27B-4bit",
     "8-bit": "mlx-community/Qwen3.8-27B-8bit",
@@ -83,7 +84,7 @@ def server_command(
         "--port",
         str(port),
         "--max-tokens",
-        "32768",
+        str(LOCAL_QWEN_MAX_COMPLETION_TOKENS),
         "--chat-template-args",
         json.dumps(
             {"enable_thinking": True, "reasoning_effort": configuration.reasoning},

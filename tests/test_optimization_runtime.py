@@ -7,6 +7,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from resource_research_agent.optimization_runtime import (
+    LOCAL_QWEN_MAX_COMPLETION_TOKENS,
     LocalQwenJSONClient,
     ReviewedIdentityResolver,
     _extract_object,
@@ -68,14 +69,59 @@ class OptimizationRuntimeTests(unittest.TestCase):
         client = LocalQwenJSONClient("4-bit")
         self.assertEqual("http://127.0.0.1:8080/v1", client.endpoint)
         self.assertEqual("mlx-community/Qwen3.8-27B-4bit", client.model)
+        self.assertEqual(32768, client.max_completion_tokens)
+
+    def test_local_client_rejects_allowance_above_server_limit(self) -> None:
+        with self.assertRaisesRegex(ValueError, "between 1 and 32768"):
+            LocalQwenJSONClient(
+                "4-bit",
+                max_completion_tokens=LOCAL_QWEN_MAX_COMPLETION_TOKENS + 1,
+            )
+
+    def test_local_client_sends_and_records_declared_completion_allowance(self) -> None:
+        client = LocalQwenJSONClient("4-bit")
+        captured = {}
+
+        def respond(request, *, timeout):
+            captured.update(json.loads(request.data))
+            self.assertEqual(client.timeout_seconds, timeout)
+            return _JSONResponse(
+                json.dumps(
+                    {
+                        "choices": [
+                            {
+                                "finish_reason": "stop",
+                                "message": {"content": '{"status":"ok"}'},
+                            }
+                        ],
+                        "usage": {"completion_tokens": 7},
+                    }
+                ).encode()
+            )
+
+        with patch.object(client, "validate"), patch(
+            "resource_research_agent.optimization_runtime.urlopen",
+            side_effect=respond,
+        ):
+            invocation = client({"operation": "fixture"})
+
+        self.assertEqual(32768, captured["max_tokens"])
+        self.assertEqual("stop", invocation.usage["finishReason"])
 
     def test_local_client_preserves_unparseable_completion_and_usage(self) -> None:
         client = LocalQwenJSONClient("4-bit")
         response = _JSONResponse(
             json.dumps(
                 {
-                    "choices": [{"message": {"content": "unfinished JSON {"}}],
-                    "usage": {"completion_tokens": 16384},
+                    "choices": [
+                        {
+                            "finish_reason": "length",
+                            "message": {"content": "unfinished JSON {"},
+                        }
+                    ],
+                    "usage": {
+                        "completion_tokens": LOCAL_QWEN_MAX_COMPLETION_TOKENS
+                    },
                 }
             ).encode()
         )
@@ -83,11 +129,14 @@ class OptimizationRuntimeTests(unittest.TestCase):
             "resource_research_agent.optimization_runtime.urlopen",
             return_value=response,
         ):
-            with self.assertRaisesRegex(OptimizationModelError, "valid JSON") as raised:
+            with self.assertRaisesRegex(
+                OptimizationModelError, "32768-token completion limit"
+            ) as raised:
                 client({"operation": "fixture"})
 
         self.assertEqual("unfinished JSON {", raised.exception.raw_output)
-        self.assertEqual(16384, raised.exception.usage["completion_tokens"])
+        self.assertEqual(32768, raised.exception.usage["completion_tokens"])
+        self.assertEqual("length", raised.exception.usage["finishReason"])
         self.assertFalse(raised.exception.usage["metered"])
 
 
