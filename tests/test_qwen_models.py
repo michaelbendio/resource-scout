@@ -12,6 +12,7 @@ from resource_research_agent.optimization import (
     optimization_resource_id,
 )
 from resource_research_agent.optimization_models import (
+    compact_source_bindings,
     OptimizationModelError,
     OptimizationModelPipeline,
     remediate_invalid_factual_fields,
@@ -220,6 +221,29 @@ class ModelPipelineTests(unittest.TestCase):
         self.assertEqual("Frozen exact text", restored["sources"][0]["extract"])
         self.assertEqual("made up", restored["sources"][1]["extract"])
 
+    def test_source_binding_compaction_preserves_only_model_owned_fields(self) -> None:
+        dossier = {
+            "sources": [
+                {
+                    "id": 7,
+                    "url": "https://example.org/program",
+                    "extract": "immutable text",
+                    "authority": "direct-provider",
+                    "supports": [{"field": "phone", "value": "211"}],
+                    "contradicts": [],
+                }
+            ],
+            "fields": {"phone": {"status": "supported", "value": "211"}},
+        }
+        compacted = compact_source_bindings(dossier)
+
+        self.assertEqual(
+            [{"id": 7, "supports": [{"field": "phone", "value": "211"}], "contradicts": []}],
+            compacted["sources"],
+        )
+        self.assertEqual(dossier["fields"], compacted["fields"])
+        self.assertIn("url", dossier["sources"][0])
+
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory()
         self.store = ResearchStore(Path(self.temporary.name) / "research.sqlite3")
@@ -307,6 +331,15 @@ class ModelPipelineTests(unittest.TestCase):
             )
         )
         self.assertTrue(all(prompt.get("outputContract") for prompt in models.verify_prompts))
+        self.assertTrue(
+            all(
+                all(
+                    set(source) <= {"id", "supports", "contradicts"}
+                    for source in prompt["dossier"]["sources"]
+                )
+                for prompt in models.verify_prompts
+            )
+        )
         detected_codes = {
             finding["code"]
             for prompt in models.verify_prompts

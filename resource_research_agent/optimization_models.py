@@ -294,6 +294,22 @@ def restore_frozen_source_envelopes(
     return restored
 
 
+def compact_source_bindings(dossier: dict[str, Any]) -> dict[str, Any]:
+    """Remove immutable source-envelope copies while preserving model-owned bindings."""
+    compacted = json.loads(canonical_json(dossier))
+    compacted["sources"] = [
+        {
+            key: source[key]
+            for key in ("id", "supports", "contradicts")
+            if key in source
+        }
+        if isinstance(source, dict)
+        else source
+        for source in compacted.get("sources", [])
+    ]
+    return compacted
+
+
 def remediate_invalid_factual_fields(
     dossier: dict[str, Any],
     issues: Iterable[dict[str, str]],
@@ -619,7 +635,7 @@ class OptimizationModelPipeline:
             ],
             "candidateIdentity": packet["candidateIdentity"],
             "sources": packet["sources"],
-            "dossier": dossier,
+            "dossier": compact_source_bindings(dossier),
             "deterministicFindings": deterministic_findings,
             "checklist": [
                 "source-to-field attribution",
@@ -632,7 +648,15 @@ class OptimizationModelPipeline:
             ],
             "outputContract": {
                 "status": "passed or needs-review",
-                "verifiedDossier": "the complete corrected dossier in the extraction contract",
+                "verifiedDossier": {
+                    "candidateIdentity": "the complete corrected candidate identity",
+                    "fields": "every corrected required factual field",
+                    "sources": (
+                        "Each used source with only id, supports, and contradicts. Scout restores "
+                        "immutable URL, title, extract, authority, pageIdentityKey, and "
+                        "pageOrganizationKey from the frozen evidence packet after this response."
+                    ),
+                },
                 "findings": [
                     {
                         "code": "short finding code",
