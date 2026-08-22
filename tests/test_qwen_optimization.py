@@ -305,7 +305,15 @@ class CoverageAndSaturationTests(unittest.TestCase):
         )
         self.assertEqual(
             '"Mesa" senior older adults medically vulnerable homeless day center shelter',
+            queries["specialized-safety-4"],
+        )
+        self.assertEqual(
+            '"Mesa" medical respite homeless housing',
             queries["specialized-safety-10"],
+        )
+        self.assertEqual(
+            '"Mesa" Salvation Army Phoenix emergency family shelter intake',
+            queries["temporary-lodging-4"],
         )
         self.assertTrue(
             all(
