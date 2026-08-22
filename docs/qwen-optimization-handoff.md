@@ -53,7 +53,7 @@ Time is recorded for planning and diagnosis, but it is almost unimportant. Do no
 
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
-- Latest implementation commit before the live handoff update: `1e45c2952ddba3186d5dcdfb595f2c81ec5c922a`
+- Latest implementation commit before the live handoff update: `cda13244578497d53699625b0c9e1b741da1ab18`
 - Application version: `0.21.0`
 - Phase 1 local-Qwen implementation commit: `81a9eeab49de8006bce32b137992777802db3606`
 - Local Qwen default: `mlx-community/Qwen3.8-27B-4bit`
@@ -61,7 +61,7 @@ Time is recorded for planning and diagnosis, but it is almost unimportant. Do no
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
-- The full Python suite most recently passed 151 tests with one optional skip.
+- The full Python suite most recently passed 153 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.
@@ -70,26 +70,28 @@ The repository was clean and synchronized with `origin/main` when this handoff w
 
 The current locked comparison must be adopted, not restarted. It is running in the isolated benchmark database with this command:
 
-`python3 run-qwen-quantization-comparison.py --database data/benchmarks/mesa-qwen-2026-08-21/mesa-qwen-benchmark.sqlite3 --corpus-id 6 --artifacts data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v8`
+`python3 run-qwen-quantization-comparison.py --database data/benchmarks/mesa-qwen-2026-08-21/mesa-qwen-benchmark.sqlite3 --corpus-id 6 --artifacts data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9`
 
-At `2026-08-22T15:57:13Z`:
+At `2026-08-22T19:13:58Z`:
 
-- coordinator PID: `55829`;
-- model-evaluation PID: `55846`;
-- local-Qwen supervisor PID: `55838`;
-- MLX server PID: `55840`;
-- current model run: database run `24`, 4-bit configuration label `mesa-housing-urgent-4-bit-reviewed-corpus-v8-204ef0cbf2c7`;
-- completed packets: five of 22 (packet IDs 42 through 46), all `needs-review`, all with zero final deterministic findings;
-- active packet: packet ID 47, whose extraction completed successfully after an earlier configuration had failed to emit valid JSON; its verification attempt 92 was running;
+- coordinator PID: `62207`;
+- model-evaluation PID: `62244`;
+- local-Qwen supervisor PID: `62216`;
+- MLX server PID: `62218`;
+- current model run: database run `25`, 4-bit configuration label `mesa-housing-urgent-4-bit-reviewed-corpus-v9-204ef0cbf2c7`;
+- current configuration hash: `51a04174daf5c707b0f684e4cc2cfafb0ac06b23f1255f6085f161210da7db97`, with `modelMaxCompletionTokens` 32,768 and empty model and search fallback lists;
+- completed packets: zero of 22 under v9;
+- active packet: packet ID 42, extraction attempt 105;
+- preserved predecessor: run 24 completed eleven packets with no true deterministic failures, then packet 53 hit the unrecorded 16,384-token client limit and retained a 14,652-character response truncated mid-JSON; run 24 remains `partial` with its raw output and local-only usage evidence;
 - after all 22 4-bit packets, the coordinator will automatically run the identical 22 packets under 8-bit and create the model-neutral report and revealed decision;
 - no metered credential or fallback is present.
 
 Do not depend on the PIDs remaining unchanged. Inspect the process table, the comparison status file, and the database before taking action. Primary live evidence:
 
-- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v8/comparison-status.json`
-- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v8/4-bit-server.log`
-- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v8/4-bit-evaluation.log`
-- `optimization_model_attempts`, `optimization_candidate_dossiers`, and `optimization_verifications` for run 24 in `mesa-qwen-benchmark.sqlite3`
+- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9/comparison-status.json`
+- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9/4-bit-server.log`
+- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9/4-bit-evaluation.log`
+- `optimization_model_attempts`, `optimization_candidate_dossiers`, and `optimization_verifications` for run 25 in `mesa-qwen-benchmark.sqlite3`
 
 Frozen comparison corpus 6 has SHA-256 `204ef0cbf2c7d889fc84f544c601bd2bd9b1543a9636a7a9195742c5270e6379`. It contains ten required coverage branches, 70 executed queries, 535 normalized leads, 33 resolved identities, 22 urgent eligible candidate packets, and 72 fetched sources. It includes Justa Center and Salvation Army candidates that the frozen DeepSeek Housing output missed. The source package is `/Users/michaelbendio/Documents/TSO/mesa-resource-package.zip`, SHA-256 `c7a2251d7d638472f90207c24a28ec71c24515ea5d1aafced68a38fdce3d30f8`.
 
@@ -101,6 +103,7 @@ Recent corrections are separately committed and pushed:
 - `f4a7f30`: compact extraction source bindings while deterministically restoring complete frozen source envelopes, and persist malformed raw responses;
 - `3ad3717`: apply the same compact-binding protocol to verification without changing the verifier checklist or strictness;
 - `1e45c29`: restore frozen candidate identity after both model passes so verifier boundary findings cannot accidentally create identity-key mismatches.
+- `cda1324`: raise the local completion allowance to the pinned 32,768-token server ceiling, record it in immutable configuration provenance, and give the corrected comparison v9 labels.
 
 The verifier still distinguishes `passed`, `needs-review`, and true `failed`. A `needs-review` dossier remains usable Curator material with its findings attached and does not fail the accuracy gate. Only remaining deterministic findings produce `failed` and block advancement. Do not weaken the verifier prompt, checklist, or evidence standards.
 
@@ -125,7 +128,8 @@ Important run IDs:
 - Run 21: failed initial 8-bit Housing-stage attempt
 - Run 22: completed tuned 8-bit first Housing stage
 - Run 23: completed conservative 4-bit full Housing run
-- Run 24: broadened 4-bit first-stage retry; partial by design
+- Run 24: v8 4-bit expanded-corpus comparison; partial after eleven completed packets and a retained 16,384-token truncated extraction
+- Run 25: active v9 4-bit expanded-corpus comparison with the recorded 32,768-token completion allowance
 
 Housing stages are:
 
