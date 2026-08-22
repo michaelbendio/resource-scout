@@ -6,10 +6,11 @@ import json
 from pathlib import Path
 
 from resource_research_agent.importer import ResourcePackageImporter
-from resource_research_agent.optimization import build_housing_urgent_query_plan, sha256_json
+from resource_research_agent.optimization import sha256_json
 from resource_research_agent.optimization_pipeline import OptimizationDiscoveryPipeline
 from resource_research_agent.optimization_review import (
     CachedSearchClient,
+    build_reviewed_housing_query_plan,
     reviewed_identity_decisions,
     validate_identity_review,
 )
@@ -34,16 +35,15 @@ query_policy = cache.get("queryPolicy") or {
     "consecutiveNoNewIdentityQueries": 2,
     "resultsPerQuery": 8,
 }
-plan = build_housing_urgent_query_plan(
-    "Mesa",
-    "Maricopa County and nearby areas",
+plan = build_reviewed_housing_query_plan(
     minimum_queries=int(query_policy["minimumQueries"]),
     maximum_queries=int(query_policy["maximumQueries"]),
     saturation_queries=int(query_policy["consecutiveNoNewIdentityQueries"]),
+    candidate_status_review=review,
 )
 configuration = {
     "label": (
-        "mesa-housing-urgent-reviewed-ddgs-v3-source-bound-2026-08-22-"
+        "mesa-housing-urgent-reviewed-ddgs-v4-status-source-bound-2026-08-22-"
         f"{sha256_json(review)[:12]}"
     ),
     "modelArtifact": "none",
@@ -56,7 +56,7 @@ configuration = {
     "fetchProvider": "safe-http",
     "searchPluginVersion": "resource-scout-ddgs-v1",
     "fetchPluginVersion": "resource-scout-safe-http-v1",
-    "promptPolicyVersion": "human-reviewed-identity-ledger-v3-source-bound",
+    "promptPolicyVersion": "human-reviewed-identity-ledger-v4-status-source-bound",
     "playbookVersion": "1.1.0",
     "sourcePackageSha256": package.sha256,
     "sourcePackageVersion": str(package.schema.package_version),

@@ -10,6 +10,7 @@ from resource_research_agent.optimization_review import (
     CachedSearchClient,
     apply_identity_review_patch,
     build_identity_review_exclusion_patch,
+    build_reviewed_housing_query_plan,
     cache_housing_searches,
     identity_review_template,
     merge_identity_review,
@@ -20,6 +21,38 @@ from resource_research_agent.optimization_runtime import OptimizationRuntimeErro
 
 
 class OptimizationReviewTests(unittest.TestCase):
+    def test_reviewed_query_plan_includes_every_urgent_status_check(self) -> None:
+        review = {
+            "decisions": {
+                "https://example.org/urgent": {
+                    "disposition": "candidate",
+                    "identity": {
+                        "organization": "Urgent Provider",
+                        "program": "Urgent Program",
+                    },
+                },
+                "https://example.org/routed": {
+                    "disposition": "candidate",
+                    "identity": {
+                        "organization": "Routed Provider",
+                        "program": "Routed Program",
+                        "stageKey": "stabilization",
+                    },
+                },
+            }
+        }
+        plan = build_reviewed_housing_query_plan(
+            minimum_queries=4,
+            maximum_queries=10,
+            saturation_queries=3,
+            candidate_status_review=review,
+        )
+        status = plan["branches"][-1]
+        self.assertEqual("candidate-current-status", status["key"])
+        self.assertEqual(1, len(status["queries"]))
+        self.assertEqual(1, status["saturation"]["minimumQueries"])
+        self.assertIn('"Urgent Provider" "Urgent Program"', status["queries"][0]["query"])
+
     def test_search_cache_resumes_and_review_requires_every_disposition(self) -> None:
         calls = []
 

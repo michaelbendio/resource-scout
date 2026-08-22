@@ -26,6 +26,30 @@ def _write_json(path: Path, value: dict[str, Any]) -> None:
     temporary.replace(path)
 
 
+def build_reviewed_housing_query_plan(
+    *,
+    minimum_queries: int,
+    maximum_queries: int,
+    saturation_queries: int,
+    candidate_status_review: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Build the exact base-and-status query plan shared by cache and freeze."""
+
+    plan = build_housing_urgent_query_plan(
+        "Mesa",
+        "Maricopa County and nearby areas",
+        minimum_queries=minimum_queries,
+        maximum_queries=maximum_queries,
+        saturation_queries=saturation_queries,
+    )
+    if candidate_status_review is None:
+        return plan
+    identity_values: list[dict[str, Any]] = []
+    for value in reviewed_identity_decisions(candidate_status_review).values():
+        identity_values.extend(value if isinstance(value, list) else [value])
+    return augment_housing_query_plan_with_status_checks(plan, identity_values)
+
+
 def cache_housing_searches(
     path: Path,
     *,
@@ -38,18 +62,12 @@ def cache_housing_searches(
     candidate_status_review: dict[str, Any] | None = None,
     previous_cache: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    plan = build_housing_urgent_query_plan(
-        "Mesa",
-        "Maricopa County and nearby areas",
+    plan = build_reviewed_housing_query_plan(
         minimum_queries=minimum_queries,
         maximum_queries=maximum_queries,
         saturation_queries=saturation_queries,
+        candidate_status_review=candidate_status_review,
     )
-    if candidate_status_review is not None:
-        identity_values: list[dict[str, Any]] = []
-        for value in reviewed_identity_decisions(candidate_status_review).values():
-            identity_values.extend(value if isinstance(value, list) else [value])
-        plan = augment_housing_query_plan_with_status_checks(plan, identity_values)
     plan_hash = sha256_json(plan)
     if path.exists():
         value = json.loads(path.read_text(encoding="utf-8"))
