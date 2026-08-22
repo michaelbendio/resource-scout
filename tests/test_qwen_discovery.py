@@ -303,6 +303,98 @@ class DiscoveryPipelineTests(unittest.TestCase):
         self.assertNotEqual(extracts[0]["text"], extracts[1]["text"])
         self.assertTrue(all(len(extract["text"]) < 80 for extract in extracts))
 
+    def test_reviewed_excerpt_and_authority_are_bound_to_each_source(self) -> None:
+        providers = FixtureProviders()
+        configuration = providers.configuration("fixture-source-specific-review")
+        direct_url = "https://provider.example.org/program"
+        supporting_url = "https://news.example.net/report"
+
+        def search(query: str, _maximum: int) -> list[dict]:
+            key = providers.query_keys[query]
+            if key == "official-city-1":
+                return [
+                    {
+                        "url": direct_url,
+                        "title": "Direct program page",
+                        "identity": {
+                            "organization": "Example Provider",
+                            "program": "Example Program",
+                            "directDomains": ["example.org"],
+                            "evidenceExcerpt": "Primary program evidence",
+                        },
+                    }
+                ]
+            if key == "official-city-2":
+                return [
+                    {
+                        "url": supporting_url,
+                        "title": "Supporting report",
+                        "identity": {
+                            "organization": "Example Provider",
+                            "program": "Example Program",
+                            "reviewedAuthority": "reputable-secondary",
+                            "evidenceExcerpt": "Independent supporting evidence",
+                        },
+                    }
+                ]
+            return []
+
+        def fetch(url: str) -> dict:
+            text = (
+                "Primary program evidence and current intake details."
+                if url == direct_url
+                else "Independent supporting evidence about the same program."
+            )
+            return {
+                "text": text,
+                "finalUrl": url,
+                "statusCode": 200,
+                "contentType": "text/html",
+                "truncated": False,
+            }
+
+        result = OptimizationDiscoveryPipeline(
+            self.store,
+            configuration,
+            search=search,
+            fetch=fetch,
+            resolve_identity=lambda result: result.get("identity"),
+        ).run()
+        self.assertEqual(1, result.identity_count)
+        self.assertEqual(2, result.source_count)
+        with self.store.connect() as connection:
+            sources = [
+                dict(row)
+                for row in connection.execute(
+                    """SELECT canonical_url, authority, extract_json
+                       FROM optimization_evidence_sources ORDER BY canonical_url"""
+                ).fetchall()
+            ]
+            link_metadata = [
+                json.loads(row["metadata_json"])
+                for row in connection.execute(
+                    """SELECT link.metadata_json
+                       FROM optimization_identity_leads AS link
+                       JOIN optimization_discovery_leads AS lead ON lead.id = link.lead_id
+                       ORDER BY lead.canonical_url"""
+                ).fetchall()
+            ]
+        self.assertEqual(
+            ["reputable-secondary", "direct-provider"],
+            [source["authority"] for source in sources],
+        )
+        self.assertEqual(
+            ["Independent supporting evidence", "Primary program evidence"],
+            [
+                json.loads(source["extract_json"])["selection"]["excerpt"]
+                for source in sources
+            ],
+        )
+        self.assertEqual(
+            ["Independent supporting evidence", "Primary program evidence"],
+            [metadata["evidenceExcerpt"] for metadata in link_metadata],
+        )
+
     def test_resume_after_discovery_interruption_does_not_repeat_completed_query(self) -> None:
         providers = FixtureProviders()
         interrupted = False

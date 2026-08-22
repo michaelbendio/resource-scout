@@ -378,6 +378,7 @@ CREATE TABLE IF NOT EXISTS optimization_identity_leads (
     relationship TEXT NOT NULL CHECK (
         relationship IN ('describes-program', 'describes-organization', 'possible-match', 'excluded')
     ),
+    metadata_json TEXT NOT NULL DEFAULT '{}',
     PRIMARY KEY (identity_id, lead_id)
 );
 CREATE TABLE IF NOT EXISTS optimization_evidence_sources (
@@ -670,6 +671,17 @@ class ResearchStore:
             connection.execute(
                 "ALTER TABLE optimization_candidate_identities "
                 "ADD COLUMN target_stage_key TEXT NOT NULL DEFAULT ''"
+            )
+        optimization_identity_lead_columns = {
+            row["name"]
+            for row in connection.execute(
+                "PRAGMA table_info(optimization_identity_leads)"
+            )
+        }
+        if "metadata_json" not in optimization_identity_lead_columns:
+            connection.execute(
+                "ALTER TABLE optimization_identity_leads "
+                "ADD COLUMN metadata_json TEXT NOT NULL DEFAULT '{}'"
             )
         connection.execute(
             """UPDATE optimization_candidate_identities

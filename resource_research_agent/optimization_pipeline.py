@@ -444,11 +444,39 @@ class OptimizationDiscoveryPipeline:
                         raise OptimizationPipelineError(
                             f"Invalid lead relationship for {canonical_url}: {relationship}"
                         )
+                    lead_metadata = {
+                        "directDomains": sorted(
+                            {
+                                str(domain).strip().casefold()
+                                for domain in decision.get("directDomains", [])
+                                if str(domain).strip()
+                            }
+                        ),
+                        "reviewedAuthority": decision.get("reviewedAuthority"),
+                        "coverageTags": sorted(
+                            {
+                                str(tag).strip()
+                                for tag in decision.get("coverageTags", [])
+                                if str(tag).strip()
+                            }
+                        ),
+                        "evidenceExcerpt": str(
+                            decision.get("evidenceExcerpt") or ""
+                        ).strip(),
+                    }
                     connection.execute(
-                        """INSERT OR IGNORE INTO optimization_identity_leads (
-                               identity_id, lead_id, relationship
-                           ) VALUES (?, ?, ?)""",
-                        (identity_id, lead_id, relationship),
+                        """INSERT INTO optimization_identity_leads (
+                               identity_id, lead_id, relationship, metadata_json
+                           ) VALUES (?, ?, ?, ?)
+                           ON CONFLICT(identity_id, lead_id) DO UPDATE SET
+                               relationship = excluded.relationship,
+                               metadata_json = excluded.metadata_json""",
+                        (
+                            identity_id,
+                            lead_id,
+                            relationship,
+                            canonical_json(lead_metadata),
+                        ),
                     )
             payload = {"sources": normalized_results, "truncated": False}
             now = _now()
@@ -663,7 +691,7 @@ class OptimizationDiscoveryPipeline:
                 (lead_id, attempt_number, _now()),
             ).lastrowid
             identities = connection.execute(
-                """SELECT identity.*
+                """SELECT identity.*, link.metadata_json AS lead_metadata_json
                    FROM optimization_candidate_identities AS identity
                    JOIN optimization_identity_leads AS link
                      ON link.identity_id = identity.id
@@ -718,8 +746,8 @@ class OptimizationDiscoveryPipeline:
                 ),
             )
             for identity in identities:
-                metadata = json.loads(identity["metadata_json"] or "{}")
-                excerpt = str(metadata.get("evidenceExcerpt") or "").strip()
+                lead_metadata = json.loads(identity["lead_metadata_json"] or "{}")
+                excerpt = str(lead_metadata.get("evidenceExcerpt") or "").strip()
                 identity_extract = dict(full_extract)
                 if excerpt:
                     position = text.find(excerpt)
@@ -758,6 +786,7 @@ class OptimizationDiscoveryPipeline:
         with self.store.connect() as connection:
             for identity in identities:
                 metadata = json.loads(identity["metadata_json"] or "{}")
+                lead_metadata = json.loads(identity["lead_metadata_json"] or "{}")
                 extract = identity_extracts[int(identity["id"])]
                 extract_hash = sha256_json(extract)
                 page_organization = str(
@@ -767,8 +796,12 @@ class OptimizationDiscoveryPipeline:
                 page_identity_key = candidate_identity_key(page_organization, page_program)
                 authority = source_authority(
                     final_url,
-                    direct_domains=metadata.get("directDomains", []),
-                    reviewed_authority=metadata.get("reviewedAuthority"),
+                    direct_domains=lead_metadata.get(
+                        "directDomains", metadata.get("directDomains", [])
+                    ),
+                    reviewed_authority=lead_metadata.get(
+                        "reviewedAuthority", metadata.get("reviewedAuthority")
+                    ),
                 )
                 connection.execute(
                     """INSERT OR REPLACE INTO optimization_evidence_sources (
