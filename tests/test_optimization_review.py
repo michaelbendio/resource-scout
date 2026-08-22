@@ -122,6 +122,12 @@ class OptimizationReviewTests(unittest.TestCase):
                 "disposition": "candidate",
                 "reason": "Reviewed program",
                 "identity": {"organization": "Example", "program": "Program"},
+                "reviewEvidence": [
+                    {
+                        "url": "https://example.org/status",
+                        "excerpt": "The reviewed program remains open.",
+                    }
+                ],
             }
         )
         previous["reviewApplications"] = [
@@ -146,6 +152,10 @@ class OptimizationReviewTests(unittest.TestCase):
         self.assertEqual("candidate", carried["disposition"])
         self.assertEqual("New title", carried["title"])
         self.assertEqual(["new-query"], carried["queryKeys"])
+        self.assertEqual(
+            previous["decisions"]["https://example.org/program"]["reviewEvidence"],
+            carried["reviewEvidence"],
+        )
         self.assertEqual(
             "pending", merged["decisions"]["https://example.org/new"]["disposition"]
         )

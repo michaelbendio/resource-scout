@@ -160,7 +160,13 @@ def merge_identity_review(
             "excluded",
         }:
             continue
-        for key in ("disposition", "reason", "identity", "identities"):
+        for key in (
+            "disposition",
+            "reason",
+            "identity",
+            "identities",
+            "reviewEvidence",
+        ):
             if key in previous:
                 record[key] = json.loads(json.dumps(previous[key], ensure_ascii=False))
         if "identities" in record:
