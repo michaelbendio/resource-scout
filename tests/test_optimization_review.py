@@ -9,6 +9,7 @@ from resource_research_agent.optimization_review import (
     CachedSearchClient,
     cache_housing_searches,
     identity_review_template,
+    merge_identity_review,
     reviewed_identity_decisions,
     validate_identity_review,
 )
@@ -97,6 +98,52 @@ class OptimizationReviewTests(unittest.TestCase):
         self.assertEqual(2, len(client("exact query", 2)))
         with self.assertRaisesRegex(OptimizationRuntimeError, "no entry"):
             client("changed query", 8)
+
+    def test_review_merge_carries_decisions_but_refreshes_query_provenance(self) -> None:
+        old_cache = {
+            "cacheSha256": "old",
+            "queries": {
+                "old-query": {
+                    "sources": [
+                        {
+                            "url": "https://example.org/program",
+                            "title": "Old title",
+                        }
+                    ]
+                }
+            },
+        }
+        previous = identity_review_template(old_cache)
+        previous["decisions"]["https://example.org/program"].update(
+            {
+                "disposition": "candidate",
+                "reason": "Reviewed program",
+                "identity": {"organization": "Example", "program": "Program"},
+            }
+        )
+        new_cache = {
+            "cacheSha256": "new",
+            "queries": {
+                "new-query": {
+                    "sources": [
+                        {
+                            "url": "https://example.org/program",
+                            "title": "New title",
+                        },
+                        {"url": "https://example.org/new", "title": "New lead"},
+                    ]
+                }
+            },
+        }
+        merged = merge_identity_review(new_cache, previous)
+        carried = merged["decisions"]["https://example.org/program"]
+        self.assertEqual("candidate", carried["disposition"])
+        self.assertEqual("New title", carried["title"])
+        self.assertEqual(["new-query"], carried["queryKeys"])
+        self.assertEqual(
+            "pending", merged["decisions"]["https://example.org/new"]["disposition"]
+        )
+        self.assertEqual("new", merged["searchCacheSha256"])
 
 
 if __name__ == "__main__":

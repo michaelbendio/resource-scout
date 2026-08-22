@@ -9,6 +9,7 @@ from resource_research_agent.optimization_review import (
     _write_json,
     cache_housing_searches,
     identity_review_template,
+    merge_identity_review,
 )
 
 
@@ -19,6 +20,7 @@ parser.add_argument("--minimum-queries", type=int, default=2)
 parser.add_argument("--maximum-queries", type=int, default=6)
 parser.add_argument("--saturation-queries", type=int, default=2)
 parser.add_argument("--results-per-query", type=int, default=8)
+parser.add_argument("--previous-review", type=Path)
 arguments = parser.parse_args()
 
 cache = cache_housing_searches(
@@ -29,7 +31,11 @@ cache = cache_housing_searches(
     saturation_queries=arguments.saturation_queries,
     results_per_query=arguments.results_per_query,
 )
-if arguments.review.exists():
+if arguments.previous_review:
+    previous = json.loads(arguments.previous_review.read_text(encoding="utf-8"))
+    review = merge_identity_review(cache, previous)
+    _write_json(arguments.review, review)
+elif arguments.review.exists():
     review = json.loads(arguments.review.read_text(encoding="utf-8"))
 else:
     review = identity_review_template(cache)

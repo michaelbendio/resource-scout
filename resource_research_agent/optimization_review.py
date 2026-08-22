@@ -109,6 +109,30 @@ def identity_review_template(cache: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def merge_identity_review(
+    cache: dict[str, Any], previous_review: dict[str, Any]
+) -> dict[str, Any]:
+    """Carry completed URL decisions into a new ledger without stale query metadata."""
+
+    merged = identity_review_template(cache)
+    previous_decisions = previous_review.get("decisions", {})
+    if not isinstance(previous_decisions, dict):
+        return merged
+    for url, record in merged["decisions"].items():
+        previous = previous_decisions.get(url)
+        if not isinstance(previous, dict) or previous.get("disposition") not in {
+            "candidate",
+            "excluded",
+        }:
+            continue
+        for key in ("disposition", "reason", "identity", "identities"):
+            if key in previous:
+                record[key] = json.loads(json.dumps(previous[key], ensure_ascii=False))
+        if "identities" in record:
+            record.pop("identity", None)
+    return merged
+
+
 def validate_identity_review(cache: dict[str, Any], review: dict[str, Any]) -> None:
     expected = cache.get("cacheSha256") or sha256_json(cache.get("queries", {}))
     if review.get("searchCacheSha256") != expected:
