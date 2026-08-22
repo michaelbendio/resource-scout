@@ -20,7 +20,16 @@ ProgressCallback = Callable[[dict[str, Any]], None]
 
 
 class OptimizationModelError(RuntimeError):
-    pass
+    def __init__(
+        self,
+        message: str,
+        *,
+        raw_output: str = "",
+        usage: dict[str, Any] | None = None,
+    ) -> None:
+        super().__init__(message)
+        self.raw_output = raw_output
+        self.usage = usage
 
 
 @dataclass(frozen=True)
@@ -503,8 +512,9 @@ class OptimizationModelPipeline:
                     "componentIdentityKeys": ["the one exact identityKey"],
                 },
                 "sources": (
-                    "Copy each used source as an object with id, url, title, extract, authority, "
-                    "pageIdentityKey, pageOrganizationKey, supports, and contradicts. "
+                    "Return each used source as an object with only id, supports, and contradicts. "
+                    "Scout restores immutable URL, title, extract, authority, pageIdentityKey, "
+                    "and pageOrganizationKey from the frozen evidence packet after this response. "
                     "Every supports or contradicts item has field, value, and scope; scope must "
                     "be exactly program or organization, and value must be the exact JSON value "
                     "retained for that field or conflict alternative."
@@ -537,8 +547,14 @@ class OptimizationModelPipeline:
             dossier = invocation.result
             if not isinstance(dossier.get("candidateIdentity"), dict):
                 raise OptimizationModelError("Extractor returned no candidate identity")
+            dossier = restore_frozen_source_envelopes(dossier, packet)
         except BaseException as error:
-            self._fail_attempt(attempt_id, str(error))
+            self._fail_attempt(
+                attempt_id,
+                str(error),
+                raw_output=getattr(error, "raw_output", ""),
+                usage=getattr(error, "usage", None),
+            )
             raise
         with self.store.connect() as connection:
             raw = invocation.raw_output or canonical_json(invocation.result)
@@ -650,7 +666,12 @@ class OptimizationModelPipeline:
             )
             final_issues = validate_dossier_for_packet(verified, packet)
         except BaseException as error:
-            self._fail_attempt(attempt_id, str(error))
+            self._fail_attempt(
+                attempt_id,
+                str(error),
+                raw_output=getattr(error, "raw_output", ""),
+                usage=getattr(error, "usage", None),
+            )
             raise
         requested_status = str(invocation.result.get("status") or "passed")
         status = (
@@ -736,12 +757,26 @@ class OptimizationModelPipeline:
             )
         return int(cursor.lastrowid)
 
-    def _fail_attempt(self, attempt_id: int, error: str) -> None:
+    def _fail_attempt(
+        self,
+        attempt_id: int,
+        error: str,
+        *,
+        raw_output: str = "",
+        usage: dict[str, Any] | None = None,
+    ) -> None:
         with self.store.connect() as connection:
             connection.execute(
                 """UPDATE optimization_model_attempts
-                   SET completed_at = ?, status = 'failed', error = ? WHERE id = ?""",
-                (_now(), error, attempt_id),
+                   SET completed_at = ?, status = 'failed', raw_output = ?,
+                       usage_json = ?, error = ? WHERE id = ?""",
+                (
+                    _now(),
+                    raw_output,
+                    canonical_json(usage) if usage else None,
+                    error,
+                    attempt_id,
+                ),
             )
 
     def _audit(self, run_id: int, configuration_id: int) -> ModelEvaluationResult:

@@ -249,4 +249,10 @@ class LocalQwenJSONClient:
             "metered": False,
             "fallbacks": [],
         }
-        return ModelInvocation(result=_extract_object(content), raw_output=content, usage=usage)
+        try:
+            result = _extract_object(content)
+        except OptimizationModelError as error:
+            raise OptimizationModelError(
+                str(error), raw_output=content, usage=usage
+            ) from error
+        return ModelInvocation(result=result, raw_output=content, usage=usage)

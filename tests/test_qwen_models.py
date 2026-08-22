@@ -154,7 +154,7 @@ class SeededFixtureModels:
             "identityKey": identity["identityKey"],
             "componentIdentityKeys": [identity["identityKey"]],
         }
-        verified["sources"] = source_records({"sources": prompt["sources"]})
+        verified["sources"] = deepcopy(prompt["dossier"]["sources"])
         for finding in prompt["deterministicFindings"]:
             field = finding.get("field")
             if field in verified["fields"]:
@@ -277,7 +277,8 @@ class ModelPipelineTests(unittest.TestCase):
         self.assertEqual(8, result.passed_count)
         self.assertEqual(0, result.needs_review_count)
         self.assertEqual(0, result.failed_count)
-        self.assertEqual(8 * len(HOUSING_FACTUAL_FIELDS), result.unknown_field_count)
+        self.assertEqual(1, result.supported_field_count)
+        self.assertEqual(8 * len(HOUSING_FACTUAL_FIELDS) - 1, result.unknown_field_count)
         self.assertEqual(1, result.gap_count)
         self.assertEqual(8, len(models.extract_prompts))
         self.assertEqual(8, len(models.verify_prompts))
@@ -285,6 +286,13 @@ class ModelPipelineTests(unittest.TestCase):
             all(prompt["operation"] == "extract-candidate-dossier" for prompt in models.extract_prompts)
         )
         self.assertTrue(all(prompt.get("outputContract") for prompt in models.extract_prompts))
+        self.assertTrue(
+            all(
+                "only id, supports, and contradicts"
+                in prompt["outputContract"]["sources"]
+                for prompt in models.extract_prompts
+            )
+        )
         self.assertTrue(
             all(
                 "Use only program or organization as an evidence-binding scope."
@@ -306,13 +314,11 @@ class ModelPipelineTests(unittest.TestCase):
         }
         self.assertTrue(
             {
-                "cross-program-evidence",
                 "multiple-program-identities",
                 "source-does-not-support-field",
                 "contradicted-field",
                 "missing-evidence",
                 "packet-identity-mismatch",
-                "altered-source",
             }.issubset(detected_codes)
         )
 
@@ -336,7 +342,11 @@ class ModelPipelineTests(unittest.TestCase):
         self.assertEqual(8, len(candidates))
         self.assertTrue(all(candidate["name"] for candidate in candidates))
         self.assertTrue(all(candidate["evidence"] for candidate in candidates))
-        self.assertTrue(all(len(candidate["unknowns"]) == len(HOUSING_FACTUAL_FIELDS) for candidate in candidates))
+        self.assertEqual(
+            8 * len(HOUSING_FACTUAL_FIELDS) - 1,
+            sum(len(candidate["unknowns"]) for candidate in candidates),
+        )
+        self.assertTrue(any(candidate.get("phone") == "480-000-0100" for candidate in candidates))
 
     def test_needs_review_is_reported_separately_and_reaches_candidate_output(self) -> None:
         review_models = SeededFixtureModels()
@@ -591,6 +601,70 @@ class ModelPipelineTests(unittest.TestCase):
             [("extract", "failed"), ("extract", "completed"), ("verify", "completed")],
             [(row["operation"], row["status"]) for row in attempts],
         )
+
+    def test_extractor_may_return_sparse_source_bindings_and_scout_restores_envelopes(
+        self,
+    ) -> None:
+        models = SeededFixtureModels()
+
+        def sparse_extract(prompt: dict) -> dict:
+            dossier = models.extract(prompt)
+            dossier["sources"] = [
+                {
+                    key: deepcopy(source[key])
+                    for key in ("id", "supports", "contradicts")
+                }
+                for source in dossier["sources"]
+            ]
+            return dossier
+
+        result = self.pipeline(
+            models,
+            "model-fixture-sparse-source-bindings",
+            extract=sparse_extract,
+        ).run()
+        self.assertTrue(result.quality_gate_passed)
+
+        with self.store.connect() as connection:
+            dossiers = connection.execute(
+                """SELECT dossier_json FROM optimization_candidate_dossiers
+                   WHERE run_id = ? ORDER BY packet_id""",
+                (result.run_id,),
+            ).fetchall()
+        for row in dossiers:
+            for source in json.loads(row["dossier_json"])["sources"]:
+                self.assertTrue(source["url"].startswith("https://"))
+                self.assertIn("extract", source)
+                self.assertIn("authority", source)
+                self.assertIn("pageIdentityKey", source)
+
+    def test_failed_model_output_and_usage_are_retained_for_diagnosis(self) -> None:
+        models = SeededFixtureModels()
+
+        def fail_with_raw_output(_prompt: dict) -> dict:
+            raise OptimizationModelError(
+                "fixture parse failure",
+                raw_output="unfinished fixture output",
+                usage={"completion_tokens": 99, "metered": False},
+            )
+
+        with self.assertRaisesRegex(OptimizationModelError, "fixture parse failure"):
+            self.pipeline(
+                models,
+                "model-fixture-raw-failure",
+                extract=fail_with_raw_output,
+            ).run()
+
+        with self.store.connect() as connection:
+            attempt = connection.execute(
+                """SELECT status, raw_output, usage_json, error
+                   FROM optimization_model_attempts
+                   WHERE operation = 'extract' ORDER BY id DESC LIMIT 1"""
+            ).fetchone()
+        self.assertEqual("failed", attempt["status"])
+        self.assertEqual("unfinished fixture output", attempt["raw_output"])
+        self.assertEqual(99, json.loads(attempt["usage_json"])["completion_tokens"])
+        self.assertEqual("fixture parse failure", attempt["error"])
 
     def test_gap_audit_resume_does_not_repeat_model_work(self) -> None:
         models = SeededFixtureModels()

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import io
+import json
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -10,6 +12,15 @@ from resource_research_agent.optimization_runtime import (
     _extract_object,
     html_to_text,
 )
+from resource_research_agent.optimization_models import OptimizationModelError
+
+
+class _JSONResponse(io.BytesIO):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_args):
+        self.close()
 
 
 class OptimizationRuntimeTests(unittest.TestCase):
@@ -57,6 +68,27 @@ class OptimizationRuntimeTests(unittest.TestCase):
         client = LocalQwenJSONClient("4-bit")
         self.assertEqual("http://127.0.0.1:8080/v1", client.endpoint)
         self.assertEqual("mlx-community/Qwen3.8-27B-4bit", client.model)
+
+    def test_local_client_preserves_unparseable_completion_and_usage(self) -> None:
+        client = LocalQwenJSONClient("4-bit")
+        response = _JSONResponse(
+            json.dumps(
+                {
+                    "choices": [{"message": {"content": "unfinished JSON {"}}],
+                    "usage": {"completion_tokens": 16384},
+                }
+            ).encode()
+        )
+        with patch.object(client, "validate"), patch(
+            "resource_research_agent.optimization_runtime.urlopen",
+            return_value=response,
+        ):
+            with self.assertRaisesRegex(OptimizationModelError, "valid JSON") as raised:
+                client({"operation": "fixture"})
+
+        self.assertEqual("unfinished JSON {", raised.exception.raw_output)
+        self.assertEqual(16384, raised.exception.usage["completion_tokens"])
+        self.assertFalse(raised.exception.usage["metered"])
 
 
 if __name__ == "__main__":

@@ -128,7 +128,7 @@ try:
         suffix = str(corpus["corpus_sha256"])[:12]
         run_ids = {}
         for quantization in ("4-bit", "8-bit"):
-            label = f"mesa-housing-urgent-{quantization}-reviewed-corpus-v5-{suffix}"
+            label = f"mesa-housing-urgent-{quantization}-reviewed-corpus-v6-{suffix}"
             row = connection.execute(
                 "SELECT id FROM optimization_runs WHERE label = ? AND status = 'completed'",
                 (label,),
@@ -139,7 +139,7 @@ try:
     status(phase="quality-comparison", quantization=None)
     comparison = create_model_neutral_comparison(
         store,
-        label=f"mesa-housing-urgent-quantization-v5-{suffix}",
+        label=f"mesa-housing-urgent-quantization-v6-{suffix}",
         four_bit_run_id=run_ids["4-bit"],
         eight_bit_run_id=run_ids["8-bit"],
     )
