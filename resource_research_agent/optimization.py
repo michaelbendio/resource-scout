@@ -360,7 +360,7 @@ def build_housing_urgent_query_plan(
                 f'"{location}" "Family Housing Hub" shelter',
                 f'"{location}" "Keys to Change" coordinated entry',
                 f'"{location}" CASS shelter intake',
-                f'211 Arizona "East Valley" named shelter program',
+                f'Maricopa Regional Continuum of Care "{location}" coordinated entry get help',
             ),
         ),
         (
@@ -392,7 +392,7 @@ def build_housing_urgent_query_plan(
                 f'"{location}" pregnant women emergency shelter',
                 f'"{location}" reentry emergency housing program',
                 f'"{location}" recovery housing immediate placement',
-                f'"{location}" medically vulnerable homeless shelter',
+                f'"{location}" senior older adults medically vulnerable homeless day center shelter',
             ),
         ),
         (

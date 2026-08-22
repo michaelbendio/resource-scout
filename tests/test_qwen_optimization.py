@@ -294,6 +294,19 @@ class CoverageAndSaturationTests(unittest.TestCase):
         )
         self.assertEqual(2, plan["schemaVersion"])
         self.assertTrue(all(len(branch["queries"]) == 10 for branch in plan["branches"]))
+        queries = {
+            query["key"]: query["query"]
+            for branch in plan["branches"]
+            for query in branch["queries"]
+        }
+        self.assertEqual(
+            'Maricopa Regional Continuum of Care "Mesa" coordinated entry get help',
+            queries["coordinated-entry-and-211-10"],
+        )
+        self.assertEqual(
+            '"Mesa" senior older adults medically vulnerable homeless day center shelter',
+            queries["specialized-safety-10"],
+        )
         self.assertTrue(
             all(
                 branch["saturation"]["minimumQueries"] == 4
