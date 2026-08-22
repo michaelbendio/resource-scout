@@ -16,6 +16,7 @@ from resource_research_agent.optimization_models import (
     OptimizationModelError,
     OptimizationModelPipeline,
     remediate_invalid_factual_fields,
+    restore_frozen_candidate_identity,
     restore_frozen_source_envelopes,
 )
 from resource_research_agent.optimization_pipeline import OptimizationDiscoveryPipeline
@@ -244,6 +245,38 @@ class ModelPipelineTests(unittest.TestCase):
         self.assertEqual(dossier["fields"], compacted["fields"])
         self.assertIn("url", dossier["sources"][0])
 
+    def test_frozen_candidate_identity_is_restored_without_dropping_review_metadata(self) -> None:
+        packet = {
+            "candidateIdentity": {
+                "organization": "A New Leaf",
+                "program": "Community Alliance Against Family Abuse Shelter",
+                "identityKey": "a new leaf::community alliance against family abuse shelter",
+            }
+        }
+        dossier = {
+            "candidateIdentity": {
+                "organization": "A New Leaf",
+                "program": "Community Alliance Against Family Abuse (CAAFA)",
+                "identityKey": "a new leaf::community alliance against family abuse shelter",
+                "boundaryState": "resolved",
+                "coverageTags": ["domestic-violence"],
+            }
+        }
+        restored = restore_frozen_candidate_identity(dossier, packet)
+
+        self.assertEqual(
+            packet["candidateIdentity"]["program"],
+            restored["candidateIdentity"]["program"],
+        )
+        self.assertEqual(
+            [packet["candidateIdentity"]["identityKey"]],
+            restored["candidateIdentity"]["componentIdentityKeys"],
+        )
+        self.assertEqual("resolved", restored["candidateIdentity"]["boundaryState"])
+        self.assertEqual(
+            ["domestic-violence"], restored["candidateIdentity"]["coverageTags"]
+        )
+
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory()
         self.store = ResearchStore(Path(self.temporary.name) / "research.sqlite3")
@@ -347,11 +380,9 @@ class ModelPipelineTests(unittest.TestCase):
         }
         self.assertTrue(
             {
-                "multiple-program-identities",
                 "source-does-not-support-field",
                 "contradicted-field",
                 "missing-evidence",
-                "packet-identity-mismatch",
             }.issubset(detected_codes)
         )
 
@@ -421,7 +452,13 @@ class ModelPipelineTests(unittest.TestCase):
             if program == "Rapid Re-Housing":
                 return {**result, "status": "needs-review"}
             if program == "Brian Garcia Welcome Center":
-                result["verifiedDossier"]["candidateIdentity"]["identityKey"] = "wrong::program"
+                result["verifiedDossier"]["sources"].append(
+                    {
+                        "id": "invented-source",
+                        "supports": [],
+                        "contradicts": [],
+                    }
+                )
             return result
 
         mixed_pipeline = self.pipeline(

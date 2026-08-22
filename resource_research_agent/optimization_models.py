@@ -310,6 +310,29 @@ def compact_source_bindings(dossier: dict[str, Any]) -> dict[str, Any]:
     return compacted
 
 
+def restore_frozen_candidate_identity(
+    dossier: dict[str, Any], packet: dict[str, Any]
+) -> dict[str, Any]:
+    """Restore the immutable corpus identity without dropping model review metadata."""
+    restored = json.loads(canonical_json(dossier))
+    frozen = packet.get("candidateIdentity")
+    if not isinstance(frozen, dict):
+        return restored
+    model_identity = restored.get("candidateIdentity")
+    identity = dict(model_identity) if isinstance(model_identity, dict) else {}
+    identity_key = str(frozen.get("identityKey") or "")
+    identity.update(
+        {
+            "organization": frozen.get("organization"),
+            "program": frozen.get("program"),
+            "identityKey": identity_key,
+            "componentIdentityKeys": [identity_key],
+        }
+    )
+    restored["candidateIdentity"] = identity
+    return restored
+
+
 def remediate_invalid_factual_fields(
     dossier: dict[str, Any],
     issues: Iterable[dict[str, str]],
@@ -563,6 +586,7 @@ class OptimizationModelPipeline:
             dossier = invocation.result
             if not isinstance(dossier.get("candidateIdentity"), dict):
                 raise OptimizationModelError("Extractor returned no candidate identity")
+            dossier = restore_frozen_candidate_identity(dossier, packet)
             dossier = restore_frozen_source_envelopes(dossier, packet)
         except BaseException as error:
             self._fail_attempt(
@@ -680,6 +704,7 @@ class OptimizationModelPipeline:
             verified = invocation.result.get("verifiedDossier")
             if not isinstance(verified, dict):
                 raise OptimizationModelError("Verifier returned no verifiedDossier object")
+            verified = restore_frozen_candidate_identity(verified, packet)
             verified = restore_frozen_source_envelopes(verified, packet)
             verifier_findings = invocation.result.get("findings", [])
             if not isinstance(verifier_findings, list):
