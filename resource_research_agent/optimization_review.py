@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
@@ -131,6 +132,100 @@ def merge_identity_review(
         if "identities" in record:
             record.pop("identity", None)
     return merged
+
+
+def apply_identity_review_patch(
+    review: dict[str, Any], patch: dict[str, Any]
+) -> dict[str, Any]:
+    """Apply a labeled, replay-safe set of human identity-review decisions."""
+
+    decisions = review.get("decisions")
+    if not isinstance(decisions, dict):
+        raise OptimizationRuntimeError("Identity review has no decisions object")
+    label = str(patch.get("label") or "").strip()
+    patch_decisions = patch.get("decisions")
+    if not label or not isinstance(patch_decisions, dict) or not patch_decisions:
+        raise OptimizationRuntimeError(
+            "Identity review patch needs a label and non-empty decisions object"
+        )
+    expected_cache = str(review.get("searchCacheSha256") or "")
+    patch_cache = str(patch.get("searchCacheSha256") or "")
+    if patch_cache and patch_cache != expected_cache:
+        raise OptimizationRuntimeError("Identity review patch belongs to a different search cache")
+
+    patch_digest = sha256_json(
+        {
+            "label": label,
+            "searchCacheSha256": expected_cache,
+            "decisions": patch_decisions,
+        }
+    )
+    applications = review.get("reviewApplications", [])
+    if applications is None:
+        applications = []
+    if not isinstance(applications, list):
+        raise OptimizationRuntimeError("Identity review applications must be an array")
+    if any(
+        isinstance(application, dict)
+        and application.get("patchSha256") == patch_digest
+        for application in applications
+    ):
+        return deepcopy(review)
+
+    result = deepcopy(review)
+    for url, decision_patch in patch_decisions.items():
+        if url not in decisions:
+            raise OptimizationRuntimeError(f"Identity review patch URL was not discovered: {url}")
+        if not isinstance(decision_patch, dict):
+            raise OptimizationRuntimeError(f"Identity review patch decision is invalid: {url}")
+        disposition = decision_patch.get("disposition")
+        reason = str(decision_patch.get("reason") or "").strip()
+        if disposition not in {"candidate", "excluded"} or not reason:
+            raise OptimizationRuntimeError(
+                f"Identity review patch decision needs a disposition and reason: {url}"
+            )
+        identity_value = decision_patch.get("identities", decision_patch.get("identity"))
+        if disposition == "candidate":
+            identities = (
+                [identity_value]
+                if isinstance(identity_value, dict)
+                else identity_value
+                if isinstance(identity_value, list)
+                else []
+            )
+            if not identities or any(not isinstance(identity, dict) for identity in identities):
+                raise OptimizationRuntimeError(
+                    f"Candidate identity-review patch lacks an identity: {url}"
+                )
+            for identity in identities:
+                if not str(identity.get("organization") or "").strip() or not str(
+                    identity.get("program") or ""
+                ).strip():
+                    raise OptimizationRuntimeError(
+                        f"Candidate identity-review patch is incomplete: {url}"
+                    )
+        elif identity_value is not None:
+            raise OptimizationRuntimeError(
+                f"Excluded identity-review patch must not contain an identity: {url}"
+            )
+
+        record = result["decisions"][url]
+        record["disposition"] = disposition
+        record["reason"] = reason
+        record.pop("identity", None)
+        record.pop("identities", None)
+        if disposition == "candidate":
+            key = "identities" if isinstance(identity_value, list) else "identity"
+            record[key] = deepcopy(identity_value)
+
+    result.setdefault("reviewApplications", []).append(
+        {
+            "label": label,
+            "patchSha256": patch_digest,
+            "decisionCount": len(patch_decisions),
+        }
+    )
+    return result
 
 
 def validate_identity_review(cache: dict[str, Any], review: dict[str, Any]) -> None:

@@ -7,6 +7,7 @@ from pathlib import Path
 
 from resource_research_agent.optimization_review import (
     CachedSearchClient,
+    apply_identity_review_patch,
     cache_housing_searches,
     identity_review_template,
     merge_identity_review,
@@ -144,6 +145,55 @@ class OptimizationReviewTests(unittest.TestCase):
             "pending", merged["decisions"]["https://example.org/new"]["disposition"]
         )
         self.assertEqual("new", merged["searchCacheSha256"])
+
+    def test_labeled_review_patch_is_validated_and_replay_safe(self) -> None:
+        cache = {
+            "cacheSha256": "cache",
+            "queries": {
+                "q": {
+                    "sources": [
+                        {"url": "https://example.org/program", "title": "Program"},
+                        {"url": "https://example.org/junk", "title": "Junk"},
+                    ]
+                }
+            },
+        }
+        review = identity_review_template(cache)
+        patch = {
+            "label": "review-batch-1",
+            "searchCacheSha256": "cache",
+            "decisions": {
+                "https://example.org/program": {
+                    "disposition": "candidate",
+                    "reason": "Direct program page",
+                    "identity": {"organization": "Example", "program": "Program"},
+                },
+                "https://example.org/junk": {
+                    "disposition": "excluded",
+                    "reason": "Unrelated result",
+                },
+            },
+        }
+        updated = apply_identity_review_patch(review, patch)
+        self.assertEqual("candidate", updated["decisions"]["https://example.org/program"]["disposition"])
+        self.assertEqual("excluded", updated["decisions"]["https://example.org/junk"]["disposition"])
+        self.assertEqual(1, len(updated["reviewApplications"]))
+        replayed = apply_identity_review_patch(updated, patch)
+        self.assertEqual(updated, replayed)
+
+        changed_cache = dict(patch, searchCacheSha256="other")
+        with self.assertRaisesRegex(OptimizationRuntimeError, "different search cache"):
+            apply_identity_review_patch(review, changed_cache)
+
+        unknown_url = dict(patch)
+        unknown_url["decisions"] = {
+            "https://other.example/": {
+                "disposition": "excluded",
+                "reason": "Not present",
+            }
+        }
+        with self.assertRaisesRegex(OptimizationRuntimeError, "was not discovered"):
+            apply_identity_review_patch(review, unknown_url)
 
 
 if __name__ == "__main__":
