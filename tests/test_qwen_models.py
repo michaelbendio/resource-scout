@@ -14,6 +14,7 @@ from resource_research_agent.optimization_models import (
     restore_frozen_source_envelopes,
 )
 from resource_research_agent.optimization_pipeline import OptimizationDiscoveryPipeline
+from resource_research_agent.review_export import build_optimization_review_copy
 from resource_research_agent.storage import ResearchStore
 from tests.test_qwen_discovery import FixtureProviders
 
@@ -405,6 +406,32 @@ class ModelPipelineTests(unittest.TestCase):
         self.assertEqual(1, completeness["failedCount"])
         self.assertEqual(1, quality["verificationNeedsReview"])
         self.assertEqual(1, quality["verificationFailures"])
+        review = build_optimization_review_copy(
+            self.store,
+            mixed_result.run_id,
+        )
+        self.assertEqual(7, len(review.data["candidates"]))
+        self.assertEqual(
+            {"passed", "needs-review"},
+            {
+                item["candidate"]["verificationStatus"]
+                for item in review.data["candidates"]
+            },
+        )
+        self.assertTrue(
+            all(
+                item["candidate"]["optimizationProvenance"]["runId"]
+                == mixed_result.run_id
+                for item in review.data["candidates"]
+            )
+        )
+        self.assertTrue(
+            all(
+                "verifierFindings" in item["candidate"]["verificationFindings"]
+                for item in review.data["candidates"]
+            )
+        )
+        self.assertNotIn("wrong::program", review.html.decode("utf-8"))
 
     def test_residual_invalid_field_is_removed_and_requires_review(self) -> None:
         models = SeededFixtureModels()

@@ -135,6 +135,24 @@ Before Mesa calibration, freeze the historical comparison into an ignored, separ
 
 The command refuses a package whose SHA-256 differs from the Mesa imports, requires exactly 20 completed four-stage DSH runs, copies the database through SQLite's consistent backup operation, and writes a machine-readable baseline manifest. Qwen calibration and comparison use the copied database, never the live one.
 
+A completed optimization model run can be exported to its own Resource Curator
+without inserting anything into the normal Scout inbox:
+
+```sh
+python3 export-qwen-curator.py \
+  --database data/benchmarks/mesa-qwen-YYYY-MM-DD/mesa-qwen-benchmark.sqlite3 \
+  --run-id 11 \
+  --output /path/to/curator-exports
+```
+
+The export contains passed and `needs-review` dossiers, their verifier findings,
+evidence, conflicts, unknowns, and configuration/corpus/package provenance. True
+failed dossiers are not exported. The command is read-only with respect to Scout
+and Curator data; undo consists of deleting the standalone HTML export. The same
+builder is available at `/api/optimization-runs/{run-id}/review-copy` only when a
+server is deliberately started against the isolated benchmark database. Normal
+research-run export and production DeepSeek behavior are unchanged.
+
 ### Hermes
 
 To install Hermes using its supported macOS installer:

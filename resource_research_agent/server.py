@@ -16,7 +16,7 @@ from urllib.parse import parse_qs, urlsplit
 from . import __version__
 from .duplicates import DuplicateIndex
 from .importer import PackageImportError, ResourcePackageImporter
-from .review_export import build_review_copy
+from .review_export import build_optimization_review_copy, build_review_copy
 from .research import ResearchCoordinator
 from .resource_package import AcceptedResourceManager
 from .storage import ResearchStore
@@ -106,6 +106,19 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     self.server.store, run_id, template_path=self.server.web_dir / "review-copy.html"
                 )
                 self._download(review_copy.html, "text/html; charset=utf-8", review_copy.filename)
+            elif (run_id := self._path_id(
+                parsed.path, "/api/optimization-runs", "review-copy"
+            )) is not None:
+                review_copy = build_optimization_review_copy(
+                    self.server.store,
+                    run_id,
+                    template_path=self.server.web_dir / "review-copy.html",
+                )
+                self._download(
+                    review_copy.html,
+                    "text/html; charset=utf-8",
+                    review_copy.filename,
+                )
             elif (run_id := self._path_id(
                 parsed.path, "/api/research-runs", "resource-package"
             )) is not None:

@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from .duplicates import DuplicateIndex
+from .optimization_models import verified_dossier_to_candidate
 from .resource_package import RESOURCE_PACKAGE_SCHEMA_VERSION, candidate_to_resource
 from .storage import ResearchStore
 
@@ -71,6 +72,34 @@ def _known_resource_match(
         "classification": explained["classification"],
         "signals": explained["signals"],
     }
+
+
+def _render_review_copy(
+    data: dict[str, Any],
+    *,
+    title: str,
+    completed_date: str,
+    template_path: str | Path,
+    script_path: str | Path,
+) -> ReviewCopy:
+    template = Path(template_path).read_text(encoding="utf-8")
+    data_marker = "__REVIEW_COPY_DATA__"
+    script_marker = "__REVIEW_COPY_SCRIPT__"
+    if template.count(data_marker) != 1:
+        raise RuntimeError("Review-copy template must contain exactly one data marker")
+    if template.count(script_marker) != 1:
+        raise RuntimeError("Review-copy template must contain exactly one script marker")
+    script = Path(script_path).read_text(encoding="utf-8")
+    if "</script" in script.casefold():
+        raise RuntimeError("Review-copy script may not contain a closing script tag")
+    html = template.replace(data_marker, _embedded_json(data)).replace(
+        script_marker, script
+    )
+    return ReviewCopy(
+        filename=f"{_slug(title)}-curator-{completed_date}.html",
+        html=html.encode("utf-8"),
+        data=data,
+    )
 
 
 def build_review_copy(
@@ -245,17 +274,239 @@ def build_review_copy(
         ],
     }
 
-    template = Path(template_path).read_text(encoding="utf-8")
-    data_marker = "__REVIEW_COPY_DATA__"
-    script_marker = "__REVIEW_COPY_SCRIPT__"
-    if template.count(data_marker) != 1:
-        raise RuntimeError("Review-copy template must contain exactly one data marker")
-    if template.count(script_marker) != 1:
-        raise RuntimeError("Review-copy template must contain exactly one script marker")
-    script = Path(script_path).read_text(encoding="utf-8")
-    if "</script" in script.casefold():
-        raise RuntimeError("Review-copy script may not contain a closing script tag")
-    html = template.replace(data_marker, _embedded_json(data)).replace(script_marker, script)
-    html = html.encode("utf-8")
-    filename = f"{_slug(title)}-curator-{completed_date}.html"
-    return ReviewCopy(filename=filename, html=html, data=data)
+    return _render_review_copy(
+        data,
+        title=title,
+        completed_date=completed_date,
+        template_path=template_path,
+        script_path=script_path,
+    )
+
+
+def build_optimization_review_copy(
+    store: ResearchStore,
+    run_id: int,
+    *,
+    template_path: str | Path = DEFAULT_TEMPLATE,
+    script_path: str | Path = DEFAULT_SCRIPT,
+    exported_at: datetime | None = None,
+) -> ReviewCopy:
+    """Export passed and flagged optimization dossiers to an isolated Curator."""
+
+    with store.connect() as connection:
+        run = connection.execute(
+            """SELECT run.*, configuration.configuration_hash,
+                      configuration.model_artifact, configuration.quantization,
+                      configuration.prompt_policy_version,
+                      configuration.playbook_version,
+                      configuration.source_package_sha256,
+                      configuration.source_package_version,
+                      configuration.target_location, configuration.regional_scope,
+                      configuration.target_category_id, configuration.stage_key,
+                      corpus.corpus_sha256
+               FROM optimization_runs AS run
+               JOIN optimization_configurations AS configuration
+                 ON configuration.id = run.configuration_id
+               JOIN optimization_corpora AS corpus ON corpus.id = run.corpus_id
+               WHERE run.id = ? AND run.run_kind = 'model-evaluation'""",
+            (run_id,),
+        ).fetchone()
+        rows = connection.execute(
+            """SELECT packet.id AS packet_id, packet.identity_key,
+                      verification.status, verification.verified_dossier_json,
+                      verification.verified_dossier_sha256,
+                      verification.findings_json
+               FROM optimization_verifications AS verification
+               JOIN optimization_candidate_dossiers AS dossier
+                 ON dossier.id = verification.dossier_id
+               JOIN optimization_evidence_packets AS packet
+                 ON packet.id = dossier.packet_id
+               WHERE dossier.run_id = ?
+                 AND verification.status IN ('passed', 'needs-review')
+               ORDER BY packet.identity_key""",
+            (run_id,),
+        ).fetchall()
+        source_import = connection.execute(
+            """SELECT id FROM imports
+               WHERE source_sha256 = (
+                   SELECT configuration.source_package_sha256
+                   FROM optimization_runs AS selected_run
+                   JOIN optimization_configurations AS configuration
+                     ON configuration.id = selected_run.configuration_id
+                   WHERE selected_run.id = ?
+               )
+               ORDER BY id DESC LIMIT 1""",
+            (run_id,),
+        ).fetchone()
+    if not run:
+        raise ReviewCopyError("Completed optimization model run not found")
+    if run["status"] != "completed":
+        raise ReviewCopyError("Only completed optimization model runs can be exported")
+    if not rows:
+        raise ReviewCopyError("Optimization run has no passed or needs-review candidates")
+
+    exported = (exported_at or datetime.now(timezone.utc)).astimezone(timezone.utc)
+    completed_date = str(run["completed_at"] or run["created_at"] or exported.isoformat())[:10]
+    import_id = int(source_import["id"]) if source_import else None
+    package = store.import_summary(import_id) if import_id is not None else None
+    taxonomy = store.import_taxonomy(import_id) if import_id is not None else {
+        "categories": [],
+        "forGroups": [],
+    }
+    category_definitions = [
+        category
+        for item in taxonomy["categories"]
+        if (category := store.import_category(import_id, item["id"])) is not None
+    ] if import_id is not None else []
+    target_category_id = str(run["target_category_id"] or "housing")
+    category_summary = next(
+        (item for item in taxonomy["categories"] if item["id"] == target_category_id),
+        {"types": []},
+    )
+    package_eligible = bool(
+        package
+        and str(package["schema"].get("schemaVersion") or "")
+        == str(RESOURCE_PACKAGE_SCHEMA_VERSION)
+    )
+    candidates = []
+    for row in rows:
+        dossier = json.loads(row["verified_dossier_json"])
+        findings = json.loads(row["findings_json"] or "{}")
+        candidate = verified_dossier_to_candidate(
+            dossier,
+            verification_status=str(row["status"]),
+            verification_findings=findings,
+        )
+        candidate["optimizationProvenance"] = {
+            "runId": run_id,
+            "configurationId": int(run["configuration_id"]),
+            "configurationHash": run["configuration_hash"],
+            "corpusId": int(run["corpus_id"]),
+            "corpusSha256": run["corpus_sha256"],
+            "packetId": int(row["packet_id"]),
+            "identityKey": row["identity_key"],
+            "verifiedDossierSha256": row["verified_dossier_sha256"],
+            "sourcePackageSha256": run["source_package_sha256"],
+        }
+        candidate_id = f"optimization-{run_id}-{row['packet_id']}"
+        resource_draft = None
+        if package_eligible:
+            resource_draft = candidate_to_resource(
+                candidate,
+                target_category_id,
+                resource_id=uuid.uuid5(
+                    uuid.NAMESPACE_URL,
+                    f"resource-research-optimization:{run['configuration_hash']}:{row['packet_id']}",
+                ).hex,
+                timestamp=exported,
+                available_types=category_summary.get("types", []),
+                available_for_groups=taxonomy["forGroups"],
+            )
+        candidates.append(
+            {
+                "id": candidate_id,
+                "name": candidate["name"],
+                "status": "new",
+                "origin": "qwen-optimization",
+                "createdAt": run["created_at"],
+                "updatedAt": run["completed_at"] or run["created_at"],
+                "reviewedAt": None,
+                "reviewFeedback": "",
+                "useForFutureResearch": False,
+                "matchAssessment": None,
+                "matchAssessedAt": None,
+                "notes": (
+                    "Verifier flagged this candidate for curator attention."
+                    if row["status"] == "needs-review"
+                    else ""
+                ),
+                "candidate": candidate,
+                "knownResourceMatch": None,
+                "resourceDraft": resource_draft,
+            }
+        )
+
+    title = "Housing Qwen calibration research"
+    review_id = uuid.uuid5(
+        uuid.NAMESPACE_URL,
+        f"resource-research-optimization-review:{run['configuration_hash']}:{run['corpus_sha256']}",
+    ).hex
+    data = {
+        "reviewCopySchemaVersion": REVIEW_COPY_SCHEMA_VERSION,
+        "reviewFeedbackSchemaVersion": 1,
+        "reviewId": review_id,
+        "exportedAt": exported.isoformat(),
+        "title": title,
+        "notice": (
+            "Isolated Qwen calibration candidates for human curation and phone vetting. "
+            "This export does not change the normal Scout inbox or production behavior. "
+            "Candidates marked needs-review retain the verifier findings that require attention."
+        ),
+        "run": {
+            "id": run_id,
+            "createdAt": run["created_at"],
+            "startedAt": run["started_at"],
+            "completedAt": run["completed_at"],
+            "status": run["status"],
+            "adapter": "qwen-optimization",
+            "assignment": "Curate independently verified Housing calibration candidates.",
+            "researchMode": "package",
+            "targetLocation": run["target_location"],
+            "regionalScope": run["regional_scope"],
+            "targetCategoryId": target_category_id,
+            "targetCategoryLabel": "Housing",
+            "summary": (
+                f"{len(candidates)} passed or needs-review candidates from isolated "
+                f"optimization run {run_id}."
+            ),
+            "candidateCount": len(candidates),
+            "progress": {"total": 1, "completed": 1, "failed": 0},
+            "stages": [
+                {
+                    "title": str(run["stage_key"]),
+                    "position": 1,
+                    "status": "completed",
+                    "completedAt": run["completed_at"],
+                    "error": "",
+                }
+            ],
+        },
+        "sourcePackage": (
+            {
+                "sourceName": package["sourceName"],
+                "sourceSha256": package["sourceSha256"],
+                "schemaVersion": package["schema"]["schemaVersion"],
+                "packageVersion": package["schema"]["packageVersion"],
+                "resourcePackageSchemaVersion": RESOURCE_PACKAGE_SCHEMA_VERSION,
+                "packageEligible": package_eligible,
+                "categories": category_definitions,
+                "categorySummaries": taxonomy["categories"],
+                "forGroups": store.import_for_groups(import_id),
+                "category": {"id": target_category_id, "label": "Housing"},
+            }
+            if package
+            else None
+        ),
+        "candidates": candidates,
+        "lessons": [],
+        "optimization": {
+            "runId": run_id,
+            "configurationId": int(run["configuration_id"]),
+            "configurationHash": run["configuration_hash"],
+            "corpusId": int(run["corpus_id"]),
+            "corpusSha256": run["corpus_sha256"],
+            "modelArtifact": run["model_artifact"],
+            "quantization": run["quantization"],
+            "promptPolicyVersion": run["prompt_policy_version"],
+            "playbookVersion": run["playbook_version"],
+            "sourcePackageSha256": run["source_package_sha256"],
+            "sourcePackageVersion": run["source_package_version"],
+        },
+    }
+    return _render_review_copy(
+        data,
+        title=title,
+        completed_date=completed_date,
+        template_path=template_path,
+        script_path=script_path,
+    )
