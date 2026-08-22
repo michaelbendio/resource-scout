@@ -60,6 +60,12 @@ HOUSING_FACTUAL_FIELDS = (
 )
 
 FIELD_STATES = {"supported", "conflicting", "unknown"}
+HOUSING_STAGE_KEYS = {
+    "urgent-access",
+    "stabilization",
+    "specialized-housing",
+    "long-term-and-gaps",
+}
 SOURCE_AUTHORITIES = {
     "direct-provider",
     "government-referral",
@@ -257,17 +263,29 @@ def validate_query_plan(plan: Any) -> None:
 def build_housing_urgent_query_plan(
     target_location: str,
     regional_scope: str,
+    *,
+    minimum_queries: int = 2,
+    maximum_queries: int = 6,
+    saturation_queries: int = 2,
 ) -> dict[str, Any]:
     location = " ".join(str(target_location or "").split())
     region = " ".join(str(regional_scope or "").split())
     if not location or not region:
         raise ValueError("Housing query planning requires a target location and regional scope")
     policy = {
-        "minimumQueries": 2,
-        "maximumQueries": 6,
-        "consecutiveNoNewIdentityQueries": 2,
+        "minimumQueries": minimum_queries,
+        "maximumQueries": maximum_queries,
+        "consecutiveNoNewIdentityQueries": saturation_queries,
         "noveltyUnit": "package-eligible normalized organization-plus-program identity",
     }
+    branch_stop_state(
+        [],
+        minimum_queries=minimum_queries,
+        maximum_queries=maximum_queries,
+        saturation_queries=saturation_queries,
+    )
+    if maximum_queries > 10:
+        raise ValueError("Housing urgent query plans support at most ten queries per branch")
     specifications = (
         (
             "official-city",
@@ -279,6 +297,10 @@ def build_housing_urgent_query_plan(
                 f'site:mesaaz.gov "{location}" coordinated entry homeless',
                 f'site:mesaaz.gov "{location}" family youth shelter',
                 f'site:mesaaz.gov "{location}" pets shelter transportation homeless',
+                f'site:mesaaz.gov "{location}" homeless resource line outreach services',
+                f'site:mesaaz.gov "{location}" emergency shelter program intake phone',
+                f'site:mesaaz.gov "{location}" homeless services provider partnership',
+                f'site:mesaaz.gov "{location}" emergency housing referral program',
             ),
         ),
         (
@@ -291,6 +313,10 @@ def build_housing_urgent_query_plan(
                 f'site:maricopa.gov "{location}" motel voucher',
                 f'site:maricopa.gov "{location}" family shelter',
                 f'site:maricopa.gov "{location}" housing authority service area',
+                f'site:maricopa.gov "{location}" homeless services named program',
+                f'site:maricopa.gov "{location}" coordinated entry provider',
+                f'site:maricopa.gov "East Valley" emergency shelter program',
+                f'site:maricopa.gov "{location}" homeless navigation access',
             ),
         ),
         (
@@ -303,6 +329,10 @@ def build_housing_urgent_query_plan(
                 f'site:az.gov "{location}" youth shelter',
                 f'site:az.gov "{location}" veteran emergency housing',
                 f'site:az.gov "{location}" temporary lodging assistance',
+                f'site:az.gov "{location}" homeless services provider program',
+                f'site:az.gov "{location}" coordinated entry provider',
+                f'site:az.gov "East Valley" emergency shelter program',
+                f'site:az.gov "{location}" family housing hub',
             ),
         ),
         (
@@ -315,6 +345,10 @@ def build_housing_urgent_query_plan(
                 f'211 Arizona "{location}" domestic violence shelter',
                 f'211 Arizona "{location}" youth shelter',
                 f'211 Arizona "{location}" motel voucher',
+                f'"{location}" "Family Housing Hub" shelter',
+                f'"{location}" "Keys to Change" coordinated entry',
+                f'"{location}" CASS shelter intake',
+                f'211 Arizona "East Valley" named shelter program',
             ),
         ),
         (
@@ -327,6 +361,10 @@ def build_housing_urgent_query_plan(
                 f'"{location}" emergency lodging homeless program',
                 f'"{location}" shelter hotline intake hours',
                 f'"{location}" crisis housing nonprofit',
+                f'"{location}" "East Valley" shelter provider intake',
+                f'"{location}" named homeless outreach program phone',
+                f'"{location}" family housing hub intake provider',
+                f'"{location}" emergency shelter access point nonprofit',
             ),
         ),
         (
@@ -339,6 +377,10 @@ def build_housing_urgent_query_plan(
                 f'"{location}" medical respite homeless housing',
                 f'"{location}" veteran emergency shelter',
                 f'"{location}" disability accessible emergency housing',
+                f'"{location}" pregnant women emergency shelter',
+                f'"{location}" reentry emergency housing program',
+                f'"{location}" recovery housing immediate placement',
+                f'"{location}" medically vulnerable homeless shelter',
             ),
         ),
         (
@@ -351,6 +393,10 @@ def build_housing_urgent_query_plan(
                 f'"{location}" bridge housing temporary lodging',
                 f'"{location}" family motel assistance',
                 f'"{location}" shelter overflow hotel program',
+                f'"{location}" I-HELP emergency lodging',
+                f'"{location}" hotel shelter placement program',
+                f'"{location}" Salvation Army emergency lodging',
+                f'"{location}" Catholic Charities emergency housing',
             ),
         ),
         (
@@ -363,6 +409,10 @@ def build_housing_urgent_query_plan(
                 f'"{location}" regional shelter intake',
                 f'"{location}" Phoenix shelter transportation',
                 f'"{location}" East Valley emergency shelter',
+                f'"{location}" UMOM shelter intake',
+                f'"{location}" A New Leaf shelter placement',
+                f'"{location}" CASS emergency shelter eligibility',
+                f'"{location}" East Valley family shelter intake',
             ),
         ),
         (
@@ -375,6 +425,10 @@ def build_housing_urgent_query_plan(
                 f'"{location}" family shelter eligibility referral',
                 f'"{location}" shelter sobriety requirements',
                 f'"{location}" service animals emergency shelter',
+                f'"{location}" shelter couples together',
+                f'"{location}" shelter no identification required',
+                f'"{location}" wheelchair accessible homeless shelter',
+                f'"{location}" Lost Our Home temporary care shelter barrier',
             ),
         ),
     )
@@ -393,12 +447,14 @@ def build_housing_urgent_query_plan(
                         "purpose": purpose,
                         "query": query,
                     }
-                    for position, query in enumerate(query_texts, start=1)
+                    for position, query in enumerate(
+                        query_texts[:maximum_queries], start=1
+                    )
                 ],
             }
         )
     plan = {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "categoryId": "housing",
         "stageKey": "urgent-access",
         "targetLocation": location,

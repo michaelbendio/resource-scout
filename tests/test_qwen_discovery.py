@@ -122,9 +122,10 @@ class DiscoveryPipelineTests(unittest.TestCase):
 
         self.assertEqual(9, result.branch_count)
         self.assertEqual(26, result.query_count)
-        self.assertEqual(9, result.lead_count)
-        self.assertEqual(9, result.identity_count)
+        self.assertEqual(10, result.lead_count)
+        self.assertEqual(10, result.identity_count)
         self.assertEqual(8, result.eligible_identity_count)
+        self.assertEqual(1, result.routed_identity_count)
         self.assertEqual(1, result.excluded_identity_count)
         self.assertEqual(8, result.source_count)
         self.assertEqual(8, result.packet_count)
@@ -197,6 +198,17 @@ class DiscoveryPipelineTests(unittest.TestCase):
             self.assertEqual(1, county["new_lead_count"])
             self.assertEqual(0, county["new_eligible_identity_count"])
             self.assertEqual(2, county["consecutive_no_new_eligible_identities"])
+            routed = connection.execute(
+                """SELECT target_stage_key, boundary_state
+                   FROM optimization_candidate_identities
+                   WHERE identity_key = 'city of mesa::eviction prevention program'"""
+            ).fetchone()
+            self.assertEqual("stabilization", routed["target_stage_key"])
+            self.assertEqual("resolved", routed["boundary_state"])
+            self.assertNotIn(
+                "https://mesaaz.gov/housing/eviction-prevention",
+                providers.fetch_calls,
+            )
             packets = connection.execute(
                 "SELECT packet_json FROM optimization_evidence_packets WHERE corpus_id = ?",
                 (result.corpus_id,),
@@ -213,6 +225,83 @@ class DiscoveryPipelineTests(unittest.TestCase):
                     "UPDATE optimization_corpora SET corpus_sha256 = ? WHERE id = ?",
                     ("f" * 64, result.corpus_id),
                 )
+
+    def test_reviewed_referral_page_can_create_separate_bounded_program_packets(self) -> None:
+        providers = FixtureProviders()
+        configuration = providers.configuration("fixture-referral-expansion")
+        configuration["limits"]["referralEvidenceContextCharacters"] = 12
+        referral_url = "https://mesaaz.gov/housing/homeless-resources"
+
+        def search(query: str, _maximum: int) -> list[dict]:
+            if providers.query_keys[query] != "official-city-1":
+                return []
+            return [
+                {
+                    "url": referral_url,
+                    "title": "Homeless Resources",
+                    "identities": [
+                        {
+                            "organization": "City of Mesa",
+                            "program": "Homeless Resource Line",
+                            "directDomains": ["mesaaz.gov"],
+                            "evidenceExcerpt": "Homeless Resource Line 480-644-HOPE",
+                        },
+                        {
+                            "organization": "City of Mesa",
+                            "program": "Street Outreach Services",
+                            "directDomains": ["mesaaz.gov"],
+                            "evidenceExcerpt": "Street Outreach Services 602-346-3361",
+                        },
+                    ],
+                }
+            ]
+
+        fetch_calls = []
+
+        def fetch(url: str) -> dict:
+            fetch_calls.append(url)
+            return {
+                "text": (
+                    "prefix Homeless Resource Line 480-644-HOPE "
+                    + "unrelated " * 40
+                    + "Street Outreach Services 602-346-3361 suffix"
+                ),
+                "finalUrl": url,
+                "statusCode": 200,
+                "contentType": "text/html",
+                "truncated": False,
+            }
+
+        pipeline = OptimizationDiscoveryPipeline(
+            self.store,
+            configuration,
+            search=search,
+            fetch=fetch,
+            resolve_identity=lambda result: result.get("identities"),
+        )
+        result = pipeline.run()
+        self.assertEqual(2, result.identity_count)
+        self.assertEqual(2, result.packet_count)
+        self.assertEqual(2, result.source_count)
+        self.assertEqual([referral_url], fetch_calls)
+        with self.store.connect() as connection:
+            packets = [
+                json.loads(row["packet_json"])
+                for row in connection.execute(
+                    """SELECT packet_json FROM optimization_evidence_packets
+                       WHERE corpus_id = ? ORDER BY identity_key""",
+                    (result.corpus_id,),
+                ).fetchall()
+            ]
+        extracts = [packet["sources"][0]["extract"] for packet in packets]
+        self.assertTrue(
+            all(
+                extract["selection"]["method"] == "reviewed-exact-excerpt"
+                for extract in extracts
+            )
+        )
+        self.assertNotEqual(extracts[0]["text"], extracts[1]["text"])
+        self.assertTrue(all(len(extract["text"]) < 80 for extract in extracts))
 
     def test_resume_after_discovery_interruption_does_not_repeat_completed_query(self) -> None:
         providers = FixtureProviders()

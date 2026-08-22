@@ -8,6 +8,7 @@ from typing import Any, Callable, Iterable
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from .optimization import (
+    HOUSING_STAGE_KEYS,
     branch_stop_state,
     candidate_identity_key,
     canonical_json,
@@ -22,7 +23,9 @@ from .storage import ResearchStore
 
 SearchCallback = Callable[[str, int], list[dict[str, Any]]]
 FetchCallback = Callable[[str], dict[str, Any]]
-IdentityCallback = Callable[[dict[str, Any]], dict[str, Any] | None]
+IdentityCallback = Callable[
+    [dict[str, Any]], dict[str, Any] | list[dict[str, Any]] | None
+]
 ProgressCallback = Callable[[dict[str, Any]], None]
 
 
@@ -41,6 +44,7 @@ class DiscoveryCorpusResult:
     lead_count: int
     identity_count: int
     eligible_identity_count: int
+    routed_identity_count: int
     excluded_identity_count: int
     source_count: int
     packet_count: int
@@ -349,6 +353,7 @@ class OptimizationDiscoveryPipeline:
         normalized_results: list[dict[str, Any]] = []
         new_identity_count = 0
         new_eligible_identity_count = 0
+        new_routed_identity_count = 0
         with self.store.connect() as connection:
             for rank, result in enumerate(raw_results, start=1):
                 if not isinstance(result, dict):
@@ -391,35 +396,60 @@ class OptimizationDiscoveryPipeline:
                        ) VALUES (?, ?, ?, ?)""",
                     (lead_id, query_id, rank, str(result.get("url") or "")),
                 )
-                decision = self.resolve_identity(result)
-                if decision is None:
+                decision_value = self.resolve_identity(result)
+                if decision_value is None:
                     continue
-                identity_id, created = self._save_identity(connection, run_id, decision)
-                new_identity_count += int(created)
-                if created:
-                    identity = connection.execute(
-                        "SELECT boundary_state FROM optimization_candidate_identities WHERE id = ?",
-                        (identity_id,),
-                    ).fetchone()
-                    new_eligible_identity_count += int(
-                        identity["boundary_state"] != "excluded-existing"
-                    )
-                relationship = str(decision.get("leadRelationship") or "describes-program")
-                if relationship not in {
-                    "describes-program",
-                    "describes-organization",
-                    "possible-match",
-                    "excluded",
-                }:
-                    raise OptimizationPipelineError(
-                        f"Invalid lead relationship for {canonical_url}: {relationship}"
-                    )
-                connection.execute(
-                    """INSERT OR IGNORE INTO optimization_identity_leads (
-                           identity_id, lead_id, relationship
-                       ) VALUES (?, ?, ?)""",
-                    (identity_id, lead_id, relationship),
+                decisions = (
+                    [decision_value]
+                    if isinstance(decision_value, dict)
+                    else decision_value
+                    if isinstance(decision_value, list)
+                    else []
                 )
+                if not decisions or any(
+                    not isinstance(decision, dict) for decision in decisions
+                ):
+                    raise OptimizationPipelineError(
+                        f"Identity resolver returned invalid decisions for {canonical_url}"
+                    )
+                for decision in decisions:
+                    identity_id, created = self._save_identity(
+                        connection, run_id, decision
+                    )
+                    new_identity_count += int(created)
+                    if created:
+                        identity = connection.execute(
+                            """SELECT boundary_state, target_stage_key
+                               FROM optimization_candidate_identities WHERE id = ?""",
+                            (identity_id,),
+                        ).fetchone()
+                        new_eligible_identity_count += int(
+                            identity["boundary_state"] != "excluded-existing"
+                            and identity["target_stage_key"]
+                            == self.configuration_record["snapshot"]["stageKey"]
+                        )
+                        new_routed_identity_count += int(
+                            identity["target_stage_key"]
+                            != self.configuration_record["snapshot"]["stageKey"]
+                        )
+                    relationship = str(
+                        decision.get("leadRelationship") or "describes-program"
+                    )
+                    if relationship not in {
+                        "describes-program",
+                        "describes-organization",
+                        "possible-match",
+                        "excluded",
+                    }:
+                        raise OptimizationPipelineError(
+                            f"Invalid lead relationship for {canonical_url}: {relationship}"
+                        )
+                    connection.execute(
+                        """INSERT OR IGNORE INTO optimization_identity_leads (
+                               identity_id, lead_id, relationship
+                           ) VALUES (?, ?, ?)""",
+                        (identity_id, lead_id, relationship),
+                    )
             payload = {"sources": normalized_results, "truncated": False}
             now = _now()
             connection.execute(
@@ -430,12 +460,14 @@ class OptimizationDiscoveryPipeline:
             connection.execute(
                 """UPDATE optimization_queries
                    SET status = 'completed', executed_at = ?, new_lead_count = ?,
-                       new_eligible_identity_count = ?, result_json = ?, error = ''
+                       new_eligible_identity_count = ?, new_routed_identity_count = ?,
+                       result_json = ?, error = ''
                    WHERE id = ?""",
                 (
                     now,
                     new_identity_count,
                     new_eligible_identity_count,
+                    new_routed_identity_count,
                     canonical_json(payload),
                     query_id,
                 ),
@@ -444,7 +476,9 @@ class OptimizationDiscoveryPipeline:
                 """SELECT COUNT(*) AS query_count,
                           COALESCE(SUM(new_lead_count), 0) AS lead_count,
                           COALESCE(SUM(new_eligible_identity_count), 0)
-                              AS eligible_identity_count
+                              AS eligible_identity_count,
+                          COALESCE(SUM(new_routed_identity_count), 0)
+                              AS routed_identity_count
                    FROM optimization_queries
                    WHERE branch_id = ? AND status = 'completed'""",
                 (branch_id,),
@@ -479,12 +513,14 @@ class OptimizationDiscoveryPipeline:
                 """UPDATE optimization_coverage_branches
                    SET executed_query_count = ?, new_lead_count = ?,
                        new_eligible_identity_count = ?,
+                       new_routed_identity_count = ?,
                        consecutive_no_new_leads = ?,
                        consecutive_no_new_eligible_identities = ? WHERE id = ?""",
                 (
                     int(aggregates["query_count"]),
                     int(aggregates["lead_count"]),
                     int(aggregates["eligible_identity_count"]),
+                    int(aggregates["routed_identity_count"]),
                     no_new_raw,
                     no_new_eligible,
                     branch_id,
@@ -496,6 +532,7 @@ class OptimizationDiscoveryPipeline:
                 "queryKey": query["query_key"],
                 "newIdentityCount": new_identity_count,
                 "newEligibleIdentityCount": new_eligible_identity_count,
+                "newRoutedIdentityCount": new_routed_identity_count,
             }
         )
 
@@ -513,6 +550,14 @@ class OptimizationDiscoveryPipeline:
             "possible-duplicate",
         }:
             raise OptimizationPipelineError(f"Invalid identity boundary state: {boundary}")
+        target_stage_key = str(
+            decision.get("stageKey")
+            or self.configuration_record["snapshot"]["stageKey"]
+        ).strip()
+        if target_stage_key not in HOUSING_STAGE_KEYS:
+            raise OptimizationPipelineError(
+                f"Invalid Housing stage route: {target_stage_key or '(blank)'}"
+            )
         package_state = "not-matched"
         package_resource_id = None
         for existing in self.existing_resources:
@@ -551,12 +596,15 @@ class OptimizationDiscoveryPipeline:
                     if str(tag).strip()
                 }
             ),
+            "stageKey": target_stage_key,
+            "evidenceExcerpt": str(decision.get("evidenceExcerpt") or "").strip(),
         }
         cursor = connection.execute(
             """INSERT INTO optimization_candidate_identities (
                    run_id, organization, program, identity_key, boundary_state,
-                   package_match_state, package_resource_id, decision_reason, metadata_json
-               ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                   package_match_state, package_resource_id, target_stage_key,
+                   decision_reason, metadata_json
+               ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (
                 run_id,
                 organization,
@@ -565,6 +613,7 @@ class OptimizationDiscoveryPipeline:
                 boundary,
                 package_state,
                 package_resource_id,
+                target_stage_key,
                 str(decision.get("decisionReason") or "Explicit fixture or human-reviewed identity decision"),
                 canonical_json(metadata),
             ),
@@ -588,8 +637,9 @@ class OptimizationDiscoveryPipeline:
                    WHERE lead.run_id = ?
                      AND identity.boundary_state != 'excluded-existing'
                      AND identity.boundary_state = 'resolved'
+                     AND identity.target_stage_key = ?
                    ORDER BY lead.id""",
-                (run_id,),
+                (run_id, self.configuration_record["snapshot"]["stageKey"]),
             ).fetchall()
         for lead in leads:
             if lead["fetch_status"] == "fetched":
@@ -612,6 +662,16 @@ class OptimizationDiscoveryPipeline:
                    ) VALUES (?, ?, ?, 'running')""",
                 (lead_id, attempt_number, _now()),
             ).lastrowid
+            identities = connection.execute(
+                """SELECT identity.*
+                   FROM optimization_candidate_identities AS identity
+                   JOIN optimization_identity_leads AS link
+                     ON link.identity_id = identity.id
+                   WHERE link.lead_id = ? AND identity.boundary_state = 'resolved'
+                     AND identity.target_stage_key = ?
+                   ORDER BY identity.id""",
+                (lead_id, self.configuration_record["snapshot"]["stageKey"]),
+            ).fetchall()
         try:
             fetched = self.fetch(str(lead["canonical_url"]))
             text = str(fetched.get("text") or "").strip()
@@ -641,6 +701,45 @@ class OptimizationDiscoveryPipeline:
             was_over_limit = len(text) > maximum_characters
             text = text[:maximum_characters]
             truncated = bool(fetched.get("truncated")) or was_over_limit
+            full_extract = {
+                "title": str(lead["title"]),
+                "text": text,
+                "sourceUrl": str(lead["canonical_url"]),
+                "finalUrl": final_url,
+            }
+            full_extract_hash = sha256_json(full_extract)
+            identity_extracts: dict[int, dict[str, Any]] = {}
+            context_characters = max(
+                0,
+                int(
+                    self.configuration_record["snapshot"]["limits"].get(
+                        "referralEvidenceContextCharacters", 2000
+                    )
+                ),
+            )
+            for identity in identities:
+                metadata = json.loads(identity["metadata_json"] or "{}")
+                excerpt = str(metadata.get("evidenceExcerpt") or "").strip()
+                identity_extract = dict(full_extract)
+                if excerpt:
+                    position = text.find(excerpt)
+                    if position < 0:
+                        raise ValueError(
+                            "Reviewed evidence excerpt is absent for "
+                            f"{identity['identity_key']}"
+                        )
+                    start = max(0, position - context_characters)
+                    end = min(
+                        len(text), position + len(excerpt) + context_characters
+                    )
+                    identity_extract["text"] = text[start:end]
+                    identity_extract["selection"] = {
+                        "method": "reviewed-exact-excerpt",
+                        "excerpt": excerpt,
+                        "sourceStart": start,
+                        "sourceEnd": end,
+                    }
+                identity_extracts[int(identity["id"])] = identity_extract
         except Exception as error:
             with self.store.connect() as connection:
                 connection.execute(
@@ -656,24 +755,11 @@ class OptimizationDiscoveryPipeline:
             raise OptimizationPipelineError(
                 f"Fetch failed for {lead['canonical_url']}: {error}"
             ) from error
-        extract = {
-            "title": str(lead["title"]),
-            "text": text,
-            "sourceUrl": str(lead["canonical_url"]),
-            "finalUrl": final_url,
-        }
-        extract_hash = sha256_json(extract)
         with self.store.connect() as connection:
-            identities = connection.execute(
-                """SELECT identity.*
-                   FROM optimization_candidate_identities AS identity
-                   JOIN optimization_identity_leads AS link ON link.identity_id = identity.id
-                   WHERE link.lead_id = ? AND identity.boundary_state = 'resolved'
-                   ORDER BY identity.id""",
-                (lead_id,),
-            ).fetchall()
             for identity in identities:
                 metadata = json.loads(identity["metadata_json"] or "{}")
+                extract = identity_extracts[int(identity["id"])]
+                extract_hash = sha256_json(extract)
                 page_organization = str(
                     fetched.get("pageOrganization") or identity["organization"]
                 )
@@ -716,7 +802,7 @@ class OptimizationDiscoveryPipeline:
                     status_code,
                     content_type,
                     int(truncated),
-                    extract_hash,
+                    full_extract_hash,
                     attempt_id,
                 ),
             )
@@ -776,7 +862,11 @@ class OptimizationDiscoveryPipeline:
             sources_by_identity.setdefault(int(source["identity_id"]), []).append(decoded)
         packets: list[dict[str, Any]] = []
         for identity in identities:
-            if identity["boundary_state"] != "resolved":
+            if (
+                identity["boundary_state"] != "resolved"
+                or identity["target_stage_key"]
+                != self.configuration_record["snapshot"]["stageKey"]
+            ):
                 continue
             identity_sources = sources_by_identity.get(int(identity["id"]), [])
             if not identity_sources:
@@ -868,6 +958,14 @@ class OptimizationDiscoveryPipeline:
                     1
                     for identity in identities
                     if identity["boundary_state"] != "excluded-existing"
+                    and identity["target_stage_key"]
+                    == self.configuration_record["snapshot"]["stageKey"]
+                ),
+                "routedIdentityCount": sum(
+                    1
+                    for identity in identities
+                    if identity["target_stage_key"]
+                    != self.configuration_record["snapshot"]["stageKey"]
                 ),
                 "packetCount": len(packets),
             }
@@ -932,9 +1030,16 @@ class OptimizationDiscoveryPipeline:
             )
             identity_counts = connection.execute(
                 """SELECT COUNT(*) AS total,
-                          SUM(CASE WHEN boundary_state = 'excluded-existing' THEN 1 ELSE 0 END) AS excluded
+                          SUM(CASE WHEN boundary_state = 'excluded-existing' THEN 1 ELSE 0 END) AS excluded,
+                          SUM(CASE WHEN target_stage_key != ? THEN 1 ELSE 0 END) AS routed,
+                          SUM(CASE WHEN boundary_state != 'excluded-existing'
+                                    AND target_stage_key = ? THEN 1 ELSE 0 END) AS eligible
                    FROM optimization_candidate_identities WHERE run_id = ?""",
-                (run_id,),
+                (
+                    self.configuration_record["snapshot"]["stageKey"],
+                    self.configuration_record["snapshot"]["stageKey"],
+                    run_id,
+                ),
             ).fetchone()
             source_count = int(
                 connection.execute(
@@ -959,10 +1064,8 @@ class OptimizationDiscoveryPipeline:
             query_count=query_count,
             lead_count=lead_count,
             identity_count=int(identity_counts["total"] or 0),
-            eligible_identity_count=(
-                int(identity_counts["total"] or 0)
-                - int(identity_counts["excluded"] or 0)
-            ),
+            eligible_identity_count=int(identity_counts["eligible"] or 0),
+            routed_identity_count=int(identity_counts["routed"] or 0),
             excluded_identity_count=int(identity_counts["excluded"] or 0),
             source_count=source_count,
             packet_count=packet_count,

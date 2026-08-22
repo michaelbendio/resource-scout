@@ -115,6 +115,14 @@ class OptimizationPersistenceTests(unittest.TestCase):
         self.assertIn("new_eligible_identity_count", query_columns)
         self.assertIn("new_eligible_identity_count", branch_columns)
         self.assertIn("consecutive_no_new_eligible_identities", branch_columns)
+        with self.store.connect() as connection:
+            identity_columns = {
+                row["name"]
+                for row in connection.execute(
+                    "PRAGMA table_info(optimization_candidate_identities)"
+                )
+            }
+        self.assertIn("target_stage_key", identity_columns)
 
     def test_quantization_and_policy_changes_cannot_share_a_configuration(self) -> None:
         four_bit = optimization_configuration("4-bit")
@@ -274,6 +282,31 @@ class CoverageAndSaturationTests(unittest.TestCase):
             },
             {branch["key"] for branch in plan["branches"]},
         )
+
+    def test_expanded_plan_has_versioned_depth_and_package_eligible_saturation(self) -> None:
+        plan = build_housing_urgent_query_plan(
+            "Mesa",
+            "Maricopa County and nearby areas",
+            minimum_queries=4,
+            maximum_queries=10,
+            saturation_queries=3,
+        )
+        self.assertEqual(2, plan["schemaVersion"])
+        self.assertTrue(all(len(branch["queries"]) == 10 for branch in plan["branches"]))
+        self.assertTrue(
+            all(
+                branch["saturation"]["minimumQueries"] == 4
+                and branch["saturation"]["consecutiveNoNewIdentityQueries"] == 3
+                and branch["saturation"]["noveltyUnit"].startswith("package-eligible")
+                for branch in plan["branches"]
+            )
+        )
+        with self.assertRaisesRegex(ValueError, "at most ten"):
+            build_housing_urgent_query_plan(
+                "Mesa",
+                "Maricopa County and nearby areas",
+                maximum_queries=11,
+            )
 
     def test_branch_stops_only_at_recorded_saturation_or_maximum(self) -> None:
         policy = {

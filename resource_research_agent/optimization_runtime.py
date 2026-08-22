@@ -136,11 +136,14 @@ class SafeFetchClient:
 
 
 class ReviewedIdentityResolver:
-    def __init__(self, decisions: dict[str, dict[str, Any]]) -> None:
+    def __init__(
+        self,
+        decisions: dict[str, dict[str, Any] | list[dict[str, Any]]],
+    ) -> None:
         self.decisions = {
             canonicalize_discovery_url(url): decision
             for url, decision in decisions.items()
-            if isinstance(decision, dict)
+            if isinstance(decision, (dict, list))
         }
 
     @classmethod
@@ -148,9 +151,18 @@ class ReviewedIdentityResolver:
         value = json.loads(path.read_text(encoding="utf-8"))
         if not isinstance(value, dict) or not isinstance(value.get("decisions"), dict):
             raise OptimizationRuntimeError("Identity review must contain a decisions object")
-        return cls(value["decisions"])
+        selected = {}
+        for url, record in value["decisions"].items():
+            if not isinstance(record, dict) or record.get("disposition") != "candidate":
+                continue
+            identity_value = record.get("identities", record.get("identity"))
+            if isinstance(identity_value, (dict, list)):
+                selected[url] = identity_value
+        return cls(selected)
 
-    def __call__(self, result: dict[str, Any]) -> dict[str, Any] | None:
+    def __call__(
+        self, result: dict[str, Any]
+    ) -> dict[str, Any] | list[dict[str, Any]] | None:
         try:
             return self.decisions.get(canonicalize_discovery_url(result.get("url")))
         except ValueError:

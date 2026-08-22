@@ -26,6 +26,21 @@
         }
       }
     ],
+    "official-city-2": [
+      {
+        "url": "https://mesaaz.gov/housing/eviction-prevention",
+        "title": "Mesa Eviction Prevention Program",
+        "snippet": "Fixture official program that belongs in the stabilization stage.",
+        "identity": {
+          "organization": "City of Mesa",
+          "program": "Eviction Prevention Program",
+          "stageKey": "stabilization",
+          "coverageTags": ["eviction-prevention"],
+          "directDomains": ["mesaaz.gov"],
+          "decisionReason": "The useful program is retained and routed to its proper Housing stage."
+        }
+      }
+    ],
     "official-county-1": [
       {
         "url": "https://maricopa.gov/housing/voucher",

@@ -28,10 +28,22 @@ cache = json.loads(arguments.cache.read_text(encoding="utf-8"))
 review = json.loads(arguments.review.read_text(encoding="utf-8"))
 validate_identity_review(cache, review)
 package = ResourcePackageImporter("housing").read(arguments.package)
-plan = build_housing_urgent_query_plan("Mesa", "Maricopa County and nearby areas")
+query_policy = cache.get("queryPolicy") or {
+    "minimumQueries": 2,
+    "maximumQueries": 6,
+    "consecutiveNoNewIdentityQueries": 2,
+    "resultsPerQuery": 8,
+}
+plan = build_housing_urgent_query_plan(
+    "Mesa",
+    "Maricopa County and nearby areas",
+    minimum_queries=int(query_policy["minimumQueries"]),
+    maximum_queries=int(query_policy["maximumQueries"]),
+    saturation_queries=int(query_policy["consecutiveNoNewIdentityQueries"]),
+)
 configuration = {
     "label": (
-        "mesa-housing-urgent-reviewed-ddgs-2026-08-21-"
+        "mesa-housing-urgent-reviewed-ddgs-v2-2026-08-22-"
         f"{sha256_json(review)[:12]}"
     ),
     "modelArtifact": "none",
@@ -44,7 +56,7 @@ configuration = {
     "fetchProvider": "safe-http",
     "searchPluginVersion": "resource-scout-ddgs-v1",
     "fetchPluginVersion": "resource-scout-safe-http-v1",
-    "promptPolicyVersion": "human-reviewed-identity-ledger-v1",
+    "promptPolicyVersion": "human-reviewed-identity-ledger-v2",
     "playbookVersion": "1.1.0",
     "sourcePackageSha256": package.sha256,
     "sourcePackageVersion": str(package.schema.package_version),
@@ -55,16 +67,19 @@ configuration = {
     "limits": {
         "modelFallbacks": [],
         "searchFallbacks": [],
-        "searchResultsPerQuery": 8,
+        "searchResultsPerQuery": int(query_policy["resultsPerQuery"]),
         "fetchMaxBytes": 500000,
         "evidenceExtractMaxChars": 30000,
         "searchCacheSha256": cache["cacheSha256"],
         "identityReviewSha256": sha256_json(review),
+        "referralEvidenceContextCharacters": 2000,
     },
     "stoppingRules": {
-        "minimumQueries": 2,
-        "maximumQueries": 6,
-        "consecutiveNoNewIdentityQueries": 2,
+        "minimumQueries": int(query_policy["minimumQueries"]),
+        "maximumQueries": int(query_policy["maximumQueries"]),
+        "consecutiveNoNewIdentityQueries": int(
+            query_policy["consecutiveNoNewIdentityQueries"]
+        ),
     },
     "queryPlan": plan,
 }

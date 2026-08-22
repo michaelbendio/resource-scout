@@ -282,6 +282,8 @@ CREATE TABLE IF NOT EXISTS optimization_coverage_branches (
     new_lead_count INTEGER NOT NULL DEFAULT 0 CHECK (new_lead_count >= 0),
     new_eligible_identity_count INTEGER NOT NULL DEFAULT 0
         CHECK (new_eligible_identity_count >= 0),
+    new_routed_identity_count INTEGER NOT NULL DEFAULT 0
+        CHECK (new_routed_identity_count >= 0),
     UNIQUE (run_id, branch_key)
 );
 CREATE TABLE IF NOT EXISTS optimization_queries (
@@ -298,6 +300,8 @@ CREATE TABLE IF NOT EXISTS optimization_queries (
     new_lead_count INTEGER NOT NULL DEFAULT 0 CHECK (new_lead_count >= 0),
     new_eligible_identity_count INTEGER NOT NULL DEFAULT 0
         CHECK (new_eligible_identity_count >= 0),
+    new_routed_identity_count INTEGER NOT NULL DEFAULT 0
+        CHECK (new_routed_identity_count >= 0),
     result_json TEXT,
     error TEXT NOT NULL DEFAULT '',
     UNIQUE (branch_id, query_key),
@@ -363,6 +367,7 @@ CREATE TABLE IF NOT EXISTS optimization_candidate_identities (
         package_match_state IN ('not-matched', 'same-program', 'different-program', 'ambiguous')
     ),
     package_resource_id TEXT,
+    target_stage_key TEXT NOT NULL DEFAULT '',
     decision_reason TEXT NOT NULL,
     metadata_json TEXT NOT NULL DEFAULT '{}',
     UNIQUE (run_id, identity_key)
@@ -652,12 +657,30 @@ class ResearchStore:
                 "ALTER TABLE optimization_candidate_identities "
                 "ADD COLUMN metadata_json TEXT NOT NULL DEFAULT '{}'"
             )
+        if "target_stage_key" not in optimization_identity_columns:
+            connection.execute(
+                "ALTER TABLE optimization_candidate_identities "
+                "ADD COLUMN target_stage_key TEXT NOT NULL DEFAULT ''"
+            )
+        connection.execute(
+            """UPDATE optimization_candidate_identities
+               SET target_stage_key = (
+                   SELECT configuration.stage_key
+                   FROM optimization_runs AS run
+                   JOIN optimization_configurations AS configuration
+                     ON configuration.id = run.configuration_id
+                   WHERE run.id = optimization_candidate_identities.run_id
+               )
+               WHERE target_stage_key = ''"""
+        )
         for table, additions in {
             "optimization_queries": {
                 "new_eligible_identity_count": "INTEGER NOT NULL DEFAULT 0",
+                "new_routed_identity_count": "INTEGER NOT NULL DEFAULT 0",
             },
             "optimization_coverage_branches": {
                 "new_eligible_identity_count": "INTEGER NOT NULL DEFAULT 0",
+                "new_routed_identity_count": "INTEGER NOT NULL DEFAULT 0",
                 "consecutive_no_new_eligible_identities": "INTEGER NOT NULL DEFAULT 0",
             },
         }.items():

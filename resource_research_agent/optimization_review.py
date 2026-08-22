@@ -25,8 +25,18 @@ def cache_housing_searches(
     *,
     search: Callable[[str, int], list[dict[str, Any]]] | None = None,
     progress: Callable[[str], None] | None = None,
+    minimum_queries: int = 2,
+    maximum_queries: int = 6,
+    saturation_queries: int = 2,
+    results_per_query: int = 8,
 ) -> dict[str, Any]:
-    plan = build_housing_urgent_query_plan("Mesa", "Maricopa County and nearby areas")
+    plan = build_housing_urgent_query_plan(
+        "Mesa",
+        "Maricopa County and nearby areas",
+        minimum_queries=minimum_queries,
+        maximum_queries=maximum_queries,
+        saturation_queries=saturation_queries,
+    )
     plan_hash = sha256_json(plan)
     if path.exists():
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -38,6 +48,12 @@ def cache_housing_searches(
             "createdAt": datetime.now(timezone.utc).isoformat(),
             "provider": "ddgs",
             "queryPlanSha256": plan_hash,
+            "queryPolicy": {
+                "minimumQueries": minimum_queries,
+                "maximumQueries": maximum_queries,
+                "consecutiveNoNewIdentityQueries": saturation_queries,
+                "resultsPerQuery": results_per_query,
+            },
             "queries": {},
         }
     provider = search or DDGSSearchClient()
@@ -47,7 +63,7 @@ def cache_housing_searches(
             key = query["key"]
             if key in value["queries"]:
                 continue
-            sources = provider(query["query"], 8)
+            sources = provider(query["query"], results_per_query)
             value["queries"][key] = {
                 "branchKey": branch["key"],
                 "query": query["query"],
@@ -116,22 +132,42 @@ def validate_identity_review(cache: dict[str, Any], review: dict[str, Any]) -> N
             continue
         if disposition != "candidate":
             raise OptimizationRuntimeError(f"Identity review is still pending for {url}")
-        identity = decision.get("identity")
-        if not isinstance(identity, dict):
+        identity_value = decision.get("identities", decision.get("identity"))
+        identities = (
+            [identity_value]
+            if isinstance(identity_value, dict)
+            else identity_value
+            if isinstance(identity_value, list)
+            else []
+        )
+        if not identities or any(not isinstance(identity, dict) for identity in identities):
             raise OptimizationRuntimeError(f"Candidate URL lacks an identity: {url}")
-        if not str(identity.get("organization") or "").strip() or not str(
-            identity.get("program") or ""
-        ).strip():
-            raise OptimizationRuntimeError(f"Candidate identity is incomplete: {url}")
+        for identity in identities:
+            if not str(identity.get("organization") or "").strip() or not str(
+                identity.get("program") or ""
+            ).strip():
+                raise OptimizationRuntimeError(f"Candidate identity is incomplete: {url}")
+            if "evidenceExcerpt" in identity and not str(
+                identity.get("evidenceExcerpt") or ""
+            ).strip():
+                raise OptimizationRuntimeError(
+                    f"Candidate evidence excerpt is blank: {url}"
+                )
 
 
-def reviewed_identity_decisions(review: dict[str, Any]) -> dict[str, dict[str, Any]]:
+def reviewed_identity_decisions(
+    review: dict[str, Any],
+) -> dict[str, dict[str, Any] | list[dict[str, Any]]]:
     result = {}
     for url, record in review.get("decisions", {}).items():
         if isinstance(record, dict) and record.get("disposition") == "candidate":
-            identity = record.get("identity")
-            if isinstance(identity, dict):
-                result[url] = identity
+            identity_value = record.get("identities", record.get("identity"))
+            if isinstance(identity_value, dict):
+                result[url] = identity_value
+            elif isinstance(identity_value, list) and all(
+                isinstance(identity, dict) for identity in identity_value
+            ):
+                result[url] = identity_value
     return result
 
 

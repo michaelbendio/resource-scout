@@ -50,6 +50,23 @@ class OptimizationReviewTests(unittest.TestCase):
             reviewed_identity_decisions(review)["https://example.org/help"]["program"],
         )
 
+        record.pop("identity")
+        record["identities"] = [
+            {
+                "organization": "Example",
+                "program": "Help Line",
+                "evidenceExcerpt": "Call the Help Line.",
+            },
+            {
+                "organization": "Example",
+                "program": "Street Outreach",
+                "evidenceExcerpt": "Street Outreach meets people outside.",
+            },
+        ]
+        validate_identity_review(first, review)
+        decisions = reviewed_identity_decisions(review)["https://example.org/help"]
+        self.assertEqual(["Help Line", "Street Outreach"], [item["program"] for item in decisions])
+
     def test_exclusion_requires_a_reason(self) -> None:
         cache = {
             "queries": {
