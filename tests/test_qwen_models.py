@@ -246,6 +246,7 @@ class ModelPipelineTests(unittest.TestCase):
         self.assertTrue(result.quality_gate_passed)
         self.assertEqual(8, result.packet_count)
         self.assertEqual(8, result.passed_count)
+        self.assertEqual(0, result.needs_review_count)
         self.assertEqual(0, result.failed_count)
         self.assertEqual(8 * len(HOUSING_FACTUAL_FIELDS), result.unknown_field_count)
         self.assertEqual(1, result.gap_count)
@@ -300,6 +301,80 @@ class ModelPipelineTests(unittest.TestCase):
         self.assertTrue(all(candidate["name"] for candidate in candidates))
         self.assertTrue(all(candidate["evidence"] for candidate in candidates))
         self.assertTrue(all(len(candidate["unknowns"]) == len(HOUSING_FACTUAL_FIELDS) for candidate in candidates))
+
+    def test_needs_review_is_reported_separately_and_reaches_candidate_output(self) -> None:
+        review_models = SeededFixtureModels()
+
+        def needs_review(prompt: dict) -> dict:
+            result = review_models.verify(prompt)
+            return {**result, "status": "needs-review"}
+
+        review_pipeline = self.pipeline(
+            review_models,
+            "model-fixture-needs-review",
+            verify=needs_review,
+        )
+        review_result = review_pipeline.run()
+        self.assertTrue(review_result.quality_gate_passed)
+        self.assertEqual(0, review_result.passed_count)
+        self.assertEqual(8, review_result.needs_review_count)
+        self.assertEqual(0, review_result.failed_count)
+        review_candidates = review_pipeline.verified_candidates(review_result.run_id)
+        self.assertEqual(8, len(review_candidates))
+        self.assertTrue(
+            all(
+                candidate["verificationStatus"] == "needs-review"
+                for candidate in review_candidates
+            )
+        )
+        self.assertTrue(
+            all(
+                "verifierFindings" in candidate["verificationFindings"]
+                for candidate in review_candidates
+            )
+        )
+
+        mixed_models = SeededFixtureModels()
+
+        def mixed_statuses(prompt: dict) -> dict:
+            result = mixed_models.verify(prompt)
+            program = prompt["candidateIdentity"]["program"]
+            if program == "Rapid Re-Housing":
+                return {**result, "status": "needs-review"}
+            if program == "Brian Garcia Welcome Center":
+                result["verifiedDossier"]["candidateIdentity"]["identityKey"] = "wrong::program"
+            return result
+
+        mixed_pipeline = self.pipeline(
+            mixed_models,
+            "model-fixture-mixed-verification-statuses",
+            verify=mixed_statuses,
+        )
+        mixed_result = mixed_pipeline.run()
+        self.assertFalse(mixed_result.quality_gate_passed)
+        self.assertEqual(6, mixed_result.passed_count)
+        self.assertEqual(1, mixed_result.needs_review_count)
+        self.assertEqual(1, mixed_result.failed_count)
+        self.assertEqual(7, len(mixed_pipeline.verified_candidates(mixed_result.run_id)))
+        with self.store.connect() as connection:
+            completeness = json.loads(
+                connection.execute(
+                    """SELECT report_json FROM optimization_audits
+                       WHERE run_id = ? AND audit_type = 'candidate-completeness'""",
+                    (mixed_result.run_id,),
+                ).fetchone()["report_json"]
+            )
+            quality = json.loads(
+                connection.execute(
+                    """SELECT report_json FROM optimization_audits
+                       WHERE run_id = ? AND audit_type = 'quality-gate'""",
+                    (mixed_result.run_id,),
+                ).fetchone()["report_json"]
+            )
+        self.assertEqual(1, completeness["needsReviewCount"])
+        self.assertEqual(1, completeness["failedCount"])
+        self.assertEqual(1, quality["verificationNeedsReview"])
+        self.assertEqual(1, quality["verificationFailures"])
 
     def test_verifier_failure_resumes_without_repeating_extraction(self) -> None:
         models = SeededFixtureModels()

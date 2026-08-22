@@ -37,6 +37,7 @@ class ModelEvaluationResult:
     corpus_id: int
     packet_count: int
     passed_count: int
+    needs_review_count: int
     failed_count: int
     supported_field_count: int
     conflicting_field_count: int
@@ -59,7 +60,12 @@ def _invocation(value: ModelInvocation | dict[str, Any]) -> ModelInvocation:
     return ModelInvocation(result=value, raw_output=canonical_json(value), usage=None)
 
 
-def verified_dossier_to_candidate(dossier: dict[str, Any]) -> dict[str, Any]:
+def verified_dossier_to_candidate(
+    dossier: dict[str, Any],
+    *,
+    verification_status: str = "passed",
+    verification_findings: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     identity = dossier["candidateIdentity"]
     candidate: dict[str, Any] = {
         "name": str(identity.get("program") or identity.get("organization") or "Unnamed candidate"),
@@ -68,6 +74,8 @@ def verified_dossier_to_candidate(dossier: dict[str, Any]) -> dict[str, Any]:
         "unknowns": [],
         "conflicts": [],
         "evidence": [],
+        "verificationStatus": verification_status,
+        "verificationFindings": verification_findings or {},
     }
     for field, finding in dossier.get("fields", {}).items():
         if not isinstance(finding, dict):
@@ -102,6 +110,96 @@ def verified_dossier_to_candidate(dossier: dict[str, Any]) -> dict[str, Any]:
             }
         )
     return candidate
+
+
+def _summarize_verification_rows(rows: Iterable[Any]) -> dict[str, Any]:
+    state_counts = {"supported": 0, "conflicting": 0, "unknown": 0}
+    coverage_tags: set[str] = set()
+    status_counts = {"passed": 0, "needs-review": 0, "failed": 0}
+    row_count = 0
+    for row in rows:
+        row_count += 1
+        dossier = json.loads(row["verified_dossier_json"])
+        packet = json.loads(row["packet_json"])
+        coverage_tags.update(packet["candidateIdentity"].get("coverageTags", []))
+        status = str(row["status"])
+        status_counts[status if status in status_counts else "failed"] += 1
+        for finding in dossier.get("fields", {}).values():
+            if isinstance(finding, dict) and finding.get("status") in state_counts:
+                state_counts[finding["status"]] += 1
+    return {
+        "packetCount": row_count,
+        "statusCounts": status_counts,
+        "fieldStates": state_counts,
+        "coverageTags": sorted(coverage_tags),
+    }
+
+
+def _persist_model_evaluation_audits(
+    store: ResearchStore,
+    run_id: int,
+    summary: dict[str, Any],
+    gaps: list[dict[str, str]],
+) -> None:
+    counts = summary["statusCounts"]
+    reports = {
+        "candidate-completeness": {
+            "packetCount": summary["packetCount"],
+            "passedCount": counts["passed"],
+            "needsReviewCount": counts["needs-review"],
+            "failedCount": counts["failed"],
+            "fieldStates": summary["fieldStates"],
+        },
+        "quality-gate": {
+            "passed": counts["failed"] == 0,
+            "verificationFailures": counts["failed"],
+            "verificationNeedsReview": counts["needs-review"],
+            "coverageTags": summary["coverageTags"],
+            "coverageGaps": gaps,
+        },
+    }
+    with store.connect() as connection:
+        for audit_type, report in reports.items():
+            connection.execute(
+                """INSERT OR REPLACE INTO optimization_audits (
+                       run_id, audit_type, created_at, report_json, report_sha256
+                   ) VALUES (?, ?, ?, ?, ?)""",
+                (run_id, audit_type, _now(), canonical_json(report), sha256_json(report)),
+            )
+
+
+def recompute_model_evaluation_audits(store: ResearchStore, run_id: int) -> None:
+    with store.connect() as connection:
+        rows = connection.execute(
+            """SELECT verification.status, verification.verified_dossier_json,
+                      packet.packet_json
+               FROM optimization_verifications AS verification
+               JOIN optimization_candidate_dossiers AS dossier
+                 ON dossier.id = verification.dossier_id
+               JOIN optimization_evidence_packets AS packet
+                 ON packet.id = dossier.packet_id
+               WHERE dossier.run_id = ? ORDER BY dossier.packet_id""",
+            (run_id,),
+        ).fetchall()
+        gap_rows = connection.execute(
+            """SELECT need_key, need_label, query_text, reason
+               FROM optimization_gap_queries WHERE run_id = ? ORDER BY need_key""",
+            (run_id,),
+        ).fetchall()
+    if not rows:
+        raise OptimizationModelError(f"Optimization run {run_id} has no verifications")
+    gaps = [
+        {
+            "key": str(row["need_key"]),
+            "label": str(row["need_label"]),
+            "query": str(row["query_text"]),
+            "reason": str(row["reason"]),
+        }
+        for row in gap_rows
+    ]
+    _persist_model_evaluation_audits(
+        store, run_id, _summarize_verification_rows(rows), gaps
+    )
 
 
 def validate_dossier_for_packet(
@@ -232,16 +330,22 @@ class OptimizationModelPipeline:
     def verified_candidates(self, run_id: int) -> list[dict[str, Any]]:
         with self.store.connect() as connection:
             rows = connection.execute(
-                """SELECT verification.verified_dossier_json
+                """SELECT verification.status, verification.verified_dossier_json,
+                          verification.findings_json
                    FROM optimization_verifications AS verification
                    JOIN optimization_candidate_dossiers AS dossier
                      ON dossier.id = verification.dossier_id
-                   WHERE dossier.run_id = ? AND verification.status = 'passed'
+                   WHERE dossier.run_id = ?
+                     AND verification.status IN ('passed', 'needs-review')
                    ORDER BY dossier.packet_id""",
                 (run_id,),
             ).fetchall()
         return [
-            verified_dossier_to_candidate(json.loads(row["verified_dossier_json"]))
+            verified_dossier_to_candidate(
+                json.loads(row["verified_dossier_json"]),
+                verification_status=str(row["status"]),
+                verification_findings=json.loads(row["findings_json"] or "{}"),
+            )
             for row in rows
         ]
 
@@ -592,21 +696,12 @@ class OptimizationModelPipeline:
                    WHERE dossier.run_id = ? ORDER BY dossier.packet_id""",
                 (run_id,),
             ).fetchall()
-        state_counts = {"supported": 0, "conflicting": 0, "unknown": 0}
-        coverage_tags: set[str] = set()
-        passed = 0
-        failed = 0
-        for row in rows:
-            dossier = json.loads(row["verified_dossier_json"])
-            packet = json.loads(row["packet_json"])
-            coverage_tags.update(packet["candidateIdentity"].get("coverageTags", []))
-            if row["status"] == "passed":
-                passed += 1
-            else:
-                failed += 1
-            for finding in dossier.get("fields", {}).values():
-                if isinstance(finding, dict) and finding.get("status") in state_counts:
-                    state_counts[finding["status"]] += 1
+        summary = _summarize_verification_rows(rows)
+        state_counts = summary["fieldStates"]
+        coverage_tags = set(summary["coverageTags"])
+        passed = summary["statusCounts"]["passed"]
+        needs_review = summary["statusCounts"]["needs-review"]
+        failed = summary["statusCounts"]["failed"]
         gaps = []
         with self.store.connect() as connection:
             for need in self.required_coverage_needs:
@@ -626,39 +721,13 @@ class OptimizationModelPipeline:
                        ) VALUES (?, ?, ?, ?, ?, ?, 'planned')""",
                     (run_id, self.corpus_id, key, label, reason, query),
                 )
-            completeness = {
-                "packetCount": len(rows),
-                "passedCount": passed,
-                "failedCount": failed,
-                "fieldStates": state_counts,
-            }
-            quality = {
-                "passed": failed == 0,
-                "verificationFailures": failed,
-                "coverageTags": sorted(coverage_tags),
-                "coverageGaps": gaps,
-            }
-            for audit_type, report in (
-                ("candidate-completeness", completeness),
-                ("quality-gate", quality),
-            ):
-                connection.execute(
-                    """INSERT OR REPLACE INTO optimization_audits (
-                           run_id, audit_type, created_at, report_json, report_sha256
-                       ) VALUES (?, ?, ?, ?, ?)""",
-                    (
-                        run_id,
-                        audit_type,
-                        _now(),
-                        canonical_json(report),
-                        sha256_json(report),
-                    ),
-                )
+        _persist_model_evaluation_audits(self.store, run_id, summary, gaps)
         self.progress(
             {
                 "phase": "gap-audit",
                 "gapCount": len(gaps),
                 "verificationFailureCount": failed,
+                "verificationNeedsReviewCount": needs_review,
             }
         )
         return ModelEvaluationResult(
@@ -667,6 +736,7 @@ class OptimizationModelPipeline:
             corpus_id=self.corpus_id,
             packet_count=len(rows),
             passed_count=passed,
+            needs_review_count=needs_review,
             failed_count=failed,
             supported_field_count=state_counts["supported"],
             conflicting_field_count=state_counts["conflicting"],

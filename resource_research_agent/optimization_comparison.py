@@ -71,13 +71,17 @@ def _quality_metrics(store: ResearchStore, run_id: int) -> dict[str, Any]:
     authority_counts: dict[str, int] = {}
     finding_codes: dict[str, int] = {}
     passed = 0
+    needs_review = 0
     failed = 0
     usable = 0
+    usable_with_review_flag = 0
     for row in rows:
         dossier = json.loads(row["verified_dossier_json"])
         packet = json.loads(row["packet_json"])
         if row["status"] == "passed":
             passed += 1
+        elif row["status"] == "needs-review":
+            needs_review += 1
         else:
             failed += 1
         supported_here = 0
@@ -89,8 +93,14 @@ def _quality_metrics(store: ResearchStore, run_id: int) -> dict[str, Any]:
                 field_states[state] += 1
             if state == "supported":
                 supported_here += 1
-        if row["status"] == "passed" and dossier.get("sources") and supported_here:
+        if (
+            row["status"] in {"passed", "needs-review"}
+            and dossier.get("sources")
+            and supported_here
+        ):
             usable += 1
+            if row["status"] == "needs-review":
+                usable_with_review_flag += 1
         findings = json.loads(row["findings_json"] or "{}")
         for finding in findings.get("finalDeterministicFindings", []):
             if isinstance(finding, dict):
@@ -109,9 +119,10 @@ def _quality_metrics(store: ResearchStore, run_id: int) -> dict[str, Any]:
     return {
         "priority1Accuracy": {
             "passedCandidates": passed,
+            "needsReviewCandidates": needs_review,
             "failedCandidates": failed,
             "remainingDeterministicFindings": finding_codes,
-            "gatePassed": failed == 0 and not finding_codes,
+            "gatePassed": failed == 0,
         },
         "priority2Completeness": {
             "fieldStates": field_states,
@@ -124,7 +135,9 @@ def _quality_metrics(store: ResearchStore, run_id: int) -> dict[str, Any]:
         },
         "priority4Candidates": {
             "verifiedCandidateCount": passed,
+            "needsReviewCandidateCount": needs_review,
             "usableCandidateCount": usable,
+            "usableWithReviewFlagCount": usable_with_review_flag,
         },
     }
 
@@ -182,7 +195,7 @@ def create_model_neutral_comparison(
     vectors = {key: _quality_vector(value) for key, value in options.items()}
     quality_winner = "tie" if vectors["A"] == vectors["B"] else max(vectors, key=vectors.get)
     report = {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "corpusPacketCount": len(fingerprint),
         "corpusPacketsSha256": sha256_json(fingerprint),
         "identicalFrozenPackets": True,
