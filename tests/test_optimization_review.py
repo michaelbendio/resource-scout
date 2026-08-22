@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import tempfile
 import unittest
+from copy import deepcopy
 from pathlib import Path
 
 from resource_research_agent.optimization_review import (
@@ -175,12 +176,22 @@ class OptimizationReviewTests(unittest.TestCase):
                 "https://example.org/junk": {
                     "disposition": "excluded",
                     "reason": "Unrelated result",
+                    "reviewEvidence": [
+                        {
+                            "url": "https://example.org/status",
+                            "excerpt": "The program closed.",
+                        }
+                    ],
                 },
             },
         }
         updated = apply_identity_review_patch(review, patch)
         self.assertEqual("candidate", updated["decisions"]["https://example.org/program"]["disposition"])
         self.assertEqual("excluded", updated["decisions"]["https://example.org/junk"]["disposition"])
+        self.assertEqual(
+            "The program closed.",
+            updated["decisions"]["https://example.org/junk"]["reviewEvidence"][0]["excerpt"],
+        )
         self.assertEqual(1, len(updated["reviewApplications"]))
         replayed = apply_identity_review_patch(updated, patch)
         self.assertEqual(updated, replayed)
@@ -198,6 +209,17 @@ class OptimizationReviewTests(unittest.TestCase):
         }
         with self.assertRaisesRegex(OptimizationRuntimeError, "was not discovered"):
             apply_identity_review_patch(review, unknown_url)
+
+        invalid_evidence = deepcopy(patch)
+        invalid_evidence["decisions"] = {
+            "https://example.org/junk": {
+                "disposition": "excluded",
+                "reason": "Unrelated result",
+                "reviewEvidence": [{"url": "file:///tmp/status", "excerpt": "Closed"}],
+            }
+        }
+        with self.assertRaisesRegex(OptimizationRuntimeError, "evidence URL is invalid"):
+            apply_identity_review_patch(review, invalid_evidence)
 
     def test_status_sweep_reuses_base_cache_and_queries_each_urgent_identity(self) -> None:
         calls = []

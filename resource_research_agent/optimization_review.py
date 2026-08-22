@@ -218,6 +218,27 @@ def apply_identity_review_patch(
                 f"Identity review patch decision needs a disposition and reason: {url}"
             )
         identity_value = decision_patch.get("identities", decision_patch.get("identity"))
+        review_evidence = decision_patch.get("reviewEvidence")
+        if review_evidence is not None:
+            if not isinstance(review_evidence, list) or not review_evidence:
+                raise OptimizationRuntimeError(
+                    f"Identity-review patch evidence must be a non-empty array: {url}"
+                )
+            for evidence in review_evidence:
+                if not isinstance(evidence, dict):
+                    raise OptimizationRuntimeError(
+                        f"Identity-review patch evidence is invalid: {url}"
+                    )
+                try:
+                    canonicalize_discovery_url(evidence.get("url"))
+                except ValueError as error:
+                    raise OptimizationRuntimeError(
+                        f"Identity-review patch evidence URL is invalid: {url}"
+                    ) from error
+                if not str(evidence.get("excerpt") or "").strip():
+                    raise OptimizationRuntimeError(
+                        f"Identity-review patch evidence lacks an excerpt: {url}"
+                    )
         if disposition == "candidate":
             identities = (
                 [identity_value]
@@ -250,6 +271,8 @@ def apply_identity_review_patch(
         if disposition == "candidate":
             key = "identities" if isinstance(identity_value, list) else "identity"
             record[key] = deepcopy(identity_value)
+        if review_evidence is not None:
+            record["reviewEvidence"] = deepcopy(review_evidence)
 
     result.setdefault("reviewApplications", []).append(
         {
