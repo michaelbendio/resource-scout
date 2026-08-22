@@ -5,6 +5,7 @@ from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
+from urllib.parse import urlsplit
 
 from .optimization import (
     augment_housing_query_plan_with_status_checks,
@@ -282,6 +283,79 @@ def apply_identity_review_patch(
         }
     )
     return result
+
+
+def build_identity_review_exclusion_patch(
+    review: dict[str, Any], policy: dict[str, Any]
+) -> dict[str, Any]:
+    """Build an exact-URL patch from explicit, conservative exclusion rules."""
+
+    decisions = review.get("decisions")
+    if not isinstance(decisions, dict):
+        raise OptimizationRuntimeError("Identity review has no decisions object")
+    label = str(policy.get("label") or "").strip()
+    rules = policy.get("rules")
+    if not label or not isinstance(rules, list) or not rules:
+        raise OptimizationRuntimeError("Exclusion policy needs a label and non-empty rules")
+    normalized_rules = []
+    for rule in rules:
+        if not isinstance(rule, dict):
+            raise OptimizationRuntimeError("Exclusion policy rule must be an object")
+        key = str(rule.get("key") or "").strip()
+        reason = str(rule.get("reason") or "").strip()
+        hosts = {
+            str(value).strip().casefold().removeprefix("www.")
+            for value in rule.get("hosts", [])
+            if str(value).strip()
+        }
+        url_contains = [
+            str(value).strip().casefold()
+            for value in rule.get("urlContains", [])
+            if str(value).strip()
+        ]
+        text_contains = [
+            str(value).strip().casefold()
+            for value in rule.get("textContains", [])
+            if str(value).strip()
+        ]
+        if not key or not reason or not (hosts or url_contains or text_contains):
+            raise OptimizationRuntimeError(
+                "Exclusion policy rules need key, reason, and at least one matcher"
+            )
+        normalized_rules.append((key, reason, hosts, url_contains, text_contains))
+
+    patch_decisions = {}
+    rule_counts = {key: 0 for key, *_rest in normalized_rules}
+    for url, record in sorted(decisions.items()):
+        if not isinstance(record, dict) or record.get("disposition") != "pending":
+            continue
+        hostname = (urlsplit(url).hostname or "").casefold().removeprefix("www.")
+        url_text = url.casefold()
+        result_text = f"{record.get('title') or ''} {record.get('snippet') or ''}".casefold()
+        for key, reason, hosts, url_contains, text_contains in normalized_rules:
+            host_match = any(
+                hostname == host or hostname.endswith(f".{host}") for host in hosts
+            )
+            if not (
+                host_match
+                or any(value in url_text for value in url_contains)
+                or any(value in result_text for value in text_contains)
+            ):
+                continue
+            patch_decisions[url] = {
+                "disposition": "excluded",
+                "reason": f"{reason} [review rule: {key}]",
+            }
+            rule_counts[key] += 1
+            break
+    if not patch_decisions:
+        raise OptimizationRuntimeError("Exclusion policy matched no pending review URLs")
+    return {
+        "label": label,
+        "searchCacheSha256": review.get("searchCacheSha256"),
+        "decisions": patch_decisions,
+        "ruleCounts": rule_counts,
+    }
 
 
 def validate_identity_review(cache: dict[str, Any], review: dict[str, Any]) -> None:

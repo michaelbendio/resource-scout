@@ -1,0 +1,104 @@
+{
+  "label": "housing-urgent-obvious-nonprogram-results-v1",
+  "rules": [
+    {
+      "key": "non-evidence-platform",
+      "reason": "Social, map, review, job, video, or idea platform is not needed as program evidence after a direct or authoritative source was retained.",
+      "hosts": [
+        "facebook.com",
+        "foursquare.com",
+        "indeed.com",
+        "linkedin.com",
+        "mapquest.com",
+        "pinterest.com",
+        "tiktok.com",
+        "youtube.com",
+        "yellowpages.com"
+      ]
+    },
+    {
+      "key": "commercial-travel-rental",
+      "reason": "Commercial travel, hotel, vacation-rental, apartment-listing, or ordinary home-rental result is not an actionable social-service program.",
+      "hosts": [
+        "affordablehousing.com",
+        "agoda.com",
+        "airbnb.com",
+        "booking.com",
+        "expedia.com",
+        "hometogo.com",
+        "hotelsinmesa.net",
+        "momondo.fi",
+        "rent.com",
+        "rentable.co",
+        "rentcafe.com",
+        "skyscanner.com",
+        "travel.yandex.ru",
+        "tripadvisor.ca",
+        "tripadvisor.co.uk",
+        "tripadvisor.com",
+        "tripadvisor.com.au",
+        "tripadvisor.de",
+        "tripadvisor.in"
+      ]
+    },
+    {
+      "key": "unrelated-commercial-service",
+      "reason": "Commercial consumer service or product page matched an ambiguous search term but is unrelated to housing or homelessness assistance.",
+      "hosts": [
+        "ashmaig.com",
+        "azwindowwashing.com",
+        "bmtowingmesa.com",
+        "flatroofrepairmesa.com",
+        "houseforhomeless.org",
+        "junkcamper.com",
+        "myproservices.com",
+        "nelsonwesterberg.com",
+        "phxhousecleaning.com",
+        "rugs.com",
+        "sinistar.com",
+        "temporarykitchens123.com",
+        "visitingangels.com",
+        "voicedrop.ai"
+      ]
+    },
+    {
+      "key": "wrong-geography",
+      "reason": "Result concerns a different Mesa or a clearly out-of-scope state or country and does not serve Mesa, Arizona.",
+      "textContains": [
+        "albuquerque",
+        "boracay",
+        "costa mesa",
+        "colorado springs",
+        "grand junction",
+        "la mesa, ca",
+        "la mesa ca",
+        "lakewood colorado",
+        "manila",
+        "mesa county",
+        "orange county",
+        "san diego",
+        "santa barbara",
+        "siem reap"
+      ]
+    },
+    {
+      "key": "obvious-nonresource-content",
+      "reason": "Result is plainly unrelated entertainment, gaming, shopping, restaurant, road, school, or ordinary local-content material.",
+      "hosts": [
+        "consolepcgaming.com",
+        "hyperlitemountaingear.com",
+        "issuu.com",
+        "ok.ru",
+        "pmi.edu",
+        "popculturepress.org",
+        "reviews.listen360.com",
+        "shacknews.com",
+        "sitelinesb.com",
+        "steamcommunity.com",
+        "time4learning.com",
+        "traillink.com",
+        "vk.com"
+      ]
+    }
+  ]
+}

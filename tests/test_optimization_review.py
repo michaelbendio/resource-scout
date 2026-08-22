@@ -9,6 +9,7 @@ from pathlib import Path
 from resource_research_agent.optimization_review import (
     CachedSearchClient,
     apply_identity_review_patch,
+    build_identity_review_exclusion_patch,
     cache_housing_searches,
     identity_review_template,
     merge_identity_review,
@@ -269,6 +270,48 @@ class OptimizationReviewTests(unittest.TestCase):
             )
             self.assertEqual("candidate-current-status", status["branchKey"])
             self.assertIn('"Emergency Shelter"', status["query"])
+
+    def test_exclusion_policy_builds_exact_pending_only_patch(self) -> None:
+        review = {
+            "searchCacheSha256": "cache",
+            "decisions": {
+                "https://maps.example/social": {
+                    "disposition": "pending",
+                    "title": "Map",
+                    "snippet": "",
+                },
+                "https://provider.example/program": {
+                    "disposition": "candidate",
+                    "title": "Costa Mesa name in retained candidate",
+                    "snippet": "",
+                },
+                "https://other.example/wrong": {
+                    "disposition": "pending",
+                    "title": "Costa Mesa shelter",
+                    "snippet": "California",
+                },
+            },
+        }
+        policy = {
+            "label": "obvious-v1",
+            "rules": [
+                {
+                    "key": "platform",
+                    "reason": "Not evidence",
+                    "hosts": ["maps.example"],
+                },
+                {
+                    "key": "wrong-place",
+                    "reason": "Wrong location",
+                    "textContains": ["Costa Mesa"],
+                },
+            ],
+        }
+        patch = build_identity_review_exclusion_patch(review, policy)
+        self.assertEqual(2, len(patch["decisions"]))
+        self.assertNotIn("https://provider.example/program", patch["decisions"])
+        self.assertEqual({"platform": 1, "wrong-place": 1}, patch["ruleCounts"])
+        self.assertEqual("cache", patch["searchCacheSha256"])
 
 
 if __name__ == "__main__":
