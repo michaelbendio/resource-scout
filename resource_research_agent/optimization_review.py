@@ -149,6 +149,9 @@ def merge_identity_review(
     previous_decisions = previous_review.get("decisions", {})
     if not isinstance(previous_decisions, dict):
         return merged
+    previous_applications = previous_review.get("reviewApplications")
+    if isinstance(previous_applications, list):
+        merged["reviewApplications"] = deepcopy(previous_applications)
     for url, record in merged["decisions"].items():
         previous = previous_decisions.get(url)
         if not isinstance(previous, dict) or previous.get("disposition") not in {

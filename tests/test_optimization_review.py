@@ -122,6 +122,9 @@ class OptimizationReviewTests(unittest.TestCase):
                 "identity": {"organization": "Example", "program": "Program"},
             }
         )
+        previous["reviewApplications"] = [
+            {"label": "batch-1", "patchSha256": "a" * 64, "decisionCount": 1}
+        ]
         new_cache = {
             "cacheSha256": "new",
             "queries": {
@@ -145,6 +148,7 @@ class OptimizationReviewTests(unittest.TestCase):
             "pending", merged["decisions"]["https://example.org/new"]["disposition"]
         )
         self.assertEqual("new", merged["searchCacheSha256"])
+        self.assertEqual(previous["reviewApplications"], merged["reviewApplications"])
 
     def test_labeled_review_patch_is_validated_and_replay_safe(self) -> None:
         cache = {
