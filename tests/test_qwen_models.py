@@ -3,10 +3,14 @@ from __future__ import annotations
 import json
 import tempfile
 import unittest
+import zipfile
 from copy import deepcopy
 from pathlib import Path
 
-from resource_research_agent.optimization import HOUSING_FACTUAL_FIELDS
+from resource_research_agent.optimization import (
+    HOUSING_FACTUAL_FIELDS,
+    optimization_resource_id,
+)
 from resource_research_agent.optimization_models import (
     OptimizationModelError,
     OptimizationModelPipeline,
@@ -14,6 +18,7 @@ from resource_research_agent.optimization_models import (
     restore_frozen_source_envelopes,
 )
 from resource_research_agent.optimization_pipeline import OptimizationDiscoveryPipeline
+from resource_research_agent.optimization_outcomes import compare_optimization_run_to_package
 from resource_research_agent.review_export import build_optimization_review_copy
 from resource_research_agent.storage import ResearchStore
 from tests.test_qwen_discovery import FixtureProviders
@@ -432,6 +437,52 @@ class ModelPipelineTests(unittest.TestCase):
             )
         )
         self.assertNotIn("wrong::program", review.html.decode("utf-8"))
+        package_path = Path(self.temporary.name) / "phone-vetted-resource-package.zip"
+        accepted_candidates = review.data["candidates"][:2]
+        resources = []
+        for item in accepted_candidates:
+            provenance = item["candidate"]["optimizationProvenance"]
+            resources.append(
+                {
+                    "id": optimization_resource_id(
+                        provenance["configurationHash"], provenance["packetId"]
+                    ),
+                    "name": item["name"],
+                    "phone": "480-555-0100",
+                    "categories": ["housing"],
+                }
+            )
+        with zipfile.ZipFile(package_path, "w") as archive:
+            archive.writestr(
+                "tso-resources.json",
+                json.dumps(
+                    {
+                        "resourcePackageSchemaVersion": 3,
+                        "packageVersion": 2,
+                        "categories": [{"id": "housing", "label": "Housing"}],
+                        "resources": resources,
+                    }
+                ),
+            )
+        outcome = compare_optimization_run_to_package(
+            self.store, mixed_result.run_id, package_path
+        )
+        self.assertEqual(7, outcome.candidate_count)
+        self.assertEqual(2, outcome.accepted_count)
+        self.assertEqual(5, outcome.not_present_count)
+        self.assertEqual(
+            outcome.report_sha256,
+            compare_optimization_run_to_package(
+                self.store, mixed_result.run_id, package_path
+            ).report_sha256,
+        )
+        with self.store.connect() as connection:
+            self.assertEqual(
+                1,
+                connection.execute(
+                    "SELECT COUNT(*) FROM optimization_package_outcomes"
+                ).fetchone()[0],
+            )
 
     def test_residual_invalid_field_is_removed_and_requires_review(self) -> None:
         models = SeededFixtureModels()

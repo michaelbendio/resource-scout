@@ -10,6 +10,7 @@ from typing import Any
 
 from .duplicates import DuplicateIndex
 from .optimization_models import verified_dossier_to_candidate
+from .optimization import optimization_resource_id
 from .resource_package import RESOURCE_PACKAGE_SCHEMA_VERSION, candidate_to_resource
 from .storage import ResearchStore
 
@@ -394,10 +395,9 @@ def build_optimization_review_copy(
             resource_draft = candidate_to_resource(
                 candidate,
                 target_category_id,
-                resource_id=uuid.uuid5(
-                    uuid.NAMESPACE_URL,
-                    f"resource-research-optimization:{run['configuration_hash']}:{row['packet_id']}",
-                ).hex,
+                resource_id=optimization_resource_id(
+                    str(run["configuration_hash"]), int(row["packet_id"])
+                ),
                 timestamp=exported,
                 available_types=category_summary.get("types", []),
                 available_for_groups=taxonomy["forGroups"],

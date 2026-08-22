@@ -89,6 +89,7 @@ class OptimizationPersistenceTests(unittest.TestCase):
             "optimization_gap_queries",
             "optimization_comparisons",
             "optimization_audits",
+            "optimization_package_outcomes",
         }
         with self.store.connect() as connection:
             actual = {

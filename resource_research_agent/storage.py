@@ -562,6 +562,15 @@ CREATE TABLE IF NOT EXISTS optimization_audits (
     report_sha256 TEXT NOT NULL CHECK (length(report_sha256) = 64),
     UNIQUE (run_id, audit_type)
 );
+CREATE TABLE IF NOT EXISTS optimization_package_outcomes (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL REFERENCES optimization_runs(id) ON DELETE CASCADE,
+    created_at TEXT NOT NULL,
+    final_package_sha256 TEXT NOT NULL CHECK (length(final_package_sha256) = 64),
+    report_json TEXT NOT NULL,
+    report_sha256 TEXT NOT NULL CHECK (length(report_sha256) = 64),
+    UNIQUE (run_id, final_package_sha256)
+);
 """
 
 

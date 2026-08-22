@@ -4,6 +4,7 @@ import hashlib
 import json
 import re
 import unicodedata
+import uuid
 from copy import deepcopy
 from typing import Any, Iterable
 from urllib.parse import urlsplit
@@ -94,6 +95,17 @@ def canonical_json(value: Any) -> str:
 
 def sha256_json(value: Any) -> str:
     return hashlib.sha256(canonical_json(value).encode("utf-8")).hexdigest()
+
+
+def optimization_resource_id(configuration_hash: str, packet_id: int) -> str:
+    if not re.fullmatch(r"[0-9a-f]{64}", str(configuration_hash)):
+        raise ValueError("Optimization resource linkage requires a configuration hash")
+    if not isinstance(packet_id, int) or isinstance(packet_id, bool) or packet_id <= 0:
+        raise ValueError("Optimization resource linkage requires a positive packet id")
+    return uuid.uuid5(
+        uuid.NAMESPACE_URL,
+        f"resource-research-optimization:{configuration_hash}:{packet_id}",
+    ).hex
 
 
 def _identity_part(value: str) -> str:

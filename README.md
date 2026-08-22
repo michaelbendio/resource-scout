@@ -153,6 +153,24 @@ builder is available at `/api/optimization-runs/{run-id}/review-copy` only when 
 server is deliberately started against the isolated benchmark database. Normal
 research-run export and production DeepSeek behavior are unchanged.
 
+After Curator and phone vetting produce an additions package, compare it with the
+originating optimization run before merging it into TSO Resources:
+
+```sh
+./compare-qwen-curator-package.py \
+  --database data/benchmarks/mesa-qwen-YYYY-MM-DD/mesa-qwen-benchmark.sqlite3 \
+  --run-id 11 \
+  --package /path/to/phone-vetted-resource-package.zip \
+  --report /path/to/qwen-package-outcome.json
+```
+
+Optimization Curators assign every draft a deterministic resource ID derived from
+the configuration hash and frozen packet ID. The comparison uses that ID to prove
+candidate-to-final-resource linkage, records phone-vetted changes to core fields,
+and persists a hashed outcome report in the isolated benchmark database. A missing
+ID is reported as `not-present`, not silently interpreted as rejection, because the
+candidate may still be pending in Curator.
+
 ### Hermes
 
 To install Hermes using its supported macOS installer:
