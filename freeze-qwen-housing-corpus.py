@@ -43,7 +43,7 @@ plan = build_housing_urgent_query_plan(
 )
 configuration = {
     "label": (
-        "mesa-housing-urgent-reviewed-ddgs-v2-2026-08-22-"
+        "mesa-housing-urgent-reviewed-ddgs-v3-source-bound-2026-08-22-"
         f"{sha256_json(review)[:12]}"
     ),
     "modelArtifact": "none",
@@ -56,7 +56,7 @@ configuration = {
     "fetchProvider": "safe-http",
     "searchPluginVersion": "resource-scout-ddgs-v1",
     "fetchPluginVersion": "resource-scout-safe-http-v1",
-    "promptPolicyVersion": "human-reviewed-identity-ledger-v2",
+    "promptPolicyVersion": "human-reviewed-identity-ledger-v3-source-bound",
     "playbookVersion": "1.1.0",
     "sourcePackageSha256": package.sha256,
     "sourcePackageVersion": str(package.schema.package_version),
