@@ -18,8 +18,8 @@ class CoordinatorTests(unittest.TestCase):
         root = Path(__file__).parents[1]
         coordinator = (root / "run-qwen-quantization-comparison.py").read_text()
         runner = (root / "run-qwen-housing-model.py").read_text()
-        self.assertIn("reviewed-corpus-v3", coordinator)
-        self.assertIn("quantization-v3", coordinator)
+        self.assertIn("reviewed-corpus-v4", coordinator)
+        self.assertIn("quantization-v4", coordinator)
         self.assertIn('"localQwenProxyTimeoutSeconds": 7200', runner)
 
     def test_comparison_recompute_uses_only_persisted_runs(self) -> None:
