@@ -266,7 +266,7 @@ def build_housing_urgent_query_plan(
         "minimumQueries": 2,
         "maximumQueries": 6,
         "consecutiveNoNewIdentityQueries": 2,
-        "noveltyUnit": "normalized organization-plus-program identity",
+        "noveltyUnit": "package-eligible normalized organization-plus-program identity",
     }
     specifications = (
         (

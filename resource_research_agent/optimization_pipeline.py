@@ -40,6 +40,7 @@ class DiscoveryCorpusResult:
     query_count: int
     lead_count: int
     identity_count: int
+    eligible_identity_count: int
     excluded_identity_count: int
     source_count: int
     packet_count: int
@@ -226,9 +227,9 @@ class OptimizationDiscoveryPipeline:
             for query in queries:
                 with self.store.connect() as connection:
                     completed_counts = [
-                        int(row["new_lead_count"])
+                        int(row["new_eligible_identity_count"])
                         for row in connection.execute(
-                            """SELECT new_lead_count FROM optimization_queries
+                            """SELECT new_eligible_identity_count FROM optimization_queries
                                WHERE branch_id = ? AND status = 'completed'
                                ORDER BY position""",
                             (branch_id,),
@@ -251,9 +252,9 @@ class OptimizationDiscoveryPipeline:
                     "SELECT * FROM optimization_coverage_branches WHERE id = ?", (branch_id,)
                 ).fetchone()
                 counts = [
-                    int(row["new_lead_count"])
+                    int(row["new_eligible_identity_count"])
                     for row in connection.execute(
-                        """SELECT new_lead_count FROM optimization_queries
+                        """SELECT new_eligible_identity_count FROM optimization_queries
                            WHERE branch_id = ? AND status = 'completed' ORDER BY position""",
                         (branch_id,),
                     ).fetchall()
@@ -315,7 +316,15 @@ class OptimizationDiscoveryPipeline:
                 (branch_id,),
             )
         try:
-            raw_results = self.search(str(query["query_text"]), 8)
+            maximum_results = max(
+                1,
+                int(
+                    self.configuration_record["snapshot"]["limits"].get(
+                        "searchResultsPerQuery", 8
+                    )
+                ),
+            )
+            raw_results = self.search(str(query["query_text"]), maximum_results)
             if not isinstance(raw_results, list):
                 raise ValueError("Search provider did not return an array")
         except Exception as error:
@@ -339,6 +348,7 @@ class OptimizationDiscoveryPipeline:
 
         normalized_results: list[dict[str, Any]] = []
         new_identity_count = 0
+        new_eligible_identity_count = 0
         with self.store.connect() as connection:
             for rank, result in enumerate(raw_results, start=1):
                 if not isinstance(result, dict):
@@ -386,6 +396,14 @@ class OptimizationDiscoveryPipeline:
                     continue
                 identity_id, created = self._save_identity(connection, run_id, decision)
                 new_identity_count += int(created)
+                if created:
+                    identity = connection.execute(
+                        "SELECT boundary_state FROM optimization_candidate_identities WHERE id = ?",
+                        (identity_id,),
+                    ).fetchone()
+                    new_eligible_identity_count += int(
+                        identity["boundary_state"] != "excluded-existing"
+                    )
                 relationship = str(decision.get("leadRelationship") or "describes-program")
                 if relationship not in {
                     "describes-program",
@@ -412,17 +430,34 @@ class OptimizationDiscoveryPipeline:
             connection.execute(
                 """UPDATE optimization_queries
                    SET status = 'completed', executed_at = ?, new_lead_count = ?,
-                       result_json = ?, error = '' WHERE id = ?""",
-                (now, new_identity_count, canonical_json(payload), query_id),
+                       new_eligible_identity_count = ?, result_json = ?, error = ''
+                   WHERE id = ?""",
+                (
+                    now,
+                    new_identity_count,
+                    new_eligible_identity_count,
+                    canonical_json(payload),
+                    query_id,
+                ),
             )
             aggregates = connection.execute(
                 """SELECT COUNT(*) AS query_count,
-                          COALESCE(SUM(new_lead_count), 0) AS lead_count
+                          COALESCE(SUM(new_lead_count), 0) AS lead_count,
+                          COALESCE(SUM(new_eligible_identity_count), 0)
+                              AS eligible_identity_count
                    FROM optimization_queries
                    WHERE branch_id = ? AND status = 'completed'""",
                 (branch_id,),
             ).fetchone()
             completed_counts = [
+                int(row["new_eligible_identity_count"])
+                for row in connection.execute(
+                    """SELECT new_eligible_identity_count FROM optimization_queries
+                       WHERE branch_id = ? AND status = 'completed' ORDER BY position""",
+                    (branch_id,),
+                ).fetchall()
+            ]
+            raw_completed_counts = [
                 int(row["new_lead_count"])
                 for row in connection.execute(
                     """SELECT new_lead_count FROM optimization_queries
@@ -430,19 +465,28 @@ class OptimizationDiscoveryPipeline:
                     (branch_id,),
                 ).fetchall()
             ]
-            no_new = 0
+            no_new_eligible = 0
             for count in reversed(completed_counts):
                 if count:
                     break
-                no_new += 1
+                no_new_eligible += 1
+            no_new_raw = 0
+            for count in reversed(raw_completed_counts):
+                if count:
+                    break
+                no_new_raw += 1
             connection.execute(
                 """UPDATE optimization_coverage_branches
                    SET executed_query_count = ?, new_lead_count = ?,
-                       consecutive_no_new_leads = ? WHERE id = ?""",
+                       new_eligible_identity_count = ?,
+                       consecutive_no_new_leads = ?,
+                       consecutive_no_new_eligible_identities = ? WHERE id = ?""",
                 (
                     int(aggregates["query_count"]),
                     int(aggregates["lead_count"]),
-                    no_new,
+                    int(aggregates["eligible_identity_count"]),
+                    no_new_raw,
+                    no_new_eligible,
                     branch_id,
                 ),
             )
@@ -451,6 +495,7 @@ class OptimizationDiscoveryPipeline:
                 "phase": "discovery",
                 "queryKey": query["query_key"],
                 "newIdentityCount": new_identity_count,
+                "newEligibleIdentityCount": new_eligible_identity_count,
             }
         )
 
@@ -819,6 +864,11 @@ class OptimizationDiscoveryPipeline:
                 ),
                 "leadCount": len(leads),
                 "resolvedIdentityCount": len(packets),
+                "packageEligibleIdentityCount": sum(
+                    1
+                    for identity in identities
+                    if identity["boundary_state"] != "excluded-existing"
+                ),
                 "packetCount": len(packets),
             }
             connection.execute(
@@ -909,6 +959,10 @@ class OptimizationDiscoveryPipeline:
             query_count=query_count,
             lead_count=lead_count,
             identity_count=int(identity_counts["total"] or 0),
+            eligible_identity_count=(
+                int(identity_counts["total"] or 0)
+                - int(identity_counts["excluded"] or 0)
+            ),
             excluded_identity_count=int(identity_counts["excluded"] or 0),
             source_count=source_count,
             packet_count=packet_count,

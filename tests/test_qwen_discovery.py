@@ -32,11 +32,13 @@ class FixtureProviders:
             for query in branch["queries"]
         }
         self.search_calls: list[str] = []
+        self.search_result_limits: list[int] = []
         self.fetch_calls: list[str] = []
 
-    def search(self, query: str, _max_results: int) -> list[dict]:
+    def search(self, query: str, max_results: int) -> list[dict]:
         key = self.query_keys[query]
         self.search_calls.append(key)
+        self.search_result_limits.append(max_results)
         return deepcopy(self.fixture["searchResults"].get(key, []))
 
     def fetch(self, url: str) -> dict:
@@ -77,7 +79,7 @@ class FixtureProviders:
             "limits": {
                 "modelFallbacks": [],
                 "searchFallbacks": [],
-                "searchResultsPerQuery": 8,
+                "searchResultsPerQuery": 11,
                 "fetchMaxBytes": 200000,
             },
             "stoppingRules": {
@@ -119,13 +121,15 @@ class DiscoveryPipelineTests(unittest.TestCase):
         result = self.pipeline(providers, "fixture-housing-stage").run()
 
         self.assertEqual(9, result.branch_count)
-        self.assertEqual(27, result.query_count)
+        self.assertEqual(26, result.query_count)
         self.assertEqual(9, result.lead_count)
         self.assertEqual(9, result.identity_count)
+        self.assertEqual(8, result.eligible_identity_count)
         self.assertEqual(1, result.excluded_identity_count)
         self.assertEqual(8, result.source_count)
         self.assertEqual(8, result.packet_count)
-        self.assertEqual(27, len(providers.search_calls))
+        self.assertEqual(26, len(providers.search_calls))
+        self.assertEqual({11}, set(providers.search_result_limits))
         self.assertEqual(8, len(providers.fetch_calls))
 
         with self.store.connect() as connection:
@@ -146,7 +150,7 @@ class DiscoveryPipelineTests(unittest.TestCase):
                 },
             )
             self.assertEqual(
-                27,
+                26,
                 connection.execute(
                     "SELECT COUNT(*) FROM optimization_query_attempts"
                 ).fetchone()[0],
@@ -181,6 +185,18 @@ class DiscoveryPipelineTests(unittest.TestCase):
             ).fetchone()
             self.assertEqual("same-program", excluded["package_match_state"])
             self.assertEqual("excluded-existing", excluded["boundary_state"])
+            county = connection.execute(
+                """SELECT executed_query_count, new_lead_count,
+                          new_eligible_identity_count,
+                          consecutive_no_new_eligible_identities
+                   FROM optimization_coverage_branches
+                   WHERE run_id = ? AND branch_key = 'official-county'""",
+                (result.run_id,),
+            ).fetchone()
+            self.assertEqual(2, county["executed_query_count"])
+            self.assertEqual(1, county["new_lead_count"])
+            self.assertEqual(0, county["new_eligible_identity_count"])
+            self.assertEqual(2, county["consecutive_no_new_eligible_identities"])
             packets = connection.execute(
                 "SELECT packet_json FROM optimization_evidence_packets WHERE corpus_id = ?",
                 (result.corpus_id,),
@@ -215,7 +231,7 @@ class DiscoveryPipelineTests(unittest.TestCase):
         self.assertEqual(["official-city-1"], providers.search_calls)
 
         result = self.pipeline(providers, "fixture-discovery-resume").run()
-        self.assertEqual(27, result.query_count)
+        self.assertEqual(26, result.query_count)
         self.assertEqual(1, providers.search_calls.count("official-city-1"))
         with self.store.connect() as connection:
             attempt_count = connection.execute(

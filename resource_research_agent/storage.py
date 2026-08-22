@@ -276,8 +276,12 @@ CREATE TABLE IF NOT EXISTS optimization_coverage_branches (
     maximum_queries INTEGER NOT NULL CHECK (maximum_queries >= minimum_queries),
     saturation_queries INTEGER NOT NULL CHECK (saturation_queries > 0),
     consecutive_no_new_leads INTEGER NOT NULL DEFAULT 0 CHECK (consecutive_no_new_leads >= 0),
+    consecutive_no_new_eligible_identities INTEGER NOT NULL DEFAULT 0
+        CHECK (consecutive_no_new_eligible_identities >= 0),
     executed_query_count INTEGER NOT NULL DEFAULT 0 CHECK (executed_query_count >= 0),
     new_lead_count INTEGER NOT NULL DEFAULT 0 CHECK (new_lead_count >= 0),
+    new_eligible_identity_count INTEGER NOT NULL DEFAULT 0
+        CHECK (new_eligible_identity_count >= 0),
     UNIQUE (run_id, branch_key)
 );
 CREATE TABLE IF NOT EXISTS optimization_queries (
@@ -292,6 +296,8 @@ CREATE TABLE IF NOT EXISTS optimization_queries (
     ),
     executed_at TEXT,
     new_lead_count INTEGER NOT NULL DEFAULT 0 CHECK (new_lead_count >= 0),
+    new_eligible_identity_count INTEGER NOT NULL DEFAULT 0
+        CHECK (new_eligible_identity_count >= 0),
     result_json TEXT,
     error TEXT NOT NULL DEFAULT '',
     UNIQUE (branch_id, query_key),
@@ -645,6 +651,28 @@ class ResearchStore:
             connection.execute(
                 "ALTER TABLE optimization_candidate_identities "
                 "ADD COLUMN metadata_json TEXT NOT NULL DEFAULT '{}'"
+            )
+        for table, additions in {
+            "optimization_queries": {
+                "new_eligible_identity_count": "INTEGER NOT NULL DEFAULT 0",
+            },
+            "optimization_coverage_branches": {
+                "new_eligible_identity_count": "INTEGER NOT NULL DEFAULT 0",
+                "consecutive_no_new_eligible_identities": "INTEGER NOT NULL DEFAULT 0",
+            },
+        }.items():
+            existing_columns = {
+                row["name"]
+                for row in connection.execute(f"PRAGMA table_info({table})")
+            }
+            for name, definition in additions.items():
+                if name not in existing_columns:
+                    connection.execute(
+                        f"ALTER TABLE {table} ADD COLUMN {name} {definition}"
+                    )
+            connection.execute(
+                f"UPDATE {table} SET new_eligible_identity_count = new_lead_count "
+                "WHERE new_eligible_identity_count = 0 AND new_lead_count > 0"
             )
         rows = connection.execute(
             "SELECT id, source_name, metadata_json FROM imports WHERE office_name = '' OR service_area = ''"

@@ -99,6 +99,22 @@ class OptimizationPersistenceTests(unittest.TestCase):
             }
             self.assertEqual("ok", connection.execute("PRAGMA integrity_check").fetchone()[0])
         self.assertTrue(expected.issubset(actual))
+        with self.store.connect() as connection:
+            query_columns = {
+                row["name"]
+                for row in connection.execute(
+                    "PRAGMA table_info(optimization_queries)"
+                )
+            }
+            branch_columns = {
+                row["name"]
+                for row in connection.execute(
+                    "PRAGMA table_info(optimization_coverage_branches)"
+                )
+            }
+        self.assertIn("new_eligible_identity_count", query_columns)
+        self.assertIn("new_eligible_identity_count", branch_columns)
+        self.assertIn("consecutive_no_new_eligible_identities", branch_columns)
 
     def test_quantization_and_policy_changes_cannot_share_a_configuration(self) -> None:
         four_bit = optimization_configuration("4-bit")
