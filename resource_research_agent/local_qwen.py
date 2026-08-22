@@ -21,6 +21,7 @@ MLX_SERVER_ENV = "RESOURCE_SCOUT_MLX_SERVER"
 HOMEBREW_MLX_SERVER = Path("/opt/homebrew/opt/mlx-lm/bin/mlx_lm.server")
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 HEALTH_STAMP = PROJECT_ROOT / "data" / "local-qwen-health.json"
+BACKEND_REQUEST_TIMEOUT_SECONDS = 7200
 PINNED_MODELS = {
     "4-bit": "mlx-community/Qwen3.8-27B-4bit",
     "8-bit": "mlx-community/Qwen3.8-27B-8bit",
@@ -126,7 +127,7 @@ class _CompatibilityHandler(BaseHTTPRequestHandler):
             },
         )
         try:
-            with urlopen(request, timeout=900) as response:
+            with urlopen(request, timeout=BACKEND_REQUEST_TIMEOUT_SECONDS) as response:
                 self.send_response(response.status)
                 self.send_header(
                     "Content-Type", response.headers.get("Content-Type", "application/json")

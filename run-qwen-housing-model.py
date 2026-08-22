@@ -33,7 +33,7 @@ if not row:
 configuration = json.loads(row["snapshot_json"])
 configuration.update(
     {
-        "label": f"mesa-housing-urgent-{arguments.quantization}-reviewed-corpus-v2",
+        "label": f"mesa-housing-urgent-{arguments.quantization}-reviewed-corpus-v3",
         "modelArtifact": PINNED_MODELS[arguments.quantization],
         "quantization": arguments.quantization,
         "modelProvider": "qwen-local",
@@ -41,6 +41,7 @@ configuration.update(
         "mlxVersion": "mlx-lm-0.31.3_2;mlx-0.32.1",
         "dshVersion": "not-used-direct-openai-compatible-endpoint",
         "promptPolicyVersion": "candidate-dossier-and-independent-verifier-v2",
+        "localQwenProxyTimeoutSeconds": 7200,
     }
 )
 configuration["limits"] = {

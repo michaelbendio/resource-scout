@@ -13,6 +13,7 @@ from resource_research_agent.dsh_configuration import (
     resolve_dsh_configuration,
 )
 from resource_research_agent.local_qwen import (
+    BACKEND_REQUEST_TIMEOUT_SECONDS,
     LocalQwenError,
     PINNED_MODELS,
     catalog_health,
@@ -35,6 +36,9 @@ class _JSONResponse(io.BytesIO):
 
 
 class LocalQwenRuntimeTests(unittest.TestCase):
+    def test_backend_proxy_allows_the_declared_two_hour_model_request(self) -> None:
+        self.assertEqual(7200, BACKEND_REQUEST_TIMEOUT_SECONDS)
+
     def test_explicit_runtime_wins_over_homebrew_and_path(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             executable = Path(directory) / "mlx_lm.server"
