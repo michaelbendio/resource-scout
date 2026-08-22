@@ -195,6 +195,51 @@ class OptimizationReviewTests(unittest.TestCase):
         with self.assertRaisesRegex(OptimizationRuntimeError, "was not discovered"):
             apply_identity_review_patch(review, unknown_url)
 
+    def test_status_sweep_reuses_base_cache_and_queries_each_urgent_identity(self) -> None:
+        calls = []
+
+        def search(query: str, _limit: int) -> list[dict]:
+            calls.append(query)
+            return [{"url": f"https://example.org/{len(calls)}", "title": "Result"}]
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            base = cache_housing_searches(
+                root / "base.json",
+                search=search,
+                minimum_queries=2,
+                maximum_queries=2,
+                saturation_queries=2,
+            )
+            self.assertEqual(18, len(calls))
+            review = identity_review_template(base)
+            first = next(iter(review["decisions"].values()))
+            first.update(
+                {
+                    "disposition": "candidate",
+                    "reason": "Resolved program",
+                    "identity": {
+                        "organization": "Example",
+                        "program": "Emergency Shelter",
+                    },
+                }
+            )
+            expanded = cache_housing_searches(
+                root / "expanded.json",
+                search=search,
+                minimum_queries=2,
+                maximum_queries=2,
+                saturation_queries=2,
+                candidate_status_review=review,
+                previous_cache=base,
+            )
+            self.assertEqual(19, len(calls))
+            self.assertEqual(19, len(expanded["queries"]))
+            self.assertEqual(base["cacheSha256"], expanded["previousCacheSha256"])
+            status = expanded["queries"]["candidate-current-status-1"]
+            self.assertEqual("candidate-current-status", status["branchKey"])
+            self.assertIn('"Emergency Shelter"', status["query"])
+
 
 if __name__ == "__main__":
     unittest.main()

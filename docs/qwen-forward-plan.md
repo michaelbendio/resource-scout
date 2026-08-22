@@ -93,15 +93,23 @@ Then improve DDGS discovery in bounded, measurable increments:
 - distinguish no new URLs, no new identities, no new package-eligible identities,
   and no new usable verified candidates.
 
+Before the improved corpus is frozen, append one deterministic current-status
+query for every resolved urgent-access identity. These queries must look for
+closure, relocation, renaming, and intake changes, remain part of the hashed query
+plan, and reuse the already frozen base search responses. Historical provider pages
+must not be treated as proof that a program is still operating. A closed program
+may remain in the discovery ledger as provenance but is not an eligible current
+candidate; a successor program is a separate identity and stage decision.
+
 The first discovery calibration is model-free. Compare each increment against the
 same source package and report marginal eligible identities, sources, domains, and
 branch coverage. Do not accept more weak directories or generic routing concepts
 as a substitute for actionable programs.
 
 Gate: deterministic fixtures cover package-aware saturation, referral expansion,
-stage routing, resume behavior, and provenance. A live unmetered discovery-only
-run must show improved eligible yield or explain branch-level saturation without
-model inference.
+stage routing, current-status queries, resume behavior, and provenance. A live
+unmetered discovery-only run must show improved eligible yield or explain branch-
+level saturation without model inference.
 
 ### 3. Recalibrate the selected 4-bit workflow
 

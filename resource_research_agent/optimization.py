@@ -477,6 +477,75 @@ def build_housing_urgent_query_plan(
     return plan
 
 
+def augment_housing_query_plan_with_status_checks(
+    plan: dict[str, Any], identities: Iterable[dict[str, Any]]
+) -> dict[str, Any]:
+    """Add one deterministic currency/status query per resolved urgent identity."""
+
+    result = deepcopy(plan)
+    if result.get("categoryId") != "housing" or result.get("stageKey") != "urgent-access":
+        raise ValueError("Candidate status checks require a Housing urgent-access query plan")
+    resolved: dict[str, tuple[str, str]] = {}
+    for identity in identities:
+        if not isinstance(identity, dict):
+            continue
+        stage_key = str(identity.get("stageKey") or "urgent-access").strip()
+        if stage_key != "urgent-access":
+            continue
+        organization = str(identity.get("organization") or "").strip()
+        program = str(identity.get("program") or "").strip()
+        identity_key = candidate_identity_key(organization, program)
+        resolved[identity_key] = (organization, program)
+    if not resolved:
+        return result
+    if len(resolved) > 50:
+        raise ValueError("Candidate status sweep supports at most 50 urgent identities")
+
+    existing_keys = {str(branch.get("key") or "") for branch in result["branches"]}
+    if "candidate-current-status" in existing_keys:
+        raise ValueError("Query plan already contains candidate current-status checks")
+    ordered = sorted(resolved.items())
+    count = len(ordered)
+    purpose = (
+        "Find current evidence that each resolved urgent-access program remains active "
+        "or has closed, moved, renamed, or changed intake."
+    )
+    result["branches"].append(
+        {
+            "key": "candidate-current-status",
+            "purpose": purpose,
+            "required": True,
+            "saturation": {
+                "minimumQueries": count,
+                "maximumQueries": count,
+                "consecutiveNoNewIdentityQueries": count,
+                "noveltyUnit": (
+                    "package-eligible normalized organization-plus-program identity"
+                ),
+            },
+            "queries": [
+                {
+                    "key": f"candidate-current-status-{position}",
+                    "position": position,
+                    "purpose": purpose,
+                    "identityKey": identity_key,
+                    "query": (
+                        f'"{organization}" "{program}" '
+                        f'{result["targetLocation"]} current intake closure'
+                    ),
+                }
+                for position, (identity_key, (organization, program)) in enumerate(
+                    ordered, start=1
+                )
+            ],
+        }
+    )
+    result["schemaVersion"] = max(3, int(result.get("schemaVersion") or 0))
+    result["candidateStatusPolicyVersion"] = "housing-current-status-v1"
+    validate_query_plan(result)
+    return result
+
+
 def _issue(code: str, message: str, *, field: str | None = None) -> dict[str, str]:
     issue = {"code": code, "message": message}
     if field:

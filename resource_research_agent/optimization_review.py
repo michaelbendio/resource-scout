@@ -6,7 +6,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
-from .optimization import build_housing_urgent_query_plan, sha256_json
+from .optimization import (
+    augment_housing_query_plan_with_status_checks,
+    build_housing_urgent_query_plan,
+    sha256_json,
+)
 from .optimization_pipeline import canonicalize_discovery_url
 from .optimization_runtime import DDGSSearchClient, OptimizationRuntimeError
 
@@ -30,6 +34,8 @@ def cache_housing_searches(
     maximum_queries: int = 6,
     saturation_queries: int = 2,
     results_per_query: int = 8,
+    candidate_status_review: dict[str, Any] | None = None,
+    previous_cache: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     plan = build_housing_urgent_query_plan(
         "Mesa",
@@ -38,6 +44,11 @@ def cache_housing_searches(
         maximum_queries=maximum_queries,
         saturation_queries=saturation_queries,
     )
+    if candidate_status_review is not None:
+        identity_values: list[dict[str, Any]] = []
+        for value in reviewed_identity_decisions(candidate_status_review).values():
+            identity_values.extend(value if isinstance(value, list) else [value])
+        plan = augment_housing_query_plan_with_status_checks(plan, identity_values)
     plan_hash = sha256_json(plan)
     if path.exists():
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -57,6 +68,25 @@ def cache_housing_searches(
             },
             "queries": {},
         }
+        if previous_cache is not None:
+            prior_queries = previous_cache.get("queries", {})
+            if not isinstance(prior_queries, dict):
+                raise OptimizationRuntimeError("Previous search cache has no queries object")
+            planned = {
+                query["key"]: (branch["key"], query["query"])
+                for branch in plan["branches"]
+                for query in branch["queries"]
+            }
+            for key, (branch_key, query_text) in planned.items():
+                prior = prior_queries.get(key)
+                if not isinstance(prior, dict) or prior.get("query") != query_text:
+                    continue
+                carried = deepcopy(prior)
+                carried["branchKey"] = branch_key
+                value["queries"][key] = carried
+            value["previousCacheSha256"] = previous_cache.get("cacheSha256") or sha256_json(
+                prior_queries
+            )
     provider = search or DDGSSearchClient()
     notify = progress or (lambda _message: None)
     for branch in plan["branches"]:

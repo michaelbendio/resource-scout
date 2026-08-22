@@ -135,6 +135,33 @@ Before Mesa calibration, freeze the historical comparison into an ignored, separ
 
 The command refuses a package whose SHA-256 differs from the Mesa imports, requires exactly 20 completed four-stage DSH runs, copies the database through SQLite's consistent backup operation, and writes a machine-readable baseline manifest. Qwen calibration and comparison use the copied database, never the live one.
 
+Expanded Housing discovery can reuse a completed base DDGS cache while appending
+one current-status query for each human-resolved urgent candidate:
+
+```sh
+./cache-qwen-housing-searches.py \
+  --cache /path/to/housing-stage1-ddgs-v3.json \
+  --review /path/to/housing-stage1-identity-review-v3.json \
+  --previous-cache /path/to/housing-stage1-ddgs-v2.json \
+  --previous-review /path/to/housing-stage1-identity-review-v2.json \
+  --candidate-status-review /path/to/housing-stage1-identity-review-v2.json \
+  --minimum-queries 4 \
+  --maximum-queries 10 \
+  --saturation-queries 3 \
+  --results-per-query 12
+```
+
+The resulting hashed query plan records the candidate-specific closure, relocation,
+renaming, and intake sweep. Matching base queries are copied from the prior cache;
+only the new status queries call the unmetered search provider. Human decisions can
+be applied in labeled, replay-safe batches without losing result/query provenance:
+
+```sh
+./apply-qwen-identity-review.py \
+  --review /path/to/housing-stage1-identity-review-v3.json \
+  --patch /path/to/labeled-review-decisions.json
+```
+
 A completed optimization model run can be exported to its own Resource Curator
 without inserting anything into the normal Scout inbox:
 

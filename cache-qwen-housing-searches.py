@@ -21,7 +21,20 @@ parser.add_argument("--maximum-queries", type=int, default=6)
 parser.add_argument("--saturation-queries", type=int, default=2)
 parser.add_argument("--results-per-query", type=int, default=8)
 parser.add_argument("--previous-review", type=Path)
+parser.add_argument("--candidate-status-review", type=Path)
+parser.add_argument("--previous-cache", type=Path)
 arguments = parser.parse_args()
+
+candidate_status_review = (
+    json.loads(arguments.candidate_status_review.read_text(encoding="utf-8"))
+    if arguments.candidate_status_review
+    else None
+)
+previous_cache = (
+    json.loads(arguments.previous_cache.read_text(encoding="utf-8"))
+    if arguments.previous_cache
+    else None
+)
 
 cache = cache_housing_searches(
     arguments.cache,
@@ -30,6 +43,8 @@ cache = cache_housing_searches(
     maximum_queries=arguments.maximum_queries,
     saturation_queries=arguments.saturation_queries,
     results_per_query=arguments.results_per_query,
+    candidate_status_review=candidate_status_review,
+    previous_cache=previous_cache,
 )
 if arguments.previous_review:
     previous = json.loads(arguments.previous_review.read_text(encoding="utf-8"))
