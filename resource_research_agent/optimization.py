@@ -525,7 +525,7 @@ def augment_housing_query_plan_with_status_checks(
             },
             "queries": [
                 {
-                    "key": f"candidate-current-status-{position}",
+                    "key": f"candidate-current-status-{sha256_json(identity_key)[:12]}",
                     "position": position,
                     "purpose": purpose,
                     "identityKey": identity_key,

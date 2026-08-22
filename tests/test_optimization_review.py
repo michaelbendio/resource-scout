@@ -240,7 +240,11 @@ class OptimizationReviewTests(unittest.TestCase):
             self.assertEqual(19, len(calls))
             self.assertEqual(19, len(expanded["queries"]))
             self.assertEqual(base["cacheSha256"], expanded["previousCacheSha256"])
-            status = expanded["queries"]["candidate-current-status-1"]
+            status = next(
+                record
+                for key, record in expanded["queries"].items()
+                if key.startswith("candidate-current-status-")
+            )
             self.assertEqual("candidate-current-status", status["branchKey"])
             self.assertIn('"Emergency Shelter"', status["query"])
 
