@@ -25,6 +25,9 @@ from resource_research_agent.local_qwen import (
     validated_health,
     write_health_stamp,
 )
+from resource_research_agent.mlx_server_workaround import (
+    install_arrays_cache_materialization,
+)
 
 
 class _JSONResponse(io.BytesIO):
@@ -50,11 +53,16 @@ class LocalQwenRuntimeTests(unittest.TestCase):
         self.assertEqual(executable.resolve(), resolved)
 
     def test_server_command_pins_model_loopback_port_and_thinking(self) -> None:
-        executable = Path("/test/mlx_lm.server")
-        command = server_command(executable)
+        with tempfile.TemporaryDirectory() as directory:
+            executable = Path(directory) / "mlx_lm.server"
+            executable.write_text("#!/test/mlx-python\n", encoding="utf-8")
+            command = server_command(executable)
         configuration = resolve_dsh_configuration(LOCAL_QWEN_CONFIGURATION)
 
-        self.assertEqual(str(executable), command[0])
+        self.assertEqual("/test/mlx-python", command[0])
+        self.assertEqual(
+            ["-m", "resource_research_agent.mlx_server_workaround"], command[1:3]
+        )
         self.assertEqual(configuration.model, command[command.index("--model") + 1])
         self.assertEqual("127.0.0.1", command[command.index("--host") + 1])
         self.assertEqual("8081", command[command.index("--port") + 1])
@@ -64,9 +72,31 @@ class LocalQwenRuntimeTests(unittest.TestCase):
         )
 
     def test_server_command_can_select_either_pinned_quantization(self) -> None:
-        for quantization, model in PINNED_MODELS.items():
-            command = server_command(Path("/test/mlx_lm.server"), model=model)
-            self.assertEqual(model, command[command.index("--model") + 1], quantization)
+        with tempfile.TemporaryDirectory() as directory:
+            executable = Path(directory) / "mlx_lm.server"
+            executable.write_text("#!/test/mlx-python\n", encoding="utf-8")
+            for quantization, model in PINNED_MODELS.items():
+                command = server_command(executable, model=model)
+                self.assertEqual(model, command[command.index("--model") + 1], quantization)
+
+    def test_arrays_cache_workaround_materializes_each_advanced_field(self) -> None:
+        calls = []
+
+        class Cache:
+            def __init__(self) -> None:
+                self.lengths = "lengths-0"
+                self.left_padding = "padding-0"
+
+            def advance(self, count: int) -> None:
+                self.lengths = f"lengths-{count}"
+                self.left_padding = f"padding-{count}"
+
+        self.assertTrue(install_arrays_cache_materialization(Cache, lambda *v: calls.append(v)))
+        self.assertFalse(install_arrays_cache_materialization(Cache, lambda *_v: None))
+        cache = Cache()
+        cache.advance(3)
+
+        self.assertEqual([("lengths-3", "padding-3")], calls)
 
     def test_compatibility_payload_adapts_dsh_without_changing_the_input(self) -> None:
         original = {

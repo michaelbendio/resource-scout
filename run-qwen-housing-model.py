@@ -7,6 +7,7 @@ from pathlib import Path
 
 from resource_research_agent.optimization_models import OptimizationModelPipeline
 from resource_research_agent.optimization_runtime import LocalQwenJSONClient, PINNED_MODELS
+from resource_research_agent.mlx_server_workaround import WORKAROUND_VERSION
 from resource_research_agent.storage import ResearchStore
 
 
@@ -33,12 +34,12 @@ if not row:
 configuration = json.loads(row["snapshot_json"])
 configuration.update(
     {
-        "label": f"mesa-housing-urgent-{arguments.quantization}-reviewed-corpus-v4",
+        "label": f"mesa-housing-urgent-{arguments.quantization}-reviewed-corpus-v5",
         "modelArtifact": PINNED_MODELS[arguments.quantization],
         "quantization": arguments.quantization,
         "modelProvider": "qwen-local",
         "modelEndpoint": "http://127.0.0.1:8080/v1",
-        "mlxVersion": "mlx-lm-0.31.3_2;mlx-0.32.1",
+        "mlxVersion": f"mlx-lm-0.31.3_2;mlx-0.32.1;{WORKAROUND_VERSION}",
         "dshVersion": "not-used-direct-openai-compatible-endpoint",
         "promptPolicyVersion": "candidate-dossier-and-independent-verifier-v3",
         "localQwenProxyTimeoutSeconds": 7200,

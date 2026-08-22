@@ -5,6 +5,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 import os
 import signal
+import shlex
 import shutil
 import subprocess
 import sys
@@ -15,6 +16,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 from .dsh_configuration import LOCAL_QWEN_CONFIGURATION, resolve_dsh_configuration
+from .mlx_server_workaround import WORKAROUND_VERSION
 
 
 MLX_SERVER_ENV = "RESOURCE_SCOUT_MLX_SERVER"
@@ -53,8 +55,27 @@ def server_command(
     endpoint = configuration.model_endpoint.removesuffix("/v1")
     if endpoint != "http://127.0.0.1:8080":
         raise LocalQwenError(f"Unsupported Local Qwen endpoint: {configuration.model_endpoint}")
+    try:
+        with executable.open("rb") as launcher:
+            shebang = launcher.readline(512).decode("utf-8", "replace").strip()
+    except OSError as exc:
+        raise LocalQwenError(f"Could not inspect the MLX server launcher: {exc}") from exc
+    if not shebang.startswith("#!"):
+        raise LocalQwenError("The MLX server launcher does not declare its Python runtime")
+    interpreter = shlex.split(shebang[2:].strip())
+    if not interpreter:
+        raise LocalQwenError("The MLX server launcher has an empty interpreter declaration")
+    if Path(interpreter[0]).name == "env":
+        if len(interpreter) != 2:
+            raise LocalQwenError("The MLX server launcher uses an unsupported env shebang")
+        resolved = shutil.which(interpreter[1])
+        if not resolved:
+            raise LocalQwenError("Could not resolve the MLX server Python runtime")
+        interpreter = [resolved]
     return [
-        str(executable),
+        *interpreter,
+        "-m",
+        "resource_research_agent.mlx_server_workaround",
         "--model",
         model or configuration.model,
         "--host",
