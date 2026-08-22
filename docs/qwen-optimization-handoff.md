@@ -1,6 +1,6 @@
 # Qwen optimization handoff
 
-Status: Checkpoints A through C implemented and verified on 2026-08-21; Checkpoint D is next. No new live model calibration has run yet.
+Status: Checkpoints A through D implemented and verified on 2026-08-22; Checkpoint E is next. The first redesigned frozen-corpus comparison selected 4-bit on quality, but neither quantization passed the accuracy gate and no production cutover is authorized.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
@@ -374,6 +374,10 @@ Recorded outcome (2026-08-21): fixture extraction and independent fresh-context 
 - Produce a blinded or model-neutral comparison report before examining speed.
 
 Gate: select a quantization based on priorities 1 through 4; use time only for a quality tie.
+
+Recorded outcome (2026-08-22): comparison 1 paired completed runs 8 and 9 over the same six immutable Housing packets from frozen corpus 3 (`a2af690eb3446253c5582844f412322989dd386d366a4f67f6dd93421c086d08`). The model-neutral report concealed both model identity and timing while priorities one through four were scored. Both options produced one verified usable candidate and five candidates that did not pass verification, so neither passed the accuracy gate. The winning option had 75 remaining deterministic findings versus 102, 98 supported field states versus 96, 37 unknown states versus 39, the same ten frozen sources across eight domains, and the same one usable candidate. After that quality decision was persisted, the reveal mapped the winning option to `mlx-community/Qwen3.8-27B-4bit`; elapsed time was not used. The 4-bit run took 6,240 seconds and the 8-bit run 9,936 seconds. The selected quantization is therefore 4-bit for continued optimization, not for production use.
+
+Provenance: the 4-bit and 8-bit configuration hashes are respectively `b037c2dd9c2047b446bcb1c51b2d25fad358bbf27f064a141485ed7ef9ff0703` and `6e5b3e86e12f8281e39a12d8cbb0e77ec03e7ab339daed93acb2428097c1d3f1`. The preserved model-neutral report and revealed decision hashes are `d6c4ed853a68e534281189166189bcdf8af0eff8e5e0fd041e803b9b68f852eb` and `a3348dde6a4624a82df9f94740222198eb2b26a0cd54996b8756ede5b2fa6263`. The frozen DeepSeek baseline remained unchanged at `0914c6278d36177cc29d75b297249815386355ceb9d634b1ac23372aa18c5491`. No DeepSeek key or metered fallback was present.
 
 ### Checkpoint E: complete Housing calibration
 

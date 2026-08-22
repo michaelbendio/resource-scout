@@ -1,6 +1,6 @@
 # Qwen optimization deterministic design
 
-Status: Checkpoints A through C implemented for deterministic discovery, candidate dossiers, fresh-context verification, completeness, and gap-audit reporting.
+Status: Checkpoints A through D implemented for deterministic discovery, candidate dossiers, fresh-context verification, completeness, gap-audit reporting, and the first model-neutral frozen-corpus quantization comparison.
 
 This document fixes the data boundaries, persistence records, Housing regression fixtures, coverage matrix, stopping behavior, quality gate, and downstream ground-truth linkage before any new model run. It does not authorize Checkpoint B or production cutover.
 
@@ -118,3 +118,7 @@ Checkpoint A passes only when deterministic tests prove all of the following:
 - existing no-metered and security tests remain green.
 
 Passing this gate authorizes only a request for approval to begin Checkpoint B. It does not authorize discovery, Qwen inference, 8-bit loading, the full Housing run, the other Mesa categories, or production cutover.
+
+## Checkpoint D gate
+
+Checkpoint D completed on 2026-08-22 using six identical immutable packets from reviewed Housing corpus `a2af690eb3446253c5582844f412322989dd386d366a4f67f6dd93421c086d08`. Model identity and timing remained concealed until priorities one through four selected option B. The reveal mapped option B to 4-bit. Both quantizations failed the overall accuracy gate with only one of six candidates verified, but 4-bit had fewer remaining deterministic findings and slightly more supported field states. This selects 4-bit only as the input to further optimization. It does not lock a production configuration or authorize Checkpoint E, the other categories, or production cutover.
