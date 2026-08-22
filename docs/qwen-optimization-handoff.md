@@ -1,6 +1,6 @@
 # Qwen optimization handoff
 
-Status: Checkpoints A through D implemented and verified on 2026-08-22; Checkpoint E is next. The first redesigned frozen-corpus comparison selected 4-bit on quality, but neither quantization passed the accuracy gate and no production cutover is authorized.
+Status: Checkpoints A through D are implemented. The original six-packet comparison selected 4-bit but failed its accuracy gate. The resulting failure corrections and expanded discovery work are complete; a new locked 22-packet 4-bit/8-bit first-stage Housing comparison is running. Checkpoint E must not start until this replacement comparison finishes and passes its failed-only accuracy gate. No production cutover is authorized.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
@@ -53,18 +53,58 @@ Time is recorded for planning and diagnosis, but it is almost unimportant. Do no
 
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
-- Latest commit when this handoff was written: `8d5bbdb5ccaa5c3580b237a68d252cee6921cb99`
+- Latest implementation commit before the live handoff update: `1e45c2952ddba3186d5dcdfb595f2c81ec5c922a`
 - Application version: `0.21.0`
 - Phase 1 local-Qwen implementation commit: `81a9eeab49de8006bce32b137992777802db3606`
 - Local Qwen default: `mlx-community/Qwen3.8-27B-4bit`
 - Comparison artifact: `mlx-community/Qwen3.8-27B-8bit`
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
-- Current conservative plugin limits: two searches and five fetches per stage
-- The full Python suite most recently passed 90 tests with one optional skip.
+- The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
+- The full Python suite most recently passed 151 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.
+
+## Live continuation state: 2026-08-22
+
+The current locked comparison must be adopted, not restarted. It is running in the isolated benchmark database with this command:
+
+`python3 run-qwen-quantization-comparison.py --database data/benchmarks/mesa-qwen-2026-08-21/mesa-qwen-benchmark.sqlite3 --corpus-id 6 --artifacts data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v8`
+
+At `2026-08-22T15:57:13Z`:
+
+- coordinator PID: `55829`;
+- model-evaluation PID: `55846`;
+- local-Qwen supervisor PID: `55838`;
+- MLX server PID: `55840`;
+- current model run: database run `24`, 4-bit configuration label `mesa-housing-urgent-4-bit-reviewed-corpus-v8-204ef0cbf2c7`;
+- completed packets: five of 22 (packet IDs 42 through 46), all `needs-review`, all with zero final deterministic findings;
+- active packet: packet ID 47, whose extraction completed successfully after an earlier configuration had failed to emit valid JSON; its verification attempt 92 was running;
+- after all 22 4-bit packets, the coordinator will automatically run the identical 22 packets under 8-bit and create the model-neutral report and revealed decision;
+- no metered credential or fallback is present.
+
+Do not depend on the PIDs remaining unchanged. Inspect the process table, the comparison status file, and the database before taking action. Primary live evidence:
+
+- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v8/comparison-status.json`
+- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v8/4-bit-server.log`
+- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v8/4-bit-evaluation.log`
+- `optimization_model_attempts`, `optimization_candidate_dossiers`, and `optimization_verifications` for run 24 in `mesa-qwen-benchmark.sqlite3`
+
+Frozen comparison corpus 6 has SHA-256 `204ef0cbf2c7d889fc84f544c601bd2bd9b1543a9636a7a9195742c5270e6379`. It contains ten required coverage branches, 70 executed queries, 535 normalized leads, 33 resolved identities, 22 urgent eligible candidate packets, and 72 fetched sources. It includes Justa Center and Salvation Army candidates that the frozen DeepSeek Housing output missed. The source package is `/Users/michaelbendio/Documents/TSO/mesa-resource-package.zip`, SHA-256 `c7a2251d7d638472f90207c24a28ec71c24515ea5d1aafced68a38fdce3d30f8`.
+
+The frozen DeepSeek baseline hash remains `0914c6278d36177cc29d75b297249815386355ceb9d634b1ac23372aa18c5491`. Recheck it before and after every repository change or benchmark decision.
+
+Recent corrections are separately committed and pushed:
+
+- `2fe3a7f`: materialize MLX hybrid-cache bookkeeping arrays to prevent Metal buffer-object exhaustion without truncating model output;
+- `f4a7f30`: compact extraction source bindings while deterministically restoring complete frozen source envelopes, and persist malformed raw responses;
+- `3ad3717`: apply the same compact-binding protocol to verification without changing the verifier checklist or strictness;
+- `1e45c29`: restore frozen candidate identity after both model passes so verifier boundary findings cannot accidentally create identity-key mismatches.
+
+The verifier still distinguishes `passed`, `needs-review`, and true `failed`. A `needs-review` dossier remains usable Curator material with its findings attached and does not fail the accuracy gate. Only remaining deterministic findings produce `failed` and block advancement. Do not weaken the verifier prompt, checklist, or evidence standards.
+
+If the active coordinator is healthy, let it continue. If it has stopped, inspect the last persisted raw attempt and logs before deciding whether to resume or create a new configuration. Any semantic correction requires a new provenance label; do not overwrite or pool evidence from a different configuration.
 
 ## Preserved benchmark data
 
@@ -458,4 +498,4 @@ Local facts must not become universal rules. A broadly reusable lesson should no
 
 ## Suggested opening request for a new task
 
-> Continue the Resource Scout Qwen optimization work from `docs/qwen-optimization-handoff.md`. Implement the plan through the first 4-bit/8-bit Housing-stage comparison, with tests and checkpoints. Preserve the frozen DeepSeek baseline, use no metered services, and do not compromise accuracy or completeness to save time. Stop for my review at every gate identified in the handoff.
+> Continue the Resource Scout Qwen optimization work in `/Users/michaelbendio/resource-scout`. Read `docs/qwen-optimization-handoff.md` completely before acting. Adopt the existing `comparison-v8` 22-packet 4-bit/8-bit Housing comparison if it is still running; inspect persisted state and logs rather than restarting it. Continue the approved plan autonomously, stopping only if my attention is required. Preserve the frozen DeepSeek baseline, use no metered services or silent paid fallback, and do not compromise accuracy or completeness to save time. Work on the current branch, and commit and push each completed verified repository change.
