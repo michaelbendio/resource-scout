@@ -16,6 +16,14 @@ from resource_research_agent.optimization_review import (
 )
 from resource_research_agent.optimization_runtime import ReviewedIdentityResolver, SafeFetchClient
 from resource_research_agent.playbooks import playbook_for
+from resource_research_agent.referral_graph import (
+    attach_referral_graph_to_query_plan,
+    normalize_referral_graph,
+)
+from resource_research_agent.referral_review import (
+    ReviewedReferralResolver,
+    normalize_referral_review,
+)
 from resource_research_agent.storage import ResearchStore
 
 
@@ -24,7 +32,12 @@ parser.add_argument("--database", type=Path, required=True)
 parser.add_argument("--package", type=Path, required=True)
 parser.add_argument("--cache", type=Path, required=True)
 parser.add_argument("--review", type=Path, required=True)
+parser.add_argument("--referral-graph", type=Path)
+parser.add_argument("--referral-review", type=Path)
 arguments = parser.parse_args()
+
+if bool(arguments.referral_graph) != bool(arguments.referral_review):
+    raise SystemExit("--referral-graph and --referral-review must be supplied together")
 
 cache = json.loads(arguments.cache.read_text(encoding="utf-8"))
 review = json.loads(arguments.review.read_text(encoding="utf-8"))
@@ -42,10 +55,22 @@ if not isinstance(plan, dict):
 validate_query_plan(plan)
 if sha256_json(plan) != cache.get("queryPlanSha256"):
     raise SystemExit("Search cache query-plan hash does not match its snapshot")
+referral_graph = None
+referral_review = None
+if arguments.referral_graph:
+    referral_graph = normalize_referral_graph(
+        json.loads(arguments.referral_graph.read_text(encoding="utf-8"))
+    )
+    referral_review = normalize_referral_review(
+        referral_graph,
+        json.loads(arguments.referral_review.read_text(encoding="utf-8")),
+    )
+    plan = attach_referral_graph_to_query_plan(plan, referral_graph)
 playbook = playbook_for("housing")
 configuration = {
     "label": (
-        "mesa-housing-urgent-reviewed-ddgs-v10-qualified-2026-08-23-"
+        "mesa-housing-urgent-reviewed-ddgs-v11"
+        f"{'-referral' if referral_graph else ''}-2026-08-23-"
         f"{sha256_json(review)[:12]}"
     ),
     "modelArtifact": "none",
@@ -59,7 +84,7 @@ configuration = {
     "searchPluginVersion": "resource-scout-ddgs-v1",
     "fetchPluginVersion": "resource-scout-safe-http-v1",
     "promptPolicyVersion": "human-reviewed-identity-qualification-v2",
-    "playbookVersion": playbook.version,
+    "playbookVersion": playbook.library_version,
     "sourcePackageSha256": package.sha256,
     "sourcePackageVersion": str(package.schema.package_version),
     "targetLocation": "Mesa",
@@ -75,6 +100,12 @@ configuration = {
         "searchCacheSha256": cache["cacheSha256"],
         "identityReviewSha256": sha256_json(review),
         "referralEvidenceContextCharacters": 2000,
+        "referralGraphSha256": (
+            referral_graph["graphSha256"] if referral_graph else "none"
+        ),
+        "referralReviewSha256": (
+            referral_review["reviewSha256"] if referral_review else "none"
+        ),
     },
     "stoppingRules": {
         "minimumQueries": int(query_policy["minimumQueries"]),
@@ -97,13 +128,20 @@ for resource in package.resources:
             "resourceId": resource.get("id"),
         }
     )
+base_resolver = ReviewedIdentityResolver(reviewed_identity_decisions(review))
+resolver = (
+    ReviewedReferralResolver(referral_graph, referral_review, base_resolver)
+    if referral_graph and referral_review
+    else base_resolver
+)
 result = OptimizationDiscoveryPipeline(
     ResearchStore(arguments.database, recover_interrupted=True),
     configuration,
     search=CachedSearchClient(cache),
     fetch=SafeFetchClient(),
-    resolve_identity=ReviewedIdentityResolver(reviewed_identity_decisions(review)),
+    resolve_identity=resolver,
     existing_resources=existing,
+    referral_graph=referral_graph,
     progress=lambda event: print(json.dumps(event, sort_keys=True), flush=True),
 ).run()
 print(json.dumps(result.__dict__, indent=2, sort_keys=True))

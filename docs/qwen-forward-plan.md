@@ -302,6 +302,22 @@ entries. Referral evidence separately persists the actual page organization and
 program, preventing a referring page from being mislabeled as candidate-authored
 evidence.
 
+The first live Mesa graph now has an exact edge-keyed
+`reviewed-referral-destinations-v1` decision manifest. Its 16 edges resolve to 7
+candidate decisions, 6 unresolved leads, and 3 excluded dead or misdirected
+destinations. Candidate evidence must include the exact destination and an exact
+reviewed excerpt present in the fresh fetch; referral context alone cannot
+qualify a program. A referral-only live pilot produced 6 urgent packets and
+routed the seventh candidate, MesaCAN Rent and Utility Assistance, to
+stabilization. Four urgent identities were new to the prior qualification
+manifest: Community Bridges PATH Outreach, Native American Connections HomeBase
+Youth Services, UMOM Halle Women's Center, and the Phoenix VA Community Resource
+and Referral Center. The same run retained every unresolved and excluded edge
+without counting it. The one-time 623-lead historical sweep is independently
+resumable and currently has 65 completed current searches; unmetered DDGS
+throttling, rather than a policy shortcut or paid fallback, is the remaining
+step-3 constraint.
+
 ### 4. Freeze the revised first-stage corpus
 
 Resolve all newly discovered and preserved leads under the approved gates. Run

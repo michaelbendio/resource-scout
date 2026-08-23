@@ -10,7 +10,11 @@ prior-result lead-manifest path are implemented. The reproducible one-time Mesa
 manifest has 623 names/URLs-only leads and canonical content SHA-256
 `ff96127c335ac250c6c3d88780e20d3745db5a9e2305a704ec83b674910df0a6`.
 The generic bounded one-hop referral graph is implemented and verified with
-Housing and Food fixtures. The five-query coordinated-entry depth branch has run
+Housing and Food fixtures. The reviewed Mesa graph covers 16 edges exactly: 7
+candidate decisions, 6 unresolved leads, and 3 excluded dead or misdirected
+destinations. Its live referral-only pilot fetched 6 urgent packets and routed
+MesaCAN to stabilization; 4 of the urgent identities were new to the prior
+qualification manifest. The five-query coordinated-entry depth branch has run
 using unmetered DDGS and all 112 preserved parent responses. All 30 newly seen
 URLs are reviewed: the branch added two eligible urgent access points, routed one
 Mesa prevention program to stabilization, preserved SafeDVS as inactive, and
@@ -26,8 +30,10 @@ review-required, and 4 noncandidate identities. The exact query-plan hash is
 `6421faf95ed89e1ef85c305c0cb6e0611f9d731deb0c79b739d0a2fdd22828d8`;
 the search-response hash is
 `eba615247e4a6322c78649c145e697ed23bd1d93085518da5c899e3a15c9e3f5`.
-The reviewed Mesa referral graph and one-time current searches for the 623-lead
-historical manifest remain before step 3 is complete.
+The one-time current searches for the 623-lead historical manifest remain before
+step 3 is complete. They are resumably persisted at 65 completed lead searches;
+the unmetered DDGS endpoint is currently throttling, so do not restart, switch to
+a paid provider, or silently shorten the manifest.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
@@ -103,7 +109,7 @@ actionability gates in
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
-- The full Python suite most recently passed 154 tests with one optional skip.
+- The full Python suite most recently passed 203 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.

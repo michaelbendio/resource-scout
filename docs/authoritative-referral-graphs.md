@@ -20,12 +20,20 @@ from one page, more than 200 edges in one graph, category/location mismatches,
 and stages outside the selected playbook fail closed.
 
 The graph is one hop. Scout does not recursively harvest the destination page's
-partners or links. It persists the edge, creates a lead for the exact destination,
-and asks the current identity review to classify that lead. The edge context
-remains provenance and is not copied into the candidate's evidence. Only a fresh
-fetch of the destination page can become evidence, and only a currently eligible
-identity can produce a packet. An unresolved edge remains in the ledger without
-being fetched into a candidate or affecting query saturation.
+partners or links. A separate `reviewed-referral-destinations-v1` manifest must
+cover every edge key exactly and classify it as `candidate`, `unresolved`, or
+`excluded`. Candidate decisions carry the same category-neutral qualification
+fields used by ordinary discovery. A changed historical program name requires an
+explicit identity-resolution reason. Unresolved and excluded decisions cannot
+smuggle in an identity.
+
+Scout persists each edge and creates a lead for its exact destination. The edge
+context remains provenance and is not copied into the candidate's evidence. A
+candidate decision must cite the destination URL, and its exact reviewed excerpt
+must be present in a fresh successful fetch before the page can become evidence.
+Only a currently eligible identity can produce a packet. An unresolved or
+excluded edge remains in the ledger without being fetched into a candidate or
+affecting query saturation.
 
 Several edges may lead to one identity, and several materially distinct programs
 may belong to one parent organization. Identity deduplication still uses
@@ -38,8 +46,12 @@ status is stored in `optimization_referral_edges`. Completed expansion is
 replay-safe. The graph, edges, current leads, identities, and fetched destination
 evidence are all included in the frozen corpus ledger hashes.
 
-The first Mesa Housing graph will be built from newly inspected direct-provider,
-City, County, coordinated-entry, and authoritative referral pages. It will be a
-versioned calibration artifact, not a Housing-specific Python path. Confidential
-shelters may use a public safe-contact destination; Scout must not attempt to
-discover or publish a confidential address.
+The first Mesa Housing graph was built from newly inspected direct-provider,
+City, coordinated-entry, and authoritative referral pages as a versioned
+calibration artifact, not a Housing-specific Python path. Its 16 reviewed edges
+contain seven candidate decisions, six unresolved leads, and three excluded dead
+or misdirected links. A live referral-only pilot fetched six urgent-stage packets;
+the seventh candidate was correctly routed to stabilization. Four urgent-stage
+identities were new to the prior qualification manifest. Confidential shelters
+may use a public safe-contact destination; Scout must not attempt to discover or
+publish a confidential address.
