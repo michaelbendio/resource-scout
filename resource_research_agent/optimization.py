@@ -7,7 +7,7 @@ import unicodedata
 import uuid
 from copy import deepcopy
 from typing import Any, Iterable
-from urllib.parse import urlsplit
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 
 CONFIGURATION_FIELDS = (
@@ -190,6 +190,37 @@ def canonical_json(value: Any) -> str:
 
 def sha256_json(value: Any) -> str:
     return hashlib.sha256(canonical_json(value).encode("utf-8")).hexdigest()
+
+
+def canonicalize_discovery_url(value: Any) -> str:
+    text = str(value or "").strip()
+    try:
+        parsed = urlsplit(text)
+        port = parsed.port
+    except ValueError as error:
+        raise ValueError(f"Invalid discovery URL: {text}") from error
+    scheme = parsed.scheme.casefold()
+    if scheme not in {"http", "https"} or not parsed.hostname:
+        raise ValueError(f"Unsupported discovery URL: {text}")
+    if parsed.username is not None or parsed.password is not None:
+        raise ValueError("Discovery URLs containing credentials are not allowed")
+    hostname = parsed.hostname.casefold()
+    rendered_host = f"[{hostname}]" if ":" in hostname else hostname
+    if port is not None and not (
+        (scheme == "http" and port == 80) or (scheme == "https" and port == 443)
+    ):
+        rendered_host = f"{rendered_host}:{port}"
+    ignored_parameters = {"fbclid", "gclid", "mc_cid", "mc_eid"}
+    query = [
+        (key, query_value)
+        for key, query_value in parse_qsl(parsed.query, keep_blank_values=True)
+        if key.casefold() not in ignored_parameters
+        and not key.casefold().startswith("utm_")
+    ]
+    path = parsed.path or "/"
+    if path != "/":
+        path = path.rstrip("/") or "/"
+    return urlunsplit((scheme, rendered_host, path, urlencode(sorted(query)), ""))
 
 
 def optimization_resource_id(configuration_hash: str, packet_id: int) -> str:

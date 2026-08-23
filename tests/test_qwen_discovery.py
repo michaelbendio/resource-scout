@@ -7,11 +7,13 @@ import unittest
 from copy import deepcopy
 from pathlib import Path
 
-from resource_research_agent.optimization import build_housing_urgent_query_plan
+from resource_research_agent.optimization import (
+    build_housing_urgent_query_plan,
+    canonicalize_discovery_url,
+)
 from resource_research_agent.optimization_pipeline import (
     OptimizationDiscoveryPipeline,
     OptimizationPipelineError,
-    canonicalize_discovery_url,
     source_authority,
 )
 from resource_research_agent.storage import ResearchStore

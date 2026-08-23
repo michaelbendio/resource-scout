@@ -12,7 +12,7 @@ from urllib.request import Request, urlopen
 
 from .local_qwen import LOCAL_QWEN_MAX_COMPLETION_TOKENS, catalog_health
 from .optimization_models import ModelInvocation, OptimizationModelError
-from .optimization_pipeline import canonicalize_discovery_url
+from .optimization import canonicalize_discovery_url
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent

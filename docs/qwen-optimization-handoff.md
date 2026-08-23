@@ -5,9 +5,12 @@ on 2026-08-23 over 22 identical first-stage Housing packets and selected 8-bit
 Qwen on quality before timing was revealed. Forward-plan steps 1 and 2 are
 complete; step 3 is next. Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
-Step 3 is in progress: the category-neutral candidate-role promotion gate is
-implemented, while historical lead import, referral edges, and appended live
-discovery remain. No production cutover is authorized.
+Step 3 is in progress: the category-neutral candidate-role promotion gate and
+prior-result lead-manifest path are implemented. The reproducible one-time Mesa
+manifest has 623 names/URLs-only leads and canonical content SHA-256
+`ff96127c335ac250c6c3d88780e20d3745db5a9e2305a704ec83b674910df0a6`.
+Referral edges and appended live discovery remain. No production cutover is
+authorized.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 

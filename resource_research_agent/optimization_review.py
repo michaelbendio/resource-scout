@@ -12,9 +12,9 @@ from .optimization import (
     build_housing_urgent_query_plan,
     CANDIDATE_QUALIFICATION_POLICY_VERSION,
     candidate_qualification,
+    canonicalize_discovery_url,
     sha256_json,
 )
-from .optimization_pipeline import canonicalize_discovery_url
 from .optimization_runtime import DDGSSearchClient, OptimizationRuntimeError
 
 

@@ -5,13 +5,14 @@ import sqlite3
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Callable, Iterable
-from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+from urllib.parse import urlsplit
 
 from .optimization import (
     branch_stop_state,
     CANDIDATE_QUALIFICATION_POLICY_VERSION,
     candidate_qualification,
     candidate_identity_key,
+    canonicalize_discovery_url,
     canonical_json,
     configuration_snapshot,
     coverage_branch_complete,
@@ -20,6 +21,7 @@ from .optimization import (
     sha256_json,
 )
 from .playbooks import playbook_for
+from .prior_leads import normalize_prior_lead_manifest
 from .storage import ResearchStore
 
 
@@ -44,6 +46,7 @@ class DiscoveryCorpusResult:
     branch_count: int
     query_count: int
     lead_count: int
+    prior_lead_count: int
     identity_count: int
     eligible_identity_count: int
     noncandidate_identity_count: int
@@ -56,37 +59,6 @@ class DiscoveryCorpusResult:
 
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
-
-
-def canonicalize_discovery_url(value: Any) -> str:
-    text = str(value or "").strip()
-    try:
-        parsed = urlsplit(text)
-        port = parsed.port
-    except ValueError as error:
-        raise ValueError(f"Invalid discovery URL: {text}") from error
-    scheme = parsed.scheme.casefold()
-    if scheme not in {"http", "https"} or not parsed.hostname:
-        raise ValueError(f"Unsupported discovery URL: {text}")
-    if parsed.username is not None or parsed.password is not None:
-        raise ValueError("Discovery URLs containing credentials are not allowed")
-    hostname = parsed.hostname.casefold()
-    rendered_host = f"[{hostname}]" if ":" in hostname else hostname
-    if port is not None and not (
-        (scheme == "http" and port == 80) or (scheme == "https" and port == 443)
-    ):
-        rendered_host = f"{rendered_host}:{port}"
-    ignored_parameters = {"fbclid", "gclid", "mc_cid", "mc_eid"}
-    query = [
-        (key, value)
-        for key, value in parse_qsl(parsed.query, keep_blank_values=True)
-        if key.casefold() not in ignored_parameters
-        and not key.casefold().startswith("utm_")
-    ]
-    path = parsed.path or "/"
-    if path != "/":
-        path = path.rstrip("/") or "/"
-    return urlunsplit((scheme, rendered_host, path, urlencode(sorted(query)), ""))
 
 
 def source_authority(
@@ -125,6 +97,7 @@ class OptimizationDiscoveryPipeline:
         fetch: FetchCallback,
         resolve_identity: IdentityCallback,
         existing_resources: Iterable[dict[str, Any]] = (),
+        prior_lead_manifest: dict[str, Any] | None = None,
         progress: ProgressCallback | None = None,
     ) -> None:
         self.store = store
@@ -142,6 +115,23 @@ class OptimizationDiscoveryPipeline:
             raise OptimizationPipelineError(
                 "Discovery query plan lacks the current candidate-role qualification policy"
             )
+        expected_prior_hash = str(
+            query_plan.get("priorResultLeadManifestSha256") or ""
+        )
+        self.prior_lead_manifest = (
+            normalize_prior_lead_manifest(prior_lead_manifest)
+            if prior_lead_manifest is not None
+            else None
+        )
+        actual_prior_hash = (
+            str(self.prior_lead_manifest["manifestSha256"])
+            if self.prior_lead_manifest is not None
+            else ""
+        )
+        if expected_prior_hash != actual_prior_hash:
+            raise OptimizationPipelineError(
+                "Discovery query plan and prior-result lead manifest do not match"
+            )
         self.search = search
         self.fetch = fetch
         self.resolve_identity = resolve_identity
@@ -154,6 +144,7 @@ class OptimizationDiscoveryPipeline:
         existing = self._existing_corpus(run_id)
         if existing is not None:
             return self._result(run_id, configuration_id, existing)
+        self._ensure_prior_leads(run_id)
         self._ensure_query_plan(run_id)
         self._mark_run(run_id, status="running", phase="discovery")
         try:
@@ -220,16 +211,68 @@ class OptimizationDiscoveryPipeline:
                 for query in branch["queries"]:
                     connection.execute(
                         """INSERT INTO optimization_queries (
-                               branch_id, query_key, position, purpose, query_text, status
-                           ) VALUES (?, ?, ?, ?, ?, 'planned')""",
+                               branch_id, query_key, position, purpose, query_text,
+                               prior_lead_key, status
+                           ) VALUES (?, ?, ?, ?, ?, ?, 'planned')""",
                         (
                             branch_id,
                             query["key"],
                             query["position"],
                             query["purpose"],
                             query["query"],
+                            str(query.get("priorLeadKey") or ""),
                         ),
                     )
+
+    def _ensure_prior_leads(self, run_id: int) -> None:
+        if self.prior_lead_manifest is None:
+            return
+        manifest = self.prior_lead_manifest
+        with self.store.connect() as connection:
+            existing = connection.execute(
+                """SELECT manifest_sha256 FROM optimization_prior_lead_manifests
+                   WHERE run_id = ?""",
+                (run_id,),
+            ).fetchone()
+            if existing:
+                if existing["manifest_sha256"] != manifest["manifestSha256"]:
+                    raise OptimizationPipelineError(
+                        "Discovery run already has a different prior-result lead manifest"
+                    )
+                return
+            manifest_row_id = int(
+                connection.execute(
+                    """INSERT INTO optimization_prior_lead_manifests (
+                           run_id, manifest_id, policy_version, imported_at,
+                           manifest_json, manifest_sha256
+                       ) VALUES (?, ?, ?, ?, ?, ?)""",
+                    (
+                        run_id,
+                        manifest["manifestId"],
+                        manifest["policyVersion"],
+                        _now(),
+                        canonical_json(manifest),
+                        manifest["manifestSha256"],
+                    ),
+                ).lastrowid
+            )
+            for lead in manifest["leads"]:
+                connection.execute(
+                    """INSERT INTO optimization_prior_leads (
+                           manifest_id, lead_key, organization, program, aliases_json,
+                           urls_json, historical_disposition, provenance_json
+                       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (
+                        manifest_row_id,
+                        lead["leadKey"],
+                        lead["organization"],
+                        lead["program"],
+                        canonical_json(lead["aliases"]),
+                        canonical_json(lead["urls"]),
+                        lead["historicalDisposition"],
+                        canonical_json(lead["provenance"]),
+                    ),
+                )
 
     def _execute_queries(self, run_id: int) -> None:
         with self.store.connect() as connection:
@@ -944,6 +987,24 @@ class OptimizationDiscoveryPipeline:
                     (run_id,),
                 ).fetchall()
             ]
+            prior_manifests = [
+                dict(row)
+                for row in connection.execute(
+                    """SELECT * FROM optimization_prior_lead_manifests
+                       WHERE run_id = ? ORDER BY id""",
+                    (run_id,),
+                ).fetchall()
+            ]
+            prior_leads = [
+                dict(row)
+                for row in connection.execute(
+                    """SELECT lead.* FROM optimization_prior_leads AS lead
+                       JOIN optimization_prior_lead_manifests AS manifest
+                         ON manifest.id = lead.manifest_id
+                       WHERE manifest.run_id = ? ORDER BY lead.lead_key""",
+                    (run_id,),
+                ).fetchall()
+            ]
         sources_by_identity: dict[int, list[dict[str, Any]]] = {}
         for source in sources:
             decoded = dict(source)
@@ -993,7 +1054,13 @@ class OptimizationDiscoveryPipeline:
             )
         if not packets:
             raise OptimizationPipelineError("Discovery produced no resolved evidence packets")
-        ledger_record = {"branches": branches, "queries": queries, "leads": leads}
+        ledger_record = {
+            "branches": branches,
+            "queries": queries,
+            "leads": leads,
+            "priorLeadManifests": prior_manifests,
+            "priorLeads": prior_leads,
+        }
         identity_record = identities
         source_record = sources
         packet_hashes = [sha256_json(packet) for packet in packets]
@@ -1052,6 +1119,7 @@ class OptimizationDiscoveryPipeline:
                     1 for query in queries if query["status"] == "completed"
                 ),
                 "leadCount": len(leads),
+                "priorLeadCount": len(prior_leads),
                 "resolvedIdentityCount": len(packets),
                 "packageEligibleIdentityCount": sum(
                     1
@@ -1137,6 +1205,16 @@ class OptimizationDiscoveryPipeline:
                     (run_id,),
                 ).fetchone()["count"]
             )
+            prior_lead_count = int(
+                connection.execute(
+                    """SELECT COUNT(*) AS count
+                       FROM optimization_prior_leads AS lead
+                       JOIN optimization_prior_lead_manifests AS manifest
+                         ON manifest.id = lead.manifest_id
+                       WHERE manifest.run_id = ?""",
+                    (run_id,),
+                ).fetchone()["count"]
+            )
             identity_counts = connection.execute(
                 """SELECT COUNT(*) AS total,
                           SUM(CASE WHEN boundary_state = 'excluded-existing' THEN 1 ELSE 0 END) AS excluded,
@@ -1174,6 +1252,7 @@ class OptimizationDiscoveryPipeline:
             branch_count=branch_count,
             query_count=query_count,
             lead_count=lead_count,
+            prior_lead_count=prior_lead_count,
             identity_count=int(identity_counts["total"] or 0),
             eligible_identity_count=int(identity_counts["eligible"] or 0),
             noncandidate_identity_count=int(identity_counts["noncandidate"] or 0),

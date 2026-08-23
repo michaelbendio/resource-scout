@@ -293,6 +293,7 @@ CREATE TABLE IF NOT EXISTS optimization_queries (
     position INTEGER NOT NULL CHECK (position > 0),
     purpose TEXT NOT NULL,
     query_text TEXT NOT NULL,
+    prior_lead_key TEXT NOT NULL DEFAULT '',
     status TEXT NOT NULL CHECK (
         status IN ('planned', 'running', 'completed', 'failed', 'cancelled')
     ),
@@ -306,6 +307,27 @@ CREATE TABLE IF NOT EXISTS optimization_queries (
     error TEXT NOT NULL DEFAULT '',
     UNIQUE (branch_id, query_key),
     UNIQUE (branch_id, position)
+);
+CREATE TABLE IF NOT EXISTS optimization_prior_lead_manifests (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL UNIQUE REFERENCES optimization_runs(id) ON DELETE CASCADE,
+    manifest_id TEXT NOT NULL,
+    policy_version TEXT NOT NULL,
+    imported_at TEXT NOT NULL,
+    manifest_json TEXT NOT NULL,
+    manifest_sha256 TEXT NOT NULL CHECK (length(manifest_sha256) = 64)
+);
+CREATE TABLE IF NOT EXISTS optimization_prior_leads (
+    id INTEGER PRIMARY KEY,
+    manifest_id INTEGER NOT NULL REFERENCES optimization_prior_lead_manifests(id) ON DELETE CASCADE,
+    lead_key TEXT NOT NULL,
+    organization TEXT NOT NULL DEFAULT '',
+    program TEXT NOT NULL DEFAULT '',
+    aliases_json TEXT NOT NULL,
+    urls_json TEXT NOT NULL,
+    historical_disposition TEXT NOT NULL,
+    provenance_json TEXT NOT NULL,
+    UNIQUE (manifest_id, lead_key)
 );
 CREATE TABLE IF NOT EXISTS optimization_query_attempts (
     id INTEGER PRIMARY KEY,
@@ -746,6 +768,7 @@ class ResearchStore:
             "optimization_queries": {
                 "new_eligible_identity_count": "INTEGER NOT NULL DEFAULT 0",
                 "new_routed_identity_count": "INTEGER NOT NULL DEFAULT 0",
+                "prior_lead_key": "TEXT NOT NULL DEFAULT ''",
             },
             "optimization_coverage_branches": {
                 "new_eligible_identity_count": "INTEGER NOT NULL DEFAULT 0",

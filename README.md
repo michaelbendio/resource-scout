@@ -47,6 +47,11 @@ Resource Scout research is the beginning of the resource-creation workflow, not 
 
 The newly saved, phone-vetted TSO Resources package is the ground truth for retrospective Scout evaluation. Evaluation compares each preserved Scout candidate with its corresponding final resource, using an explicit candidate-to-draft-to-final-resource link rather than name similarity alone. Preserve the Scout candidate snapshot, Curator work, additions package, and the TSO Resources packages from before and after the merge. Record whether each candidate field was confirmed, corrected, added during vetting, omitted from the final resource, or remained unknown. An explicit Scout unknown counts against completeness but is not an accuracy error.
 
+Preserved research can be reused through the generic
+[`docs/prior-result-lead-manifests.md`](docs/prior-result-lead-manifests.md)
+format. It imports names, URLs, and historical provenance only; every lead must
+be searched and qualified again under current policy before it can count.
+
 Vetting remains ordinary resource preparation. Vetters are not asked to score the model or its candidates, and Qwen does not judge its own work. Scout scoring is computed afterward from the preserved linkage and package comparison. Candidate yield counts only unique, usable candidates that become corresponding resources in a final saved package; the comparison must keep accuracy, completeness, source quality, usable yield, and elapsed research time as separate measures in that order.
 
 ## Portable Resource Curator

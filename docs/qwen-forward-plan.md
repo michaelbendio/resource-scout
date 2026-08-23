@@ -252,8 +252,12 @@ actionable `access-assessment-service` roles can produce packets; service
 locations, referral systems, directories, organization-only records, package
 duplicates, and weak or unresolved leads remain in the ledger. A directory-only
 source cannot back an eligible packet, and inconsistent qualification decisions
-for the same identity fail closed instead of becoming query-order-dependent. The
-historical lead-manifest, referral-edge, and appended-branch work remains in
+for the same identity fail closed instead of becoming query-order-dependent.
+`prior-result-leads-v1` is also implemented and persisted: historical names and
+URLs produce no candidate or evidence by import, every lead receives a current
+search, and the manifest is hashed into the corpus ledger. The reproducible
+one-time Mesa v1 harvest contains 623 deduplicated leads from 22 frozen DeepSeek
+and Qwen run-stage sources. Referral-edge and appended-branch work remains in
 progress.
 
 ### 4. Freeze the revised first-stage corpus
