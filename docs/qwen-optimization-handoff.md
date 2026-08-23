@@ -53,7 +53,7 @@ Time is recorded for planning and diagnosis, but it is almost unimportant. Do no
 
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
-- Latest implementation commit before the live handoff update: `cda13244578497d53699625b0c9e1b741da1ab18`
+- Latest implementation commit: `079ef91a9bbf02a5be51ef38ee86304999985811`
 - Application version: `0.21.0`
 - Phase 1 local-Qwen implementation commit: `81a9eeab49de8006bce32b137992777802db3606`
 - Local Qwen default: `mlx-community/Qwen3.8-27B-4bit`
@@ -61,7 +61,7 @@ Time is recorded for planning and diagnosis, but it is almost unimportant. Do no
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
-- The full Python suite most recently passed 153 tests with one optional skip.
+- The full Python suite most recently passed 154 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.
@@ -72,26 +72,37 @@ The current locked comparison must be adopted, not restarted. It is running in t
 
 `python3 run-qwen-quantization-comparison.py --database data/benchmarks/mesa-qwen-2026-08-21/mesa-qwen-benchmark.sqlite3 --corpus-id 6 --artifacts data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9`
 
-At `2026-08-22T19:13:58Z`:
+At `2026-08-23T05:44:13Z`:
 
 - coordinator PID: `62207`;
-- model-evaluation PID: `62244`;
-- local-Qwen supervisor PID: `62216`;
-- MLX server PID: `62218`;
-- current model run: database run `25`, 4-bit configuration label `mesa-housing-urgent-4-bit-reviewed-corpus-v9-204ef0cbf2c7`;
-- current configuration hash: `51a04174daf5c707b0f684e4cc2cfafb0ac06b23f1255f6085f161210da7db97`, with `modelMaxCompletionTokens` 32,768 and empty model and search fallback lists;
-- completed packets: zero of 22 under v9;
-- active packet: packet ID 42, extraction attempt 105;
+- model-evaluation PID: `72401`;
+- local-Qwen supervisor PID: `72388`;
+- MLX server PID: `72391`;
+- current model run: database run `26`, 8-bit configuration label `mesa-housing-urgent-8-bit-reviewed-corpus-v9-204ef0cbf2c7`;
+- current configuration hash: `6f1049277a3345c533c932df942847f0b423fb9feee3807ee16e4c2fecf42184`, with `modelMaxCompletionTokens` 32,768 and empty model and search fallback lists;
+- the 4-bit run completed all 22 packets with one `passed`, eighteen `needs-review`, and three true `failed` dossiers;
+- the 8-bit run has two extracted dossiers, one completed verification, and packet ID 43 in verification attempt 152;
 - preserved predecessor: run 24 completed eleven packets with no true deterministic failures, then packet 53 hit the unrecorded 16,384-token client limit and retained a 14,652-character response truncated mid-JSON; run 24 remains `partial` with its raw output and local-only usage evidence;
-- after all 22 4-bit packets, the coordinator will automatically run the identical 22 packets under 8-bit and create the model-neutral report and revealed decision;
+- after all 22 8-bit packets, the coordinator will automatically create the model-neutral report and revealed decision;
 - no metered credential or fallback is present.
+
+At `2026-08-23T05:37:39Z`, an inspection-only `ResearchStore` open invoked the old
+automatic startup-recovery behavior and temporarily marked active packet 43 and run
+26 interrupted. The evaluator and its loopback request never stopped. The original
+extraction attempt completed normally, wrote its dossier, and advanced to independent
+verification without duplicated inference. The false top-level recovery marker was
+then restored to the demonstrably active state. Commit `079ef91` makes recovery an
+explicit owner-startup action: ordinary inspection and export opens no longer mutate
+active run state, while the Scout server and benchmark runners still recover genuinely
+interrupted work when taking ownership. The 154-test Python suite and 20-test JavaScript
+suite pass with this behavior.
 
 Do not depend on the PIDs remaining unchanged. Inspect the process table, the comparison status file, and the database before taking action. Primary live evidence:
 
 - `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9/comparison-status.json`
-- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9/4-bit-server.log`
-- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9/4-bit-evaluation.log`
-- `optimization_model_attempts`, `optimization_candidate_dossiers`, and `optimization_verifications` for run 25 in `mesa-qwen-benchmark.sqlite3`
+- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9/8-bit-server.log`
+- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9/8-bit-evaluation.log`
+- `optimization_model_attempts`, `optimization_candidate_dossiers`, and `optimization_verifications` for run 26 in `mesa-qwen-benchmark.sqlite3`
 
 Frozen comparison corpus 6 has SHA-256 `204ef0cbf2c7d889fc84f544c601bd2bd9b1543a9636a7a9195742c5270e6379`. It contains ten required coverage branches, 70 executed queries, 535 normalized leads, 33 resolved identities, 22 urgent eligible candidate packets, and 72 fetched sources. It includes Justa Center and Salvation Army candidates that the frozen DeepSeek Housing output missed. The source package is `/Users/michaelbendio/Documents/TSO/mesa-resource-package.zip`, SHA-256 `c7a2251d7d638472f90207c24a28ec71c24515ea5d1aafced68a38fdce3d30f8`.
 
@@ -104,8 +115,17 @@ Recent corrections are separately committed and pushed:
 - `3ad3717`: apply the same compact-binding protocol to verification without changing the verifier checklist or strictness;
 - `1e45c29`: restore frozen candidate identity after both model passes so verifier boundary findings cannot accidentally create identity-key mismatches.
 - `cda1324`: raise the local completion allowance to the pinned 32,768-token server ceiling, record it in immutable configuration provenance, and give the corrected comparison v9 labels.
+- `079ef91`: require explicit ownership before startup recovery so inspection and export tools cannot mark a genuinely active run interrupted.
 
 The verifier still distinguishes `passed`, `needs-review`, and true `failed`. A `needs-review` dossier remains usable Curator material with its findings attached and does not fail the accuracy gate. Only remaining deterministic findings produce `failed` and block advancement. Do not weaken the verifier prompt, checklist, or evidence standards.
+
+Michael requested that the three 4-bit v9 completeness failures remain preserved
+without manual reclassification until a discussion after forward-plan step 7. The
+discussion must cover two `missing-field-state: petPolicy` failures, one
+`missing-field-state: serviceNeed` failure, whether unknown pet policy should ever
+exclude an otherwise valid candidate, and how to recover the dossiers without
+weakening verification. Remind Michael after step 7; do not silently discard or
+reclassify these dossiers before that discussion.
 
 If the active coordinator is healthy, let it continue. If it has stopped, inspect the last persisted raw attempt and logs before deciding whether to resume or create a new configuration. Any semantic correction requires a new provenance label; do not overwrite or pool evidence from a different configuration.
 
@@ -129,7 +149,8 @@ Important run IDs:
 - Run 22: completed tuned 8-bit first Housing stage
 - Run 23: completed conservative 4-bit full Housing run
 - Run 24: v8 4-bit expanded-corpus comparison; partial after eleven completed packets and a retained 16,384-token truncated extraction
-- Run 25: active v9 4-bit expanded-corpus comparison with the recorded 32,768-token completion allowance
+- Run 25: completed v9 4-bit expanded-corpus comparison with the recorded 32,768-token completion allowance
+- Run 26: active v9 8-bit expanded-corpus comparison over the identical corpus and prompts
 
 Housing stages are:
 
