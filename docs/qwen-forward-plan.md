@@ -314,9 +314,13 @@ manifest: Community Bridges PATH Outreach, Native American Connections HomeBase
 Youth Services, UMOM Halle Women's Center, and the Phoenix VA Community Resource
 and Referral Center. The same run retained every unresolved and excluded edge
 without counting it. The one-time 623-lead historical sweep is independently
-resumable and currently has 65 completed current searches; unmetered DDGS
-throttling, rather than a policy shortcut or paid fallback, is the remaining
-step-3 constraint.
+resumable and currently has 74 completed current searches. Because unmetered DDGS
+is intermittent, Michael approved keeping step 3 formally open while step 4
+playbook audit and freeze preparation proceed. This is a scheduling deferral, not
+a completeness waiver: resume the same sweep opportunistically and integrate all
+recovered candidates before final Housing completion in step 7. Do not restart
+from zero, switch to a paid provider, silently skip a lead, or shorten the
+manifest.
 
 ### 4. Freeze the revised first-stage corpus
 

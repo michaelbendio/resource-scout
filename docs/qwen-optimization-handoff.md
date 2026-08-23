@@ -31,9 +31,13 @@ review-required, and 4 noncandidate identities. The exact query-plan hash is
 the search-response hash is
 `eba615247e4a6322c78649c145e697ed23bd1d93085518da5c899e3a15c9e3f5`.
 The one-time current searches for the 623-lead historical manifest remain before
-step 3 is complete. They are resumably persisted at 65 completed lead searches;
-the unmetered DDGS endpoint is currently throttling, so do not restart, switch to
-a paid provider, or silently shorten the manifest.
+Housing can be declared complete. They are resumably persisted at 74 completed
+lead searches; the unmetered DDGS endpoint is currently throttling, so do not
+restart from zero, switch to a paid provider, or silently shorten the manifest.
+Michael approved deferring the remaining live searches while step 4 playbook
+audit and freeze preparation proceed. Keep step 3 formally open, resume the sweep
+opportunistically, and integrate every recovered candidate before final Housing
+completion in step 7.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
