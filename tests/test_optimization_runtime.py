@@ -2,13 +2,16 @@ from __future__ import annotations
 
 import io
 import json
+import subprocess
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
 from resource_research_agent.optimization_runtime import (
+    DDGSSearchClient,
     LOCAL_QWEN_MAX_COMPLETION_TOKENS,
     LocalQwenJSONClient,
+    OptimizationRuntimeError,
     ReviewedIdentityResolver,
     _extract_object,
     html_to_text,
@@ -138,6 +141,43 @@ class OptimizationRuntimeTests(unittest.TestCase):
         self.assertEqual(32768, raised.exception.usage["completion_tokens"])
         self.assertEqual("length", raised.exception.usage["finishReason"])
         self.assertFalse(raised.exception.usage["metered"])
+
+
+class DDGSSearchClientTests(unittest.TestCase):
+    @patch("resource_research_agent.optimization_runtime.DDGS_HELPER", Path(__file__))
+    @patch("resource_research_agent.optimization_runtime.DDGS_PYTHON", Path(__file__))
+    @patch("resource_research_agent.optimization_runtime.time.sleep")
+    @patch("resource_research_agent.optimization_runtime.subprocess.run")
+    def test_retries_transient_failure_then_returns_sources(
+        self, run, sleep
+    ) -> None:
+        run.side_effect = [
+            subprocess.CompletedProcess([], 1, "", "connection reset"),
+            subprocess.CompletedProcess([], 0, '{"sources":[{"url":"https://example.org"}]}', ""),
+        ]
+
+        sources = DDGSSearchClient(retry_delays_seconds=(0.25,))("query", 4)
+
+        self.assertEqual([{"url": "https://example.org"}], sources)
+        self.assertEqual(2, run.call_count)
+        sleep.assert_called_once_with(0.25)
+
+    @patch("resource_research_agent.optimization_runtime.DDGS_HELPER", Path(__file__))
+    @patch("resource_research_agent.optimization_runtime.DDGS_PYTHON", Path(__file__))
+    @patch("resource_research_agent.optimization_runtime.time.sleep")
+    @patch("resource_research_agent.optimization_runtime.subprocess.run")
+    def test_reports_exhausted_retry_count(
+        self, run, sleep
+    ) -> None:
+        run.return_value = subprocess.CompletedProcess([], 1, "", "timed out")
+
+        with self.assertRaisesRegex(
+            OptimizationRuntimeError, "failed after 3 attempts: timed out"
+        ):
+            DDGSSearchClient(retry_delays_seconds=(0, 0))("query", 4)
+
+        self.assertEqual(3, run.call_count)
+        self.assertEqual(2, sleep.call_count)
 
 
 if __name__ == "__main__":

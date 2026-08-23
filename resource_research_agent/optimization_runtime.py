@@ -4,6 +4,7 @@ import json
 import os
 import re
 import subprocess
+import time
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
@@ -57,28 +58,41 @@ def html_to_text(value: str) -> str:
 
 
 class DDGSSearchClient:
-    def __init__(self, *, timeout_seconds: int = 60) -> None:
+    def __init__(
+        self,
+        *,
+        timeout_seconds: int = 60,
+        retry_delays_seconds: tuple[float, ...] = (2, 5, 10, 20),
+    ) -> None:
         self.timeout_seconds = timeout_seconds
+        self.retry_delays_seconds = retry_delays_seconds
 
     def __call__(self, query: str, max_results: int) -> list[dict[str, Any]]:
         if not DDGS_PYTHON.is_file() or not DDGS_HELPER.is_file():
             raise OptimizationRuntimeError("The project-owned DDGS runtime is unavailable")
-        try:
-            completed = subprocess.run(
-                [str(DDGS_PYTHON), str(DDGS_HELPER)],
-                input=json.dumps({"query": query, "maxResults": max_results}),
-                capture_output=True,
-                text=True,
-                timeout=self.timeout_seconds,
-                check=False,
-                env={**os.environ, "PYTHONUNBUFFERED": "1"},
-            )
-        except (OSError, subprocess.TimeoutExpired) as error:
-            raise OptimizationRuntimeError(f"DDGS search failed: {error}") from error
-        if completed.returncode != 0:
-            raise OptimizationRuntimeError(
-                f"DDGS search failed: {completed.stderr.strip() or completed.returncode}"
-            )
+        failure: str | None = None
+        for attempt in range(len(self.retry_delays_seconds) + 1):
+            try:
+                completed = subprocess.run(
+                    [str(DDGS_PYTHON), str(DDGS_HELPER)],
+                    input=json.dumps({"query": query, "maxResults": max_results}),
+                    capture_output=True,
+                    text=True,
+                    timeout=self.timeout_seconds,
+                    check=False,
+                    env={**os.environ, "PYTHONUNBUFFERED": "1"},
+                )
+            except (OSError, subprocess.TimeoutExpired) as error:
+                failure = str(error)
+            else:
+                if completed.returncode == 0:
+                    break
+                failure = completed.stderr.strip() or str(completed.returncode)
+            if attempt == len(self.retry_delays_seconds):
+                raise OptimizationRuntimeError(
+                    f"DDGS search failed after {attempt + 1} attempts: {failure}"
+                )
+            time.sleep(self.retry_delays_seconds[attempt])
         try:
             value = json.loads(completed.stdout)
         except json.JSONDecodeError as error:
