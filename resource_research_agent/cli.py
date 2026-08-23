@@ -36,16 +36,6 @@ def parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
-    store = ResearchStore(args.database)
-    if args.command == "import":
-        package = ResourcePackageImporter(args.category).read(args.package)
-        import_id = store.save_import(package)
-        summary = store.import_summary(import_id)
-        output = json.dumps(summary, ensure_ascii=False, indent=2)
-        print(output)
-        if args.report:
-            Path(args.report).write_text(output + "\n", encoding="utf-8")
-        return 0
     if args.command == "serve":
         serve(args.database, args.host, args.port)
         return 0
@@ -63,6 +53,16 @@ def main(argv: list[str] | None = None) -> int:
         print("This address is private to your Tailscale network. Public Funnel is not enabled.")
         print("Keep this window open while using the app.")
         serve(args.database, "127.0.0.1", args.port, private_url=access.private_url)
+        return 0
+    store = ResearchStore(args.database)
+    if args.command == "import":
+        package = ResourcePackageImporter(args.category).read(args.package)
+        import_id = store.save_import(package)
+        summary = store.import_summary(import_id)
+        output = json.dumps(summary, ensure_ascii=False, indent=2)
+        print(output)
+        if args.report:
+            Path(args.report).write_text(output + "\n", encoding="utf-8")
         return 0
     if args.command == "match":
         candidate = json.loads(Path(args.candidate).read_text(encoding="utf-8"))

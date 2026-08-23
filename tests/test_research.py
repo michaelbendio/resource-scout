@@ -416,7 +416,7 @@ class ResearchWorkflowTests(unittest.TestCase):
         self.store.complete_stage(stages[0]["id"], "done", {"summary": "done"}, None)
         self.store.mark_stage_running(stages[1]["id"])
 
-        reopened = ResearchStore(self.store.path)
+        reopened = ResearchStore(self.store.path, recover_interrupted=True)
         recovered = reopened.get_run(run_id)
         self.assertEqual("partial", recovered["status"])
         self.assertEqual(["completed", "failed"], [stage["status"] for stage in recovered["stages"]])

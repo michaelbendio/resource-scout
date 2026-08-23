@@ -460,7 +460,18 @@ class DiscoveryPipelineTests(unittest.TestCase):
         with self.assertRaises(KeyboardInterrupt):
             pipeline.run()
 
-        self.store = ResearchStore(self.store.path)
+        inspected = ResearchStore(self.store.path)
+        with inspected.connect() as connection:
+            attempt = connection.execute(
+                "SELECT status FROM optimization_query_attempts ORDER BY id DESC LIMIT 1"
+            ).fetchone()
+            run = connection.execute(
+                "SELECT status FROM optimization_runs ORDER BY id DESC LIMIT 1"
+            ).fetchone()
+        self.assertEqual("running", attempt["status"])
+        self.assertEqual("running", run["status"])
+
+        self.store = ResearchStore(self.store.path, recover_interrupted=True)
         result = self.pipeline(providers, "fixture-process-restart").run()
         self.assertEqual(8, result.packet_count)
         with self.store.connect() as connection:

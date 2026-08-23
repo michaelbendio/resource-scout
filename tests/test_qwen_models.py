@@ -412,6 +412,70 @@ class ModelPipelineTests(unittest.TestCase):
         )
         self.assertTrue(any(candidate.get("phone") == "480-000-0100" for candidate in candidates))
 
+    def test_inspection_open_does_not_recover_an_active_model_attempt(self) -> None:
+        configuration_id = self.store.save_optimization_configuration(
+            model_configuration(self.providers, "active-model-inspection")
+        )
+        with self.store.connect() as connection:
+            run_id = int(
+                connection.execute(
+                    """INSERT INTO optimization_runs (
+                           created_at, label, configuration_id, corpus_id, run_kind,
+                           status, current_phase
+                       ) VALUES ('now', 'active-model-inspection', ?, ?,
+                                 'model-evaluation', 'running', 'candidate-extraction')""",
+                    (configuration_id, self.corpus.corpus_id),
+                ).lastrowid
+            )
+            packet_id = int(
+                connection.execute(
+                    """SELECT id FROM optimization_evidence_packets
+                       WHERE corpus_id = ? ORDER BY id LIMIT 1""",
+                    (self.corpus.corpus_id,),
+                ).fetchone()["id"]
+            )
+            attempt_id = int(
+                connection.execute(
+                    """INSERT INTO optimization_model_attempts (
+                           run_id, packet_id, corpus_id, operation, attempt_number,
+                           started_at, status, prompt_sha256
+                       ) VALUES (?, ?, ?, 'extract', 1, 'now', 'running', ?)""",
+                    (run_id, packet_id, self.corpus.corpus_id, "0" * 64),
+                ).lastrowid
+            )
+
+        inspected = ResearchStore(self.store.path)
+        with inspected.connect() as connection:
+            self.assertEqual(
+                "running",
+                connection.execute(
+                    "SELECT status FROM optimization_model_attempts WHERE id = ?",
+                    (attempt_id,),
+                ).fetchone()["status"],
+            )
+            self.assertEqual(
+                "running",
+                connection.execute(
+                    "SELECT status FROM optimization_runs WHERE id = ?", (run_id,)
+                ).fetchone()["status"],
+            )
+
+        recovered = ResearchStore(self.store.path, recover_interrupted=True)
+        with recovered.connect() as connection:
+            self.assertEqual(
+                "failed",
+                connection.execute(
+                    "SELECT status FROM optimization_model_attempts WHERE id = ?",
+                    (attempt_id,),
+                ).fetchone()["status"],
+            )
+            self.assertEqual(
+                "partial",
+                connection.execute(
+                    "SELECT status FROM optimization_runs WHERE id = ?", (run_id,)
+                ).fetchone()["status"],
+            )
+
     def test_needs_review_is_reported_separately_and_reaches_candidate_output(self) -> None:
         review_models = SeededFixtureModels()
 

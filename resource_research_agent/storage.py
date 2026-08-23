@@ -580,15 +580,21 @@ def _json(value: Any) -> str:
 
 
 class ResearchStore:
-    def __init__(self, path: str | Path) -> None:
+    def __init__(
+        self,
+        path: str | Path,
+        *,
+        recover_interrupted: bool = False,
+    ) -> None:
         self.path = Path(path).expanduser().resolve()
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.connect() as connection:
             connection.executescript(SCHEMA)
             self._migrate(connection)
             self._backfill_research_seeds(connection)
-            self._recover_interrupted_runs(connection)
-            self._recover_interrupted_optimization(connection)
+            if recover_interrupted:
+                self._recover_interrupted_runs(connection)
+                self._recover_interrupted_optimization(connection)
 
     @staticmethod
     def _migrate(connection: sqlite3.Connection) -> None:

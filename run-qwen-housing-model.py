@@ -18,7 +18,7 @@ parser.add_argument("--corpus-id", type=int, required=True)
 parser.add_argument("--quantization", choices=tuple(PINNED_MODELS), required=True)
 arguments = parser.parse_args()
 
-store = ResearchStore(arguments.database)
+store = ResearchStore(arguments.database, recover_interrupted=True)
 with store.connect() as connection:
     row = connection.execute(
         """SELECT configuration.snapshot_json

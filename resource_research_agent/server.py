@@ -401,7 +401,7 @@ def serve(
     private_url: str | None = None,
 ) -> None:
     web_dir = Path(__file__).resolve().parent.parent / "web"
-    store = ResearchStore(store_path)
+    store = ResearchStore(store_path, recover_interrupted=True)
     server = ResearchHTTPServer((host, port), store, web_dir, private_url=private_url)
     print(f"Resource Research Agent is running at http://{host}:{port}")
     if private_url:

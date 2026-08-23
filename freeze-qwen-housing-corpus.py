@@ -96,7 +96,7 @@ for resource in package.resources:
         }
     )
 result = OptimizationDiscoveryPipeline(
-    ResearchStore(arguments.database),
+    ResearchStore(arguments.database, recover_interrupted=True),
     configuration,
     search=CachedSearchClient(cache),
     fetch=SafeFetchClient(),
