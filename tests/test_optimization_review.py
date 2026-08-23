@@ -18,6 +18,8 @@ from resource_research_agent.optimization_review import (
     validate_identity_review,
 )
 from resource_research_agent.optimization_runtime import OptimizationRuntimeError
+from resource_research_agent.optimization import build_housing_urgent_query_plan
+from resource_research_agent.query_expansion import augment_query_plan_with_targeted_branch
 
 
 def qualified_identity(organization: str, program: str, **values) -> dict:
@@ -26,6 +28,7 @@ def qualified_identity(organization: str, program: str, **values) -> dict:
         "program": program,
         "candidateRole": "direct-program",
         "geographyState": "confirmed-target",
+        "categoryState": "confirmed",
         "actionabilityState": "actionable",
         "currentStatusState": "current",
         "evidenceReadiness": "current-authoritative",
@@ -347,6 +350,53 @@ class OptimizationReviewTests(unittest.TestCase):
             )
             self.assertEqual("candidate-current-status", status["branchKey"])
             self.assertIn('"Emergency Shelter"', status["query"])
+
+    def test_targeted_branch_reuses_every_frozen_base_response(self) -> None:
+        calls = []
+
+        def search(query: str, _limit: int) -> list[dict]:
+            calls.append(query)
+            return []
+
+        targeted = [
+            {"key": f"depth-{position}", "query": f"targeted referral {position}"}
+            for position in range(1, 6)
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            base = cache_housing_searches(
+                root / "base.json",
+                search=search,
+                minimum_queries=2,
+                maximum_queries=2,
+                saturation_queries=2,
+            )
+            self.assertEqual(18, len(calls))
+            plan = augment_query_plan_with_targeted_branch(
+                build_housing_urgent_query_plan(
+                    "Mesa",
+                    "Maricopa County and nearby areas",
+                    minimum_queries=2,
+                    maximum_queries=2,
+                    saturation_queries=2,
+                ),
+                branch_key="referral-depth",
+                purpose="Follow reviewed referrals.",
+                queries=targeted,
+                parent_corpus_sha256="d" * 64,
+            )
+            expanded = cache_housing_searches(
+                root / "expanded.json",
+                search=search,
+                minimum_queries=2,
+                maximum_queries=2,
+                saturation_queries=2,
+                previous_cache=base,
+                query_plan=plan,
+            )
+        self.assertEqual(23, len(calls))
+        self.assertEqual(23, len(expanded["queries"]))
+        self.assertEqual(base["cacheSha256"], expanded["previousCacheSha256"])
 
     def test_exclusion_policy_builds_exact_pending_only_patch(self) -> None:
         review = {

@@ -32,6 +32,7 @@ def qualified_identity(
         "program": program,
         "candidateRole": "direct-program",
         "geographyState": "confirmed-target",
+        "categoryState": "confirmed",
         "actionabilityState": "actionable",
         "currentStatusState": "current",
         "evidenceReadiness": "current-authoritative",
@@ -459,7 +460,7 @@ class DiscoveryPipelineTests(unittest.TestCase):
         }
         configuration["queryPlan"] = {
             "schemaVersion": 4,
-            "candidateQualificationPolicyVersion": "candidate-role-gates-v1",
+            "candidateQualificationPolicyVersion": "candidate-qualification-gates-v2",
             "categoryId": "housing",
             "stageKey": "urgent-access",
             "targetLocation": "Mesa",
@@ -512,7 +513,7 @@ class DiscoveryPipelineTests(unittest.TestCase):
         ]
         configuration["queryPlan"] = {
             "schemaVersion": 4,
-            "candidateQualificationPolicyVersion": "candidate-role-gates-v1",
+            "candidateQualificationPolicyVersion": "candidate-qualification-gates-v2",
             "categoryId": "housing",
             "stageKey": "urgent-access",
             "targetLocation": "Mesa",

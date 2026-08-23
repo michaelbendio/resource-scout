@@ -5,13 +5,16 @@ on 2026-08-23 over 22 identical first-stage Housing packets and selected 8-bit
 Qwen on quality before timing was revealed. Forward-plan steps 1 and 2 are
 complete; step 3 is next. Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
-Step 3 is in progress: the category-neutral candidate-role promotion gate and
+Step 3 is in progress: the category-neutral candidate qualification gate and
 prior-result lead-manifest path are implemented. The reproducible one-time Mesa
 manifest has 623 names/URLs-only leads and canonical content SHA-256
 `ff96127c335ac250c6c3d88780e20d3745db5a9e2305a704ec83b674910df0a6`.
 The generic bounded one-hop referral graph is implemented and verified with
-Housing and Food fixtures; the reviewed Mesa graph and appended live discovery
-remain. No production cutover is authorized.
+Housing and Food fixtures. The five-query coordinated-entry depth branch has run
+using unmetered DDGS and all 112 preserved parent responses; its 30 newly seen
+URLs are undergoing current-source identity qualification before any candidate
+count is assigned. The reviewed Mesa graph remains. No production cutover is
+authorized.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
@@ -57,7 +60,8 @@ supplementary field does not discard an otherwise real, relevant candidate.
 Unknown program identity, service geography, or whether the purported program is
 real blocks promotion until resolved. Time remains diagnostic and may break only
 a true quality tie. Candidate volume is counted only after the deterministic
-identity, role, geography, evidence, package-exclusion, and actionability gates in
+identity, role, geography, target-category fit, evidence, package-exclusion, and
+actionability gates in
 `docs/qwen-forward-plan.md`.
 
 ## Operating constraints

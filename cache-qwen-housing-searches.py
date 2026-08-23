@@ -6,11 +6,13 @@ import json
 from pathlib import Path
 
 from resource_research_agent.optimization_review import (
+    build_reviewed_housing_query_plan,
     _write_json,
     cache_housing_searches,
     identity_review_template,
     merge_identity_review,
 )
+from resource_research_agent.query_expansion import augment_query_plan_with_targeted_branch
 
 
 parser = argparse.ArgumentParser(description="Cache the fixed Housing-stage DDGS ledger")
@@ -23,6 +25,7 @@ parser.add_argument("--results-per-query", type=int, default=8)
 parser.add_argument("--previous-review", type=Path)
 parser.add_argument("--candidate-status-review", type=Path)
 parser.add_argument("--previous-cache", type=Path)
+parser.add_argument("--targeted-expansion", type=Path)
 arguments = parser.parse_args()
 
 candidate_status_review = (
@@ -35,6 +38,27 @@ previous_cache = (
     if arguments.previous_cache
     else None
 )
+query_plan = None
+if arguments.targeted_expansion:
+    expansion = json.loads(arguments.targeted_expansion.read_text(encoding="utf-8"))
+    query_plan = build_reviewed_housing_query_plan(
+        minimum_queries=arguments.minimum_queries,
+        maximum_queries=arguments.maximum_queries,
+        saturation_queries=arguments.saturation_queries,
+        candidate_status_review=candidate_status_review,
+    )
+    query_plan = augment_query_plan_with_targeted_branch(
+        query_plan,
+        branch_key=str(expansion["branchKey"]),
+        purpose=str(expansion["purpose"]),
+        queries=expansion["queries"],
+        parent_corpus_sha256=str(expansion["parentCorpusSha256"]),
+        minimum_queries=int(expansion["saturation"]["minimumQueries"]),
+        maximum_queries=int(expansion["saturation"]["maximumQueries"]),
+        saturation_queries=int(
+            expansion["saturation"]["consecutiveNoNewIdentityQueries"]
+        ),
+    )
 
 cache = cache_housing_searches(
     arguments.cache,
@@ -45,6 +69,7 @@ cache = cache_housing_searches(
     results_per_query=arguments.results_per_query,
     candidate_status_review=candidate_status_review,
     previous_cache=previous_cache,
+    query_plan=query_plan,
 )
 if arguments.previous_review:
     previous = json.loads(arguments.previous_review.read_text(encoding="utf-8"))

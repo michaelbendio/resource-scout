@@ -63,8 +63,9 @@ def cache_housing_searches(
     results_per_query: int = 8,
     candidate_status_review: dict[str, Any] | None = None,
     previous_cache: dict[str, Any] | None = None,
+    query_plan: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    plan = build_reviewed_housing_query_plan(
+    plan = deepcopy(query_plan) if query_plan is not None else build_reviewed_housing_query_plan(
         minimum_queries=minimum_queries,
         maximum_queries=maximum_queries,
         saturation_queries=saturation_queries,

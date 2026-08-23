@@ -896,7 +896,7 @@ class OptimizationDiscoveryPipeline:
             raise OptimizationPipelineError(str(error)) from error
         existing_row = connection.execute(
             """SELECT id, target_stage_key, candidate_role, geography_state,
-                      actionability_state, current_status_state, evidence_readiness,
+                      category_state, actionability_state, current_status_state, evidence_readiness,
                       promotion_state
                FROM optimization_candidate_identities
                WHERE run_id = ? AND identity_key = ?""",
@@ -907,6 +907,7 @@ class OptimizationDiscoveryPipeline:
                 "target_stage_key": target_stage_key,
                 "candidate_role": qualification["candidateRole"],
                 "geography_state": qualification["geographyState"],
+                "category_state": qualification["categoryState"],
                 "actionability_state": qualification["actionabilityState"],
                 "current_status_state": qualification["currentStatusState"],
                 "evidence_readiness": qualification["evidenceReadiness"],
@@ -945,10 +946,10 @@ class OptimizationDiscoveryPipeline:
             """INSERT INTO optimization_candidate_identities (
                    run_id, organization, program, identity_key, boundary_state,
                    package_match_state, package_resource_id, target_stage_key,
-                   candidate_role, geography_state, actionability_state,
-                   current_status_state, evidence_readiness, promotion_state,
+                   candidate_role, geography_state, category_state,
+                   actionability_state, current_status_state, evidence_readiness, promotion_state,
                    promotion_reasons_json, decision_reason, metadata_json
-               ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+               ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (
                 run_id,
                 organization,
@@ -960,6 +961,7 @@ class OptimizationDiscoveryPipeline:
                 target_stage_key,
                 qualification["candidateRole"],
                 qualification["geographyState"],
+                qualification["categoryState"],
                 qualification["actionabilityState"],
                 qualification["currentStatusState"],
                 qualification["evidenceReadiness"],
@@ -1261,6 +1263,10 @@ class OptimizationDiscoveryPipeline:
                 != self.configuration_record["snapshot"]["stageKey"]
             ):
                 continue
+            if identity["category_state"] != "confirmed":
+                raise OptimizationPipelineError(
+                    f"Eligible identity {identity['identity_key']} lacks confirmed category fit"
+                )
             identity_sources = sources_by_identity.get(int(identity["id"]), [])
             if not identity_sources:
                 raise OptimizationPipelineError(
@@ -1280,6 +1286,11 @@ class OptimizationDiscoveryPipeline:
                         "identityKey": identity["identity_key"],
                         "boundaryState": identity["boundary_state"],
                         "candidateRole": identity["candidate_role"],
+                        "geographyState": identity["geography_state"],
+                        "categoryState": identity["category_state"],
+                        "actionabilityState": identity["actionability_state"],
+                        "currentStatusState": identity["current_status_state"],
+                        "evidenceReadiness": identity["evidence_readiness"],
                         "qualificationState": identity["promotion_state"],
                         "qualificationReasons": json.loads(
                             identity["promotion_reasons_json"] or "[]"

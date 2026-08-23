@@ -434,6 +434,9 @@ CREATE TABLE IF NOT EXISTS optimization_candidate_identities (
             'confirmed-target', 'confirmed-serves-target', 'unknown', 'outside-target'
         )
     ),
+    category_state TEXT NOT NULL DEFAULT 'unknown' CHECK (
+        category_state IN ('confirmed', 'adjacent-support', 'unknown', 'wrong-category')
+    ),
     actionability_state TEXT NOT NULL DEFAULT 'uncertain' CHECK (
         actionability_state IN ('actionable', 'uncertain', 'informational-only')
     ),
@@ -764,6 +767,7 @@ class ResearchStore:
         identity_qualification_additions = {
             "candidate_role": "TEXT NOT NULL DEFAULT 'unresolved-lead'",
             "geography_state": "TEXT NOT NULL DEFAULT 'unknown'",
+            "category_state": "TEXT NOT NULL DEFAULT 'unknown'",
             "actionability_state": "TEXT NOT NULL DEFAULT 'uncertain'",
             "current_status_state": "TEXT NOT NULL DEFAULT 'uncertain'",
             "evidence_readiness": "TEXT NOT NULL DEFAULT 'lead-only'",

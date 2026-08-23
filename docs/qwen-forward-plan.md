@@ -243,9 +243,10 @@ back to Housing defaults. A
 live unmetered discovery-only run must improve eligible yield or demonstrate
 branch-level saturation before any model inference.
 
-Implementation checkpoint (2026-08-23): `candidate-role-gates-v1` is active in
-the reusable discovery pipeline. Identity review must explicitly record role,
-geography, actionability, current status, and evidence readiness. Scout derives
+Implementation checkpoint (2026-08-23): `candidate-qualification-gates-v2` is
+active in the reusable discovery pipeline. Identity review must explicitly record
+role, geography, target-category fit, actionability, current status, and evidence
+readiness. Scout derives
 promotion deterministically and reports eligible, noncandidate, and
 review-required identities separately. Only `direct-program` and independently
 actionable `access-assessment-service` roles can produce packets; service
@@ -253,6 +254,9 @@ locations, referral systems, directories, organization-only records, package
 duplicates, and weak or unresolved leads remain in the ledger. A directory-only
 source cannot back an eligible packet, and inconsistent qualification decisions
 for the same identity fail closed instead of becoming query-order-dependent.
+Category fit is independent of supplementary completeness: adjacent-support and
+wrong-category programs cannot inflate yield, while missing Housing `petPolicy`
+cannot block an otherwise qualified Housing candidate.
 `prior-result-leads-v1` is also implemented and persisted: historical names and
 URLs produce no candidate or evidence by import, every lead receives a current
 search, and the manifest is hashed into the corpus ledger. The reproducible
@@ -262,8 +266,14 @@ resumes bounded source-to-program-to-destination edges, rejects directories,
 loops, duplicates, category/location mismatches, and unknown playbook stages, and
 keeps edge context out of candidate evidence. Housing and Food integration
 fixtures prove that only a fresh destination fetch can support a promoted
-identity. Building the reviewed Mesa graph and running the appended live branch
-remain in progress.
+identity. The first five-query, versioned coordinated-entry depth branch ran
+against unmetered DDGS while reusing all 112 prior responses. It returned 38 raw
+results and 30 URLs not present in the parent review, including plausible current
+access-service leads for Native American Connections and Community Bridges; most
+other results were policy documents, directories, or irrelevant East Valley
+material. Current-source identity qualification and the branch-level marginal
+eligible-yield decision remain in progress, so none of those raw leads is yet
+counted as a candidate.
 
 ### 4. Freeze the revised first-stage corpus
 

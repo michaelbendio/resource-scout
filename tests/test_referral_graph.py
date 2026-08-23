@@ -226,7 +226,7 @@ class ReferralGraphTests(unittest.TestCase):
         configuration["stageKey"] = "immediate-food"
         configuration["queryPlan"] = {
             "schemaVersion": 4,
-            "candidateQualificationPolicyVersion": "candidate-role-gates-v1",
+            "candidateQualificationPolicyVersion": "candidate-qualification-gates-v2",
             "categoryId": "food",
             "stageKey": "immediate-food",
             "targetLocation": "Mesa",

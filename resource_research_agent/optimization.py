@@ -61,6 +61,12 @@ CANDIDATE_GEOGRAPHY_STATES = {
     "unknown",
     "outside-target",
 }
+CANDIDATE_CATEGORY_STATES = {
+    "confirmed",
+    "adjacent-support",
+    "unknown",
+    "wrong-category",
+}
 CANDIDATE_ACTIONABILITY_STATES = {
     "actionable",
     "uncertain",
@@ -78,7 +84,7 @@ CANDIDATE_EVIDENCE_READINESS_STATES = {
     "lead-only",
     "stale",
 }
-CANDIDATE_QUALIFICATION_POLICY_VERSION = "candidate-role-gates-v1"
+CANDIDATE_QUALIFICATION_POLICY_VERSION = "candidate-qualification-gates-v2"
 
 
 def candidate_qualification(
@@ -102,6 +108,10 @@ def candidate_qualification(
             str(decision.get("geographyState") or "").strip(),
             CANDIDATE_GEOGRAPHY_STATES,
         ),
+        "categoryState": (
+            str(decision.get("categoryState") or "").strip(),
+            CANDIDATE_CATEGORY_STATES,
+        ),
         "actionabilityState": (
             str(decision.get("actionabilityState") or "").strip(),
             CANDIDATE_ACTIONABILITY_STATES,
@@ -123,6 +133,7 @@ def candidate_qualification(
 
     role = values["candidateRole"][0]
     geography = values["geographyState"][0]
+    category = values["categoryState"][0]
     actionability = values["actionabilityState"][0]
     current_status = values["currentStatusState"][0]
     evidence = values["evidenceReadiness"][0]
@@ -140,6 +151,11 @@ def candidate_qualification(
         terminal_noncandidate = True
     elif geography == "unknown":
         reasons.append("service geography is unresolved")
+    if category in {"adjacent-support", "wrong-category"}:
+        reasons.append(f"category state {category} is not a target-category candidate")
+        terminal_noncandidate = True
+    elif category == "unknown":
+        reasons.append("category fit is unresolved")
     if actionability == "informational-only":
         reasons.append("record has no independently actionable access function")
         terminal_noncandidate = True
@@ -164,6 +180,7 @@ def candidate_qualification(
         and package_match_state != "same-program"
         and role in COUNTABLE_CANDIDATE_ROLES
         and geography in {"confirmed-target", "confirmed-serves-target"}
+        and category == "confirmed"
         and actionability == "actionable"
         and current_status == "current"
         and evidence in {"current-authoritative", "current-corroborated"}

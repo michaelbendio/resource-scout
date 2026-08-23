@@ -296,7 +296,7 @@ class CoverageAndSaturationTests(unittest.TestCase):
         )
         self.assertEqual(4, plan["schemaVersion"])
         self.assertEqual(
-            "candidate-role-gates-v1",
+            "candidate-qualification-gates-v2",
             plan["candidateQualificationPolicyVersion"],
         )
         self.assertTrue(all(len(branch["queries"]) == 10 for branch in plan["branches"]))
@@ -364,6 +364,7 @@ class CandidateQualificationTests(unittest.TestCase):
         decision = {
             "candidateRole": "direct-program",
             "geographyState": "confirmed-target",
+            "categoryState": "confirmed",
             "actionabilityState": "actionable",
             "currentStatusState": "current",
             "evidenceReadiness": "current-authoritative",
@@ -395,9 +396,20 @@ class CandidateQualificationTests(unittest.TestCase):
                 )
                 self.assertEqual("noncandidate", result["state"])
 
+    def test_missing_supplementary_pet_policy_does_not_affect_eligibility(self) -> None:
+        decision = self.decision()
+        self.assertNotIn("petPolicy", decision)
+        result = candidate_qualification(
+            decision,
+            boundary_state="resolved",
+            package_match_state="not-matched",
+        )
+        self.assertEqual("eligible", result["state"])
+
     def test_uncertain_or_lead_only_identity_is_preserved_for_review(self) -> None:
         for field, value in (
             ("geographyState", "unknown"),
+            ("categoryState", "unknown"),
             ("actionabilityState", "uncertain"),
             ("currentStatusState", "uncertain"),
             ("evidenceReadiness", "lead-only"),
@@ -423,12 +435,19 @@ class CandidateQualificationTests(unittest.TestCase):
         )
         self.assertEqual("excluded-existing", package_duplicate["state"])
         self.assertEqual("noncandidate", informational["state"])
+        wrong_category = candidate_qualification(
+            self.decision(categoryState="adjacent-support"),
+            boundary_state="resolved",
+            package_match_state="not-matched",
+        )
+        self.assertEqual("noncandidate", wrong_category["state"])
 
     def test_missing_role_contract_fails_closed(self) -> None:
         with self.assertRaisesRegex(ValueError, "candidateRole"):
             candidate_qualification(
                 {
                     "geographyState": "confirmed-target",
+                    "categoryState": "confirmed",
                     "actionabilityState": "actionable",
                     "currentStatusState": "current",
                     "evidenceReadiness": "current-authoritative",

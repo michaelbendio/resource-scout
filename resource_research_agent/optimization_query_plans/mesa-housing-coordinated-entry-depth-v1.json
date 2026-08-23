@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "policyVersion": "targeted-saturation-branch-v1",
+  "branchKey": "coordinated-entry-referral-depth-v1",
+  "purpose": "Continue the unsaturated coordinated-entry branch by following specific Family Housing Hub, Maricopa CoC, and 211 referral relationships to current named programs and access paths.",
+  "parentCorpusSha256": "204ef0cbf2c7d889fc84f544c601bd2bd9b1543a9636a7a9195742c5270e6379",
+  "saturation": {
+    "minimumQueries": 3,
+    "maximumQueries": 5,
+    "consecutiveNoNewIdentityQueries": 3
+  },
+  "queries": [
+    {
+      "key": "coordinated-entry-referral-depth-v1-1",
+      "query": "\"Family Housing Hub at MesaCAN\" Mesa coordinated entry intake",
+      "referralSourceKey": "https://www.fhhub.org/"
+    },
+    {
+      "key": "coordinated-entry-referral-depth-v1-2",
+      "query": "\"Maricopa County\" \"East Valley\" coordinated entry access point",
+      "referralSourceKey": "https://maricopacoc.org/"
+    },
+    {
+      "key": "coordinated-entry-referral-depth-v1-3",
+      "query": "site:fhhub.org \"participating shelters\" \"Mesa\"",
+      "referralSourceKey": "https://www.fhhub.org/"
+    },
+    {
+      "key": "coordinated-entry-referral-depth-v1-4",
+      "query": "site:maricopacoc.org \"coordinated entry\" \"Mesa\" provider",
+      "referralSourceKey": "https://maricopacoc.org/"
+    },
+    {
+      "key": "coordinated-entry-referral-depth-v1-5",
+      "query": "site:211arizona.org \"Mesa\" emergency shelter intake program",
+      "referralSourceKey": "https://211arizona.org/"
+    }
+  ]
+}

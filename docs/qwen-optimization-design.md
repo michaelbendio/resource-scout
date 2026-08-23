@@ -62,10 +62,18 @@ counted candidate. A `service-location`, `referral-system`, `directory`,
 `organization-only`, or `unresolved-lead` remains in the ledger without inflating
 candidate yield. Multiple access sites normally remain attached to one program.
 Splitting requires authoritative evidence of a material program distinction.
-`candidate-role-gates-v1` enforces this before saturation counts or packet
-freezing. Missing gate observations remain `review-required`; terminal
+`candidate-qualification-gates-v2` enforces role, geography, target-category fit,
+actionability, current status, evidence readiness, and package exclusion before
+saturation counts or packet freezing. Missing gate observations remain
+`review-required`; terminal
 noncandidate roles remain in the funnel; contradictory reviewed gate decisions
 for the same identity stop the run for correction.
+
+Target-category fit describes what the program does; it is not a completeness
+score. An adjacent support program does not become a Housing candidate merely
+because it removes a housing barrier. Conversely, a real Housing program remains
+eligible when a supplementary field is unknown. In particular, absent or unknown
+Housing `petPolicy` never affects candidate promotion.
 
 The regression fixtures cover A New Leaf program contact transfer, CASS/Brian Garcia attribution, UMOM/Halle overbundling, and City of Mesa/HAMC-style jurisdiction boundaries.
 
