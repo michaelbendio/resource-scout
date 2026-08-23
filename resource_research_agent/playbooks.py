@@ -20,6 +20,9 @@ class CategoryPlaybook:
     verification_questions: tuple[str, ...]
     evidence_rules: tuple[str, ...]
     resource_gathering_requirements: tuple[dict[str, Any], ...]
+    factual_fields: tuple[str, ...]
+    supplementary_fields: tuple[str, ...]
+    additional_output_fields: tuple[tuple[str, str], ...]
     stages: tuple[dict[str, str], ...]
     library_version: str
     source: str
@@ -54,6 +57,16 @@ def _text_list(value: Any, field: str, path: Path) -> tuple[str, ...]:
     if len(set(result)) != len(result):
         raise RuntimeError(f"{path.name}: {field} contains a duplicate entry")
     return result
+
+
+def _optional_text_list(value: Any, field: str, path: Path) -> tuple[str, ...]:
+    if value is None:
+        return ()
+    if not isinstance(value, list):
+        raise RuntimeError(f"{path.name}: {field} must be a JSON array")
+    if not value:
+        return ()
+    return _text_list(value, field, path)
 
 
 def _stages(value: Any, path: Path) -> tuple[dict[str, str], ...]:
@@ -114,7 +127,47 @@ def _resource_gathering_requirements(
     return tuple(requirements)
 
 
-def _load_library() -> tuple[dict[str, CategoryPlaybook], dict[str, str], str, str]:
+def _additional_output_fields(
+    value: Any, path: Path
+) -> tuple[tuple[str, str], ...]:
+    if value is None:
+        return ()
+    if not isinstance(value, dict):
+        raise RuntimeError(f"{path.name}: additionalOutputFields must be a JSON object")
+    fields = tuple(
+        (
+            _text(key, "additionalOutputFields key", path),
+            _text(description, f"additionalOutputFields.{key}", path),
+        )
+        for key, description in value.items()
+    )
+    if len({key for key, _description in fields}) != len(fields):
+        raise RuntimeError(f"{path.name}: additionalOutputFields contains a duplicate key")
+    return fields
+
+
+def _factual_fields(
+    base_fields: tuple[str, ...],
+    additional_fields: tuple[tuple[str, str], ...],
+    path: Path,
+) -> tuple[str, ...]:
+    ordered = list(base_fields)
+    ordered.extend(field for field, _description in additional_fields)
+    if len(set(ordered)) != len(ordered):
+        raise RuntimeError(
+            f"{path.name}: factual output fields must be unique across the playbook contract"
+        )
+    return tuple(ordered)
+
+
+def _load_library() -> tuple[
+    dict[str, CategoryPlaybook],
+    dict[str, str],
+    str,
+    str,
+    tuple[str, ...],
+    tuple[str, ...],
+]:
     base_path = PLAYBOOK_LIBRARY_DIR / "base.json"
     base = _read_object(base_path)
     if base.get("schemaVersion") != 1:
@@ -127,6 +180,14 @@ def _load_library() -> tuple[dict[str, CategoryPlaybook], dict[str, str], str, s
     resource_gathering_requirements = _resource_gathering_requirements(
         base.get("resourceGatheringRequirements"), base_path
     )
+    base_factual_fields = _text_list(
+        base.get("factualFields"), "factualFields", base_path
+    )
+    base_supplementary_fields = _text_list(
+        base.get("supplementaryFields"), "supplementaryFields", base_path
+    )
+    if not set(base_supplementary_fields) <= set(base_factual_fields):
+        raise RuntimeError("base.json: supplementaryFields must be factualFields")
     playbooks: dict[str, CategoryPlaybook] = {}
     aliases: dict[str, str] = {}
     for path in sorted(PLAYBOOK_LIBRARY_DIR.glob("*.json")):
@@ -148,6 +209,26 @@ def _load_library() -> tuple[dict[str, CategoryPlaybook], dict[str, str], str, s
                 f"{path.name}: assignment may use only the {{service_area}} placeholder"
             )
         assignment = assignment_template.format(service_area=default_service_area)
+        additional_output_fields = _additional_output_fields(
+            value.get("additionalOutputFields"), path
+        )
+        factual_fields = _factual_fields(
+            base_factual_fields, additional_output_fields, path
+        )
+        supplementary_fields = (
+            *base_supplementary_fields,
+            *_optional_text_list(
+                value.get("additionalSupplementaryFields"),
+                "additionalSupplementaryFields",
+                path,
+            ),
+        )
+        if len(set(supplementary_fields)) != len(supplementary_fields):
+            raise RuntimeError(f"{path.name}: supplementary fields must be unique")
+        if not set(supplementary_fields) <= set(factual_fields):
+            raise RuntimeError(
+                f"{path.name}: supplementary fields must be factual output fields"
+            )
         playbook = CategoryPlaybook(
             category_id=category_id,
             label=label,
@@ -159,6 +240,9 @@ def _load_library() -> tuple[dict[str, CategoryPlaybook], dict[str, str], str, s
             ),
             evidence_rules=evidence_rules,
             resource_gathering_requirements=resource_gathering_requirements,
+            factual_fields=factual_fields,
+            supplementary_fields=tuple(supplementary_fields),
+            additional_output_fields=additional_output_fields,
             stages=_stages(value.get("stages"), path),
             library_version=library_version,
             source=path.name,
@@ -175,10 +259,24 @@ def _load_library() -> tuple[dict[str, CategoryPlaybook], dict[str, str], str, s
                     raise RuntimeError(f"{path.name}: alias {alias!r} is already in use")
     if not playbooks:
         raise RuntimeError("The playbook library does not contain any category files")
-    return playbooks, aliases, library_version, default_service_area
+    return (
+        playbooks,
+        aliases,
+        library_version,
+        default_service_area,
+        base_factual_fields,
+        base_supplementary_fields,
+    )
 
 
-PLAYBOOKS, PLAYBOOK_ALIASES, PLAYBOOK_LIBRARY_VERSION, DEFAULT_SERVICE_AREA = _load_library()
+(
+    PLAYBOOKS,
+    PLAYBOOK_ALIASES,
+    PLAYBOOK_LIBRARY_VERSION,
+    DEFAULT_SERVICE_AREA,
+    BASE_FACTUAL_FIELDS,
+    BASE_SUPPLEMENTARY_FIELDS,
+) = _load_library()
 
 
 FOCUSED_RESEARCH_STAGE = ({
@@ -222,6 +320,9 @@ def _generic_playbook(category_id: str, category_label: str) -> CategoryPlaybook
         ),
         evidence_rules=next(iter(PLAYBOOKS.values())).evidence_rules,
         resource_gathering_requirements=next(iter(PLAYBOOKS.values())).resource_gathering_requirements,
+        factual_fields=BASE_FACTUAL_FIELDS,
+        supplementary_fields=BASE_SUPPLEMENTARY_FIELDS,
+        additional_output_fields=(),
         stages=(
             {"key": "direct-access", "title": f"Direct {label} access", "instruction": f"Investigate direct {subject} services a person can use now or soon. Verify the actual provider, service, location or service area, eligibility, schedule, cost, and first access step."},
             {"key": "ongoing-support", "title": f"Ongoing {label} support", "instruction": f"Investigate ongoing, preventive, and longer-term {subject} help, including government benefits, nonprofit programs, referrals, case management, education, and other realistic pathways."},
@@ -254,6 +355,40 @@ def playbook_for(
 
 
 def output_schema(category_label: str) -> dict[str, Any]:
+    playbook = playbook_for(category_label, category_label)
+    candidate_schema = {
+        "name": "Resource or program name",
+        "organization": "Parent organization, if distinct",
+        "program": "Program name, if distinct",
+        "website": "Best direct URL",
+        "address": "Best primary physical, service, or intake address, or blank if none applies",
+        "additionalAddresses": ["Other service locations, with their purpose when known"],
+        "phone": "Best public phone number for beginning access",
+        "additionalPhoneNumbers": ["Other useful phone numbers, with their purpose when known"],
+        "hours": "Published service, office, intake, or access hours, or blank if unknown",
+        "geography": "Area served",
+        "resourceType": f"Concise description of the {category_label.lower()} service",
+        "serviceNeed": "What need this can actually solve and for whom",
+        "accessTimeline": "How soon someone can benefit, or unknown",
+        "description": "Concise factual description",
+        "servicesProvided": ["Specific assistance, programs, benefits, or practical services offered"],
+        "eligibility": ["Who qualifies, including age, income, geography, documentation, and referral requirements"],
+        "whatToExpect": ["What happens when someone calls, visits, or applies, including appointments, waits, intake, paperwork, and language access"],
+        "howToBestConnect": ["Practical tips for successful access, including appointment or walk-in guidance and direct application links"],
+        "additionalNotes": ["Useful strengths, barriers, populations served, or other curator-relevant insights"],
+        "barriers": ["Costs, referrals, documentation, waits, restrictions, transportation, or other barriers"],
+        "availability": {"status": "available, limited, exhausted, suspended, ended, or unknown", "asOf": "YYYY-MM-DD or blank", "evidence": "Source-backed explanation"},
+        "experienceAssessment": {"safety": "Assessment with evidence strength", "conditions": "Practical lived-experience details and limitations"},
+        "recommendedTypes": ["Zero or more exact labels chosen only from categoryBrief.availableTypes"],
+        "recommendedFor": ["Zero or more exact labels chosen only from categoryBrief.availableForGroups"],
+        "classificationRationale": "Why the existing Type and For labels apply; recommend only labels supplied by the package",
+        "suggestedNewTypes": ["Concise Type labels worth human consideration, only when the package taxonomy has a clear gap"],
+        "evidence": [{"url": "Source URL", "title": "Source title", "sourceType": "official, government, news, firsthand, review, blog, transcript, or other", "accessedAt": "YYYY-MM-DD", "publishedAt": "YYYY-MM-DD or blank", "finding": "Relevant fact or carefully attributed experience", "firsthand": False, "reliability": "high, moderate, low, or lead-only"}],
+        "unknowns": ["Questions still requiring research"],
+        "followUpBranches": ["Specific next searches or relationships to pursue"],
+    }
+    for field, description in playbook.additional_output_fields:
+        candidate_schema[field] = description
     return {
         "summary": "A brief plain-language account of the research performed. Do not put an inline numbered list here; use summarySections for readable findings.",
         "summarySections": {
@@ -263,38 +398,7 @@ def output_schema(category_label: str) -> dict[str, Any]:
             "accessSteps": ["Practical first step a person or referrer should take"],
             "gaps": ["Important unmet need or unanswered system-level question"],
         },
-        "candidates": [{
-            "name": "Resource or program name",
-            "organization": "Parent organization, if distinct",
-            "program": "Program name, if distinct",
-            "website": "Best direct URL",
-            "address": "Best primary physical, service, or intake address, or blank if none applies",
-            "additionalAddresses": ["Other service locations, with their purpose when known"],
-            "phone": "Best public phone number for beginning access",
-            "additionalPhoneNumbers": ["Other useful phone numbers, with their purpose when known"],
-            "hours": "Published service, office, intake, or access hours, or blank if unknown",
-            "geography": "Area served",
-            "resourceType": f"Concise description of the {category_label.lower()} service",
-            "serviceNeed": "What need this can actually solve and for whom",
-            "accessTimeline": "How soon someone can benefit, or unknown",
-            "description": "Concise factual description",
-            "servicesProvided": ["Specific assistance, programs, benefits, or practical services offered"],
-            "eligibility": ["Who qualifies, including age, income, geography, documentation, and referral requirements"],
-            "whatToExpect": ["What happens when someone calls, visits, or applies, including appointments, waits, intake, paperwork, and language access"],
-            "howToBestConnect": ["Practical tips for successful access, including appointment or walk-in guidance and direct application links"],
-            "additionalNotes": ["Useful strengths, barriers, populations served, or other curator-relevant insights"],
-            "barriers": ["Costs, referrals, documentation, waits, restrictions, transportation, or other barriers"],
-            "availability": {"status": "available, limited, exhausted, suspended, ended, or unknown", "asOf": "YYYY-MM-DD or blank", "evidence": "Source-backed explanation"},
-            **({"petPolicy": "Pets, service animals, emotional-support animals, fees, or unknown"} if category_label.casefold() == "housing" else {}),
-            "experienceAssessment": {"safety": "Assessment with evidence strength", "conditions": "Practical lived-experience details and limitations"},
-            "recommendedTypes": ["Zero or more exact labels chosen only from categoryBrief.availableTypes"],
-            "recommendedFor": ["Zero or more exact labels chosen only from categoryBrief.availableForGroups"],
-            "classificationRationale": "Why the existing Type and For labels apply; recommend only labels supplied by the package",
-            "suggestedNewTypes": ["Concise Type labels worth human consideration, only when the package taxonomy has a clear gap"],
-            "evidence": [{"url": "Source URL", "title": "Source title", "sourceType": "official, government, news, firsthand, review, blog, transcript, or other", "accessedAt": "YYYY-MM-DD", "publishedAt": "YYYY-MM-DD or blank", "finding": "Relevant fact or carefully attributed experience", "firsthand": False, "reliability": "high, moderate, low, or lead-only"}],
-            "unknowns": ["Questions still requiring research"],
-            "followUpBranches": ["Specific next searches or relationships to pursue"],
-        }],
+        "candidates": [candidate_schema],
         "lessons": [{"scope": "category or general", "text": "Proposed research lesson", "rationale": "What in this run suggests it"}],
     }
 

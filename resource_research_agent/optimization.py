@@ -34,61 +34,13 @@ CONFIGURATION_FIELDS = (
     "queryPlan",
 )
 
-HOUSING_FACTUAL_FIELDS = (
-    "name",
-    "organization",
-    "program",
-    "website",
-    "address",
-    "additionalAddresses",
-    "phone",
-    "additionalPhoneNumbers",
-    "hours",
-    "geography",
-    "resourceType",
-    "serviceNeed",
-    "accessTimeline",
-    "description",
-    "servicesProvided",
-    "eligibility",
-    "whatToExpect",
-    "howToBestConnect",
-    "additionalNotes",
-    "barriers",
-    "availability",
-    "petPolicy",
-    "experienceAssessment",
-)
-
 FIELD_STATES = {"supported", "conflicting", "unknown"}
-HOUSING_STAGE_KEYS = {
-    "urgent-access",
-    "stabilization",
-    "specialized-housing",
-    "long-term-and-gaps",
-}
 SOURCE_AUTHORITIES = {
     "direct-provider",
     "government-referral",
     "reputable-secondary",
     "directory-lead",
 }
-LEAD_ONLY_SENSITIVE_FIELDS = {
-    "address",
-    "additionalAddresses",
-    "phone",
-    "additionalPhoneNumbers",
-    "hours",
-    "geography",
-    "eligibility",
-    "whatToExpect",
-    "howToBestConnect",
-    "barriers",
-    "availability",
-    "petPolicy",
-}
-
-
 def canonical_json(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
@@ -560,7 +512,7 @@ def _binding_matches(binding: dict[str, Any], field: str, value: Any) -> bool:
 def validate_candidate_dossier(
     dossier: dict[str, Any],
     *,
-    required_fields: Iterable[str] = HOUSING_FACTUAL_FIELDS,
+    required_fields: Iterable[str],
 ) -> list[dict[str, str]]:
     issues: list[dict[str, str]] = []
     identity = dossier.get("candidateIdentity")
@@ -752,15 +704,13 @@ def _validate_supported_value(
                     )
             elif scope not in {"program", "organization"}:
                 issues.append(_issue("invalid-evidence-scope", f"Evidence source {source_id} has invalid scope", field=field))
-    if (
-        field in LEAD_ONLY_SENSITIVE_FIELDS
-        and supporting_sources
-        and all(source.get("authority") == "directory-lead" for source in supporting_sources)
+    if supporting_sources and all(
+        source.get("authority") == "directory-lead" for source in supporting_sources
     ):
         issues.append(
             _issue(
-                "lead-only-sensitive-field",
-                "A directory or aggregator cannot be the sole support for this field",
+                "lead-only-field",
+                "A directory or aggregator cannot be the sole support for a factual field",
                 field=field,
             )
         )

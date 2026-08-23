@@ -9,6 +9,7 @@ from resource_research_agent.local_qwen import LOCAL_QWEN_MAX_COMPLETION_TOKENS
 from resource_research_agent.optimization_models import OptimizationModelPipeline
 from resource_research_agent.optimization_runtime import LocalQwenJSONClient, PINNED_MODELS
 from resource_research_agent.mlx_server_workaround import WORKAROUND_VERSION
+from resource_research_agent.playbooks import PLAYBOOK_LIBRARY_VERSION
 from resource_research_agent.storage import ResearchStore
 
 
@@ -35,14 +36,15 @@ if not row:
 configuration = json.loads(row["snapshot_json"])
 configuration.update(
     {
-        "label": f"mesa-housing-urgent-{arguments.quantization}-reviewed-corpus-v9",
+        "label": f"mesa-housing-urgent-{arguments.quantization}-verifier-patch-v10",
         "modelArtifact": PINNED_MODELS[arguments.quantization],
         "quantization": arguments.quantization,
         "modelProvider": "qwen-local",
         "modelEndpoint": "http://127.0.0.1:8080/v1",
         "mlxVersion": f"mlx-lm-0.31.3_2;mlx-0.32.1;{WORKAROUND_VERSION}",
         "dshVersion": "not-used-direct-openai-compatible-endpoint",
-        "promptPolicyVersion": "candidate-dossier-source-binding-v4-and-independent-verifier-source-binding-v4;frozen-candidate-identity-v1",
+        "promptPolicyVersion": "schema-playbook-dossier-v1-and-independent-verifier-decision-patch-v1;frozen-candidate-identity-v1",
+        "playbookVersion": PLAYBOOK_LIBRARY_VERSION,
         "localQwenProxyTimeoutSeconds": 7200,
     }
 )

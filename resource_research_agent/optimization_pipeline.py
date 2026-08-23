@@ -8,7 +8,6 @@ from typing import Any, Callable, Iterable
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from .optimization import (
-    HOUSING_STAGE_KEYS,
     branch_stop_state,
     candidate_identity_key,
     canonical_json,
@@ -18,6 +17,7 @@ from .optimization import (
     package_exclusion_state,
     sha256_json,
 )
+from .playbooks import playbook_for
 from .storage import ResearchStore
 
 
@@ -126,6 +126,10 @@ class OptimizationDiscoveryPipeline:
         self.store = store
         self.configuration = configuration
         self.configuration_record = configuration_snapshot(configuration)
+        self.playbook = playbook_for(
+            str(self.configuration_record["snapshot"]["targetCategoryId"])
+        )
+        self.stage_keys = {stage["key"] for stage in self.playbook.stages}
         self.search = search
         self.fetch = fetch
         self.resolve_identity = resolve_identity
@@ -582,9 +586,9 @@ class OptimizationDiscoveryPipeline:
             decision.get("stageKey")
             or self.configuration_record["snapshot"]["stageKey"]
         ).strip()
-        if target_stage_key not in HOUSING_STAGE_KEYS:
+        if target_stage_key not in self.stage_keys:
             raise OptimizationPipelineError(
-                f"Invalid Housing stage route: {target_stage_key or '(blank)'}"
+                f"Invalid {self.playbook.label} stage route: {target_stage_key or '(blank)'}"
             )
         package_state = "not-matched"
         package_resource_id = None

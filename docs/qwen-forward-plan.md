@@ -1,9 +1,10 @@
 # Qwen forward optimization plan
 
 Status: approved on 2026-08-23. Expanded first-stage comparison v9 is complete
-and selected 8-bit Qwen for continued optimization. This is a staged benchmark
-plan, not a production cutover. Read it with `qwen-optimization-handoff.md`,
-`qwen-optimization-design.md`, and `mesa-qwen-deepseek-benchmark.md`.
+and selected 8-bit Qwen for continued optimization. Steps 1 and 2 are complete;
+step 3 is next. This is a staged benchmark plan, not a production cutover. Read
+it with `qwen-optimization-handoff.md`, `qwen-optimization-design.md`, and
+`mesa-qwen-deepseek-benchmark.md`.
 
 ## Goal
 
@@ -171,10 +172,30 @@ of credible evidence that the candidate is real and relevant. Explicit unknowns,
 ordinary conflicts, weak-but-usable sourcing, uncertain current status, and an
 incomplete verifier checklist produce `needs-review`.
 
+Category playbooks separately identify supplementary fields. A missing, unknown,
+or weakly supported supplementary field never makes a candidate fail or removes
+it from Curator output. In Housing, `petPolicy` is supplementary: even if the
+verifier incorrectly reports an unknown pet policy as a material defect, Scout
+ignores that attempted defect, preserves the field as unknown, and keeps the
+candidate usable with a visible `needs-review` finding.
+
 Gate: deterministic regression tests cover omission, every allowed patch,
 forbidden mutation, restart/resume, and the actual Justa Center `petPolicy`,
 Coordinated Entry `petPolicy`, and UMOM `serviceNeed` losses. The old runs remain
 unchanged and the new policy receives a new provenance label.
+
+Recorded outcome (2026-08-23): playbook library 1.2.0 now owns the factual and
+supplementary field contracts; Housing adds `petPolicy` only through its category
+configuration. The verifier returns a constrained decision patch, cannot rewrite
+identity or sources, preserves omitted extraction fields, and cannot promote a
+supplementary field to a candidate-blocking defect. Exact regression fixtures
+cover the three historical omissions, and a Food integration test proves that
+the reusable discovery and model pipelines derive stages and fields without a
+Housing constant. The v9 comparison coordinator is now a read-only historical
+report rebuild so it cannot accidentally run the new policy under old provenance.
+The gate passed 160 Python tests (one skipped platform check), 20 JavaScript tests,
+the frozen-artifact hash checks, and the stale-symbol trace for the replaced
+whole-dossier verifier path.
 
 ### 3. Expand discovery without gaming candidate count
 

@@ -7,23 +7,26 @@ import zipfile
 from copy import deepcopy
 from pathlib import Path
 
-from resource_research_agent.optimization import (
-    HOUSING_FACTUAL_FIELDS,
-    optimization_resource_id,
-)
+from resource_research_agent.optimization import optimization_resource_id
 from resource_research_agent.optimization_models import (
+    apply_verification_decisions,
     compact_source_bindings,
     OptimizationModelError,
     OptimizationModelPipeline,
     remediate_invalid_factual_fields,
     restore_frozen_candidate_identity,
     restore_frozen_source_envelopes,
+    verification_status,
 )
+from resource_research_agent.playbooks import playbook_for
 from resource_research_agent.optimization_pipeline import OptimizationDiscoveryPipeline
 from resource_research_agent.optimization_outcomes import compare_optimization_run_to_package
 from resource_research_agent.review_export import build_optimization_review_copy
 from resource_research_agent.storage import ResearchStore
 from tests.test_qwen_discovery import FixtureProviders
+
+
+HOUSING_FACTUAL_FIELDS = playbook_for("housing").factual_fields
 
 
 def model_configuration(providers: FixtureProviders, label: str) -> dict:
@@ -36,7 +39,7 @@ def model_configuration(providers: FixtureProviders, label: str) -> dict:
             "modelEndpoint": "http://127.0.0.1:8080/v1",
             "mlxVersion": "fixture-runtime",
             "dshVersion": "0.1.0-rc.6",
-            "promptPolicyVersion": "candidate-dossier-and-verifier-v1",
+            "promptPolicyVersion": "schema-playbook-dossier-v1-and-verifier-decision-patch-v1",
         }
     )
     return value
@@ -77,7 +80,7 @@ class SeededFixtureModels:
                 "status": "unknown",
                 "reason": "Not found in the frozen fixture evidence packet",
             }
-            for field in HOUSING_FACTUAL_FIELDS
+            for field in prompt["requiredFields"]
         }
         program = identity["program"]
         components = [identity_key]
@@ -95,16 +98,6 @@ class SeededFixtureModels:
                 "value": "480-000-0100",
                 "evidenceIds": [sources[0]["id"]],
             }
-        elif program == "Brian Garcia Welcome Center":
-            components = [
-                identity_key,
-                "central arizona shelter services::emergency shelter",
-            ]
-        elif program == "Halle Women's Center":
-            components = [
-                identity_key,
-                "umom new day centers::family shelter",
-            ]
         elif program == "Off the Streets":
             sources[0]["supports"] = [
                 {
@@ -121,14 +114,6 @@ class SeededFixtureModels:
                 "value": "Mesa",
                 "evidenceIds": [sources[0]["id"]],
             }
-        elif program == "State Shelter Referral":
-            identity_key = "arizona housing directory::state shelter referral"
-            identity = {
-                **identity,
-                "organization": "Arizona Housing Directory",
-                "identityKey": identity_key,
-            }
-            components = [identity_key]
         elif program == "Emergency Lodging Program":
             fields["barriers"] = {
                 "status": "supported",
@@ -148,32 +133,21 @@ class SeededFixtureModels:
 
     def verify(self, prompt: dict) -> dict:
         self.verify_prompts.append(deepcopy(prompt))
-        verified = deepcopy(prompt["dossier"])
-        identity = prompt["candidateIdentity"]
-        verified["candidateIdentity"] = {
-            "organization": identity["organization"],
-            "program": identity["program"],
-            "identityKey": identity["identityKey"],
-            "componentIdentityKeys": [identity["identityKey"]],
+        decisions = {
+            field: {"action": "keep"} for field in prompt["requiredFields"]
         }
-        verified["sources"] = deepcopy(prompt["dossier"]["sources"])
         for finding in prompt["deterministicFindings"]:
             field = finding.get("field")
-            if field in verified["fields"]:
-                verified["fields"][field] = {
-                    "status": "unknown",
+            if field in decisions:
+                decisions[field] = {
+                    "action": "downgrade-to-unknown",
                     "reason": f"Removed by verifier: {finding['code']}",
                 }
         return {
             "status": "passed",
-            "verifiedDossier": verified,
-            "findings": [
-                {
-                    "code": finding["code"],
-                    "action": "removed-or-separated",
-                }
-                for finding in prompt["deterministicFindings"]
-            ],
+            "fieldDecisions": decisions,
+            "materialDefects": [],
+            "findings": [],
         }
 
 
@@ -194,11 +168,196 @@ class ModelPipelineTests(unittest.TestCase):
                     "message": "structural defect",
                 },
             ],
+            ["phone"],
         )
         self.assertEqual("unknown", remediated["fields"]["phone"]["status"])
         self.assertEqual("deterministic-field-downgrade", findings[0]["code"])
         self.assertEqual("phone", findings[0]["field"])
         self.assertEqual({"status": "supported", "value": "480-555-0100"}, dossier["fields"]["phone"])
+
+    def test_actual_verifier_omissions_preserve_extraction_and_never_fail_candidate(
+        self,
+    ) -> None:
+        cases = json.loads(
+            (
+                Path(__file__).parent
+                / "fixtures"
+                / "verification_omission_regressions.json"
+            ).read_text(encoding="utf-8")
+        )
+        for case in cases:
+            with self.subTest(program=case["program"], field=case["field"]):
+                dossier = {
+                    "candidateIdentity": {
+                        "organization": case["organization"],
+                        "program": case["program"],
+                    },
+                    "sources": [{"id": "preserved-source"}],
+                    "fields": {
+                        field: {
+                            "status": "unknown",
+                            "reason": "Not found in regression fixture",
+                        }
+                        for field in HOUSING_FACTUAL_FIELDS
+                    },
+                }
+                dossier["fields"][case["field"]] = case["extractedFinding"]
+                response = {
+                    "status": "passed",
+                    "fieldDecisions": {
+                        field: {"action": "keep"}
+                        for field in HOUSING_FACTUAL_FIELDS
+                        if field != case["field"]
+                    },
+                    "materialDefects": [],
+                }
+
+                verified, findings, material_defects = apply_verification_decisions(
+                    dossier, response, HOUSING_FACTUAL_FIELDS
+                )
+                self.assertEqual(
+                    case["extractedFinding"], verified["fields"][case["field"]]
+                )
+                self.assertEqual(dossier["candidateIdentity"], verified["candidateIdentity"])
+                self.assertEqual(dossier["sources"], verified["sources"])
+                self.assertEqual([], material_defects)
+                self.assertEqual(
+                    [("verification-incomplete", case["field"])],
+                    [
+                        (finding["code"], finding.get("field"))
+                        for finding in findings
+                    ],
+                )
+                self.assertEqual(
+                    "needs-review",
+                    verification_status(
+                        final_issues=[],
+                        material_defects=material_defects,
+                        review_findings=findings,
+                        requested_status="passed",
+                    ),
+                )
+
+    def test_pet_policy_cannot_be_promoted_to_candidate_blocking_defect(self) -> None:
+        dossier = {
+            "candidateIdentity": {"organization": "Example", "program": "Shelter"},
+            "sources": [],
+            "fields": {
+                field: {"status": "unknown", "reason": "Not found"}
+                for field in HOUSING_FACTUAL_FIELDS
+            },
+        }
+        verified, findings, defects = apply_verification_decisions(
+            dossier,
+            {
+                "status": "passed",
+                "fieldDecisions": {
+                    field: {"action": "keep"} for field in HOUSING_FACTUAL_FIELDS
+                },
+                "materialDefects": [
+                    {
+                        "code": "unsupported-safety-critical-claim",
+                        "field": "petPolicy",
+                        "reason": "The pet policy is not known.",
+                    }
+                ],
+            },
+            HOUSING_FACTUAL_FIELDS,
+            playbook_for("housing").supplementary_fields,
+        )
+        self.assertEqual(dossier["fields"]["petPolicy"], verified["fields"]["petPolicy"])
+        self.assertEqual([], defects)
+        self.assertIn(
+            "nonblocking-field-material-defect",
+            {finding["code"] for finding in findings},
+        )
+        self.assertEqual(
+            "needs-review",
+            verification_status(
+                final_issues=[],
+                material_defects=defects,
+                review_findings=findings,
+                requested_status="passed",
+            ),
+        )
+
+    def test_invented_field_cannot_become_safety_critical_blocking_defect(self) -> None:
+        dossier = {
+            "candidateIdentity": {"organization": "Example", "program": "Shelter"},
+            "sources": [],
+            "fields": {
+                field: {"status": "unknown", "reason": "Not found"}
+                for field in HOUSING_FACTUAL_FIELDS
+            },
+        }
+        _verified, findings, defects = apply_verification_decisions(
+            dossier,
+            {
+                "status": "passed",
+                "fieldDecisions": {
+                    field: {"action": "keep"} for field in HOUSING_FACTUAL_FIELDS
+                },
+                "materialDefects": [
+                    {
+                        "code": "unsupported-safety-critical-claim",
+                        "field": "petsAllowed",
+                        "reason": "The verifier invented an out-of-contract field.",
+                    }
+                ],
+            },
+            HOUSING_FACTUAL_FIELDS,
+            playbook_for("housing").supplementary_fields,
+        )
+        self.assertEqual([], defects)
+        self.assertIn("invalid-material-defect", {finding["code"] for finding in findings})
+
+    def test_verifier_patch_cannot_mutate_identity_sources_or_unlisted_fields(self) -> None:
+        dossier = {
+            "candidateIdentity": {"organization": "Example", "program": "Food Box"},
+            "sources": [{"id": "source-1", "url": "https://example.org"}],
+            "fields": {
+                "phone": {"status": "supported", "value": "480-555-0100"},
+                "hours": {"status": "unknown", "reason": "Not published"},
+            },
+        }
+        verified, findings, defects = apply_verification_decisions(
+            dossier,
+            {
+                "fieldDecisions": {
+                    "phone": {
+                        "action": "downgrade-to-unknown",
+                        "reason": "The cited source describes another program.",
+                    },
+                    "hours": {
+                        "action": "mark-conflicting",
+                        "reason": "Two current official schedules conflict.",
+                        "alternatives": [
+                            {"value": "Weekdays", "evidenceIds": ["source-1"]},
+                            {"value": "Daily", "evidenceIds": ["source-2"]},
+                        ],
+                    },
+                    "inventedField": {"action": "keep"},
+                },
+                "candidateIdentity": {"organization": "Mutated"},
+                "sources": [],
+                "materialDefects": [],
+            },
+            ["phone", "hours"],
+        )
+        self.assertEqual(dossier["candidateIdentity"], verified["candidateIdentity"])
+        self.assertEqual(dossier["sources"], verified["sources"])
+        self.assertEqual("unknown", verified["fields"]["phone"]["status"])
+        self.assertEqual("conflicting", verified["fields"]["hours"]["status"])
+        self.assertNotIn("inventedField", verified["fields"])
+        self.assertEqual([], defects)
+        self.assertIn(
+            "invalid-verifier-decision-field",
+            {finding["code"] for finding in findings},
+        )
+        self.assertIn(
+            "forbidden-verifier-rewrite",
+            {finding["code"] for finding in findings},
+        )
 
     def test_frozen_source_envelope_is_restored_without_hiding_invented_ids(self) -> None:
         packet = {
@@ -331,8 +490,8 @@ class ModelPipelineTests(unittest.TestCase):
 
         self.assertTrue(result.quality_gate_passed)
         self.assertEqual(8, result.packet_count)
-        self.assertEqual(8, result.passed_count)
-        self.assertEqual(0, result.needs_review_count)
+        self.assertEqual(6, result.passed_count)
+        self.assertEqual(2, result.needs_review_count)
         self.assertEqual(0, result.failed_count)
         self.assertEqual(1, result.supported_field_count)
         self.assertEqual(8 * len(HOUSING_FACTUAL_FIELDS) - 1, result.unknown_field_count)
@@ -359,7 +518,8 @@ class ModelPipelineTests(unittest.TestCase):
         )
         self.assertTrue(
             all(
-                prompt["operation"] == "verify-candidate-dossier-fresh-context"
+                prompt["operation"]
+                == "verify-candidate-dossier-decision-patch-fresh-context"
                 for prompt in models.verify_prompts
             )
         )
@@ -411,6 +571,73 @@ class ModelPipelineTests(unittest.TestCase):
             sum(len(candidate["unknowns"]) for candidate in candidates),
         )
         self.assertTrue(any(candidate.get("phone") == "480-000-0100" for candidate in candidates))
+
+    def test_non_housing_pipeline_uses_the_selected_playbook_field_contract(self) -> None:
+        store = ResearchStore(Path(self.temporary.name) / "food.sqlite3")
+        providers = FixtureProviders()
+        discovery_configuration = providers.configuration("food-fixture-discovery")
+        discovery_configuration["targetCategoryId"] = "food"
+        discovery_configuration["stageKey"] = "immediate-food"
+        discovery_configuration["queryPlan"] = deepcopy(
+            discovery_configuration["queryPlan"]
+        )
+        discovery_configuration["queryPlan"]["categoryId"] = "food"
+        discovery_configuration["queryPlan"]["stageKey"] = "immediate-food"
+
+        def resolve_food(result: dict) -> dict | list[dict] | None:
+            resolved = providers.resolve(result)
+            if isinstance(resolved, list):
+                retained = [
+                    {**item, "stageKey": "immediate-food"}
+                    for item in resolved
+                    if item.get("stageKey", "urgent-access") == "urgent-access"
+                ]
+                return retained or None
+            if isinstance(resolved, dict):
+                if resolved.get("stageKey", "urgent-access") != "urgent-access":
+                    return None
+                return {**resolved, "stageKey": "immediate-food"}
+            return None
+
+        corpus = OptimizationDiscoveryPipeline(
+            store,
+            discovery_configuration,
+            search=providers.search,
+            fetch=providers.fetch,
+            resolve_identity=resolve_food,
+            existing_resources=providers.fixture["existingResources"],
+        ).run()
+        configuration = model_configuration(providers, "food-fixture-model")
+        for field in ("targetCategoryId", "stageKey", "queryPlan"):
+            configuration[field] = deepcopy(discovery_configuration[field])
+        models = SeededFixtureModels()
+        result = OptimizationModelPipeline(
+            store,
+            configuration,
+            corpus.corpus_id,
+            extract=models.extract,
+            verify=models.verify,
+        ).run()
+
+        food_fields = playbook_for("food").factual_fields
+        self.assertNotIn("petPolicy", food_fields)
+        self.assertTrue(
+            all(prompt["requiredFields"] == list(food_fields) for prompt in models.extract_prompts)
+        )
+        self.assertTrue(
+            all(prompt["requiredFields"] == list(food_fields) for prompt in models.verify_prompts)
+        )
+        self.assertEqual(result.packet_count * len(food_fields), result.supported_field_count + result.conflicting_field_count + result.unknown_field_count)
+        with store.connect() as connection:
+            dossiers = connection.execute(
+                "SELECT verified_dossier_json FROM optimization_verifications"
+            ).fetchall()
+        self.assertTrue(
+            all(
+                "petPolicy" not in json.loads(row["verified_dossier_json"])["fields"]
+                for row in dossiers
+            )
+        )
 
     def test_inspection_open_does_not_recover_an_active_model_attempt(self) -> None:
         configuration_id = self.store.save_optimization_configuration(
@@ -516,11 +743,10 @@ class ModelPipelineTests(unittest.TestCase):
             if program == "Rapid Re-Housing":
                 return {**result, "status": "needs-review"}
             if program == "Brian Garcia Welcome Center":
-                result["verifiedDossier"]["sources"].append(
+                result["materialDefects"].append(
                     {
-                        "id": "invented-source",
-                        "supports": [],
-                        "contradicts": [],
+                        "code": "identity-conflation",
+                        "reason": "Fixture material identity defect",
                     }
                 )
             return result
@@ -532,8 +758,8 @@ class ModelPipelineTests(unittest.TestCase):
         )
         mixed_result = mixed_pipeline.run()
         self.assertFalse(mixed_result.quality_gate_passed)
-        self.assertEqual(6, mixed_result.passed_count)
-        self.assertEqual(1, mixed_result.needs_review_count)
+        self.assertEqual(4, mixed_result.passed_count)
+        self.assertEqual(3, mixed_result.needs_review_count)
         self.assertEqual(1, mixed_result.failed_count)
         self.assertEqual(7, len(mixed_pipeline.verified_candidates(mixed_result.run_id)))
         with self.store.connect() as connection:
@@ -551,9 +777,9 @@ class ModelPipelineTests(unittest.TestCase):
                     (mixed_result.run_id,),
                 ).fetchone()["report_json"]
             )
-        self.assertEqual(1, completeness["needsReviewCount"])
+        self.assertEqual(3, completeness["needsReviewCount"])
         self.assertEqual(1, completeness["failedCount"])
-        self.assertEqual(1, quality["verificationNeedsReview"])
+        self.assertEqual(3, quality["verificationNeedsReview"])
         self.assertEqual(1, quality["verificationFailures"])
         review = build_optimization_review_copy(
             self.store,
@@ -634,11 +860,12 @@ class ModelPipelineTests(unittest.TestCase):
         def leave_unsupported_phone(prompt: dict) -> dict:
             result = models.verify(prompt)
             if prompt["candidateIdentity"]["program"] == "Rapid Re-Housing":
-                source_id = result["verifiedDossier"]["sources"][0]["id"]
-                result["verifiedDossier"]["fields"]["phone"] = {
-                    "status": "supported",
-                    "value": "480-555-0199",
-                    "evidenceIds": [source_id],
+                result["fieldDecisions"]["phone"] = {
+                    "action": "mark-conflicting",
+                    "reason": "Fixture returns an invalid one-value conflict",
+                    "alternatives": [
+                        {"value": "480-555-0199", "evidenceIds": ["1"]}
+                    ],
                 }
             return result
 
@@ -649,8 +876,8 @@ class ModelPipelineTests(unittest.TestCase):
         )
         result = pipeline.run()
         self.assertTrue(result.quality_gate_passed)
-        self.assertEqual(7, result.passed_count)
-        self.assertEqual(1, result.needs_review_count)
+        self.assertEqual(5, result.passed_count)
+        self.assertEqual(3, result.needs_review_count)
         self.assertEqual(0, result.failed_count)
         with self.store.connect() as connection:
             row = connection.execute(

@@ -100,7 +100,7 @@ A Clothing/Household stage currently produces a prompt of roughly 7,700 characte
     }
   },
   "categoryBrief": {
-    "playbookVersion": "1.0.0",
+    "playbookVersion": "1.2.0",
     "playbookSource": "clothing-household.json",
     "availableTypes": [],
     "availableForGroups": ["Families with children", "Seniors", "Veterans"],

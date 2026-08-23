@@ -195,7 +195,7 @@ class ResearchWorkflowTests(unittest.TestCase):
         self.assertEqual("Legal", legal["targetCategoryLabel"])
         self.assertEqual("legal-urgent", legal["stages"][0]["key"])
         self.assertIn("civil legal help", legal["assignment"])
-        self.assertEqual("1.1.0", legal["prompt"]["categoryBrief"]["playbookVersion"])
+        self.assertEqual("1.2.0", legal["prompt"]["categoryBrief"]["playbookVersion"])
         self.assertEqual("legal.json", legal["prompt"]["categoryBrief"]["playbookSource"])
         self.assertTrue(legal["prompt"]["categoryBrief"]["exclude"])
         self.assertTrue(legal["prompt"]["categoryBrief"]["verificationQuestions"])

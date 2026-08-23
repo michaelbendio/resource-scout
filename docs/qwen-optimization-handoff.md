@@ -2,9 +2,10 @@
 
 Status: Checkpoints A through D are implemented. Expanded comparison v9 completed
 on 2026-08-23 over 22 identical first-stage Housing packets and selected 8-bit
-Qwen on quality before timing was revealed. Michael approved the revised
-candidate gates, verifier contract, discovery expansion, Curator validation, and
-seven-step forward plan. No production cutover is authorized.
+Qwen on quality before timing was revealed. Forward-plan steps 1 and 2 are
+complete; step 3 is next. Michael approved the revised candidate gates, verifier
+contract, discovery expansion, Curator validation, and seven-step forward plan.
+No production cutover is authorized.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
@@ -149,18 +150,22 @@ Recent corrections are separately committed and pushed:
 
 The frozen verifier distinguishes `passed`, `needs-review`, and true `failed`. A
 `needs-review` dossier remains usable Curator material with its findings attached.
-The approved next verifier will return a constrained decision patch instead of a
+The implemented next verifier returns a constrained decision patch instead of a
 rewritten dossier. This corrects omission loss without weakening source,
 attribution, identity, geography, or safety standards. It receives a new policy
-label and does not rewrite historical results.
+label and does not rewrite historical results. The category playbook classifies
+Housing `petPolicy` as supplementary, so missing or unknown pet-policy information
+cannot fail or exclude a candidate; it remains visible as unknown in usable
+Curator material.
 
 Michael requested that the three 4-bit v9 completeness failures remain preserved
 without manual reclassification until a discussion after forward-plan step 7. The
 discussion must cover two `missing-field-state: petPolicy` failures, one
-`missing-field-state: serviceNeed` failure, whether unknown pet policy should ever
-exclude an otherwise valid candidate, and how to recover the dossiers without
-weakening verification. Remind Michael after step 7; do not silently discard or
-reclassify these dossiers before that discussion.
+`missing-field-state: serviceNeed` failure, and how to recover the dossiers without
+weakening verification. Michael has decided that unknown pet policy must not
+exclude an otherwise valid candidate; preserve that decision during the later
+historical-failure discussion. Remind Michael after step 7; do not silently
+discard or reclassify these historical dossiers before that discussion.
 
 Any semantic correction requires a new provenance label; do not overwrite or pool
 evidence from a different configuration.
@@ -370,7 +375,11 @@ Use a separate Qwen call with no access to the first call's reasoning. Give it t
 - missing required fields;
 - whether each source actually supports the stated claim.
 
-The verifier may flag, remove, or downgrade claims. It must not invent replacement facts.
+The verifier returns constrained keep, downgrade-to-unknown, mark-conflicting, and
+review decisions plus separately coded material defects. Scout applies the patch
+to the validated extraction dossier. Verifier omission preserves the extraction
+field and creates `verification-incomplete`; it cannot delete a claim or candidate
+silently. The verifier must not invent replacement facts.
 
 Test: seeded attribution errors and program conflations are caught before candidate emission.
 

@@ -1,0 +1,30 @@
+[
+  {
+    "organization": "Justa Center",
+    "program": "Resource and Day Center",
+    "field": "petPolicy",
+    "extractedFinding": {
+      "status": "unknown",
+      "reason": "No pet policy information mentioned in available sources."
+    }
+  },
+  {
+    "organization": "Maricopa Regional Continuum of Care",
+    "program": "Coordinated Entry",
+    "field": "petPolicy",
+    "extractedFinding": {
+      "status": "unknown",
+      "reason": "No pet policy information for the Coordinated Entry program is provided in any source; pet-related mentions in sources refer to individual shelters, not the coordinated entry process."
+    }
+  },
+  {
+    "organization": "UMOM New Day Centers",
+    "program": "New Day Center Family Emergency Shelter",
+    "field": "serviceNeed",
+    "extractedFinding": {
+      "status": "supported",
+      "value": "vulnerable and at-risk households with children experiencing homelessness",
+      "evidenceIds": ["237"]
+    }
+  }
+]

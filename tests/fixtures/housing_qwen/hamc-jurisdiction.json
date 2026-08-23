@@ -2,7 +2,7 @@
   "name": "Official HAMC jurisdiction evidence cannot be displaced by a directory",
   "requiredFields": ["geography"],
   "expectedIssueCodes": [
-    "lead-only-sensitive-field",
+    "lead-only-field",
     "unresolved-conflict",
     "contradicted-field"
   ],

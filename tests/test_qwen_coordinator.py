@@ -10,9 +10,9 @@ class CoordinatorTests(unittest.TestCase):
     def test_coordinator_explicitly_removes_deepseek_key(self) -> None:
         source = (Path(__file__).parents[1] / "run-qwen-quantization-comparison.py").read_text()
         self.assertIn('environment.pop("DEEPSEEK_API_KEY", None)', source)
-        self.assertEqual(["4-bit", "8-bit"], list(__import__(
-            "resource_research_agent.optimization_runtime", fromlist=["PINNED_MODELS"]
-        ).PINNED_MODELS))
+        self.assertNotIn("subprocess", source)
+        self.assertNotIn("run-qwen-housing-model.py", source)
+        self.assertIn("will not start inference under a newer policy", source)
 
     def test_corrected_comparison_uses_separate_v9_provenance(self) -> None:
         root = Path(__file__).parents[1]
@@ -20,6 +20,8 @@ class CoordinatorTests(unittest.TestCase):
         runner = (root / "run-qwen-housing-model.py").read_text()
         self.assertIn("reviewed-corpus-v9", coordinator)
         self.assertIn("quantization-v9", coordinator)
+        self.assertIn("verifier-patch-v10", runner)
+        self.assertIn("verifier-decision-patch-v1", runner)
         self.assertIn('"modelMaxCompletionTokens": LOCAL_QWEN_MAX_COMPLETION_TOKENS', runner)
         self.assertIn('"localQwenProxyTimeoutSeconds": 7200', runner)
 

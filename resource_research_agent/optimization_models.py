@@ -6,17 +6,32 @@ from datetime import datetime, timezone
 from typing import Any, Callable, Iterable
 
 from .optimization import (
-    HOUSING_FACTUAL_FIELDS,
     canonical_json,
     configuration_snapshot,
     sha256_json,
     validate_candidate_dossier,
 )
+from .playbooks import playbook_for
 from .storage import ResearchStore
 
 
 ModelCallback = Callable[[dict[str, Any]], "ModelInvocation | dict[str, Any]"]
 ProgressCallback = Callable[[dict[str, Any]], None]
+
+VERIFICATION_FIELD_ACTIONS = {
+    "keep",
+    "downgrade-to-unknown",
+    "mark-conflicting",
+    "flag-review",
+}
+VERIFICATION_MATERIAL_DEFECTS = {
+    "identity-conflation",
+    "wrong-category",
+    "wrong-geography",
+    "altered-or-invented-source",
+    "unsupported-safety-critical-claim",
+    "candidate-not-credible",
+}
 
 
 class OptimizationModelError(RuntimeError):
@@ -212,9 +227,11 @@ def recompute_model_evaluation_audits(store: ResearchStore, run_id: int) -> None
 
 
 def validate_dossier_for_packet(
-    dossier: dict[str, Any], packet: dict[str, Any]
+    dossier: dict[str, Any],
+    packet: dict[str, Any],
+    required_fields: Iterable[str],
 ) -> list[dict[str, str]]:
-    issues = validate_candidate_dossier(dossier)
+    issues = validate_candidate_dossier(dossier, required_fields=required_fields)
     dossier_identity = dossier.get("candidateIdentity", {})
     packet_identity = packet.get("candidateIdentity", {})
     if dossier_identity.get("identityKey") != packet_identity.get("identityKey"):
@@ -336,27 +353,30 @@ def restore_frozen_candidate_identity(
 def remediate_invalid_factual_fields(
     dossier: dict[str, Any],
     issues: Iterable[dict[str, str]],
+    required_fields: Iterable[str],
 ) -> tuple[dict[str, Any], list[dict[str, str]]]:
     """Remove residual factual claims that Scout's validator cannot substantiate.
 
     This is deliberately narrower than repairing an arbitrary invalid dossier. It may
-    only replace a Housing factual-field finding with an explicit unknown. Identity,
+    only replace a schema-required factual-field finding with an explicit unknown. Identity,
     source-envelope, and other structural defects remain failures for human diagnosis.
     """
 
     remediated = json.loads(canonical_json(dossier))
-    fields = remediated.get("fields")
+    fields = remediated.setdefault("fields", {})
     if not isinstance(fields, dict):
         return remediated, []
+    required = tuple(required_fields)
+    required_set = set(required)
     codes_by_field: dict[str, set[str]] = {}
     for issue in issues:
         field = str(issue.get("field") or "")
         code = str(issue.get("code") or "")
-        if field not in HOUSING_FACTUAL_FIELDS or field not in fields or not code:
+        if field not in required_set or not code:
             continue
         codes_by_field.setdefault(field, set()).add(code)
     findings = []
-    for field in HOUSING_FACTUAL_FIELDS:
+    for field in required:
         codes = sorted(codes_by_field.get(field, ()))
         if not codes:
             continue
@@ -381,6 +401,216 @@ def remediate_invalid_factual_fields(
     return remediated, findings
 
 
+def apply_verification_decisions(
+    dossier: dict[str, Any],
+    response: dict[str, Any],
+    required_fields: Iterable[str],
+    non_blocking_fields: Iterable[str] = (),
+) -> tuple[dict[str, Any], list[dict[str, Any]], list[dict[str, Any]]]:
+    """Apply a verifier's constrained decisions without accepting dossier rewrites.
+
+    Missing or invalid field decisions preserve the validated extraction field and
+    create a review finding. Material defects are reported separately and never
+    mutate the dossier.
+    """
+
+    verified = json.loads(canonical_json(dossier))
+    fields = verified.setdefault("fields", {})
+    if not isinstance(fields, dict):
+        fields = {}
+        verified["fields"] = fields
+    required = tuple(required_fields)
+    required_set = set(required)
+    non_blocking_set = set(non_blocking_fields)
+    decisions = response.get("fieldDecisions")
+    if not isinstance(decisions, dict):
+        decisions = {}
+    decision_findings: list[dict[str, Any]] = []
+    forbidden_rewrites = sorted(
+        {"verifiedDossier", "candidateIdentity", "fields", "sources"} & set(response)
+    )
+    if forbidden_rewrites:
+        decision_findings.append(
+            {
+                "code": "forbidden-verifier-rewrite",
+                "action": "ignored",
+                "reason": (
+                    "Verifier attempted to replace Scout-owned data: "
+                    + ", ".join(forbidden_rewrites)
+                ),
+            }
+        )
+
+    for field in required:
+        decision = decisions.get(field)
+        if not isinstance(decision, dict):
+            decision_findings.append(
+                {
+                    "code": "verification-incomplete",
+                    "field": field,
+                    "action": "preserved",
+                    "reason": "Verifier returned no decision for this required field.",
+                }
+            )
+            continue
+        action = str(decision.get("action") or "")
+        reason = str(decision.get("reason") or "").strip()
+        if action not in VERIFICATION_FIELD_ACTIONS:
+            decision_findings.append(
+                {
+                    "code": "invalid-verifier-decision",
+                    "field": field,
+                    "action": "preserved",
+                    "reason": f"Unsupported verifier action {action or '(blank)'!r}.",
+                }
+            )
+            continue
+        if action == "keep":
+            continue
+        if not reason:
+            decision_findings.append(
+                {
+                    "code": "invalid-verifier-decision",
+                    "field": field,
+                    "action": "preserved",
+                    "reason": f"Verifier action {action!r} requires an evidence-based reason.",
+                }
+            )
+            continue
+        if action == "downgrade-to-unknown":
+            fields[field] = {"status": "unknown", "reason": reason}
+            decision_findings.append(
+                {
+                    "code": "verifier-field-downgrade",
+                    "field": field,
+                    "action": "downgraded",
+                    "reason": reason,
+                }
+            )
+        elif action == "mark-conflicting":
+            alternatives = decision.get("alternatives")
+            if not isinstance(alternatives, list):
+                decision_findings.append(
+                    {
+                        "code": "invalid-verifier-decision",
+                        "field": field,
+                        "action": "preserved",
+                        "reason": "A conflicting decision requires source-bound alternatives.",
+                    }
+                )
+                continue
+            fields[field] = {
+                "status": "conflicting",
+                "alternatives": json.loads(canonical_json(alternatives)),
+            }
+            decision_findings.append(
+                {
+                    "code": "verifier-field-conflict",
+                    "field": field,
+                    "action": "marked-conflicting",
+                    "reason": reason,
+                }
+            )
+        else:
+            decision_findings.append(
+                {
+                    "code": "verifier-review-flag",
+                    "field": field,
+                    "action": "flagged",
+                    "reason": reason,
+                }
+            )
+
+    for field in sorted(set(decisions) - required_set):
+        decision_findings.append(
+            {
+                "code": "invalid-verifier-decision-field",
+                "field": str(field),
+                "action": "ignored",
+                "reason": "Verifier returned a decision for a field outside this playbook contract.",
+            }
+        )
+
+    material_defects: list[dict[str, Any]] = []
+    raw_material_defects = response.get("materialDefects", [])
+    if not isinstance(raw_material_defects, list):
+        raw_material_defects = [
+            {
+                "code": "invalid-material-defect",
+                "reason": "Verifier materialDefects must be an array.",
+            }
+        ]
+    for raw_defect in raw_material_defects:
+        if not isinstance(raw_defect, dict):
+            decision_findings.append(
+                {
+                    "code": "invalid-material-defect",
+                    "action": "ignored",
+                    "reason": "Verifier material defect was not an object.",
+                }
+            )
+            continue
+        code = str(raw_defect.get("code") or "")
+        reason = str(raw_defect.get("reason") or "").strip()
+        field = str(raw_defect.get("field") or "")
+        if (
+            code not in VERIFICATION_MATERIAL_DEFECTS
+            or not reason
+            or (
+                code == "unsupported-safety-critical-claim"
+                and field not in required_set
+            )
+        ):
+            decision_findings.append(
+                {
+                    "code": "invalid-material-defect",
+                    "field": str(raw_defect.get("field") or ""),
+                    "action": "ignored",
+                    "reason": "Verifier material defect used an unsupported code or lacked a reason.",
+                }
+            )
+            continue
+        if field and field in non_blocking_set:
+            decision_findings.append(
+                {
+                    "code": "nonblocking-field-material-defect",
+                    "field": field,
+                    "action": "ignored",
+                    "reason": (
+                        "This playbook classifies the field as supplementary; "
+                        "downgrade or flag it without rejecting the candidate."
+                    ),
+                }
+            )
+            continue
+        material_defects.append(
+            {
+                "code": code,
+                "reason": reason,
+                **(
+                    {"field": field}
+                    if field
+                    else {}
+                ),
+            }
+        )
+    return verified, decision_findings, material_defects
+
+
+def verification_status(
+    *,
+    final_issues: Iterable[dict[str, Any]],
+    material_defects: Iterable[dict[str, Any]],
+    review_findings: Iterable[dict[str, Any]],
+    requested_status: str,
+) -> str:
+    if tuple(final_issues) or tuple(material_defects):
+        return "failed"
+    if tuple(review_findings) or requested_status != "passed":
+        return "needs-review"
+    return "passed"
+
+
 class OptimizationModelPipeline:
     def __init__(
         self,
@@ -396,8 +626,11 @@ class OptimizationModelPipeline:
         self.store = store
         self.configuration = configuration
         self.configuration_record = configuration_snapshot(configuration)
-        if self.configuration_record["snapshot"]["quantization"] not in {"4-bit", "8-bit"}:
+        snapshot = self.configuration_record["snapshot"]
+        if snapshot["quantization"] not in {"4-bit", "8-bit"}:
             raise ValueError("Candidate extraction requires a 4-bit or 8-bit configuration")
+        self.playbook = playbook_for(str(snapshot["targetCategoryId"]))
+        self.required_fields = self.playbook.factual_fields
         self.corpus_id = int(corpus_id)
         self.extract = extract
         self.verify = verify
@@ -542,7 +775,7 @@ class OptimizationModelPipeline:
                 "Return unknown with a reason instead of inferring a missing fact.",
                 "Do not transfer facts between programs in the same organization.",
             ],
-            "requiredFields": list(HOUSING_FACTUAL_FIELDS),
+            "requiredFields": list(self.required_fields),
             "outputContract": {
                 "candidateIdentity": {
                     "organization": "copy from evidencePacket.candidateIdentity",
@@ -648,18 +881,26 @@ class OptimizationModelPipeline:
             ).fetchone()
         if existing:
             return
-        deterministic_findings = validate_dossier_for_packet(dossier, packet)
+        deterministic_findings = validate_dossier_for_packet(
+            dossier, packet, self.required_fields
+        )
         prompt = {
-            "operation": "verify-candidate-dossier-fresh-context",
+            "operation": "verify-candidate-dossier-decision-patch-fresh-context",
             "instructions": [
                 "Check the dossier independently against only the supplied identity and sources.",
-                "Remove, downgrade, or flag unsupported or misattributed claims.",
+                "Return one explicit decision for every required factual field.",
+                "Use keep when the validated extraction field is supported as written.",
+                "Use downgrade-to-unknown for an unsupported or misattributed claim.",
+                "Use mark-conflicting only for source-bound incompatible values.",
+                "Use flag-review when the field is usable but needs human attention.",
+                "Report material identity, category, geography, source, safety, or credibility defects separately.",
                 "Do not invent replacement facts.",
-                "Every factual field must finish supported, conflicting, or unknown.",
+                "Do not return or rewrite the dossier, identity, or source envelopes.",
             ],
             "candidateIdentity": packet["candidateIdentity"],
             "sources": packet["sources"],
             "dossier": compact_source_bindings(dossier),
+            "requiredFields": list(self.required_fields),
             "deterministicFindings": deterministic_findings,
             "checklist": [
                 "source-to-field attribution",
@@ -672,15 +913,28 @@ class OptimizationModelPipeline:
             ],
             "outputContract": {
                 "status": "passed or needs-review",
-                "verifiedDossier": {
-                    "candidateIdentity": "the complete corrected candidate identity",
-                    "fields": "every corrected required factual field",
-                    "sources": (
-                        "Each used source with only id, supports, and contradicts. Scout restores "
-                        "immutable URL, title, extract, authority, pageIdentityKey, and "
-                        "pageOrganizationKey from the frozen evidence packet after this response."
-                    ),
+                "fieldDecisions": {
+                    "each exact required field": {
+                        "action": (
+                            "keep, downgrade-to-unknown, mark-conflicting, or flag-review"
+                        ),
+                        "reason": "required for every action except keep",
+                        "alternatives": (
+                            "required only for mark-conflicting; each item has exact value and evidenceIds"
+                        ),
+                    }
                 },
+                "materialDefects": [
+                    {
+                        "code": (
+                            "identity-conflation, wrong-category, wrong-geography, "
+                            "altered-or-invented-source, unsupported-safety-critical-claim, "
+                            "or candidate-not-credible"
+                        ),
+                        "field": "field name when applicable",
+                        "reason": "evidence-based explanation",
+                    }
+                ],
                 "findings": [
                     {
                         "code": "short finding code",
@@ -690,10 +944,9 @@ class OptimizationModelPipeline:
                     }
                 ],
                 "rules": [
-                    "Return every required factual field under verifiedDossier.fields.",
-                    "Preserve source ids and identity exactly.",
-                    "Scout restores immutable source text, URL, authority, and page identity from the frozen packet after this response.",
-                    "Do not add sources or replacement facts.",
+                    "Return every required field exactly once under fieldDecisions.",
+                    "Never return verifiedDossier, candidateIdentity, fields, or sources as replacements.",
+                    "Do not add replacement facts or source ids.",
                     "Do not use markdown fences or commentary outside the JSON object.",
                 ],
             },
@@ -701,19 +954,24 @@ class OptimizationModelPipeline:
         attempt_id = self._start_attempt(run_id, packet_id, "verify", prompt)
         try:
             invocation = _invocation(self.verify(prompt))
-            verified = invocation.result.get("verifiedDossier")
-            if not isinstance(verified, dict):
-                raise OptimizationModelError("Verifier returned no verifiedDossier object")
-            verified = restore_frozen_candidate_identity(verified, packet)
-            verified = restore_frozen_source_envelopes(verified, packet)
             verifier_findings = invocation.result.get("findings", [])
             if not isinstance(verifier_findings, list):
                 raise OptimizationModelError("Verifier findings must be an array")
-            post_verifier_issues = validate_dossier_for_packet(verified, packet)
-            verified, deterministic_remediation = remediate_invalid_factual_fields(
-                verified, post_verifier_issues
+            verified, decision_findings, material_defects = apply_verification_decisions(
+                dossier,
+                invocation.result,
+                self.required_fields,
+                self.playbook.supplementary_fields,
             )
-            final_issues = validate_dossier_for_packet(verified, packet)
+            post_verifier_issues = validate_dossier_for_packet(
+                verified, packet, self.required_fields
+            )
+            verified, deterministic_remediation = remediate_invalid_factual_fields(
+                verified, post_verifier_issues, self.required_fields
+            )
+            final_issues = validate_dossier_for_packet(
+                verified, packet, self.required_fields
+            )
         except BaseException as error:
             self._fail_attempt(
                 attempt_id,
@@ -723,18 +981,21 @@ class OptimizationModelPipeline:
             )
             raise
         requested_status = str(invocation.result.get("status") or "passed")
-        status = (
-            "failed"
-            if final_issues
-            else "needs-review"
-            if deterministic_remediation
-            else requested_status
-            if requested_status in {"passed", "needs-review"}
-            else "failed"
+        status = verification_status(
+            final_issues=final_issues,
+            material_defects=material_defects,
+            review_findings=(
+                *decision_findings,
+                *deterministic_remediation,
+                *verifier_findings,
+            ),
+            requested_status=requested_status,
         )
         findings = {
             "initialDeterministicFindings": deterministic_findings,
             "verifierFindings": verifier_findings,
+            "verifierDecisionFindings": decision_findings,
+            "materialDefects": material_defects,
             "postVerifierDeterministicFindings": post_verifier_issues,
             "deterministicRemediationFindings": deterministic_remediation,
             "finalDeterministicFindings": final_issues,

@@ -1,7 +1,7 @@
 {
   "name": "A directory-only phone cannot override a direct-program phone",
   "requiredFields": ["phone"],
-  "expectedIssueCodes": ["lead-only-sensitive-field", "unresolved-conflict"],
+  "expectedIssueCodes": ["lead-only-field", "unresolved-conflict"],
   "dossier": {
     "candidateIdentity": {
       "organization": "Example Housing Provider",

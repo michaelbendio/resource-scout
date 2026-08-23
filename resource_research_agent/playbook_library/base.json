@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "libraryVersion": "1.1.0",
+  "libraryVersion": "1.2.0",
   "defaultServiceArea": "Utah County",
   "evidenceRules": [
     "Use official or authoritative sources for program facts; retain source URLs and dates.",
@@ -9,12 +9,37 @@
     "Treat funding, capacity, schedules, eligibility, and availability as time-varying and record an as-of date.",
     "Turn important unknowns into explicit research questions rather than filling gaps by inference."
   ],
+  "factualFields": [
+    "name",
+    "organization",
+    "program",
+    "website",
+    "address",
+    "additionalAddresses",
+    "phone",
+    "additionalPhoneNumbers",
+    "hours",
+    "geography",
+    "resourceType",
+    "serviceNeed",
+    "accessTimeline",
+    "description",
+    "servicesProvided",
+    "eligibility",
+    "whatToExpect",
+    "howToBestConnect",
+    "additionalNotes",
+    "barriers",
+    "availability",
+    "experienceAssessment"
+  ],
+  "supplementaryFields": ["additionalNotes", "experienceAssessment"],
   "resourceGatheringRequirements": [
     {
       "key": "identity-and-contact",
       "label": "Organization and contact information",
       "instruction": "Confirm the organization and program names, every relevant service address, the best phone number and any useful alternate numbers, current hours of operation, and the best direct website.",
-      "outputFields": ["name", "organization", "program", "address", "additionalAddresses", "phone", "additionalPhoneNumbers", "hours", "website"]
+      "outputFields": ["name", "organization", "program", "address", "additionalAddresses", "phone", "additionalPhoneNumbers", "hours", "website", "geography"]
     },
     {
       "key": "services-provided",

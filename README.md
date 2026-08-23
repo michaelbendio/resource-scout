@@ -150,6 +150,9 @@ The command refuses a package whose SHA-256 differs from the Mesa imports, requi
 
 The following Housing-specific command reproduces the preserved v9 calibration
 workflow. It is historical benchmark tooling, not the reusable architecture.
+`run-qwen-quantization-comparison.py` is now deliberately read-only: it rebuilds
+the historical v9 reports from the completed persisted runs and never starts a
+model server or performs inference under the old provenance label.
 Expanded Housing discovery can reuse a completed base DDGS cache while appending
 one current-status query for each human-resolved urgent candidate:
 

@@ -2,8 +2,8 @@
 
 Status: Checkpoints A through D are implemented. Expanded 22-packet comparison
 v9 completed on 2026-08-23 and selected 8-bit Qwen for continued isolated
-optimization. The approved forward work makes the reusable design category- and
-location-neutral and replaces whole-dossier verification with a constrained
+optimization. Forward-plan step 2 implemented a category- and location-neutral
+field contract and replaced whole-dossier verification with a constrained
 decision-patch contract.
 
 This document fixes the data boundaries, persistence records, Housing regression fixtures, coverage matrix, stopping behavior, quality gate, and downstream ground-truth linkage before any new model run. It does not authorize Checkpoint B or production cutover.
@@ -92,7 +92,13 @@ field: an absent verifier decision preserves the validated extraction state and
 adds `verification-incomplete`. The verifier cannot invent a replacement, mutate
 frozen identity, or alter a source envelope.
 
-Program-scoped bindings must come from a source classified as describing the same identity. Organization-wide bindings must explicitly say so and match the organization. A directory cannot be the only support for sensitive access fields. Captured contradictory evidence or multiple authoritative values forces an explicit conflict or removal; it cannot remain a single supported value. The verifier may remove, downgrade, or flag a claim but may not invent a replacement.
+Program-scoped bindings must come from a source classified as describing the same
+identity. Organization-wide bindings must explicitly say so and match the
+organization. A directory cannot be the only support for a factual field.
+Captured contradictory evidence or multiple authoritative values forces an
+explicit conflict or downgrade; it cannot remain a single supported value. The
+verifier returns decisions, while Scout applies the allowed patch and may not
+invent a replacement.
 
 ## First Housing-stage calibration matrix
 

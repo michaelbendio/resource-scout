@@ -8,7 +8,6 @@ from copy import deepcopy
 from pathlib import Path
 
 from resource_research_agent.optimization import (
-    HOUSING_FACTUAL_FIELDS,
     branch_stop_state,
     build_housing_urgent_query_plan,
     candidate_identity_key,
@@ -17,10 +16,12 @@ from resource_research_agent.optimization import (
     package_exclusion_state,
     validate_candidate_dossier,
 )
+from resource_research_agent.playbooks import playbook_for
 from resource_research_agent.storage import ResearchStore
 
 
 FIXTURE_DIRECTORY = Path(__file__).parent / "fixtures" / "housing_qwen"
+HOUSING_FACTUAL_FIELDS = playbook_for("housing").factual_fields
 
 
 def optimization_configuration(quantization: str = "4-bit") -> dict:
@@ -37,8 +38,8 @@ def optimization_configuration(quantization: str = "4-bit") -> dict:
         "fetchProvider": "safe-http",
         "searchPluginVersion": "checkpoint-a-v1",
         "fetchPluginVersion": "checkpoint-a-v1",
-        "promptPolicyVersion": "candidate-dossier-v1",
-        "playbookVersion": "1.1.0",
+        "promptPolicyVersion": "schema-playbook-dossier-v1",
+        "playbookVersion": "1.2.0",
         "sourcePackageSha256": "c7a2251d7d638472f90207c24a28ec71c24515ea5d1aafced68a38fdce3d30f8",
         "sourcePackageVersion": "frozen-mesa-package",
         "targetLocation": "Mesa",
@@ -138,7 +139,7 @@ class OptimizationPersistenceTests(unittest.TestCase):
 
         changed_policy = deepcopy(four_bit)
         changed_policy["label"] = "housing-urgent-4-bit-policy-2"
-        changed_policy["promptPolicyVersion"] = "candidate-dossier-v2"
+        changed_policy["promptPolicyVersion"] = "schema-playbook-dossier-v2"
         changed_policy_id = self.store.save_optimization_configuration(changed_policy)
         self.assertNotIn(changed_policy_id, {four_bit_id, eight_bit_id})
 
@@ -386,9 +387,16 @@ class HousingQualityGateTests(unittest.TestCase):
                 for field in HOUSING_FACTUAL_FIELDS
             },
         }
-        self.assertEqual([], validate_candidate_dossier(dossier))
+        self.assertEqual(
+            [],
+            validate_candidate_dossier(
+                dossier, required_fields=HOUSING_FACTUAL_FIELDS
+            ),
+        )
         del dossier["fields"]["eligibility"]
-        issues = validate_candidate_dossier(dossier)
+        issues = validate_candidate_dossier(
+            dossier, required_fields=HOUSING_FACTUAL_FIELDS
+        )
         self.assertIn("missing-field-state", {issue["code"] for issue in issues})
 
     def test_explicit_evidenced_conflict_is_allowed(self) -> None:

@@ -69,7 +69,7 @@ class FixtureProviders:
             "searchPluginVersion": "fixture-v1",
             "fetchPluginVersion": "fixture-v1",
             "promptPolicyVersion": "no-model-discovery-v1",
-            "playbookVersion": "1.1.0",
+            "playbookVersion": "1.2.0",
             "sourcePackageSha256": "c7a2251d7d638472f90207c24a28ec71c24515ea5d1aafced68a38fdce3d30f8",
             "sourcePackageVersion": "fixture",
             "targetLocation": "Mesa",

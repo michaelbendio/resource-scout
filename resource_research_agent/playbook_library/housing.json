@@ -21,6 +21,10 @@
     "What costs, deposits, waitlists, time limits, transportation issues, and pet restrictions apply?",
     "What longer-term path follows a temporary placement?"
   ],
+  "additionalOutputFields": {
+    "petPolicy": "Pets, service animals, emotional-support animals, fees, or unknown"
+  },
+  "additionalSupplementaryFields": ["petPolicy"],
   "stages": [
     {"key": "urgent-access", "title": "Immediate safety and emergency access", "instruction": "Investigate options that can help tonight or within days: emergency and seasonal shelter, domestic-violence and family or youth shelter, safe temporary lodging, motel vouchers, coordinated entry, crisis access, transportation, pet barriers, and the real intake path."},
     {"key": "stabilization", "title": "Homelessness prevention and stabilization", "instruction": "Investigate eviction prevention, rent and deposit help, utility help, diversion, rapid rehousing, flexible funds, case management, benefits, and practical pathways that can prevent or shorten homelessness."},

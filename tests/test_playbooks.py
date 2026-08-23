@@ -36,7 +36,7 @@ EXPECTED_CATEGORIES = {
 
 class PlaybookLibraryTests(unittest.TestCase):
     def test_every_package_category_has_a_human_reviewable_playbook(self) -> None:
-        self.assertEqual("1.1.0", PLAYBOOK_LIBRARY_VERSION)
+        self.assertEqual("1.2.0", PLAYBOOK_LIBRARY_VERSION)
         self.assertEqual(EXPECTED_CATEGORIES, set(PLAYBOOKS))
         for category_id, playbook in PLAYBOOKS.items():
             with self.subTest(category=category_id):
@@ -45,6 +45,8 @@ class PlaybookLibraryTests(unittest.TestCase):
                 self.assertTrue(playbook.scope)
                 self.assertTrue(playbook.exclusions)
                 self.assertTrue(playbook.verification_questions)
+                self.assertIn("geography", playbook.factual_fields)
+                self.assertEqual(len(set(playbook.factual_fields)), len(playbook.factual_fields))
                 self.assertEqual(
                     [
                         "identity-and-contact", "services-provided",
@@ -85,6 +87,19 @@ class PlaybookLibraryTests(unittest.TestCase):
             "eligibility", "whatToExpect", "howToBestConnect", "additionalNotes",
         ):
             self.assertIn(field, candidate)
+
+    def test_category_specific_factual_fields_are_playbook_data(self) -> None:
+        housing = playbook_for("housing")
+        food = playbook_for("food")
+        self.assertIn("petPolicy", housing.factual_fields)
+        self.assertNotIn("petPolicy", food.factual_fields)
+        self.assertIn("petPolicy", housing.supplementary_fields)
+        self.assertNotIn("petPolicy", food.supplementary_fields)
+        self.assertIn("petPolicy", output_schema("Housing")["candidates"][0])
+        self.assertNotIn("petPolicy", output_schema("Food")["candidates"][0])
+        self.assertEqual(
+            set(housing.factual_fields) - {"petPolicy"}, set(food.factual_fields)
+        )
 
 
 if __name__ == "__main__":
