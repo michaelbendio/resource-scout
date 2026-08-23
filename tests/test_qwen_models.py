@@ -7,7 +7,10 @@ import zipfile
 from copy import deepcopy
 from pathlib import Path
 
-from resource_research_agent.optimization import optimization_resource_id
+from resource_research_agent.optimization import (
+    optimization_candidate_id,
+    optimization_resource_id,
+)
 from resource_research_agent.optimization_models import (
     apply_verification_decisions,
     compact_source_bindings,
@@ -152,6 +155,30 @@ class SeededFixtureModels:
 
 
 class ModelPipelineTests(unittest.TestCase):
+    def test_optimization_linkage_uses_packet_content_and_preserves_legacy_ids(
+        self,
+    ) -> None:
+        configuration_hash = "a" * 64
+        packet_sha256 = "b" * 64
+        self.assertEqual(
+            "dfcf35d767d45e62b4688b2344c24869",
+            optimization_resource_id(configuration_hash, 7),
+        )
+        self.assertEqual(
+            optimization_resource_id(configuration_hash, packet_sha256),
+            optimization_resource_id(configuration_hash, packet_sha256.upper()),
+        )
+        self.assertNotEqual(
+            optimization_resource_id(configuration_hash, 7),
+            optimization_resource_id(configuration_hash, packet_sha256),
+        )
+        self.assertEqual(
+            optimization_candidate_id(configuration_hash, packet_sha256),
+            optimization_candidate_id(configuration_hash, packet_sha256.upper()),
+        )
+        with self.assertRaisesRegex(ValueError, "packet id or packet hash"):
+            optimization_resource_id(configuration_hash, "not-a-hash")
+
     def test_deterministic_remediation_only_downgrades_factual_fields(self) -> None:
         dossier = {
             "fields": {
@@ -638,6 +665,48 @@ class ModelPipelineTests(unittest.TestCase):
                 for row in dossiers
             )
         )
+        review = build_optimization_review_copy(store, result.run_id)
+        self.assertEqual("Food", review.data["run"]["targetCategoryLabel"])
+        self.assertEqual(
+            "Curate independently verified Food calibration candidates.",
+            review.data["run"]["assignment"],
+        )
+        self.assertNotIn("Housing", review.data["title"])
+        accepted = review.data["candidates"][0]
+        provenance = accepted["candidate"]["optimizationProvenance"]
+        self.assertEqual(
+            accepted["id"],
+            optimization_candidate_id(
+                provenance["configurationHash"], provenance["packetSha256"]
+            ),
+        )
+        package_path = Path(self.temporary.name) / "phone-vetted-food-package.zip"
+        with zipfile.ZipFile(package_path, "w") as archive:
+            archive.writestr(
+                "tso-resources.json",
+                json.dumps(
+                    {
+                        "resourcePackageSchemaVersion": 3,
+                        "packageVersion": 2,
+                        "categories": [{"id": "food", "label": "Food"}],
+                        "resources": [
+                            {
+                                "id": optimization_resource_id(
+                                    provenance["configurationHash"],
+                                    provenance["packetSha256"],
+                                ),
+                                "name": accepted["name"],
+                                "categories": ["food"],
+                            }
+                        ],
+                    }
+                ),
+            )
+        outcome = compare_optimization_run_to_package(
+            store, result.run_id, package_path
+        )
+        self.assertEqual("food", outcome.report["targetCategoryId"])
+        self.assertEqual(1, outcome.accepted_count)
 
     def test_inspection_open_does_not_recover_an_active_model_attempt(self) -> None:
         configuration_id = self.store.save_optimization_configuration(
@@ -785,7 +854,15 @@ class ModelPipelineTests(unittest.TestCase):
             self.store,
             mixed_result.run_id,
         )
+        repeated_review = build_optimization_review_copy(
+            self.store,
+            mixed_result.run_id,
+        )
         self.assertEqual(6, len(review.data["candidates"]))
+        self.assertEqual(
+            [item["id"] for item in review.data["candidates"]],
+            [item["id"] for item in repeated_review.data["candidates"]],
+        )
         self.assertEqual(
             {"passed", "needs-review"},
             {
@@ -810,12 +887,17 @@ class ModelPipelineTests(unittest.TestCase):
         package_path = Path(self.temporary.name) / "phone-vetted-resource-package.zip"
         accepted_candidates = review.data["candidates"][:2]
         resources = []
-        for item in accepted_candidates:
+        for position, item in enumerate(accepted_candidates):
             provenance = item["candidate"]["optimizationProvenance"]
+            packet_reference = (
+                provenance["packetSha256"]
+                if position == 0
+                else provenance["packetId"]
+            )
             resources.append(
                 {
                     "id": optimization_resource_id(
-                        provenance["configurationHash"], provenance["packetId"]
+                        provenance["configurationHash"], packet_reference
                     ),
                     "name": item["name"],
                     "phone": "480-555-0100",
@@ -840,6 +922,17 @@ class ModelPipelineTests(unittest.TestCase):
         self.assertEqual(6, outcome.candidate_count)
         self.assertEqual(2, outcome.accepted_count)
         self.assertEqual(4, outcome.not_present_count)
+        self.assertEqual(
+            {
+                resources[0]["id"],
+                resources[1]["id"],
+            },
+            {
+                item["matchedResourceId"]
+                for item in outcome.report["outcomes"]
+                if item["matchedResourceId"]
+            },
+        )
         self.assertEqual(
             outcome.report_sha256,
             compare_optimization_run_to_package(

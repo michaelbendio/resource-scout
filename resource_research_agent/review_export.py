@@ -10,7 +10,8 @@ from typing import Any
 
 from .duplicates import DuplicateIndex
 from .optimization_models import verified_dossier_to_candidate
-from .optimization import optimization_resource_id
+from .optimization import optimization_candidate_id, optimization_resource_id
+from .playbooks import playbook_for
 from .resource_package import RESOURCE_PACKAGE_SCHEMA_VERSION, candidate_to_resource
 from .storage import ResearchStore
 
@@ -314,6 +315,7 @@ def build_optimization_review_copy(
         ).fetchone()
         rows = connection.execute(
             """SELECT packet.id AS packet_id, packet.identity_key,
+                      packet.packet_sha256,
                       verification.status, verification.verified_dossier_json,
                       verification.verified_dossier_sha256,
                       verification.findings_json
@@ -364,6 +366,9 @@ def build_optimization_review_copy(
         (item for item in taxonomy["categories"] if item["id"] == target_category_id),
         {"types": []},
     )
+    category_label = str(
+        category_summary.get("label") or playbook_for(target_category_id).label
+    )
     package_eligible = bool(
         package
         and str(package["schema"].get("schemaVersion") or "")
@@ -385,18 +390,21 @@ def build_optimization_review_copy(
             "corpusId": int(run["corpus_id"]),
             "corpusSha256": run["corpus_sha256"],
             "packetId": int(row["packet_id"]),
+            "packetSha256": row["packet_sha256"],
             "identityKey": row["identity_key"],
             "verifiedDossierSha256": row["verified_dossier_sha256"],
             "sourcePackageSha256": run["source_package_sha256"],
         }
-        candidate_id = f"optimization-{run_id}-{row['packet_id']}"
+        candidate_id = optimization_candidate_id(
+            str(run["configuration_hash"]), str(row["packet_sha256"])
+        )
         resource_draft = None
         if package_eligible:
             resource_draft = candidate_to_resource(
                 candidate,
                 target_category_id,
                 resource_id=optimization_resource_id(
-                    str(run["configuration_hash"]), int(row["packet_id"])
+                    str(run["configuration_hash"]), str(row["packet_sha256"])
                 ),
                 timestamp=exported,
                 available_types=category_summary.get("types", []),
@@ -426,7 +434,7 @@ def build_optimization_review_copy(
             }
         )
 
-    title = "Housing Qwen calibration research"
+    title = f"{category_label} Qwen calibration research"
     review_id = uuid.uuid5(
         uuid.NAMESPACE_URL,
         f"resource-research-optimization-review:{run['configuration_hash']}:{run['corpus_sha256']}",
@@ -449,12 +457,14 @@ def build_optimization_review_copy(
             "completedAt": run["completed_at"],
             "status": run["status"],
             "adapter": "qwen-optimization",
-            "assignment": "Curate independently verified Housing calibration candidates.",
+            "assignment": (
+                f"Curate independently verified {category_label} calibration candidates."
+            ),
             "researchMode": "package",
             "targetLocation": run["target_location"],
             "regionalScope": run["regional_scope"],
             "targetCategoryId": target_category_id,
-            "targetCategoryLabel": "Housing",
+            "targetCategoryLabel": category_label,
             "summary": (
                 f"{len(candidates)} passed or needs-review candidates from isolated "
                 f"optimization run {run_id}."
@@ -482,7 +492,7 @@ def build_optimization_review_copy(
                 "categories": category_definitions,
                 "categorySummaries": taxonomy["categories"],
                 "forGroups": store.import_for_groups(import_id),
-                "category": {"id": target_category_id, "label": "Housing"},
+                "category": {"id": target_category_id, "label": category_label},
             }
             if package
             else None

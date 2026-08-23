@@ -240,14 +240,38 @@ def canonicalize_discovery_url(value: Any) -> str:
     return urlunsplit((scheme, rendered_host, path, urlencode(sorted(query)), ""))
 
 
-def optimization_resource_id(configuration_hash: str, packet_id: int) -> str:
+def _optimization_linkage_key(
+    configuration_hash: str, packet_reference: int | str
+) -> str:
     if not re.fullmatch(r"[0-9a-f]{64}", str(configuration_hash)):
         raise ValueError("Optimization resource linkage requires a configuration hash")
-    if not isinstance(packet_id, int) or isinstance(packet_id, bool) or packet_id <= 0:
-        raise ValueError("Optimization resource linkage requires a positive packet id")
+    if isinstance(packet_reference, int) and not isinstance(packet_reference, bool):
+        if packet_reference <= 0:
+            raise ValueError("Optimization resource linkage requires a positive packet id")
+        return str(packet_reference)
+    packet_sha256 = str(packet_reference or "").strip().casefold()
+    if not re.fullmatch(r"[0-9a-f]{64}", packet_sha256):
+        raise ValueError(
+            "Optimization resource linkage requires a positive packet id or packet hash"
+        )
+    return f"packet-sha256:{packet_sha256}"
+
+
+def optimization_resource_id(
+    configuration_hash: str, packet_reference: int | str
+) -> str:
+    linkage_key = _optimization_linkage_key(configuration_hash, packet_reference)
     return uuid.uuid5(
         uuid.NAMESPACE_URL,
-        f"resource-research-optimization:{configuration_hash}:{packet_id}",
+        f"resource-research-optimization:{configuration_hash}:{linkage_key}",
+    ).hex
+
+
+def optimization_candidate_id(configuration_hash: str, packet_sha256: str) -> str:
+    linkage_key = _optimization_linkage_key(configuration_hash, packet_sha256)
+    return "optimization-" + uuid.uuid5(
+        uuid.NAMESPACE_URL,
+        f"resource-research-optimization-candidate:{configuration_hash}:{linkage_key}",
     ).hex
 
 

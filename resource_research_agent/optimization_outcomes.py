@@ -44,6 +44,7 @@ def compare_optimization_run_to_package(
             """SELECT run.status, run.configuration_id, run.corpus_id,
                       configuration.configuration_hash,
                       configuration.source_package_sha256,
+                      configuration.target_category_id,
                       corpus.corpus_sha256
                FROM optimization_runs AS run
                JOIN optimization_configurations AS configuration
@@ -54,6 +55,7 @@ def compare_optimization_run_to_package(
         ).fetchone()
         rows = connection.execute(
             """SELECT packet.id AS packet_id, packet.identity_key,
+                      packet.packet_sha256,
                       verification.status, verification.verified_dossier_json,
                       verification.verified_dossier_sha256
                FROM optimization_verifications AS verification
@@ -71,20 +73,34 @@ def compare_optimization_run_to_package(
     if not rows:
         raise OptimizationOutcomeError("Optimization run has no exportable candidates")
 
-    package = ResourcePackageImporter("housing").read(package_path)
+    target_category_id = str(run["target_category_id"])
+    package = ResourcePackageImporter(target_category_id).read(package_path)
     final_resources = {resource_id(resource): resource for resource in package.resources}
     expected_ids: set[str] = set()
     outcomes = []
     for row in rows:
         packet_id = int(row["packet_id"])
         linked_resource_id = optimization_resource_id(
+            str(run["configuration_hash"]), str(row["packet_sha256"])
+        )
+        legacy_resource_id = optimization_resource_id(
             str(run["configuration_hash"]), packet_id
         )
-        expected_ids.add(linked_resource_id)
+        expected_ids.update((linked_resource_id, legacy_resource_id))
         dossier = json.loads(row["verified_dossier_json"])
         identity = dossier.get("candidateIdentity", {})
         fields = dossier.get("fields", {})
-        final_resource = final_resources.get(linked_resource_id)
+        matched_resource_id = next(
+            (
+                resource_id_value
+                for resource_id_value in (linked_resource_id, legacy_resource_id)
+                if resource_id_value in final_resources
+            ),
+            None,
+        )
+        final_resource = (
+            final_resources[matched_resource_id] if matched_resource_id else None
+        )
         field_changes = []
         if final_resource:
             for candidate_field, resource_field in (
@@ -112,12 +128,15 @@ def compare_optimization_run_to_package(
         outcomes.append(
             {
                 "packetId": packet_id,
+                "packetSha256": row["packet_sha256"],
                 "identityKey": row["identity_key"],
                 "organization": identity.get("organization"),
                 "program": identity.get("program"),
                 "verificationStatus": row["status"],
                 "verifiedDossierSha256": row["verified_dossier_sha256"],
                 "resourceId": linked_resource_id,
+                "matchedResourceId": matched_resource_id,
+                "legacyResourceId": legacy_resource_id,
                 "outcome": "present-in-vetted-package" if final_resource else "not-present",
                 "fieldChanges": field_changes,
             }
@@ -127,13 +146,14 @@ def compare_optimization_run_to_package(
     )
     unlinked_ids = sorted(set(final_resources) - expected_ids)
     report = {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "runId": run_id,
         "configurationId": int(run["configuration_id"]),
         "configurationHash": run["configuration_hash"],
         "corpusId": int(run["corpus_id"]),
         "corpusSha256": run["corpus_sha256"],
         "sourcePackageSha256": run["source_package_sha256"],
+        "targetCategoryId": target_category_id,
         "finalPackageSha256": package.sha256,
         "candidateCount": len(outcomes),
         "presentInVettedPackageCount": accepted_count,

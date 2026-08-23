@@ -397,6 +397,19 @@ eligible yield, and branch saturation. Do not activate deferred model lessons.
 Gate: export and provenance tests pass; observed usable yield is based on normal
 Curator/phone-vetting outcomes and final-package acceptance, not model self-rating.
 
+Preparation checkpoint (2026-08-23): the isolated export and outcome path is now
+category-neutral. Curator titles, assignments, labels, draft categories, and
+final-package imports use the run's selected category; a Food regression guards
+against Housing leakage. New candidate and generated-resource IDs bind the locked
+configuration hash to the immutable packet SHA-256 rather than database row
+numbers. Packet row IDs remain in provenance for local inspection, and the
+outcome reader recognizes both the new content-linked resource ID and the legacy
+row-linked ID so already-vetted packages are not stranded. Failed dossiers and
+noncandidate leads remain excluded from this export. This completes deterministic
+preparation only; the all-candidate Curator pilot, phone vetting, source-package
+merge, and iterative second Scout cycle have not been performed. Live Curator or
+source-package mutation still requires Michael's explicit authorization.
+
 ### 7. Complete Housing calibration
 
 Lock the 8-bit artifact, verifier and extraction policies, playbook, query plan,
