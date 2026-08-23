@@ -31,6 +31,11 @@ provenance, and Curator-integration gate.
 The migration adds the following isolated records. Existing `research_runs`, DeepSeek behavior, and the frozen baseline remain unchanged.
 
 - `optimization_configurations` is an immutable, hashed snapshot of the model artifact and quantization; MLX and DSH versions; search and fetch providers and plugin versions; prompt-policy and playbook versions; source-package identity; target and stage; deterministic limits and stopping rules; and the complete query plan. The display label is not part of the hash. Changing quantization, a policy version, the package, a limit, or any planned query creates a different configuration.
+- `optimization-playbook-audit-v1` is the pre-freeze planning receipt. It binds
+  the playbook source hashes and exact coverage branches and records service
+  needs, populations, barriers, source families, geography, candidate roles,
+  field criticality, gap-search rules, current-status signals, and referral
+  components. Dynamic operational branches remain in the full query-plan hash.
 - `optimization_runs` records a labeled discovery, model-evaluation, or end-to-end run and its current phase. A model-evaluation run must identify one frozen corpus.
 - `optimization_checkpoints` records resumable phase-and-item state, attempt count, payload digest, status, and timestamps. Work resumes from the smallest incomplete item rather than restarting the stage.
 - `optimization_coverage_branches` and `optimization_queries` preserve every required branch, purpose, planned query, execution outcome, novelty count, saturation state, failure, and explicit not-applicable reason.

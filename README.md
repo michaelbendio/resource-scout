@@ -56,6 +56,10 @@ Reviewed provider and referral relationships use the separate generic
 one-hop format and an exact edge-keyed destination review; edge context is
 provenance, never candidate evidence, and a candidate requires a fresh fetch of
 the reviewed destination.
+Revised corpus freezing also requires a versioned
+[`optimization playbook audit`](docs/optimization-playbook-audits.md) that binds
+the selected playbook, coverage branches, roles, fields, geography, source
+families, gap rules, status signals, and referral components.
 
 Vetting remains ordinary resource preparation. Vetters are not asked to score the model or its candidates, and Qwen does not judge its own work. Scout scoring is computed afterward from the preserved linkage and package comparison. Candidate yield counts only unique, usable candidates that become corresponding resources in a final saved package; the comparison must keep accuracy, completeness, source quality, usable yield, and elapsed research time as separate measures in that order.
 

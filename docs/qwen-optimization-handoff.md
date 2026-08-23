@@ -39,6 +39,15 @@ audit and freeze preparation proceed. Keep step 3 formally open, resume the swee
 opportunistically, and integrate every recovered candidate before final Housing
 completion in step 7.
 
+Step 4 preparation has a reviewed, category-neutral planning receipt:
+`optimization-playbook-audit-v1`. The Mesa Housing urgent artifact hashes the
+current playbook sources and exact coverage plan and explicitly records service
+needs, populations, barriers, source families, geography, candidate roles,
+field criticality, gap-search terms, current-status signals, and referral
+components. The revised freeze path requires this receipt. Its planning gate is
+ready; corpus execution remains blocked until the deferred prior-result branch
+and resulting identity review are complete.
+
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
 - `docs/local-dsh-qwen-plan.md`
@@ -113,7 +122,7 @@ actionability gates in
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
-- The full Python suite most recently passed 203 tests with one optional skip.
+- The full Python suite most recently passed 206 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.

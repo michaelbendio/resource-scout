@@ -334,6 +334,19 @@ First audit and version the Housing playbook configuration. Do not freeze a corp
 whose required branches, candidate roles, field criticality, or gap-search rules
 remain implicit.
 
+Preparation checkpoint (2026-08-23):
+`optimization-playbook-audit-v1` now makes that contract explicit and is consumed
+by the revised freeze path. The first Mesa Housing audit binds the exact coverage
+plan, playbook source hashes, 10 coverage branches, 2 dynamic operational
+branches, service needs, populations, barriers, source families, geography,
+candidate roles, required/access-critical/supplementary fields, gap triggers,
+current-status signals, and reviewed referral components. Food regression proves
+the validator is category-neutral. The audit confirms that pet policy is
+supplementary; it does not change candidate gates or rewrite the category
+playbook. Final freezing remains blocked by execution, not planning: the
+deferred prior-result branch must finish and all newly recovered identities must
+be reviewed first.
+
 Gate: all required coverage branches have a recorded terminal state; every packet
 has one resolved identity, an eligible role, Mesa-relevance evidence, a plausible
 access path, and current evidence; all hashes and runtime versions are recorded.

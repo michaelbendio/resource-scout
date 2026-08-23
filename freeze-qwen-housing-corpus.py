@@ -15,6 +15,9 @@ from resource_research_agent.optimization_review import (
     validate_identity_review,
 )
 from resource_research_agent.optimization_runtime import ReviewedIdentityResolver, SafeFetchClient
+from resource_research_agent.optimization_playbook_audit import (
+    normalize_optimization_playbook_audit,
+)
 from resource_research_agent.playbooks import playbook_for
 from resource_research_agent.referral_graph import (
     attach_referral_graph_to_query_plan,
@@ -32,6 +35,7 @@ parser.add_argument("--database", type=Path, required=True)
 parser.add_argument("--package", type=Path, required=True)
 parser.add_argument("--cache", type=Path, required=True)
 parser.add_argument("--review", type=Path, required=True)
+parser.add_argument("--playbook-audit", type=Path, required=True)
 parser.add_argument("--referral-graph", type=Path)
 parser.add_argument("--referral-review", type=Path)
 arguments = parser.parse_args()
@@ -55,6 +59,7 @@ if not isinstance(plan, dict):
 validate_query_plan(plan)
 if sha256_json(plan) != cache.get("queryPlanSha256"):
     raise SystemExit("Search cache query-plan hash does not match its snapshot")
+playbook = playbook_for("housing")
 referral_graph = None
 referral_review = None
 if arguments.referral_graph:
@@ -65,8 +70,28 @@ if arguments.referral_graph:
         referral_graph,
         json.loads(arguments.referral_review.read_text(encoding="utf-8")),
     )
+playbook_audit = normalize_optimization_playbook_audit(
+    json.loads(arguments.playbook_audit.read_text(encoding="utf-8")),
+    query_plan=plan,
+    playbook=playbook,
+    referral_graph_sha256=(
+        referral_graph["graphSha256"] if referral_graph else None
+    ),
+    referral_review_sha256=(
+        referral_review["reviewSha256"] if referral_review else None
+    ),
+)
+if not referral_graph:
+    raise SystemExit("The audited revised corpus requires its referral graph and review")
+if (
+    playbook_audit["corpusComponents"]["referralGraphSha256"]
+    != referral_graph["graphSha256"]
+    or playbook_audit["corpusComponents"]["referralReviewSha256"]
+    != referral_review["reviewSha256"]
+):
+    raise SystemExit("Playbook audit referral components do not match the supplied files")
+if referral_graph:
     plan = attach_referral_graph_to_query_plan(plan, referral_graph)
-playbook = playbook_for("housing")
 configuration = {
     "label": (
         "mesa-housing-urgent-reviewed-ddgs-v11"
@@ -99,6 +124,13 @@ configuration = {
         "evidenceExtractMaxChars": 30000,
         "searchCacheSha256": cache["cacheSha256"],
         "identityReviewSha256": sha256_json(review),
+        "playbookAuditSha256": playbook_audit["auditSha256"],
+        "playbookBaseSourceSha256": playbook_audit["playbook"][
+            "baseSourceSha256"
+        ],
+        "playbookCategorySourceSha256": playbook_audit["playbook"][
+            "categorySourceSha256"
+        ],
         "referralEvidenceContextCharacters": 2000,
         "referralGraphSha256": (
             referral_graph["graphSha256"] if referral_graph else "none"
