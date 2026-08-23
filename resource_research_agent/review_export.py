@@ -361,7 +361,9 @@ def build_optimization_review_copy(
         for item in taxonomy["categories"]
         if (category := store.import_category(import_id, item["id"])) is not None
     ] if import_id is not None else []
-    target_category_id = str(run["target_category_id"] or "housing")
+    target_category_id = str(run["target_category_id"] or "").strip()
+    if not target_category_id:
+        raise ReviewCopyError("Optimization run has no target category")
     category_summary = next(
         (item for item in taxonomy["categories"] if item["id"] == target_category_id),
         {"types": []},

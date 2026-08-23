@@ -24,6 +24,7 @@ from resource_research_agent.optimization_models import (
 from resource_research_agent.playbooks import playbook_for
 from resource_research_agent.optimization_pipeline import OptimizationDiscoveryPipeline
 from resource_research_agent.optimization_outcomes import compare_optimization_run_to_package
+from resource_research_agent.importer import ResourcePackageImporter
 from resource_research_agent.review_export import build_optimization_review_copy
 from resource_research_agent.storage import ResearchStore
 from tests.test_qwen_discovery import FixtureProviders
@@ -602,7 +603,26 @@ class ModelPipelineTests(unittest.TestCase):
     def test_non_housing_pipeline_uses_the_selected_playbook_field_contract(self) -> None:
         store = ResearchStore(Path(self.temporary.name) / "food.sqlite3")
         providers = FixtureProviders()
+        source_package_path = Path(self.temporary.name) / "source-food-package.zip"
+        with zipfile.ZipFile(source_package_path, "w") as archive:
+            archive.writestr(
+                "tso-resources.json",
+                json.dumps(
+                    {
+                        "resourcePackageSchemaVersion": 3,
+                        "packageVersion": 1,
+                        "categories": [
+                            {"id": "food", "label": "Food", "filters": ["Pantries"]}
+                        ],
+                        "resources": [],
+                    }
+                ),
+            )
+        source_package = ResourcePackageImporter("food").read(source_package_path)
+        store.save_import(source_package)
         discovery_configuration = providers.configuration("food-fixture-discovery")
+        discovery_configuration["sourcePackageSha256"] = source_package.sha256
+        discovery_configuration["sourcePackageVersion"] = "1"
         discovery_configuration["targetCategoryId"] = "food"
         discovery_configuration["stageKey"] = "immediate-food"
         discovery_configuration["queryPlan"] = deepcopy(
@@ -635,7 +655,13 @@ class ModelPipelineTests(unittest.TestCase):
             existing_resources=providers.fixture["existingResources"],
         ).run()
         configuration = model_configuration(providers, "food-fixture-model")
-        for field in ("targetCategoryId", "stageKey", "queryPlan"):
+        for field in (
+            "sourcePackageSha256",
+            "sourcePackageVersion",
+            "targetCategoryId",
+            "stageKey",
+            "queryPlan",
+        ):
             configuration[field] = deepcopy(discovery_configuration[field])
         models = SeededFixtureModels()
         result = OptimizationModelPipeline(
@@ -674,6 +700,13 @@ class ModelPipelineTests(unittest.TestCase):
         self.assertNotIn("Housing", review.data["title"])
         accepted = review.data["candidates"][0]
         provenance = accepted["candidate"]["optimizationProvenance"]
+        self.assertEqual(
+            optimization_resource_id(
+                provenance["configurationHash"], provenance["packetSha256"]
+            ),
+            accepted["resourceDraft"]["id"],
+        )
+        self.assertEqual(["food"], accepted["resourceDraft"]["categories"])
         self.assertEqual(
             accepted["id"],
             optimization_candidate_id(
