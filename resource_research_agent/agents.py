@@ -40,7 +40,6 @@ DEFAULT_SETTINGS: dict[str, Any] = {
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DSH_DEFAULT_MODEL = resolve_dsh_configuration(DEEPSEEK_CONFIGURATION).model
 
 
 @dataclass(frozen=True)
