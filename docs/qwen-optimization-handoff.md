@@ -11,10 +11,13 @@ manifest has 623 names/URLs-only leads and canonical content SHA-256
 `ff96127c335ac250c6c3d88780e20d3745db5a9e2305a704ec83b674910df0a6`.
 The generic bounded one-hop referral graph is implemented and verified with
 Housing and Food fixtures. The five-query coordinated-entry depth branch has run
-using unmetered DDGS and all 112 preserved parent responses; its 30 newly seen
-URLs are undergoing current-source identity qualification before any candidate
-count is assigned. The reviewed Mesa graph remains. No production cutover is
-authorized.
+using unmetered DDGS and all 112 preserved parent responses. All 30 newly seen
+URLs are reviewed: the branch added two eligible urgent access points, routed one
+Mesa prevention program to stabilization, preserved SafeDVS as inactive, and
+excluded 26 noncandidate results. Its last three queries yielded no eligible
+identity, so the branch is saturated and no second batch is warranted. The full
+42-identity qualification audit and reviewed Mesa graph remain. No production
+cutover is authorized.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 

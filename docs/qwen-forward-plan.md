@@ -268,12 +268,21 @@ keeps edge context out of candidate evidence. Housing and Food integration
 fixtures prove that only a fresh destination fetch can support a promoted
 identity. The first five-query, versioned coordinated-entry depth branch ran
 against unmetered DDGS while reusing all 112 prior responses. It returned 38 raw
-results and 30 URLs not present in the parent review, including plausible current
-access-service leads for Native American Connections and Community Bridges; most
-other results were policy documents, directories, or irrelevant East Valley
-material. Current-source identity qualification and the branch-level marginal
-eligible-yield decision remain in progress, so none of those raw leads is yet
-counted as a candidate.
+results and 30 URLs not present in the parent review. Current-source review found
+two genuinely new eligible urgent-access identities (Native American Connections
+and Community Bridges coordinated-entry access points), one new routed
+stabilization identity (MesaCAN Rent and Utility Assistance), and one newly
+preserved inactive access identity (SafeDVS). The other 26 URLs were policy
+material, directories, duplicates, or irrelevant results. Queries three through
+five yielded no new eligible identity, satisfying the three-query saturation rule;
+no additional batch is justified.
+
+`candidate-qualification-gates-v2` also has an exact-coverage, identity-keyed
+manifest workflow. It applies one audited gate decision to every URL occurrence
+of a normalized identity and fails on missing, extra, invalid, or identity-changing
+entries. Referral evidence separately persists the actual page organization and
+program, preventing a referring page from being mislabeled as candidate-authored
+evidence.
 
 ### 4. Freeze the revised first-stage corpus
 

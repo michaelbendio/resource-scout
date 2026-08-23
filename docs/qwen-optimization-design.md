@@ -75,6 +75,15 @@ because it removes a housing barrier. Conversely, a real Housing program remains
 eligible when a supplementary field is unknown. In particular, absent or unknown
 Housing `petPolicy` never affects candidate promotion.
 
+Identity review uses the exact-coverage manifest described in
+`docs/identity-qualification-manifests.md`. This applies one reviewed decision to
+every occurrence of a normalized identity and fails closed on missing, extra, or
+identity-changing entries.
+When a page refers to another provider, its own organization-plus-page identity
+is frozen separately from the candidate. Source authority and field scope are
+therefore evaluated against the real publisher rather than a synthetic candidate
+identity.
+
 The regression fixtures cover A New Leaf program contact transfer, CASS/Brian Garcia attribution, UMOM/Halle overbundling, and City of Mesa/HAMC-style jurisdiction boundaries.
 
 ## Evidence and field findings

@@ -728,6 +728,14 @@ class OptimizationDiscoveryPipeline:
                         raise OptimizationPipelineError(
                             f"Invalid lead relationship for {canonical_url}: {relationship}"
                         )
+                    page_organization = str(
+                        decision.get("pageOrganization") or ""
+                    ).strip()
+                    page_program = str(decision.get("pageProgram") or "").strip()
+                    if bool(page_organization) != bool(page_program):
+                        raise OptimizationPipelineError(
+                            "Reviewed page identity needs both organization and program"
+                        )
                     lead_metadata = {
                         "directDomains": sorted(
                             {
@@ -747,6 +755,14 @@ class OptimizationDiscoveryPipeline:
                         "evidenceExcerpt": str(
                             decision.get("evidenceExcerpt") or ""
                         ).strip(),
+                        **(
+                            {
+                                "pageOrganization": page_organization,
+                                "pageProgram": page_program,
+                            }
+                            if page_organization
+                            else {}
+                        ),
                     }
                     connection.execute(
                         """INSERT INTO optimization_identity_leads (
@@ -1116,9 +1132,11 @@ class OptimizationDiscoveryPipeline:
                 extract = identity_extracts[int(identity["id"])]
                 extract_hash = sha256_json(extract)
                 page_organization = str(
-                    fetched.get("pageOrganization") or identity["organization"]
+                    lead_metadata.get("pageOrganization") or identity["organization"]
                 )
-                page_program = str(fetched.get("pageProgram") or identity["program"])
+                page_program = str(
+                    lead_metadata.get("pageProgram") or identity["program"]
+                )
                 page_identity_key = candidate_identity_key(page_organization, page_program)
                 authority = source_authority(
                     final_url,

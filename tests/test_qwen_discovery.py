@@ -449,6 +449,86 @@ class DiscoveryPipelineTests(unittest.TestCase):
             [metadata["evidenceExcerpt"] for metadata in link_metadata],
         )
 
+    def test_referral_page_preserves_its_own_identity(self) -> None:
+        providers = FixtureProviders()
+        configuration = providers.configuration("fixture-referral-page-identity")
+        referral_url = "https://referrer.example.gov/access-points"
+
+        def search(query: str, _maximum: int) -> list[dict]:
+            if providers.query_keys[query] != "official-city-1":
+                return []
+            return [
+                {
+                    "url": referral_url,
+                    "title": "Current access points",
+                    "identity": qualified_identity(
+                        "Referred Provider",
+                        "Housing Assessment",
+                        candidateRole="access-assessment-service",
+                        reviewedAuthority="government-referral",
+                        pageOrganization="Regional Housing Authority",
+                        pageProgram="Access Point Directory",
+                        evidenceExcerpt="Referred Provider offers housing assessment",
+                    ),
+                }
+            ]
+
+        def fetch(url: str) -> dict:
+            return {
+                "text": "Referred Provider offers housing assessment across the county.",
+                "finalUrl": url,
+                "statusCode": 200,
+                "contentType": "text/html",
+                "truncated": False,
+            }
+
+        result = OptimizationDiscoveryPipeline(
+            self.store,
+            configuration,
+            search=search,
+            fetch=fetch,
+            resolve_identity=lambda result: result.get("identity"),
+        ).run()
+        self.assertEqual(1, result.packet_count)
+        with self.store.connect() as connection:
+            source = connection.execute(
+                "SELECT page_identity_key, authority FROM optimization_evidence_sources"
+            ).fetchone()
+            metadata = json.loads(
+                connection.execute(
+                    "SELECT metadata_json FROM optimization_identity_leads"
+                ).fetchone()["metadata_json"]
+            )
+        self.assertEqual(
+            "regional housing authority::access point directory",
+            source["page_identity_key"],
+        )
+        self.assertEqual("government-referral", source["authority"])
+        self.assertEqual("Regional Housing Authority", metadata["pageOrganization"])
+        self.assertEqual("Access Point Directory", metadata["pageProgram"])
+
+    def test_partial_referral_page_identity_fails_closed(self) -> None:
+        providers = FixtureProviders()
+        configuration = providers.configuration("fixture-partial-page-identity")
+
+        def resolve(result: dict) -> dict | None:
+            identity = providers.resolve(result)
+            if identity:
+                identity["pageOrganization"] = "Referrer"
+            return identity
+
+        with self.assertRaisesRegex(
+            OptimizationPipelineError, "needs both organization and program"
+        ):
+            OptimizationDiscoveryPipeline(
+                self.store,
+                configuration,
+                search=providers.search,
+                fetch=providers.fetch,
+                resolve_identity=resolve,
+                existing_resources=providers.fixture["existingResources"],
+            ).run()
+
     def test_directory_only_named_program_cannot_freeze_a_candidate_packet(self) -> None:
         providers = FixtureProviders()
         configuration = providers.configuration("fixture-directory-only-program")
