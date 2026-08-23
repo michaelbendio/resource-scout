@@ -122,6 +122,13 @@ def fixture_audit(plan: dict, category_id: str) -> dict:
         "requiredFactualFields": required,
         "accessCriticalFields": ["organization", "program", "geography"],
         "supplementaryFields": list(playbook.supplementary_fields),
+        "requiredCoverageNeeds": [
+            {
+                "key": "direct-access",
+                "label": "Direct category access",
+                "query": f"Mesa current {category_id} direct intake",
+            }
+        ],
         "gapSearchTerms": ["No current program for one required service need"],
         "currentStatusSignals": ["Current intake or an explicit closure notice"],
         "corpusComponents": {
@@ -147,6 +154,7 @@ class OptimizationPlaybookAuditTests(unittest.TestCase):
         self.assertEqual(64, len(normalized["auditSha256"]))
         self.assertIn("petPolicy", normalized["supplementaryFields"])
         self.assertNotIn("petPolicy", normalized["accessCriticalFields"])
+        self.assertEqual(10, len(normalized["requiredCoverageNeeds"]))
         self.assertEqual(
             {branch["key"] for branch in plan["branches"]},
             set(normalized["coverageBranchKeys"])

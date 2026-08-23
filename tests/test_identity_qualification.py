@@ -51,6 +51,7 @@ class IdentityQualificationManifestTests(unittest.TestCase):
                     "actionabilityState": "actionable",
                     "currentStatusState": "current",
                     "evidenceReadiness": "current-corroborated",
+                    "coverageTags": ["emergency-adult", "transportation"],
                     "reviewReason": "Current direct and government evidence agree.",
                     "evidenceUrls": [
                         "https://example.org/program/",
@@ -68,6 +69,10 @@ class IdentityQualificationManifestTests(unittest.TestCase):
         self.assertEqual({"direct-program"}, {value["candidateRole"] for value in values})
         self.assertEqual({"confirmed"}, {value["categoryState"] for value in values})
         self.assertEqual(
+            {("emergency-adult", "transportation")},
+            {tuple(value["coverageTags"]) for value in values},
+        )
+        self.assertEqual(
             ["https://example.gov/referral", "https://example.org/program"],
             values[0]["qualificationEvidenceUrls"],
         )
@@ -79,6 +84,7 @@ class IdentityQualificationManifestTests(unittest.TestCase):
         self.assertEqual([self.key], list(template["identities"]))
         entry = template["identities"][self.key]
         self.assertEqual("", entry["candidateRole"])
+        self.assertEqual([], entry["coverageTags"])
         self.assertEqual(
             ["https://example.org/program", "https://example.gov/referral"],
             entry["evidenceUrls"],
@@ -102,6 +108,12 @@ class IdentityQualificationManifestTests(unittest.TestCase):
             "petPolicy",
             result["decisions"]["https://example.org/program"]["identity"],
         )
+
+    def test_coverage_tags_must_be_explicit_unique_values(self) -> None:
+        entry = self.manifest["identities"][self.key]
+        entry["coverageTags"] = ["emergency-adult", "emergency-adult"]
+        with self.assertRaisesRegex(OptimizationRuntimeError, "blank or duplicated"):
+            apply_identity_qualification_manifest(self.review, self.manifest)
 
 
 if __name__ == "__main__":

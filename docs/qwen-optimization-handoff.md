@@ -48,6 +48,12 @@ components. The revised freeze path requires this receipt. Its planning gate is
 ready; corpus execution remains blocked until the deferred prior-result branch
 and resulting identity review are complete.
 
+Step 5 runner preparation is also wired to the receipt. Required coverage needs
+and their deterministic gap queries no longer live as a Housing-only tuple in
+the runner, and reviewed identity qualification can now preserve explicit
+coverage tags without changing candidate promotion. The runner validates the
+audit hash against the frozen discovery configuration before loading the model.
+
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
 - `docs/local-dsh-qwen-plan.md`
@@ -122,7 +128,7 @@ actionability gates in
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
-- The full Python suite most recently passed 206 tests with one optional skip.
+- The full Python suite most recently passed 207 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.

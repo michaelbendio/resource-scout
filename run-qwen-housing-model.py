@@ -7,9 +7,12 @@ from pathlib import Path
 
 from resource_research_agent.local_qwen import LOCAL_QWEN_MAX_COMPLETION_TOKENS
 from resource_research_agent.optimization_models import OptimizationModelPipeline
+from resource_research_agent.optimization_playbook_audit import (
+    normalize_optimization_playbook_audit,
+)
 from resource_research_agent.optimization_runtime import LocalQwenJSONClient, PINNED_MODELS
 from resource_research_agent.mlx_server_workaround import WORKAROUND_VERSION
-from resource_research_agent.playbooks import PLAYBOOK_LIBRARY_VERSION
+from resource_research_agent.playbooks import playbook_for
 from resource_research_agent.storage import ResearchStore
 
 
@@ -17,6 +20,7 @@ parser = argparse.ArgumentParser(description="Run one pinned quantization over a
 parser.add_argument("--database", type=Path, required=True)
 parser.add_argument("--corpus-id", type=int, required=True)
 parser.add_argument("--quantization", choices=tuple(PINNED_MODELS), required=True)
+parser.add_argument("--playbook-audit", type=Path, required=True)
 arguments = parser.parse_args()
 
 store = ResearchStore(arguments.database, recover_interrupted=True)
@@ -34,6 +38,16 @@ if not row:
     raise SystemExit("The requested frozen corpus does not exist")
 
 configuration = json.loads(row["snapshot_json"])
+playbook = playbook_for(str(configuration["targetCategoryId"]))
+playbook_audit = normalize_optimization_playbook_audit(
+    json.loads(arguments.playbook_audit.read_text(encoding="utf-8")),
+    query_plan=configuration["queryPlan"],
+    playbook=playbook,
+    referral_graph_sha256=configuration["limits"].get("referralGraphSha256"),
+    referral_review_sha256=configuration["limits"].get("referralReviewSha256"),
+)
+if configuration["limits"].get("playbookAuditSha256") != playbook_audit["auditSha256"]:
+    raise SystemExit("The model audit does not match the frozen corpus playbook audit")
 configuration.update(
     {
         "label": f"mesa-housing-urgent-{arguments.quantization}-verifier-patch-v10",
@@ -43,8 +57,11 @@ configuration.update(
         "modelEndpoint": "http://127.0.0.1:8080/v1",
         "mlxVersion": f"mlx-lm-0.31.3_2;mlx-0.32.1;{WORKAROUND_VERSION}",
         "dshVersion": "not-used-direct-openai-compatible-endpoint",
-        "promptPolicyVersion": "schema-playbook-dossier-v1-and-independent-verifier-decision-patch-v1;frozen-candidate-identity-v1",
-        "playbookVersion": PLAYBOOK_LIBRARY_VERSION,
+        "promptPolicyVersion": (
+            "schema-playbook-dossier-v1-and-independent-verifier-decision-patch-v1;"
+            "frozen-candidate-identity-v1"
+        ),
+        "playbookVersion": playbook.library_version,
         "localQwenProxyTimeoutSeconds": 7200,
     }
 )
@@ -65,15 +82,7 @@ pipeline = OptimizationModelPipeline(
     arguments.corpus_id,
     extract=client,
     verify=client,
-    required_coverage_needs=(
-        {"key": "emergency-adult", "label": "Adult emergency access", "query": '"Mesa" adult emergency shelter intake'},
-        {"key": "families-with-children", "label": "Family shelter", "query": '"Mesa" family emergency shelter children'},
-        {"key": "domestic-violence", "label": "Domestic-violence shelter", "query": '"Mesa" domestic violence emergency shelter'},
-        {"key": "medical-respite", "label": "Medical respite", "query": '"Mesa" medical respite homeless program'},
-        {"key": "veterans", "label": "Veteran emergency housing", "query": '"Mesa" veteran emergency housing'},
-        {"key": "pets", "label": "Pet-compatible shelter", "query": '"Mesa" homeless shelter pets'},
-        {"key": "transportation", "label": "Transportation to shelter", "query": '"Mesa" shelter transportation intake'},
-    ),
+    required_coverage_needs=playbook_audit["requiredCoverageNeeds"],
     progress=lambda event: print(json.dumps(event, sort_keys=True), flush=True),
 )
 result = pipeline.run()

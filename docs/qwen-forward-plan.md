@@ -347,6 +347,15 @@ playbook. Final freezing remains blocked by execution, not planning: the
 deferred prior-result branch must finish and all newly recovered identities must
 be reviewed first.
 
+Step 5 preparation also removed the old Housing-only gap list from the model
+runner. Required coverage tags and deterministic follow-up queries now come from
+the validated playbook audit; the qualification manifest can preserve reviewed
+coverage tags without affecting promotion. The current urgent audit explicitly
+checks adult, family, domestic-violence, youth, medical-respite, veteran,
+disability-access, animal-barrier, transportation, and language-access coverage.
+The selected runner refuses an audit hash that differs from the frozen discovery
+configuration.
+
 Gate: all required coverage branches have a recorded terminal state; every packet
 has one resolved identity, an eligible role, Mesa-relevance evidence, a plausible
 access path, and current evidence; all hashes and runtime versions are recorded.

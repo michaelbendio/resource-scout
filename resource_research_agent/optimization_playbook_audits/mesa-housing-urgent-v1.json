@@ -166,6 +166,58 @@
     "experienceAssessment",
     "petPolicy"
   ],
+  "requiredCoverageNeeds": [
+    {
+      "key": "emergency-adult",
+      "label": "Adult emergency access",
+      "query": "\"Mesa\" adult emergency shelter intake"
+    },
+    {
+      "key": "families-with-children",
+      "label": "Family shelter",
+      "query": "\"Mesa\" family emergency shelter children intake"
+    },
+    {
+      "key": "domestic-violence",
+      "label": "Domestic-violence safe shelter",
+      "query": "\"Mesa\" domestic violence emergency shelter safe contact"
+    },
+    {
+      "key": "youth",
+      "label": "Youth emergency shelter",
+      "query": "\"Mesa\" youth young adult emergency shelter intake"
+    },
+    {
+      "key": "medical-respite",
+      "label": "Medical respite",
+      "query": "\"Mesa\" medical respite homeless program intake"
+    },
+    {
+      "key": "veterans",
+      "label": "Veteran emergency housing",
+      "query": "\"Mesa\" veteran emergency housing assessment"
+    },
+    {
+      "key": "disability-access",
+      "label": "Disability-accessible shelter",
+      "query": "\"Mesa\" disability wheelchair accessible emergency shelter"
+    },
+    {
+      "key": "pets",
+      "label": "Shelter path when animals are a barrier",
+      "query": "\"Mesa\" homeless shelter pets service animals temporary animal care"
+    },
+    {
+      "key": "transportation",
+      "label": "Transportation to shelter",
+      "query": "\"Mesa\" shelter transportation intake"
+    },
+    {
+      "key": "language-access",
+      "label": "Language-accessible intake",
+      "query": "\"Mesa\" emergency shelter Spanish bilingual language intake"
+    }
+  ],
   "gapSearchTerms": [
     "No current urgent option for a required population",
     "No actionable intake route for a retained urgent candidate",
@@ -189,5 +241,5 @@
     "referralReviewSha256": "9e3e87fd39f2d2a39223def8af00e2d91eb42666ff7717294cf7c6c1dad6933d"
   },
   "reviewDecision": "The urgent-access planning contract is explicit and category-gated. Freeze remains execution-blocked until the exact prior-result branch completes and every newly recovered identity is reviewed, but no playbook-contract rewrite is required before that execution resumes.",
-  "auditSha256": "979759288a6684969aff028871c6f0e85ffc5eefa423e9a8b5d23da2765bc4f2"
+  "auditSha256": "f5f656e0f4859ebbf15cbf60f708f8770bbcfbda9c8c0554f3b96419fd781317"
 }

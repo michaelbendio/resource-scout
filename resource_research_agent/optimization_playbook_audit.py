@@ -44,6 +44,28 @@ def _sha256(value: Any, field: str) -> str:
     return result
 
 
+def _coverage_needs(value: Any) -> list[dict[str, str]]:
+    if not isinstance(value, list) or not value:
+        raise ValueError("Optimization playbook audit needs requiredCoverageNeeds")
+    result = []
+    keys: set[str] = set()
+    for item in value:
+        if not isinstance(item, dict):
+            raise ValueError("Optimization required coverage need must be an object")
+        key = _text(item.get("key"), "requiredCoverageNeeds.key")
+        if key in keys:
+            raise ValueError("Optimization required coverage need keys must be unique")
+        keys.add(key)
+        result.append(
+            {
+                "key": key,
+                "label": _text(item.get("label"), "requiredCoverageNeeds.label"),
+                "query": _text(item.get("query"), "requiredCoverageNeeds.query"),
+            }
+        )
+    return result
+
+
 def playbook_source_receipt(playbook: CategoryPlaybook) -> dict[str, str]:
     base_path = PLAYBOOK_LIBRARY_DIR / "base.json"
     category_path = PLAYBOOK_LIBRARY_DIR / playbook.source
@@ -252,6 +274,9 @@ def normalize_optimization_playbook_audit(
         "requiredFactualFields": required_fields,
         "accessCriticalFields": access_critical_fields,
         "supplementaryFields": supplementary_fields,
+        "requiredCoverageNeeds": _coverage_needs(
+            value.get("requiredCoverageNeeds")
+        ),
         "gapSearchTerms": _text_list(value.get("gapSearchTerms"), "gapSearchTerms"),
         "currentStatusSignals": _text_list(
             value.get("currentStatusSignals"), "currentStatusSignals"

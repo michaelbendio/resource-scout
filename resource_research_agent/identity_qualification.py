@@ -59,6 +59,7 @@ def identity_qualification_template(review: dict[str, Any]) -> dict[str, Any]:
                         identity.get("boundaryState") or "resolved"
                     ),
                     **{field: "" for field in QUALIFICATION_FIELDS},
+                    "coverageTags": [],
                     "reviewReason": "",
                     "evidenceUrls": [],
                 },
@@ -175,6 +176,18 @@ def apply_identity_qualification_manifest(
                 f"Identity qualification has invalid evidence: {identity_key}"
             ) from error
         qualification_values = {field: entry.get(field) for field in QUALIFICATION_FIELDS}
+        coverage_tags_value = entry.get("coverageTags", [])
+        if not isinstance(coverage_tags_value, list):
+            raise OptimizationRuntimeError(
+                f"Identity qualification coverage tags are invalid: {identity_key}"
+            )
+        coverage_tags = sorted(
+            {str(tag).strip() for tag in coverage_tags_value if str(tag).strip()}
+        )
+        if len(coverage_tags) != len(coverage_tags_value):
+            raise OptimizationRuntimeError(
+                f"Identity qualification coverage tags are blank or duplicated: {identity_key}"
+            )
         boundary_state = str(entry.get("boundaryState") or "resolved").strip()
         candidate_qualification(
             qualification_values,
@@ -195,6 +208,7 @@ def apply_identity_qualification_manifest(
                 )
             target.update(qualification_values)
             target["boundaryState"] = boundary_state
+            target["coverageTags"] = coverage_tags
             target["decisionReason"] = review_reason
             target["qualificationEvidenceUrls"] = normalized_evidence
 

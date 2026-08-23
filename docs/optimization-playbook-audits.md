@@ -23,6 +23,7 @@ operational. It also records:
   noncandidates;
 - required factual fields, the access-critical subset, and supplementary
   fields;
+- structured required-coverage needs with deterministic gap-query text;
 - gap-search triggers; and
 - current-status and successor signals.
 
@@ -31,6 +32,15 @@ stale playbook hash, missing or extra branch, changed role policy, changed field
 contract, category, stage, location, or referral component fails closed. The
 revised freeze command requires the audit and records its hash plus both
 playbook-source hashes in immutable configuration provenance.
+
+The selected model runner consumes `requiredCoverageNeeds` from the validated
+audit instead of carrying a Housing field or query list in reusable model code.
+Human identity qualification may attach explicit, deduplicated `coverageTags` to
+an identity without changing its promotion state. After verification, Scout
+compares those frozen tags with the audited needs and persists a targeted query
+for each uncovered need. A missing supplementary field such as pet policy does
+not itself fail the quality gate; a genuine population or access-path gap remains
+visible for follow-up.
 
 The first reviewed artifact is
 `resource_research_agent/optimization_playbook_audits/mesa-housing-urgent-v1.json`.
