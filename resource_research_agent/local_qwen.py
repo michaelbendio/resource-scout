@@ -16,7 +16,6 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 from .dsh_configuration import LOCAL_QWEN_CONFIGURATION, resolve_dsh_configuration
-from .mlx_server_workaround import WORKAROUND_VERSION
 
 
 MLX_SERVER_ENV = "RESOURCE_SCOUT_MLX_SERVER"

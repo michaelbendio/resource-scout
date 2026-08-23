@@ -16,7 +16,6 @@ from .optimization import (
     canonical_json,
     configuration_snapshot,
     coverage_branch_complete,
-    organization_key,
     package_exclusion_state,
     sha256_json,
 )
