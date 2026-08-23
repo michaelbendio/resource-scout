@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from copy import deepcopy
 from typing import Any, Iterable
 
@@ -83,22 +84,25 @@ def normalize_prior_lead_manifest(value: dict[str, Any]) -> dict[str, Any]:
         if source_id in source_ids:
             raise ValueError(f"Duplicate prior-result lead source id: {source_id}")
         source_ids.add(source_id)
-        sources.append(
-            {
-                "id": source_id,
-                "kind": _text(source.get("kind"), "sources.kind"),
-                "sourceRunId": _text(source.get("sourceRunId"), "sources.sourceRunId"),
-                "sourceStageKey": _text(
-                    source.get("sourceStageKey"), "sources.sourceStageKey"
-                ),
-                "observedAt": _text(source.get("observedAt"), "sources.observedAt"),
-                **(
-                    {"artifactSha256": _text(source["artifactSha256"], "sources.artifactSha256")}
-                    if source.get("artifactSha256")
-                    else {}
-                ),
-            }
-        )
+        normalized_source = {
+            "id": source_id,
+            "kind": _text(source.get("kind"), "sources.kind"),
+            "sourceRunId": _text(source.get("sourceRunId"), "sources.sourceRunId"),
+            "sourceStageKey": _text(
+                source.get("sourceStageKey"), "sources.sourceStageKey"
+            ),
+            "observedAt": _text(source.get("observedAt"), "sources.observedAt"),
+        }
+        if source.get("artifactSha256"):
+            artifact_sha256 = _text(
+                source["artifactSha256"], "sources.artifactSha256"
+            )
+            if not re.fullmatch(r"[0-9a-f]{64}", artifact_sha256):
+                raise ValueError(
+                    "Prior-result lead source artifactSha256 must be a SHA-256 digest"
+                )
+            normalized_source["artifactSha256"] = artifact_sha256
+        sources.append(normalized_source)
     leads_value = value.get("leads")
     if not isinstance(leads_value, list) or not leads_value:
         raise ValueError("Prior-result lead manifest needs a non-empty leads array")

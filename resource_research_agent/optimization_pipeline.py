@@ -22,6 +22,7 @@ from .optimization import (
 )
 from .playbooks import playbook_for
 from .prior_leads import normalize_prior_lead_manifest
+from .referral_graph import normalize_referral_graph
 from .storage import ResearchStore
 
 
@@ -47,6 +48,7 @@ class DiscoveryCorpusResult:
     query_count: int
     lead_count: int
     prior_lead_count: int
+    referral_edge_count: int
     identity_count: int
     eligible_identity_count: int
     noncandidate_identity_count: int
@@ -98,6 +100,7 @@ class OptimizationDiscoveryPipeline:
         resolve_identity: IdentityCallback,
         existing_resources: Iterable[dict[str, Any]] = (),
         prior_lead_manifest: dict[str, Any] | None = None,
+        referral_graph: dict[str, Any] | None = None,
         progress: ProgressCallback | None = None,
     ) -> None:
         self.store = store
@@ -123,6 +126,15 @@ class OptimizationDiscoveryPipeline:
             if prior_lead_manifest is not None
             else None
         )
+        if self.prior_lead_manifest is not None and (
+            self.prior_lead_manifest["categoryId"]
+            != str(self.configuration_record["snapshot"]["targetCategoryId"])
+            or self.prior_lead_manifest["targetLocation"].casefold()
+            != str(self.configuration_record["snapshot"]["targetLocation"]).casefold()
+        ):
+            raise OptimizationPipelineError(
+                "Prior-result lead manifest category or location does not match the run"
+            )
         actual_prior_hash = (
             str(self.prior_lead_manifest["manifestSha256"])
             if self.prior_lead_manifest is not None
@@ -131,6 +143,43 @@ class OptimizationDiscoveryPipeline:
         if expected_prior_hash != actual_prior_hash:
             raise OptimizationPipelineError(
                 "Discovery query plan and prior-result lead manifest do not match"
+            )
+        expected_referral_hash = str(query_plan.get("referralGraphSha256") or "")
+        self.referral_graph = (
+            normalize_referral_graph(referral_graph)
+            if referral_graph is not None
+            else None
+        )
+        if self.referral_graph is not None:
+            if (
+                self.referral_graph["categoryId"]
+                != str(self.configuration_record["snapshot"]["targetCategoryId"])
+                or self.referral_graph["targetLocation"].casefold()
+                != str(self.configuration_record["snapshot"]["targetLocation"]).casefold()
+            ):
+                raise OptimizationPipelineError(
+                    "Referral graph category or location does not match the run"
+                )
+            invalid_stages = sorted(
+                {
+                    edge["stageKey"]
+                    for edge in self.referral_graph["edges"]
+                    if edge["stageKey"] not in self.stage_keys
+                }
+            )
+            if invalid_stages:
+                raise OptimizationPipelineError(
+                    "Referral graph uses stages outside the selected playbook: "
+                    + ", ".join(invalid_stages)
+                )
+        actual_referral_hash = (
+            str(self.referral_graph["graphSha256"])
+            if self.referral_graph is not None
+            else ""
+        )
+        if expected_referral_hash != actual_referral_hash:
+            raise OptimizationPipelineError(
+                "Discovery query plan and referral graph do not match"
             )
         self.search = search
         self.fetch = fetch
@@ -145,10 +194,13 @@ class OptimizationDiscoveryPipeline:
         if existing is not None:
             return self._result(run_id, configuration_id, existing)
         self._ensure_prior_leads(run_id)
+        self._ensure_referral_graph(run_id)
         self._ensure_query_plan(run_id)
         self._mark_run(run_id, status="running", phase="discovery")
         try:
             self._execute_queries(run_id)
+            self._mark_run(run_id, status="running", phase="referral-expansion")
+            self._expand_referral_edges(run_id)
             self._mark_run(run_id, status="running", phase="fetch")
             self._fetch_leads(run_id)
             self._mark_run(run_id, status="running", phase="freeze-corpus")
@@ -273,6 +325,179 @@ class OptimizationDiscoveryPipeline:
                         canonical_json(lead["provenance"]),
                     ),
                 )
+
+    def _ensure_referral_graph(self, run_id: int) -> None:
+        if self.referral_graph is None:
+            return
+        graph = self.referral_graph
+        with self.store.connect() as connection:
+            existing = connection.execute(
+                "SELECT graph_sha256 FROM optimization_referral_graphs WHERE run_id = ?",
+                (run_id,),
+            ).fetchone()
+            if existing:
+                if existing["graph_sha256"] != graph["graphSha256"]:
+                    raise OptimizationPipelineError(
+                        "Discovery run already has a different referral graph"
+                    )
+                return
+            graph_row_id = int(
+                connection.execute(
+                    """INSERT INTO optimization_referral_graphs (
+                           run_id, graph_id, policy_version, imported_at,
+                           graph_json, graph_sha256
+                       ) VALUES (?, ?, ?, ?, ?, ?)""",
+                    (
+                        run_id,
+                        graph["graphId"],
+                        graph["policyVersion"],
+                        _now(),
+                        canonical_json(graph),
+                        graph["graphSha256"],
+                    ),
+                ).lastrowid
+            )
+            for edge in graph["edges"]:
+                connection.execute(
+                    """INSERT INTO optimization_referral_edges (
+                           graph_id, edge_key, source_url, source_title,
+                           source_authority, destination_url, organization, program,
+                           target_stage_key, relationship, context
+                       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (
+                        graph_row_id,
+                        edge["edgeKey"],
+                        edge["sourceUrl"],
+                        edge["sourceTitle"],
+                        edge["sourceAuthority"],
+                        edge["destinationUrl"],
+                        edge["organization"],
+                        edge["program"],
+                        edge["stageKey"],
+                        edge["relationship"],
+                        edge["context"],
+                    ),
+                )
+
+    def _expand_referral_edges(self, run_id: int) -> None:
+        if self.referral_graph is None:
+            return
+        with self.store.connect() as connection:
+            edges = connection.execute(
+                """SELECT edge.* FROM optimization_referral_edges AS edge
+                   JOIN optimization_referral_graphs AS graph ON graph.id = edge.graph_id
+                   WHERE graph.run_id = ? ORDER BY edge.id""",
+                (run_id,),
+            ).fetchall()
+        for edge in edges:
+            if edge["status"] in {"expanded", "unresolved"}:
+                continue
+            synthetic_result = {
+                "url": edge["destination_url"],
+                "title": f"{edge['organization']} — {edge['program']}",
+                "snippet": edge["context"],
+                "referralEdge": {
+                    "edgeKey": edge["edge_key"],
+                    "sourceUrl": edge["source_url"],
+                    "sourceAuthority": edge["source_authority"],
+                },
+            }
+            decision_value = self.resolve_identity(synthetic_result)
+            decisions = (
+                [decision_value]
+                if isinstance(decision_value, dict)
+                else decision_value
+                if isinstance(decision_value, list)
+                else []
+            )
+            if any(not isinstance(decision, dict) for decision in decisions):
+                raise OptimizationPipelineError(
+                    f"Identity resolver returned invalid referral decisions for {edge['edge_key']}"
+                )
+            with self.store.connect() as connection:
+                lead = connection.execute(
+                    """SELECT id FROM optimization_discovery_leads
+                       WHERE run_id = ? AND canonical_url = ?""",
+                    (run_id, edge["destination_url"]),
+                ).fetchone()
+                if lead:
+                    lead_id = int(lead["id"])
+                else:
+                    lead_id = int(
+                        connection.execute(
+                            """INSERT INTO optimization_discovery_leads (
+                                   run_id, canonical_url, title, snippet, discovered_at,
+                                   origin_type, origin_key
+                               ) VALUES (?, ?, ?, ?, ?, 'referral-edge', ?)""",
+                            (
+                                run_id,
+                                edge["destination_url"],
+                                synthetic_result["title"],
+                                edge["context"],
+                                _now(),
+                                edge["edge_key"],
+                            ),
+                        ).lastrowid
+                    )
+                for decision in decisions:
+                    if str(decision.get("stageKey") or edge["target_stage_key"]) != str(
+                        edge["target_stage_key"]
+                    ):
+                        raise OptimizationPipelineError(
+                            f"Referral edge stage and identity review disagree for {edge['edge_key']}"
+                        )
+                    decision = {**decision, "stageKey": edge["target_stage_key"]}
+                    identity_id, _created = self._save_identity(
+                        connection, run_id, decision
+                    )
+                    metadata = {
+                        "directDomains": sorted(
+                            {
+                                str(domain).strip().casefold()
+                                for domain in decision.get("directDomains", [])
+                                if str(domain).strip()
+                            }
+                        ),
+                        "reviewedAuthority": decision.get("reviewedAuthority"),
+                        "coverageTags": sorted(
+                            {
+                                str(tag).strip()
+                                for tag in decision.get("coverageTags", [])
+                                if str(tag).strip()
+                            }
+                        ),
+                        "evidenceExcerpt": str(
+                            decision.get("evidenceExcerpt") or ""
+                        ).strip(),
+                        "referralEdgeKey": edge["edge_key"],
+                        "referralSourceUrl": edge["source_url"],
+                        "referralContext": edge["context"],
+                    }
+                    connection.execute(
+                        """INSERT INTO optimization_identity_leads (
+                               identity_id, lead_id, relationship, metadata_json
+                           ) VALUES (?, ?, 'describes-program', ?)
+                           ON CONFLICT(identity_id, lead_id) DO UPDATE SET
+                               metadata_json = excluded.metadata_json""",
+                        (identity_id, lead_id, canonical_json(metadata)),
+                    )
+                connection.execute(
+                    """UPDATE optimization_referral_edges
+                       SET status = ?, lead_id = ?, expanded_at = ? WHERE id = ?""",
+                    (
+                        "expanded" if decisions else "unresolved",
+                        lead_id,
+                        _now(),
+                        edge["id"],
+                    ),
+                )
+            self.progress(
+                {
+                    "phase": "referral-expansion",
+                    "edgeKey": edge["edge_key"],
+                    "status": "expanded" if decisions else "unresolved",
+                }
+            )
 
     def _execute_queries(self, run_id: int) -> None:
         with self.store.connect() as connection:
@@ -1005,6 +1230,23 @@ class OptimizationDiscoveryPipeline:
                     (run_id,),
                 ).fetchall()
             ]
+            referral_graphs = [
+                dict(row)
+                for row in connection.execute(
+                    """SELECT * FROM optimization_referral_graphs
+                       WHERE run_id = ? ORDER BY id""",
+                    (run_id,),
+                ).fetchall()
+            ]
+            referral_edges = [
+                dict(row)
+                for row in connection.execute(
+                    """SELECT edge.* FROM optimization_referral_edges AS edge
+                       JOIN optimization_referral_graphs AS graph ON graph.id = edge.graph_id
+                       WHERE graph.run_id = ? ORDER BY edge.edge_key""",
+                    (run_id,),
+                ).fetchall()
+            ]
         sources_by_identity: dict[int, list[dict[str, Any]]] = {}
         for source in sources:
             decoded = dict(source)
@@ -1060,6 +1302,8 @@ class OptimizationDiscoveryPipeline:
             "leads": leads,
             "priorLeadManifests": prior_manifests,
             "priorLeads": prior_leads,
+            "referralGraphs": referral_graphs,
+            "referralEdges": referral_edges,
         }
         identity_record = identities
         source_record = sources
@@ -1120,6 +1364,7 @@ class OptimizationDiscoveryPipeline:
                 ),
                 "leadCount": len(leads),
                 "priorLeadCount": len(prior_leads),
+                "referralEdgeCount": len(referral_edges),
                 "resolvedIdentityCount": len(packets),
                 "packageEligibleIdentityCount": sum(
                     1
@@ -1215,6 +1460,15 @@ class OptimizationDiscoveryPipeline:
                     (run_id,),
                 ).fetchone()["count"]
             )
+            referral_edge_count = int(
+                connection.execute(
+                    """SELECT COUNT(*) AS count
+                       FROM optimization_referral_edges AS edge
+                       JOIN optimization_referral_graphs AS graph ON graph.id = edge.graph_id
+                       WHERE graph.run_id = ?""",
+                    (run_id,),
+                ).fetchone()["count"]
+            )
             identity_counts = connection.execute(
                 """SELECT COUNT(*) AS total,
                           SUM(CASE WHEN boundary_state = 'excluded-existing' THEN 1 ELSE 0 END) AS excluded,
@@ -1253,6 +1507,7 @@ class OptimizationDiscoveryPipeline:
             query_count=query_count,
             lead_count=lead_count,
             prior_lead_count=prior_lead_count,
+            referral_edge_count=referral_edge_count,
             identity_count=int(identity_counts["total"] or 0),
             eligible_identity_count=int(identity_counts["eligible"] or 0),
             noncandidate_identity_count=int(identity_counts["noncandidate"] or 0),

@@ -347,12 +347,45 @@ CREATE TABLE IF NOT EXISTS optimization_discovery_leads (
     title TEXT NOT NULL,
     snippet TEXT NOT NULL,
     discovered_at TEXT NOT NULL,
+    origin_type TEXT NOT NULL DEFAULT 'search-result' CHECK (
+        origin_type IN ('search-result', 'referral-edge')
+    ),
+    origin_key TEXT NOT NULL DEFAULT '',
     redirect_url TEXT,
     fetch_status TEXT NOT NULL DEFAULT 'pending' CHECK (
         fetch_status IN ('pending', 'fetched', 'failed', 'rejected', 'not-selected')
     ),
     failure_reason TEXT NOT NULL DEFAULT '',
     UNIQUE (run_id, canonical_url)
+);
+CREATE TABLE IF NOT EXISTS optimization_referral_graphs (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL UNIQUE REFERENCES optimization_runs(id) ON DELETE CASCADE,
+    graph_id TEXT NOT NULL,
+    policy_version TEXT NOT NULL,
+    imported_at TEXT NOT NULL,
+    graph_json TEXT NOT NULL,
+    graph_sha256 TEXT NOT NULL CHECK (length(graph_sha256) = 64)
+);
+CREATE TABLE IF NOT EXISTS optimization_referral_edges (
+    id INTEGER PRIMARY KEY,
+    graph_id INTEGER NOT NULL REFERENCES optimization_referral_graphs(id) ON DELETE CASCADE,
+    edge_key TEXT NOT NULL,
+    source_url TEXT NOT NULL,
+    source_title TEXT NOT NULL,
+    source_authority TEXT NOT NULL,
+    destination_url TEXT NOT NULL,
+    organization TEXT NOT NULL,
+    program TEXT NOT NULL,
+    target_stage_key TEXT NOT NULL,
+    relationship TEXT NOT NULL,
+    context TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'planned' CHECK (
+        status IN ('planned', 'expanded', 'unresolved')
+    ),
+    lead_id INTEGER REFERENCES optimization_discovery_leads(id),
+    expanded_at TEXT,
+    UNIQUE (graph_id, edge_key)
 );
 CREATE TABLE IF NOT EXISTS optimization_fetch_attempts (
     id INTEGER PRIMARY KEY,
@@ -753,6 +786,20 @@ class ResearchStore:
                 "ALTER TABLE optimization_identity_leads "
                 "ADD COLUMN metadata_json TEXT NOT NULL DEFAULT '{}'"
             )
+        optimization_discovery_lead_columns = {
+            row["name"]
+            for row in connection.execute(
+                "PRAGMA table_info(optimization_discovery_leads)"
+            )
+        }
+        for name, definition in {
+            "origin_type": "TEXT NOT NULL DEFAULT 'search-result'",
+            "origin_key": "TEXT NOT NULL DEFAULT ''",
+        }.items():
+            if name not in optimization_discovery_lead_columns:
+                connection.execute(
+                    f"ALTER TABLE optimization_discovery_leads ADD COLUMN {name} {definition}"
+                )
         connection.execute(
             """UPDATE optimization_candidate_identities
                SET target_stage_key = (

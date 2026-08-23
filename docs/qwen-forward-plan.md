@@ -257,8 +257,13 @@ for the same identity fail closed instead of becoming query-order-dependent.
 URLs produce no candidate or evidence by import, every lead receives a current
 search, and the manifest is hashed into the corpus ledger. The reproducible
 one-time Mesa v1 harvest contains 623 deduplicated leads from 22 frozen DeepSeek
-and Qwen run-stage sources. Referral-edge and appended-branch work remains in
-progress.
+and Qwen run-stage sources. `authoritative-one-hop-referrals-v1` now persists and
+resumes bounded source-to-program-to-destination edges, rejects directories,
+loops, duplicates, category/location mismatches, and unknown playbook stages, and
+keeps edge context out of candidate evidence. Housing and Food integration
+fixtures prove that only a fresh destination fetch can support a promoted
+identity. Building the reviewed Mesa graph and running the appended live branch
+remain in progress.
 
 ### 4. Freeze the revised first-stage corpus
 

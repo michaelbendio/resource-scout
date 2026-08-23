@@ -1,0 +1,45 @@
+# Authoritative referral graphs
+
+`authoritative-one-hop-referrals-v1` expands carefully reviewed relationships
+without counting a referral page, directory entry, location, or partner logo as a
+candidate.
+
+Each edge records:
+
+- the authoritative source URL, title, and authority class;
+- the named organization and specific program;
+- the exact public destination URL;
+- the selected category-playbook stage;
+- the relationship type; and
+- a bounded nearby context excerpt showing why the edge exists.
+
+The accepted source classes are a direct provider, a government or coordinated
+referral source, and an explicitly reviewed reputable secondary source. A generic
+directory cannot seed an edge. Self-loops, duplicate edges, more than 25 edges
+from one page, more than 200 edges in one graph, category/location mismatches,
+and stages outside the selected playbook fail closed.
+
+The graph is one hop. Scout does not recursively harvest the destination page's
+partners or links. It persists the edge, creates a lead for the exact destination,
+and asks the current identity review to classify that lead. The edge context
+remains provenance and is not copied into the candidate's evidence. Only a fresh
+fetch of the destination page can become evidence, and only a currently eligible
+identity can produce a packet. An unresolved edge remains in the ledger without
+being fetched into a candidate or affecting query saturation.
+
+Several edges may lead to one identity, and several materially distinct programs
+may belong to one parent organization. Identity deduplication still uses
+organization plus specific program. Access locations, organization-only records,
+directories, and referral systems remain noncandidate roles unless an access or
+assessment service is independently actionable under the role gate.
+
+The graph is stored in `optimization_referral_graphs`; each edge and its resume
+status is stored in `optimization_referral_edges`. Completed expansion is
+replay-safe. The graph, edges, current leads, identities, and fetched destination
+evidence are all included in the frozen corpus ledger hashes.
+
+The first Mesa Housing graph will be built from newly inspected direct-provider,
+City, County, coordinated-entry, and authoritative referral pages. It will be a
+versioned calibration artifact, not a Housing-specific Python path. Confidential
+shelters may use a public safe-contact destination; Scout must not attempt to
+discover or publish a confidential address.

@@ -9,8 +9,9 @@ Step 3 is in progress: the category-neutral candidate-role promotion gate and
 prior-result lead-manifest path are implemented. The reproducible one-time Mesa
 manifest has 623 names/URLs-only leads and canonical content SHA-256
 `ff96127c335ac250c6c3d88780e20d3745db5a9e2305a704ec83b674910df0a6`.
-Referral edges and appended live discovery remain. No production cutover is
-authorized.
+The generic bounded one-hop referral graph is implemented and verified with
+Housing and Food fixtures; the reviewed Mesa graph and appended live discovery
+remain. No production cutover is authorized.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
