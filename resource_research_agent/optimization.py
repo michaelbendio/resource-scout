@@ -41,6 +41,149 @@ SOURCE_AUTHORITIES = {
     "reputable-secondary",
     "directory-lead",
 }
+
+CANDIDATE_ROLES = {
+    "direct-program",
+    "access-assessment-service",
+    "service-location",
+    "referral-system",
+    "directory",
+    "organization-only",
+    "unresolved-lead",
+}
+COUNTABLE_CANDIDATE_ROLES = {
+    "direct-program",
+    "access-assessment-service",
+}
+CANDIDATE_GEOGRAPHY_STATES = {
+    "confirmed-target",
+    "confirmed-serves-target",
+    "unknown",
+    "outside-target",
+}
+CANDIDATE_ACTIONABILITY_STATES = {
+    "actionable",
+    "uncertain",
+    "informational-only",
+}
+CANDIDATE_CURRENT_STATUS_STATES = {
+    "current",
+    "uncertain",
+    "inactive",
+    "successor",
+}
+CANDIDATE_EVIDENCE_READINESS_STATES = {
+    "current-authoritative",
+    "current-corroborated",
+    "lead-only",
+    "stale",
+}
+CANDIDATE_QUALIFICATION_POLICY_VERSION = "candidate-role-gates-v1"
+
+
+def candidate_qualification(
+    decision: dict[str, Any],
+    *,
+    boundary_state: str,
+    package_match_state: str,
+) -> dict[str, Any]:
+    """Classify a resolved identity without letting a named lead become a candidate.
+
+    The reviewed decision owns the role and gate observations. Scout owns the
+    deterministic promotion result. Missing or unfamiliar observations fail closed.
+    """
+
+    values = {
+        "candidateRole": (
+            str(decision.get("candidateRole") or "").strip(),
+            CANDIDATE_ROLES,
+        ),
+        "geographyState": (
+            str(decision.get("geographyState") or "").strip(),
+            CANDIDATE_GEOGRAPHY_STATES,
+        ),
+        "actionabilityState": (
+            str(decision.get("actionabilityState") or "").strip(),
+            CANDIDATE_ACTIONABILITY_STATES,
+        ),
+        "currentStatusState": (
+            str(decision.get("currentStatusState") or "").strip(),
+            CANDIDATE_CURRENT_STATUS_STATES,
+        ),
+        "evidenceReadiness": (
+            str(decision.get("evidenceReadiness") or "").strip(),
+            CANDIDATE_EVIDENCE_READINESS_STATES,
+        ),
+    }
+    invalid = [name for name, (value, allowed) in values.items() if value not in allowed]
+    if invalid:
+        raise ValueError(
+            "Candidate qualification is missing or invalid: " + ", ".join(invalid)
+        )
+
+    role = values["candidateRole"][0]
+    geography = values["geographyState"][0]
+    actionability = values["actionabilityState"][0]
+    current_status = values["currentStatusState"][0]
+    evidence = values["evidenceReadiness"][0]
+    reasons: list[str] = []
+    terminal_noncandidate = False
+
+    if package_match_state == "same-program" or boundary_state == "excluded-existing":
+        reasons.append("same program is already represented in the source package")
+        terminal_noncandidate = True
+    if role not in COUNTABLE_CANDIDATE_ROLES:
+        reasons.append(f"role {role} is retained as a noncandidate lead")
+        terminal_noncandidate = True
+    if geography == "outside-target":
+        reasons.append("service geography is outside the target")
+        terminal_noncandidate = True
+    elif geography == "unknown":
+        reasons.append("service geography is unresolved")
+    if actionability == "informational-only":
+        reasons.append("record has no independently actionable access function")
+        terminal_noncandidate = True
+    elif actionability == "uncertain":
+        reasons.append("access path is unresolved")
+    if current_status == "inactive":
+        reasons.append("current evidence says the program is inactive")
+        terminal_noncandidate = True
+    elif current_status == "successor":
+        reasons.append("possible successor or renamed program requires identity review")
+    elif current_status == "uncertain":
+        reasons.append("current program status is unresolved")
+    if evidence == "lead-only":
+        reasons.append("only lead-level evidence is available")
+    elif evidence == "stale":
+        reasons.append("available evidence is stale")
+    if boundary_state != "resolved" and boundary_state != "excluded-existing":
+        reasons.append(f"identity boundary is {boundary_state}")
+
+    all_promotable = (
+        boundary_state == "resolved"
+        and package_match_state != "same-program"
+        and role in COUNTABLE_CANDIDATE_ROLES
+        and geography in {"confirmed-target", "confirmed-serves-target"}
+        and actionability == "actionable"
+        and current_status == "current"
+        and evidence in {"current-authoritative", "current-corroborated"}
+    )
+    state = (
+        "excluded-existing"
+        if package_match_state == "same-program" or boundary_state == "excluded-existing"
+        else "eligible"
+        if all_promotable
+        else "noncandidate"
+        if terminal_noncandidate
+        else "review-required"
+    )
+    return {
+        "state": state,
+        "reasons": reasons,
+        **{name: value for name, (value, _allowed) in values.items()},
+    }
+
+
 def canonical_json(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
@@ -418,7 +561,8 @@ def build_housing_urgent_query_plan(
             }
         )
     plan = {
-        "schemaVersion": 2,
+        "schemaVersion": 4,
+        "candidateQualificationPolicyVersion": CANDIDATE_QUALIFICATION_POLICY_VERSION,
         "categoryId": "housing",
         "stageKey": "urgent-access",
         "targetLocation": location,

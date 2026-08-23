@@ -5,7 +5,9 @@ on 2026-08-23 over 22 identical first-stage Housing packets and selected 8-bit
 Qwen on quality before timing was revealed. Forward-plan steps 1 and 2 are
 complete; step 3 is next. Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
-No production cutover is authorized.
+Step 3 is in progress: the category-neutral candidate-role promotion gate is
+implemented, while historical lead import, referral edges, and appended live
+discovery remain. No production cutover is authorized.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 

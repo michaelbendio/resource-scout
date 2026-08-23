@@ -368,6 +368,34 @@ CREATE TABLE IF NOT EXISTS optimization_candidate_identities (
     ),
     package_resource_id TEXT,
     target_stage_key TEXT NOT NULL DEFAULT '',
+    candidate_role TEXT NOT NULL DEFAULT 'unresolved-lead' CHECK (
+        candidate_role IN (
+            'direct-program', 'access-assessment-service', 'service-location',
+            'referral-system', 'directory', 'organization-only', 'unresolved-lead'
+        )
+    ),
+    geography_state TEXT NOT NULL DEFAULT 'unknown' CHECK (
+        geography_state IN (
+            'confirmed-target', 'confirmed-serves-target', 'unknown', 'outside-target'
+        )
+    ),
+    actionability_state TEXT NOT NULL DEFAULT 'uncertain' CHECK (
+        actionability_state IN ('actionable', 'uncertain', 'informational-only')
+    ),
+    current_status_state TEXT NOT NULL DEFAULT 'uncertain' CHECK (
+        current_status_state IN ('current', 'uncertain', 'inactive', 'successor')
+    ),
+    evidence_readiness TEXT NOT NULL DEFAULT 'lead-only' CHECK (
+        evidence_readiness IN (
+            'current-authoritative', 'current-corroborated', 'lead-only', 'stale'
+        )
+    ),
+    promotion_state TEXT NOT NULL DEFAULT 'review-required' CHECK (
+        promotion_state IN (
+            'eligible', 'noncandidate', 'review-required', 'excluded-existing'
+        )
+    ),
+    promotion_reasons_json TEXT NOT NULL DEFAULT '[]',
     decision_reason TEXT NOT NULL,
     metadata_json TEXT NOT NULL DEFAULT '{}',
     UNIQUE (run_id, identity_key)
@@ -678,6 +706,20 @@ class ResearchStore:
                 "ALTER TABLE optimization_candidate_identities "
                 "ADD COLUMN target_stage_key TEXT NOT NULL DEFAULT ''"
             )
+        identity_qualification_additions = {
+            "candidate_role": "TEXT NOT NULL DEFAULT 'unresolved-lead'",
+            "geography_state": "TEXT NOT NULL DEFAULT 'unknown'",
+            "actionability_state": "TEXT NOT NULL DEFAULT 'uncertain'",
+            "current_status_state": "TEXT NOT NULL DEFAULT 'uncertain'",
+            "evidence_readiness": "TEXT NOT NULL DEFAULT 'lead-only'",
+            "promotion_state": "TEXT NOT NULL DEFAULT 'review-required'",
+            "promotion_reasons_json": "TEXT NOT NULL DEFAULT '[]'",
+        }
+        for name, definition in identity_qualification_additions.items():
+            if name not in optimization_identity_columns:
+                connection.execute(
+                    f"ALTER TABLE optimization_candidate_identities ADD COLUMN {name} {definition}"
+                )
         optimization_identity_lead_columns = {
             row["name"]
             for row in connection.execute(

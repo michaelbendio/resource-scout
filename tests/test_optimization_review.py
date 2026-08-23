@@ -20,24 +20,37 @@ from resource_research_agent.optimization_review import (
 from resource_research_agent.optimization_runtime import OptimizationRuntimeError
 
 
+def qualified_identity(organization: str, program: str, **values) -> dict:
+    identity = {
+        "organization": organization,
+        "program": program,
+        "candidateRole": "direct-program",
+        "geographyState": "confirmed-target",
+        "actionabilityState": "actionable",
+        "currentStatusState": "current",
+        "evidenceReadiness": "current-authoritative",
+    }
+    identity.update(values)
+    return identity
+
+
 class OptimizationReviewTests(unittest.TestCase):
     def test_reviewed_query_plan_includes_every_urgent_status_check(self) -> None:
         review = {
             "decisions": {
                 "https://example.org/urgent": {
                     "disposition": "candidate",
-                    "identity": {
-                        "organization": "Urgent Provider",
-                        "program": "Urgent Program",
-                    },
+                    "identity": qualified_identity(
+                        "Urgent Provider", "Urgent Program"
+                    ),
                 },
                 "https://example.org/routed": {
                     "disposition": "candidate",
-                    "identity": {
-                        "organization": "Routed Provider",
-                        "program": "Routed Program",
-                        "stageKey": "stabilization",
-                    },
+                    "identity": qualified_identity(
+                        "Routed Provider",
+                        "Routed Program",
+                        stageKey="stabilization",
+                    ),
                 },
             }
         }
@@ -78,7 +91,7 @@ class OptimizationReviewTests(unittest.TestCase):
             {
                 "disposition": "candidate",
                 "reason": "Official provider program page",
-                "identity": {"organization": "Example", "program": "Help"},
+                "identity": qualified_identity("Example", "Help"),
             }
         )
         validate_identity_review(first, review)
@@ -89,16 +102,14 @@ class OptimizationReviewTests(unittest.TestCase):
 
         record.pop("identity")
         record["identities"] = [
-            {
-                "organization": "Example",
-                "program": "Help Line",
-                "evidenceExcerpt": "Call the Help Line.",
-            },
-            {
-                "organization": "Example",
-                "program": "Street Outreach",
-                "evidenceExcerpt": "Street Outreach meets people outside.",
-            },
+            qualified_identity(
+                "Example", "Help Line", evidenceExcerpt="Call the Help Line."
+            ),
+            qualified_identity(
+                "Example",
+                "Street Outreach",
+                evidenceExcerpt="Street Outreach meets people outside.",
+            ),
         ]
         validate_identity_review(first, review)
         decisions = reviewed_identity_decisions(review)["https://example.org/help"]
@@ -118,6 +129,30 @@ class OptimizationReviewTests(unittest.TestCase):
         review = identity_review_template(cache)
         review["decisions"]["https://example.org/"]["disposition"] = "excluded"
         with self.assertRaisesRegex(OptimizationRuntimeError, "lacks a reason"):
+            validate_identity_review(cache, review)
+
+    def test_candidate_review_without_role_contract_fails_closed(self) -> None:
+        cache = {
+            "queries": {
+                "q": {
+                    "sources": [
+                        {"url": "https://example.org/program", "title": "Program"}
+                    ]
+                }
+            }
+        }
+        cache["cacheSha256"] = __import__(
+            "resource_research_agent.optimization", fromlist=["sha256_json"]
+        ).sha256_json(cache["queries"])
+        review = identity_review_template(cache)
+        review["decisions"]["https://example.org/program"].update(
+            {
+                "disposition": "candidate",
+                "reason": "Named page without completed qualification review",
+                "identity": {"organization": "Example", "program": "Program"},
+            }
+        )
+        with self.assertRaisesRegex(OptimizationRuntimeError, "lacks qualification"):
             validate_identity_review(cache, review)
 
     def test_cached_search_is_exact_and_bounded(self) -> None:
@@ -154,7 +189,7 @@ class OptimizationReviewTests(unittest.TestCase):
             {
                 "disposition": "candidate",
                 "reason": "Reviewed program",
-                "identity": {"organization": "Example", "program": "Program"},
+                "identity": qualified_identity("Example", "Program"),
                 "reviewEvidence": [
                     {
                         "url": "https://example.org/status",
@@ -215,7 +250,7 @@ class OptimizationReviewTests(unittest.TestCase):
                 "https://example.org/program": {
                     "disposition": "candidate",
                     "reason": "Direct program page",
-                    "identity": {"organization": "Example", "program": "Program"},
+                    "identity": qualified_identity("Example", "Program"),
                 },
                 "https://example.org/junk": {
                     "disposition": "excluded",
@@ -288,10 +323,9 @@ class OptimizationReviewTests(unittest.TestCase):
                 {
                     "disposition": "candidate",
                     "reason": "Resolved program",
-                    "identity": {
-                        "organization": "Example",
-                        "program": "Emergency Shelter",
-                    },
+                    "identity": qualified_identity(
+                        "Example", "Emergency Shelter"
+                    ),
                 }
             )
             expanded = cache_housing_searches(

@@ -10,6 +10,8 @@ from urllib.parse import urlsplit
 from .optimization import (
     augment_housing_query_plan_with_status_checks,
     build_housing_urgent_query_plan,
+    CANDIDATE_QUALIFICATION_POLICY_VERSION,
+    candidate_qualification,
     sha256_json,
 )
 from .optimization_pipeline import canonicalize_discovery_url
@@ -153,7 +155,8 @@ def identity_review_template(cache: dict[str, Any]) -> dict[str, Any]:
             if key not in record["queryKeys"]:
                 record["queryKeys"].append(key)
     return {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
+        "candidateQualificationPolicyVersion": CANDIDATE_QUALIFICATION_POLICY_VERSION,
         "searchCacheSha256": cache.get("cacheSha256") or sha256_json(cache.get("queries", {})),
         "decisions": dict(sorted(records.items())),
     }
@@ -283,6 +286,16 @@ def apply_identity_review_patch(
                     raise OptimizationRuntimeError(
                         f"Candidate identity-review patch is incomplete: {url}"
                     )
+                try:
+                    candidate_qualification(
+                        identity,
+                        boundary_state=str(identity.get("boundaryState") or "resolved"),
+                        package_match_state="not-matched",
+                    )
+                except ValueError as error:
+                    raise OptimizationRuntimeError(
+                        f"Candidate identity-review patch lacks qualification: {url}: {error}"
+                    ) from error
         elif identity_value is not None:
             raise OptimizationRuntimeError(
                 f"Excluded identity-review patch must not contain an identity: {url}"
@@ -386,6 +399,13 @@ def validate_identity_review(cache: dict[str, Any], review: dict[str, Any]) -> N
     expected = cache.get("cacheSha256") or sha256_json(cache.get("queries", {}))
     if review.get("searchCacheSha256") != expected:
         raise OptimizationRuntimeError("Identity review belongs to a different search cache")
+    if (
+        review.get("candidateQualificationPolicyVersion")
+        != CANDIDATE_QUALIFICATION_POLICY_VERSION
+    ):
+        raise OptimizationRuntimeError(
+            "Identity review lacks the current candidate-role qualification policy"
+        )
     decisions = review.get("decisions")
     if not isinstance(decisions, dict):
         raise OptimizationRuntimeError("Identity review has no decisions object")
@@ -420,6 +440,16 @@ def validate_identity_review(cache: dict[str, Any], review: dict[str, Any]) -> N
                 identity.get("program") or ""
             ).strip():
                 raise OptimizationRuntimeError(f"Candidate identity is incomplete: {url}")
+            try:
+                candidate_qualification(
+                    identity,
+                    boundary_state=str(identity.get("boundaryState") or "resolved"),
+                    package_match_state="not-matched",
+                )
+            except ValueError as error:
+                raise OptimizationRuntimeError(
+                    f"Candidate identity lacks qualification: {url}: {error}"
+                ) from error
             if "evidenceExcerpt" in identity and not str(
                 identity.get("evidenceExcerpt") or ""
             ).strip():

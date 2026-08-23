@@ -20,6 +20,24 @@ from resource_research_agent.storage import ResearchStore
 FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "housing_qwen" / "stage1"
 
 
+def qualified_identity(
+    organization: str,
+    program: str,
+    **values,
+) -> dict:
+    identity = {
+        "organization": organization,
+        "program": program,
+        "candidateRole": "direct-program",
+        "geographyState": "confirmed-target",
+        "actionabilityState": "actionable",
+        "currentStatusState": "current",
+        "evidenceReadiness": "current-authoritative",
+    }
+    identity.update(values)
+    return identity
+
+
 class FixtureProviders:
     def __init__(self) -> None:
         self.fixture = json.loads((FIXTURE_ROOT / "manifest.json").read_text(encoding="utf-8"))
@@ -53,7 +71,27 @@ class FixtureProviders:
     @staticmethod
     def resolve(result: dict) -> dict | None:
         identity = result.get("identity")
-        return deepcopy(identity) if isinstance(identity, dict) else None
+        if not isinstance(identity, dict):
+            return None
+        resolved = qualified_identity(
+            str(identity.get("organization") or ""),
+            str(identity.get("program") or ""),
+            **{
+                key: deepcopy(value)
+                for key, value in identity.items()
+                if key not in {"organization", "program"}
+            },
+        )
+        if resolved["program"] == "State Shelter Referral":
+            resolved.update(
+                {
+                    "candidateRole": "referral-system",
+                    "actionabilityState": "informational-only",
+                }
+            )
+        elif resolved["program"] == "Brian Garcia Welcome Center":
+            resolved["candidateRole"] = "access-assessment-service"
+        return resolved
 
     def configuration(self, label: str) -> dict:
         return {
@@ -121,17 +159,19 @@ class DiscoveryPipelineTests(unittest.TestCase):
         result = self.pipeline(providers, "fixture-housing-stage").run()
 
         self.assertEqual(9, result.branch_count)
-        self.assertEqual(26, result.query_count)
+        self.assertEqual(25, result.query_count)
         self.assertEqual(10, result.lead_count)
         self.assertEqual(10, result.identity_count)
-        self.assertEqual(8, result.eligible_identity_count)
+        self.assertEqual(7, result.eligible_identity_count)
+        self.assertEqual(1, result.noncandidate_identity_count)
+        self.assertEqual(0, result.review_required_identity_count)
         self.assertEqual(1, result.routed_identity_count)
         self.assertEqual(1, result.excluded_identity_count)
-        self.assertEqual(8, result.source_count)
-        self.assertEqual(8, result.packet_count)
-        self.assertEqual(26, len(providers.search_calls))
+        self.assertEqual(7, result.source_count)
+        self.assertEqual(7, result.packet_count)
+        self.assertEqual(25, len(providers.search_calls))
         self.assertEqual({11}, set(providers.search_result_limits))
-        self.assertEqual(8, len(providers.fetch_calls))
+        self.assertEqual(7, len(providers.fetch_calls))
 
         with self.store.connect() as connection:
             configuration = connection.execute(
@@ -151,13 +191,13 @@ class DiscoveryPipelineTests(unittest.TestCase):
                 },
             )
             self.assertEqual(
-                26,
+                25,
                 connection.execute(
                     "SELECT COUNT(*) FROM optimization_query_attempts"
                 ).fetchone()[0],
             )
             self.assertEqual(
-                8,
+                7,
                 connection.execute(
                     "SELECT COUNT(*) FROM optimization_fetch_attempts"
                 ).fetchone()[0],
@@ -170,7 +210,7 @@ class DiscoveryPipelineTests(unittest.TestCase):
                 ).fetchall()
             }
             self.assertEqual(
-                {"direct-provider": 6, "government-referral": 2}, authorities
+                {"direct-provider": 6, "government-referral": 1}, authorities
             )
             rapid = connection.execute(
                 """SELECT package_match_state, boundary_state
@@ -186,6 +226,13 @@ class DiscoveryPipelineTests(unittest.TestCase):
             ).fetchone()
             self.assertEqual("same-program", excluded["package_match_state"])
             self.assertEqual("excluded-existing", excluded["boundary_state"])
+            referral = connection.execute(
+                """SELECT candidate_role, promotion_state
+                   FROM optimization_candidate_identities
+                   WHERE identity_key = 'arizona department of housing::state shelter referral'"""
+            ).fetchone()
+            self.assertEqual("referral-system", referral["candidate_role"])
+            self.assertEqual("noncandidate", referral["promotion_state"])
             county = connection.execute(
                 """SELECT executed_query_count, new_lead_count,
                           new_eligible_identity_count,
@@ -207,6 +254,10 @@ class DiscoveryPipelineTests(unittest.TestCase):
             self.assertEqual("resolved", routed["boundary_state"])
             self.assertNotIn(
                 "https://mesaaz.gov/housing/eviction-prevention",
+                providers.fetch_calls,
+            )
+            self.assertNotIn(
+                "https://housing.az.gov/emergency/shelter-referral",
                 providers.fetch_calls,
             )
             packets = connection.execute(
@@ -240,18 +291,18 @@ class DiscoveryPipelineTests(unittest.TestCase):
                     "url": referral_url,
                     "title": "Homeless Resources",
                     "identities": [
-                        {
-                            "organization": "City of Mesa",
-                            "program": "Homeless Resource Line",
-                            "directDomains": ["mesaaz.gov"],
-                            "evidenceExcerpt": "Homeless Resource Line 480-644-HOPE",
-                        },
-                        {
-                            "organization": "City of Mesa",
-                            "program": "Street Outreach Services",
-                            "directDomains": ["mesaaz.gov"],
-                            "evidenceExcerpt": "Street Outreach Services 602-346-3361",
-                        },
+                        qualified_identity(
+                            "City of Mesa",
+                            "Homeless Resource Line",
+                            directDomains=["mesaaz.gov"],
+                            evidenceExcerpt="Homeless Resource Line 480-644-HOPE",
+                        ),
+                        qualified_identity(
+                            "City of Mesa",
+                            "Street Outreach Services",
+                            directDomains=["mesaaz.gov"],
+                            evidenceExcerpt="Street Outreach Services 602-346-3361",
+                        ),
                     ],
                 }
             ]
@@ -316,12 +367,12 @@ class DiscoveryPipelineTests(unittest.TestCase):
                     {
                         "url": direct_url,
                         "title": "Direct program page",
-                        "identity": {
-                            "organization": "Example Provider",
-                            "program": "Example Program",
-                            "directDomains": ["example.org"],
-                            "evidenceExcerpt": "Primary program evidence",
-                        },
+                        "identity": qualified_identity(
+                            "Example Provider",
+                            "Example Program",
+                            directDomains=["example.org"],
+                            evidenceExcerpt="Primary program evidence",
+                        ),
                     }
                 ]
             if key == "official-city-2":
@@ -329,12 +380,12 @@ class DiscoveryPipelineTests(unittest.TestCase):
                     {
                         "url": supporting_url,
                         "title": "Supporting report",
-                        "identity": {
-                            "organization": "Example Provider",
-                            "program": "Example Program",
-                            "reviewedAuthority": "reputable-secondary",
-                            "evidenceExcerpt": "Independent supporting evidence",
-                        },
+                        "identity": qualified_identity(
+                            "Example Provider",
+                            "Example Program",
+                            reviewedAuthority="reputable-secondary",
+                            evidenceExcerpt="Independent supporting evidence",
+                        ),
                     }
                 ]
             return []
@@ -395,6 +446,119 @@ class DiscoveryPipelineTests(unittest.TestCase):
             [metadata["evidenceExcerpt"] for metadata in link_metadata],
         )
 
+    def test_directory_only_named_program_cannot_freeze_a_candidate_packet(self) -> None:
+        providers = FixtureProviders()
+        configuration = providers.configuration("fixture-directory-only-program")
+        query = {
+            "key": "one-query",
+            "position": 1,
+            "purpose": "Fixture candidate qualification",
+            "query": "fixture directory-only program",
+        }
+        configuration["queryPlan"] = {
+            "schemaVersion": 4,
+            "candidateQualificationPolicyVersion": "candidate-role-gates-v1",
+            "categoryId": "housing",
+            "stageKey": "urgent-access",
+            "targetLocation": "Mesa",
+            "regionalScope": "Maricopa County and nearby areas",
+            "branches": [
+                {
+                    "key": "fixture",
+                    "purpose": query["purpose"],
+                    "required": True,
+                    "saturation": {
+                        "minimumQueries": 1,
+                        "maximumQueries": 1,
+                        "consecutiveNoNewIdentityQueries": 1,
+                        "noveltyUnit": "package-eligible identity",
+                    },
+                    "queries": [query],
+                }
+            ],
+        }
+        url = "https://directory.example/program-name"
+        with self.assertRaisesRegex(OptimizationPipelineError, "only directory evidence"):
+            OptimizationDiscoveryPipeline(
+                self.store,
+                configuration,
+                search=lambda _query, _maximum: [
+                    {"url": url, "title": "Named program lead"}
+                ],
+                fetch=lambda _url: {
+                    "text": "A directory names a program but is not program evidence.",
+                    "finalUrl": url,
+                    "statusCode": 200,
+                    "contentType": "text/html",
+                },
+                resolve_identity=lambda _result: qualified_identity(
+                    "Example Provider", "Example Program"
+                ),
+            ).run()
+
+    def test_conflicting_role_reviews_for_one_identity_fail_closed(self) -> None:
+        providers = FixtureProviders()
+        configuration = providers.configuration("fixture-conflicting-roles")
+        queries = [
+            {
+                "key": f"role-{position}",
+                "position": position,
+                "purpose": "Fixture identity-role consistency",
+                "query": f"fixture role {position}",
+            }
+            for position in (1, 2)
+        ]
+        configuration["queryPlan"] = {
+            "schemaVersion": 4,
+            "candidateQualificationPolicyVersion": "candidate-role-gates-v1",
+            "categoryId": "housing",
+            "stageKey": "urgent-access",
+            "targetLocation": "Mesa",
+            "regionalScope": "Maricopa County and nearby areas",
+            "branches": [
+                {
+                    "key": "fixture",
+                    "purpose": "Fixture identity-role consistency",
+                    "required": True,
+                    "saturation": {
+                        "minimumQueries": 2,
+                        "maximumQueries": 2,
+                        "consecutiveNoNewIdentityQueries": 2,
+                        "noveltyUnit": "package-eligible identity",
+                    },
+                    "queries": queries,
+                }
+            ],
+        }
+        call_count = 0
+
+        def resolve(_result: dict) -> dict:
+            nonlocal call_count
+            call_count += 1
+            return qualified_identity(
+                "Example Provider",
+                "Example Program",
+                candidateRole=(
+                    "direct-program" if call_count == 1 else "service-location"
+                ),
+            )
+
+        with self.assertRaisesRegex(
+            OptimizationPipelineError, "Conflicting reviewed qualification"
+        ):
+            OptimizationDiscoveryPipeline(
+                self.store,
+                configuration,
+                search=lambda query, _maximum: [
+                    {
+                        "url": f"https://provider.example/{query.rsplit(' ', 1)[-1]}",
+                        "title": "Program",
+                    }
+                ],
+                fetch=lambda _url: {},
+                resolve_identity=resolve,
+            ).run()
+
     def test_resume_after_discovery_interruption_does_not_repeat_completed_query(self) -> None:
         providers = FixtureProviders()
         interrupted = False
@@ -412,7 +576,7 @@ class DiscoveryPipelineTests(unittest.TestCase):
         self.assertEqual(["official-city-1"], providers.search_calls)
 
         result = self.pipeline(providers, "fixture-discovery-resume").run()
-        self.assertEqual(26, result.query_count)
+        self.assertEqual(25, result.query_count)
         self.assertEqual(1, providers.search_calls.count("official-city-1"))
         with self.store.connect() as connection:
             attempt_count = connection.execute(
@@ -439,9 +603,9 @@ class DiscoveryPipelineTests(unittest.TestCase):
         first_url = providers.fetch_calls[0]
 
         result = self.pipeline(providers, "fixture-fetch-resume").run()
-        self.assertEqual(8, result.packet_count)
+        self.assertEqual(7, result.packet_count)
         self.assertEqual(1, providers.fetch_calls.count(first_url))
-        self.assertEqual(8, len(providers.fetch_calls))
+        self.assertEqual(7, len(providers.fetch_calls))
 
     def test_restart_marks_inflight_attempt_failed_and_retries_only_that_query(self) -> None:
         providers = FixtureProviders()
@@ -473,7 +637,7 @@ class DiscoveryPipelineTests(unittest.TestCase):
 
         self.store = ResearchStore(self.store.path, recover_interrupted=True)
         result = self.pipeline(providers, "fixture-process-restart").run()
-        self.assertEqual(8, result.packet_count)
+        self.assertEqual(7, result.packet_count)
         with self.store.connect() as connection:
             attempts = connection.execute(
                 """SELECT attempt.status FROM optimization_query_attempts AS attempt

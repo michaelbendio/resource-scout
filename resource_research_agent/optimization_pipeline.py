@@ -9,6 +9,8 @@ from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from .optimization import (
     branch_stop_state,
+    CANDIDATE_QUALIFICATION_POLICY_VERSION,
+    candidate_qualification,
     candidate_identity_key,
     canonical_json,
     configuration_snapshot,
@@ -44,6 +46,8 @@ class DiscoveryCorpusResult:
     lead_count: int
     identity_count: int
     eligible_identity_count: int
+    noncandidate_identity_count: int
+    review_required_identity_count: int
     routed_identity_count: int
     excluded_identity_count: int
     source_count: int
@@ -130,6 +134,14 @@ class OptimizationDiscoveryPipeline:
             str(self.configuration_record["snapshot"]["targetCategoryId"])
         )
         self.stage_keys = {stage["key"] for stage in self.playbook.stages}
+        query_plan = self.configuration_record["snapshot"]["queryPlan"]
+        if (
+            query_plan.get("candidateQualificationPolicyVersion")
+            != CANDIDATE_QUALIFICATION_POLICY_VERSION
+        ):
+            raise OptimizationPipelineError(
+                "Discovery query plan lacks the current candidate-role qualification policy"
+            )
         self.search = search
         self.fetch = fetch
         self.resolve_identity = resolve_identity
@@ -423,12 +435,12 @@ class OptimizationDiscoveryPipeline:
                     new_identity_count += int(created)
                     if created:
                         identity = connection.execute(
-                            """SELECT boundary_state, target_stage_key
+                            """SELECT promotion_state, target_stage_key
                                FROM optimization_candidate_identities WHERE id = ?""",
                             (identity_id,),
                         ).fetchone()
                         new_eligible_identity_count += int(
-                            identity["boundary_state"] != "excluded-existing"
+                            identity["promotion_state"] == "eligible"
                             and identity["target_stage_key"]
                             == self.configuration_record["snapshot"]["stageKey"]
                         )
@@ -606,11 +618,40 @@ class OptimizationDiscoveryPipeline:
                 break
             if state == "different-program":
                 package_state = state
+        try:
+            qualification = candidate_qualification(
+                decision,
+                boundary_state=boundary,
+                package_match_state=package_state,
+            )
+        except ValueError as error:
+            raise OptimizationPipelineError(str(error)) from error
         existing_row = connection.execute(
-            "SELECT id FROM optimization_candidate_identities WHERE run_id = ? AND identity_key = ?",
+            """SELECT id, target_stage_key, candidate_role, geography_state,
+                      actionability_state, current_status_state, evidence_readiness,
+                      promotion_state
+               FROM optimization_candidate_identities
+               WHERE run_id = ? AND identity_key = ?""",
             (run_id, identity_key),
         ).fetchone()
         if existing_row:
+            expected = {
+                "target_stage_key": target_stage_key,
+                "candidate_role": qualification["candidateRole"],
+                "geography_state": qualification["geographyState"],
+                "actionability_state": qualification["actionabilityState"],
+                "current_status_state": qualification["currentStatusState"],
+                "evidence_readiness": qualification["evidenceReadiness"],
+                "promotion_state": qualification["state"],
+            }
+            mismatched = [
+                key for key, value in expected.items() if existing_row[key] != value
+            ]
+            if mismatched:
+                raise OptimizationPipelineError(
+                    "Conflicting reviewed qualification for identity "
+                    f"{identity_key}: {', '.join(mismatched)}"
+                )
             return int(existing_row["id"]), False
         metadata = {
             "directDomains": sorted(
@@ -629,14 +670,17 @@ class OptimizationDiscoveryPipeline:
                 }
             ),
             "stageKey": target_stage_key,
+            "candidateQualification": qualification,
             "evidenceExcerpt": str(decision.get("evidenceExcerpt") or "").strip(),
         }
         cursor = connection.execute(
             """INSERT INTO optimization_candidate_identities (
                    run_id, organization, program, identity_key, boundary_state,
                    package_match_state, package_resource_id, target_stage_key,
-                   decision_reason, metadata_json
-               ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                   candidate_role, geography_state, actionability_state,
+                   current_status_state, evidence_readiness, promotion_state,
+                   promotion_reasons_json, decision_reason, metadata_json
+               ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (
                 run_id,
                 organization,
@@ -646,6 +690,13 @@ class OptimizationDiscoveryPipeline:
                 package_state,
                 package_resource_id,
                 target_stage_key,
+                qualification["candidateRole"],
+                qualification["geographyState"],
+                qualification["actionabilityState"],
+                qualification["currentStatusState"],
+                qualification["evidenceReadiness"],
+                qualification["state"],
+                canonical_json(qualification["reasons"]),
                 str(decision.get("decisionReason") or "Explicit fixture or human-reviewed identity decision"),
                 canonical_json(metadata),
             ),
@@ -667,8 +718,8 @@ class OptimizationDiscoveryPipeline:
                    JOIN optimization_identity_leads AS link ON link.lead_id = lead.id
                    JOIN optimization_candidate_identities AS identity ON identity.id = link.identity_id
                    WHERE lead.run_id = ?
-                     AND identity.boundary_state != 'excluded-existing'
                      AND identity.boundary_state = 'resolved'
+                     AND identity.promotion_state = 'eligible'
                      AND identity.target_stage_key = ?
                    ORDER BY lead.id""",
                 (run_id, self.configuration_record["snapshot"]["stageKey"]),
@@ -700,6 +751,7 @@ class OptimizationDiscoveryPipeline:
                    JOIN optimization_identity_leads AS link
                      ON link.identity_id = identity.id
                    WHERE link.lead_id = ? AND identity.boundary_state = 'resolved'
+                     AND identity.promotion_state = 'eligible'
                      AND identity.target_stage_key = ?
                    ORDER BY identity.id""",
                 (lead_id, self.configuration_record["snapshot"]["stageKey"]),
@@ -900,7 +952,8 @@ class OptimizationDiscoveryPipeline:
         packets: list[dict[str, Any]] = []
         for identity in identities:
             if (
-                identity["boundary_state"] != "resolved"
+                identity["promotion_state"] != "eligible"
+                or identity["boundary_state"] != "resolved"
                 or identity["target_stage_key"]
                 != self.configuration_record["snapshot"]["stageKey"]
             ):
@@ -909,6 +962,10 @@ class OptimizationDiscoveryPipeline:
             if not identity_sources:
                 raise OptimizationPipelineError(
                     f"Resolved identity {identity['identity_key']} has no fetched evidence"
+                )
+            if all(source["authority"] == "directory-lead" for source in identity_sources):
+                raise OptimizationPipelineError(
+                    f"Eligible identity {identity['identity_key']} has only directory evidence"
                 )
             identity_metadata = json.loads(identity["metadata_json"] or "{}")
             packets.append(
@@ -919,6 +976,11 @@ class OptimizationDiscoveryPipeline:
                         "program": identity["program"],
                         "identityKey": identity["identity_key"],
                         "boundaryState": identity["boundary_state"],
+                        "candidateRole": identity["candidate_role"],
+                        "qualificationState": identity["promotion_state"],
+                        "qualificationReasons": json.loads(
+                            identity["promotion_reasons_json"] or "[]"
+                        ),
                         "coverageTags": identity_metadata.get("coverageTags", []),
                     },
                     "packageMatch": {
@@ -994,7 +1056,7 @@ class OptimizationDiscoveryPipeline:
                 "packageEligibleIdentityCount": sum(
                     1
                     for identity in identities
-                    if identity["boundary_state"] != "excluded-existing"
+                    if identity["promotion_state"] == "eligible"
                     and identity["target_stage_key"]
                     == self.configuration_record["snapshot"]["stageKey"]
                 ),
@@ -1003,6 +1065,16 @@ class OptimizationDiscoveryPipeline:
                     for identity in identities
                     if identity["target_stage_key"]
                     != self.configuration_record["snapshot"]["stageKey"]
+                ),
+                "noncandidateIdentityCount": sum(
+                    1
+                    for identity in identities
+                    if identity["promotion_state"] == "noncandidate"
+                ),
+                "reviewRequiredIdentityCount": sum(
+                    1
+                    for identity in identities
+                    if identity["promotion_state"] == "review-required"
                 ),
                 "packetCount": len(packets),
             }
@@ -1069,8 +1141,10 @@ class OptimizationDiscoveryPipeline:
                 """SELECT COUNT(*) AS total,
                           SUM(CASE WHEN boundary_state = 'excluded-existing' THEN 1 ELSE 0 END) AS excluded,
                           SUM(CASE WHEN target_stage_key != ? THEN 1 ELSE 0 END) AS routed,
-                          SUM(CASE WHEN boundary_state != 'excluded-existing'
-                                    AND target_stage_key = ? THEN 1 ELSE 0 END) AS eligible
+                          SUM(CASE WHEN promotion_state = 'eligible'
+                                    AND target_stage_key = ? THEN 1 ELSE 0 END) AS eligible,
+                          SUM(CASE WHEN promotion_state = 'noncandidate' THEN 1 ELSE 0 END) AS noncandidate,
+                          SUM(CASE WHEN promotion_state = 'review-required' THEN 1 ELSE 0 END) AS review_required
                    FROM optimization_candidate_identities WHERE run_id = ?""",
                 (
                     self.configuration_record["snapshot"]["stageKey"],
@@ -1102,6 +1176,8 @@ class OptimizationDiscoveryPipeline:
             lead_count=lead_count,
             identity_count=int(identity_counts["total"] or 0),
             eligible_identity_count=int(identity_counts["eligible"] or 0),
+            noncandidate_identity_count=int(identity_counts["noncandidate"] or 0),
+            review_required_identity_count=int(identity_counts["review_required"] or 0),
             routed_identity_count=int(identity_counts["routed"] or 0),
             excluded_identity_count=int(identity_counts["excluded"] or 0),
             source_count=source_count,

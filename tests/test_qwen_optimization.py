@@ -10,6 +10,7 @@ from pathlib import Path
 from resource_research_agent.optimization import (
     branch_stop_state,
     build_housing_urgent_query_plan,
+    candidate_qualification,
     candidate_identity_key,
     configuration_snapshot,
     coverage_branch_complete,
@@ -293,7 +294,11 @@ class CoverageAndSaturationTests(unittest.TestCase):
             maximum_queries=10,
             saturation_queries=3,
         )
-        self.assertEqual(2, plan["schemaVersion"])
+        self.assertEqual(4, plan["schemaVersion"])
+        self.assertEqual(
+            "candidate-role-gates-v1",
+            plan["candidateQualificationPolicyVersion"],
+        )
         self.assertTrue(all(len(branch["queries"]) == 10 for branch in plan["branches"]))
         queries = {
             query["key"]: query["query"]
@@ -351,6 +356,86 @@ class CoverageAndSaturationTests(unittest.TestCase):
                 {"status": "not-applicable", "notApplicableReason": "No state program exists for this stage"}
             )
         )
+
+
+class CandidateQualificationTests(unittest.TestCase):
+    @staticmethod
+    def decision(**values) -> dict:
+        decision = {
+            "candidateRole": "direct-program",
+            "geographyState": "confirmed-target",
+            "actionabilityState": "actionable",
+            "currentStatusState": "current",
+            "evidenceReadiness": "current-authoritative",
+        }
+        decision.update(values)
+        return decision
+
+    def test_only_program_and_actionable_assessment_roles_are_countable(self) -> None:
+        for role in ("direct-program", "access-assessment-service"):
+            with self.subTest(role=role):
+                result = candidate_qualification(
+                    self.decision(candidateRole=role),
+                    boundary_state="resolved",
+                    package_match_state="not-matched",
+                )
+                self.assertEqual("eligible", result["state"])
+        for role in (
+            "service-location",
+            "referral-system",
+            "directory",
+            "organization-only",
+            "unresolved-lead",
+        ):
+            with self.subTest(role=role):
+                result = candidate_qualification(
+                    self.decision(candidateRole=role),
+                    boundary_state="resolved",
+                    package_match_state="not-matched",
+                )
+                self.assertEqual("noncandidate", result["state"])
+
+    def test_uncertain_or_lead_only_identity_is_preserved_for_review(self) -> None:
+        for field, value in (
+            ("geographyState", "unknown"),
+            ("actionabilityState", "uncertain"),
+            ("currentStatusState", "uncertain"),
+            ("evidenceReadiness", "lead-only"),
+        ):
+            with self.subTest(field=field):
+                result = candidate_qualification(
+                    self.decision(**{field: value}),
+                    boundary_state="resolved",
+                    package_match_state="not-matched",
+                )
+                self.assertEqual("review-required", result["state"])
+
+    def test_same_program_and_nonactionable_record_do_not_count(self) -> None:
+        package_duplicate = candidate_qualification(
+            self.decision(),
+            boundary_state="excluded-existing",
+            package_match_state="same-program",
+        )
+        informational = candidate_qualification(
+            self.decision(actionabilityState="informational-only"),
+            boundary_state="resolved",
+            package_match_state="not-matched",
+        )
+        self.assertEqual("excluded-existing", package_duplicate["state"])
+        self.assertEqual("noncandidate", informational["state"])
+
+    def test_missing_role_contract_fails_closed(self) -> None:
+        with self.assertRaisesRegex(ValueError, "candidateRole"):
+            candidate_qualification(
+                {
+                    "geographyState": "confirmed-target",
+                    "actionabilityState": "actionable",
+                    "currentStatusState": "current",
+                    "evidenceReadiness": "current-authoritative",
+                },
+                boundary_state="resolved",
+                package_match_state="not-matched",
+            )
 
 
 class HousingQualityGateTests(unittest.TestCase):

@@ -489,15 +489,15 @@ class ModelPipelineTests(unittest.TestCase):
         result = pipeline.run()
 
         self.assertTrue(result.quality_gate_passed)
-        self.assertEqual(8, result.packet_count)
-        self.assertEqual(6, result.passed_count)
+        self.assertEqual(7, result.packet_count)
+        self.assertEqual(5, result.passed_count)
         self.assertEqual(2, result.needs_review_count)
         self.assertEqual(0, result.failed_count)
         self.assertEqual(1, result.supported_field_count)
-        self.assertEqual(8 * len(HOUSING_FACTUAL_FIELDS) - 1, result.unknown_field_count)
+        self.assertEqual(7 * len(HOUSING_FACTUAL_FIELDS) - 1, result.unknown_field_count)
         self.assertEqual(1, result.gap_count)
-        self.assertEqual(8, len(models.extract_prompts))
-        self.assertEqual(8, len(models.verify_prompts))
+        self.assertEqual(7, len(models.extract_prompts))
+        self.assertEqual(7, len(models.verify_prompts))
         self.assertTrue(
             all(prompt["operation"] == "extract-candidate-dossier" for prompt in models.extract_prompts)
         )
@@ -563,11 +563,11 @@ class ModelPipelineTests(unittest.TestCase):
             )
 
         candidates = pipeline.verified_candidates(result.run_id)
-        self.assertEqual(8, len(candidates))
+        self.assertEqual(7, len(candidates))
         self.assertTrue(all(candidate["name"] for candidate in candidates))
         self.assertTrue(all(candidate["evidence"] for candidate in candidates))
         self.assertEqual(
-            8 * len(HOUSING_FACTUAL_FIELDS) - 1,
+            7 * len(HOUSING_FACTUAL_FIELDS) - 1,
             sum(len(candidate["unknowns"]) for candidate in candidates),
         )
         self.assertTrue(any(candidate.get("phone") == "480-000-0100" for candidate in candidates))
@@ -718,10 +718,10 @@ class ModelPipelineTests(unittest.TestCase):
         review_result = review_pipeline.run()
         self.assertTrue(review_result.quality_gate_passed)
         self.assertEqual(0, review_result.passed_count)
-        self.assertEqual(8, review_result.needs_review_count)
+        self.assertEqual(7, review_result.needs_review_count)
         self.assertEqual(0, review_result.failed_count)
         review_candidates = review_pipeline.verified_candidates(review_result.run_id)
-        self.assertEqual(8, len(review_candidates))
+        self.assertEqual(7, len(review_candidates))
         self.assertTrue(
             all(
                 candidate["verificationStatus"] == "needs-review"
@@ -758,10 +758,10 @@ class ModelPipelineTests(unittest.TestCase):
         )
         mixed_result = mixed_pipeline.run()
         self.assertFalse(mixed_result.quality_gate_passed)
-        self.assertEqual(4, mixed_result.passed_count)
+        self.assertEqual(3, mixed_result.passed_count)
         self.assertEqual(3, mixed_result.needs_review_count)
         self.assertEqual(1, mixed_result.failed_count)
-        self.assertEqual(7, len(mixed_pipeline.verified_candidates(mixed_result.run_id)))
+        self.assertEqual(6, len(mixed_pipeline.verified_candidates(mixed_result.run_id)))
         with self.store.connect() as connection:
             completeness = json.loads(
                 connection.execute(
@@ -785,7 +785,7 @@ class ModelPipelineTests(unittest.TestCase):
             self.store,
             mixed_result.run_id,
         )
-        self.assertEqual(7, len(review.data["candidates"]))
+        self.assertEqual(6, len(review.data["candidates"]))
         self.assertEqual(
             {"passed", "needs-review"},
             {
@@ -837,9 +837,9 @@ class ModelPipelineTests(unittest.TestCase):
         outcome = compare_optimization_run_to_package(
             self.store, mixed_result.run_id, package_path
         )
-        self.assertEqual(7, outcome.candidate_count)
+        self.assertEqual(6, outcome.candidate_count)
         self.assertEqual(2, outcome.accepted_count)
-        self.assertEqual(5, outcome.not_present_count)
+        self.assertEqual(4, outcome.not_present_count)
         self.assertEqual(
             outcome.report_sha256,
             compare_optimization_run_to_package(
@@ -876,7 +876,7 @@ class ModelPipelineTests(unittest.TestCase):
         )
         result = pipeline.run()
         self.assertTrue(result.quality_gate_passed)
-        self.assertEqual(5, result.passed_count)
+        self.assertEqual(4, result.passed_count)
         self.assertEqual(3, result.needs_review_count)
         self.assertEqual(0, result.failed_count)
         with self.store.connect() as connection:
@@ -921,7 +921,7 @@ class ModelPipelineTests(unittest.TestCase):
 
         result = self.pipeline(models, "model-fixture-resume").run()
         self.assertTrue(result.quality_gate_passed)
-        self.assertEqual(8, len(models.extract_prompts))
+        self.assertEqual(7, len(models.extract_prompts))
         with self.store.connect() as connection:
             first_packet_attempts = connection.execute(
                 """SELECT operation, status FROM optimization_model_attempts
@@ -1043,13 +1043,13 @@ class ModelPipelineTests(unittest.TestCase):
                 "model-fixture-gap-resume",
                 progress=stop_after_gap_audit,
             ).run()
-        self.assertEqual(8, len(models.extract_prompts))
-        self.assertEqual(8, len(models.verify_prompts))
+        self.assertEqual(7, len(models.extract_prompts))
+        self.assertEqual(7, len(models.verify_prompts))
 
         result = self.pipeline(models, "model-fixture-gap-resume").run()
         self.assertEqual(1, result.gap_count)
-        self.assertEqual(8, len(models.extract_prompts))
-        self.assertEqual(8, len(models.verify_prompts))
+        self.assertEqual(7, len(models.extract_prompts))
+        self.assertEqual(7, len(models.verify_prompts))
 
 
 if __name__ == "__main__":

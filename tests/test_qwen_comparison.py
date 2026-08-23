@@ -150,7 +150,7 @@ class QuantizationComparisonTests(unittest.TestCase):
         self.assertTrue(four["priority1Accuracy"]["gatePassed"])
         self.assertEqual(0, four["priority1Accuracy"]["failedCandidates"])
         self.assertEqual(3, four["priority1Accuracy"]["needsReviewCandidates"])
-        self.assertEqual(5, four["priority1Accuracy"]["passedCandidates"])
+        self.assertEqual(4, four["priority1Accuracy"]["passedCandidates"])
         self.assertEqual(
             _quality_vector(four)[:3],
             _quality_vector(eight)[:3],

@@ -35,7 +35,7 @@ The migration adds the following isolated records. Existing `research_runs`, Dee
 - `optimization_checkpoints` records resumable phase-and-item state, attempt count, payload digest, status, and timestamps. Work resumes from the smallest incomplete item rather than restarting the stage.
 - `optimization_coverage_branches` and `optimization_queries` preserve every required branch, purpose, planned query, execution outcome, novelty count, saturation state, failure, and explicit not-applicable reason.
 - `optimization_discovery_leads` and `optimization_lead_queries` form the normalized discovery ledger while retaining every query/rank/URL route that found a canonical lead.
-- `optimization_candidate_identities` and `optimization_identity_leads` preserve organization-plus-program identity, uncertain boundaries, possible renamings or duplicates, package-exclusion decisions, and the lead evidence behind them.
+- `optimization_candidate_identities` and `optimization_identity_leads` preserve organization-plus-program identity, uncertain boundaries, possible renamings or duplicates, package-exclusion decisions, candidate role, geography, actionability, current status, evidence readiness, deterministic promotion state, and the lead evidence behind them.
 - `optimization_evidence_sources` records authority, the program identity actually described by the page, bounded extract, retrieval metadata, and extract digest.
 - `optimization_corpora` and `optimization_evidence_packets` freeze the ledger, identities, sources, and one-candidate packets by digest. The database requires a model attempt's packet to belong to the same corpus as its model-evaluation run. This prevents 4-bit and 8-bit from silently receiving different evidence.
 - `optimization_model_attempts`, `optimization_candidate_dossiers`, and `optimization_verifications` retain every extraction and fresh-context verification attempt, raw output, parsed record, usage, errors, dossier, verified dossier, and findings.
@@ -60,6 +60,10 @@ counted candidate. A `service-location`, `referral-system`, `directory`,
 `organization-only`, or `unresolved-lead` remains in the ledger without inflating
 candidate yield. Multiple access sites normally remain attached to one program.
 Splitting requires authoritative evidence of a material program distinction.
+`candidate-role-gates-v1` enforces this before saturation counts or packet
+freezing. Missing gate observations remain `review-required`; terminal
+noncandidate roles remain in the funnel; contradictory reviewed gate decisions
+for the same identity stop the run for correction.
 
 The regression fixtures cover A New Leaf program contact transfer, CASS/Brian Garcia attribution, UMOM/Halle overbundling, and City of Mesa/HAMC-style jurisdiction boundaries.
 

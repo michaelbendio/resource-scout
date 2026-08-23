@@ -243,6 +243,19 @@ back to Housing defaults. A
 live unmetered discovery-only run must improve eligible yield or demonstrate
 branch-level saturation before any model inference.
 
+Implementation checkpoint (2026-08-23): `candidate-role-gates-v1` is active in
+the reusable discovery pipeline. Identity review must explicitly record role,
+geography, actionability, current status, and evidence readiness. Scout derives
+promotion deterministically and reports eligible, noncandidate, and
+review-required identities separately. Only `direct-program` and independently
+actionable `access-assessment-service` roles can produce packets; service
+locations, referral systems, directories, organization-only records, package
+duplicates, and weak or unresolved leads remain in the ledger. A directory-only
+source cannot back an eligible packet, and inconsistent qualification decisions
+for the same identity fail closed instead of becoming query-order-dependent. The
+historical lead-manifest, referral-edge, and appended-branch work remains in
+progress.
+
 ### 4. Freeze the revised first-stage corpus
 
 Resolve all newly discovered and preserved leads under the approved gates. Run
