@@ -24,6 +24,10 @@ from resource_research_agent.optimization import (
     sha256_json,
 )
 from resource_research_agent.query_expansion import augment_query_plan_with_targeted_branch
+from resource_research_agent.prior_leads import (
+    augment_query_plan_with_prior_leads,
+    build_prior_lead_manifest,
+)
 
 
 def qualified_identity(organization: str, program: str, **values) -> dict:
@@ -469,6 +473,80 @@ class OptimizationReviewTests(unittest.TestCase):
         self.assertEqual(
             previous["qualificationApplications"],
             merged["qualificationApplications"],
+        )
+
+    def test_prior_lead_branch_reuses_the_qualified_cache(self) -> None:
+        calls = []
+
+        def search(query: str, _limit: int) -> list[dict]:
+            calls.append(query)
+            return []
+
+        manifest = build_prior_lead_manifest(
+            manifest_id="fixture-history",
+            category_id="housing",
+            target_location="Mesa",
+            created_at="2026-08-23T00:00:00+00:00",
+            sources=[
+                {
+                    "id": "fixture",
+                    "kind": "fixture",
+                    "sourceRunId": "1",
+                    "sourceStageKey": "urgent-access",
+                    "observedAt": "2026-08-20T00:00:00+00:00",
+                }
+            ],
+            leads=[
+                {
+                    "organization": "Historical Provider",
+                    "program": "Historical Program",
+                    "historicalDisposition": "candidate",
+                    "provenance": [
+                        {
+                            "sourceId": "fixture",
+                            "sourceRunId": "1",
+                            "sourceStageKey": "urgent-access",
+                            "observedAt": "2026-08-20T00:00:00+00:00",
+                            "historicalDisposition": "candidate",
+                        }
+                    ],
+                }
+            ],
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            base = cache_housing_searches(
+                root / "base.json",
+                search=search,
+                minimum_queries=2,
+                maximum_queries=2,
+                saturation_queries=2,
+            )
+            plan = augment_query_plan_with_prior_leads(
+                build_housing_urgent_query_plan(
+                    "Mesa",
+                    "Maricopa County",
+                    minimum_queries=2,
+                    maximum_queries=2,
+                    saturation_queries=2,
+                ),
+                manifest,
+            )
+            expanded = cache_housing_searches(
+                root / "expanded.json",
+                search=search,
+                minimum_queries=2,
+                maximum_queries=2,
+                saturation_queries=2,
+                previous_cache=base,
+                query_plan=plan,
+            )
+        self.assertEqual(19, len(calls))
+        self.assertEqual(19, len(expanded["queries"]))
+        self.assertEqual(base["cacheSha256"], expanded["previousCacheSha256"])
+        self.assertEqual(
+            manifest["manifestSha256"],
+            expanded["queryPlan"]["priorResultLeadManifestSha256"],
         )
 
     def test_exclusion_policy_builds_exact_pending_only_patch(self) -> None:

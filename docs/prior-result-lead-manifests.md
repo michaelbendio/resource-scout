@@ -84,3 +84,20 @@ python3 build-prior-lead-manifest.py \
 
 Regeneration must reproduce the recorded canonical content hash before the
 manifest is used in a new query plan.
+
+The resumable Mesa calibration cache appends the manifest to the exact qualified
+base plan while reusing every earlier response:
+
+```sh
+python3 cache-qwen-housing-searches.py \
+  --cache NEW-CACHE.json --review NEW-REVIEW.json \
+  --previous-cache QUALIFIED-CACHE.json \
+  --previous-review QUALIFIED-REVIEW.json \
+  --candidate-status-review QUALIFIED-REVIEW.json \
+  --targeted-expansion resource_research_agent/optimization_query_plans/mesa-housing-coordinated-entry-depth-v1.json \
+  --prior-lead-manifest data/benchmarks/mesa-qwen-2026-08-21/optimization/prior-leads/mesa-housing-preserved-v1.json \
+  --all-identity-status
+```
+
+The cache writes after every query. Re-running the same command resumes the
+smallest incomplete historical lead and refuses a changed plan or manifest hash.

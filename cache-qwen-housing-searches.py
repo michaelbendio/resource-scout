@@ -13,6 +13,7 @@ from resource_research_agent.optimization_review import (
     merge_identity_review,
 )
 from resource_research_agent.query_expansion import augment_query_plan_with_targeted_branch
+from resource_research_agent.prior_leads import augment_query_plan_with_prior_leads
 
 
 parser = argparse.ArgumentParser(description="Cache the fixed Housing-stage DDGS ledger")
@@ -26,6 +27,7 @@ parser.add_argument("--previous-review", type=Path)
 parser.add_argument("--candidate-status-review", type=Path)
 parser.add_argument("--previous-cache", type=Path)
 parser.add_argument("--targeted-expansion", type=Path)
+parser.add_argument("--prior-lead-manifest", type=Path)
 parser.add_argument(
     "--all-identity-status",
     action="store_true",
@@ -44,8 +46,7 @@ previous_cache = (
     else None
 )
 query_plan = None
-if arguments.targeted_expansion:
-    expansion = json.loads(arguments.targeted_expansion.read_text(encoding="utf-8"))
+if arguments.targeted_expansion or arguments.prior_lead_manifest:
     query_plan = build_reviewed_housing_query_plan(
         minimum_queries=arguments.minimum_queries,
         maximum_queries=arguments.maximum_queries,
@@ -53,6 +54,8 @@ if arguments.targeted_expansion:
         candidate_status_review=candidate_status_review,
         include_routed_status=arguments.all_identity_status,
     )
+if arguments.targeted_expansion:
+    expansion = json.loads(arguments.targeted_expansion.read_text(encoding="utf-8"))
     query_plan = augment_query_plan_with_targeted_branch(
         query_plan,
         branch_key=str(expansion["branchKey"]),
@@ -65,6 +68,11 @@ if arguments.targeted_expansion:
             expansion["saturation"]["consecutiveNoNewIdentityQueries"]
         ),
     )
+if arguments.prior_lead_manifest:
+    prior_manifest = json.loads(
+        arguments.prior_lead_manifest.read_text(encoding="utf-8")
+    )
+    query_plan = augment_query_plan_with_prior_leads(query_plan, prior_manifest)
 
 cache = cache_housing_searches(
     arguments.cache,
