@@ -1,6 +1,9 @@
 # Local DSH and Qwen Plan
 
-Status: Phase 1 implementation and calibration complete. The production cutover gate failed, so Phase 2 was not started.
+Status: Phase 1 implementation and its original calibration are complete. The
+production cutover gate failed, so Phase 2 was not started. A later redesigned
+22-packet comparison selected 8-bit Qwen for continued isolated optimization;
+that does not change the existing opt-in 4-bit local route or authorize cutover.
 
 ## Objective
 
@@ -13,7 +16,11 @@ Resource Scout continues to own the research workflow, prompts, imported package
 - Keep DSH as the harness.
 - Keep the implementation in the Resource Scout repository initially.
 - Use DSH's existing generic `dsh-llm-pi-ai` adapter for the local model endpoint.
-- Use `mlx-community/Qwen3.8-27B-4bit` through an OpenAI-compatible MLX endpoint on `127.0.0.1:8080`. Calibration rejected the 8-bit artifact for throughput and selected 4-bit for the final Phase 1 evaluation.
+- The original Phase 1 route uses `mlx-community/Qwen3.8-27B-4bit` through an
+  OpenAI-compatible MLX endpoint on `127.0.0.1:8080`. That calibration preferred
+  4-bit for throughput. Expanded redesigned comparison v9 later selected
+  `mlx-community/Qwen3.8-27B-8bit` on quality for continued isolated optimization.
+  Keep the existing route unchanged until an explicitly authorized cutover.
 - Start with a 65,536-token context limit and medium reasoning effort.
 - Add a Resource Scout-owned DDGS search provider for DSH.
 - Add a Resource Scout-owned safe HTTP fetch provider for DSH.
@@ -23,6 +30,11 @@ Resource Scout continues to own the research workflow, prompts, imported package
 - Leave the production background service unchanged throughout Phase 1.
 
 These initial model, context, and reasoning choices are benchmark inputs rather than permanent truths. The Mesa calibration gate may justify changing them before the full comparison.
+
+The redesigned workflow is category- and location-neutral. Housing and Mesa are
+calibration configuration and fixtures only. Package schema and versioned category
+playbooks supply fields, stages, geography, source families, and queries; reusable
+code must not embed Housing defaults.
 
 ## Target architecture
 
@@ -295,7 +307,8 @@ During Phase 2 stabilization:
 The following are optional improvements after Phase 2 and must not delay elimination of metered charges:
 
 - Benchmark BaseRT against the approved MLX baseline.
-- Revisit 4-bit versus 8-bit only if the selected 4-bit calibration reveals a material quality loss.
+- Preserve both quantizations and their immutable comparison evidence; the
+  redesigned v9 quality decision selects 8-bit for the next isolated benchmark.
 - Replace DDGS with self-hosted SearXNG if discovery quality warrants it.
 - Add narrowly scoped browser automation for proven JavaScript-only coverage gaps.
 - Experiment with longer context or other reasoning levels.

@@ -97,7 +97,20 @@ The DSH research overlay gives DeepSeek a social-service resource researcher per
 
 ### Phase 1 Local Qwen runtime
 
-The experimental no-metered-services path uses the pinned `mlx-community/Qwen3.8-27B-4bit` model through MLX LM. It is deliberately foreground-only and does not alter Resource Scout's existing background service. Mesa calibration proved the path operational, private, and unmetered, but it was slower and materially less complete than the frozen DeepSeek baseline, so it remains an opt-in experiment rather than the production replacement.
+The existing experimental no-metered-services path uses the pinned
+`mlx-community/Qwen3.8-27B-4bit` model through MLX LM. It is deliberately
+foreground-only and does not alter Resource Scout's existing background service.
+The original Mesa calibration proved that path operational, private, and
+unmetered, but did not justify production replacement. A later redesigned
+22-packet comparison selected `mlx-community/Qwen3.8-27B-8bit` on quality for
+continued isolated optimization. That benchmark decision does not change the
+existing 4-bit route or authorize production cutover.
+
+The redesign is category- and location-neutral. Mesa Housing supplies the first
+calibration configuration and regression fixtures only; reusable verification,
+candidate promotion, discovery expansion, provenance, playbook validation, and
+Curator integration derive their fields and rules from the selected package and
+category playbook.
 
 Install or update MLX LM with Homebrew, then stop Homebrew's generic service if it is running. The project installer verifies MLX, installs the pinned DSH runtime, and creates an isolated Python environment for the free DDGS search plugin:
 
@@ -135,6 +148,8 @@ Before Mesa calibration, freeze the historical comparison into an ignored, separ
 
 The command refuses a package whose SHA-256 differs from the Mesa imports, requires exactly 20 completed four-stage DSH runs, copies the database through SQLite's consistent backup operation, and writes a machine-readable baseline manifest. Qwen calibration and comparison use the copied database, never the live one.
 
+The following Housing-specific command reproduces the preserved v9 calibration
+workflow. It is historical benchmark tooling, not the reusable architecture.
 Expanded Housing discovery can reuse a completed base DDGS cache while appending
 one current-status query for each human-resolved urgent candidate:
 

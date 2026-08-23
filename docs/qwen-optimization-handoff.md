@@ -1,6 +1,10 @@
 # Qwen optimization handoff
 
-Status: Checkpoints A through D are implemented. The original six-packet comparison selected 4-bit but failed its accuracy gate. The resulting failure corrections and expanded discovery work are complete; a new locked 22-packet 4-bit/8-bit first-stage Housing comparison is running. Checkpoint E must not start until this replacement comparison finishes and passes its failed-only accuracy gate. No production cutover is authorized.
+Status: Checkpoints A through D are implemented. Expanded comparison v9 completed
+on 2026-08-23 over 22 identical first-stage Housing packets and selected 8-bit
+Qwen on quality before timing was revealed. Michael approved the revised
+candidate gates, verifier contract, discovery expansion, Curator validation, and
+seven-step forward plan. No production cutover is authorized.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
@@ -9,13 +13,19 @@ This document is the authoritative continuation point for optimizing Resource Sc
 - `docs/qwen-optimization-design.md` (Checkpoint A deterministic design)
 - `README.md`
 
-Do not infer that Phase 2 production cutover has started. The current local path is operational but remains an opt-in experiment because the first Housing gate failed.
+Do not infer that Phase 2 production cutover has started. The existing local path
+remains an opt-in experiment. The 8-bit selection authorizes continued isolated
+optimization only.
 
 ## Objective
 
-Redesign Resource Scout's research workflow so local Qwen produces accurate, complete, well-sourced, useful resource candidates without metered model or search services. Compare both 4-bit and 8-bit Qwen under the redesigned workflow before selecting a quantization.
+Redesign Resource Scout's research workflow so local Qwen produces accurate,
+complete, well-sourced, useful resource candidates without metered model or
+search services. The redesigned comparison selected 8-bit; the remaining work
+must validate that choice in the category-neutral workflow and complete Housing.
 
-The immediate endpoint is a completed, preserved Housing calibration that supports an explicit decision to:
+The immediate endpoint is a completed, preserved four-stage Housing calibration
+that supports an explicit decision to:
 
 1. continue optimizing;
 2. advance one locked configuration to the remaining 19 Mesa categories; or
@@ -23,17 +33,25 @@ The immediate endpoint is a completed, preserved Housing calibration that suppor
 
 The endpoint is not production cutover. A successful calibration only authorizes the next benchmark step.
 
-## User priorities
+## Approved priorities and gates
 
-Evaluate and make decisions in this exact order:
+Accuracy, program identity, jurisdiction, and safety are hard gates. A candidate
+cannot pass because high volume or completeness outweighs a material defect. Once
+those gates pass, evaluate in this order:
 
-1. Accurate information
-2. Complete information
-3. Number and quality of sources
-4. Number of genuinely new, usable candidates
-5. Elapsed research time
+1. breadth of genuinely new, actionable candidates;
+2. authority and adequacy of sources;
+3. completeness of access-critical fields;
+4. completeness of supplementary fields; and
+5. elapsed research time.
 
-Time is recorded for planning and diagnosis, but it is almost unimportant. Do not trade accuracy, completeness, or source quality for speed. Do not collapse these priorities into a weighted average that lets candidate volume or speed conceal accuracy failures.
+An explicit unknown is incomplete, not inaccurate. Unknown pet policy or another
+supplementary field does not discard an otherwise real, relevant candidate.
+Unknown program identity, service geography, or whether the purported program is
+real blocks promotion until resolved. Time remains diagnostic and may break only
+a true quality tie. Candidate volume is counted only after the deterministic
+identity, role, geography, evidence, package-exclusion, and actionability gates in
+`docs/qwen-forward-plan.md`.
 
 ## Operating constraints
 
@@ -53,11 +71,11 @@ Time is recorded for planning and diagnosis, but it is almost unimportant. Do no
 
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
-- Latest implementation commit: `079ef91a9bbf02a5be51ef38ee86304999985811`
+- Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
 - Application version: `0.21.0`
 - Phase 1 local-Qwen implementation commit: `81a9eeab49de8006bce32b137992777802db3606`
-- Local Qwen default: `mlx-community/Qwen3.8-27B-4bit`
-- Comparison artifact: `mlx-community/Qwen3.8-27B-8bit`
+- Existing opt-in Local Qwen route: `mlx-community/Qwen3.8-27B-4bit`
+- Selected optimization artifact: `mlx-community/Qwen3.8-27B-8bit`
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
@@ -66,27 +84,39 @@ Time is recorded for planning and diagnosis, but it is almost unimportant. Do no
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.
 
-## Live continuation state: 2026-08-22
+## Completed comparison state: 2026-08-23
 
-The current locked comparison must be adopted, not restarted. It is running in the isolated benchmark database with this command:
+The locked v9 comparison completed in the isolated benchmark database and was
+adopted without restart. No comparison, evaluator, supervisor, or MLX server
+process remains active.
 
-`python3 run-qwen-quantization-comparison.py --database data/benchmarks/mesa-qwen-2026-08-21/mesa-qwen-benchmark.sqlite3 --corpus-id 6 --artifacts data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9`
+- Comparison 3 paired run 25 (4-bit) and run 26 (8-bit) over corpus 6.
+- Run 25 completed 22 packets with 1 `passed`, 18 `needs-review`, and 3
+  `failed` dossiers. It retained 276 supported, 224 unknown, and 3 conflicting
+  field states. Its quality gate failed.
+- Run 26 completed 22 packets with 7 `passed`, 15 `needs-review`, and 0 `failed`
+  dossiers. It retained 261 supported, 245 unknown, and 0 conflicting field
+  states. Its quality gate passed.
+- The model-neutral report selected option A before timing was revealed. The
+  reveal mapped option A to 8-bit and recorded: "8-bit leads on the ordered
+  quality priorities; time was not used."
+- The 4-bit and 8-bit elapsed times were respectively 34,197 and 49,148 seconds.
+- All attempts were local and unmetered. No model or search fallback was present.
+- The model-neutral report SHA-256 is
+  `dadc0d197341ea7fac2f7d548dd188771a569fcd0b09010507cd4966770b51a1`.
+- The revealed decision SHA-256 is
+  `ae5470960eb477e57935f078c6cc808b56111d6056a411e01eb70afc93b8f968`.
 
-At `2026-08-23T05:44:13Z`:
+Primary persisted evidence:
 
-- coordinator PID: `62207`;
-- model-evaluation PID: `72401`;
-- local-Qwen supervisor PID: `72388`;
-- MLX server PID: `72391`;
-- current model run: database run `26`, 8-bit configuration label `mesa-housing-urgent-8-bit-reviewed-corpus-v9-204ef0cbf2c7`;
-- current configuration hash: `6f1049277a3345c533c932df942847f0b423fb9feee3807ee16e4c2fecf42184`, with `modelMaxCompletionTokens` 32,768 and empty model and search fallback lists;
-- the 4-bit run completed all 22 packets with one `passed`, eighteen `needs-review`, and three true `failed` dossiers;
-- the 8-bit run has two extracted dossiers, one completed verification, and packet ID 43 in verification attempt 152;
-- preserved predecessor: run 24 completed eleven packets with no true deterministic failures, then packet 53 hit the unrecorded 16,384-token client limit and retained a 14,652-character response truncated mid-JSON; run 24 remains `partial` with its raw output and local-only usage evidence;
-- after all 22 8-bit packets, the coordinator will automatically create the model-neutral report and revealed decision;
-- no metered credential or fallback is present.
+- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9/comparison-status.json`
+- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9/model-neutral-quality-report.json`
+- `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9/quantization-decision.json`
+- `optimization_model_attempts`, `optimization_candidate_dossiers`, and
+  `optimization_verifications` for runs 25 and 26 in
+  `mesa-qwen-benchmark.sqlite3`
 
-At `2026-08-23T05:37:39Z`, an inspection-only `ResearchStore` open invoked the old
+Historical recovery incident: at `2026-08-23T05:37:39Z`, an inspection-only `ResearchStore` open invoked the old
 automatic startup-recovery behavior and temporarily marked active packet 43 and run
 26 interrupted. The evaluator and its loopback request never stopped. The original
 extraction attempt completed normally, wrote its dossier, and advanced to independent
@@ -97,14 +127,14 @@ active run state, while the Scout server and benchmark runners still recover gen
 interrupted work when taking ownership. The 154-test Python suite and 20-test JavaScript
 suite pass with this behavior.
 
-Do not depend on the PIDs remaining unchanged. Inspect the process table, the comparison status file, and the database before taking action. Primary live evidence:
+The incident evidence remains preserved in:
 
 - `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9/comparison-status.json`
 - `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9/8-bit-server.log`
 - `data/benchmarks/mesa-qwen-2026-08-21/optimization/comparison-v9/8-bit-evaluation.log`
 - `optimization_model_attempts`, `optimization_candidate_dossiers`, and `optimization_verifications` for run 26 in `mesa-qwen-benchmark.sqlite3`
 
-Frozen comparison corpus 6 has SHA-256 `204ef0cbf2c7d889fc84f544c601bd2bd9b1543a9636a7a9195742c5270e6379`. It contains ten required coverage branches, 70 executed queries, 535 normalized leads, 33 resolved identities, 22 urgent eligible candidate packets, and 72 fetched sources. It includes Justa Center and Salvation Army candidates that the frozen DeepSeek Housing output missed. The source package is `/Users/michaelbendio/Documents/TSO/mesa-resource-package.zip`, SHA-256 `c7a2251d7d638472f90207c24a28ec71c24515ea5d1aafced68a38fdce3d30f8`.
+Frozen comparison corpus 6 has SHA-256 `204ef0cbf2c7d889fc84f544c601bd2bd9b1543a9636a7a9195742c5270e6379`. It contains ten required coverage branches, 70 executed queries, 535 normalized leads, 33 resolved identities, 22 urgent eligible candidate packets, and 72 fetched sources. The earlier claim that frozen DeepSeek Housing omitted Justa Center and Salvation Army was incorrect: both are present in DeepSeek stage 1. The source package is `/Users/michaelbendio/Documents/TSO/mesa-resource-package.zip`, SHA-256 `c7a2251d7d638472f90207c24a28ec71c24515ea5d1aafced68a38fdce3d30f8`.
 
 The frozen DeepSeek baseline hash remains `0914c6278d36177cc29d75b297249815386355ceb9d634b1ac23372aa18c5491`. Recheck it before and after every repository change or benchmark decision.
 
@@ -117,7 +147,12 @@ Recent corrections are separately committed and pushed:
 - `cda1324`: raise the local completion allowance to the pinned 32,768-token server ceiling, record it in immutable configuration provenance, and give the corrected comparison v9 labels.
 - `079ef91`: require explicit ownership before startup recovery so inspection and export tools cannot mark a genuinely active run interrupted.
 
-The verifier still distinguishes `passed`, `needs-review`, and true `failed`. A `needs-review` dossier remains usable Curator material with its findings attached and does not fail the accuracy gate. Only remaining deterministic findings produce `failed` and block advancement. Do not weaken the verifier prompt, checklist, or evidence standards.
+The frozen verifier distinguishes `passed`, `needs-review`, and true `failed`. A
+`needs-review` dossier remains usable Curator material with its findings attached.
+The approved next verifier will return a constrained decision patch instead of a
+rewritten dossier. This corrects omission loss without weakening source,
+attribution, identity, geography, or safety standards. It receives a new policy
+label and does not rewrite historical results.
 
 Michael requested that the three 4-bit v9 completeness failures remain preserved
 without manual reclassification until a discussion after forward-plan step 7. The
@@ -127,7 +162,8 @@ exclude an otherwise valid candidate, and how to recover the dossiers without
 weakening verification. Remind Michael after step 7; do not silently discard or
 reclassify these dossiers before that discussion.
 
-If the active coordinator is healthy, let it continue. If it has stopped, inspect the last persisted raw attempt and logs before deciding whether to resume or create a new configuration. Any semantic correction requires a new provenance label; do not overwrite or pool evidence from a different configuration.
+Any semantic correction requires a new provenance label; do not overwrite or pool
+evidence from a different configuration.
 
 ## Preserved benchmark data
 
@@ -150,7 +186,7 @@ Important run IDs:
 - Run 23: completed conservative 4-bit full Housing run
 - Run 24: v8 4-bit expanded-corpus comparison; partial after eleven completed packets and a retained 16,384-token truncated extraction
 - Run 25: completed v9 4-bit expanded-corpus comparison with the recorded 32,768-token completion allowance
-- Run 26: active v9 8-bit expanded-corpus comparison over the identical corpus and prompts
+- Run 26: completed v9 8-bit expanded-corpus comparison over the identical corpus and prompts
 
 Housing stages are:
 
@@ -224,6 +260,21 @@ Accuracy requires program identity and evidence attribution to be explicit data,
 The primary problem is the workflow, not merely the prompt or tool-call cap. A 27B local model should not be asked to discover the field, browse broadly, resolve identities, extract every candidate, verify itself, and produce a large final JSON object in one context.
 
 Resource Scout should own the systematic, deterministic parts. Qwen should perform bounded semantic work over prepared evidence.
+
+Housing and Mesa are calibration inputs, not reusable architecture. All new
+verifier, candidate-promotion, discovery-expansion, referral-graph, provenance,
+and Curator-linkage code must be category- and location-neutral. Category fields,
+service needs, stages, geography, and queries come from package schema,
+playbooks, and versioned configuration. Housing-specific names and field lists
+belong only in fixtures and calibration data. Reusable gates require at least one
+non-Housing fixture.
+
+Audit the Housing playbook before freezing its revised corpus. After the
+Housing/Curator cycle supplies observed evidence, validate a generic playbook
+contract covering discovery branches, entity roles, critical and supplementary
+fields, geography, authoritative source families, gap searches, and current-status
+signals. Audit each category against that contract before any 19-category run;
+incomplete playbooks fail closed instead of inheriting Housing defaults.
 
 The redesigned workflow should be source-driven and candidate-centered:
 
@@ -440,13 +491,33 @@ Recorded outcome (2026-08-21): fixture extraction and independent fresh-context 
 
 Gate: select a quantization based on priorities 1 through 4; use time only for a quality tie.
 
-Recorded outcome (2026-08-22): comparison 2 paired completed runs 8 and 9 over the same six immutable Housing packets from frozen corpus 3 (`a2af690eb3446253c5582844f412322989dd386d366a4f67f6dd93421c086d08`). It recomputed only derived reporting from the persisted dossiers and verifications after `needs-review` was separated from true deterministic failure; comparison 1 remains preserved as the pre-correction aggregation. No model inference, search, or fetch was repeated. The schema-v2 model-neutral report concealed both model identity and timing while priorities one through four were scored. The winning option had one passed candidate, two needs-review candidates, three true failed candidates, and three usable candidates. The other option had one passed, one needs-review, four true failed, and two usable. Neither passed the accuracy gate. The winner also had 75 remaining deterministic findings versus 102, 98 supported field states versus 96, 37 unknown states versus 39, and the same ten frozen sources across eight domains. After that quality decision was persisted, the reveal mapped the winning option to `mlx-community/Qwen3.8-27B-4bit`; elapsed time was not used. The 4-bit run took 6,240 seconds and the 8-bit run 9,936 seconds. The selected quantization therefore remains 4-bit for continued optimization, not for production use.
+Recorded first outcome (2026-08-22): comparison 2 paired completed runs 8 and 9 over the same six immutable Housing packets from frozen corpus 3 (`a2af690eb3446253c5582844f412322989dd386d366a4f67f6dd93421c086d08`). It recomputed only derived reporting from the persisted dossiers and verifications after `needs-review` was separated from true deterministic failure; comparison 1 remains preserved as the pre-correction aggregation. No model inference, search, or fetch was repeated. The schema-v2 model-neutral report concealed both model identity and timing while priorities one through four were scored. The winning option had one passed candidate, two needs-review candidates, three true failed candidates, and three usable candidates. The other option had one passed, one needs-review, four true failed, and two usable. Neither passed the accuracy gate. The winner also had 75 remaining deterministic findings versus 102, 98 supported field states versus 96, 37 unknown states versus 39, and the same ten frozen sources across eight domains. After that quality decision was persisted, the reveal mapped the winning option to `mlx-community/Qwen3.8-27B-4bit`; elapsed time was not used. The 4-bit run took 6,240 seconds and the 8-bit run 9,936 seconds. This historical result selected 4-bit only as the input to the next correction cycle and was later superseded by the expanded v9 comparison.
 
-Provenance: the 4-bit and 8-bit configuration hashes are respectively `b037c2dd9c2047b446bcb1c51b2d25fad358bbf27f064a141485ed7ef9ff0703` and `6e5b3e86e12f8281e39a12d8cbb0e77ec03e7ab339daed93acb2428097c1d3f1`. The corrected model-neutral report and revealed decision hashes are `a01f05cbe6c6c853473e909bb9a0c9a2dd861ab113242cac4f666c5b81bdeb0c` and `48cdb660adb976dbf8f68b5d9031a5d150e3783a027ef182ceef6c2712cda63e`. The frozen DeepSeek baseline remained unchanged at `0914c6278d36177cc29d75b297249815386355ceb9d634b1ac23372aa18c5491`. No DeepSeek key or metered fallback was present.
+Recorded replacement outcome (2026-08-23): comparison 3 paired completed runs
+25 and 26 over 22 identical packets from frozen corpus 6
+(`204ef0cbf2c7d889fc84f544c601bd2bd9b1543a9636a7a9195742c5270e6379`).
+The model-neutral report selected option A before timing was revealed. Option A
+had 7 passed, 15 needs-review, 0 failed, and 22 usable dossiers; option B had 1
+passed, 18 needs-review, 3 failed, and 19 usable dossiers. The reveal mapped
+option A to 8-bit. The 8-bit run had 261 supported, 245 unknown, and 0 conflicting
+field states; 4-bit had 276 supported, 224 unknown, and 3 conflicting states.
+8-bit took 49,148 seconds and 4-bit took 34,197 seconds, but time did not affect
+the quality decision. The 8-bit selection authorizes the approved forward plan,
+not production use or the remaining categories.
+
+Original six-packet provenance: the 4-bit and 8-bit configuration hashes are
+respectively `b037c2dd9c2047b446bcb1c51b2d25fad358bbf27f064a141485ed7ef9ff0703`
+and `6e5b3e86e12f8281e39a12d8cbb0e77ec03e7ab339daed93acb2428097c1d3f1`.
+Its corrected model-neutral report and revealed decision hashes are
+`a01f05cbe6c6c853473e909bb9a0c9a2dd861ab113242cac4f666c5b81bdeb0c`
+and `48cdb660adb976dbf8f68b5d9031a5d150e3783a027ef182ceef6c2712cda63e`.
+The frozen DeepSeek baseline remained unchanged at
+`0914c6278d36177cc29d75b297249815386355ceb9d634b1ac23372aa18c5491`.
+No DeepSeek key or metered fallback was present in either comparison.
 
 ### Checkpoint E: complete Housing calibration
 
-- Lock the selected model, prompts, policies, and limits.
+- Lock the selected 8-bit model, schema-driven prompts, policies, and limits.
 - Run all four Housing stages in the isolated benchmark database.
 - Compare with the frozen DeepSeek Housing result and all previous Qwen runs.
 - Preserve raw outputs, ledgers, evidence packets, verification records, failures, and timing.
@@ -523,4 +594,14 @@ Local facts must not become universal rules. A broadly reusable lesson should no
 
 ## Suggested opening request for a new task
 
-> Continue the Resource Scout Qwen optimization work in `/Users/michaelbendio/resource-scout`. Read `docs/qwen-optimization-handoff.md` completely before acting. Adopt the existing `comparison-v8` 22-packet 4-bit/8-bit Housing comparison if it is still running; inspect persisted state and logs rather than restarting it. Continue the approved plan autonomously, stopping only if my attention is required. Preserve the frozen DeepSeek baseline, use no metered services or silent paid fallback, and do not compromise accuracy or completeness to save time. Work on the current branch, and commit and push each completed verified repository change.
+> Continue the Resource Scout Qwen optimization work in
+> `/Users/michaelbendio/resource-scout`. Read
+> `docs/qwen-optimization-handoff.md` and `docs/qwen-forward-plan.md` completely
+> before acting. Comparison v9 is complete and selected 8-bit for continued
+> isolated optimization. Implement the approved seven steps with category- and
+> location-neutral code; Housing/Mesa are fixtures and calibration only. Preserve
+> every frozen baseline and historical result, use no metered services or silent
+> paid fallback, enforce the candidate-integrity gates, and audit stale/dead-end
+> code thoroughly. Stop for the explicit user-attention conditions and the
+> required post-step-7 discussion. Work on the current branch, and commit and push
+> each completed verified repository change.

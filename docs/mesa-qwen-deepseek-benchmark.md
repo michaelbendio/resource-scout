@@ -1,6 +1,10 @@
 # Mesa Qwen versus DeepSeek Benchmark
 
-Status: Phase 1 calibration complete. The full 20-category run was not started because the local configuration failed the Calibration B quality and throughput gate.
+Status: The original Phase 1 calibration failed and the full 20-category run was
+not started. The redesigned Scout optimization subsequently completed expanded
+first-stage comparison v9 on 2026-08-23 and selected 8-bit Qwen for continued
+isolated work. The four-stage Housing calibration is not yet complete and no
+production cutover is authorized.
 
 ## Purpose
 
@@ -10,6 +14,50 @@ Compare the quantity, quality, reliability, and elapsed processing time of Resou
 - DSH with local Qwen3.8-27B, free search, and safe local page retrieval.
 
 This is a comparison of the complete research configurations, not merely a model trivia test. The Qwen side includes the local model, DDGS discovery, safe fetching, DSH tool behavior, and Resource Scout prompts. The DeepSeek side includes the historical DSH configuration and DeepSeek server-side search.
+
+Reusable redesign work is category- and location-neutral. Mesa Housing is the
+first frozen calibration configuration and regression fixture; verifier,
+candidate-promotion, discovery-expansion, provenance, playbook validation, and
+Curator-integration code must not hard-code it.
+
+## Comparison scope correction
+
+The frozen DeepSeek Housing result has 30 candidates across all four stages: 10
+urgent access, 7 stabilization, 7 specialized housing, and 6 long-term/gap
+candidates. Expanded Qwen corpus 6 has 22 packets for urgent access only. A
+statement such as "DeepSeek 30 versus Qwen 22" is therefore not a valid quality or
+yield comparison, and neither is an unresolved union count.
+
+Compare stage 1 with stage 1 first. DeepSeek's 10 stage-1 records correspond to
+roughly 12 distinct identities under the redesigned organization-plus-program
+boundary because some historical records bundle programs. The redesigned Scout
+corpus has 22 distinct stage-1 identities. Justa Center and Salvation Army are in
+both stage-1 results; the earlier statement that DeepSeek missed them was wrong.
+Any later overlap, union, or novelty total must use resolved program identities and
+like-for-like stages.
+
+## Expanded first-stage quantization result
+
+Comparison 3 used 22 identical packets from corpus 6
+(`204ef0cbf2c7d889fc84f544c601bd2bd9b1543a9636a7a9195742c5270e6379`).
+The model-neutral report selected option A before model identity and time were
+revealed.
+
+| Measure | 8-bit Qwen | 4-bit Qwen |
+|---|---:|---:|
+| Passed dossiers | 7 | 1 |
+| Needs-review dossiers | 15 | 18 |
+| Failed dossiers | 0 | 3 |
+| Usable dossiers | 22 | 19 |
+| Supported field states | 261 | 276 |
+| Unknown field states | 245 | 224 |
+| Conflicting field states | 0 | 3 |
+| Elapsed seconds | 49,148 | 34,197 |
+
+The reveal mapped option A to 8-bit. Quality selected it before timing was known;
+the approximately 44 percent longer runtime did not affect the decision. All
+attempts were local and unmetered, and the frozen DeepSeek baseline remained
+unchanged. This selects 8-bit for the approved optimization plan, not production.
 
 ## Frozen DeepSeek baseline
 

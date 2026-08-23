@@ -1,187 +1,322 @@
 # Qwen forward optimization plan
 
-Status: active on 2026-08-22. This plan begins after Checkpoint D and must be
-read with `qwen-optimization-handoff.md` and `qwen-optimization-design.md`.
+Status: approved on 2026-08-23. Expanded first-stage comparison v9 is complete
+and selected 8-bit Qwen for continued optimization. This is a staged benchmark
+plan, not a production cutover. Read it with `qwen-optimization-handoff.md`,
+`qwen-optimization-design.md`, and `mesa-qwen-deepseek-benchmark.md`.
 
-## Goal and decision order
+## Goal
 
-Determine whether local 4-bit Qwen can become an accurate, complete, well-sourced,
-high-recall Scout for the Scout -> Curator -> phone vetter -> TSO Resources package
-workflow. Decisions remain lexicographic: accuracy, completeness, sources, usable
-new candidates, then time. No faster or larger result may conceal an accuracy
-failure.
+Determine whether the redesigned, unmetered Resource Scout workflow with 8-bit
+Qwen can find a broad set of real, actionable programs while keeping every claim
+traceable and safe for Curator and phone vetting. The frozen DeepSeek baseline,
+all earlier Qwen runs, and every historical failure remain immutable comparison
+evidence.
 
-The frozen DeepSeek baseline remains immutable. Search and Qwen inference remain
-local or unmetered, with no paid fallback. All calibration work stays outside the
-live Scout and Curator databases until an explicit, reversible integration step.
+The immediate endpoint is a complete four-stage Housing calibration followed by
+an explicit decision to optimize again, stop, or request authorization for the
+remaining 19 benchmark categories. No production default, live database, normal
+Curator inbox, or TSO Resources package changes automatically.
+
+## Category-neutral architecture
+
+Housing and Mesa are the first calibration configuration and regression fixture,
+not the architecture. Every reusable verifier, promotion rule, entity role,
+saturation rule, prior-result manifest, referral edge, evidence record, audit,
+and Curator linkage must be category- and location-neutral. Required fields,
+service needs, source families, geography, and stages come from the selected
+package schema, category playbook, and versioned run configuration.
+
+Reusable code must not contain Housing field lists, Mesa provider names, the four
+Housing stage keys, or benchmark-specific queries. Those belong in fixtures and
+configuration. Tests must include at least one non-Housing category fixture before
+the reusable implementation gates pass.
+
+Playbooks are versioned configuration, not prompt prose that reusable code may
+silently replace. Before freezing the revised Housing corpus, audit its branches,
+service needs, populations and barriers, authoritative source families, geography,
+entity roles, critical and supplementary fields, gap-search terms, and
+current-status signals. After the Housing/Curator cycle, validate the generic
+playbook contract and audit each category before any 19-category run. Do not
+speculatively rewrite every playbook before that evidence exists.
+
+## Approved decision rules
+
+Scout uses hard candidate gates before ranking breadth or completeness. A lead is
+not a counted candidate unless all of the following are true:
+
+- the organization-plus-program identity is resolved well enough to avoid
+  bundling or fragmentation;
+- the category is correct and there is credible evidence of service relevance to
+  Mesa or the configured service area;
+- no factual claim is invented, transferred from another program, or silently
+  inferred;
+- at least one adequate source supports the program's existence and relevance;
+- uncertainty is explicit;
+- a plausible client access or follow-up path exists; and
+- the same program is not already represented in the source package.
+
+After those gates, make decisions in this order:
+
+1. breadth of genuinely new, actionable candidates;
+2. authority and adequacy of the supporting sources;
+3. completeness of access-critical fields;
+4. completeness of supplementary fields; and
+5. elapsed time.
+
+Accuracy, identity, jurisdiction, and safety are gates rather than quantities that
+can be outweighed. An explicit unknown is incomplete, not inaccurate. Unknown pet
+policy or another supplementary field does not discard an otherwise valid
+candidate. Unknown service geography, program identity, or whether a purported
+program actually exists blocks candidate promotion until resolved. Time may break
+only a genuine quality tie.
+
+## Candidate-count integrity
+
+Searches and models produce leads. Scout alone promotes leads to counted
+candidates through deterministic identity, evidence, geography, package, and
+actionability checks.
+
+Count one resolved, package-eligible organization-plus-program identity. Split
+records only when authoritative evidence names separate programs and shows a
+material distinction such as service, population, intake, status, jurisdiction,
+or independently administered facility. Different pages, addresses, telephone
+numbers, or application offices alone do not justify multiple candidates.
+Multiple sites normally remain access locations attached to one program.
+
+Every resolved entity receives one role:
+
+- `direct-program`;
+- `access-assessment-service`;
+- `service-location`;
+- `referral-system`;
+- `directory`;
+- `organization-only`; or
+- `unresolved-lead`.
+
+An access or assessment service counts only when it is itself a distinct,
+actionable service with a supported intake function, such as coordinated entry or
+211. A directory, organization-only record, mere application office, uncertain
+program boundary, possible duplicate, or weak named lead does not count. Preserve
+those records for follow-up without allowing them to inflate candidate totals.
+
+Generic directories create leads only. A program-specific authoritative referral
+may support promotion when Scout obtains corroborating current evidence. Report
+the complete funnel separately: raw results, canonical URLs, leads, resolved
+identities, package exclusions, noncandidate roles, evidence packets, verifier
+outcomes, Curator dispositions, phone-vetted outcomes, and final-package
+acceptances. The strongest usable-yield measure is a distinct resource accepted
+into a later phone-vetted package.
 
 ## Preserved starting evidence
 
 - Frozen DeepSeek baseline SHA-256:
   `0914c6278d36177cc29d75b297249815386355ceb9d634b1ac23372aa18c5491`
-- Reviewed first-stage corpus 3 SHA-256:
-  `a2af690eb3446253c5582844f412322989dd386d366a4f67f6dd93421c086d08`
-- Corrected comparison report SHA-256:
-  `a01f05cbe6c6c853473e909bb9a0c9a2dd861ab113242cac4f666c5b81bdeb0c`
-- Revealed decision SHA-256:
-  `48cdb660adb976dbf8f68b5d9031a5d150e3783a027ef182ceef6c2712cda63e`
-- Selected optimization input: 4-bit Qwen, with one passed, two needs-review,
-  and three true-failed dossiers in the first-stage comparison. This is not a
-  production selection.
+- Expanded reviewed corpus 6 SHA-256:
+  `204ef0cbf2c7d889fc84f544c601bd2bd9b1543a9636a7a9195742c5270e6379`
+- Frozen packet-set SHA-256:
+  `876bc83ff280a154d1ec94c2139ed90531a3cdb81e2f1c32a5907b1223d75501`
+- Model-neutral v9 report SHA-256:
+  `dadc0d197341ea7fac2f7d548dd188771a569fcd0b09010507cd4966770b51a1`
+- Revealed v9 decision SHA-256:
+  `ae5470960eb477e57935f078c6cc808b56111d6056a411e01eb70afc93b8f968`
+- Selected optimization input: 8-bit Qwen. Across the identical 22 packets it
+  produced 7 passed, 15 needs-review, and 0 failed dossiers. All 22 are usable
+  Curator material under the frozen policy. The 4-bit result was 1 passed, 18
+  needs-review, and 3 failed, or 19 usable dossiers.
+- The 8-bit run recorded 261 supported, 245 unknown, and 0 conflicting field
+  states. The 4-bit run recorded 276 supported, 224 unknown, and 3 conflicting
+  states. Quality selected 8-bit before timing was revealed. It took 49,148
+  seconds versus 34,197 seconds for 4-bit; time did not affect the decision.
 
-For discovery work, record this funnel for every branch and run:
+The selected 8-bit configuration is an optimization input, not a production
+selection. The existing opt-in local Scout route remains unchanged until a later
+explicitly authorized cutover.
 
-1. search results returned;
-2. canonical unique URLs;
-3. plausible program/referral leads;
-4. resolved organization-plus-program identities;
-5. package-excluded same-program identities;
-6. fetched evidence sources and domains by authority;
-7. frozen evidence packets;
-8. passed, needs-review, and true-failed dossiers;
-9. usable new candidates delivered to Curator;
-10. phone-vetted candidates accepted into a later package.
+## Seven approved steps
 
-Search saturation must use package-eligible identity novelty, not raw URLs or an
-identity already excluded by the current package.
+### 1. Record the completed comparison and revised gates
 
-## Ordered work and gates
+Reconcile the handoff, benchmark, deterministic design, local runtime plan,
+README, and this plan. Correct stale running-comparison and 4-bit-selection text,
+the earlier apples-to-oranges DeepSeek comparison, and the incorrect claim that
+the frozen DeepSeek Housing output omitted Justa Center and Salvation Army.
 
-### 1. Correct the three true failures
+Gate: documentation agrees with the persisted database and v9 artifacts; frozen
+baseline and source-package hashes remain unchanged.
 
-The preserved 4-bit failures have different causes and must not receive one broad
-exception:
+### 2. Correct the verifier contract
 
-- `City of Mesa :: Homeless Resource Line and Outreach` is an upstream reviewed-
-  identity conflation. Split the Homeless Resource Line and Street Outreach
-  Services before freezing a corrected corpus.
-- `City of Mesa :: Off the Streets` contains Qwen paraphrases and synthesized
-  values that do not exactly match their source-support bindings. Its evidence
-  also exposes the difference between truly incompatible scalar values and
-  complementary descriptive facts.
-- `La Mesita Family Shelter :: Family Homeless Shelter` retains organization and
-  program claims without exact source-support bindings.
+The schema-validated extraction dossier remains Scout-owned. The verifier returns a
+constrained field-by-field decision or patch rather than rewriting the complete
+dossier. Allowed operations are:
 
-The correction may strengthen extraction instructions and deterministic
-post-processing. Scout may conservatively replace an invalid factual-field claim
-with an explicit unknown and a visible needs-review finding. It may not invent a
-replacement. Identity mismatches, altered or invented sources, and other
-structural defects remain true failures. The verifier prompt, checklist, and
-strictness are not weakened.
+- keep a validated field;
+- downgrade it to explicit unknown;
+- mark supported values as conflicting;
+- attach a review finding; or
+- report a material identity, attribution, geography, or evidence defect.
 
-Gate: regression tests pass; the corrected identity review, corpus, prompt policy,
-and model run all have new provenance labels; the old corpus and runs remain
-unchanged. Re-run only the corrected 4-bit first stage initially.
+Scout applies only allowed operations and validates the result again. The
+verifier cannot invent replacement facts, mutate frozen identity, alter sources,
+or delete a field by omission. Every field required by the selected package schema
+and category playbook receives a verifier decision.
+If a decision is absent, Scout preserves the validated extraction state and adds
+`verification-incomplete`, producing `needs-review` rather than a failed or
+dropped candidate.
 
-### 2. Improve unmetered discovery recall
+`failed` is reserved for a material identity conflation, wrong category or
+geography, altered or invented source, unsupported safety-critical claim, or lack
+of credible evidence that the candidate is real and relevant. Explicit unknowns,
+ordinary conflicts, weak-but-usable sourcing, uncertain current status, and an
+incomplete verifier checklist produce `needs-review`.
 
-First correct saturation accounting so an existing-package match does not count as
-new eligible discovery. Persist both raw identity novelty and package-eligible
-novelty so the stopping decision is auditable.
+Gate: deterministic regression tests cover omission, every allowed patch,
+forbidden mutation, restart/resume, and the actual Justa Center `petPolicy`,
+Coordinated Entry `petPolicy`, and UMOM `serviceNeed` losses. The old runs remain
+unchanged and the new policy receives a new provenance label.
 
-Then improve DDGS discovery in bounded, measurable increments:
+### 3. Expand discovery without gaming candidate count
 
-- allow a higher per-query result depth and more than six planned queries only
-  through versioned configuration, never an unrecorded global cap change;
-- expand official/referral pages into specific named programs and provider pages;
-- route useful wrong-stage results to their proper Housing stage instead of
-  discarding them;
-- add targeted queries from uncovered needs, populations, access barriers, and
-  referral-page names;
-- deduplicate by canonical URL and organization-plus-program identity while
-  retaining every query/rank provenance record;
-- distinguish no new URLs, no new identities, no new package-eligible identities,
-  and no new usable verified candidates.
+#### Continue the unsaturated coordinated-entry branch
 
-Before the improved corpus is frozen, append one deterministic current-status
-query for every resolved urgent-access identity. These queries must look for
-closure, relocation, renaming, and intake changes, remain part of the hashed query
-plan, and reuse the already frozen base search responses. Historical provider pages
-must not be treated as proof that a program is still operating. A closed program
-may remain in the discovery ledger as provenance but is not an eligible current
-candidate; a successor program is a separate identity and stage decision.
+Preserve corpus 6 and its 70 searches. Create a versioned query plan that reuses
+the frozen base responses and appends an initial batch of five targeted,
+referral-derived queries. Stop the appended branch after three consecutive
+queries yield no new package-eligible identity. Add another bounded batch only if
+the branch reaches its maximum while still producing eligible identities. Run a
+deterministic current-status query for each new identity and report marginal
+eligible yield, authority, duplication, noise, and routed later-stage identities.
 
-The first discovery calibration is model-free. Compare each increment against the
-same source package and report marginal eligible identities, sources, domains, and
-branch coverage. Do not accept more weak directories or generic routing concepts
-as a substitute for actionable programs.
+#### Use preserved results as a lead manifest
 
-Gate: deterministic fixtures cover package-aware saturation, referral expansion,
-stage routing, current-status queries, resume behavior, and provenance. A live
-unmetered discovery-only run must show improved eligible yield or explain branch-
-level saturation without model inference.
+Create a generic, versioned prior-result lead-manifest format. The initial Mesa
+manifest may contain frozen DeepSeek Housing candidates and every preserved Qwen
+Housing lead, including routed, rejected, and unresolved identities. Import only
+organization/program names, aliases, URLs, and source-run/stage/date provenance;
+never import historical factual claims as current evidence.
 
-### 3. Recalibrate the selected 4-bit workflow
+The initial harvest is a one-time calibration input. The generic manifest reader
+remains available for future periodic Scout runs, but no DeepSeek-specific path is
+permanent. Every imported lead must pass current search/fetch, identity resolution,
+package exclusion, current-status, geography, actionability, and evidence gates.
+Historical entries do not count as queries, saturation, current evidence, or
+candidates merely because they exist.
 
-Freeze the improved first-stage corpus and run 4-bit extraction and independent
-verification under the corrected prompt policy. Preserve raw output, corrected
-dossiers, deterministic remediation, findings, and timing.
+#### Add a bounded authoritative referral graph
 
-Gate: no true deterministic failures; needs-review candidates remain visible with
-their findings; source and field metrics do not regress merely to increase count.
-Only after this gate may the four-stage Housing configuration be locked.
+Add category-generic, resumable, one-hop referral expansion from direct-provider,
+government, coordinated-entry, and authoritative referral sources. Persist every
+edge as source page -> named program -> destination URL with nearby context.
+Edges are leads, never candidates. Fetch the exact current program page, resolve
+identity and stage, check the package and current status, and retain provenance.
+Bound edges per source, canonicalize destinations, deduplicate identities, and do
+not traverse broad directories or a second hop in this calibration.
 
-### 4. Integrate Curator reversibly
+Gate: fixtures cover branch saturation, historical manifest provenance, loops,
+duplicate edges, parent organizations with multiple programs, access locations,
+wrong-stage routing, stale or successor names, broad directories, irrelevant
+partners, confidential shelters, resume behavior, candidate-count roles, and a
+non-Housing playbook. Missing playbook sections must fail closed rather than fall
+back to Housing defaults. A
+live unmetered discovery-only run must improve eligible yield or demonstrate
+branch-level saturation before any model inference.
 
-Add an explicit optimization export/import path that writes to a separate Curator
-inbox or profile. Do not change the normal Scout database, normal Curator inbox,
-production adapter, startup defaults, or DeepSeek behavior. Include verification
-status, verifier findings, conflicts, unknowns, source evidence, run/configuration
-IDs, corpus hash, candidate identity key, and source-package hash.
+### 4. Freeze the revised first-stage corpus
 
-Verify the export can be removed by configuration rollback and that returning to
-the pre-integration commit restores code behavior. Data rollback must be a scoped
-removal of the isolated optimization inbox, not a repository rollback that risks
-unrelated later work.
+Resolve all newly discovered and preserved leads under the approved gates. Run
+current-status checks, acquire and classify current evidence, perform package
+exclusions, route non-urgent identities to later Housing stages, and freeze one
+immutable packet per counted urgent-access identity. Preserve weak and unresolved
+leads outside the candidate count.
 
-Gate: export tests prove passed and needs-review candidates reach Curator, failed
-candidates do not, findings remain intact, and existing Scout/Curator operation is
+First audit and version the Housing playbook configuration. Do not freeze a corpus
+whose required branches, candidate roles, field criticality, or gap-search rules
+remain implicit.
+
+Gate: all required coverage branches have a recorded terminal state; every packet
+has one resolved identity, an eligible role, Mesa-relevance evidence, a plausible
+access path, and current evidence; all hashes and runtime versions are recorded.
+
+### 5. Validate selected 8-bit extraction and verification
+
+Run only the selected 8-bit model over the revised first-stage frozen packets
+using the corrected verifier policy. Preserve raw outputs, deterministic patches,
+findings, explicit unknowns, usage, retries, and timing. Do not rerun 4-bit unless
+a later controlled question requires it.
+
+Gate: no true deterministic failures; all verifier fields have decisions or an
+explicit `verification-incomplete` review finding; source and field quality do not
+regress merely to increase candidate count. Only then may the four-stage Housing
+configuration be locked.
+
+### 6. Validate Curator and iterative package integration
+
+First test the isolated optimization export path. Passed and needs-review
+candidates must reach Curator; failed and noncandidate leads must not. Preserve
+findings, evidence, unknowns, conflicts, source/configuration/package provenance,
+stable candidate IDs, and deterministic generated-resource IDs. Normal Scout,
+normal Curator, the live database, and production DeepSeek behavior remain
 unchanged.
 
-### 5. Close the Curator and package feedback loop
+Use all final first-stage candidates for the Curator pilot rather than a favorable
+sample. Record dispositions for duplicates, fragments, access points, directories,
+wrong geography/category, weak leads, research-further cases, and candidates
+prepared for ordinary phone vetting. Preserve deterministic candidate -> packet ->
+Curator draft -> additions resource -> final-package resource links and the before
+and after complete packages.
 
-Curator prepares candidates for phone vetting. The vetter interviews the candidate
-contact, corrects and completes the resource, and creates a resource package for
-TSO Resources. Preserve candidate-to-generated-to-final resource linkage and both
-the before and after packages. Merge the vetted package into the Mesa TSO Resources
-package through its normal reviewed workflow, then begin a separately labeled Scout
-run using that new package as its exclusion set.
+A source-package merge or live Curator mutation still requires Michael's explicit
+authorization. After an authorized normal merge, run a separately labeled second
+Scout cycle using the new package as its exclusion set. Report already-merged
+exclusions, distinct programs at the same organization, recurring weak leads, new
+eligible yield, and branch saturation. Do not activate deferred model lessons.
 
-Measure whether successive runs find genuinely new package-eligible candidates and
-whether marginal yield approaches saturation. Do not assume one new package causes
-Qwen to search deeper; the package-aware stopping correction must be in place.
+Gate: export and provenance tests pass; observed usable yield is based on normal
+Curator/phone-vetting outcomes and final-package acceptance, not model self-rating.
 
-Gate: the second-cycle report distinguishes already merged resources, distinct
-programs at the same organization, new usable candidates, and exhausted branches.
+### 7. Complete Housing calibration
 
-### 6. Evaluate a verifier for DeepSeek separately
+Lock the 8-bit artifact, verifier and extraction policies, playbook, query plan,
+limits, stopping rules, package hash, and runtime versions. Run all four Housing
+stages in the isolated benchmark database with fine-grained checkpointing. The 11
+already routed identities from discovery run 19 are starting leads for stages 2
+through 4, not prequalified candidates.
 
-The frozen DeepSeek baseline has no fresh-context verifier. A verifier could improve
-its attribution and unsupported-claim detection, but it creates a new hybrid or
-DeepSeek-plus-verifier configuration. Preserve the original baseline unchanged.
-Use local Qwen as verifier only under an explicit hybrid label; never forward a
-DeepSeek key to the local path and never use metered verification without explicit
-authorization.
+Compare the complete result with frozen DeepSeek Housing and every preserved Qwen
+Housing run. Compare like stages and report the union and overlap only after
+identity resolution; the historical DeepSeek total of 30 spans all four stages,
+whereas corpus 6's 22 packets cover only stage 1.
 
-Gate: compare the new verified result with the frozen baseline and Qwen using the
-same quality definitions. This experiment cannot retroactively rewrite baseline
-evidence.
+Gate: make an explicit decision to optimize again, stop, or request authorization
+for the remaining 19 categories. Never start those categories automatically.
 
-### 7. Complete Checkpoint E
+Before any such authorization can be exercised, validate the generic playbook
+contract against the Housing/Curator evidence and audit every intended category's
+playbook. A category with an incomplete playbook remains blocked rather than
+inheriting Housing behavior.
 
-After the first-stage accuracy and discovery gates pass, lock the 4-bit artifact,
-prompt policy, playbook, query plan, limits, stopping rules, package hash, and all
-runtime versions. Run all four Housing stages in the isolated benchmark database,
-preserving fine-grained checkpoints and all raw evidence.
+After step 7, pause for Michael's requested discussion of the three preserved
+4-bit completeness failures. Do not silently reclassify them. Review whether
+unknown pet policy should ever exclude a candidate, how `serviceNeed` should be
+handled, and whether the new verifier contract resolves the failure mode without
+weakening evidence requirements.
 
-Compare the result with frozen DeepSeek Housing and every preserved Qwen Housing
-run in the five-priority order. Explicitly decide to optimize again, stop Qwen, or
-authorize the remaining 19 categories. Never start those categories automatically.
+## Deferred DeepSeek v2 experiment
+
+Do not place a DeepSeek verifier experiment ahead of the seven approved steps.
+The redesigned deterministic Scout workflow could later be run with DeepSeek as a
+separate, explicitly metered configuration. It must use the same frozen corpus and
+must disable supplemental search for a controlled extraction/verification
+comparison. The original DeepSeek baseline remains unchanged. No paid request or
+hybrid fallback is authorized by this plan.
 
 ## Stop conditions requiring user attention
 
-Stop and consult the user if work would require a paid service, production or live
-Curator mutation, a source-package merge, weakening a quality gate, discarding
-frozen evidence, accepting an unresolved material accuracy defect, or authorizing
-the other 19 categories. Ordinary local implementation, deterministic tests,
-isolated benchmark runs, and reversible isolated exports may proceed.
+Stop and consult Michael if work would require a paid service, production or live
+Curator mutation, a source-package merge, weakening a hard candidate or evidence
+gate, discarding frozen evidence, accepting an unresolved material accuracy
+defect, or authorizing the other 19 categories. Local implementation,
+deterministic fixture tests, isolated unmetered discovery, selected local 8-bit
+inference, and removable optimization exports may proceed autonomously after their
+preceding gates pass.

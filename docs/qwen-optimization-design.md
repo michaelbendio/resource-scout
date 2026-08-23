@@ -1,20 +1,30 @@
 # Qwen optimization deterministic design
 
-Status: Checkpoints A through D implemented for deterministic discovery, candidate dossiers, fresh-context verification, completeness, gap-audit reporting, and the first model-neutral frozen-corpus quantization comparison.
+Status: Checkpoints A through D are implemented. Expanded 22-packet comparison
+v9 completed on 2026-08-23 and selected 8-bit Qwen for continued isolated
+optimization. The approved forward work makes the reusable design category- and
+location-neutral and replaces whole-dossier verification with a constrained
+decision-patch contract.
 
 This document fixes the data boundaries, persistence records, Housing regression fixtures, coverage matrix, stopping behavior, quality gate, and downstream ground-truth linkage before any new model run. It does not authorize Checkpoint B or production cutover.
 
 ## Decision order
 
-Every gate and comparison uses these priorities without a weighted average:
+Material program conflation, unsupported or transferred claims, incorrect
+jurisdiction, wrong category, and source-to-field attribution errors are hard
+gates. After those gates pass, compare genuinely new actionable candidates,
+source authority and adequacy, access-critical completeness, supplementary
+completeness, and finally time. An explicit unknown is incomplete but not
+inaccurate. Time is diagnostic and may break only a true quality tie.
 
-1. accurate information;
-2. complete information;
-3. number and quality of sources;
-4. genuinely new, usable candidates; and
-5. elapsed research time.
+## Category-neutral boundary
 
-Material program conflation, unsupported restrictions, incorrect jurisdiction, or source-to-field attribution errors block advancement. An explicit unknown is incomplete but not inaccurate. Time is diagnostic and may break only a true quality tie across priorities one through four.
+The package schema, selected category playbook, location scope, and immutable run
+configuration define fields, service needs, queries, and stages. Reusable code
+must not contain Housing field lists, Mesa organizations, or the Housing stage
+layout. Housing remains the first calibration fixture. At least one non-Housing
+fixture is required for every reusable verifier, promotion, discovery-expansion,
+provenance, and Curator-integration gate.
 
 ## Pipeline records
 
@@ -44,6 +54,13 @@ The identity key is normalized organization plus specific program. It is never o
 - One emitted dossier may contain only one resolved organization-plus-program identity.
 - A page describing another program cannot support a program-scoped phone, address, hours, eligibility, restriction, intake rule, or other field merely because the organization is shared.
 
+Resolved entities also receive a category-neutral role. Only a `direct-program`
+or independently actionable `access-assessment-service` may be promoted to a
+counted candidate. A `service-location`, `referral-system`, `directory`,
+`organization-only`, or `unresolved-lead` remains in the ledger without inflating
+candidate yield. Multiple access sites normally remain attached to one program.
+Splitting requires authoritative evidence of a material program distinction.
+
 The regression fixtures cover A New Leaf program contact transfer, CASS/Brian Garcia attribution, UMOM/Halle overbundling, and City of Mesa/HAMC-style jurisdiction boundaries.
 
 ## Evidence and field findings
@@ -55,19 +72,31 @@ Each source is classified as:
 3. reputable secondary source; or
 4. directory or aggregator used as a lead.
 
-Every factual Housing field has exactly one state:
+Every factual field required by the selected package schema and category playbook
+has exactly one state:
 
 - `supported`: one retained value with one or more exact field/value evidence bindings;
 - `conflicting`: two or more distinct values, each with its own evidence bindings; or
 - `unknown`: no retained factual value and a reason it was not found.
 
-The factual field set covers identity and contact, geography, services, access timeline, description, eligibility, intake and connection steps, barriers, availability, pet policy, and experience information. Empty omission is not a fourth state.
+The Housing calibration field set covers identity and contact, geography,
+services, access timeline, description, eligibility, intake and connection steps,
+barriers, availability, pet policy, and experience information. Another category
+supplies its own schema-driven field set. Empty omission is not a fourth state.
+
+The validated extraction dossier is Scout-owned. Under the next policy, the
+fresh-context verifier returns explicit keep, downgrade-to-unknown,
+mark-conflicting, review, or material-defect decisions for schema-required
+fields. Scout applies those operations and revalidates. Omission cannot delete a
+field: an absent verifier decision preserves the validated extraction state and
+adds `verification-incomplete`. The verifier cannot invent a replacement, mutate
+frozen identity, or alter a source envelope.
 
 Program-scoped bindings must come from a source classified as describing the same identity. Organization-wide bindings must explicitly say so and match the organization. A directory cannot be the only support for sensitive access fields. Captured contradictory evidence or multiple authoritative values forces an explicit conflict or removal; it cannot remain a single supported value. The verifier may remove, downgrade, or flag a claim but may not invent a replacement.
 
-## First Housing-stage coverage matrix
+## First Housing-stage calibration matrix
 
-The frozen-corpus comparison begins with `urgent-access`, Immediate safety and emergency access. Scout persists nine required coverage branches:
+The frozen-corpus comparison begins with `urgent-access`, Immediate safety and emergency access. These are playbook configuration and fixtures, not hard-coded reusable branches. Scout persists nine required coverage branches:
 
 1. official City of Mesa sources;
 2. official Maricopa County sources, including jurisdiction boundaries;
@@ -119,9 +148,27 @@ Checkpoint A passes only when deterministic tests prove all of the following:
 
 Passing this gate authorizes only a request for approval to begin Checkpoint B. It does not authorize discovery, Qwen inference, 8-bit loading, the full Housing run, the other Mesa categories, or production cutover.
 
+Future changes to these reusable layers additionally require a non-Housing fixture
+and a stale-path trace proving that the tested entry point reaches the current
+implementation rather than a superseded compatibility branch.
+
 ## Checkpoint D gate
 
-Checkpoint D completed on 2026-08-22 using six identical immutable packets from reviewed Housing corpus `a2af690eb3446253c5582844f412322989dd386d366a4f67f6dd93421c086d08`. Corrected comparison 2 was derived from the existing persisted runs without repeating inference and reports `passed`, `needs-review`, and true deterministic `failed` outcomes separately. Model identity and timing remained concealed until priorities one through four selected option B. The reveal mapped option B to 4-bit. The 4-bit result was one passed, two needs-review, and three failed candidates; 8-bit was one passed, one needs-review, and four failed. Both quantizations therefore still failed the overall accuracy gate, but 4-bit had fewer true failures and remaining deterministic findings, slightly more supported field states, and one more usable review candidate. This selects 4-bit only as the input to further optimization. It does not lock a production configuration or authorize Checkpoint E, the other categories, or production cutover.
+Checkpoint D first completed on 2026-08-22 using six identical immutable packets
+from reviewed Housing corpus
+`a2af690eb3446253c5582844f412322989dd386d366a4f67f6dd93421c086d08`.
+Corrected comparison 2 selected 4-bit only as the input to the next correction
+cycle; neither option passed its accuracy gate.
+
+The replacement Checkpoint D comparison completed on 2026-08-23 using 22
+identical packets from corpus
+`204ef0cbf2c7d889fc84f544c601bd2bd9b1543a9636a7a9195742c5270e6379`.
+The model-neutral report selected option A before timing was revealed: 7 passed,
+15 needs-review, 0 failed, and 22 usable dossiers versus option B's 1 passed, 18
+needs-review, 3 failed, and 19 usable dossiers. The reveal mapped option A to
+8-bit. The 8-bit selection authorizes the approved forward optimization plan. It
+does not lock production, start the other categories, or rewrite historical
+results.
 
 The expanded reviewed-corpus comparison uses runtime provenance suffix `arrays-cache-materialization-v1`. An initial v4 attempt over corpus `204ef0cbf2c7d889fc84f544c601bd2bd9b1543a9636a7a9195742c5270e6379` reached MLX's Metal buffer-object limit during its first 4-bit extraction because the MLX 0.31.3 hybrid Qwen server cache retained a lazy metadata graph on every generated token. The MLX background generation thread died while the HTTP process remained alive, so ordinary catalog health checks could not detect the failure. The v5 runtime wrapper materializes the affected `ArraysCache` metadata after each advance, preserving the configured output allowance instead of truncating the model response. This runtime change has an explicit configuration hash and new run label; the failed v4 attempt remains preserved.
 
