@@ -8,7 +8,7 @@ from typing import Any, Callable
 from urllib.parse import urlsplit
 
 from .optimization import (
-    augment_housing_query_plan_with_status_checks,
+    augment_query_plan_with_identity_status_checks,
     build_housing_urgent_query_plan,
     CANDIDATE_QUALIFICATION_POLICY_VERSION,
     candidate_qualification,
@@ -34,6 +34,7 @@ def build_reviewed_housing_query_plan(
     maximum_queries: int,
     saturation_queries: int,
     candidate_status_review: dict[str, Any] | None = None,
+    include_routed_status: bool = False,
 ) -> dict[str, Any]:
     """Build the exact base-and-status query plan shared by cache and freeze."""
 
@@ -49,7 +50,11 @@ def build_reviewed_housing_query_plan(
     identity_values: list[dict[str, Any]] = []
     for value in reviewed_identity_decisions(candidate_status_review).values():
         identity_values.extend(value if isinstance(value, list) else [value])
-    return augment_housing_query_plan_with_status_checks(plan, identity_values)
+    return augment_query_plan_with_identity_status_checks(
+        plan,
+        identity_values,
+        include_routed=include_routed_status,
+    )
 
 
 def cache_housing_searches(
@@ -62,6 +67,7 @@ def cache_housing_searches(
     saturation_queries: int = 2,
     results_per_query: int = 8,
     candidate_status_review: dict[str, Any] | None = None,
+    include_routed_status: bool = False,
     previous_cache: dict[str, Any] | None = None,
     query_plan: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
@@ -70,17 +76,24 @@ def cache_housing_searches(
         maximum_queries=maximum_queries,
         saturation_queries=saturation_queries,
         candidate_status_review=candidate_status_review,
+        include_routed_status=include_routed_status,
     )
     plan_hash = sha256_json(plan)
     if path.exists():
         value = json.loads(path.read_text(encoding="utf-8"))
         if value.get("queryPlanSha256") != plan_hash:
             raise OptimizationRuntimeError("Search cache belongs to a different query plan")
+        stored_plan = value.get("queryPlan")
+        if stored_plan is not None and sha256_json(stored_plan) != plan_hash:
+            raise OptimizationRuntimeError("Search cache contains a corrupted query plan")
+        value["schemaVersion"] = 2
+        value["queryPlan"] = plan
     else:
         value = {
-            "schemaVersion": 1,
+            "schemaVersion": 2,
             "createdAt": datetime.now(timezone.utc).isoformat(),
             "provider": "ddgs",
+            "queryPlan": plan,
             "queryPlanSha256": plan_hash,
             "queryPolicy": {
                 "minimumQueries": minimum_queries,
@@ -172,9 +185,13 @@ def merge_identity_review(
     previous_decisions = previous_review.get("decisions", {})
     if not isinstance(previous_decisions, dict):
         return merged
-    previous_applications = previous_review.get("reviewApplications")
-    if isinstance(previous_applications, list):
-        merged["reviewApplications"] = deepcopy(previous_applications)
+    for application_key in (
+        "reviewApplications",
+        "qualificationApplications",
+    ):
+        previous_applications = previous_review.get(application_key)
+        if isinstance(previous_applications, list):
+            merged[application_key] = deepcopy(previous_applications)
     for url, record in merged["decisions"].items():
         previous = previous_decisions.get(url)
         if not isinstance(previous, dict) or previous.get("disposition") not in {

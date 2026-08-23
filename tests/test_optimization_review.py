@@ -18,7 +18,11 @@ from resource_research_agent.optimization_review import (
     validate_identity_review,
 )
 from resource_research_agent.optimization_runtime import OptimizationRuntimeError
-from resource_research_agent.optimization import build_housing_urgent_query_plan
+from resource_research_agent.optimization import (
+    augment_query_plan_with_identity_status_checks,
+    build_housing_urgent_query_plan,
+    sha256_json,
+)
 from resource_research_agent.query_expansion import augment_query_plan_with_targeted_branch
 
 
@@ -69,6 +73,45 @@ class OptimizationReviewTests(unittest.TestCase):
         self.assertEqual(1, status["saturation"]["minimumQueries"])
         self.assertIn('"Urgent Provider" "Urgent Program"', status["queries"][0]["query"])
 
+    def test_status_sweep_is_category_neutral(self) -> None:
+        plan = build_housing_urgent_query_plan("Mesa", "Maricopa County")
+        plan["categoryId"] = "food"
+        plan["stageKey"] = "immediate-food"
+        expanded = augment_query_plan_with_identity_status_checks(
+            plan,
+            [qualified_identity("Food Provider", "Pantry", stageKey="immediate-food")],
+        )
+        self.assertEqual("food", expanded["categoryId"])
+        self.assertEqual("immediate-food", expanded["stageKey"])
+        self.assertIn("reviewed food identity", expanded["branches"][-1]["purpose"])
+
+    def test_reviewed_query_plan_can_include_routed_status_checks(self) -> None:
+        review = {
+            "decisions": {
+                "https://example.org/routed": {
+                    "disposition": "candidate",
+                    "identity": qualified_identity(
+                        "Routed Provider",
+                        "Routed Program",
+                        stageKey="stabilization",
+                    ),
+                }
+            }
+        }
+        plan = build_reviewed_housing_query_plan(
+            minimum_queries=4,
+            maximum_queries=10,
+            saturation_queries=3,
+            candidate_status_review=review,
+            include_routed_status=True,
+        )
+        self.assertEqual("identity-current-status-v2", plan["candidateStatusPolicyVersion"])
+        self.assertTrue(plan["candidateStatusIncludesRoutedIdentities"])
+        self.assertIn(
+            '"Routed Provider" "Routed Program"',
+            plan["branches"][-1]["queries"][0]["query"],
+        )
+
     def test_search_cache_resumes_and_review_requires_every_disposition(self) -> None:
         calls = []
 
@@ -79,6 +122,8 @@ class OptimizationReviewTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "cache.json"
             first = cache_housing_searches(path, search=search)
+            self.assertEqual(2, first["schemaVersion"])
+            self.assertEqual(first["queryPlanSha256"], sha256_json(first["queryPlan"]))
             self.assertEqual(54, len(first["queries"]))
             self.assertEqual(54, len(calls))
             second = cache_housing_searches(path, search=search)
@@ -397,6 +442,34 @@ class OptimizationReviewTests(unittest.TestCase):
         self.assertEqual(23, len(calls))
         self.assertEqual(23, len(expanded["queries"]))
         self.assertEqual(base["cacheSha256"], expanded["previousCacheSha256"])
+
+    def test_review_merge_preserves_identity_and_qualification_receipts(self) -> None:
+        cache = {
+            "cacheSha256": "new-cache",
+            "queries": {
+                "q1": {
+                    "sources": [
+                        {"url": "https://example.org/program", "title": "Program"}
+                    ]
+                }
+            },
+        }
+        previous = {
+            "reviewApplications": [{"patchSha256": "a" * 64}],
+            "qualificationApplications": [{"manifestSha256": "b" * 64}],
+            "decisions": {
+                "https://example.org/program": {
+                    "disposition": "excluded",
+                    "reason": "Reviewed",
+                }
+            },
+        }
+        merged = merge_identity_review(cache, previous)
+        self.assertEqual(previous["reviewApplications"], merged["reviewApplications"])
+        self.assertEqual(
+            previous["qualificationApplications"],
+            merged["qualificationApplications"],
+        )
 
     def test_exclusion_policy_builds_exact_pending_only_patch(self) -> None:
         review = {

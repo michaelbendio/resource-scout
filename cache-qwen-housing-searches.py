@@ -26,6 +26,11 @@ parser.add_argument("--previous-review", type=Path)
 parser.add_argument("--candidate-status-review", type=Path)
 parser.add_argument("--previous-cache", type=Path)
 parser.add_argument("--targeted-expansion", type=Path)
+parser.add_argument(
+    "--all-identity-status",
+    action="store_true",
+    help="Append status checks for identities routed to every playbook stage",
+)
 arguments = parser.parse_args()
 
 candidate_status_review = (
@@ -46,6 +51,7 @@ if arguments.targeted_expansion:
         maximum_queries=arguments.maximum_queries,
         saturation_queries=arguments.saturation_queries,
         candidate_status_review=candidate_status_review,
+        include_routed_status=arguments.all_identity_status,
     )
     query_plan = augment_query_plan_with_targeted_branch(
         query_plan,
@@ -68,6 +74,7 @@ cache = cache_housing_searches(
     saturation_queries=arguments.saturation_queries,
     results_per_query=arguments.results_per_query,
     candidate_status_review=candidate_status_review,
+    include_routed_status=arguments.all_identity_status,
     previous_cache=previous_cache,
     query_plan=query_plan,
 )

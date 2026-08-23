@@ -37,7 +37,7 @@ The migration adds the following isolated records. Existing `research_runs`, Dee
 - `optimization_discovery_leads` and `optimization_lead_queries` form the normalized discovery ledger while retaining every query/rank/URL route that found a canonical lead.
 - `optimization_prior_lead_manifests` and `optimization_prior_leads` preserve names, aliases, URLs, historical dispositions, and source run/stage/date provenance without importing historical service facts. Planned current searches retain the prior lead key that seeded them.
 - `optimization_referral_graphs` and `optimization_referral_edges` preserve bounded, one-hop authoritative source-to-program-to-destination relationships and replay-safe expansion state. Edge context is provenance, not candidate evidence.
-- `optimization_candidate_identities` and `optimization_identity_leads` preserve organization-plus-program identity, uncertain boundaries, possible renamings or duplicates, package-exclusion decisions, candidate role, geography, actionability, current status, evidence readiness, deterministic promotion state, and the lead evidence behind them.
+- `optimization_candidate_identities` and `optimization_identity_leads` preserve organization-plus-program identity, uncertain boundaries, possible renamings or duplicates, package-exclusion decisions, candidate role, geography, target-category fit, actionability, current status, evidence readiness, deterministic promotion state, and the lead evidence behind them.
 - `optimization_evidence_sources` records authority, the program identity actually described by the page, bounded extract, retrieval metadata, and extract digest.
 - `optimization_corpora` and `optimization_evidence_packets` freeze the ledger, identities, sources, and one-candidate packets by digest. The database requires a model attempt's packet to belong to the same corpus as its model-evaluation run. This prevents 4-bit and 8-bit from silently receiving different evidence.
 - `optimization_model_attempts`, `optimization_candidate_dossiers`, and `optimization_verifications` retain every extraction and fresh-context verification attempt, raw output, parsed record, usage, errors, dossier, verified dossier, and findings.
@@ -45,6 +45,11 @@ The migration adds the following isolated records. Existing `research_runs`, Dee
 - `optimization_audits` preserves coverage, candidate-completeness, quality-gate, and model-neutral comparison reports.
 
 JSON payloads use canonical UTF-8 serialization with sorted keys and compact separators before SHA-256 hashing. Configuration snapshots are immutable in SQLite. Frozen corpus hashes are comparison inputs, not descriptive metadata.
+
+Search cache schema 2 embeds the exact validated query plan alongside its hash.
+Corpus freezing consumes that snapshot directly; it cannot reconstruct a smaller
+category-specific plan and silently omit a targeted, referral, or all-stage
+current-status branch.
 
 ## Identity and package exclusion
 

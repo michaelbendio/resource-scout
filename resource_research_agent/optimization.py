@@ -621,20 +621,28 @@ def build_housing_urgent_query_plan(
     return plan
 
 
-def augment_housing_query_plan_with_status_checks(
-    plan: dict[str, Any], identities: Iterable[dict[str, Any]]
+def augment_query_plan_with_identity_status_checks(
+    plan: dict[str, Any],
+    identities: Iterable[dict[str, Any]],
+    *,
+    include_routed: bool = False,
 ) -> dict[str, Any]:
-    """Add one deterministic currency/status query per resolved urgent identity."""
+    """Add one deterministic currency/status query per reviewed identity."""
 
     result = deepcopy(plan)
-    if result.get("categoryId") != "housing" or result.get("stageKey") != "urgent-access":
-        raise ValueError("Candidate status checks require a Housing urgent-access query plan")
+    category_id = str(result.get("categoryId") or "").strip()
+    active_stage = str(result.get("stageKey") or "").strip()
+    target_location = str(result.get("targetLocation") or "").strip()
+    if not category_id or not active_stage or not target_location:
+        raise ValueError(
+            "Candidate status checks require category, stage, and target location"
+        )
     resolved: dict[str, tuple[str, str]] = {}
     for identity in identities:
         if not isinstance(identity, dict):
             continue
-        stage_key = str(identity.get("stageKey") or "urgent-access").strip()
-        if stage_key != "urgent-access":
+        stage_key = str(identity.get("stageKey") or active_stage).strip()
+        if not include_routed and stage_key != active_stage:
             continue
         organization = str(identity.get("organization") or "").strip()
         program = str(identity.get("program") or "").strip()
@@ -642,8 +650,8 @@ def augment_housing_query_plan_with_status_checks(
         resolved[identity_key] = (organization, program)
     if not resolved:
         return result
-    if len(resolved) > 50:
-        raise ValueError("Candidate status sweep supports at most 50 urgent identities")
+    if len(resolved) > 100:
+        raise ValueError("Candidate status sweep supports at most 100 identities")
 
     existing_keys = {str(branch.get("key") or "") for branch in result["branches"]}
     if "candidate-current-status" in existing_keys:
@@ -651,8 +659,8 @@ def augment_housing_query_plan_with_status_checks(
     ordered = sorted(resolved.items())
     count = len(ordered)
     purpose = (
-        "Find current evidence that each resolved urgent-access program remains active "
-        "or has closed, moved, renamed, or changed intake."
+        f"Find current evidence that each reviewed {category_id} identity remains active "
+        "or has closed, moved, changed intake, or been succeeded."
     )
     result["branches"].append(
         {
@@ -675,7 +683,7 @@ def augment_housing_query_plan_with_status_checks(
                     "identityKey": identity_key,
                     "query": (
                         f'"{organization}" "{program}" '
-                        f'{result["targetLocation"]} current intake closure'
+                        f'{target_location} current intake closure'
                     ),
                 }
                 for position, (identity_key, (organization, program)) in enumerate(
@@ -684,8 +692,9 @@ def augment_housing_query_plan_with_status_checks(
             ],
         }
     )
-    result["schemaVersion"] = max(3, int(result.get("schemaVersion") or 0))
-    result["candidateStatusPolicyVersion"] = "housing-current-status-v1"
+    result["schemaVersion"] = max(8, int(result.get("schemaVersion") or 0))
+    result["candidateStatusPolicyVersion"] = "identity-current-status-v2"
+    result["candidateStatusIncludesRoutedIdentities"] = bool(include_routed)
     validate_query_plan(result)
     return result
 

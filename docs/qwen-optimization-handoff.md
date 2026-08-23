@@ -3,7 +3,7 @@
 Status: Checkpoints A through D are implemented. Expanded comparison v9 completed
 on 2026-08-23 over 22 identical first-stage Housing packets and selected 8-bit
 Qwen on quality before timing was revealed. Forward-plan steps 1 and 2 are
-complete; step 3 is next. Michael approved the revised candidate gates, verifier
+complete; step 3 is in progress. Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
 Step 3 is in progress: the category-neutral candidate qualification gate and
 prior-result lead-manifest path are implemented. The reproducible one-time Mesa
@@ -15,9 +15,19 @@ using unmetered DDGS and all 112 preserved parent responses. All 30 newly seen
 URLs are reviewed: the branch added two eligible urgent access points, routed one
 Mesa prevention program to stabilization, preserved SafeDVS as inactive, and
 excluded 26 noncandidate results. Its last three queries yielded no eligible
-identity, so the branch is saturated and no second batch is warranted. The full
-42-identity qualification audit and reviewed Mesa graph remain. No production
-cutover is authorized.
+identity, so the branch is saturated and no second batch is warranted. The
+reviewed Mesa graph remains. No production cutover is authorized.
+
+The category-neutral all-stage current-status sweep and exact qualification audit
+are also complete. The final schema-2 cache has 139 searches and 938 reviewed
+URLs; its 44 identities resolve to 27 eligible, 9 review-required, and 8
+noncandidate across the four Housing stages. Urgent access has 17 eligible, 5
+review-required, and 4 noncandidate identities. The exact query-plan hash is
+`6421faf95ed89e1ef85c305c0cb6e0611f9d731deb0c79b739d0a2fdd22828d8`;
+the search-response hash is
+`eba615247e4a6322c78649c145e697ed23bd1d93085518da5c899e3a15c9e3f5`.
+The reviewed Mesa referral graph and one-time current searches for the 623-lead
+historical manifest remain before step 3 is complete.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 

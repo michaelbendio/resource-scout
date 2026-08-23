@@ -2,7 +2,7 @@
 
 Status: approved on 2026-08-23. Expanded first-stage comparison v9 is complete
 and selected 8-bit Qwen for continued optimization. Steps 1 and 2 are complete;
-step 3 is next. This is a staged benchmark plan, not a production cutover. Read
+step 3 is in progress. This is a staged benchmark plan, not a production cutover. Read
 it with `qwen-optimization-handoff.md`, `qwen-optimization-design.md`, and
 `mesa-qwen-deepseek-benchmark.md`.
 
@@ -13,6 +13,24 @@ Qwen can find a broad set of real, actionable programs while keeping every claim
 traceable and safe for Curator and phone vetting. The frozen DeepSeek baseline,
 all earlier Qwen runs, and every historical failure remain immutable comparison
 evidence.
+
+The current-status sweep is category-neutral and may include identities routed
+to every playbook stage. Its schema-2 cache embeds the exact query plan; the
+freeze path refuses a cache without that snapshot rather than rebuilding a
+Housing-only subset.
+
+Recorded all-stage audit (2026-08-23): the final discovery ledger contains 139
+persisted unmetered searches, 938 fully dispositioned URLs, and 44 resolved or
+preserved identities. The qualification manifest reports 27 eligible identities,
+9 review-required identities, and 8 noncandidates across all four Housing stages.
+For urgent access, 17 are eligible, 5 remain review-required, and 4 are retained
+noncandidates. Relative to the older 22-packet urgent corpus, the new gate keeps
+15 eligible, holds CAAFA, DVSTOP, Mesa House, Mesa I-HELP, and Washington Street
+Shelter for unresolved geography or intake/current evidence, and retains the CoC
+referral system and Lost Our Home pet-care program as noncandidates. The targeted
+branch adds the two new eligible coordinated-entry access points, producing the
+final 17. SafeDVS and the former La Mesita family shelter are explicitly retained
+as inactive identities rather than silently disappearing.
 
 The immediate endpoint is a complete four-stage Housing calibration followed by
 an explicit decision to optimize again, stop, or request authorization for the
