@@ -30,17 +30,16 @@ review-required, and 4 noncandidate identities. The exact query-plan hash is
 `6421faf95ed89e1ef85c305c0cb6e0611f9d731deb0c79b739d0a2fdd22828d8`;
 the search-response hash is
 `eba615247e4a6322c78649c145e697ed23bd1d93085518da5c899e3a15c9e3f5`.
-The one-time current searches for the 623-lead historical manifest remain before
-Housing can be declared complete. They are resumably persisted at 75 completed
-lead searches; the unmetered DDGS endpoint is currently throttling, so do not
-restart from zero, switch to a paid provider, or silently shorten the manifest.
-The exact next item is position 76, key `prior-result-7f269b4097e4ad18`, for
-Maricopa County / UMOM and other providers' motel or safe-temporary-lodging
-voucher lead.
-Michael approved deferring the remaining live searches while step 4 playbook
-audit and freeze preparation proceed. Keep step 3 formally open, resume the sweep
-opportunistically, and integrate every recovered candidate before final Housing
-completion in step 7.
+The one-time current searches for the 623-lead historical manifest are preserved
+at 75 completed lead searches. After repeated unmetered DDGS connection timeouts,
+Michael decided on 2026-08-23 to put aside the remaining 548-lead haystack and
+continue the subsequent steps. Preserve the cache and exact next item—position
+76, key `prior-result-7f269b4097e4ad18`—but do not resume it automatically,
+switch to a paid provider, or interpret an unchecked lead as a negative result.
+Step 3 is complete under this revised scope. The calibration may use the completed
+139-query current-status branch, coordinated-entry expansion, and reviewed
+authoritative-referral graph, but its final report must disclose that it did not
+refresh every preserved historical DeepSeek and Qwen lead.
 
 Step 4 preparation has a reviewed, category-neutral planning receipt:
 `optimization-playbook-audit-v1`. The Mesa Housing urgent artifact hashes the
@@ -48,8 +47,7 @@ current playbook sources and exact coverage plan and explicitly records service
 needs, populations, barriers, source families, geography, candidate roles,
 field criticality, gap-search terms, current-status signals, and referral
 components. The revised freeze path requires this receipt. Its planning gate is
-ready; corpus execution remains blocked until the deferred prior-result branch
-and resulting identity review are complete.
+ready, and corpus execution may proceed under the revised historical-sweep scope.
 
 Step 5 runner preparation is also wired to the receipt. Required coverage needs
 and their deterministic gap queries no longer live as a Housing-only tuple in

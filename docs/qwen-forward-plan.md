@@ -314,13 +314,15 @@ manifest: Community Bridges PATH Outreach, Native American Connections HomeBase
 Youth Services, UMOM Halle Women's Center, and the Phoenix VA Community Resource
 and Referral Center. The same run retained every unresolved and excluded edge
 without counting it. The one-time 623-lead historical sweep is independently
-resumable and currently has 75 completed current searches. Because unmetered DDGS
-is intermittent, Michael approved keeping step 3 formally open while step 4
-playbook audit and freeze preparation proceed. This is a scheduling deferral, not
-a completeness waiver: resume the same sweep opportunistically and integrate all
-recovered candidates before final Housing completion in step 7. Do not restart
-from zero, switch to a paid provider, silently skip a lead, or shorten the
-manifest.
+resumable and preserves 75 completed current searches. On 2026-08-23 Michael
+removed the remaining historical haystack from the calibration scope after
+repeated unmetered DDGS connection timeouts. Preserve the manifest, completed
+searches, and exact resume point, but do not treat the 548 unchecked leads as
+negative findings or restart the sweep automatically. The current calibration
+may proceed using the completed current-status search, coordinated-entry, and
+authoritative-referral branches. Its final claim is bounded to those executed
+branches; it must not claim that every preserved historical DeepSeek and Qwen
+lead was refreshed.
 
 ### 4. Freeze the revised first-stage corpus
 
@@ -343,9 +345,9 @@ candidate roles, required/access-critical/supplementary fields, gap triggers,
 current-status signals, and reviewed referral components. Food regression proves
 the validator is category-neutral. The audit confirms that pet policy is
 supplementary; it does not change candidate gates or rewrite the category
-playbook. Final freezing remains blocked by execution, not planning: the
-deferred prior-result branch must finish and all newly recovered identities must
-be reviewed first.
+playbook. Final freezing may proceed from the completed in-scope branches. The
+preserved historical branch is explicitly outside this calibration's required
+scope; its unchecked leads remain unknown rather than exclusions.
 
 Step 5 preparation also removed the old Housing-only gap list from the model
 runner. Required coverage tags and deterministic follow-up queries now come from
