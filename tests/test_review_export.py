@@ -152,7 +152,8 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertIn("send the JSON back", html)
         self.assertIn("it is not a backup of all review work", html)
         self.assertIn("Candidate Research", html)
-        self.assertIn("Resource Editors", html)
+        self.assertIn("Editors", html)
+        self.assertNotIn("Resource Editors", html)
         self.assertIn("Notes", html)
         self.assertEqual(3, html.count('class="window-resize-handles"'))
         self.assertIn("['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw']", html)
@@ -174,6 +175,10 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertIn('resource-category-grid', html)
         self.assertIn('taxonomy-category-grid', html)
         self.assertIn("ready.classList.add('ready-toggle')", html)
+        self.assertIn(
+            ".review-decision-actions .resource-print-button { padding:.65rem .85rem; }",
+            html,
+        )
         self.assertIn('<option value="ready">Ready for package</option>', html)
         self.assertIn('<option value="not-ready">Awaiting review</option>', html)
         self.assertIn("? 'Ready for package' : 'Awaiting review'", html)

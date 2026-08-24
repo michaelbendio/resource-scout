@@ -61,7 +61,7 @@
     .review-editor,.candidate-details,.resource-editor { padding:1.1rem; border:1px solid var(--line); border-radius:13px; background:#f8faf8; }
     .review-decision-actions { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:.4rem 0 1rem; }
     .ready-toggle { width:fit-content; margin:0; padding:.65rem .85rem; border:1px solid #8daf9f; border-radius:10px; color:var(--forest); background:#edf6f1; font-weight:800; }
-    .resource-print-button { align-self:stretch; }
+    .review-decision-actions .resource-print-button { padding:.65rem .85rem; }
     .field { display:grid; gap:.35rem; margin-top:.75rem; font-weight:750; } .choice-check { display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0; font-weight:600; }
     .choice-check input { width:auto; margin:.28rem 0 0; }
     .match-card,.choice-fieldset { margin:1rem 0; padding:.9rem 1rem; border:1px solid #e3c28d; border-radius:11px; background:var(--amber-bg); }
@@ -160,7 +160,7 @@
     <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" class="workspace-nav" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="reset-window-layout">Reset layout</button><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span class="workspace-version">v0.21.0</span><span id="workspace-save-state" aria-live="polite"></span></div></div>
     <div class="workspace-canvas" id="workspace-canvas">
       <section class="work-window" id="research-window"><div class="window-titlebar"><h3>Candidate Research</h3></div><div class="window-body" id="candidate-research"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
-      <section class="work-window" id="editor-window"><div class="window-titlebar"><h3>Resource Editors</h3></div><div class="window-body" id="candidate-editor"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
+      <section class="work-window" id="editor-window"><div class="window-titlebar"><h3>Editors</h3></div><div class="window-body" id="candidate-editor"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
       <section class="work-window" id="notes-window"><div class="window-titlebar"><h3 id="notes-window-title">Notes</h3></div><div class="window-body" id="candidate-notes"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
     </div>
   </dialog>
