@@ -14,6 +14,7 @@ import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
 
+from resource_research_agent import __version__
 from resource_research_agent.duplicates import DuplicateIndex
 from resource_research_agent.importer import ResourcePackageImporter
 from resource_research_agent.review_export import ReviewCopyError, build_review_copy
@@ -171,12 +172,15 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertIn("resizeHandle.addEventListener('pointermove'", html)
         self.assertIn('min-height:60px', html)
         self.assertIn('.workspace-toolbar button,#candidate-status { min-height:40px; }', html)
-        self.assertIn('<span class="workspace-version">v0.22.0</span>', html)
+        self.assertIn(f'<span class="workspace-version">v{__version__}</span>', html)
         self.assertIn('<h1>Resource Curator</h1>', html)
         self.assertIn('id="candidate-list-name"', html)
-        self.assertIn('<span class="header-version">v0.22.0</span>', html)
+        self.assertIn(f'<span class="header-version">v{__version__}</span>', html)
+        self.assertIn(f'Resource Curator v{__version__}', html)
         self.assertNotIn('TSO Resources · Resource Curator', html)
-        self.assertNotIn('Curator v0.22.0 · no agent connection required', html)
+        self.assertNotIn(
+            f'Curator v{__version__} · no agent connection required', html
+        )
         self.assertNotIn('Review before use', html)
         self.assertIn('margin:.8rem auto 4rem', html)
         self.assertIn('#action-message:empty { display:none; }', html)

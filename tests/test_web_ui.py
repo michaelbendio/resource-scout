@@ -3,6 +3,8 @@ from __future__ import annotations
 import unittest
 from pathlib import Path
 
+from resource_research_agent import __version__
+
 
 class ScoutLayoutTests(unittest.TestCase):
     @classmethod
@@ -37,6 +39,7 @@ class ScoutLayoutTests(unittest.TestCase):
     def test_version_is_in_the_green_header(self) -> None:
         header = self.html[self.html.index("<header>"):self.html.index("</header>")]
         self.assertIn('class="header-version" id="app-version"', header)
+        self.assertIn(f'>v{__version__}</span>', header)
         self.assertNotIn('class="app-footer"', self.html)
         self.assertIn(".header-version { position: absolute;", self.css)
 
