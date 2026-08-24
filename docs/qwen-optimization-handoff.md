@@ -105,7 +105,9 @@ category requests still fail closed when absent. The resulting full suite passes
 tests. The exact Mesa Housing query builder now lives in the explicit
 `optimization_housing_calibration.py` fixture module instead of the reusable
 optimization primitives; its frozen behavior and plan hash remain covered by the
-calibration tests. Production
+calibration tests. The final dead-code pass also removed the unreachable legacy
+Markdown-rendering chain left behind when Scout adopted structured stage findings;
+the live link renderer and current stage renderers remain covered. Production
 Scout and a real legacy Curator export were reverified after restart.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:

@@ -462,6 +462,8 @@ category-specific supplementary draft fields. Package upload no longer requires 
 Housing category. The exact Mesa Housing query matrix has been removed from the
 reusable optimization primitives and isolated in
 `optimization_housing_calibration.py` as calibration-only configuration. The
+unreachable legacy Markdown renderer left behind by Scout's structured stage
+findings was removed in the final UI dead-code pass. The
 current full suite passes 205
 Python tests with one optional skip and all 20 JavaScript plugin tests.
 
