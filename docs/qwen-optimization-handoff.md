@@ -154,6 +154,17 @@ and 5 long-term/gap leads. Their SHA-256 values are
 `bbe7821f341774c543e13e66c8308a3f8a095668b55c1de7fb70dc3be76c1b35`,
 and `e79ffba82a00ada80a00a90ec9d3214bf91246924e21e7c728f59d3e5b7d930d`.
 
+Stage 7 preparation production verification (2026-08-24): commit `0b51527`
+was pushed, the production LaunchAgent was restarted, and loopback plus the
+private Tailscale URL report application `0.25.0`, the frozen Mesa package hash,
+and all 22 categories. Served `app.js` and `app.css` match the checkout byte for
+byte. A fresh read-only DeepSeek Housing Curator export remains 445,698 bytes,
+shows `0.25.0` in all three version surfaces, embeds Curator schema 10 and saved
+work/feedback schema 2, and retains `Editors` and `Ready for package`. The local
+8-bit MLX server that was previously idle was not running when this checkpoint
+began and was not started; later model inference must perform the normal pinned
+loopback validation first.
+
 The stale Scout-only curation write path has also been removed. Scout no longer
 contains an accepted-resource manager or storage methods that can record review
 decisions, edit generated resources, assess candidate relationships, or build a
