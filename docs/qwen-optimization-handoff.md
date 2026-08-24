@@ -84,10 +84,13 @@ packaged candidates without deleting their state or linkage history. Scout's
 human-decision, generated-resource-editing, relationship-assessment, and direct
 package routes are removed; historical records remain readable for export. The
 production service was restarted and a live DeepSeek Curator export was verified
-through Tailscale. This does not authorize or perform the all-candidate Qwen
-Curator pilot, phone vetting, Curator-work outcome import, a source-package merge,
-or the iterative second Scout cycle; those observed integration steps remain
-pending and the mutations still require Michael's explicit permission.
+through Tailscale. The isolated outcome reader now optionally imports work-schema-2
+Curator JSON, keeps an undispositioned candidate Pending, gives final-package
+presence precedence, and persists separately hashed reports for successive work
+revisions. This does not authorize or perform the all-candidate Qwen Curator pilot,
+phone vetting, a source-package merge, or the iterative second Scout cycle; those
+observed integration steps remain pending and the mutations still require
+Michael's explicit permission.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 

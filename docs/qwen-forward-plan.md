@@ -446,8 +446,14 @@ height are corrected. The full gate passed 209 Python tests with one optional
 live-package skip and all 20 JavaScript plugin tests. Production Scout was
 restarted and a real DeepSeek Housing Curator downloaded through its private
 Tailscale URL reported schemas 10 and 2 and contained no stale Scout-decision UI.
-The all-candidate Qwen pilot, phone vetting, Curator-work outcome import,
-source-package merge, and iterative second Scout cycle remain pending.
+The isolated comparison command now accepts saved work-schema-2 Curator JSON,
+validates the locked review, candidate set, category, and package identity, and
+distinguishes Pending, Ready, packaged, Research further, Duplicate, Wrong
+category, and Reject from final-package acceptance. Final-package presence wins
+over an older Curator state. Canonical work hashes permit successive immutable
+outcome reports for the same run and package while preserving schema-2 reports.
+Migration and mixed-outcome tests pass. The all-candidate Qwen pilot, phone
+vetting, source-package merge, and iterative second Scout cycle remain pending.
 
 ### 7. Complete Housing calibration
 

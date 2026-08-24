@@ -211,13 +211,15 @@ research execution and production DeepSeek model behavior are unchanged; all
 human outcomes and package preparation now occur in Curator for both DeepSeek and
 Qwen exports.
 
-After Curator and phone vetting produce an additions package, compare it with the
-originating optimization run before merging it into TSO Resources:
+After Curator work is saved and phone vetting produces an additions package,
+compare both with the originating optimization run. The same command can later
+use the final merged package as the stronger ground-truth snapshot:
 
 ```sh
 ./compare-qwen-curator-package.py \
   --database data/benchmarks/mesa-qwen-YYYY-MM-DD/mesa-qwen-benchmark.sqlite3 \
   --run-id 11 \
+  --curator-work /path/to/housing-curator-work.json \
   --package /path/to/phone-vetted-resource-package.zip \
   --report /path/to/qwen-package-outcome.json
 ```
@@ -225,9 +227,15 @@ originating optimization run before merging it into TSO Resources:
 Optimization Curators assign every draft a deterministic resource ID derived from
 the configuration hash and frozen packet SHA-256. The comparison uses that ID to prove
 candidate-to-final-resource linkage, records phone-vetted changes to core fields,
-and persists a hashed outcome report in the isolated benchmark database. A missing
-ID is reported as `not-present`, not silently interpreted as rejection, because the
-candidate may still be pending in Curator.
+and persists a hashed outcome report in the isolated benchmark database. Saved
+Curator work adds explicit Pending, Ready, packaged, Research further, Duplicate,
+Wrong category, and Reject states without requiring a vetter to disposition every
+candidate. Package presence takes precedence and proves acceptance. Absence from
+the supplied package remains Pending unless Curator recorded an explicit outcome;
+it is never silently interpreted as rejection. The canonical Curator-work hash is
+part of report provenance, so later saved-work revisions produce new immutable
+reports rather than overwriting earlier evidence. Omitting `--curator-work` retains
+the legacy package-only schema-2 comparison.
 
 ### Hermes
 
