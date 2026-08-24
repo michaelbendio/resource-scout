@@ -2,10 +2,10 @@
 
 Status: Checkpoints A through D are implemented. Expanded comparison v9 completed
 on 2026-08-23 over 22 identical first-stage Housing packets and selected 8-bit
-Qwen on quality before timing was revealed. Forward-plan steps 1 and 2 are
-complete; step 3 is in progress. Michael approved the revised candidate gates, verifier
+Qwen on quality before timing was revealed. Forward-plan steps 1 through 4 are
+complete; step 5 is next. Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
-Step 3 is in progress: the category-neutral candidate qualification gate and
+Step 3 completed under the revised scope: the category-neutral candidate qualification gate and
 prior-result lead-manifest path are implemented. The reproducible one-time Mesa
 manifest has 623 names/URLs-only leads and canonical content SHA-256
 `ff96127c335ac250c6c3d88780e20d3745db5a9e2305a704ec83b674910df0a6`.
@@ -41,15 +41,30 @@ Step 3 is complete under this revised scope. The calibration may use the complet
 authoritative-referral graph, but its final report must disclose that it did not
 refresh every preserved historical DeepSeek and Qwen lead.
 
-Step 4 preparation has a reviewed, category-neutral planning receipt:
+Step 4 completed with a reviewed, category-neutral planning receipt:
 `optimization-playbook-audit-v1`. The Mesa Housing urgent artifact hashes the
 current playbook sources and exact coverage plan and explicitly records service
 needs, populations, barriers, source families, geography, candidate roles,
 field criticality, gap-search terms, current-status signals, and referral
 components. The revised freeze path requires this receipt. Its planning gate is
-ready, and corpus execution may proceed under the revised historical-sweep scope.
+complete under the revised historical-sweep scope.
 
-Step 5 runner preparation is also wired to the receipt. Required coverage needs
+The superseding revised first-stage freeze is discovery run 31, configuration 30,
+and frozen corpus 8. Corpus SHA-256
+`ab01e4ae11be0727593bfa8ea6372ba8f05ca324c7232487d3294de4f62207b0`
+binds 21 qualified urgent-access packets and 61 current sources after 94 queries
+across 11 audited branches. The configuration SHA-256 is
+`0ddb2c5ed0dcb3c92e530dd07ad728053c515bde07d246f7f3f2684b7d236ec3`;
+the packet-set SHA-256 is
+`57ec18618856491e339cfd0ccb6dc11eada24742e07d3c40f4e47be716e46ac6`.
+The coverage labels now substantively recognize adult, family,
+domestic-violence, youth, veteran, coordinated-entry, and transportation paths.
+Medical respite, disability access, animal barriers, and language access remain
+true targeted gap-search needs. Corpus 7 and partial discovery runs 27, 28, and
+30 remain immutable evidence of stale-page and transient-content handling; they
+were not overwritten or pooled with corpus 8.
+
+Step 5 is ready and its runner is wired to the receipt. Required coverage needs
 and their deterministic gap queries no longer live as a Housing-only tuple in
 the runner, and reviewed identity qualification can now preserve explicit
 coverage tags without changing candidate promotion. The runner validates the

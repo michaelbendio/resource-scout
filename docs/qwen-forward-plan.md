@@ -1,8 +1,8 @@
 # Qwen forward optimization plan
 
 Status: approved on 2026-08-23. Expanded first-stage comparison v9 is complete
-and selected 8-bit Qwen for continued optimization. Steps 1 and 2 are complete;
-step 3 is in progress. This is a staged benchmark plan, not a production cutover. Read
+and selected 8-bit Qwen for continued optimization. Steps 1 through 4 are
+complete; step 5 is next. This is a staged benchmark plan, not a production cutover. Read
 it with `qwen-optimization-handoff.md`, `qwen-optimization-design.md`, and
 `mesa-qwen-deepseek-benchmark.md`.
 
@@ -357,6 +357,24 @@ checks adult, family, domestic-violence, youth, medical-respite, veteran,
 disability-access, animal-barrier, transportation, and language-access coverage.
 The selected runner refuses an audit hash that differs from the frozen discovery
 configuration.
+
+Recorded outcome (2026-08-23): discovery run 31 froze superseding corpus 8 with
+21 qualified urgent-access packets and 61 current evidence sources. It executed
+94 queries over all 11 audited branches, retained 46 resolved or preserved
+identities, routed 16 identities outside urgent access, and preserved 9
+review-required and 7 noncandidate identities outside the packet count. The
+corpus and packet-set SHA-256 values are respectively
+`ab01e4ae11be0727593bfa8ea6372ba8f05ca324c7232487d3294de4f62207b0`
+and `57ec18618856491e339cfd0ccb6dc11eada24742e07d3c40f4e47be716e46ac6`.
+The frozen configuration SHA-256 is
+`0ddb2c5ed0dcb3c92e530dd07ad728053c515bde07d246f7f3f2684b7d236ec3`.
+Reviewed coverage tags now correctly identify adult, family,
+domestic-violence, youth, veteran, coordinated-entry, and transportation paths;
+medical respite, disability access, animal barriers, and language access remain
+real targeted gap-search needs. Partial runs 27, 28, and 30 and the earlier
+frozen corpus 7 remain preserved rather than overwritten. The final freeze used
+stable current excerpts for pages with shallow, stale, or intermittently loaded
+content and did not weaken identity, geography, source, or actionability gates.
 
 Gate: all required coverage branches have a recorded terminal state; every packet
 has one resolved identity, an eligible role, Mesa-relevance evidence, a plausible
