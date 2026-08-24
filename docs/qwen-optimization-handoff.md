@@ -184,6 +184,15 @@ work/feedback schema 2, and retains `Editors` and `Ready for package`. The local
 began and was not started; later model inference must perform the normal pinned
 loopback validation first.
 
+Exact-exclusion production verification (2026-08-24): commit `c80088e` was
+pushed and the production LaunchAgent was restarted. Loopback and Tailscale both
+report application `0.26.0`, the unchanged frozen Mesa package hash, and 22
+categories; served `app.js` and `app.css` match the checkout. A fresh read-only
+DeepSeek Housing Curator remains 445,698 bytes, displays `0.26.0` in all three
+version surfaces, embeds Curator schema 10 and saved-work/feedback schema 2, and
+retains `Editors` and `Ready for package`. No local MLX/Qwen process was running
+or started during this deployment.
+
 The stale Scout-only curation write path has also been removed. Scout no longer
 contains an accepted-resource manager or storage methods that can record review
 decisions, edit generated resources, assess candidate relationships, or build a
