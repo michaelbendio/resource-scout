@@ -154,6 +154,25 @@ and 5 long-term/gap leads. Their SHA-256 values are
 `bbe7821f341774c543e13e66c8308a3f8a095668b55c1de7fb70dc3be76c1b35`,
 and `e79ffba82a00ada80a00a90ec9d3214bf91246924e21e7c728f59d3e5b7d930d`.
 
+Later-stage discovery checkpoint (2026-08-24): the stabilization,
+specialized-housing, and long-term/gap ledgers completed 35, 42, and 41 unmetered
+DDGS searches, yielding 192, 248, and 243 stage-unique URLs (618 unique across
+the union). The query-plan hashes are
+`e2a5869f3034aa45b4caeb9ecfac3bca2d45681f3038cc6b03d5c60cb0394227`,
+`048025262652d427dba9b5e1133275655d8f17ff6e6f6c9b67697353734ad466`,
+and `fe1951c7bb15011db4336fe6db2fd4280e363f531ba915819020c93265239946`;
+response-cache hashes are
+`31b9ca06310cc7d8b2e96e78b4844b62d17e45dd1ce7a2e8abe2b18b7157f40a`,
+`6598140da4e61f55773dc5dd2ba39e09b980f55cb2438e5de5b5bd8fb36f4920`,
+and `91d087202d25420f242aba5ebd8a0b8abf7501e0bbc29efbf769939f8776e19f`.
+A first explicit exclusion policy dispositioned 43, 50, and 72 obvious
+nonprogram results. Application `0.26.0` adds
+`exact-url-title-snippet-excluded-only-v1`: it may reuse only an exclusion whose
+URL, title, and snippet are identical in the earlier reviewed ledger. It reused
+5 stabilization, 14 specialized, and 8 long-term exclusions; it cannot copy
+candidate decisions, and changed results remain Pending. The remaining ledgers
+are not yet fully dispositioned and no later-stage corpus has been frozen.
+
 Stage 7 preparation production verification (2026-08-24): commit `0b51527`
 was pushed, the production LaunchAgent was restarted, and loopback plus the
 private Tailscale URL report application `0.25.0`, the frozen Mesa package hash,
@@ -281,7 +300,7 @@ actionability gates in
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
 - Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
-- Application version: `0.25.0`
+- Application version: `0.26.0`
 - Increment the application version before pushing any functional or user-visible
   change. Pure internal refactors and documentation-only corrections do not require
   a version increment.
@@ -291,7 +310,7 @@ actionability gates in
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
-- The full Python suite most recently passed 217 tests with one optional skip.
+- The full Python suite most recently passed 218 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.

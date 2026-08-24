@@ -531,6 +531,23 @@ Their manifest SHA-256 values are respectively
 `e9a7e15a6e6420dd75d953e5cb05ae268eb08d50585a469063d112a7413eef4d`,
 `bbe7821f341774c543e13e66c8308a3f8a095668b55c1de7fb70dc3be76c1b35`,
 and `e79ffba82a00ada80a00a90ec9d3214bf91246924e21e7c728f59d3e5b7d930d`.
+The three fresh DDGS ledgers then completed 118 unmetered searches: 35
+stabilization searches with 192 unique URLs, 42 specialized-housing searches
+with 248, and 41 long-term/gap searches with 243. Their query-plan SHA-256 values
+are `e2a5869f3034aa45b4caeb9ecfac3bca2d45681f3038cc6b03d5c60cb0394227`,
+`048025262652d427dba9b5e1133275655d8f17ff6e6f6c9b67697353734ad466`,
+and `fe1951c7bb15011db4336fe6db2fd4280e363f531ba915819020c93265239946`;
+their response-cache hashes are
+`31b9ca06310cc7d8b2e96e78b4844b62d17e45dd1ce7a2e8abe2b18b7157f40a`,
+`6598140da4e61f55773dc5dd2ba39e09b980f55cb2438e5de5b5bd8fb36f4920`,
+and `91d087202d25420f242aba5ebd8a0b8abf7501e0bbc29efbf769939f8776e19f`.
+The stage URL sets contain 618 unique URLs after cross-stage overlap. The first
+conservative review pass excluded 165 obvious platforms, ordinary listings,
+wrong-geography results, and unrelated content. Application `0.26.0` then added
+an exact-result reuse gate: only a previous exclusion with the identical URL,
+title, and snippet may carry forward. It reused 5, 14, and 8 exclusions across
+the three stages; it copied zero candidate decisions, and every changed result
+remained Pending.
 
 Compare the complete result with frozen DeepSeek Housing and every preserved Qwen
 Housing run. Compare like stages and report the union and overlap only after

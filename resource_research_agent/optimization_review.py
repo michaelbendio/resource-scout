@@ -451,6 +451,50 @@ def build_identity_review_exclusion_patch(
     }
 
 
+def build_exact_reused_exclusion_patch(
+    review: dict[str, Any], previous_review: dict[str, Any], *, label: str
+) -> dict[str, Any]:
+    """Reuse only exact URL/title/snippet exclusions; never copy candidates."""
+
+    clean_label = " ".join(str(label or "").split())
+    decisions = review.get("decisions")
+    previous_decisions = previous_review.get("decisions")
+    if not clean_label:
+        raise OptimizationRuntimeError("Reused exclusion patch needs a label")
+    if not isinstance(decisions, dict) or not isinstance(previous_decisions, dict):
+        raise OptimizationRuntimeError("Reused exclusion reviews need decisions objects")
+    patch_decisions = {}
+    for url, current in sorted(decisions.items()):
+        previous = previous_decisions.get(url)
+        if (
+            not isinstance(current, dict)
+            or current.get("disposition") != "pending"
+            or not isinstance(previous, dict)
+            or previous.get("disposition") != "excluded"
+            or str(current.get("title") or "") != str(previous.get("title") or "")
+            or str(current.get("snippet") or "") != str(previous.get("snippet") or "")
+        ):
+            continue
+        reason = " ".join(str(previous.get("reason") or "").split())
+        if not reason:
+            raise OptimizationRuntimeError(
+                f"Previous exact exclusion has no reason: {url}"
+            )
+        patch_decisions[url] = {
+            "disposition": "excluded",
+            "reason": f"Exact search result was previously excluded: {reason}",
+        }
+    if not patch_decisions:
+        raise OptimizationRuntimeError("No exact previous exclusions can be reused")
+    return {
+        "label": clean_label,
+        "searchCacheSha256": review.get("searchCacheSha256"),
+        "previousReviewSha256": sha256_json(previous_review),
+        "matchPolicy": "exact-url-title-snippet-excluded-only-v1",
+        "decisions": patch_decisions,
+    }
+
+
 def validate_identity_review(cache: dict[str, Any], review: dict[str, Any]) -> None:
     expected = cache.get("cacheSha256") or sha256_json(cache.get("queries", {}))
     if review.get("searchCacheSha256") != expected:

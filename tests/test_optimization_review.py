@@ -10,6 +10,7 @@ from resource_research_agent.optimization_review import (
     CachedSearchClient,
     apply_identity_review_patch,
     build_identity_review_exclusion_patch,
+    build_exact_reused_exclusion_patch,
     build_reviewed_housing_query_plan,
     cache_optimization_searches,
     cache_housing_searches,
@@ -259,6 +260,62 @@ class OptimizationReviewTests(unittest.TestCase):
         review["decisions"]["https://example.org/"]["disposition"] = "excluded"
         with self.assertRaisesRegex(OptimizationRuntimeError, "lacks a reason"):
             validate_identity_review(cache, review)
+
+    def test_reused_exclusions_require_exact_result_and_never_copy_candidates(self) -> None:
+        current = {
+            "searchCacheSha256": "a" * 64,
+            "decisions": {
+                "https://example.org/exact": {
+                    "disposition": "pending",
+                    "title": "Same result",
+                    "snippet": "Same snippet",
+                },
+                "https://example.org/changed": {
+                    "disposition": "pending",
+                    "title": "Changed result",
+                    "snippet": "New snippet",
+                },
+                "https://example.org/candidate": {
+                    "disposition": "pending",
+                    "title": "Candidate",
+                    "snippet": "Candidate snippet",
+                },
+            },
+        }
+        previous = {
+            "decisions": {
+                "https://example.org/exact": {
+                    "disposition": "excluded",
+                    "title": "Same result",
+                    "snippet": "Same snippet",
+                    "reason": "Ordinary listing, not a program.",
+                },
+                "https://example.org/changed": {
+                    "disposition": "excluded",
+                    "title": "Changed result",
+                    "snippet": "Old snippet",
+                    "reason": "Previously irrelevant.",
+                },
+                "https://example.org/candidate": {
+                    "disposition": "candidate",
+                    "title": "Candidate",
+                    "snippet": "Candidate snippet",
+                    "reason": "Previously qualified.",
+                },
+            }
+        }
+        patch = build_exact_reused_exclusion_patch(
+            current,
+            previous,
+            label="fixture-exact-exclusions-v1",
+        )
+        self.assertEqual(
+            ["https://example.org/exact"], list(patch["decisions"])
+        )
+        self.assertEqual(
+            "exact-url-title-snippet-excluded-only-v1", patch["matchPolicy"]
+        )
+        self.assertEqual("a" * 64, patch["searchCacheSha256"])
 
     def test_candidate_review_without_role_contract_fails_closed(self) -> None:
         cache = {

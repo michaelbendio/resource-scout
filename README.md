@@ -217,6 +217,18 @@ be applied in labeled, replay-safe batches without losing result/query provenanc
   --patch /path/to/labeled-review-decisions.json
 ```
 
+When a later ledger repeats a previously excluded search result, Scout can reuse
+that exclusion only if URL, title, and snippet are all identical. Candidate
+decisions and changed results are never copied:
+
+```sh
+./build-qwen-reused-exclusion-patch.py \
+  --review /path/to/current-stage-review.json \
+  --previous-review /path/to/previous-reviewed-ledger.json \
+  --label exact-prior-exclusions-v1 \
+  --output /path/to/exact-prior-exclusions-v1.json
+```
+
 A completed optimization model run can be exported to its own Resource Curator
 without inserting anything into the normal Scout inbox:
 
