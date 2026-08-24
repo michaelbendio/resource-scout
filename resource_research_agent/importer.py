@@ -290,7 +290,7 @@ class ImportedPackage:
 class ResourcePackageImporter:
     """Read and understand a Resource Assistant ZIP without modifying it."""
 
-    def __init__(self, target_category: str = "Housing") -> None:
+    def __init__(self, target_category: str | None = "Housing") -> None:
         self.target_category = target_category
 
     def read(self, source: str | Path) -> ImportedPackage:
@@ -419,6 +419,10 @@ class ResourcePackageImporter:
         return result
 
     def _resolve_target(self, categories: list[dict[str, Any]]) -> tuple[str, str]:
+        if self.target_category is None:
+            if not categories:
+                raise PackageImportError("The package contains no category definitions")
+            return str(categories[0]["id"]), str(categories[0]["label"])
         wanted = _normalized_label(self.target_category)
         exact = [
             item

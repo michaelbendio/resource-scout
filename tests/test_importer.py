@@ -98,6 +98,27 @@ class ImporterTests(unittest.TestCase):
         with self.assertRaisesRegex(PackageImportError, "was not found"):
             ResourcePackageImporter().read(path)
 
+    def test_category_neutral_import_selects_the_first_available_category(self) -> None:
+        path = self.package(
+            {
+                "categories": [{"id": "food", "label": "Food"}],
+                "resources": [
+                    {
+                        "id": "meal-program",
+                        "name": "Community Meal",
+                        "categories": ["food"],
+                    }
+                ],
+            }
+        )
+        package = ResourcePackageImporter(None).read(path)
+        self.assertEqual("food", package.target_category_id)
+        self.assertEqual("Food", package.target_category_label)
+        self.assertEqual(
+            ["Community Meal"],
+            [item["name"] for item in package.target_resources],
+        )
+
     def test_rejects_unsafe_member_paths(self) -> None:
         path = self.package({"resources": [{"id": "h", "name": "Home", "categories": ["housing"]}]}, "../data.json")
         with self.assertRaisesRegex(PackageImportError, "Unsafe ZIP member"):

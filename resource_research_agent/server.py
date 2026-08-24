@@ -224,7 +224,7 @@ class ResearchHandler(BaseHTTPRequestHandler):
             with tempfile.NamedTemporaryFile(prefix="resource-package-", suffix=".zip", delete=False) as handle:
                 handle.write(payload)
                 temporary_path = handle.name
-            package = ResourcePackageImporter("Housing").read(temporary_path)
+            package = ResourcePackageImporter(None).read(temporary_path)
             package.source_name = Path(filename).name
             import_id = self.server.store.save_import(package)
             summary = self.server.store.import_summary(import_id)
