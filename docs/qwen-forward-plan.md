@@ -452,7 +452,9 @@ distinguishes Pending, Ready, packaged, Research further, Duplicate, Wrong
 category, and Reject from final-package acceptance. Final-package presence wins
 over an older Curator state. Canonical work hashes permit successive immutable
 outcome reports for the same run and package while preserving schema-2 reports.
-Migration and mixed-outcome tests pass. The all-candidate Qwen pilot, phone
+The non-Housing integration regression passes Curator-JavaScript-generated Food
+work and its additions-only package directly into the Python outcome reader;
+migration and mixed-outcome tests also pass. The all-candidate Qwen pilot, phone
 vetting, source-package merge, and iterative second Scout cycle remain pending.
 The subsequent stale-path audit removed Scout's unreachable accepted-resource
 manager and its decision, generated-resource editing, relationship-assessment,

@@ -87,7 +87,11 @@ production service was restarted and a live DeepSeek Curator export was verified
 through Tailscale. The isolated outcome reader now optionally imports work-schema-2
 Curator JSON, keeps an undispositioned candidate Pending, gives final-package
 presence precedence, and persists separately hashed reports for successive work
-revisions. This does not authorize or perform the all-candidate Qwen Curator pilot,
+revisions. The Food integration regression now uses Curator's actual JavaScript
+core to mark a candidate Ready, build and archive its additions-only package, and
+produce saved work; the Python outcome reader consumes those two generated
+artifacts and proves the accepted link while all untouched candidates remain
+Pending. This does not authorize or perform the all-candidate Qwen Curator pilot,
 phone vetting, a source-package merge, or the iterative second Scout cycle; those
 observed integration steps remain pending and the mutations still require
 Michael's explicit permission.

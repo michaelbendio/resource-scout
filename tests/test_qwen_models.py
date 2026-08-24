@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 import tempfile
 import unittest
 import zipfile
@@ -743,6 +744,61 @@ class ModelPipelineTests(unittest.TestCase):
         )
         self.assertEqual("food", outcome.report["targetCategoryId"])
         self.assertEqual(1, outcome.accepted_count)
+
+        curator_script = r"""
+const fs = require('fs');
+(0, eval)(fs.readFileSync('web/review-copy.js', 'utf8'));
+const review = JSON.parse(fs.readFileSync(0, 'utf8'));
+const state = ReviewAppCore.initialState(review);
+const acceptedId = String(review.candidates[0].id);
+ReviewAppCore.setCandidateOutcome(
+  state.candidates[acceptedId], 'ready-for-package', '2026-08-24T08:00:00Z', 'Vetter'
+);
+const built = ReviewAppCore.buildResourcePackage(review, state, '2026-08-24T08:05:00Z');
+if (built.errors.length) throw new Error(built.errors.join('\n'));
+ReviewAppCore.archivePackagedCandidates(review, state, built, '2026-08-24T08:05:00Z');
+process.stdout.write(JSON.stringify({ state, package: built.data }));
+"""
+        curator_result = subprocess.run(
+            ["node", "-e", curator_script],
+            input=json.dumps(review.data),
+            text=True,
+            capture_output=True,
+        )
+        self.assertEqual(0, curator_result.returncode, curator_result.stderr)
+        generated_curator = json.loads(curator_result.stdout)
+        curator_work_path = Path(self.temporary.name) / "food-curator-work.json"
+        curator_work_path.write_text(
+            json.dumps(generated_curator["state"]), encoding="utf-8"
+        )
+        curator_package_path = Path(self.temporary.name) / "food-curator-package.zip"
+        with zipfile.ZipFile(curator_package_path, "w") as archive:
+            archive.writestr(
+                "tso-resources.json", json.dumps(generated_curator["package"])
+            )
+        curator_outcome = compare_optimization_run_to_package(
+            store,
+            result.run_id,
+            curator_package_path,
+            curator_work_path=curator_work_path,
+        )
+        self.assertEqual(3, curator_outcome.report["schemaVersion"])
+        self.assertEqual("food", curator_outcome.report["targetCategoryId"])
+        self.assertEqual(1, curator_outcome.accepted_count)
+        self.assertEqual(1, curator_outcome.report["terminalHumanOutcomeCount"])
+        self.assertEqual(
+            {
+                "pending": len(review.data["candidates"]) - 1,
+                "present-in-vetted-package": 1,
+            },
+            curator_outcome.report["outcomeCounts"],
+        )
+        accepted_outcome = next(
+            item
+            for item in curator_outcome.report["outcomes"]
+            if item["outcome"] == "present-in-vetted-package"
+        )
+        self.assertEqual("entered-package", accepted_outcome["curatorOutcome"])
 
     def test_inspection_open_does_not_recover_an_active_model_attempt(self) -> None:
         configuration_id = self.store.save_optimization_configuration(
