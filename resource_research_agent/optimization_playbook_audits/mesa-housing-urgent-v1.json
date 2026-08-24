@@ -237,8 +237,8 @@
   ],
   "corpusComponents": {
     "referralGraphSha256": "ef58d36d9e0703875ba4d4de803bd06d718db1d28fc96f8708fa5078a96c3456",
-    "referralReviewSha256": "9e3e87fd39f2d2a39223def8af00e2d91eb42666ff7717294cf7c6c1dad6933d"
+    "referralReviewSha256": "f7f1a89eb36614aa61a588cd054000269dc28bab8cdcb7fdf2fdf55375499f71"
   },
   "reviewDecision": "The urgent-access planning contract is explicit and category-gated. Freeze may proceed from the completed current-status, coordinated-entry, and reviewed referral branches. The preserved historical-lead haystack is outside this calibration's required scope, and unchecked leads remain unknown rather than exclusions.",
-  "auditSha256": "17849948a097e78a67d487d58974fa8e05a39d66127241bbbc35a327d40845dc"
+  "auditSha256": "6c1b67e1a16dca522a70aad9ae01fc99c7e0ceb3271d4ebabf595572683c4cd5"
 }
