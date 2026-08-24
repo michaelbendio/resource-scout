@@ -156,7 +156,7 @@ actionability gates in
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
 - Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
-- Application version: `0.21.0`
+- Application version: `0.22.0`
 - Phase 1 local-Qwen implementation commit: `81a9eeab49de8006bce32b137992777802db3606`
 - Existing opt-in Local Qwen route: `mlx-community/Qwen3.8-27B-4bit`
 - Selected optimization artifact: `mlx-community/Qwen3.8-27B-8bit`
