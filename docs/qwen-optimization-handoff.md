@@ -112,6 +112,17 @@ and style-reference audits retain the live link, candidate, evidence, workspace,
 and status renderers. Production
 Scout and a real legacy Curator export were reverified after restart.
 
+Post-audit production verification (2026-08-24): the running LaunchAgent serves
+the current `app.css` and `app.js` byte for byte on port 8765 and through
+`https://michaels-mac-mini.tail436b8.ts.net`. Its status reports application
+version `0.22.0`, the frozen Mesa package hash
+`c7a2251d7d638472f90207c24a28ec71c24515ea5d1aafced68a38fdce3d30f8`,
+and all 22 package categories. A read-only export of completed DeepSeek Housing
+run 1 produced a 445,698-byte Curator containing schemas 10 and 2, `Editors`,
+`Ready for package`, and all four optional outcomes, with no stale Scout
+acceptance wording or old editor title. Static assets and Curator templates are
+read on each request, so the unreachable-code cleanup required no service restart.
+
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
 - `docs/local-dsh-qwen-plan.md`
