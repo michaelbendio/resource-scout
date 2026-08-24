@@ -8,7 +8,11 @@ import zipfile
 from pathlib import Path
 
 from resource_research_agent.duplicates import DuplicateIndex
-from resource_research_agent.importer import PackageImportError, ResourcePackageImporter
+from resource_research_agent.importer import (
+    PackageImportError,
+    ResourcePackageImporter,
+    resource_program_identity,
+)
 from resource_research_agent.storage import ResearchStore
 
 
@@ -170,6 +174,40 @@ class ImporterTests(unittest.TestCase):
         match = DuplicateIndex(store).match({"name": "Cross Category Agency"})[0]
         self.assertEqual(match["resourceId"], "cross")
         self.assertFalse(match["isTargetCategory"])
+
+    def test_program_identity_uses_explicit_fields_then_curator_details(self) -> None:
+        self.assertEqual(
+            ("Explicit Organization", "Explicit Program"),
+            resource_program_identity(
+                {
+                    "name": "Display name",
+                    "organization": "Explicit Organization",
+                    "program": "Explicit Program",
+                    "informationText": (
+                        "**Resource details**\n\n"
+                        "* Organization: Curator Organization\n"
+                        "* Program: Curator Program"
+                    ),
+                }
+            ),
+        )
+        self.assertEqual(
+            ("Curator Organization", "Curator Program"),
+            resource_program_identity(
+                {
+                    "name": "Display name",
+                    "informationText": (
+                        "**Resource details**\n\n"
+                        "* Organization: Curator Organization\n"
+                        "* Program: Curator Program"
+                    ),
+                }
+            ),
+        )
+        self.assertEqual(
+            ("Display name", "Display name"),
+            resource_program_identity({"name": "Display name"}),
+        )
 
     def test_package_taxonomy_and_all_category_seeds_are_preserved(self) -> None:
         path = self.package({

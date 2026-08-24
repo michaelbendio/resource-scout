@@ -134,6 +134,44 @@ def resource_name(record: dict[str, Any]) -> str:
     return _first_string(record, NAME_KEYS)
 
 
+def resource_program_identity(record: dict[str, Any]) -> tuple[str, str]:
+    """Return the best explicit organization-plus-program identity in a resource."""
+
+    organization = _first_string(
+        record,
+        (
+            "organization",
+            "organizationName",
+            "parentOrganization",
+            "provider",
+            "providerName",
+            "agency",
+            "operator",
+        ),
+    )
+    program = _first_string(record, ("program", "programName", "service"))
+    information = _first_string(
+        record, ("informationText", "information", "details", "notes")
+    )
+    if information and (not organization or not program):
+        for line in information.splitlines():
+            match = re.match(
+                r"^\s*(?:[*+-]\s+)?(organization|program)\s*:\s*(.+?)\s*$",
+                line,
+                flags=re.IGNORECASE,
+            )
+            if not match:
+                continue
+            label, value = match.groups()
+            value = value.strip()
+            if label.casefold() == "organization" and not organization:
+                organization = value
+            elif label.casefold() == "program" and not program:
+                program = value
+    name = resource_name(record)
+    return organization or name, program or name
+
+
 def resource_id(record: dict[str, Any]) -> str:
     explicit = _first_string(record, ("id", "resourceId", "resource_id", "key", "slug"))
     if explicit:

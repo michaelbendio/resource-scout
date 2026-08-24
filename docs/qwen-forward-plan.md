@@ -453,8 +453,12 @@ category, and Reject from final-package acceptance. Final-package presence wins
 over an older Curator state. Canonical work hashes permit successive immutable
 outcome reports for the same run and package while preserving schema-2 reports.
 The non-Housing integration regression passes Curator-JavaScript-generated Food
-work and its additions-only package directly into the Python outcome reader;
-migration and mixed-outcome tests also pass. The all-candidate Qwen pilot, phone
+work and its additions-only package directly into the Python outcome reader. It
+also proves that the generated resource recovers its original organization and
+program for exact same-program exclusion in the next Scout cycle. Package identity
+recovery prefers explicit fields, then Curator's labeled Resource details, and
+uses the resource name only as a compatibility fallback. Migration and
+mixed-outcome tests also pass. The all-candidate Qwen pilot, phone
 vetting, source-package merge, and iterative second Scout cycle remain pending.
 The subsequent stale-path audit removed Scout's unreachable accepted-resource
 manager and its decision, generated-resource editing, relationship-assessment,

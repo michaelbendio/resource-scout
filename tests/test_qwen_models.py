@@ -11,6 +11,7 @@ from pathlib import Path
 from resource_research_agent.optimization import (
     optimization_candidate_id,
     optimization_resource_id,
+    package_exclusion_state,
 )
 from resource_research_agent.optimization_models import (
     apply_verification_decisions,
@@ -28,7 +29,10 @@ from resource_research_agent.optimization_outcomes import (
     OptimizationOutcomeError,
     compare_optimization_run_to_package,
 )
-from resource_research_agent.importer import ResourcePackageImporter
+from resource_research_agent.importer import (
+    ResourcePackageImporter,
+    resource_program_identity,
+)
 from resource_research_agent.review_export import build_optimization_review_copy
 from resource_research_agent.storage import ResearchStore
 from tests.test_qwen_discovery import FixtureProviders
@@ -767,6 +771,24 @@ process.stdout.write(JSON.stringify({ state, package: built.data }));
         )
         self.assertEqual(0, curator_result.returncode, curator_result.stderr)
         generated_curator = json.loads(curator_result.stdout)
+        generated_identity = resource_program_identity(
+            generated_curator["package"]["resources"][0]
+        )
+        self.assertEqual(
+            (
+                accepted["candidate"]["organization"],
+                accepted["candidate"]["program"],
+            ),
+            generated_identity,
+        )
+        self.assertEqual(
+            "same-program",
+            package_exclusion_state(
+                accepted["candidate"]["organization"],
+                accepted["candidate"]["program"],
+                *generated_identity,
+            ),
+        )
         curator_work_path = Path(self.temporary.name) / "food-curator-work.json"
         curator_work_path.write_text(
             json.dumps(generated_curator["state"]), encoding="utf-8"

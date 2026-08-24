@@ -91,7 +91,11 @@ revisions. The Food integration regression now uses Curator's actual JavaScript
 core to mark a candidate Ready, build and archive its additions-only package, and
 produce saved work; the Python outcome reader consumes those two generated
 artifacts and proves the accepted link while all untouched candidates remain
-Pending. This does not authorize or perform the all-candidate Qwen Curator pilot,
+Pending. The same generated non-Housing resource also proves that its Curator
+details recover the original organization and program for an exact same-program
+exclusion in a later Scout cycle. Explicit package identity fields take precedence,
+then Curator's labeled Resource details, with the resource name retained only as
+the compatibility fallback. This does not authorize or perform the all-candidate Qwen Curator pilot,
 phone vetting, a source-package merge, or the iterative second Scout cycle; those
 observed integration steps remain pending and the mutations still require
 Michael's explicit permission.
@@ -194,7 +198,7 @@ actionability gates in
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
 - Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
-- Application version: `0.22.0`
+- Application version: `0.23.0`
 - Increment the application version before pushing any functional or user-visible
   change. Pure internal refactors and documentation-only corrections do not require
   a version increment.

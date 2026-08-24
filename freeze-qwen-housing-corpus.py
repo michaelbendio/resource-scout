@@ -6,7 +6,10 @@ import json
 from copy import deepcopy
 from pathlib import Path
 
-from resource_research_agent.importer import ResourcePackageImporter
+from resource_research_agent.importer import (
+    ResourcePackageImporter,
+    resource_program_identity,
+)
 from resource_research_agent.optimization import sha256_json, validate_query_plan
 from resource_research_agent.optimization_pipeline import OptimizationDiscoveryPipeline
 from resource_research_agent.optimization_review import (
@@ -150,9 +153,7 @@ configuration = {
 }
 existing = []
 for resource in package.resources:
-    name = str(resource.get("name") or resource.get("title") or "").strip()
-    organization = str(resource.get("organization") or resource.get("provider") or name).strip()
-    program = str(resource.get("program") or name).strip()
+    organization, program = resource_program_identity(resource)
     existing.append(
         {
             "organization": organization,
