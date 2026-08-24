@@ -51,7 +51,7 @@ def housing_audited_plan() -> dict:
             "consecutiveNoNewIdentityQueries"
         ],
     )
-    for key in ["candidate-current-status", "prior-result-leads"]:
+    for key in ["candidate-current-status"]:
         plan["branches"].append(
             {
                 "key": key,

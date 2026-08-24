@@ -27,8 +27,7 @@
     "coordinated-entry-referral-depth-v1"
   ],
   "operationalBranchKeys": [
-    "candidate-current-status",
-    "prior-result-leads"
+    "candidate-current-status"
   ],
   "serviceNeeds": [
     "Immediate emergency shelter or a safe place tonight",
@@ -240,6 +239,6 @@
     "referralGraphSha256": "ef58d36d9e0703875ba4d4de803bd06d718db1d28fc96f8708fa5078a96c3456",
     "referralReviewSha256": "9e3e87fd39f2d2a39223def8af00e2d91eb42666ff7717294cf7c6c1dad6933d"
   },
-  "reviewDecision": "The urgent-access planning contract is explicit and category-gated. Freeze remains execution-blocked until the exact prior-result branch completes and every newly recovered identity is reviewed, but no playbook-contract rewrite is required before that execution resumes.",
-  "auditSha256": "f5f656e0f4859ebbf15cbf60f708f8770bbcfbda9c8c0554f3b96419fd781317"
+  "reviewDecision": "The urgent-access planning contract is explicit and category-gated. Freeze may proceed from the completed current-status, coordinated-entry, and reviewed referral branches. The preserved historical-lead haystack is outside this calibration's required scope, and unchecked leads remain unknown rather than exclusions.",
+  "auditSha256": "17849948a097e78a67d487d58974fa8e05a39d66127241bbbc35a327d40845dc"
 }
