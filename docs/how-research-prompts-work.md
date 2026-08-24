@@ -194,7 +194,7 @@ The application then:
 - Compares candidates with the imported package’s full duplicate index.
 - Saves the candidate and possible match separately for human review.
 
-One current weakness is that validation is not yet strict for every candidate field. It strongly requests the full structure, but a candidate missing some secondary fields can still be accepted into the inbox.
+One current weakness is that validation is not yet strict for every candidate field. It strongly requests the full structure, but a candidate missing some secondary fields can still be retained for Curator review.
 
 ## 8. How human sharpening works
 
@@ -207,4 +207,4 @@ Each run saves its assembled prompt and stage instructions in the research datab
 - New runs receive the improved version.
 - Category lessons provide an additional, faster feedback layer.
 
-So the architecture is less “ask DeepSeek to research Clothing” and more “construct a small, category-specific research contract, execute it in four controlled passes, and preserve everything for human judgment.”
+So the architecture is less “ask DeepSeek to research Clothing” and more “construct a small, category-specific research contract, execute it in four controlled passes, and preserve everything for Curator and human judgment.”

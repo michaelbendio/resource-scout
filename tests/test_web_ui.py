@@ -67,6 +67,9 @@ class ScoutLayoutTests(unittest.TestCase):
     def test_human_curation_is_exported_instead_of_performed_in_scout(self) -> None:
         self.assertIn("05 · Research records", self.html)
         self.assertIn("Continue in Resource Curator", self.html)
+        self.assertIn("duplicate signals", self.html)
+        self.assertIn("Curator and human vetting", self.html)
+        self.assertNotIn("duplicate decisions", self.html)
         self.assertIn("human vetting, optional outcomes, resource editing, printing, and package preparation", self.html)
         self.assertIn("portable vetting and package workspace", self.javascript)
         self.assertNotIn('id="review-actions"', self.html)

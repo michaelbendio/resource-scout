@@ -458,7 +458,8 @@ The subsequent stale-path audit removed Scout's unreachable accepted-resource
 manager and its decision, generated-resource editing, relationship-assessment,
 and package-building storage mutations. Historical rows and generated drafts
 remain read-compatible for Curator export. Playbook configuration now supplies
-category-specific supplementary draft fields. The current full suite passes 204
+category-specific supplementary draft fields. Package upload no longer requires a
+Housing category. The current full suite passes 205
 Python tests with one optional skip and all 20 JavaScript plugin tests.
 
 ### 7. Complete Housing calibration

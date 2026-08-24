@@ -98,8 +98,10 @@ decisions, edit generated resources, assess candidate relationships, or build a
 package. The historical columns and generated-resource table remain readable so
 older runs and edited drafts still export into Curator. Resource-draft
 supplementary fields now come from the selected playbook rather than a hard-coded
-Housing pet-policy renderer. The resulting full suite passes 204 Python tests with
-one optional live-package skip and all 20 JavaScript plugin tests; production
+Housing pet-policy renderer. Package upload is also category neutral: a package
+without Housing now connects using its first available category, while explicit
+category requests still fail closed when absent. The resulting full suite passes
+205 Python tests with one optional live-package skip and all 20 JavaScript plugin tests; production
 Scout and a real legacy Curator export were reverified after restart.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
