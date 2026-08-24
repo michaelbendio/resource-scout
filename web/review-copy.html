@@ -48,8 +48,8 @@
     .candidate:hover { border-color:#739384; background:#f6faf7; }
     .candidate-head { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.7rem; align-items:start; } .candidate-description { margin:0; color:#4d5e57; font-size:.88rem; }
     .status { display:inline-flex; align-self:start; justify-self:end; padding:.25rem .55rem; border-radius:999px; color:#4a5b55; background:#e8ece9; font-size:.7rem; font-weight:800; white-space:nowrap; text-transform:capitalize; }
-    .status.accepted,.status.completed { color:#205f48; background:#dff0e7; } .status.not-ready,.status.partial,.status.running,.status.queued { color:#5a6661; background:#e8ece9; }
-    .status.rejected,.status.wrong-category,.status.failed { color:var(--red); background:#f6e3e0; } .status.already-known { color:#5e4b1a; background:#f5eacb; }
+    .status.accepted,.status.completed { color:#205f48; background:#dff0e7; } .status.pending,.status.partial,.status.running,.status.queued { color:#5a6661; background:#e8ece9; }
+    .status.rejected,.status.wrong-category,.status.failed { color:var(--red); background:#f6e3e0; } .status.duplicate,.status.research-further { color:#5e4b1a; background:#f5eacb; }
     .signal-summary { margin:.15rem 0 0; padding-top:.45rem; color:#9a641e; font-size:.8rem; font-weight:750; }
     .empty { padding:1rem; border:1px dashed #c6ccc8; border-radius:10px; color:var(--muted); text-align:center; }
     .lesson-list { display:grid; gap:.65rem; margin-top:1rem; } .lesson { padding:.9rem 1rem; border:1px solid var(--line); border-radius:10px; background:white; }
@@ -62,6 +62,7 @@
     .review-decision-actions { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:.4rem 0 1rem; }
     .ready-toggle { width:fit-content; margin:0; padding:.65rem .85rem; border:1px solid #8daf9f; border-radius:10px; color:var(--forest); background:#edf6f1; font-weight:800; }
     .review-decision-actions .resource-print-button { padding:.65rem .85rem; }
+    .optional-outcome { display:grid; gap:.35rem; max-width:360px; margin:0 0 1rem; font-weight:750; } .optional-outcome small { font-size:.78rem; }
     .field { display:grid; gap:.35rem; margin-top:.75rem; font-weight:750; } .choice-check { display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0; font-weight:600; }
     .choice-check input { width:auto; margin:.28rem 0 0; }
     .match-card,.choice-fieldset { margin:1rem 0; padding:.9rem 1rem; border:1px solid #e3c28d; border-radius:11px; background:var(--amber-bg); }
@@ -152,7 +153,7 @@
       </div>
     </section>
     <section class="panel"><p class="section-label">Research trail</p><div class="run-heading"><h2>Research run</h2><span class="run-compact" id="run-compact"></span></div><details><summary id="findings-summary">Research findings</summary><div class="summary" id="summary"></div></details><details><summary>View the research assignment</summary><p class="assignment" id="assignment"></p></details></section>
-    <section class="panel"><p class="section-label">Human review</p><h2>Research candidates</h2><div class="toolbar"><input id="search" type="search" placeholder="Search candidates" aria-label="Search candidates"><select id="status-filter" aria-label="Filter candidates by package readiness"><option value="">All candidates</option><option value="ready">Ready for package</option><option value="not-ready">Awaiting review</option></select></div><p class="candidate-count" id="candidate-count"></p><div class="candidate-list" id="candidate-list"></div></section>
+    <section class="panel"><p class="section-label">Human review</p><h2>Research candidates</h2><div class="toolbar"><input id="search" type="search" placeholder="Search candidates" aria-label="Search candidates"><select id="status-filter" aria-label="Filter candidates by curation outcome"><option value="">All candidates</option><option value="ready">Ready for package</option><option value="pending">Pending</option><option value="other-outcome">Optional outcome recorded</option></select></div><p class="candidate-count" id="candidate-count"></p><div class="candidate-list" id="candidate-list"></div></section>
     <section class="panel" id="lessons-panel" hidden><p class="section-label">Research guidance</p><details><summary><strong>Lessons proposed by this run</strong></summary><div class="lesson-list" id="lesson-list"></div></details></section>
     <footer id="footer"></footer>
   </main>
@@ -164,8 +165,8 @@
       <section class="work-window" id="notes-window"><div class="window-titlebar"><h3 id="notes-window-title">Notes</h3></div><div class="window-body" id="candidate-notes"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
     </div>
   </dialog>
-  <dialog id="save-work-dialog" class="guidance-dialog"><h2>Save work</h2><ul><li>The Curator saves automatically in this browser when browser storage is available. Choose <strong>Save work</strong> regularly to download a portable JSON work file containing every decision, note, checklist item, resource edit, and PDF you add.</li><li>Keep the JSON with this Curator HTML. To continue in another browser or on another device, open the HTML and choose <strong>Open saved work</strong>. When your review is finished, send the JSON back to the person who provided the Curator. The HTML does not update itself.</li></ul><div class="guidance-actions"><button type="button" class="secondary" id="cancel-save-work">Cancel</button><button type="button" id="continue-save-work">Continue</button></div></dialog>
-  <dialog id="save-package-dialog" class="guidance-dialog"><h2>Save a resource package</h2><p>This creates a ZIP containing only resources marked <strong>Ready for package</strong>, then removes those candidates from Curator; it is not a backup of all review work.</p><div class="guidance-actions"><button type="button" class="secondary" id="cancel-save-package">Cancel</button><button type="button" id="continue-save-package">Continue</button></div></dialog>
+  <dialog id="save-work-dialog" class="guidance-dialog"><h2>Save work</h2><ul><li>The Curator saves automatically in this browser when browser storage is available. Choose <strong>Save work</strong> regularly to download a portable JSON work file containing every outcome, note, checklist item, resource edit, package record, and PDF you add.</li><li>Keep the JSON with this Curator HTML. To continue in another browser or on another device, open the HTML and choose <strong>Open saved work</strong>. When your review is finished, send the JSON back to the person who provided the Curator. The HTML does not update itself.</li></ul><div class="guidance-actions"><button type="button" class="secondary" id="cancel-save-work">Cancel</button><button type="button" id="continue-save-work">Continue</button></div></dialog>
+  <dialog id="save-package-dialog" class="guidance-dialog"><h2>Save a resource package</h2><p>This creates a ZIP containing only resources marked <strong>Ready for package</strong>, then archives those candidates from the active queue while preserving their work and package history. Save work separately for a portable backup of all curation.</p><div class="guidance-actions"><button type="button" class="secondary" id="cancel-save-package">Cancel</button><button type="button" id="continue-save-package">Continue</button></div></dialog>
   <section id="resource-print-sheet" class="resource-print-sheet" aria-hidden="true"></section>
   <script id="review-data" type="application/json">__REVIEW_COPY_DATA__</script>
   <script>__REVIEW_COPY_SCRIPT__</script>

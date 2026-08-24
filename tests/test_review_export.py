@@ -112,8 +112,8 @@ class ReviewCopyTests(unittest.TestCase):
 
         completed_date = data["run"]["completedAt"][:10]
         self.assertEqual(f"housing-research-curator-{completed_date}.html", review.filename)
-        self.assertEqual(9, data["reviewCopySchemaVersion"])
-        self.assertEqual(1, data["reviewFeedbackSchemaVersion"])
+        self.assertEqual(10, data["reviewCopySchemaVersion"])
+        self.assertEqual(2, data["reviewFeedbackSchemaVersion"])
         self.assertTrue(data["reviewId"])
         self.assertEqual("A concise completed summary with </script> text.", data["run"]["summary"])
         self.assertEqual(1, data["run"]["candidateCount"])
@@ -150,7 +150,8 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertIn('id="save-package-dialog"', html)
         self.assertIn("The HTML does not update itself", html)
         self.assertIn("send the JSON back", html)
-        self.assertIn("it is not a backup of all review work", html)
+        self.assertIn("preserving their work and package history", html)
+        self.assertIn("portable backup of all curation", html)
         self.assertIn("Candidate Research", html)
         self.assertIn("Editors", html)
         self.assertNotIn("Resource Editors", html)
@@ -180,8 +181,10 @@ class ReviewCopyTests(unittest.TestCase):
             html,
         )
         self.assertIn('<option value="ready">Ready for package</option>', html)
-        self.assertIn('<option value="not-ready">Awaiting review</option>', html)
-        self.assertIn("? 'Ready for package' : 'Awaiting review'", html)
+        self.assertIn('<option value="pending">Pending</option>', html)
+        self.assertIn('<option value="other-outcome">Optional outcome recorded</option>', html)
+        self.assertIn("'Pending — no decision recorded'", html)
+        self.assertIn("'Duplicate / already known'", html)
         self.assertIn("'Print the client-facing resource information'", html)
         self.assertIn('id="resource-print-sheet"', html)
         self.assertIn('body.printing-resource > *:not(#resource-print-sheet)', html)
@@ -464,16 +467,18 @@ const independentNotes = {
   first: twoCandidateState.candidates[item.id].curatorNotes,
   second: twoCandidateState.candidates[secondItem.id].curatorNotes,
 };
-twoCandidateState.candidates[item.id].decision = 'accepted';
+ReviewAppCore.setCandidateOutcome(twoCandidateState.candidates[item.id], 'ready-for-package', '2026-08-18T10:00:00+00:00', 'Vetter');
 const queueBuilt = ReviewAppCore.buildResourcePackage(twoCandidateReview, twoCandidateState);
-const queueRemoved = ReviewAppCore.removePackagedCandidates(twoCandidateReview, twoCandidateState, queueBuilt.candidateIds);
-const queueRemaining = Object.keys(twoCandidateState.candidates);
+const queueArchived = ReviewAppCore.archivePackagedCandidates(twoCandidateReview, twoCandidateState, queueBuilt, '2026-08-18T10:05:00+00:00');
+const queueRemaining = Object.keys(twoCandidateState.candidates).filter(id => !twoCandidateState.packagedCandidateIds.includes(id));
 state.candidates[item.id].curatorNotes = '**Interview**\n- [ ] Confirm hours\n- [x] Confirm service area';
 const checklistBefore = ReviewAppCore.checklistItems(state.candidates[item.id].curatorNotes);
 state.candidates[item.id].curatorNotes = ReviewAppCore.toggleChecklistItem(state.candidates[item.id].curatorNotes, 1, true);
 const checklistAfter = ReviewAppCore.checklistItems(state.candidates[item.id].curatorNotes);
 const savedNotes = state.candidates[item.id].curatorNotes;
-state.candidates[item.id].decision = 'accepted';
+const initialOutcome = ReviewAppCore.currentOutcome(state.candidates[item.id]);
+ReviewAppCore.setCandidateOutcome(state.candidates[item.id], 'research-further', '2026-08-18T11:00:00+00:00', 'Vetter');
+ReviewAppCore.setCandidateOutcome(state.candidates[item.id], 'ready-for-package', '2026-08-18T11:30:00+00:00', 'Vetter');
 state.taxonomyDraft.categoryTypes.housing.push('Bridge housing');
 state.taxonomyDraft.forGroups.push('Young adults');
 state.taxonomyDraft.modifiedCategoryIds.push('housing');
@@ -488,10 +493,20 @@ const zip = built.errors.length ? null : ReviewAppCore.createZipArchive([
   { name: 'tso-resources.json', content: JSON.stringify(built.data, null, 2) },
   { name: pdfPath, content: ReviewAppCore.base64ToBytes(built.pdfAssets[pdfPath].data) },
 ]);
-const removedCount = ReviewAppCore.removePackagedCandidates(review, state, built.candidateIds);
+const archivedCount = ReviewAppCore.archivePackagedCandidates(review, state, built, '2026-08-18T12:00:00+00:00');
 const restored = ReviewAppCore.validateFeedback(review, JSON.parse(JSON.stringify(state)));
 const repeatErrors = ReviewAppCore.buildResourcePackage(review, restored).errors;
-process.stdout.write(JSON.stringify({ errors: built.errors, emptyErrors: ReviewAppCore.buildResourcePackage(review, ReviewAppCore.initialState(review)).errors, independentNotes, queueErrors: queueBuilt.errors, queueRemoved, queueRemaining, checklistBefore, checklistAfter, savedNotes, pdfPath, zip: zip && Buffer.from(zip).toString('base64'), removedCount, removedCandidateIds: restored.removedCandidateIds, remainingCandidateIds: Object.keys(restored.candidates), repeatErrors }));
+const legacy = ReviewAppCore.initialState(review);
+legacy.reviewFeedbackSchemaVersion = 1;
+legacy.candidates[item.id].decision = 'accepted';
+delete legacy.candidates[item.id].packageStatus;
+delete legacy.candidates[item.id].disposition;
+delete legacy.candidates[item.id].outcomeHistory;
+delete legacy.candidates[item.id].packageHistory;
+legacy.removedCandidateIds = [];
+delete legacy.packagedCandidateIds;
+const migratedLegacy = ReviewAppCore.validateFeedback(review, legacy);
+process.stdout.write(JSON.stringify({ errors: built.errors, emptyErrors: ReviewAppCore.buildResourcePackage(review, ReviewAppCore.initialState(review)).errors, independentNotes, queueErrors: queueBuilt.errors, queueArchived, queueRemaining, checklistBefore, checklistAfter, savedNotes, pdfPath, zip: zip && Buffer.from(zip).toString('base64'), archivedCount, packagedCandidateIds: restored.packagedCandidateIds, remainingCandidateIds: Object.keys(restored.candidates).filter(id => !restored.packagedCandidateIds.includes(id)), retainedCandidateIds: Object.keys(restored.candidates), outcomeHistory: restored.candidates[item.id].outcomeHistory, packageHistory: restored.candidates[item.id].packageHistory, initialOutcome, migratedSchemaVersion: migratedLegacy.reviewFeedbackSchemaVersion, migratedPackageStatus: migratedLegacy.candidates[item.id].packageStatus, repeatErrors }));
 """
         completed = subprocess.run(
             ["node", "-e", script], input=json.dumps(review), text=True,
@@ -503,14 +518,23 @@ process.stdout.write(JSON.stringify({ errors: built.errors, emptyErrors: ReviewA
         self.assertEqual("Notes for the first candidate only", result["independentNotes"]["first"])
         self.assertEqual("", result["independentNotes"]["second"])
         self.assertEqual([], result["queueErrors"])
-        self.assertEqual(1, result["queueRemoved"])
+        self.assertEqual(1, result["queueArchived"])
         self.assertEqual([f'{review["candidates"][0]["id"]}-second'], result["queueRemaining"])
         self.assertEqual([False, True], [item["checked"] for item in result["checklistBefore"]])
         self.assertEqual([True, True], [item["checked"] for item in result["checklistAfter"]])
         self.assertIn("- [x] Confirm hours", result["savedNotes"])
-        self.assertEqual(1, result["removedCount"])
-        self.assertEqual([str(review["candidates"][0]["id"])], result["removedCandidateIds"])
+        self.assertEqual("pending", result["initialOutcome"])
+        self.assertEqual(1, result["archivedCount"])
+        self.assertEqual([str(review["candidates"][0]["id"])], result["packagedCandidateIds"])
         self.assertEqual([], result["remainingCandidateIds"])
+        self.assertEqual([str(review["candidates"][0]["id"])], result["retainedCandidateIds"])
+        self.assertEqual(
+            ["research-further", "ready-for-package", "entered-package"],
+            [entry["outcome"] for entry in result["outcomeHistory"]],
+        )
+        self.assertEqual(review["candidates"][0]["resourceDraft"]["id"], result["packageHistory"][0]["resourceId"])
+        self.assertEqual(2, result["migratedSchemaVersion"])
+        self.assertEqual("ready", result["migratedPackageStatus"])
         self.assertTrue(any("Ready for package" in error for error in result["repeatErrors"]))
         with zipfile.ZipFile(io.BytesIO(base64.b64decode(result["zip"]))) as archive:
             self.assertEqual(["tso-resources.json", result["pdfPath"]], archive.namelist())

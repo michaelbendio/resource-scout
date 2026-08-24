@@ -16,7 +16,8 @@ from .resource_package import RESOURCE_PACKAGE_SCHEMA_VERSION, candidate_to_reso
 from .storage import ResearchStore
 
 
-REVIEW_COPY_SCHEMA_VERSION = 9
+REVIEW_COPY_SCHEMA_VERSION = 10
+REVIEW_FEEDBACK_SCHEMA_VERSION = 2
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_TEMPLATE = PROJECT_ROOT / "web" / "review-copy.html"
 DEFAULT_SCRIPT = PROJECT_ROOT / "web" / "review-copy.js"
@@ -196,7 +197,7 @@ def build_review_copy(
 
     data = {
         "reviewCopySchemaVersion": REVIEW_COPY_SCHEMA_VERSION,
-        "reviewFeedbackSchemaVersion": 1,
+        "reviewFeedbackSchemaVersion": REVIEW_FEEDBACK_SCHEMA_VERSION,
         "reviewId": review_id,
         "exportedAt": exported.astimezone(timezone.utc).isoformat(),
         "title": title,
@@ -209,11 +210,11 @@ def build_review_copy(
         ) + (
             "Portable exploratory location research for human review; it is not an official or comprehensive "
             "TSO Resources inventory. Availability, eligibility, and other facts may change; verify important "
-            "details before assisting a client. Review decisions and feedback can be saved, but standalone "
+            "details before assisting a client. Curator outcomes and work can be saved, but standalone "
             "research cannot create a resource package."
             if run.get("researchMode") == "standalone-location"
             else "Portable research for human review. Availability, eligibility, and other facts may change; "
-            "verify important details before assisting a client or adding an accepted resource to TSO Resources."
+            "verify important details before assisting a client or marking a resource Ready for package."
         ),
         "run": {
             "id": run["id"],
@@ -443,7 +444,7 @@ def build_optimization_review_copy(
     ).hex
     data = {
         "reviewCopySchemaVersion": REVIEW_COPY_SCHEMA_VERSION,
-        "reviewFeedbackSchemaVersion": 1,
+        "reviewFeedbackSchemaVersion": REVIEW_FEEDBACK_SCHEMA_VERSION,
         "reviewId": review_id,
         "exportedAt": exported.isoformat(),
         "title": title,
