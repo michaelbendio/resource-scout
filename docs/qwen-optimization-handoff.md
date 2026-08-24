@@ -92,6 +92,16 @@ phone vetting, a source-package merge, or the iterative second Scout cycle; thos
 observed integration steps remain pending and the mutations still require
 Michael's explicit permission.
 
+The stale Scout-only curation write path has also been removed. Scout no longer
+contains an accepted-resource manager or storage methods that can record review
+decisions, edit generated resources, assess candidate relationships, or build a
+package. The historical columns and generated-resource table remain readable so
+older runs and edited drafts still export into Curator. Resource-draft
+supplementary fields now come from the selected playbook rather than a hard-coded
+Housing pet-policy renderer. The resulting full suite passes 204 Python tests with
+one optional live-package skip and all 20 JavaScript plugin tests; production
+Scout and a real legacy Curator export were reverified after restart.
+
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
 - `docs/local-dsh-qwen-plan.md`
@@ -166,7 +176,7 @@ actionability gates in
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
-- The full Python suite most recently passed 209 tests with one optional skip.
+- The full Python suite most recently passed 204 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.

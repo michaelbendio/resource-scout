@@ -442,7 +442,7 @@ resource linkage, edits, and package history. Schema-1 saved work migrates on
 open. Scout's Accept/Reject, relationship-assessment, generated-resource editing,
 and direct-package UI and HTTP routes were removed; legacy database records remain
 readable for compatible Curator export. The Editors title and Print/Ready control
-height are corrected. The full gate passed 209 Python tests with one optional
+height are corrected. The workflow gate originally passed 209 Python tests with one optional
 live-package skip and all 20 JavaScript plugin tests. Production Scout was
 restarted and a real DeepSeek Housing Curator downloaded through its private
 Tailscale URL reported schemas 10 and 2 and contained no stale Scout-decision UI.
@@ -454,6 +454,12 @@ over an older Curator state. Canonical work hashes permit successive immutable
 outcome reports for the same run and package while preserving schema-2 reports.
 Migration and mixed-outcome tests pass. The all-candidate Qwen pilot, phone
 vetting, source-package merge, and iterative second Scout cycle remain pending.
+The subsequent stale-path audit removed Scout's unreachable accepted-resource
+manager and its decision, generated-resource editing, relationship-assessment,
+and package-building storage mutations. Historical rows and generated drafts
+remain read-compatible for Curator export. Playbook configuration now supplies
+category-specific supplementary draft fields. The current full suite passes 204
+Python tests with one optional skip and all 20 JavaScript plugin tests.
 
 ### 7. Complete Housing calibration
 

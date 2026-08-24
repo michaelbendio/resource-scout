@@ -9,7 +9,13 @@ that does not change the existing opt-in 4-bit local route or authorize cutover.
 
 Run Resource Scout research through DeepSeek Harness (DSH) with Qwen3.8-27B on the local 64 GB M4 Pro Mac mini, free search, and safe local page retrieval. The finished production path must not require or silently fall back to a metered model or search provider.
 
-Resource Scout continues to own the research workflow, prompts, imported package knowledge, stage persistence, candidates, duplicate decisions, lessons, review state, and exports. DSH remains a bounded execution layer that receives one stage assignment and returns one structured research result.
+Resource Scout continues to own the research workflow, prompts, imported package
+knowledge, stage persistence, candidates, lessons, and Curator exports. Curator
+now owns all human vetting decisions, resource editing, printing, and additions
+packages; the obsolete Scout-side decision and package write path has been
+removed while historical data remains exportable. DSH remains a bounded execution
+layer that receives one stage assignment and returns one structured research
+result.
 
 ## Decisions
 
