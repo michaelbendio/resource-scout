@@ -23,7 +23,10 @@ from resource_research_agent.optimization_models import (
 )
 from resource_research_agent.playbooks import playbook_for
 from resource_research_agent.optimization_pipeline import OptimizationDiscoveryPipeline
-from resource_research_agent.optimization_outcomes import compare_optimization_run_to_package
+from resource_research_agent.optimization_outcomes import (
+    OptimizationOutcomeError,
+    compare_optimization_run_to_package,
+)
 from resource_research_agent.importer import ResourcePackageImporter
 from resource_research_agent.review_export import build_optimization_review_copy
 from resource_research_agent.storage import ResearchStore
@@ -975,6 +978,185 @@ class ModelPipelineTests(unittest.TestCase):
         with self.store.connect() as connection:
             self.assertEqual(
                 1,
+                connection.execute(
+                    "SELECT COUNT(*) FROM optimization_package_outcomes"
+                ).fetchone()[0],
+            )
+
+        candidate_ids = [str(item["id"]) for item in review.data["candidates"]]
+        curator_states = {}
+        for position, candidate_id in enumerate(candidate_ids):
+            package_status = "packaged" if position < 2 else "pending"
+            disposition = {
+                2: "duplicate",
+                3: "research-further",
+                4: "wrong-category",
+            }.get(position, "")
+            curator_states[candidate_id] = {
+                "packageStatus": package_status,
+                "disposition": disposition,
+                "outcomeHistory": (
+                    [{"outcome": disposition, "at": "later", "reviewerName": "Vetter"}]
+                    if disposition
+                    else []
+                ),
+                "packageHistory": (
+                    [{"resourceId": resources[position]["id"], "at": "later"}]
+                    if position < 2
+                    else []
+                ),
+                "reviewedAt": "later" if disposition or position < 2 else None,
+                "updatedAt": "later",
+            }
+        curator_work = {
+            "reviewFeedbackSchemaVersion": 2,
+            "reviewCopySchemaVersion": review.data["reviewCopySchemaVersion"],
+            "reviewId": review.data["reviewId"],
+            "sourceSha256": (
+                review.data["sourcePackage"]["sourceSha256"]
+                if review.data["sourcePackage"]
+                else None
+            ),
+            "run": {
+                "id": mixed_result.run_id,
+                "categoryId": "housing",
+                "categoryLabel": "Housing",
+            },
+            "packagedCandidateIds": candidate_ids[:2],
+            "candidates": curator_states,
+        }
+        curator_work_path = Path(self.temporary.name) / "curator-work.json"
+        curator_work_path.write_text(json.dumps(curator_work), encoding="utf-8")
+        outcome_with_work = compare_optimization_run_to_package(
+            self.store,
+            mixed_result.run_id,
+            package_path,
+            curator_work_path=curator_work_path,
+        )
+        self.assertEqual(3, outcome_with_work.report["schemaVersion"])
+        self.assertEqual(64, len(outcome_with_work.report["curatorWorkSha256"]))
+        self.assertEqual(4, outcome_with_work.report["terminalHumanOutcomeCount"])
+        self.assertEqual(3, outcome_with_work.report["explicitCuratorDispositionCount"])
+        self.assertEqual(0.5, outcome_with_work.report["acceptedAmongTerminalOutcomeRate"])
+        self.assertEqual(
+            {
+                "duplicate": 1,
+                "pending": 1,
+                "present-in-vetted-package": 2,
+                "research-further": 1,
+                "wrong-category": 1,
+            },
+            outcome_with_work.report["outcomeCounts"],
+        )
+        self.assertEqual(
+            set(candidate_ids),
+            {item["candidateId"] for item in outcome_with_work.report["outcomes"]},
+        )
+        self.assertEqual(
+            outcome_with_work.report_sha256,
+            compare_optimization_run_to_package(
+                self.store,
+                mixed_result.run_id,
+                package_path,
+                curator_work_path=curator_work_path,
+            ).report_sha256,
+        )
+        with self.store.connect() as connection:
+            self.assertEqual(
+                2,
+                connection.execute(
+                    "SELECT COUNT(*) FROM optimization_package_outcomes"
+                ).fetchone()[0],
+            )
+
+        revised_work = deepcopy(curator_work)
+        revised_work["candidates"][candidate_ids[-1]]["disposition"] = "rejected"
+        revised_work["candidates"][candidate_ids[-1]]["outcomeHistory"] = [
+            {"outcome": "rejected", "at": "latest", "reviewerName": "Vetter"}
+        ]
+        revised_work_path = Path(self.temporary.name) / "revised-curator-work.json"
+        revised_work_path.write_text(json.dumps(revised_work), encoding="utf-8")
+        revised_outcome = compare_optimization_run_to_package(
+            self.store,
+            mixed_result.run_id,
+            package_path,
+            curator_work_path=revised_work_path,
+        )
+        self.assertNotEqual(outcome_with_work.report_sha256, revised_outcome.report_sha256)
+        self.assertEqual(5, revised_outcome.report["terminalHumanOutcomeCount"])
+        self.assertEqual(0.4, revised_outcome.report["acceptedAmongTerminalOutcomeRate"])
+        with self.store.connect() as connection:
+            self.assertEqual(
+                3,
+                connection.execute(
+                    "SELECT COUNT(*) FROM optimization_package_outcomes"
+                ).fetchone()[0],
+            )
+
+        invalid_work = deepcopy(curator_work)
+        invalid_work["candidates"].pop(candidate_ids[-1])
+        invalid_work_path = Path(self.temporary.name) / "invalid-curator-work.json"
+        invalid_work_path.write_text(json.dumps(invalid_work), encoding="utf-8")
+        with self.assertRaisesRegex(
+            OptimizationOutcomeError, "candidate set does not match"
+        ):
+            compare_optimization_run_to_package(
+                self.store,
+                mixed_result.run_id,
+                package_path,
+                curator_work_path=invalid_work_path,
+            )
+
+        with self.store.connect() as connection:
+            legacy_row = connection.execute(
+                """SELECT id, run_id, created_at, final_package_sha256,
+                          report_json, report_sha256
+                   FROM optimization_package_outcomes
+                   WHERE curator_work_sha256 = ''"""
+            ).fetchone()
+            connection.execute("DROP TABLE optimization_package_outcomes")
+            connection.execute(
+                """CREATE TABLE optimization_package_outcomes (
+                       id INTEGER PRIMARY KEY,
+                       run_id INTEGER NOT NULL
+                           REFERENCES optimization_runs(id) ON DELETE CASCADE,
+                       created_at TEXT NOT NULL,
+                       final_package_sha256 TEXT NOT NULL
+                           CHECK (length(final_package_sha256) = 64),
+                       report_json TEXT NOT NULL,
+                       report_sha256 TEXT NOT NULL
+                           CHECK (length(report_sha256) = 64),
+                       UNIQUE (run_id, final_package_sha256)
+                   )"""
+            )
+            connection.execute(
+                "INSERT INTO optimization_package_outcomes VALUES (?, ?, ?, ?, ?, ?)",
+                tuple(legacy_row),
+            )
+        migrated_store = ResearchStore(self.store.path)
+        with migrated_store.connect() as connection:
+            migrated = connection.execute(
+                """SELECT curator_work_sha256, report_sha256
+                   FROM optimization_package_outcomes"""
+            ).fetchone()
+            self.assertEqual("", migrated["curator_work_sha256"])
+            self.assertEqual(legacy_row["report_sha256"], migrated["report_sha256"])
+            connection.execute(
+                """INSERT INTO optimization_package_outcomes (
+                       run_id, created_at, final_package_sha256,
+                       curator_work_sha256, report_json, report_sha256
+                   ) VALUES (?, ?, ?, ?, ?, ?)""",
+                (
+                    legacy_row["run_id"],
+                    legacy_row["created_at"],
+                    legacy_row["final_package_sha256"],
+                    "a" * 64,
+                    legacy_row["report_json"],
+                    legacy_row["report_sha256"],
+                ),
+            )
+            self.assertEqual(
+                2,
                 connection.execute(
                     "SELECT COUNT(*) FROM optimization_package_outcomes"
                 ).fetchone()[0],

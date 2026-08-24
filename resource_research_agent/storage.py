@@ -654,9 +654,12 @@ CREATE TABLE IF NOT EXISTS optimization_package_outcomes (
     run_id INTEGER NOT NULL REFERENCES optimization_runs(id) ON DELETE CASCADE,
     created_at TEXT NOT NULL,
     final_package_sha256 TEXT NOT NULL CHECK (length(final_package_sha256) = 64),
+    curator_work_sha256 TEXT NOT NULL DEFAULT '' CHECK (
+        curator_work_sha256 = '' OR length(curator_work_sha256) = 64
+    ),
     report_json TEXT NOT NULL,
     report_sha256 TEXT NOT NULL CHECK (length(report_sha256) = 64),
-    UNIQUE (run_id, final_package_sha256)
+    UNIQUE (run_id, final_package_sha256, curator_work_sha256)
 );
 """
 
@@ -684,6 +687,50 @@ class ResearchStore:
 
     @staticmethod
     def _migrate(connection: sqlite3.Connection) -> None:
+        outcome_columns = {
+            row["name"]
+            for row in connection.execute(
+                "PRAGMA table_info(optimization_package_outcomes)"
+            )
+        }
+        if "curator_work_sha256" not in outcome_columns:
+            connection.execute(
+                "DROP TABLE IF EXISTS optimization_package_outcomes_migration"
+            )
+            connection.execute(
+                """CREATE TABLE optimization_package_outcomes_migration (
+                       id INTEGER PRIMARY KEY,
+                       run_id INTEGER NOT NULL
+                           REFERENCES optimization_runs(id) ON DELETE CASCADE,
+                       created_at TEXT NOT NULL,
+                       final_package_sha256 TEXT NOT NULL
+                           CHECK (length(final_package_sha256) = 64),
+                       curator_work_sha256 TEXT NOT NULL DEFAULT '' CHECK (
+                           curator_work_sha256 = ''
+                           OR length(curator_work_sha256) = 64
+                       ),
+                       report_json TEXT NOT NULL,
+                       report_sha256 TEXT NOT NULL
+                           CHECK (length(report_sha256) = 64),
+                       UNIQUE (
+                           run_id, final_package_sha256, curator_work_sha256
+                       )
+                   )"""
+            )
+            connection.execute(
+                """INSERT INTO optimization_package_outcomes_migration (
+                       id, run_id, created_at, final_package_sha256,
+                       curator_work_sha256, report_json, report_sha256
+                   )
+                   SELECT id, run_id, created_at, final_package_sha256,
+                          '', report_json, report_sha256
+                   FROM optimization_package_outcomes"""
+            )
+            connection.execute("DROP TABLE optimization_package_outcomes")
+            connection.execute(
+                "ALTER TABLE optimization_package_outcomes_migration "
+                "RENAME TO optimization_package_outcomes"
+            )
         columns = {row["name"] for row in connection.execute("PRAGMA table_info(discoveries)")}
         additions = {
             "run_id": "INTEGER",

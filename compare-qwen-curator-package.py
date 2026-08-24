@@ -17,11 +17,21 @@ parser = argparse.ArgumentParser(
 parser.add_argument("--database", type=Path, required=True)
 parser.add_argument("--run-id", type=int, required=True)
 parser.add_argument("--package", type=Path, required=True)
+parser.add_argument(
+    "--curator-work",
+    type=Path,
+    help=(
+        "Saved Curator work JSON for explicit Pending, Ready, packaged, and optional outcomes"
+    ),
+)
 parser.add_argument("--report", type=Path)
 arguments = parser.parse_args()
 
 outcome = compare_optimization_run_to_package(
-    ResearchStore(arguments.database), arguments.run_id, arguments.package
+    ResearchStore(arguments.database),
+    arguments.run_id,
+    arguments.package,
+    curator_work_path=arguments.curator_work,
 )
 rendered = json.dumps(outcome.report, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
 if arguments.report:
