@@ -131,6 +131,15 @@ run 1 produced a 445,698-byte Curator containing schemas 10 and 2, `Editors`,
 acceptance wording or old editor title. Static assets and Curator templates are
 read on each request, so the unreachable-code cleanup required no service restart.
 
+Iterative-identity production verification (2026-08-24): commit `a6ed0f9`
+advanced Scout and Curator to `0.23.0`. The production LaunchAgent was restarted
+without disturbing the isolated 8-bit benchmark. Loopback and the private
+Tailscale URL report `0.23.0`, the frozen Mesa package hash, and all 22 package
+categories. A fresh read-only export of DeepSeek Housing run 1 remained 445,698
+bytes, displayed `0.23.0` in all three Curator version surfaces, contained Curator
+schema 10 and saved-work/feedback schema 2, and retained `Editors`, `Ready for
+package`, and the optional-outcome workflow without stale Scout acceptance text.
+
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
 - `docs/local-dsh-qwen-plan.md`
