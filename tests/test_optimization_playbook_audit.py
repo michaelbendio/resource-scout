@@ -271,6 +271,8 @@ class OptimizationPlaybookAuditTests(unittest.TestCase):
             audit,
             query_plan=plan,
             playbook=playbook_for("food"),
+            referral_graph_sha256="none",
+            referral_review_sha256="none",
         )
         self.assertEqual(2, normalized["schemaVersion"])
         self.assertIsNone(normalized["corpusComponents"]["referralGraphSha256"])

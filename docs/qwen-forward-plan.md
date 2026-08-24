@@ -571,6 +571,13 @@ matching `--prior-lead-manifest`, which is normalized and passed into discovery.
 Missing, extra, or hash-mismatched manifests fail before a run is created. This
 preserves routed-lead provenance without copying historical qualification facts.
 
+Application `0.28.0` closes the corresponding model-run boundary for stages
+without referral-graph expansion. Frozen configurations persist an absent graph
+and review as the explicit sentinel `none`; playbook-audit normalization now
+treats that sentinel as absence while continuing to validate real component
+hashes. The regression test exercises the same schema-2, graph-free audit shape
+used by the later-stage Housing corpora.
+
 Compare the complete result with frozen DeepSeek Housing and every preserved Qwen
 Housing run. Compare like stages and report the union and overlap only after
 identity resolution; the historical DeepSeek total of 30 spans all four stages,

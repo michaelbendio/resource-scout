@@ -196,6 +196,13 @@ discovery pipeline. Missing, extra, or mismatched manifests fail before a run is
 created. The first pre-fix freeze attempt failed closed on this exact invariant;
 it created no benchmark run and performed no model inference.
 
+Application `0.28.0` fixes the model-side handoff for a frozen stage that has no
+referral graph. The frozen configuration deliberately records absent referral
+components as `none`; playbook-audit normalization now converts that persisted
+sentinel back to absence and still rejects malformed or mismatched real hashes.
+The first attempted stabilization launch stopped at this validation boundary
+before model inference, so no packet or model output was lost or duplicated.
+
 Stage 7 preparation production verification (2026-08-24): commit `0b51527`
 was pushed, the production LaunchAgent was restarted, and loopback plus the
 private Tailscale URL report application `0.25.0`, the frozen Mesa package hash,
@@ -332,7 +339,7 @@ actionability gates in
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
 - Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
-- Application version: `0.26.0`
+- Application version: `0.28.0`
 - Increment the application version before pushing any functional or user-visible
   change. Pure internal refactors and documentation-only corrections do not require
   a version increment.
@@ -342,7 +349,7 @@ actionability gates in
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
-- The full Python suite most recently passed 218 tests with one optional skip.
+- The full Python suite most recently passed 219 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.

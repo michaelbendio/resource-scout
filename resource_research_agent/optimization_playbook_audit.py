@@ -134,6 +134,14 @@ def normalize_optimization_playbook_audit(
             f"{policy_version}"
         )
     validate_query_plan(query_plan)
+    referral_graph_sha256 = _optional_sha256(
+        referral_graph_sha256,
+        "referralGraphSha256",
+    )
+    referral_review_sha256 = _optional_sha256(
+        referral_review_sha256,
+        "referralReviewSha256",
+    )
     if bool(referral_graph_sha256) != bool(referral_review_sha256):
         raise ValueError("Referral graph and review hashes must be supplied together")
 
