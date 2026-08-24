@@ -397,9 +397,10 @@ configuration be locked.
 First test the isolated optimization export path. Passed and needs-review
 candidates must reach Curator; failed and noncandidate leads must not. Preserve
 findings, evidence, unknowns, conflicts, source/configuration/package provenance,
-stable candidate IDs, and deterministic generated-resource IDs. Normal Scout,
-normal Curator, the live database, and production DeepSeek behavior remain
-unchanged.
+stable candidate IDs, and deterministic generated-resource IDs. Research-model
+behavior, the live database, and production DeepSeek execution remain unchanged.
+Human curation belongs to Curator for every model; Scout must not retain a second
+decision or package-preparation path.
 
 Use all final first-stage candidates for the Curator pilot rather than a favorable
 sample. Record dispositions for duplicates, fragments, access points, directories,
@@ -429,6 +430,24 @@ noncandidate leads remain excluded from this export. This completes deterministi
 preparation only; the all-candidate Curator pilot, phone vetting, source-package
 merge, and iterative second Scout cycle have not been performed. Live Curator or
 source-package mutation still requires Michael's explicit authorization.
+
+Operational workflow checkpoint (2026-08-24): Curator schema 10 and work schema 2
+make curation additive rather than exhaustive. Every newly exported DeepSeek or
+Qwen candidate begins Pending. Ready for package is the positive package action;
+Research further, Duplicate/already known, Wrong category, and Reject are optional
+outcomes and require no explanation. Absence from a package remains Pending, not a
+negative result. Saving a package archives included candidates from the active
+queue while preserving their complete state, outcome history, deterministic
+resource linkage, edits, and package history. Schema-1 saved work migrates on
+open. Scout's Accept/Reject, relationship-assessment, generated-resource editing,
+and direct-package UI and HTTP routes were removed; legacy database records remain
+readable for compatible Curator export. The Editors title and Print/Ready control
+height are corrected. The full gate passed 209 Python tests with one optional
+live-package skip and all 20 JavaScript plugin tests. Production Scout was
+restarted and a real DeepSeek Housing Curator downloaded through its private
+Tailscale URL reported schemas 10 and 2 and contained no stale Scout-decision UI.
+The all-candidate Qwen pilot, phone vetting, Curator-work outcome import,
+source-package merge, and iterative second Scout cycle remain pending.
 
 ### 7. Complete Housing calibration
 

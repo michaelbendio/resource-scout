@@ -3,7 +3,8 @@
 Status: Checkpoints A through D are implemented. Expanded comparison v9 completed
 on 2026-08-23 over 22 identical first-stage Housing packets and selected 8-bit
 Qwen on quality before timing was revealed. Forward-plan steps 1 through 4 are
-complete; step 5 is next. Michael approved the revised candidate gates, verifier
+complete; step 5 is running as model-evaluation run 32 over frozen corpus 8.
+Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
 Step 3 completed under the revised scope: the category-neutral candidate qualification gate and
 prior-result lead-manifest path are implemented. The reproducible one-time Mesa
@@ -64,21 +65,29 @@ true targeted gap-search needs. Corpus 7 and partial discovery runs 27, 28, and
 30 remain immutable evidence of stale-page and transient-content handling; they
 were not overwritten or pooled with corpus 8.
 
-Step 5 is ready and its runner is wired to the receipt. Required coverage needs
+Step 5 run 32 is active and its runner is wired to the receipt. Required coverage needs
 and their deterministic gap queries no longer live as a Housing-only tuple in
 the runner, and reviewed identity qualification can now preserve explicit
 coverage tags without changing candidate promotion. The runner validates the
 audit hash against the frozen discovery configuration before loading the model.
 
-Step 6 deterministic preparation is complete. The isolated optimization Curator
+Step 6 deterministic preparation and the production Scout-to-Curator workflow
+correction are complete. The isolated optimization Curator
 export and phone-vetted outcome comparison now derive the selected category from
 the locked run instead of assuming Housing. New candidate and generated-resource
 IDs use the immutable packet SHA-256 with the configuration hash, while the
 outcome reader still recognizes the earlier packet-row-based resource IDs. A
-Food export/outcome regression proves category neutrality. This does not
-authorize or perform the all-candidate Curator pilot, phone vetting, a live
-Curator mutation, or a source-package merge; those observed integration steps
-remain pending and the mutations still require Michael's explicit permission.
+Food export/outcome regression proves category neutrality. Curator schema 10 and
+work schema 2 now make every DeepSeek and Qwen candidate Pending by default,
+provide Ready for package plus optional non-required outcomes, and archive
+packaged candidates without deleting their state or linkage history. Scout's
+human-decision, generated-resource-editing, relationship-assessment, and direct
+package routes are removed; historical records remain readable for export. The
+production service was restarted and a live DeepSeek Curator export was verified
+through Tailscale. This does not authorize or perform the all-candidate Qwen
+Curator pilot, phone vetting, Curator-work outcome import, a source-package merge,
+or the iterative second Scout cycle; those observed integration steps remain
+pending and the mutations still require Michael's explicit permission.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
@@ -154,7 +163,7 @@ actionability gates in
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
-- The full Python suite most recently passed 208 tests with one optional skip.
+- The full Python suite most recently passed 209 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.

@@ -162,14 +162,14 @@ Configuration and corpus digests are checked before resuming. A changed model, p
 The operational workflow is:
 
 1. Scout produces candidates, evidence, and explicit unknowns.
-2. Resource Curator preserves and reviews the candidate and prepares it for human follow-up.
-3. A vetter conducts a phone interview with a contact person for each candidate being prepared as a resource, resolves access facts, and prepares the resource.
-4. The vetter creates an additions resource package.
+2. Resource Curator is the vetter's workspace. Every candidate begins Pending; Ready for package is the positive action, and other outcomes are optional rather than required bookkeeping.
+3. For each candidate being prepared as a resource, the vetter checks the site and evidence, conducts a phone interview, resolves access facts, edits and prints the resource, and marks it Ready for package.
+4. Curator creates an additions resource package and archives its included candidates from the active queue without deleting their state, outcome history, or deterministic linkage.
 5. The additions package is merged into TSO Resources, reviewed there, and saved as a new complete resource package.
 
 The corresponding resource in that newly saved, phone-vetted package is the ground truth for later Scout scoring. Preserve an unambiguous candidate-to-Curator-draft-to-additions-resource-to-final-resource link plus the before and after complete packages. Do not infer the link from a similar name when a stable identifier or explicit mapping is available.
 
-Retrospective comparison records each Scout field as confirmed, corrected, added during phone vetting, omitted from the final resource, or still unknown. Accuracy measures supported Scout claims against the final resource and preserved vetting outcome. Completeness measures how much needed final information Scout supplied, treating explicit unknowns as incomplete rather than false. Source analysis remains separate because the final client resource does not itself prove which web source supported a Scout claim. Usable yield counts candidates that become distinct resources in a final saved package.
+Retrospective comparison records each Scout field as confirmed, corrected, added during phone vetting, omitted from the final resource, or still unknown. Accuracy measures supported Scout claims against the final resource and preserved vetting outcome. Completeness measures how much needed final information Scout supplied, treating explicit unknowns as incomplete rather than false. Source analysis remains separate because the final client resource does not itself prove which web source supported a Scout claim. Usable yield counts candidates that become distinct resources in a final saved package. Non-inclusion is Pending unless Curator contains an explicit optional outcome; acceptance-rate denominators use only terminal human outcomes.
 
 Vetters perform normal resource preparation and are not asked to score Scout or Qwen. Scoring happens afterward from preserved artifacts. The deferred learning thresholds in the handoff still apply; this linkage does not activate lesson ingestion or allow Qwen to judge its own earlier output.
 
