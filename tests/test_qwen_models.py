@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import sqlite3
 import subprocess
 import tempfile
 import unittest
@@ -16,8 +17,11 @@ from resource_research_agent.optimization import (
 from resource_research_agent.optimization_models import (
     apply_verification_decisions,
     compact_source_bindings,
+    derive_verification_from_response,
     OptimizationModelError,
     OptimizationModelPipeline,
+    recompute_model_evaluation_audits,
+    recompute_persisted_verifications,
     remediate_invalid_factual_fields,
     restore_frozen_candidate_identity,
     restore_frozen_source_envelopes,
@@ -304,7 +308,7 @@ class ModelPipelineTests(unittest.TestCase):
         self.assertEqual(dossier["fields"]["petPolicy"], verified["fields"]["petPolicy"])
         self.assertEqual([], defects)
         self.assertIn(
-            "nonblocking-field-material-defect",
+            "supplementary-field-material-defect",
             {finding["code"] for finding in findings},
         )
         self.assertEqual(
@@ -350,7 +354,10 @@ class ModelPipelineTests(unittest.TestCase):
     def test_verifier_patch_cannot_mutate_identity_sources_or_unlisted_fields(self) -> None:
         dossier = {
             "candidateIdentity": {"organization": "Example", "program": "Food Box"},
-            "sources": [{"id": "source-1", "url": "https://example.org"}],
+            "sources": [
+                {"id": "source-1", "url": "https://example.org", "supports": []},
+                {"id": "source-2", "url": "https://example.net", "supports": []},
+            ],
             "fields": {
                 "phone": {"status": "supported", "value": "480-555-0100"},
                 "hours": {"status": "unknown", "reason": "Not published"},
@@ -381,7 +388,11 @@ class ModelPipelineTests(unittest.TestCase):
             ["phone", "hours"],
         )
         self.assertEqual(dossier["candidateIdentity"], verified["candidateIdentity"])
-        self.assertEqual(dossier["sources"], verified["sources"])
+        self.assertEqual(
+            [source["url"] for source in dossier["sources"]],
+            [source["url"] for source in verified["sources"]],
+        )
+        self.assertTrue(all(not source["supports"] for source in dossier["sources"]))
         self.assertEqual("unknown", verified["fields"]["phone"]["status"])
         self.assertEqual("conflicting", verified["fields"]["hours"]["status"])
         self.assertNotIn("inventedField", verified["fields"])
@@ -394,6 +405,227 @@ class ModelPipelineTests(unittest.TestCase):
             "forbidden-verifier-rewrite",
             {finding["code"] for finding in findings},
         )
+        conflict_support = [
+            binding
+            for source in verified["sources"]
+            for binding in source.get("supports", [])
+            if binding.get("field") == "hours"
+        ]
+        self.assertEqual(2, len(conflict_support))
+
+    def test_field_material_defect_is_quarantined_without_failing_candidate(self) -> None:
+        dossier = {
+            "fields": {
+                "hours": {"status": "supported", "value": "Always open"},
+            }
+        }
+        verified, findings, defects = apply_verification_decisions(
+            dossier,
+            {
+                "status": "passed",
+                "fieldDecisions": {"hours": {"action": "keep"}},
+                "materialDefects": [
+                    {
+                        "code": "altered-or-invented-source",
+                        "field": "hours",
+                        "reason": "The retained hours were attributed to the wrong source.",
+                    }
+                ],
+            },
+            ["hours"],
+        )
+        self.assertEqual("unknown", verified["fields"]["hours"]["status"])
+        self.assertEqual([], defects)
+        self.assertEqual("field-material-defect", findings[0]["code"])
+        self.assertEqual(
+            "needs-review",
+            verification_status(
+                final_issues=[],
+                material_defects=defects,
+                review_findings=findings,
+                requested_status="passed",
+            ),
+        )
+
+    def test_candidate_fatal_defect_still_fails(self) -> None:
+        _verified, findings, defects = apply_verification_decisions(
+            {"fields": {"geography": {"status": "unknown", "reason": "Not found"}}},
+            {
+                "status": "needs-review",
+                "fieldDecisions": {"geography": {"action": "keep"}},
+                "materialDefects": [
+                    {
+                        "code": "wrong-geography",
+                        "candidateViability": "candidate-fatal",
+                        "reason": "No credible evidence indicates service in the configured area.",
+                    }
+                ],
+            },
+            ["geography"],
+        )
+        self.assertEqual([], findings)
+        self.assertEqual("candidate-fatal", defects[0]["candidateViability"])
+        self.assertEqual(
+            "failed",
+            verification_status(
+                final_issues=[],
+                material_defects=defects,
+                review_findings=[],
+                requested_status="needs-review",
+            ),
+        )
+
+    def test_hosted_referral_attribution_can_be_semantically_resolved(self) -> None:
+        identity_key = "candidate org::coordinated entry"
+        packet = {
+            "candidateIdentity": {
+                "organization": "Candidate Org",
+                "program": "Coordinated Entry",
+                "identityKey": identity_key,
+            },
+            "sources": [
+                {
+                    "id": 1,
+                    "canonical_url": "https://referrer.example/access-points",
+                    "authority": "government-referral",
+                    "page_identity_key": "referrer::access point list",
+                    "extract": {
+                        "title": "Access points",
+                        "text": "Candidate Org provides coordinated entry.",
+                    },
+                }
+            ],
+        }
+        dossier = {
+            "candidateIdentity": {
+                "organization": "Candidate Org",
+                "program": "Coordinated Entry",
+                "identityKey": identity_key,
+                "componentIdentityKeys": [identity_key],
+            },
+            "sources": [
+                {
+                    "id": "1",
+                    "url": "https://referrer.example/access-points",
+                    "extract": "Candidate Org provides coordinated entry.",
+                    "authority": "government-referral",
+                    "pageIdentityKey": "referrer::access point list",
+                    "pageOrganizationKey": "referrer",
+                    "supports": [
+                        {
+                            "field": "description",
+                            "value": "Provides coordinated entry",
+                            "scope": "program",
+                        }
+                    ],
+                    "contradicts": [],
+                }
+            ],
+            "fields": {
+                "description": {
+                    "status": "supported",
+                    "value": "Provides coordinated entry",
+                    "evidenceIds": ["1"],
+                }
+            },
+        }
+        status, verified, findings = derive_verification_from_response(
+            dossier,
+            packet,
+            {
+                "status": "passed",
+                "fieldDecisions": {"description": {"action": "keep"}},
+                "materialDefects": [],
+                "findings": [
+                    {
+                        "code": "cross-program-evidence",
+                        "field": "description",
+                        "action": "flagged",
+                        "reason": "The page hosts a named multi-organization access-point list.",
+                    }
+                ],
+            },
+            ["description"],
+        )
+        self.assertEqual("needs-review", status)
+        self.assertEqual("supported", verified["fields"]["description"]["status"])
+        self.assertEqual([], findings["finalDeterministicFindings"])
+        self.assertEqual(
+            "cross-program-evidence",
+            findings["semanticResolutionFindings"][0]["deterministicCode"],
+        )
+
+    def test_false_semantic_conflict_does_not_delete_supported_field(self) -> None:
+        identity_key = "example::program"
+        packet_sources = []
+        dossier_sources = []
+        for source_id, value in ((1, "Short description"), (2, "Longer description")):
+            packet_sources.append(
+                {
+                    "id": source_id,
+                    "canonical_url": f"https://example.org/{source_id}",
+                    "authority": "direct-provider",
+                    "page_identity_key": identity_key,
+                    "extract": {"title": "Program", "text": value},
+                }
+            )
+            dossier_sources.append(
+                {
+                    "id": str(source_id),
+                    "url": f"https://example.org/{source_id}",
+                    "extract": value,
+                    "authority": "direct-provider",
+                    "pageIdentityKey": identity_key,
+                    "pageOrganizationKey": "example",
+                    "supports": [
+                        {"field": "description", "value": value, "scope": "program"}
+                    ],
+                    "contradicts": [],
+                }
+            )
+        packet = {
+            "candidateIdentity": {
+                "organization": "Example",
+                "program": "Program",
+                "identityKey": identity_key,
+            },
+            "sources": packet_sources,
+        }
+        dossier = {
+            "candidateIdentity": {
+                **packet["candidateIdentity"],
+                "componentIdentityKeys": [identity_key],
+            },
+            "sources": dossier_sources,
+            "fields": {
+                "description": {
+                    "status": "supported",
+                    "value": "Longer description",
+                    "evidenceIds": ["2"],
+                }
+            },
+        }
+        status, verified, findings = derive_verification_from_response(
+            dossier,
+            packet,
+            {
+                "status": "passed",
+                "fieldDecisions": {"description": {"action": "keep"}},
+                "materialDefects": [],
+                "findings": [
+                    {
+                        "code": "false-positive-conflict",
+                        "field": "description",
+                        "action": "flagged",
+                        "reason": "The two descriptions are complementary, not incompatible.",
+                    }
+                ],
+            },
+            ["description"],
+        )
+        self.assertEqual("needs-review", status)
+        self.assertEqual("supported", verified["fields"]["description"]["status"])
+        self.assertEqual([], findings["finalDeterministicFindings"])
 
     def test_frozen_source_envelope_is_restored_without_hiding_invented_ids(self) -> None:
         packet = {
@@ -526,8 +758,8 @@ class ModelPipelineTests(unittest.TestCase):
 
         self.assertTrue(result.quality_gate_passed)
         self.assertEqual(7, result.packet_count)
-        self.assertEqual(5, result.passed_count)
-        self.assertEqual(2, result.needs_review_count)
+        self.assertEqual(7, result.passed_count)
+        self.assertEqual(0, result.needs_review_count)
         self.assertEqual(0, result.failed_count)
         self.assertEqual(1, result.supported_field_count)
         self.assertEqual(7 * len(HOUSING_FACTUAL_FIELDS) - 1, result.unknown_field_count)
@@ -607,6 +839,67 @@ class ModelPipelineTests(unittest.TestCase):
             sum(len(candidate["unknowns"]) for candidate in candidates),
         )
         self.assertTrue(any(candidate.get("phone") == "480-000-0100" for candidate in candidates))
+
+    def test_completed_run_can_be_rederived_without_model_calls_and_with_history(self) -> None:
+        models = SeededFixtureModels()
+        result = self.pipeline(models, "model-fixture-rederive").run()
+        with self.store.connect() as connection:
+            verification = connection.execute(
+                """SELECT verification.id
+                   FROM optimization_verifications AS verification
+                   JOIN optimization_candidate_dossiers AS dossier
+                     ON dossier.id = verification.dossier_id
+                   WHERE dossier.run_id = ? ORDER BY dossier.packet_id LIMIT 1""",
+                (result.run_id,),
+            ).fetchone()
+            connection.execute(
+                "UPDATE optimization_verifications SET status = 'failed' WHERE id = ?",
+                (verification["id"],),
+            )
+            attempts_before = [
+                tuple(row)
+                for row in connection.execute(
+                    """SELECT id, operation, status, raw_output, parsed_json
+                       FROM optimization_model_attempts WHERE run_id = ? ORDER BY id""",
+                    (result.run_id,),
+                ).fetchall()
+            ]
+        recompute_model_evaluation_audits(self.store, result.run_id)
+
+        recomputed = recompute_persisted_verifications(self.store, result.run_id)
+        self.assertEqual(1, recomputed.before["statusCounts"]["failed"])
+        self.assertEqual(0, recomputed.after["statusCounts"]["failed"])
+        self.assertEqual(0, recomputed.model_inference_calls)
+        self.assertNotEqual(
+            recomputed.source_snapshot_sha256, recomputed.derived_snapshot_sha256
+        )
+
+        repeated = recompute_persisted_verifications(self.store, result.run_id)
+        self.assertEqual(recomputed.revision_id, repeated.revision_id)
+        with self.store.connect() as connection:
+            attempts_after = [
+                tuple(row)
+                for row in connection.execute(
+                    """SELECT id, operation, status, raw_output, parsed_json
+                       FROM optimization_model_attempts WHERE run_id = ? ORDER BY id""",
+                    (result.run_id,),
+                ).fetchall()
+            ]
+            revision_count = connection.execute(
+                """SELECT COUNT(*) FROM optimization_verification_revisions
+                   WHERE run_id = ?""",
+                (result.run_id,),
+            ).fetchone()[0]
+            with self.assertRaisesRegex(
+                sqlite3.IntegrityError, "verification revisions are immutable"
+            ):
+                connection.execute(
+                    """UPDATE optimization_verification_revisions
+                       SET policy_version = 'changed' WHERE id = ?""",
+                    (recomputed.revision_id,),
+                )
+        self.assertEqual(attempts_before, attempts_after)
+        self.assertEqual(1, revision_count)
 
     def test_non_housing_pipeline_uses_the_selected_playbook_field_contract(self) -> None:
         store = ResearchStore(Path(self.temporary.name) / "food.sqlite3")
@@ -941,8 +1234,8 @@ process.stdout.write(JSON.stringify({ state, package: built.data }));
         )
         mixed_result = mixed_pipeline.run()
         self.assertFalse(mixed_result.quality_gate_passed)
-        self.assertEqual(3, mixed_result.passed_count)
-        self.assertEqual(3, mixed_result.needs_review_count)
+        self.assertEqual(5, mixed_result.passed_count)
+        self.assertEqual(1, mixed_result.needs_review_count)
         self.assertEqual(1, mixed_result.failed_count)
         self.assertEqual(6, len(mixed_pipeline.verified_candidates(mixed_result.run_id)))
         with self.store.connect() as connection:
@@ -960,9 +1253,9 @@ process.stdout.write(JSON.stringify({ state, package: built.data }));
                     (mixed_result.run_id,),
                 ).fetchone()["report_json"]
             )
-        self.assertEqual(3, completeness["needsReviewCount"])
+        self.assertEqual(1, completeness["needsReviewCount"])
         self.assertEqual(1, completeness["failedCount"])
-        self.assertEqual(3, quality["verificationNeedsReview"])
+        self.assertEqual(1, quality["verificationNeedsReview"])
         self.assertEqual(1, quality["verificationFailures"])
         review = build_optimization_review_copy(
             self.store,
@@ -1262,8 +1555,8 @@ process.stdout.write(JSON.stringify({ state, package: built.data }));
         )
         result = pipeline.run()
         self.assertTrue(result.quality_gate_passed)
-        self.assertEqual(4, result.passed_count)
-        self.assertEqual(3, result.needs_review_count)
+        self.assertEqual(6, result.passed_count)
+        self.assertEqual(1, result.needs_review_count)
         self.assertEqual(0, result.failed_count)
         with self.store.connect() as connection:
             row = connection.execute(
@@ -1279,11 +1572,11 @@ process.stdout.write(JSON.stringify({ state, package: built.data }));
             ).fetchone()
         verified = json.loads(row["verified_dossier_json"])
         findings = json.loads(row["findings_json"])
-        self.assertEqual("unknown", verified["fields"]["phone"]["status"])
+        self.assertEqual("supported", verified["fields"]["phone"]["status"])
         self.assertEqual([], findings["finalDeterministicFindings"])
         self.assertEqual(
-            "deterministic-field-downgrade",
-            findings["deterministicRemediationFindings"][0]["code"],
+            "invalid-verifier-decision",
+            findings["verifierDecisionFindings"][0]["code"],
         )
 
     def test_verifier_failure_resumes_without_repeating_extraction(self) -> None:

@@ -149,8 +149,8 @@ class QuantizationComparisonTests(unittest.TestCase):
         eight = _quality_metrics(self.store, eight_run)
         self.assertTrue(four["priority1Accuracy"]["gatePassed"])
         self.assertEqual(0, four["priority1Accuracy"]["failedCandidates"])
-        self.assertEqual(3, four["priority1Accuracy"]["needsReviewCandidates"])
-        self.assertEqual(4, four["priority1Accuracy"]["passedCandidates"])
+        self.assertEqual(1, four["priority1Accuracy"]["needsReviewCandidates"])
+        self.assertEqual(6, four["priority1Accuracy"]["passedCandidates"])
         self.assertEqual(
             _quality_vector(four)[:3],
             _quality_vector(eight)[:3],
@@ -168,7 +168,7 @@ class QuantizationComparisonTests(unittest.TestCase):
             )
         self.assertTrue(quality["passed"])
         self.assertEqual(0, quality["verificationFailures"])
-        self.assertEqual(3, quality["verificationNeedsReview"])
+        self.assertEqual(1, quality["verificationNeedsReview"])
 
     def test_persisted_comparison_label_cannot_change_provenance(self) -> None:
         four_run = self.run_model("4-bit")

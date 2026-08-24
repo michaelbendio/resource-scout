@@ -32,6 +32,22 @@ VERIFICATION_MATERIAL_DEFECTS = {
     "unsupported-safety-critical-claim",
     "candidate-not-credible",
 }
+VERIFICATION_DERIVATION_POLICY_VERSION = "verifier-candidate-salvage-v1"
+VERIFIER_RESOLVED_ACTIONS = {"removed", "downgraded", "separated", "resolved"}
+SEMANTICALLY_RESOLVABLE_ISSUES = {
+    "contradicted-field",
+    "cross-organization-evidence",
+    "cross-program-evidence",
+    "lead-only-field",
+    "source-does-not-support-field",
+    "unresolved-conflict",
+}
+CANDIDATE_FATAL_DEFECTS = {
+    "identity-conflation",
+    "wrong-category",
+    "wrong-geography",
+    "candidate-not-credible",
+}
 
 
 class OptimizationModelError(RuntimeError):
@@ -68,6 +84,18 @@ class ModelEvaluationResult:
     unknown_field_count: int
     gap_count: int
     quality_gate_passed: bool
+
+
+@dataclass(frozen=True)
+class VerificationRecomputeResult:
+    run_id: int
+    policy_version: str
+    revision_id: int
+    source_snapshot_sha256: str
+    derived_snapshot_sha256: str
+    before: dict[str, Any]
+    after: dict[str, Any]
+    model_inference_calls: int = 0
 
 
 def _now() -> str:
@@ -165,8 +193,16 @@ def _persist_model_evaluation_audits(
     summary: dict[str, Any],
     gaps: list[dict[str, str]],
 ) -> None:
+    reports = _model_evaluation_audit_reports(summary, gaps)
+    with store.connect() as connection:
+        _write_model_evaluation_audits(connection, run_id, reports)
+
+
+def _model_evaluation_audit_reports(
+    summary: dict[str, Any], gaps: list[dict[str, str]]
+) -> dict[str, dict[str, Any]]:
     counts = summary["statusCounts"]
-    reports = {
+    return {
         "candidate-completeness": {
             "packetCount": summary["packetCount"],
             "passedCount": counts["passed"],
@@ -182,14 +218,20 @@ def _persist_model_evaluation_audits(
             "coverageGaps": gaps,
         },
     }
-    with store.connect() as connection:
-        for audit_type, report in reports.items():
-            connection.execute(
-                """INSERT OR REPLACE INTO optimization_audits (
-                       run_id, audit_type, created_at, report_json, report_sha256
-                   ) VALUES (?, ?, ?, ?, ?)""",
-                (run_id, audit_type, _now(), canonical_json(report), sha256_json(report)),
-            )
+
+
+def _write_model_evaluation_audits(
+    connection: Any,
+    run_id: int,
+    reports: dict[str, dict[str, Any]],
+) -> None:
+    for audit_type, report in reports.items():
+        connection.execute(
+            """INSERT OR REPLACE INTO optimization_audits (
+                   run_id, audit_type, created_at, report_json, report_sha256
+               ) VALUES (?, ?, ?, ?, ?)""",
+            (run_id, audit_type, _now(), canonical_json(report), sha256_json(report)),
+        )
 
 
 def recompute_model_evaluation_audits(store: ResearchStore, run_id: int) -> None:
@@ -223,6 +265,245 @@ def recompute_model_evaluation_audits(store: ResearchStore, run_id: int) -> None
     ]
     _persist_model_evaluation_audits(
         store, run_id, _summarize_verification_rows(rows), gaps
+    )
+
+
+def _persisted_verification_rows(store: ResearchStore, run_id: int) -> list[Any]:
+    with store.connect() as connection:
+        return connection.execute(
+            """SELECT verification.id AS verification_id,
+                      verification.dossier_id,
+                      verification.verification_attempt_id,
+                      verification.status,
+                      verification.verified_dossier_json,
+                      verification.verified_dossier_sha256,
+                      verification.findings_json,
+                      dossier.packet_id, dossier.dossier_json,
+                      dossier.dossier_sha256,
+                      packet.packet_json, packet.packet_sha256,
+                      attempt.status AS attempt_status,
+                      attempt.prompt_sha256, attempt.raw_output,
+                      attempt.parsed_json
+               FROM optimization_verifications AS verification
+               JOIN optimization_candidate_dossiers AS dossier
+                 ON dossier.id = verification.dossier_id
+               JOIN optimization_evidence_packets AS packet
+                 ON packet.id = dossier.packet_id
+               JOIN optimization_model_attempts AS attempt
+                 ON attempt.id = verification.verification_attempt_id
+               WHERE dossier.run_id = ? ORDER BY dossier.packet_id""",
+            (run_id,),
+        ).fetchall()
+
+
+def _gap_reports(store: ResearchStore, run_id: int) -> list[dict[str, str]]:
+    with store.connect() as connection:
+        rows = connection.execute(
+            """SELECT need_key, need_label, query_text, reason
+               FROM optimization_gap_queries WHERE run_id = ? ORDER BY need_key""",
+            (run_id,),
+        ).fetchall()
+    return [
+        {
+            "key": str(row["need_key"]),
+            "label": str(row["need_label"]),
+            "query": str(row["query_text"]),
+            "reason": str(row["reason"]),
+        }
+        for row in rows
+    ]
+
+
+def _verification_snapshot(
+    rows: Iterable[Any], reports: dict[str, dict[str, Any]]
+) -> dict[str, Any]:
+    row_list = list(rows)
+    raw_evidence = [
+        {
+            "packetId": int(row["packet_id"]),
+            "packetSha256": str(row["packet_sha256"]),
+            "dossierSha256": str(row["dossier_sha256"]),
+            "verificationAttemptId": int(row["verification_attempt_id"]),
+            "verificationPromptSha256": str(row["prompt_sha256"]),
+            "verificationRawOutput": str(row["raw_output"] or ""),
+            "verificationParsedJson": str(row["parsed_json"] or ""),
+        }
+        for row in row_list
+    ]
+    return {
+        "rawEvidenceSha256": sha256_json(raw_evidence),
+        "summary": _summarize_verification_rows(row_list),
+        "verifications": [
+            {
+                "verificationId": int(row["verification_id"]),
+                "dossierId": int(row["dossier_id"]),
+                "verificationAttemptId": int(row["verification_attempt_id"]),
+                "status": str(row["status"]),
+                "verifiedDossierJson": str(row["verified_dossier_json"]),
+                "verifiedDossierSha256": str(row["verified_dossier_sha256"]),
+                "findingsJson": str(row["findings_json"]),
+            }
+            for row in row_list
+        ],
+        "audits": reports,
+    }
+
+
+def _stored_audit_reports(store: ResearchStore, run_id: int) -> dict[str, dict[str, Any]]:
+    with store.connect() as connection:
+        rows = connection.execute(
+            """SELECT audit_type, report_json FROM optimization_audits
+               WHERE run_id = ? AND audit_type IN ('candidate-completeness', 'quality-gate')
+               ORDER BY audit_type""",
+            (run_id,),
+        ).fetchall()
+    return {str(row["audit_type"]): json.loads(row["report_json"]) for row in rows}
+
+
+def recompute_persisted_verifications(
+    store: ResearchStore,
+    run_id: int,
+    *,
+    policy_version: str = VERIFICATION_DERIVATION_POLICY_VERSION,
+) -> VerificationRecomputeResult:
+    if policy_version != VERIFICATION_DERIVATION_POLICY_VERSION:
+        raise OptimizationModelError(
+            f"Unsupported verification derivation policy {policy_version!r}"
+        )
+    with store.connect() as connection:
+        run = connection.execute(
+            """SELECT run.status, configuration.snapshot_json
+               FROM optimization_runs AS run
+               JOIN optimization_configurations AS configuration
+                 ON configuration.id = run.configuration_id
+               WHERE run.id = ?""",
+            (run_id,),
+        ).fetchone()
+        existing_revision = connection.execute(
+            """SELECT id, source_snapshot_json, source_snapshot_sha256,
+                      derived_snapshot_json, derived_snapshot_sha256
+               FROM optimization_verification_revisions
+               WHERE run_id = ? AND policy_version = ?""",
+            (run_id, policy_version),
+        ).fetchone()
+    if run is None or str(run["status"]) != "completed":
+        raise OptimizationModelError(
+            f"Optimization run {run_id} must be completed before verification recomputation"
+        )
+    rows = _persisted_verification_rows(store, run_id)
+    if not rows or any(str(row["attempt_status"]) != "completed" for row in rows):
+        raise OptimizationModelError(
+            f"Optimization run {run_id} has incomplete persisted verification attempts"
+        )
+    current_snapshot = _verification_snapshot(
+        rows, _stored_audit_reports(store, run_id)
+    )
+    current_sha256 = sha256_json(current_snapshot)
+    if existing_revision is not None:
+        if current_sha256 != str(existing_revision["derived_snapshot_sha256"]):
+            raise OptimizationModelError(
+                "Persisted verification state drifted after this immutable policy revision"
+            )
+        source_snapshot = json.loads(existing_revision["source_snapshot_json"])
+        derived_snapshot = json.loads(existing_revision["derived_snapshot_json"])
+        return VerificationRecomputeResult(
+            run_id=run_id,
+            policy_version=policy_version,
+            revision_id=int(existing_revision["id"]),
+            source_snapshot_sha256=str(existing_revision["source_snapshot_sha256"]),
+            derived_snapshot_sha256=str(existing_revision["derived_snapshot_sha256"]),
+            before=source_snapshot["summary"],
+            after=derived_snapshot["summary"],
+        )
+
+    snapshot = json.loads(run["snapshot_json"])
+    playbook = playbook_for(str(snapshot["targetCategoryId"]))
+    derived_rows: list[dict[str, Any]] = []
+    for row in rows:
+        response = json.loads(row["parsed_json"])
+        status, verified, findings = derive_verification_from_response(
+            json.loads(row["dossier_json"]),
+            json.loads(row["packet_json"]),
+            response,
+            playbook.factual_fields,
+            playbook.supplementary_fields,
+        )
+        derived_rows.append(
+            {
+                **dict(row),
+                "status": status,
+                "verified_dossier_json": canonical_json(verified),
+                "verified_dossier_sha256": sha256_json(verified),
+                "findings_json": canonical_json(findings),
+            }
+        )
+    gaps = _gap_reports(store, run_id)
+    summary = _summarize_verification_rows(derived_rows)
+    reports = _model_evaluation_audit_reports(summary, gaps)
+    derived_snapshot = _verification_snapshot(derived_rows, reports)
+    derived_sha256 = sha256_json(derived_snapshot)
+
+    with store.connect() as connection:
+        current_hashes = connection.execute(
+            """SELECT verification.id, verification.verified_dossier_sha256
+               FROM optimization_verifications AS verification
+               JOIN optimization_candidate_dossiers AS dossier
+                 ON dossier.id = verification.dossier_id
+               WHERE dossier.run_id = ? ORDER BY dossier.packet_id""",
+            (run_id,),
+        ).fetchall()
+        expected_hashes = [
+            (int(row["verification_id"]), str(row["verified_dossier_sha256"]))
+            for row in rows
+        ]
+        if [
+            (int(row["id"]), str(row["verified_dossier_sha256"]))
+            for row in current_hashes
+        ] != expected_hashes:
+            raise OptimizationModelError(
+                "Persisted verification state changed during recomputation"
+            )
+        revision_id = int(
+            connection.execute(
+                """INSERT INTO optimization_verification_revisions (
+                       run_id, created_at, policy_version,
+                       source_snapshot_json, source_snapshot_sha256,
+                       derived_snapshot_json, derived_snapshot_sha256
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    run_id,
+                    _now(),
+                    policy_version,
+                    canonical_json(current_snapshot),
+                    current_sha256,
+                    canonical_json(derived_snapshot),
+                    derived_sha256,
+                ),
+            ).lastrowid
+        )
+        for row in derived_rows:
+            connection.execute(
+                """UPDATE optimization_verifications
+                   SET status = ?, verified_dossier_json = ?,
+                       verified_dossier_sha256 = ?, findings_json = ?
+                   WHERE id = ?""",
+                (
+                    row["status"],
+                    row["verified_dossier_json"],
+                    row["verified_dossier_sha256"],
+                    row["findings_json"],
+                    row["verification_id"],
+                ),
+            )
+        _write_model_evaluation_audits(connection, run_id, reports)
+    return VerificationRecomputeResult(
+        run_id=run_id,
+        policy_version=policy_version,
+        revision_id=revision_id,
+        source_snapshot_sha256=current_sha256,
+        derived_snapshot_sha256=derived_sha256,
+        before=current_snapshot["summary"],
+        after=derived_snapshot["summary"],
     )
 
 
@@ -401,6 +682,68 @@ def remediate_invalid_factual_fields(
     return remediated, findings
 
 
+def _rewrite_conflict_bindings(
+    dossier: dict[str, Any], field: str, alternatives: Any
+) -> str:
+    if not isinstance(alternatives, list) or len(alternatives) < 2:
+        return "A conflicting decision requires at least two source-bound alternatives."
+    source_by_id = {
+        str(source.get("id")): source
+        for source in dossier.get("sources", [])
+        if isinstance(source, dict) and source.get("id") is not None
+    }
+    values: set[str] = set()
+    replacements: list[tuple[dict[str, Any], Any]] = []
+    for alternative in alternatives:
+        if not isinstance(alternative, dict) or "value" not in alternative:
+            return "Every conflicting alternative requires a value and evidence ids."
+        evidence_ids = alternative.get("evidenceIds")
+        if not isinstance(evidence_ids, list) or not evidence_ids:
+            return "Every conflicting alternative requires a value and evidence ids."
+        values.add(canonical_json(alternative["value"]))
+        for evidence_id in evidence_ids:
+            source = source_by_id.get(str(evidence_id))
+            if source is None:
+                return f"Conflicting alternative cites unknown source {evidence_id}."
+            replacements.append((source, alternative["value"]))
+    if len(values) < 2:
+        return "Conflicting alternatives must contain different values."
+    for source in source_by_id.values():
+        source["supports"] = [
+            binding
+            for binding in source.get("supports", [])
+            if not isinstance(binding, dict) or binding.get("field") != field
+        ]
+        source["contradicts"] = [
+            binding
+            for binding in source.get("contradicts", [])
+            if not isinstance(binding, dict) or binding.get("field") != field
+        ]
+    for source, value in replacements:
+        source.setdefault("supports", []).append(
+            {"field": field, "value": json.loads(canonical_json(value)), "scope": "program"}
+        )
+    return ""
+
+
+def _quarantine_field(
+    fields: dict[str, Any], field: str, code: str, reason: str
+) -> tuple[str, str]:
+    finding = fields.get(field)
+    if isinstance(finding, dict) and finding.get("status") == "unknown":
+        return "quarantined", reason
+    if isinstance(finding, dict) and finding.get("status") == "conflicting":
+        return (
+            "preserved-conflict",
+            "Scout retained the source-bound conflict and requires human review: " + reason,
+        )
+    fields[field] = {
+        "status": "unknown",
+        "reason": f"Scout quarantined this field after verifier defect {code}: {reason}",
+    }
+    return "quarantined", reason
+
+
 def apply_verification_decisions(
     dossier: dict[str, Any],
     response: dict[str, Any],
@@ -489,13 +832,14 @@ def apply_verification_decisions(
             )
         elif action == "mark-conflicting":
             alternatives = decision.get("alternatives")
-            if not isinstance(alternatives, list):
+            binding_error = _rewrite_conflict_bindings(verified, field, alternatives)
+            if binding_error:
                 decision_findings.append(
                     {
                         "code": "invalid-verifier-decision",
                         "field": field,
                         "action": "preserved",
-                        "reason": "A conflicting decision requires source-bound alternatives.",
+                        "reason": binding_error,
                     }
                 )
                 continue
@@ -553,9 +897,11 @@ def apply_verification_decisions(
         code = str(raw_defect.get("code") or "")
         reason = str(raw_defect.get("reason") or "").strip()
         field = str(raw_defect.get("field") or "")
+        candidate_viability = str(raw_defect.get("candidateViability") or "").strip()
         if (
             code not in VERIFICATION_MATERIAL_DEFECTS
             or not reason
+            or candidate_viability not in {"", "candidate-fatal", "field-quarantinable"}
             or (
                 code == "unsupported-safety-critical-claim"
                 and field not in required_set
@@ -570,16 +916,38 @@ def apply_verification_decisions(
                 }
             )
             continue
-        if field and field in non_blocking_set:
+        if field:
+            if field not in required_set:
+                decision_findings.append(
+                    {
+                        "code": "invalid-material-defect",
+                        "field": field,
+                        "action": "ignored",
+                        "reason": "Verifier material defect named a field outside this playbook contract.",
+                    }
+                )
+                continue
+            if candidate_viability == "candidate-fatal" and code in CANDIDATE_FATAL_DEFECTS:
+                material_defects.append(
+                    {
+                        "code": code,
+                        "reason": reason,
+                        "field": field,
+                        "candidateViability": candidate_viability,
+                    }
+                )
+                continue
+            action, quarantine_reason = _quarantine_field(fields, field, code, reason)
             decision_findings.append(
                 {
-                    "code": "nonblocking-field-material-defect",
-                    "field": field,
-                    "action": "ignored",
-                    "reason": (
-                        "This playbook classifies the field as supplementary; "
-                        "downgrade or flag it without rejecting the candidate."
+                    "code": (
+                        "supplementary-field-material-defect"
+                        if field in non_blocking_set
+                        else "field-material-defect"
                     ),
+                    "field": field,
+                    "action": action,
+                    "reason": quarantine_reason,
                 }
             )
             continue
@@ -587,14 +955,143 @@ def apply_verification_decisions(
             {
                 "code": code,
                 "reason": reason,
-                **(
-                    {"field": field}
-                    if field
-                    else {}
-                ),
+                "candidateViability": candidate_viability or "candidate-fatal",
             }
         )
     return verified, decision_findings, material_defects
+
+
+def _finding_requires_review(finding: Any) -> bool:
+    if not isinstance(finding, dict):
+        return True
+    return str(finding.get("action") or "") not in VERIFIER_RESOLVED_ACTIONS
+
+
+def _resolve_semantic_deterministic_findings(
+    issues: Iterable[dict[str, Any]],
+    verifier_findings: Iterable[Any],
+    field_decisions: Any,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    decisions = field_decisions if isinstance(field_decisions, dict) else {}
+    findings = [finding for finding in verifier_findings if isinstance(finding, dict)]
+    unresolved: list[dict[str, Any]] = []
+    resolutions: list[dict[str, Any]] = []
+    for issue in issues:
+        issue_code = str(issue.get("code") or "")
+        field = str(issue.get("field") or "")
+        if issue_code not in SEMANTICALLY_RESOLVABLE_ISSUES or not field:
+            unresolved.append(issue)
+            continue
+        decision = decisions.get(field)
+        decision_action = (
+            str(decision.get("action") or "") if isinstance(decision, dict) else ""
+        )
+        resolution = (
+            {
+                "reason": str(decision.get("reason") or "Verifier supplied a source-bound conflict.")
+            }
+            if decision_action == "mark-conflicting"
+            else None
+        )
+        for finding in findings:
+            if resolution is not None:
+                break
+            if str(finding.get("field") or "") != field:
+                continue
+            finding_code = str(finding.get("code") or "").lower()
+            action = str(finding.get("action") or "")
+            explicitly_resolved = (
+                action in VERIFIER_RESOLVED_ACTIONS
+                or "false-positive" in finding_code
+                or "erroneous" in finding_code
+                or (
+                    issue_code in {"cross-program-evidence", "cross-organization-evidence"}
+                    and finding_code == issue_code
+                    and decision_action == "keep"
+                )
+            )
+            if explicitly_resolved:
+                resolution = finding
+                break
+        if resolution is None:
+            unresolved.append(issue)
+            continue
+        resolutions.append(
+            {
+                "code": "semantic-verifier-resolution",
+                "field": field,
+                "action": "resolved",
+                "deterministicCode": issue_code,
+                "reason": str(resolution.get("reason") or "Verifier resolved the finding."),
+            }
+        )
+    return unresolved, resolutions
+
+
+def derive_verification_from_response(
+    dossier: dict[str, Any],
+    packet: dict[str, Any],
+    response: dict[str, Any],
+    required_fields: Iterable[str],
+    non_blocking_fields: Iterable[str] = (),
+) -> tuple[str, dict[str, Any], dict[str, Any]]:
+    required = tuple(required_fields)
+    initial_findings = validate_dossier_for_packet(dossier, packet, required)
+    verifier_findings = response.get("findings", [])
+    if not isinstance(verifier_findings, list):
+        raise OptimizationModelError("Verifier findings must be an array")
+    verified, decision_findings, material_defects = apply_verification_decisions(
+        dossier, response, required, non_blocking_fields
+    )
+    post_verifier_findings = validate_dossier_for_packet(verified, packet, required)
+    unresolved_post, semantic_resolutions = _resolve_semantic_deterministic_findings(
+        post_verifier_findings, verifier_findings, response.get("fieldDecisions")
+    )
+    verified, deterministic_remediation = remediate_invalid_factual_fields(
+        verified, unresolved_post, required
+    )
+    raw_final_findings = validate_dossier_for_packet(verified, packet, required)
+    final_findings, final_resolutions = _resolve_semantic_deterministic_findings(
+        raw_final_findings, verifier_findings, response.get("fieldDecisions")
+    )
+    seen_resolutions = {
+        (item.get("field"), item.get("deterministicCode"))
+        for item in semantic_resolutions
+    }
+    semantic_resolutions.extend(
+        item
+        for item in final_resolutions
+        if (item.get("field"), item.get("deterministicCode")) not in seen_resolutions
+    )
+    review_findings = [
+        finding
+        for finding in (
+            *decision_findings,
+            *deterministic_remediation,
+            *verifier_findings,
+        )
+        if _finding_requires_review(finding)
+    ]
+    requested_status = str(response.get("status") or "passed")
+    status = verification_status(
+        final_issues=final_findings,
+        material_defects=material_defects,
+        review_findings=review_findings,
+        requested_status=requested_status,
+    )
+    findings = {
+        "derivationPolicyVersion": VERIFICATION_DERIVATION_POLICY_VERSION,
+        "initialDeterministicFindings": initial_findings,
+        "verifierFindings": verifier_findings,
+        "verifierDecisionFindings": decision_findings,
+        "materialDefects": material_defects,
+        "postVerifierDeterministicFindings": post_verifier_findings,
+        "semanticResolutionFindings": semantic_resolutions,
+        "deterministicRemediationFindings": deterministic_remediation,
+        "rawFinalDeterministicFindings": raw_final_findings,
+        "finalDeterministicFindings": final_findings,
+    }
+    return status, verified, findings
 
 
 def verification_status(
@@ -894,6 +1391,8 @@ class OptimizationModelPipeline:
                 "Use mark-conflicting only for source-bound incompatible values.",
                 "Use flag-review when the field is usable but needs human attention.",
                 "Report material identity, category, geography, source, safety, or credibility defects separately.",
+                "A field defect is field-quarantinable when removing that field leaves a truthful candidate.",
+                "Use candidate-fatal only when core identity, current service, relevant geography, or credible existence cannot remain truthful after unsafe fields are removed.",
                 "Do not invent replacement facts.",
                 "Do not return or rewrite the dossier, identity, or source envelopes.",
             ],
@@ -932,6 +1431,7 @@ class OptimizationModelPipeline:
                             "or candidate-not-credible"
                         ),
                         "field": "field name when applicable",
+                        "candidateViability": "field-quarantinable or candidate-fatal",
                         "reason": "evidence-based explanation",
                     }
                 ],
@@ -954,23 +1454,12 @@ class OptimizationModelPipeline:
         attempt_id = self._start_attempt(run_id, packet_id, "verify", prompt)
         try:
             invocation = _invocation(self.verify(prompt))
-            verifier_findings = invocation.result.get("findings", [])
-            if not isinstance(verifier_findings, list):
-                raise OptimizationModelError("Verifier findings must be an array")
-            verified, decision_findings, material_defects = apply_verification_decisions(
+            status, verified, findings = derive_verification_from_response(
                 dossier,
+                packet,
                 invocation.result,
                 self.required_fields,
                 self.playbook.supplementary_fields,
-            )
-            post_verifier_issues = validate_dossier_for_packet(
-                verified, packet, self.required_fields
-            )
-            verified, deterministic_remediation = remediate_invalid_factual_fields(
-                verified, post_verifier_issues, self.required_fields
-            )
-            final_issues = validate_dossier_for_packet(
-                verified, packet, self.required_fields
             )
         except BaseException as error:
             self._fail_attempt(
@@ -980,26 +1469,6 @@ class OptimizationModelPipeline:
                 usage=getattr(error, "usage", None),
             )
             raise
-        requested_status = str(invocation.result.get("status") or "passed")
-        status = verification_status(
-            final_issues=final_issues,
-            material_defects=material_defects,
-            review_findings=(
-                *decision_findings,
-                *deterministic_remediation,
-                *verifier_findings,
-            ),
-            requested_status=requested_status,
-        )
-        findings = {
-            "initialDeterministicFindings": deterministic_findings,
-            "verifierFindings": verifier_findings,
-            "verifierDecisionFindings": decision_findings,
-            "materialDefects": material_defects,
-            "postVerifierDeterministicFindings": post_verifier_issues,
-            "deterministicRemediationFindings": deterministic_remediation,
-            "finalDeterministicFindings": final_issues,
-        }
         with self.store.connect() as connection:
             raw = invocation.raw_output or canonical_json(invocation.result)
             connection.execute(
@@ -1034,7 +1503,7 @@ class OptimizationModelPipeline:
                 "packetId": packet_id,
                 "status": status,
                 "initialFindingCount": len(deterministic_findings),
-                "finalFindingCount": len(final_issues),
+                "finalFindingCount": len(findings["finalDeterministicFindings"]),
             }
         )
 

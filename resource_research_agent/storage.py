@@ -576,6 +576,27 @@ CREATE TABLE IF NOT EXISTS optimization_verifications (
     findings_json TEXT NOT NULL,
     UNIQUE (dossier_id)
 );
+CREATE TABLE IF NOT EXISTS optimization_verification_revisions (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL REFERENCES optimization_runs(id) ON DELETE CASCADE,
+    created_at TEXT NOT NULL,
+    policy_version TEXT NOT NULL,
+    source_snapshot_json TEXT NOT NULL,
+    source_snapshot_sha256 TEXT NOT NULL CHECK (length(source_snapshot_sha256) = 64),
+    derived_snapshot_json TEXT NOT NULL,
+    derived_snapshot_sha256 TEXT NOT NULL CHECK (length(derived_snapshot_sha256) = 64),
+    UNIQUE (run_id, policy_version)
+);
+CREATE TRIGGER IF NOT EXISTS optimization_verification_revisions_immutable_update
+BEFORE UPDATE ON optimization_verification_revisions
+BEGIN
+    SELECT RAISE(ABORT, 'optimization verification revisions are immutable');
+END;
+CREATE TRIGGER IF NOT EXISTS optimization_verification_revisions_immutable_delete
+BEFORE DELETE ON optimization_verification_revisions
+BEGIN
+    SELECT RAISE(ABORT, 'optimization verification revisions are immutable');
+END;
 CREATE TABLE IF NOT EXISTS optimization_gap_queries (
     id INTEGER PRIMARY KEY,
     run_id INTEGER NOT NULL REFERENCES optimization_runs(id) ON DELETE CASCADE,
