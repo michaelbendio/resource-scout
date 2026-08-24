@@ -204,6 +204,14 @@ fresh query plan with `--prior-lead-manifest`:
   --prior-lead-manifest /path/to/mesa-housing-stabilization-routed-v1.json \
   --cache /path/to/housing-stabilization-ddgs-v1.json \
   --review /path/to/housing-stabilization-review-v1.json
+
+./freeze-qwen-housing-corpus.py \
+  --database /path/to/mesa-qwen-benchmark.sqlite3 \
+  --package /path/to/resource-package.zip \
+  --cache /path/to/housing-stabilization-ddgs-v1.json \
+  --review /path/to/housing-stabilization-review-v1.json \
+  --playbook-audit /path/to/mesa-housing-stabilization-audit-v1.json \
+  --prior-lead-manifest /path/to/mesa-housing-stabilization-routed-v1.json
 ```
 
 The resulting hashed query plan records the candidate-specific closure, relocation,

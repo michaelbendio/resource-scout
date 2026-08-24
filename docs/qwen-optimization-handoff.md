@@ -170,8 +170,31 @@ nonprogram results. Application `0.26.0` adds
 `exact-url-title-snippet-excluded-only-v1`: it may reuse only an exclusion whose
 URL, title, and snippet are identical in the earlier reviewed ledger. It reused
 5 stabilization, 14 specialized, and 8 long-term exclusions; it cannot copy
-candidate decisions, and changed results remain Pending. The remaining ledgers
-are not yet fully dispositioned and no later-stage corpus has been frozen.
+candidate decisions, and changed results remain Pending.
+
+Later-stage exact-review checkpoint (2026-08-24): all 683 stage URL occurrences
+are now dispositioned. Stabilization preserves 16 identities (8 eligible, 2
+review-required, 6 noncandidate); specialized housing preserves 32 identities
+(11 eligible, 11 review-required, 10 noncandidate); long-term/gap preserves 26
+identities (12 eligible, 8 review-required, 6 noncandidate). Final review hashes
+are `e610a8bf82e96d394c4e1358151dfd9fb3293556f7c1c5f8cfc7dbcd58708877`,
+`21fc0e57c7c0f57e6cebe464b0db3b163815a9f062d20aca5e16a85db6aa2d12`,
+and `2bd5d54d3e961e834e8765218a04679b3b30f594e46d968ab2352fe57f6ce7e7`.
+Schema-2 audit hashes are
+`0b91425c682ac0ba4a7c5596bf9e4377fe5dd2b088ea4162d6a08d6d4f2a4839`,
+`35a9783a563335c131bca3120348b76cf3299c862027818d32e1e1c620be4c7a`,
+and `39bafa353151452456bf48033dd0d6e057239bfe7c52616474303effd3a5aa94`.
+Each audit explicitly records no referral graph, complete branch and factual
+field contracts, category/location-neutral role gates, and nonblocking unknown
+pet policy.
+
+Application `0.27.0` adds the missing freeze-side prior-lead handoff. When the
+cached plan contains `priorResultLeadManifestSha256`,
+`freeze-qwen-housing-corpus.py` now requires the matching
+`--prior-lead-manifest`, normalizes it, verifies its hash, and passes it to the
+discovery pipeline. Missing, extra, or mismatched manifests fail before a run is
+created. The first pre-fix freeze attempt failed closed on this exact invariant;
+it created no benchmark run and performed no model inference.
 
 Stage 7 preparation production verification (2026-08-24): commit `0b51527`
 was pushed, the production LaunchAgent was restarted, and loopback plus the

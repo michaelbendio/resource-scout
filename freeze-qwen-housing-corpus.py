@@ -22,6 +22,7 @@ from resource_research_agent.optimization_playbook_audit import (
     normalize_optimization_playbook_audit,
 )
 from resource_research_agent.playbooks import playbook_for
+from resource_research_agent.prior_leads import normalize_prior_lead_manifest
 from resource_research_agent.referral_graph import (
     attach_referral_graph_to_query_plan,
     normalize_referral_graph,
@@ -39,6 +40,7 @@ parser.add_argument("--package", type=Path, required=True)
 parser.add_argument("--cache", type=Path, required=True)
 parser.add_argument("--review", type=Path, required=True)
 parser.add_argument("--playbook-audit", type=Path, required=True)
+parser.add_argument("--prior-lead-manifest", type=Path)
 parser.add_argument("--referral-graph", type=Path)
 parser.add_argument("--referral-review", type=Path)
 parser.add_argument("--label")
@@ -62,6 +64,25 @@ if not isinstance(plan, dict):
 validate_query_plan(plan)
 if sha256_json(plan) != cache.get("queryPlanSha256"):
     raise SystemExit("Search cache query-plan hash does not match its snapshot")
+expected_prior_lead_manifest_sha256 = str(
+    plan.get("priorResultLeadManifestSha256") or ""
+)
+if bool(expected_prior_lead_manifest_sha256) != bool(arguments.prior_lead_manifest):
+    raise SystemExit(
+        "Query plan and --prior-lead-manifest must either both include a manifest or both omit it"
+    )
+prior_lead_manifest = None
+if arguments.prior_lead_manifest:
+    prior_lead_manifest = normalize_prior_lead_manifest(
+        json.loads(arguments.prior_lead_manifest.read_text(encoding="utf-8"))
+    )
+    if (
+        prior_lead_manifest["manifestSha256"]
+        != expected_prior_lead_manifest_sha256
+    ):
+        raise SystemExit(
+            "Prior-result lead manifest hash does not match the search query plan"
+        )
 category_id = str(plan["categoryId"])
 stage_key = str(plan["stageKey"])
 target_location = str(plan["targetLocation"])
@@ -178,6 +199,7 @@ result = OptimizationDiscoveryPipeline(
     fetch=SafeFetchClient(),
     resolve_identity=resolver,
     existing_resources=existing,
+    prior_lead_manifest=prior_lead_manifest,
     referral_graph=referral_graph,
     progress=lambda event: print(json.dumps(event, sort_keys=True), flush=True),
 ).run()

@@ -547,7 +547,29 @@ wrong-geography results, and unrelated content. Application `0.26.0` then added
 an exact-result reuse gate: only a previous exclusion with the identical URL,
 title, and snippet may carry forward. It reused 5, 14, and 8 exclusions across
 the three stages; it copied zero candidate decisions, and every changed result
-remained Pending.
+remained Pending. The completed exact ledgers now disposition all 683 stage URL
+occurrences. Stabilization preserves 16 identities: 8 eligible, 2
+review-required, and 6 noncandidates. Specialized housing preserves 32
+identities: 11 eligible, 11 review-required, and 10 noncandidates. Long-term and
+gap review preserves 26 identities: 12 eligible, 8 review-required, and 6
+noncandidates. Their final review SHA-256 values are
+`e610a8bf82e96d394c4e1358151dfd9fb3293556f7c1c5f8cfc7dbcd58708877`,
+`21fc0e57c7c0f57e6cebe464b0db3b163815a9f062d20aca5e16a85db6aa2d12`,
+and `2bd5d54d3e961e834e8765218a04679b3b30f594e46d968ab2352fe57f6ce7e7`.
+The matching schema-2 playbook-audit hashes are
+`0b91425c682ac0ba4a7c5596bf9e4377fe5dd2b088ea4162d6a08d6d4f2a4839`,
+`35a9783a563335c131bca3120348b76cf3299c862027818d32e1e1c620be4c7a`,
+and `39bafa353151452456bf48033dd0d6e057239bfe7c52616474303effd3a5aa94`.
+They explicitly record that no referral graph was used, preserve unknown pet
+policy as supplementary and nonblocking, and enforce one program identity
+rather than one candidate per directory, access point, property fragment, or
+evidence copy.
+
+Application `0.27.0` closes the later-stage freeze handoff: a cache whose exact
+query plan includes a prior-result lead-manifest hash must now receive the
+matching `--prior-lead-manifest`, which is normalized and passed into discovery.
+Missing, extra, or hash-mismatched manifests fail before a run is created. This
+preserves routed-lead provenance without copying historical qualification facts.
 
 Compare the complete result with frozen DeepSeek Housing and every preserved Qwen
 Housing run. Compare like stages and report the union and overlap only after
