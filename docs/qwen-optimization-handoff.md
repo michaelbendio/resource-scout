@@ -134,6 +134,26 @@ removable export and machine-provenance portion of Step 6. Phone vetting, saved
 Curator work, an additions package, the merged package, and the second Scout
 cycle remain human-evidence boundaries and have not been simulated.
 
+Stage 7 deterministic preparation checkpoint (2026-08-24): application `0.25.0`
+preserves the exact audited urgent-stage query plan and adds separate Mesa Housing
+calibration plans for stabilization, specialized housing, and long-term/gap
+review. Reusable search caching now requires an explicit validated query plan;
+corpus freezing and model execution derive their category, stage, location,
+regional scope, and playbook contracts from frozen inputs. Food regressions prove
+that those boundaries do not inherit Housing fields or stage keys. Playbook-audit
+schema 2 explicitly supports stages with no reviewed referral graph. A read-only
+routed-stage exporter turns the 16 identities routed by authoritative discovery
+run 31 into names, aliases, URLs, and immutable source provenance only. It does
+not copy qualification facts or promote a lead. Run 31's routed set contains 9
+earlier eligible identities, 4 review-required identities, and 3 noncandidates;
+all must pass fresh target-stage gates. This supersedes the stale forward-plan
+reference to 11 routed identities from discovery run 19.
+The persisted run-31 routed manifests contain 5 stabilization, 6 specialized,
+and 5 long-term/gap leads. Their SHA-256 values are
+`e9a7e15a6e6420dd75d953e5cb05ae268eb08d50585a469063d112a7413eef4d`,
+`bbe7821f341774c543e13e66c8308a3f8a095668b55c1de7fb70dc3be76c1b35`,
+and `e79ffba82a00ada80a00a90ec9d3214bf91246924e21e7c728f59d3e5b7d930d`.
+
 The stale Scout-only curation write path has also been removed. Scout no longer
 contains an accepted-resource manager or storage methods that can record review
 decisions, edit generated resources, assess candidate relationships, or build a
@@ -250,7 +270,7 @@ actionability gates in
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
 - Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
-- Application version: `0.24.0`
+- Application version: `0.25.0`
 - Increment the application version before pushing any functional or user-visible
   change. Pure internal refactors and documentation-only corrections do not require
   a version increment.
@@ -260,7 +280,7 @@ actionability gates in
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
-- The full Python suite most recently passed 212 tests with one optional skip.
+- The full Python suite most recently passed 217 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.

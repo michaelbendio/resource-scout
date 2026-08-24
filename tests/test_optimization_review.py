@@ -11,6 +11,7 @@ from resource_research_agent.optimization_review import (
     apply_identity_review_patch,
     build_identity_review_exclusion_patch,
     build_reviewed_housing_query_plan,
+    cache_optimization_searches,
     cache_housing_searches,
     identity_review_template,
     merge_identity_review,
@@ -23,6 +24,8 @@ from resource_research_agent.optimization import (
     sha256_json,
 )
 from resource_research_agent.optimization_housing_calibration import (
+    HOUSING_STAGE_KEYS,
+    build_housing_stage_query_plan,
     build_housing_urgent_query_plan,
 )
 from resource_research_agent.query_expansion import augment_query_plan_with_targeted_branch
@@ -48,6 +51,78 @@ def qualified_identity(organization: str, program: str, **values) -> dict:
 
 
 class OptimizationReviewTests(unittest.TestCase):
+    def test_housing_calibration_has_distinct_valid_plans_for_all_four_stages(self) -> None:
+        plans = {
+            stage_key: build_housing_stage_query_plan(
+                "Mesa",
+                "Maricopa County and nearby areas",
+                stage_key=stage_key,
+            )
+            for stage_key in HOUSING_STAGE_KEYS
+        }
+        self.assertEqual(set(HOUSING_STAGE_KEYS), set(plans))
+        self.assertEqual(
+            build_housing_urgent_query_plan(
+                "Mesa", "Maricopa County and nearby areas"
+            ),
+            plans["urgent-access"],
+        )
+        branch_sets = {
+            stage_key: {branch["key"] for branch in plan["branches"]}
+            for stage_key, plan in plans.items()
+        }
+        self.assertNotEqual(
+            branch_sets["stabilization"], branch_sets["specialized-housing"]
+        )
+        self.assertNotEqual(
+            branch_sets["specialized-housing"], branch_sets["long-term-and-gaps"]
+        )
+        self.assertNotIn("official-city", branch_sets["stabilization"])
+
+    def test_generic_cache_uses_non_housing_plan_without_hidden_defaults(self) -> None:
+        plan = {
+            "schemaVersion": 4,
+            "candidateQualificationPolicyVersion": "candidate-qualification-gates-v2",
+            "categoryId": "food",
+            "stageKey": "immediate-food",
+            "targetLocation": "Provo",
+            "regionalScope": "Utah County",
+            "branches": [
+                {
+                    "key": "direct-food",
+                    "purpose": "Find direct food access.",
+                    "required": True,
+                    "saturation": {
+                        "minimumQueries": 1,
+                        "maximumQueries": 1,
+                        "consecutiveNoNewIdentityQueries": 1,
+                        "noveltyUnit": "package-eligible identity",
+                    },
+                    "queries": [
+                        {
+                            "key": "direct-food-1",
+                            "position": 1,
+                            "purpose": "Find direct food access.",
+                            "query": "Provo current food pantry intake",
+                        }
+                    ],
+                }
+            ],
+        }
+        calls = []
+        with tempfile.TemporaryDirectory() as directory:
+            cache = cache_optimization_searches(
+                Path(directory) / "food.json",
+                query_plan=plan,
+                search=lambda query, _limit: calls.append(query) or [],
+                minimum_queries=1,
+                maximum_queries=1,
+                saturation_queries=1,
+            )
+        self.assertEqual(["Provo current food pantry intake"], calls)
+        self.assertEqual("food", cache["queryPlan"]["categoryId"])
+        self.assertEqual("immediate-food", cache["queryPlan"]["stageKey"])
+
     def test_reviewed_query_plan_includes_every_urgent_status_check(self) -> None:
         review = {
             "decisions": {

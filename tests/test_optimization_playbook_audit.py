@@ -226,6 +226,56 @@ class OptimizationPlaybookAuditTests(unittest.TestCase):
         self.assertEqual("immediate-food", normalized["stageKey"])
         self.assertNotIn("petPolicy", normalized["supplementaryFields"])
 
+    def test_schema_two_allows_a_stage_without_a_referral_graph(self) -> None:
+        plan = {
+            "schemaVersion": 4,
+            "candidateQualificationPolicyVersion": "candidate-qualification-gates-v2",
+            "categoryId": "food",
+            "stageKey": "immediate-food",
+            "targetLocation": "Mesa",
+            "regionalScope": "Maricopa County and nearby areas",
+            "branches": [
+                {
+                    "key": "direct-food",
+                    "purpose": "Find current direct food access.",
+                    "required": True,
+                    "saturation": {
+                        "minimumQueries": 1,
+                        "maximumQueries": 1,
+                        "consecutiveNoNewIdentityQueries": 1,
+                        "noveltyUnit": "package-eligible identity",
+                    },
+                    "queries": [
+                        {
+                            "key": "direct-food-1",
+                            "position": 1,
+                            "purpose": "Find current direct food access.",
+                            "query": "Mesa current food pantry intake",
+                        }
+                    ],
+                }
+            ],
+        }
+        audit = fixture_audit(plan, "food")
+        audit.update(
+            {
+                "schemaVersion": 2,
+                "policyVersion": "optimization-playbook-audit-v2",
+                "corpusComponents": {
+                    "referralGraphSha256": None,
+                    "referralReviewSha256": None,
+                },
+            }
+        )
+        normalized = normalize_optimization_playbook_audit(
+            audit,
+            query_plan=plan,
+            playbook=playbook_for("food"),
+        )
+        self.assertEqual(2, normalized["schemaVersion"])
+        self.assertIsNone(normalized["corpusComponents"]["referralGraphSha256"])
+        self.assertIsNone(normalized["corpusComponents"]["referralReviewSha256"])
+
 
 if __name__ == "__main__":
     unittest.main()

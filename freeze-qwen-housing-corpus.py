@@ -33,7 +33,7 @@ from resource_research_agent.referral_review import (
 from resource_research_agent.storage import ResearchStore
 
 
-parser = argparse.ArgumentParser(description="Freeze the reviewed first-stage Housing corpus")
+parser = argparse.ArgumentParser(description="Freeze a reviewed calibration corpus")
 parser.add_argument("--database", type=Path, required=True)
 parser.add_argument("--package", type=Path, required=True)
 parser.add_argument("--cache", type=Path, required=True)
@@ -41,6 +41,7 @@ parser.add_argument("--review", type=Path, required=True)
 parser.add_argument("--playbook-audit", type=Path, required=True)
 parser.add_argument("--referral-graph", type=Path)
 parser.add_argument("--referral-review", type=Path)
+parser.add_argument("--label")
 arguments = parser.parse_args()
 
 if bool(arguments.referral_graph) != bool(arguments.referral_review):
@@ -49,7 +50,6 @@ if bool(arguments.referral_graph) != bool(arguments.referral_review):
 cache = json.loads(arguments.cache.read_text(encoding="utf-8"))
 review = json.loads(arguments.review.read_text(encoding="utf-8"))
 validate_identity_review(cache, review)
-package = ResourcePackageImporter("housing").read(arguments.package)
 query_policy = cache.get("queryPolicy") or {
     "minimumQueries": 2,
     "maximumQueries": 6,
@@ -62,7 +62,12 @@ if not isinstance(plan, dict):
 validate_query_plan(plan)
 if sha256_json(plan) != cache.get("queryPlanSha256"):
     raise SystemExit("Search cache query-plan hash does not match its snapshot")
-playbook = playbook_for("housing")
+category_id = str(plan["categoryId"])
+stage_key = str(plan["stageKey"])
+target_location = str(plan["targetLocation"])
+regional_scope = str(plan["regionalScope"])
+package = ResourcePackageImporter(category_id).read(arguments.package)
+playbook = playbook_for(category_id)
 referral_graph = None
 referral_review = None
 if arguments.referral_graph:
@@ -84,22 +89,21 @@ playbook_audit = normalize_optimization_playbook_audit(
         referral_review["reviewSha256"] if referral_review else None
     ),
 )
-if not referral_graph:
-    raise SystemExit("The audited revised corpus requires its referral graph and review")
-if (
-    playbook_audit["corpusComponents"]["referralGraphSha256"]
-    != referral_graph["graphSha256"]
-    or playbook_audit["corpusComponents"]["referralReviewSha256"]
-    != referral_review["reviewSha256"]
+expected_graph = playbook_audit["corpusComponents"]["referralGraphSha256"]
+expected_review = playbook_audit["corpusComponents"]["referralReviewSha256"]
+if bool(expected_graph) != bool(referral_graph):
+    raise SystemExit("Playbook audit and supplied referral components do not match")
+if referral_graph and (
+    expected_graph != referral_graph["graphSha256"]
+    or expected_review != referral_review["reviewSha256"]
 ):
     raise SystemExit("Playbook audit referral components do not match the supplied files")
 if referral_graph:
     plan = attach_referral_graph_to_query_plan(plan, referral_graph)
 configuration = {
-    "label": (
-        "mesa-housing-urgent-reviewed-ddgs-v11"
-        f"{'-referral' if referral_graph else ''}-2026-08-23-"
-        f"{sha256_json(review)[:12]}"
+    "label": arguments.label or (
+        f"{target_location.casefold().replace(' ', '-')}-{category_id}-{stage_key}-"
+        f"reviewed-ddgs-{sha256_json(review)[:12]}"
     ),
     "modelArtifact": "none",
     "quantization": "none",
@@ -115,10 +119,10 @@ configuration = {
     "playbookVersion": playbook.library_version,
     "sourcePackageSha256": package.sha256,
     "sourcePackageVersion": str(package.schema.package_version),
-    "targetLocation": "Mesa",
-    "regionalScope": "Maricopa County and nearby areas",
-    "targetCategoryId": "housing",
-    "stageKey": "urgent-access",
+    "targetLocation": target_location,
+    "regionalScope": regional_scope,
+    "targetCategoryId": category_id,
+    "stageKey": stage_key,
     "limits": {
         "modelFallbacks": [],
         "searchFallbacks": [],

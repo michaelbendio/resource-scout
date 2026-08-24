@@ -13,8 +13,9 @@ from .optimization import (
     candidate_qualification,
     canonicalize_discovery_url,
     sha256_json,
+    validate_query_plan,
 )
-from .optimization_housing_calibration import build_housing_urgent_query_plan
+from .optimization_housing_calibration import build_housing_stage_query_plan
 from .optimization_runtime import DDGSSearchClient, OptimizationRuntimeError
 
 
@@ -35,12 +36,14 @@ def build_reviewed_housing_query_plan(
     saturation_queries: int,
     candidate_status_review: dict[str, Any] | None = None,
     include_routed_status: bool = False,
+    stage_key: str = "urgent-access",
 ) -> dict[str, Any]:
     """Build the exact base-and-status query plan shared by cache and freeze."""
 
-    plan = build_housing_urgent_query_plan(
+    plan = build_housing_stage_query_plan(
         "Mesa",
         "Maricopa County and nearby areas",
+        stage_key=stage_key,
         minimum_queries=minimum_queries,
         maximum_queries=maximum_queries,
         saturation_queries=saturation_queries,
@@ -57,27 +60,20 @@ def build_reviewed_housing_query_plan(
     )
 
 
-def cache_housing_searches(
+def cache_optimization_searches(
     path: Path,
     *,
+    query_plan: dict[str, Any],
     search: Callable[[str, int], list[dict[str, Any]]] | None = None,
     progress: Callable[[str], None] | None = None,
     minimum_queries: int = 2,
     maximum_queries: int = 6,
     saturation_queries: int = 2,
     results_per_query: int = 8,
-    candidate_status_review: dict[str, Any] | None = None,
-    include_routed_status: bool = False,
     previous_cache: dict[str, Any] | None = None,
-    query_plan: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    plan = deepcopy(query_plan) if query_plan is not None else build_reviewed_housing_query_plan(
-        minimum_queries=minimum_queries,
-        maximum_queries=maximum_queries,
-        saturation_queries=saturation_queries,
-        candidate_status_review=candidate_status_review,
-        include_routed_status=include_routed_status,
-    )
+    plan = deepcopy(query_plan)
+    validate_query_plan(plan)
     plan_hash = sha256_json(plan)
     if path.exists():
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -141,6 +137,48 @@ def cache_housing_searches(
     value["cacheSha256"] = sha256_json(value["queries"])
     _write_json(path, value)
     return value
+
+
+def cache_housing_searches(
+    path: Path,
+    *,
+    search: Callable[[str, int], list[dict[str, Any]]] | None = None,
+    progress: Callable[[str], None] | None = None,
+    minimum_queries: int = 2,
+    maximum_queries: int = 6,
+    saturation_queries: int = 2,
+    results_per_query: int = 8,
+    candidate_status_review: dict[str, Any] | None = None,
+    include_routed_status: bool = False,
+    previous_cache: dict[str, Any] | None = None,
+    query_plan: dict[str, Any] | None = None,
+    stage_key: str = "urgent-access",
+) -> dict[str, Any]:
+    """Compatibility wrapper for the Mesa Housing calibration cache."""
+
+    plan = (
+        deepcopy(query_plan)
+        if query_plan is not None
+        else build_reviewed_housing_query_plan(
+            minimum_queries=minimum_queries,
+            maximum_queries=maximum_queries,
+            saturation_queries=saturation_queries,
+            candidate_status_review=candidate_status_review,
+            include_routed_status=include_routed_status,
+            stage_key=stage_key,
+        )
+    )
+    return cache_optimization_searches(
+        path,
+        query_plan=plan,
+        search=search,
+        progress=progress,
+        minimum_queries=minimum_queries,
+        maximum_queries=maximum_queries,
+        saturation_queries=saturation_queries,
+        results_per_query=results_per_query,
+        previous_cache=previous_cache,
+    )
 
 
 def identity_review_template(cache: dict[str, Any]) -> dict[str, Any]:

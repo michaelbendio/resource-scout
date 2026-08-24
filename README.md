@@ -161,8 +161,11 @@ Before Mesa calibration, freeze the historical comparison into an ignored, separ
 
 The command refuses a package whose SHA-256 differs from the Mesa imports, requires exactly 20 completed four-stage DSH runs, copies the database through SQLite's consistent backup operation, and writes a machine-readable baseline manifest. Qwen calibration and comparison use the copied database, never the live one.
 
-The following Housing-specific command reproduces the preserved v9 calibration
-workflow. It is historical benchmark tooling, not the reusable architecture.
+The following Housing-calibration command reproduces the preserved v9 workflow
+and also prepares any of the four audited Housing stages. Mesa/Housing query text
+stays in the calibration fixture; caching, review, qualification, freezing, and
+model execution derive category, stage, location, and field contracts from their
+versioned inputs rather than from Housing defaults.
 `run-qwen-quantization-comparison.py` is now deliberately read-only: it rebuilds
 the historical v9 reports from the completed persisted runs and never starts a
 model server or performs inference under the old provenance label.
@@ -171,6 +174,7 @@ one current-status query for each human-resolved urgent candidate:
 
 ```sh
 ./cache-qwen-housing-searches.py \
+  --stage-key urgent-access \
   --cache /path/to/housing-stage1-ddgs-v3.json \
   --review /path/to/housing-stage1-identity-review-v3.json \
   --previous-cache /path/to/housing-stage1-ddgs-v2.json \
@@ -180,6 +184,26 @@ one current-status query for each human-resolved urgent candidate:
   --maximum-queries 10 \
   --saturation-queries 3 \
   --results-per-query 12
+```
+
+For a later stage, first export the identities routed there as names-and-URLs-only
+lead hints. This does not copy their earlier qualification or factual claims and
+does not promote them to candidates. Add the resulting manifest to that stage's
+fresh query plan with `--prior-lead-manifest`:
+
+```sh
+./export-qwen-routed-stage-leads.py \
+  --database /path/to/mesa-qwen-benchmark.sqlite3 \
+  --source-run-id 31 \
+  --target-stage-key stabilization \
+  --manifest-id mesa-housing-stabilization-routed-v1 \
+  --output /path/to/mesa-housing-stabilization-routed-v1.json
+
+./cache-qwen-housing-searches.py \
+  --stage-key stabilization \
+  --prior-lead-manifest /path/to/mesa-housing-stabilization-routed-v1.json \
+  --cache /path/to/housing-stabilization-ddgs-v1.json \
+  --review /path/to/housing-stabilization-review-v1.json
 ```
 
 The resulting hashed query plan records the candidate-specific closure, relocation,

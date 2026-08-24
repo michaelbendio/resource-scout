@@ -25,6 +25,17 @@ class CoordinatorTests(unittest.TestCase):
         self.assertIn('"modelMaxCompletionTokens": LOCAL_QWEN_MAX_COMPLETION_TOKENS', runner)
         self.assertIn('"localQwenProxyTimeoutSeconds": 7200', runner)
 
+    def test_calibration_entrypoints_derive_category_and_stage_from_frozen_inputs(self) -> None:
+        root = Path(__file__).parents[1]
+        freezer = (root / "freeze-qwen-housing-corpus.py").read_text()
+        runner = (root / "run-qwen-housing-model.py").read_text()
+        self.assertNotIn('ResourcePackageImporter("housing")', freezer)
+        self.assertNotIn('"stageKey": "urgent-access"', freezer)
+        self.assertIn('category_id = str(plan["categoryId"])', freezer)
+        self.assertIn("configuration['targetCategoryId']", runner)
+        self.assertIn("configuration['stageKey']", runner)
+        self.assertNotIn("mesa-housing-urgent-", runner)
+
     def test_comparison_recompute_uses_only_persisted_runs(self) -> None:
         source = (
             Path(__file__).parents[1] / "recompute-qwen-quantization-comparison.py"

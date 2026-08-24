@@ -16,7 +16,7 @@ from resource_research_agent.playbooks import playbook_for
 from resource_research_agent.storage import ResearchStore
 
 
-parser = argparse.ArgumentParser(description="Run one pinned quantization over a frozen corpus")
+parser = argparse.ArgumentParser(description="Run one pinned quantization over a frozen calibration corpus")
 parser.add_argument("--database", type=Path, required=True)
 parser.add_argument("--corpus-id", type=int, required=True)
 parser.add_argument("--quantization", choices=tuple(PINNED_MODELS), required=True)
@@ -50,7 +50,11 @@ if configuration["limits"].get("playbookAuditSha256") != playbook_audit["auditSh
     raise SystemExit("The model audit does not match the frozen corpus playbook audit")
 configuration.update(
     {
-        "label": f"mesa-housing-urgent-{arguments.quantization}-verifier-patch-v10",
+        "label": (
+            f"{str(configuration['targetLocation']).casefold().replace(' ', '-')}-"
+            f"{configuration['targetCategoryId']}-{configuration['stageKey']}-"
+            f"{arguments.quantization}-verifier-patch-v10"
+        ),
         "modelArtifact": PINNED_MODELS[arguments.quantization],
         "quantization": arguments.quantization,
         "modelProvider": "qwen-local",

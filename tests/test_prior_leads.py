@@ -12,7 +12,10 @@ from resource_research_agent.prior_leads import (
     build_prior_lead_manifest,
     normalize_prior_lead_manifest,
 )
-from resource_research_agent.prior_lead_harvest import harvest_prior_leads
+from resource_research_agent.prior_lead_harvest import (
+    harvest_prior_leads,
+    harvest_routed_stage_leads,
+)
 from resource_research_agent.optimization_pipeline import OptimizationDiscoveryPipeline
 from resource_research_agent.storage import ResearchStore
 from tests.test_qwen_discovery import FixtureProviders, qualified_identity
@@ -291,6 +294,43 @@ class PriorResultLeadManifestTests(unittest.TestCase):
         self.assertNotIn("phone", lead)
         self.assertNotIn("eligibility", lead)
         self.assertNotIn("finding", lead)
+
+    def test_routed_stage_harvest_is_a_lead_manifest_not_candidate_promotion(self) -> None:
+        providers = FixtureProviders()
+        with tempfile.TemporaryDirectory() as directory:
+            database = Path(directory) / "research.sqlite3"
+            store = ResearchStore(database)
+            result = OptimizationDiscoveryPipeline(
+                store,
+                providers.configuration("fixture-routed-stage-leads"),
+                search=providers.search,
+                fetch=providers.fetch,
+                resolve_identity=providers.resolve,
+                existing_resources=providers.fixture["existingResources"],
+            ).run()
+            manifest = harvest_routed_stage_leads(
+                database,
+                source_run_id=result.run_id,
+                target_stage_key="stabilization",
+                manifest_id="fixture-routed-stabilization-v1",
+                created_at="2026-08-24T00:00:00+00:00",
+                database_sha256="c" * 64,
+            )
+        self.assertEqual(1, len(manifest["leads"]))
+        lead = manifest["leads"][0]
+        self.assertEqual("routed", lead["historicalDisposition"])
+        self.assertEqual("City of Mesa", lead["organization"])
+        self.assertEqual("Eviction Prevention Program", lead["program"])
+        self.assertNotIn("promotionState", lead)
+        self.assertNotIn("geographyState", lead)
+        plan = augment_query_plan_with_prior_leads(
+            build_housing_urgent_query_plan("Mesa", "Maricopa County"),
+            manifest,
+        )
+        self.assertEqual("prior-result-leads", plan["branches"][-1]["key"])
+        self.assertIn(
+            "current service intake", plan["branches"][-1]["queries"][0]["query"]
+        )
 
 
 if __name__ == "__main__":

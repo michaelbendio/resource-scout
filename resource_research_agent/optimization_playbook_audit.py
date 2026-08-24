@@ -15,8 +15,12 @@ from .optimization import (
 from .playbooks import PLAYBOOK_LIBRARY_DIR, CategoryPlaybook
 
 
-PLAYBOOK_AUDIT_SCHEMA_VERSION = 1
-PLAYBOOK_AUDIT_POLICY_VERSION = "optimization-playbook-audit-v1"
+PLAYBOOK_AUDIT_SCHEMA_VERSION = 2
+PLAYBOOK_AUDIT_POLICY_VERSION = "optimization-playbook-audit-v2"
+PLAYBOOK_AUDIT_POLICIES = {
+    1: "optimization-playbook-audit-v1",
+    2: PLAYBOOK_AUDIT_POLICY_VERSION,
+}
 
 
 def _text(value: Any, field: str) -> str:
@@ -41,6 +45,12 @@ def _sha256(value: Any, field: str) -> str:
     if not re.fullmatch(r"[0-9a-f]{64}", result):
         raise ValueError(f"Optimization playbook audit field {field} must be SHA-256")
     return result
+
+
+def _optional_sha256(value: Any, field: str) -> str | None:
+    if value is None or str(value).strip().casefold() in {"", "none"}:
+        return None
+    return _sha256(value, field)
 
 
 def _coverage_needs(value: Any) -> list[dict[str, str]]:
@@ -111,12 +121,17 @@ def normalize_optimization_playbook_audit(
     referral_graph_sha256: str | None = None,
     referral_review_sha256: str | None = None,
 ) -> dict[str, Any]:
-    if not isinstance(value, dict) or value.get("schemaVersion") != 1:
-        raise ValueError("Optimization playbook audit schemaVersion must be 1")
-    if value.get("policyVersion") != PLAYBOOK_AUDIT_POLICY_VERSION:
+    if (
+        not isinstance(value, dict)
+        or value.get("schemaVersion") not in PLAYBOOK_AUDIT_POLICIES
+    ):
+        raise ValueError("Optimization playbook audit schemaVersion must be 1 or 2")
+    schema_version = int(value["schemaVersion"])
+    policy_version = PLAYBOOK_AUDIT_POLICIES[schema_version]
+    if value.get("policyVersion") != policy_version:
         raise ValueError(
             "Optimization playbook audit policyVersion must be "
-            f"{PLAYBOOK_AUDIT_POLICY_VERSION}"
+            f"{policy_version}"
         )
     validate_query_plan(query_plan)
     if bool(referral_graph_sha256) != bool(referral_review_sha256):
@@ -228,16 +243,34 @@ def normalize_optimization_playbook_audit(
     components = value.get("corpusComponents")
     if not isinstance(components, dict):
         raise ValueError("Optimization playbook audit needs corpusComponents")
-    normalized_components = {
-        "referralGraphSha256": _sha256(
-            components.get("referralGraphSha256"),
-            "corpusComponents.referralGraphSha256",
-        ),
-        "referralReviewSha256": _sha256(
-            components.get("referralReviewSha256"),
-            "corpusComponents.referralReviewSha256",
-        ),
-    }
+    if schema_version == 1:
+        normalized_components = {
+            "referralGraphSha256": _sha256(
+                components.get("referralGraphSha256"),
+                "corpusComponents.referralGraphSha256",
+            ),
+            "referralReviewSha256": _sha256(
+                components.get("referralReviewSha256"),
+                "corpusComponents.referralReviewSha256",
+            ),
+        }
+    else:
+        normalized_components = {
+            "referralGraphSha256": _optional_sha256(
+                components.get("referralGraphSha256"),
+                "corpusComponents.referralGraphSha256",
+            ),
+            "referralReviewSha256": _optional_sha256(
+                components.get("referralReviewSha256"),
+                "corpusComponents.referralReviewSha256",
+            ),
+        }
+        if bool(normalized_components["referralGraphSha256"]) != bool(
+            normalized_components["referralReviewSha256"]
+        ):
+            raise ValueError(
+                "Optimization playbook audit referral components must appear together"
+            )
     if (
         referral_graph_sha256
         and normalized_components["referralGraphSha256"] != referral_graph_sha256
@@ -250,8 +283,8 @@ def normalize_optimization_playbook_audit(
         raise ValueError("Optimization playbook audit belongs to another referral review")
 
     normalized = {
-        "schemaVersion": PLAYBOOK_AUDIT_SCHEMA_VERSION,
-        "policyVersion": PLAYBOOK_AUDIT_POLICY_VERSION,
+        "schemaVersion": schema_version,
+        "policyVersion": policy_version,
         "auditId": _text(value.get("auditId"), "auditId"),
         "categoryId": category_id,
         "stageKey": stage_key,

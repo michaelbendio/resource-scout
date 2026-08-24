@@ -8,10 +8,11 @@ from pathlib import Path
 from resource_research_agent.optimization_review import (
     build_reviewed_housing_query_plan,
     _write_json,
-    cache_housing_searches,
+    cache_optimization_searches,
     identity_review_template,
     merge_identity_review,
 )
+from resource_research_agent.optimization_housing_calibration import HOUSING_STAGE_KEYS
 from resource_research_agent.query_expansion import augment_query_plan_with_targeted_branch
 from resource_research_agent.prior_leads import augment_query_plan_with_prior_leads
 
@@ -23,6 +24,7 @@ parser.add_argument("--minimum-queries", type=int, default=2)
 parser.add_argument("--maximum-queries", type=int, default=6)
 parser.add_argument("--saturation-queries", type=int, default=2)
 parser.add_argument("--results-per-query", type=int, default=8)
+parser.add_argument("--stage-key", choices=HOUSING_STAGE_KEYS, default="urgent-access")
 parser.add_argument("--previous-review", type=Path)
 parser.add_argument("--candidate-status-review", type=Path)
 parser.add_argument("--previous-cache", type=Path)
@@ -53,6 +55,7 @@ if arguments.targeted_expansion or arguments.prior_lead_manifest:
         saturation_queries=arguments.saturation_queries,
         candidate_status_review=candidate_status_review,
         include_routed_status=arguments.all_identity_status,
+        stage_key=arguments.stage_key,
     )
 if arguments.targeted_expansion:
     expansion = json.loads(arguments.targeted_expansion.read_text(encoding="utf-8"))
@@ -74,17 +77,25 @@ if arguments.prior_lead_manifest:
     )
     query_plan = augment_query_plan_with_prior_leads(query_plan, prior_manifest)
 
-cache = cache_housing_searches(
+if query_plan is None:
+    query_plan = build_reviewed_housing_query_plan(
+        minimum_queries=arguments.minimum_queries,
+        maximum_queries=arguments.maximum_queries,
+        saturation_queries=arguments.saturation_queries,
+        candidate_status_review=candidate_status_review,
+        include_routed_status=arguments.all_identity_status,
+        stage_key=arguments.stage_key,
+    )
+
+cache = cache_optimization_searches(
     arguments.cache,
+    query_plan=query_plan,
     progress=lambda key: print(f"completed {key}", flush=True),
     minimum_queries=arguments.minimum_queries,
     maximum_queries=arguments.maximum_queries,
     saturation_queries=arguments.saturation_queries,
     results_per_query=arguments.results_per_query,
-    candidate_status_review=candidate_status_review,
-    include_routed_status=arguments.all_identity_status,
     previous_cache=previous_cache,
-    query_plan=query_plan,
 )
 if arguments.previous_review:
     previous = json.loads(arguments.previous_review.read_text(encoding="utf-8"))

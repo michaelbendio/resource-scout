@@ -506,9 +506,31 @@ self-rating.
 
 Lock the 8-bit artifact, verifier and extraction policies, playbook, query plan,
 limits, stopping rules, package hash, and runtime versions. Run all four Housing
-stages in the isolated benchmark database with fine-grained checkpointing. The 11
-already routed identities from discovery run 19 are starting leads for stages 2
-through 4, not prequalified candidates.
+stages in the isolated benchmark database with fine-grained checkpointing. The 16
+identities routed by the authoritative completed discovery run 31 are starting
+leads for stages 2 through 4, not prequalified candidates: 9 were eligible in the
+earlier stage, 4 required review, and 3 were noncandidates. Every one must pass a
+fresh search, identity, geography, current-status, actionability, evidence, and
+package-exclusion decision for its target stage.
+
+Preparation checkpoint (2026-08-24): application `0.25.0` adds distinct,
+versioned Mesa Housing calibration query plans for stabilization, specialized
+housing, and long-term/gap review while preserving the frozen urgent plan. The
+reusable cache boundary consumes an explicit validated query plan and is covered
+by a Food regression. Corpus freezing and model execution derive category,
+stage, location, regional scope, playbook, and labels from the frozen inputs.
+Playbook-audit schema 2 permits a stage to explicitly declare that it has no
+reviewed referral graph instead of requiring a fake Housing component. A
+read-only routed-stage exporter emits only names, aliases, URLs, and immutable
+run provenance; current qualification facts cannot enter the manifest, and each
+lead receives its own current search before it can become a candidate.
+The real run-31 export produced exactly 5 stabilization leads (2 routed, 1
+needs-review, 2 rejected), 6 specialized-housing leads (5 routed, 1
+needs-review), and 5 long-term/gap leads (2 routed, 2 needs-review, 1 rejected).
+Their manifest SHA-256 values are respectively
+`e9a7e15a6e6420dd75d953e5cb05ae268eb08d50585a469063d112a7413eef4d`,
+`bbe7821f341774c543e13e66c8308a3f8a095668b55c1de7fb70dc3be76c1b35`,
+and `e79ffba82a00ada80a00a90ec9d3214bf91246924e21e7c728f59d3e5b7d930d`.
 
 Compare the complete result with frozen DeepSeek Housing and every preserved Qwen
 Housing run. Compare like stages and report the union and overlap only after

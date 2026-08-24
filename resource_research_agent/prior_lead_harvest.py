@@ -19,6 +19,104 @@ DISPOSITION_PRIORITY = {
 }
 
 
+def harvest_routed_stage_leads(
+    database: Path,
+    *,
+    source_run_id: int,
+    target_stage_key: str,
+    manifest_id: str,
+    created_at: str,
+    database_sha256: str,
+) -> dict[str, Any]:
+    """Export routed identities as name/URL leads, never as current candidates."""
+
+    connection = sqlite3.connect(f"file:{database}?mode=ro", uri=True)
+    connection.row_factory = sqlite3.Row
+    try:
+        run = connection.execute(
+            """SELECT run.id, run.created_at, run.completed_at,
+                      configuration.target_category_id,
+                      configuration.target_location,
+                      configuration.stage_key
+               FROM optimization_runs AS run
+               JOIN optimization_configurations AS configuration
+                 ON configuration.id = run.configuration_id
+               WHERE run.id = ? AND run.run_kind = 'discovery'""",
+            (source_run_id,),
+        ).fetchone()
+        if not run:
+            raise ValueError(f"Optimization discovery run {source_run_id} was not found")
+        if target_stage_key == str(run["stage_key"]):
+            raise ValueError("Routed-stage manifest target must differ from the source stage")
+        identities = connection.execute(
+            """SELECT identity.*
+               FROM optimization_candidate_identities AS identity
+               WHERE identity.run_id = ? AND identity.target_stage_key = ?
+               ORDER BY identity.identity_key""",
+            (source_run_id, target_stage_key),
+        ).fetchall()
+        if not identities:
+            raise ValueError(
+                f"Optimization run {source_run_id} has no identities routed to {target_stage_key}"
+            )
+        observed_at = str(run["completed_at"] or run["created_at"])
+        source_id = f"optimization-qwen-run-{source_run_id}-routed-{target_stage_key}"
+        leads = []
+        for identity in identities:
+            linked = connection.execute(
+                """SELECT lead.canonical_url, lead.title
+                   FROM optimization_identity_leads AS link
+                   JOIN optimization_discovery_leads AS lead ON lead.id = link.lead_id
+                   WHERE link.identity_id = ? ORDER BY lead.id""",
+                (identity["id"],),
+            ).fetchall()
+            promotion_state = str(identity["promotion_state"])
+            disposition = (
+                "routed"
+                if promotion_state == "eligible"
+                else "needs-review"
+                if promotion_state == "review-required"
+                else "rejected"
+            )
+            leads.append(
+                {
+                    "organization": str(identity["organization"]),
+                    "program": str(identity["program"]),
+                    "aliases": [str(item["title"] or "") for item in linked],
+                    "urls": [str(item["canonical_url"] or "") for item in linked],
+                    "historicalDisposition": disposition,
+                    "provenance": [
+                        {
+                            "sourceId": source_id,
+                            "sourceRunId": str(source_run_id),
+                            "sourceStageKey": target_stage_key,
+                            "observedAt": observed_at,
+                            "historicalDisposition": disposition,
+                        }
+                    ],
+                }
+            )
+        return build_prior_lead_manifest(
+            manifest_id=manifest_id,
+            category_id=str(run["target_category_id"]),
+            target_location=str(run["target_location"]),
+            created_at=created_at,
+            sources=[
+                {
+                    "id": source_id,
+                    "kind": "qwen-routed-stage-leads",
+                    "sourceRunId": str(source_run_id),
+                    "sourceStageKey": target_stage_key,
+                    "observedAt": observed_at,
+                    "artifactSha256": database_sha256,
+                }
+            ],
+            leads=leads,
+        )
+    finally:
+        connection.close()
+
+
 def _urls(values: Iterable[Any]) -> list[str]:
     result = set()
     for value in values:
