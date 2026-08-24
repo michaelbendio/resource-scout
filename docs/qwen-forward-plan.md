@@ -2,7 +2,7 @@
 
 Status: approved on 2026-08-23. Expanded first-stage comparison v9 is complete
 and selected 8-bit Qwen for continued optimization. Steps 1 through 4 are
-complete; step 5 is next. This is a staged benchmark plan, not a production cutover. Read
+complete; step 5 passed and step 6 is current. This is a staged benchmark plan, not a production cutover. Read
 it with `qwen-optimization-handoff.md`, `qwen-optimization-design.md`, and
 `mesa-qwen-deepseek-benchmark.md`.
 
@@ -392,6 +392,22 @@ explicit `verification-incomplete` review finding; source and field quality do n
 regress merely to increase candidate count. Only then may the four-stage Housing
 configuration be locked.
 
+Recorded outcome (2026-08-24): run 32 completed all 21 selected 8-bit extraction
+and verification packets without retry. Application `0.24.0` separates
+candidate-fatal defects from field defects that Scout can quarantine while
+retaining a truthful candidate, preserves verifier-corrected source bindings and
+genuine conflicts, and treats resolved verifier diagnostics separately from
+unresolved review findings. The original 7 passed, 10 needs-review, and 4 failed
+derived interpretation remains in immutable revision source snapshot
+`06ef0ccd6247395b120932e80b6737c7af6e017f22f7ca58e4f5a6e93912630e`.
+Recomputation from the same raw outputs, with zero model, search, or fetch calls,
+produced 8 passed, 13 needs-review, and 0 failed dossiers, with 295 supported,
+186 unknown, and 2 conflicting fields. Derived snapshot
+`8b8f0f505ba71e42367e851ec6c510f78bff7a471fd6584f642053201c1c4c91`
+passes the quality gate. All 21 candidates are usable Curator material. The four
+planned coverage-gap queries remain separate from candidate eligibility. Step 5
+is complete.
+
 ### 6. Validate Curator and iterative package integration
 
 First test the isolated optimization export path. Passed and needs-review
@@ -471,7 +487,7 @@ reusable optimization primitives and isolated in
 unreachable legacy Markdown renderer and orphaned selectors left behind by Scout's
 structured-stage and Curator-owned-vetting transitions were removed in the final
 UI dead-code pass. The
-current full suite passes 206
+current full suite passes 212
 Python tests with one optional skip and all 20 JavaScript plugin tests.
 
 ### 7. Complete Housing calibration

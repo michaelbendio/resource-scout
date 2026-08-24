@@ -3,7 +3,8 @@
 Status: Checkpoints A through D are implemented. Expanded comparison v9 completed
 on 2026-08-23 over 22 identical first-stage Housing packets and selected 8-bit
 Qwen on quality before timing was revealed. Forward-plan steps 1 through 4 are
-complete; step 5 is running as model-evaluation run 32 over frozen corpus 8.
+complete; step 5 completed as model-evaluation run 32 over frozen corpus 8, and
+step 6 is the current validation step.
 Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
 Step 3 completed under the revised scope: the category-neutral candidate qualification gate and
@@ -65,11 +66,31 @@ true targeted gap-search needs. Corpus 7 and partial discovery runs 27, 28, and
 30 remain immutable evidence of stale-page and transient-content handling; they
 were not overwritten or pooled with corpus 8.
 
-Step 5 run 32 is active and its runner is wired to the receipt. Required coverage needs
-and their deterministic gap queries no longer live as a Housing-only tuple in
-the runner, and reviewed identity qualification can now preserve explicit
-coverage tags without changing candidate promotion. The runner validates the
-audit hash against the frozen discovery configuration before loading the model.
+Step 5 run 32 completed all 21 extraction and 21 verification attempts without a
+retry or error. The initial derived interpretation was 7 passed, 10 needs review,
+and 4 failed. Review showed that all four failures were field-scoped defects or
+false candidate-fatal classifications: unsafe Vista Colina fields could be
+quarantined, the Community Bridges host page credibly named the access point,
+and genuine 211 and Family Promise conflicts could remain explicit. Commit
+`1cd22ca` released application `0.24.0` and derivation policy
+`verifier-candidate-salvage-v1`. Candidate-fatal status is now reserved for a
+core identity, current-service, relevant-geography, or credible-existence defect
+that cannot leave a truthful candidate after unsafe fields are removed.
+
+Run 32 was then recomputed only from its persisted dossiers and completed raw
+verifier outputs. No model, search, or fetch call was made. Its immutable source
+snapshot SHA-256 is
+`06ef0ccd6247395b120932e80b6737c7af6e017f22f7ca58e4f5a6e93912630e`;
+the derived snapshot SHA-256 is
+`8b8f0f505ba71e42367e851ec6c510f78bff7a471fd6584f642053201c1c4c91`.
+The resulting 8 passed, 13 needs-review, and 0 failed dossiers make all 21
+candidates usable Curator material. They contain 295 supported, 186 unknown, and
+2 conflicting field states. The quality gate report SHA-256 is
+`86188d29f3e735ef42a90a24780f925237bbe0ad7c788feeb380aff7424130c5`
+and passes with zero verification failures. The separate report file SHA-256 is
+`3ef0e07ebae4bfdeb7c82b893595551ecbb53e1509ae0c90e9d9bfb98dcd9b41`.
+Medical respite, disability access, animal barriers, and language access remain
+targeted coverage gaps; they do not change candidate eligibility or this gate.
 
 Step 6 deterministic preparation and the production Scout-to-Curator workflow
 correction are complete. The isolated optimization Curator
@@ -139,6 +160,15 @@ categories. A fresh read-only export of DeepSeek Housing run 1 remained 445,698
 bytes, displayed `0.23.0` in all three Curator version surfaces, contained Curator
 schema 10 and saved-work/feedback schema 2, and retained `Editors`, `Ready for
 package`, and the optional-outcome workflow without stale Scout acceptance text.
+
+Verifier-salvage production verification (2026-08-24): commit `1cd22ca`
+advanced Scout and Curator to `0.24.0`. The production LaunchAgent was restarted
+without disturbing the idle isolated 8-bit server. Loopback and the private
+Tailscale URL report `0.24.0`, the frozen Mesa package hash, and all 22 package
+categories. Served `app.js` and `app.css` match the checkout byte for byte. A
+fresh read-only DeepSeek Housing Curator export remained 445,698 bytes, displayed
+`0.24.0` in all three version surfaces, contained Curator schema 10 and work
+schema 2, and retained `Editors` and `Ready for package`.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
 
@@ -217,7 +247,7 @@ actionability gates in
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
-- The full Python suite most recently passed 205 tests with one optional skip.
+- The full Python suite most recently passed 212 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.

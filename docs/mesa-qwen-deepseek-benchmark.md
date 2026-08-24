@@ -59,6 +59,45 @@ the approximately 44 percent longer runtime did not affect the decision. All
 attempts were local and unmetered, and the frozen DeepSeek baseline remained
 unchanged. This selects 8-bit for the approved optimization plan, not production.
 
+## Revised selected-model first-stage result
+
+The superseding first-stage corpus 8 contains 21 qualified urgent-access packets
+from the expanded category-neutral discovery and qualification workflow. Selected
+8-bit model-evaluation run 32 completed all 42 model operations—21 extractions and
+21 independent verifications—without retry or error.
+
+The original derived verifier interpretation was 7 passed, 10 needs review, and
+4 failed. It was preserved before applying application `0.24.0` policy
+`verifier-candidate-salvage-v1`. That policy reserves candidate failure for a core
+identity, current-service, relevant-geography, or credible-existence defect that
+cannot leave a truthful candidate after unsafe fields are removed. Field defects
+are quarantined; genuine conflicts remain visible; and a multi-organization host
+page does not become cross-program evidence merely because another organization
+hosts the page.
+
+Recomputation used only persisted dossiers and completed raw verifier responses:
+
+| Measure | Original derivation | v0.24.0 derivation |
+|---|---:|---:|
+| Passed dossiers | 7 | 8 |
+| Needs-review dossiers | 10 | 13 |
+| Failed dossiers | 4 | 0 |
+| Usable dossiers | 17 | 21 |
+| Supported field states | 266 | 295 |
+| Unknown field states | 217 | 186 |
+| Conflicting field states | 0 | 2 |
+| New model/search/fetch calls | — | 0 |
+
+The immutable source snapshot is
+`06ef0ccd6247395b120932e80b6737c7af6e017f22f7ca58e4f5a6e93912630e`;
+the new derived snapshot is
+`8b8f0f505ba71e42367e851ec6c510f78bff7a471fd6584f642053201c1c4c91`.
+Quality-gate report
+`86188d29f3e735ef42a90a24780f925237bbe0ad7c788feeb380aff7424130c5`
+passes with zero verification failures. Medical respite, disability access,
+animal barriers, and language access remain separately recorded targeted gaps;
+they do not exclude any of the 21 current candidates.
+
 ## Frozen DeepSeek baseline
 
 The active Resource Scout database currently contains 20 completed Mesa research runs, each with four completed stages.
