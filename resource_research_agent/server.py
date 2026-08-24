@@ -18,7 +18,6 @@ from .duplicates import DuplicateIndex
 from .importer import PackageImportError, ResourcePackageImporter
 from .review_export import build_optimization_review_copy, build_review_copy
 from .research import ResearchCoordinator
-from .resource_package import AcceptedResourceManager
 from .storage import ResearchStore
 
 
@@ -37,7 +36,6 @@ class ResearchHTTPServer(ThreadingHTTPServer):
         self.store = store
         self.duplicate_index = DuplicateIndex(store)
         self.research = ResearchCoordinator(store)
-        self.accepted_resources = AcceptedResourceManager(store)
         self.web_dir = web_dir
         self.private_url = private_url
 
@@ -119,11 +117,6 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     "text/html; charset=utf-8",
                     review_copy.filename,
                 )
-            elif (run_id := self._path_id(
-                parsed.path, "/api/research-runs", "resource-package"
-            )) is not None:
-                package = self.server.accepted_resources.build_package(run_id)
-                self._download(package.content, "application/zip", package.filename)
             elif (run_id := self._path_id(parsed.path, "/api/research-runs")) is not None:
                 run = self.server.store.get_run(run_id)
                 if run:
@@ -184,55 +177,6 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 match = matches[0] if matches else None
                 saved = self.server.store.save_discovery(candidate, match, str(payload.get("notes", "")))
                 self._json(saved, HTTPStatus.CREATED)
-            elif (discovery_id := self._path_id(parsed.path, "/api/discoveries", "review")) is not None:
-                payload = self._read_json()
-                status = str(payload.get("status", ""))
-                feedback = str(payload.get("feedback", "")).strip()
-                discovery = self.server.accepted_resources.review_candidate(
-                    discovery_id, status, feedback
-                )
-                if not discovery:
-                    self._error(HTTPStatus.NOT_FOUND, "Candidate not found")
-                    return
-                lesson = None
-                if payload.get("learn") and feedback:
-                    run = self.server.store.get_run(discovery["runId"]) if discovery.get("runId") else None
-                    lesson = self.server.store.save_lesson(
-                        feedback, scope=str(payload.get("scope", "category")),
-                        rationale=f"Human review of {discovery['name']}", source="human-feedback",
-                        discovery_id=discovery_id,
-                        research_mode=run.get("researchMode", "package") if run else "package",
-                        target_location=run.get("targetLocation") if run else None,
-                        target_category_id=run.get("targetCategoryId", "housing") if run else "housing",
-                        target_category_label=run.get("targetCategoryLabel", "Housing") if run else "Housing",
-                    )
-                self._json({"discovery": self._with_match_details(discovery), "lesson": lesson})
-            elif (discovery_id := self._path_id(
-                parsed.path, "/api/discoveries", "generated-resource"
-            )) is not None:
-                payload = self._read_json()
-                resource = payload.get("resource", payload)
-                if not isinstance(resource, dict):
-                    raise ValueError("resource must be a JSON object")
-                generated = self.server.accepted_resources.update_resource(
-                    discovery_id, resource
-                )
-                discovery = self.server.store.get_discovery(discovery_id)
-                self._json({
-                    "generatedResource": generated,
-                    "discovery": self._with_match_details(discovery) if discovery else None,
-                })
-            elif (discovery_id := self._path_id(
-                parsed.path, "/api/discoveries", "match-assessment"
-            )) is not None:
-                payload = self._read_json()
-                discovery = self.server.store.assess_discovery_match(
-                    discovery_id, str(payload.get("assessment", ""))
-                )
-                if not discovery:
-                    self._error(HTTPStatus.NOT_FOUND, "Candidate not found")
-                    return
-                self._json({"discovery": self._with_match_details(discovery)})
             elif parsed.path == "/api/lessons":
                 payload = self._read_json()
                 lesson = self.server.store.save_lesson(
@@ -301,8 +245,6 @@ class ResearchHandler(BaseHTTPRequestHandler):
     def _with_match_details(self, discovery: dict[str, Any]) -> dict[str, Any]:
         value = dict(discovery)
         value["matchDetails"] = self.server.duplicate_index.explain_saved_match(discovery)
-        value["generatedResource"] = self.server.store.get_generated_resource(discovery["id"])
-        value["taxonomy"] = self.server.accepted_resources.taxonomy_for_discovery(discovery["id"])
         return value
 
     def _access_context(self) -> dict[str, Any]:

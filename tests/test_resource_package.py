@@ -5,6 +5,7 @@ import json
 import tempfile
 import threading
 import unittest
+import urllib.error
 import urllib.request
 import zipfile
 from datetime import datetime, timezone
@@ -265,7 +266,7 @@ class AcceptedResourcePackageTests(unittest.TestCase):
         reopened = ResearchStore(self.store.path)
         self.assertEqual(self.import_id, reopened.get_run(self.run_id)["sourceImportId"])
 
-    def test_http_review_edit_and_download_flow(self) -> None:
+    def test_scout_http_does_not_expose_human_curation_or_package_routes(self) -> None:
         discovery = self.save_candidate()
         web_dir = Path(__file__).resolve().parent.parent / "web"
         server = ResearchHTTPServer(("127.0.0.1", 0), self.store, web_dir)
@@ -273,46 +274,22 @@ class AcceptedResourcePackageTests(unittest.TestCase):
         thread.start()
         try:
             base = f"http://127.0.0.1:{server.server_address[1]}"
-            review_request = urllib.request.Request(
-                f"{base}/api/discoveries/{discovery['id']}/review",
-                data=json.dumps({"status": "accepted"}).encode(),
-                headers={"Content-Type": "application/json"},
-                method="POST",
-            )
-            with urllib.request.urlopen(review_request, timeout=5) as response:
-                accepted = json.loads(response.read())["discovery"]
-            self.assertEqual("accepted", accepted["status"])
-            self.assertEqual(
-                "New Housing Program", accepted["generatedResource"]["resource"]["name"]
-            )
-
-            edit_request = urllib.request.Request(
-                f"{base}/api/discoveries/{discovery['id']}/generated-resource",
-                data=json.dumps({"resource": {
-                    "name": "Reviewer-corrected resource",
-                    "verifiedOn": "08/26",
-                }}).encode(),
-                headers={"Content-Type": "application/json"},
-                method="POST",
-            )
-            with urllib.request.urlopen(edit_request, timeout=5) as response:
-                edited = json.loads(response.read())
-            self.assertEqual(
-                "Reviewer-corrected resource", edited["generatedResource"]["resource"]["name"]
-            )
-
-            with urllib.request.urlopen(
-                f"{base}/api/research-runs/{self.run_id}/resource-package", timeout=5
-            ) as response:
-                content = response.read()
-                self.assertEqual("application/zip", response.headers.get_content_type())
-                self.assertIn("attachment;", response.headers["Content-Disposition"])
-                self.assertIn("research-run-1-resource-package.zip", response.headers["Content-Disposition"])
-            with zipfile.ZipFile(io.BytesIO(content)) as archive:
-                package = json.loads(archive.read("tso-resources.json"))
-            self.assertEqual(
-                ["Reviewer-corrected resource"], [item["name"] for item in package["resources"]]
-            )
+            for path, method, payload in (
+                (f"/api/discoveries/{discovery['id']}/review", "POST", {"status": "accepted"}),
+                (f"/api/discoveries/{discovery['id']}/generated-resource", "POST", {"resource": {"name": "Edited"}}),
+                (f"/api/discoveries/{discovery['id']}/match-assessment", "POST", {"assessment": "same-resource"}),
+                (f"/api/research-runs/{self.run_id}/resource-package", "GET", None),
+            ):
+                request = urllib.request.Request(
+                    f"{base}{path}",
+                    data=json.dumps(payload).encode() if payload is not None else None,
+                    headers={"Content-Type": "application/json"} if payload is not None else {},
+                    method=method,
+                )
+                with self.assertRaises(urllib.error.HTTPError) as raised:
+                    urllib.request.urlopen(request, timeout=5)
+                self.assertEqual(404, raised.exception.code)
+                raised.exception.close()
         finally:
             server.shutdown()
             server.server_close()

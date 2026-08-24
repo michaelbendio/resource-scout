@@ -418,16 +418,8 @@ class ReviewCopyTests(unittest.TestCase):
             with urllib.request.urlopen(discoveries_url, timeout=5) as response:
                 discoveries = json.loads(response.read())["discoveries"]
                 self.assertEqual("Known Home", discoveries[0]["matchDetails"]["name"])
-            assessment_request = urllib.request.Request(
-                f"http://127.0.0.1:{port}/api/discoveries/{discoveries[0]['id']}/match-assessment",
-                data=json.dumps({"assessment": "related-distinct"}).encode("utf-8"),
-                headers={"Content-Type": "application/json"},
-                method="POST",
-            )
-            with urllib.request.urlopen(assessment_request, timeout=5) as response:
-                assessed = json.loads(response.read())["discovery"]
-                self.assertEqual("related-distinct", assessed["matchAssessment"])
-                self.assertEqual("Known Home", assessed["matchDetails"]["name"])
+                self.assertNotIn("generatedResource", discoveries[0])
+                self.assertNotIn("taxonomy", discoveries[0])
         finally:
             server.shutdown()
             server.server_close()

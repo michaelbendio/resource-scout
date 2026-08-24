@@ -148,18 +148,18 @@
         <div id="run-list" class="run-list"></div>
       </article>
 
-      <div class="research-divider" id="research-divider" role="separator" aria-label="Resize Recent runs and Candidate inbox" aria-orientation="vertical" aria-valuemin="25" aria-valuemax="70" aria-valuenow="40" tabindex="0"><span aria-hidden="true"></span></div>
+      <div class="research-divider" id="research-divider" role="separator" aria-label="Resize Recent runs and Research candidates" aria-orientation="vertical" aria-valuemin="25" aria-valuemax="70" aria-valuenow="40" tabindex="0"><span aria-hidden="true"></span></div>
 
       <article class="panel candidates-panel">
         <div class="section-head">
-          <div><p class="step">05 · Human review</p><h2 id="candidate-inbox-title">Candidate inbox</h2></div>
+          <div><p class="step">05 · Research records</p><h2 id="candidate-inbox-title">Research candidates</h2></div>
           <span class="count-badge" id="candidate-count">0</span>
         </div>
         <div class="candidate-inbox-controls">
           <label for="candidate-run-filter">Research run</label>
           <select id="candidate-run-filter"></select>
         </div>
-        <p class="muted" id="candidate-inbox-context">Candidates appear after each research stage finishes and remain separate from any Resource Assistant package until you decide what they mean.</p>
+        <p class="muted" id="candidate-inbox-context">Candidates appear after each research stage finishes. Human vetting, outcomes, resource editing, and package preparation happen in the exported Resource Curator.</p>
         <div id="candidate-list" class="candidate-list"></div>
       </article>
 
@@ -183,90 +183,7 @@
       <p class="candidate-status" id="candidate-dialog-status"></p>
     </div>
     <div id="candidate-profile"></div>
-    <details class="generated-resource-box" id="generated-resource-panel" hidden>
-      <summary>View or edit generated TSO resource</summary>
-      <div class="generated-resource-heading">
-        <div>
-          <p class="step">Accepted resource</p>
-          <h3>TSO Resources fields</h3>
-        </div>
-        <span class="known-badge" id="generated-category-badge">Housing · additions package</span>
-      </div>
-      <p class="muted">This resource is included in the run’s cumulative package only while the candidate remains accepted. Verification stays blank until a reviewer enters it.</p>
-      <form id="generated-resource-form" class="generated-resource-form">
-        <label class="span-all">Name
-          <input id="generated-name" required>
-        </label>
-        <label>Phone
-          <input id="generated-phone">
-        </label>
-        <label>Address
-          <input id="generated-address">
-        </label>
-        <label>Website
-          <input id="generated-website" type="url">
-        </label>
-        <label>Hours
-          <input id="generated-hours">
-        </label>
-        <label>Verified
-          <input id="generated-verified" placeholder="MM/YY">
-        </label>
-        <label class="span-all">Description
-          <textarea id="generated-description" rows="5"></textarea>
-        </label>
-        <fieldset class="generated-taxonomy span-all">
-          <legend>Categories, Types, and For</legend>
-          <p class="muted">Categories and labels come from the source package. Nothing is silently renamed when the taxonomy changes.</p>
-          <div id="generated-taxonomy"></div>
-          <div class="taxonomy-warning" id="generated-taxonomy-warning" hidden></div>
-        </fieldset>
-        <label class="span-all">Information
-          <span class="information-hint">Formatting: use *[space] at the start of a line for bullets, **bold** for bold text, __underline__ for underline, and --- on its own line for a horizontal line.</span>
-          <textarea id="generated-information" rows="16"></textarea>
-        </label>
-        <div class="generated-resource-actions span-all">
-          <button type="submit" class="secondary">Save generated resource</button>
-          <p class="message" id="generated-resource-message" aria-live="polite"></p>
-        </div>
-      </form>
-    </details>
-    <section class="match-review-box" id="match-review-panel" hidden>
-      <p class="step">Known-resource relationship</p>
-      <h3>How is this candidate related?</h3>
-      <div class="match-review-summary">
-        <strong id="match-review-heading"></strong>
-        <p id="match-review-detail"></p>
-      </div>
-      <div id="match-review-signals" class="match-review-signals"></div>
-      <p class="muted">The similarity is a review clue, not proof that the two records represent the same resource.</p>
-      <fieldset class="match-assessment-options">
-        <legend>Your relationship assessment</legend>
-        <label><input type="radio" name="match-assessment" value="same-resource"> <span><strong>Same resource</strong><small>Already represented by the imported record.</small></span></label>
-        <label><input type="radio" name="match-assessment" value="same-organization-different-program"> <span><strong>Same organization, different program</strong><small>Keep reviewing the program as a potentially new resource.</small></span></label>
-        <label><input type="radio" name="match-assessment" value="related-distinct"> <span><strong>Related but distinct</strong><small>An affiliate or related organization that should remain separate.</small></span></label>
-        <label><input type="radio" name="match-assessment" value="not-related"> <span><strong>Not related</strong><small>Dismiss this similarity warning without discarding the candidate.</small></span></label>
-      </fieldset>
-      <div class="match-assessment-actions">
-        <button type="button" class="secondary" id="save-match-assessment">Save relationship assessment</button>
-        <p class="message" id="match-assessment-message" aria-live="polite"></p>
-      </div>
-    </section>
-    <section class="review-box">
-      <h3>Your decision</h3>
-      <div class="review-actions" id="review-actions">
-        <button type="button" data-status="accepted">Accept</button>
-        <button type="button" data-status="research-further" class="secondary">Research further</button>
-        <button type="button" data-status="already-known" class="secondary">Already known</button>
-        <button type="button" data-status="wrong-category" class="secondary">Wrong category</button>
-        <button type="button" data-status="rejected" class="danger">Reject</button>
-      </div>
-      <label>Feedback for future research
-        <textarea id="review-feedback" rows="4" placeholder="Why? What should the researcher notice next time?"></textarea>
-      </label>
-      <label class="check-label"><input id="review-learn" type="checkbox" checked> <span id="review-learn-label">Save this feedback as an active Housing research lesson</span></label>
-      <p class="message" id="review-message" aria-live="polite"></p>
-    </section>
+    <section class="curator-handoff"><h3>Continue in Resource Curator</h3><p>Use this run’s <strong>Export Resource Curator</strong> link for human vetting, optional outcomes, resource editing, printing, and package preparation.</p></section>
     <details class="raw-record"><summary>View candidate JSON</summary><pre id="candidate-json"></pre></details>
   </dialog>
 

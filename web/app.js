@@ -8,13 +8,6 @@ const state = {
 
 const PACKAGE_DEFAULT_ASSIGNMENT = 'Discover realistic ways a person without adequate housing in Utah County could obtain safe temporary or permanent housing. Follow useful relationships rather than stopping at a directory listing: voucher providers to participating motels, organizations to specific programs, and temporary options to longer-term pathways. Investigate practical access and lived experience as well as official claims.';
 
-const MATCH_ASSESSMENT_LABELS = {
-  'same-resource': 'Same resource',
-  'same-organization-different-program': 'Same organization, different program',
-  'related-distinct': 'Related but distinct',
-  'not-related': 'Not related',
-};
-
 function setupResearchPaneResizer() {
   const container = document.querySelector('#research-results');
   const divider = document.querySelector('#research-divider');
@@ -496,14 +489,6 @@ function candidateCountForRun(runId) {
   return state.discoveries.filter(discovery => discovery.runId === runId).length;
 }
 
-function acceptedResourceCountForRun(runId) {
-  return state.discoveries.filter(discovery => (
-    discovery.runId === runId
-    && discovery.status === 'accepted'
-    && discovery.generatedResource
-  )).length;
-}
-
 function selectCandidateRun(runId, { scroll = false } = {}) {
   state.candidateRunId = runId;
   state.candidateRunSelectionInitialized = true;
@@ -684,17 +669,6 @@ function renderRuns() {
     viewCandidates.textContent = `View candidates (${candidateCountForRun(run.id)})`;
     viewCandidates.addEventListener('click', () => selectCandidateRun(run.id, { scroll: true }));
     actions.append(viewCandidates);
-    const acceptedResourceCount = acceptedResourceCountForRun(run.id);
-    if (run.researchMode === 'package' && acceptedResourceCount) {
-      const packageLink = document.createElement('a');
-      packageLink.className = 'review-export';
-      packageLink.href = `/api/research-runs/${run.id}/resource-package`;
-      packageLink.download = '';
-      packageLink.textContent = `Export resource package (${acceptedResourceCount})`;
-      const packageDetail = document.createElement('small');
-      packageDetail.textContent = 'Accepted resources only · no imported resources or PDFs';
-      actions.append(packageLink, packageDetail);
-    }
     if (['completed', 'partial'].includes(run.status)) {
       const exportLink = document.createElement('a');
       exportLink.className = 'review-export';
@@ -702,7 +676,7 @@ function renderRuns() {
       exportLink.download = '';
       exportLink.textContent = 'Export Resource Curator';
       const detail = document.createElement('small');
-      detail.textContent = 'This run only · standalone, read-only HTML';
+      detail.textContent = 'This run only · portable vetting and package workspace';
       actions.append(exportLink, detail);
       if (run.status === 'partial') {
         const resume = document.createElement('button');
@@ -753,38 +727,13 @@ async function resumeResearchRun(run, button) {
 
 function candidateDescription(discovery) {
   const candidate = discovery.candidate || {};
-  return asText(candidate.serviceNeed || candidate.housingNeed || candidate.description || candidate.resourceType || 'Awaiting review');
-}
-
-function matchFieldLabel(value) {
-  const field = String(value || 'field').replace(/^relationship:/, '');
-  return readableCategory(field).toLowerCase();
-}
-
-function primaryMatchExplanation(match) {
-  const signal = match?.signals?.[0];
-  if (!signal) return `The candidate resembles ${match?.name || 'an imported resource'}.`;
-  const percentage = Math.round(signal.strength * 100);
-  const candidateField = String(signal.candidateField || '');
-  if (['name', 'alias', 'name_variant', 'organization_name', 'program_name'].includes(candidateField)) {
-    return `Similar name: ${match.name}. The compared names are ${percentage}% similar.`;
-  }
-  if (candidateField === 'website') {
-    return `Similar website: ${match.name}. The website signal is ${percentage}%.`;
-  }
-  if (candidateField === 'address') {
-    return `Similar address: ${match.name}. The address signal is ${percentage}%.`;
-  }
-  return `Similar ${matchFieldLabel(candidateField)}: ${match.name}. The signal is ${percentage}%.`;
+  return asText(candidate.serviceNeed || candidate.housingNeed || candidate.description || candidate.resourceType || 'Research candidate');
 }
 
 function candidateMatchSummary(discovery) {
   const match = discovery.matchDetails;
   if (!match) return '';
-  const assessment = discovery.matchAssessment;
-  if (assessment === 'not-related') return `Match reviewed: not related to ${match.name}`;
-  if (assessment) return `${MATCH_ASSESSMENT_LABELS[assessment]}: ${match.name}`;
-  return `Possible related resource: ${match.name}`;
+  return `Possible relationship to existing resource: ${match.name}`;
 }
 
 function renderCandidates() {
@@ -808,13 +757,11 @@ function renderCandidates() {
     : state.discoveries;
   document.querySelector('#candidate-count').textContent = discoveries.length;
   document.querySelector('#candidate-inbox-title').textContent = selectedRun
-    ? `Candidate inbox · ${researchRunTitle(selectedRun)}`
-    : 'Candidate inbox · All runs';
+    ? `Research candidates · ${researchRunTitle(selectedRun)}`
+    : 'Research candidates · All runs';
   document.querySelector('#candidate-inbox-context').textContent = selectedRun
-    ? selectedRun.researchMode === 'package'
-      ? `Showing only candidates associated with research run ${selectedRun.id}. Use its run card to export accepted resources or a Resource Curator for this run.`
-      : `Showing only candidates associated with research run ${selectedRun.id}. Use its run card to export a Resource Curator containing this run’s results.`
-    : 'Showing candidates from every research run. Choose one run to review or export its results separately.';
+    ? `Showing only candidates associated with research run ${selectedRun.id}. Use its run card to export a Resource Curator for human vetting, optional outcomes, resource editing, and package preparation.`
+    : 'Showing candidates from every research run. Choose one run to inspect or export its Resource Curator.';
   if (!discoveries.length) {
     target.replaceChildren(emptyState(selectedRun
       ? 'No candidates have been saved for this research run yet.'
@@ -830,8 +777,8 @@ function renderCandidates() {
     const name = document.createElement('strong');
     name.textContent = discovery.name;
     const status = document.createElement('span');
-    status.className = `candidate-status ${discovery.status}`;
-    status.textContent = friendlyStatus(discovery.status);
+    status.className = 'candidate-status';
+    status.textContent = 'Candidate';
     head.append(name, status);
     const description = document.createElement('p');
     description.textContent = candidateDescription(discovery);
@@ -981,133 +928,13 @@ function renderCandidateProfile(discovery) {
   return profile;
 }
 
-function renderMatchReview(discovery) {
-  const panel = document.querySelector('#match-review-panel');
-  const match = discovery.matchDetails;
-  panel.hidden = !match;
-  if (!match) return;
-  const assessment = discovery.matchAssessment;
-  document.querySelector('#match-review-heading').textContent = assessment
-    ? `Relationship recorded: ${MATCH_ASSESSMENT_LABELS[assessment]}`
-    : 'Possible relationship to an existing resource';
-  document.querySelector('#match-review-detail').textContent = primaryMatchExplanation(match);
-  const signals = document.querySelector('#match-review-signals');
-  signals.replaceChildren(...(match.signals || []).map(signal => {
-    const item = document.createElement('div');
-    item.textContent = `Candidate ${matchFieldLabel(signal.candidateField)} “${signal.candidateValue}” compared with imported ${matchFieldLabel(signal.knownField)} “${signal.knownValue}”.`;
-    return item;
-  }));
-  document.querySelectorAll('input[name="match-assessment"]').forEach(input => {
-    input.checked = input.value === assessment;
-  });
-  document.querySelector('#match-assessment-message').textContent = assessment
-    ? 'Relationship assessment saved.'
-    : '';
-}
-
-function renderGeneratedTaxonomy(discovery, resource) {
-  const target = document.querySelector('#generated-taxonomy');
-  const taxonomy = discovery.taxonomy || { categories: [], forGroups: [], warnings: [] };
-  const selectedCategories = new Set(resource.categories || []);
-  const selectedTypes = resource.categoryFilters || {};
-  const categoryNodes = taxonomy.categories.map(category => {
-    const block = document.createElement('div');
-    block.className = 'taxonomy-category';
-    const categoryLabel = document.createElement('label');
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox'; checkbox.dataset.taxonomyCategory = category.id;
-    checkbox.checked = selectedCategories.has(category.id);
-    const name = document.createElement('strong'); name.textContent = category.label;
-    categoryLabel.append(checkbox, name); block.append(categoryLabel);
-    if (category.types?.length) {
-      const options = document.createElement('div'); options.className = 'taxonomy-options';
-      category.types.forEach(type => {
-        const option = document.createElement('label');
-        const input = document.createElement('input');
-        input.type = 'checkbox'; input.dataset.taxonomyTypeCategory = category.id;
-        input.value = type; input.checked = (selectedTypes[category.id] || []).includes(type);
-        input.disabled = !checkbox.checked;
-        option.append(input, document.createTextNode(type)); options.append(option);
-      });
-      options.hidden = !checkbox.checked;
-      checkbox.addEventListener('change', () => {
-        options.hidden = !checkbox.checked;
-        options.querySelectorAll('input').forEach(input => { input.disabled = !checkbox.checked; });
-      });
-      block.append(options);
-    }
-    return block;
-  });
-  const forHeading = document.createElement('p');
-  forHeading.className = 'taxonomy-subheading'; forHeading.textContent = 'For';
-  const forOptions = document.createElement('div'); forOptions.className = 'taxonomy-options';
-  (taxonomy.forGroups || []).forEach(group => {
-    const label = document.createElement('label');
-    const input = document.createElement('input');
-    input.type = 'checkbox'; input.dataset.taxonomyFor = group;
-    input.checked = (resource.forGroups || []).includes(group);
-    label.append(input, document.createTextNode(group)); forOptions.append(label);
-  });
-  target.replaceChildren(...categoryNodes, forHeading, forOptions);
-  const warning = document.querySelector('#generated-taxonomy-warning');
-  warning.hidden = !(taxonomy.warnings || []).length;
-  warning.textContent = (taxonomy.warnings || []).length
-    ? `Needs human mapping: ${taxonomy.warnings.join(' ')}` : '';
-}
-
-function collectGeneratedTaxonomy() {
-  const categories = [...document.querySelectorAll('[data-taxonomy-category]:checked')]
-    .map(input => input.dataset.taxonomyCategory);
-  const categoryFilters = {};
-  categories.forEach(categoryId => {
-    const selected = [...document.querySelectorAll(`[data-taxonomy-type-category="${CSS.escape(categoryId)}"]:checked`)]
-      .map(input => input.value);
-    if (selected.length) categoryFilters[categoryId] = selected;
-  });
-  const forGroups = [...document.querySelectorAll('[data-taxonomy-for]:checked')]
-    .map(input => input.dataset.taxonomyFor);
-  return { categories, categoryFilters, forGroups };
-}
-
-function renderGeneratedResource(discovery, { open = false } = {}) {
-  const panel = document.querySelector('#generated-resource-panel');
-  const generated = discovery.generatedResource;
-  panel.hidden = !generated;
-  if (!generated) {
-    panel.open = false;
-    return;
-  }
-  const resource = generated.resource || {};
-  document.querySelector('#generated-name').value = resource.name || '';
-  document.querySelector('#generated-phone').value = resource.phone || '';
-  document.querySelector('#generated-address').value = resource.address || '';
-  document.querySelector('#generated-website').value = resource.website || '';
-  document.querySelector('#generated-hours').value = resource.hours || '';
-  document.querySelector('#generated-verified').value = resource.verifiedOn || '';
-  document.querySelector('#generated-description').value = resource.description || '';
-  document.querySelector('#generated-information').value = resource.informationText || '';
-  const run = state.runs.find(entry => entry.id === discovery.runId);
-  document.querySelector('#generated-category-badge').textContent = `${run?.targetCategoryLabel || 'Resource'} · additions package`;
-  renderGeneratedTaxonomy(discovery, resource);
-  document.querySelector('#generated-resource-message').textContent = discovery.status === 'accepted'
-    ? 'Included in this run’s cumulative additions package.'
-    : 'Draft retained, but excluded from the package unless this candidate is accepted.';
-  if (open) panel.open = true;
-}
-
 function openCandidate(discovery) {
   state.currentCandidate = discovery;
   document.querySelector('#candidate-dialog-name').textContent = discovery.name;
   const status = document.querySelector('#candidate-dialog-status');
-  status.className = `candidate-status ${discovery.status}`;
-  status.textContent = friendlyStatus(discovery.status);
+  status.className = 'candidate-status';
+  status.textContent = 'Research candidate';
   document.querySelector('#candidate-profile').replaceChildren(renderCandidateProfile(discovery));
-  renderGeneratedResource(discovery);
-  renderMatchReview(discovery);
-  document.querySelector('#review-feedback').value = discovery.reviewFeedback || '';
-  const run = state.runs.find(entry => entry.id === discovery.runId);
-  document.querySelector('#review-learn-label').textContent = `Save this feedback as an active ${run?.targetCategoryLabel || 'Housing'} research lesson`;
-  document.querySelector('#review-message').textContent = '';
   document.querySelector('#candidate-json').textContent = JSON.stringify(discovery.candidate, null, 2);
   document.querySelector('#candidate-dialog').showModal();
 }
@@ -1358,105 +1185,6 @@ document.querySelector('#lesson-form').addEventListener('submit', async event =>
     await loadResearchData();
   } catch (error) {
     document.querySelector('#research-message').textContent = error.message;
-  }
-});
-
-document.querySelector('#review-actions').addEventListener('click', async event => {
-  const button = event.target.closest('button[data-status]');
-  if (!button || !state.currentCandidate) return;
-  const message = document.querySelector('#review-message');
-  const feedback = document.querySelector('#review-feedback').value.trim();
-  document.querySelectorAll('#review-actions button').forEach(item => { item.disabled = true; });
-  message.textContent = 'Saving your review…';
-  try {
-    const result = await request(`/api/discoveries/${state.currentCandidate.id}/review`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        status: button.dataset.status, feedback,
-        learn: document.querySelector('#review-learn').checked,
-        scope: 'category',
-      }),
-    });
-    state.currentCandidate = result.discovery;
-    await loadResearchData();
-    if (button.dataset.status === 'accepted' && result.discovery.generatedResource) {
-      message.textContent = result.lesson
-        ? `Accepted. A TSO Resources draft was created, and your feedback is now an active ${result.discovery.taxonomy ? (state.runs.find(run => run.id === result.discovery.runId)?.targetCategoryLabel || 'Housing') : 'Housing'} lesson.`
-        : 'Accepted. A TSO Resources draft was created and added to this run’s cumulative package.';
-    } else {
-      message.textContent = result.lesson
-        ? `Review saved, and your feedback is now an active ${state.runs.find(run => run.id === result.discovery.runId)?.targetCategoryLabel || 'Housing'} lesson.`
-        : 'Review saved.';
-    }
-    const status = document.querySelector('#candidate-dialog-status');
-    status.className = `candidate-status ${result.discovery.status}`;
-    status.textContent = friendlyStatus(result.discovery.status);
-    renderGeneratedResource(result.discovery, { open: button.dataset.status === 'accepted' });
-  } catch (error) {
-    message.textContent = error.message;
-  } finally {
-    document.querySelectorAll('#review-actions button').forEach(item => { item.disabled = false; });
-  }
-});
-
-document.querySelector('#generated-resource-form').addEventListener('submit', async event => {
-  event.preventDefault();
-  if (!state.currentCandidate?.generatedResource) return;
-  const button = event.currentTarget.querySelector('button[type="submit"]');
-  const message = document.querySelector('#generated-resource-message');
-  button.disabled = true;
-  message.textContent = 'Saving the generated resource…';
-  try {
-    const result = await request(`/api/discoveries/${state.currentCandidate.id}/generated-resource`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ resource: {
-        name: document.querySelector('#generated-name').value,
-        phone: document.querySelector('#generated-phone').value,
-        address: document.querySelector('#generated-address').value,
-        website: document.querySelector('#generated-website').value,
-        hours: document.querySelector('#generated-hours').value,
-        verifiedOn: document.querySelector('#generated-verified').value,
-        description: document.querySelector('#generated-description').value,
-        informationText: document.querySelector('#generated-information').value,
-        ...collectGeneratedTaxonomy(),
-      } }),
-    });
-    state.currentCandidate = result.discovery;
-    await loadResearchData();
-    renderGeneratedResource(result.discovery, { open: true });
-    document.querySelector('#generated-resource-message').textContent = result.discovery.status === 'accepted'
-      ? 'Saved. The updated resource is in this run’s cumulative additions package.'
-      : 'Saved as a draft. It will be included only if this candidate is accepted.';
-  } catch (error) {
-    message.textContent = error.message;
-  } finally {
-    button.disabled = false;
-  }
-});
-
-document.querySelector('#save-match-assessment').addEventListener('click', async () => {
-  if (!state.currentCandidate?.matchDetails) return;
-  const selected = document.querySelector('input[name="match-assessment"]:checked');
-  const message = document.querySelector('#match-assessment-message');
-  if (!selected) {
-    message.textContent = 'Choose the relationship that best fits before saving.';
-    return;
-  }
-  const button = document.querySelector('#save-match-assessment');
-  button.disabled = true;
-  message.textContent = 'Saving the relationship assessment…';
-  try {
-    const result = await request(`/api/discoveries/${state.currentCandidate.id}/match-assessment`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ assessment: selected.value }),
-    });
-    state.currentCandidate = result.discovery;
-    await loadResearchData();
-    renderMatchReview(result.discovery);
-  } catch (error) {
-    message.textContent = error.message;
-  } finally {
-    button.disabled = false;
   }
 });
 

@@ -64,6 +64,19 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertIn("const importChanged = state.latestImport?.id !== summary.id", self.javascript)
         self.assertIn("summary.serviceArea", self.javascript)
 
+    def test_human_curation_is_exported_instead_of_performed_in_scout(self) -> None:
+        self.assertIn("05 · Research records", self.html)
+        self.assertIn("Continue in Resource Curator", self.html)
+        self.assertIn("human vetting, optional outcomes, resource editing, printing, and package preparation", self.html)
+        self.assertIn("portable vetting and package workspace", self.javascript)
+        self.assertNotIn('id="review-actions"', self.html)
+        self.assertNotIn('id="generated-resource-form"', self.html)
+        self.assertNotIn('id="save-match-assessment"', self.html)
+        self.assertNotIn("/api/discoveries/${state.currentCandidate.id}/review", self.javascript)
+        self.assertNotIn("/api/discoveries/${state.currentCandidate.id}/generated-resource", self.javascript)
+        self.assertNotIn("/api/discoveries/${state.currentCandidate.id}/match-assessment", self.javascript)
+        self.assertNotIn("Export resource package", self.javascript)
+
 
 if __name__ == "__main__":
     unittest.main()
