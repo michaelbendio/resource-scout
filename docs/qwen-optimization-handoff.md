@@ -109,7 +109,7 @@ supplementary fields now come from the selected playbook rather than a hard-code
 Housing pet-policy renderer. Package upload is also category neutral: a package
 without Housing now connects using its first available category, while explicit
 category requests still fail closed when absent. The resulting full suite passes
-205 Python tests with one optional live-package skip and all 20 JavaScript plugin
+206 Python tests with one optional live-package skip and all 20 JavaScript plugin
 tests. The exact Mesa Housing query builder now lives in the explicit
 `optimization_housing_calibration.py` fixture module instead of the reusable
 optimization primitives; its frozen behavior and plan hash remain covered by the

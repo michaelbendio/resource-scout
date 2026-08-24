@@ -471,7 +471,7 @@ reusable optimization primitives and isolated in
 unreachable legacy Markdown renderer and orphaned selectors left behind by Scout's
 structured-stage and Curator-owned-vetting transitions were removed in the final
 UI dead-code pass. The
-current full suite passes 205
+current full suite passes 206
 Python tests with one optional skip and all 20 JavaScript plugin tests.
 
 ### 7. Complete Housing calibration
