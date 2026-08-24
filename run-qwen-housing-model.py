@@ -53,7 +53,7 @@ configuration.update(
         "label": (
             f"{str(configuration['targetLocation']).casefold().replace(' ', '-')}-"
             f"{configuration['targetCategoryId']}-{configuration['stageKey']}-"
-            f"{arguments.quantization}-verifier-patch-v10"
+            f"{arguments.quantization}-reviewed-evidence-v11"
         ),
         "modelArtifact": PINNED_MODELS[arguments.quantization],
         "quantization": arguments.quantization,
@@ -62,7 +62,7 @@ configuration.update(
         "mlxVersion": f"mlx-lm-0.31.3_2;mlx-0.32.1;{WORKAROUND_VERSION}",
         "dshVersion": "not-used-direct-openai-compatible-endpoint",
         "promptPolicyVersion": (
-            "schema-playbook-dossier-v1-and-independent-verifier-decision-patch-v2;"
+            "schema-playbook-dossier-v1-and-independent-verifier-decision-patch-v3;"
             "frozen-candidate-identity-v1;verifier-candidate-salvage-v1"
         ),
         "playbookVersion": playbook.library_version,

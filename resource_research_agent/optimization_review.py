@@ -10,8 +10,11 @@ from urllib.parse import urlsplit
 from .optimization import (
     augment_query_plan_with_identity_status_checks,
     CANDIDATE_QUALIFICATION_POLICY_VERSION,
+    EVIDENCE_PREPARATION_POLICY_VERSION,
+    candidate_identity_key,
     candidate_qualification,
     canonicalize_discovery_url,
+    reviewed_source_metadata,
     sha256_json,
     validate_query_plan,
 )
@@ -209,6 +212,7 @@ def identity_review_template(cache: dict[str, Any]) -> dict[str, Any]:
     return {
         "schemaVersion": 2,
         "candidateQualificationPolicyVersion": CANDIDATE_QUALIFICATION_POLICY_VERSION,
+        "evidencePreparationPolicyVersion": EVIDENCE_PREPARATION_POLICY_VERSION,
         "searchCacheSha256": cache.get("cacheSha256") or sha256_json(cache.get("queries", {})),
         "decisions": dict(sorted(records.items())),
     }
@@ -378,6 +382,181 @@ def apply_identity_review_patch(
     return result
 
 
+def apply_evidence_preparation_manifest(
+    cache: dict[str, Any],
+    review: dict[str, Any],
+    manifest: dict[str, Any],
+) -> dict[str, Any]:
+    """Apply an exact, replayable evidence receipt to every eligible stage identity."""
+    if not isinstance(manifest, dict) or manifest.get("schemaVersion") != 1:
+        raise OptimizationRuntimeError("Evidence-preparation manifest schemaVersion must be 1")
+    if manifest.get("policyVersion") != EVIDENCE_PREPARATION_POLICY_VERSION:
+        raise OptimizationRuntimeError(
+            "Evidence-preparation manifest lacks the current policy version"
+        )
+    expected_cache_hash = cache.get("cacheSha256") or sha256_json(
+        cache.get("queries", {})
+    )
+    if review.get("searchCacheSha256") != expected_cache_hash:
+        raise OptimizationRuntimeError("Identity review belongs to a different search cache")
+    if manifest.get("searchCacheSha256") != expected_cache_hash:
+        raise OptimizationRuntimeError(
+            "Evidence-preparation manifest belongs to a different search cache"
+        )
+    if manifest.get("baseReviewSha256") != sha256_json(review):
+        raise OptimizationRuntimeError(
+            "Evidence-preparation manifest belongs to a different identity review"
+        )
+    label = " ".join(str(manifest.get("label") or "").split())
+    stage_key = " ".join(
+        str((cache.get("queryPlan") or {}).get("stageKey") or "").split()
+    )
+    if not label or not stage_key or manifest.get("stageKey") != stage_key:
+        raise OptimizationRuntimeError(
+            "Evidence-preparation manifest needs the cache's exact stage and a label"
+        )
+    sources = manifest.get("sources")
+    if not isinstance(sources, list) or not sources:
+        raise OptimizationRuntimeError(
+            "Evidence-preparation manifest needs a non-empty sources array"
+        )
+
+    decisions = review.get("decisions")
+    if not isinstance(decisions, dict):
+        raise OptimizationRuntimeError("Identity review has no decisions object")
+    targets: dict[tuple[str, str], tuple[str, int, dict[str, Any]]] = {}
+    for url, decision in decisions.items():
+        if not isinstance(decision, dict) or decision.get("disposition") != "candidate":
+            continue
+        identity_value = decision.get("identities", decision.get("identity"))
+        identities = identity_value if isinstance(identity_value, list) else [identity_value]
+        for index, identity in enumerate(identities):
+            if not isinstance(identity, dict):
+                continue
+            try:
+                qualification = candidate_qualification(
+                    identity,
+                    boundary_state=str(identity.get("boundaryState") or "resolved"),
+                    package_match_state="not-matched",
+                )
+            except ValueError as error:
+                raise OptimizationRuntimeError(
+                    f"Candidate identity lacks qualification: {url}: {error}"
+                ) from error
+            target_stage = str(identity.get("stageKey") or stage_key)
+            if qualification["state"] != "eligible" or target_stage != stage_key:
+                continue
+            key = (url, candidate_identity_key(identity["organization"], identity["program"]))
+            if key in targets:
+                raise OptimizationRuntimeError(
+                    f"Eligible evidence-preparation identity is duplicated: {url}: {key[1]}"
+                )
+            targets[key] = (
+                "identities" if isinstance(identity_value, list) else "identity",
+                index,
+                identity,
+            )
+
+    normalized_entries: dict[tuple[str, str], dict[str, Any]] = {}
+    for raw in sources:
+        if not isinstance(raw, dict):
+            raise OptimizationRuntimeError("Evidence-preparation source entry is invalid")
+        try:
+            url = canonicalize_discovery_url(raw.get("url"))
+        except ValueError as error:
+            raise OptimizationRuntimeError(
+                "Evidence-preparation source entry has an invalid URL"
+            ) from error
+        identity_key = str(raw.get("identityKey") or "").strip()
+        reason = " ".join(str(raw.get("reason") or "").split())
+        key = (url, identity_key)
+        if key not in targets:
+            raise OptimizationRuntimeError(
+                "Evidence-preparation source is not an eligible reviewed identity: "
+                f"{url}: {identity_key}"
+            )
+        if key in normalized_entries:
+            raise OptimizationRuntimeError(
+                f"Evidence-preparation source is duplicated: {url}: {identity_key}"
+            )
+        organization = " ".join(str(raw.get("organization") or "").split())
+        program = " ".join(str(raw.get("program") or "").split())
+        if not organization or not program or not reason:
+            raise OptimizationRuntimeError(
+                f"Evidence-preparation source needs final identity labels and a reason: {url}"
+            )
+        final_identity = deepcopy(targets[key][2])
+        final_identity.update(
+            {
+                "organization": organization,
+                "program": program,
+                "reviewedAuthority": raw.get("reviewedAuthority"),
+                "evidenceSelection": deepcopy(raw.get("evidenceSelection")),
+                "identitySupport": deepcopy(raw.get("identitySupport")),
+            }
+        )
+        for field in ("pageOrganization", "pageProgram"):
+            if field in raw:
+                final_identity[field] = raw[field]
+            else:
+                final_identity.pop(field, None)
+        try:
+            reviewed_source_metadata(
+                final_identity,
+                require_current_contract=True,
+            )
+        except ValueError as error:
+            raise OptimizationRuntimeError(
+                f"Evidence-preparation source receipt is invalid: {url}: {error}"
+            ) from error
+        normalized_entries[key] = {
+            "identity": final_identity,
+            "reason": reason,
+        }
+
+    missing = sorted(set(targets) - set(normalized_entries))
+    if missing:
+        raise OptimizationRuntimeError(
+            f"Evidence-preparation manifest is missing {len(missing)} eligible identities"
+        )
+
+    result = deepcopy(review)
+    for key, entry in normalized_entries.items():
+        url, _identity_key = key
+        container, index, _old_identity = targets[key]
+        if container == "identity":
+            result["decisions"][url]["identity"] = entry["identity"]
+        else:
+            result["decisions"][url]["identities"][index] = entry["identity"]
+        existing_reason = " ".join(
+            str(result["decisions"][url].get("reason") or "").split()
+        )
+        result["decisions"][url]["reason"] = (
+            f"{existing_reason} Evidence preparation: {entry['reason']}"
+        ).strip()
+    result["evidencePreparationPolicyVersion"] = EVIDENCE_PREPARATION_POLICY_VERSION
+    manifest_hash = sha256_json(manifest)
+    applications = result.setdefault("reviewApplications", [])
+    if not any(
+        isinstance(application, dict)
+        and application.get("evidencePreparationManifestSha256") == manifest_hash
+        for application in applications
+    ):
+        applications.append(
+            {
+                "label": label,
+                "decisionCount": len(normalized_entries),
+                "evidencePreparationManifestSha256": manifest_hash,
+            }
+        )
+    validate_identity_review(
+        cache,
+        result,
+        evidence_preparation_policy_version=EVIDENCE_PREPARATION_POLICY_VERSION,
+    )
+    return result
+
+
 def build_identity_review_exclusion_patch(
     review: dict[str, Any], policy: dict[str, Any]
 ) -> dict[str, Any]:
@@ -495,7 +674,12 @@ def build_exact_reused_exclusion_patch(
     }
 
 
-def validate_identity_review(cache: dict[str, Any], review: dict[str, Any]) -> None:
+def validate_identity_review(
+    cache: dict[str, Any],
+    review: dict[str, Any],
+    *,
+    evidence_preparation_policy_version: str = "",
+) -> None:
     expected = cache.get("cacheSha256") or sha256_json(cache.get("queries", {}))
     if review.get("searchCacheSha256") != expected:
         raise OptimizationRuntimeError("Identity review belongs to a different search cache")
@@ -506,10 +690,25 @@ def validate_identity_review(cache: dict[str, Any], review: dict[str, Any]) -> N
         raise OptimizationRuntimeError(
             "Identity review lacks the current candidate-role qualification policy"
         )
+    if evidence_preparation_policy_version:
+        if evidence_preparation_policy_version != EVIDENCE_PREPARATION_POLICY_VERSION:
+            raise OptimizationRuntimeError(
+                "Identity review requested an unsupported evidence-preparation policy"
+            )
+        if (
+            review.get("evidencePreparationPolicyVersion")
+            != EVIDENCE_PREPARATION_POLICY_VERSION
+        ):
+            raise OptimizationRuntimeError(
+                "Identity review lacks the current evidence-preparation policy"
+            )
     decisions = review.get("decisions")
     if not isinstance(decisions, dict):
         raise OptimizationRuntimeError("Identity review has no decisions object")
     template = identity_review_template(cache)["decisions"]
+    review_stage_key = str(
+        (cache.get("queryPlan") or {}).get("stageKey") or ""
+    ).strip()
     missing = sorted(set(template) - set(decisions))
     if missing:
         raise OptimizationRuntimeError(f"Identity review is missing {len(missing)} discovered URLs")
@@ -541,7 +740,7 @@ def validate_identity_review(cache: dict[str, Any], review: dict[str, Any]) -> N
             ).strip():
                 raise OptimizationRuntimeError(f"Candidate identity is incomplete: {url}")
             try:
-                candidate_qualification(
+                qualification = candidate_qualification(
                     identity,
                     boundary_state=str(identity.get("boundaryState") or "resolved"),
                     package_match_state="not-matched",
@@ -556,6 +755,27 @@ def validate_identity_review(cache: dict[str, Any], review: dict[str, Any]) -> N
                 raise OptimizationRuntimeError(
                     f"Candidate evidence excerpt is blank: {url}"
                 )
+            target_stage_key = str(
+                identity.get("stageKey") or review_stage_key
+            ).strip()
+            requires_current_evidence = bool(
+                evidence_preparation_policy_version
+                and qualification["state"] == "eligible"
+                and (
+                    not review_stage_key
+                    or target_stage_key == review_stage_key
+                )
+            )
+            if requires_current_evidence:
+                try:
+                    reviewed_source_metadata(
+                        identity,
+                        require_current_contract=True,
+                    )
+                except ValueError as error:
+                    raise OptimizationRuntimeError(
+                        f"Candidate evidence receipt is invalid: {url}: {error}"
+                    ) from error
 
 
 def reviewed_identity_decisions(

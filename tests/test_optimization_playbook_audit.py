@@ -129,6 +129,7 @@ def fixture_audit(plan: dict, category_id: str) -> dict:
                 "key": "direct-access",
                 "label": "Direct category access",
                 "query": f"Mesa current {category_id} direct intake",
+                "satisfiedByAnyTags": ["direct-access", "walk-in-access"],
             }
         ],
         "gapSearchTerms": ["No current program for one required service need"],
@@ -162,6 +163,58 @@ class OptimizationPlaybookAuditTests(unittest.TestCase):
             set(normalized["coverageBranchKeys"])
             | set(normalized["operationalBranchKeys"]),
         )
+
+    def test_coverage_need_aliases_and_operational_checks_are_explicit(self) -> None:
+        plan = {
+            "schemaVersion": 4,
+            "candidateQualificationPolicyVersion": "candidate-qualification-gates-v2",
+            "categoryId": "food",
+            "stageKey": "immediate-food",
+            "targetLocation": "Mesa",
+            "regionalScope": "Maricopa County and nearby areas",
+            "branches": [
+                {
+                    "key": "direct-food",
+                    "purpose": "Find current direct food access.",
+                    "required": True,
+                    "saturation": {
+                        "minimumQueries": 1,
+                        "maximumQueries": 1,
+                        "consecutiveNoNewIdentityQueries": 1,
+                        "noveltyUnit": "package-eligible identity",
+                    },
+                    "queries": [
+                        {
+                            "key": "direct-food-1",
+                            "position": 1,
+                            "purpose": "Find current direct food access.",
+                            "query": "Mesa current food pantry intake",
+                        }
+                    ],
+                }
+            ],
+        }
+        audit = fixture_audit(plan, "food")
+        normalized = normalize_optimization_playbook_audit(
+            audit,
+            query_plan=plan,
+            playbook=playbook_for("food"),
+            referral_graph_sha256="a" * 64,
+            referral_review_sha256="b" * 64,
+        )
+        self.assertEqual(
+            ["direct-access", "walk-in-access"],
+            normalized["requiredCoverageNeeds"][0]["satisfiedByAnyTags"],
+        )
+
+        invalid = deepcopy(audit)
+        invalid["requiredCoverageNeeds"][0]["satisfiedByAllTags"] = ["direct-access"]
+        with self.assertRaisesRegex(ValueError, "cannot combine"):
+            normalize_optimization_playbook_audit(
+                invalid,
+                query_plan=plan,
+                playbook=playbook_for("food"),
+            )
 
     def test_audit_rejects_stale_receipt_branch_and_field_contracts(self) -> None:
         plan = housing_audited_plan()

@@ -53,7 +53,7 @@ def _optional_sha256(value: Any, field: str) -> str | None:
     return _sha256(value, field)
 
 
-def _coverage_needs(value: Any) -> list[dict[str, str]]:
+def _coverage_needs(value: Any) -> list[dict[str, Any]]:
     if not isinstance(value, list) or not value:
         raise ValueError("Optimization playbook audit needs requiredCoverageNeeds")
     result = []
@@ -65,13 +65,32 @@ def _coverage_needs(value: Any) -> list[dict[str, str]]:
         if key in keys:
             raise ValueError("Optimization required coverage need keys must be unique")
         keys.add(key)
-        result.append(
-            {
-                "key": key,
-                "label": _text(item.get("label"), "requiredCoverageNeeds.label"),
-                "query": _text(item.get("query"), "requiredCoverageNeeds.query"),
-            }
-        )
+        normalized: dict[str, Any] = {
+            "key": key,
+            "label": _text(item.get("label"), "requiredCoverageNeeds.label"),
+            "query": _text(item.get("query"), "requiredCoverageNeeds.query"),
+        }
+        any_tags = item.get("satisfiedByAnyTags")
+        all_tags = item.get("satisfiedByAllTags")
+        if any_tags is not None and all_tags is not None:
+            raise ValueError(
+                "Optimization required coverage need cannot combine any-tag and all-tag matching"
+            )
+        if any_tags is not None:
+            normalized["satisfiedByAnyTags"] = _text_list(
+                any_tags, "requiredCoverageNeeds.satisfiedByAnyTags"
+            )
+        if all_tags is not None:
+            normalized["satisfiedByAllTags"] = _text_list(
+                all_tags, "requiredCoverageNeeds.satisfiedByAllTags"
+            )
+        if "candidateGap" in item:
+            if not isinstance(item["candidateGap"], bool):
+                raise ValueError(
+                    "Optimization required coverage need candidateGap must be boolean"
+                )
+            normalized["candidateGap"] = item["candidateGap"]
+        result.append(normalized)
     return result
 
 

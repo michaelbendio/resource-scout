@@ -747,6 +747,18 @@ class ModelPipelineTests(unittest.TestCase):
                     "label": "Medical respite",
                     "query": '"Mesa" medical respite homeless program',
                 },
+                {
+                    "key": "adult-pathway",
+                    "label": "Equivalent adult access tag",
+                    "query": '"Mesa" adult access pathway',
+                    "satisfiedByAnyTags": ["emergency-adult", "adult-pathway"],
+                },
+                {
+                    "key": "operational-boundary-check",
+                    "label": "Completed boundary check",
+                    "query": '"Mesa" regional boundary check',
+                    "candidateGap": False,
+                },
             ),
             progress=progress,
         )
@@ -782,6 +794,66 @@ class ModelPipelineTests(unittest.TestCase):
                 "Use only program or organization as an evidence-binding scope."
                 in prompt["instructions"]
                 for prompt in models.extract_prompts
+            )
+        )
+        self.assertTrue(
+            all(
+                any(
+                    "never fax numbers or email addresses" in instruction
+                    for instruction in prompt["instructions"]
+                )
+                for prompt in models.extract_prompts
+            )
+        )
+        self.assertTrue(
+            all(
+                any(
+                    "access points, properties, partners, subprograms"
+                    in instruction
+                    for instruction in prompt["instructions"]
+                )
+                for prompt in models.extract_prompts
+            )
+        )
+        self.assertTrue(
+            all(
+                any(
+                    "site footer, headquarters, admin office"
+                    in instruction
+                    for instruction in prompt["instructions"]
+                )
+                for prompt in models.extract_prompts
+            )
+        )
+        self.assertTrue(
+            all(
+                any(
+                    "direct-provider source canonical URL"
+                    in instruction
+                    for instruction in prompt["instructions"]
+                )
+                for prompt in models.extract_prompts
+            )
+        )
+        self.assertTrue(
+            all(
+                "access-point, property, partner, subprogram, and system attribution"
+                in prompt["checklist"]
+                for prompt in models.verify_prompts
+            )
+        )
+        self.assertTrue(
+            all(
+                "footer, headquarters, admin-office, and service-geography attribution"
+                in prompt["checklist"]
+                for prompt in models.verify_prompts
+            )
+        )
+        self.assertTrue(
+            all(
+                "exact-identity direct-provider URL evidence for the website field"
+                in prompt["checklist"]
+                for prompt in models.verify_prompts
             )
         )
         self.assertTrue(

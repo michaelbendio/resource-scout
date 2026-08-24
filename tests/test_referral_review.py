@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import json
 import tempfile
 import unittest
-from copy import deepcopy
 from pathlib import Path
 
+from resource_research_agent.optimization import EVIDENCE_PREPARATION_POLICY_VERSION
 from resource_research_agent.optimization_pipeline import OptimizationDiscoveryPipeline
 from resource_research_agent.referral_graph import (
     attach_referral_graph_to_query_plan,
@@ -101,6 +102,95 @@ class ReferralReviewTests(unittest.TestCase):
         identity["evidenceUrls"] = [graph["edges"][0]["sourceUrl"]]
         with self.assertRaisesRegex(ValueError, "freshly fetched destination"):
             normalize_referral_review(graph, review)
+
+    def test_current_policy_validates_referral_receipts_before_pipeline_run(self) -> None:
+        graph = self.graph()
+        review = self.review(graph)
+        review["evidencePreparationPolicyVersion"] = (
+            EVIDENCE_PREPARATION_POLICY_VERSION
+        )
+        with self.assertRaisesRegex(ValueError, "evidence receipt is invalid"):
+            normalize_referral_review(
+                graph,
+                review,
+                evidence_preparation_policy_version=(
+                    EVIDENCE_PREPARATION_POLICY_VERSION
+                ),
+            )
+
+        identity = review["decisions"][graph["edges"][0]["edgeKey"]]["identity"]
+        identity.update(
+            {
+                "reviewedAuthority": "direct-provider",
+                "evidenceSelection": {"mode": "full-page"},
+                "identitySupport": {
+                    "organization": {
+                        "relationship": "exact-label",
+                        "sourceLabel": "Provider",
+                        "evidenceExcerpt": "Provider",
+                    },
+                    "program": {
+                        "relationship": "exact-label",
+                        "sourceLabel": "Current Program Name",
+                        "evidenceExcerpt": "Current Program Name",
+                    },
+                },
+            }
+        )
+        normalized = normalize_referral_review(
+            graph,
+            review,
+            evidence_preparation_policy_version=EVIDENCE_PREPARATION_POLICY_VERSION,
+        )
+        self.assertEqual(
+            EVIDENCE_PREPARATION_POLICY_VERSION,
+            normalized["evidencePreparationPolicyVersion"],
+        )
+
+        providers = FixtureProviders()
+        configuration = providers.configuration("fixture-current-referral-evidence")
+        configuration["limits"]["evidencePreparationPolicyVersion"] = (
+            EVIDENCE_PREPARATION_POLICY_VERSION
+        )
+        configuration["queryPlan"] = attach_referral_graph_to_query_plan(
+            configuration["queryPlan"], graph
+        )
+        destination = graph["edges"][0]["destinationUrl"]
+        resolver = ReviewedReferralResolver(graph, normalized, lambda _result: None)
+        with tempfile.TemporaryDirectory() as directory:
+            store = ResearchStore(Path(directory) / "research.sqlite3")
+            result = OptimizationDiscoveryPipeline(
+                store,
+                configuration,
+                search=lambda _query, _maximum: [],
+                fetch=lambda url: {
+                    "text": "Provider\nCurrent Program Name\nCurrent intake is available.",
+                    "finalUrl": url,
+                    "statusCode": 200,
+                    "contentType": "text/html",
+                },
+                resolve_identity=resolver,
+                referral_graph=graph,
+            ).run()
+            with store.connect() as connection:
+                packet = json.loads(
+                    connection.execute(
+                        "SELECT packet_json FROM optimization_evidence_packets "
+                        "WHERE corpus_id = ?",
+                        (result.corpus_id,),
+                    ).fetchone()["packet_json"]
+                )
+        self.assertEqual(1, result.packet_count)
+        self.assertEqual(
+            "reviewed-full-page",
+            packet["sources"][0]["extract"]["selection"]["method"],
+        )
+        self.assertEqual(
+            "Current Program Name",
+            packet["sources"][0]["extract"]["identitySupport"]["program"][
+                "sourceLabel"
+            ],
+        )
 
     def test_resolver_uses_edge_key_and_falls_back_for_search_results(self) -> None:
         graph = self.graph()

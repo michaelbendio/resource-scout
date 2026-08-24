@@ -56,7 +56,9 @@ the reviewed destination.
 Revised corpus freezing also requires a versioned
 [`optimization playbook audit`](docs/optimization-playbook-audits.md) that binds
 the selected playbook, coverage branches, roles, fields, geography, source
-families, gap rules, status signals, and referral components.
+families, gap rules, status signals, and referral components. Candidate gap
+needs use explicit exact/any/all tag receipts, while already-completed
+operational checks are excluded from candidate-gap generation.
 
 Vetting remains ordinary resource preparation. Vetters are not asked to score the model or its candidates, and Qwen does not judge its own work. Scout scoring is computed afterward from the preserved linkage and package comparison. Candidate yield counts only unique, usable candidates that become corresponding resources in a final saved package; the comparison must keep accuracy, completeness, source quality, usable yield, and elapsed research time as separate measures in that order.
 
@@ -213,6 +215,36 @@ fresh query plan with `--prior-lead-manifest`:
   --playbook-audit /path/to/mesa-housing-stabilization-audit-v1.json \
   --prior-lead-manifest /path/to/mesa-housing-stabilization-routed-v1.json
 ```
+
+Before freezing, every candidate source in the reviewed ledger must carry the
+current evidence receipt described in
+`docs/identity-qualification-manifests.md`: an explicit authority, either a
+complete-page or one-or-more exact-section selection, and organization/program identity
+support. Direct-provider pages keep the complete bounded extract. Referral or
+directory pages that mention several programs should use exact section
+boundaries so neighboring access-point, property, partner, or program facts
+cannot be attributed to the candidate. Several ordered, non-overlapping
+sections may retain later candidate-wide facts while omitting intervening
+entity-specific blocks. Unsupported labels and missing current
+section text fail closed before model inference. The source title is refreshed
+from the current bounded page instead of trusting a stale or concatenated search
+result title.
+
+Apply a reviewed, stage-exact receipt manifest without hand-editing the ledger:
+
+```sh
+python3 prepare-qwen-evidence-review.py \
+  --cache /path/to/search-cache.json \
+  --review /path/to/completed-identity-review.json \
+  --manifest /path/to/evidence-preparation-manifest.json \
+  --output /path/to/prepared-identity-review.json
+```
+
+The manifest is bound to both the cache and base-review hashes and must cover
+every eligible identity in that stage exactly once. It may correct the final
+organization/program labels, but each corrected label must still carry an exact
+source-label receipt (or a reasoned reviewed alias). Routed, review-required,
+and noncandidate leads remain in the ledger without being promoted.
 
 The resulting hashed query plan records the candidate-specific closure, relocation,
 renaming, and intake sweep. Matching base queries are copied from the prior cache;

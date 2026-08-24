@@ -10,6 +10,8 @@ from urllib.parse import urlsplit
 from .optimization import (
     branch_stop_state,
     CANDIDATE_QUALIFICATION_POLICY_VERSION,
+    EVIDENCE_PREPARATION_POLICY_VERSION,
+    SOURCE_AUTHORITIES,
     candidate_qualification,
     candidate_identity_key,
     canonicalize_discovery_url,
@@ -17,6 +19,7 @@ from .optimization import (
     configuration_snapshot,
     coverage_branch_complete,
     package_exclusion_state,
+    reviewed_source_metadata,
     sha256_json,
 )
 from .playbooks import playbook_for
@@ -67,7 +70,13 @@ def source_authority(
     *,
     direct_domains: Iterable[str] = (),
     reviewed_authority: str | None = None,
+    reviewed_authority_precedence: bool = False,
 ) -> str:
+    normalized_reviewed = str(reviewed_authority or "").strip()
+    if reviewed_authority_precedence and normalized_reviewed:
+        if normalized_reviewed not in SOURCE_AUTHORITIES:
+            raise ValueError(f"Invalid reviewed source authority: {normalized_reviewed}")
+        return normalized_reviewed
     hostname = (urlsplit(url).hostname or "").casefold()
     normalized_direct = {
         str(domain).strip().casefold().removeprefix("www.")
@@ -109,6 +118,19 @@ class OptimizationDiscoveryPipeline:
             str(self.configuration_record["snapshot"]["targetCategoryId"])
         )
         self.stage_keys = {stage["key"] for stage in self.playbook.stages}
+        self.evidence_preparation_policy_version = str(
+            self.configuration_record["snapshot"]["limits"].get(
+                "evidencePreparationPolicyVersion"
+            )
+            or ""
+        )
+        if self.evidence_preparation_policy_version not in {
+            "",
+            EVIDENCE_PREPARATION_POLICY_VERSION,
+        }:
+            raise OptimizationPipelineError(
+                "Discovery configuration uses an unsupported evidence-preparation policy"
+            )
         query_plan = self.configuration_record["snapshot"]["queryPlan"]
         if (
             query_plan.get("candidateQualificationPolicyVersion")
@@ -185,6 +207,167 @@ class OptimizationDiscoveryPipeline:
         self.resolve_identity = resolve_identity
         self.existing_resources = tuple(existing_resources)
         self.progress = progress or (lambda _event: None)
+
+    def _reviewed_source_metadata(
+        self,
+        decision: dict[str, Any],
+        *,
+        require_current_contract: bool,
+    ) -> dict[str, Any]:
+        try:
+            return reviewed_source_metadata(
+                decision,
+                require_current_contract=require_current_contract,
+            )
+        except ValueError as error:
+            raise OptimizationPipelineError(str(error)) from error
+
+    def _identity_requires_current_evidence_contract(
+        self, connection: sqlite3.Connection, identity_id: int
+    ) -> bool:
+        if not self.evidence_preparation_policy_version:
+            return False
+        row = connection.execute(
+            "SELECT promotion_state, target_stage_key "
+            "FROM optimization_candidate_identities WHERE id = ?",
+            (identity_id,),
+        ).fetchone()
+        return bool(
+            row
+            and row["promotion_state"] == "eligible"
+            and row["target_stage_key"]
+            == self.configuration_record["snapshot"]["stageKey"]
+        )
+
+    def _selected_evidence_extract(
+        self,
+        full_extract: dict[str, Any],
+        metadata: dict[str, Any],
+        *,
+        identity_key: str,
+        legacy_context_characters: int,
+    ) -> dict[str, Any]:
+        text = str(full_extract["text"])
+        result = dict(full_extract)
+        if self.evidence_preparation_policy_version:
+            selection = metadata["evidenceSelection"]
+            mode = selection["mode"]
+            if mode == "full-page":
+                start = 0
+                end = len(text)
+                result["selection"] = {
+                    "method": "reviewed-full-page",
+                    "policyVersion": self.evidence_preparation_policy_version,
+                    "sourceStart": start,
+                    "sourceEnd": end,
+                }
+            elif mode == "reviewed-section":
+                start_excerpt = selection["startExcerpt"]
+                end_excerpt = selection["endExcerpt"]
+                if text.count(start_excerpt) != 1:
+                    raise ValueError(
+                        "Reviewed evidence start excerpt must occur exactly once for "
+                        f"{identity_key}"
+                    )
+                if text.count(end_excerpt) != 1:
+                    raise ValueError(
+                        "Reviewed evidence end excerpt must occur exactly once for "
+                        f"{identity_key}"
+                    )
+                start = text.index(start_excerpt)
+                end_position = text.index(end_excerpt)
+                end = end_position + len(end_excerpt)
+                if end_position < start:
+                    raise ValueError(
+                        f"Reviewed evidence section is reversed for {identity_key}"
+                    )
+                result["text"] = text[start:end]
+                result["selection"] = {
+                    "method": "reviewed-exact-section",
+                    "policyVersion": self.evidence_preparation_policy_version,
+                    "startExcerpt": start_excerpt,
+                    "endExcerpt": end_excerpt,
+                    "sourceStart": start,
+                    "sourceEnd": end,
+                }
+            else:
+                selected_sections = []
+                selection_receipts = []
+                prior_end = -1
+                for index, section in enumerate(selection["sections"], start=1):
+                    start_excerpt = section["startExcerpt"]
+                    end_excerpt = section["endExcerpt"]
+                    if text.count(start_excerpt) != 1:
+                        raise ValueError(
+                            f"Reviewed evidence section {index} start must occur exactly once for "
+                            f"{identity_key}"
+                        )
+                    if text.count(end_excerpt) != 1:
+                        raise ValueError(
+                            f"Reviewed evidence section {index} end must occur exactly once for "
+                            f"{identity_key}"
+                        )
+                    start = text.index(start_excerpt)
+                    end_position = text.index(end_excerpt)
+                    end = end_position + len(end_excerpt)
+                    if end_position < start:
+                        raise ValueError(
+                            f"Reviewed evidence section {index} is reversed for {identity_key}"
+                        )
+                    if start < prior_end:
+                        raise ValueError(
+                            f"Reviewed evidence sections overlap or are out of order for {identity_key}"
+                        )
+                    selected_sections.append(text[start:end])
+                    selection_receipts.append(
+                        {
+                            "startExcerpt": start_excerpt,
+                            "endExcerpt": end_excerpt,
+                            "sourceStart": start,
+                            "sourceEnd": end,
+                        }
+                    )
+                    prior_end = end
+                result["text"] = "\n\n".join(selected_sections)
+                result["selection"] = {
+                    "method": "reviewed-exact-sections",
+                    "policyVersion": self.evidence_preparation_policy_version,
+                    "sections": selection_receipts,
+                }
+            support = metadata["identitySupport"]
+            searchable = str(result["text"])
+            for field in ("organization", "program"):
+                receipt = support[field]
+                excerpt = receipt["evidenceExcerpt"]
+                if excerpt not in searchable:
+                    raise ValueError(
+                        f"Reviewed {field} identity evidence is absent for {identity_key}"
+                    )
+                if receipt["sourceLabel"].casefold() not in excerpt.casefold():
+                    raise ValueError(
+                        f"Reviewed {field} source label is absent from its identity excerpt"
+                    )
+            result["identitySupport"] = support
+            return result
+
+        excerpt = str(metadata.get("evidenceExcerpt") or "").strip()
+        if not excerpt:
+            return result
+        position = text.find(excerpt)
+        if position < 0:
+            raise ValueError(
+                f"Reviewed evidence excerpt is absent for {identity_key}"
+            )
+        start = max(0, position - legacy_context_characters)
+        end = min(len(text), position + len(excerpt) + legacy_context_characters)
+        result["text"] = text[start:end]
+        result["selection"] = {
+            "method": "reviewed-exact-excerpt",
+            "excerpt": excerpt,
+            "sourceStart": start,
+            "sourceEnd": end,
+        }
+        return result
 
     def run(self) -> DiscoveryCorpusResult:
         configuration_id = self.store.save_optimization_configuration(self.configuration)
@@ -449,29 +632,21 @@ class OptimizationDiscoveryPipeline:
                     identity_id, _created = self._save_identity(
                         connection, run_id, decision
                     )
-                    metadata = {
-                        "directDomains": sorted(
-                            {
-                                str(domain).strip().casefold()
-                                for domain in decision.get("directDomains", [])
-                                if str(domain).strip()
-                            }
+                    metadata = self._reviewed_source_metadata(
+                        decision,
+                        require_current_contract=(
+                            self._identity_requires_current_evidence_contract(
+                                connection, identity_id
+                            )
                         ),
-                        "reviewedAuthority": decision.get("reviewedAuthority"),
-                        "coverageTags": sorted(
-                            {
-                                str(tag).strip()
-                                for tag in decision.get("coverageTags", [])
-                                if str(tag).strip()
-                            }
-                        ),
-                        "evidenceExcerpt": str(
-                            decision.get("evidenceExcerpt") or ""
-                        ).strip(),
-                        "referralEdgeKey": edge["edge_key"],
-                        "referralSourceUrl": edge["source_url"],
-                        "referralContext": edge["context"],
-                    }
+                    )
+                    metadata.update(
+                        {
+                            "referralEdgeKey": edge["edge_key"],
+                            "referralSourceUrl": edge["source_url"],
+                            "referralContext": edge["context"],
+                        }
+                    )
                     connection.execute(
                         """INSERT INTO optimization_identity_leads (
                                identity_id, lead_id, relationship, metadata_json
@@ -727,42 +902,14 @@ class OptimizationDiscoveryPipeline:
                         raise OptimizationPipelineError(
                             f"Invalid lead relationship for {canonical_url}: {relationship}"
                         )
-                    page_organization = str(
-                        decision.get("pageOrganization") or ""
-                    ).strip()
-                    page_program = str(decision.get("pageProgram") or "").strip()
-                    if bool(page_organization) != bool(page_program):
-                        raise OptimizationPipelineError(
-                            "Reviewed page identity needs both organization and program"
-                        )
-                    lead_metadata = {
-                        "directDomains": sorted(
-                            {
-                                str(domain).strip().casefold()
-                                for domain in decision.get("directDomains", [])
-                                if str(domain).strip()
-                            }
+                    lead_metadata = self._reviewed_source_metadata(
+                        decision,
+                        require_current_contract=(
+                            self._identity_requires_current_evidence_contract(
+                                connection, identity_id
+                            )
                         ),
-                        "reviewedAuthority": decision.get("reviewedAuthority"),
-                        "coverageTags": sorted(
-                            {
-                                str(tag).strip()
-                                for tag in decision.get("coverageTags", [])
-                                if str(tag).strip()
-                            }
-                        ),
-                        "evidenceExcerpt": str(
-                            decision.get("evidenceExcerpt") or ""
-                        ).strip(),
-                        **(
-                            {
-                                "pageOrganization": page_organization,
-                                "pageProgram": page_program,
-                            }
-                            if page_organization
-                            else {}
-                        ),
-                    }
+                    )
                     connection.execute(
                         """INSERT INTO optimization_identity_leads (
                                identity_id, lead_id, relationship, metadata_json
@@ -938,14 +1085,6 @@ class OptimizationDiscoveryPipeline:
                 )
             return int(existing_row["id"]), False
         metadata = {
-            "directDomains": sorted(
-                {
-                    str(domain).strip().casefold()
-                    for domain in decision.get("directDomains", [])
-                    if str(domain).strip()
-                }
-            ),
-            "reviewedAuthority": decision.get("reviewedAuthority"),
             "coverageTags": sorted(
                 {
                     str(tag).strip()
@@ -955,7 +1094,6 @@ class OptimizationDiscoveryPipeline:
             ),
             "stageKey": target_stage_key,
             "candidateQualification": qualification,
-            "evidenceExcerpt": str(decision.get("evidenceExcerpt") or "").strip(),
         }
         cursor = connection.execute(
             """INSERT INTO optimization_candidate_identities (
@@ -1042,6 +1180,26 @@ class OptimizationDiscoveryPipeline:
                 (lead_id, self.configuration_record["snapshot"]["stageKey"]),
             ).fetchall()
         try:
+            if self.evidence_preparation_policy_version:
+                reviewed_metadata = [
+                    json.loads(identity["lead_metadata_json"] or "{}")
+                    for identity in identities
+                ]
+                reviewed_authorities = {
+                    str(metadata.get("reviewedAuthority") or "")
+                    for metadata in reviewed_metadata
+                }
+                if len(reviewed_authorities) != 1:
+                    raise ValueError(
+                        "One fetched page cannot have conflicting reviewed authorities"
+                    )
+                if len(identities) > 1 and any(
+                    metadata.get("evidenceSelection", {}).get("mode") == "full-page"
+                    for metadata in reviewed_metadata
+                ):
+                    raise ValueError(
+                        "A page linked to multiple candidate identities requires exact reviewed sections"
+                    )
             fetched = self.fetch(str(lead["canonical_url"]))
             text = str(fetched.get("text") or "").strip()
             if not text:
@@ -1070,45 +1228,43 @@ class OptimizationDiscoveryPipeline:
             was_over_limit = len(text) > maximum_characters
             text = text[:maximum_characters]
             truncated = bool(fetched.get("truncated")) or was_over_limit
+            source_title = str(lead["title"])
+            if self.evidence_preparation_policy_version:
+                current_heading = next(
+                    (line.strip() for line in text.splitlines() if line.strip()), ""
+                )
+                if current_heading:
+                    source_title = current_heading[:500]
             full_extract = {
-                "title": str(lead["title"]),
+                "title": source_title,
                 "text": text,
                 "sourceUrl": str(lead["canonical_url"]),
                 "finalUrl": final_url,
             }
             full_extract_hash = sha256_json(full_extract)
             identity_extracts: dict[int, dict[str, Any]] = {}
-            context_characters = max(
-                0,
-                int(
-                    self.configuration_record["snapshot"]["limits"].get(
-                        "referralEvidenceContextCharacters", 2000
-                    )
-                ),
-            )
+            context_characters = 0
+            if not self.evidence_preparation_policy_version:
+                # Historical configurations retain their exact-excerpt window;
+                # current reviewed selections never consult this legacy limit.
+                context_characters = max(
+                    0,
+                    int(
+                        self.configuration_record["snapshot"]["limits"].get(
+                            "referralEvidenceContextCharacters", 2000
+                        )
+                    ),
+                )
             for identity in identities:
                 lead_metadata = json.loads(identity["lead_metadata_json"] or "{}")
-                excerpt = str(lead_metadata.get("evidenceExcerpt") or "").strip()
-                identity_extract = dict(full_extract)
-                if excerpt:
-                    position = text.find(excerpt)
-                    if position < 0:
-                        raise ValueError(
-                            "Reviewed evidence excerpt is absent for "
-                            f"{identity['identity_key']}"
-                        )
-                    start = max(0, position - context_characters)
-                    end = min(
-                        len(text), position + len(excerpt) + context_characters
+                identity_extracts[int(identity["id"])] = (
+                    self._selected_evidence_extract(
+                        full_extract,
+                        lead_metadata,
+                        identity_key=str(identity["identity_key"]),
+                        legacy_context_characters=context_characters,
                     )
-                    identity_extract["text"] = text[start:end]
-                    identity_extract["selection"] = {
-                        "method": "reviewed-exact-excerpt",
-                        "excerpt": excerpt,
-                        "sourceStart": start,
-                        "sourceEnd": end,
-                    }
-                identity_extracts[int(identity["id"])] = identity_extract
+                )
         except Exception as error:
             with self.store.connect() as connection:
                 connection.execute(
@@ -1126,7 +1282,6 @@ class OptimizationDiscoveryPipeline:
             ) from error
         with self.store.connect() as connection:
             for identity in identities:
-                metadata = json.loads(identity["metadata_json"] or "{}")
                 lead_metadata = json.loads(identity["lead_metadata_json"] or "{}")
                 extract = identity_extracts[int(identity["id"])]
                 extract_hash = sha256_json(extract)
@@ -1139,11 +1294,10 @@ class OptimizationDiscoveryPipeline:
                 page_identity_key = candidate_identity_key(page_organization, page_program)
                 authority = source_authority(
                     final_url,
-                    direct_domains=lead_metadata.get(
-                        "directDomains", metadata.get("directDomains", [])
-                    ),
-                    reviewed_authority=lead_metadata.get(
-                        "reviewedAuthority", metadata.get("reviewedAuthority")
+                    direct_domains=lead_metadata.get("directDomains", []),
+                    reviewed_authority=lead_metadata.get("reviewedAuthority"),
+                    reviewed_authority_precedence=bool(
+                        self.evidence_preparation_policy_version
                     ),
                 )
                 connection.execute(

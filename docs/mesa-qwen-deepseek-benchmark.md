@@ -3,8 +3,9 @@
 Status: The original Phase 1 calibration failed and the full 20-category run was
 not started. The redesigned Scout optimization subsequently completed expanded
 first-stage comparison v9 on 2026-08-23 and selected 8-bit Qwen for continued
-isolated work. The four-stage Housing calibration is not yet complete and no
-production cutover is authorized.
+isolated work. The frozen later-stage 8-bit benchmark completed on 2026-08-24;
+the corrected later-stage validation is the remaining model run before the
+four-stage comparison. No production cutover is authorized.
 
 ## Purpose
 
@@ -97,6 +98,52 @@ Quality-gate report
 passes with zero verification failures. Medical respite, disability access,
 animal barriers, and language access remain separately recorded targeted gaps;
 they do not exclude any of the 21 current candidates.
+
+## Frozen later-stage 8-bit result
+
+Runs 39–41 preserve the first complete selected-8-bit result for the three later
+Housing stages. They used frozen corpora 10–12 and the pre-correction v10 evidence
+clips and verifier prompt. All 36 operations completed on their first attempt,
+locally and without metered traffic.
+
+| Stage | Packets | Passed | Needs review | Failed | Supported | Unknown | Model seconds |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Stabilization | 5 | 4 | 1 | 0 | 48 | 67 | 5,396 |
+| Specialized housing | 5 | 2 | 3 | 0 | 65 | 50 | 6,213 |
+| Long-term and gaps | 8 | 4 | 4 | 0 | 72 | 112 | 7,892 |
+| **Total** | **18** | **10** | **8** | **0** | **185** | **229** | **19,501** |
+
+Sequence time was 19,533 seconds (5h25m33s). The quality-gate reports for all
+three stages pass and have SHA-256 values
+`fa6c0b7578361bc90bd2ecba12ed119ee6c8133f677df30b051b970b3e5c38cc`,
+`2c5b1c1e7ec991c3796226eb1d7f4ed16e3db1c297d4b54d98fdc9638ef3ad77`,
+and `a06eac37c645462d2e545b99446ad63fd514ca32cdc87b53a63988665b508b68`.
+The frozen DeepSeek baseline remained byte-identical at
+`0914c6278d36177cc29d75b297249815386355ceb9d634b1ac23372aa18c5491`.
+
+The eight needs-review dossiers were not eight bad candidates. They exposed one
+or more upstream evidence defects: unsupported or inflated labels for the City
+deposit, Maggie's Place, coordinated entry, and City voucher candidates; a House
+of Refuge eligibility phrase clipped mid-sentence; access-point facts attributed
+to a regional system; a fax treated as a phone; and Newtown evidence clipped
+before its actual Community Land Trust section. Manual review also found a defect
+the frozen verifier missed in a passed NAC 55+ dossier: footer/admin and outpatient
+addresses were promoted to the program, and Phoenix was inferred as its service
+geography from those addresses.
+
+Application `0.29.0` addresses those causes upstream rather than changing the
+frozen result. The corrected evidence manifests bind current-page identity labels
+and complete-page or exact-section scope; the age-55 NAC packet uses two sections
+to keep program-wide eligibility/application text while excluding its property
+block and footer. The model prompts add contact-type, access-point/property,
+footer/admin-address, service-geography, and exact-program-URL checks. The old
+literal gap matcher is also replaced by explicit any/all tag equivalence and
+non-candidate operational checks. That reduces the honest later-stage gap set
+from 23 to 15—4 stabilization, 6 specialized, and 5 long-term—without another
+search and without promoting a weak lead.
+
+The corrected run will receive new corpora and v11 labels. It must process all
+18 affected packets; selective reruns would make the comparison invalid.
 
 ## Frozen DeepSeek baseline
 

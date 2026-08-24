@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import json
 import tempfile
 import unittest
 from copy import deepcopy
 from pathlib import Path
 
 from resource_research_agent.optimization_review import (
+    apply_evidence_preparation_manifest,
     CachedSearchClient,
     apply_identity_review_patch,
     build_identity_review_exclusion_patch,
@@ -22,6 +22,7 @@ from resource_research_agent.optimization_review import (
 from resource_research_agent.optimization_runtime import OptimizationRuntimeError
 from resource_research_agent.optimization import (
     augment_query_plan_with_identity_status_checks,
+    EVIDENCE_PREPARATION_POLICY_VERSION,
     sha256_json,
 )
 from resource_research_agent.optimization_housing_calibration import (
@@ -260,6 +261,173 @@ class OptimizationReviewTests(unittest.TestCase):
         review["decisions"]["https://example.org/"]["disposition"] = "excluded"
         with self.assertRaisesRegex(OptimizationRuntimeError, "lacks a reason"):
             validate_identity_review(cache, review)
+
+    def test_current_evidence_policy_fails_before_run_without_scope_and_identity_receipts(
+        self,
+    ) -> None:
+        cache = {
+            "queries": {
+                "q": {
+                    "sources": [
+                        {
+                            "url": "https://example.org/program",
+                            "title": "Example Program",
+                        }
+                    ]
+                }
+            }
+        }
+        cache["cacheSha256"] = sha256_json(cache["queries"])
+        review = identity_review_template(cache)
+        identity = qualified_identity("Example Provider", "Example Program")
+        review["decisions"]["https://example.org/program"].update(
+            {
+                "disposition": "candidate",
+                "reason": "Current direct provider page.",
+                "identity": identity,
+            }
+        )
+        with self.assertRaisesRegex(
+            OptimizationRuntimeError, "valid reviewedAuthority"
+        ):
+            validate_identity_review(
+                cache,
+                review,
+                evidence_preparation_policy_version=(
+                    EVIDENCE_PREPARATION_POLICY_VERSION
+                ),
+            )
+
+        identity.update(
+            {
+                "reviewedAuthority": "direct-provider",
+                "evidenceSelection": {"mode": "full-page"},
+                "identitySupport": {
+                    "organization": {
+                        "relationship": "exact-label",
+                        "sourceLabel": "Example Provider",
+                        "evidenceExcerpt": "Example Provider",
+                    },
+                    "program": {
+                        "relationship": "reviewed-alias",
+                        "sourceLabel": "Example Program Services",
+                        "evidenceExcerpt": "Example Program Services",
+                        "reason": "The reviewed provider page identifies this as the same program.",
+                    },
+                },
+            }
+        )
+        validate_identity_review(
+            cache,
+            review,
+            evidence_preparation_policy_version=EVIDENCE_PREPARATION_POLICY_VERSION,
+        )
+
+        identity.update(
+            {
+                "candidateRole": "directory",
+                "actionabilityState": "informational-only",
+            }
+        )
+        identity.pop("reviewedAuthority")
+        identity.pop("evidenceSelection")
+        identity.pop("identitySupport")
+        validate_identity_review(
+            cache,
+            review,
+            evidence_preparation_policy_version=EVIDENCE_PREPARATION_POLICY_VERSION,
+        )
+
+    def test_evidence_manifest_exactly_covers_stage_and_can_correct_identity(self) -> None:
+        urls = ["https://example.org/one", "https://example.org/two"]
+        cache = {
+            "queryPlan": {"stageKey": "immediate-food"},
+            "queries": {
+                "q": {
+                    "sources": [{"url": url, "title": url.rsplit("/", 1)[-1]} for url in urls]
+                }
+            },
+        }
+        cache["cacheSha256"] = sha256_json(cache["queries"])
+        review = identity_review_template(cache)
+        for index, url in enumerate(urls, start=1):
+            review["decisions"][url].update(
+                {
+                    "disposition": "candidate",
+                    "reason": "Reviewed current provider page.",
+                    "identity": qualified_identity(
+                        "Example Provider",
+                        f"Unreviewed Program {index}",
+                        stageKey="immediate-food",
+                    ),
+                }
+            )
+
+        def entry(index: int) -> dict:
+            return {
+                "url": urls[index - 1],
+                "identityKey": f"example provider::unreviewed program {index}",
+                "organization": "Example Provider",
+                "program": f"Published Program {index}",
+                "reason": "The final labels are printed on the current provider page.",
+                "reviewedAuthority": "direct-provider",
+                "evidenceSelection": {"mode": "full-page"},
+                "identitySupport": {
+                    "organization": {
+                        "relationship": "exact-label",
+                        "sourceLabel": "Example Provider",
+                        "evidenceExcerpt": "Example Provider",
+                    },
+                    "program": {
+                        "relationship": "exact-label",
+                        "sourceLabel": f"Published Program {index}",
+                        "evidenceExcerpt": f"Published Program {index}",
+                    },
+                },
+            }
+
+        manifest = {
+            "schemaVersion": 1,
+            "policyVersion": EVIDENCE_PREPARATION_POLICY_VERSION,
+            "searchCacheSha256": cache["cacheSha256"],
+            "baseReviewSha256": sha256_json(review),
+            "label": "fixture-reviewed-evidence-v1",
+            "stageKey": "immediate-food",
+            "sources": [entry(1)],
+        }
+        with self.assertRaisesRegex(OptimizationRuntimeError, "missing 1 eligible"):
+            apply_evidence_preparation_manifest(cache, review, manifest)
+
+        manifest["sources"].append(entry(2))
+        duplicate_manifest = deepcopy(manifest)
+        duplicate_manifest["sources"].append(entry(2))
+        with self.assertRaisesRegex(OptimizationRuntimeError, "source is duplicated"):
+            apply_evidence_preparation_manifest(cache, review, duplicate_manifest)
+
+        extra_manifest = deepcopy(manifest)
+        extra_entry = entry(2)
+        extra_entry["url"] = "https://example.org/not-reviewed"
+        extra_manifest["sources"].append(extra_entry)
+        with self.assertRaisesRegex(
+            OptimizationRuntimeError, "not an eligible reviewed identity"
+        ):
+            apply_evidence_preparation_manifest(cache, review, extra_manifest)
+
+        prepared = apply_evidence_preparation_manifest(cache, review, manifest)
+        self.assertEqual(
+            EVIDENCE_PREPARATION_POLICY_VERSION,
+            prepared["evidencePreparationPolicyVersion"],
+        )
+        self.assertEqual(
+            "Published Program 1",
+            prepared["decisions"][urls[0]]["identity"]["program"],
+        )
+        self.assertEqual(
+            sha256_json(manifest),
+            prepared["reviewApplications"][-1][
+                "evidencePreparationManifestSha256"
+            ],
+        )
 
     def test_reused_exclusions_require_exact_result_and_never_copy_candidates(self) -> None:
         current = {

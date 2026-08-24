@@ -41,6 +41,136 @@ SOURCE_AUTHORITIES = {
     "reputable-secondary",
     "directory-lead",
 }
+EVIDENCE_PREPARATION_POLICY_VERSION = "reviewed-evidence-scope-and-identity-v1"
+EVIDENCE_SELECTION_MODES = {"full-page", "reviewed-section", "reviewed-sections"}
+IDENTITY_SUPPORT_RELATIONSHIPS = {"exact-label", "reviewed-alias"}
+
+
+def reviewed_source_metadata(
+    decision: dict[str, Any],
+    *,
+    require_current_contract: bool,
+) -> dict[str, Any]:
+    """Normalize one source review without duplicating policy across lead paths."""
+    page_organization = str(decision.get("pageOrganization") or "").strip()
+    page_program = str(decision.get("pageProgram") or "").strip()
+    if bool(page_organization) != bool(page_program):
+        raise ValueError("Reviewed page identity needs both organization and program")
+    metadata: dict[str, Any] = {
+        "directDomains": sorted(
+            {
+                str(domain).strip().casefold()
+                for domain in decision.get("directDomains", [])
+                if str(domain).strip()
+            }
+        ),
+        "reviewedAuthority": decision.get("reviewedAuthority"),
+        "coverageTags": sorted(
+            {
+                str(tag).strip()
+                for tag in decision.get("coverageTags", [])
+                if str(tag).strip()
+            }
+        ),
+    }
+    if page_organization:
+        metadata.update(
+            {
+                "pageOrganization": page_organization,
+                "pageProgram": page_program,
+            }
+        )
+    if not require_current_contract:
+        metadata["evidenceExcerpt"] = str(
+            decision.get("evidenceExcerpt") or ""
+        ).strip()
+        return metadata
+
+    reviewed_authority = str(decision.get("reviewedAuthority") or "").strip()
+    if reviewed_authority not in SOURCE_AUTHORITIES:
+        raise ValueError("Current evidence preparation requires a valid reviewedAuthority")
+    selection = decision.get("evidenceSelection")
+    if not isinstance(selection, dict):
+        raise ValueError(
+            "Current evidence preparation requires an evidenceSelection object"
+        )
+    mode = str(selection.get("mode") or "").strip()
+    if mode not in EVIDENCE_SELECTION_MODES:
+        raise ValueError(f"Invalid reviewed evidence selection mode: {mode or '(blank)'}")
+    normalized_selection: dict[str, Any] = {"mode": mode}
+    if mode == "reviewed-section":
+        start_excerpt = str(selection.get("startExcerpt") or "").strip()
+        end_excerpt = str(selection.get("endExcerpt") or "").strip()
+        if not start_excerpt or not end_excerpt:
+            raise ValueError(
+                "Reviewed-section evidence needs exact startExcerpt and endExcerpt"
+            )
+        normalized_selection.update(
+            {"startExcerpt": start_excerpt, "endExcerpt": end_excerpt}
+        )
+    elif mode == "reviewed-sections":
+        sections = selection.get("sections")
+        if (
+            not isinstance(sections, list)
+            or len(sections) < 2
+            or len(sections) > 10
+        ):
+            raise ValueError(
+                "Reviewed-sections evidence needs between 2 and 10 exact sections"
+            )
+        normalized_sections = []
+        for index, section in enumerate(sections, start=1):
+            if not isinstance(section, dict):
+                raise ValueError(f"Reviewed evidence section {index} is not an object")
+            start_excerpt = str(section.get("startExcerpt") or "").strip()
+            end_excerpt = str(section.get("endExcerpt") or "").strip()
+            if not start_excerpt or not end_excerpt:
+                raise ValueError(
+                    f"Reviewed evidence section {index} needs exact boundaries"
+                )
+            normalized_sections.append(
+                {"startExcerpt": start_excerpt, "endExcerpt": end_excerpt}
+            )
+        normalized_selection["sections"] = normalized_sections
+    metadata["evidenceSelection"] = normalized_selection
+    metadata["reviewedAuthority"] = reviewed_authority
+
+    support = decision.get("identitySupport")
+    if not isinstance(support, dict):
+        raise ValueError("Current evidence preparation requires identitySupport")
+    normalized_support: dict[str, dict[str, str]] = {}
+    for field in ("organization", "program"):
+        receipt = support.get(field)
+        if not isinstance(receipt, dict):
+            raise ValueError(f"Current evidence preparation lacks {field} identity support")
+        relationship = str(receipt.get("relationship") or "").strip()
+        source_label = str(receipt.get("sourceLabel") or "").strip()
+        excerpt = str(receipt.get("evidenceExcerpt") or "").strip()
+        reason = " ".join(str(receipt.get("reason") or "").split())
+        if relationship not in IDENTITY_SUPPORT_RELATIONSHIPS:
+            raise ValueError(f"Invalid {field} identity-support relationship")
+        if not source_label or not excerpt:
+            raise ValueError(f"{field} identity support needs sourceLabel and evidenceExcerpt")
+        candidate_label = " ".join(str(decision.get(field) or "").split())
+        if relationship == "exact-label" and (
+            source_label.casefold() != candidate_label.casefold()
+        ):
+            raise ValueError(
+                f"Exact-label {field} support does not match the candidate identity"
+            )
+        if relationship == "reviewed-alias" and not reason:
+            raise ValueError(f"Reviewed-alias {field} support needs a reason")
+        normalized_receipt = {
+            "relationship": relationship,
+            "sourceLabel": source_label,
+            "evidenceExcerpt": excerpt,
+        }
+        if reason:
+            normalized_receipt["reason"] = reason
+        normalized_support[field] = normalized_receipt
+    metadata["identitySupport"] = normalized_support
+    return metadata
+
 
 CANDIDATE_ROLES = {
     "direct-program",

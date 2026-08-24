@@ -1117,7 +1117,7 @@ class OptimizationModelPipeline:
         *,
         extract: ModelCallback,
         verify: ModelCallback,
-        required_coverage_needs: Iterable[dict[str, str]] = (),
+        required_coverage_needs: Iterable[dict[str, Any]] = (),
         progress: ProgressCallback | None = None,
     ) -> None:
         self.store = store
@@ -1271,6 +1271,26 @@ class OptimizationModelPipeline:
                 "Use conflicting only for two or more genuinely incompatible values, not complementary details.",
                 "Return unknown with a reason instead of inferring a missing fact.",
                 "Do not transfer facts between programs in the same organization.",
+                (
+                    "Respect contact types: phone and additionalPhoneNumbers may contain only "
+                    "callable or text-capable phone numbers, never fax numbers or email addresses."
+                ),
+                (
+                    "Treat access points, properties, partners, subprograms, and named examples "
+                    "as separate entities; do not promote their facts to the candidate unless "
+                    "the source explicitly states that the fact applies candidate-wide."
+                ),
+                (
+                    "Addresses and service geography need an explicit candidate-level service, "
+                    "location, or intake link. Do not turn a site footer, headquarters, admin "
+                    "office, organization-wide contact, or another program's address into the "
+                    "candidate address or service area."
+                ),
+                (
+                    "For the website field, a direct-provider source canonical URL whose "
+                    "pageIdentityKey exactly matches the candidate is explicit program-page "
+                    "evidence even when that URL is not printed inside the page text."
+                ),
             ],
             "requiredFields": list(self.required_fields),
             "outputContract": {
@@ -1408,6 +1428,9 @@ class OptimizationModelPipeline:
                 "conflicting contact or intake information",
                 "speculative restrictions",
                 "duplicate or fragmented identity",
+                "access-point, property, partner, subprogram, and system attribution",
+                "footer, headquarters, admin-office, and service-geography attribution",
+                "exact-identity direct-provider URL evidence for the website field",
                 "missing required fields",
             ],
             "outputContract": {
@@ -1585,9 +1608,41 @@ class OptimizationModelPipeline:
                 query = str(need.get("query") or "").strip()
                 if not key or not query:
                     raise OptimizationModelError("Coverage needs require key and query")
-                if key in coverage_tags:
+                if need.get("candidateGap") is False:
                     continue
-                reason = f"No frozen evidence packet carries required coverage tag {key}"
+                any_tags = {
+                    str(tag).strip()
+                    for tag in need.get("satisfiedByAnyTags", [])
+                    if str(tag).strip()
+                }
+                all_tags = {
+                    str(tag).strip()
+                    for tag in need.get("satisfiedByAllTags", [])
+                    if str(tag).strip()
+                }
+                if any_tags and all_tags:
+                    raise OptimizationModelError(
+                        "Coverage needs cannot combine any-tag and all-tag matching"
+                    )
+                if any_tags:
+                    satisfied = bool(any_tags & coverage_tags)
+                    expected_tags = sorted(any_tags)
+                    match_description = "one of"
+                elif all_tags:
+                    satisfied = all_tags <= coverage_tags
+                    expected_tags = sorted(all_tags)
+                    match_description = "all of"
+                else:
+                    satisfied = key in coverage_tags
+                    expected_tags = [key]
+                    match_description = ""
+                if satisfied:
+                    continue
+                tag_text = ", ".join(expected_tags)
+                reason = (
+                    "No frozen evidence packet coverage satisfies required tag"
+                    + (f" set ({match_description} {tag_text})" if match_description else f" {tag_text}")
+                )
                 gaps.append({"key": key, "label": label, "query": query, "reason": reason})
                 connection.execute(
                     """INSERT OR REPLACE INTO optimization_gap_queries (

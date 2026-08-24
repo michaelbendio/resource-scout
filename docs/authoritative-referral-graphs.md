@@ -27,6 +27,15 @@ fields used by ordinary discovery. A changed historical program name requires an
 explicit identity-resolution reason. Unresolved and excluded decisions cannot
 smuggle in an identity.
 
+New referral-review manifests also declare
+`reviewed-evidence-scope-and-identity-v1`. Every eligible destination identity
+then carries the same reviewed authority, full-page or exact-section scope, and
+organization/program label receipts as an ordinary reviewed search result. The
+referral manifest is validated before Scout creates a corpus run, and the shared
+discovery path checks those receipts against the freshly fetched destination.
+This keeps referral expansion from becoming a legacy evidence path with weaker
+identity or section rules.
+
 Scout persists each edge and creates a lead for its exact destination. The edge
 context remains provenance and is not copied into the candidate's evidence. A
 candidate decision must cite the destination URL, and its exact reviewed excerpt

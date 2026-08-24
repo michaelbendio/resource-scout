@@ -4,7 +4,10 @@ Status: Checkpoints A through D are implemented. Expanded comparison v9 complete
 on 2026-08-23 over 22 identical first-stage Housing packets and selected 8-bit
 Qwen on quality before timing was revealed. Forward-plan steps 1 through 4 are
 complete; step 5 completed as model-evaluation run 32 over frozen corpus 8, and
-step 6 is the current validation step.
+step 6 deterministic integration is complete while normal phone-vetting evidence
+remains deferred to the real Curator workflow. Step 7 is in progress: its frozen
+later-stage benchmark is complete and application `0.29.0` is undergoing tests
+before corrected-corpus validation.
 Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
 Step 3 completed under the revised scope: the category-neutral candidate qualification gate and
@@ -203,6 +206,64 @@ sentinel back to absence and still rejects malformed or mismatched real hashes.
 The first attempted stabilization launch stopped at this validation boundary
 before model inference, so no packet or model output was lost or duplicated.
 
+Frozen later-stage checkpoint (2026-08-24): selected 8-bit runs 39, 40, and 41
+completed sequentially over immutable corpora 10, 11, and 12. They performed all
+36 planned model operations (18 extractions and 18 independent verifications) in
+19,501 seconds of model work and 19,533 seconds end to end, with zero retries,
+failed attempts, metered calls, or verification failures. Stabilization finished
+4 passed and 1 needs review; specialized housing finished 2 passed and 3 needs
+review; long-term/gaps finished 4 passed and 4 needs review. The combined frozen
+result is therefore 10 passed, 8 needs review, 0 failed, 185 supported fields,
+229 unknown fields, and 0 conflicting fields. Quality-gate hashes are
+`fa6c0b7578361bc90bd2ecba12ed119ee6c8133f677df30b051b970b3e5c38cc`,
+`2c5b1c1e7ec991c3796226eb1d7f4ed16e3db1c297d4b54d98fdc9638ef3ad77`,
+and `a06eac37c645462d2e545b99446ad63fd514ca32cdc87b53a63988665b508b68`.
+The corresponding corpus hashes are
+`726a3d7527b1e53b4cd7c7067823354b0cb7656aeabf2de57ee54dbe335f1bb7`,
+`63468a49d667c858b878a763483b8f4ff85606a7b10ce97017b279c15bd34d94`,
+and `0e6a978bf60c644697cdb075e51d0d73ca1ec7e24d84f44e751a620871ae8141`.
+
+The preserved run exposed upstream evidence defects rather than a reason to
+discard candidates: unsupported or inflated organization/program labels; an
+eligibility sentence clipped mid-phrase; access-point facts promoted to a
+coordinated-entry system; a fax promoted to a phone field; City voucher pages
+clipped before their program body; a malformed concatenated search-result title;
+and footer/admin addresses treated as a program location and service geography.
+The old literal coverage-gap matcher also reported 23 gaps, including pluralized
+tag aliases and already-completed jurisdiction/status checks, instead of only
+true missing candidate pathways.
+
+Application `0.29.0` corrects those upstream boundaries generically. New corpora
+require `reviewed-evidence-scope-and-identity-v1`: every eligible source has an
+explicit authority, complete-page or one-or-more exact-section selection, and
+organization/program label receipts checked against the current bounded page.
+Multiple identities cannot share full-page evidence, reviewed aliases require a
+reason, conflicting source authorities fail, current page headings replace stale
+search titles, and referral destinations use the same contract. Extraction and
+verification now prohibit fax-as-phone, access-point/property/partner/subprogram
+promotion, and footer/headquarters/admin-address or address-to-geography
+inference; an exact-identity direct-provider URL remains valid website evidence.
+Coverage needs may declare explicit any-tag or all-tag equivalence, while a
+completed operational check cannot create a candidate-gap query. Combined
+population needs are split so one covered population cannot conceal another.
+
+The prepared stabilization, specialized, and long-term evidence-manifest hashes
+are respectively
+`959026d62a1766c5a4eee2309e723a999c60a418e3f6023ffde940e8ceeaa66e`,
+`1c37f4773c95d3d339d8e6c94764641b1891db3a6c475ff2019a16b8a6030b56`,
+and `20d06995267ede9cf9882565a8ae6de30c52c856a8387d829221b6cc1aa7a47b`.
+Their prepared review hashes are
+`280517e318f2c3445bed14f247dbbb91cee537f1e1a434a260d19b0fa6112a95`,
+`e454efb37d9da8c659cc6172752676fdb9fd60ea9097acf488aa46b02417bc43`,
+and `41e7e63baa3acdbac75be36edf8a6925eb5d778548319ca7282ed7363b98a52b`.
+The corrected audit hashes are
+`5164f67f7fc2c36db20bd56d32ff2ebca2383bcd6607b3211a055ce1959f63c9`,
+`187ab0b20e84c69d6ab0e16ea42a6dab2f7019d43cfed1676e7b28fc15cf72b7`,
+and `c7242b95ff9a7c54ae069c22dda7363d31e339caf423395a9d66a6ecc50a0cf7`.
+The corrected audit retains 15 actual candidate-coverage gaps—4 stabilization,
+6 specialized, and 5 long-term—without rerunning any search or treating the
+previous false positives as new candidates.
+
 Stage 7 preparation production verification (2026-08-24): commit `0b51527`
 was pushed, the production LaunchAgent was restarted, and loopback plus the
 private Tailscale URL report application `0.25.0`, the frozen Mesa package hash,
@@ -339,7 +400,8 @@ actionability gates in
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
 - Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
-- Application version: `0.28.0`
+- Source application version: `0.29.0` (production remains `0.28.0` until the
+  corrected validation is committed, pushed, and deployed)
 - Increment the application version before pushing any functional or user-visible
   change. Pure internal refactors and documentation-only corrections do not require
   a version increment.
@@ -349,7 +411,7 @@ actionability gates in
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
-- The full Python suite most recently passed 219 tests with one optional skip.
+- The full Python suite most recently passed 228 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.

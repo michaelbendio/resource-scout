@@ -36,6 +36,11 @@ The migration adds the following isolated records. Existing `research_runs`, Dee
   needs, populations, barriers, source families, geography, candidate roles,
   field criticality, gap-search rules, current-status signals, and referral
   components. Dynamic operational branches remain in the full query-plan hash.
+  A required candidate-coverage need may name exact equivalent tags using
+  explicit any-tag or all-tag matching. A completed jurisdiction, status, or
+  other operational check is marked non-candidate-gap so it cannot manufacture
+  a follow-up candidate search. Combined population needs are split when one
+  covered population must not hide another uncovered population.
 - `optimization_runs` records a labeled discovery, model-evaluation, or end-to-end run and its current phase. A model-evaluation run must identify one frozen corpus.
 - `optimization_checkpoints` records resumable phase-and-item state, attempt count, payload digest, status, and timestamps. Work resumes from the smallest incomplete item rather than restarting the stage.
 - `optimization_coverage_branches` and `optimization_queries` preserve every required branch, purpose, planned query, execution outcome, novelty count, saturation state, failure, and explicit not-applicable reason.
@@ -104,6 +109,31 @@ Each source is classified as:
 2. government or authoritative referral system;
 3. reputable secondary source; or
 4. directory or aggregator used as a lead.
+
+New corpora bind that authority to a source-specific reviewed receipt rather
+than re-deriving it from the candidate's domain list. The same receipt chooses a
+complete bounded page or one or more exact reviewed sections and provides
+explicit organization and program label support. Direct pages retain their
+complete bounded text; multi-entity pages can preserve several ordered
+candidate-wide passages while excluding intervening property, access-point, or
+sibling-program blocks. Missing, repeated, reversed, overlapping, or out-of-order
+boundaries; unsupported labels; and asserted aliases without reasons fail before
+freezing. Historical frozen packets retain their original selection metadata and
+hashes. New packets also take their display title from the current bounded page,
+not an earlier search-result title that may be stale or concatenated with another
+result.
+
+Access points, properties, partners, subprograms, and examples remain separate
+entities inside extraction. Their restrictions, services, contacts, or
+eligibility cannot populate the parent candidate unless the selected source
+section explicitly states that the fact applies candidate-wide. The independent
+verifier checks this boundary again. Contact-type semantics are also explicit:
+fax numbers and email addresses do not become phone fields. A footer,
+headquarters, administrative office, organization-wide contact, or unrelated
+program address cannot establish the candidate's address or service geography
+without an explicit candidate-level service, location, or intake link. Conversely,
+an exact-identity direct-provider program-page URL is itself explicit support for
+the website field even when the URL is not repeated in the rendered page text.
 
 Every factual field required by the selected package schema and category playbook
 has exactly one state:

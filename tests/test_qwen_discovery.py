@@ -9,6 +9,7 @@ from pathlib import Path
 
 from resource_research_agent.optimization import (
     canonicalize_discovery_url,
+    EVIDENCE_PREPARATION_POLICY_VERSION,
 )
 from resource_research_agent.optimization_housing_calibration import (
     build_housing_urgent_query_plan,
@@ -358,6 +359,395 @@ class DiscoveryPipelineTests(unittest.TestCase):
         )
         self.assertNotEqual(extracts[0]["text"], extracts[1]["text"])
         self.assertTrue(all(len(extract["text"]) < 80 for extract in extracts))
+
+    def test_current_policy_keeps_complete_bounded_direct_provider_page(self) -> None:
+        providers = FixtureProviders()
+        configuration = providers.configuration("fixture-complete-direct-evidence")
+        configuration["limits"]["evidencePreparationPolicyVersion"] = (
+            EVIDENCE_PREPARATION_POLICY_VERSION
+        )
+        direct_url = "https://provider.example.org/program"
+        identity = qualified_identity(
+            "Example Provider",
+            "Example Program",
+            reviewedAuthority="direct-provider",
+            evidenceSelection={"mode": "full-page"},
+            identitySupport={
+                "organization": {
+                    "relationship": "exact-label",
+                    "sourceLabel": "Example Provider",
+                    "evidenceExcerpt": "Example Provider",
+                },
+                "program": {
+                    "relationship": "exact-label",
+                    "sourceLabel": "Example Program",
+                    "evidenceExcerpt": "Example Program",
+                },
+            },
+        )
+
+        def search(query: str, _maximum: int) -> list[dict]:
+            if providers.query_keys[query] != "official-city-1":
+                return []
+            return [{"url": direct_url, "title": "Example Program", "identity": identity}]
+
+        complete_text = (
+            "Example Provider\nExample Program\n"
+            + ("Program description. " * 260)
+            + "Complete final eligibility requirement."
+        )
+
+        result = OptimizationDiscoveryPipeline(
+            self.store,
+            configuration,
+            search=search,
+            fetch=lambda url: {
+                "text": complete_text,
+                "finalUrl": url,
+                "statusCode": 200,
+                "contentType": "text/html",
+                "truncated": False,
+            },
+            resolve_identity=lambda value: value.get("identity"),
+        ).run()
+        with self.store.connect() as connection:
+            packet = json.loads(
+                connection.execute(
+                    "SELECT packet_json FROM optimization_evidence_packets WHERE corpus_id = ?",
+                    (result.corpus_id,),
+                ).fetchone()["packet_json"]
+            )
+        extract = packet["sources"][0]["extract"]
+        self.assertEqual(complete_text, extract["text"])
+        self.assertEqual("reviewed-full-page", extract["selection"]["method"])
+        self.assertIn("Complete final eligibility requirement.", extract["text"])
+        self.assertEqual(identity["identitySupport"], extract["identitySupport"])
+
+    def test_current_policy_uses_exact_non_housing_section_without_sibling_facts(
+        self,
+    ) -> None:
+        providers = FixtureProviders()
+        configuration = providers.configuration("fixture-food-reviewed-section")
+        configuration.update(
+            {
+                "targetCategoryId": "food",
+                "stageKey": "immediate-food",
+                "targetLocation": "Provo",
+                "regionalScope": "Utah County",
+                "queryPlan": {
+                    "schemaVersion": 4,
+                    "candidateQualificationPolicyVersion": (
+                        "candidate-qualification-gates-v2"
+                    ),
+                    "categoryId": "food",
+                    "stageKey": "immediate-food",
+                    "targetLocation": "Provo",
+                    "regionalScope": "Utah County",
+                    "branches": [
+                        {
+                            "key": "direct-food",
+                            "purpose": "Find direct food access.",
+                            "required": True,
+                            "saturation": {
+                                "minimumQueries": 1,
+                                "maximumQueries": 1,
+                                "consecutiveNoNewIdentityQueries": 1,
+                                "noveltyUnit": "package-eligible identity",
+                            },
+                            "queries": [
+                                {
+                                    "key": "direct-food-1",
+                                    "position": 1,
+                                    "purpose": "Find direct food access.",
+                                    "query": "Provo current food pantry intake",
+                                }
+                            ],
+                        }
+                    ],
+                },
+            }
+        )
+        configuration["limits"]["evidencePreparationPolicyVersion"] = (
+            EVIDENCE_PREPARATION_POLICY_VERSION
+        )
+        url = "https://county.example.gov/food-directory"
+        identity = qualified_identity(
+            "Community Pantry",
+            "Weekly Food Distribution",
+            stageKey="immediate-food",
+            reviewedAuthority="government-referral",
+            evidenceSelection={
+                "mode": "reviewed-section",
+                "startExcerpt": "Community Pantry — Weekly Food Distribution",
+                "endExcerpt": "Call 555-0100 to arrange pickup.",
+            },
+            identitySupport={
+                "organization": {
+                    "relationship": "exact-label",
+                    "sourceLabel": "Community Pantry",
+                    "evidenceExcerpt": "Community Pantry — Weekly Food Distribution",
+                },
+                "program": {
+                    "relationship": "exact-label",
+                    "sourceLabel": "Weekly Food Distribution",
+                    "evidenceExcerpt": "Community Pantry — Weekly Food Distribution",
+                },
+            },
+        )
+        page = (
+            "County food directory\n"
+            "Community Pantry — Weekly Food Distribution\n"
+            "Fresh food is available Tuesdays. Call 555-0100 to arrange pickup.\n"
+            "Sibling Pantry — Senior Delivery\n"
+            "Only adults age 65+ may call 555-9999."
+        )
+        result = OptimizationDiscoveryPipeline(
+            self.store,
+            configuration,
+            search=lambda query, _maximum: (
+                [
+                    {
+                        "url": url,
+                        "title": "Stale result title concatenated with a sibling",
+                        "identity": identity,
+                    }
+                ]
+                if query == "Provo current food pantry intake"
+                else []
+            ),
+            fetch=lambda value: {
+                "text": page,
+                "finalUrl": value,
+                "statusCode": 200,
+                "contentType": "text/html",
+                "truncated": False,
+            },
+            resolve_identity=lambda value: value.get("identity"),
+        ).run()
+        with self.store.connect() as connection:
+            packet = json.loads(
+                connection.execute(
+                    "SELECT packet_json FROM optimization_evidence_packets WHERE corpus_id = ?",
+                    (result.corpus_id,),
+                ).fetchone()["packet_json"]
+            )
+        source = packet["sources"][0]
+        self.assertEqual("government-referral", source["authority"])
+        self.assertEqual("County food directory", source["extract"]["title"])
+        self.assertEqual("reviewed-exact-section", source["extract"]["selection"]["method"])
+        self.assertNotIn("Sibling Pantry", source["extract"]["text"])
+        self.assertNotIn("555-9999", source["extract"]["text"])
+
+    def test_current_policy_rejects_identity_receipt_absent_from_selected_evidence(
+        self,
+    ) -> None:
+        providers = FixtureProviders()
+        configuration = providers.configuration("fixture-unsupported-identity-label")
+        configuration["limits"]["evidencePreparationPolicyVersion"] = (
+            EVIDENCE_PREPARATION_POLICY_VERSION
+        )
+        url = "https://provider.example.org/intake"
+        identity = qualified_identity(
+            "Example Provider",
+            "Invented Canonical Program Name",
+            reviewedAuthority="direct-provider",
+            evidenceSelection={"mode": "full-page"},
+            identitySupport={
+                "organization": {
+                    "relationship": "exact-label",
+                    "sourceLabel": "Example Provider",
+                    "evidenceExcerpt": "Example Provider",
+                },
+                "program": {
+                    "relationship": "reviewed-alias",
+                    "sourceLabel": "Published Program Name",
+                    "evidenceExcerpt": "Published Program Name",
+                    "reason": "Reviewer asserted a canonical alias.",
+                },
+            },
+        )
+
+        with self.assertRaisesRegex(
+            OptimizationPipelineError, "program identity evidence is absent"
+        ):
+            OptimizationDiscoveryPipeline(
+                self.store,
+                configuration,
+                search=lambda query, _maximum: (
+                    [{"url": url, "title": "Intake", "identity": identity}]
+                    if providers.query_keys[query] == "official-city-1"
+                    else []
+                ),
+                fetch=lambda value: {
+                    "text": "Example Provider offers current intake.",
+                    "finalUrl": value,
+                    "statusCode": 200,
+                    "contentType": "text/html",
+                    "truncated": False,
+                },
+                resolve_identity=lambda value: value.get("identity"),
+            ).run()
+
+    def test_current_policy_combines_ordered_sections_without_middle_entity(self) -> None:
+        providers = FixtureProviders()
+        configuration = providers.configuration("fixture-multiple-reviewed-sections")
+        configuration["limits"]["evidencePreparationPolicyVersion"] = (
+            EVIDENCE_PREPARATION_POLICY_VERSION
+        )
+        url = "https://provider.example.org/program-and-properties"
+        identity = qualified_identity(
+            "Example Provider",
+            "Example Program",
+            reviewedAuthority="direct-provider",
+            evidenceSelection={
+                "mode": "reviewed-sections",
+                "sections": [
+                    {
+                        "startExcerpt": "Example Provider — Example Program",
+                        "endExcerpt": "Candidate-wide supportive services are available.",
+                    },
+                    {
+                        "startExcerpt": "How to apply to Example Program",
+                        "endExcerpt": "Call the central intake line at 555-0100.",
+                    },
+                ],
+            },
+            identitySupport={
+                "organization": {
+                    "relationship": "exact-label",
+                    "sourceLabel": "Example Provider",
+                    "evidenceExcerpt": "Example Provider — Example Program",
+                },
+                "program": {
+                    "relationship": "exact-label",
+                    "sourceLabel": "Example Program",
+                    "evidenceExcerpt": "Example Provider — Example Program",
+                },
+            },
+        )
+        page = (
+            "Example Provider — Example Program\n"
+            "Candidate-wide supportive services are available.\n"
+            "Property Alpha\nOnly veterans at this property may call 555-9999.\n"
+            "How to apply to Example Program\n"
+            "Call the central intake line at 555-0100."
+        )
+        result = OptimizationDiscoveryPipeline(
+            self.store,
+            configuration,
+            search=lambda query, _maximum: (
+                [{"url": url, "title": "Program and properties", "identity": identity}]
+                if providers.query_keys[query] == "official-city-1"
+                else []
+            ),
+            fetch=lambda value: {
+                "text": page,
+                "finalUrl": value,
+                "statusCode": 200,
+                "contentType": "text/html",
+                "truncated": False,
+            },
+            resolve_identity=lambda value: value.get("identity"),
+        ).run()
+        with self.store.connect() as connection:
+            packet = json.loads(
+                connection.execute(
+                    "SELECT packet_json FROM optimization_evidence_packets WHERE corpus_id = ?",
+                    (result.corpus_id,),
+                ).fetchone()["packet_json"]
+            )
+        extract = packet["sources"][0]["extract"]
+        self.assertEqual("reviewed-exact-sections", extract["selection"]["method"])
+        self.assertEqual(2, len(extract["selection"]["sections"]))
+        self.assertIn("Candidate-wide supportive services", extract["text"])
+        self.assertIn("central intake line", extract["text"])
+        self.assertNotIn("Property Alpha", extract["text"])
+        self.assertNotIn("555-9999", extract["text"])
+
+        reversed_identity = deepcopy(identity)
+        reversed_identity["evidenceSelection"]["sections"].reverse()
+        reversed_configuration = deepcopy(configuration)
+        reversed_configuration["label"] = "fixture-reversed-reviewed-sections"
+        with self.assertRaisesRegex(
+            OptimizationPipelineError, "overlap or are out of order"
+        ):
+            OptimizationDiscoveryPipeline(
+                self.store,
+                reversed_configuration,
+                search=lambda query, _maximum: (
+                    [
+                        {
+                            "url": url,
+                            "title": "Program and properties",
+                            "identity": reversed_identity,
+                        }
+                    ]
+                    if providers.query_keys[query] == "official-city-1"
+                    else []
+                ),
+                fetch=lambda value: {
+                    "text": page,
+                    "finalUrl": value,
+                    "statusCode": 200,
+                    "contentType": "text/html",
+                    "truncated": False,
+                },
+                resolve_identity=lambda value: value.get("identity"),
+            ).run()
+
+    def test_current_policy_requires_sections_for_multi_identity_page(self) -> None:
+        providers = FixtureProviders()
+        configuration = providers.configuration("fixture-multi-identity-full-page")
+        configuration["limits"]["evidencePreparationPolicyVersion"] = (
+            EVIDENCE_PREPARATION_POLICY_VERSION
+        )
+        url = "https://referrer.example.org/programs"
+
+        def identity(organization: str, program: str) -> dict:
+            return qualified_identity(
+                organization,
+                program,
+                reviewedAuthority="government-referral",
+                evidenceSelection={"mode": "full-page"},
+                identitySupport={
+                    "organization": {
+                        "relationship": "exact-label",
+                        "sourceLabel": organization,
+                        "evidenceExcerpt": organization,
+                    },
+                    "program": {
+                        "relationship": "exact-label",
+                        "sourceLabel": program,
+                        "evidenceExcerpt": program,
+                    },
+                },
+            )
+
+        fetch_calls: list[str] = []
+        with self.assertRaisesRegex(
+            OptimizationPipelineError, "requires exact reviewed sections"
+        ):
+            OptimizationDiscoveryPipeline(
+                self.store,
+                configuration,
+                search=lambda query, _maximum: (
+                    [
+                        {
+                            "url": url,
+                            "title": "Programs",
+                            "identities": [
+                                identity("Provider One", "Program One"),
+                                identity("Provider Two", "Program Two"),
+                            ],
+                        }
+                    ]
+                    if providers.query_keys[query] == "official-city-1"
+                    else []
+                ),
+                fetch=lambda value: fetch_calls.append(value) or {},
+                resolve_identity=lambda value: value.get("identities"),
+            ).run()
+        self.assertEqual([], fetch_calls)
 
     def test_reviewed_excerpt_and_authority_are_bound_to_each_source(self) -> None:
         providers = FixtureProviders()
@@ -755,6 +1145,29 @@ class DiscoveryPolicyTests(unittest.TestCase):
         self.assertEqual(
             "directory-lead", source_authority("https://directory.example/listing")
         )
+        self.assertEqual(
+            "government-referral",
+            source_authority(
+                "https://provider.example/access-points",
+                direct_domains=["provider.example"],
+                reviewed_authority="government-referral",
+                reviewed_authority_precedence=True,
+            ),
+        )
+        self.assertEqual(
+            "direct-provider",
+            source_authority(
+                "https://provider.example/access-points",
+                direct_domains=["provider.example"],
+                reviewed_authority="government-referral",
+            ),
+        )
+        with self.assertRaisesRegex(ValueError, "Invalid reviewed source authority"):
+            source_authority(
+                "https://provider.example/program",
+                reviewed_authority="unreviewed",
+                reviewed_authority_precedence=True,
+            )
 
 
 if __name__ == "__main__":

@@ -4,9 +4,11 @@ from copy import deepcopy
 from typing import Any, Callable
 
 from .optimization import (
+    EVIDENCE_PREPARATION_POLICY_VERSION,
     candidate_identity_key,
     candidate_qualification,
     canonicalize_discovery_url,
+    reviewed_source_metadata,
     sha256_json,
 )
 from .referral_graph import normalize_referral_graph
@@ -34,13 +36,30 @@ def _identity_values(record: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def normalize_referral_review(
-    graph_value: dict[str, Any], review_value: dict[str, Any]
+    graph_value: dict[str, Any],
+    review_value: dict[str, Any],
+    *,
+    evidence_preparation_policy_version: str = "",
 ) -> dict[str, Any]:
     graph = normalize_referral_graph(graph_value)
     if not isinstance(review_value, dict) or review_value.get("schemaVersion") != 1:
         raise ValueError("Referral review schemaVersion must be 1")
     if review_value.get("graphSha256") != graph["graphSha256"]:
         raise ValueError("Referral review belongs to a different referral graph")
+    requested_evidence_policy = str(
+        evidence_preparation_policy_version
+        or review_value.get("evidencePreparationPolicyVersion")
+        or ""
+    ).strip()
+    if requested_evidence_policy and (
+        requested_evidence_policy != EVIDENCE_PREPARATION_POLICY_VERSION
+    ):
+        raise ValueError("Referral review requests an unsupported evidence-preparation policy")
+    if evidence_preparation_policy_version and (
+        review_value.get("evidencePreparationPolicyVersion")
+        != EVIDENCE_PREPARATION_POLICY_VERSION
+    ):
+        raise ValueError("Referral review lacks the current evidence-preparation policy")
     decisions_value = review_value.get("decisions")
     if not isinstance(decisions_value, dict):
         raise ValueError("Referral review needs a decisions object")
@@ -90,11 +109,21 @@ def normalize_referral_review(
             identity["stageKey"] = _text(identity.get("stageKey"), "identity.stageKey")
             if identity["stageKey"] != edge["stageKey"]:
                 raise ValueError("Referral review identity stage disagrees with its edge")
-            candidate_qualification(
+            qualification = candidate_qualification(
                 identity,
                 boundary_state=identity["boundaryState"],
                 package_match_state="not-matched",
             )
+            if requested_evidence_policy and qualification["state"] == "eligible":
+                try:
+                    reviewed_source_metadata(
+                        identity,
+                        require_current_contract=True,
+                    )
+                except ValueError as error:
+                    raise ValueError(
+                        f"Referral candidate evidence receipt is invalid: {edge_key}: {error}"
+                    ) from error
             evidence_urls = identity.get("evidenceUrls")
             if not isinstance(evidence_urls, list) or not evidence_urls:
                 raise ValueError("Candidate referral review identity needs evidenceUrls")
@@ -128,6 +157,8 @@ def normalize_referral_review(
         "graphSha256": graph["graphSha256"],
         "decisions": dict(sorted(decisions.items())),
     }
+    if requested_evidence_policy:
+        normalized["evidencePreparationPolicyVersion"] = requested_evidence_policy
     normalized["reviewSha256"] = sha256_json(normalized)
     supplied_hash = str(review_value.get("reviewSha256") or "").strip()
     if supplied_hash and supplied_hash != normalized["reviewSha256"]:

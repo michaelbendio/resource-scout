@@ -10,7 +10,11 @@ from resource_research_agent.importer import (
     ResourcePackageImporter,
     resource_program_identity,
 )
-from resource_research_agent.optimization import sha256_json, validate_query_plan
+from resource_research_agent.optimization import (
+    EVIDENCE_PREPARATION_POLICY_VERSION,
+    sha256_json,
+    validate_query_plan,
+)
 from resource_research_agent.optimization_pipeline import OptimizationDiscoveryPipeline
 from resource_research_agent.optimization_review import (
     CachedSearchClient,
@@ -51,7 +55,11 @@ if bool(arguments.referral_graph) != bool(arguments.referral_review):
 
 cache = json.loads(arguments.cache.read_text(encoding="utf-8"))
 review = json.loads(arguments.review.read_text(encoding="utf-8"))
-validate_identity_review(cache, review)
+validate_identity_review(
+    cache,
+    review,
+    evidence_preparation_policy_version=EVIDENCE_PREPARATION_POLICY_VERSION,
+)
 query_policy = cache.get("queryPolicy") or {
     "minimumQueries": 2,
     "maximumQueries": 6,
@@ -98,6 +106,7 @@ if arguments.referral_graph:
     referral_review = normalize_referral_review(
         referral_graph,
         json.loads(arguments.referral_review.read_text(encoding="utf-8")),
+        evidence_preparation_policy_version=EVIDENCE_PREPARATION_POLICY_VERSION,
     )
 playbook_audit = normalize_optimization_playbook_audit(
     json.loads(arguments.playbook_audit.read_text(encoding="utf-8")),
@@ -136,7 +145,10 @@ configuration = {
     "fetchProvider": "safe-http",
     "searchPluginVersion": "resource-scout-ddgs-v1",
     "fetchPluginVersion": "resource-scout-safe-http-v1",
-    "promptPolicyVersion": "human-reviewed-identity-qualification-v2",
+    "promptPolicyVersion": (
+        "human-reviewed-identity-qualification-v2;"
+        f"{EVIDENCE_PREPARATION_POLICY_VERSION}"
+    ),
     "playbookVersion": playbook.library_version,
     "sourcePackageSha256": package.sha256,
     "sourcePackageVersion": str(package.schema.package_version),
@@ -150,6 +162,7 @@ configuration = {
         "searchResultsPerQuery": int(query_policy["resultsPerQuery"]),
         "fetchMaxBytes": 500000,
         "evidenceExtractMaxChars": 30000,
+        "evidencePreparationPolicyVersion": EVIDENCE_PREPARATION_POLICY_VERSION,
         "searchCacheSha256": cache["cacheSha256"],
         "identityReviewSha256": sha256_json(review),
         "playbookAuditSha256": playbook_audit["auditSha256"],
@@ -159,7 +172,6 @@ configuration = {
         "playbookCategorySourceSha256": playbook_audit["playbook"][
             "categorySourceSha256"
         ],
-        "referralEvidenceContextCharacters": 2000,
         "referralGraphSha256": (
             referral_graph["graphSha256"] if referral_graph else "none"
         ),

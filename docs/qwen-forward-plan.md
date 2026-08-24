@@ -578,6 +578,48 @@ treats that sentinel as absence while continuing to validate real component
 hashes. The regression test exercises the same schema-2, graph-free audit shape
 used by the later-stage Housing corpora.
 
+Frozen later-stage outcome (2026-08-24): runs 39–41 completed all 18 candidate
+packets and 36 model operations without a retry, failed attempt, paid call, or
+candidate failure. Stabilization was 4 passed/1 needs review, specialized was
+2/3, and long-term/gaps was 4/4, for 10 passed, 8 needs review, and 0 failed
+overall. The three quality gates passed. This is the immutable pre-correction
+comparison point; it is not overwritten by the next run.
+
+Review of those results found that the model was often reacting correctly to
+weak upstream evidence: unsupported identity labels, a mid-sentence clip,
+access-point/system attribution, fax/phone confusion, City pages clipped before
+their body, and a search title concatenated with unrelated results. It also found
+a missed verifier defect in a nominally passed packet: organization footer/admin
+addresses had become program addresses and Phoenix service geography. The old
+gap audit separately manufactured eight false gaps from pluralized/granular tag
+names and already-completed operational checks.
+
+Application `0.29.0` therefore adds a category-neutral reviewed evidence contract
+before the corrected model run. Each eligible source receives explicit authority,
+current-page identity receipts, and a complete-page or one-or-more exact-section
+selection. Current page headings replace search-result titles; multiple sections
+can preserve separated candidate-wide facts while excluding property/footer
+blocks. Ordinary search results and authoritative referral destinations share the
+same validator. Extraction and the independent verifier receive explicit contact,
+entity-boundary, footer/admin-address, service-geography, and exact-program-URL
+rules. Coverage needs now distinguish exact equivalent any/all tags from
+operational checks, and combined population needs are split rather than allowing
+one covered population to hide another.
+
+Prepared evidence manifest hashes are
+`959026d62a1766c5a4eee2309e723a999c60a418e3f6023ffde940e8ceeaa66e`,
+`1c37f4773c95d3d339d8e6c94764641b1891db3a6c475ff2019a16b8a6030b56`,
+and `20d06995267ede9cf9882565a8ae6de30c52c856a8387d829221b6cc1aa7a47b`.
+Corrected audit hashes are
+`5164f67f7fc2c36db20bd56d32ff2ebca2383bcd6607b3211a055ce1959f63c9`,
+`187ab0b20e84c69d6ab0e16ea42a6dab2f7019d43cfed1676e7b28fc15cf72b7`,
+and `c7242b95ff9a7c54ae069c22dda7363d31e339caf423395a9d66a6ecc50a0cf7`.
+The corrected gap receipt contains 15 still-uncovered pathways rather than the
+frozen report's 23; no search was rerun and no unresolved lead was converted into
+a candidate to obtain that correction. Before the corrected corpus run, the full
+repository suite passed 228 Python tests with one optional live-package skip and
+all 20 JavaScript plugin tests.
+
 Compare the complete result with frozen DeepSeek Housing and every preserved Qwen
 Housing run. Compare like stages and report the union and overlap only after
 identity resolution; the historical DeepSeek total of 30 spans all four stages,
