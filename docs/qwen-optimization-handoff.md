@@ -121,6 +121,19 @@ phone vetting, a source-package merge, or the iterative second Scout cycle; thos
 observed integration steps remain pending and the mutations still require
 Michael's explicit permission.
 
+All-candidate export checkpoint (2026-08-24): after Step 5 passed, run 32
+exported one removable 1,063,237-byte Resource Curator containing all 21 usable
+candidates: 8 passed and 13 needs review. It contains 21 unique candidate IDs and
+21 unique generated-resource IDs, Curator schema 10, work schema 2, Housing
+category metadata, the selected 8-bit provenance, derivation policy
+`verifier-candidate-salvage-v1`, and the frozen Mesa package hash. The export
+SHA-256 is
+`7562ffb9eafe7b1a981509eefcb2b7e6d352b77b47823c1355ba696324faafaa`.
+No candidate carries a remaining candidate-fatal defect. This completes the
+removable export and machine-provenance portion of Step 6. Phone vetting, saved
+Curator work, an additions package, the merged package, and the second Scout
+cycle remain human-evidence boundaries and have not been simulated.
+
 The stale Scout-only curation write path has also been removed. Scout no longer
 contains an accepted-resource manager or storage methods that can record review
 decisions, edit generated resources, assess candidate relationships, or build a

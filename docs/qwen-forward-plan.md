@@ -490,6 +490,18 @@ UI dead-code pass. The
 current full suite passes 212
 Python tests with one optional skip and all 20 JavaScript plugin tests.
 
+All-candidate export checkpoint (2026-08-24): the completed Step 5 result exports
+all 21 usable run-32 candidates in one 1,063,237-byte Curator, with 21 unique
+candidate IDs, 21 unique generated-resource IDs, 8 passed statuses, 13
+needs-review statuses, and zero candidate-fatal defects. It binds the selected
+8-bit run, corpus, configuration, source package, and
+`verifier-candidate-salvage-v1` derivation. Export SHA-256
+`7562ffb9eafe7b1a981509eefcb2b7e6d352b77b47823c1355ba696324faafaa`.
+The export and provenance portion of Step 6 passes. Normal phone vetting, saved
+work, package acceptance, merge, and the iterative second Scout cycle remain
+pending; their results must come from Curator and the final package, not model
+self-rating.
+
 ### 7. Complete Housing calibration
 
 Lock the 8-bit artifact, verifier and extraction policies, playbook, query plan,
