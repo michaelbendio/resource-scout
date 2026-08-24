@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import io
 import json
 import tempfile
 import threading
@@ -8,254 +7,154 @@ import unittest
 import urllib.error
 import urllib.request
 import zipfile
-from datetime import datetime, timezone
 from pathlib import Path
 
 from resource_research_agent.importer import ResourcePackageImporter
 from resource_research_agent.resource_package import (
-    AcceptedResourceManager,
     GeneratedResourceError,
+    candidate_to_resource,
 )
+from resource_research_agent.review_export import build_review_copy
 from resource_research_agent.server import ResearchHTTPServer
 from resource_research_agent.storage import ResearchStore
 
 
-class AcceptedResourcePackageTests(unittest.TestCase):
+class ResourceDraftAndRemovedScoutPathTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory()
         self.root = Path(self.temporary.name)
         self.store = ResearchStore(self.root / "research.sqlite3")
-        self.package_path = self.root / "provo-resource-package.zip"
+        package_path = self.root / "provo-resource-package.zip"
         package = {
             "resourcePackageSchemaVersion": 3,
             "packageVersion": 43,
             "categories": [
-                {"id": "housing", "name": "Housing", "filters": ["Shelter", "Rent help"]},
+                {
+                    "id": "housing",
+                    "name": "Housing",
+                    "filters": ["Shelter", "Rent help"],
+                },
                 {"id": "food", "name": "Food", "filters": ["Meals", "Pantries"]},
             ],
             "forGroups": ["Families with children", "Veterans"],
-            "resources": [{
-                "id": "known-home",
-                "name": "Known Home",
-                "categories": ["housing"],
-                "pdfs": [{"filename": "known-home-guide.pdf"}],
-                "privateExtension": "must remain in the imported snapshot only",
-            }],
+            "resources": [
+                {
+                    "id": "known-home",
+                    "name": "Known Home",
+                    "categories": ["housing"],
+                }
+            ],
         }
-        with zipfile.ZipFile(self.package_path, "w", compression=zipfile.ZIP_STORED) as archive:
+        with zipfile.ZipFile(package_path, "w") as archive:
             archive.writestr("tso-resources.json", json.dumps(package))
-            archive.writestr("pdfs/known-home-guide.pdf", b"x" * (1024 * 1024))
         self.import_id = self.store.save_import(
-            ResourcePackageImporter().read(self.package_path)
+            ResourcePackageImporter().read(package_path)
         )
         self.run_id = self.store.create_research_run(
-            "hermes", "Find Housing resources", {"selectedSeed": None}, self.import_id, None
+            "hermes",
+            "Find Housing resources",
+            {"selectedSeed": None},
+            self.import_id,
+            None,
         )
-        self.manager = AcceptedResourceManager(self.store)
 
     def tearDown(self) -> None:
         self.temporary.cleanup()
 
     @staticmethod
-    def candidate(name: str = "New Housing Program") -> dict[str, object]:
+    def candidate(name: str = "New Resource") -> dict[str, object]:
         return {
             "name": name,
             "organization": "Helpful Organization",
-            "program": "Housing Navigation",
+            "program": "Direct Service",
             "phone": "801-555-0100",
             "address": "10 Center Street, Provo, UT",
-            "website": "https://helpful.example.org/housing",
+            "website": "https://helpful.example.org/program",
             "hours": "Monday-Friday, 9-5",
-            "additionalAddresses": ["20 South Street, Provo, UT — document drop-off"],
-            "additionalPhoneNumbers": ["801-555-0101 — Spanish intake"],
-            "resourceType": "Housing navigation",
-            "housingNeed": "Helps people locate and apply for stable housing.",
-            "description": "A longer researcher explanation for the Information field.",
+            "serviceNeed": "Helps people meet an urgent need.",
+            "description": "A longer researcher explanation.",
             "geography": "Utah County",
-            "accessTimeline": "Call for an intake appointment.",
-            "eligibility": ["Adults experiencing homelessness", "Utah County resident"],
-            "servicesProvided": ["Housing search", "Application assistance"],
-            "whatToExpect": ["Call first, then complete a 30-minute intake"],
-            "howToBestConnect": ["Call weekday mornings for the shortest wait"],
-            "additionalNotes": ["Spanish-language intake is available"],
-            "barriers": ["Photo identification may be requested"],
-            "availability": {
-                "status": "Accepting referrals",
-                "asOf": "2026-08-17",
-                "evidence": "Confirmed on the program page",
-            },
+            "recommendedTypes": ["Shelter", "Not a package type"],
+            "recommendedFor": ["Veterans", "Not a package For label"],
             "petPolicy": "Ask during intake.",
-            "experienceAssessment": {"privacy": "Private appointments are available"},
             "unknowns": ["Current appointment wait"],
-            "followUpBranches": ["Confirm Spanish-language availability"],
-            "evidence": [{
-                "title": "Official housing page",
-                "url": "https://helpful.example.org/housing",
-                "finding": "Describes navigation and application help.",
-                "sourceType": "official",
-                "reliability": "high",
-                "accessedAt": "2026-08-17",
-            }],
+            "evidence": [
+                {
+                    "title": "Official page",
+                    "url": "https://helpful.example.org/program",
+                    "finding": "Describes direct help.",
+                    "sourceType": "official",
+                    "reliability": "high",
+                }
+            ],
         }
 
-    def save_candidate(self, name: str = "New Housing Program") -> dict[str, object]:
-        saved = self.store.save_discovery(self.candidate(name), run_id=self.run_id)
-        discovery = self.store.get_discovery(saved["id"])
-        assert discovery is not None
-        return discovery
-
-    def test_accept_creates_editable_tso_resource_with_requested_field_mapping(self) -> None:
-        discovery = self.save_candidate()
-        reviewed = self.manager.review_candidate(discovery["id"], "accepted")
-        generated = self.store.get_generated_resource(discovery["id"])
-
-        self.assertEqual("accepted", reviewed["status"])
-        self.assertIsNotNone(generated)
-        resource = generated["resource"]
-        self.assertEqual("New Housing Program", resource["name"])
-        self.assertEqual("801-555-0100", resource["phone"])
-        self.assertEqual("10 Center Street, Provo, UT", resource["address"])
-        self.assertEqual("https://helpful.example.org/housing", resource["website"])
-        self.assertEqual("Monday-Friday, 9-5", resource["hours"])
-        self.assertEqual(
-            "Helps people locate and apply for stable housing.", resource["description"]
+    def test_curator_drafts_are_category_neutral_and_playbook_driven(self) -> None:
+        candidate = self.candidate()
+        housing = candidate_to_resource(
+            candidate,
+            "housing",
+            resource_id="housing-draft",
+            available_types=["Shelter"],
+            available_for_groups=["Veterans"],
         )
-        self.assertIsNone(resource["verifiedOn"])
-        self.assertEqual(["housing"], resource["categories"])
-        self.assertEqual([], resource["pdfs"])
-        self.assertIn("**Resource details**", resource["informationText"])
-        self.assertIn("**Additional locations and contacts**", resource["informationText"])
-        self.assertIn("**Services provided**", resource["informationText"])
-        self.assertIn("**Eligibility requirements**", resource["informationText"])
-        self.assertIn("**What to expect**", resource["informationText"])
-        self.assertIn("**How to best connect**", resource["informationText"])
-        self.assertIn("**Additional notes**", resource["informationText"])
-        self.assertIn("* Research description: A longer researcher explanation", resource["informationText"])
-        self.assertIn("**Verify before referral**", resource["informationText"])
-        self.assertIn("---", resource["informationText"])
-        self.assertIn("https://helpful.example.org/housing", resource["informationText"])
+        self.assertEqual("housing-draft", housing["id"])
+        self.assertEqual(["housing"], housing["categories"])
+        self.assertEqual({"housing": ["Shelter"]}, housing["categoryFilters"])
+        self.assertEqual(["Veterans"], housing["forGroups"])
+        self.assertIn("**Pet Policy**", housing["informationText"])
+        self.assertIn("**Verify before referral**", housing["informationText"])
 
-    def test_resource_id_survives_review_changes_and_human_edits(self) -> None:
-        discovery = self.save_candidate()
-        self.manager.review_candidate(discovery["id"], "accepted")
-        first = self.store.get_generated_resource(discovery["id"])["resource"]
-        self.manager.review_candidate(discovery["id"], "research-further")
-        self.manager.review_candidate(discovery["id"], "accepted")
-        second = self.store.get_generated_resource(discovery["id"])["resource"]
-        self.assertEqual(first["id"], second["id"])
-
-        updated = self.manager.update_resource(discovery["id"], {
-            "name": "Reviewer-corrected name",
-            "verifiedOn": "08/26",
-            "informationText": "**Call first**\n\n* Ask about availability",
-        })["resource"]
-        self.assertEqual(first["id"], updated["id"])
-        self.assertEqual("Reviewer-corrected name", updated["name"])
-        self.assertEqual("08/26", updated["verifiedOn"])
-        self.assertEqual(["housing"], updated["categories"])
-        with self.assertRaisesRegex(GeneratedResourceError, "MM/YY"):
-            self.manager.update_resource(discovery["id"], {"verifiedOn": "August 2026"})
-
-    def test_export_is_cumulative_run_scoped_and_contains_no_baseline_or_assets(self) -> None:
-        first = self.save_candidate("First accepted resource")
-        second = self.save_candidate("Second accepted resource")
-        self.manager.review_candidate(first["id"], "accepted")
-        initial = self.manager.build_package(
-            self.run_id, exported_at=datetime(2026, 8, 17, tzinfo=timezone.utc)
+        food = candidate_to_resource(
+            candidate,
+            "food",
+            resource_id="food-draft",
+            available_types=["Meals"],
+            available_for_groups=["Veterans"],
         )
-        self.assertEqual(1, initial.resource_count)
+        self.assertEqual(["food"], food["categories"])
+        self.assertNotIn("Pet Policy", food["informationText"])
+        with self.assertRaisesRegex(GeneratedResourceError, "needs a name"):
+            candidate_to_resource({}, "food")
 
-        self.manager.review_candidate(second["id"], "accepted")
-        cumulative = self.manager.build_package(self.run_id)
-        with zipfile.ZipFile(io.BytesIO(cumulative.content)) as archive:
-            self.assertEqual(["tso-resources.json"], archive.namelist())
-            data = json.loads(archive.read("tso-resources.json"))
-
-        self.assertEqual(3, data["resourcePackageSchemaVersion"])
-        self.assertEqual(43, data["packageVersion"])
-        self.assertEqual(["housing"], [category["id"] for category in data["categories"]])
-        self.assertEqual(
-            ["First accepted resource", "Second accepted resource"],
-            [resource["name"] for resource in data["resources"]],
+    def test_historical_generated_draft_remains_readable_in_curator_export(self) -> None:
+        saved = self.store.save_discovery(
+            self.candidate("Legacy edited draft"), run_id=self.run_id
         )
-        exported_json = json.dumps(data)
-        self.assertNotIn("Known Home", exported_json)
-        self.assertNotIn("known-home-guide.pdf", exported_json)
-        self.assertNotIn("privateExtension", exported_json)
-        self.assertLess(len(cumulative.content), len(self.package_path.read_bytes()) // 10)
-
-        other_run = self.store.create_research_run(
-            "hermes", "Other run", {"selectedSeed": None}, self.import_id, None
+        legacy_resource = candidate_to_resource(
+            self.candidate("Legacy edited draft"),
+            "housing",
+            resource_id="legacy-generated-id",
         )
-        other = self.store.save_discovery(self.candidate("Other run resource"), run_id=other_run)
-        self.manager.review_candidate(other["id"], "accepted")
-        self.assertNotIn(
-            "Other run resource", json.dumps(self.manager.build_package(self.run_id).data)
-        )
-
-        self.manager.review_candidate(first["id"], "rejected")
-        after_rejection = self.manager.build_package(self.run_id).data
-        self.assertEqual(["Second accepted resource"], [item["name"] for item in after_rejection["resources"]])
-
-    def test_food_export_preserves_package_types_for_groups_and_multicategory_review(self) -> None:
-        run_id = self.store.create_research_run(
-            "hermes", "Find food resources", {"selectedSeed": None}, self.import_id, None,
-            target_category_id="food", target_category_label="Food",
-        )
-        candidate = self.candidate("Family meal program")
-        candidate.update({
-            "serviceNeed": "Provides a dependable evening meal for families.",
-            "recommendedTypes": ["Meals", "Not a package Type"],
-            "recommendedFor": ["Families with children", "Not a package For label"],
-        })
-        saved = self.store.save_discovery(candidate, run_id=run_id)
-        self.manager.review_candidate(saved["id"], "accepted")
-        generated = self.store.get_generated_resource(saved["id"])["resource"]
-        self.assertEqual(["food"], generated["categories"])
-        self.assertEqual({"food": ["Meals"]}, generated["categoryFilters"])
-        self.assertEqual(["Families with children"], generated["forGroups"])
-
-        self.manager.update_resource(saved["id"], {
-            "categories": ["food", "housing"],
-            "categoryFilters": {"food": ["Meals"], "housing": ["Shelter"]},
-            "forGroups": ["Families with children", "Veterans"],
-        })
-        data = self.manager.build_package(run_id).data
-        self.assertEqual(["food", "housing"], [item["id"] for item in data["categories"]])
-        self.assertEqual(["Families with children", "Veterans"], data["forGroups"])
-        self.assertEqual(
-            {"food": ["Meals"], "housing": ["Shelter"]},
-            data["resources"][0]["categoryFilters"],
-        )
-        self.assertIn("food-research-run", self.manager.build_package(run_id).filename)
-
-        with self.assertRaisesRegex(GeneratedResourceError, "no longer defined"):
-            self.manager.update_resource(saved["id"], {
-                "categories": ["food"], "categoryFilters": {"food": ["Renamed label"]},
-            })
-
-    def test_standalone_review_stays_review_only(self) -> None:
-        run_id = self.store.create_research_run(
-            "hermes", "Research Mesa", {"selectedSeed": None},
-            research_mode="standalone-location", target_location="Mesa, Arizona",
-        )
-        saved = self.store.save_discovery(self.candidate("Mesa lead"), run_id=run_id)
-        reviewed = self.manager.review_candidate(saved["id"], "accepted")
-        self.assertEqual("accepted", reviewed["status"])
-        self.assertIsNone(self.store.get_generated_resource(saved["id"]))
-        with self.assertRaisesRegex(GeneratedResourceError, "package-backed"):
-            self.manager.build_package(run_id)
-
-    def test_export_refuses_to_mislabel_an_older_source_schema(self) -> None:
-        discovery = self.save_candidate()
-        self.manager.review_candidate(discovery["id"], "accepted")
+        legacy_resource["phone"] = "801-555-0199"
         with self.store.connect() as connection:
             connection.execute(
-                "UPDATE imports SET schema_version = '2' WHERE id = ?",
-                (self.import_id,),
+                """INSERT INTO generated_resources (
+                       discovery_id, run_id, source_import_id, resource_id,
+                       created_at, updated_at, resource_json
+                   ) VALUES (?, ?, ?, ?, 'legacy', 'legacy', ?)""",
+                (
+                    saved["id"],
+                    self.run_id,
+                    self.import_id,
+                    legacy_resource["id"],
+                    json.dumps(legacy_resource),
+                ),
             )
-        with self.assertRaisesRegex(GeneratedResourceError, "schema 3"):
-            self.manager.build_package(self.run_id)
+        self.store.mark_run_running(self.run_id)
+        self.store.complete_run(
+            self.run_id,
+            "raw",
+            {"summary": "Complete", "candidates": [self.candidate()]},
+            None,
+        )
+        review = build_review_copy(self.store, self.run_id)
+        self.assertEqual(
+            "legacy-generated-id", review.data["candidates"][0]["resourceDraft"]["id"]
+        )
+        self.assertEqual(
+            "801-555-0199", review.data["candidates"][0]["resourceDraft"]["phone"]
+        )
 
     def test_migration_recovers_source_package_for_older_package_backed_run(self) -> None:
         with self.store.connect() as connection:
@@ -267,7 +166,7 @@ class AcceptedResourcePackageTests(unittest.TestCase):
         self.assertEqual(self.import_id, reopened.get_run(self.run_id)["sourceImportId"])
 
     def test_scout_http_does_not_expose_human_curation_or_package_routes(self) -> None:
-        discovery = self.save_candidate()
+        saved = self.store.save_discovery(self.candidate(), run_id=self.run_id)
         web_dir = Path(__file__).resolve().parent.parent / "web"
         server = ResearchHTTPServer(("127.0.0.1", 0), self.store, web_dir)
         thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -275,15 +174,33 @@ class AcceptedResourcePackageTests(unittest.TestCase):
         try:
             base = f"http://127.0.0.1:{server.server_address[1]}"
             for path, method, payload in (
-                (f"/api/discoveries/{discovery['id']}/review", "POST", {"status": "accepted"}),
-                (f"/api/discoveries/{discovery['id']}/generated-resource", "POST", {"resource": {"name": "Edited"}}),
-                (f"/api/discoveries/{discovery['id']}/match-assessment", "POST", {"assessment": "same-resource"}),
+                (
+                    f"/api/discoveries/{saved['id']}/review",
+                    "POST",
+                    {"status": "accepted"},
+                ),
+                (
+                    f"/api/discoveries/{saved['id']}/generated-resource",
+                    "POST",
+                    {"resource": {"name": "Edited"}},
+                ),
+                (
+                    f"/api/discoveries/{saved['id']}/match-assessment",
+                    "POST",
+                    {"assessment": "same-resource"},
+                ),
                 (f"/api/research-runs/{self.run_id}/resource-package", "GET", None),
             ):
                 request = urllib.request.Request(
                     f"{base}{path}",
-                    data=json.dumps(payload).encode() if payload is not None else None,
-                    headers={"Content-Type": "application/json"} if payload is not None else {},
+                    data=(
+                        json.dumps(payload).encode() if payload is not None else None
+                    ),
+                    headers=(
+                        {"Content-Type": "application/json"}
+                        if payload is not None
+                        else {}
+                    ),
                     method=method,
                 )
                 with self.assertRaises(urllib.error.HTTPError) as raised:

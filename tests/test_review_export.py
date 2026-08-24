@@ -75,10 +75,19 @@ class ReviewCopyTests(unittest.TestCase):
         }
         match = DuplicateIndex(self.store).match(candidate, import_id=self.import_id, limit=1)[0]
         saved = self.store.save_discovery(candidate, match, run_id=run_id)
-        self.store.review_discovery(
-            saved["id"], "research-further", "Confirm funding before referral. <script>alert(1)</script>"
-        )
-        self.store.assess_discovery_match(saved["id"], "same-organization-different-program")
+        with self.store.connect() as connection:
+            connection.execute(
+                """UPDATE discoveries
+                   SET status = 'research-further', reviewed_at = 'legacy-review',
+                       review_feedback = ?,
+                       match_assessment = 'same-organization-different-program',
+                       match_assessed_at = 'legacy-review'
+                   WHERE id = ?""",
+                (
+                    "Confirm funding before referral. <script>alert(1)</script>",
+                    saved["id"],
+                ),
+            )
         self.store.save_lesson(
             "Verify time-varying funding.", rationale="Availability changes.",
             status="proposed", source="agent", run_id=run_id,
@@ -386,13 +395,6 @@ class ReviewCopyTests(unittest.TestCase):
         )
         with self.assertRaisesRegex(ReviewCopyError, "Only completed"):
             build_review_copy(self.store, run_id)
-
-    def test_match_assessment_requires_a_saved_match(self) -> None:
-        saved = self.store.save_discovery({"name": "Unmatched candidate"})
-        with self.assertRaisesRegex(ValueError, "does not have"):
-            self.store.assess_discovery_match(saved["id"], "not-related")
-        with self.assertRaisesRegex(ValueError, "Unsupported"):
-            self.store.assess_discovery_match(saved["id"], "maybe")
 
     def test_http_endpoint_downloads_the_review_copy(self) -> None:
         run_id = self.completed_run()

@@ -1894,21 +1894,6 @@ class ResearchStore:
             discovery_id = int(cursor.lastrowid)
         return {"id": discovery_id, "status": status, "origin": origin, "isNewDiscovery": not duplicate}
 
-    def review_discovery(self, discovery_id: int, status: str, feedback: str = "") -> dict[str, Any] | None:
-        allowed = {"accepted", "rejected", "research-further", "already-known", "wrong-category"}
-        if status not in allowed:
-            raise ValueError(f"Unsupported review action: {status}")
-        now = datetime.now(timezone.utc).isoformat()
-        with self.connect() as connection:
-            connection.execute(
-                """UPDATE discoveries
-                   SET status = ?, updated_at = ?, reviewed_at = ?, review_feedback = ?
-                   WHERE id = ?""",
-                (status, now, now, feedback, discovery_id),
-            )
-            row = connection.execute("SELECT * FROM discoveries WHERE id = ?", (discovery_id,)).fetchone()
-        return self._discovery_dict(row) if row else None
-
     def get_discovery(self, discovery_id: int) -> dict[str, Any] | None:
         with self.connect() as connection:
             row = connection.execute(
@@ -1916,65 +1901,12 @@ class ResearchStore:
             ).fetchone()
         return self._discovery_dict(row) if row else None
 
-    def create_generated_resource(
-        self,
-        discovery_id: int,
-        run_id: int,
-        source_import_id: int,
-        resource: dict[str, Any],
-    ) -> dict[str, Any]:
-        resource_id = str(resource.get("id") or "").strip()
-        if not resource_id:
-            raise ValueError("Generated resource id is required")
-        now = datetime.now(timezone.utc).isoformat()
-        with self.connect() as connection:
-            connection.execute(
-                """INSERT OR IGNORE INTO generated_resources (
-                       discovery_id, run_id, source_import_id, resource_id,
-                       created_at, updated_at, resource_json
-                   ) VALUES (?, ?, ?, ?, ?, ?, ?)""",
-                (discovery_id, run_id, source_import_id, resource_id, now, now, _json(resource)),
-            )
-        return self.get_generated_resource(discovery_id) or {}
-
     def get_generated_resource(self, discovery_id: int) -> dict[str, Any] | None:
         with self.connect() as connection:
             row = connection.execute(
                 "SELECT * FROM generated_resources WHERE discovery_id = ?", (discovery_id,)
             ).fetchone()
         return self._generated_resource_dict(row) if row else None
-
-    def update_generated_resource(
-        self, discovery_id: int, resource: dict[str, Any]
-    ) -> dict[str, Any] | None:
-        now = datetime.now(timezone.utc).isoformat()
-        with self.connect() as connection:
-            cursor = connection.execute(
-                """UPDATE generated_resources
-                   SET updated_at = ?, resource_json = ? WHERE discovery_id = ?""",
-                (now, _json(resource), discovery_id),
-            )
-            if not cursor.rowcount:
-                return None
-        return self.get_generated_resource(discovery_id)
-
-    def list_generated_resources(
-        self, run_id: int, *, accepted_only: bool = False
-    ) -> list[dict[str, Any]]:
-        query = (
-            """SELECT generated_resources.*
-               FROM generated_resources
-               JOIN discoveries ON discoveries.id = generated_resources.discovery_id
-               WHERE generated_resources.run_id = ?"""
-        )
-        parameters: list[Any] = [run_id]
-        if accepted_only:
-            query += " AND discoveries.status = ?"
-            parameters.append("accepted")
-        query += " ORDER BY generated_resources.discovery_id"
-        with self.connect() as connection:
-            rows = connection.execute(query, tuple(parameters)).fetchall()
-        return [self._generated_resource_dict(row) for row in rows]
 
     @staticmethod
     def _generated_resource_dict(row: sqlite3.Row) -> dict[str, Any]:
@@ -1984,35 +1916,6 @@ class ResearchStore:
             "createdAt": row["created_at"], "updatedAt": row["updated_at"],
             "resource": json.loads(row["resource_json"]),
         }
-
-    def assess_discovery_match(self, discovery_id: int, assessment: str) -> dict[str, Any] | None:
-        allowed = {
-            "same-resource",
-            "same-organization-different-program",
-            "related-distinct",
-            "not-related",
-        }
-        if assessment not in allowed:
-            raise ValueError(f"Unsupported match assessment: {assessment}")
-        now = datetime.now(timezone.utc).isoformat()
-        with self.connect() as connection:
-            row = connection.execute(
-                "SELECT matched_resource_id FROM discoveries WHERE id = ?", (discovery_id,)
-            ).fetchone()
-            if not row:
-                return None
-            if not row["matched_resource_id"]:
-                raise ValueError("This candidate does not have a known-resource match to assess")
-            connection.execute(
-                """UPDATE discoveries
-                   SET match_assessment = ?, match_assessed_at = ?, updated_at = ?
-                   WHERE id = ?""",
-                (assessment, now, now, discovery_id),
-            )
-            updated = connection.execute(
-                "SELECT * FROM discoveries WHERE id = ?", (discovery_id,)
-            ).fetchone()
-        return self._discovery_dict(updated) if updated else None
 
     def list_discoveries(self, run_id: int | None = None) -> list[dict[str, Any]]:
         query = "SELECT * FROM discoveries"

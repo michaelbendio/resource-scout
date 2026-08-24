@@ -66,7 +66,7 @@ class ResearchWorkflowTests(unittest.TestCase):
                 with self.assertRaises(AgentRunError):
                     _extract_json_object(malformed)
 
-    def test_demo_research_run_creates_separate_candidate_and_review_lesson(self) -> None:
+    def test_demo_research_run_creates_separate_candidate_and_human_lesson(self) -> None:
         self.store.save_settings({"adapter": "demo"})
         coordinator = ResearchCoordinator(self.store)
         run = coordinator.start("Find a transitional housing option", "known-home")
@@ -80,13 +80,12 @@ class ResearchWorkflowTests(unittest.TestCase):
         self.assertEqual(1, len(discoveries))
         self.assertEqual("candidate", discoveries[0]["status"])
         self.assertEqual(run["id"], discoveries[0]["runId"])
-        reviewed = self.store.review_discovery(discoveries[0]["id"], "research-further", "Verify pet policy")
-        self.assertEqual("research-further", reviewed["status"])
         lesson = self.store.save_lesson(
             "Verify pet policy", source="human-feedback", discovery_id=discoveries[0]["id"]
         )
         self.assertEqual("active", lesson["status"])
         self.assertEqual(1, len(self.store.list_lessons(active_only=True)))
+        self.assertEqual("candidate", self.store.get_discovery(discoveries[0]["id"])["status"])
         self.assertIsNotNone(self.store.full_resource(1, "known-home"))
 
     def test_standalone_location_is_explicit_and_isolated_from_imported_context(self) -> None:

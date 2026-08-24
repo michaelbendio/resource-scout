@@ -1,38 +1,16 @@
 from __future__ import annotations
 
-import io
-import json
 import re
 import uuid
-import zipfile
-from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Iterable
 
-from .storage import ResearchStore
+from .playbooks import playbook_for
 
 
 RESOURCE_PACKAGE_SCHEMA_VERSION = 3
-EDITABLE_RESOURCE_FIELDS = (
-    "name", "phone", "address", "website", "hours",
-    "verifiedOn", "description", "informationText",
-    "categories", "categoryFilters", "forGroups",
-)
-
-
 class GeneratedResourceError(ValueError):
-    """Raised when an accepted candidate cannot become a mergeable resource."""
-
-
-@dataclass(frozen=True)
-class ResourcePackageExport:
-    filename: str
-    content: bytes
-    data: dict[str, Any]
-
-    @property
-    def resource_count(self) -> int:
-        return len(self.data["resources"])
+    """Raised when a candidate cannot become a Curator resource draft."""
 
 
 def _inline(value: Any) -> str:
@@ -83,7 +61,10 @@ def _section(title: str, items: Iterable[str]) -> list[str]:
     return [f"**{title}**", *[f"* {item}" for item in clean]]
 
 
-def candidate_information(candidate: dict[str, Any]) -> str:
+def candidate_information(
+    candidate: dict[str, Any],
+    additional_fields: Iterable[tuple[str, str]] = (),
+) -> str:
     sections: list[list[str]] = []
     description = candidate_description(candidate)
     research_description = _inline(candidate.get("description"))
@@ -129,8 +110,9 @@ def candidate_information(candidate: dict[str, Any]) -> str:
     sections.append(_section("How to best connect", _items(candidate.get("howToBestConnect"))))
     sections.append(_section("Additional notes", _items(candidate.get("additionalNotes"))))
     sections.append(_section("Barriers and restrictions", _items(candidate.get("barriers"))))
-    if text := _inline(candidate.get("petPolicy")):
-        sections.append(_section("Pet and service-animal information", [text]))
+    for field, _description in additional_fields:
+        if text := _inline(candidate.get(field)):
+            sections.append(_section(_label(field), [text]))
 
     experience = candidate.get("experienceAssessment")
     if isinstance(experience, dict):
@@ -203,6 +185,7 @@ def candidate_to_resource(
     recommended_for = [
         value for value in _items(candidate.get("recommendedFor")) if value in for_labels
     ]
+    playbook = playbook_for(category_id)
     return {
         "id": resource_id or uuid.uuid4().hex,
         "name": name,
@@ -211,7 +194,9 @@ def candidate_to_resource(
         "website": _inline(candidate.get("website") or candidate.get("url")),
         "hours": _inline(candidate.get("hours")),
         "description": candidate_description(candidate),
-        "informationText": candidate_information(candidate),
+        "informationText": candidate_information(
+            candidate, playbook.additional_output_fields
+        ),
         "verifiedOn": None,
         "categories": [category_id],
         "categoryFilters": {category_id: recommended_types} if recommended_types else {},
@@ -219,225 +204,3 @@ def candidate_to_resource(
         "pdfs": [],
         "lastModified": now,
     }
-
-
-def _normalized_resource_update(
-    existing: dict[str, Any], updates: dict[str, Any], timestamp: datetime | None = None
-) -> dict[str, Any]:
-    next_resource = dict(existing)
-    for field in EDITABLE_RESOURCE_FIELDS:
-        if field not in updates:
-            continue
-        value = updates[field]
-        if field == "verifiedOn":
-            text = _inline(value)
-            if text and not re.fullmatch(r"(?:0[1-9]|1[0-2])/\d{2}", text):
-                raise GeneratedResourceError("Verified must use MM/YY or remain blank")
-            next_resource[field] = text or None
-        elif field in {"description", "informationText"}:
-            next_resource[field] = str(value or "").strip()
-        elif field in {"categories", "forGroups"}:
-            if not isinstance(value, list):
-                raise GeneratedResourceError(f"{field} must be a list")
-            next_resource[field] = list(dict.fromkeys(_inline(item) for item in value if _inline(item)))
-        elif field == "categoryFilters":
-            if not isinstance(value, dict):
-                raise GeneratedResourceError("categoryFilters must be an object")
-            next_resource[field] = {
-                str(key): list(dict.fromkeys(_inline(item) for item in values if _inline(item)))
-                for key, values in value.items() if isinstance(values, list)
-            }
-        else:
-            next_resource[field] = _inline(value)
-    if not str(next_resource.get("name") or "").strip():
-        raise GeneratedResourceError("Resource name is required")
-    comparable_before = {key: existing.get(key) for key in EDITABLE_RESOURCE_FIELDS}
-    comparable_after = {key: next_resource.get(key) for key in EDITABLE_RESOURCE_FIELDS}
-    if comparable_before != comparable_after:
-        changed = timestamp or datetime.now(timezone.utc)
-        next_resource["lastModified"] = changed.astimezone(timezone.utc).isoformat()
-    return next_resource
-
-
-class AcceptedResourceManager:
-    def __init__(self, store: ResearchStore) -> None:
-        self.store = store
-
-    def ensure_generated_resource(self, discovery_id: int) -> dict[str, Any] | None:
-        existing = self.store.get_generated_resource(discovery_id)
-        if existing:
-            return existing
-        discovery = self.store.get_discovery(discovery_id)
-        if not discovery:
-            raise GeneratedResourceError("Candidate not found")
-        if discovery.get("runId") is None:
-            return None
-        run = self.store.get_run(int(discovery["runId"]))
-        if not run:
-            raise GeneratedResourceError("The candidate's research run was not found")
-        if run.get("researchMode") != "package":
-            return None
-        import_id = run.get("sourceImportId")
-        if import_id is None:
-            raise GeneratedResourceError(
-                "This package-backed run does not identify its source package"
-            )
-        category = self.store.import_category(
-            int(import_id), run.get("targetCategoryId", "housing")
-        )
-        if not category:
-            raise GeneratedResourceError("The research category was not found in the imported package")
-        taxonomy = self.store.import_taxonomy(int(import_id))
-        category_summary = next(
-            (item for item in taxonomy["categories"] if item["id"] == str(category["id"])),
-            {"types": []},
-        )
-        resource = candidate_to_resource(
-            discovery["candidate"], str(category["id"]),
-            available_types=category_summary.get("types", []),
-            available_for_groups=taxonomy["forGroups"],
-        )
-        return self.store.create_generated_resource(
-            discovery_id, int(run["id"]), int(import_id), resource
-        )
-
-    def review_candidate(
-        self, discovery_id: int, status: str, feedback: str = ""
-    ) -> dict[str, Any] | None:
-        if status == "accepted":
-            self.ensure_generated_resource(discovery_id)
-        return self.store.review_discovery(discovery_id, status, feedback)
-
-    def update_resource(
-        self, discovery_id: int, updates: dict[str, Any]
-    ) -> dict[str, Any]:
-        generated = self.store.get_generated_resource(discovery_id)
-        if not generated:
-            raise GeneratedResourceError("Accept this candidate before editing its resource")
-        resource = _normalized_resource_update(generated["resource"], updates)
-        self._validate_taxonomy(generated["sourceImportId"], resource)
-        updated = self.store.update_generated_resource(discovery_id, resource)
-        if not updated:
-            raise GeneratedResourceError("Generated resource not found")
-        return updated
-
-    def taxonomy_for_discovery(self, discovery_id: int) -> dict[str, Any] | None:
-        discovery = self.store.get_discovery(discovery_id)
-        if not discovery or discovery.get("runId") is None:
-            return None
-        run = self.store.get_run(int(discovery["runId"]))
-        if not run or run.get("sourceImportId") is None:
-            return None
-        taxonomy = self.store.import_taxonomy(int(run["sourceImportId"]))
-        generated = self.store.get_generated_resource(discovery_id)
-        warnings = self._taxonomy_warnings(
-            generated["resource"] if generated else {}, taxonomy
-        )
-        return {**taxonomy, "warnings": warnings}
-
-    @staticmethod
-    def _taxonomy_warnings(resource: dict[str, Any], taxonomy: dict[str, Any]) -> list[str]:
-        categories = {item["id"]: item for item in taxonomy["categories"]}
-        warnings: list[str] = []
-        for category_id in resource.get("categories", []):
-            if category_id not in categories:
-                warnings.append(f"Category {category_id!r} is not in the source package")
-        for category_id, labels in (resource.get("categoryFilters") or {}).items():
-            available = set(categories.get(category_id, {}).get("types", []))
-            for label in labels if isinstance(labels, list) else []:
-                if label not in available:
-                    warnings.append(
-                        f"Type {label!r} is no longer defined for {categories.get(category_id, {}).get('label', category_id)}"
-                    )
-        available_for = set(taxonomy.get("forGroups", []))
-        for label in resource.get("forGroups", []):
-            if label not in available_for:
-                warnings.append(f"For label {label!r} is not in the source package")
-        return warnings
-
-    def _validate_taxonomy(self, import_id: int, resource: dict[str, Any]) -> None:
-        taxonomy = self.store.import_taxonomy(int(import_id))
-        warnings = self._taxonomy_warnings(resource, taxonomy)
-        if warnings:
-            raise GeneratedResourceError("; ".join(warnings))
-        selected = set(resource.get("categories", []))
-        if not selected:
-            raise GeneratedResourceError("Select at least one category")
-        extra_filter_categories = set((resource.get("categoryFilters") or {})) - selected
-        if extra_filter_categories:
-            raise GeneratedResourceError("Types can be selected only for assigned categories")
-
-    def build_package(
-        self, run_id: int, *, exported_at: datetime | None = None
-    ) -> ResourcePackageExport:
-        run = self.store.get_run(run_id)
-        if not run:
-            raise GeneratedResourceError("Research run not found")
-        if run.get("researchMode") != "package":
-            raise GeneratedResourceError(
-                "Resource packages are available only for package-backed research runs"
-            )
-        import_id = run.get("sourceImportId")
-        if import_id is None:
-            raise GeneratedResourceError("The research run does not identify a source package")
-        generated = self.store.list_generated_resources(run_id, accepted_only=True)
-        if not generated:
-            raise GeneratedResourceError("Accept at least one candidate before exporting a resource package")
-        package = self.store.import_summary(int(import_id))
-        if not package:
-            raise GeneratedResourceError("The source package is unavailable")
-        if str(package["schema"].get("schemaVersion") or "") != str(
-            RESOURCE_PACKAGE_SCHEMA_VERSION
-        ):
-            raise GeneratedResourceError(
-                "Accepted-resource export currently supports source packages using schema 3"
-            )
-
-        exported = (exported_at or datetime.now(timezone.utc)).astimezone(timezone.utc)
-        resources = [item["resource"] for item in generated]
-        for resource in resources:
-            self._validate_taxonomy(int(import_id), resource)
-        category_ids = list(dict.fromkeys(
-            category_id
-            for resource in resources
-            for category_id in resource.get("categories", [])
-        ))
-        categories = []
-        for category_id in category_ids:
-            category = self.store.import_category(int(import_id), category_id)
-            if not category:
-                raise GeneratedResourceError(f"Category {category_id!r} is unavailable")
-            categories.append(category)
-        package_version_text = str(package["schema"].get("packageVersion") or "Unknown")
-        package_version: int | str = (
-            int(package_version_text) if package_version_text.isdigit() else package_version_text
-        )
-        data = {
-            "resourcePackageSchemaVersion": RESOURCE_PACKAGE_SCHEMA_VERSION,
-            "packageVersion": package_version,
-            "packageCreatedAt": exported.isoformat(),
-            "lastModified": max(
-                (str(resource.get("lastModified") or "") for resource in resources),
-                default=exported.isoformat(),
-            ) or exported.isoformat(),
-            "categories": categories,
-            "categoryMigrations": [],
-            "forGroups": self.store.import_for_groups(int(import_id)),
-            "resources": resources,
-            "changes": [],
-            "deletionRequests": [],
-            "deletions": [],
-        }
-        json_bytes = json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8")
-        target = io.BytesIO()
-        with zipfile.ZipFile(target, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
-            archive.writestr("tso-resources.json", json_bytes)
-        source_slug = re.sub(
-            r"(?:-resource-package)?\.zip$", "", str(package["sourceName"]), flags=re.IGNORECASE
-        )
-        source_slug = re.sub(r"[^a-z0-9]+", "-", source_slug.casefold()).strip("-") or "tso"
-        category_slug = re.sub(
-            r"[^a-z0-9]+", "-", str(run.get("targetCategoryLabel") or "resources").casefold()
-        ).strip("-") or "resources"
-        filename = f"{source_slug}-{category_slug}-research-run-{run_id}-resource-package.zip"
-        return ResourcePackageExport(filename=filename, content=target.getvalue(), data=data)
