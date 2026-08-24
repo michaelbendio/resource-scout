@@ -20,8 +20,10 @@ from resource_research_agent.optimization_review import (
 from resource_research_agent.optimization_runtime import OptimizationRuntimeError
 from resource_research_agent.optimization import (
     augment_query_plan_with_identity_status_checks,
-    build_housing_urgent_query_plan,
     sha256_json,
+)
+from resource_research_agent.optimization_housing_calibration import (
+    build_housing_urgent_query_plan,
 )
 from resource_research_agent.query_expansion import augment_query_plan_with_targeted_branch
 from resource_research_agent.prior_leads import (

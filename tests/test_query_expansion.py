@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import unittest
 
-from resource_research_agent.optimization import build_housing_urgent_query_plan
+from resource_research_agent.optimization_housing_calibration import (
+    build_housing_urgent_query_plan,
+)
 from resource_research_agent.query_expansion import (
     augment_query_plan_with_targeted_branch,
 )

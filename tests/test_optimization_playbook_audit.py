@@ -5,7 +5,9 @@ import unittest
 from copy import deepcopy
 from pathlib import Path
 
-from resource_research_agent.optimization import build_housing_urgent_query_plan
+from resource_research_agent.optimization_housing_calibration import (
+    build_housing_urgent_query_plan,
+)
 from resource_research_agent.optimization_playbook_audit import (
     coverage_plan_sha256,
     normalize_optimization_playbook_audit,

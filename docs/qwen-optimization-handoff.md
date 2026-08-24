@@ -101,7 +101,11 @@ supplementary fields now come from the selected playbook rather than a hard-code
 Housing pet-policy renderer. Package upload is also category neutral: a package
 without Housing now connects using its first available category, while explicit
 category requests still fail closed when absent. The resulting full suite passes
-205 Python tests with one optional live-package skip and all 20 JavaScript plugin tests; production
+205 Python tests with one optional live-package skip and all 20 JavaScript plugin
+tests. The exact Mesa Housing query builder now lives in the explicit
+`optimization_housing_calibration.py` fixture module instead of the reusable
+optimization primitives; its frozen behavior and plan hash remain covered by the
+calibration tests. Production
 Scout and a real legacy Curator export were reverified after restart.
 
 This document is the authoritative continuation point for optimizing Resource Scout's local Qwen research path. Read it together with:
@@ -172,13 +176,16 @@ actionability gates in
 - Branch: `main`
 - Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
 - Application version: `0.22.0`
+- Increment the application version before pushing any functional or user-visible
+  change. Pure internal refactors and documentation-only corrections do not require
+  a version increment.
 - Phase 1 local-Qwen implementation commit: `81a9eeab49de8006bce32b137992777802db3606`
 - Existing opt-in Local Qwen route: `mlx-community/Qwen3.8-27B-4bit`
 - Selected optimization artifact: `mlx-community/Qwen3.8-27B-8bit`
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
-- The full Python suite most recently passed 204 tests with one optional skip.
+- The full Python suite most recently passed 205 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.

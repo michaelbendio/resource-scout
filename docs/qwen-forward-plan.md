@@ -459,7 +459,10 @@ manager and its decision, generated-resource editing, relationship-assessment,
 and package-building storage mutations. Historical rows and generated drafts
 remain read-compatible for Curator export. Playbook configuration now supplies
 category-specific supplementary draft fields. Package upload no longer requires a
-Housing category. The current full suite passes 205
+Housing category. The exact Mesa Housing query matrix has been removed from the
+reusable optimization primitives and isolated in
+`optimization_housing_calibration.py` as calibration-only configuration. The
+current full suite passes 205
 Python tests with one optional skip and all 20 JavaScript plugin tests.
 
 ### 7. Complete Housing calibration

@@ -9,13 +9,15 @@ from pathlib import Path
 
 from resource_research_agent.optimization import (
     branch_stop_state,
-    build_housing_urgent_query_plan,
     candidate_qualification,
     candidate_identity_key,
     configuration_snapshot,
     coverage_branch_complete,
     package_exclusion_state,
     validate_candidate_dossier,
+)
+from resource_research_agent.optimization_housing_calibration import (
+    build_housing_urgent_query_plan,
 )
 from resource_research_agent.playbooks import playbook_for
 from resource_research_agent.storage import ResearchStore

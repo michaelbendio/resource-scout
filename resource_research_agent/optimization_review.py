@@ -9,12 +9,12 @@ from urllib.parse import urlsplit
 
 from .optimization import (
     augment_query_plan_with_identity_status_checks,
-    build_housing_urgent_query_plan,
     CANDIDATE_QUALIFICATION_POLICY_VERSION,
     candidate_qualification,
     canonicalize_discovery_url,
     sha256_json,
 )
+from .optimization_housing_calibration import build_housing_urgent_query_plan
 from .optimization_runtime import DDGSSearchClient, OptimizationRuntimeError
 
 

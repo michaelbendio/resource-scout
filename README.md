@@ -121,7 +121,9 @@ The redesign is category- and location-neutral. Mesa Housing supplies the first
 calibration configuration and regression fixtures only; reusable verification,
 candidate promotion, discovery expansion, provenance, playbook validation, and
 Curator integration derive their fields and rules from the selected package and
-category playbook.
+category playbook. The exact Mesa Housing query matrix is isolated in
+`optimization_housing_calibration.py`; it is calibration data consumed by the
+historical benchmark workflow, not a fallback for other categories.
 
 Install or update MLX LM with Homebrew, then stop Homebrew's generic service if it is running. The project installer verifies MLX, installs the pinned DSH runtime, and creates an isolated Python environment for the free DDGS search plugin:
 

@@ -8,8 +8,10 @@ from copy import deepcopy
 from pathlib import Path
 
 from resource_research_agent.optimization import (
-    build_housing_urgent_query_plan,
     canonicalize_discovery_url,
+)
+from resource_research_agent.optimization_housing_calibration import (
+    build_housing_urgent_query_plan,
 )
 from resource_research_agent.optimization_pipeline import (
     OptimizationDiscoveryPipeline,

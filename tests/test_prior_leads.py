@@ -4,7 +4,9 @@ import unittest
 import tempfile
 from pathlib import Path
 
-from resource_research_agent.optimization import build_housing_urgent_query_plan
+from resource_research_agent.optimization_housing_calibration import (
+    build_housing_urgent_query_plan,
+)
 from resource_research_agent.prior_leads import (
     augment_query_plan_with_prior_leads,
     build_prior_lead_manifest,
