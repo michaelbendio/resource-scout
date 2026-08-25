@@ -302,6 +302,11 @@ def parser() -> argparse.ArgumentParser:
     )
     result.add_argument("--base-url", default="http://127.0.0.1:8765")
     result.add_argument("--exclude", action="append", default=[], metavar="CATEGORY_ID")
+    result.add_argument(
+        "--include-miscellaneous",
+        action="store_true",
+        help="include Miscellaneous, which is skipped by default",
+    )
     result.add_argument("--category", action="append", default=[], metavar="CATEGORY_ID")
     result.add_argument("--state", type=Path, default=Path("data/scout-category-batch.json"))
     result.add_argument("--poll-seconds", type=float, default=30.0)
@@ -321,9 +326,12 @@ def main(argv: list[str] | None = None) -> int:
     try:
         status = client.status()
         validate_status(status, require_empty_package=arguments.require_empty_package)
+        excluded = set(arguments.exclude)
+        if not arguments.include_miscellaneous:
+            excluded.add("miscellaneous")
         plan = category_plan(
             status,
-            excluded=set(arguments.exclude),
+            excluded=excluded,
             selected=set(arguments.category),
         )
         print(f"Connected package: {status['latestImport']['sourceName']}")

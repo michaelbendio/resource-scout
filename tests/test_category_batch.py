@@ -10,6 +10,7 @@ from run_scout_category_batch import (
     category_plan,
     initial_state,
     load_state,
+    parser,
     validate_status,
 )
 
@@ -73,6 +74,17 @@ class FakeClient:
 
 
 class CategoryBatchTests(unittest.TestCase):
+    def test_miscellaneous_requires_explicit_opt_in(self) -> None:
+        arguments = parser().parse_args([])
+        excluded = set(arguments.exclude)
+        if not arguments.include_miscellaneous:
+            excluded.add("miscellaneous")
+
+        plan = category_plan(status(), excluded=excluded, selected=set())
+
+        self.assertNotIn("miscellaneous", [item["id"] for item in plan])
+        self.assertTrue(parser().parse_args(["--include-miscellaneous"]).include_miscellaneous)
+
     def test_plan_skips_only_the_explicit_category_and_preserves_order(self) -> None:
         plan = category_plan(status(), excluded={"miscellaneous"}, selected=set())
 

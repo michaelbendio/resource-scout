@@ -177,12 +177,12 @@ available during that interval and report the model as unready. `start`, `stop`,
 data, model cache, logs, and any existing Keychain credential.
 
 To research a package's categories sequentially without making multiple runs
-compete for the one local model, use the batch runner. This Mesa command requires
-the connected package to contain no resources and skips only Miscellaneous:
+compete for the one local model, use the batch runner. The runner skips
+Miscellaneous by default. This Mesa command also requires the connected package
+to contain no resources:
 
 ```sh
 python3 run_scout_category_batch.py \
-  --exclude miscellaneous \
   --require-empty-package
 ```
 
@@ -193,7 +193,8 @@ the same command again to continue. An interrupted Scout run is resumed up to
 three times, but repeated failure stops the batch for attention. The state is
 bound to the exact connected package and category plan, and a new batch refuses
 to begin unless Recent runs is empty. Use `--dry-run` to inspect the plan without
-creating a run or state file.
+creating a run or state file. Miscellaneous can be added only with the explicit
+`--include-miscellaneous` option.
 
 Before Mesa calibration, freeze the historical comparison into an ignored, separate benchmark directory:
 
