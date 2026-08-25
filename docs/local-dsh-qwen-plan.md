@@ -1,9 +1,10 @@
 # Local DSH and Qwen Plan
 
-Status: Phase 1 implementation and its original calibration are complete. The
-production cutover gate failed, so Phase 2 was not started. A later redesigned
-22-packet comparison selected 8-bit Qwen for continued isolated optimization;
-that does not change the existing opt-in 4-bit local route or authorize cutover.
+Status: Phase 1 and the redesigned seven-step calibration are complete. The
+expanded four-stage Housing result selected 8-bit Qwen, and Michael explicitly
+authorized Phase 2 production cutover on 2026-08-24 after reviewing the preserved
+4-bit failures. Application 0.30.0 implements the locked 8-bit production route;
+live service burn-in and verification are the remaining cutover work.
 
 ## Objective
 
@@ -22,18 +23,19 @@ result.
 - Keep DSH as the harness.
 - Keep the implementation in the Resource Scout repository initially.
 - Use DSH's existing generic `dsh-llm-pi-ai` adapter for the local model endpoint.
-- The original Phase 1 route uses `mlx-community/Qwen3.8-27B-4bit` through an
+- The original Phase 1 route used `mlx-community/Qwen3.8-27B-4bit` through an
   OpenAI-compatible MLX endpoint on `127.0.0.1:8080`. That calibration preferred
   4-bit for throughput. Expanded redesigned comparison v9 later selected
   `mlx-community/Qwen3.8-27B-8bit` on quality for continued isolated optimization.
-  Keep the existing route unchanged until an explicitly authorized cutover.
+  The authorized production route now uses that selected 8-bit artifact.
 - Start with a 65,536-token context limit and medium reasoning effort.
 - Add a Resource Scout-owned DDGS search provider for DSH.
 - Add a Resource Scout-owned safe HTTP fetch provider for DSH.
 - Do not add browser automation until search plus safe fetching demonstrates a specific coverage gap.
 - Never fall back automatically from the local configuration to DeepSeek or another cloud provider.
 - Preserve the current DeepSeek path during evaluation as an explicit metered comparison option.
-- Leave the production background service unchanged throughout Phase 1.
+- Phase 1 left the production background service unchanged. Phase 2 gives Qwen
+  and Scout separate persistent LaunchAgents.
 
 These initial model, context, and reasoning choices are benchmark inputs rather than permanent truths. The Mesa calibration gate may justify changing them before the full comparison.
 
@@ -234,7 +236,8 @@ Recorded outcome: the initial one-stage calibration passed operationally, but th
 
 Phase 2 operationalizes the proven Phase 1 configuration. It is not another model experiment.
 
-Status: not started. The Phase 1 evidence does not justify replacing the current production path with this Qwen configuration.
+Status: steps 1 through 3 are implemented in application 0.30.0. Step 4 live
+burn-in and step 5 final verification are in progress.
 
 ### Step 1: lock the approved stack
 

@@ -17,13 +17,14 @@ class DSHConfigurationTests(unittest.TestCase):
         configuration = resolve_dsh_configuration(LOCAL_QWEN_CONFIGURATION)
 
         self.assertEqual("qwen-local", configuration.model_provider)
-        self.assertEqual("mlx-community/Qwen3.8-27B-4bit", configuration.model)
+        self.assertEqual("mlx-community/Qwen3.8-27B-8bit", configuration.model)
         self.assertEqual("http://127.0.0.1:8080/v1", configuration.model_endpoint)
         self.assertEqual(65_536, configuration.context_window)
         self.assertEqual("medium", configuration.reasoning)
         self.assertEqual("ddgs", configuration.search_provider)
         self.assertEqual("safe-http", configuration.fetch_provider)
-        self.assertEqual(900, configuration.timeout_seconds)
+        self.assertEqual(7200, configuration.timeout_seconds)
+        self.assertEqual("8-bit", configuration.quantization)
 
     def test_local_qwen_contract_has_no_metered_route_or_fallback(self) -> None:
         configuration = resolve_dsh_configuration(LOCAL_QWEN_CONFIGURATION)

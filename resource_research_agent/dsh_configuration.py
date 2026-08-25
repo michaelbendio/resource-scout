@@ -22,6 +22,7 @@ class DSHConfiguration:
     fetch_provider: str
     timeout_seconds: int
     metered: bool
+    quantization: str = "provider-managed"
     model_fallbacks: tuple[str, ...] = ()
     search_fallbacks: tuple[str, ...] = ()
 
@@ -42,6 +43,7 @@ class DSHConfiguration:
             "fetchProvider": self.fetch_provider,
             "timeoutSeconds": self.timeout_seconds,
             "metered": self.metered,
+            "quantization": self.quantization,
             "modelFallbacks": list(self.model_fallbacks),
             "searchFallbacks": list(self.search_fallbacks),
             "usesOnlyUnmeteredServices": self.uses_only_unmetered_services,
@@ -53,14 +55,15 @@ CONFIGURATIONS: dict[str, DSHConfiguration] = {
         key=LOCAL_QWEN_CONFIGURATION,
         display_name="Local Qwen - no metered services",
         model_provider="qwen-local",
-        model="mlx-community/Qwen3.8-27B-4bit",
+        model="mlx-community/Qwen3.8-27B-8bit",
         model_endpoint="http://127.0.0.1:8080/v1",
         context_window=65_536,
         reasoning="medium",
         search_provider="ddgs",
         fetch_provider="safe-http",
-        timeout_seconds=900,
+        timeout_seconds=7200,
         metered=False,
+        quantization="8-bit",
     ),
     DEEPSEEK_CONFIGURATION: DSHConfiguration(
         key=DEEPSEEK_CONFIGURATION,

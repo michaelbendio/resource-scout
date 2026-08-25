@@ -145,8 +145,9 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 self._import_upload()
             elif parsed.path == "/api/agent/settings":
                 payload = self._read_json()
-                settings = self.server.store.save_settings(payload.get("settings", payload))
-                self._json({"settings": settings, "agent": self.server.research.agent_status()})
+                self.server.store.save_settings(payload.get("settings", payload))
+                agent = self.server.research.agent_status()
+                self._json({"settings": agent["settings"], "agent": agent})
             elif parsed.path == "/api/research-runs":
                 payload = self._read_json()
                 assignment = str(payload.get("assignment") or "")

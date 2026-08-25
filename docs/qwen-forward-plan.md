@@ -1,10 +1,10 @@
 # Qwen forward optimization plan
 
-Status: approved on 2026-08-23. Expanded first-stage comparison v9 is complete
-and selected 8-bit Qwen for continued optimization. Steps 1 through 4 are
-complete; step 5 passed and step 6 is current. This is a staged benchmark plan, not a production cutover. Read
-it with `qwen-optimization-handoff.md`, `qwen-optimization-design.md`, and
-`mesa-qwen-deepseek-benchmark.md`.
+Status: all seven approved optimization steps are complete. Expanded comparison
+v9 selected 8-bit Qwen, and the corrected four-stage Housing result retained 38
+unique usable identities with no verifier-completeness failures. This document
+remains the benchmark record. Michael separately authorized production cutover
+on 2026-08-24; follow Phase 2 in `local-dsh-qwen-plan.md` for that work.
 
 ## Goal
 
@@ -148,9 +148,9 @@ into a later phone-vetted package.
   states. Quality selected 8-bit before timing was revealed. It took 49,148
   seconds versus 34,197 seconds for 4-bit; time did not affect the decision.
 
-The selected 8-bit configuration is an optimization input, not a production
-selection. The existing opt-in local Scout route remains unchanged until a later
-explicitly authorized cutover.
+At this checkpoint the selected 8-bit configuration was an optimization input,
+not a production selection. Michael later authorized production cutover on
+2026-08-24; application 0.30.0 carries that decision into the normal service.
 
 ## Seven approved steps
 
@@ -660,7 +660,10 @@ The gate decision is to retain 8-bit and stop model optimization. Do not start
 the remaining categories. The next implementation stage must close alias-aware
 cross-stage deduplication and produce one combined category-level Curator handoff;
 then complete the intended category playbook audits and run one non-Housing pilot.
-The current production DeepSeek path remains unchanged.
+This was the gate result before Michael explicitly authorized production Qwen
+cutover on 2026-08-24. Application 0.30.0 implements the separately documented
+Phase 2 service cutover; it does not authorize the remaining 19 benchmark
+categories.
 
 Gate result: stop model optimization. Never start the remaining 19 categories
 automatically.

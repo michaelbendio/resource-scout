@@ -235,12 +235,12 @@ function showAgent(agent) {
   document.querySelector('#agent-setup-detail').textContent = agent?.message || 'Complete the connection setup, then refresh this page.';
   document.querySelector('#copy-setup').dataset.command = agent?.setupCommand || 'hermes setup';
   const settings = agent?.settings || {};
-  document.querySelector('#agent-adapter').value = settings.adapter || 'hermes';
+  document.querySelector('#agent-adapter').value = settings.adapter || 'dsh';
   document.querySelector('#hermes-profile').value = settings.hermesProfile || settings.profile || '';
   document.querySelector('#hermes-provider').value = settings.hermesProvider || settings.provider || '';
   document.querySelector('#hermes-model').value = settings.hermesModel || settings.model || '';
   document.querySelector('#hermes-command').value = settings.hermesCommand || settings.command || '';
-  document.querySelector('#dsh-configuration').value = settings.dshConfiguration || 'deepseek';
+  document.querySelector('#dsh-configuration').value = settings.dshConfiguration || 'local-qwen';
   document.querySelector('#dsh-model').value = settings.dshModel || '';
   document.querySelector('#dsh-command').value = settings.dshCommand || '';
   document.querySelector('#agent-timeout').value = settings.timeoutSeconds || 900;

@@ -21,20 +21,20 @@ from .local_qwen import LocalQwenError, validated_health
 
 
 DEFAULT_SETTINGS: dict[str, Any] = {
-    "adapter": "hermes",
+    "adapter": "dsh",
     "hermesCommand": "",
     "hermesProfile": "",
     "hermesProvider": "",
     "hermesModel": "",
     "dshCommand": "",
-    "dshConfiguration": DEEPSEEK_CONFIGURATION,
+    "dshConfiguration": LOCAL_QWEN_CONFIGURATION,
     "dshModel": "",
     # Legacy shared keys remain readable so existing databases keep working.
     "command": "",
     "profile": "",
     "provider": "",
     "model": "",
-    "timeoutSeconds": 900,
+    "timeoutSeconds": 7200,
     "maxTurns": 80,
 }
 
@@ -80,6 +80,19 @@ class ResearchAgentAdapter(ABC):
 def merged_settings(saved: dict[str, Any] | None = None) -> dict[str, Any]:
     result = dict(DEFAULT_SETTINGS)
     result.update(saved or {})
+    if os.environ.get("RESOURCE_SCOUT_REQUIRE_UNMETERED", "").strip() == "1":
+        try:
+            saved_timeout = int(result.get("timeoutSeconds", 7200))
+        except (TypeError, ValueError):
+            saved_timeout = 7200
+        result.update(
+            {
+                "adapter": "dsh",
+                "dshConfiguration": LOCAL_QWEN_CONFIGURATION,
+                "dshModel": "",
+                "timeoutSeconds": max(saved_timeout, 7200),
+            }
+        )
     return result
 
 
@@ -367,7 +380,7 @@ class DSHCLIAdapter(ResearchAgentAdapter):
         return None
 
     def _configuration(self):
-        key = str(self.settings.get("dshConfiguration", DEEPSEEK_CONFIGURATION))
+        key = str(self.settings.get("dshConfiguration", LOCAL_QWEN_CONFIGURATION))
         try:
             return resolve_dsh_configuration(key)
         except ValueError as exc:
@@ -525,7 +538,7 @@ class DSHCLIAdapter(ResearchAgentAdapter):
                 "provider": configuration.model_provider,
                 "model": model,
                 "runtime": "mlx-lm" if is_local else "deepseek-api",
-                "quantization": "4-bit" if is_local else "provider-managed",
+                "quantization": configuration.quantization,
                 "endpoint": configuration.model_endpoint,
                 "searchProvider": configuration.search_provider,
                 "fetchProvider": configuration.fetch_provider,

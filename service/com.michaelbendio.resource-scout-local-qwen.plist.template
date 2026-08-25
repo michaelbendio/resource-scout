@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
   <key>Label</key>
-  <string>com.michaelbendio.resource-research-agent</string>
+  <string>com.michaelbendio.resource-scout-local-qwen</string>
   <key>ProgramArguments</key>
   <array>
     <string>/bin/sh</string>
-    <string>__REPOSITORY__/run-qwen-tailscale.sh</string>
+    <string>__REPOSITORY__/run-local-qwen-service.sh</string>
   </array>
   <key>WorkingDirectory</key>
   <string>__REPOSITORY__</string>
@@ -23,10 +23,10 @@
   <key>KeepAlive</key>
   <true/>
   <key>ThrottleInterval</key>
-  <integer>10</integer>
+  <integer>30</integer>
   <key>StandardOutPath</key>
-  <string>__REPOSITORY__/data/background-service.log</string>
+  <string>__REPOSITORY__/data/local-qwen-service.log</string>
   <key>StandardErrorPath</key>
-  <string>__REPOSITORY__/data/background-service.error.log</string>
+  <string>__REPOSITORY__/data/local-qwen-service.error.log</string>
 </dict>
 </plist>

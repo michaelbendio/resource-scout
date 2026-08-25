@@ -9,10 +9,12 @@ remains deferred to the real Curator workflow. Step 7 is complete: its frozen an
 corrected later-stage benchmarks, identity-resolved DeepSeek comparison, and
 stale/dead-code audit are finished. Corrected runs 45–47 retained all 18
 candidates with 13 passed, 5 needs review, and 0 failed. The decision retains
-8-bit Qwen and stops model optimization without authorizing production cutover or
-the remaining 19 categories. Application `0.29.3` is undergoing final repository
-and production verification for the category-neutral prompt cleanup found by the
-audit.
+8-bit Qwen and stops model optimization without authorizing the remaining 19
+categories. After reviewing the preserved 4-bit failures, Michael explicitly
+authorized production Qwen cutover on 2026-08-24. Application `0.30.0` locks the
+normal production route to local 8-bit Qwen, adds an independently supervised and
+self-validating model service, and removes the production DeepSeek credential
+dependency. Live burn-in and final deployment verification remain in progress.
 Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
 Step 3 completed under the revised scope: the category-neutral candidate qualification gate and
@@ -483,7 +485,8 @@ actionability gates in
 - No silent metered fallback is allowed.
 - The source resource package remains read-only.
 - Completed work must persist at fine-grained checkpoints and resume after interruption rather than restart.
-- Keep production DeepSeek behavior unchanged until a later, explicitly authorized cutover.
+- This constraint governed the benchmark. Michael supplied the later explicit
+  cutover authorization on 2026-08-24; the no-metered-fallback rule remains.
 - Run calibration in the isolated benchmark database, not the live Scout database.
 
 ## Current repository state
@@ -491,7 +494,7 @@ actionability gates in
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
 - Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
-- Source and production application version: `0.29.3`
+- Source application version for the cutover: `0.30.0`
 - Increment the application version before pushing any functional or user-visible
   change. Pure internal refactors and documentation-only corrections do not require
   a version increment.

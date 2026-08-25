@@ -17,6 +17,7 @@ from resource_research_agent.agents import (
     ResearchAgentAdapter,
     _extract_json_object,
     build_adapter,
+    merged_settings,
 )
 from resource_research_agent.importer import ResourcePackageImporter
 from resource_research_agent.research import ResearchCoordinator
@@ -494,6 +495,7 @@ class ResearchWorkflowTests(unittest.TestCase):
         )
         settings = {
             "adapter": "dsh", "dshCommand": f"{os.sys.executable} {fake}",
+            "dshConfiguration": "deepseek",
             "dshModel": "deepseek-v4-flash", "command": "/legacy/hermes/command",
             "timeoutSeconds": 30,
         }
@@ -519,7 +521,11 @@ class ResearchWorkflowTests(unittest.TestCase):
     def test_dsh_adapter_reports_missing_key_without_storing_it(self) -> None:
         fake = self.root / "fake_dsh.py"
         fake.write_text("print('dsh 0.test')\n", encoding="utf-8")
-        settings = {"adapter": "dsh", "dshCommand": f"{os.sys.executable} {fake}"}
+        settings = {
+            "adapter": "dsh",
+            "dshConfiguration": "deepseek",
+            "dshCommand": f"{os.sys.executable} {fake}",
+        }
         with patch.dict(os.environ, {"DEEPSEEK_API_KEY": ""}):
             status = DSHCLIAdapter(settings).status()
         self.assertTrue(status["installed"])
@@ -566,7 +572,7 @@ class ResearchWorkflowTests(unittest.TestCase):
         self.assertEqual("local-qwen", result.usage["configuration"])
         self.assertEqual("qwen-local", result.usage["provider"])
         self.assertEqual("mlx-lm", result.usage["runtime"])
-        self.assertEqual("4-bit", result.usage["quantization"])
+        self.assertEqual("8-bit", result.usage["quantization"])
         self.assertEqual("ddgs", result.usage["searchProvider"])
         self.assertEqual("safe-http", result.usage["fetchProvider"])
         self.assertFalse(result.usage["metered"])
@@ -584,6 +590,21 @@ class ResearchWorkflowTests(unittest.TestCase):
         adapter = build_adapter(saved)
         self.assertIsInstance(adapter, DSHCLIAdapter)
         self.assertEqual("local-qwen", adapter._configuration().key)
+
+    def test_production_policy_overrides_saved_metered_settings(self) -> None:
+        saved = {
+            "adapter": "dsh",
+            "dshConfiguration": "deepseek",
+            "dshModel": "deepseek-v4-pro",
+            "timeoutSeconds": 3600,
+        }
+        with patch.dict(os.environ, {"RESOURCE_SCOUT_REQUIRE_UNMETERED": "1"}):
+            settings = merged_settings(saved)
+
+        self.assertEqual("dsh", settings["adapter"])
+        self.assertEqual("local-qwen", settings["dshConfiguration"])
+        self.assertEqual("", settings["dshModel"])
+        self.assertEqual(7200, settings["timeoutSeconds"])
 
 
 if __name__ == "__main__":

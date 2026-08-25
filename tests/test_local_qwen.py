@@ -24,6 +24,7 @@ from resource_research_agent.local_qwen import (
     mlx_compatible_payload,
     server_command,
     validated_health,
+    wait_for_catalog,
     write_health_stamp,
 )
 from resource_research_agent.mlx_server_workaround import (
@@ -163,8 +164,8 @@ class LocalQwenRuntimeTests(unittest.TestCase):
             catalog = {
                 "ready": True,
                 "endpoint": "http://127.0.0.1:8080/v1",
-                "model": "mlx-community/Qwen3.8-27B-4bit",
-                "availableModels": ["mlx-community/Qwen3.8-27B-4bit"],
+                "model": resolve_dsh_configuration(LOCAL_QWEN_CONFIGURATION).model,
+                "availableModels": [resolve_dsh_configuration(LOCAL_QWEN_CONFIGURATION).model],
             }
             identity = {"serverPid": 123, "serverStarted": "test start"}
             with patch(
@@ -194,6 +195,27 @@ class LocalQwenRuntimeTests(unittest.TestCase):
                 result = main(["health"])
         self.assertEqual(1, result)
         self.assertIn("not reachable", stderr.getvalue())
+
+    def test_catalog_wait_retries_until_the_selected_model_is_ready(self) -> None:
+        model = resolve_dsh_configuration(LOCAL_QWEN_CONFIGURATION).model
+        with patch(
+            "resource_research_agent.local_qwen.catalog_health",
+            side_effect=[LocalQwenError("loading"), {"ready": True, "model": model}],
+        ) as health, patch("resource_research_agent.local_qwen.time.sleep"):
+            result = wait_for_catalog(model=model, timeout=30, poll_seconds=0)
+
+        self.assertTrue(result["ready"])
+        self.assertEqual(2, health.call_count)
+
+    def test_commands_default_to_the_selected_production_model(self) -> None:
+        model = resolve_dsh_configuration(LOCAL_QWEN_CONFIGURATION).model
+        with patch(
+            "resource_research_agent.local_qwen.catalog_health",
+            return_value={"ready": True, "model": model},
+        ) as health, patch("sys.stdout", new_callable=io.StringIO):
+            self.assertEqual(0, main(["catalog"]))
+
+        self.assertEqual(model, health.call_args.kwargs["model"])
 
 
 if __name__ == "__main__":

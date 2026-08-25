@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import sys
 import threading
+import time
 from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError, URLError
@@ -321,7 +322,24 @@ def validated_health(timeout: float = 2.0, path: Path = HEALTH_STAMP) -> dict[st
     return {**catalog, **identity, "validated": True}
 
 
-def _serve(model: str | None = None) -> int:
+def wait_for_catalog(
+    *, model: str, timeout: float = 900.0, poll_seconds: float = 2.0
+) -> dict[str, Any]:
+    deadline = time.monotonic() + timeout
+    last_error = "Local Qwen did not become reachable"
+    while time.monotonic() < deadline:
+        try:
+            return catalog_health(
+                timeout=min(5.0, max(0.1, deadline - time.monotonic())),
+                model=model,
+            )
+        except LocalQwenError as exc:
+            last_error = str(exc)
+            time.sleep(min(poll_seconds, max(0.0, deadline - time.monotonic())))
+    raise LocalQwenError(f"Local Qwen did not publish its model catalog in time: {last_error}")
+
+
+def _serve(model: str | None = None, *, validate: bool = False) -> int:
     executable = find_mlx_server()
     if executable is None:
         raise LocalQwenError(
@@ -345,35 +363,78 @@ def _serve(model: str | None = None) -> int:
     )
     backend = subprocess.Popen(command)
     server = ThreadingHTTPServer(("127.0.0.1", 8080), _CompatibilityHandler)
+    stopping = threading.Event()
+    runtime_errors: list[str] = []
 
     def stop(_signal: int, _frame: Any) -> None:
+        stopping.set()
         threading.Thread(target=server.shutdown, daemon=True).start()
+
+    def monitor_backend() -> None:
+        return_code = backend.wait()
+        if not stopping.is_set():
+            runtime_errors.append(f"The MLX backend exited unexpectedly with code {return_code}.")
+            print(runtime_errors[-1], file=sys.stderr, flush=True)
+            server.shutdown()
+
+    def validate_server() -> None:
+        try:
+            wait_for_catalog(model=expected_model)
+            status = completion_health(timeout=1800.0, model=expected_model)
+            write_health_stamp(status)
+            print(
+                f"Local Qwen production validation passed for {expected_model}.",
+                flush=True,
+            )
+        except LocalQwenError as exc:
+            runtime_errors.append(f"Local Qwen production validation failed: {exc}")
+            print(runtime_errors[-1], file=sys.stderr, flush=True)
+            server.shutdown()
 
     signal.signal(signal.SIGTERM, stop)
     signal.signal(signal.SIGINT, stop)
+    threading.Thread(
+        target=monitor_backend,
+        name="local-qwen-backend-monitor",
+        daemon=True,
+    ).start()
+    if validate:
+        threading.Thread(target=validate_server, name="local-qwen-validator", daemon=True).start()
     try:
         server.serve_forever()
     finally:
+        stopping.set()
         server.server_close()
-        backend.terminate()
-        try:
-            backend.wait(timeout=15)
-        except subprocess.TimeoutExpired:
-            backend.kill()
-            backend.wait()
-    return 0
+        if backend.poll() is None:
+            backend.terminate()
+            try:
+                backend.wait(timeout=15)
+            except subprocess.TimeoutExpired:
+                backend.kill()
+                backend.wait()
+    return 1 if runtime_errors else 0
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Manage the Phase 1 Local Qwen runtime")
+    parser = argparse.ArgumentParser(description="Manage the production Local Qwen runtime")
     parser.add_argument("action", choices=("serve", "catalog", "health"))
     parser.add_argument("--timeout", type=float, default=None)
-    parser.add_argument("--quantization", choices=tuple(PINNED_MODELS), default="4-bit")
+    parser.add_argument("--quantization", choices=tuple(PINNED_MODELS), default=None)
+    parser.add_argument(
+        "--validate",
+        action="store_true",
+        help="Run a real completion check after startup and exit if validation fails",
+    )
     arguments = parser.parse_args(argv)
-    model = PINNED_MODELS[arguments.quantization]
+    configuration = resolve_dsh_configuration(LOCAL_QWEN_CONFIGURATION)
+    model = (
+        PINNED_MODELS[arguments.quantization]
+        if arguments.quantization
+        else configuration.model
+    )
     try:
         if arguments.action == "serve":
-            return _serve(model)
+            return _serve(model, validate=arguments.validate)
         if arguments.action == "catalog":
             result = catalog_health(timeout=arguments.timeout or 5.0, model=model)
         else:

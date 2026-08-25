@@ -108,16 +108,14 @@ On macOS, the first launch securely prompts once to save the key in the user's K
 
 The DSH research overlay gives DeepSeek a social-service resource researcher persona, exposes DeepSeek's server-side `web_search` tool, and disables shell, filesystem, editing, skill, workflow, and subagent tools. DSH also runs from an empty temporary working directory. `web_fetch` remains disabled in this first connection because DSH's own preview ships it disabled while its HTTP provider lacks a complete SSRF boundary.
 
-### Phase 1 Local Qwen runtime
+### Production Local Qwen runtime
 
-The existing experimental no-metered-services path uses the pinned
-`mlx-community/Qwen3.8-27B-4bit` model through MLX LM. It is deliberately
-foreground-only and does not alter Resource Scout's existing background service.
-The original Mesa calibration proved that path operational, private, and
-unmetered, but did not justify production replacement. A later redesigned
-22-packet comparison selected `mlx-community/Qwen3.8-27B-8bit` on quality for
-continued isolated optimization. That benchmark decision does not change the
-existing 4-bit route or authorize production cutover.
+Resource Scout's production path uses the pinned
+`mlx-community/Qwen3.8-27B-8bit` model through MLX LM. Model inference stays on
+loopback, discovery uses the project-owned DDGS runtime, page retrieval uses the
+safe local fetcher, and the production launcher enforces that unmetered route even
+if an older database still contains DeepSeek settings. It does not retrieve a
+DeepSeek credential or fall back to a metered provider.
 
 The redesign is category- and location-neutral. Mesa Housing supplies the first
 calibration configuration and regression fixtures only; reusable verification,
@@ -135,7 +133,7 @@ brew services stop mlx-lm
 ./install-local-qwen.sh
 ```
 
-Start the pinned model on loopback. The first 4-bit start downloads about 16.1 GB into the Hugging Face cache:
+For a foreground diagnostic start, run the pinned 8-bit model on loopback:
 
 ```sh
 ./local-qwen.sh serve
@@ -148,9 +146,35 @@ Keep that terminal open. From another terminal, verify both the exact model cata
 ./local-qwen.sh health
 ```
 
-The live health check records which running server completed the validation; Resource Scout fails closed if that process changes until health is run again. In Scout, choose **DSH (experimental)** and **Local Qwen — no metered services**. That path uses the project-owned DDGS search and safe page fetch plugins and removes `DEEPSEEK_API_KEY` from the DSH child process. DeepSeek remains a separate, explicitly metered comparison choice.
+The live health check records which running server completed the validation;
+Resource Scout fails closed if that process changes. The production service runs
+this completion check automatically after every model start. In a foreground
+diagnostic session, run `./local-qwen.sh health` yourself. DeepSeek remains an
+explicitly metered comparison configuration for deliberate interactive use, but
+the production service never loads its credential.
 
-Stop the Phase 1 model server with Control-C in its terminal. The launcher exposes a loopback-only compatibility endpoint at `127.0.0.1:8080` and keeps MLX itself on loopback at port 8081. The compatibility endpoint adapts DSH's OpenAI-style message roles and token field for Qwen; it never forwards requests off the Mac. The launcher selects the pinned model explicitly and refuses to start while another API is using port 8080. Set `RESOURCE_SCOUT_MLX_SERVER` only when testing a specific MLX executable outside Homebrew.
+Stop a foreground model server with Control-C in its terminal. The launcher
+exposes a loopback-only compatibility endpoint at `127.0.0.1:8080` and keeps MLX
+itself on loopback at port 8081. The compatibility endpoint adapts DSH's
+OpenAI-style message roles and token field for Qwen; it never forwards requests
+off the Mac. The launcher selects the pinned model explicitly and refuses to
+start while another API is using port 8080. Set `RESOURCE_SCOUT_MLX_SERVER` only
+when testing a specific MLX executable outside Homebrew.
+
+Install and control both production services together:
+
+```sh
+./background-service.sh install
+./background-service.sh status
+./background-service.sh logs
+```
+
+The installer creates separate persistent LaunchAgents for Local Qwen and
+Resource Scout. Qwen may remain temporarily unready while the 8-bit model loads
+and completes its automatic validation. Scout and its Tailscale page stay
+available during that interval and report the model as unready. `start`, `stop`,
+`restart`, and `uninstall` manage both services; uninstalling preserves research
+data, model cache, logs, and any existing Keychain credential.
 
 Before Mesa calibration, freeze the historical comparison into an ignored, separate benchmark directory:
 
@@ -297,9 +321,9 @@ failed dossiers are not exported. The command is read-only with respect to Scout
 and Curator data; undo consists of deleting the standalone HTML export. The same
 builder is available at `/api/optimization-runs/{run-id}/review-copy` only when a
 server is deliberately started against the isolated benchmark database. Normal
-research execution and production DeepSeek model behavior are unchanged; all
-human outcomes and package preparation now occur in Curator for both DeepSeek and
-Qwen exports.
+research execution does not invoke this calibration-only, manually reviewed
+evidence pipeline. All human outcomes and package preparation occur in Curator
+for both historical DeepSeek and Qwen exports.
 
 After Curator work is saved and phone vetting produces an additions package,
 compare both with the originating optimization run. The same command can later
