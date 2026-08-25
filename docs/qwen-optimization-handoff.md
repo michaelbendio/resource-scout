@@ -11,7 +11,7 @@ stale/dead-code audit are finished. Corrected runs 45–47 retained all 18
 candidates with 13 passed, 5 needs review, and 0 failed. The decision retains
 8-bit Qwen and stops model optimization without authorizing the remaining 19
 categories. After reviewing the preserved 4-bit failures, Michael explicitly
-authorized production Qwen cutover on 2026-08-24. Application `0.30.0` locks the
+authorized production Qwen cutover on 2026-08-24. Application `0.30.1` locks the
 normal production route to local 8-bit Qwen, adds an independently supervised and
 self-validating model service, and removes the production DeepSeek credential
 dependency. Live burn-in and final deployment verification remain in progress.
@@ -494,7 +494,7 @@ actionability gates in
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
 - Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
-- Source application version for the cutover: `0.30.0`
+- Source application version for the cutover: `0.30.1`
 - Increment the application version before pushing any functional or user-visible
   change. Pure internal refactors and documentation-only corrections do not require
   a version increment.

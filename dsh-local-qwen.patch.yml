@@ -1,4 +1,4 @@
-# Phase 1 Local Qwen route with Resource Scout-owned DDGS discovery and
+# Production Local Qwen route with Resource Scout-owned DDGS discovery and
 # SSRF-resistant, bounded HTTP page retrieval.
 
 - id: llm-pi-ai
@@ -15,11 +15,11 @@
         compat:
           thinkingFormat: openai
           supportsReasoningEffort: true
-        timeoutMs: 900000
+        timeoutMs: 7200000
         streamIdleTimeoutMs: 900000
         models:
-          - id: mlx-community/Qwen3.8-27B-4bit
-            name: Qwen3.8 27B 4-bit
+          - id: mlx-community/Qwen3.8-27B-8bit
+            name: Qwen3.8 27B 8-bit
             contextWindow: 65536
             maxTokens: 32768
             input:
@@ -32,7 +32,7 @@
 - id: agent-default-model
   config:
     provider: qwen-local
-    model: mlx-community/Qwen3.8-27B-4bit
+    model: mlx-community/Qwen3.8-27B-8bit
 
 - id: system-prompt
   config:
