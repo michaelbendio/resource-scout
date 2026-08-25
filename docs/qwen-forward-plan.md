@@ -644,8 +644,26 @@ Housing run. Compare like stages and report the union and overlap only after
 identity resolution; the historical DeepSeek total of 30 spans all four stages,
 whereas corpus 6's 22 packets cover only stage 1.
 
-Gate: make an explicit decision to optimize again, stop, or request authorization
-for the remaining 19 categories. Never start those categories automatically.
+Completed comparison (2026-08-24): the selected corrected four-stage Qwen result
+contains 39 usable packets but 38 unique program identities because urgent packet
+99 and specialized packet 134 are the same Native American Connections
+coordinated-entry service. Twenty-four unique Qwen identities have a counterpart
+in 18 DeepSeek records; 14 are Qwen-only. Twelve whole DeepSeek records and two
+clearly separate named components inside otherwise matched DeepSeek bundles are
+not represented by Qwen. The conservative resolved union is at least 52 service
+identities or program families. Remaining multi-program DeepSeek records are not
+split merely to raise the count. The reviewed mapping is
+`docs/mesa-housing-identity-comparison-v1.json`, SHA-256
+`6a1001782db7ecb11b7f8f27950f252f836e96f795aa9ee3e086a46fdd45c3f3`.
+
+The gate decision is to retain 8-bit and stop model optimization. Do not start
+the remaining categories. The next implementation stage must close alias-aware
+cross-stage deduplication and produce one combined category-level Curator handoff;
+then complete the intended category playbook audits and run one non-Housing pilot.
+The current production DeepSeek path remains unchanged.
+
+Gate result: stop model optimization. Never start the remaining 19 categories
+automatically.
 
 Before any such authorization can be exercised, validate the generic playbook
 contract against the Housing/Curator evidence and audit every intended category's

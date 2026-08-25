@@ -257,6 +257,18 @@ be applied in labeled, replay-safe batches without losing result/query provenanc
   --patch /path/to/labeled-review-decisions.json
 ```
 
+For a reviewed ledger with many obvious nonprogram results, an explicit policy
+can build the corresponding exact-URL exclusion patch. The policy must name its
+rules and matching values; the command does not infer exclusions and does not
+apply the patch:
+
+```sh
+./build-qwen-exclusion-patch.py \
+  --review /path/to/current-stage-review.json \
+  --policy /path/to/reviewed-exclusion-policy.json \
+  --output /path/to/exact-exclusions.json
+```
+
 When a later ledger repeats a previously excluded search result, Scout can reuse
 that exclusion only if URL, title, and snippet are all identical. Candidate
 decisions and changed results are never copied:

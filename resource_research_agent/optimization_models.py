@@ -1454,7 +1454,7 @@ class OptimizationModelPipeline:
                 ),
                 (
                     "Label every additionalPhoneNumbers value with its source-supported purpose "
-                    "(for example, 'TTY: 800-555-0100' or 'Housing search: 877-555-0100'); "
+                    "(for example, 'TTY: 800-555-0100' or 'Appointments: 877-555-0100'); "
                     "never return a bare alternate number."
                 ),
                 (

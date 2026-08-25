@@ -5,8 +5,10 @@ not started. The redesigned Scout optimization subsequently completed expanded
 first-stage comparison v9 on 2026-08-23 and selected 8-bit Qwen for continued
 isolated work. The frozen later-stage 8-bit benchmark completed on 2026-08-24;
 the corrected later-stage validation completed on 2026-08-24/25. All 18
-corrected candidates remain usable, and the four-stage identity-resolved
-comparison is next. No production cutover is authorized.
+corrected candidates remain usable. The four-stage identity-resolved comparison
+and stale-code audit are complete. The decision retains 8-bit Qwen and stops
+model optimization, but does not authorize production cutover or the remaining
+19 categories.
 
 ## Purpose
 
@@ -186,6 +188,48 @@ The v3 source-to-derived snapshot hashes are
 `a3b3d4528076824154ec3be1e54a3957bb1258d4a6edf38c5d205c4f988e0ca9`,
 and `4e6162fbea7cae64ee39f7eea62fe16c88caa8676867796c914e4a673c19dc7b`
 to `7ebb1ffa3e5bf1e46a4732fc5487e4ae3f34cb6dcb5606505555484bc5816f23`.
+
+## Identity-resolved four-stage comparison
+
+The selected Qwen runs contain 39 usable packets: 21 urgent, 5 stabilization,
+5 specialized, and 8 long-term. Run 32 plus corrected runs 45–47 total 21 passed,
+18 needs review, 0 failed, 560 supported field states, 335 unknown states, and 2
+explicit conflicts. They performed 78 first-attempt model operations in 59,071
+seconds (16h24m31s) of local model work. DeepSeek completed its historical
+four-stage Housing run in 44.2 minutes, but it has no equivalent independent
+verifier or field-state accounting, so candidate count and elapsed time do not
+erase that evidence-quality difference.
+
+Program resolution found that packets 99 and 134 are one Native American
+Connections coordinated-entry service under the labels “Coordinated Entry Access
+Point” and “Coordinated Entry Point.” They use the same direct-provider URL and
+the same source statement. Qwen therefore produced 38 unique identities, not 39.
+This is a cross-stage aggregation defect to close before a production Qwen
+category run; it does not make either dossier unusable.
+
+Of the 38 unique Qwen identities, 24 have a counterpart in 18 of DeepSeek's 30
+records and 14 are Qwen-only. Twelve whole DeepSeek records are not represented
+by Qwen. Two additional named programs—A New Leaf Autumn House and City of Mesa
+Public Housing—are hidden inside otherwise overlapping DeepSeek bundles and are
+also not represented by Qwen. The conservative resolved union is therefore at
+least 52 service identities or program families. It can increase only when phone
+vetting legitimately separates the remaining multi-program DeepSeek records.
+
+This lower bound is intentionally resistant to candidate-count gaming. It
+collapses the repeated Qwen service, keeps each unmatched multi-program DeepSeek
+record as one family, does not count a directory as a candidate, and does not
+split every access point or property. Exact mappings and the two lower-bound
+component decisions are preserved in
+`docs/mesa-housing-identity-comparison-v1.json`, SHA-256
+`6a1001782db7ecb11b7f8f27950f252f836e96f795aa9ee3e086a46fdd45c3f3`.
+Final Curator packages remain the ground truth for acceptance and finer program
+boundaries.
+
+Decision: retain 8-bit Qwen, stop further model optimization, and do not start
+the remaining 19 categories. Before broader use, add an alias-aware cross-stage
+duplicate gate and combined category-level Curator handoff, complete the intended
+category playbook audits, and run one non-Housing pilot. The current DeepSeek
+production path remains unchanged.
 
 ## Frozen DeepSeek baseline
 

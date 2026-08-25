@@ -1362,6 +1362,12 @@ class ModelPipelineTests(unittest.TestCase):
         self.assertTrue(
             all(prompt["requiredFields"] == list(food_fields) for prompt in models.verify_prompts)
         )
+        self.assertTrue(
+            all(
+                all("housing" not in instruction.casefold() for instruction in prompt["instructions"])
+                for prompt in models.extract_prompts
+            )
+        )
         self.assertEqual(result.packet_count * len(food_fields), result.supported_field_count + result.conflicting_field_count + result.unknown_field_count)
         with store.connect() as connection:
             dossiers = connection.execute(

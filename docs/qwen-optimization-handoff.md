@@ -5,11 +5,14 @@ on 2026-08-23 over 22 identical first-stage Housing packets and selected 8-bit
 Qwen on quality before timing was revealed. Forward-plan steps 1 through 4 are
 complete; step 5 completed as model-evaluation run 32 over frozen corpus 8, and
 step 6 deterministic integration is complete while normal phone-vetting evidence
-remains deferred to the real Curator workflow. Step 7 is in progress: its frozen
-and corrected later-stage benchmarks are complete. Corrected runs 45–47 retained
-all 18 candidates with 13 passed, 5 needs review, and 0 failed. Application
-`0.29.2` is undergoing final repository and production verification before the
-four-stage DeepSeek comparison and stale-code audit.
+remains deferred to the real Curator workflow. Step 7 is complete: its frozen and
+corrected later-stage benchmarks, identity-resolved DeepSeek comparison, and
+stale/dead-code audit are finished. Corrected runs 45–47 retained all 18
+candidates with 13 passed, 5 needs review, and 0 failed. The decision retains
+8-bit Qwen and stops model optimization without authorizing production cutover or
+the remaining 19 categories. Application `0.29.3` is undergoing final repository
+and production verification for the category-neutral prompt cleanup found by the
+audit.
 Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
 Step 3 completed under the revised scope: the category-neutral candidate qualification gate and
@@ -298,6 +301,34 @@ and Mesa package remain byte-identical at
 `0914c6278d36177cc29d75b297249815386355ceb9d634b1ac23372aa18c5491` and
 `c7a2251d7d638472f90207c24a28ec71c24515ea5d1aafced68a38fdce3d30f8`.
 
+Final comparison and audit checkpoint (2026-08-24): runs 32 and 45–47 contain
+39 usable packets, 21 passed and 18 needs review, with 560 supported fields, 335
+unknown fields, and 2 explicit conflicts. All 78 model operations completed on
+their first attempt in 59,071 seconds of local model work. Packets 99 and 134 are
+one Native American Connections coordinated-entry service, so Qwen has 38 unique
+program identities. Twenty-four have a counterpart in 18 DeepSeek records; 14
+are Qwen-only. Twelve unmatched DeepSeek records plus Autumn House and City of
+Mesa Public Housing inside otherwise matched bundles establish a conservative
+resolved union lower bound of 52. The reviewed mapping artifact is
+`docs/mesa-housing-identity-comparison-v1.json`, SHA-256
+`6a1001782db7ecb11b7f8f27950f252f836e96f795aa9ee3e086a46fdd45c3f3`.
+
+The stale/dead-code audit found no orphaned Python module or JavaScript function,
+no remaining Scout curation write route, and no write to the retained historical
+review/generated-resource schema. All package-backed category selection,
+playbook, evidence, verifier, candidate, and Curator paths remain generic; Mesa
+Housing literals are confined to calibration artifacts, explicit historical
+fallbacks, and the separately documented Housing-only standalone-location mode.
+The audit documented the previously unlisted exact-exclusion CLI and removed the
+one generic model instruction that used “Housing search” as an alternate-phone
+example. Application `0.29.3` uses the neutral example “Appointments.”
+
+The gate decision is to retain 8-bit Qwen and stop model optimization. Before a
+broader Qwen run, implement alias-aware cross-stage deduplication and a combined
+category-level Curator handoff, complete the intended category playbook audits,
+and verify one non-Housing pilot. Do not start the remaining 19 categories or
+change the production model default without explicit authorization.
+
 The prepared stabilization, specialized, and long-term evidence-manifest hashes
 are respectively
 `959026d62a1766c5a4eee2309e723a999c60a418e3f6023ffde940e8ceeaa66e`,
@@ -451,7 +482,8 @@ actionability gates in
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
 - Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
-- Source and production application version: `0.29.2`
+- Source application version: `0.29.3` (production remains `0.29.2` until this
+  final audited correction is committed, pushed, and deployed)
 - Increment the application version before pushing any functional or user-visible
   change. Pure internal refactors and documentation-only corrections do not require
   a version increment.
