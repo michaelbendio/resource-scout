@@ -286,6 +286,18 @@ Their final derived snapshot hashes are
 `a3b3d4528076824154ec3be1e54a3957bb1258d4a6edf38c5d205c4f988e0ca9`,
 and `7ebb1ffa3e5bf1e46a4732fc5487e4ae3f34cb6dcb5606505555484bc5816f23`.
 
+Alternate-phone production verification (2026-08-24): commit `13f41a3` was
+pushed and the production LaunchAgent was restarted. Loopback and Tailscale both
+report application `0.29.2`, the unchanged frozen Mesa package hash, all 22
+categories, and the existing DeepSeek production configuration. Served `app.js`
+and `app.css` match the checkout byte for byte. A fresh read-only DeepSeek Housing
+Curator remains 445,698 bytes with 30 candidates, displays `0.29.2` in all three
+version surfaces, embeds Curator schema 10 and saved-work/feedback schema 2, and
+retains `Editors`, `Ready for package`, and `Print`. The frozen DeepSeek benchmark
+and Mesa package remain byte-identical at
+`0914c6278d36177cc29d75b297249815386355ceb9d634b1ac23372aa18c5491` and
+`c7a2251d7d638472f90207c24a28ec71c24515ea5d1aafced68a38fdce3d30f8`.
+
 The prepared stabilization, specialized, and long-term evidence-manifest hashes
 are respectively
 `959026d62a1766c5a4eee2309e723a999c60a418e3f6023ffde940e8ceeaa66e`,
@@ -439,8 +451,7 @@ actionability gates in
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
 - Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
-- Source application version: `0.29.2` (production remains `0.26.0` until the
-  corrected validation is committed, pushed, and deployed)
+- Source and production application version: `0.29.2`
 - Increment the application version before pushing any functional or user-visible
   change. Pure internal refactors and documentation-only corrections do not require
   a version increment.
