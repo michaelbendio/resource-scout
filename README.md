@@ -176,6 +176,25 @@ available during that interval and report the model as unready. `start`, `stop`,
 `restart`, and `uninstall` manage both services; uninstalling preserves research
 data, model cache, logs, and any existing Keychain credential.
 
+To research a package's categories sequentially without making multiple runs
+compete for the one local model, use the batch runner. This Mesa command requires
+the connected package to contain no resources and skips only Miscellaneous:
+
+```sh
+python3 run_scout_category_batch.py \
+  --exclude miscellaneous \
+  --require-empty-package
+```
+
+The runner first proves that Scout is using the unmetered Local Qwen route. It
+then starts one four-stage category run at a time and writes progress to
+`data/scout-category-batch.json`. Press Control-C to stop the runner safely; run
+the same command again to continue. An interrupted Scout run is resumed up to
+three times, but repeated failure stops the batch for attention. The state is
+bound to the exact connected package and category plan, and a new batch refuses
+to begin unless Recent runs is empty. Use `--dry-run` to inspect the plan without
+creating a run or state file.
+
 Before Mesa calibration, freeze the historical comparison into an ignored, separate benchmark directory:
 
 ```sh
