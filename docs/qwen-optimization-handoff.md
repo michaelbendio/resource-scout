@@ -6,8 +6,10 @@ Qwen on quality before timing was revealed. Forward-plan steps 1 through 4 are
 complete; step 5 completed as model-evaluation run 32 over frozen corpus 8, and
 step 6 deterministic integration is complete while normal phone-vetting evidence
 remains deferred to the real Curator workflow. Step 7 is in progress: its frozen
-later-stage benchmark is complete and application `0.29.0` is undergoing tests
-before corrected-corpus validation.
+later-stage benchmark is complete, corrected stabilization passed 5/5, and
+corrected specialized housing completed its five model packets. Application
+`0.29.1` is undergoing verification for the narrow identity-receipt derivation
+correction before long-term validation.
 Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
 Step 3 completed under the revised scope: the category-neutral candidate qualification gate and
@@ -233,7 +235,7 @@ The old literal coverage-gap matcher also reported 23 gaps, including pluralized
 tag aliases and already-completed jurisdiction/status checks, instead of only
 true missing candidate pathways.
 
-Application `0.29.0` corrects those upstream boundaries generically. New corpora
+Application `0.29.1` corrects those upstream boundaries generically. New corpora
 require `reviewed-evidence-scope-and-identity-v1`: every eligible source has an
 explicit authority, complete-page or one-or-more exact-section selection, and
 organization/program label receipts checked against the current bounded page.
@@ -246,6 +248,18 @@ inference; an exact-identity direct-provider URL remains valid website evidence.
 Coverage needs may declare explicit any-tag or all-tag equivalence, while a
 completed operational check cannot create a candidate-gap query. Combined
 population needs are split so one covered population cannot conceal another.
+
+Corrected run 45 passed all five stabilization packets with 85 supported and 30
+unknown fields, compared with the frozen run's 4 passed / 1 needs-review and
+48 / 67. Corrected run 46 completed all five specialized model packets on first
+attempts. Its raw 4 passed / 1 needs-review result exposed a deterministic false
+positive, not a model or evidence failure: the House of Refuge dossier cited the
+reviewed source for `program` but omitted the redundant `source.supports` binding.
+The verifier explicitly identified the false positive and left zero final issues.
+`verifier-candidate-salvage-v2` uses a matching immutable reviewed identity receipt
+only for organization/program bindings; a regression test proves that the same
+receipt cannot support an ordinary phone claim. Recompute the preserved run 46
+outputs after the `0.29.1` commit; no search, fetch, or model call is required.
 
 The prepared stabilization, specialized, and long-term evidence-manifest hashes
 are respectively
@@ -400,7 +414,7 @@ actionability gates in
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
 - Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
-- Source application version: `0.29.0` (production remains `0.28.0` until the
+- Source application version: `0.29.1` (production remains `0.28.0` until the
   corrected validation is committed, pushed, and deployed)
 - Increment the application version before pushing any functional or user-visible
   change. Pure internal refactors and documentation-only corrections do not require
@@ -411,7 +425,7 @@ actionability gates in
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
-- The full Python suite most recently passed 228 tests with one optional skip.
+- The full Python suite most recently passed 230 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.

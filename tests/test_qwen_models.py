@@ -10,6 +10,7 @@ from copy import deepcopy
 from pathlib import Path
 
 from resource_research_agent.optimization import (
+    EVIDENCE_PREPARATION_POLICY_VERSION,
     optimization_candidate_id,
     optimization_resource_id,
     package_exclusion_state,
@@ -25,6 +26,8 @@ from resource_research_agent.optimization_models import (
     remediate_invalid_factual_fields,
     restore_frozen_candidate_identity,
     restore_frozen_source_envelopes,
+    restore_reviewed_identity_bindings,
+    validate_dossier_for_packet,
     verification_status,
 )
 from resource_research_agent.playbooks import playbook_for
@@ -648,6 +651,207 @@ class ModelPipelineTests(unittest.TestCase):
         restored = restore_frozen_source_envelopes(dossier, packet)
         self.assertEqual("Frozen exact text", restored["sources"][0]["extract"])
         self.assertEqual("made up", restored["sources"][1]["extract"])
+
+    def test_reviewed_identity_receipts_restore_only_identity_bindings(self) -> None:
+        identity_key = "newtown community development corporation::community land trust"
+        source_text = (
+            "Community Land Trust\nNewtown's Community Land Trust provides "
+            "permanently affordable housing."
+        )
+        packet = {
+            "candidateIdentity": {
+                "organization": "Newtown Community Development Corporation",
+                "program": "Community Land Trust",
+                "identityKey": identity_key,
+            },
+            "sources": [
+                {
+                    "id": 7,
+                    "canonical_url": "https://example.org/clt",
+                    "authority": "direct-provider",
+                    "page_identity_key": identity_key,
+                    "extract": {
+                        "title": "Community Land Trust",
+                        "text": source_text,
+                        "selection": {
+                            "method": "reviewed-exact-section",
+                            "policyVersion": EVIDENCE_PREPARATION_POLICY_VERSION,
+                        },
+                        "identitySupport": {
+                            "organization": {
+                                "relationship": "reviewed-alias",
+                                "sourceLabel": "Newtown",
+                                "evidenceExcerpt": "Newtown's Community Land Trust",
+                                "reason": "The reviewed direct-provider page uses its short name.",
+                            },
+                            "program": {
+                                "relationship": "exact-label",
+                                "sourceLabel": "Community Land Trust",
+                                "evidenceExcerpt": "Community Land Trust",
+                            },
+                        },
+                    },
+                }
+            ],
+        }
+        dossier = {
+            "candidateIdentity": {
+                **packet["candidateIdentity"],
+                "componentIdentityKeys": [identity_key],
+            },
+            "sources": [
+                {
+                    "id": "7",
+                    "url": "https://example.org/clt",
+                    "title": "Community Land Trust",
+                    "extract": source_text,
+                    "authority": "direct-provider",
+                    "pageIdentityKey": identity_key,
+                    "pageOrganizationKey": "newtown community development corporation",
+                    "supports": [],
+                    "contradicts": [],
+                }
+            ],
+            "fields": {
+                "organization": {
+                    "status": "supported",
+                    "value": "Newtown Community Development Corporation",
+                    "evidenceIds": ["7"],
+                },
+                "program": {
+                    "status": "supported",
+                    "value": "Community Land Trust",
+                    "evidenceIds": ["7"],
+                },
+                "phone": {
+                    "status": "supported",
+                    "value": "602-000-0000",
+                    "evidenceIds": ["7"],
+                },
+            },
+        }
+
+        restored = restore_reviewed_identity_bindings(dossier, packet)
+        bindings = restored["sources"][0]["supports"]
+
+        self.assertEqual(
+            {"organization", "program"},
+            {binding["field"] for binding in bindings},
+        )
+        self.assertNotIn("phone", {binding["field"] for binding in bindings})
+        issues = validate_dossier_for_packet(
+            dossier, packet, ("organization", "program", "phone")
+        )
+        self.assertEqual(
+            [("phone", "source-does-not-support-field")],
+            [(issue.get("field"), issue["code"]) for issue in issues],
+        )
+
+    def test_rederivation_accepts_a_reviewed_identity_receipt_resolution(self) -> None:
+        identity_key = "house of refuge::transitional housing program"
+        source_text = "House of Refuge\nTransitional Housing Program"
+        packet = {
+            "candidateIdentity": {
+                "organization": "House of Refuge",
+                "program": "Transitional Housing Program",
+                "identityKey": identity_key,
+            },
+            "sources": [
+                {
+                    "id": 7,
+                    "canonical_url": "https://example.org/housing",
+                    "authority": "direct-provider",
+                    "page_identity_key": identity_key,
+                    "extract": {
+                        "title": "Transitional Housing Program",
+                        "text": source_text,
+                        "selection": {
+                            "method": "reviewed-full-page",
+                            "policyVersion": EVIDENCE_PREPARATION_POLICY_VERSION,
+                        },
+                        "identitySupport": {
+                            "organization": {
+                                "relationship": "exact-label",
+                                "sourceLabel": "House of Refuge",
+                                "evidenceExcerpt": "House of Refuge",
+                            },
+                            "program": {
+                                "relationship": "exact-label",
+                                "sourceLabel": "Transitional Housing Program",
+                                "evidenceExcerpt": "Transitional Housing Program",
+                            },
+                        },
+                    },
+                }
+            ],
+        }
+        dossier = {
+            "candidateIdentity": {
+                **packet["candidateIdentity"],
+                "componentIdentityKeys": [identity_key],
+            },
+            "sources": [
+                {
+                    "id": "7",
+                    "url": "https://example.org/housing",
+                    "title": "Transitional Housing Program",
+                    "extract": source_text,
+                    "authority": "direct-provider",
+                    "pageIdentityKey": identity_key,
+                    "pageOrganizationKey": "house of refuge",
+                    "supports": [
+                        {
+                            "field": "organization",
+                            "value": "House of Refuge",
+                            "scope": "organization",
+                        }
+                    ],
+                    "contradicts": [],
+                }
+            ],
+            "fields": {
+                "organization": {
+                    "status": "supported",
+                    "value": "House of Refuge",
+                    "evidenceIds": ["7"],
+                },
+                "program": {
+                    "status": "supported",
+                    "value": "Transitional Housing Program",
+                    "evidenceIds": ["7"],
+                },
+            },
+        }
+        response = {
+            "status": "passed",
+            "fieldDecisions": {
+                "organization": {"action": "keep"},
+                "program": {"action": "keep"},
+            },
+            "materialDefects": [],
+            "findings": [
+                {
+                    "code": "deterministic-finding-resolved",
+                    "field": "program",
+                    "action": "flagged",
+                    "reason": "The earlier deterministic finding is a false positive.",
+                }
+            ],
+        }
+
+        status, verified, findings = derive_verification_from_response(
+            dossier, packet, response, ("organization", "program")
+        )
+
+        self.assertEqual("passed", status)
+        self.assertEqual("supported", verified["fields"]["program"]["status"])
+        self.assertEqual([], findings["finalDeterministicFindings"])
+        self.assertTrue(
+            any(
+                item["code"] == "obsolete-deterministic-finding-resolution"
+                for item in findings["semanticResolutionFindings"]
+            )
+        )
 
     def test_source_binding_compaction_preserves_only_model_owned_fields(self) -> None:
         dossier = {

@@ -131,7 +131,7 @@ the frozen verifier missed in a passed NAC 55+ dossier: footer/admin and outpati
 addresses were promoted to the program, and Phoenix was inferred as its service
 geography from those addresses.
 
-Application `0.29.0` addresses those causes upstream rather than changing the
+Application `0.29.1` addresses those causes upstream rather than changing the
 frozen result. The corrected evidence manifests bind current-page identity labels
 and complete-page or exact-section scope; the age-55 NAC packet uses two sections
 to keep program-wide eligibility/application text while excluding its property
@@ -142,8 +142,18 @@ non-candidate operational checks. That reduces the honest later-stage gap set
 from 23 to 15—4 stabilization, 6 specialized, and 5 long-term—without another
 search and without promoting a weak lead.
 
-The corrected run will receive new corpora and v11 labels. It must process all
-18 affected packets; selective reruns would make the comparison invalid.
+The corrected run uses new corpora and v11 labels and must process all 18 affected
+packets; selective model reruns would make the comparison invalid. Its first ten
+packets completed without a model retry or failure. Stabilization improved from
+4 passed / 1 needs-review and 48 supported / 67 unknown fields to 5 / 0 and
+85 / 30. The raw specialized result improved from 2 passed / 3 needs-review and
+65 supported / 50 unknown fields to 4 / 1 and 70 / 45. The remaining raw review
+was a deterministic false positive: a reviewed House of Refuge identity receipt
+proved the program label, but the model omitted a redundant source-binding entry.
+Application `0.29.1` lets immutable reviewed identity receipts substantiate only
+the organization and program identity fields; ordinary factual fields retain the
+same source-binding requirement. The preserved verifier output can therefore be
+rederived under `verifier-candidate-salvage-v2` without another model call.
 
 ## Frozen DeepSeek baseline
 

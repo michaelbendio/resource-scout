@@ -63,7 +63,7 @@ configuration.update(
         "dshVersion": "not-used-direct-openai-compatible-endpoint",
         "promptPolicyVersion": (
             "schema-playbook-dossier-v1-and-independent-verifier-decision-patch-v3;"
-            "frozen-candidate-identity-v1;verifier-candidate-salvage-v1"
+            "frozen-candidate-identity-v1;verifier-candidate-salvage-v2"
         ),
         "playbookVersion": playbook.library_version,
         "localQwenProxyTimeoutSeconds": 7200,

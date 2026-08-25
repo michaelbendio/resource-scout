@@ -8,6 +8,8 @@ from typing import Any, Callable, Iterable
 from .optimization import (
     canonical_json,
     configuration_snapshot,
+    EVIDENCE_PREPARATION_POLICY_VERSION,
+    IDENTITY_SUPPORT_RELATIONSHIPS,
     sha256_json,
     validate_candidate_dossier,
 )
@@ -32,7 +34,7 @@ VERIFICATION_MATERIAL_DEFECTS = {
     "unsupported-safety-critical-claim",
     "candidate-not-credible",
 }
-VERIFICATION_DERIVATION_POLICY_VERSION = "verifier-candidate-salvage-v1"
+VERIFICATION_DERIVATION_POLICY_VERSION = "verifier-candidate-salvage-v2"
 VERIFIER_RESOLVED_ACTIONS = {"removed", "downgraded", "separated", "resolved"}
 SEMANTICALLY_RESOLVABLE_ISSUES = {
     "contradicted-field",
@@ -512,6 +514,7 @@ def validate_dossier_for_packet(
     packet: dict[str, Any],
     required_fields: Iterable[str],
 ) -> list[dict[str, str]]:
+    dossier = restore_reviewed_identity_bindings(dossier, packet)
     issues = validate_candidate_dossier(dossier, required_fields=required_fields)
     dossier_identity = dossier.get("candidateIdentity", {})
     packet_identity = packet.get("candidateIdentity", {})
@@ -589,6 +592,92 @@ def restore_frozen_source_envelopes(
             }
         )
     restored["sources"] = sources
+    return restored
+
+
+def restore_reviewed_identity_bindings(
+    dossier: dict[str, Any], packet: dict[str, Any]
+) -> dict[str, Any]:
+    """Bind reviewed identity receipts without extending them to ordinary facts."""
+
+    restored = json.loads(canonical_json(dossier))
+    identity = packet.get("candidateIdentity")
+    fields = restored.get("fields")
+    if not isinstance(identity, dict) or not isinstance(fields, dict):
+        return restored
+    identity_key = str(identity.get("identityKey") or "")
+    packet_sources = {
+        str(source.get("id")): source
+        for source in packet.get("sources", [])
+        if isinstance(source, dict) and source.get("id") is not None
+    }
+    dossier_sources = {
+        str(source.get("id")): source
+        for source in restored.get("sources", [])
+        if isinstance(source, dict) and source.get("id") is not None
+    }
+    for field, scope in (("organization", "organization"), ("program", "program")):
+        finding = fields.get(field)
+        expected_value = str(identity.get(field) or "").strip()
+        if (
+            not isinstance(finding, dict)
+            or finding.get("status") != "supported"
+            or " ".join(str(finding.get("value") or "").split()).casefold()
+            != " ".join(expected_value.split()).casefold()
+        ):
+            continue
+        evidence_ids = finding.get("evidenceIds")
+        if not isinstance(evidence_ids, list):
+            continue
+        for raw_source_id in evidence_ids:
+            source_id = str(raw_source_id)
+            packet_source = packet_sources.get(source_id)
+            dossier_source = dossier_sources.get(source_id)
+            if packet_source is None or dossier_source is None:
+                continue
+            extract = packet_source.get("extract")
+            if not isinstance(extract, dict):
+                continue
+            selection = extract.get("selection")
+            support = extract.get("identitySupport")
+            receipt = support.get(field) if isinstance(support, dict) else None
+            if (
+                packet_source.get("page_identity_key") != identity_key
+                or not isinstance(selection, dict)
+                or selection.get("policyVersion")
+                != EVIDENCE_PREPARATION_POLICY_VERSION
+                or not isinstance(receipt, dict)
+                or receipt.get("relationship") not in IDENTITY_SUPPORT_RELATIONSHIPS
+            ):
+                continue
+            source_label = str(receipt.get("sourceLabel") or "").strip()
+            excerpt = str(receipt.get("evidenceExcerpt") or "").strip()
+            source_text = str(extract.get("text") or "")
+            if not source_label or not excerpt or excerpt not in source_text:
+                continue
+            if source_label.casefold() not in excerpt.casefold():
+                continue
+            relationship = str(receipt.get("relationship") or "")
+            if relationship == "exact-label" and (
+                source_label.casefold() != expected_value.casefold()
+            ):
+                continue
+            if relationship == "reviewed-alias" and not str(
+                receipt.get("reason") or ""
+            ).strip():
+                continue
+            binding = {"field": field, "value": expected_value, "scope": scope}
+            supports = dossier_source.setdefault("supports", [])
+            if not isinstance(supports, list):
+                continue
+            if not any(
+                isinstance(existing, dict)
+                and existing.get("field") == field
+                and canonical_json(existing.get("value"))
+                == canonical_json(expected_value)
+                for existing in supports
+            ):
+                supports.append(binding)
     return restored
 
 
@@ -967,6 +1056,24 @@ def _finding_requires_review(finding: Any) -> bool:
     return str(finding.get("action") or "") not in VERIFIER_RESOLVED_ACTIONS
 
 
+def _resolved_false_positive_finding(
+    finding: Any, final_issues: Iterable[dict[str, Any]]
+) -> bool:
+    if not isinstance(finding, dict):
+        return False
+    field = str(finding.get("field") or "")
+    if (
+        str(finding.get("code") or "") != "deterministic-finding-resolved"
+        or not field
+        or "false positive" not in str(finding.get("reason") or "").casefold()
+    ):
+        return False
+    return not any(
+        isinstance(issue, dict) and str(issue.get("field") or "") == field
+        for issue in final_issues
+    )
+
+
 def _resolve_semantic_deterministic_findings(
     issues: Iterable[dict[str, Any]],
     verifier_findings: Iterable[Any],
@@ -1035,6 +1142,7 @@ def derive_verification_from_response(
     required_fields: Iterable[str],
     non_blocking_fields: Iterable[str] = (),
 ) -> tuple[str, dict[str, Any], dict[str, Any]]:
+    dossier = restore_reviewed_identity_bindings(dossier, packet)
     required = tuple(required_fields)
     initial_findings = validate_dossier_for_packet(dossier, packet, required)
     verifier_findings = response.get("findings", [])
@@ -1063,12 +1171,33 @@ def derive_verification_from_response(
         for item in final_resolutions
         if (item.get("field"), item.get("deterministicCode")) not in seen_resolutions
     )
+    resolved_false_positives = [
+        finding
+        for finding in verifier_findings
+        if _resolved_false_positive_finding(finding, final_findings)
+    ]
+    semantic_resolutions.extend(
+        {
+            "code": "obsolete-deterministic-finding-resolution",
+            "field": str(finding.get("field") or ""),
+            "action": "resolved",
+            "reason": (
+                "The current deterministic policy accepts this field, so the verifier's "
+                "recorded false-positive finding requires no human review."
+            ),
+        }
+        for finding in resolved_false_positives
+    )
     review_findings = [
         finding
         for finding in (
             *decision_findings,
             *deterministic_remediation,
-            *verifier_findings,
+            *(
+                finding
+                for finding in verifier_findings
+                if finding not in resolved_false_positives
+            ),
         )
         if _finding_requires_review(finding)
     ]
@@ -1338,6 +1467,7 @@ class OptimizationModelPipeline:
                 raise OptimizationModelError("Extractor returned no candidate identity")
             dossier = restore_frozen_candidate_identity(dossier, packet)
             dossier = restore_frozen_source_envelopes(dossier, packet)
+            dossier = restore_reviewed_identity_bindings(dossier, packet)
         except BaseException as error:
             self._fail_attempt(
                 attempt_id,

@@ -594,7 +594,7 @@ addresses had become program addresses and Phoenix service geography. The old
 gap audit separately manufactured eight false gaps from pluralized/granular tag
 names and already-completed operational checks.
 
-Application `0.29.0` therefore adds a category-neutral reviewed evidence contract
+Application `0.29.1` therefore adds a category-neutral reviewed evidence contract
 before the corrected model run. Each eligible source receives explicit authority,
 current-page identity receipts, and a complete-page or one-or-more exact-section
 selection. Current page headings replace search-result titles; multiple sections
@@ -619,6 +619,15 @@ frozen report's 23; no search was rerun and no unresolved lead was converted int
 a candidate to obtain that correction. Before the corrected corpus run, the full
 repository suite passed 228 Python tests with one optional live-package skip and
 all 20 JavaScript plugin tests.
+
+The first ten corrected model packets completed on one extraction and one
+verification attempt apiece. Stabilization passed 5/5. Specialized housing's raw
+4/5 pass result exposed one post-model validator defect: the immutable reviewed
+program-identity receipt was not consulted when Qwen omitted the duplicate
+`source.supports` entry. The `verifier-candidate-salvage-v2` correction accepts
+that receipt only for matching organization/program identity fields and leaves
+every ordinary factual-field evidence rule unchanged. Persisted verifier outputs
+are rederived without search, fetch, or model inference before long-term validation.
 
 Compare the complete result with frozen DeepSeek Housing and every preserved Qwen
 Housing run. Compare like stages and report the union and overlap only after
