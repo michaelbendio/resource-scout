@@ -4,8 +4,9 @@ Status: The original Phase 1 calibration failed and the full 20-category run was
 not started. The redesigned Scout optimization subsequently completed expanded
 first-stage comparison v9 on 2026-08-23 and selected 8-bit Qwen for continued
 isolated work. The frozen later-stage 8-bit benchmark completed on 2026-08-24;
-the corrected later-stage validation is the remaining model run before the
-four-stage comparison. No production cutover is authorized.
+the corrected later-stage validation completed on 2026-08-24/25. All 18
+corrected candidates remain usable, and the four-stage identity-resolved
+comparison is next. No production cutover is authorized.
 
 ## Purpose
 
@@ -142,18 +143,49 @@ non-candidate operational checks. That reduces the honest later-stage gap set
 from 23 to 15—4 stabilization, 6 specialized, and 5 long-term—without another
 search and without promoting a weak lead.
 
-The corrected run uses new corpora and v11 labels and must process all 18 affected
-packets; selective model reruns would make the comparison invalid. Its first ten
-packets completed without a model retry or failure. Stabilization improved from
-4 passed / 1 needs-review and 48 supported / 67 unknown fields to 5 / 0 and
-85 / 30. The raw specialized result improved from 2 passed / 3 needs-review and
-65 supported / 50 unknown fields to 4 / 1 and 70 / 45. The remaining raw review
-was a deterministic false positive: a reviewed House of Refuge identity receipt
-proved the program label, but the model omitted a redundant source-binding entry.
-Application `0.29.1` lets immutable reviewed identity receipts substantiate only
-the organization and program identity fields; ordinary factual fields retain the
-same source-binding requirement. The preserved verifier output can therefore be
-rederived under `verifier-candidate-salvage-v2` without another model call.
+The corrected run used new corpora and v11 labels and processed all 18 affected
+packets; no selective model rerun was used. Runs 45–47 completed all 36 model
+operations on their first attempt, locally and without metered traffic.
+
+| Stage | Packets | Passed | Needs review | Failed | Supported | Unknown | Model seconds |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Stabilization | 5 | 4 | 1 | 0 | 85 | 30 | 5,981 |
+| Specialized housing | 5 | 5 | 0 | 0 | 71 | 44 | 5,195 |
+| Long-term and gaps | 8 | 4 | 4 | 0 | 109 | 75 | 8,644 |
+| **Total** | **18** | **13** | **5** | **0** | **265** | **149** | **19,820** |
+
+Sequence time was 20,208 seconds (5h36m48s). Compared with the frozen result,
+the corrected evidence and verifier contracts add 80 supported field states,
+remove 80 unknown states, preserve zero conflicting states, and keep all 18
+candidates usable. All three quality gates pass. The 15 honest coverage gaps—4
+stabilization, 6 specialized, and 5 long-term—remain explicit and did not become
+weak candidates.
+
+The raw specialized result's remaining review was a deterministic false
+positive: a reviewed House of Refuge identity receipt proved the program label,
+but the model omitted a redundant source-binding entry. Application `0.29.1`
+lets immutable reviewed identity receipts substantiate only the organization and
+program identity fields; ordinary factual fields retain the same source-binding
+requirement. Re-derivation under `verifier-candidate-salvage-v2` made specialized
+housing 5 passed / 0 needs review without another model call.
+
+Application `0.29.2` adds a separate, category-neutral field contract after the
+completed run: an alternate phone number must retain its source-supported purpose
+instead of appearing as a bare number that could be mistaken for the main access
+line. This never deletes the number or fails the candidate. Re-derivation under
+`verifier-candidate-salvage-v3` preserved every field value and sent three
+dossiers to review: MesaCAN's appointment line, the City's external housing-search
+line, and Mercy's TTY line. The other two review dossiers reflect thin source
+content and a program-name/geography identity question. No search, fetch, or
+model call was repeated.
+
+The v3 source-to-derived snapshot hashes are
+`ced51c2c651236afabe2646107752901b37d29bf5b78d5f4db66dcd13d803202` to
+`a7baf589fb9fe4348c4d72937a9dc3a87464942829b0cfc92d04e68ab49c61d5`,
+`f3e3d86e1a71462eeaaa112b9f473b69f93e3671a8fee1474943a167359fb67e` to
+`a3b3d4528076824154ec3be1e54a3957bb1258d4a6edf38c5d205c4f988e0ca9`,
+and `4e6162fbea7cae64ee39f7eea62fe16c88caa8676867796c914e4a673c19dc7b`
+to `7ebb1ffa3e5bf1e46a4732fc5487e4ae3f34cb6dcb5606505555484bc5816f23`.
 
 ## Frozen DeepSeek baseline
 

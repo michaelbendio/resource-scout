@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Callable, Iterable
@@ -34,7 +35,7 @@ VERIFICATION_MATERIAL_DEFECTS = {
     "unsupported-safety-critical-claim",
     "candidate-not-credible",
 }
-VERIFICATION_DERIVATION_POLICY_VERSION = "verifier-candidate-salvage-v2"
+VERIFICATION_DERIVATION_POLICY_VERSION = "verifier-candidate-salvage-v3"
 VERIFIER_RESOLVED_ACTIONS = {"removed", "downgraded", "separated", "resolved"}
 SEMANTICALLY_RESOLVABLE_ISSUES = {
     "contradicted-field",
@@ -1056,6 +1057,50 @@ def _finding_requires_review(finding: Any) -> bool:
     return str(finding.get("action") or "") not in VERIFIER_RESOLVED_ACTIONS
 
 
+def additional_phone_purpose_findings(
+    dossier: dict[str, Any],
+) -> list[dict[str, str]]:
+    """Flag source-backed alternate numbers that lost their access purpose.
+
+    The main ``phone`` field is the best general access number. Every additional
+    number needs a human-readable role so Curator does not present a TTY, fax-like
+    relay, partner line, or other specialized contact as an interchangeable phone.
+    The supported value remains intact; this is a nonfatal review finding.
+    """
+
+    fields = dossier.get("fields")
+    if not isinstance(fields, dict):
+        return []
+    finding = fields.get("additionalPhoneNumbers")
+    if not isinstance(finding, dict) or finding.get("status") != "supported":
+        return []
+    value = finding.get("value")
+    entries = value if isinstance(value, list) else [value]
+    unlabeled: list[str] = []
+    for entry in entries:
+        if not isinstance(entry, str):
+            continue
+        digits = re.sub(r"\D", "", entry)
+        letters = "".join(character for character in entry if character.isalpha())
+        if len(digits) >= 7 and letters.casefold() in {"", "x", "ext"}:
+            unlabeled.append(entry.strip())
+    if not unlabeled:
+        return []
+    return [
+        {
+            "code": "additional-phone-purpose-unlabeled",
+            "field": "additionalPhoneNumbers",
+            "action": "flagged",
+            "reason": (
+                "Every additional phone number needs its source-supported purpose "
+                "so it cannot be mistaken for the program's general access line. "
+                "Unlabeled value(s): "
+                + ", ".join(unlabeled)
+            ),
+        }
+    ]
+
+
 def _resolved_false_positive_finding(
     finding: Any, final_issues: Iterable[dict[str, Any]]
 ) -> bool:
@@ -1188,11 +1233,13 @@ def derive_verification_from_response(
         }
         for finding in resolved_false_positives
     )
+    field_contract_findings = additional_phone_purpose_findings(verified)
     review_findings = [
         finding
         for finding in (
             *decision_findings,
             *deterministic_remediation,
+            *field_contract_findings,
             *(
                 finding
                 for finding in verifier_findings
@@ -1217,6 +1264,7 @@ def derive_verification_from_response(
         "postVerifierDeterministicFindings": post_verifier_findings,
         "semanticResolutionFindings": semantic_resolutions,
         "deterministicRemediationFindings": deterministic_remediation,
+        "fieldContractFindings": field_contract_findings,
         "rawFinalDeterministicFindings": raw_final_findings,
         "finalDeterministicFindings": final_findings,
     }
@@ -1405,6 +1453,11 @@ class OptimizationModelPipeline:
                     "callable or text-capable phone numbers, never fax numbers or email addresses."
                 ),
                 (
+                    "Label every additionalPhoneNumbers value with its source-supported purpose "
+                    "(for example, 'TTY: 800-555-0100' or 'Housing search: 877-555-0100'); "
+                    "never return a bare alternate number."
+                ),
+                (
                     "Treat access points, properties, partners, subprograms, and named examples "
                     "as separate entities; do not promote their facts to the candidate unless "
                     "the source explicitly states that the fact applies candidate-wide."
@@ -1556,6 +1609,7 @@ class OptimizationModelPipeline:
                 "organization and program boundaries",
                 "jurisdiction and service area",
                 "conflicting contact or intake information",
+                "a source-supported purpose label for every additional phone number",
                 "speculative restrictions",
                 "duplicate or fragmented identity",
                 "access-point, property, partner, subprogram, and system attribution",

@@ -6,10 +6,10 @@ Qwen on quality before timing was revealed. Forward-plan steps 1 through 4 are
 complete; step 5 completed as model-evaluation run 32 over frozen corpus 8, and
 step 6 deterministic integration is complete while normal phone-vetting evidence
 remains deferred to the real Curator workflow. Step 7 is in progress: its frozen
-later-stage benchmark is complete, corrected stabilization passed 5/5, and
-corrected specialized housing completed its five model packets. Application
-`0.29.1` is undergoing verification for the narrow identity-receipt derivation
-correction before long-term validation.
+and corrected later-stage benchmarks are complete. Corrected runs 45–47 retained
+all 18 candidates with 13 passed, 5 needs review, and 0 failed. Application
+`0.29.2` is undergoing final repository and production verification before the
+four-stage DeepSeek comparison and stale-code audit.
 Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
 Step 3 completed under the revised scope: the category-neutral candidate qualification gate and
@@ -249,17 +249,42 @@ Coverage needs may declare explicit any-tag or all-tag equivalence, while a
 completed operational check cannot create a candidate-gap query. Combined
 population needs are split so one covered population cannot conceal another.
 
-Corrected run 45 passed all five stabilization packets with 85 supported and 30
-unknown fields, compared with the frozen run's 4 passed / 1 needs-review and
-48 / 67. Corrected run 46 completed all five specialized model packets on first
-attempts. Its raw 4 passed / 1 needs-review result exposed a deterministic false
-positive, not a model or evidence failure: the House of Refuge dossier cited the
-reviewed source for `program` but omitted the redundant `source.supports` binding.
-The verifier explicitly identified the false positive and left zero final issues.
-`verifier-candidate-salvage-v2` uses a matching immutable reviewed identity receipt
-only for organization/program bindings; a regression test proves that the same
-receipt cannot support an ordinary phone claim. Recompute the preserved run 46
-outputs after the `0.29.1` commit; no search, fetch, or model call is required.
+Corrected runs 45–47 completed all 18 packets and all 36 model operations on
+their first attempt, with 19,820 seconds of model work and 20,208 seconds end to
+end. The final v3 derivation is:
+
+| Stage | Packets | Passed | Needs review | Failed | Supported | Unknown |
+|---|---:|---:|---:|---:|---:|---:|
+| Stabilization | 5 | 4 | 1 | 0 | 85 | 30 |
+| Specialized housing | 5 | 5 | 0 | 0 | 71 | 44 |
+| Long-term and gaps | 8 | 4 | 4 | 0 | 109 | 75 |
+| **Total** | **18** | **13** | **5** | **0** | **265** | **149** |
+
+The House of Refuge raw review was a deterministic false positive, not a model
+or evidence failure: its dossier cited the reviewed source for `program` but
+omitted the redundant `source.supports` binding. `verifier-candidate-salvage-v2`
+uses a matching immutable reviewed identity receipt only for organization/program
+bindings; a regression test proves that the same receipt cannot support an
+ordinary phone claim.
+
+Application `0.29.2` adds a separate category-neutral contract for alternate
+phone numbers. Every additional number must retain its source-supported purpose;
+a bare number is preserved and flagged for review rather than deleted or made
+candidate-fatal. `verifier-candidate-salvage-v3` therefore sends MesaCAN's
+appointment line, the City's external housing-search line, and Mercy's TTY line
+to review. The other two reviews are a thin-source warning and a program-name/
+geography identity question. All 18 candidates remain usable, all three quality
+gates pass, and no search, fetch, or model call was repeated for either
+re-derivation.
+
+The v3 report hashes for runs 45–47 are respectively
+`9b22b4fac8a00ed7b45f093a19b53ca07c998e06b36d9899bc8dd2e53b2948fb`,
+`e959887ee2526a157dfa8b4fea440e5b659c44f87fa5651751c86c4ea014d8b4`,
+and `26239563cba87d7298b1a7bde9b108dea2733f4bc7b00ad9c67ee17eed028774`.
+Their final derived snapshot hashes are
+`a7baf589fb9fe4348c4d72937a9dc3a87464942829b0cfc92d04e68ab49c61d5`,
+`a3b3d4528076824154ec3be1e54a3957bb1258d4a6edf38c5d205c4f988e0ca9`,
+and `7ebb1ffa3e5bf1e46a4732fc5487e4ae3f34cb6dcb5606505555484bc5816f23`.
 
 The prepared stabilization, specialized, and long-term evidence-manifest hashes
 are respectively
@@ -414,7 +439,7 @@ actionability gates in
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
 - Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
-- Source application version: `0.29.1` (production remains `0.28.0` until the
+- Source application version: `0.29.2` (production remains `0.26.0` until the
   corrected validation is committed, pushed, and deployed)
 - Increment the application version before pushing any functional or user-visible
   change. Pure internal refactors and documentation-only corrections do not require
@@ -425,7 +450,7 @@ actionability gates in
 - Context window used in the first calibration: 65,536
 - Reasoning setting used in the first calibration: medium
 - The redesigned discovery run uses a deterministic coverage matrix and per-branch saturation rather than the old small global query cap.
-- The full Python suite most recently passed 230 tests with one optional skip.
+- The full Python suite most recently passed 231 tests with one optional skip.
 - The JavaScript plugin suite most recently passed 20 tests.
 
 The repository was clean and synchronized with `origin/main` when this handoff was created. Recheck before editing and preserve unrelated user work if the state has changed.

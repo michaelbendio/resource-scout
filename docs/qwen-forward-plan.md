@@ -620,14 +620,24 @@ a candidate to obtain that correction. Before the corrected corpus run, the full
 repository suite passed 228 Python tests with one optional live-package skip and
 all 20 JavaScript plugin tests.
 
-The first ten corrected model packets completed on one extraction and one
-verification attempt apiece. Stabilization passed 5/5. Specialized housing's raw
-4/5 pass result exposed one post-model validator defect: the immutable reviewed
-program-identity receipt was not consulted when Qwen omitted the duplicate
-`source.supports` entry. The `verifier-candidate-salvage-v2` correction accepts
-that receipt only for matching organization/program identity fields and leaves
-every ordinary factual-field evidence rule unchanged. Persisted verifier outputs
-are rederived without search, fetch, or model inference before long-term validation.
+Corrected runs 45–47 completed all 18 packets and all 36 extraction/verification
+operations on their first attempt. The raw specialized 4/5 pass result exposed
+one post-model validator defect: the immutable reviewed program-identity receipt
+was not consulted when Qwen omitted the duplicate `source.supports` entry. The
+`verifier-candidate-salvage-v2` correction accepts that receipt only for matching
+organization/program identity fields and leaves every ordinary factual-field
+evidence rule unchanged. It rederived specialized housing to 5/5 without search,
+fetch, or model inference.
+
+Application `0.29.2` adds the next generic evidence-usefulness boundary: every
+additional phone number needs its source-supported purpose. A bare alternate
+number is preserved and sent to human review; it is not deleted and does not fail
+the candidate. `verifier-candidate-salvage-v3` rederived the completed runs without
+external or model work. The final corrected result is 13 passed, 5 needs review,
+0 failed, 265 supported fields, 149 unknown fields, and 0 conflicts. The five
+reviews consist of three unlabeled alternate phone purposes, one thin but credible
+source, and one program-name/geography identity question. All 18 candidates remain
+usable, all three quality gates pass, and 15 honest coverage gaps remain explicit.
 
 Compare the complete result with frozen DeepSeek Housing and every preserved Qwen
 Housing run. Compare like stages and report the union and overlap only after

@@ -19,7 +19,8 @@ class CoordinatorTests(unittest.TestCase):
         self.assertIn("reviewed-corpus-v9", coordinator)
         self.assertIn("quantization-v9", coordinator)
         self.assertIn("reviewed-evidence-v11", runner)
-        self.assertIn("verifier-decision-patch-v3", runner)
+        self.assertIn("verifier-decision-patch-v4", runner)
+        self.assertIn("verifier-candidate-salvage-v3", runner)
         self.assertIn('"modelMaxCompletionTokens": LOCAL_QWEN_MAX_COMPLETION_TOKENS', runner)
         self.assertIn('"localQwenProxyTimeoutSeconds": 7200', runner)
 

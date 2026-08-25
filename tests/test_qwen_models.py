@@ -324,6 +324,95 @@ class ModelPipelineTests(unittest.TestCase):
             ),
         )
 
+    def test_additional_phone_number_requires_a_purpose_without_becoming_fatal(
+        self,
+    ) -> None:
+        identity_key = "example housing::senior apartments"
+        packet = {
+            "candidateIdentity": {
+                "organization": "Example Housing",
+                "program": "Senior Apartments",
+                "identityKey": identity_key,
+            },
+            "sources": [
+                {
+                    "id": 7,
+                    "canonical_url": "https://example.org/senior-apartments",
+                    "authority": "direct-provider",
+                    "page_identity_key": identity_key,
+                    "extract": {
+                        "title": "Senior Apartments",
+                        "text": "Phone: 480-555-0100. TTY: 800-855-2880.",
+                    },
+                }
+            ],
+        }
+
+        def derive(value: str) -> tuple[str, dict, dict]:
+            dossier = {
+                "candidateIdentity": {
+                    **packet["candidateIdentity"],
+                    "componentIdentityKeys": [identity_key],
+                },
+                "sources": [
+                    {
+                        "id": "7",
+                        "url": "https://example.org/senior-apartments",
+                        "title": "Senior Apartments",
+                        "extract": "Phone: 480-555-0100. TTY: 800-855-2880.",
+                        "authority": "direct-provider",
+                        "pageIdentityKey": identity_key,
+                        "pageOrganizationKey": "example housing",
+                        "supports": [
+                            {
+                                "field": "additionalPhoneNumbers",
+                                "value": [value],
+                                "scope": "program",
+                            }
+                        ],
+                        "contradicts": [],
+                    }
+                ],
+                "fields": {
+                    "additionalPhoneNumbers": {
+                        "status": "supported",
+                        "value": [value],
+                        "evidenceIds": ["7"],
+                    }
+                },
+            }
+            return derive_verification_from_response(
+                dossier,
+                packet,
+                {
+                    "status": "passed",
+                    "fieldDecisions": {
+                        "additionalPhoneNumbers": {"action": "keep"}
+                    },
+                    "materialDefects": [],
+                    "findings": [],
+                },
+                ("additionalPhoneNumbers",),
+            )
+
+        status, verified, findings = derive("800-855-2880")
+        self.assertEqual("needs-review", status)
+        self.assertEqual(
+            ["800-855-2880"],
+            verified["fields"]["additionalPhoneNumbers"]["value"],
+        )
+        self.assertEqual(
+            ["additional-phone-purpose-unlabeled"],
+            [finding["code"] for finding in findings["fieldContractFindings"]],
+        )
+        self.assertEqual([], findings["finalDeterministicFindings"])
+
+        labeled_status, _labeled_verified, labeled_findings = derive(
+            "TTY: 800-855-2880"
+        )
+        self.assertEqual("passed", labeled_status)
+        self.assertEqual([], labeled_findings["fieldContractFindings"])
+
     def test_invented_field_cannot_become_safety_critical_blocking_defect(self) -> None:
         dossier = {
             "candidateIdentity": {"organization": "Example", "program": "Shelter"},
@@ -1012,6 +1101,15 @@ class ModelPipelineTests(unittest.TestCase):
         self.assertTrue(
             all(
                 any(
+                    "never return a bare alternate number" in instruction
+                    for instruction in prompt["instructions"]
+                )
+                for prompt in models.extract_prompts
+            )
+        )
+        self.assertTrue(
+            all(
+                any(
                     "access points, properties, partners, subprograms"
                     in instruction
                     for instruction in prompt["instructions"]
@@ -1056,6 +1154,13 @@ class ModelPipelineTests(unittest.TestCase):
         self.assertTrue(
             all(
                 "exact-identity direct-provider URL evidence for the website field"
+                in prompt["checklist"]
+                for prompt in models.verify_prompts
+            )
+        )
+        self.assertTrue(
+            all(
+                "a source-supported purpose label for every additional phone number"
                 in prompt["checklist"]
                 for prompt in models.verify_prompts
             )

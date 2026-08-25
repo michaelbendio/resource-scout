@@ -62,8 +62,8 @@ configuration.update(
         "mlxVersion": f"mlx-lm-0.31.3_2;mlx-0.32.1;{WORKAROUND_VERSION}",
         "dshVersion": "not-used-direct-openai-compatible-endpoint",
         "promptPolicyVersion": (
-            "schema-playbook-dossier-v1-and-independent-verifier-decision-patch-v3;"
-            "frozen-candidate-identity-v1;verifier-candidate-salvage-v2"
+            "schema-playbook-dossier-v1-and-independent-verifier-decision-patch-v4;"
+            "frozen-candidate-identity-v1;verifier-candidate-salvage-v3"
         ),
         "playbookVersion": playbook.library_version,
         "localQwenProxyTimeoutSeconds": 7200,
