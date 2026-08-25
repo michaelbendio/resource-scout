@@ -329,6 +329,15 @@ category-level Curator handoff, complete the intended category playbook audits,
 and verify one non-Housing pilot. Do not start the remaining 19 categories or
 change the production model default without explicit authorization.
 
+Final-audit production verification (2026-08-24): commit `d764a8f` was pushed
+and the production LaunchAgent was restarted. Loopback and Tailscale both report
+application `0.29.3`, the unchanged Mesa package hash, all 22 categories, and the
+existing DeepSeek production configuration. Served `app.js` and `app.css` match
+the checkout byte for byte. Fresh loopback and Tailscale DeepSeek Housing Curators
+remain 445,698 bytes with 30 candidates, display `0.29.3` in all three version
+surfaces, embed Curator schema 10 and saved-work/feedback schema 2, and retain
+`Editors`, `Ready for package`, and `Print`. No Qwen/MLX process remains running.
+
 The prepared stabilization, specialized, and long-term evidence-manifest hashes
 are respectively
 `959026d62a1766c5a4eee2309e723a999c60a418e3f6023ffde940e8ceeaa66e`,
@@ -482,8 +491,7 @@ actionability gates in
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
 - Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
-- Source application version: `0.29.3` (production remains `0.29.2` until this
-  final audited correction is committed, pushed, and deployed)
+- Source and production application version: `0.29.3`
 - Increment the application version before pushing any functional or user-visible
   change. Pure internal refactors and documentation-only corrections do not require
   a version increment.
