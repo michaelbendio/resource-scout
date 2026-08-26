@@ -25,10 +25,11 @@ not treated as truth.
 
 ## Consolidation
 
-Exact repeated submissions collapse deterministically. Similar identities remain
-separate unless the relationship is strong enough for an explicit merge decision.
-Named programs remain distinct when their service, population, intake, or
-administration is materially different. Ordinary locations are not counted as
+Exact repeated submissions collapse deterministically. Clear same-program naming
+variants and matching access-point aliases collapse automatically. Similar
+identities otherwise remain separate. A shared website alone is never identity
+evidence. Named programs remain distinct when their service, population, intake,
+or administration is materially different. Ordinary locations are not counted as
 separate services. Directories and routing systems remain available as source-only
 records rather than inflating the candidate count.
 
@@ -49,7 +50,9 @@ plain-language Notes checklist with specific next searches.
 Completed discovery exports one self-contained Curator scoped to that run. It has
 Editors and Notes work areas, stable candidate and draft IDs, optional known-resource
 relationship review, printable client-facing output, portable work checkpoints,
-and additions-only package creation when a source package exists.
+and additions-only package creation when a source package exists. Multiple distinct
+programs from one organization appear together in a collapsible organization group;
+specialists are not asked to resolve speculative submission relationships.
 
 The Curator export excludes the Scout database, source-package full records,
 credentials, old research machinery, and hidden outcome or teaching fields.

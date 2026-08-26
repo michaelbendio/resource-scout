@@ -173,6 +173,73 @@ class ManualConsolidationTests(unittest.TestCase):
             {group["displayName"] for group in result["groups"]},
         )
 
+    def test_conservative_aliases_merge_without_collapsing_sibling_programs(self) -> None:
+        run_id = self.create_run()
+        shared_page = "https://example.org/services/"
+        self.store.save_manual_contribution(
+            run_id,
+            "ChatGPT",
+            payload(
+                lead("Example Organization", "Autumn House", website=shared_page, lead_type="program"),
+                lead("Example Organization", "Court Advocacy", website=shared_page, lead_type="program"),
+                lead(
+                    "Example Organization",
+                    "County Domestic Violence Hotline",
+                    website=shared_page,
+                    phone="1-844-SAFEDVS",
+                    lead_type="access-point",
+                ),
+                lead(
+                    "A New Leaf",
+                    "Community Alliance Against Family Abuse",
+                    lead_type="program",
+                ),
+            ),
+        )
+        self.store.save_manual_contribution(
+            run_id,
+            "Claude",
+            payload(
+                lead(
+                    "Example Organization",
+                    "Autumn House Domestic Violence Shelter",
+                    website=shared_page,
+                    lead_type="program",
+                ),
+                lead(
+                    "Example Organization",
+                    "SAFEDVS — Safe Access for Expedited Domestic Violence Services",
+                    website=shared_page,
+                    phone="844-723-3387",
+                    lead_type="access-point",
+                ),
+                lead(
+                    "A New Leaf / Community Alliance Against Family Abuse",
+                    "CAAFA shelter",
+                    lead_type="program",
+                ),
+            ),
+        )
+
+        result = consolidate_manual_discovery(self.store, run_id)
+
+        self.assertEqual(4, result["funnel"]["consolidatedIdentities"])
+        self.assertEqual(3, result["funnel"]["sameIdentityDecisions"])
+        self.assertEqual(0, result["funnel"]["pendingIdentityDecisions"])
+        self.assertTrue(all(item.get("automatic") for item in result["suggestions"]))
+        self.assertFalse(any("same normalized official URL" in item["reason"].casefold() for item in result["suggestions"]))
+        groups = {group["displayName"]: group for group in result["groups"]}
+        self.assertTrue(any("Autumn House" in name and len(group["members"]) == 2 for name, group in groups.items()))
+        self.assertTrue(any("Court Advocacy" in name and len(group["members"]) == 1 for name, group in groups.items()))
+        self.assertTrue(any(group["routedRole"] == "access-point" and len(group["members"]) == 2 for group in groups.values()))
+        self.assertTrue(any("A New Leaf" in group["organization"] and len(group["members"]) == 2 for group in groups.values()))
+        finish_manual_discovery(self.store, run_id)
+        a_new_leaf = next(
+            discovery for discovery in self.store.list_discoveries(run_id)
+            if "Community Alliance" in discovery["candidate"]["programName"]
+        )
+        self.assertEqual("A New Leaf", a_new_leaf["candidate"]["organizationGroupName"])
+
     def test_two_chat_votes_do_not_turn_a_weak_lead_into_verified_truth(self) -> None:
         run_id = self.create_run()
         weak = lead(

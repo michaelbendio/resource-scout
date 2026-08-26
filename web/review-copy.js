@@ -353,7 +353,7 @@
 
   const review = JSON.parse(document.querySelector('#review-data').textContent);
   const storageKey = `resource-research-review:${review.reviewId}`;
-  const view = { search: '', status: '', currentId: null, dirty: false, persisted: false, notesMode: 'edit', editorTab: 'resource', informationMode: 'preview', openTaxonomyCategoryId: null, topWindow: 10, saveGuidanceSeen: false, packageGuidanceSeen: false };
+  const view = { search: '', status: '', currentId: null, dirty: false, persisted: false, notesMode: 'edit', editorTab: 'resource', informationMode: 'preview', openTaxonomyCategoryId: null, expandedOrganizationKeys: new Set(), topWindow: 10, saveGuidanceSeen: false, packageGuidanceSeen: false };
   let state = initialState(review);
 
   function formatWhen(value) {
@@ -534,24 +534,56 @@
     document.querySelector('#candidate-count').textContent = `${candidates.length} of ${remaining.length} candidates shown · ${ready} ready`;
     const target = document.querySelector('#candidate-list');
     if (!candidates.length) { target.replaceChildren(element('div', 'empty', remaining.length ? 'No candidates match this filter.' : 'No candidates remain in Curator.')); return; }
-    target.replaceChildren(...candidates.map(item => {
+
+    function candidateCard(item) {
       const button = element('button', 'candidate'); button.type = 'button';
       const head = element('div', 'candidate-head');
       const status = element('span', `status ${decisionClass(item)}`, decisionText(item));
       head.append(element('strong', '', item.name), status);
       const description = asText(item.candidate?.serviceNeed || item.candidate?.housingNeed || item.candidate?.description || item.candidate?.resourceType || 'Pending');
       button.append(head, element('p', 'candidate-description', description));
-      const possibleRelationships = item.candidate?.possibleRelatedSubmissions || [];
-      if (possibleRelationships.length) button.append(element(
-        'p', 'signal-summary',
-        `${possibleRelationships.length} possible related submission${possibleRelationships.length === 1 ? '' : 's'} to consider during normal curation`,
-      ));
       if (item.knownResourceMatch) button.append(element('p', 'signal-summary', candidateState(item).matchAssessment
         ? `${MATCH_LABELS[candidateState(item).matchAssessment]}: ${item.knownResourceMatch.name}`
         : `Possible relationship: ${item.knownResourceMatch.name}`));
       button.addEventListener('click', () => openCandidate(item.id));
       return button;
-    }));
+    }
+
+    const organizations = new Map();
+    candidates.forEach(item => {
+      const label = asText(
+        item.candidate?.organizationGroupName
+        || item.candidate?.organizationName
+        || item.candidate?.organization,
+      ) || 'Other candidates';
+      const key = label.toLocaleLowerCase();
+      if (!organizations.has(key)) organizations.set(key, { key, label, items: [] });
+      organizations.get(key).items.push(item);
+    });
+    const rows = [];
+    organizations.forEach(group => {
+      if (group.items.length === 1) {
+        rows.push(candidateCard(group.items[0]));
+        return;
+      }
+      const details = element('details', 'organization-group');
+      details.open = Boolean(wanted) || view.expandedOrganizationKeys.has(group.key);
+      details.addEventListener('toggle', () => {
+        if (details.open) view.expandedOrganizationKeys.add(group.key);
+        else view.expandedOrganizationKeys.delete(group.key);
+      });
+      const groupReady = group.items.filter(item => candidateState(item).packageStatus === 'ready').length;
+      const summary = element(
+        'summary',
+        '',
+        `${group.label} · ${group.items.length} candidates${groupReady ? ` · ${groupReady} ready` : ''}`,
+      );
+      const grid = element('div', 'organization-candidates');
+      grid.replaceChildren(...group.items.map(candidateCard));
+      details.append(summary, grid);
+      rows.push(details);
+    });
+    target.replaceChildren(...rows);
   }
 
   function renderSourceOnlyRecords() {
@@ -1045,7 +1077,7 @@
     window.addEventListener('beforeunload', event => { if (view.dirty && !view.persisted) { event.preventDefault(); event.returnValue = ''; } });
     setupWorkspaceWindows(); renderSourceOnlyRecords(); renderCandidates(); updateActions();
     const packageText = packageInfo ? `${packageInfo.sourceName}; schema ${packageInfo.schemaVersion}; package ${packageInfo.packageVersion}` : `Standalone location research; ${review.run.targetLocation || 'location not recorded'}`;
-    document.querySelector('#footer').textContent = `Resource Curator v0.37.10 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
+    document.querySelector('#footer').textContent = `Resource Curator v0.38.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
   }
 
   initialize();

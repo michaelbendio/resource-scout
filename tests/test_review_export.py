@@ -127,6 +127,10 @@ class ReviewCopyTests(unittest.TestCase):
         self.assertNotIn("Research trail", html)
         self.assertNotIn("Teaching Loop", html)
         self.assertNotIn("Outcome", html)
+        self.assertIn("organizationGroupName", html)
+        self.assertIn("organization-group", html)
+        self.assertIn("expandedOrganizationKeys", html)
+        self.assertNotIn("possible related submission", html.casefold())
         self.assertIn(f'<span class="workspace-version">v{__version__}</span>', html)
 
     def test_open_discovery_cannot_be_exported(self) -> None:

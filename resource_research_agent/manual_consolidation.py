@@ -13,6 +13,11 @@ from .storage import ResearchStore
 
 DIRECT_ROLES = {"program", "provider-organization", "access-point"}
 PRESERVED_ROLES = {"routing-source", "directory", "outreach-initiative", "unresolved"}
+PROGRAM_TOKEN_STOPWORDS = {"a", "an", "and", "for", "of", "the", "to"}
+PHONE_LETTERS = str.maketrans(
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+    "2223334445556667777888999922233344455566677778889999",
+)
 
 
 def _sha256(value: Any) -> str:
@@ -76,6 +81,85 @@ def _presentation_name(organization: str, program: str, website: str = "") -> st
     if organization and program:
         return f"{organization} · {program}"
     return program or organization or website or "Unresolved lead"
+
+
+def _organization_group_name(members: list[dict[str, Any]], fallback: str) -> str:
+    names = {member["organization"].strip() for member in members if member["organization"].strip()}
+    if not names:
+        return fallback
+    return sorted(names, key=lambda value: (len(value.split()), len(value), value.casefold()))[0]
+
+
+def _identity_tokens(value: str) -> tuple[str, ...]:
+    return tuple(token for token in value.split() if token)
+
+
+def _significant_program_tokens(value: str) -> set[str]:
+    return {
+        token for token in _identity_tokens(value)
+        if token not in PROGRAM_TOKEN_STOPWORDS
+    }
+
+
+def _phone_keys(group: dict[str, Any]) -> set[str]:
+    result: set[str] = set()
+    for member in group["members"]:
+        for chunk in re.findall(r"[+()A-Za-z0-9.-]{7,}", member["phone"] or ""):
+            if not any(character.isdigit() for character in chunk):
+                continue
+            digits = re.sub(r"\D", "", chunk.translate(PHONE_LETTERS))
+            if len(digits) == 11 and digits.startswith("1"):
+                digits = digits[1:]
+            if len(digits) == 10:
+                result.add(digits)
+    return result
+
+
+def _organization_family_matches(left: dict[str, Any], right: dict[str, Any]) -> bool:
+    for left_name in left["normalizedOrganizations"]:
+        left_tokens = _identity_tokens(left_name)
+        for right_name in right["normalizedOrganizations"]:
+            right_tokens = _identity_tokens(right_name)
+            if left_name == right_name:
+                return True
+            shorter, longer = sorted((left_tokens, right_tokens), key=len)
+            if len(shorter) >= 2 and longer[:len(shorter)] == shorter:
+                return True
+    return False
+
+
+def _program_alias_reason(left: dict[str, Any], right: dict[str, Any]) -> str:
+    if not _organization_family_matches(left, right):
+        return ""
+    left_programs = sorted(left["normalizedPrograms"])
+    right_programs = sorted(right["normalizedPrograms"])
+    if not left_programs or not right_programs:
+        return ""
+    if left["roleFamilies"] == right["roleFamilies"] == {"access-point"}:
+        if _phone_keys(left) & _phone_keys(right):
+            return "Same organization and access-point phone number."
+    for left_program in left_programs:
+        left_tokens = _identity_tokens(left_program)
+        left_significant = _significant_program_tokens(left_program)
+        for right_program in right_programs:
+            right_tokens = _identity_tokens(right_program)
+            right_significant = _significant_program_tokens(right_program)
+            shorter, longer = sorted((left_tokens, right_tokens), key=len)
+            if len(shorter) >= 2 and longer[:len(shorter)] == shorter:
+                return "Same organization and one program name extends the other with descriptive wording."
+            if left_significant and right_significant:
+                similarity = len(left_significant & right_significant) / len(
+                    left_significant | right_significant
+                )
+                if min(len(left_significant), len(right_significant)) >= 2 and similarity >= 0.75:
+                    return "Same organization and strongly overlapping program names."
+            left_initialism = "".join(token[0] for token in left_tokens if token)
+            right_initialism = "".join(token[0] for token in right_tokens if token)
+            if len(left_initialism) >= 4 and left_initialism in right_tokens:
+                return "Same organization and acronym/expanded program name."
+            if len(right_initialism) >= 4 and right_initialism in left_tokens:
+                return "Same organization and acronym/expanded program name."
+    return ""
 
 
 def _route_role(members: list[dict[str, Any]], program: str, organization: str) -> str:
@@ -280,12 +364,13 @@ def _suggestions(
                 left["normalizedOrganizations"] & right["normalizedOrganizations"]
             )
             same_program = bool(left["normalizedPrograms"] & right["normalizedPrograms"])
-            if same_organization and bool(left["program"]) != bool(right["program"]):
+            automatic_reason = _program_alias_reason(left, right)
+            if automatic_reason:
+                reason = automatic_reason
+            elif same_organization and bool(left["program"]) != bool(right["program"]):
                 reason = "Same organization; one response names a program and the other names only the organization."
             elif same_program and left["normalizedOrganizations"] != right["normalizedOrganizations"]:
                 reason = "Same normalized program name with different or missing organization identity."
-            elif left["website"] and left["website"] == right["website"]:
-                reason = "Same normalized official URL but different submitted identity text."
             if not reason:
                 continue
             pair = tuple(sorted((left["stableKey"], right["stableKey"])))
@@ -310,7 +395,8 @@ def _suggestions(
                         "sources": sorted({member["sourceLabel"] for member in right["members"]}),
                     },
                     "reason": reason,
-                    "status": decisions.get(pair, "pending"),
+                    "status": "same" if automatic_reason else decisions.get(pair, "pending"),
+                    "automatic": bool(automatic_reason),
                 }
             )
     return result
@@ -335,15 +421,21 @@ def _merged_groups(
             parent[second] = first
 
     for suggestion in suggestions:
-        if suggestion["status"] == "same":
+        if suggestion["status"] == "same" and suggestion.get("automatic"):
+            union(suggestion["leftKey"], suggestion["rightKey"])
+    for suggestion in suggestions:
+        if suggestion["status"] == "same" and not suggestion.get("automatic"):
             union(suggestion["leftKey"], suggestion["rightKey"])
     components: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for group in preliminary:
         components[find(group["stableKey"])].append(group)
     decisions_by_key: dict[str, set[str]] = defaultdict(set)
+    manual_same_pairs: set[tuple[str, str]] = set()
     for suggestion in suggestions:
         decisions_by_key[suggestion["leftKey"]].add(suggestion["status"])
         decisions_by_key[suggestion["rightKey"]].add(suggestion["status"])
+        if suggestion["status"] == "same" and not suggestion.get("automatic"):
+            manual_same_pairs.add((suggestion["leftKey"], suggestion["rightKey"]))
     result = []
     for groups in components.values():
         preliminary_keys = sorted(group["stableKey"] for group in groups)
@@ -360,8 +452,12 @@ def _merged_groups(
         program = _choose_text([member["program"] for member in members])
         website = _choose_url([member["website"] for member in members])
         statuses = {status for key in preliminary_keys for status in decisions_by_key[key]}
+        has_manual_merge = any(
+            left in preliminary_keys and right in preliminary_keys
+            for left, right in manual_same_pairs
+        )
         if len(groups) > 1:
-            consolidation_state = "reviewed-merge"
+            consolidation_state = "reviewed-merge" if has_manual_merge else "exact"
             stable_key = "merged-" + _sha256(preliminary_keys)[:20]
         elif "separate" in statuses:
             consolidation_state = "reviewed-separate"
@@ -377,7 +473,11 @@ def _merged_groups(
         for group in groups:
             for member in group["members"]:
                 reasons[member["id"]] = (
-                    "human-reviewed same identity"
+                    (
+                        "human-reviewed same identity"
+                        if has_manual_merge
+                        else "automatic same-program alias consolidation"
+                    )
                     if len(groups) > 1
                     else group["memberReasons"][member["id"]]
                 )
@@ -423,15 +523,25 @@ def _validate_identity_decisions(
             parent[second] = first
 
     for suggestion in suggestions:
-        if suggestion["status"] == "same":
+        if suggestion["status"] == "same" and suggestion.get("automatic"):
+            union(suggestion["leftKey"], suggestion["rightKey"])
+    automatic_program_families = {
+        group["stableKey"]: find(group["stableKey"])
+        for group in preliminary
+        if group["normalizedPrograms"]
+    }
+    for suggestion in suggestions:
+        if suggestion["status"] == "same" and not suggestion.get("automatic"):
             union(suggestion["leftKey"], suggestion["rightKey"])
     for suggestion in suggestions:
         if suggestion["status"] == "separate" and find(suggestion["leftKey"]) == find(suggestion["rightKey"]):
             raise ValueError("Identity decisions conflict: one pair is both merged and kept separate")
-    program_names: dict[str, set[str]] = defaultdict(set)
+    program_families: dict[str, set[str]] = defaultdict(set)
     for group in preliminary:
-        program_names[find(group["stableKey"])].update(group["normalizedPrograms"])
-    if any(len(names) > 1 for names in program_names.values()):
+        family = automatic_program_families.get(group["stableKey"])
+        if family:
+            program_families[find(group["stableKey"])].add(family)
+    if any(len(families) > 1 for families in program_families.values()):
         raise ValueError("Identity decision would merge two distinct named programs")
 
 
@@ -624,6 +734,7 @@ def _candidate_from_snapshot_group(
         "name": group["program"] or group["organization"] or group["displayName"],
         "presentationName": group["displayName"],
         "organizationName": group["organization"],
+        "organizationGroupName": _organization_group_name(members, group["organization"]),
         "programName": group["program"],
         "website": group["website"],
         "phone": phones[0] if phones else "",

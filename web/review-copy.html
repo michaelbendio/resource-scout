@@ -37,6 +37,9 @@
     .toolbar { display:grid; grid-template-columns:minmax(0,1fr) minmax(190px,.35fr); gap:.7rem; margin-top:1.2rem; }
     .candidate-count { margin-top:.65rem; color:var(--muted); font-size:.85rem; }
     .candidate-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.75rem; margin-top:1rem; }
+    .organization-group { grid-column:1/-1; margin:0; padding:.8rem; border:1px solid var(--line); border-radius:12px; background:#f4f7f4; }
+    .organization-group > summary { padding:.2rem; font-size:1rem; }
+    .organization-candidates { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.75rem; margin-top:.8rem; }
     .candidate { display:grid; align-content:start; gap:.5rem; width:100%; min-height:180px; padding:1rem; border:1px solid var(--line); border-radius:12px; color:var(--ink); background:white; text-align:left; font-weight:400; }
     .candidate:hover { border-color:#739384; background:#f6faf7; }
     .candidate-head { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.7rem; align-items:start; } .candidate-description { margin:0; color:#4d5e57; font-size:.88rem; }
@@ -116,7 +119,7 @@
     footer { margin-top:2rem; color:var(--muted); font-size:.8rem; text-align:center; }
     .resource-print-sheet { display:none; }
     .guidance-dialog { width:min(620px,92vw); padding:1.3rem; } .guidance-dialog h2 { font-family:ui-sans-serif,system-ui,sans-serif; } .guidance-dialog ul { padding-left:1.25rem; } .guidance-dialog li+li { margin-top:.55rem; } .guidance-actions { display:flex; justify-content:flex-end; gap:.55rem; margin-top:1rem; } .guidance-actions .secondary { color:var(--forest); background:white; }
-    @media(max-width:760px) { .candidate-list,.resource-fields,.review-controls,#source-only-list { grid-template-columns:1fr; } .toolbar { grid-template-columns:1fr; } .resource-fields .field:nth-last-child(-n+2) { grid-column:auto; } }
+    @media(max-width:760px) { .candidate-list,.organization-candidates,.resource-fields,.review-controls,#source-only-list { grid-template-columns:1fr; } .toolbar { grid-template-columns:1fr; } .resource-fields .field:nth-last-child(-n+2) { grid-column:auto; } }
     @media(max-width:520px) { .candidate-list,.taxonomy-add-row { grid-template-columns:1fr; } }
     @media print {
       body{background:white} header{padding:1.4rem 0;color:var(--ink);background:white;border-bottom:2px solid var(--forest)} header .lede{color:var(--muted)} main{width:100%;margin:1rem 0}.panel{box-shadow:none;break-inside:avoid}.toolbar,.close,.review-actions{display:none}.candidate-list{grid-template-columns:1fr}.candidate{min-height:0;break-inside:avoid}
@@ -127,7 +130,7 @@
   </style>
 </head>
 <body>
-  <header><div><div class="header-title-row"><h1>Resource Curator</h1><span class="header-list-name" id="candidate-list-name"></span></div><p class="lede">Investigate candidates, keep interview notes and checklists, and prepare resources without reconnecting to Scout.</p></div><span class="header-version">v0.37.10</span></header>
+  <header><div><div class="header-title-row"><h1>Resource Curator</h1><span class="header-list-name" id="candidate-list-name"></span></div><p class="lede">Investigate candidates, keep interview notes and checklists, and prepare resources without reconnecting to Scout.</p></div><span class="header-version">v0.38.0</span></header>
   <main>
     <section class="panel review-actions">
       <p class="section-label">Review progress</p><h2>Save, resume, and download</h2>
@@ -142,7 +145,7 @@
     <footer id="footer"></footer>
   </main>
   <dialog id="candidate-dialog" class="curator-workspace">
-    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="reset-window-layout">Reset layout</button><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span class="workspace-version">v0.37.10</span><span id="workspace-save-state" aria-live="polite"></span></div></div>
+    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="reset-window-layout">Reset layout</button><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span class="workspace-version">v0.38.0</span><span id="workspace-save-state" aria-live="polite"></span></div></div>
     <div class="workspace-canvas" id="workspace-canvas">
       <section class="work-window" id="editor-window"><div class="window-titlebar"><h3>Editors</h3></div><div class="window-body" id="candidate-editor"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
       <section class="work-window" id="notes-window"><div class="window-titlebar"><h3 id="notes-window-title">Notes</h3></div><div class="window-body" id="candidate-notes"></div><div class="window-resize-handles" aria-hidden="true"></div></section>

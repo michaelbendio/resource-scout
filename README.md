@@ -4,7 +4,7 @@ Resource Scout turns resource leads gathered from several consumer chat products
 into a consolidated candidate list and a portable Resource Curator. It is designed
 for repeated use across TSO locations and resource categories.
 
-Version 0.37.10 is a chat-discovery-only product. The former model-agent,
+Version 0.38.0 is a chat-discovery-only product. The former model-agent,
 optimization, benchmark, trace, and teaching systems are not part of this codebase.
 
 ## Workflow
@@ -17,10 +17,12 @@ optimization, benchmark, trace, and teaching systems are not part of this codeba
 4. Paste each response into Scout. The first valid saved response starts the
    discovery. Scout preserves the submitted text and source label, parses the leads,
    and reports any response that needs correction.
-5. Consolidate the leads. Scout collapses exact repetitions, keeps uncertain
-   identities separate, distinguishes providers and programs from directories and
-   routing sources, and compares candidates with resources already in the package.
-6. Optionally review possible identity relationships, then finish discovery.
+5. Consolidate the leads. Scout collapses exact repetitions and clear same-program
+   aliases, keeps genuinely uncertain identities separate, distinguishes providers
+   and programs from directories and routing sources, and compares candidates with
+   resources already in the package.
+6. Finish discovery. Curator groups distinct programs under their organization so
+   specialists can work through a large provider without doing record linkage.
 7. For candidates without a website, export Scout's contact-search assignment,
    complete those searches, and return the results. Confirmed unavailable or
    unreachable entries are removed from the Curator candidate list; inconclusive
