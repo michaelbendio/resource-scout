@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import sqlite3
 from contextlib import contextmanager
@@ -17,6 +18,7 @@ from .importer import (
     resource_id,
     resource_name,
 )
+from .manual_discovery import parse_manual_contribution
 from .optimization import configuration_snapshot
 
 
@@ -116,6 +118,7 @@ CREATE TABLE IF NOT EXISTS research_runs (
     completed_at TEXT,
     status TEXT NOT NULL,
     adapter TEXT NOT NULL,
+    run_kind TEXT NOT NULL DEFAULT 'agent-research',
     assignment TEXT NOT NULL,
     research_mode TEXT NOT NULL DEFAULT 'package',
     target_location TEXT,
@@ -166,6 +169,45 @@ CREATE TABLE IF NOT EXISTS research_stage_attempts (
     usage_json TEXT,
     error TEXT NOT NULL DEFAULT '',
     UNIQUE (stage_id, attempt_number)
+);
+CREATE TABLE IF NOT EXISTS manual_discovery_contributions (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL REFERENCES research_runs(id) ON DELETE CASCADE,
+    source_label TEXT NOT NULL,
+    source_key TEXT NOT NULL,
+    source_position INTEGER NOT NULL CHECK (source_position > 0),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    raw_text TEXT NOT NULL,
+    raw_sha256 TEXT NOT NULL CHECK (length(raw_sha256) = 64),
+    filename TEXT NOT NULL DEFAULT '',
+    parse_status TEXT NOT NULL CHECK (parse_status IN ('parsed', 'error')),
+    parser_version TEXT NOT NULL,
+    parsed_json TEXT,
+    trailing_text TEXT NOT NULL DEFAULT '',
+    warnings_json TEXT NOT NULL DEFAULT '[]',
+    parse_error TEXT NOT NULL DEFAULT '',
+    UNIQUE (run_id, source_key),
+    UNIQUE (run_id, source_position)
+);
+CREATE TABLE IF NOT EXISTS manual_discovery_leads (
+    id INTEGER PRIMARY KEY,
+    contribution_id INTEGER NOT NULL
+        REFERENCES manual_discovery_contributions(id) ON DELETE CASCADE,
+    source_ordinal INTEGER NOT NULL CHECK (source_ordinal > 0),
+    raw_json TEXT NOT NULL,
+    organization TEXT NOT NULL DEFAULT '',
+    program TEXT NOT NULL DEFAULT '',
+    website_raw TEXT NOT NULL DEFAULT '',
+    website_normalized TEXT NOT NULL DEFAULT '',
+    lead_type TEXT NOT NULL DEFAULT '',
+    location_or_service_area TEXT NOT NULL DEFAULT '',
+    why_relevant TEXT NOT NULL DEFAULT '',
+    uncertainty TEXT NOT NULL DEFAULT '',
+    normalized_organization TEXT NOT NULL DEFAULT '',
+    normalized_program TEXT NOT NULL DEFAULT '',
+    warnings_json TEXT NOT NULL DEFAULT '[]',
+    UNIQUE (contribution_id, source_ordinal)
 );
 CREATE TABLE IF NOT EXISTS research_lessons (
     id INTEGER PRIMARY KEY,
@@ -773,6 +815,7 @@ class ResearchStore:
                 "UPDATE research_runs SET source_import_id = seed_import_id WHERE seed_import_id IS NOT NULL"
             )
         run_additions = {
+            "run_kind": "TEXT NOT NULL DEFAULT 'agent-research'",
             "research_mode": "TEXT NOT NULL DEFAULT 'package'",
             "target_location": "TEXT",
             "regional_scope": "TEXT NOT NULL DEFAULT ''",
@@ -1508,18 +1551,19 @@ class ResearchStore:
         target_category_id: str = "housing",
         target_category_label: str = "Housing",
         stages: list[dict[str, str]] | None = None,
+        run_kind: str = "agent-research",
     ) -> int:
         now = datetime.now(timezone.utc).isoformat()
         with self.connect() as connection:
             cursor = connection.execute(
                 """INSERT INTO research_runs (
-                       created_at, status, adapter, assignment, research_mode,
+                       created_at, status, adapter, run_kind, assignment, research_mode,
                        target_location, regional_scope, target_category_id,
                        target_category_label, source_import_id,
                        seed_import_id, seed_resource_id, prompt_json
-                   ) VALUES (?, 'queued', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                   ) VALUES (?, 'queued', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
-                    now, adapter, assignment, research_mode, target_location,
+                    now, adapter, run_kind, assignment, research_mode, target_location,
                     regional_scope, target_category_id, target_category_label, source_import_id,
                     source_import_id if seed_resource_id else None, seed_resource_id, _json(prompt),
                 ),
@@ -1540,6 +1584,245 @@ class ResearchStore:
                     ),
                 )
         return run_id
+
+    def create_manual_discovery_run(
+        self,
+        assignment: str,
+        prompt: dict[str, Any],
+        source_import_id: int | None = None,
+        *,
+        target_location: str | None = None,
+        regional_scope: str = "",
+        target_category_id: str = "housing",
+        target_category_label: str = "Housing",
+    ) -> int:
+        run_id = self.create_research_run(
+            adapter="manual-chat",
+            assignment=assignment,
+            prompt=prompt,
+            source_import_id=source_import_id,
+            research_mode="package",
+            target_location=target_location,
+            regional_scope=regional_scope,
+            target_category_id=target_category_id,
+            target_category_label=target_category_label,
+            run_kind="manual-discovery",
+        )
+        self.mark_run_running(run_id)
+        return run_id
+
+    def save_manual_contribution(
+        self,
+        run_id: int,
+        source_label: str,
+        raw_text: str,
+        *,
+        filename: str = "",
+    ) -> dict[str, Any]:
+        label = " ".join(str(source_label).split())
+        if not label:
+            raise ValueError("Source label is required")
+        if len(label) > 100:
+            raise ValueError("Source label may not exceed 100 characters")
+        source_key = label.casefold()
+        parsed = parse_manual_contribution(raw_text)
+        now = datetime.now(timezone.utc).isoformat()
+        raw_sha256 = hashlib.sha256(raw_text.encode("utf-8")).hexdigest()
+        safe_filename = Path(filename).name if filename else ""
+        with self.connect() as connection:
+            run = connection.execute(
+                "SELECT run_kind, status FROM research_runs WHERE id = ?",
+                (run_id,),
+            ).fetchone()
+            if not run:
+                raise ValueError("Research run not found")
+            if run["run_kind"] != "manual-discovery":
+                raise ValueError("Contributions can only be saved to a manual discovery run")
+            if run["status"] != "running":
+                raise ValueError("Contributions can only be changed while the run is open")
+            existing = connection.execute(
+                """SELECT id, source_position, created_at
+                   FROM manual_discovery_contributions
+                   WHERE run_id = ? AND source_key = ?""",
+                (run_id, source_key),
+            ).fetchone()
+            if existing:
+                contribution_id = int(existing["id"])
+                connection.execute(
+                    """UPDATE manual_discovery_contributions
+                       SET source_label = ?, updated_at = ?, raw_text = ?, raw_sha256 = ?,
+                           filename = ?, parse_status = ?, parser_version = ?, parsed_json = ?,
+                           trailing_text = ?, warnings_json = ?, parse_error = ?
+                       WHERE id = ?""",
+                    (
+                        label,
+                        now,
+                        raw_text,
+                        raw_sha256,
+                        safe_filename,
+                        parsed["status"],
+                        parsed["parserVersion"],
+                        _json(parsed["parsed"]) if parsed["parsed"] is not None else None,
+                        parsed["trailingText"],
+                        _json(parsed["warnings"]),
+                        parsed["error"],
+                        contribution_id,
+                    ),
+                )
+                connection.execute(
+                    "DELETE FROM manual_discovery_leads WHERE contribution_id = ?",
+                    (contribution_id,),
+                )
+            else:
+                position = int(
+                    connection.execute(
+                        """SELECT COALESCE(MAX(source_position), 0) + 1
+                           FROM manual_discovery_contributions WHERE run_id = ?""",
+                        (run_id,),
+                    ).fetchone()[0]
+                )
+                cursor = connection.execute(
+                    """INSERT INTO manual_discovery_contributions (
+                           run_id, source_label, source_key, source_position, created_at,
+                           updated_at, raw_text, raw_sha256, filename, parse_status,
+                           parser_version, parsed_json, trailing_text, warnings_json, parse_error
+                       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (
+                        run_id,
+                        label,
+                        source_key,
+                        position,
+                        now,
+                        now,
+                        raw_text,
+                        raw_sha256,
+                        safe_filename,
+                        parsed["status"],
+                        parsed["parserVersion"],
+                        _json(parsed["parsed"]) if parsed["parsed"] is not None else None,
+                        parsed["trailingText"],
+                        _json(parsed["warnings"]),
+                        parsed["error"],
+                    ),
+                )
+                contribution_id = int(cursor.lastrowid)
+            for lead in parsed["leads"]:
+                connection.execute(
+                    """INSERT INTO manual_discovery_leads (
+                           contribution_id, source_ordinal, raw_json, organization, program,
+                           website_raw, website_normalized, lead_type,
+                           location_or_service_area, why_relevant, uncertainty,
+                           normalized_organization, normalized_program, warnings_json
+                       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (
+                        contribution_id,
+                        lead["ordinal"],
+                        _json(lead["raw"]),
+                        lead["organization"],
+                        lead["program"],
+                        lead["websiteRaw"],
+                        lead["website"],
+                        lead["leadType"],
+                        lead["locationOrServiceArea"],
+                        lead["whyRelevant"],
+                        lead["uncertainty"],
+                        lead["normalizedOrganization"],
+                        lead["normalizedProgram"],
+                        _json(lead["warnings"]),
+                    ),
+                )
+        contribution = self.get_manual_contribution(run_id, contribution_id)
+        if contribution is None:  # pragma: no cover - guarded by the transaction above
+            raise RuntimeError("Saved contribution could not be read")
+        return contribution
+
+    def list_manual_contributions(self, run_id: int) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT * FROM manual_discovery_contributions
+                   WHERE run_id = ? ORDER BY source_position""",
+                (run_id,),
+            ).fetchall()
+            return [self._manual_contribution_dict(connection, row) for row in rows]
+
+    def get_manual_contribution(
+        self, run_id: int, contribution_id: int
+    ) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT * FROM manual_discovery_contributions
+                   WHERE run_id = ? AND id = ?""",
+                (run_id, contribution_id),
+            ).fetchone()
+            if not row:
+                return None
+            return self._manual_contribution_dict(connection, row)
+
+    def delete_manual_contribution(self, run_id: int, contribution_id: int) -> bool:
+        with self.connect() as connection:
+            run = connection.execute(
+                "SELECT run_kind, status FROM research_runs WHERE id = ?",
+                (run_id,),
+            ).fetchone()
+            if not run:
+                raise ValueError("Research run not found")
+            if run["run_kind"] != "manual-discovery":
+                raise ValueError("Contributions only belong to manual discovery runs")
+            if run["status"] != "running":
+                raise ValueError("Contributions can only be changed while the run is open")
+            cursor = connection.execute(
+                """DELETE FROM manual_discovery_contributions
+                   WHERE run_id = ? AND id = ?""",
+                (run_id, contribution_id),
+            )
+            return cursor.rowcount > 0
+
+    @staticmethod
+    def _manual_contribution_dict(
+        connection: sqlite3.Connection, row: sqlite3.Row
+    ) -> dict[str, Any]:
+        lead_rows = connection.execute(
+            """SELECT * FROM manual_discovery_leads
+               WHERE contribution_id = ? ORDER BY source_ordinal""",
+            (row["id"],),
+        ).fetchall()
+        leads = [
+            {
+                "id": lead["id"],
+                "ordinal": lead["source_ordinal"],
+                "raw": json.loads(lead["raw_json"]),
+                "organization": lead["organization"],
+                "program": lead["program"],
+                "websiteRaw": lead["website_raw"],
+                "website": lead["website_normalized"],
+                "leadType": lead["lead_type"],
+                "locationOrServiceArea": lead["location_or_service_area"],
+                "whyRelevant": lead["why_relevant"],
+                "uncertainty": lead["uncertainty"],
+                "normalizedOrganization": lead["normalized_organization"],
+                "normalizedProgram": lead["normalized_program"],
+                "warnings": json.loads(lead["warnings_json"]),
+            }
+            for lead in lead_rows
+        ]
+        return {
+            "id": row["id"],
+            "runId": row["run_id"],
+            "sourceLabel": row["source_label"],
+            "sourcePosition": row["source_position"],
+            "createdAt": row["created_at"],
+            "updatedAt": row["updated_at"],
+            "rawText": row["raw_text"],
+            "rawSha256": row["raw_sha256"],
+            "filename": row["filename"],
+            "parseStatus": row["parse_status"],
+            "parserVersion": row["parser_version"],
+            "parsed": json.loads(row["parsed_json"]) if row["parsed_json"] else None,
+            "trailingText": row["trailing_text"],
+            "warnings": json.loads(row["warnings_json"]),
+            "error": row["parse_error"],
+            "leads": leads,
+        }
 
     def mark_run_running(self, run_id: int) -> None:
         now = datetime.now(timezone.utc).isoformat()
@@ -1787,6 +2070,7 @@ class ResearchStore:
             rows = connection.execute(
                 """SELECT research_runs.id, research_runs.created_at, research_runs.started_at,
                           research_runs.completed_at, research_runs.status, research_runs.adapter,
+                          research_runs.run_kind,
                           research_runs.assignment, research_runs.research_mode,
                           research_runs.target_location, research_runs.regional_scope,
                           research_runs.target_category_id, research_runs.target_category_label,
@@ -1809,6 +2093,7 @@ class ResearchStore:
                 "id": row["id"], "createdAt": row["created_at"],
                 "startedAt": row["started_at"], "completedAt": row["completed_at"],
                 "status": row["status"], "adapter": row["adapter"],
+                "runKind": row["run_kind"],
                 "assignment": row["assignment"], "researchMode": row["research_mode"],
                 "targetLocation": row["target_location"], "regionalScope": row["regional_scope"],
                 "targetCategoryId": row["target_category_id"],
@@ -1855,6 +2140,7 @@ class ResearchStore:
         value = {
             "id": row["id"], "createdAt": row["created_at"], "startedAt": row["started_at"],
             "completedAt": row["completed_at"], "status": row["status"], "adapter": row["adapter"],
+            "runKind": row["run_kind"],
             "assignment": row["assignment"], "researchMode": row["research_mode"],
             "targetLocation": row["target_location"], "regionalScope": row["regional_scope"],
             "targetCategoryId": row["target_category_id"],
