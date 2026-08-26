@@ -16,8 +16,8 @@ from .resource_package import RESOURCE_PACKAGE_SCHEMA_VERSION, candidate_to_reso
 from .storage import ResearchStore
 
 
-REVIEW_COPY_SCHEMA_VERSION = 12
-REVIEW_FEEDBACK_SCHEMA_VERSION = 2
+REVIEW_COPY_SCHEMA_VERSION = 13
+REVIEW_FEEDBACK_SCHEMA_VERSION = 3
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_TEMPLATE = PROJECT_ROOT / "web" / "review-copy.html"
 DEFAULT_SCRIPT = PROJECT_ROOT / "web" / "review-copy.js"
@@ -263,7 +263,7 @@ def build_review_copy(
         ) + (
             "Portable exploratory location research for human review; it is not an official or comprehensive "
             "TSO Resources inventory. Availability, eligibility, and other facts may change; verify important "
-            "details before assisting a client. Curator outcomes and work can be saved, but standalone "
+            "details before assisting a client. Curator work can be saved, but standalone "
             "research cannot create a resource package."
             if run.get("researchMode") == "standalone-location"
             else "Portable research for human review. Availability, eligibility, and other facts may change; "

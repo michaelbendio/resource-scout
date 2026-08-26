@@ -25,16 +25,15 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertIn("<title>Resource Scout</title>", self.html)
         self.assertIn("<h1>Resource Scout</h1>", self.html)
 
-    def test_dsh_offers_explicit_local_and_metered_configurations(self) -> None:
-        self.assertIn('id="dsh-configuration"', self.html)
-        self.assertIn("Local Qwen — no metered services", self.html)
-        self.assertIn("DeepSeek — metered", self.html)
-        self.assertNotIn("DeepSeek Harness (experimental)", self.html)
-        self.assertIn(
-            "dshConfiguration: document.querySelector('#dsh-configuration').value",
-            self.javascript,
-        )
-        self.assertIn('data-dsh-configuration-only="deepseek"', self.html)
+    def test_chat_discovery_is_the_only_product_research_path(self) -> None:
+        self.assertNotIn("Research agent", self.html)
+        self.assertNotIn('id="research-method"', self.html)
+        self.assertNotIn('id="agent-adapter"', self.html)
+        self.assertNotIn('id="dsh-configuration"', self.html)
+        self.assertIn('id="standalone-mode"', self.html)
+        self.assertIn("Research a location without a package", self.html)
+        self.assertIn(">Start discovery</button>", self.html)
+        self.assertNotIn("selectedResearchMethod", self.javascript)
 
     def test_version_is_in_the_green_header(self) -> None:
         header = self.html[self.html.index("<header>"):self.html.index("</header>")]
@@ -70,10 +69,10 @@ class ScoutLayoutTests(unittest.TestCase):
     def test_human_curation_is_exported_instead_of_performed_in_scout(self) -> None:
         self.assertIn("05 · Research records", self.html)
         self.assertIn("Continue in Resource Curator", self.html)
-        self.assertIn("duplicate signals", self.html)
+        self.assertIn("human vetting", self.html)
         self.assertIn("Curator and human vetting", self.html)
         self.assertNotIn("duplicate decisions", self.html)
-        self.assertIn("human vetting, optional outcomes, resource editing, printing, and package preparation", self.html)
+        self.assertIn("human vetting, resource editing, printing, and package preparation", self.html)
         self.assertIn("portable vetting and package workspace", self.javascript)
         self.assertNotIn('id="review-actions"', self.html)
         self.assertNotIn('id="generated-resource-form"', self.html)

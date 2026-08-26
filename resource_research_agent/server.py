@@ -25,6 +25,7 @@ from .manual_consolidation import (
     manual_consolidation_view,
     record_manual_identity_decision,
 )
+from .playbooks import PLAYBOOKS
 from .review_export import build_optimization_review_copy, build_review_copy
 from .research import ResearchCoordinator
 from .storage import ResearchStore
@@ -63,6 +64,20 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     "ok": True,
                     "version": __version__,
                     "latestImport": self.server.store.import_summary(),
+                    "playbookCategories": [
+                        {
+                            "id": playbook.category_id,
+                            "label": playbook.label,
+                            "types": [],
+                            "resourceCount": 0,
+                            "multiCategoryResourceCount": 0,
+                            "supported": True,
+                            "defaultAssignment": playbook.default_assignment,
+                        }
+                        for playbook in sorted(
+                            PLAYBOOKS.values(), key=lambda item: item.label.casefold()
+                        )
+                    ],
                     "agent": self.server.research.agent_status(),
                     "access": self._access_context(),
                 })

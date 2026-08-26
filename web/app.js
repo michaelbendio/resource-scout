@@ -1,7 +1,7 @@
 const state = {
-  runs: [], discoveries: [], lessons: [], agent: null, latestImport: null,
+  runs: [], discoveries: [], lessons: [], latestImport: null,
   currentCandidate: null, pollTimer: null, researchMode: 'package',
-  researchMethod: 'manual', activeManualRun: null, manualContributions: [], manualConsolidation: null,
+  activeManualRun: null, manualContributions: [], manualConsolidation: null,
   manualIdentityDecisionPending: false,
   manualAssignmentRequest: 0, customManualSources: 0,
   candidateRunId: null, candidateRunSelectionInitialized: false,
@@ -9,7 +9,7 @@ const state = {
   categories: [], forGroups: [], activeCategoryId: 'housing', categoryAssignmentDrafts: {},
 };
 
-const PACKAGE_DEFAULT_ASSIGNMENT = 'Discover realistic ways a person without adequate housing in Utah County could obtain safe temporary or permanent housing. Follow useful relationships rather than stopping at a directory listing: voucher providers to participating motels, organizations to specific programs, and temporary options to longer-term pathways. Investigate practical access and lived experience as well as official claims.';
+const PACKAGE_DEFAULT_ASSIGNMENT = 'Choose a category and location to prepare a focused resource-discovery assignment.';
 
 function setupResearchPaneResizer() {
   const container = document.querySelector('#research-results');
@@ -71,23 +71,6 @@ function setupResearchPaneResizer() {
   setRunsWidth(container.getBoundingClientRect().width * ratio);
 }
 
-function agentName(agent = state.agent) {
-  if (agent?.displayName) return agent.displayName;
-  const key = agent?.adapter || agent?.settings?.adapter || document.querySelector('#agent-adapter')?.value;
-  return key === 'dsh' ? 'DSH' : key === 'demo' ? 'Built-in demo' : 'Hermes';
-}
-
-function updateAdapterFields() {
-  const adapter = document.querySelector('#agent-adapter').value;
-  const dshConfiguration = document.querySelector('#dsh-configuration').value;
-  document.querySelectorAll('[data-adapter-only]').forEach(field => {
-    const adapterMatches = field.dataset.adapterOnly.split(',').includes(adapter);
-    const configurationMatches = !field.dataset.dshConfigurationOnly
-      || field.dataset.dshConfigurationOnly === dshConfiguration;
-    field.hidden = !(adapterMatches && configurationMatches);
-  });
-}
-
 async function request(url, options = {}) {
   const response = await fetch(url, options);
   const body = await response.json();
@@ -127,10 +110,6 @@ function showImport(summary) {
   document.querySelector('#category-panel').hidden = false;
   document.querySelector('#research-panel').hidden = false;
   document.querySelector('#research-results').hidden = false;
-  document.querySelector('#package-mode-detail').textContent = 'Default · existing resources provide research context and automatic duplicate checking.';
-  if (selectedResearchMode() === 'package') {
-    document.querySelector('#research-context-note').textContent = 'Existing resources in the connected package are used as context and will not be returned as new discoveries.';
-  }
   renderCategoryChooser();
   updateCategoryCopy();
   if (importChanged && selectedResearchMode() === 'package') {
@@ -138,7 +117,7 @@ function showImport(summary) {
     state.assignmentDrafts.package = packageDefaultAssignment();
   }
   updateStartResearchState();
-  if (selectedResearchMethod() === 'manual') refreshManualAssignment();
+  refreshManualAssignment();
 }
 
 function activeCategory() {
@@ -153,17 +132,11 @@ function packageDefaultAssignment() {
 
 function updateCategoryCopy() {
   const category = activeCategory();
-  document.querySelector('#research-heading-title').textContent = `Send a research agent on a ${category.label} assignment`;
+  document.querySelector('#research-heading-title').textContent = `Collect ${category.label} leads from your chats`;
   document.querySelector('#category-lesson-option').textContent = `${category.label} lesson`;
   const types = category.types?.length ? category.types.join(', ') : 'None defined in this package';
   const forGroups = state.forGroups.length ? state.forGroups.join(', ') : 'None defined in this package';
   document.querySelector('#category-taxonomy-note').textContent = `Types: ${types} · For: ${forGroups}`;
-  if (document.querySelector('input[name="research-method"]:checked')) {
-    const manual = selectedResearchMethod() === 'manual';
-    document.querySelector('#research-heading-title').textContent = manual
-      ? `Collect ${category.label} leads from your chats`
-      : `Send a research agent on a ${category.label} assignment`;
-  }
 }
 
 function renderCategoryChooser() {
@@ -207,7 +180,7 @@ async function selectCategory(categoryId) {
       || packageDefaultAssignment();
   }
   updateStartResearchState();
-  if (selectedResearchMethod() === 'manual') refreshManualAssignment();
+  refreshManualAssignment();
 }
 
 function showAccess(access) {
@@ -233,45 +206,16 @@ function showAccess(access) {
   copyButton.dataset.url = url;
 }
 
-function showAgent(agent) {
-  state.agent = agent;
-  const card = document.querySelector('#agent-state');
-  const name = agentName(agent);
-  card.classList.toggle('ready', Boolean(agent?.ready));
-  card.classList.toggle('attention', Boolean(agent?.installed && !agent?.ready));
-  document.querySelector('#agent-state-title').textContent = agent?.ready ? `${name} ready` : agent?.installed ? `${name} needs setup` : `${name} not installed`;
-  document.querySelector('#agent-state-detail').textContent = agent?.message || agent?.version || '';
-  document.querySelector('#agent-setup').hidden = selectedResearchMethod() !== 'agent'
-    || Boolean(agent?.ready || agent?.adapter === 'demo');
-  document.querySelector('#agent-setup-title').textContent = agent?.installed ? `Finish ${name} setup` : `Install ${name}`;
-  document.querySelector('#agent-setup-detail').textContent = agent?.message || 'Complete the connection setup, then refresh this page.';
-  document.querySelector('#copy-setup').dataset.command = agent?.setupCommand || 'hermes setup';
-  const settings = agent?.settings || {};
-  document.querySelector('#agent-adapter').value = settings.adapter || 'dsh';
-  document.querySelector('#hermes-profile').value = settings.hermesProfile || settings.profile || '';
-  document.querySelector('#hermes-provider').value = settings.hermesProvider || settings.provider || '';
-  document.querySelector('#hermes-model').value = settings.hermesModel || settings.model || '';
-  document.querySelector('#hermes-command').value = settings.hermesCommand || settings.command || '';
-  document.querySelector('#dsh-configuration option[value="trace-qwen"]').hidden = settings.dshConfiguration !== 'trace-qwen';
-  document.querySelector('#dsh-configuration').value = settings.dshConfiguration || 'local-qwen';
-  document.querySelector('#dsh-model').value = settings.dshModel || '';
-  document.querySelector('#dsh-command').value = settings.dshCommand || '';
-  document.querySelector('#agent-timeout').value = settings.timeoutSeconds || 900;
-  updateAdapterFields();
-  updateStartResearchState();
-}
-
 function selectedResearchMode() {
-  return document.querySelector('input[name="research-mode"]:checked')?.value || 'package';
-}
-
-function selectedResearchMethod() {
-  return document.querySelector('input[name="research-method"]:checked')?.value || 'manual';
+  return document.querySelector('#standalone-mode')?.checked
+    ? 'standalone-location'
+    : 'package';
 }
 
 function standaloneDefaultAssignment(location) {
   const place = location.trim() || 'the selected location';
-  return `Discover realistic ways a person without adequate housing in ${place} could obtain safe temporary or permanent housing. Follow useful relationships rather than stopping at a directory listing: voucher providers to participating motels, organizations to specific programs, and temporary options to longer-term pathways. Investigate practical access and lived experience as well as official claims.`;
+  const category = activeCategory();
+  return `Discover credible ${category.label} resource leads that a Resource Specialist should investigate for ${place}. Prioritize distinct providers, named programs, and actionable access points. Prefer an official website and state uncertainty rather than inventing missing facts.`;
 }
 
 function updateStartResearchState() {
@@ -280,8 +224,7 @@ function updateStartResearchState() {
     ? Boolean(state.latestImport && activeCategory().supported)
     : Boolean(document.querySelector('#target-location')?.value.trim());
   const button = document.querySelector('#start-research');
-  const methodReady = selectedResearchMethod() === 'manual' || Boolean(state.agent?.ready);
-  if (button) button.disabled = !methodReady || !contextReady;
+  if (button) button.disabled = !contextReady;
 }
 
 function manualAssignmentPayload() {
@@ -289,15 +232,14 @@ function manualAssignmentPayload() {
   return {
     researchMode: mode,
     sourceImportId: mode === 'package' ? state.latestImport?.id : null,
-    categoryId: mode === 'package' ? state.activeCategoryId : 'housing',
-    categoryLabel: mode === 'package' ? activeCategory().label : 'Housing',
+    categoryId: state.activeCategoryId,
+    categoryLabel: activeCategory().label,
     targetLocation: mode === 'standalone-location' ? document.querySelector('#target-location').value.trim() : '',
     regionalScope: mode === 'standalone-location' ? document.querySelector('#regional-scope').value.trim() : '',
   };
 }
 
 async function refreshManualAssignment() {
-  if (selectedResearchMethod() !== 'manual') return;
   const payload = manualAssignmentPayload();
   if ((payload.researchMode === 'package' && !payload.sourceImportId)
       || (payload.researchMode === 'standalone-location' && !payload.targetLocation)) return;
@@ -308,32 +250,12 @@ async function refreshManualAssignment() {
     const result = await request('/api/manual-discovery-assignment', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
     });
-    if (requestNumber !== state.manualAssignmentRequest || selectedResearchMethod() !== 'manual') return;
+    if (requestNumber !== state.manualAssignmentRequest) return;
     document.querySelector('#research-assignment').value = result.assignment;
     message.textContent = `${result.context.knownResources.length} existing ${result.context.categoryLabel} resource${result.context.knownResources.length === 1 ? '' : 's'} included as the do-not-repeat list.`;
   } catch (error) {
     if (requestNumber === state.manualAssignmentRequest) message.textContent = error.message;
   }
-}
-
-function switchResearchMethod() {
-  state.researchMethod = selectedResearchMethod();
-  const manual = state.researchMethod === 'manual';
-  document.querySelectorAll('[data-agent-only]').forEach(element => {
-    if (manual) element.hidden = true;
-    else if (element.id === 'agent-setup') element.hidden = Boolean(state.agent?.ready || state.agent?.adapter === 'demo');
-    else element.hidden = false;
-  });
-  document.querySelector('#research-heading-title').textContent = manual
-    ? `Collect ${activeCategory().label} leads from your chats`
-    : `Send a research agent on a ${activeCategory().label} assignment`;
-  document.querySelector('#research-heading-detail').textContent = manual
-    ? 'Copy one focused assignment into the chats you choose, then bring their responses back to Scout. No chat API or paid fallback is used.'
-    : 'Your selected agent researches the public web in bounded stages. Existing DeepSeek, local Qwen, Hermes, and demo behavior remains available.';
-  document.querySelector('#start-research').textContent = manual ? 'Start manual discovery' : 'Start agent research';
-  updateStartResearchState();
-  if (manual) refreshManualAssignment();
-  else switchResearchMode();
 }
 
 function updateStandaloneAutoAssignment() {
@@ -346,7 +268,7 @@ function updateStandaloneAutoAssignment() {
   state.standaloneAutoAssignment = next;
   state.assignmentDrafts['standalone-location'] = assignment.value;
   updateStartResearchState();
-  if (selectedResearchMethod() === 'manual') refreshManualAssignment();
+  refreshManualAssignment();
 }
 
 function switchResearchMode() {
@@ -358,16 +280,12 @@ function switchResearchMode() {
   if (nextMode === 'package') {
     assignment.value = state.categoryAssignmentDrafts[state.activeCategoryId]
       || state.assignmentDrafts.package || packageDefaultAssignment();
-    document.querySelector('#research-context-note').textContent = state.latestImport
-      ? 'Existing resources in the connected package are used as context and will not be returned as new discoveries.'
-      : 'Package-backed research is the default. Import a resource package above before starting.';
   } else {
     state.standaloneAutoAssignment = standaloneDefaultAssignment(document.querySelector('#target-location').value);
     assignment.value = state.assignmentDrafts['standalone-location'] || state.standaloneAutoAssignment;
-    document.querySelector('#research-context-note').textContent = 'This exploratory run will not compare candidates with a connected package or claim to be an official TSO Resources inventory.';
   }
   updateStartResearchState();
-  if (selectedResearchMethod() === 'manual') refreshManualAssignment();
+  refreshManualAssignment();
 }
 
 function asText(value) {
@@ -454,7 +372,7 @@ function emptyState(text) {
 
 function researchRunTitle(run) {
   const category = run.targetCategoryLabel || 'Housing';
-  if (run.runKind === 'manual-discovery') return `${category} manual discovery · ${runPlace(run)}`;
+  if (run.runKind === 'manual-discovery') return `${category} discovery · ${runPlace(run)}`;
   const research = run.seedResourceId
       ? `${category} research from ${run.prompt?.selectedSeed?.name || run.seedResourceId}`
       : `${category} research`;
@@ -658,7 +576,7 @@ function renderRuns() {
     head.append(title, status);
     const time = document.createElement('small');
     const duration = formatDuration(run);
-    const method = run.runKind === 'manual-discovery' ? 'manual chats' : run.adapter;
+    const method = run.runKind === 'manual-discovery' ? 'chat sources' : run.adapter;
     time.textContent = `${formatWhen(run.createdAt)}${duration ? ` · Duration ${duration}` : ''} · ${method} · ${run.researchMode === 'standalone-location' ? 'standalone location' : 'package-backed'}`;
     item.append(head, time);
     if (run.runKind === 'manual-discovery') {
@@ -1267,12 +1185,12 @@ function renderCandidates() {
     ? `Research candidates · ${researchRunTitle(selectedRun)}`
     : 'Research candidates · All runs';
   document.querySelector('#candidate-inbox-context').textContent = selectedRun
-    ? `Showing only candidates associated with research run ${selectedRun.id}. Use its run card to export a Resource Curator for human vetting, optional outcomes, resource editing, and package preparation.`
+      ? `Showing only candidates associated with discovery run ${selectedRun.id}. Use its run card to export a Resource Curator for human vetting, resource editing, and package preparation.`
     : 'Showing candidates from every research run. Choose one run to inspect or export its Resource Curator.';
   if (!discoveries.length) {
     target.replaceChildren(emptyState(selectedRun
       ? 'No candidates have been saved for this research run yet.'
-      : 'Research candidates will appear here after an agent run.'));
+      : 'Research candidates will appear here after a discovery run.'));
     return;
   }
   target.replaceChildren(...discoveries.map(discovery => {
@@ -1536,11 +1454,17 @@ async function refresh() {
   const status = await request('/api/status');
   if (status.version) document.querySelector('#app-version').textContent = `v${status.version}`;
   showAccess(status.access);
-  showAgent(status.agent);
   if (status.latestImport) {
     showImport(status.latestImport);
   } else {
     state.latestImport = null;
+    state.categories = status.playbookCategories || [];
+    if (!state.categories.some(category => category.id === state.activeCategoryId)) {
+      state.activeCategoryId = state.categories[0]?.id || '';
+    }
+    document.querySelector('#category-panel').hidden = !state.categories.length;
+    renderCategoryChooser();
+    updateCategoryCopy();
     updateStartResearchState();
   }
   await loadResearchData();
@@ -1578,11 +1502,10 @@ document.querySelector('#package-input').addEventListener('change', () => {
 
 document.querySelector('#import-form').addEventListener('submit', event => event.preventDefault());
 
-document.querySelectorAll('input[name="research-mode"]').forEach(input => input.addEventListener('change', switchResearchMode));
-document.querySelectorAll('input[name="research-method"]').forEach(input => input.addEventListener('change', switchResearchMethod));
+document.querySelector('#standalone-mode').addEventListener('change', switchResearchMode);
 document.querySelector('#target-location').addEventListener('input', updateStandaloneAutoAssignment);
 document.querySelector('#regional-scope').addEventListener('input', () => {
-  if (selectedResearchMethod() === 'manual') refreshManualAssignment();
+  refreshManualAssignment();
 });
 document.querySelector('#close-candidate').addEventListener('click', () => document.querySelector('#candidate-dialog').close());
 document.querySelector('#close-manual-discovery').addEventListener('click', () => document.querySelector('#manual-discovery-dialog').close());
@@ -1672,80 +1595,23 @@ document.querySelector('#copy-private-url').addEventListener('click', async even
   }
 });
 
-document.querySelector('#agent-adapter').addEventListener('change', updateAdapterFields);
-document.querySelector('#dsh-configuration').addEventListener('change', updateAdapterFields);
-
-document.querySelector('#settings-form').addEventListener('submit', async event => {
-  event.preventDefault();
-  const button = event.currentTarget.querySelector('button');
-  button.disabled = true;
-  try {
-    const payload = { settings: {
-      adapter: document.querySelector('#agent-adapter').value,
-      hermesProfile: document.querySelector('#hermes-profile').value.trim(),
-      hermesProvider: document.querySelector('#hermes-provider').value.trim(),
-      hermesModel: document.querySelector('#hermes-model').value.trim(),
-      hermesCommand: document.querySelector('#hermes-command').value.trim(),
-      dshConfiguration: document.querySelector('#dsh-configuration').value,
-      dshModel: document.querySelector('#dsh-model').value.trim(),
-      dshCommand: document.querySelector('#dsh-command').value.trim(),
-      timeoutSeconds: Number(document.querySelector('#agent-timeout').value || 900),
-    } };
-    const result = await request('/api/agent/settings', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
-    });
-    showAgent({ ...result.agent, settings: result.settings });
-    document.querySelector('#research-message').textContent = 'Connection settings saved.';
-  } catch (error) {
-    document.querySelector('#research-message').textContent = error.message;
-  } finally { button.disabled = false; }
-});
-
 document.querySelector('#research-form').addEventListener('submit', async event => {
   event.preventDefault();
   const button = document.querySelector('#start-research');
   const message = document.querySelector('#research-message');
   button.disabled = true;
-  const name = agentName();
-  const researchMode = selectedResearchMode();
-  const targetLocation = document.querySelector('#target-location').value.trim();
-  if (selectedResearchMethod() === 'manual') {
-    message.textContent = 'Opening a manual discovery workspace…';
-    try {
-      const run = await request('/api/manual-discovery-runs', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...manualAssignmentPayload(),
-          assignment: document.querySelector('#research-assignment').value,
-        }),
-      });
-      message.textContent = `Manual discovery run ${run.id} opened. Copy the assignment into each chat and save the responses as they arrive.`;
-      await loadResearchData();
-      await openManualDiscoveryRun(run.id);
-    } catch (error) {
-      message.textContent = error.message;
-    } finally { updateStartResearchState(); }
-    return;
-  }
-  message.textContent = `Giving ${name} the assignment and research context…`;
+  message.textContent = 'Opening the discovery workspace…';
   try {
-    const run = await request('/api/research-runs', {
+    const run = await request('/api/manual-discovery-runs', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        ...manualAssignmentPayload(),
         assignment: document.querySelector('#research-assignment').value,
-        researchMode,
-        seedResourceId: '',
-        categoryId: researchMode === 'package' ? state.activeCategoryId : 'housing',
-        targetLocation: researchMode === 'standalone-location' ? targetLocation : '',
-        regionalScope: researchMode === 'standalone-location' ? document.querySelector('#regional-scope').value.trim() : '',
       }),
     });
-    state.candidateRunId = run.id;
-    state.candidateRunSelectionInitialized = true;
-    message.textContent = researchMode === 'standalone-location'
-      ? `Research run ${run.id} started for ${targetLocation}. Candidates will appear as each stage finishes and remain separate from the imported package.`
-      : `Research run ${run.id} started. Candidates will appear as each stage finishes while ${name} works.`;
+    message.textContent = `Discovery run ${run.id} opened. Copy the assignment into each chat and save the responses as they arrive.`;
     await loadResearchData();
+    await openManualDiscoveryRun(run.id);
   } catch (error) {
     message.textContent = error.message;
   } finally { updateStartResearchState(); }
@@ -1777,8 +1643,8 @@ document.querySelector('#lesson-form').addEventListener('submit', async event =>
         scope: document.querySelector('#lesson-scope').value,
         researchMode,
         targetLocation: researchMode === 'standalone-location' ? targetLocation : '',
-        categoryId: researchMode === 'package' ? state.activeCategoryId : 'housing',
-        categoryLabel: researchMode === 'package' ? activeCategory().label : 'Housing',
+        categoryId: state.activeCategoryId,
+        categoryLabel: activeCategory().label,
       }),
     });
     document.querySelector('#lesson-text').value = '';
@@ -1791,5 +1657,4 @@ document.querySelector('#lesson-form').addEventListener('submit', async event =>
 state.assignmentDrafts.package = document.querySelector('#research-assignment').value;
 setupResearchPaneResizer();
 switchResearchMode();
-switchResearchMethod();
 refresh().catch(error => { document.querySelector('#import-message').textContent = error.message; });

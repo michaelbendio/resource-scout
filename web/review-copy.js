@@ -7,13 +7,6 @@
     'related-distinct': 'Related but distinct',
     'not-related': 'Not related',
   };
-  const CURATOR_OUTCOME_LABELS = {
-    'worth-pursuing': 'Worth pursuing',
-    'research-further': 'Research further',
-    'duplicate': 'Duplicate / already known',
-    'wrong-category': 'Wrong category',
-    'rejected': 'Reject',
-  };
 
   function clone(value) {
     return JSON.parse(JSON.stringify(value));
@@ -51,38 +44,6 @@
 
   function slug(value) {
     return String(value || '').toLocaleLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'resources';
-  }
-
-  function normalizeDisposition(value) {
-    return Object.hasOwn(CURATOR_OUTCOME_LABELS, value) ? value : '';
-  }
-
-  function currentOutcome(itemState) {
-    if (itemState.packageStatus === 'packaged') return 'entered-package';
-    if (itemState.packageStatus === 'ready') return 'ready-for-package';
-    return normalizeDisposition(itemState.disposition) || 'pending';
-  }
-
-  function setCandidateOutcome(itemState, outcome, at = new Date().toISOString(), reviewerName = '') {
-    const previous = currentOutcome(itemState);
-    if (outcome === 'ready-for-package') {
-      itemState.packageStatus = 'ready';
-      itemState.disposition = '';
-    } else if (Object.hasOwn(CURATOR_OUTCOME_LABELS, outcome)) {
-      itemState.packageStatus = 'pending';
-      itemState.disposition = outcome;
-    } else {
-      itemState.packageStatus = 'pending';
-      itemState.disposition = '';
-      outcome = 'pending';
-    }
-    if (previous !== outcome) {
-      itemState.outcomeHistory ||= [];
-      itemState.outcomeHistory.push({ outcome, at, reviewerName: asText(reviewerName) });
-    }
-    itemState.reviewedAt = at;
-    itemState.updatedAt = at;
-    return itemState;
   }
 
   function categoryLabel(category) {
@@ -143,9 +104,7 @@
     review.candidates.forEach(item => {
       candidates[item.id] = {
         packageStatus: 'pending',
-        disposition: '',
         sourceScoutStatus: asText(item.status),
-        outcomeHistory: [],
         packageHistory: [],
         sourceNotes: asText(item.notes),
         curatorNotes: asText(item.notes),
@@ -158,7 +117,7 @@
       };
     });
     return {
-      reviewFeedbackSchemaVersion: 2,
+      reviewFeedbackSchemaVersion: 3,
       reviewCopySchemaVersion: review.reviewCopySchemaVersion,
       reviewId: review.reviewId,
       sourceSha256: review.sourcePackage?.sourceSha256 || null,
@@ -176,53 +135,32 @@
   }
 
   function validateFeedback(review, feedback) {
-    if (!feedback || ![1, 2].includes(feedback.reviewFeedbackSchemaVersion)) throw new Error('This is not a supported review-feedback file.');
+    if (!feedback || feedback.reviewFeedbackSchemaVersion !== 3) throw new Error('This is not a supported Curator work file.');
     if (feedback.reviewId !== review.reviewId) throw new Error('This feedback belongs to a different review copy.');
     if ((feedback.sourceSha256 || null) !== (review.sourcePackage?.sourceSha256 || null)) throw new Error('The source package does not match this review copy.');
     const expected = review.candidates.map(item => String(item.id)).sort();
     const received = Object.keys(feedback.candidates || {}).map(String).sort();
-    const legacyRemoved = feedback.reviewFeedbackSchemaVersion === 1 && Array.isArray(feedback.removedCandidateIds)
-      ? [...new Set(feedback.removedCandidateIds.map(String))].sort()
-      : [];
-    if (feedback.reviewFeedbackSchemaVersion === 1) {
-      const remaining = new Set(received);
-      if (legacyRemoved.some(id => remaining.has(id)) || JSON.stringify([...received, ...legacyRemoved].sort()) !== JSON.stringify(expected)) {
-        throw new Error('The candidate list does not match this review copy.');
-      }
-    } else if (JSON.stringify(received) !== JSON.stringify(expected)) {
+    if (JSON.stringify(received) !== JSON.stringify(expected)) {
       throw new Error('The candidate list does not match this review copy.');
     }
     const restored = initialState(review);
     Object.assign(restored, clone(feedback));
-    restored.reviewFeedbackSchemaVersion = 2;
+    restored.reviewFeedbackSchemaVersion = 3;
     restored.candidates = initialState(review).candidates;
-    const packaged = feedback.reviewFeedbackSchemaVersion === 1
-      ? legacyRemoved
-      : Array.isArray(feedback.packagedCandidateIds)
-        ? [...new Set(feedback.packagedCandidateIds.map(String))].sort()
-        : [];
+    const packaged = Array.isArray(feedback.packagedCandidateIds)
+      ? [...new Set(feedback.packagedCandidateIds.map(String))].sort()
+      : [];
     if (packaged.some(id => !expected.includes(id))) throw new Error('The candidate list does not match this review copy.');
     restored.packagedCandidateIds = packaged;
-    delete restored.removedCandidateIds;
     restored.taxonomyDraft = normalizeTaxonomyDraft(review, restored.taxonomyDraft);
     review.candidates.forEach(item => {
       const sourceState = feedback.candidates?.[item.id];
       const itemState = restored.candidates[item.id];
       if (sourceState && typeof sourceState === 'object') Object.assign(itemState, clone(sourceState));
-      if (feedback.reviewFeedbackSchemaVersion === 1) {
-        itemState.packageStatus = sourceState?.decision === 'accepted' ? 'ready' : 'pending';
-        itemState.disposition = '';
-        itemState.outcomeHistory = [];
-        itemState.packageHistory = [];
-        delete itemState.decision;
-      } else {
-        itemState.packageStatus = ['pending', 'ready', 'packaged'].includes(itemState.packageStatus)
-          ? itemState.packageStatus
-          : 'pending';
-        itemState.disposition = normalizeDisposition(itemState.disposition);
-        itemState.outcomeHistory = Array.isArray(itemState.outcomeHistory) ? itemState.outcomeHistory : [];
-        itemState.packageHistory = Array.isArray(itemState.packageHistory) ? itemState.packageHistory : [];
-      }
+      itemState.packageStatus = ['pending', 'ready', 'packaged'].includes(itemState.packageStatus)
+        ? itemState.packageStatus
+        : 'pending';
+      itemState.packageHistory = Array.isArray(itemState.packageHistory) ? itemState.packageHistory : [];
       if (packaged.includes(String(item.id))) itemState.packageStatus = 'packaged';
       if (typeof itemState.curatorNotes !== 'string') {
         itemState.curatorNotes = asText(itemState.sourceNotes || item.notes);
@@ -327,15 +265,12 @@
       const itemState = state.candidates[id];
       const resource = built.resources?.[index];
       itemState.packageStatus = 'packaged';
-      itemState.disposition = '';
       itemState.packageHistory ||= [];
       itemState.packageHistory.push({
         packagedAt: now,
         resourceId: asText(resource?.id),
         resourceName: asText(resource?.name),
       });
-      itemState.outcomeHistory ||= [];
-      itemState.outcomeHistory.push({ outcome: 'entered-package', at: now, reviewerName: asText(state.reviewerName) });
       itemState.updatedAt = now;
       packaged.add(id);
       count += 1;
@@ -415,7 +350,7 @@
     return concatBytes([...locals, centralBytes, end]);
   }
 
-  const core = { MATCH_LABELS, CURATOR_OUTCOME_LABELS, initialState, validateFeedback, validateDraft, buildResourcePackage, archivePackagedCandidates, setCandidateOutcome, currentOutcome, createZipBytes, createZipArchive, base64ToBytes, checklistItems, toggleChecklistItem };
+  const core = { MATCH_LABELS, initialState, validateFeedback, validateDraft, buildResourcePackage, archivePackagedCandidates, createZipBytes, createZipArchive, base64ToBytes, checklistItems, toggleChecklistItem };
   root.ReviewAppCore = core;
   if (typeof document === 'undefined') return;
 
@@ -476,13 +411,13 @@
   function decisionText(item) {
     const itemState = candidateState(item);
     if (itemState.packageStatus === 'ready') return 'Ready for package';
-    return CURATOR_OUTCOME_LABELS[itemState.disposition] || 'Pending';
+    return 'Pending';
   }
 
   function decisionClass(item) {
     const itemState = candidateState(item);
     if (itemState.packageStatus === 'ready') return 'accepted';
-    return itemState.disposition || 'pending';
+    return 'pending';
   }
 
   function download(filename, content, type) {
@@ -592,17 +527,14 @@
     const candidates = remaining.filter(item => {
       const itemState = candidateState(item);
       const ready = itemState.packageStatus === 'ready';
-      const hasOtherOutcome = Boolean(itemState.disposition);
       if (view.status === 'ready' && !ready) return false;
-      if (view.status === 'pending' && (ready || hasOtherOutcome)) return false;
-      if (view.status === 'other-outcome' && !hasOtherOutcome) return false;
+      if (view.status === 'pending' && ready) return false;
       if (!wanted) return true;
       return [item.name, asText(item.candidate?.organization), asText(item.candidate?.program), asText(item.candidate?.description)]
         .join(' ').toLocaleLowerCase().includes(wanted);
     });
     const ready = remaining.filter(item => candidateState(item).packageStatus === 'ready').length;
-    const otherOutcomes = remaining.filter(item => Boolean(candidateState(item).disposition)).length;
-    document.querySelector('#candidate-count').textContent = `${candidates.length} of ${remaining.length} candidates shown · ${ready} ready · ${otherOutcomes} with recorded outcomes`;
+    document.querySelector('#candidate-count').textContent = `${candidates.length} of ${remaining.length} candidates shown · ${ready} ready`;
     const target = document.querySelector('#candidate-list');
     if (!candidates.length) { target.replaceChildren(element('div', 'empty', remaining.length ? 'No candidates match this filter.' : 'No candidates remain in Curator.')); return; }
     target.replaceChildren(...candidates.map(item => {
@@ -1027,7 +959,10 @@
     const editor = element('section', 'review-editor'); editor.append(element('p', 'section-label', 'Your review'));
     const actions = element('div', 'review-decision-actions');
     const ready = checkbox('Ready for package', itemState.packageStatus === 'ready', checked => {
-      setCandidateOutcome(itemState, checked ? 'ready-for-package' : 'pending', new Date().toISOString(), state.reviewerName);
+      const now = new Date().toISOString();
+      itemState.packageStatus = checked ? 'ready' : 'pending';
+      itemState.reviewedAt = now;
+      itemState.updatedAt = now;
       persist(); renderCandidates(); openCandidate(item.id);
     });
     ready.classList.add('ready-toggle');
@@ -1036,18 +971,6 @@
     print.title = itemState.resourceDraft ? 'Print the client-facing resource information' : 'No resource draft is available to print';
     print.addEventListener('click', () => printResourceDraft(itemState.resourceDraft));
     actions.append(ready, print); editor.append(actions);
-    const optionalOutcome = element('label', 'optional-outcome');
-    optionalOutcome.append(element('span', '', 'Outcome'));
-    const outcomeSelect = document.createElement('select');
-    outcomeSelect.append(new Option('Pending — no decision recorded', ''));
-    Object.entries(CURATOR_OUTCOME_LABELS).forEach(([value, label]) => outcomeSelect.append(new Option(label, value)));
-    outcomeSelect.value = itemState.disposition;
-    outcomeSelect.addEventListener('change', () => {
-      setCandidateOutcome(itemState, outcomeSelect.value || 'pending', new Date().toISOString(), state.reviewerName);
-      persist(); renderCandidates(); openCandidate(item.id);
-    });
-    optionalOutcome.append(outcomeSelect, element('small', 'muted', 'Choose Worth pursuing when the lead merits continued work. Leave Pending until you have enough information to decide.'));
-    editor.append(optionalOutcome);
     if (item.knownResourceMatch) {
       const match = element('fieldset', 'match-card'); match.append(element('legend', '', `Relationship to ${item.knownResourceMatch.name}`), element('p', 'muted', 'Choose the best description of the relationship. This similarity warning is not proof of a duplicate.'));
       Object.entries(MATCH_LABELS).forEach(([value, label]) => {
@@ -1059,8 +982,8 @@
     }
     if (review.sourcePackage?.packageEligible && itemState.resourceDraft) editor.append(renderResourceEditor(item, itemState));
     else if (itemState.packageStatus === 'ready') editor.append(element('p', 'standalone-note', review.sourcePackage
-      ? 'This source package does not use the supported package schema. The work and outcome can be saved, but it cannot create a resource package.'
-      : 'This standalone Curator can save work and outcomes, but it cannot create a resource package.'));
+      ? 'This source package does not use the supported package schema. The work can be saved, but it cannot create a resource package.'
+      : 'This standalone Curator can save work, but it cannot create a resource package.'));
     return editor;
   }
 
@@ -1134,7 +1057,7 @@
     window.addEventListener('beforeunload', event => { if (view.dirty && !view.persisted) { event.preventDefault(); event.returnValue = ''; } });
     setupWorkspaceWindows(); renderSourceOnlyRecords(); renderCandidates(); updateActions();
     const packageText = packageInfo ? `${packageInfo.sourceName}; schema ${packageInfo.schemaVersion}; package ${packageInfo.packageVersion}` : `Standalone location research; ${review.run.targetLocation || 'location not recorded'}`;
-    document.querySelector('#footer').textContent = `Resource Curator v0.35.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
+    document.querySelector('#footer').textContent = `Resource Curator v0.36.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
   }
 
   initialize();

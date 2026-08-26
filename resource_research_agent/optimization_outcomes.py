@@ -67,8 +67,9 @@ def _read_curator_work(
         work = json.loads(Path(path).read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error:
         raise OptimizationOutcomeError(f"Cannot read Curator work: {error}") from error
-    if not isinstance(work, dict) or work.get("reviewFeedbackSchemaVersion") != 2:
-        raise OptimizationOutcomeError("Curator work schema 2 is required")
+    if not isinstance(work, dict) or work.get("reviewFeedbackSchemaVersion") not in {2, 3}:
+        raise OptimizationOutcomeError("Curator work schema 2 or 3 is required")
+    work_schema = int(work["reviewFeedbackSchemaVersion"])
     curator_run = work.get("run")
     if not isinstance(curator_run, dict) or str(curator_run.get("id")) != str(
         run_id
@@ -103,7 +104,7 @@ def _read_curator_work(
         if not isinstance(raw, dict):
             raise OptimizationOutcomeError("Curator candidate state must be an object")
         package_status = str(raw.get("packageStatus") or "pending")
-        disposition = str(raw.get("disposition") or "")
+        disposition = str(raw.get("disposition") or "") if work_schema == 2 else ""
         if package_status not in {"pending", "ready", "packaged"}:
             raise OptimizationOutcomeError("Curator candidate has an invalid package status")
         if disposition and disposition not in CURATOR_DISPOSITIONS:
@@ -114,7 +115,7 @@ def _read_curator_work(
             )
         if package_status == "packaged":
             state_packaged_ids.add(str(candidate_id))
-        outcome_history = raw.get("outcomeHistory")
+        outcome_history = raw.get("outcomeHistory") if work_schema == 2 else []
         package_history = raw.get("packageHistory")
         if not isinstance(outcome_history, list) or not isinstance(package_history, list):
             raise OptimizationOutcomeError("Curator candidate history must be a list")

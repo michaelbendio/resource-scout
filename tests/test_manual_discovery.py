@@ -394,6 +394,23 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertEqual(400, raised.exception.code)
         raised.exception.close()
 
+    def test_standalone_assignment_uses_the_selected_category(self) -> None:
+        result = self.request(
+            "/api/manual-discovery-assignment",
+            "POST",
+            {
+                "researchMode": "standalone-location",
+                "categoryId": "food",
+                "categoryLabel": "Food",
+                "targetLocation": "Flagstaff, Arizona",
+            },
+        )
+        self.assertEqual("food", result["context"]["categoryId"])
+        self.assertEqual("Food", result["context"]["categoryLabel"])
+        self.assertIn("credible Food resource leads", result["assignment"])
+        self.assertIn("Flagstaff, Arizona", result["assignment"])
+        self.assertNotIn("Housing", result["assignment"])
+
     def test_manual_workspace_is_served_as_the_recommended_touch_usable_path(self) -> None:
         with urllib.request.urlopen(self.base + "/", timeout=5) as response:
             html = response.read().decode()
@@ -401,8 +418,15 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
             javascript = response.read().decode()
         with urllib.request.urlopen(self.base + "/app.css", timeout=5) as response:
             css = response.read().decode()
-        self.assertIn('value="manual" checked', html)
-        self.assertIn("Manual chat discovery", html)
+        self.assertNotIn("Research agent", html)
+        self.assertNotIn('id="research-method"', html)
+        self.assertNotIn("Research context", html)
+        self.assertNotIn('id="research-context-note"', html)
+        self.assertIn('id="standalone-mode"', html)
+        self.assertIn("Research a location without a package", html)
+        self.assertIn(">Start discovery</button>", html)
+        self.assertIn("status.playbookCategories", javascript)
+        self.assertNotIn("categoryId: researchMode === 'package' ? state.activeCategoryId : 'housing'", javascript)
         self.assertIn("copy-manual-assignment", html)
         self.assertIn("manual-source-list", html)
         self.assertIn("['ChatGPT', 'Grok', 'Claude', 'Perplexity']", javascript)

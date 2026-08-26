@@ -1,6 +1,6 @@
 # Manual multi-model discovery design
 
-Implementation status (2026-08-25): Stages 0-4 are implemented on the
+Implementation status (2026-08-26): Stages 0-4 are implemented on the
 `manual-multimodel-discovery` branch. The frozen four-source fixtures, tolerant
 parser, immutable provenance storage, category-neutral assignment generator,
 local endpoints, copy/paste workspace, deterministic consolidation, identity
@@ -20,8 +20,8 @@ start a model, or send data to an external service.
 
 ## Decision summary
 
-Resource Scout will add a manual discovery path for answers copied from consumer
-chat products. The default source labels are ChatGPT, Grok, Claude, and
+Resource Scout uses a chat discovery path for answers copied from consumer chat
+products. It is the sole research method in the product interface. The default source labels are ChatGPT, Grok, Claude, and
 Perplexity, but the storage and import contracts are source-neutral. Scout will:
 
 1. prepare one category and service-area assignment for every selected chat;
@@ -35,11 +35,13 @@ Perplexity, but the storage and import contracts are source-neutral. Scout will:
 
 Resource Specialists remain responsible for website checking, telephone
 interviews, corrections, classification, printing, Ready for package, and the
-final resource package. Scout does not score candidate worth, make Curator
-outcomes, or establish final truth.
+final resource package. Scout does not score candidate worth or establish final
+truth. Curator asks only whether a completed draft is **Ready for package**; it
+does not require a separate Outcome decision.
 
-The existing DeepSeek and Qwen paths and their historical exports remain
-readable. The new workflow is proved before either path is retired.
+Existing DeepSeek and Qwen runs, frozen comparisons, saved work, and historical
+exports remain readable. Their research-agent option is retired from the product
+interface without rewriting those records.
 
 ## Pilot evidence
 
@@ -83,7 +85,7 @@ not full dossier research.
 - eligibility, payment, hours, availability, referral requirements, practical
   access, and other resource details;
 - Categories, Resource, and For editor changes;
-- notes, checklist work, printing, Ready for package, outcomes, and
+- notes, checklist work, printing, Ready for package, and
   saving packages; and
 - the final, phone-vetted representation of the resource.
 
@@ -103,8 +105,9 @@ not full dossier research.
 
 ## User workflow
 
-1. Connect a resource package and select a category as today.
-2. Choose **Manual chat discovery**.
+1. Connect the latest complete resource package and select a category.
+2. If no package exists, select **Research a location without a package**, choose
+   the appropriate category, and enter the location.
 3. Scout displays one copyable assignment. It includes the package service area,
    category scope, known-resource names, and a compact discovery schema. It asks
    for identities and access clues, not a complete resource dossier.
@@ -362,12 +365,13 @@ Editors, Notes, Print, Ready for package, Save work, and Save package workflow.
 Editors and Notes fill the workspace side by side; Curator does not display a
 separate Candidate Research pane. The discovery description continues to seed
 the Resource editor's Description field. New Curators begin every candidate
-Pending. The Outcome list includes **Worth pursuing**
-as a positive triage decision; **Ready for package** remains the later completed-
-resource state. A short Editors note points specialists to Resource for phone,
+Pending. There is no separate Outcome list; **Ready for package** is the single
+completed-resource state. A short Editors note points specialists to Resource for phone,
 address, website, hours, description, and Information, and to For for population
 labels.
-Existing DeepSeek and Qwen Curators remain self-contained and unchanged.
+Existing DeepSeek and Qwen Curators remain self-contained and unchanged; they
+reopen their own saved work with the code embedded in those files. New Curators
+do not carry the old Outcome fields.
 
 If the additional provenance fields change the portable contract, increment the
 review-copy schema and add backward-compatibility tests. The generated resource
@@ -472,12 +476,12 @@ Tests and gate:
 - an older database migrates without changing old runs or candidates; and
 - no adapter, DSH process, network call, credential, or metered fallback is used.
 
-### Stage 2: manual discovery workspace
+### Stage 2: chat discovery workspace
 
 Deliverables:
 
-- research-method choice with Manual chat discovery as the new path and existing
-  agent research retained as an advanced option;
+- chat discovery as the only product research path, with historical agent records
+  retained for compatibility and frozen comparison work;
 - copyable category-neutral assignment;
 - four default source cards plus custom labels;
 - paste and text/JSON upload;
@@ -494,7 +498,7 @@ Tests and gate:
   consolidation preview;
 - finishing prevents silent edits;
 - the source package remains byte-identical; and
-- current agent-run creation, resume, display, and export tests remain green.
+- historical agent-run display and export tests remain green.
 
 ### Stage 3: conservative consolidation and routing
 
@@ -542,7 +546,7 @@ Tests and gate:
 - uncertain geography, identity, or access remains visible;
 - no factual majority vote or cross-program claim blending occurs;
 - all new candidates begin Pending;
-- no optional Curator outcome is preselected;
+- no Curator Outcome control is shown;
 - generated phone, address, hours, and verified fields remain blank when unknown;
 - known-resource duplicate signals still work;
 - the export contains no raw package records, credentials, or agent settings;

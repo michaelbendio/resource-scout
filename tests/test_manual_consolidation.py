@@ -470,7 +470,7 @@ class ManualConsolidationTests(unittest.TestCase):
 
         review = build_review_copy(self.store, run_id)
 
-        self.assertEqual(12, review.data["reviewCopySchemaVersion"])
+        self.assertEqual(13, review.data["reviewCopySchemaVersion"])
         self.assertEqual(1, review.data["run"]["candidateCount"])
         self.assertEqual("manual-discovery", review.data["run"]["runKind"])
         self.assertEqual(1, len(review.data["manualDiscovery"]["sourceOnlyRecords"]))

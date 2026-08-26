@@ -1,12 +1,12 @@
 # Resource Scout — category research foundation
 
-This is a standalone, local resource research workspace. Its default package-backed mode learns from a Resource Assistant `resource-package.zip` without changing that package: it discovers the schema and taxonomy, preserves complete imported records, and builds a known-resource index. Every discovered package category uses its Types, For groups, existing-resource context, and category-aware research guidance. The explicitly selected standalone-location mode remains Housing-only exploratory research for a place that does not yet have a resource package.
+This is a standalone, local resource research workspace. Its default package-backed mode learns from a Resource Assistant `resource-package.zip` without changing that package: it discovers the schema and taxonomy, preserves complete imported records, and builds a known-resource index. Every discovered package category uses its Types, For groups, existing-resource context, and category-aware research guidance. The explicitly selected standalone-location mode performs exploratory research for the chosen category in a place that does not yet have a resource package.
 
 The app deliberately maintains separate bodies of data:
 
 - **Imported knowledge** is an immutable snapshot of the package: all records are indexed for research context and duplicate detection.
 - **Research work** contains candidates, evidence, run provenance, and deterministic possible-match signals. An imported resource is never inserted as a new discovery.
-- **Curation work** lives in the exported Resource Curator, where vetters record outcomes, edit resource drafts, print them, and prepare additions packages without access to Scout.
+- **Curation work** lives in the exported Resource Curator, where vetters edit resource drafts, keep notes, print them, mark finished resources **Ready for package**, and prepare additions packages without access to Scout.
 
 Standalone-location runs have no imported knowledge. Their candidates are not compared with the latest package, their location-specific lessons remain separate from package-backed lessons and other locations, and their review copies state that the research is exploratory rather than an official or comprehensive TSO Resources inventory.
 
@@ -19,7 +19,7 @@ user-operated chats is specified in
 [`docs/manual-multimodel-discovery-design.md`](docs/manual-multimodel-discovery-design.md).
 It preserves the existing portable Resource Curator handoff while moving detailed
 website and telephone verification to Resource Specialists. On the
-`manual-multimodel-discovery` branch, the version 0.35.0 workspace can generate a
+`manual-multimodel-discovery` branch, the version 0.36.0 workspace can generate a
 category-specific assignment, preserve pasted or uploaded responses with source
 provenance, validate them, replace or delete unfinished contributions, and recover
 an open run after restart. It also consolidates exact repeats, keeps distinct named
@@ -33,29 +33,28 @@ visible outside the candidate list, and minimally populated resource drafts leav
 unavailable contact, hours, and verification fields blank. Production `main` is unchanged.
 
 The Curator presents those checks as ordinary questions rather than internal signal
-names, keeps source-by-source chat details collapsed unless needed, and offers
-**Worth pursuing** as a positive lead outcome. Manual assignments preserve public
+names and keeps source-by-source chat details collapsed unless needed. Assignments preserve public
 phone numbers and addresses when a chat can supply them readily; specialists still
 verify and complete Resource, For, and Information fields during curation.
 Before Curator export, Scout can hand off every candidate without a website for
 focused lookup, even when the candidate already has a phone number.
 
-**Manual chat discovery** is the recommended research method on this branch. It
+**Chat discovery** is the sole research method in the Scout interface. It
 does not call a chat API: copy the displayed assignment into the chats you choose,
 then use the default ChatGPT, Grok, Claude, and Perplexity cards—or a custom source
 card—to save each answer. A run may use fewer than four sources. Parser errors must
 be corrected or deleted before finishing; a finished response snapshot is
 immutable. Finishing also requires the visible consolidation funnel and a decision
 of **Same identity**, **Keep separate**, or **Leave unresolved** for each ambiguous
-pair. **Research agent** remains available as the advanced choice and retains
-the existing DeepSeek, local Qwen, Hermes, and demo behavior.
+pair. The former Research agent option is no longer presented in Scout. Historical
+agent runs, frozen comparisons, and their existing Curator exports remain readable.
 
 For a large run, **Leave all pending pairs unresolved** records every remaining
 relationship as uncertain and keeps the identities separate. It performs no
 bulk merge. Recorded decisions remain collapsed but individually editable until
 the run is finished.
 
-Hermes and DeepSeek Harness are connected through the same replaceable research-agent interface. Scout owns the research brief, imported context, assignments, candidate records, deterministic duplicate signals, and research lessons. The selected harness receives one bounded assignment and returns a structured research result. Human curation outcomes do not belong to the harness or Scout. Switching harnesses does not move or migrate application data.
+Scout owns the research brief, imported context, assignments, candidate records, deterministic duplicate signals, and research lessons. Human curation and package preparation remain in Curator. Legacy Hermes, DeepSeek, and Qwen adapter code is retained only so historical runs and frozen comparisons remain reproducible; it is not a product choice in the Scout interface.
 
 Category research runs as four persisted, category-specific stages. Candidates are saved after each completed stage rather than waiting for the entire assignment. If a later stage times out or fails, the run becomes **partial**: completed candidates remain reviewable and exportable, and **Resume research** retries only the unfinished stage before continuing.
 
@@ -69,15 +68,13 @@ The library is validated when the application starts. Future or locally defined 
 
 The workflow is:
 
-1. Choose a Resource Assistant package. It connects automatically, and package-backed research remains selected by default.
-2. Choose any category discovered in the package. Its existing resources, Types, and global For groups are included as research context.
-3. If no package exists, explicitly select **Research a location without a package**, enter the location and optionally identify nearby areas whose services may realistically serve it.
-4. Edit the assignment and select **Start research**. Runs continue in the background, with progress displayed for each bounded stage.
-5. Use **View candidates** on a research run, or the Research candidates run selector, to inspect that run separately. Open candidates as stages finish to inspect access, restrictions, availability, pet policy, lived-experience findings, evidence, unknowns, follow-up branches, and possible package relationships. If a stage fails, inspect or export the completed work and use **Resume research** without repeating completed stages.
-6. Approve or retire agent-proposed lessons in the **Research lessons** panel. These are research-method controls, not vetter outcomes.
-7. Choose **Export Resource Curator** on any completed run. Curator opens directly in a browser without Scout or an agent connection. Its three movable, resizable windows keep candidate research, the Categories/Resource/For editors, and the vetter's notes and clickable checklist visible together. Every candidate begins **Pending**. **Worth pursuing** is the positive lead outcome; **Ready for package** is the later completed-resource action. Research further, Duplicate/already known, Wrong category, and Reject record other conclusions. An untouched candidate may remain Pending.
-
-Both external harnesses are optional while exploring the app. Choose **Built-in demo** under **Research agent connection** to exercise the complete workflow without an account or model charge.
+1. Connect the latest complete Resource Assistant package and choose a category. Its existing resources prevent rediscovery from becoming duplicate curation work.
+2. If no package exists, select **Research a location without a package**, choose the category, and enter the service location and realistic nearby area.
+3. Select **Start discovery**, copy the assignment into any chosen chats, and paste or upload their responses.
+4. Review parsing, consolidate exact repeats, and resolve or leave uncertain possible identity relationships.
+5. Finish the discovery and export its Resource Curator.
+6. Resource Specialists verify websites and phone details, edit and print each useful resource, and mark completed resources **Ready for package**. No separate candidate outcome is required.
+7. Save an additions package, merge it into TSO Resources, save a new complete package, and connect that complete package to Scout before the next discovery cycle.
 
 ### Scout, Curator, vetter, and final package
 
@@ -107,9 +104,9 @@ Vetting remains ordinary resource preparation. Vetters are not asked to score th
 
 Curators are generated only when a user clicks **Export Resource Curator** on a research run. The export always uses that associated run, regardless of which Research candidates view is visible. Nothing is written to an export folder on the server. Each download is one self-contained HTML file with versioned JSON embedded inside it for future migration.
 
-The export contains only the selected completed or partially completed run, stage status, its candidates, editable resource drafts, run-specific lessons, the source taxonomy needed for valid package creation, limited source-package provenance, and the known-resource fields needed to explain possible relationships. It excludes API keys, connection settings, raw agent output, the research database, source-package attachments, and full imported-resource records. Scout status is retained only as source provenance; it does not pre-decide Curator outcomes.
+The export contains only the selected completed run, its candidates, editable resource drafts, run-specific lessons, the source taxonomy needed for valid package creation, limited source-package provenance, and the known-resource fields needed to explain possible relationships. It excludes API keys, connection settings, the research database, source-package attachments, and full imported-resource records. Scout status is retained only as source provenance; it does not make the resource specialist's decision.
 
-Curator progress is saved locally by the browser when available. Each candidate has its own notes and clickable checklist; changing candidates changes the Notes window to that candidate's work. **Save work** creates the portable JSON checkpoint used to pause, move, back up, or resume the work. It records Pending/Ready state, outcomes, outcome history, notes, checklist state, relationship assessment, resource draft, taxonomy edits, attached PDFs, stable IDs, timestamps, source-package identity, and package history. No reason or terminal outcome is required for candidates left Pending. **Save a resource package** is separate: it is unavailable with no ready candidates and contains only resources currently marked ready. After the ZIP is created, those candidates leave the active queue, but their full state and package linkage remain archived in saved work. Standalone-location Curators can save work but cannot create a resource package.
+Curator progress is saved locally by the browser when available. Each candidate has its own notes and clickable checklist; changing candidates changes the Notes window to that candidate's work. **Save work** creates the portable JSON checkpoint used to pause, move, back up, or resume the work. It records Pending/Ready state, notes, checklist state, relationship assessment, resource draft, taxonomy edits, attached PDFs, stable IDs, timestamps, source-package identity, and package history. **Save a resource package** is separate: it is unavailable with no ready candidates and contains only resources currently marked ready. After the ZIP is created, those candidates leave the active queue, but their full state and package linkage remain archived in saved work. Standalone-location Curators can save work but cannot create a resource package. Existing DeepSeek and Qwen Curators remain self-contained and reopen their own older saved work; newly exported Curators contain no Outcome fields.
 
 The right-hand **Editors** window has separate **Categories**, **Resource**, and **For** tabs. **Categories** can add Types within each category, while **For** can add global For groups. Curator is additive-only for governed taxonomy: Type and For-group deletion remains in TSO Resources. **Resource** edits contact and descriptive fields, composes formatted Information, assigns Categories and their Types, chooses For groups, and attaches PDFs. A **Print** button matching the height of **Ready for package** prints the current client-facing resource draft—Name, Description, contact fields, Hours, and formatted Information—without research evidence, curator notes, classifications, or outcome status. Only curator-added PDFs travel with portable work and ready-resource packages; the original source package remains untouched.
 
@@ -123,7 +120,7 @@ Resource-package export is available only inside Curators made from research run
 - only the run's currently ready, curator-edited resources and their attached PDFs; and
 - no imported baseline resources or assets, credentials, or research internals.
 
-The downloaded ZIP is ready for an ordinary TSO Resources user to merge through **Merge Resources**. Resource Scout and Curator do not perform that merge. Each export consumes its ready queue: candidates included in the ZIP are archived from the active Curator queue with their work and package history preserved, while Pending and optional-outcome candidates remain available.
+The downloaded ZIP is ready for an ordinary TSO Resources user to merge through **Merge Resources**. Resource Scout and Curator do not perform that merge. Each export consumes its ready queue: candidates included in the ZIP are archived from the active Curator queue with their work and package history preserved, while Pending candidates remain available.
 
 The candidate's service-need summary becomes the generated resource's Description. Contact details and Hours fill their matching fields; the remaining research details become formatted Information using TSO Resources' `* ` bullets, `**bold**`, `__underline__`, and `---` divider conventions. Verified remains blank unless a reviewer enters `MM/YY`. Agent suggestions preselect only Type and For labels that exist in the imported package; the human reviewer remains responsible for classification. Missing or renamed labels are reported for explicit mapping and are never silently changed.
 
@@ -145,7 +142,9 @@ Start the app through the Keychain-aware launcher:
 ./run-dsh.sh
 ```
 
-On macOS, the first launch securely prompts once to save the key in the user's Keychain; later launches retrieve it automatically. A `DEEPSEEK_API_KEY` already present in the environment takes precedence. On systems without the macOS `security` command, the launcher falls back to a hidden prompt for that launch. The key is never written to the app database or a project file. Select **DSH (experimental)** and **DeepSeek — metered** in **Research agent connection**, save, and the status card will show when it is ready.
+Historical DeepSeek adapter and credential support remains in the repository for
+reproducing frozen comparisons. It is not exposed in the Resource Scout product
+interface and is not part of the chat-discovery workflow.
 
 The DSH research overlay gives DeepSeek a social-service resource researcher persona, exposes DeepSeek's server-side `web_search` tool, and disables shell, filesystem, editing, skill, workflow, and subagent tools. DSH also runs from an empty temporary working directory. `web_fetch` remains disabled in this first connection because DSH's own preview ships it disabled while its HTTP provider lacks a complete SSRF boundary.
 
@@ -417,7 +416,7 @@ and Curator data; undo consists of deleting the standalone HTML export. The same
 builder is available at `/api/optimization-runs/{run-id}/review-copy` only when a
 server is deliberately started against the isolated benchmark database. Normal
 research execution does not invoke this calibration-only, manually reviewed
-evidence pipeline. All human outcomes and package preparation occur in Curator
+evidence pipeline. All human decisions and package preparation occur in Curator
 for both historical DeepSeek and Qwen exports.
 
 After Curator work is saved and phone vetting produces an additions package,
@@ -436,15 +435,14 @@ use the final merged package as the stronger ground-truth snapshot:
 Optimization Curators assign every draft a deterministic resource ID derived from
 the configuration hash and frozen packet SHA-256. The comparison uses that ID to prove
 candidate-to-final-resource linkage, records phone-vetted changes to core fields,
-and persists a hashed outcome report in the isolated benchmark database. Saved
-Curator work adds explicit Pending, Ready, packaged, Research further, Duplicate,
-Wrong category, and Reject states without requiring a vetter to disposition every
-candidate. Package presence takes precedence and proves acceptance. Absence from
-the supplied package remains Pending unless Curator recorded an explicit outcome;
-it is never silently interpreted as rejection. The canonical Curator-work hash is
-part of report provenance, so later saved-work revisions produce new immutable
-reports rather than overwriting earlier evidence. Omitting `--curator-work` retains
-the legacy package-only schema-2 comparison.
+and persists a hashed comparison report in the isolated benchmark database. Package
+presence proves acceptance; absence is not silently interpreted as rejection. New
+Curator work records only Pending, Ready, or packaged state. The comparison reader
+still accepts preserved schema-2 optimization work with explicit dispositions so
+the frozen historical benchmark remains reproducible, but new Curators do not emit
+those fields. The canonical Curator-work hash is part of report provenance, so later
+saved-work revisions produce new immutable reports rather than overwriting earlier
+evidence. Omitting `--curator-work` retains the legacy package-only comparison.
 
 ### Hermes
 
@@ -560,4 +558,4 @@ PROVO_RESOURCE_PACKAGE=/path/to/provo-resource-package.zip \
   python3 -m unittest discover -s tests -v
 ```
 
-The live-package integration test verifies schema/category discovery and multi-category inclusion. The unit tests also prove that the source ZIP remains byte-for-byte unchanged, full records survive import, every discovered category can start research, category Types and For definitions survive import and export, imported resources remain separate from discoveries, non-selected resources still participate in duplicate checks, unsafe ZIP paths are rejected, Hermes and DSH one-shot results are normalized through the same adapter result, Scout exposes no human-curation or direct-package routes, editable Curators keep notes separate by candidate, outcomes are not required for candidates left Pending, and ready-resource packages are openable, run-scoped, editable, multi-category, capable of carrying curator-attached PDFs, and archive packaged candidates without losing their work or linkage history.
+The live-package integration test verifies schema/category discovery and multi-category inclusion. The unit tests also prove that the source ZIP remains byte-for-byte unchanged, full records survive import, every discovered category can start discovery, category Types and For definitions survive import and export, imported resources remain separate from discoveries, non-selected resources still participate in duplicate checks, unsafe ZIP paths are rejected, historical Hermes and DSH one-shot results remain readable through the same adapter result, Scout exposes no human-curation or direct-package routes, editable Curators keep notes separate by candidate, the current Curator shows no Outcome control, and ready-resource packages are openable, run-scoped, editable, multi-category, capable of carrying curator-attached PDFs, and archive packaged candidates without losing their work or linkage history.

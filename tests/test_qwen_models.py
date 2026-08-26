@@ -1435,9 +1435,9 @@ const fs = require('fs');
 const review = JSON.parse(fs.readFileSync(0, 'utf8'));
 const state = ReviewAppCore.initialState(review);
 const acceptedId = String(review.candidates[0].id);
-ReviewAppCore.setCandidateOutcome(
-  state.candidates[acceptedId], 'ready-for-package', '2026-08-24T08:00:00Z', 'Vetter'
-);
+state.candidates[acceptedId].packageStatus = 'ready';
+state.candidates[acceptedId].reviewedAt = '2026-08-24T08:00:00Z';
+state.candidates[acceptedId].updatedAt = '2026-08-24T08:00:00Z';
 const built = ReviewAppCore.buildResourcePackage(review, state, '2026-08-24T08:05:00Z');
 if (built.errors.length) throw new Error(built.errors.join('\n'));
 ReviewAppCore.archivePackagedCandidates(review, state, built, '2026-08-24T08:05:00Z');
