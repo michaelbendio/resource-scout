@@ -795,6 +795,19 @@ class ResearchStore:
             )
             return int(cursor.lastrowid)
 
+    def delete_empty_manual_discovery_run(self, run_id: int) -> bool:
+        with self.connect() as connection:
+            cursor = connection.execute(
+                """DELETE FROM research_runs
+                   WHERE id = ? AND run_kind = 'manual-discovery' AND status = 'running'
+                     AND NOT EXISTS (
+                       SELECT 1 FROM manual_discovery_contributions
+                       WHERE run_id = research_runs.id
+                     )""",
+                (run_id,),
+            )
+            return cursor.rowcount > 0
+
     def save_manual_contribution(
         self,
         run_id: int,

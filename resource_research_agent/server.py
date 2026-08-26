@@ -17,7 +17,7 @@ from . import __version__
 from .contact_lookup import apply_contact_lookup_results, build_contact_lookup_request
 from .duplicates import DuplicateIndex
 from .importer import PackageImportError, ResourcePackageImporter
-from .manual_discovery import build_manual_discovery_assignment
+from .manual_discovery import build_manual_discovery_assignment, parse_manual_contribution
 from .manual_consolidation import (
     consolidate_manual_discovery,
     finish_manual_discovery,
@@ -166,48 +166,39 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     "context": context,
                 })
             elif parsed.path == "/api/manual-discovery-runs":
-                payload = self._read_json()
-                context = self._manual_discovery_context(payload)
-                assignment = str(payload.get("assignment") or "").strip()
-                if not assignment:
-                    assignment = build_manual_discovery_assignment(
-                        category_label=context["categoryLabel"],
-                        service_area=context["serviceArea"],
-                        office_name=context["officeName"],
-                        regional_scope=context["regionalScope"],
-                        known_resources=context["knownResources"],
-                        include=context["include"],
-                        exclude=context["exclude"],
-                    )
-                prompt = {
-                    "assignment": assignment,
-                    "researchContext": {
-                        "mode": context["researchMode"],
-                        "sourcePackage": context["sourcePackage"],
-                        "serviceArea": context["serviceArea"],
-                        "regionalScope": context["regionalScope"],
-                        "knownResources": context["knownResources"],
-                    },
-                    "targetCategory": {
-                        "id": context["categoryId"],
-                        "label": context["categoryLabel"],
-                    },
-                }
-                run_id = self.server.store.create_manual_discovery_run(
-                    assignment,
-                    prompt,
-                    context["sourceImportId"],
-                    research_mode=context["researchMode"],
-                    target_location=(
-                        context["serviceArea"]
-                        if context["researchMode"] == "standalone-location"
-                        else None
-                    ),
-                    regional_scope=context["regionalScope"],
-                    target_category_id=context["categoryId"],
-                    target_category_label=context["categoryLabel"],
+                self._json(
+                    self._create_manual_discovery_run(self._read_json()),
+                    HTTPStatus.CREATED,
                 )
-                self._json(self.server.store.get_run(run_id), HTTPStatus.CREATED)
+            elif parsed.path == "/api/manual-discovery-runs/initial-contribution":
+                payload = self._read_json()
+                initial = payload.get("initialContribution")
+                if not isinstance(initial, dict):
+                    raise ValueError("An initial response is required")
+                parsed_contribution = parse_manual_contribution(initial.get("rawText"))
+                if parsed_contribution["status"] != "parsed":
+                    raise ValueError(
+                        "Correct the response before starting discovery: "
+                        + parsed_contribution["error"]
+                    )
+                run = self._create_manual_discovery_run(payload)
+                try:
+                    contribution = self.server.store.save_manual_contribution(
+                        run["id"],
+                        str(initial.get("sourceLabel") or ""),
+                        initial.get("rawText"),
+                        filename=str(initial.get("filename") or ""),
+                    )
+                except Exception:
+                    self.server.store.delete_empty_manual_discovery_run(run["id"])
+                    raise
+                self._json(
+                    {
+                        "run": self.server.store.get_run(run["id"]),
+                        "contribution": contribution,
+                    },
+                    HTTPStatus.CREATED,
+                )
             elif (run_id := self._path_id(
                 parsed.path, "/api/manual-discovery-runs", "contributions"
             )) is not None:
@@ -352,6 +343,52 @@ class ResearchHandler(BaseHTTPRequestHandler):
             "include": list(guidance.scope),
             "exclude": list(guidance.exclusions),
         }
+
+    def _create_manual_discovery_run(self, payload: dict[str, Any]) -> dict[str, Any]:
+        context = self._manual_discovery_context(payload)
+        assignment = str(payload.get("assignment") or "").strip()
+        if not assignment:
+            assignment = build_manual_discovery_assignment(
+                category_label=context["categoryLabel"],
+                service_area=context["serviceArea"],
+                office_name=context["officeName"],
+                regional_scope=context["regionalScope"],
+                known_resources=context["knownResources"],
+                include=context["include"],
+                exclude=context["exclude"],
+            )
+        prompt = {
+            "assignment": assignment,
+            "researchContext": {
+                "mode": context["researchMode"],
+                "sourcePackage": context["sourcePackage"],
+                "serviceArea": context["serviceArea"],
+                "regionalScope": context["regionalScope"],
+                "knownResources": context["knownResources"],
+            },
+            "targetCategory": {
+                "id": context["categoryId"],
+                "label": context["categoryLabel"],
+            },
+        }
+        run_id = self.server.store.create_manual_discovery_run(
+            assignment,
+            prompt,
+            context["sourceImportId"],
+            research_mode=context["researchMode"],
+            target_location=(
+                context["serviceArea"]
+                if context["researchMode"] == "standalone-location"
+                else None
+            ),
+            regional_scope=context["regionalScope"],
+            target_category_id=context["categoryId"],
+            target_category_label=context["categoryLabel"],
+        )
+        run = self.server.store.get_run(run_id)
+        if run is None:  # pragma: no cover - guarded by the insert above
+            raise RuntimeError("Created discovery could not be read")
+        return run
 
     def _import_upload(self) -> None:
         content_type = self.headers.get("Content-Type", "")

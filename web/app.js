@@ -684,15 +684,25 @@ function createManualSourceCard(label, contribution = null, custom = false) {
     save.disabled = true;
     feedback.textContent = 'Validating and preserving the response…';
     try {
-      await request(`/api/manual-discovery-runs/${run.id}/contributions`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sourceLabel: source,
-          rawText: textarea.value,
-          filename: textarea.dataset.filename || contribution?.filename || '',
-        }),
-      });
-      await openManualDiscoveryRun(run.id);
+      const response = {
+        sourceLabel: source,
+        rawText: textarea.value,
+        filename: textarea.dataset.filename || contribution?.filename || '',
+      };
+      if (run.id) {
+        await request(`/api/manual-discovery-runs/${run.id}/contributions`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(response),
+        });
+        await openManualDiscoveryRun(run.id);
+      } else {
+        const result = await request('/api/manual-discovery-runs/initial-contribution', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...run.setupPayload, initialContribution: response }),
+        });
+        await loadResearchData();
+        await openManualDiscoveryRun(result.run.id);
+      }
       document.querySelector('#manual-discovery-message').textContent = `${source} response saved with its original text and source label.`;
     } catch (error) {
       feedback.textContent = error.message;
@@ -969,6 +979,26 @@ async function openManualDiscoveryRun(runId) {
   if (result.consolidation) {
     requestAnimationFrame(() => document.querySelector('#manual-consolidation').scrollIntoView({ block: 'start' }));
   }
+}
+
+function openManualDiscoverySetup(payload) {
+  state.activeManualRun = {
+    id: null,
+    status: 'running',
+    assignment: payload.assignment,
+    researchMode: payload.researchMode,
+    targetLocation: payload.targetLocation,
+    sourceOfficeName: state.latestImport?.officeName || '',
+    sourceServiceArea: state.latestImport?.serviceArea || '',
+    targetCategoryId: payload.categoryId,
+    targetCategoryLabel: payload.categoryLabel,
+    manualProgress: { contributionCount: 0, leadCount: 0, errorContributionCount: 0 },
+    setupPayload: payload,
+  };
+  state.manualContributions = [];
+  state.manualConsolidation = null;
+  renderManualDiscoveryWorkspace();
+  document.querySelector('#manual-discovery-dialog').showModal();
 }
 
 function candidateDescription(discovery) {
@@ -1269,7 +1299,15 @@ document.querySelector('#regional-scope').addEventListener('input', () => {
   refreshManualAssignment();
 });
 document.querySelector('#close-candidate').addEventListener('click', () => document.querySelector('#candidate-dialog').close());
-document.querySelector('#close-manual-discovery').addEventListener('click', () => document.querySelector('#manual-discovery-dialog').close());
+document.querySelector('#close-manual-discovery').addEventListener('click', () => {
+  document.querySelector('#manual-discovery-dialog').close();
+  if (!state.activeManualRun?.id) {
+    state.activeManualRun = null;
+    state.manualContributions = [];
+    state.manualConsolidation = null;
+    document.querySelector('#research-message').textContent = 'Discovery setup closed. No discovery was started.';
+  }
+});
 
 document.querySelector('#copy-assignment').addEventListener('click', event => {
   copyText(document.querySelector('#research-assignment').value, event.currentTarget, 'Copy assignment');
@@ -1350,16 +1388,12 @@ document.querySelector('#research-form').addEventListener('submit', async event 
   button.disabled = true;
   message.textContent = 'Opening the discovery workspace…';
   try {
-    const run = await request('/api/manual-discovery-runs', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ...manualAssignmentPayload(),
-        assignment: document.querySelector('#research-assignment').value,
-      }),
-    });
-    message.textContent = `Discovery run ${run.id} opened. Copy the assignment into each chat and save the responses as they arrive.`;
-    await loadResearchData();
-    await openManualDiscoveryRun(run.id);
+    const payload = {
+      ...manualAssignmentPayload(),
+      assignment: document.querySelector('#research-assignment').value,
+    };
+    openManualDiscoverySetup(payload);
+    message.textContent = 'Discovery workspace ready. Scout will start the discovery when you validate and save the first response.';
   } catch (error) {
     message.textContent = error.message;
   } finally { updateStartResearchState(); }

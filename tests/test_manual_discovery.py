@@ -362,6 +362,61 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertEqual(400, raised.exception.code)
         raised.exception.close()
 
+    def test_first_valid_response_starts_discovery_without_leaving_empty_runs(self) -> None:
+        setup = {
+            "assignment": "Find food resources.",
+            "researchMode": "package",
+            "sourceImportId": self.import_id,
+            "categoryId": "food",
+        }
+        with self.assertRaises(urllib.error.HTTPError) as invalid:
+            self.request(
+                "/api/manual-discovery-runs/initial-contribution",
+                "POST",
+                {
+                    **setup,
+                    "initialContribution": {
+                        "sourceLabel": "ChatGPT",
+                        "rawText": "not JSON",
+                    },
+                },
+            )
+        self.assertEqual(400, invalid.exception.code)
+        invalid.exception.close()
+        self.assertEqual([], self.store.list_runs())
+
+        with self.assertRaises(urllib.error.HTTPError) as missing_label:
+            self.request(
+                "/api/manual-discovery-runs/initial-contribution",
+                "POST",
+                {
+                    **setup,
+                    "initialContribution": {
+                        "sourceLabel": "",
+                        "rawText": '{"leads":[]}',
+                    },
+                },
+            )
+        self.assertEqual(400, missing_label.exception.code)
+        missing_label.exception.close()
+        self.assertEqual([], self.store.list_runs())
+
+        created = self.request(
+            "/api/manual-discovery-runs/initial-contribution",
+            "POST",
+            {
+                **setup,
+                "initialContribution": {
+                    "sourceLabel": "ChatGPT",
+                    "rawText": '{"leads":[]}',
+                    "filename": "response.json",
+                },
+            },
+        )
+        self.assertEqual("running", created["run"]["status"])
+        self.assertEqual("parsed", created["contribution"]["parseStatus"])
+        self.assertEqual(1, len(self.store.list_runs()))
+
     def test_standalone_assignment_uses_the_selected_category(self) -> None:
         result = self.request(
             "/api/manual-discovery-assignment",
@@ -397,6 +452,9 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertNotIn("categoryId: researchMode === 'package' ? state.activeCategoryId : 'housing'", javascript)
         self.assertIn("copy-manual-assignment", html)
         self.assertIn("manual-source-list", html)
+        self.assertIn("function openManualDiscoverySetup(payload)", javascript)
+        self.assertIn("/api/manual-discovery-runs/initial-contribution", javascript)
+        self.assertIn("No discovery was started.", javascript)
         self.assertIn("['ChatGPT', 'Grok', 'Claude', 'Perplexity']", javascript)
         self.assertIn("Choose text or JSON file", javascript)
         self.assertIn("window.confirm", javascript)

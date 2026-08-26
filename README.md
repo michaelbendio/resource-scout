@@ -4,7 +4,7 @@ Resource Scout turns resource leads gathered from several consumer chat products
 into a consolidated candidate list and a portable Resource Curator. It is designed
 for repeated use across TSO locations and resource categories.
 
-Version 0.37.8 is a chat-discovery-only product. The former model-agent,
+Version 0.37.9 is a chat-discovery-only product. The former model-agent,
 optimization, benchmark, trace, and teaching systems are not part of this codebase.
 
 ## Workflow
@@ -14,8 +14,9 @@ optimization, benchmark, trace, and teaching systems are not part of this codeba
 2. Select a category and set up discovery.
 3. Copy Scout's category- and location-specific assignment into ChatGPT, Grok,
    Claude, Perplexity, or another chat of your choice.
-4. Paste each response into Scout. Scout preserves the submitted text and source
-   label, parses the leads, and reports any response that needs correction.
+4. Paste each response into Scout. The first valid saved response starts the
+   discovery. Scout preserves the submitted text and source label, parses the leads,
+   and reports any response that needs correction.
 5. Consolidate the leads. Scout collapses exact repetitions, keeps uncertain
    identities separate, distinguishes providers and programs from directories and
    routing sources, and compares candidates with resources already in the package.
