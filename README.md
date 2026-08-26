@@ -19,18 +19,23 @@ user-operated chats is specified in
 [`docs/manual-multimodel-discovery-design.md`](docs/manual-multimodel-discovery-design.md).
 It preserves the existing portable Resource Curator handoff while moving detailed
 website and telephone verification to Resource Specialists. On the
-`manual-multimodel-discovery` branch, the version 0.30.9 workspace can generate a
+`manual-multimodel-discovery` branch, the version 0.31.0 workspace can generate a
 category-specific assignment, preserve pasted or uploaded responses with source
 provenance, validate them, replace or delete unfinished contributions, and recover
-an open run after restart. The consolidation, lightweight routing, and Curator
-handoff stages remain under implementation; production `main` is unchanged.
+an open run after restart. It also consolidates exact repeats, keeps distinct named
+programs separate, routes directories and limited initiatives outside the provider
+count, exposes package-duplicate signals, and asks for explicit one-click decisions
+on ambiguous identity pairs. The lightweight-check and Curator-handoff stages
+remain under implementation; production `main` is unchanged.
 
 **Manual chat discovery** is the recommended research method on this branch. It
 does not call a chat API: copy the displayed assignment into the chats you choose,
 then use the default ChatGPT, Grok, Claude, and Perplexity cards—or a custom source
 card—to save each answer. A run may use fewer than four sources. Parser errors must
 be corrected or deleted before finishing; a finished response snapshot is
-immutable. **Research agent** remains available as the advanced choice and retains
+immutable. Finishing also requires the visible consolidation funnel and a decision
+of **Same identity**, **Keep separate**, or **Leave unresolved** for each ambiguous
+pair. **Research agent** remains available as the advanced choice and retains
 the existing DeepSeek, local Qwen, Hermes, and demo behavior.
 
 Hermes and DeepSeek Harness are connected through the same replaceable research-agent interface. Scout owns the research brief, imported context, assignments, candidate records, deterministic duplicate signals, and research lessons. The selected harness receives one bounded assignment and returns a structured research result. Human curation outcomes do not belong to the harness or Scout. Switching harnesses does not move or migrate application data.

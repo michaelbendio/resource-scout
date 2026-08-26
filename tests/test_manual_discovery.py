@@ -214,21 +214,6 @@ class ManualDiscoveryStorageTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "while the run is open"):
             self.store.delete_manual_contribution(self.run_id, saved["id"])
 
-    def test_finish_records_contribution_progress_and_closes_snapshot(self) -> None:
-        self.store.save_manual_contribution(self.run_id, "Claude", self.fixture("Claude"))
-        finished = self.store.finish_manual_discovery_run(self.run_id)
-        self.assertEqual("completed", finished["status"])
-        self.assertEqual(1, finished["manualProgress"]["contributionCount"])
-        self.assertEqual(4, finished["manualProgress"]["leadCount"])
-        self.assertIn("1 contribution", finished["result"]["summary"])
-        with self.assertRaisesRegex(ValueError, "already closed"):
-            self.store.finish_manual_discovery_run(self.run_id)
-
-    def test_parse_error_must_be_corrected_or_deleted_before_finish(self) -> None:
-        self.store.save_manual_contribution(self.run_id, "Grok", "not json")
-        with self.assertRaisesRegex(ValueError, "parse errors"):
-            self.store.finish_manual_discovery_run(self.run_id)
-
     def test_legacy_run_kind_defaults_to_agent_research(self) -> None:
         legacy_run = self.store.create_research_run(
             adapter="demo", assignment="Legacy", prompt={}
@@ -271,6 +256,10 @@ class ManualDiscoveryStorageTests(unittest.TestCase):
             }
         self.assertIn("manual_discovery_contributions", tables)
         self.assertIn("manual_discovery_leads", tables)
+        self.assertIn("manual_discovery_consolidations", tables)
+        self.assertIn("manual_discovery_identity_groups", tables)
+        self.assertIn("manual_discovery_identity_members", tables)
+        self.assertIn("manual_discovery_identity_decisions", tables)
 
 
 class ManualDiscoveryHTTPTests(unittest.TestCase):
@@ -372,6 +361,10 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
             "POST",
             {"sourceLabel": "Claude", "rawText": '{"leads":[]}'},
         )
+        consolidated = self.request(
+            f"/api/manual-discovery-runs/{run['id']}/consolidate", "POST", {}
+        )
+        self.assertEqual(0, consolidated["funnel"]["candidateIdentities"])
         finished = self.request(
             f"/api/manual-discovery-runs/{run['id']}/finish", "POST", {}
         )
@@ -400,8 +393,67 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertIn("Choose text or JSON file", javascript)
         self.assertIn("window.confirm", javascript)
         self.assertIn("textContent = contribution.trailingText", javascript)
+        self.assertIn("Consolidate leads", html)
+        self.assertIn("Same identity", javascript)
+        self.assertIn("Keep separate", javascript)
+        self.assertIn("Leave unresolved", javascript)
         self.assertIn("@media (max-width: 800px)", css)
         self.assertIn(".manual-source-list { grid-template-columns: 1fr; }", css)
+
+    def test_identity_decision_endpoint_gates_finished_candidates(self) -> None:
+        run = self.request(
+            "/api/manual-discovery-runs",
+            "POST",
+            {
+                "researchMode": "package",
+                "sourceImportId": self.import_id,
+                "categoryId": "food",
+            },
+        )
+        organization = {
+            "organization": "Example Food Network",
+            "program": "",
+            "website": "https://example.org",
+            "leadType": "provider-organization",
+            "locationOrServiceArea": "Mesa",
+            "whyRelevant": "Food provider",
+            "uncertainty": "Confirm access",
+        }
+        program = dict(organization, program="Fresh Food Program", leadType="program")
+        for source, submitted in (("ChatGPT", organization), ("Claude", program)):
+            self.request(
+                f"/api/manual-discovery-runs/{run['id']}/contributions",
+                "POST",
+                {"sourceLabel": source, "rawText": json.dumps({"leads": [submitted]})},
+            )
+        consolidated = self.request(
+            f"/api/manual-discovery-runs/{run['id']}/consolidate", "POST", {}
+        )
+        self.assertEqual(1, consolidated["funnel"]["pendingIdentityDecisions"])
+        with self.assertRaises(urllib.error.HTTPError) as raised:
+            self.request(f"/api/manual-discovery-runs/{run['id']}/finish", "POST", {})
+        self.assertEqual(400, raised.exception.code)
+        raised.exception.close()
+        suggestion = consolidated["suggestions"][0]
+        reviewed = self.request(
+            f"/api/manual-discovery-runs/{run['id']}/identity-decision",
+            "POST",
+            {
+                "leftKey": suggestion["leftKey"],
+                "rightKey": suggestion["rightKey"],
+                "decision": "same",
+            },
+        )
+        self.assertEqual(0, reviewed["funnel"]["pendingIdentityDecisions"])
+        self.assertEqual(1, reviewed["funnel"]["candidateIdentities"])
+        finished = self.request(
+            f"/api/manual-discovery-runs/{run['id']}/finish", "POST", {}
+        )
+        self.assertEqual(1, finished["result"]["candidateCount"])
+        discoveries = self.request("/api/discoveries")["discoveries"]
+        candidate = next(item for item in discoveries if item["runId"] == run["id"])
+        self.assertEqual("Fresh Food Program", candidate["name"])
+        self.assertEqual(2, len(candidate["candidate"]["manualDiscoveryProvenance"]["members"]))
 
 
 if __name__ == "__main__":

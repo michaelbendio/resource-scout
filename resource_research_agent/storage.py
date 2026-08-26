@@ -209,6 +209,50 @@ CREATE TABLE IF NOT EXISTS manual_discovery_leads (
     warnings_json TEXT NOT NULL DEFAULT '[]',
     UNIQUE (contribution_id, source_ordinal)
 );
+CREATE TABLE IF NOT EXISTS manual_discovery_consolidations (
+    run_id INTEGER PRIMARY KEY REFERENCES research_runs(id) ON DELETE CASCADE,
+    input_sha256 TEXT NOT NULL CHECK (length(input_sha256) = 64),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    funnel_json TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS manual_discovery_identity_groups (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL REFERENCES research_runs(id) ON DELETE CASCADE,
+    stable_key TEXT NOT NULL,
+    display_name TEXT NOT NULL,
+    organization TEXT NOT NULL DEFAULT '',
+    program TEXT NOT NULL DEFAULT '',
+    preferred_website TEXT NOT NULL DEFAULT '',
+    routed_role TEXT NOT NULL,
+    consolidation_state TEXT NOT NULL CHECK (
+        consolidation_state IN ('exact', 'reviewed-merge', 'reviewed-separate', 'unresolved')
+    ),
+    duplicate_matches_json TEXT NOT NULL DEFAULT '[]',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    UNIQUE (run_id, stable_key)
+);
+CREATE TABLE IF NOT EXISTS manual_discovery_identity_members (
+    group_id INTEGER NOT NULL
+        REFERENCES manual_discovery_identity_groups(id) ON DELETE CASCADE,
+    lead_id INTEGER NOT NULL REFERENCES manual_discovery_leads(id) ON DELETE CASCADE,
+    membership_reason TEXT NOT NULL,
+    deterministic_signal TEXT NOT NULL,
+    source_order INTEGER NOT NULL,
+    PRIMARY KEY (group_id, lead_id)
+);
+CREATE TABLE IF NOT EXISTS manual_discovery_identity_decisions (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL REFERENCES research_runs(id) ON DELETE CASCADE,
+    left_key TEXT NOT NULL,
+    right_key TEXT NOT NULL,
+    decision TEXT NOT NULL CHECK (decision IN ('same', 'separate', 'unresolved')),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    UNIQUE (run_id, left_key, right_key),
+    CHECK (left_key < right_key)
+);
 CREATE TABLE IF NOT EXISTS research_lessons (
     id INTEGER PRIMARY KEY,
     created_at TEXT NOT NULL,
@@ -1641,6 +1685,7 @@ class ResearchStore:
                 raise ValueError("Contributions can only be saved to a manual discovery run")
             if run["status"] != "running":
                 raise ValueError("Contributions can only be changed while the run is open")
+            self._invalidate_manual_consolidation(connection, run_id)
             existing = connection.execute(
                 """SELECT id, source_position, created_at
                    FROM manual_discovery_contributions
@@ -1776,7 +1821,230 @@ class ResearchStore:
                    WHERE run_id = ? AND id = ?""",
                 (run_id, contribution_id),
             )
+            if cursor.rowcount > 0:
+                self._invalidate_manual_consolidation(connection, run_id)
             return cursor.rowcount > 0
+
+    @staticmethod
+    def _invalidate_manual_consolidation(
+        connection: sqlite3.Connection, run_id: int
+    ) -> None:
+        connection.execute(
+            "DELETE FROM manual_discovery_identity_groups WHERE run_id = ?", (run_id,)
+        )
+        connection.execute(
+            "DELETE FROM manual_discovery_identity_decisions WHERE run_id = ?", (run_id,)
+        )
+        connection.execute(
+            "DELETE FROM manual_discovery_consolidations WHERE run_id = ?", (run_id,)
+        )
+
+    def manual_leads_for_consolidation(self, run_id: int) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT leads.*, contributions.source_label,
+                          contributions.source_position, contributions.raw_sha256
+                   FROM manual_discovery_leads AS leads
+                   JOIN manual_discovery_contributions AS contributions
+                     ON contributions.id = leads.contribution_id
+                   WHERE contributions.run_id = ?
+                   ORDER BY contributions.source_position, leads.source_ordinal""",
+                (run_id,),
+            ).fetchall()
+        return [
+            {
+                "id": row["id"],
+                "contributionId": row["contribution_id"],
+                "sourceLabel": row["source_label"],
+                "sourcePosition": row["source_position"],
+                "sourceOrdinal": row["source_ordinal"],
+                "rawSha256": row["raw_sha256"],
+                "raw": json.loads(row["raw_json"]),
+                "organization": row["organization"],
+                "program": row["program"],
+                "websiteRaw": row["website_raw"],
+                "website": row["website_normalized"],
+                "leadType": row["lead_type"],
+                "locationOrServiceArea": row["location_or_service_area"],
+                "whyRelevant": row["why_relevant"],
+                "uncertainty": row["uncertainty"],
+                "normalizedOrganization": row["normalized_organization"],
+                "normalizedProgram": row["normalized_program"],
+                "warnings": json.loads(row["warnings_json"]),
+            }
+            for row in rows
+        ]
+
+    def manual_identity_decisions(self, run_id: int) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT * FROM manual_discovery_identity_decisions
+                   WHERE run_id = ? ORDER BY left_key, right_key""",
+                (run_id,),
+            ).fetchall()
+        return [
+            {
+                "leftKey": row["left_key"],
+                "rightKey": row["right_key"],
+                "decision": row["decision"],
+                "createdAt": row["created_at"],
+                "updatedAt": row["updated_at"],
+            }
+            for row in rows
+        ]
+
+    def save_manual_identity_decision(
+        self, run_id: int, left_key: str, right_key: str, decision: str
+    ) -> dict[str, Any]:
+        left, right = sorted((str(left_key), str(right_key)))
+        if not left or left == right:
+            raise ValueError("Two different identity groups are required")
+        if decision not in {"same", "separate", "unresolved"}:
+            raise ValueError("Identity decision must be same, separate, or unresolved")
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            run = connection.execute(
+                "SELECT run_kind, status FROM research_runs WHERE id = ?", (run_id,)
+            ).fetchone()
+            if not run or run["run_kind"] != "manual-discovery":
+                raise ValueError("Manual discovery run not found")
+            if run["status"] != "running":
+                raise ValueError("Identity decisions can only change while the run is open")
+            connection.execute(
+                """INSERT INTO manual_discovery_identity_decisions (
+                       run_id, left_key, right_key, decision, created_at, updated_at
+                   ) VALUES (?, ?, ?, ?, ?, ?)
+                   ON CONFLICT(run_id, left_key, right_key) DO UPDATE SET
+                       decision = excluded.decision, updated_at = excluded.updated_at""",
+                (run_id, left, right, decision, now, now),
+            )
+        return {"leftKey": left, "rightKey": right, "decision": decision}
+
+    def replace_manual_consolidation(
+        self,
+        run_id: int,
+        input_sha256: str,
+        groups: list[dict[str, Any]],
+        funnel: dict[str, int],
+    ) -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            run = connection.execute(
+                "SELECT run_kind, status FROM research_runs WHERE id = ?", (run_id,)
+            ).fetchone()
+            if not run or run["run_kind"] != "manual-discovery":
+                raise ValueError("Manual discovery run not found")
+            if run["status"] != "running":
+                raise ValueError("Consolidation can only change while the run is open")
+            connection.execute(
+                "DELETE FROM manual_discovery_identity_groups WHERE run_id = ?", (run_id,)
+            )
+            for group in sorted(groups, key=lambda item: item["stableKey"]):
+                cursor = connection.execute(
+                    """INSERT INTO manual_discovery_identity_groups (
+                           run_id, stable_key, display_name, organization, program,
+                           preferred_website, routed_role, consolidation_state,
+                           duplicate_matches_json, created_at, updated_at
+                       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (
+                        run_id,
+                        group["stableKey"],
+                        group["displayName"],
+                        group["organization"],
+                        group["program"],
+                        group["website"],
+                        group["routedRole"],
+                        group["consolidationState"],
+                        _json(group.get("duplicateMatches", [])),
+                        now,
+                        now,
+                    ),
+                )
+                group_id = int(cursor.lastrowid)
+                for position, member in enumerate(group["members"], start=1):
+                    connection.execute(
+                        """INSERT INTO manual_discovery_identity_members (
+                               group_id, lead_id, membership_reason,
+                               deterministic_signal, source_order
+                           ) VALUES (?, ?, ?, ?, ?)""",
+                        (
+                            group_id,
+                            member["id"],
+                            member["membershipReason"],
+                            member["deterministicSignal"],
+                            position,
+                        ),
+                    )
+            connection.execute(
+                """INSERT INTO manual_discovery_consolidations (
+                       run_id, input_sha256, created_at, updated_at, funnel_json
+                   ) VALUES (?, ?, ?, ?, ?)
+                   ON CONFLICT(run_id) DO UPDATE SET input_sha256 = excluded.input_sha256,
+                       updated_at = excluded.updated_at, funnel_json = excluded.funnel_json""",
+                (run_id, input_sha256, now, now, _json(funnel)),
+            )
+
+    def manual_consolidation_snapshot(self, run_id: int) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            consolidation = connection.execute(
+                "SELECT * FROM manual_discovery_consolidations WHERE run_id = ?", (run_id,)
+            ).fetchone()
+            if not consolidation:
+                return None
+            group_rows = connection.execute(
+                """SELECT * FROM manual_discovery_identity_groups
+                   WHERE run_id = ? ORDER BY display_name COLLATE NOCASE, stable_key""",
+                (run_id,),
+            ).fetchall()
+            groups = []
+            for row in group_rows:
+                member_rows = connection.execute(
+                    """SELECT members.membership_reason, members.deterministic_signal,
+                              leads.*, contributions.source_label,
+                              contributions.source_position
+                       FROM manual_discovery_identity_members AS members
+                       JOIN manual_discovery_leads AS leads ON leads.id = members.lead_id
+                       JOIN manual_discovery_contributions AS contributions
+                         ON contributions.id = leads.contribution_id
+                       WHERE members.group_id = ? ORDER BY members.source_order""",
+                    (row["id"],),
+                ).fetchall()
+                groups.append({
+                    "id": row["id"],
+                    "stableKey": row["stable_key"],
+                    "displayName": row["display_name"],
+                    "organization": row["organization"],
+                    "program": row["program"],
+                    "website": row["preferred_website"],
+                    "routedRole": row["routed_role"],
+                    "consolidationState": row["consolidation_state"],
+                    "duplicateMatches": json.loads(row["duplicate_matches_json"]),
+                    "members": [
+                        {
+                            "id": member["id"],
+                            "sourceLabel": member["source_label"],
+                            "sourcePosition": member["source_position"],
+                            "sourceOrdinal": member["source_ordinal"],
+                            "organization": member["organization"],
+                            "program": member["program"],
+                            "website": member["website_normalized"],
+                            "leadType": member["lead_type"],
+                            "locationOrServiceArea": member["location_or_service_area"],
+                            "whyRelevant": member["why_relevant"],
+                            "uncertainty": member["uncertainty"],
+                            "membershipReason": member["membership_reason"],
+                            "deterministicSignal": member["deterministic_signal"],
+                        }
+                        for member in member_rows
+                    ],
+                })
+        return {
+            "inputSha256": consolidation["input_sha256"],
+            "createdAt": consolidation["created_at"],
+            "updatedAt": consolidation["updated_at"],
+            "funnel": json.loads(consolidation["funnel_json"]),
+            "groups": groups,
+        }
 
     def manual_discovery_progress(self, run_id: int) -> dict[str, int]:
         with self.connect() as connection:
@@ -1798,32 +2066,76 @@ class ResearchStore:
             "leadCount": int(row["lead_count"] or 0),
         }
 
-    def finish_manual_discovery_run(self, run_id: int) -> dict[str, Any]:
-        run = self.get_run(run_id)
-        if not run:
-            raise ValueError("Research run not found")
-        if run["runKind"] != "manual-discovery":
-            raise ValueError("Only a manual discovery run can be finished this way")
-        if run["status"] != "running":
-            raise ValueError("Manual discovery run is already closed")
-        progress = self.manual_discovery_progress(run_id)
-        if progress["contributionCount"] == 0:
-            raise ValueError("Add at least one contribution before finishing discovery")
-        if progress["errorContributionCount"]:
-            raise ValueError("Correct or delete responses with parse errors before finishing discovery")
-        summary = (
-            f"Manual discovery preserved {progress['contributionCount']} contribution"
-            f"{'s' if progress['contributionCount'] != 1 else ''} containing "
-            f"{progress['leadCount']} parsed lead{'s' if progress['leadCount'] != 1 else ''}."
-        )
-        self.complete_run(
-            run_id,
-            "",
-            {"summary": summary, "manualDiscoveryProgress": progress},
-            None,
-        )
+    def finish_manual_consolidated_run(
+        self,
+        run_id: int,
+        candidates: list[dict[str, Any]],
+        funnel: dict[str, int],
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            run = connection.execute(
+                "SELECT run_kind, status FROM research_runs WHERE id = ?", (run_id,)
+            ).fetchone()
+            if not run or run["run_kind"] != "manual-discovery":
+                raise ValueError("Manual discovery run not found")
+            if run["status"] != "running":
+                raise ValueError("Manual discovery run is already closed")
+            consolidation = connection.execute(
+                "SELECT 1 FROM manual_discovery_consolidations WHERE run_id = ?", (run_id,)
+            ).fetchone()
+            if not consolidation:
+                raise ValueError("Consolidate the current responses before finishing discovery")
+            existing = connection.execute(
+                "SELECT 1 FROM discoveries WHERE run_id = ?", (run_id,)
+            ).fetchone()
+            if existing:
+                raise ValueError("This manual discovery run already has candidate records")
+            for item in candidates:
+                candidate = item["candidate"]
+                match = item.get("match")
+                duplicate = bool(match and match.get("score", 0) >= 0.86)
+                connection.execute(
+                    """INSERT INTO discoveries (
+                           created_at, updated_at, status, origin, name, candidate_json,
+                           matched_import_id, matched_resource_id, duplicate_score,
+                           notes, run_id, stage_id
+                       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '', ?, NULL)""",
+                    (
+                        now,
+                        now,
+                        "already-known" if duplicate else "candidate",
+                        "matched-imported-resource" if duplicate else "manual-chat-discovery",
+                        str(candidate.get("name") or "Unnamed candidate"),
+                        _json(candidate),
+                        match.get("importId") if match else None,
+                        match.get("resourceId") if match else None,
+                        match.get("score") if match else None,
+                        run_id,
+                    ),
+                )
+            summary = (
+                f"Manual discovery consolidated {funnel['parsedLeads']} parsed lead"
+                f"{'s' if funnel['parsedLeads'] != 1 else ''} into "
+                f"{funnel['consolidatedIdentities']} identit"
+                f"{'ies' if funnel['consolidatedIdentities'] != 1 else 'y'} and created "
+                f"{len(candidates)} candidate record{'s' if len(candidates) != 1 else ''}."
+            )
+            result = {
+                "summary": summary,
+                "manualDiscoveryProgress": self.manual_discovery_progress(run_id),
+                "manualDiscoveryFunnel": funnel,
+                "candidateCount": len(candidates),
+            }
+            connection.execute(
+                """UPDATE research_runs
+                   SET status = 'completed', completed_at = ?, output_text = '',
+                       result_json = ?, usage_json = NULL, error = ''
+                   WHERE id = ?""",
+                (now, _json(result), run_id),
+            )
         finished = self.get_run(run_id)
-        if finished is None:  # pragma: no cover - guarded by the lookup above
+        if finished is None:  # pragma: no cover - guarded by lookup above
             raise RuntimeError("Finished run could not be read")
         return finished
 

@@ -194,6 +194,33 @@ dialog::backdrop { background: rgba(10, 27, 21, .65); }
 .manual-assignment-copy button { padding: .55rem .75rem; }
 .manual-assignment-copy pre { max-height: 16rem; margin: .8rem 0 0; background: white; }
 .manual-progress { margin-top: 1rem; padding: .8rem 1rem; border-radius: 10px; color: #315448; background: #eaf4ee; font-weight: 800; }
+.manual-consolidation { margin-top: 1rem; padding: 1rem; border: 1px solid #c8d5ce; border-radius: 12px; background: #f8faf8; }
+.manual-consolidation h3, .manual-consolidation h4 { margin: 0; font-family: ui-serif, Georgia, serif; }
+.manual-funnel { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .55rem; margin-top: .85rem; }
+.manual-funnel > div { min-width: 0; padding: .65rem; border: 1px solid #dbe2de; border-radius: 8px; background: white; }
+.manual-funnel strong, .manual-funnel span { display: block; }
+.manual-funnel strong { color: var(--forest); font-size: 1.35rem; }
+.manual-funnel span { margin-top: .1rem; color: var(--muted); font-size: .7rem; font-weight: 750; }
+.manual-identity-suggestions { display: grid; gap: .7rem; margin-top: 1rem; }
+.manual-suggestion-intro p { margin-top: .3rem; color: var(--muted); font-size: .84rem; }
+.manual-identity-suggestion { padding: .85rem; border: 1px solid #dfc18e; border-radius: 9px; background: #fff9ec; }
+.manual-identity-suggestion.same, .manual-identity-suggestion.separate, .manual-identity-suggestion.unresolved { border-color: #b9d0c4; background: #f2f8f4; }
+.manual-identity-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+.manual-identity-pair > div { padding: .65rem; border-radius: 7px; background: white; }
+.manual-identity-pair strong, .manual-identity-pair small { display: block; }
+.manual-identity-pair small { margin-top: .2rem; color: var(--muted); }
+.manual-identity-suggestion > p { margin-top: .55rem; color: #65543a; font-size: .8rem; }
+.manual-identity-actions { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .65rem; }
+.manual-identity-actions button { padding: .42rem .6rem; font-size: .76rem; }
+.manual-identity-actions button[aria-pressed="true"] { border-color: #286b52; color: white; background: #286b52; }
+.manual-group-details { margin-top: 1rem; }
+.manual-group-details summary { color: var(--forest); cursor: pointer; font-weight: 800; }
+#manual-group-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; margin-top: .7rem; }
+.manual-group { padding: .7rem .8rem; border: 1px solid var(--line); border-radius: 8px; background: white; }
+.manual-group > div { display: flex; justify-content: space-between; gap: .6rem; }
+.manual-group > div span { flex: 0 0 auto; padding: .15rem .4rem; border-radius: 999px; color: #3d5c50; background: #e7efea; font-size: .65rem; font-weight: 800; }
+.manual-group small { display: block; margin-top: .25rem; color: var(--muted); }
+.manual-group p { margin-top: .35rem; color: #87591b; font-size: .75rem; font-weight: 700; }
 .manual-source-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
 .manual-source-card { display: grid; gap: .75rem; min-width: 0; padding: 1rem; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
 .manual-source-heading { display: flex; gap: .75rem; align-items: center; }
@@ -245,7 +272,8 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; background:
   .lessons-panel { grid-column: auto; }
   .settings-grid { grid-template-columns: 1fr 1fr; }
   .manual-source-list { grid-template-columns: 1fr; }
+  .manual-funnel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 520px) { .category-grid { grid-template-columns: 1fr; } .section-head { display: block; } }
 @media (max-width: 600px) { .settings-grid, .candidate-facts { grid-template-columns: 1fr; } .setup-callout, .form-actions { display: block; } .setup-callout button, .form-actions span { margin-top: .8rem; } }
-@media (max-width: 700px) { .research-method-options, .research-context-options, .standalone-fields { grid-template-columns: 1fr; } }
+@media (max-width: 700px) { .research-method-options, .research-context-options, .standalone-fields, .manual-identity-pair, #manual-group-list { grid-template-columns: 1fr; } }

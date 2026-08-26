@@ -1,10 +1,11 @@
 # Manual multi-model discovery design
 
-Implementation status (2026-08-25): Stages 0-2 are implemented on the
+Implementation status (2026-08-25): Stages 0-3 are implemented on the
 `manual-multimodel-discovery` branch. The frozen four-source fixtures, tolerant
 parser, immutable provenance storage, category-neutral assignment generator,
-local endpoints, and copy/paste workspace are covered by regression tests.
-Stages 3-6 below remain the approved work sequence. Production `main`, frozen
+local endpoints, copy/paste workspace, deterministic consolidation, identity
+review, role routing, package duplicate signals, and non-inflated funnel are
+covered by regression tests. Stages 4-6 below remain the approved work sequence. Production `main`, frozen
 DeepSeek results, and existing agent-run records have not been rewritten.
 
 Status: proposed implementation design. This document defines the branch work

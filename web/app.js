@@ -1,7 +1,7 @@
 const state = {
   runs: [], discoveries: [], lessons: [], agent: null, latestImport: null,
   currentCandidate: null, pollTimer: null, researchMode: 'package',
-  researchMethod: 'manual', activeManualRun: null, manualContributions: [],
+  researchMethod: 'manual', activeManualRun: null, manualContributions: [], manualConsolidation: null,
   manualAssignmentRequest: 0, customManualSources: 0,
   candidateRunId: null, candidateRunSelectionInitialized: false,
   assignmentDrafts: { package: '', 'standalone-location': '' }, standaloneAutoAssignment: '',
@@ -861,6 +861,115 @@ function createManualSourceCard(label, contribution = null, custom = false) {
   return card;
 }
 
+function renderManualConsolidation() {
+  const section = document.querySelector('#manual-consolidation');
+  const consolidation = state.manualConsolidation;
+  section.hidden = !consolidation;
+  if (!consolidation) return;
+  const funnel = consolidation.funnel;
+  const funnelItems = [
+    ['Submitted rows', funnel.submittedRows],
+    ['Parsed leads', funnel.parsedLeads],
+    ['Repeated rows collapsed', funnel.exactDuplicateRows],
+    ['Consolidated identities', funnel.consolidatedIdentities],
+    ['Provider/program candidates', funnel.providerProgramIdentities],
+    ['Access-point candidates', funnel.accessPointIdentities],
+    ['Routing sources/directories', funnel.routingDirectoryIdentities],
+    ['Limited initiatives', funnel.outreachInitiatives],
+    ['Unresolved roles', funnel.unresolvedIdentities],
+    ['Possible package duplicates', funnel.possiblePackageDuplicates],
+  ];
+  document.querySelector('#manual-funnel').replaceChildren(...funnelItems.map(([label, value]) => {
+    const item = document.createElement('div');
+    const count = document.createElement('strong');
+    count.textContent = value;
+    const name = document.createElement('span');
+    name.textContent = label;
+    item.append(count, name);
+    return item;
+  }));
+  const suggestionsTarget = document.querySelector('#manual-identity-suggestions');
+  if (!consolidation.suggestions.length) {
+    suggestionsTarget.replaceChildren(emptyState('No ambiguous identity pairs need review.'));
+  } else {
+    const heading = document.createElement('div');
+    heading.className = 'manual-suggestion-intro';
+    const title = document.createElement('h4');
+    title.textContent = `Identity review · ${consolidation.suggestions.length}`;
+    const copy = document.createElement('p');
+    copy.textContent = 'Decide only whether each pair is the same service identity. This is not a quality or acceptance decision, and no written reason is required.';
+    heading.append(title, copy);
+    const cards = consolidation.suggestions.map(suggestion => {
+      const card = document.createElement('article');
+      card.className = `manual-identity-suggestion ${suggestion.status}`;
+      const pair = document.createElement('div');
+      pair.className = 'manual-identity-pair';
+      for (const side of [suggestion.left, suggestion.right]) {
+        const identity = document.createElement('div');
+        const name = document.createElement('strong');
+        name.textContent = side.displayName || 'Unnamed identity';
+        const detail = document.createElement('small');
+        detail.textContent = `${side.organization || 'Organization not supplied'}${side.program ? ` · ${side.program}` : ''} · ${side.sources.join(', ')}`;
+        identity.append(name, detail);
+        pair.append(identity);
+      }
+      const reason = document.createElement('p');
+      reason.textContent = suggestion.reason;
+      const actions = document.createElement('div');
+      actions.className = 'manual-identity-actions';
+      for (const [decision, label] of [['same', 'Same identity'], ['separate', 'Keep separate'], ['unresolved', 'Leave unresolved']]) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'secondary';
+        button.textContent = label;
+        button.setAttribute('aria-pressed', String(suggestion.status === decision));
+        button.disabled = state.activeManualRun.status !== 'running';
+        button.addEventListener('click', async () => {
+          actions.querySelectorAll('button').forEach(item => { item.disabled = true; });
+          try {
+            state.manualConsolidation = await request(`/api/manual-discovery-runs/${state.activeManualRun.id}/identity-decision`, {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                leftKey: suggestion.leftKey,
+                rightKey: suggestion.rightKey,
+                decision,
+              }),
+            });
+            renderManualDiscoveryWorkspace();
+          } catch (error) {
+            document.querySelector('#manual-discovery-message').textContent = error.message;
+            actions.querySelectorAll('button').forEach(item => { item.disabled = false; });
+          }
+        });
+        actions.append(button);
+      }
+      card.append(pair, reason, actions);
+      return card;
+    });
+    suggestionsTarget.replaceChildren(heading, ...cards);
+  }
+  document.querySelector('#manual-group-summary').textContent = `View ${consolidation.groups.length} consolidated identity group${consolidation.groups.length === 1 ? '' : 's'}`;
+  document.querySelector('#manual-group-list').replaceChildren(...consolidation.groups.map(group => {
+    const item = document.createElement('article');
+    item.className = 'manual-group';
+    const head = document.createElement('div');
+    const name = document.createElement('strong');
+    name.textContent = group.displayName;
+    const role = document.createElement('span');
+    role.textContent = friendlyStatus(group.routedRole);
+    head.append(name, role);
+    const sources = document.createElement('small');
+    sources.textContent = `${group.members.length} submitted row${group.members.length === 1 ? '' : 's'} · ${[...new Set(group.members.map(member => member.sourceLabel))].join(', ')}`;
+    item.append(head, sources);
+    if (group.duplicateMatches.length) {
+      const duplicate = document.createElement('p');
+      duplicate.textContent = `Possible package relationship: ${group.duplicateMatches[0].name} (${group.duplicateMatches[0].classification})`;
+      item.append(duplicate);
+    }
+    return item;
+  }));
+}
+
 function renderManualDiscoveryWorkspace() {
   const run = state.activeManualRun;
   if (!run) return;
@@ -870,6 +979,7 @@ function renderManualDiscoveryWorkspace() {
   document.querySelector('#manual-assignment-text').textContent = run.assignment;
   const progress = run.manualProgress || {};
   document.querySelector('#manual-progress').textContent = `${progress.contributionCount || 0} response${progress.contributionCount === 1 ? '' : 's'} received · ${progress.leadCount || 0} parsed lead${progress.leadCount === 1 ? '' : 's'}${progress.errorContributionCount ? ` · ${progress.errorContributionCount} response needs correction` : ''}`;
+  renderManualConsolidation();
   const byLabel = new Map(state.manualContributions.map(item => [item.sourceLabel.toLowerCase(), item]));
   const defaults = ['ChatGPT', 'Grok', 'Claude', 'Perplexity'];
   const cards = defaults.map(label => createManualSourceCard(label, byLabel.get(label.toLowerCase()) || null));
@@ -879,15 +989,22 @@ function renderManualDiscoveryWorkspace() {
     .forEach(item => cards.push(createManualSourceCard(item.sourceLabel, item, true)));
   document.querySelector('#manual-source-list').replaceChildren(...cards);
   document.querySelector('#add-manual-source').hidden = locked;
+  const consolidate = document.querySelector('#consolidate-manual-discovery');
+  consolidate.hidden = locked;
+  consolidate.disabled = !progress.contributionCount || Boolean(progress.errorContributionCount);
+  consolidate.textContent = state.manualConsolidation ? 'Re-consolidate leads' : 'Consolidate leads';
   const finish = document.querySelector('#finish-manual-discovery');
   finish.hidden = locked;
-  finish.disabled = !progress.contributionCount || Boolean(progress.errorContributionCount);
+  finish.disabled = !state.manualConsolidation
+    || Boolean(progress.errorContributionCount)
+    || Boolean(state.manualConsolidation?.funnel.pendingIdentityDecisions);
 }
 
 async function openManualDiscoveryRun(runId) {
   const result = await request(`/api/manual-discovery-runs/${runId}/contributions`);
   state.activeManualRun = result.run;
   state.manualContributions = result.contributions;
+  state.manualConsolidation = result.consolidation;
   renderManualDiscoveryWorkspace();
   const dialog = document.querySelector('#manual-discovery-dialog');
   if (!dialog.open) dialog.showModal();
@@ -1273,6 +1390,26 @@ document.querySelector('#add-manual-source').addEventListener('click', () => {
   document.querySelector('#manual-source-list').append(card);
   card.querySelector('.manual-source-label').focus();
   card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+document.querySelector('#consolidate-manual-discovery').addEventListener('click', async event => {
+  const run = state.activeManualRun;
+  if (!run) return;
+  event.currentTarget.disabled = true;
+  const message = document.querySelector('#manual-discovery-message');
+  message.textContent = 'Collapsing exact repeats and routing lead roles…';
+  try {
+    state.manualConsolidation = await request(`/api/manual-discovery-runs/${run.id}/consolidate`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    renderManualDiscoveryWorkspace();
+    message.textContent = state.manualConsolidation.funnel.pendingIdentityDecisions
+      ? `Consolidation ready. Review ${state.manualConsolidation.funnel.pendingIdentityDecisions} ambiguous identity pair${state.manualConsolidation.funnel.pendingIdentityDecisions === 1 ? '' : 's'}.`
+      : 'Consolidation ready. No ambiguous identity pairs remain.';
+  } catch (error) {
+    message.textContent = error.message;
+    event.currentTarget.disabled = false;
+  }
 });
 
 document.querySelector('#finish-manual-discovery').addEventListener('click', async event => {

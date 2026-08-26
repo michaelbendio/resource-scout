@@ -17,6 +17,12 @@ from . import __version__
 from .duplicates import DuplicateIndex
 from .importer import PackageImportError, ResourcePackageImporter
 from .manual_discovery import build_manual_discovery_assignment
+from .manual_consolidation import (
+    consolidate_manual_discovery,
+    finish_manual_discovery,
+    manual_consolidation_view,
+    record_manual_identity_decision,
+)
 from .review_export import build_optimization_review_copy, build_review_copy
 from .research import ResearchCoordinator
 from .storage import ResearchStore
@@ -110,6 +116,7 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     self._json({
                         "run": run,
                         "contributions": self.server.store.list_manual_contributions(run_id),
+                        "consolidation": manual_consolidation_view(self.server.store, run_id),
                     })
             elif (run_id := self._path_id(parsed.path, "/api/research-runs", "review-copy")) is not None:
                 review_copy = build_review_copy(
@@ -241,7 +248,32 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 parsed.path, "/api/manual-discovery-runs", "finish"
             )) is not None:
                 self._read_json()
-                self._json(self.server.store.finish_manual_discovery_run(run_id))
+                self._json(
+                    finish_manual_discovery(self.server.store, run_id)
+                )
+            elif (run_id := self._path_id(
+                parsed.path, "/api/manual-discovery-runs", "consolidate"
+            )) is not None:
+                self._read_json()
+                self._json(
+                    consolidate_manual_discovery(
+                        self.server.store, run_id, self.server.duplicate_index
+                    )
+                )
+            elif (run_id := self._path_id(
+                parsed.path, "/api/manual-discovery-runs", "identity-decision"
+            )) is not None:
+                payload = self._read_json()
+                self._json(
+                    record_manual_identity_decision(
+                        self.server.store,
+                        run_id,
+                        str(payload.get("leftKey") or ""),
+                        str(payload.get("rightKey") or ""),
+                        str(payload.get("decision") or ""),
+                        self.server.duplicate_index,
+                    )
+                )
             elif (run_id := self._path_id(parsed.path, "/api/research-runs", "resume")) is not None:
                 self._json(self.server.research.resume(run_id), HTTPStatus.ACCEPTED)
             elif parsed.path == "/api/duplicate-check":

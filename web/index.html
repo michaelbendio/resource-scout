@@ -12,7 +12,7 @@
       <h1>Resource Scout</h1>
       <p class="lede">Import what is already known. Use it to research more deeply. Keep discoveries separate for Curator and human vetting.</p>
     </div>
-    <span class="header-version" id="app-version">v0.30.9</span>
+    <span class="header-version" id="app-version">v0.31.0</span>
   </header>
 
   <main>
@@ -211,9 +211,16 @@
       <pre id="manual-assignment-text"></pre>
     </section>
     <div class="manual-progress" id="manual-progress" aria-live="polite"></div>
+    <section class="manual-consolidation" id="manual-consolidation" hidden>
+      <div class="section-head"><div><p class="step">Lead funnel</p><h3>Consolidated identities</h3></div></div>
+      <div class="manual-funnel" id="manual-funnel"></div>
+      <div class="manual-identity-suggestions" id="manual-identity-suggestions"></div>
+      <details class="manual-group-details"><summary id="manual-group-summary">View consolidated identity groups</summary><div id="manual-group-list"></div></details>
+    </section>
     <div class="manual-source-list" id="manual-source-list"></div>
     <div class="manual-workspace-actions">
       <button type="button" class="secondary" id="add-manual-source">Add another source</button>
+      <button type="button" class="secondary" id="consolidate-manual-discovery">Consolidate leads</button>
       <button type="button" id="finish-manual-discovery">Finish discovery</button>
       <span class="muted" id="manual-discovery-message" aria-live="polite"></span>
     </div>
