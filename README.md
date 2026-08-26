@@ -41,6 +41,11 @@ of **Same identity**, **Keep separate**, or **Leave unresolved** for each ambigu
 pair. **Research agent** remains available as the advanced choice and retains
 the existing DeepSeek, local Qwen, Hermes, and demo behavior.
 
+For a large run, **Leave all pending pairs unresolved** records every remaining
+relationship as uncertain and keeps the identities separate. It performs no
+bulk merge. Recorded decisions remain collapsed but individually editable until
+the run is finished.
+
 Hermes and DeepSeek Harness are connected through the same replaceable research-agent interface. Scout owns the research brief, imported context, assignments, candidate records, deterministic duplicate signals, and research lessons. The selected harness receives one bounded assignment and returns a structured research result. Human curation outcomes do not belong to the harness or Scout. Switching harnesses does not move or migrate application data.
 
 Category research runs as four persisted, category-specific stages. Candidates are saved after each completed stage rather than waiting for the entire assignment. If a later stage times out or fails, the run becomes **partial**: completed candidates remain reviewable and exportable, and **Resume research** retries only the unfinished stage before continuing.
@@ -482,9 +487,13 @@ Normal Mac-only use is unchanged: `./run.sh` still serves only <http://127.0.0.1
 
 For a reviewer outside the owner's tailnet, Tailscale supports sharing this Mac with a specific person. Apply a narrow Tailscale access policy so only the intended reviewer can reach it. The identity displayed by the app is informational; Tailscale's sharing and access policy are the security boundary.
 
-## Keep the agent running in the background on macOS
+## Keep Scout and Local Qwen running in the background on macOS
 
-The macOS background service starts the DeepSeek-and-Tailscale launcher when you sign in, keeps it running if it exits, and uses this clone's existing `data/research-agent.sqlite3`. Install it from the clone that should be the agent's permanent home. First run `./run-dsh.sh` once if the DeepSeek key has not already been saved in Keychain, then stop that foreground copy and install the service:
+The macOS background service starts the unmetered Local Qwen service and the
+Tailscale Resource Scout launcher when you sign in, keeps both running if they
+exit, and uses this clone's existing `data/research-agent.sqlite3`. Install it
+from the clone that should be Scout's permanent home. It never retrieves or
+requires a DeepSeek key:
 
 ```sh
 ./background-service.sh install
