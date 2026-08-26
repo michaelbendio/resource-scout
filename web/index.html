@@ -12,7 +12,7 @@
       <h1>Resource Scout</h1>
       <p class="lede">Import what is already known. Use it to research more deeply. Keep discoveries separate for Curator and human vetting.</p>
     </div>
-    <span class="header-version" id="app-version">v0.37.9</span>
+    <span class="header-version" id="app-version">v0.37.10</span>
   </header>
 
   <main>
@@ -145,8 +145,13 @@
       <p class="muted" id="manual-discovery-context"></p>
     </div>
     <section class="manual-assignment-copy">
-      <div class="section-head"><h3>Assignment sent to every chat</h3><button type="button" class="secondary" id="copy-manual-assignment">Copy assignment</button></div>
-      <pre id="manual-assignment-text"></pre>
+      <div class="manual-assignment-heading">
+        <details class="manual-assignment-details">
+          <summary>Assignment sent to every chat</summary>
+          <pre id="manual-assignment-text"></pre>
+        </details>
+        <button type="button" class="secondary" id="copy-manual-assignment">Copy assignment</button>
+      </div>
     </section>
     <div class="manual-progress" id="manual-progress" aria-live="polite"></div>
     <p class="manual-next-step" id="manual-next-step" aria-live="polite"></p>

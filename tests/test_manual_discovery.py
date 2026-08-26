@@ -451,6 +451,16 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertIn("status.playbookCategories", javascript)
         self.assertNotIn("categoryId: researchMode === 'package' ? state.activeCategoryId : 'housing'", javascript)
         self.assertIn("copy-manual-assignment", html)
+        self.assertIn('<details class="manual-assignment-details">', html)
+        self.assertIn("<summary>Assignment sent to every chat</summary>", html)
+        assignment_section = html[
+            html.index('<section class="manual-assignment-copy">'):
+            html.index('<div class="manual-progress"')
+        ]
+        self.assertLess(
+            assignment_section.index("</details>"),
+            assignment_section.index('id="copy-manual-assignment"'),
+        )
         self.assertIn("manual-source-list", html)
         self.assertIn("function openManualDiscoverySetup(payload)", javascript)
         self.assertIn("/api/manual-discovery-runs/initial-contribution", javascript)
