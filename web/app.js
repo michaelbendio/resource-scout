@@ -651,7 +651,9 @@ function renderRuns() {
       const openManual = document.createElement('button');
       openManual.type = 'button';
       openManual.className = 'secondary view-manual-run';
-      openManual.textContent = run.status === 'running' ? 'Continue collecting responses' : 'View responses';
+      openManual.textContent = run.status === 'running'
+        ? (received ? 'Review responses and leads' : 'Collect responses')
+        : 'View responses and leads';
       openManual.addEventListener('click', () => openManualDiscoveryRun(run.id));
       actions.append(openManual);
       if (run.status === 'completed') {
@@ -997,7 +999,7 @@ function renderManualConsolidation() {
     }
     suggestionsTarget.replaceChildren(...children);
   }
-  document.querySelector('#manual-group-summary').textContent = `View ${consolidation.groups.length} consolidated identity group${consolidation.groups.length === 1 ? '' : 's'}`;
+  document.querySelector('#manual-group-summary').textContent = `Inspect ${consolidation.groups.length} consolidated identity group${consolidation.groups.length === 1 ? '' : 's'}`;
   document.querySelector('#manual-group-list').replaceChildren(...consolidation.groups.map(group => {
     const item = document.createElement('article');
     item.className = 'manual-group';
@@ -1057,6 +1059,9 @@ async function openManualDiscoveryRun(runId) {
   renderManualDiscoveryWorkspace();
   const dialog = document.querySelector('#manual-discovery-dialog');
   if (!dialog.open) dialog.showModal();
+  if (result.consolidation) {
+    requestAnimationFrame(() => document.querySelector('#manual-consolidation').scrollIntoView({ block: 'start' }));
+  }
 }
 
 async function resumeResearchRun(run, button) {
