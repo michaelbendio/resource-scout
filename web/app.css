@@ -89,14 +89,20 @@ textarea { resize: vertical; }
 body.resizing-research-panes { cursor: col-resize; user-select: none; }
 .run-list, .candidate-list { display: grid; gap: .7rem; margin-top: 1rem; }
 .run, .candidate { padding: .9rem 1rem; border: 1px solid var(--line); border-radius: 10px; background: white; }
-.run { display: grid; gap: .35rem; }
-.run-head, .candidate-head { display: flex; justify-content: space-between; gap: .8rem; align-items: flex-start; }
+.run { display: block; padding: 0; overflow: hidden; }
+.run-summary { display: flex; gap: .35rem; align-items: center; padding: .72rem .85rem; color: var(--forest); cursor: pointer; }
+.run-summary::-webkit-details-marker { display: none; }
+.run-summary::before { content: '▸'; flex: 0 0 auto; transition: transform .12s ease; }
+.run[open] > .run-summary::before { transform: rotate(90deg); }
+.run-summary-separator { color: var(--muted); }
+.run-summary-status { color: #4a5b55; font-size: .8rem; font-weight: 750; text-transform: capitalize; }
+.run-summary-status.running, .run-summary-status.queued, .run-summary-status.partial { color: #795118; }
+.run-summary-status.completed { color: #205f48; }
+.run-summary-status.failed { color: #873d35; }
+.run-body { display: grid; gap: .35rem; padding: 0 .85rem .85rem 2rem; }
+.candidate-head { display: flex; justify-content: space-between; gap: .8rem; align-items: flex-start; }
 .run small, .candidate small { color: var(--muted); }
-.run-status, .candidate-status, .count-badge { display: inline-block; width: fit-content; padding: .25rem .55rem; border-radius: 999px; color: #4a5b55; background: #e8ece9; font-size: .72rem; font-weight: 800; text-transform: capitalize; }
-.run-status.running, .run-status.queued { color: #795118; background: #fff0d4; }
-.run-status.completed { color: #205f48; background: #dff0e7; }
-.run-status.partial { color: #795118; background: #fff0d4; }
-.run-status.failed { color: #873d35; background: #f6e3e0; }
+.candidate-status, .count-badge { display: inline-block; width: fit-content; padding: .25rem .55rem; border-radius: 999px; color: #4a5b55; background: #e8ece9; font-size: .72rem; font-weight: 800; text-transform: capitalize; }
 .run-progress { margin-top: .2rem; color: #3f5b50; font-size: .82rem; font-weight: 750; }
 .run-actions { display: flex; flex-wrap: wrap; gap: .65rem; align-items: center; margin-top: .25rem; }
 .run-actions button, .run-actions .review-export { padding: .48rem .7rem; font-size: .8rem; }

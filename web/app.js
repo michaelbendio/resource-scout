@@ -5,7 +5,7 @@ const state = {
   manualIdentityDecisionPending: false,
   manualAssignmentRequest: 0, customManualSources: 0,
   candidateRunId: null, candidateRunSelectionInitialized: false,
-  runActionMessages: {},
+  runActionMessages: {}, expandedRunIds: new Set(),
   assignmentDrafts: { package: '', 'standalone-location': '' }, standaloneAutoAssignment: '',
   categories: [], forGroups: [], activeCategoryId: 'housing', categoryAssignmentDrafts: {},
 };
@@ -454,27 +454,38 @@ function renderRuns() {
     return;
   }
   target.replaceChildren(...state.runs.map(run => {
-    const item = document.createElement('div');
+    const item = document.createElement('details');
     item.className = 'run';
-    const head = document.createElement('div');
-    head.className = 'run-head';
+    item.open = state.expandedRunIds.has(run.id);
+    item.addEventListener('toggle', () => {
+      if (item.open) state.expandedRunIds.add(run.id);
+      else state.expandedRunIds.delete(run.id);
+    });
+    const summary = document.createElement('summary');
+    summary.className = 'run-summary';
     const title = document.createElement('strong');
-    title.textContent = researchRunTitle(run);
+    title.textContent = run.targetCategoryLabel || 'Resource';
+    const separator = document.createElement('span');
+    separator.className = 'run-summary-separator';
+    separator.textContent = '·';
+    separator.setAttribute('aria-hidden', 'true');
     const status = document.createElement('span');
-    status.className = `run-status ${run.status}`;
+    status.className = `run-summary-status ${run.status}`;
     status.textContent = friendlyStatus(run.status);
-    head.append(title, status);
+    summary.append(title, separator, status);
+    const body = document.createElement('div');
+    body.className = 'run-body';
     const time = document.createElement('small');
     const duration = formatDuration(run);
     time.textContent = `${formatWhen(run.createdAt)}${duration ? ` · Duration ${duration}` : ''} · chat sources · ${run.researchMode === 'standalone-location' ? 'standalone location' : 'package-backed'}`;
-    item.append(head, time);
+    body.append(time);
     const progress = document.createElement('div');
     progress.className = 'run-progress';
     const received = run.manualProgress?.contributionCount || 0;
     const leads = run.manualProgress?.leadCount || 0;
     const errors = run.manualProgress?.errorContributionCount || 0;
     progress.textContent = `${received} response${received === 1 ? '' : 's'} received · ${leads} parsed lead${leads === 1 ? '' : 's'}${errors ? ` · ${errors} needs correction` : ''}`;
-    item.append(progress);
+    body.append(progress);
     const actions = document.createElement('div');
     actions.className = 'run-actions';
     const actionStatus = document.createElement('span');
@@ -553,9 +564,10 @@ function renderRuns() {
         });
         actions.append(importLookup, importFile, exportLink);
     }
-    item.append(actions, actionStatus);
+    body.append(actions, actionStatus);
     const excluded = renderExcludedLeads(run.id);
-    if (excluded) item.append(excluded);
+    if (excluded) body.append(excluded);
+    item.append(summary, body);
     return item;
   }));
 }
