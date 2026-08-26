@@ -151,12 +151,13 @@ function renderCategoryChooser() {
     input.type = 'radio'; input.name = 'research-category'; input.value = category.id;
     input.checked = category.id === state.activeCategoryId;
     input.disabled = !category.supported;
-    const title = document.createElement('strong'); title.textContent = category.label;
-    label.append(input, title);
+    input.setAttribute('aria-label', `Select ${category.label}`);
+    label.append(input);
     const types = document.createElement('details');
     types.className = 'category-types';
     const typesSummary = document.createElement('summary');
-    typesSummary.textContent = 'Types';
+    const title = document.createElement('strong'); title.textContent = category.label;
+    typesSummary.append(title);
     const typesCopy = document.createElement('p');
     typesCopy.textContent = category.types?.length
       ? category.types.join(', ')
