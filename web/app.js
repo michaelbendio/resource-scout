@@ -1058,6 +1058,20 @@ function renderManualDiscoveryWorkspace() {
   document.querySelector('#manual-assignment-text').textContent = run.assignment;
   const progress = run.manualProgress || {};
   document.querySelector('#manual-progress').textContent = `${progress.contributionCount || 0} response${progress.contributionCount === 1 ? '' : 's'} received · ${progress.leadCount || 0} parsed lead${progress.leadCount === 1 ? '' : 's'}${progress.errorContributionCount ? ` · ${progress.errorContributionCount} response needs correction` : ''}`;
+  const nextStep = document.querySelector('#manual-next-step');
+  if (locked) {
+    nextStep.textContent = 'Discovery is finished. Close this view, then export its Resource Curator from Recent runs.';
+  } else if (progress.errorContributionCount) {
+    nextStep.textContent = 'Next: Correct or remove the response marked as needing attention.';
+  } else if (state.manualConsolidation) {
+    nextStep.textContent = 'Next: Optionally review the possible relationships, then select Finish discovery.';
+  } else if ((progress.contributionCount || 0) >= 4) {
+    nextStep.textContent = 'Next: Select Consolidate leads. Scout will combine repeated leads and flag possible relationships.';
+  } else if (progress.contributionCount) {
+    nextStep.textContent = 'Next: Add another response, or select Consolidate leads if you have enough sources.';
+  } else {
+    nextStep.textContent = 'Next: Paste a chat response into a source card and select Validate and save.';
+  }
   renderManualConsolidation();
   const byLabel = new Map(state.manualContributions.map(item => [item.sourceLabel.toLowerCase(), item]));
   const defaults = ['ChatGPT', 'Grok', 'Claude', 'Perplexity'];
