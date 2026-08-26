@@ -17,6 +17,25 @@ function pythonExecutable() {
 }
 
 
+async function traceEvent(value) {
+  const endpoint = process.env.RESOURCE_SCOUT_TRACE_ENDPOINT?.trim().replace(/\/$/, "");
+  if (!endpoint) return null;
+  const response = await fetch(`${endpoint}/api/events`, {
+    method: "POST",
+    headers: { "content-type": "application/json", accept: "application/json" },
+    body: JSON.stringify({
+      ...value,
+      traceId: process.env.RESOURCE_SCOUT_TRACE_ID || "",
+    }),
+  });
+  if (!response.ok) {
+    throw new Error(`Trace Console returned HTTP ${response.status}: ${await response.text()}`);
+  }
+  const result = await response.json();
+  return result.event || null;
+}
+
+
 export class DDGSSearchProvider {
   id = DDGS_PROVIDER_ID;
 
@@ -44,7 +63,16 @@ export class DDGSSearchProvider {
     }
     this.calls += 1;
     const maxResults = Math.max(1, Math.min(Number(request.maxResults) || 8, 20));
-    return await new Promise((resolve, reject) => {
+    const requestPayload = { query: String(request.query || ""), maxResults };
+    const requestEvent = await traceEvent({
+      source: "DSH", target: "DDGS", kind: "search-request",
+      summary: requestPayload.query, payload: requestPayload,
+    });
+    if (signal?.aborted) {
+      throw new WebError("DDGS search aborted", "WEB_ABORTED", { cause: signal.reason });
+    }
+    try {
+      const result = await new Promise((resolve, reject) => {
       const child = spawn(this.python, [this.helper], {
         stdio: ["pipe", "pipe", "pipe"],
         env: { ...process.env, PYTHONUNBUFFERED: "1" },
@@ -103,8 +131,22 @@ export class DDGSSearchProvider {
           ));
         }
       }));
-      child.stdin.end(JSON.stringify({ query: String(request.query || ""), maxResults }));
-    });
+        child.stdin.end(JSON.stringify(requestPayload));
+      });
+      await traceEvent({
+        source: "DDGS", target: "DSH", kind: "search-response",
+        summary: `${result.sources.length} search results`, payload: result,
+        replyTo: requestEvent?.id || null,
+      });
+      return result;
+    } catch (error) {
+      await traceEvent({
+        source: "DDGS", target: "DSH", kind: "search-error",
+        summary: error.message, payload: { message: error.message, code: error.code || "" },
+        replyTo: requestEvent?.id || null,
+      });
+      throw error;
+    }
   }
 }
 

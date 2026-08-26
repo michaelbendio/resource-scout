@@ -1,3 +1,3 @@
 """Standalone Resource Research Agent package."""
 
-__version__ = "0.30.4"
+__version__ = "0.30.5"

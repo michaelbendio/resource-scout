@@ -591,9 +591,9 @@ class ResearchWorkflowTests(unittest.TestCase):
         self.assertIsInstance(adapter, DSHCLIAdapter)
         self.assertEqual("local-qwen", adapter._configuration().key)
 
-    def test_dsh_adapter_routes_human_model_without_a_deepseek_key(self) -> None:
-        fake = self.root / "fake_human_dsh.py"
-        invocation = self.root / "human-dsh-invocation.json"
+    def test_dsh_adapter_routes_traced_qwen_without_a_deepseek_key(self) -> None:
+        fake = self.root / "fake_trace_dsh.py"
+        invocation = self.root / "trace-dsh-invocation.json"
         fake.write_text(
             "import json, os, pathlib, sys\n"
             "if '--version' in sys.argv:\n"
@@ -601,31 +601,31 @@ class ResearchWorkflowTests(unittest.TestCase):
             "    raise SystemExit(0)\n"
             "patches = [pathlib.Path(sys.argv[i + 1]).read_text() for i, value in enumerate(sys.argv) if value == '--patch']\n"
             f"pathlib.Path({str(invocation)!r}).write_text(json.dumps({{'hasDeepSeekKey': 'DEEPSEEK_API_KEY' in os.environ, 'patches': patches}}))\n"
-            "print(json.dumps({'summary':'human done','candidates':[{'name':'Human Place'}],'lessons':[]}))\n",
+            "print(json.dumps({'summary':'trace done','candidates':[{'name':'Trace Place'}],'lessons':[]}))\n",
             encoding="utf-8",
         )
         settings = {
             "adapter": "dsh",
-            "dshConfiguration": "human",
+            "dshConfiguration": "trace-qwen",
             "dshCommand": f"{os.sys.executable} {fake}",
             "timeoutSeconds": 30,
         }
         with patch.dict(os.environ, {"DEEPSEEK_API_KEY": "must-not-be-forwarded"}):
-            with patch("resource_research_agent.agents.human_catalog_health", return_value={"ready": True}):
+            with patch("resource_research_agent.agents.trace_catalog_health", return_value={"ready": True}):
                 adapter = DSHCLIAdapter(settings)
                 status = adapter.status()
                 result = adapter.run("Research Housing")
 
         call = json.loads(invocation.read_text(encoding="utf-8"))
         self.assertTrue(status["ready"])
-        self.assertEqual("Human Model - temporary, no metered services", status["configurationDisplayName"])
+        self.assertEqual("Traced Local Qwen - temporary, no metered services", status["configurationDisplayName"])
         self.assertFalse(call["hasDeepSeekKey"])
-        self.assertIn("provider: human-local", call["patches"][1])
-        self.assertIn("provider: human-local", call["patches"][2])
-        self.assertEqual("Human Place", result.result["candidates"][0]["name"])
-        self.assertEqual("human", result.usage["configuration"])
-        self.assertEqual("human-local", result.usage["provider"])
-        self.assertEqual("human", result.usage["runtime"])
+        self.assertIn("provider: qwen-trace-local", call["patches"][1])
+        self.assertIn("provider: qwen-trace-local", call["patches"][2])
+        self.assertEqual("Trace Place", result.result["candidates"][0]["name"])
+        self.assertEqual("trace-qwen", result.usage["configuration"])
+        self.assertEqual("qwen-trace-local", result.usage["provider"])
+        self.assertEqual("mlx-lm-traced", result.usage["runtime"])
         self.assertFalse(result.usage["metered"])
 
     def test_production_policy_overrides_saved_metered_settings(self) -> None:

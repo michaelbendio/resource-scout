@@ -15,11 +15,13 @@ authorized production Qwen cutover on 2026-08-24. Application `0.30.4` locks the
 normal production route to local 8-bit Qwen, adds an independently supervised and
 self-validating model service, and removes the production DeepSeek credential
 dependency. Live burn-in and final deployment verification remain in progress.
-Application `0.30.4` also adds an isolated, temporary Human Scout learning aid.
-It replaces only the OpenAI-compatible model turn with a local browser inbox so
-Michael can inspect the exact conversation and choose a final answer or one of
-DSH's offered bounded tools. It uses a disposable database and ports 8766/8082;
-it does not redirect, stop, or write to production Scout or production Qwen.
+Application `0.30.5` replaces the temporary Human Scout experiment with an
+isolated, approval-gated Trace Scout. Qwen remains the researcher. A loopback
+proxy and instrumented DSH tools expose complete logical handoffs among Scout,
+DSH, Qwen, DDGS, and safe fetch, with single-message approval, skip-N,
+run-to-boundary, stage-flow filtering, and JSON-lines export. It uses a
+disposable database and ports 8766/8082/8083; it does not redirect, stop, or
+write to production Scout or production Qwen.
 Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
 Step 3 completed under the revised scope: the category-neutral candidate qualification gate and

@@ -20,6 +20,25 @@ function fetchError(message, code = "WEB_PROVIDER_ERROR", cause) {
 }
 
 
+async function traceEvent(value) {
+  const endpoint = process.env.RESOURCE_SCOUT_TRACE_ENDPOINT?.trim().replace(/\/$/, "");
+  if (!endpoint) return null;
+  const response = await fetch(`${endpoint}/api/events`, {
+    method: "POST",
+    headers: { "content-type": "application/json", accept: "application/json" },
+    body: JSON.stringify({
+      ...value,
+      traceId: process.env.RESOURCE_SCOUT_TRACE_ID || "",
+    }),
+  });
+  if (!response.ok) {
+    throw new Error(`Trace Console returned HTTP ${response.status}: ${await response.text()}`);
+  }
+  const result = await response.json();
+  return result.event || null;
+}
+
+
 export function isPublicAddress(address) {
   if (!ipaddr.isValid(address)) return false;
   let parsed = ipaddr.parse(address);
@@ -235,8 +254,16 @@ export class SafeFetchProvider {
     }
     this.calls += 1;
     let url = parseSafeURL(request.url);
+    const requestEvent = await traceEvent({
+      source: "DSH", target: "Safe Fetch", kind: "fetch-request",
+      summary: url.href, payload: { url: url.href },
+    });
+    if (signal?.aborted) {
+      throw fetchError("Web fetch aborted", "WEB_ABORTED", signal.reason);
+    }
     const deadline = Date.now() + this.timeoutMs;
-    for (let redirects = 0; ; redirects += 1) {
+    try {
+      for (let redirects = 0; ; redirects += 1) {
       if (signal?.aborted) {
         throw fetchError("Web fetch aborted", "WEB_ABORTED", signal.reason);
       }
@@ -263,12 +290,26 @@ export class SafeFetchProvider {
         url = parseSafeURL(new URL(String(location), url).href);
         continue;
       }
-      return {
+        const result = {
         url: url.href,
         statusCode: response.statusCode,
         body: decodedBody(response.headers, response.body),
         truncated: Boolean(response.truncated),
-      };
+        };
+        await traceEvent({
+          source: "Safe Fetch", target: "DSH", kind: "fetch-response",
+          summary: `HTTP ${result.statusCode} from ${result.url}`, payload: result,
+          replyTo: requestEvent?.id || null,
+        });
+        return result;
+      }
+    } catch (error) {
+      await traceEvent({
+        source: "Safe Fetch", target: "DSH", kind: "fetch-error",
+        summary: error.message, payload: { message: error.message, code: error.code || "" },
+        replyTo: requestEvent?.id || null,
+      });
+      throw error;
     }
   }
 }

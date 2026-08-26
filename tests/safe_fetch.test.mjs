@@ -228,3 +228,42 @@ test("provider enforces a deterministic per-run fetch call limit", async () => {
     provider.fetch({ url: "https://example.org/three" }), /call limit of 2 reached/
   );
 });
+
+
+test("provider traces one fetch request and its linked response", { concurrency: false }, async () => {
+  const originalFetch = globalThis.fetch;
+  const originalEndpoint = process.env.RESOURCE_SCOUT_TRACE_ENDPOINT;
+  const originalTraceId = process.env.RESOURCE_SCOUT_TRACE_ID;
+  const events = [];
+  process.env.RESOURCE_SCOUT_TRACE_ENDPOINT = "http://trace.invalid";
+  process.env.RESOURCE_SCOUT_TRACE_ID = "stage-test";
+  globalThis.fetch = async (_url, options) => {
+    const event = JSON.parse(options.body);
+    events.push(event);
+    return new Response(JSON.stringify({ ok: true, event: { id: `event-${events.length}` } }), {
+      status: 200,
+      headers: { "content-type": "application/json" },
+    });
+  };
+  try {
+    const provider = new SafeFetchProvider({
+      resolver: publicResolver,
+      requester: async () => ({
+        statusCode: 200,
+        headers: { "content-type": "text/plain" },
+        body: Buffer.from("ok"),
+        truncated: false,
+      }),
+    });
+    await provider.fetch({ url: "https://example.org/help" });
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (originalEndpoint === undefined) delete process.env.RESOURCE_SCOUT_TRACE_ENDPOINT;
+    else process.env.RESOURCE_SCOUT_TRACE_ENDPOINT = originalEndpoint;
+    if (originalTraceId === undefined) delete process.env.RESOURCE_SCOUT_TRACE_ID;
+    else process.env.RESOURCE_SCOUT_TRACE_ID = originalTraceId;
+  }
+  assert.deepEqual(events.map(event => event.kind), ["fetch-request", "fetch-response"]);
+  assert.equal(events[0].traceId, "stage-test");
+  assert.equal(events[1].replyTo, "event-1");
+});

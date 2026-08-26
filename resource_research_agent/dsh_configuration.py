@@ -6,7 +6,7 @@ from urllib.parse import urlsplit
 
 
 LOCAL_QWEN_CONFIGURATION = "local-qwen"
-HUMAN_CONFIGURATION = "human"
+TRACE_QWEN_CONFIGURATION = "trace-qwen"
 DEEPSEEK_CONFIGURATION = "deepseek"
 
 
@@ -66,19 +66,19 @@ CONFIGURATIONS: dict[str, DSHConfiguration] = {
         metered=False,
         quantization="8-bit",
     ),
-    HUMAN_CONFIGURATION: DSHConfiguration(
-        key=HUMAN_CONFIGURATION,
-        display_name="Human Model - temporary, no metered services",
-        model_provider="human-local",
-        model="resource-scout-human",
-        model_endpoint="http://127.0.0.1:8082/v1",
+    TRACE_QWEN_CONFIGURATION: DSHConfiguration(
+        key=TRACE_QWEN_CONFIGURATION,
+        display_name="Traced Local Qwen - temporary, no metered services",
+        model_provider="qwen-trace-local",
+        model="mlx-community/Qwen3.8-27B-8bit",
+        model_endpoint="http://127.0.0.1:8083/v1",
         context_window=65_536,
-        reasoning="human",
+        reasoning="medium",
         search_provider="ddgs",
         fetch_provider="safe-http",
         timeout_seconds=7200,
         metered=False,
-        quantization="human",
+        quantization="8-bit",
     ),
     DEEPSEEK_CONFIGURATION: DSHConfiguration(
         key=DEEPSEEK_CONFIGURATION,
@@ -110,7 +110,7 @@ def zero_metered_services_violations(configuration: DSHConfiguration) -> list[st
     endpoint = urlsplit(configuration.model_endpoint)
     if endpoint.scheme != "http" or endpoint.hostname not in {"127.0.0.1", "localhost", "::1"}:
         violations.append("model endpoint is not loopback HTTP")
-    if configuration.model_provider not in {"qwen-local", "human-local"}:
+    if configuration.model_provider not in {"qwen-local", "qwen-trace-local"}:
         violations.append("model provider is not an approved local provider")
     if configuration.search_provider != "ddgs":
         violations.append("search provider is not DDGS")

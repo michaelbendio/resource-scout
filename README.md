@@ -196,35 +196,39 @@ to begin unless Recent runs is empty. Use `--dry-run` to inspect the plan withou
 creating a run or state file. Miscellaneous can be added only with the explicit
 `--include-miscellaneous` option.
 
-### Temporary Human Scout
+### Temporary Trace Scout
 
-To see the model side of Scout's workflow directly, start the isolated Human
-Scout experiment:
+To watch Scout, DSH, Qwen, DDGS search, and safe page retrieval communicate,
+start the isolated Trace Scout:
 
 ```sh
-./human-scout.sh
+./trace-scout.sh
 ```
 
 Keep that Terminal window open, then open the two addresses it prints:
 
-1. `http://127.0.0.1:8082` — Human Model, where Scout's requests appear and wait
-   for your response.
-2. `http://127.0.0.1:8766` — a temporary Resource Scout that uses you instead of
-   Qwen.
+1. `http://127.0.0.1:8082` — Trace Console, where each logical handoff appears
+   and waits for approval.
+2. `http://127.0.0.1:8766` — a temporary Resource Scout that still uses the
+   production 8-bit Qwen model through the trace.
 
-Start one category or standalone-location stage in the temporary Scout. Human
-Model shows the complete conversation and the tools DSH offered. You can either
-send the exact answer Scout requested or choose an offered search/fetch tool and
-provide its inputs; DSH executes the same bounded DDGS and safe-fetch tools used
-by Qwen, then returns the result to Human Model for your next decision.
+Start one category or standalone-location stage in the temporary Scout. The
+console pauses at complete messages rather than model-token fragments. **OK —
+next message** releases one handoff. **Skip N** releases a chosen number. **Run
+to…** stops at the next Qwen message, search, page fetch, error, or stage
+boundary. **Continue without pausing** lets the run finish, and **Pause again**
+reinstates the next-message gate. Select any message to inspect its complete
+payload or isolate its stage-wide flow. **Download trace** saves the complete
+JSON-lines record, including correlation and request/reply identifiers.
 
 The experiment is loopback-only, uses no metered model or fallback, and writes to
-`data/human-scout.sqlite3`, not the production research database. Its first start
+`data/trace-scout.sqlite3`, not the production research database. Its first start
 creates a clean disposable snapshot containing the current resource package but
 no production runs, candidates, or lessons. Later starts resume that temporary
-database. Use `./human-scout.sh --fresh` when you intentionally want to replace
-it with another clean production snapshot. Control-C in its Terminal stops both
-temporary apps; production Scout and Qwen are unaffected.
+database. Use `./trace-scout.sh --fresh` when you intentionally want to replace
+it and `data/scout-trace.jsonl` with a clean production snapshot. Control-C in
+its Terminal stops the Trace Console, model proxy, and temporary Scout;
+production Scout, production Qwen, and their data are unaffected.
 
 Before Mesa calibration, freeze the historical comparison into an ignored, separate benchmark directory:
 

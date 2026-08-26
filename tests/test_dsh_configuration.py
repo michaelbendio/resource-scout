@@ -5,8 +5,8 @@ from dataclasses import replace
 
 from resource_research_agent.dsh_configuration import (
     DEEPSEEK_CONFIGURATION,
-    HUMAN_CONFIGURATION,
     LOCAL_QWEN_CONFIGURATION,
+    TRACE_QWEN_CONFIGURATION,
     local_model_catalog_error,
     resolve_dsh_configuration,
     zero_metered_services_violations,
@@ -76,12 +76,12 @@ class DSHConfigurationTests(unittest.TestCase):
         self.assertEqual("deepseek-official", configuration.search_provider)
         self.assertFalse(configuration.uses_only_unmetered_services)
 
-    def test_human_configuration_is_loopback_only_and_unmetered(self) -> None:
-        configuration = resolve_dsh_configuration(HUMAN_CONFIGURATION)
+    def test_trace_configuration_is_loopback_only_and_unmetered(self) -> None:
+        configuration = resolve_dsh_configuration(TRACE_QWEN_CONFIGURATION)
 
-        self.assertEqual("human-local", configuration.model_provider)
-        self.assertEqual("resource-scout-human", configuration.model)
-        self.assertEqual("http://127.0.0.1:8082/v1", configuration.model_endpoint)
+        self.assertEqual("qwen-trace-local", configuration.model_provider)
+        self.assertEqual("mlx-community/Qwen3.8-27B-8bit", configuration.model)
+        self.assertEqual("http://127.0.0.1:8083/v1", configuration.model_endpoint)
         self.assertEqual("ddgs", configuration.search_provider)
         self.assertEqual("safe-http", configuration.fetch_provider)
         self.assertFalse(configuration.metered)

@@ -7,6 +7,7 @@ import shlex
 import shutil
 import subprocess
 import tempfile
+from uuid import uuid4
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
@@ -14,12 +15,13 @@ from typing import Any
 
 from .dsh_configuration import (
     DEEPSEEK_CONFIGURATION,
-    HUMAN_CONFIGURATION,
     LOCAL_QWEN_CONFIGURATION,
+    TRACE_QWEN_CONFIGURATION,
     resolve_dsh_configuration,
 )
-from .human_model import HumanModelError, catalog_health as human_catalog_health
+from .trace_console import TraceError, catalog_health as trace_catalog_health
 from .local_qwen import LocalQwenError, validated_health
+from .trace_client import TraceClientError, emit_trace_event
 
 
 DEFAULT_SETTINGS: dict[str, Any] = {
@@ -399,8 +401,8 @@ class DSHCLIAdapter(ResearchAgentAdapter):
                 "message": str(exc), "experimental": True,
             }
         is_qwen = configuration.key == LOCAL_QWEN_CONFIGURATION
-        is_human = configuration.key == HUMAN_CONFIGURATION
-        is_local = is_qwen or is_human
+        is_trace = configuration.key == TRACE_QWEN_CONFIGURATION
+        is_local = is_qwen or is_trace
         configured = is_local or bool(os.environ.get("DEEPSEEK_API_KEY", "").strip())
         model = configuration.model
         if not is_local:
@@ -432,10 +434,10 @@ class DSHCLIAdapter(ResearchAgentAdapter):
                 validated_health(timeout=2.0)
             except LocalQwenError as exc:
                 local_error = str(exc)
-        elif is_human and not error:
+        elif is_trace and not error:
             try:
-                human_catalog_health(timeout=2.0)
-            except HumanModelError as exc:
+                trace_catalog_health(timeout=2.0)
+            except TraceError as exc:
                 local_error = str(exc)
         ready = not error and not local_error and configured
         if error:
@@ -446,8 +448,8 @@ class DSHCLIAdapter(ResearchAgentAdapter):
             message = "DSH is installed. Start this app with DEEPSEEK_API_KEY available."
         elif is_qwen:
             message = "DSH, Local Qwen, DDGS search, and safe page retrieval are ready with no metered services."
-        elif is_human:
-            message = "DSH, Human Model, DDGS search, and safe page retrieval are ready with no metered services."
+        elif is_trace:
+            message = "DSH, traced Local Qwen, DDGS search, and safe page retrieval are ready with no metered services."
         else:
             message = "DSH is installed and the DeepSeek API key is available."
         return {
@@ -458,7 +460,7 @@ class DSHCLIAdapter(ResearchAgentAdapter):
             "setupCommand": (
                 "./local-qwen.sh serve"
                 if is_qwen
-                else "./human-scout.sh" if is_human else "./run-dsh.sh"
+                else "./trace-scout.sh" if is_trace else "./run-dsh.sh"
             ),
             "experimental": True,
             **configuration.as_status(),
@@ -471,8 +473,8 @@ class DSHCLIAdapter(ResearchAgentAdapter):
             raise AgentRunError("DSH is not installed or its command cannot be found")
         configuration = self._configuration()
         is_qwen = configuration.key == LOCAL_QWEN_CONFIGURATION
-        is_human = configuration.key == HUMAN_CONFIGURATION
-        is_local = is_qwen or is_human
+        is_trace = configuration.key == TRACE_QWEN_CONFIGURATION
+        is_local = is_qwen or is_trace
         if not is_local and not os.environ.get("DEEPSEEK_API_KEY", "").strip():
             raise AgentRunError("DEEPSEEK_API_KEY must be available when the app starts")
         if is_qwen:
@@ -480,10 +482,10 @@ class DSHCLIAdapter(ResearchAgentAdapter):
                 validated_health(timeout=2.0)
             except LocalQwenError as exc:
                 raise AgentRunError(str(exc)) from exc
-        elif is_human:
+        elif is_trace:
             try:
-                human_catalog_health(timeout=2.0)
-            except HumanModelError as exc:
+                trace_catalog_health(timeout=2.0)
+            except TraceError as exc:
                 raise AgentRunError(str(exc)) from exc
         timeout = max(30, min(int(self.settings.get("timeoutSeconds", 900)), 7200))
         model = configuration.model
@@ -497,7 +499,7 @@ class DSHCLIAdapter(ResearchAgentAdapter):
         route_patch = (
             PROJECT_ROOT / "dsh-local-qwen.patch.yml"
             if is_qwen
-            else PROJECT_ROOT / "dsh-human.patch.yml" if is_human else None
+            else PROJECT_ROOT / "dsh-trace-qwen.patch.yml" if is_trace else None
         )
         if route_patch is not None and not route_patch.is_file():
             raise AgentRunError(f"Local DSH configuration is missing: {route_patch}")
@@ -508,6 +510,35 @@ class DSHCLIAdapter(ResearchAgentAdapter):
             )
         ).expanduser().resolve()
         dsh_home.mkdir(parents=True, exist_ok=True)
+        trace_id = f"stage-{uuid4().hex}"
+        try:
+            stage_request = emit_trace_event(
+                source="Scout",
+                target="DSH",
+                kind="stage-request",
+                summary="Scout submitted one research stage to DSH",
+                payload={"prompt": prompt, "configuration": configuration.as_status()},
+                trace_id=trace_id,
+            )
+        except TraceClientError as exc:
+            raise AgentRunError(str(exc)) from exc
+
+        def trace_stage_error(summary: str, payload: dict[str, Any]) -> None:
+            try:
+                emit_trace_event(
+                    source="DSH",
+                    target="Scout",
+                    kind="stage-error",
+                    summary=summary,
+                    payload=payload,
+                    trace_id=trace_id,
+                    reply_to=stage_request.get("id") if stage_request else None,
+                )
+            except TraceClientError:
+                # Preserve the original research error when the temporary trace
+                # console is also shutting down or unavailable.
+                pass
+
         with tempfile.TemporaryDirectory(prefix="resource-research-dsh-") as directory:
             workspace = Path(directory)
             model_patch = workspace / "model.patch.yml"
@@ -531,12 +562,17 @@ class DSHCLIAdapter(ResearchAgentAdapter):
                 "DSH_TOOLS_MODE": "native",
                 "NO_COLOR": "1",
             }
+            if os.environ.get("RESOURCE_SCOUT_TRACE_ENDPOINT", "").strip():
+                environment["RESOURCE_SCOUT_TRACE_ENDPOINT"] = os.environ[
+                    "RESOURCE_SCOUT_TRACE_ENDPOINT"
+                ]
+                environment["RESOURCE_SCOUT_TRACE_ID"] = trace_id
             if is_local:
                 environment.pop("DEEPSEEK_API_KEY", None)
                 # DSH's OpenAI-compatible transport requires a token-shaped
                 # value. MLX is loopback-only and does not authenticate it.
                 environment["RESOURCE_SCOUT_LOCAL_QWEN_TOKEN"] = "local-loopback"
-                environment["RESOURCE_SCOUT_HUMAN_TOKEN"] = "local-loopback"
+                environment["RESOURCE_SCOUT_TRACE_QWEN_TOKEN"] = "local-loopback"
                 environment["RESOURCE_SCOUT_DDGS_PYTHON"] = str(
                     PROJECT_ROOT / "dsh-runtime" / ".venv-ddgs" / "bin" / "python"
                 )
@@ -547,24 +583,40 @@ class DSHCLIAdapter(ResearchAgentAdapter):
                 )
             except subprocess.TimeoutExpired as exc:
                 output = _timeout_output(exc)
+                trace_stage_error(
+                    "DSH research exceeded its time limit",
+                    {"timeoutSeconds": timeout, "output": output},
+                )
                 raise AgentRunError(
                     f"DSH research exceeded the {timeout}-second limit", output
                 ) from exc
             except OSError as exc:
+                trace_stage_error("Scout could not start DSH", {"error": str(exc)})
                 raise AgentRunError(f"Could not start DSH: {exc}") from exc
             output = completed.stdout.strip()
             if completed.returncode != 0:
                 detail = completed.stderr.strip() or output or f"exit code {completed.returncode}"
+                trace_stage_error(
+                    "DSH returned a stage error",
+                    {"error": detail, "output": output, "exitCode": completed.returncode},
+                )
                 raise AgentRunError(f"DSH research failed: {detail}", output)
-            result = _validate_result(
-                _extract_json_object(output, "DSH"), "DSH"
-            )
+            try:
+                result = _validate_result(
+                    _extract_json_object(output, "DSH"), "DSH"
+                )
+            except AgentRunError as exc:
+                trace_stage_error(
+                    "DSH returned an unusable stage response",
+                    {"error": str(exc), "output": output},
+                )
+                raise
             usage = {
                 "adapter": self.key,
                 "configuration": configuration.key,
                 "provider": configuration.model_provider,
                 "model": model,
-                "runtime": "human" if is_human else "mlx-lm" if is_qwen else "deepseek-api",
+                "runtime": "mlx-lm-traced" if is_trace else "mlx-lm" if is_qwen else "deepseek-api",
                 "quantization": configuration.quantization,
                 "endpoint": configuration.model_endpoint,
                 "searchProvider": configuration.search_provider,
@@ -574,6 +626,21 @@ class DSHCLIAdapter(ResearchAgentAdapter):
                 "metered": configuration.metered,
                 "reportedTokenUsage": False,
             }
+            try:
+                emit_trace_event(
+                    source="DSH",
+                    target="Scout",
+                    kind="stage-response",
+                    summary=(
+                        f"DSH returned {len(result.get('candidates', []))} candidates "
+                        f"and {len(result.get('lessons', []))} proposed lessons"
+                    ),
+                    payload={"output": output, "result": result, "usage": usage},
+                    trace_id=trace_id,
+                    reply_to=stage_request.get("id") if stage_request else None,
+                )
+            except TraceClientError as exc:
+                raise AgentRunError(str(exc), output) from exc
             return AgentRunResult(output=output, result=result, usage=usage)
 
 

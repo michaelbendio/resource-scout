@@ -84,3 +84,38 @@ test("provider enforces a deterministic per-run search call limit", async () => 
   await provider.search({ query: "two" });
   await assert.rejects(provider.search({ query: "three" }), /call limit of 2 reached/);
 });
+
+
+test("provider traces one search request and its linked response", { concurrency: false }, async () => {
+  const script = await helper(`
+    process.stdin.resume();
+    process.stdin.on("end", () => console.log('{"sources":[],"truncated":false}'));
+  `);
+  const originalFetch = globalThis.fetch;
+  const originalEndpoint = process.env.RESOURCE_SCOUT_TRACE_ENDPOINT;
+  const originalTraceId = process.env.RESOURCE_SCOUT_TRACE_ID;
+  const events = [];
+  process.env.RESOURCE_SCOUT_TRACE_ENDPOINT = "http://trace.invalid";
+  process.env.RESOURCE_SCOUT_TRACE_ID = "stage-test";
+  globalThis.fetch = async (_url, options) => {
+    const event = JSON.parse(options.body);
+    events.push(event);
+    return new Response(JSON.stringify({ ok: true, event: { id: `event-${events.length}` } }), {
+      status: 200,
+      headers: { "content-type": "application/json" },
+    });
+  };
+  try {
+    const provider = new DDGSSearchProvider({ python: process.execPath, helper: script });
+    await provider.search({ query: "Mesa food help", maxResults: 4 });
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (originalEndpoint === undefined) delete process.env.RESOURCE_SCOUT_TRACE_ENDPOINT;
+    else process.env.RESOURCE_SCOUT_TRACE_ENDPOINT = originalEndpoint;
+    if (originalTraceId === undefined) delete process.env.RESOURCE_SCOUT_TRACE_ID;
+    else process.env.RESOURCE_SCOUT_TRACE_ID = originalTraceId;
+  }
+  assert.deepEqual(events.map(event => event.kind), ["search-request", "search-response"]);
+  assert.equal(events[0].traceId, "stage-test");
+  assert.equal(events[1].replyTo, "event-1");
+});
