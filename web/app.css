@@ -207,13 +207,16 @@ dialog::backdrop { background: rgba(10, 27, 21, .65); }
 .record-heading { padding-right: 2.5rem; }
 .record-heading h2 { max-width: 720px; font-size: clamp(2rem, 5vw, 3rem); }
 .category-panel { margin-top: 1.2rem; }
-.category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: .7rem; margin-top: 1.1rem; }
-.category-choice { display: grid; grid-template-columns: auto 1fr; gap: .7rem; align-items: start; min-height: 78px; padding: .85rem; border: 1px solid var(--line); border-radius: 11px; background: #fff; cursor: pointer; }
-.category-choice:has(input:checked) { border-color: #286b52; box-shadow: 0 0 0 2px rgba(40,107,82,.14); background: #f2f8f4; }
-.category-choice.disabled { cursor: not-allowed; background: #f1f1ee; color: #777; }
-.category-choice input { margin-top: .2rem; }
-.category-choice strong, .category-choice small { display: block; }
-.category-choice small { margin-top: .25rem; color: var(--muted); }
+.category-list { margin-top: 1.1rem; border-block: 1px solid var(--line); }
+.category-row { display: grid; grid-template-columns: minmax(180px, 1fr) minmax(0, 2fr); gap: 1rem; align-items: start; padding: .62rem .3rem; }
+.category-row + .category-row { border-top: 1px solid var(--line); }
+.category-row:has(input:checked) { background: #f2f8f4; }
+.category-row.disabled { color: #777; background: #f1f1ee; }
+.category-select { display: flex; gap: .65rem; align-items: center; cursor: pointer; }
+.category-select input { flex: 0 0 auto; width: auto; }
+.category-row.disabled .category-select { cursor: not-allowed; }
+.category-types summary { width: fit-content; color: var(--forest); cursor: pointer; font-size: .8rem; font-weight: 750; }
+.category-types p { margin: .45rem 0 .1rem; color: var(--muted); font-size: .8rem; }
 .taxonomy-note { margin: 1rem 0 0; color: #38564a; font-size: .88rem; }
 .raw-record { margin-top: 1.7rem; border-top: 1px solid var(--line); padding-top: 1rem; }
 .raw-record summary { color: var(--forest); font-weight: 750; cursor: pointer; }
@@ -230,6 +233,6 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; background:
   .manual-source-list { grid-template-columns: 1fr; }
   .manual-funnel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-@media (max-width: 520px) { .category-grid { grid-template-columns: 1fr; } .section-head { display: block; } }
+@media (max-width: 520px) { .category-row { grid-template-columns: 1fr; gap: .35rem; } .category-types { margin-left: 1.7rem; } .section-head { display: block; } }
 @media (max-width: 600px) { .candidate-facts { grid-template-columns: 1fr; } .form-actions { display: block; } .form-actions span { margin-top: .8rem; } }
 @media (max-width: 700px) { .standalone-fields, .manual-identity-pair, #manual-group-list { grid-template-columns: 1fr; } }

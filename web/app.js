@@ -134,9 +134,8 @@ function packageDefaultAssignment() {
 function updateCategoryCopy() {
   const category = activeCategory();
   document.querySelector('#research-heading-title').textContent = `Collect ${category.label} leads from your chats`;
-  const types = category.types?.length ? category.types.join(', ') : 'None defined in this package';
   const forGroups = state.forGroups.length ? state.forGroups.join(', ') : 'None defined in this package';
-  document.querySelector('#category-taxonomy-note').textContent = `Types: ${types} · For: ${forGroups}`;
+  document.querySelector('#category-taxonomy-note').textContent = `For: ${forGroups}`;
 }
 
 function renderCategoryChooser() {
@@ -144,25 +143,32 @@ function renderCategoryChooser() {
   const supportedCount = state.categories.filter(category => category.supported).length;
   document.querySelector('#category-supported-count').textContent = `${supportedCount} categories`;
   target.replaceChildren(...state.categories.map(category => {
+    const row = document.createElement('div');
+    row.className = `category-row${category.supported ? '' : ' disabled'}`;
     const label = document.createElement('label');
-    label.className = `category-choice${category.supported ? '' : ' disabled'}`;
+    label.className = 'category-select';
     const input = document.createElement('input');
     input.type = 'radio'; input.name = 'research-category'; input.value = category.id;
     input.checked = category.id === state.activeCategoryId;
     input.disabled = !category.supported;
-    const copy = document.createElement('span');
     const title = document.createElement('strong'); title.textContent = category.label;
-    const detail = document.createElement('small');
-    detail.textContent = category.supported
-      ? `${category.resourceCount} existing · ${category.types?.length || 0} Type${category.types?.length === 1 ? '' : 's'}`
-      : 'Unavailable';
-    copy.append(title, detail); label.append(input, copy);
+    label.append(input, title);
+    const types = document.createElement('details');
+    types.className = 'category-types';
+    const typesSummary = document.createElement('summary');
+    typesSummary.textContent = 'Types';
+    const typesCopy = document.createElement('p');
+    typesCopy.textContent = category.types?.length
+      ? category.types.join(', ')
+      : 'No types defined in this package.';
+    types.append(typesSummary, typesCopy);
+    row.append(label, types);
     if (category.supported) input.addEventListener('change', () => {
       selectCategory(category.id).catch(error => {
         document.querySelector('#research-message').textContent = error.message;
       });
     });
-    return label;
+    return row;
   }));
 }
 
@@ -426,7 +432,6 @@ function renderExcludedLeads(runId) {
 }
 
 function manualRunActionLabel(run) {
-  if (run.status !== 'running') return 'View responses and leads';
   return run.manualProgress?.contributionCount
     ? 'Review responses and leads'
     : 'Collect responses';
@@ -485,12 +490,14 @@ function renderRuns() {
       actionStatus.textContent = text;
       actionStatus.classList.toggle('error', kind === 'error');
     };
-    const openManual = document.createElement('button');
-    openManual.type = 'button';
-    openManual.className = 'secondary view-manual-run';
-    openManual.textContent = manualRunActionLabel(run);
-    openManual.addEventListener('click', () => openManualDiscoveryRun(run.id));
-    actions.append(openManual);
+    if (run.status === 'running') {
+      const openManual = document.createElement('button');
+      openManual.type = 'button';
+      openManual.className = 'secondary view-manual-run';
+      openManual.textContent = manualRunActionLabel(run);
+      openManual.addEventListener('click', () => openManualDiscoveryRun(run.id));
+      actions.append(openManual);
+    }
     if (run.status === 'completed') {
         const missingWebsites = missingWebsiteCandidatesForRun(run.id);
         const viewCandidates = document.createElement('button');
