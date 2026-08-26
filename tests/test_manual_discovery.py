@@ -401,6 +401,8 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertIn("Leave all ${pendingSuggestions.length} pending pairs unresolved", javascript)
         self.assertIn("Review responses and leads", javascript)
         self.assertIn("Collect responses", javascript)
+        self.assertIn("function manualRunActionLabel(run)", javascript)
+        self.assertIn("openManual.textContent = manualRunActionLabel(run)", javascript)
         self.assertIn("#manual-consolidation').scrollIntoView", javascript)
         self.assertIn("manual-reviewed-identities", css)
         self.assertIn("@media (max-width: 800px)", css)

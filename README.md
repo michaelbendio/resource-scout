@@ -19,7 +19,7 @@ user-operated chats is specified in
 [`docs/manual-multimodel-discovery-design.md`](docs/manual-multimodel-discovery-design.md).
 It preserves the existing portable Resource Curator handoff while moving detailed
 website and telephone verification to Resource Specialists. On the
-`manual-multimodel-discovery` branch, the version 0.31.3 workspace can generate a
+`manual-multimodel-discovery` branch, the version 0.31.4 workspace can generate a
 category-specific assignment, preserve pasted or uploaded responses with source
 provenance, validate them, replace or delete unfinished contributions, and recover
 an open run after restart. It also consolidates exact repeats, keeps distinct named

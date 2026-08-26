@@ -464,6 +464,13 @@ function candidateCountForRun(runId) {
   return state.discoveries.filter(discovery => discovery.runId === runId).length;
 }
 
+function manualRunActionLabel(run) {
+  if (run.status !== 'running') return 'View responses and leads';
+  return run.manualProgress?.contributionCount
+    ? 'Review responses and leads'
+    : 'Collect responses';
+}
+
 function selectCandidateRun(runId, { scroll = false } = {}) {
   state.candidateRunId = runId;
   state.candidateRunSelectionInitialized = true;
@@ -651,9 +658,7 @@ function renderRuns() {
       const openManual = document.createElement('button');
       openManual.type = 'button';
       openManual.className = 'secondary view-manual-run';
-      openManual.textContent = run.status === 'running'
-        ? (received ? 'Review responses and leads' : 'Collect responses')
-        : 'View responses and leads';
+      openManual.textContent = manualRunActionLabel(run);
       openManual.addEventListener('click', () => openManualDiscoveryRun(run.id));
       actions.append(openManual);
       if (run.status === 'completed') {
