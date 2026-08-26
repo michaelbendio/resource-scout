@@ -1275,11 +1275,6 @@ document.querySelector('#consolidate-manual-discovery').addEventListener('click'
 document.querySelector('#finish-manual-discovery').addEventListener('click', async event => {
   const run = state.activeManualRun;
   if (!run) return;
-  const pending = state.manualConsolidation?.funnel.pendingIdentityDecisions || 0;
-  const relationshipNote = pending
-    ? ` ${pending} unreviewed possible relationship${pending === 1 ? '' : 's'} will remain separate and be included in Curator.`
-    : '';
-  if (!window.confirm(`Finish discovery and lock these source responses?${relationshipNote}`)) return;
   event.currentTarget.disabled = true;
   const message = document.querySelector('#manual-discovery-message');
   message.textContent = 'Finishing the immutable response snapshot…';
@@ -1290,8 +1285,11 @@ document.querySelector('#finish-manual-discovery').addEventListener('click', asy
     state.candidateRunId = run.id;
     state.candidateRunSelectionInitialized = true;
     await loadResearchData();
-    await openManualDiscoveryRun(run.id);
-    message.textContent = 'Discovery responses finished and locked.';
+    document.querySelector('#manual-discovery-dialog').close();
+    state.activeManualRun = null;
+    state.manualContributions = [];
+    state.manualConsolidation = null;
+    document.querySelector('#research-message').textContent = 'Discovery finished. Continue with its actions in Recent runs.';
   } catch (error) {
     message.textContent = error.message;
     event.currentTarget.disabled = false;

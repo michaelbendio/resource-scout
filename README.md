@@ -4,7 +4,7 @@ Resource Scout turns resource leads gathered from several consumer chat products
 into a consolidated candidate list and a portable Resource Curator. It is designed
 for repeated use across TSO locations and resource categories.
 
-Version 0.37.0 is a chat-discovery-only product. The former model-agent,
+Version 0.37.1 is a chat-discovery-only product. The former model-agent,
 optimization, benchmark, trace, and teaching systems are not part of this codebase.
 
 ## Workflow

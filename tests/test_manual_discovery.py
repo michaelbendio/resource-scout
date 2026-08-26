@@ -400,6 +400,13 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertIn("['ChatGPT', 'Grok', 'Claude', 'Perplexity']", javascript)
         self.assertIn("Choose text or JSON file", javascript)
         self.assertIn("window.confirm", javascript)
+        self.assertNotIn("Finish discovery and lock", javascript)
+        finish_block = javascript[
+            javascript.index("document.querySelector('#finish-manual-discovery').addEventListener"):
+            javascript.index("document.querySelector('#copy-private-url').addEventListener")
+        ]
+        self.assertNotIn("openManualDiscoveryRun", finish_block)
+        self.assertIn("manual-discovery-dialog').close()", finish_block)
         self.assertIn("textContent = contribution.trailingText", javascript)
         self.assertIn("Consolidate leads", html)
         self.assertIn('id="manual-next-step"', html)
