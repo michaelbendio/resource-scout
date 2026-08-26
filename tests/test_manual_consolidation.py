@@ -12,6 +12,7 @@ from resource_research_agent.manual_consolidation import (
     finish_manual_discovery,
     record_manual_identity_decision,
 )
+from resource_research_agent.review_export import build_review_copy
 from resource_research_agent.storage import ResearchStore
 
 
@@ -266,6 +267,31 @@ class ManualConsolidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "parse errors"):
             consolidate_manual_discovery(self.store, run_id)
 
+    def test_supplementary_unknowns_never_block_an_uncertain_candidate(self) -> None:
+        run_id = self.create_run()
+        self.store.save_manual_contribution(
+            run_id,
+            "Claude",
+            payload(
+                lead(
+                    "Uncertain Provider",
+                    website="",
+                    location="Possibly Mesa; confirm service area",
+                    why="Provides relevant recovery support",
+                    uncertainty="Pet policy, hours, payment, eligibility, and current openings are unknown",
+                )
+            ),
+        )
+        consolidated = consolidate_manual_discovery(self.store, run_id)
+        checks = consolidated["groups"][0]["checks"]
+        self.assertEqual("present", checks["identity"]["state"])
+        self.assertEqual("uncertain", checks["geography"]["state"])
+        self.assertEqual("present", checks["categoryRelevance"]["state"])
+        self.assertEqual("uncertain", checks["currentSignal"]["state"])
+        self.assertEqual("uncertain", checks["publicAccess"]["state"])
+        finished = finish_manual_discovery(self.store, run_id)
+        self.assertEqual(1, finished["result"]["candidateCount"])
+
     def test_package_duplicate_signals_are_visible_but_do_not_erase_the_group(self) -> None:
         package_path = self.root / "mesa-resource-package.zip"
         with zipfile.ZipFile(package_path, "w") as archive:
@@ -339,6 +365,83 @@ class ManualConsolidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "already closed"):
             finish_manual_discovery(self.store, run_id)
         self.assertEqual(ids, [discovery["id"] for discovery in self.store.list_discoveries(run_id)])
+
+    def test_manual_curator_export_is_minimal_safe_and_preserves_source_only_records(self) -> None:
+        package_path = self.root / "mesa-resource-package.zip"
+        with zipfile.ZipFile(package_path, "w") as archive:
+            archive.writestr(
+                "tso-resources.json",
+                json.dumps(
+                    {
+                        "resourcePackageSchemaVersion": 3,
+                        "packageVersion": "1",
+                        "officeName": "Mesa TSO",
+                        "serviceArea": "Mesa and Maricopa County, Arizona",
+                        "categories": [{"id": "addiction", "name": "Addiction"}],
+                        "forGroups": ["Veterans"],
+                        "resources": [],
+                    }
+                ),
+            )
+        import_id = self.store.save_import(
+            ResourcePackageImporter("addiction").read(package_path)
+        )
+        run_id = self.store.create_manual_discovery_run(
+            "Discover Addiction leads",
+            {
+                "researchContext": {
+                    "sourcePackage": {
+                        "officeName": "Mesa TSO",
+                        "serviceArea": "Mesa and Maricopa County, Arizona",
+                    }
+                }
+            },
+            import_id,
+            target_category_id="addiction",
+            target_category_label="Addiction",
+        )
+        hostile = "Relevant lead </script><img src=x onerror=alert(1)>"
+        self.store.save_manual_contribution(
+            run_id,
+            "ChatGPT </script>",
+            payload(
+                lead(
+                    "Minimal Recovery Provider",
+                    website="https://minimal.example.org",
+                    why=hostile,
+                    uncertainty="Confirm identity, service area, and access",
+                ),
+                lead(
+                    "State Directory",
+                    website="https://directory.example.org",
+                    lead_type="directory",
+                    why="Routes people to providers",
+                ),
+            ),
+        )
+        consolidate_manual_discovery(self.store, run_id)
+        finish_manual_discovery(self.store, run_id)
+
+        review = build_review_copy(self.store, run_id)
+
+        self.assertEqual(11, review.data["reviewCopySchemaVersion"])
+        self.assertEqual(1, review.data["run"]["candidateCount"])
+        self.assertEqual("manual-discovery", review.data["run"]["runKind"])
+        self.assertEqual(1, len(review.data["manualDiscovery"]["sourceOnlyRecords"]))
+        self.assertEqual("directory", review.data["manualDiscovery"]["sourceOnlyRecords"][0]["routedRole"])
+        item = review.data["candidates"][0]
+        self.assertEqual("candidate", item["status"])
+        self.assertIsNone(item["reviewedAt"])
+        self.assertEqual("", item["reviewFeedback"])
+        self.assertEqual("", item["resourceDraft"]["phone"])
+        self.assertEqual("", item["resourceDraft"]["address"])
+        self.assertEqual("", item["resourceDraft"]["hours"])
+        self.assertIsNone(item["resourceDraft"]["verifiedOn"])
+        self.assertTrue(item["candidate"]["manualDiscoveryProvenance"]["members"])
+        self.assertIn("manualDiscoveryChecks", item["candidate"])
+        self.assertNotIn(b"</script><img", review.html)
+        self.assertNotIn(b"agent_settings", review.html)
+        self.assertNotIn(b"raw_json", review.html)
 
 
 if __name__ == "__main__":

@@ -228,6 +228,12 @@ CREATE TABLE IF NOT EXISTS manual_discovery_identity_groups (
     consolidation_state TEXT NOT NULL CHECK (
         consolidation_state IN ('exact', 'reviewed-merge', 'reviewed-separate', 'unresolved')
     ),
+    identity_check TEXT NOT NULL DEFAULT 'uncertain',
+    geography_check TEXT NOT NULL DEFAULT 'uncertain',
+    category_check TEXT NOT NULL DEFAULT 'uncertain',
+    current_signal_check TEXT NOT NULL DEFAULT 'uncertain',
+    public_access_check TEXT NOT NULL DEFAULT 'uncertain',
+    checks_json TEXT NOT NULL DEFAULT '{}',
     duplicate_matches_json TEXT NOT NULL DEFAULT '[]',
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL,
@@ -869,6 +875,25 @@ class ResearchStore:
         for name, definition in run_additions.items():
             if name not in run_columns:
                 connection.execute(f"ALTER TABLE research_runs ADD COLUMN {name} {definition}")
+        manual_group_columns = {
+            row["name"]
+            for row in connection.execute(
+                "PRAGMA table_info(manual_discovery_identity_groups)"
+            )
+        }
+        manual_group_additions = {
+            "identity_check": "TEXT NOT NULL DEFAULT 'uncertain'",
+            "geography_check": "TEXT NOT NULL DEFAULT 'uncertain'",
+            "category_check": "TEXT NOT NULL DEFAULT 'uncertain'",
+            "current_signal_check": "TEXT NOT NULL DEFAULT 'uncertain'",
+            "public_access_check": "TEXT NOT NULL DEFAULT 'uncertain'",
+            "checks_json": "TEXT NOT NULL DEFAULT '{}'",
+        }
+        for name, definition in manual_group_additions.items():
+            if name not in manual_group_columns:
+                connection.execute(
+                    f"ALTER TABLE manual_discovery_identity_groups ADD COLUMN {name} {definition}"
+                )
         connection.execute(
             """UPDATE research_runs
                SET source_import_id = (
@@ -1944,8 +1969,10 @@ class ResearchStore:
                     """INSERT INTO manual_discovery_identity_groups (
                            run_id, stable_key, display_name, organization, program,
                            preferred_website, routed_role, consolidation_state,
+                           identity_check, geography_check, category_check,
+                           current_signal_check, public_access_check, checks_json,
                            duplicate_matches_json, created_at, updated_at
-                       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                     (
                         run_id,
                         group["stableKey"],
@@ -1955,6 +1982,12 @@ class ResearchStore:
                         group["website"],
                         group["routedRole"],
                         group["consolidationState"],
+                        group["checks"]["identity"]["state"],
+                        group["checks"]["geography"]["state"],
+                        group["checks"]["categoryRelevance"]["state"],
+                        group["checks"]["currentSignal"]["state"],
+                        group["checks"]["publicAccess"]["state"],
+                        _json(group["checks"]),
                         _json(group.get("duplicateMatches", [])),
                         now,
                         now,
@@ -2018,6 +2051,7 @@ class ResearchStore:
                     "website": row["preferred_website"],
                     "routedRole": row["routed_role"],
                     "consolidationState": row["consolidation_state"],
+                    "checks": json.loads(row["checks_json"]),
                     "duplicateMatches": json.loads(row["duplicate_matches_json"]),
                     "members": [
                         {

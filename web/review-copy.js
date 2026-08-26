@@ -643,6 +643,60 @@
     target.append(item);
   }
 
+  function appendManualDiscoveryProvenance(target, candidate) {
+    const provenance = candidate.manualDiscoveryProvenance;
+    const checks = candidate.manualDiscoveryChecks;
+    if (!provenance || typeof provenance !== 'object') return;
+    const checkSection = element('section', 'candidate-section');
+    checkSection.append(element('h3', '', 'Lightweight discovery checks'));
+    const checkGrid = element('div', 'manual-checks');
+    const checkLabels = {
+      identity: 'Identity',
+      geography: 'Geography',
+      categoryRelevance: 'Category relevance',
+      currentSignal: 'Current signal',
+      publicAccess: 'Public access path',
+    };
+    Object.entries(checkLabels).forEach(([key, label]) => {
+      const check = checks?.[key];
+      if (!check) return;
+      const card = element('div', `manual-check ${asText(check.state)}`);
+      card.append(
+        element('strong', '', label),
+        element('span', '', friendly(check.state)),
+        element('small', '', asText(check.note)),
+      );
+      checkGrid.append(card);
+    });
+    if (checkGrid.children.length) checkSection.append(checkGrid);
+    else checkSection.append(element('p', 'muted', 'No lightweight check record is available.'));
+    target.append(checkSection);
+
+    const sourceSection = element('section', 'candidate-section');
+    sourceSection.append(
+      element('h3', '', 'Chat discovery provenance'),
+      element('p', 'muted', `${provenance.sourceCount || 0} chat source${provenance.sourceCount === 1 ? '' : 's'} contributed rows. Agreement is overlap, not factual verification.`),
+    );
+    (provenance.members || []).forEach(member => {
+      const row = element('div', 'manual-source-row');
+      const identity = [asText(member.submittedOrganization), asText(member.submittedProgram)].filter(Boolean).join(' · ') || 'Unnamed submitted lead';
+      row.append(
+        element('strong', '', `${asText(member.sourceLabel) || 'Unknown source'} · row ${member.sourceOrdinal || '?'}`),
+        element('div', '', identity),
+      );
+      const submittedUrl = asText(member.submittedWebsite);
+      const href = safeHref(submittedUrl);
+      if (href) {
+        const link = element('a', '', submittedUrl); link.href = href; link.target = '_blank'; link.rel = 'noopener noreferrer'; row.append(link);
+      } else if (submittedUrl) row.append(element('div', '', submittedUrl));
+      if (asText(member.locationOrServiceArea)) row.append(element('small', '', `Submitted area: ${asText(member.locationOrServiceArea)}`));
+      if (asText(member.whyRelevant)) row.append(element('small', '', `Why it was submitted: ${asText(member.whyRelevant)}`));
+      if (asText(member.uncertainty)) row.append(element('small', '', `Uncertainty: ${asText(member.uncertainty)}`));
+      sourceSection.append(row);
+    });
+    target.append(sourceSection);
+  }
+
   function candidateDetails(item) {
     const candidate = item.candidate || {};
     const wrapper = element('div', 'candidate-details');
@@ -661,6 +715,7 @@
     section(wrapper, 'What to expect', candidate.whatToExpect); section(wrapper, 'How to best connect', candidate.howToBestConnect);
     section(wrapper, 'Additional notes', candidate.additionalNotes); section(wrapper, 'Barriers and restrictions', candidate.barriers);
     section(wrapper, 'Unknowns to pursue', candidate.unknowns); section(wrapper, 'Follow-up branches', candidate.followUpBranches);
+    appendManualDiscoveryProvenance(wrapper, candidate);
     const evidence = Array.isArray(candidate.evidence) ? candidate.evidence : [];
     if (evidence.length) {
       const evidenceSection = element('section', 'candidate-section'); evidenceSection.append(element('h3', '', 'Evidence'));
@@ -674,6 +729,23 @@
       wrapper.append(evidenceSection);
     }
     return wrapper;
+  }
+
+  function renderSourceOnlyRecords() {
+    const records = review.manualDiscovery?.sourceOnlyRecords || [];
+    const panel = document.querySelector('#source-only-panel');
+    panel.hidden = !records.length;
+    if (!records.length) return;
+    document.querySelector('#source-only-list').replaceChildren(...records.map(record => {
+      const row = element('article', 'source-only-row');
+      row.append(
+        element('strong', '', asText(record.displayName) || 'Unnamed preserved lead'),
+        element('small', '', `${friendly(record.routedRole)} · ${(record.members || []).map(member => asText(member.sourceLabel)).filter(Boolean).join(', ')}`),
+      );
+      const href = safeHref(asText(record.website));
+      if (href) { const link = element('a', '', asText(record.website)); link.href = href; link.target = '_blank'; link.rel = 'noopener noreferrer'; row.append(link); }
+      return row;
+    }));
   }
 
   function appendFormattedText(target, text) {
@@ -1181,9 +1253,9 @@
     });
     document.querySelector('#candidate-dialog').addEventListener('click', event => { if (event.target === event.currentTarget) event.currentTarget.close(); });
     window.addEventListener('beforeunload', event => { if (view.dirty && !view.persisted) { event.preventDefault(); event.returnValue = ''; } });
-    setupWorkspaceWindows(); renderCandidates(); updateActions();
+    setupWorkspaceWindows(); renderSourceOnlyRecords(); renderCandidates(); updateActions();
     const packageText = packageInfo ? `${packageInfo.sourceName}; schema ${packageInfo.schemaVersion}; package ${packageInfo.packageVersion}` : `Standalone location research; ${review.run.targetLocation || 'location not recorded'}`;
-    document.querySelector('#footer').textContent = `Resource Curator v0.31.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
+    document.querySelector('#footer').textContent = `Resource Curator v0.31.1 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
   }
 
   initialize();

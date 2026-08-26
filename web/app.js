@@ -654,6 +654,20 @@ function renderRuns() {
       openManual.textContent = run.status === 'running' ? 'Continue collecting responses' : 'View responses';
       openManual.addEventListener('click', () => openManualDiscoveryRun(run.id));
       actions.append(openManual);
+      if (run.status === 'completed') {
+        const viewCandidates = document.createElement('button');
+        viewCandidates.type = 'button';
+        viewCandidates.className = 'secondary view-candidates';
+        viewCandidates.setAttribute('aria-pressed', String(state.candidateRunId === run.id));
+        viewCandidates.textContent = `View candidates (${candidateCountForRun(run.id)})`;
+        viewCandidates.addEventListener('click', () => selectCandidateRun(run.id, { scroll: true }));
+        const exportLink = document.createElement('a');
+        exportLink.className = 'review-export';
+        exportLink.href = `/api/research-runs/${run.id}/review-copy`;
+        exportLink.download = '';
+        exportLink.textContent = 'Export Resource Curator';
+        actions.append(viewCandidates, exportLink);
+      }
       item.append(actions);
       if (run.result?.summary) item.append(renderRunFindings(run));
       return item;
@@ -1422,6 +1436,8 @@ document.querySelector('#finish-manual-discovery').addEventListener('click', asy
     await request(`/api/manual-discovery-runs/${run.id}/finish`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
     });
+    state.candidateRunId = run.id;
+    state.candidateRunSelectionInitialized = true;
     await loadResearchData();
     await openManualDiscoveryRun(run.id);
     message.textContent = 'Discovery responses finished and locked.';

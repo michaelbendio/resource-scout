@@ -16,7 +16,7 @@ from .resource_package import RESOURCE_PACKAGE_SCHEMA_VERSION, candidate_to_reso
 from .storage import ResearchStore
 
 
-REVIEW_COPY_SCHEMA_VERSION = 10
+REVIEW_COPY_SCHEMA_VERSION = 11
 REVIEW_FEEDBACK_SCHEMA_VERSION = 2
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_TEMPLATE = PROJECT_ROOT / "web" / "review-copy.html"
@@ -120,6 +120,16 @@ def build_review_copy(
         raise ReviewCopyError("Only completed or partially completed research runs can be exported")
 
     discoveries = list(reversed(store.list_discoveries(run_id=run_id)))
+    manual_snapshot = (
+        store.manual_consolidation_snapshot(run_id)
+        if run.get("runKind") == "manual-discovery"
+        else None
+    )
+    manual_contributions = (
+        store.list_manual_contributions(run_id)
+        if run.get("runKind") == "manual-discovery"
+        else []
+    )
     lessons = [lesson for lesson in reversed(store.list_lessons()) if lesson.get("runId") == run_id]
     import_id = run.get("sourceImportId") or run.get("seedImportId")
     if import_id is None:
@@ -223,6 +233,7 @@ def build_review_copy(
             "completedAt": run["completedAt"],
             "status": run["status"],
             "adapter": run["adapter"],
+            "runKind": run.get("runKind", "agent-research"),
             "assignment": run["assignment"],
             "researchMode": run.get("researchMode", "package"),
             "targetLocation": run.get("targetLocation"),
@@ -263,6 +274,38 @@ def build_review_copy(
             else None
         ),
         "candidates": candidates,
+        "manualDiscovery": (
+            {
+                "funnel": manual_snapshot["funnel"],
+                "contributionSources": [
+                    {
+                        "sourceLabel": contribution["sourceLabel"],
+                        "sourcePosition": contribution["sourcePosition"],
+                        "rawSha256": contribution["rawSha256"],
+                        "parseStatus": contribution["parseStatus"],
+                        "leadCount": len(contribution["leads"]),
+                    }
+                    for contribution in manual_contributions
+                ],
+                "sourceOnlyRecords": [
+                    {
+                        "groupKey": group["stableKey"],
+                        "displayName": group["displayName"],
+                        "organization": group["organization"],
+                        "program": group["program"],
+                        "website": group["website"],
+                        "routedRole": group["routedRole"],
+                        "checks": group.get("checks", {}),
+                        "members": group["members"],
+                    }
+                    for group in manual_snapshot["groups"]
+                    if group["routedRole"]
+                    in {"routing-source", "directory", "outreach-initiative", "unresolved"}
+                ],
+            }
+            if manual_snapshot
+            else None
+        ),
         "lessons": [
             {
                 "scope": lesson["scope"],

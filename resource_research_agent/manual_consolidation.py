@@ -108,9 +108,121 @@ def _route_role(members: list[dict[str, Any]], program: str, organization: str) 
 def _candidate_shape(group: dict[str, Any]) -> dict[str, Any]:
     return {
         "name": group["displayName"],
+        "organization": group["organization"],
+        "program": group["program"],
         "organizationName": group["organization"],
         "programName": group["program"],
         "website": group["website"],
+    }
+
+
+def _check_result(
+    state: str, note: str, members: list[dict[str, Any]]
+) -> dict[str, Any]:
+    return {
+        "state": state,
+        "note": note,
+        "sources": [
+            {"leadId": member["id"], "sourceLabel": member["sourceLabel"]}
+            for member in members
+        ],
+    }
+
+
+def _lightweight_checks(
+    group: dict[str, Any], run: dict[str, Any]
+) -> dict[str, dict[str, Any]]:
+    members = group["members"]
+    identity_state = "present" if group["organization"] or group["program"] else "uncertain"
+    identity_note = (
+        "A named organization or program identity was submitted."
+        if identity_state == "present"
+        else "No usable organization or program identity was submitted."
+    )
+
+    geography_values = [member["locationOrServiceArea"] for member in members if member["locationOrServiceArea"]]
+    geography_text = " ".join(geography_values).casefold()
+    geography_negative = bool(
+        re.search(r"\b(?:does not serve|not serving|outside (?:the )?(?:service area|target area)|wrong (?:city|state))\b", geography_text)
+    )
+    geography_tentative = bool(
+        re.search(r"\b(?:possibly|may serve|uncertain|unknown|confirm|appears to serve)\b", geography_text)
+    )
+    if geography_negative:
+        geography_state = "conflicting"
+        geography_note = "A submitted geography statement conflicts with target-area service."
+    elif not geography_values or geography_tentative:
+        geography_state = "uncertain"
+        geography_note = "Target-area service is missing or explicitly uncertain."
+    else:
+        geography_state = "present"
+        geography_note = "At least one submitted row gives a plausible service area."
+
+    relevance_values = [member["whyRelevant"] for member in members if member["whyRelevant"]]
+    relevance_text = " ".join(relevance_values).casefold()
+    relevance_negative = bool(
+        re.search(r"\b(?:wrong category|unrelated|not (?:a |an )?(?:provider|service|program))\b", relevance_text)
+    )
+    relevance_tentative = bool(
+        re.search(r"\b(?:possibly|uncertain|unknown|may be|confirm relevance)\b", relevance_text)
+    )
+    if relevance_negative:
+        category_state = "conflicting"
+        category_note = "A submitted relevance statement conflicts with the selected category."
+    elif not relevance_values or relevance_tentative:
+        category_state = "uncertain"
+        category_note = "Category relevance is missing or explicitly uncertain."
+    else:
+        category_state = "present"
+        category_note = f"Submitted rows describe plausible relevance to {run['targetCategoryLabel']}."
+
+    all_text = " ".join(
+        member["whyRelevant"] + " " + member["uncertainty"] for member in members
+    ).casefold()
+    stale_signal = bool(
+        re.search(r"\b(?:closed|defunct|historical|formerly|stale|ended|discontinued)\b", all_text)
+    )
+    current_signal = bool(group["website"]) or bool(
+        re.search(
+            r"\b(?:currently (?:open|operating|offers|provides|serves)|official (?:site|website)|active program|202[4-9])\b",
+            all_text,
+        )
+    )
+    if stale_signal and current_signal:
+        current_state = "conflicting"
+        current_note = "Current-looking and stale or closed signals both appear in the submissions."
+    elif stale_signal or not current_signal:
+        current_state = "uncertain"
+        current_note = "Current operating status needs follow-up."
+    else:
+        current_state = "present"
+        current_note = "An official URL or explicit current-status signal was submitted."
+
+    access_signal = bool(group["website"]) or bool(
+        re.search(r"\b(?:intake|apply|application|enroll|appointment|call|referral|walk-in|locator|directory)\b", all_text)
+    )
+    no_access_signal = bool(
+        re.search(r"\b(?:no public (?:intake|access)|no access path|not open to (?:the )?public)\b", all_text)
+    )
+    if group["routedRole"] == "outreach-initiative":
+        access_state = "not-applicable"
+        access_note = "The row is preserved as a limited initiative rather than a public provider candidate."
+    elif access_signal and no_access_signal:
+        access_state = "conflicting"
+        access_note = "The submissions contain both an access clue and a no-public-access warning."
+    elif access_signal:
+        access_state = "present"
+        access_note = "A website, intake, application, referral, or navigation clue was submitted."
+    else:
+        access_state = "uncertain"
+        access_note = "No actionable public access or follow-up path was submitted."
+
+    return {
+        "identity": _check_result(identity_state, identity_note, members),
+        "geography": _check_result(geography_state, geography_note, members),
+        "categoryRelevance": _check_result(category_state, category_note, members),
+        "currentSignal": _check_result(current_state, current_note, members),
+        "publicAccess": _check_result(access_state, access_note, members),
     }
 
 
@@ -341,6 +453,7 @@ def consolidate_manual_discovery(
     groups = _merged_groups(preliminary, suggestions)
     matcher = duplicate_index or DuplicateIndex(store)
     for group in groups:
+        group["checks"] = _lightweight_checks(group, run)
         group["duplicateMatches"] = matcher.match(
             _candidate_shape(group), import_id=run["sourceImportId"], limit=3
         ) if run["sourceImportId"] else []
@@ -455,6 +568,12 @@ def _candidate_from_snapshot_group(group: dict[str, Any]) -> dict[str, Any]:
         "geography": locations[0] if len(locations) == 1 else locations,
         "serviceNeed": relevance[0][1] if relevance else "",
         "uncertainties": [value for _source, value in uncertainty],
+        "unknowns": [
+            f"{name}: {check['note']}"
+            for name, check in group["checks"].items()
+            if check["state"] in {"uncertain", "conflicting"}
+        ],
+        "manualDiscoveryChecks": group["checks"],
         "sources": [
             {
                 "source": member["sourceLabel"],
@@ -493,6 +612,7 @@ def _candidate_from_snapshot_group(group: dict[str, Any]) -> dict[str, Any]:
                 {"sourceLabel": source, "value": value} for source, value in uncertainty
             ],
             "duplicateMatches": group["duplicateMatches"],
+            "checks": group["checks"],
         },
     }
 
