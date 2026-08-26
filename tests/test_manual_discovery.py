@@ -127,6 +127,21 @@ class ManualDiscoveryParserTests(unittest.TestCase):
             self.assertNotIn("Housing", assignment)
             self.assertNotIn("Addiction", assignment)
             self.assertIn('"leadType"', assignment)
+            self.assertIn('"phone"', assignment)
+            self.assertIn('"address"', assignment)
+            self.assertIn("readily available", assignment)
+
+    def test_optional_phone_and_address_are_preserved(self) -> None:
+        raw = json.dumps({"leads": [{
+            "organization": "Example Center", "program": "Recovery",
+            "website": "https://example.org", "phone": "480-555-0100",
+            "address": "123 Main St, Mesa, AZ", "leadType": "program",
+            "locationOrServiceArea": "Mesa", "whyRelevant": "Recovery support",
+            "uncertainty": "Confirm hours",
+        }]})
+        lead = parse_manual_contribution(raw)["leads"][0]
+        self.assertEqual("480-555-0100", lead["phone"])
+        self.assertEqual("123 Main St, Mesa, AZ", lead["address"])
 
 
 class ManualDiscoveryStorageTests(unittest.TestCase):

@@ -1749,6 +1749,7 @@ process.stdout.write(JSON.stringify({ state, package: built.data }));
                 2: "duplicate",
                 3: "research-further",
                 4: "wrong-category",
+                5: "worth-pursuing",
             }.get(position, "")
             curator_states[candidate_id] = {
                 "packageStatus": package_status,
@@ -1794,14 +1795,14 @@ process.stdout.write(JSON.stringify({ state, package: built.data }));
         self.assertEqual(3, outcome_with_work.report["schemaVersion"])
         self.assertEqual(64, len(outcome_with_work.report["curatorWorkSha256"]))
         self.assertEqual(4, outcome_with_work.report["terminalHumanOutcomeCount"])
-        self.assertEqual(3, outcome_with_work.report["explicitCuratorDispositionCount"])
+        self.assertEqual(4, outcome_with_work.report["explicitCuratorDispositionCount"])
         self.assertEqual(0.5, outcome_with_work.report["acceptedAmongTerminalOutcomeRate"])
         self.assertEqual(
             {
                 "duplicate": 1,
-                "pending": 1,
                 "present-in-vetted-package": 2,
                 "research-further": 1,
+                "worth-pursuing": 1,
                 "wrong-category": 1,
             },
             outcome_with_work.report["outcomeCounts"],

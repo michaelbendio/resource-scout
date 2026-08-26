@@ -141,9 +141,9 @@ def _lightweight_checks(
     members = group["members"]
     identity_state = "present" if group["organization"] or group["program"] else "uncertain"
     identity_note = (
-        "A named organization or program identity was submitted."
+        "At least one chat response supplied an organization or program name."
         if identity_state == "present"
-        else "No usable organization or program identity was submitted."
+        else "Confirm the organization or program name."
     )
 
     geography_values = [member["locationOrServiceArea"] for member in members if member["locationOrServiceArea"]]
@@ -156,13 +156,13 @@ def _lightweight_checks(
     )
     if geography_negative:
         geography_state = "conflicting"
-        geography_note = "A submitted geography statement conflicts with target-area service."
+        geography_note = "The chat responses disagree about whether this resource serves the area."
     elif not geography_values or geography_tentative:
         geography_state = "uncertain"
-        geography_note = "Target-area service is missing or explicitly uncertain."
+        geography_note = "Confirm that this resource serves the area."
     else:
         geography_state = "present"
-        geography_note = "At least one submitted row gives a plausible service area."
+        geography_note = "At least one chat response says this resource may serve the area."
 
     relevance_values = [member["whyRelevant"] for member in members if member["whyRelevant"]]
     relevance_text = " ".join(relevance_values).casefold()
@@ -174,13 +174,13 @@ def _lightweight_checks(
     )
     if relevance_negative:
         category_state = "conflicting"
-        category_note = "A submitted relevance statement conflicts with the selected category."
+        category_note = "The chat responses disagree about whether this resource fits the category."
     elif not relevance_values or relevance_tentative:
         category_state = "uncertain"
-        category_note = "Category relevance is missing or explicitly uncertain."
+        category_note = "Confirm that this resource fits the category."
     else:
         category_state = "present"
-        category_note = f"Submitted rows describe plausible relevance to {run['targetCategoryLabel']}."
+        category_note = f"At least one chat response connects this resource with {run['targetCategoryLabel']}."
 
     all_text = " ".join(
         member["whyRelevant"] + " " + member["uncertainty"] for member in members
@@ -196,13 +196,13 @@ def _lightweight_checks(
     )
     if stale_signal and current_signal:
         current_state = "conflicting"
-        current_note = "Current-looking and stale or closed signals both appear in the submissions."
+        current_note = "The chat responses conflict about whether this resource is still operating."
     elif stale_signal or not current_signal:
         current_state = "uncertain"
-        current_note = "Current operating status needs follow-up."
+        current_note = "Confirm that the organization is still operating and currently offers this service."
     else:
         current_state = "present"
-        current_note = "An official URL or explicit current-status signal was submitted."
+        current_note = "A chat response supplied a website or said the service is currently available."
 
     access_signal = bool(group["website"]) or bool(
         re.search(r"\b(?:intake|apply|application|enroll|appointment|call|referral|walk-in|locator|directory)\b", all_text)
@@ -212,16 +212,16 @@ def _lightweight_checks(
     )
     if group["routedRole"] == "outreach-initiative":
         access_state = "not-applicable"
-        access_note = "The row is preserved as a limited initiative rather than a public provider candidate."
+        access_note = "This appears to be a limited initiative rather than a service people contact directly."
     elif access_signal and no_access_signal:
         access_state = "conflicting"
-        access_note = "The submissions contain both an access clue and a no-public-access warning."
+        access_note = "The chat responses conflict about whether people can contact this service directly."
     elif access_signal:
         access_state = "present"
-        access_note = "A website, intake, application, referral, or navigation clue was submitted."
+        access_note = "A chat response supplied a website or a possible way to contact or apply."
     else:
         access_state = "uncertain"
-        access_note = "No actionable public access or follow-up path was submitted."
+        access_note = "Confirm how someone contacts, applies for, or is referred to this service."
 
     return {
         "identity": _check_result(identity_state, identity_note, members),
@@ -609,18 +609,33 @@ def _candidate_from_snapshot_group(
         },
         key=lambda value: (value[0].casefold(), value[1].casefold()),
     )
+    phones = sorted({member["phone"] for member in members if member["phone"]}, key=str.casefold)
+    addresses = sorted(
+        {member["address"] for member in members if member["address"]}, key=str.casefold
+    )
+    follow_up_questions = {
+        "identity": "Confirm the organization or program name.",
+        "geography": "Confirm that this resource serves the area.",
+        "categoryRelevance": "Confirm that this resource fits the category.",
+        "currentSignal": "Confirm that the organization is still operating and currently offers this service.",
+        "publicAccess": "Confirm how someone contacts, applies for, or is referred to this service.",
+    }
     return {
         "name": group["program"] or group["organization"] or group["displayName"],
         "presentationName": group["displayName"],
         "organizationName": group["organization"],
         "programName": group["program"],
         "website": group["website"],
+        "phone": phones[0] if phones else "",
+        "additionalPhoneNumbers": phones[1:],
+        "address": addresses[0] if addresses else "",
+        "additionalAddresses": addresses[1:],
         "resourceType": group["routedRole"],
         "geography": locations[0] if len(locations) == 1 else locations,
         "serviceNeed": relevance[0][1] if relevance else "",
         "uncertainties": [value for _source, value in uncertainty],
         "unknowns": [
-            f"{name}: {check['note']}"
+            follow_up_questions[name]
             for name, check in group["checks"].items()
             if check["state"] in {"uncertain", "conflicting"}
         ],
@@ -648,6 +663,8 @@ def _candidate_from_snapshot_group(
                     "submittedOrganization": member["organization"],
                     "submittedProgram": member["program"],
                     "submittedWebsite": member["website"],
+                    "submittedPhone": member["phone"],
+                    "submittedAddress": member["address"],
                     "declaredLeadType": member["leadType"],
                     "locationOrServiceArea": member["locationOrServiceArea"],
                     "whyRelevant": member["whyRelevant"],

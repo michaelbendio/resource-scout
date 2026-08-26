@@ -45,6 +45,7 @@ def _candidate_field(value: Any) -> Any:
 
 
 CURATOR_DISPOSITIONS = {
+    "worth-pursuing",
     "research-further",
     "duplicate",
     "wrong-category",
@@ -356,8 +357,8 @@ def compare_optimization_run_to_package(
                 "outcomeCounts": outcome_counts,
                 "interpretation": (
                     "Presence under the deterministic resource id proves candidate-to-final "
-                    "linkage and takes precedence over an older Curator state. Curator optional "
-                    "outcomes are used only when explicitly recorded. Absence from the supplied "
+                    "linkage and takes precedence over an older Curator state. Curator outcomes "
+                    "are used only when explicitly recorded. Absence from the supplied "
                     "package remains pending unless Curator records a terminal outcome."
                 ),
             }

@@ -16,7 +16,7 @@ from .resource_package import RESOURCE_PACKAGE_SCHEMA_VERSION, candidate_to_reso
 from .storage import ResearchStore
 
 
-REVIEW_COPY_SCHEMA_VERSION = 11
+REVIEW_COPY_SCHEMA_VERSION = 12
 REVIEW_FEEDBACK_SCHEMA_VERSION = 2
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_TEMPLATE = PROJECT_ROOT / "web" / "review-copy.html"
@@ -75,6 +75,29 @@ def _known_resource_match(
         "classification": explained["classification"],
         "signals": explained["signals"],
     }
+
+
+def _candidate_for_review(candidate: dict[str, Any]) -> dict[str, Any]:
+    value = dict(candidate)
+    if not value.get("manualDiscoveryProvenance"):
+        return value
+    questions = {
+        "identity": "Confirm the organization or program name.",
+        "geography": "Confirm that this resource serves the area.",
+        "categoryRelevance": "Confirm that this resource fits the category.",
+        "currentSignal": "Confirm that the organization is still operating and currently offers this service.",
+        "publicAccess": "Confirm how someone contacts, applies for, or is referred to this service.",
+    }
+    checks = value.get("manualDiscoveryChecks")
+    if isinstance(checks, dict):
+        value["unknowns"] = [
+            questions[key]
+            for key, check in checks.items()
+            if key in questions
+            and isinstance(check, dict)
+            and check.get("state") in {"uncertain", "conflicting"}
+        ]
+    return value
 
 
 def _render_review_copy(
@@ -173,11 +196,12 @@ def build_review_copy(
         {"types": []},
     )
     for discovery in discoveries:
+        review_candidate = _candidate_for_review(discovery["candidate"])
         generated = store.get_generated_resource(discovery["id"])
         resource_draft = generated["resource"] if generated else None
         if package_eligible and resource_draft is None:
             resource_draft = candidate_to_resource(
-                discovery["candidate"],
+                review_candidate,
                 target_category_id,
                 resource_id=uuid.uuid5(
                     uuid.NAMESPACE_URL,
@@ -189,7 +213,7 @@ def build_review_copy(
             )
         candidates.append({
             "id": discovery["id"],
-            "name": str(discovery["candidate"].get("presentationName") or discovery["name"]),
+            "name": str(review_candidate.get("presentationName") or discovery["name"]),
             "status": discovery["status"],
             "origin": discovery["origin"],
             "createdAt": discovery["createdAt"],
@@ -200,7 +224,7 @@ def build_review_copy(
             "matchAssessment": discovery["matchAssessment"],
             "matchAssessedAt": discovery["matchAssessedAt"],
             "notes": discovery["notes"],
-            "candidate": discovery["candidate"],
+            "candidate": review_candidate,
             "knownResourceMatch": _known_resource_match(index, discovery),
             "resourceDraft": resource_draft,
         })

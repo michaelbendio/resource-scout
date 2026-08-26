@@ -8,7 +8,7 @@ from urllib.parse import urlsplit, urlunsplit
 from .importer import normalize_index_value
 
 
-MANUAL_DISCOVERY_PARSER_VERSION = "manual-leads-v1"
+MANUAL_DISCOVERY_PARSER_VERSION = "manual-leads-v2"
 MAX_MANUAL_CONTRIBUTION_BYTES = 2 * 1024 * 1024
 LEAD_TYPES = {
     "program",
@@ -67,6 +67,8 @@ def build_manual_discovery_assignment(
                     "organization": "",
                     "program": "",
                     "website": "",
+                    "phone": "",
+                    "address": "",
                     "leadType": "program | provider-organization | access-point | routing-source | directory",
                     "locationOrServiceArea": "",
                     "whyRelevant": "",
@@ -92,6 +94,7 @@ def build_manual_discovery_assignment(
             "",
             "Safeguards:",
             "- Prefer an official organization or program URL and use a plain URL when known.",
+            "- Include a public phone number or address when it is readily available; do not spend time completing every contact field.",
             "- Separate a named program only when its service, population, intake, or administration is materially distinct.",
             "- Do not split ordinary locations or access offices into separate services.",
             "- Label directories and routing systems rather than presenting them as providers.",
@@ -237,6 +240,8 @@ def parse_manual_contribution(raw_text: str) -> dict[str, Any]:
                 "program": program,
                 "websiteRaw": website_raw,
                 "website": website,
+                "phone": field("phone"),
+                "address": field("address"),
                 "leadType": lead_type,
                 "locationOrServiceArea": field("locationOrServiceArea"),
                 "whyRelevant": field("whyRelevant"),

@@ -94,6 +94,20 @@ both organization and program while the underlying Resource editor retains the
 program name. Exhaustive identity adjudication before Curator is no longer a finish
 gate.
 
+The first exported Addiction Curator then exposed specialist-language and editor-
+discoverability problems. Version 0.31.7 hides internal provider/program routing
+labels, replaces `currentSignal` and other signal terminology with direct questions,
+and places source-by-source chat material under a collapsed reference disclosure
+without meaningless row numbers. Curator explains where to edit Resource and For
+fields, and its Outcome list adds **Worth pursuing** without conflating promising
+leads with **Ready for package**. Future discovery assignments preserve public phone
+numbers and addresses when readily available; they remain unverified until normal
+curation. The already completed Addiction responses cannot supply contact details
+they did not return.
+The portable Curator contract is schema 12 for this additional contact and
+possible-relationship provenance; saved-work feedback remains backward-compatible
+schema 2.
+
 ## Preserved DeepSeek comparison boundary
 
 The preserved DeepSeek Addiction Curator contains 25 candidates. The earlier

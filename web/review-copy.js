@@ -8,6 +8,7 @@
     'not-related': 'Not related',
   };
   const CURATOR_OUTCOME_LABELS = {
+    'worth-pursuing': 'Worth pursuing',
     'research-further': 'Research further',
     'duplicate': 'Duplicate / already known',
     'wrong-category': 'Wrong category',
@@ -607,7 +608,7 @@
     });
     const ready = remaining.filter(item => candidateState(item).packageStatus === 'ready').length;
     const otherOutcomes = remaining.filter(item => Boolean(candidateState(item).disposition)).length;
-    document.querySelector('#candidate-count').textContent = `${candidates.length} of ${remaining.length} candidates shown · ${ready} ready · ${otherOutcomes} with optional outcomes`;
+    document.querySelector('#candidate-count').textContent = `${candidates.length} of ${remaining.length} candidates shown · ${ready} ready · ${otherOutcomes} with recorded outcomes`;
     const target = document.querySelector('#candidate-list');
     if (!candidates.length) { target.replaceChildren(element('div', 'empty', remaining.length ? 'No candidates match this filter.' : 'No candidates remain in Curator.')); return; }
     target.replaceChildren(...candidates.map(item => {
@@ -653,14 +654,48 @@
     const checks = candidate.manualDiscoveryChecks;
     if (!provenance || typeof provenance !== 'object') return;
     const checkSection = element('section', 'candidate-section');
-    checkSection.append(element('h3', '', 'Lightweight discovery checks'));
+    checkSection.append(element('h3', '', 'What the chat responses indicate'));
     const checkGrid = element('div', 'manual-checks');
     const checkLabels = {
-      identity: 'Identity',
-      geography: 'Geography',
-      categoryRelevance: 'Category relevance',
-      currentSignal: 'Current signal',
-      publicAccess: 'Public access path',
+      identity: 'Named resource',
+      geography: 'Serves this area',
+      categoryRelevance: 'Fits this category',
+      currentSignal: 'Appears to be active',
+      publicAccess: 'Contact or intake route',
+    };
+    const checkStates = {
+      present: 'Mentioned in a response',
+      uncertain: 'Needs confirmation',
+      conflicting: 'Responses disagree',
+      'not-applicable': 'Not applicable',
+    };
+    const checkNotes = {
+      identity: {
+        present: 'At least one chat response supplied an organization or program name.',
+        uncertain: 'Confirm the organization or program name.',
+        conflicting: 'The chat responses disagree about the resource name.',
+      },
+      geography: {
+        present: 'At least one chat response says this resource may serve the area.',
+        uncertain: 'Confirm that this resource serves the area.',
+        conflicting: 'The chat responses disagree about whether this resource serves the area.',
+      },
+      categoryRelevance: {
+        present: 'At least one chat response connects this resource with the category.',
+        uncertain: 'Confirm that this resource fits the category.',
+        conflicting: 'The chat responses disagree about whether this resource fits the category.',
+      },
+      currentSignal: {
+        present: 'A chat response supplied a website or said the service is currently available.',
+        uncertain: 'Confirm that the organization is still operating and currently offers this service.',
+        conflicting: 'The chat responses conflict about whether this resource is still operating.',
+      },
+      publicAccess: {
+        present: 'A chat response supplied a website or a possible way to contact or apply.',
+        uncertain: 'Confirm how someone contacts, applies for, or is referred to this service.',
+        conflicting: 'The chat responses conflict about whether people can contact this service directly.',
+        'not-applicable': 'This appears to be an initiative rather than a service people contact directly.',
+      },
     };
     Object.entries(checkLabels).forEach(([key, label]) => {
       const check = checks?.[key];
@@ -668,8 +703,8 @@
       const card = element('div', `manual-check ${asText(check.state)}`);
       card.append(
         element('strong', '', label),
-        element('span', '', friendly(check.state)),
-        element('small', '', asText(check.note)),
+        element('span', '', checkStates[check.state] || friendly(check.state)),
+        element('small', '', checkNotes[key]?.[check.state] || asText(check.note)),
       );
       checkGrid.append(card);
     });
@@ -698,16 +733,17 @@
       target.append(relationshipSection);
     }
 
-    const sourceSection = element('section', 'candidate-section');
+    const sourceSection = document.createElement('details');
+    sourceSection.className = 'candidate-section manual-source-details';
     sourceSection.append(
-      element('h3', '', 'Chat discovery provenance'),
-      element('p', 'muted', `${provenance.sourceCount || 0} chat source${provenance.sourceCount === 1 ? '' : 's'} contributed rows. Agreement is overlap, not factual verification.`),
+      element('summary', '', 'Submitted chat details (reference only)'),
+      element('p', 'muted', `${provenance.sourceCount || 0} chat source${provenance.sourceCount === 1 ? '' : 's'} mentioned this lead. These details can suggest what to check, but they are not verified evidence.`),
     );
     (provenance.members || []).forEach(member => {
       const row = element('div', 'manual-source-row');
       const identity = [asText(member.submittedOrganization), asText(member.submittedProgram)].filter(Boolean).join(' · ') || 'Unnamed submitted lead';
       row.append(
-        element('strong', '', `${asText(member.sourceLabel) || 'Unknown source'} · row ${member.sourceOrdinal || '?'}`),
+        element('strong', '', asText(member.sourceLabel) || 'Unknown chat source'),
         element('div', '', identity),
       );
       const submittedUrl = asText(member.submittedWebsite);
@@ -715,6 +751,8 @@
       if (href) {
         const link = element('a', '', submittedUrl); link.href = href; link.target = '_blank'; link.rel = 'noopener noreferrer'; row.append(link);
       } else if (submittedUrl) row.append(element('div', '', submittedUrl));
+      if (asText(member.submittedPhone)) row.append(element('small', '', `Submitted phone: ${asText(member.submittedPhone)}`));
+      if (asText(member.submittedAddress)) row.append(element('small', '', `Submitted address: ${asText(member.submittedAddress)}`));
       if (asText(member.locationOrServiceArea)) row.append(element('small', '', `Submitted area: ${asText(member.locationOrServiceArea)}`));
       if (asText(member.whyRelevant)) row.append(element('small', '', `Why it was submitted: ${asText(member.whyRelevant)}`));
       if (asText(member.uncertainty)) row.append(element('small', '', `Uncertainty: ${asText(member.uncertainty)}`));
@@ -729,7 +767,8 @@
     const summary = asText(candidate.description || candidate.serviceNeed || candidate.housingNeed);
     if (summary) wrapper.append(element('div', 'candidate-summary', summary));
     const facts = element('div', 'candidate-facts');
-    fact(facts, 'Organization', candidate.organization); fact(facts, 'Program', candidate.program); fact(facts, 'Type', candidate.resourceType);
+    fact(facts, 'Organization', candidate.organization); fact(facts, 'Program', candidate.program);
+    if (!candidate.manualDiscoveryProvenance) fact(facts, 'Type', candidate.resourceType);
     fact(facts, 'Area served', candidate.geography); fact(facts, 'Access timeline', candidate.accessTimeline); fact(facts, 'Phone', candidate.phone);
     fact(facts, 'Other phone numbers', candidate.additionalPhoneNumbers); fact(facts, 'Address', candidate.address);
     fact(facts, 'Other addresses', candidate.additionalAddresses); fact(facts, 'Hours', candidate.hours); fact(facts, 'Website', candidate.website || candidate.url, true);
@@ -1142,7 +1181,10 @@
       const button = element('button', view.editorTab === value ? 'selected' : '', label); button.type = 'button';
       button.addEventListener('click', () => { view.editorTab = value; openCandidate(item.id); }); tabs.append(button);
     });
-    box.append(tabs);
+    box.append(
+      tabs,
+      element('p', 'muted', 'Use Resource for phone, address, website, hours, description, and Information. Use For for the people this resource serves.'),
+    );
     if (view.editorTab === 'categories') box.append(renderCategoriesEditor(item));
     else if (view.editorTab === 'for') box.append(renderForEditor(item));
     else box.append(renderResourceFields(item, itemState, resource));
@@ -1164,7 +1206,7 @@
     print.addEventListener('click', () => printResourceDraft(itemState.resourceDraft));
     actions.append(ready, print); editor.append(actions);
     const optionalOutcome = element('label', 'optional-outcome');
-    optionalOutcome.append(element('span', '', 'Optional outcome'));
+    optionalOutcome.append(element('span', '', 'Outcome'));
     const outcomeSelect = document.createElement('select');
     outcomeSelect.append(new Option('Pending — no decision recorded', ''));
     Object.entries(CURATOR_OUTCOME_LABELS).forEach(([value, label]) => outcomeSelect.append(new Option(label, value)));
@@ -1173,7 +1215,7 @@
       setCandidateOutcome(itemState, outcomeSelect.value || 'pending', new Date().toISOString(), state.reviewerName);
       persist(); renderCandidates(); openCandidate(item.id);
     });
-    optionalOutcome.append(outcomeSelect, element('small', 'muted', 'Optional. Leave Pending when the candidate has not reached a conclusion.'));
+    optionalOutcome.append(outcomeSelect, element('small', 'muted', 'Choose Worth pursuing when the lead merits continued work. Leave Pending until you have enough information to decide.'));
     editor.append(optionalOutcome);
     if (item.knownResourceMatch) {
       const match = element('fieldset', 'match-card'); match.append(element('legend', '', `Relationship to ${item.knownResourceMatch.name}`), element('p', 'muted', 'Choose the best description of the relationship. This similarity warning is not proof of a duplicate.'));
@@ -1281,7 +1323,7 @@
     window.addEventListener('beforeunload', event => { if (view.dirty && !view.persisted) { event.preventDefault(); event.returnValue = ''; } });
     setupWorkspaceWindows(); renderSourceOnlyRecords(); renderCandidates(); updateActions();
     const packageText = packageInfo ? `${packageInfo.sourceName}; schema ${packageInfo.schemaVersion}; package ${packageInfo.packageVersion}` : `Standalone location research; ${review.run.targetLocation || 'location not recorded'}`;
-    document.querySelector('#footer').textContent = `Resource Curator v0.31.6 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
+    document.querySelector('#footer').textContent = `Resource Curator v0.31.7 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
   }
 
   initialize();

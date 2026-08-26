@@ -122,7 +122,7 @@ class ReviewCopyTests(unittest.TestCase):
 
         completed_date = data["run"]["completedAt"][:10]
         self.assertEqual(f"housing-research-curator-{completed_date}.html", review.filename)
-        self.assertEqual(11, data["reviewCopySchemaVersion"])
+        self.assertEqual(12, data["reviewCopySchemaVersion"])
         self.assertEqual(2, data["reviewFeedbackSchemaVersion"])
         self.assertTrue(data["reviewId"])
         self.assertEqual("A concise completed summary with </script> text.", data["run"]["summary"])
@@ -195,9 +195,13 @@ class ReviewCopyTests(unittest.TestCase):
         )
         self.assertIn('<option value="ready">Ready for package</option>', html)
         self.assertIn('<option value="pending">Pending</option>', html)
-        self.assertIn('<option value="other-outcome">Optional outcome recorded</option>', html)
+        self.assertIn('<option value="other-outcome">Outcome recorded</option>', html)
         self.assertIn("'Pending — no decision recorded'", html)
+        self.assertIn("'Worth pursuing'", html)
         self.assertIn("'Duplicate / already known'", html)
+        self.assertIn("'What the chat responses indicate'", html)
+        self.assertIn("'Submitted chat details (reference only)'", html)
+        self.assertIn("'Use Resource for phone, address, website, hours, description, and Information.", html)
         self.assertIn("'Print the client-facing resource information'", html)
         self.assertIn('id="resource-print-sheet"', html)
         self.assertIn('body.printing-resource > *:not(#resource-print-sheet)', html)
@@ -475,6 +479,7 @@ state.candidates[item.id].curatorNotes = ReviewAppCore.toggleChecklistItem(state
 const checklistAfter = ReviewAppCore.checklistItems(state.candidates[item.id].curatorNotes);
 const savedNotes = state.candidates[item.id].curatorNotes;
 const initialOutcome = ReviewAppCore.currentOutcome(state.candidates[item.id]);
+ReviewAppCore.setCandidateOutcome(state.candidates[item.id], 'worth-pursuing', '2026-08-18T10:55:00+00:00', 'Vetter');
 ReviewAppCore.setCandidateOutcome(state.candidates[item.id], 'research-further', '2026-08-18T11:00:00+00:00', 'Vetter');
 ReviewAppCore.setCandidateOutcome(state.candidates[item.id], 'ready-for-package', '2026-08-18T11:30:00+00:00', 'Vetter');
 state.taxonomyDraft.categoryTypes.housing.push('Bridge housing');
@@ -527,7 +532,7 @@ process.stdout.write(JSON.stringify({ errors: built.errors, emptyErrors: ReviewA
         self.assertEqual([], result["remainingCandidateIds"])
         self.assertEqual([str(review["candidates"][0]["id"])], result["retainedCandidateIds"])
         self.assertEqual(
-            ["research-further", "ready-for-package", "entered-package"],
+            ["worth-pursuing", "research-further", "ready-for-package", "entered-package"],
             [entry["outcome"] for entry in result["outcomeHistory"]],
         )
         self.assertEqual(review["candidates"][0]["resourceDraft"]["id"], result["packageHistory"][0]["resourceId"])

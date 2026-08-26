@@ -33,11 +33,15 @@ def lead(
     location: str = "Mesa, Arizona",
     why: str = "Relevant lead",
     uncertainty: str = "Confirm details",
+    phone: str = "",
+    address: str = "",
 ) -> dict[str, str]:
     return {
         "organization": organization,
         "program": program,
         "website": website,
+        "phone": phone,
+        "address": address,
         "leadType": lead_type,
         "locationOrServiceArea": location,
         "whyRelevant": why,
@@ -448,6 +452,8 @@ class ManualConsolidationTests(unittest.TestCase):
                 lead(
                     "Minimal Recovery Provider",
                     website="https://minimal.example.org",
+                    phone="480-555-0100",
+                    address="123 Main St, Mesa, AZ",
                     why=hostile,
                     uncertainty="Confirm identity, service area, and access",
                 ),
@@ -464,7 +470,7 @@ class ManualConsolidationTests(unittest.TestCase):
 
         review = build_review_copy(self.store, run_id)
 
-        self.assertEqual(11, review.data["reviewCopySchemaVersion"])
+        self.assertEqual(12, review.data["reviewCopySchemaVersion"])
         self.assertEqual(1, review.data["run"]["candidateCount"])
         self.assertEqual("manual-discovery", review.data["run"]["runKind"])
         self.assertEqual(1, len(review.data["manualDiscovery"]["sourceOnlyRecords"]))
@@ -473,8 +479,8 @@ class ManualConsolidationTests(unittest.TestCase):
         self.assertEqual("candidate", item["status"])
         self.assertIsNone(item["reviewedAt"])
         self.assertEqual("", item["reviewFeedback"])
-        self.assertEqual("", item["resourceDraft"]["phone"])
-        self.assertEqual("", item["resourceDraft"]["address"])
+        self.assertEqual("480-555-0100", item["resourceDraft"]["phone"])
+        self.assertEqual("123 Main St, Mesa, AZ", item["resourceDraft"]["address"])
         self.assertEqual("", item["resourceDraft"]["hours"])
         self.assertIsNone(item["resourceDraft"]["verifiedOn"])
         self.assertTrue(item["candidate"]["manualDiscoveryProvenance"]["members"])

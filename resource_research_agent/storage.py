@@ -200,6 +200,8 @@ CREATE TABLE IF NOT EXISTS manual_discovery_leads (
     program TEXT NOT NULL DEFAULT '',
     website_raw TEXT NOT NULL DEFAULT '',
     website_normalized TEXT NOT NULL DEFAULT '',
+    phone TEXT NOT NULL DEFAULT '',
+    address TEXT NOT NULL DEFAULT '',
     lead_type TEXT NOT NULL DEFAULT '',
     location_or_service_area TEXT NOT NULL DEFAULT '',
     why_relevant TEXT NOT NULL DEFAULT '',
@@ -893,6 +895,15 @@ class ResearchStore:
             if name not in manual_group_columns:
                 connection.execute(
                     f"ALTER TABLE manual_discovery_identity_groups ADD COLUMN {name} {definition}"
+                )
+        manual_lead_columns = {
+            row["name"]
+            for row in connection.execute("PRAGMA table_info(manual_discovery_leads)")
+        }
+        for name in ("phone", "address"):
+            if name not in manual_lead_columns:
+                connection.execute(
+                    f"ALTER TABLE manual_discovery_leads ADD COLUMN {name} TEXT NOT NULL DEFAULT ''"
                 )
         connection.execute(
             """UPDATE research_runs
@@ -1791,10 +1802,10 @@ class ResearchStore:
                     connection.execute(
                         """INSERT INTO manual_discovery_leads (
                                contribution_id, source_ordinal, raw_json, organization, program,
-                               website_raw, website_normalized, lead_type,
+                               website_raw, website_normalized, phone, address, lead_type,
                                location_or_service_area, why_relevant, uncertainty,
                                normalized_organization, normalized_program, warnings_json
-                           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                         (
                             contribution_id,
                             lead["ordinal"],
@@ -1803,6 +1814,8 @@ class ResearchStore:
                             lead["program"],
                             lead["websiteRaw"],
                             lead["website"],
+                            lead["phone"],
+                            lead["address"],
                             lead["leadType"],
                             lead["locationOrServiceArea"],
                             lead["whyRelevant"],
@@ -1899,6 +1912,8 @@ class ResearchStore:
                 "program": row["program"],
                 "websiteRaw": row["website_raw"],
                 "website": row["website_normalized"],
+                "phone": row["phone"],
+                "address": row["address"],
                 "leadType": row["lead_type"],
                 "locationOrServiceArea": row["location_or_service_area"],
                 "whyRelevant": row["why_relevant"],
@@ -2113,6 +2128,8 @@ class ResearchStore:
                             "organization": member["organization"],
                             "program": member["program"],
                             "website": member["website_normalized"],
+                            "phone": member["phone"],
+                            "address": member["address"],
                             "leadType": member["lead_type"],
                             "locationOrServiceArea": member["location_or_service_area"],
                             "whyRelevant": member["why_relevant"],
@@ -2242,6 +2259,8 @@ class ResearchStore:
                 "program": lead["program"],
                 "websiteRaw": lead["website_raw"],
                 "website": lead["website_normalized"],
+                "phone": lead["phone"],
+                "address": lead["address"],
                 "leadType": lead["lead_type"],
                 "locationOrServiceArea": lead["location_or_service_area"],
                 "whyRelevant": lead["why_relevant"],

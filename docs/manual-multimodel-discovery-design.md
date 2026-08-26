@@ -83,7 +83,7 @@ not full dossier research.
 - eligibility, payment, hours, availability, referral requirements, practical
   access, and other resource details;
 - Categories, Resource, and For editor changes;
-- notes, checklist work, printing, Ready for package, optional outcomes, and
+- notes, checklist work, printing, Ready for package, outcomes, and
   saving packages; and
 - the final, phone-vetted representation of the resource.
 
@@ -144,6 +144,8 @@ Each response asks for:
       "organization": "",
       "program": "",
       "website": "",
+      "phone": "",
+      "address": "",
       "leadType": "program | provider-organization | access-point | routing-source | directory",
       "locationOrServiceArea": "",
       "whyRelevant": "",
@@ -156,6 +158,8 @@ Each response asks for:
 The assignment adds these safeguards:
 
 - prefer an official organization or program URL when known;
+- preserve a public phone number or address when readily available without
+  turning discovery into full contact-detail research;
 - use a plain URL rather than Markdown when possible;
 - identify a named program separately only when it has a materially distinct
   service, population, intake, or administration;
@@ -294,20 +298,21 @@ separate provider candidate when it adds no distinct public service. Locations
 remain attached to one program unless the submitted evidence indicates a
 materially different service, population, intake, status, or administration.
 
-The user sees ambiguous merge suggestions as compact pairs or clusters. The
+The user may optionally inspect ambiguous merge suggestions as compact pairs or clusters. The
 available actions are **Same identity**, **Keep separate**, and **Leave
 unresolved**. These are identity corrections, not Curator acceptance decisions,
-and no explanation is required.
+and no explanation is required. Unreviewed pairs remain separate, do not block
+Finish discovery, and travel into Curator as possible-related submissions.
 
 Every contribution remains viewable after grouping. Canonical display fields are
 selected by deterministic preference rules; differing factual values remain
 source-attributed alternatives rather than being blended.
 
-## Lightweight discovery check
+## Plain-language discovery guidance
 
 This check routes work; it does not score worth or decide a Curator outcome.
 
-For each identity Scout records whether the pasted material provides:
+Internally, Scout records whether the pasted material provides:
 
 - a coherent organization/program identity;
 - plausible relevance to the selected category;
@@ -315,8 +320,10 @@ For each identity Scout records whether the pasted material provides:
 - a current signal or an explicit stale/unknown warning; and
 - a public access, intake, meeting, referral, navigation, or follow-up path.
 
-Each state is `present`, `uncertain`, `conflicting`, or `not-applicable`, with the
-source rows that caused it. Missing details remain visible unknowns. A candidate
+Each internal state is `present`, `uncertain`, `conflicting`, or `not-applicable`,
+with the contributing chat details. Curator presents these as plain-language
+questions such as **Appears to be active** and **Contact or intake route**; it does
+not expose terms such as `currentSignal`. Missing details remain visible questions. A candidate
 is not blocked for missing hours, payment, full eligibility, availability,
 referral requirements, pet policy, or other dossier fields.
 
@@ -335,6 +342,7 @@ A finished identity becomes the smallest honest candidate draft:
 - `name`: canonical organization and, when distinct, program;
 - `organization` and `program`: kept separately;
 - `website`: preferred submitted official URL, otherwise blank;
+- `phone` and `address`: readily supplied values, otherwise blank and unverified;
 - `geography`: submitted area statements, visibly attributed when conflicting;
 - `description` and `serviceNeed`: a concise discovery-level summary, explicitly
   labeled unverified;
@@ -343,14 +351,20 @@ A finished identity becomes the smallest honest candidate draft:
   Specialist; and
 - `evidence`: submitted URLs as lead evidence, not verified factual receipts.
 
-The candidate also carries every source contribution, supplied URL, rationale,
-uncertainty, and parser warning in `manualDiscoveryProvenance`. The ordinary
-package duplicate signal remains visible.
+The candidate also carries every source contribution, supplied contact detail,
+rationale, uncertainty, and parser warning in `manualDiscoveryProvenance`. Curator
+places this under a collapsed **Submitted chat details (reference only)** disclosure;
+chat row numbers and internal routing labels are not ordinary curation concepts.
+The ordinary package duplicate warning remains visible.
 
 The Resource Curator export continues to use the existing self-contained HTML,
 Editors, Notes, Print, Ready for package, Save work, and Save package workflow.
-New Curators display a **Discovery contributions** section in Candidate Research.
-They begin every candidate Pending and do not pre-populate an optional outcome.
+New Curators display plain-language discovery guidance in Candidate Research.
+They begin every candidate Pending. The Outcome list includes **Worth pursuing**
+as a positive triage decision; **Ready for package** remains the later completed-
+resource state. A short Editors note points specialists to Resource for phone,
+address, website, hours, description, and Information, and to For for population
+labels.
 Existing DeepSeek and Qwen Curators remain self-contained and unchanged.
 
 If the additional provenance fields change the portable contract, increment the
