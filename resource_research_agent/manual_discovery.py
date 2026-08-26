@@ -30,6 +30,79 @@ MARKDOWN_LINK = re.compile(r"^\s*\[[^]]*\]\((https?://[^)]+)\)\s*$", re.IGNORECA
 DOMAIN_ONLY = re.compile(r"^(?:www\.)?[a-z0-9.-]+\.[a-z]{2,}(?:[/?#].*)?$", re.IGNORECASE)
 
 
+def build_manual_discovery_assignment(
+    *,
+    category_label: str,
+    service_area: str,
+    office_name: str = "",
+    regional_scope: str = "",
+    known_resources: list[dict[str, Any]] | None = None,
+) -> str:
+    category = " ".join(str(category_label).split())
+    area = " ".join(str(service_area).split())
+    if not category:
+        raise ValueError("Category label is required")
+    if not area:
+        raise ValueError("Service area or research location is required")
+    known_lines = []
+    for resource in known_resources or []:
+        resource_id = " ".join(str(resource.get("id") or resource.get("resourceId") or "").split())
+        name = " ".join(str(resource.get("name") or "").split())
+        if name:
+            known_lines.append(f"- {resource_id}: {name}" if resource_id else f"- {name}")
+    known_section = (
+        "\n".join(known_lines)
+        if known_lines
+        else "- None are currently recorded for this category."
+    )
+    scope_lines = [f"Category: {category}", f"Service area: {area}"]
+    if office_name.strip():
+        scope_lines.append(f"Resource office: {' '.join(office_name.split())}")
+    if regional_scope.strip():
+        scope_lines.append(f"Nearby scope: {' '.join(regional_scope.split())}")
+    schema = json.dumps(
+        {
+            "leads": [
+                {
+                    "organization": "",
+                    "program": "",
+                    "website": "",
+                    "leadType": "program | provider-organization | access-point | routing-source | directory",
+                    "locationOrServiceArea": "",
+                    "whyRelevant": "",
+                    "uncertainty": "",
+                }
+            ]
+        },
+        indent=2,
+        ensure_ascii=False,
+    )
+    return "\n".join(
+        [
+            f"Discover credible {category} resource leads that a Resource Specialist should investigate for {area}.",
+            "This is discovery, not a complete resource dossier. Prioritize distinct providers, named programs, and actionable access points. Do not spend time filling every eligibility, hours, cost, openings, pet-policy, or intake detail.",
+            "",
+            *scope_lines,
+            "",
+            "Resources already in the package (avoid obvious repeats, but retain a renamed or materially distinct program with an uncertainty note):",
+            known_section,
+            "",
+            "Return one JSON object in exactly this shape:",
+            schema,
+            "",
+            "Safeguards:",
+            "- Prefer an official organization or program URL and use a plain URL when known.",
+            "- Separate a named program only when its service, population, intake, or administration is materially distinct.",
+            "- Do not split ordinary locations or access offices into separate services.",
+            "- Label directories and routing systems rather than presenting them as providers.",
+            f"- Do not claim service to {area} without a credible indication; state uncertainty instead.",
+            "- Explicitly label historical, uncertain, planned, pilot, grant-funded, stale, or limited-access leads.",
+            "- Do not invent missing facts. Blank strings are acceptable.",
+            "- Return the JSON object first. You may put source notes after it.",
+        ]
+    )
+
+
 def _first_leads_object(text: str) -> tuple[dict[str, Any], int, int]:
     decoder = json.JSONDecoder()
     for match in re.finditer(r"\{", text):

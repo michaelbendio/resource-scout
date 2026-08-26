@@ -16,6 +16,7 @@ from urllib.parse import parse_qs, urlsplit
 from . import __version__
 from .duplicates import DuplicateIndex
 from .importer import PackageImportError, ResourcePackageImporter
+from .manual_discovery import build_manual_discovery_assignment
 from .review_export import build_optimization_review_copy, build_review_copy
 from .research import ResearchCoordinator
 from .storage import ResearchStore
@@ -99,6 +100,17 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 })
             elif parsed.path == "/api/research-runs":
                 self._json({"runs": self.server.store.list_runs()})
+            elif (run_id := self._path_id(
+                parsed.path, "/api/manual-discovery-runs", "contributions"
+            )) is not None:
+                run = self.server.store.get_run(run_id)
+                if not run or run["runKind"] != "manual-discovery":
+                    self._error(HTTPStatus.NOT_FOUND, "Manual discovery run not found")
+                else:
+                    self._json({
+                        "run": run,
+                        "contributions": self.server.store.list_manual_contributions(run_id),
+                    })
             elif (run_id := self._path_id(parsed.path, "/api/research-runs", "review-copy")) is not None:
                 review_copy = build_review_copy(
                     self.server.store, run_id, template_path=self.server.web_dir / "review-copy.html"
@@ -161,6 +173,75 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     target_category_id=str(payload.get("categoryId") or "housing"),
                 )
                 self._json(run, HTTPStatus.ACCEPTED)
+            elif parsed.path == "/api/manual-discovery-assignment":
+                payload = self._read_json()
+                context = self._manual_discovery_context(payload)
+                self._json({
+                    "assignment": build_manual_discovery_assignment(
+                        category_label=context["categoryLabel"],
+                        service_area=context["serviceArea"],
+                        office_name=context["officeName"],
+                        regional_scope=context["regionalScope"],
+                        known_resources=context["knownResources"],
+                    ),
+                    "context": context,
+                })
+            elif parsed.path == "/api/manual-discovery-runs":
+                payload = self._read_json()
+                context = self._manual_discovery_context(payload)
+                assignment = str(payload.get("assignment") or "").strip()
+                if not assignment:
+                    assignment = build_manual_discovery_assignment(
+                        category_label=context["categoryLabel"],
+                        service_area=context["serviceArea"],
+                        office_name=context["officeName"],
+                        regional_scope=context["regionalScope"],
+                        known_resources=context["knownResources"],
+                    )
+                prompt = {
+                    "assignment": assignment,
+                    "researchContext": {
+                        "mode": context["researchMode"],
+                        "sourcePackage": context["sourcePackage"],
+                        "serviceArea": context["serviceArea"],
+                        "regionalScope": context["regionalScope"],
+                        "knownResources": context["knownResources"],
+                    },
+                    "targetCategory": {
+                        "id": context["categoryId"],
+                        "label": context["categoryLabel"],
+                    },
+                }
+                run_id = self.server.store.create_manual_discovery_run(
+                    assignment,
+                    prompt,
+                    context["sourceImportId"],
+                    target_location=(
+                        context["serviceArea"]
+                        if context["researchMode"] == "standalone-location"
+                        else None
+                    ),
+                    regional_scope=context["regionalScope"],
+                    target_category_id=context["categoryId"],
+                    target_category_label=context["categoryLabel"],
+                )
+                self._json(self.server.store.get_run(run_id), HTTPStatus.CREATED)
+            elif (run_id := self._path_id(
+                parsed.path, "/api/manual-discovery-runs", "contributions"
+            )) is not None:
+                payload = self._read_json()
+                contribution = self.server.store.save_manual_contribution(
+                    run_id,
+                    str(payload.get("sourceLabel") or ""),
+                    payload.get("rawText"),
+                    filename=str(payload.get("filename") or ""),
+                )
+                self._json(contribution, HTTPStatus.CREATED)
+            elif (run_id := self._path_id(
+                parsed.path, "/api/manual-discovery-runs", "finish"
+            )) is not None:
+                self._read_json()
+                self._json(self.server.store.finish_manual_discovery_run(run_id))
             elif (run_id := self._path_id(parsed.path, "/api/research-runs", "resume")) is not None:
                 self._json(self.server.research.resume(run_id), HTTPStatus.ACCEPTED)
             elif parsed.path == "/api/duplicate-check":
@@ -203,6 +284,80 @@ class ResearchHandler(BaseHTTPRequestHandler):
             self._error(HTTPStatus.BAD_REQUEST, str(error))
         except Exception as error:
             self._error(HTTPStatus.INTERNAL_SERVER_ERROR, f"Unexpected error: {error}")
+
+    def do_DELETE(self) -> None:
+        parsed = urlsplit(self.path)
+        try:
+            match = re.fullmatch(
+                r"/api/manual-discovery-runs/(\d+)/contributions/(\d+)", parsed.path
+            )
+            if not match:
+                self._error(HTTPStatus.NOT_FOUND, "Not found")
+                return
+            run_id, contribution_id = (int(value) for value in match.groups())
+            if self.server.store.delete_manual_contribution(run_id, contribution_id):
+                self._json({"ok": True})
+            else:
+                self._error(HTTPStatus.NOT_FOUND, "Contribution not found")
+        except ValueError as error:
+            self._error(HTTPStatus.BAD_REQUEST, str(error))
+        except Exception as error:
+            self._error(HTTPStatus.INTERNAL_SERVER_ERROR, f"Unexpected error: {error}")
+
+    def _manual_discovery_context(self, payload: dict[str, Any]) -> dict[str, Any]:
+        research_mode = str(payload.get("researchMode") or "package")
+        if research_mode not in {"package", "standalone-location"}:
+            raise ValueError("Unsupported research context")
+        regional_scope = " ".join(str(payload.get("regionalScope") or "").split())
+        category_id = str(payload.get("categoryId") or "housing").strip() or "housing"
+        if research_mode == "package":
+            import_id = int(payload.get("sourceImportId") or self.server.store.latest_import_id() or 0)
+            summary = self.server.store.import_summary(import_id)
+            if not summary:
+                raise ValueError("Connect a resource package before preparing this assignment")
+            category = self.server.store.import_category(import_id, category_id)
+            if not category:
+                raise ValueError("The selected category is not in the connected package")
+            service_area = str(summary.get("serviceArea") or summary.get("officeName") or "").strip()
+            if not service_area:
+                raise ValueError("The connected package does not identify a service area")
+            known_resources = [
+                {"id": seed["resourceId"], "name": seed["name"]}
+                for seed in self.server.store.list_seeds(import_id, category["id"])
+            ]
+            source_package = {
+                "importId": import_id,
+                "sourceName": summary["sourceName"],
+                "sourceSha256": summary["sourceSha256"],
+                "officeName": summary["officeName"],
+                "serviceArea": summary["serviceArea"],
+            }
+            return {
+                "researchMode": research_mode,
+                "sourceImportId": import_id,
+                "sourcePackage": source_package,
+                "officeName": str(summary.get("officeName") or ""),
+                "serviceArea": service_area,
+                "regionalScope": regional_scope,
+                "categoryId": str(category["id"]),
+                "categoryLabel": str(category["label"]),
+                "knownResources": known_resources,
+            }
+        service_area = " ".join(str(payload.get("targetLocation") or "").split())
+        if not service_area:
+            raise ValueError("Enter a research location")
+        category_label = " ".join(str(payload.get("categoryLabel") or category_id).split())
+        return {
+            "researchMode": research_mode,
+            "sourceImportId": None,
+            "sourcePackage": None,
+            "officeName": "",
+            "serviceArea": service_area,
+            "regionalScope": regional_scope,
+            "categoryId": category_id,
+            "categoryLabel": category_label,
+            "knownResources": [],
+        }
 
     def _import_upload(self) -> None:
         content_type = self.headers.get("Content-Type", "")

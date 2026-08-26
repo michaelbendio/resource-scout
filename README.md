@@ -14,12 +14,24 @@ The source ZIP is opened read-only. Browser uploads are written to a temporary f
 
 ## Research connections
 
-The proposed manual copy/paste workflow for ChatGPT, Grok, Claude, Perplexity,
-and other user-operated chats is specified in
+The manual copy/paste workflow for ChatGPT, Grok, Claude, Perplexity, and other
+user-operated chats is specified in
 [`docs/manual-multimodel-discovery-design.md`](docs/manual-multimodel-discovery-design.md).
 It preserves the existing portable Resource Curator handoff while moving detailed
-website and telephone verification to Resource Specialists. It is a branch design,
-not current production behavior.
+website and telephone verification to Resource Specialists. On the
+`manual-multimodel-discovery` branch, the version 0.30.9 workspace can generate a
+category-specific assignment, preserve pasted or uploaded responses with source
+provenance, validate them, replace or delete unfinished contributions, and recover
+an open run after restart. The consolidation, lightweight routing, and Curator
+handoff stages remain under implementation; production `main` is unchanged.
+
+**Manual chat discovery** is the recommended research method on this branch. It
+does not call a chat API: copy the displayed assignment into the chats you choose,
+then use the default ChatGPT, Grok, Claude, and Perplexity cards—or a custom source
+card—to save each answer. A run may use fewer than four sources. Parser errors must
+be corrected or deleted before finishing; a finished response snapshot is
+immutable. **Research agent** remains available as the advanced choice and retains
+the existing DeepSeek, local Qwen, Hermes, and demo behavior.
 
 Hermes and DeepSeek Harness are connected through the same replaceable research-agent interface. Scout owns the research brief, imported context, assignments, candidate records, deterministic duplicate signals, and research lessons. The selected harness receives one bounded assignment and returns a structured research result. Human curation outcomes do not belong to the harness or Scout. Switching harnesses does not move or migrate application data.
 

@@ -12,7 +12,7 @@
       <h1>Resource Scout</h1>
       <p class="lede">Import what is already known. Use it to research more deeply. Keep discoveries separate for Curator and human vetting.</p>
     </div>
-    <span class="header-version" id="app-version">v0.30.8</span>
+    <span class="header-version" id="app-version">v0.30.9</span>
   </header>
 
   <main>
@@ -68,17 +68,29 @@
     <section class="panel research-panel" id="research-panel">
       <div class="section-head research-heading">
         <div>
-          <p class="step">03 · Agent research</p>
-          <h2 id="research-heading-title">Send a research agent on a Housing assignment</h2>
-          <p class="muted">Your selected agent researches the public web in bounded stages. Candidates are saved after each stage finishes, while the app retains the assignment, evidence, duplicate signals, and your teaching.</p>
+          <p class="step">03 · Resource discovery</p>
+          <h2 id="research-heading-title">Collect leads from your chats</h2>
+          <p class="muted" id="research-heading-detail">Copy one focused assignment into the chats you choose, then bring their responses back to Scout. No chat API or paid fallback is used.</p>
         </div>
-        <div class="agent-state" id="agent-state">
+        <div class="agent-state" id="agent-state" data-agent-only hidden>
           <span class="agent-dot"></span>
           <div><strong id="agent-state-title">Checking the research agent…</strong><small id="agent-state-detail"></small></div>
         </div>
       </div>
 
-      <div class="setup-callout" id="agent-setup" hidden>
+      <fieldset class="research-method-options">
+        <legend>Research method</legend>
+        <label>
+          <input type="radio" name="research-method" value="manual" checked>
+          <span><strong>Manual chat discovery</strong><small>Recommended · use ChatGPT, Grok, Claude, Perplexity, or another chat by copy and paste.</small></span>
+        </label>
+        <label>
+          <input type="radio" name="research-method" value="agent">
+          <span><strong>Research agent</strong><small>Advanced · retain the existing DeepSeek, local Qwen, Hermes, and demo workflow with saved evidence and duplicate signals.</small></span>
+        </label>
+      </fieldset>
+
+      <div class="setup-callout" id="agent-setup" data-agent-only hidden>
         <div>
           <strong id="agent-setup-title">Connection setup remains</strong>
           <p id="agent-setup-detail">API keys are never stored in this app.</p>
@@ -107,16 +119,16 @@
           </label>
         </div>
         <p class="research-context-note" id="research-context-note">Existing resources in the connected package are used as context and will not be returned as new discoveries.</p>
-        <label>Assignment
+        <label><span class="assignment-heading"><span>Assignment</span><button type="button" class="text-button" id="copy-assignment">Copy assignment</button></span>
           <textarea id="research-assignment" rows="6">Discover realistic ways a person without adequate housing in Utah County could obtain safe temporary or permanent housing. Follow useful relationships rather than stopping at a directory listing: voucher providers to participating motels, organizations to specific programs, and temporary options to longer-term pathways. Investigate practical access and lived experience as well as official claims.</textarea>
         </label>
         <div class="form-actions">
-          <button type="submit" id="start-research">Start research</button>
+          <button type="submit" id="start-research">Start manual discovery</button>
           <span class="muted" id="research-message" aria-live="polite"></span>
         </div>
       </form>
 
-      <details class="agent-settings">
+      <details class="agent-settings" data-agent-only hidden>
         <summary>Research agent connection</summary>
         <form id="settings-form">
           <div class="settings-grid">
@@ -185,6 +197,26 @@
     <div id="candidate-profile"></div>
     <section class="curator-handoff"><h3>Continue in Resource Curator</h3><p>Use this run’s <strong>Export Resource Curator</strong> link for human vetting, optional outcomes, resource editing, printing, and package preparation.</p></section>
     <details class="raw-record"><summary>View candidate JSON</summary><pre id="candidate-json"></pre></details>
+  </dialog>
+
+  <dialog id="manual-discovery-dialog" class="manual-discovery-dialog">
+    <button class="close" id="close-manual-discovery" aria-label="Close">×</button>
+    <div class="record-heading">
+      <p class="step">Manual chat discovery</p>
+      <h2 id="manual-discovery-title">Collect chat responses</h2>
+      <p class="muted" id="manual-discovery-context"></p>
+    </div>
+    <section class="manual-assignment-copy">
+      <div class="section-head"><h3>Assignment sent to every chat</h3><button type="button" class="secondary" id="copy-manual-assignment">Copy assignment</button></div>
+      <pre id="manual-assignment-text"></pre>
+    </section>
+    <div class="manual-progress" id="manual-progress" aria-live="polite"></div>
+    <div class="manual-source-list" id="manual-source-list"></div>
+    <div class="manual-workspace-actions">
+      <button type="button" class="secondary" id="add-manual-source">Add another source</button>
+      <button type="button" id="finish-manual-discovery">Finish discovery</button>
+      <span class="muted" id="manual-discovery-message" aria-live="polite"></span>
+    </div>
   </dialog>
 
   <script src="/app.js"></script>

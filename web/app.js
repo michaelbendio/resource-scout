@@ -1,6 +1,8 @@
 const state = {
   runs: [], discoveries: [], lessons: [], agent: null, latestImport: null,
   currentCandidate: null, pollTimer: null, researchMode: 'package',
+  researchMethod: 'manual', activeManualRun: null, manualContributions: [],
+  manualAssignmentRequest: 0, customManualSources: 0,
   candidateRunId: null, candidateRunSelectionInitialized: false,
   assignmentDrafts: { package: '', 'standalone-location': '' }, standaloneAutoAssignment: '',
   categories: [], forGroups: [], activeCategoryId: 'housing', categoryAssignmentDrafts: {},
@@ -135,6 +137,7 @@ function showImport(summary) {
     state.assignmentDrafts.package = packageDefaultAssignment();
   }
   updateStartResearchState();
+  if (selectedResearchMethod() === 'manual') refreshManualAssignment();
 }
 
 function activeCategory() {
@@ -154,6 +157,12 @@ function updateCategoryCopy() {
   const types = category.types?.length ? category.types.join(', ') : 'None defined in this package';
   const forGroups = state.forGroups.length ? state.forGroups.join(', ') : 'None defined in this package';
   document.querySelector('#category-taxonomy-note').textContent = `Types: ${types} · For: ${forGroups}`;
+  if (document.querySelector('input[name="research-method"]:checked')) {
+    const manual = selectedResearchMethod() === 'manual';
+    document.querySelector('#research-heading-title').textContent = manual
+      ? `Collect ${category.label} leads from your chats`
+      : `Send a research agent on a ${category.label} assignment`;
+  }
 }
 
 function renderCategoryChooser() {
@@ -197,6 +206,7 @@ async function selectCategory(categoryId) {
       || packageDefaultAssignment();
   }
   updateStartResearchState();
+  if (selectedResearchMethod() === 'manual') refreshManualAssignment();
 }
 
 function showAccess(access) {
@@ -230,7 +240,8 @@ function showAgent(agent) {
   card.classList.toggle('attention', Boolean(agent?.installed && !agent?.ready));
   document.querySelector('#agent-state-title').textContent = agent?.ready ? `${name} ready` : agent?.installed ? `${name} needs setup` : `${name} not installed`;
   document.querySelector('#agent-state-detail').textContent = agent?.message || agent?.version || '';
-  document.querySelector('#agent-setup').hidden = Boolean(agent?.ready || agent?.adapter === 'demo');
+  document.querySelector('#agent-setup').hidden = selectedResearchMethod() !== 'agent'
+    || Boolean(agent?.ready || agent?.adapter === 'demo');
   document.querySelector('#agent-setup-title').textContent = agent?.installed ? `Finish ${name} setup` : `Install ${name}`;
   document.querySelector('#agent-setup-detail').textContent = agent?.message || 'Complete the connection setup, then refresh this page.';
   document.querySelector('#copy-setup').dataset.command = agent?.setupCommand || 'hermes setup';
@@ -253,6 +264,10 @@ function selectedResearchMode() {
   return document.querySelector('input[name="research-mode"]:checked')?.value || 'package';
 }
 
+function selectedResearchMethod() {
+  return document.querySelector('input[name="research-method"]:checked')?.value || 'manual';
+}
+
 function standaloneDefaultAssignment(location) {
   const place = location.trim() || 'the selected location';
   return `Discover realistic ways a person without adequate housing in ${place} could obtain safe temporary or permanent housing. Follow useful relationships rather than stopping at a directory listing: voucher providers to participating motels, organizations to specific programs, and temporary options to longer-term pathways. Investigate practical access and lived experience as well as official claims.`;
@@ -264,7 +279,60 @@ function updateStartResearchState() {
     ? Boolean(state.latestImport && activeCategory().supported)
     : Boolean(document.querySelector('#target-location')?.value.trim());
   const button = document.querySelector('#start-research');
-  if (button) button.disabled = !state.agent?.ready || !contextReady;
+  const methodReady = selectedResearchMethod() === 'manual' || Boolean(state.agent?.ready);
+  if (button) button.disabled = !methodReady || !contextReady;
+}
+
+function manualAssignmentPayload() {
+  const mode = selectedResearchMode();
+  return {
+    researchMode: mode,
+    sourceImportId: mode === 'package' ? state.latestImport?.id : null,
+    categoryId: mode === 'package' ? state.activeCategoryId : 'housing',
+    categoryLabel: mode === 'package' ? activeCategory().label : 'Housing',
+    targetLocation: mode === 'standalone-location' ? document.querySelector('#target-location').value.trim() : '',
+    regionalScope: mode === 'standalone-location' ? document.querySelector('#regional-scope').value.trim() : '',
+  };
+}
+
+async function refreshManualAssignment() {
+  if (selectedResearchMethod() !== 'manual') return;
+  const payload = manualAssignmentPayload();
+  if ((payload.researchMode === 'package' && !payload.sourceImportId)
+      || (payload.researchMode === 'standalone-location' && !payload.targetLocation)) return;
+  const requestNumber = ++state.manualAssignmentRequest;
+  const message = document.querySelector('#research-message');
+  message.textContent = 'Preparing the copyable discovery assignment…';
+  try {
+    const result = await request('/api/manual-discovery-assignment', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
+    });
+    if (requestNumber !== state.manualAssignmentRequest || selectedResearchMethod() !== 'manual') return;
+    document.querySelector('#research-assignment').value = result.assignment;
+    message.textContent = `${result.context.knownResources.length} existing ${result.context.categoryLabel} resource${result.context.knownResources.length === 1 ? '' : 's'} included as the do-not-repeat list.`;
+  } catch (error) {
+    if (requestNumber === state.manualAssignmentRequest) message.textContent = error.message;
+  }
+}
+
+function switchResearchMethod() {
+  state.researchMethod = selectedResearchMethod();
+  const manual = state.researchMethod === 'manual';
+  document.querySelectorAll('[data-agent-only]').forEach(element => {
+    if (manual) element.hidden = true;
+    else if (element.id === 'agent-setup') element.hidden = Boolean(state.agent?.ready || state.agent?.adapter === 'demo');
+    else element.hidden = false;
+  });
+  document.querySelector('#research-heading-title').textContent = manual
+    ? `Collect ${activeCategory().label} leads from your chats`
+    : `Send a research agent on a ${activeCategory().label} assignment`;
+  document.querySelector('#research-heading-detail').textContent = manual
+    ? 'Copy one focused assignment into the chats you choose, then bring their responses back to Scout. No chat API or paid fallback is used.'
+    : 'Your selected agent researches the public web in bounded stages. Existing DeepSeek, local Qwen, Hermes, and demo behavior remains available.';
+  document.querySelector('#start-research').textContent = manual ? 'Start manual discovery' : 'Start agent research';
+  updateStartResearchState();
+  if (manual) refreshManualAssignment();
+  else switchResearchMode();
 }
 
 function updateStandaloneAutoAssignment() {
@@ -277,6 +345,7 @@ function updateStandaloneAutoAssignment() {
   state.standaloneAutoAssignment = next;
   state.assignmentDrafts['standalone-location'] = assignment.value;
   updateStartResearchState();
+  if (selectedResearchMethod() === 'manual') refreshManualAssignment();
 }
 
 function switchResearchMode() {
@@ -297,6 +366,7 @@ function switchResearchMode() {
     document.querySelector('#research-context-note').textContent = 'This exploratory run will not compare candidates with a connected package or claim to be an official TSO Resources inventory.';
   }
   updateStartResearchState();
+  if (selectedResearchMethod() === 'manual') refreshManualAssignment();
 }
 
 function asText(value) {
@@ -383,6 +453,7 @@ function emptyState(text) {
 
 function researchRunTitle(run) {
   const category = run.targetCategoryLabel || 'Housing';
+  if (run.runKind === 'manual-discovery') return `${category} manual discovery · ${runPlace(run)}`;
   const research = run.seedResourceId
       ? `${category} research from ${run.prompt?.selectedSeed?.name || run.seedResourceId}`
       : `${category} research`;
@@ -533,8 +604,18 @@ function renderRuns() {
     head.append(title, status);
     const time = document.createElement('small');
     const duration = formatDuration(run);
-    time.textContent = `${formatWhen(run.createdAt)}${duration ? ` · Duration ${duration}` : ''} · ${run.adapter} · ${run.researchMode === 'standalone-location' ? 'standalone location' : 'package-backed'}`;
+    const method = run.runKind === 'manual-discovery' ? 'manual chats' : run.adapter;
+    time.textContent = `${formatWhen(run.createdAt)}${duration ? ` · Duration ${duration}` : ''} · ${method} · ${run.researchMode === 'standalone-location' ? 'standalone location' : 'package-backed'}`;
     item.append(head, time);
+    if (run.runKind === 'manual-discovery') {
+      const progress = document.createElement('div');
+      progress.className = 'run-progress';
+      const received = run.manualProgress?.contributionCount || 0;
+      const leads = run.manualProgress?.leadCount || 0;
+      const errors = run.manualProgress?.errorContributionCount || 0;
+      progress.textContent = `${received} response${received === 1 ? '' : 's'} received · ${leads} parsed lead${leads === 1 ? '' : 's'}${errors ? ` · ${errors} needs correction` : ''}`;
+      item.append(progress);
+    }
     if (run.progress?.total) {
       const progress = document.createElement('div');
       progress.className = 'run-progress';
@@ -566,6 +647,17 @@ function renderRuns() {
     }
     const actions = document.createElement('div');
     actions.className = 'run-actions';
+    if (run.runKind === 'manual-discovery') {
+      const openManual = document.createElement('button');
+      openManual.type = 'button';
+      openManual.className = 'secondary view-manual-run';
+      openManual.textContent = run.status === 'running' ? 'Continue collecting responses' : 'View responses';
+      openManual.addEventListener('click', () => openManualDiscoveryRun(run.id));
+      actions.append(openManual);
+      item.append(actions);
+      if (run.result?.summary) item.append(renderRunFindings(run));
+      return item;
+    }
     const viewCandidates = document.createElement('button');
     viewCandidates.type = 'button';
     viewCandidates.className = 'secondary view-candidates';
@@ -609,6 +701,196 @@ function renderRuns() {
     }
     return item;
   }));
+}
+
+async function copyText(text, button, originalLabel) {
+  try {
+    await navigator.clipboard.writeText(text);
+    button.textContent = 'Copied';
+    setTimeout(() => { button.textContent = originalLabel; }, 1500);
+    return true;
+  } catch {
+    button.textContent = 'Select and copy the text';
+    setTimeout(() => { button.textContent = originalLabel; }, 2200);
+    return false;
+  }
+}
+
+function manualContributionSummary(contribution) {
+  const box = document.createElement('div');
+  box.className = `manual-validation ${contribution.parseStatus}`;
+  if (contribution.parseStatus === 'error') {
+    const error = document.createElement('strong');
+    error.textContent = `Needs correction: ${contribution.error}`;
+    box.append(error);
+    return box;
+  }
+  const counts = new Map();
+  let blankWebsites = 0;
+  let warningCount = contribution.warnings.length;
+  contribution.leads.forEach(lead => {
+    counts.set(lead.leadType || 'unclassified', (counts.get(lead.leadType || 'unclassified') || 0) + 1);
+    if (!lead.website) blankWebsites += 1;
+    warningCount += lead.warnings.length;
+  });
+  const summary = document.createElement('strong');
+  const types = [...counts].map(([type, count]) => `${count} ${friendlyStatus(type)}`).join(', ');
+  summary.textContent = `${contribution.leads.length} lead${contribution.leads.length === 1 ? '' : 's'} parsed${types ? ` · ${types}` : ''}`;
+  const details = document.createElement('small');
+  details.textContent = `${blankWebsites} blank website${blankWebsites === 1 ? '' : 's'} · ${warningCount} parser warning${warningCount === 1 ? '' : 's'}${contribution.trailingText.trim() ? ' · trailing source text preserved' : ''}`;
+  box.append(summary, details);
+  return box;
+}
+
+function createManualSourceCard(label, contribution = null, custom = false) {
+  const run = state.activeManualRun;
+  const locked = run.status !== 'running';
+  const card = document.createElement('article');
+  card.className = 'manual-source-card';
+  if (contribution) card.dataset.contributionId = String(contribution.id);
+  const heading = document.createElement('div');
+  heading.className = 'manual-source-heading';
+  const sourceLabel = document.createElement('input');
+  sourceLabel.className = 'manual-source-label';
+  sourceLabel.value = contribution?.sourceLabel || label;
+  sourceLabel.readOnly = !custom || locked;
+  sourceLabel.setAttribute('aria-label', 'Chat source label');
+  const stateLabel = document.createElement('span');
+  stateLabel.className = contribution ? `manual-source-state ${contribution.parseStatus}` : 'manual-source-state';
+  stateLabel.textContent = contribution ? (contribution.parseStatus === 'parsed' ? 'Saved' : 'Check response') : 'Waiting';
+  heading.append(sourceLabel, stateLabel);
+  const textarea = document.createElement('textarea');
+  textarea.rows = 10;
+  textarea.placeholder = `Paste ${label || 'this source'}'s complete response here…`;
+  textarea.value = contribution?.rawText || '';
+  textarea.disabled = locked;
+  const uploadRow = document.createElement('div');
+  uploadRow.className = 'manual-upload-row';
+  const uploadLabel = document.createElement('label');
+  uploadLabel.className = 'manual-file-button';
+  uploadLabel.textContent = 'Choose text or JSON file';
+  const upload = document.createElement('input');
+  upload.type = 'file';
+  upload.accept = '.txt,.json,text/plain,application/json';
+  upload.disabled = locked;
+  uploadLabel.append(upload);
+  const filename = document.createElement('span');
+  filename.className = 'muted';
+  filename.textContent = contribution?.filename || 'No file selected';
+  uploadRow.append(uploadLabel, filename);
+  const feedback = document.createElement('div');
+  feedback.className = 'manual-card-feedback';
+  if (contribution) feedback.append(manualContributionSummary(contribution));
+  const actions = document.createElement('div');
+  actions.className = 'manual-card-actions';
+  const save = document.createElement('button');
+  save.type = 'button';
+  save.textContent = contribution ? 'Replace saved response' : 'Validate and save';
+  save.disabled = locked;
+  const remove = document.createElement('button');
+  remove.type = 'button';
+  remove.className = 'secondary';
+  remove.textContent = 'Delete';
+  remove.hidden = locked || (!contribution && !custom);
+  actions.append(save, remove);
+  upload.addEventListener('change', async () => {
+    const file = upload.files[0];
+    if (!file) return;
+    try {
+      textarea.value = await file.text();
+      textarea.dataset.filename = file.name;
+      filename.textContent = file.name;
+      feedback.textContent = 'File loaded. Choose Validate and save.';
+    } catch {
+      feedback.textContent = 'Scout could not read that file.';
+    }
+  });
+  save.addEventListener('click', async () => {
+    const source = sourceLabel.value.trim();
+    if (!source || !textarea.value.trim()) {
+      feedback.textContent = 'Enter a source label and paste or choose a response.';
+      return;
+    }
+    save.disabled = true;
+    feedback.textContent = 'Validating and preserving the response…';
+    try {
+      await request(`/api/manual-discovery-runs/${run.id}/contributions`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sourceLabel: source,
+          rawText: textarea.value,
+          filename: textarea.dataset.filename || contribution?.filename || '',
+        }),
+      });
+      await openManualDiscoveryRun(run.id);
+      document.querySelector('#manual-discovery-message').textContent = `${source} response saved with its original text and source label.`;
+    } catch (error) {
+      feedback.textContent = error.message;
+      save.disabled = false;
+    }
+  });
+  remove.addEventListener('click', async () => {
+    if (!contribution) {
+      card.remove();
+      return;
+    }
+    if (!window.confirm(`Delete the saved ${contribution.sourceLabel} response from this unfinished run?`)) return;
+    try {
+      await request(`/api/manual-discovery-runs/${run.id}/contributions/${contribution.id}`, { method: 'DELETE' });
+      await openManualDiscoveryRun(run.id);
+      document.querySelector('#manual-discovery-message').textContent = `${contribution.sourceLabel} response deleted.`;
+    } catch (error) {
+      feedback.textContent = error.message;
+    }
+  });
+  const raw = document.createElement('details');
+  raw.className = 'manual-raw-response';
+  const rawSummary = document.createElement('summary');
+  rawSummary.textContent = contribution ? 'View preserved response and source notes' : 'Response details';
+  const rawText = document.createElement('pre');
+  rawText.textContent = contribution?.rawText || 'The exact response will be preserved after saving.';
+  raw.append(rawSummary, rawText);
+  if (contribution?.trailingText.trim()) {
+    const trailingTitle = document.createElement('strong');
+    trailingTitle.textContent = 'Preserved trailing source text';
+    const trailing = document.createElement('pre');
+    trailing.textContent = contribution.trailingText;
+    raw.append(trailingTitle, trailing);
+  }
+  card.append(heading, textarea, uploadRow, feedback, actions, raw);
+  return card;
+}
+
+function renderManualDiscoveryWorkspace() {
+  const run = state.activeManualRun;
+  if (!run) return;
+  const locked = run.status !== 'running';
+  document.querySelector('#manual-discovery-title').textContent = `${run.targetCategoryLabel} · ${locked ? 'Finished responses' : 'Collect chat responses'}`;
+  document.querySelector('#manual-discovery-context').textContent = `${runPlace(run)} · ${locked ? 'This snapshot is locked.' : 'A run may finish with fewer than four responses.'}`;
+  document.querySelector('#manual-assignment-text').textContent = run.assignment;
+  const progress = run.manualProgress || {};
+  document.querySelector('#manual-progress').textContent = `${progress.contributionCount || 0} response${progress.contributionCount === 1 ? '' : 's'} received · ${progress.leadCount || 0} parsed lead${progress.leadCount === 1 ? '' : 's'}${progress.errorContributionCount ? ` · ${progress.errorContributionCount} response needs correction` : ''}`;
+  const byLabel = new Map(state.manualContributions.map(item => [item.sourceLabel.toLowerCase(), item]));
+  const defaults = ['ChatGPT', 'Grok', 'Claude', 'Perplexity'];
+  const cards = defaults.map(label => createManualSourceCard(label, byLabel.get(label.toLowerCase()) || null));
+  const defaultKeys = new Set(defaults.map(label => label.toLowerCase()));
+  state.manualContributions
+    .filter(item => !defaultKeys.has(item.sourceLabel.toLowerCase()))
+    .forEach(item => cards.push(createManualSourceCard(item.sourceLabel, item, true)));
+  document.querySelector('#manual-source-list').replaceChildren(...cards);
+  document.querySelector('#add-manual-source').hidden = locked;
+  const finish = document.querySelector('#finish-manual-discovery');
+  finish.hidden = locked;
+  finish.disabled = !progress.contributionCount || Boolean(progress.errorContributionCount);
+}
+
+async function openManualDiscoveryRun(runId) {
+  const result = await request(`/api/manual-discovery-runs/${runId}/contributions`);
+  state.activeManualRun = result.run;
+  state.manualContributions = result.contributions;
+  renderManualDiscoveryWorkspace();
+  const dialog = document.querySelector('#manual-discovery-dialog');
+  if (!dialog.open) dialog.showModal();
 }
 
 async function resumeResearchRun(run, button) {
@@ -912,7 +1194,8 @@ async function loadResearchData() {
     state.candidateRunId = null;
   }
   renderRuns(); renderCandidates(); renderLessons();
-  const active = state.runs.some(run => ['queued', 'running'].includes(run.status));
+  const active = state.runs.some(run => run.runKind !== 'manual-discovery'
+    && ['queued', 'running'].includes(run.status));
   if (active && !state.pollTimer) {
     state.pollTimer = setTimeout(async () => {
       state.pollTimer = null;
@@ -968,8 +1251,48 @@ document.querySelector('#package-input').addEventListener('change', () => {
 document.querySelector('#import-form').addEventListener('submit', event => event.preventDefault());
 
 document.querySelectorAll('input[name="research-mode"]').forEach(input => input.addEventListener('change', switchResearchMode));
+document.querySelectorAll('input[name="research-method"]').forEach(input => input.addEventListener('change', switchResearchMethod));
 document.querySelector('#target-location').addEventListener('input', updateStandaloneAutoAssignment);
+document.querySelector('#regional-scope').addEventListener('input', () => {
+  if (selectedResearchMethod() === 'manual') refreshManualAssignment();
+});
 document.querySelector('#close-candidate').addEventListener('click', () => document.querySelector('#candidate-dialog').close());
+document.querySelector('#close-manual-discovery').addEventListener('click', () => document.querySelector('#manual-discovery-dialog').close());
+
+document.querySelector('#copy-assignment').addEventListener('click', event => {
+  copyText(document.querySelector('#research-assignment').value, event.currentTarget, 'Copy assignment');
+});
+
+document.querySelector('#copy-manual-assignment').addEventListener('click', event => {
+  copyText(state.activeManualRun?.assignment || '', event.currentTarget, 'Copy assignment');
+});
+
+document.querySelector('#add-manual-source').addEventListener('click', () => {
+  state.customManualSources += 1;
+  const card = createManualSourceCard(`Other source ${state.customManualSources}`, null, true);
+  document.querySelector('#manual-source-list').append(card);
+  card.querySelector('.manual-source-label').focus();
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+document.querySelector('#finish-manual-discovery').addEventListener('click', async event => {
+  const run = state.activeManualRun;
+  if (!run || !window.confirm('Finish discovery and lock these source responses?')) return;
+  event.currentTarget.disabled = true;
+  const message = document.querySelector('#manual-discovery-message');
+  message.textContent = 'Finishing the immutable response snapshot…';
+  try {
+    await request(`/api/manual-discovery-runs/${run.id}/finish`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    await loadResearchData();
+    await openManualDiscoveryRun(run.id);
+    message.textContent = 'Discovery responses finished and locked.';
+  } catch (error) {
+    message.textContent = error.message;
+    event.currentTarget.disabled = false;
+  }
+});
 
 document.querySelector('#copy-setup').addEventListener('click', async event => {
   const command = event.currentTarget.dataset.command || 'hermes setup';
@@ -1031,6 +1354,24 @@ document.querySelector('#research-form').addEventListener('submit', async event 
   const name = agentName();
   const researchMode = selectedResearchMode();
   const targetLocation = document.querySelector('#target-location').value.trim();
+  if (selectedResearchMethod() === 'manual') {
+    message.textContent = 'Opening a manual discovery workspace…';
+    try {
+      const run = await request('/api/manual-discovery-runs', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...manualAssignmentPayload(),
+          assignment: document.querySelector('#research-assignment').value,
+        }),
+      });
+      message.textContent = `Manual discovery run ${run.id} opened. Copy the assignment into each chat and save the responses as they arrive.`;
+      await loadResearchData();
+      await openManualDiscoveryRun(run.id);
+    } catch (error) {
+      message.textContent = error.message;
+    } finally { updateStartResearchState(); }
+    return;
+  }
   message.textContent = `Giving ${name} the assignment and research context…`;
   try {
     const run = await request('/api/research-runs', {
@@ -1095,4 +1436,5 @@ document.querySelector('#lesson-form').addEventListener('submit', async event =>
 state.assignmentDrafts.package = document.querySelector('#research-assignment').value;
 setupResearchPaneResizer();
 switchResearchMode();
+switchResearchMethod();
 refresh().catch(error => { document.querySelector('#import-message').textContent = error.message; });

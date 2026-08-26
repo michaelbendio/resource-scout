@@ -1029,7 +1029,8 @@ class ResearchStore:
                        ELSE 'failed'
                    END,
                    completed_at = ?, error = ?
-               WHERE status IN ('queued', 'running')""",
+               WHERE status IN ('queued', 'running')
+                 AND run_kind != 'manual-discovery'""",
             (now, message),
         )
 
@@ -1777,6 +1778,55 @@ class ResearchStore:
             )
             return cursor.rowcount > 0
 
+    def manual_discovery_progress(self, run_id: int) -> dict[str, int]:
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT COUNT(*) AS contribution_count,
+                          SUM(parse_status = 'parsed') AS parsed_count,
+                          SUM(parse_status = 'error') AS error_count,
+                          (SELECT COUNT(*) FROM manual_discovery_leads leads
+                           JOIN manual_discovery_contributions contributions
+                             ON contributions.id = leads.contribution_id
+                           WHERE contributions.run_id = ?) AS lead_count
+                   FROM manual_discovery_contributions WHERE run_id = ?""",
+                (run_id, run_id),
+            ).fetchone()
+        return {
+            "contributionCount": int(row["contribution_count"] or 0),
+            "parsedContributionCount": int(row["parsed_count"] or 0),
+            "errorContributionCount": int(row["error_count"] or 0),
+            "leadCount": int(row["lead_count"] or 0),
+        }
+
+    def finish_manual_discovery_run(self, run_id: int) -> dict[str, Any]:
+        run = self.get_run(run_id)
+        if not run:
+            raise ValueError("Research run not found")
+        if run["runKind"] != "manual-discovery":
+            raise ValueError("Only a manual discovery run can be finished this way")
+        if run["status"] != "running":
+            raise ValueError("Manual discovery run is already closed")
+        progress = self.manual_discovery_progress(run_id)
+        if progress["contributionCount"] == 0:
+            raise ValueError("Add at least one contribution before finishing discovery")
+        if progress["errorContributionCount"]:
+            raise ValueError("Correct or delete responses with parse errors before finishing discovery")
+        summary = (
+            f"Manual discovery preserved {progress['contributionCount']} contribution"
+            f"{'s' if progress['contributionCount'] != 1 else ''} containing "
+            f"{progress['leadCount']} parsed lead{'s' if progress['leadCount'] != 1 else ''}."
+        )
+        self.complete_run(
+            run_id,
+            "",
+            {"summary": summary, "manualDiscoveryProgress": progress},
+            None,
+        )
+        finished = self.get_run(run_id)
+        if finished is None:  # pragma: no cover - guarded by the lookup above
+            raise RuntimeError("Finished run could not be read")
+        return finished
+
     @staticmethod
     def _manual_contribution_dict(
         connection: sqlite3.Connection, row: sqlite3.Row
@@ -2063,6 +2113,11 @@ class ResearchStore:
         value = self._run_dict(row)
         value["stages"] = self.list_run_stages(run_id)
         value["progress"] = self._stage_progress(value["stages"])
+        value["manualProgress"] = (
+            self.manual_discovery_progress(run_id)
+            if value["runKind"] == "manual-discovery"
+            else None
+        )
         return value
 
     def list_runs(self, limit: int = 30) -> list[dict[str, Any]]:
@@ -2114,6 +2169,11 @@ class ResearchStore:
             }
             value["stages"] = self._list_run_stage_summaries(int(row["id"]))
             value["progress"] = self._stage_progress(value["stages"])
+            value["manualProgress"] = (
+                self.manual_discovery_progress(int(row["id"]))
+                if value["runKind"] == "manual-discovery"
+                else None
+            )
             result.append(value)
         return result
 

@@ -4,15 +4,22 @@ import hashlib
 import json
 import sqlite3
 import tempfile
+import threading
 import unittest
+import urllib.error
+import urllib.request
+import zipfile
 from pathlib import Path
 
+from resource_research_agent.importer import ResourcePackageImporter
 from resource_research_agent.manual_discovery import (
     MAX_MANUAL_CONTRIBUTION_BYTES,
+    build_manual_discovery_assignment,
     normalize_manual_identity,
     normalize_manual_url,
     parse_manual_contribution,
 )
+from resource_research_agent.server import ResearchHTTPServer
 from resource_research_agent.storage import ResearchStore
 
 
@@ -102,6 +109,25 @@ class ManualDiscoveryParserTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "too large"):
             parse_manual_contribution("x" * (MAX_MANUAL_CONTRIBUTION_BYTES + 1))
 
+    def test_assignment_uses_supplied_category_area_and_known_resources(self) -> None:
+        food = build_manual_discovery_assignment(
+            category_label="Food",
+            service_area="Mesa, Arizona",
+            known_resources=[{"id": "pantry-1", "name": "Known Pantry"}],
+        )
+        legal = build_manual_discovery_assignment(
+            category_label="Legal",
+            service_area="Mesa, Arizona",
+            known_resources=[],
+        )
+        self.assertIn("credible Food resource leads", food)
+        self.assertIn("pantry-1: Known Pantry", food)
+        self.assertNotIn("Known Pantry", legal)
+        for assignment in (food, legal):
+            self.assertNotIn("Housing", assignment)
+            self.assertNotIn("Addiction", assignment)
+            self.assertIn('"leadType"', assignment)
+
 
 class ManualDiscoveryStorageTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -150,8 +176,9 @@ class ManualDiscoveryStorageTests(unittest.TestCase):
         self.assertEqual(3, len(saved["leads"]))
         self.assertEqual([saved], self.store.list_manual_contributions(self.run_id))
 
-        reopened = ResearchStore(self.database)
+        reopened = ResearchStore(self.database, recover_interrupted=True)
         self.assertEqual([saved], reopened.list_manual_contributions(self.run_id))
+        self.assertEqual("running", reopened.get_run(self.run_id)["status"])
 
     def test_same_source_replaces_content_but_preserves_source_order(self) -> None:
         original = self.store.save_manual_contribution(
@@ -186,6 +213,21 @@ class ManualDiscoveryStorageTests(unittest.TestCase):
             self.store.save_manual_contribution(self.run_id, "Claude", self.fixture("Claude"))
         with self.assertRaisesRegex(ValueError, "while the run is open"):
             self.store.delete_manual_contribution(self.run_id, saved["id"])
+
+    def test_finish_records_contribution_progress_and_closes_snapshot(self) -> None:
+        self.store.save_manual_contribution(self.run_id, "Claude", self.fixture("Claude"))
+        finished = self.store.finish_manual_discovery_run(self.run_id)
+        self.assertEqual("completed", finished["status"])
+        self.assertEqual(1, finished["manualProgress"]["contributionCount"])
+        self.assertEqual(4, finished["manualProgress"]["leadCount"])
+        self.assertIn("1 contribution", finished["result"]["summary"])
+        with self.assertRaisesRegex(ValueError, "already closed"):
+            self.store.finish_manual_discovery_run(self.run_id)
+
+    def test_parse_error_must_be_corrected_or_deleted_before_finish(self) -> None:
+        self.store.save_manual_contribution(self.run_id, "Grok", "not json")
+        with self.assertRaisesRegex(ValueError, "parse errors"):
+            self.store.finish_manual_discovery_run(self.run_id)
 
     def test_legacy_run_kind_defaults_to_agent_research(self) -> None:
         legacy_run = self.store.create_research_run(
@@ -229,6 +271,137 @@ class ManualDiscoveryStorageTests(unittest.TestCase):
             }
         self.assertIn("manual_discovery_contributions", tables)
         self.assertIn("manual_discovery_leads", tables)
+
+
+class ManualDiscoveryHTTPTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.root = Path(self.temporary.name)
+        self.package_path = self.root / "mesa-resource-package.zip"
+        package = {
+            "resourcePackageSchemaVersion": 3,
+            "officeName": "Mesa TSO",
+            "serviceArea": "Mesa and Maricopa County, Arizona",
+            "categories": [
+                {"id": "food", "name": "Food"},
+                {"id": "legal", "name": "Legal"},
+            ],
+            "resources": [
+                {"id": "known-pantry", "name": "Known Pantry", "categories": ["food"]},
+                {"id": "known-legal", "name": "Known Legal Aid", "categories": ["legal"]},
+            ],
+        }
+        with zipfile.ZipFile(self.package_path, "w") as archive:
+            archive.writestr("tso-resources.json", json.dumps(package))
+        self.package_hash = hashlib.sha256(self.package_path.read_bytes()).hexdigest()
+        self.store = ResearchStore(self.root / "research.sqlite3")
+        self.import_id = self.store.save_import(ResourcePackageImporter("food").read(self.package_path))
+        web_dir = Path(__file__).resolve().parent.parent / "web"
+        self.server = ResearchHTTPServer(("127.0.0.1", 0), self.store, web_dir)
+        self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
+        self.thread.start()
+        self.base = f"http://127.0.0.1:{self.server.server_address[1]}"
+
+    def tearDown(self) -> None:
+        self.server.shutdown()
+        self.server.server_close()
+        self.thread.join(timeout=5)
+        self.temporary.cleanup()
+
+    def request(self, path: str, method: str = "GET", payload: dict | None = None) -> dict:
+        data = json.dumps(payload).encode() if payload is not None else None
+        request = urllib.request.Request(
+            self.base + path,
+            data=data,
+            headers={"Content-Type": "application/json"} if data is not None else {},
+            method=method,
+        )
+        with urllib.request.urlopen(request, timeout=5) as response:
+            return json.loads(response.read())
+
+    def test_package_assignment_and_manual_run_lifecycle_use_no_agent(self) -> None:
+        assignment_result = self.request(
+            "/api/manual-discovery-assignment",
+            "POST",
+            {
+                "researchMode": "package",
+                "sourceImportId": self.import_id,
+                "categoryId": "food",
+            },
+        )
+        assignment = assignment_result["assignment"]
+        self.assertIn("Food", assignment)
+        self.assertIn("Mesa and Maricopa County", assignment)
+        self.assertIn("known-pantry: Known Pantry", assignment)
+        self.assertNotIn("Known Legal Aid", assignment)
+        self.assertEqual(self.package_hash, hashlib.sha256(self.package_path.read_bytes()).hexdigest())
+
+        run = self.request(
+            "/api/manual-discovery-runs",
+            "POST",
+            {
+                "assignment": assignment,
+                "researchMode": "package",
+                "sourceImportId": self.import_id,
+                "categoryId": "food",
+            },
+        )
+        self.assertEqual("manual-discovery", run["runKind"])
+        self.assertEqual("running", run["status"])
+        contribution = self.request(
+            f"/api/manual-discovery-runs/{run['id']}/contributions",
+            "POST",
+            {
+                "sourceLabel": "ChatGPT",
+                "rawText": '{"leads":[]}',
+                "filename": "response.json",
+            },
+        )
+        snapshot = self.request(
+            f"/api/manual-discovery-runs/{run['id']}/contributions"
+        )
+        self.assertEqual([contribution], snapshot["contributions"])
+        self.assertEqual(1, snapshot["run"]["manualProgress"]["contributionCount"])
+        deleted = self.request(
+            f"/api/manual-discovery-runs/{run['id']}/contributions/{contribution['id']}",
+            "DELETE",
+        )
+        self.assertTrue(deleted["ok"])
+        self.request(
+            f"/api/manual-discovery-runs/{run['id']}/contributions",
+            "POST",
+            {"sourceLabel": "Claude", "rawText": '{"leads":[]}'},
+        )
+        finished = self.request(
+            f"/api/manual-discovery-runs/{run['id']}/finish", "POST", {}
+        )
+        self.assertEqual("completed", finished["status"])
+        with self.assertRaises(urllib.error.HTTPError) as raised:
+            self.request(
+                f"/api/manual-discovery-runs/{run['id']}/contributions",
+                "POST",
+                {"sourceLabel": "Grok", "rawText": '{"leads":[]}'},
+            )
+        self.assertEqual(400, raised.exception.code)
+        raised.exception.close()
+
+    def test_manual_workspace_is_served_as_the_recommended_touch_usable_path(self) -> None:
+        with urllib.request.urlopen(self.base + "/", timeout=5) as response:
+            html = response.read().decode()
+        with urllib.request.urlopen(self.base + "/app.js", timeout=5) as response:
+            javascript = response.read().decode()
+        with urllib.request.urlopen(self.base + "/app.css", timeout=5) as response:
+            css = response.read().decode()
+        self.assertIn('value="manual" checked', html)
+        self.assertIn("Manual chat discovery", html)
+        self.assertIn("copy-manual-assignment", html)
+        self.assertIn("manual-source-list", html)
+        self.assertIn("['ChatGPT', 'Grok', 'Claude', 'Perplexity']", javascript)
+        self.assertIn("Choose text or JSON file", javascript)
+        self.assertIn("window.confirm", javascript)
+        self.assertIn("textContent = contribution.trailingText", javascript)
+        self.assertIn("@media (max-width: 800px)", css)
+        self.assertIn(".manual-source-list { grid-template-columns: 1fr; }", css)
 
 
 if __name__ == "__main__":
