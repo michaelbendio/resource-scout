@@ -1,5 +1,5 @@
 const state = {
-  runs: [], discoveries: [], lessons: [], latestImport: null,
+  runs: [], discoveries: [], latestImport: null,
   currentCandidate: null, pollTimer: null, researchMode: 'package',
   activeManualRun: null, manualContributions: [], manualConsolidation: null,
   manualIdentityDecisionPending: false,
@@ -15,7 +15,7 @@ function setupResearchPaneResizer() {
   const container = document.querySelector('#research-results');
   const divider = document.querySelector('#research-divider');
   if (!container || !divider) return;
-  const storageKey = 'resource-research-agent:runs-pane-ratio';
+  const storageKey = 'resource-scout:runs-pane-ratio';
   const minimumRuns = 280;
   const minimumCandidates = 360;
   let ratio = Number.parseFloat(localStorage.getItem(storageKey) || '0.4');
@@ -133,7 +133,6 @@ function packageDefaultAssignment() {
 function updateCategoryCopy() {
   const category = activeCategory();
   document.querySelector('#research-heading-title').textContent = `Collect ${category.label} leads from your chats`;
-  document.querySelector('#category-lesson-option').textContent = `${category.label} lesson`;
   const types = category.types?.length ? category.types.join(', ') : 'None defined in this package';
   const forGroups = state.forGroups.length ? state.forGroups.join(', ') : 'None defined in this package';
   document.querySelector('#category-taxonomy-note').textContent = `Types: ${types} · For: ${forGroups}`;
@@ -372,11 +371,7 @@ function emptyState(text) {
 
 function researchRunTitle(run) {
   const category = run.targetCategoryLabel || 'Housing';
-  if (run.runKind === 'manual-discovery') return `${category} discovery · ${runPlace(run)}`;
-  const research = run.seedResourceId
-      ? `${category} research from ${run.prompt?.selectedSeed?.name || run.seedResourceId}`
-      : `${category} research`;
-  return `${research} · ${runPlace(run)}`;
+  return `${category} discovery · ${runPlace(run)}`;
 }
 
 function candidateCountForRun(runId) {
@@ -446,117 +441,6 @@ function selectCandidateRun(runId, { scroll = false } = {}) {
   }
 }
 
-function appendLabeledSummaryText(target, text) {
-  const match = String(text || '').match(/^([^:]{2,40}):\s*(.*)$/s);
-  if (!match || !/^(key findings?|major caution|caution|typical first step|first step|gap identified|strongest gap found)$/i.test(match[1].replace(/^the\s+/i, ''))) {
-    target.textContent = text;
-    return;
-  }
-  const label = document.createElement('strong');
-  label.textContent = `${match[1]}: `;
-  target.append(label, document.createTextNode(match[2]));
-}
-
-function renderLegacySummary(text) {
-  const content = document.createElement('div');
-  content.className = 'stage-summary-content';
-  const normalized = String(text || '')
-    .replace(/\s+The typical first step is(?: to)?\s+([a-z])/gi, (_, firstLetter) => `\n\nTypical first step: ${firstLetter.toUpperCase()}`)
-    .replace(/\s+(?=(?:Key findings?|Major caution|Caution|(?:The\s+)?Typical first step|Gap identified|The strongest gap found):)/gi, '\n\n')
-    .replace(/\s+\((\d+)\)\s+/g, '\n\n($1) ')
-    .replace(/\s+(?=(?:Most |Known resources|Prior-stage candidates|Also surfaced a lead|None of these|Phones are left blank))/g, '\n\n');
-  const blocks = normalized.split(/\n{2,}/).map(value => value.trim()).filter(Boolean);
-  let list = null;
-  blocks.forEach(block => {
-    const numbered = block.match(/^\((\d+)\)\s+([\s\S]+)$/);
-    if (numbered) {
-      if (!list) {
-        list = document.createElement('ol');
-        content.append(list);
-      }
-      const item = document.createElement('li');
-      item.textContent = numbered[2];
-      list.append(item);
-      return;
-    }
-    list = null;
-    const paragraph = document.createElement('p');
-    appendLabeledSummaryText(paragraph, block);
-    content.append(paragraph);
-  });
-  return content;
-}
-
-function appendSummarySection(target, title, items, className, { ordered = false } = {}) {
-  if (!Array.isArray(items) || !items.length) return;
-  const section = document.createElement('section');
-  section.className = `summary-section ${className}`;
-  const heading = document.createElement('h5');
-  heading.textContent = title;
-  const list = document.createElement(ordered ? 'ol' : 'ul');
-  items.forEach(value => {
-    const item = document.createElement('li');
-    item.textContent = value;
-    list.append(item);
-  });
-  section.append(heading, list);
-  target.append(section);
-}
-
-function renderStageSummary(stage) {
-  const card = document.createElement('section');
-  card.className = 'stage-summary-card';
-  const heading = document.createElement('h4');
-  heading.textContent = stage.title || 'Research stage';
-  card.append(heading);
-  const sections = stage.summarySections;
-  const hasStructuredSummary = sections && typeof sections === 'object' && (
-    sections.overview
-    || sections.keyFindings?.length
-    || sections.cautions?.length
-    || sections.accessSteps?.length
-    || sections.gaps?.length
-  );
-  if (!hasStructuredSummary) {
-    card.append(renderLegacySummary(stage.summary));
-    return card;
-  }
-  if (sections.overview) {
-    const overview = document.createElement('p');
-    overview.className = 'stage-overview';
-    overview.textContent = sections.overview;
-    card.append(overview);
-  }
-  appendSummarySection(card, 'Key findings', sections.keyFindings, 'key-findings', { ordered: true });
-  appendSummarySection(card, 'Cautions', sections.cautions, 'cautions');
-  appendSummarySection(card, 'Practical access', sections.accessSteps, 'access-steps');
-  appendSummarySection(card, 'Gaps and unanswered questions', sections.gaps, 'gaps');
-  return card;
-}
-
-function renderRunFindings(run) {
-  const summaries = Array.isArray(run.result?.stageSummaries) ? run.result.stageSummaries : [];
-  const details = document.createElement('details');
-  details.className = 'run-findings';
-  const toggle = document.createElement('summary');
-  toggle.textContent = summaries.length
-    ? `Show full findings (${summaries.length} stage${summaries.length === 1 ? '' : 's'})`
-    : 'Show full findings';
-  const content = document.createElement('div');
-  content.className = 'run-findings-content';
-  if (summaries.length) {
-    summaries.forEach((stage, index) => {
-      const card = renderStageSummary(stage);
-      card.querySelector('h4').textContent = `${index + 1}. ${card.querySelector('h4').textContent}`;
-      content.append(card);
-    });
-  } else {
-    content.append(renderLegacySummary(run.result?.summary));
-  }
-  details.append(toggle, content);
-  return details;
-}
-
 function renderRuns() {
   const target = document.querySelector('#run-list');
   if (!state.runs.length) {
@@ -576,57 +460,24 @@ function renderRuns() {
     head.append(title, status);
     const time = document.createElement('small');
     const duration = formatDuration(run);
-    const method = run.runKind === 'manual-discovery' ? 'chat sources' : run.adapter;
-    time.textContent = `${formatWhen(run.createdAt)}${duration ? ` · Duration ${duration}` : ''} · ${method} · ${run.researchMode === 'standalone-location' ? 'standalone location' : 'package-backed'}`;
+    time.textContent = `${formatWhen(run.createdAt)}${duration ? ` · Duration ${duration}` : ''} · chat sources · ${run.researchMode === 'standalone-location' ? 'standalone location' : 'package-backed'}`;
     item.append(head, time);
-    if (run.runKind === 'manual-discovery') {
-      const progress = document.createElement('div');
-      progress.className = 'run-progress';
-      const received = run.manualProgress?.contributionCount || 0;
-      const leads = run.manualProgress?.leadCount || 0;
-      const errors = run.manualProgress?.errorContributionCount || 0;
-      progress.textContent = `${received} response${received === 1 ? '' : 's'} received · ${leads} parsed lead${leads === 1 ? '' : 's'}${errors ? ` · ${errors} needs correction` : ''}`;
-      item.append(progress);
-    }
-    if (run.progress?.total) {
-      const progress = document.createElement('div');
-      progress.className = 'run-progress';
-      progress.textContent = `${run.progress.completed} of ${run.progress.total} research stages completed`;
-      item.append(progress);
-      const stages = document.createElement('details');
-      stages.className = 'run-stages';
-      const summary = document.createElement('summary');
-      summary.textContent = 'View stage progress';
-      const list = document.createElement('ol');
-      (run.stages || []).forEach(stage => {
-        const entry = document.createElement('li');
-        const stageTitle = document.createElement('span');
-        stageTitle.textContent = stage.title;
-        const stageStatus = document.createElement('small');
-        stageStatus.className = `stage-status ${stage.status}`;
-        stageStatus.textContent = friendlyStatus(stage.status);
-        entry.append(stageTitle, stageStatus);
-        if (stage.error) {
-          const error = document.createElement('div');
-          error.className = 'stage-error';
-          error.textContent = stage.error;
-          entry.append(error);
-        }
-        list.append(entry);
-      });
-      stages.append(summary, list);
-      item.append(stages);
-    }
+    const progress = document.createElement('div');
+    progress.className = 'run-progress';
+    const received = run.manualProgress?.contributionCount || 0;
+    const leads = run.manualProgress?.leadCount || 0;
+    const errors = run.manualProgress?.errorContributionCount || 0;
+    progress.textContent = `${received} response${received === 1 ? '' : 's'} received · ${leads} parsed lead${leads === 1 ? '' : 's'}${errors ? ` · ${errors} needs correction` : ''}`;
+    item.append(progress);
     const actions = document.createElement('div');
     actions.className = 'run-actions';
-    if (run.runKind === 'manual-discovery') {
-      const openManual = document.createElement('button');
-      openManual.type = 'button';
-      openManual.className = 'secondary view-manual-run';
-      openManual.textContent = manualRunActionLabel(run);
-      openManual.addEventListener('click', () => openManualDiscoveryRun(run.id));
-      actions.append(openManual);
-      if (run.status === 'completed') {
+    const openManual = document.createElement('button');
+    openManual.type = 'button';
+    openManual.className = 'secondary view-manual-run';
+    openManual.textContent = manualRunActionLabel(run);
+    openManual.addEventListener('click', () => openManualDiscoveryRun(run.id));
+    actions.append(openManual);
+    if (run.status === 'completed') {
         const missingWebsites = missingWebsiteCandidatesForRun(run.id);
         const viewCandidates = document.createElement('button');
         viewCandidates.type = 'button';
@@ -679,54 +530,10 @@ function renderRuns() {
           }
         });
         actions.append(importLookup, importFile, exportLink);
-      }
-      item.append(actions);
-      const excluded = renderExcludedLeads(run.id);
-      if (excluded) item.append(excluded);
-      if (run.result?.summary) item.append(renderRunFindings(run));
-      return item;
-    }
-    const viewCandidates = document.createElement('button');
-    viewCandidates.type = 'button';
-    viewCandidates.className = 'secondary view-candidates';
-    viewCandidates.setAttribute('aria-pressed', String(state.candidateRunId === run.id));
-    viewCandidates.textContent = `View candidates (${candidateCountForRun(run.id)})`;
-    viewCandidates.addEventListener('click', () => selectCandidateRun(run.id, { scroll: true }));
-    actions.append(viewCandidates);
-    if (['completed', 'partial'].includes(run.status)) {
-      const exportLink = document.createElement('a');
-      exportLink.className = 'review-export';
-      exportLink.href = `/api/research-runs/${run.id}/review-copy`;
-      exportLink.download = '';
-      exportLink.textContent = 'Export Resource Curator';
-      const detail = document.createElement('small');
-      detail.textContent = 'This run only · portable vetting and package workspace';
-      actions.append(exportLink, detail);
-      if (run.status === 'partial') {
-        const resume = document.createElement('button');
-        resume.type = 'button';
-        resume.className = 'secondary resume-run';
-        resume.textContent = 'Resume research';
-        resume.addEventListener('click', () => resumeResearchRun(run, resume));
-        actions.append(resume);
-      }
-    }
-    if (run.status === 'failed') {
-      const resume = document.createElement('button');
-      resume.type = 'button';
-      resume.className = 'secondary resume-run';
-      resume.textContent = run.progress?.total ? 'Retry failed stage' : 'Retry as staged research';
-      resume.addEventListener('click', () => resumeResearchRun(run, resume));
-      actions.append(resume);
     }
     item.append(actions);
-    if (run.result?.summary || run.result?.stageSummaries?.length) item.append(renderRunFindings(run));
-    if (run.error) {
-      const error = document.createElement('div');
-      error.className = 'run-error';
-      error.textContent = run.error;
-      item.append(error);
-    }
+    const excluded = renderExcludedLeads(run.id);
+    if (excluded) item.append(excluded);
     return item;
   }));
 }
@@ -1129,24 +936,6 @@ async function openManualDiscoveryRun(runId) {
   }
 }
 
-async function resumeResearchRun(run, button) {
-  const message = document.querySelector('#research-message');
-  button.disabled = true;
-  state.candidateRunId = run.id;
-  state.candidateRunSelectionInitialized = true;
-  message.textContent = `Resuming ${run.targetLocation ? `${run.targetLocation} ` : ''}research from the first unfinished stage…`;
-  try {
-    await request(`/api/research-runs/${run.id}/resume`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
-    });
-    message.textContent = `Research run ${run.id} resumed. Completed stages will not be repeated.`;
-    await loadResearchData();
-  } catch (error) {
-    message.textContent = error.message;
-    button.disabled = false;
-  }
-}
-
 function candidateDescription(discovery) {
   const candidate = discovery.candidate || {};
   return asText(candidate.serviceNeed || candidate.housingNeed || candidate.description || candidate.resourceType || 'Research candidate');
@@ -1371,67 +1160,12 @@ function openCandidate(discovery) {
   document.querySelector('#candidate-dialog').showModal();
 }
 
-function renderLessons() {
-  const target = document.querySelector('#lesson-list');
-  if (!state.lessons.length) {
-    target.replaceChildren(emptyState('No research lessons yet. Add one, or teach the agent while reviewing a candidate.'));
-    return;
-  }
-  target.replaceChildren(...state.lessons.map(lesson => {
-    const item = document.createElement('div');
-    item.className = 'lesson';
-    const head = document.createElement('div');
-    head.className = 'lesson-head';
-    const info = document.createElement('div');
-    const label = document.createElement('small');
-    const context = lesson.researchMode === 'standalone-location'
-      ? lesson.targetLocation
-      : 'Package-backed';
-    label.textContent = `${context} · ${lesson.scope === 'general' ? 'General' : (lesson.targetCategoryLabel || 'Housing')} · ${lesson.source}`;
-    const status = document.createElement('span');
-    status.className = `lesson-status ${lesson.status}`;
-    status.textContent = lesson.status;
-    info.append(label);
-    head.append(info, status);
-    const text = document.createElement('p');
-    text.textContent = lesson.text;
-    item.append(head, text);
-    if (lesson.rationale) {
-      const rationale = document.createElement('small');
-      rationale.textContent = lesson.rationale;
-      item.append(rationale);
-    }
-    const actions = document.createElement('div');
-    actions.className = 'lesson-actions';
-    if (lesson.status === 'proposed') actions.append(lessonActionButton(lesson, 'active', 'Approve'));
-    if (lesson.status !== 'retired') actions.append(lessonActionButton(lesson, 'retired', 'Retire'));
-    if (lesson.status === 'retired') actions.append(lessonActionButton(lesson, 'active', 'Restore'));
-    item.append(actions);
-    return item;
-  }));
-}
-
-function lessonActionButton(lesson, status, label) {
-  const button = document.createElement('button');
-  button.type = 'button';
-  button.className = 'secondary';
-  button.textContent = label;
-  button.addEventListener('click', async () => {
-    await request(`/api/lessons/${lesson.id}/status`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }),
-    });
-    await loadResearchData();
-  });
-  return button;
-}
-
 async function loadResearchData() {
-  const [runs, discoveries, lessons] = await Promise.all([
-    request('/api/research-runs'), request('/api/discoveries'), request('/api/lessons'),
+  const [runs, discoveries] = await Promise.all([
+    request('/api/research-runs'), request('/api/discoveries'),
   ]);
   state.runs = runs.runs;
   state.discoveries = discoveries.discoveries;
-  state.lessons = lessons.lessons;
   if (!state.candidateRunSelectionInitialized) {
     const latestWithCandidates = state.runs.find(run => candidateCountForRun(run.id) > 0);
     state.candidateRunId = latestWithCandidates?.id ?? null;
@@ -1439,15 +1173,7 @@ async function loadResearchData() {
   } else if (state.candidateRunId != null && !state.runs.some(run => run.id === state.candidateRunId)) {
     state.candidateRunId = null;
   }
-  renderRuns(); renderCandidates(); renderLessons();
-  const active = state.runs.some(run => run.runKind !== 'manual-discovery'
-    && ['queued', 'running'].includes(run.status));
-  if (active && !state.pollTimer) {
-    state.pollTimer = setTimeout(async () => {
-      state.pollTimer = null;
-      try { await loadResearchData(); } catch { /* next manual refresh will retry */ }
-    }, 2000);
-  }
+  renderRuns(); renderCandidates();
 }
 
 async function refresh() {
@@ -1572,17 +1298,6 @@ document.querySelector('#finish-manual-discovery').addEventListener('click', asy
   }
 });
 
-document.querySelector('#copy-setup').addEventListener('click', async event => {
-  const command = event.currentTarget.dataset.command || 'hermes setup';
-  try {
-    await navigator.clipboard.writeText(command);
-    event.currentTarget.textContent = 'Copied';
-    setTimeout(() => { event.currentTarget.textContent = 'Copy setup command'; }, 1500);
-  } catch {
-    document.querySelector('#research-message').textContent = `Run in Terminal: ${command}`;
-  }
-});
-
 document.querySelector('#copy-private-url').addEventListener('click', async event => {
   const button = event.currentTarget;
   const url = button.dataset.url || '';
@@ -1623,35 +1338,6 @@ document.querySelector('#refresh-research').addEventListener('click', () => load
 
 document.querySelector('#candidate-run-filter').addEventListener('change', event => {
   selectCandidateRun(event.target.value ? Number(event.target.value) : null);
-});
-
-document.querySelector('#lesson-form').addEventListener('submit', async event => {
-  event.preventDefault();
-  const text = document.querySelector('#lesson-text').value.trim();
-  if (!text) return;
-  const researchMode = selectedResearchMode();
-  const targetLocation = document.querySelector('#target-location').value.trim();
-  if (researchMode === 'standalone-location' && !targetLocation) {
-    document.querySelector('#research-message').textContent = 'Enter the standalone research location before adding a location-specific lesson.';
-    return;
-  }
-  try {
-    await request('/api/lessons', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        text,
-        scope: document.querySelector('#lesson-scope').value,
-        researchMode,
-        targetLocation: researchMode === 'standalone-location' ? targetLocation : '',
-        categoryId: state.activeCategoryId,
-        categoryLabel: activeCategory().label,
-      }),
-    });
-    document.querySelector('#lesson-text').value = '';
-    await loadResearchData();
-  } catch (error) {
-    document.querySelector('#research-message').textContent = error.message;
-  }
 });
 
 state.assignmentDrafts.package = document.querySelector('#research-assignment').value;

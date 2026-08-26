@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import sqlite3
 import tempfile
 import threading
 import unittest
@@ -164,17 +163,20 @@ class ManualDiscoveryStorageTests(unittest.TestCase):
         expected = json.loads((FIXTURES / "expected.json").read_text(encoding="utf-8"))
         return (FIXTURES / expected["files"][source]).read_text(encoding="utf-8")
 
-    def test_manual_run_has_no_agent_stages_or_attempts(self) -> None:
+    def test_discovery_run_starts_open_without_stage_machinery(self) -> None:
         run = self.store.get_run(self.run_id)
-        self.assertEqual("manual-discovery", run["runKind"])
-        self.assertEqual("manual-chat", run["adapter"])
+        self.assertNotIn("runKind", run)
+        self.assertNotIn("adapter", run)
         self.assertEqual("running", run["status"])
-        self.assertEqual([], run["stages"])
         with self.store.connect() as connection:
-            attempts = connection.execute(
-                "SELECT COUNT(*) FROM research_stage_attempts WHERE run_id = ?", (self.run_id,)
-            ).fetchone()[0]
-        self.assertEqual(0, attempts)
+            tables = {
+                row[0]
+                for row in connection.execute(
+                    "SELECT name FROM sqlite_master WHERE type = 'table'"
+                )
+            }
+        self.assertNotIn("research_run_stages", tables)
+        self.assertNotIn("research_stage_attempts", tables)
 
     def test_raw_provenance_and_parsed_leads_round_trip(self) -> None:
         raw_text = self.fixture("ChatGPT")
@@ -223,56 +225,22 @@ class ManualDiscoveryStorageTests(unittest.TestCase):
         )
         self.assertTrue(self.store.delete_manual_contribution(self.run_id, saved["id"]))
         self.assertEqual([], self.store.list_manual_contributions(self.run_id))
-        self.store.complete_run(self.run_id, "", {"summary": "closed"}, None)
+        with self.store.connect() as connection:
+            connection.execute(
+                "UPDATE research_runs SET status = 'completed' WHERE id = ?",
+                (self.run_id,),
+            )
         with self.assertRaisesRegex(ValueError, "while the run is open"):
             self.store.save_manual_contribution(self.run_id, "Claude", self.fixture("Claude"))
         with self.assertRaisesRegex(ValueError, "while the run is open"):
             self.store.delete_manual_contribution(self.run_id, saved["id"])
-
-    def test_legacy_run_kind_defaults_to_agent_research(self) -> None:
-        legacy_run = self.store.create_research_run(
-            adapter="demo", assignment="Legacy", prompt={}
-        )
-        self.assertEqual("agent-research", self.store.get_run(legacy_run)["runKind"])
-
-    def test_existing_database_gains_run_kind_and_manual_tables(self) -> None:
-        old_database = Path(self.temporary.name) / "old.sqlite3"
-        connection = sqlite3.connect(old_database)
-        connection.execute(
-            """CREATE TABLE research_runs (
-                   id INTEGER PRIMARY KEY, created_at TEXT NOT NULL, started_at TEXT,
-                   completed_at TEXT, status TEXT NOT NULL, adapter TEXT NOT NULL,
-                   assignment TEXT NOT NULL, research_mode TEXT NOT NULL DEFAULT 'package',
-                   target_location TEXT, regional_scope TEXT NOT NULL DEFAULT '',
-                   target_category_id TEXT NOT NULL DEFAULT 'housing',
-                   target_category_label TEXT NOT NULL DEFAULT 'Housing',
-                   source_import_id INTEGER, seed_import_id INTEGER, seed_resource_id TEXT,
-                   prompt_json TEXT NOT NULL, output_text TEXT NOT NULL DEFAULT '',
-                   result_json TEXT, usage_json TEXT, error TEXT NOT NULL DEFAULT ''
-               )"""
-        )
-        connection.execute(
-            """INSERT INTO research_runs
-               (created_at, status, adapter, assignment, prompt_json)
-               VALUES ('then', 'completed', 'deepseek', 'Historical run', '{}')"""
-        )
-        connection.commit()
-        connection.close()
-
-        upgraded = ResearchStore(old_database)
-
-        self.assertEqual("agent-research", upgraded.get_run(1)["runKind"])
-        with upgraded.connect() as connection:
+        with self.store.connect() as connection:
             tables = {
-                row[0]
+                row["name"]
                 for row in connection.execute(
                     "SELECT name FROM sqlite_master WHERE type = 'table'"
-                ).fetchall()
+                )
             }
-        self.assertIn("manual_discovery_contributions", tables)
-        self.assertIn("manual_discovery_leads", tables)
-        self.assertIn("manual_discovery_consolidations", tables)
-        self.assertIn("manual_discovery_identity_groups", tables)
         self.assertIn("manual_discovery_identity_members", tables)
         self.assertIn("manual_discovery_identity_decisions", tables)
         self.assertIn("discovery_contact_lookups", tables)
@@ -351,7 +319,7 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
                 "categoryId": "food",
             },
         )
-        self.assertEqual("manual-discovery", run["runKind"])
+        self.assertNotIn("runKind", run)
         self.assertEqual("running", run["status"])
         contribution = self.request(
             f"/api/manual-discovery-runs/{run['id']}/contributions",

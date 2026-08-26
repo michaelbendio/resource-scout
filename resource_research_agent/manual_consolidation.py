@@ -439,8 +439,8 @@ def consolidate_manual_discovery(
     store: ResearchStore, run_id: int, duplicate_index: DuplicateIndex | None = None
 ) -> dict[str, Any]:
     run = store.get_run(run_id)
-    if not run or run["runKind"] != "manual-discovery":
-        raise ValueError("Manual discovery run not found")
+    if not run:
+        raise ValueError("Discovery run not found")
     if run["status"] != "running":
         snapshot = store.manual_consolidation_snapshot(run_id)
         if snapshot is None:

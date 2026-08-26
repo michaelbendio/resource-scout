@@ -45,7 +45,6 @@
     .status.rejected,.status.wrong-category { color:var(--red); background:#f6e3e0; } .status.duplicate,.status.research-further { color:#5e4b1a; background:#f5eacb; }
     .signal-summary { margin:.15rem 0 0; padding-top:.45rem; color:#9a641e; font-size:.8rem; font-weight:750; }
     .empty { padding:1rem; border:1px dashed #c6ccc8; border-radius:10px; color:var(--muted); text-align:center; }
-    .lesson-list { display:grid; gap:.65rem; margin-top:1rem; } .lesson { padding:.9rem 1rem; border:1px solid var(--line); border-radius:10px; background:white; }
     dialog { width:min(1000px,94vw); max-height:92vh; overflow:auto; border:1px solid var(--line); border-radius:18px; padding:clamp(1.35rem,4vw,2.6rem); color:var(--ink); background:var(--panel); box-shadow:0 30px 90px rgba(0,0,0,.25); }
     dialog::backdrop { background:rgba(10,27,21,.68); }
     .close { position:sticky; z-index:2; top:0; float:right; width:2.2rem; height:2.2rem; padding:0; margin:-.5rem -.5rem 0 1rem; border-radius:50%; font-size:1.45rem; }
@@ -128,7 +127,7 @@
   </style>
 </head>
 <body>
-  <header><div><div class="header-title-row"><h1>Resource Curator</h1><span class="header-list-name" id="candidate-list-name"></span></div><p class="lede">Investigate candidates, keep interview notes and checklists, and prepare resources without reconnecting to Scout.</p></div><span class="header-version">v0.36.0</span></header>
+  <header><div><div class="header-title-row"><h1>Resource Curator</h1><span class="header-list-name" id="candidate-list-name"></span></div><p class="lede">Investigate candidates, keep interview notes and checklists, and prepare resources without reconnecting to Scout.</p></div><span class="header-version">v0.37.0</span></header>
   <main>
     <section class="panel review-actions">
       <p class="section-label">Review progress</p><h2>Save, resume, and download</h2>
@@ -140,11 +139,10 @@
     </section>
     <section class="panel" id="source-only-panel" hidden><p class="section-label">Preserved discovery leads</p><h2>Routing and source-only records</h2><p class="muted">These records remain available as referral or follow-up leads, but they are not counted as provider candidates.</p><details id="source-only-details"><summary id="source-only-summary">Show preserved records</summary><div id="source-only-list"></div></details></section>
     <section class="panel"><p class="section-label">Human review</p><h2>Research candidates</h2><div class="toolbar"><input id="search" type="search" placeholder="Search candidates" aria-label="Search candidates"><select id="status-filter" aria-label="Filter candidates by package readiness"><option value="">All candidates</option><option value="ready">Ready for package</option><option value="pending">Pending</option></select></div><p class="candidate-count" id="candidate-count"></p><div class="candidate-list" id="candidate-list"></div></section>
-    <section class="panel" id="lessons-panel" hidden><p class="section-label">Research guidance</p><details><summary><strong>Lessons proposed by this run</strong></summary><div class="lesson-list" id="lesson-list"></div></details></section>
     <footer id="footer"></footer>
   </main>
   <dialog id="candidate-dialog" class="curator-workspace">
-    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="reset-window-layout">Reset layout</button><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span class="workspace-version">v0.36.0</span><span id="workspace-save-state" aria-live="polite"></span></div></div>
+    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="reset-window-layout">Reset layout</button><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span class="workspace-version">v0.37.0</span><span id="workspace-save-state" aria-live="polite"></span></div></div>
     <div class="workspace-canvas" id="workspace-canvas">
       <section class="work-window" id="editor-window"><div class="window-titlebar"><h3>Editors</h3></div><div class="window-body" id="candidate-editor"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
       <section class="work-window" id="notes-window"><div class="window-titlebar"><h3 id="notes-window-title">Notes</h3></div><div class="window-body" id="candidate-notes"></div><div class="window-resize-handles" aria-hidden="true"></div></section>

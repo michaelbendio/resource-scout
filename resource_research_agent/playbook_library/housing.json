@@ -14,21 +14,5 @@
     "Ordinary market-rate real-estate listings without an affordability or access pathway",
     "Housing directories that do not identify a currently reachable program or provider",
     "Programs whose geography, population, or referral requirements exclude people in the service area"
-  ],
-  "verificationQuestions": [
-    "Can a person enter now, and what exact first step is required?",
-    "What eligibility, documentation, sobriety, family-composition, safety, or referral rules apply?",
-    "What costs, deposits, waitlists, time limits, transportation issues, and pet restrictions apply?",
-    "What longer-term path follows a temporary placement?"
-  ],
-  "additionalOutputFields": {
-    "petPolicy": "Pets, service animals, emotional-support animals, fees, or unknown"
-  },
-  "additionalSupplementaryFields": ["petPolicy"],
-  "stages": [
-    {"key": "urgent-access", "title": "Immediate safety and emergency access", "instruction": "Investigate options that can help tonight or within days: emergency and seasonal shelter, domestic-violence and family or youth shelter, safe temporary lodging, motel vouchers, coordinated entry, crisis access, transportation, pet barriers, and the real intake path."},
-    {"key": "stabilization", "title": "Homelessness prevention and stabilization", "instruction": "Investigate eviction prevention, rent and deposit help, utility help, diversion, rapid rehousing, flexible funds, case management, benefits, and practical pathways that can prevent or shorten homelessness."},
-    {"key": "specialized-housing", "title": "Transitional and specialized housing", "instruction": "Investigate transitional, supportive, recovery, reentry, treatment-linked, medically appropriate, veteran, family, youth, disability, and other population-specific housing that realistically serves the area."},
-    {"key": "long-term-and-gaps", "title": "Permanent pathways and gap review", "instruction": "Investigate affordable and subsidized housing, housing authorities, waitlists, permanent supportive housing, landlord or rental pathways, and important gaps. Cross-check earlier findings and pursue missing relationships or access details needed for a useful review."}
   ]
 }

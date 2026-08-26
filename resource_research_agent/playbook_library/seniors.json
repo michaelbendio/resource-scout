@@ -1,7 +1,9 @@
 {
   "categoryId": "seniors",
   "label": "Seniors",
-  "aliases": ["older adults"],
+  "aliases": [
+    "older adults"
+  ],
   "assignment": "Discover realistic resources that help older adults in {service_area} remain safe, healthy, connected, and as independent as possible. Follow aging agencies and senior centers to specific meals, transportation, benefits, caregiver, in-home, health, legal, housing, and social programs. Verify age and functional criteria, cost, waitlists, service area, assessment, and enrollment.",
   "include": [
     "Meals, transportation, senior centers, social connection, exercise, and technology help",
@@ -14,17 +16,5 @@
     "Commercial senior-living marketing without a defined assistance or affordability pathway",
     "General adult services that do not accommodate age, mobility, cognition, or caregiving realities",
     "Programs whose waitlists, functional criteria, or service boundaries make local access unrealistic"
-  ],
-  "verificationQuestions": [
-    "What age, functional need, income, caregiving, or geographic criteria apply?",
-    "Is an in-home assessment, physician certification, or benefits enrollment required?",
-    "What cost share, donation, waitlist, frequency, and transportation arrangement applies?",
-    "Can caregivers or authorized representatives initiate and coordinate service?"
-  ],
-  "stages": [
-    {"key": "senior-daily", "title": "Daily living and connection", "instruction": "Investigate meals, transportation, senior centers, social connection, exercise, technology, errands, and practical supports available now, including mobility and scheduling realities."},
-    {"key": "senior-benefits", "title": "Benefits, health, and legal navigation", "instruction": "Investigate Medicare, Medicaid, prescriptions, benefits, tax and financial help, legal assistance, advance planning, fraud protection, and health-navigation services."},
-    {"key": "senior-home-caregiver", "title": "In-home and caregiver support", "instruction": "Investigate personal care, homemaking, home modifications, fall prevention, respite, adult day care, dementia support, protective services, long-term-care navigation, and caregiver assessment."},
-    {"key": "senior-gaps", "title": "Independence and waitlist review", "instruction": "Cross-check age and functional criteria, assessments, cost share, waitlists, rural reach, caregiver involvement, mobility, cognition, language, and transport. Identify risks where no service bridges independent living and institutional care."}
   ]
 }

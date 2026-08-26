@@ -9,15 +9,12 @@ from pathlib import Path
 from typing import Any
 
 from .duplicates import DuplicateIndex
-from .optimization_models import verified_dossier_to_candidate
-from .optimization import optimization_candidate_id, optimization_resource_id
-from .playbooks import playbook_for
 from .resource_package import RESOURCE_PACKAGE_SCHEMA_VERSION, candidate_to_resource
 from .storage import ResearchStore
 
 
-REVIEW_COPY_SCHEMA_VERSION = 13
-REVIEW_FEEDBACK_SCHEMA_VERSION = 3
+REVIEW_COPY_SCHEMA_VERSION = 14
+CURATOR_WORK_SCHEMA_VERSION = 1
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_TEMPLATE = PROJECT_ROOT / "web" / "review-copy.html"
 DEFAULT_SCRIPT = PROJECT_ROOT / "web" / "review-copy.js"
@@ -154,25 +151,16 @@ def build_review_copy(
     run = store.get_run(run_id)
     if not run:
         raise ReviewCopyError("Research run not found")
-    if run["status"] not in {"completed", "partial"} or not isinstance(run.get("result"), dict):
-        raise ReviewCopyError("Only completed or partially completed research runs can be exported")
+    if run["status"] != "completed" or not isinstance(run.get("result"), dict):
+        raise ReviewCopyError("Finish discovery before exporting Resource Curator")
 
     discoveries = [
         discovery
         for discovery in reversed(store.list_discoveries(run_id=run_id))
         if discovery["status"] not in {"unavailable", "unreachable"}
     ]
-    manual_snapshot = (
-        store.manual_consolidation_snapshot(run_id)
-        if run.get("runKind") == "manual-discovery"
-        else None
-    )
-    manual_contributions = (
-        store.list_manual_contributions(run_id)
-        if run.get("runKind") == "manual-discovery"
-        else []
-    )
-    lessons = [lesson for lesson in reversed(store.list_lessons()) if lesson.get("runId") == run_id]
+    manual_snapshot = store.manual_consolidation_snapshot(run_id)
+    manual_contributions = store.list_manual_contributions(run_id)
     import_id = run.get("sourceImportId") or run.get("seedImportId")
     if import_id is None:
         matched_imports = {
@@ -216,8 +204,7 @@ def build_review_copy(
     )
     for discovery in discoveries:
         review_candidate = _candidate_for_review(discovery["candidate"])
-        generated = store.get_generated_resource(discovery["id"])
-        resource_draft = generated["resource"] if generated else None
+        resource_draft = None
         if package_eligible and resource_draft is None:
             resource_draft = candidate_to_resource(
                 review_candidate,
@@ -233,15 +220,10 @@ def build_review_copy(
         candidates.append({
             "id": discovery["id"],
             "name": str(review_candidate.get("presentationName") or discovery["name"]),
-            "status": discovery["status"],
             "origin": discovery["origin"],
             "createdAt": discovery["createdAt"],
             "updatedAt": discovery["updatedAt"],
-            "reviewedAt": discovery["reviewedAt"],
-            "reviewFeedback": discovery["reviewFeedback"],
-            "useForFutureResearch": False,
             "matchAssessment": discovery["matchAssessment"],
-            "matchAssessedAt": discovery["matchAssessedAt"],
             "notes": _curator_notes(discovery),
             "candidate": review_candidate,
             "knownResourceMatch": _known_resource_match(index, discovery),
@@ -250,17 +232,11 @@ def build_review_copy(
 
     data = {
         "reviewCopySchemaVersion": REVIEW_COPY_SCHEMA_VERSION,
-        "reviewFeedbackSchemaVersion": REVIEW_FEEDBACK_SCHEMA_VERSION,
+        "curatorWorkSchemaVersion": CURATOR_WORK_SCHEMA_VERSION,
         "reviewId": review_id,
         "exportedAt": exported.astimezone(timezone.utc).isoformat(),
         "title": title,
         "notice": (
-            (
-                f"This research run stopped after {run['progress']['completed']} of {run['progress']['total']} stages. "
-                "The completed-stage findings remain available for review, but the research is incomplete. "
-            )
-            if run["status"] == "partial" else ""
-        ) + (
             "Portable exploratory location research for human review; it is not an official or comprehensive "
             "TSO Resources inventory. Availability, eligibility, and other facts may change; verify important "
             "details before assisting a client. Curator work can be saved, but standalone "
@@ -275,8 +251,6 @@ def build_review_copy(
             "startedAt": run["startedAt"],
             "completedAt": run["completedAt"],
             "status": run["status"],
-            "adapter": run["adapter"],
-            "runKind": run.get("runKind", "agent-research"),
             "assignment": run["assignment"],
             "researchMode": run.get("researchMode", "package"),
             "targetLocation": run.get("targetLocation"),
@@ -285,17 +259,6 @@ def build_review_copy(
             "targetCategoryLabel": run.get("targetCategoryLabel", "Housing"),
             "summary": str(run["result"].get("summary") or ""),
             "candidateCount": len(candidates),
-            "progress": run.get("progress", {"total": 0, "completed": 0, "failed": 0}),
-            "stages": [
-                {
-                    "title": stage["title"],
-                    "position": stage["position"],
-                    "status": stage["status"],
-                    "completedAt": stage["completedAt"],
-                    "error": stage["error"],
-                }
-                for stage in run.get("stages", [])
-            ],
         },
         "sourcePackage": (
             {
@@ -349,259 +312,8 @@ def build_review_copy(
             if manual_snapshot
             else None
         ),
-        "lessons": [
-            {
-                "scope": lesson["scope"],
-                "text": lesson["text"],
-                "rationale": lesson["rationale"],
-                "status": lesson["status"],
-                "source": lesson["source"],
-                "researchMode": lesson.get("researchMode", "package"),
-                "targetLocation": lesson.get("targetLocation"),
-            }
-            for lesson in lessons
-        ],
     }
 
-    return _render_review_copy(
-        data,
-        title=title,
-        completed_date=completed_date,
-        template_path=template_path,
-        script_path=script_path,
-    )
-
-
-def build_optimization_review_copy(
-    store: ResearchStore,
-    run_id: int,
-    *,
-    template_path: str | Path = DEFAULT_TEMPLATE,
-    script_path: str | Path = DEFAULT_SCRIPT,
-    exported_at: datetime | None = None,
-) -> ReviewCopy:
-    """Export passed and flagged optimization dossiers to an isolated Curator."""
-
-    with store.connect() as connection:
-        run = connection.execute(
-            """SELECT run.*, configuration.configuration_hash,
-                      configuration.model_artifact, configuration.quantization,
-                      configuration.prompt_policy_version,
-                      configuration.playbook_version,
-                      configuration.source_package_sha256,
-                      configuration.source_package_version,
-                      configuration.target_location, configuration.regional_scope,
-                      configuration.target_category_id, configuration.stage_key,
-                      corpus.corpus_sha256
-               FROM optimization_runs AS run
-               JOIN optimization_configurations AS configuration
-                 ON configuration.id = run.configuration_id
-               JOIN optimization_corpora AS corpus ON corpus.id = run.corpus_id
-               WHERE run.id = ? AND run.run_kind = 'model-evaluation'""",
-            (run_id,),
-        ).fetchone()
-        rows = connection.execute(
-            """SELECT packet.id AS packet_id, packet.identity_key,
-                      packet.packet_sha256,
-                      verification.status, verification.verified_dossier_json,
-                      verification.verified_dossier_sha256,
-                      verification.findings_json
-               FROM optimization_verifications AS verification
-               JOIN optimization_candidate_dossiers AS dossier
-                 ON dossier.id = verification.dossier_id
-               JOIN optimization_evidence_packets AS packet
-                 ON packet.id = dossier.packet_id
-               WHERE dossier.run_id = ?
-                 AND verification.status IN ('passed', 'needs-review')
-               ORDER BY packet.identity_key""",
-            (run_id,),
-        ).fetchall()
-        source_import = connection.execute(
-            """SELECT id FROM imports
-               WHERE source_sha256 = (
-                   SELECT configuration.source_package_sha256
-                   FROM optimization_runs AS selected_run
-                   JOIN optimization_configurations AS configuration
-                     ON configuration.id = selected_run.configuration_id
-                   WHERE selected_run.id = ?
-               )
-               ORDER BY id DESC LIMIT 1""",
-            (run_id,),
-        ).fetchone()
-    if not run:
-        raise ReviewCopyError("Completed optimization model run not found")
-    if run["status"] != "completed":
-        raise ReviewCopyError("Only completed optimization model runs can be exported")
-    if not rows:
-        raise ReviewCopyError("Optimization run has no passed or needs-review candidates")
-
-    exported = (exported_at or datetime.now(timezone.utc)).astimezone(timezone.utc)
-    completed_date = str(run["completed_at"] or run["created_at"] or exported.isoformat())[:10]
-    import_id = int(source_import["id"]) if source_import else None
-    package = store.import_summary(import_id) if import_id is not None else None
-    taxonomy = store.import_taxonomy(import_id) if import_id is not None else {
-        "categories": [],
-        "forGroups": [],
-    }
-    category_definitions = [
-        category
-        for item in taxonomy["categories"]
-        if (category := store.import_category(import_id, item["id"])) is not None
-    ] if import_id is not None else []
-    target_category_id = str(run["target_category_id"] or "").strip()
-    if not target_category_id:
-        raise ReviewCopyError("Optimization run has no target category")
-    category_summary = next(
-        (item for item in taxonomy["categories"] if item["id"] == target_category_id),
-        {"types": []},
-    )
-    category_label = str(
-        category_summary.get("label") or playbook_for(target_category_id).label
-    )
-    package_eligible = bool(
-        package
-        and str(package["schema"].get("schemaVersion") or "")
-        == str(RESOURCE_PACKAGE_SCHEMA_VERSION)
-    )
-    candidates = []
-    for row in rows:
-        dossier = json.loads(row["verified_dossier_json"])
-        findings = json.loads(row["findings_json"] or "{}")
-        candidate = verified_dossier_to_candidate(
-            dossier,
-            verification_status=str(row["status"]),
-            verification_findings=findings,
-        )
-        candidate["optimizationProvenance"] = {
-            "runId": run_id,
-            "configurationId": int(run["configuration_id"]),
-            "configurationHash": run["configuration_hash"],
-            "corpusId": int(run["corpus_id"]),
-            "corpusSha256": run["corpus_sha256"],
-            "packetId": int(row["packet_id"]),
-            "packetSha256": row["packet_sha256"],
-            "identityKey": row["identity_key"],
-            "verifiedDossierSha256": row["verified_dossier_sha256"],
-            "sourcePackageSha256": run["source_package_sha256"],
-        }
-        candidate_id = optimization_candidate_id(
-            str(run["configuration_hash"]), str(row["packet_sha256"])
-        )
-        resource_draft = None
-        if package_eligible:
-            resource_draft = candidate_to_resource(
-                candidate,
-                target_category_id,
-                resource_id=optimization_resource_id(
-                    str(run["configuration_hash"]), str(row["packet_sha256"])
-                ),
-                timestamp=exported,
-                available_types=category_summary.get("types", []),
-                available_for_groups=taxonomy["forGroups"],
-            )
-        candidates.append(
-            {
-                "id": candidate_id,
-                "name": candidate["name"],
-                "status": "new",
-                "origin": "qwen-optimization",
-                "createdAt": run["created_at"],
-                "updatedAt": run["completed_at"] or run["created_at"],
-                "reviewedAt": None,
-                "reviewFeedback": "",
-                "useForFutureResearch": False,
-                "matchAssessment": None,
-                "matchAssessedAt": None,
-                "notes": (
-                    "Verifier flagged this candidate for curator attention."
-                    if row["status"] == "needs-review"
-                    else ""
-                ),
-                "candidate": candidate,
-                "knownResourceMatch": None,
-                "resourceDraft": resource_draft,
-            }
-        )
-
-    title = f"{category_label} Qwen calibration research"
-    review_id = uuid.uuid5(
-        uuid.NAMESPACE_URL,
-        f"resource-research-optimization-review:{run['configuration_hash']}:{run['corpus_sha256']}",
-    ).hex
-    data = {
-        "reviewCopySchemaVersion": REVIEW_COPY_SCHEMA_VERSION,
-        "reviewFeedbackSchemaVersion": REVIEW_FEEDBACK_SCHEMA_VERSION,
-        "reviewId": review_id,
-        "exportedAt": exported.isoformat(),
-        "title": title,
-        "notice": (
-            "Isolated Qwen calibration candidates for human curation and phone vetting. "
-            "This export does not change the normal Scout inbox or production behavior. "
-            "Candidates marked needs-review retain the verifier findings that require attention."
-        ),
-        "run": {
-            "id": run_id,
-            "createdAt": run["created_at"],
-            "startedAt": run["started_at"],
-            "completedAt": run["completed_at"],
-            "status": run["status"],
-            "adapter": "qwen-optimization",
-            "assignment": (
-                f"Curate independently verified {category_label} calibration candidates."
-            ),
-            "researchMode": "package",
-            "targetLocation": run["target_location"],
-            "regionalScope": run["regional_scope"],
-            "targetCategoryId": target_category_id,
-            "targetCategoryLabel": category_label,
-            "summary": (
-                f"{len(candidates)} passed or needs-review candidates from isolated "
-                f"optimization run {run_id}."
-            ),
-            "candidateCount": len(candidates),
-            "progress": {"total": 1, "completed": 1, "failed": 0},
-            "stages": [
-                {
-                    "title": str(run["stage_key"]),
-                    "position": 1,
-                    "status": "completed",
-                    "completedAt": run["completed_at"],
-                    "error": "",
-                }
-            ],
-        },
-        "sourcePackage": (
-            {
-                "sourceName": package["sourceName"],
-                "sourceSha256": package["sourceSha256"],
-                "schemaVersion": package["schema"]["schemaVersion"],
-                "packageVersion": package["schema"]["packageVersion"],
-                "resourcePackageSchemaVersion": RESOURCE_PACKAGE_SCHEMA_VERSION,
-                "packageEligible": package_eligible,
-                "categories": category_definitions,
-                "categorySummaries": taxonomy["categories"],
-                "forGroups": store.import_for_groups(import_id),
-                "category": {"id": target_category_id, "label": category_label},
-            }
-            if package
-            else None
-        ),
-        "candidates": candidates,
-        "lessons": [],
-        "optimization": {
-            "runId": run_id,
-            "configurationId": int(run["configuration_id"]),
-            "configurationHash": run["configuration_hash"],
-            "corpusId": int(run["corpus_id"]),
-            "corpusSha256": run["corpus_sha256"],
-            "modelArtifact": run["model_artifact"],
-            "quantization": run["quantization"],
-            "promptPolicyVersion": run["prompt_policy_version"],
-            "playbookVersion": run["playbook_version"],
-            "sourcePackageSha256": run["source_package_sha256"],
-            "sourcePackageVersion": run["source_package_version"],
-        },
-    }
     return _render_review_copy(
         data,
         title=title,

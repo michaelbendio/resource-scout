@@ -13,14 +13,14 @@ from .tailscale import TailscaleAccessError, TailscaleServeManager
 
 
 def parser() -> argparse.ArgumentParser:
-    result = argparse.ArgumentParser(prog="resource-research-agent")
+    result = argparse.ArgumentParser(prog="resource-scout")
     result.add_argument("--database", default="data/research-agent.sqlite3", help="Separate research database path")
     subcommands = result.add_subparsers(dest="command", required=True)
     import_command = subcommands.add_parser("import", help="Read a resource-package.zip into an immutable snapshot")
     import_command.add_argument("package")
     import_command.add_argument("--category", default="Housing")
     import_command.add_argument("--report", help="Write a JSON import report")
-    serve_command = subcommands.add_parser("serve", help="Run the local review app")
+    serve_command = subcommands.add_parser("serve", help="Run Resource Scout")
     serve_command.add_argument("--host", default="127.0.0.1")
     serve_command.add_argument("--port", type=int, default=8765)
     tailscale_command = subcommands.add_parser(

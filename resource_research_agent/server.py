@@ -25,9 +25,8 @@ from .manual_consolidation import (
     manual_consolidation_view,
     record_manual_identity_decision,
 )
-from .playbooks import PLAYBOOKS
-from .review_export import build_optimization_review_copy, build_review_copy
-from .research import ResearchCoordinator
+from .playbooks import PLAYBOOKS, playbook_for
+from .review_export import build_review_copy
 from .storage import ResearchStore
 
 
@@ -45,7 +44,6 @@ class ResearchHTTPServer(ThreadingHTTPServer):
         super().__init__(address, ResearchHandler)
         self.store = store
         self.duplicate_index = DuplicateIndex(store)
-        self.research = ResearchCoordinator(store)
         self.web_dir = web_dir
         self.private_url = private_url
 
@@ -78,13 +76,8 @@ class ResearchHandler(BaseHTTPRequestHandler):
                             PLAYBOOKS.values(), key=lambda item: item.label.casefold()
                         )
                     ],
-                    "agent": self.server.research.agent_status(),
                     "access": self._access_context(),
                 })
-            elif parsed.path == "/api/agent/status":
-                self._json(self.server.research.agent_status())
-            elif parsed.path == "/api/agent/settings":
-                self._json({"settings": self.server.research.agent_status()["settings"]})
             elif parsed.path == "/api/imports":
                 self._json({"imports": self.server.store.list_imports()})
             elif parsed.path == "/api/categories":
@@ -98,22 +91,6 @@ class ResearchHandler(BaseHTTPRequestHandler):
                         if effective_import_id else []
                     ),
                 })
-            elif parsed.path == "/api/seeds":
-                query = parse_qs(parsed.query)
-                import_id = int(query["importId"][0]) if query.get("importId") else None
-                category_id = query.get("categoryId", [None])[0]
-                self._json({"seeds": self.server.store.list_seeds(import_id, category_id)})
-            elif parsed.path == "/api/seed-asset":
-                query = parse_qs(parsed.query)
-                if not all(query.get(key) for key in ("importId", "resourceId", "path")):
-                    raise ValueError("importId, resourceId, and path are required")
-                asset = self.server.store.seed_asset(
-                    int(query["importId"][0]), query["resourceId"][0], query["path"][0]
-                )
-                if not asset:
-                    self._error(HTTPStatus.NOT_FOUND, "Attachment is not available; re-import the source package")
-                else:
-                    self._binary(asset["content"], asset["mediaType"], asset["name"])
             elif parsed.path == "/api/discoveries":
                 self._json({
                     "discoveries": [
@@ -127,8 +104,8 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 parsed.path, "/api/manual-discovery-runs", "contributions"
             )) is not None:
                 run = self.server.store.get_run(run_id)
-                if not run or run["runKind"] != "manual-discovery":
-                    self._error(HTTPStatus.NOT_FOUND, "Manual discovery run not found")
+                if not run:
+                    self._error(HTTPStatus.NOT_FOUND, "Discovery run not found")
                 else:
                     self._json({
                         "run": run,
@@ -149,27 +126,12 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     self.server.store, run_id, template_path=self.server.web_dir / "review-copy.html"
                 )
                 self._download(review_copy.html, "text/html; charset=utf-8", review_copy.filename)
-            elif (run_id := self._path_id(
-                parsed.path, "/api/optimization-runs", "review-copy"
-            )) is not None:
-                review_copy = build_optimization_review_copy(
-                    self.server.store,
-                    run_id,
-                    template_path=self.server.web_dir / "review-copy.html",
-                )
-                self._download(
-                    review_copy.html,
-                    "text/html; charset=utf-8",
-                    review_copy.filename,
-                )
             elif (run_id := self._path_id(parsed.path, "/api/research-runs")) is not None:
                 run = self.server.store.get_run(run_id)
                 if run:
                     self._json(run)
                 else:
                     self._error(HTTPStatus.NOT_FOUND, "Research run not found")
-            elif parsed.path == "/api/lessons":
-                self._json({"lessons": self.server.store.list_lessons()})
             elif parsed.path in ("/", "/index.html"):
                 self._file(self.server.web_dir / "index.html", "text/html; charset=utf-8")
             elif parsed.path == "/app.css":
@@ -188,24 +150,6 @@ class ResearchHandler(BaseHTTPRequestHandler):
         try:
             if parsed.path == "/api/import":
                 self._import_upload()
-            elif parsed.path == "/api/agent/settings":
-                payload = self._read_json()
-                self.server.store.save_settings(payload.get("settings", payload))
-                agent = self.server.research.agent_status()
-                self._json({"settings": agent["settings"], "agent": agent})
-            elif parsed.path == "/api/research-runs":
-                payload = self._read_json()
-                assignment = str(payload.get("assignment") or "")
-                seed_resource_id = str(payload.get("seedResourceId") or "").strip() or None
-                run = self.server.research.start(
-                    assignment,
-                    seed_resource_id,
-                    research_mode=str(payload.get("researchMode") or "package"),
-                    target_location=str(payload.get("targetLocation") or "").strip() or None,
-                    regional_scope=str(payload.get("regionalScope") or ""),
-                    target_category_id=str(payload.get("categoryId") or "housing"),
-                )
-                self._json(run, HTTPStatus.ACCEPTED)
             elif parsed.path == "/api/manual-discovery-assignment":
                 payload = self._read_json()
                 context = self._manual_discovery_context(payload)
@@ -216,6 +160,8 @@ class ResearchHandler(BaseHTTPRequestHandler):
                         office_name=context["officeName"],
                         regional_scope=context["regionalScope"],
                         known_resources=context["knownResources"],
+                        include=context["include"],
+                        exclude=context["exclude"],
                     ),
                     "context": context,
                 })
@@ -230,6 +176,8 @@ class ResearchHandler(BaseHTTPRequestHandler):
                         office_name=context["officeName"],
                         regional_scope=context["regionalScope"],
                         known_resources=context["knownResources"],
+                        include=context["include"],
+                        exclude=context["exclude"],
                     )
                 prompt = {
                     "assignment": assignment,
@@ -249,6 +197,7 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     assignment,
                     prompt,
                     context["sourceImportId"],
+                    research_mode=context["researchMode"],
                     target_location=(
                         context["serviceArea"]
                         if context["researchMode"] == "standalone-location"
@@ -309,8 +258,6 @@ class ResearchHandler(BaseHTTPRequestHandler):
                         self.server.store, run_id, self.server.duplicate_index
                     )
                 )
-            elif (run_id := self._path_id(parsed.path, "/api/research-runs", "resume")) is not None:
-                self._json(self.server.research.resume(run_id), HTTPStatus.ACCEPTED)
             elif (run_id := self._path_id(
                 parsed.path, "/api/research-runs", "contact-lookup"
             )) is not None:
@@ -319,40 +266,6 @@ class ResearchHandler(BaseHTTPRequestHandler):
                         self.server.store, run_id, self._read_json()
                     )
                 )
-            elif parsed.path == "/api/duplicate-check":
-                payload = self._read_json()
-                candidate = payload.get("candidate", payload)
-                if not isinstance(candidate, dict):
-                    raise ValueError("candidate must be a JSON object")
-                self._json({"matches": self.server.duplicate_index.match(candidate)})
-            elif parsed.path == "/api/discoveries":
-                payload = self._read_json()
-                candidate = payload.get("candidate")
-                if not isinstance(candidate, dict):
-                    raise ValueError("candidate must be a JSON object")
-                matches = self.server.duplicate_index.match(candidate, limit=1)
-                match = matches[0] if matches else None
-                saved = self.server.store.save_discovery(candidate, match, str(payload.get("notes", "")))
-                self._json(saved, HTTPStatus.CREATED)
-            elif parsed.path == "/api/lessons":
-                payload = self._read_json()
-                lesson = self.server.store.save_lesson(
-                    str(payload.get("text", "")), scope=str(payload.get("scope", "category")),
-                    rationale=str(payload.get("rationale", "")), status=str(payload.get("status", "active")),
-                    source="human",
-                    research_mode=str(payload.get("researchMode") or "package"),
-                    target_location=str(payload.get("targetLocation") or "").strip() or None,
-                    target_category_id=str(payload.get("categoryId") or "housing"),
-                    target_category_label=str(payload.get("categoryLabel") or "Housing"),
-                )
-                self._json(lesson, HTTPStatus.CREATED)
-            elif (lesson_id := self._path_id(parsed.path, "/api/lessons", "status")) is not None:
-                payload = self._read_json()
-                lesson = self.server.store.update_lesson_status(lesson_id, str(payload.get("status", "")))
-                if lesson:
-                    self._json(lesson)
-                else:
-                    self._error(HTTPStatus.NOT_FOUND, "Lesson not found")
             else:
                 self._error(HTTPStatus.NOT_FOUND, "Not found")
         except (ValueError, PackageImportError) as error:
@@ -407,6 +320,7 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 "officeName": summary["officeName"],
                 "serviceArea": summary["serviceArea"],
             }
+            guidance = playbook_for(category["id"], category["label"], service_area)
             return {
                 "researchMode": research_mode,
                 "sourceImportId": import_id,
@@ -417,11 +331,14 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 "categoryId": str(category["id"]),
                 "categoryLabel": str(category["label"]),
                 "knownResources": known_resources,
+                "include": list(guidance.scope),
+                "exclude": list(guidance.exclusions),
             }
         service_area = " ".join(str(payload.get("targetLocation") or "").split())
         if not service_area:
             raise ValueError("Enter a research location")
         category_label = " ".join(str(payload.get("categoryLabel") or category_id).split())
+        guidance = playbook_for(category_id, category_label, service_area)
         return {
             "researchMode": research_mode,
             "sourceImportId": None,
@@ -432,6 +349,8 @@ class ResearchHandler(BaseHTTPRequestHandler):
             "categoryId": category_id,
             "categoryLabel": category_label,
             "knownResources": [],
+            "include": list(guidance.scope),
+            "exclude": list(guidance.exclusions),
         }
 
     def _import_upload(self) -> None:
@@ -576,7 +495,7 @@ def serve(
     web_dir = Path(__file__).resolve().parent.parent / "web"
     store = ResearchStore(store_path, recover_interrupted=True)
     server = ResearchHTTPServer((host, port), store, web_dir, private_url=private_url)
-    print(f"Resource Research Agent is running at http://{host}:{port}")
+    print(f"Resource Scout is running at http://{host}:{port}")
     if private_url:
         print(f"Private Tailscale address: {private_url}")
     print(f"Research database: {store.path}")

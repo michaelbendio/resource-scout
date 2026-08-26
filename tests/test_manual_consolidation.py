@@ -470,15 +470,15 @@ class ManualConsolidationTests(unittest.TestCase):
 
         review = build_review_copy(self.store, run_id)
 
-        self.assertEqual(13, review.data["reviewCopySchemaVersion"])
+        self.assertEqual(14, review.data["reviewCopySchemaVersion"])
         self.assertEqual(1, review.data["run"]["candidateCount"])
-        self.assertEqual("manual-discovery", review.data["run"]["runKind"])
+        self.assertNotIn("runKind", review.data["run"])
         self.assertEqual(1, len(review.data["manualDiscovery"]["sourceOnlyRecords"]))
         self.assertEqual("directory", review.data["manualDiscovery"]["sourceOnlyRecords"][0]["routedRole"])
         item = review.data["candidates"][0]
-        self.assertEqual("candidate", item["status"])
-        self.assertIsNone(item["reviewedAt"])
-        self.assertEqual("", item["reviewFeedback"])
+        self.assertNotIn("status", item)
+        self.assertNotIn("reviewedAt", item)
+        self.assertNotIn("reviewFeedback", item)
         self.assertEqual("480-555-0100", item["resourceDraft"]["phone"])
         self.assertEqual("123 Main St, Mesa, AZ", item["resourceDraft"]["address"])
         self.assertEqual("", item["resourceDraft"]["hours"])

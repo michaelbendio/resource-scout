@@ -14,17 +14,5 @@
     "General school or college homepages without a specific accessible program or enrollment path",
     "Commercial courses with unclear accreditation, cost, completion, or employment value",
     "Expired scholarships or enrollment opportunities presented as currently available"
-  ],
-  "verificationQuestions": [
-    "What prerequisite, placement test, residency, age, or documentation requirement applies?",
-    "What is the complete cost after fees, materials, and available aid?",
-    "When, where, and in what format are classes offered?",
-    "What credential or outcome results, and how does enrollment begin?"
-  ],
-  "stages": [
-    {"key": "education-foundations", "title": "Foundational and adult learning", "instruction": "Investigate literacy, English-language, digital-skills, GED, high-school completion, tutoring, and adult-education programs. Verify testing, cost, schedule, format, childcare, and enrollment."},
-    {"key": "education-career", "title": "Career, trade, and postsecondary pathways", "instruction": "Investigate college access, trades, apprenticeships, short credentials, career programs, bridge courses, and transfer routes, including prerequisites, accreditation, time, cost, and employment relevance."},
-    {"key": "education-aid", "title": "Aid and barrier-aware access", "instruction": "Investigate scholarships, grants, tuition help, advising, application assistance, accommodations, language access, evening and online study, and options for reentry, immigrants, parents, and disabled learners."},
-    {"key": "education-gaps", "title": "Deadline and outcome gap review", "instruction": "Cross-check deadlines, current cohorts, full costs, accreditation, credential value, transportation, technology, childcare, and completion supports. Identify populations and schedules poorly served."}
   ]
 }

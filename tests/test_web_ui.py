@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import unittest
+import re
 from pathlib import Path
 
 from resource_research_agent import __version__
@@ -34,6 +35,9 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertIn("Research a location without a package", self.html)
         self.assertIn(">Start discovery</button>", self.html)
         self.assertNotIn("selectedResearchMethod", self.javascript)
+        self.assertNotIn("No chat API or paid fallback is used", self.html)
+        self.assertNotIn("Teaching Loop", self.html)
+        self.assertNotIn("Research lessons", self.html)
 
     def test_version_is_in_the_green_header(self) -> None:
         header = self.html[self.html.index("<header>"):self.html.index("</header>")]
@@ -50,13 +54,12 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertIn("grid-template-columns: minmax(280px, var(--runs-pane-width)) 16px minmax(360px, 1fr)", self.css)
         self.assertIn(".research-divider { display: none; }", self.css)
 
-    def test_run_findings_render_as_expandable_stage_sections_and_lists(self) -> None:
-        self.assertIn("function renderRunFindings(run)", self.javascript)
-        self.assertIn("function renderStageSummary(stage)", self.javascript)
-        self.assertIn("document.createElement('ol')", self.javascript)
-        self.assertIn("Show full findings", self.javascript)
-        self.assertIn("stage-summary-card", self.css)
-        self.assertNotIn("summary.textContent = run.result.summary", self.javascript)
+    def test_recent_runs_have_no_agent_stage_or_resume_controls(self) -> None:
+        self.assertNotIn("renderRunFindings", self.javascript)
+        self.assertNotIn("renderStageSummary", self.javascript)
+        self.assertNotIn("Show full findings", self.javascript)
+        self.assertNotIn("stage-summary-card", self.css)
+        self.assertNotIn("Resume research", self.javascript)
 
     def test_runs_show_place_duration_and_candidate_context(self) -> None:
         self.assertIn("function formatDuration(run)", self.javascript)
@@ -73,7 +76,6 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertIn("Curator and human vetting", self.html)
         self.assertNotIn("duplicate decisions", self.html)
         self.assertIn("human vetting, resource editing, printing, and package preparation", self.html)
-        self.assertIn("portable vetting and package workspace", self.javascript)
         self.assertNotIn('id="review-actions"', self.html)
         self.assertNotIn('id="generated-resource-form"', self.html)
         self.assertNotIn('id="save-match-assessment"', self.html)
@@ -81,6 +83,16 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertNotIn("/api/discoveries/${state.currentCandidate.id}/generated-resource", self.javascript)
         self.assertNotIn("/api/discoveries/${state.currentCandidate.id}/match-assessment", self.javascript)
         self.assertNotIn("Export resource package", self.javascript)
+
+    def test_every_direct_event_listener_targets_an_existing_element(self) -> None:
+        ids = re.findall(
+            r"document\.querySelector\('#([^']+)'\)\.addEventListener",
+            self.javascript,
+        )
+        self.assertTrue(ids)
+        for element_id in ids:
+            with self.subTest(element_id=element_id):
+                self.assertIn(f'id="{element_id}"', self.html)
 
 
 if __name__ == "__main__":

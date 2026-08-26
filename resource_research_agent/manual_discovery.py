@@ -37,6 +37,8 @@ def build_manual_discovery_assignment(
     office_name: str = "",
     regional_scope: str = "",
     known_resources: list[dict[str, Any]] | None = None,
+    include: tuple[str, ...] | list[str] = (),
+    exclude: tuple[str, ...] | list[str] = (),
 ) -> str:
     category = " ".join(str(category_label).split())
     area = " ".join(str(service_area).split())
@@ -60,6 +62,13 @@ def build_manual_discovery_assignment(
         scope_lines.append(f"Resource office: {' '.join(office_name.split())}")
     if regional_scope.strip():
         scope_lines.append(f"Nearby scope: {' '.join(regional_scope.split())}")
+    category_guidance = []
+    if include:
+        category_guidance.extend(["Include:", *[f"- {item}" for item in include]])
+    if exclude:
+        if category_guidance:
+            category_guidance.append("")
+        category_guidance.extend(["Do not treat these as candidates:", *[f"- {item}" for item in exclude]])
     schema = json.dumps(
         {
             "leads": [
@@ -86,6 +95,8 @@ def build_manual_discovery_assignment(
             "",
             *scope_lines,
             "",
+            *category_guidance,
+            "" if category_guidance else "",
             "Resources already in the package (avoid obvious repeats, but retain a renamed or materially distinct program with an uncertainty note):",
             known_section,
             "",

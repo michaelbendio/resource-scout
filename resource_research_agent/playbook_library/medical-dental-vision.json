@@ -1,7 +1,10 @@
 {
   "categoryId": "medical-dental-vision",
   "label": "Medical, Dental, Vision",
-  "aliases": ["medical dental vision", "health care"],
+  "aliases": [
+    "medical dental vision",
+    "health care"
+  ],
   "assignment": "Discover realistic medical, dental, and vision resources for uninsured, underinsured, or otherwise underserved people in {service_area}. Follow health systems and referral networks to specific clinics, specialty services, labs, prescriptions, dental care, eye care, coverage programs, and transportation. Verify clinical scope, urgency, cost, insurance, eligibility, appointments, and referral requirements.",
   "include": [
     "Primary, preventive, urgent, specialty, reproductive, and chronic-condition care",
@@ -14,17 +17,5 @@
     "Emergency departments presented as routine care when safer ongoing access exists",
     "Commercial discount advertising without a defined low-cost or charity program",
     "Clinics whose stated specialty, payer, referral, or residency rules make access unrealistic"
-  ],
-  "verificationQuestions": [
-    "What clinical services are actually performed, and what is referred elsewhere?",
-    "What insurance, Medicaid, sliding-scale, charity-care, residency, or documentation rules apply?",
-    "What will the visit, procedure, lab, prescription, equipment, or glasses cost?",
-    "How soon is the next appointment and is a referral required?"
-  ],
-  "stages": [
-    {"key": "medical-access", "title": "Medical and prescription access", "instruction": "Investigate primary, preventive, urgent, reproductive, specialty, chronic-care, lab, imaging, prescription, and equipment pathways. Verify clinical scope, cost, payer rules, appointments, and referrals."},
-    {"key": "dental-access", "title": "Dental access", "instruction": "Investigate preventive, urgent pain and infection care, extraction, restoration, dentures, pediatric and specialty dental services, including complete costs, waitlists, and referral routes."},
-    {"key": "vision-coverage", "title": "Vision, coverage, and barrier support", "instruction": "Investigate exams, glasses, low-vision and ophthalmology services, insurance and charity enrollment, mobile care, interpreters, disability access, telehealth, and transportation."},
-    {"key": "health-gaps", "title": "Clinical continuity and gap review", "instruction": "Cross-check appointment availability, full cost, payer acceptance, referral completion, language and disability access, follow-up care, and geographic reach. Identify services that stop at screening without treatment."}
   ]
 }

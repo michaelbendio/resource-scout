@@ -14,17 +14,5 @@
     "Ordinary taxi or rideshare options without a subsidy or accessible hardship pathway",
     "Transit information that does not establish whether the needed origin, destination, and time are served",
     "Vehicle donation pages that solicit vehicles but do not place transportation with clients"
-  ],
-  "verificationQuestions": [
-    "Which trip purposes, origins, destinations, days, and hours are covered?",
-    "What eligibility certification, reservation notice, fare, and cancellation policy applies?",
-    "Are wheelchairs, mobility devices, attendants, children, and language needs accommodated?",
-    "How reliable is pickup, and what option exists for urgent or recurring trips?"
-  ],
-  "stages": [
-    {"key": "transit-public", "title": "Public transit and reduced fares", "instruction": "Investigate fixed routes, on-demand zones, reduced fares and passes, route planning, first-mile and last-mile connections, service hours, and practical links to essential destinations."},
-    {"key": "transit-specialized", "title": "Paratransit and essential trips", "instruction": "Investigate ADA paratransit, senior and disability rides, Medicaid and medical transport, treatment and veteran transportation, certification, reservations, fares, attendants, and mobility-device access."},
-    {"key": "transit-alternatives", "title": "Vouchers and transportation stability", "instruction": "Investigate ride vouchers, volunteer drivers, employment transport, vehicle repair or placement, bicycles, driver licensing, fuel help, and safe alternatives when public transit does not fit."},
-    {"key": "transit-gaps", "title": "Coverage and reliability review", "instruction": "Test origins, destinations, early and late hours, weekends, rural areas, reservation windows, accessibility, child travel, urgent trips, and recurring needs. Exclude unsubsidized commercial rides and donation-only programs."}
   ]
 }

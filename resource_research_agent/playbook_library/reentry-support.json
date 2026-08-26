@@ -1,7 +1,9 @@
 {
   "categoryId": "reentry-support",
   "label": "Reentry Support",
-  "aliases": ["reentry"],
+  "aliases": [
+    "reentry"
+  ],
   "assignment": "Discover realistic reentry resources for people returning to {service_area} from jail, prison, detention, or supervision. Follow corrections, courts, and coordinating organizations to specific identification, housing, employment, treatment, benefits, transportation, legal, and peer-navigation services. Verify justice-status rules, timing before or after release, referrals, exclusions, and the real intake path.",
   "include": [
     "Pre-release planning, transition navigation, peer mentorship, and case management",
@@ -14,17 +16,5 @@
     "General services that categorically exclude the relevant justice history without an alternative pathway",
     "Employer lists or housing lists whose current willingness to serve returning people is unverified",
     "Supervision requirements described as supportive resources without a practical benefit"
-  ],
-  "verificationQuestions": [
-    "Which justice histories, facilities, counties, release dates, or supervision statuses qualify?",
-    "Can enrollment begin before release and is a corrections or probation referral required?",
-    "What conviction-based exclusions or background checks apply?",
-    "Who makes the first contact and what immediate need can be solved?"
-  ],
-  "stages": [
-    {"key": "reentry-immediate", "title": "Release-day essentials and navigation", "instruction": "Investigate pre-release planning, identification, benefits, phones, transportation, clothing, food, peer navigation, and services reachable immediately upon release."},
-    {"key": "reentry-stability", "title": "Housing, work, and treatment stability", "instruction": "Investigate reentry housing, employment and training, education, substance-use and mental-health care, medical continuity, and case management. Verify conviction and supervision restrictions."},
-    {"key": "reentry-legal-family", "title": "Legal status and family restoration", "instruction": "Investigate expungement and record relief, licensing, fines and fees, supervision navigation, family reunification, parenting, veteran services, and specialized help for women and youth."},
-    {"key": "reentry-gaps", "title": "Exclusion and handoff gap review", "instruction": "Cross-check pre-release and community handoffs, referral rules, conviction exclusions, service-area limits, waitlists, and immediate access. Identify people excluded by offense type, lack of documents, transportation, or release timing."}
   ]
 }

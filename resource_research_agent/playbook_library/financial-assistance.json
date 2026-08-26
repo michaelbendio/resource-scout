@@ -1,7 +1,9 @@
 {
   "categoryId": "financial-assistance",
   "label": "Financial Assistance",
-  "aliases": ["financial help"],
+  "aliases": [
+    "financial help"
+  ],
   "assignment": "Discover realistic financial-assistance resources for people in {service_area} facing urgent bills or income shortfalls. Follow coordinating agencies to the specific rent, deposit, utility, emergency-cash, benefit, tax, debt, and financial-counseling programs people can access. Verify funding status, covered expense, eligibility, limits, documentation, payment method, and application sequence.",
   "include": [
     "Emergency rent, deposit, mortgage, utility, transportation, burial, and other essential-expense help",
@@ -14,17 +16,5 @@
     "Payday loans, title loans, high-cost credit, debt settlement, or products likely to worsen hardship",
     "Fundraising pages or informal gifts without an accountable program and eligibility process",
     "Programs whose funds are closed, exhausted, or restricted elsewhere unless clearly marked as a future lead"
-  ],
-  "verificationQuestions": [
-    "What exact expense can be paid and is funding open today?",
-    "What income, crisis, residency, notice, or household requirements apply?",
-    "Which documents and vendor information are required, and how long does a decision take?",
-    "Is assistance paid to the person or directly to a landlord, utility, or other vendor?"
-  ],
-  "stages": [
-    {"key": "financial-emergency", "title": "Emergency bills and stabilization", "instruction": "Investigate currently funded rent, deposit, mortgage, utility, transport, burial, and flexible emergency assistance. Verify the covered expense, application window, documents, decision time, and vendor-payment process."},
-    {"key": "financial-benefits", "title": "Income and public benefits", "instruction": "Investigate cash assistance, unemployment, disability-related income, tax credits, benefit screening, application support, appeals, and interim help while decisions are pending."},
-    {"key": "financial-capability", "title": "Safe financial recovery", "instruction": "Investigate free tax preparation, debt and credit counseling, matched savings, safe banking, financial coaching, and population-specific aid while excluding predatory products."},
-    {"key": "financial-gaps", "title": "Funding-status and gap review", "instruction": "Recheck current funding, waitlists, geographic rules, repeat-use limits, documentation barriers, and processing times. Identify essential expenses and populations without a realistic payment pathway."}
   ]
 }

@@ -104,20 +104,17 @@
     review.candidates.forEach(item => {
       candidates[item.id] = {
         packageStatus: 'pending',
-        sourceScoutStatus: asText(item.status),
         packageHistory: [],
         sourceNotes: asText(item.notes),
         curatorNotes: asText(item.notes),
-        originalReviewFeedback: asText(item.reviewFeedback),
         matchAssessment: item.matchAssessment || '',
-        reviewedAt: item.reviewedAt || null,
         updatedAt: item.updatedAt || review.exportedAt,
         resourceDraft: item.resourceDraft ? clone(item.resourceDraft) : null,
         pdfAssets: {},
       };
     });
     return {
-      reviewFeedbackSchemaVersion: 3,
+      curatorWorkSchemaVersion: 1,
       reviewCopySchemaVersion: review.reviewCopySchemaVersion,
       reviewId: review.reviewId,
       sourceSha256: review.sourcePackage?.sourceSha256 || null,
@@ -135,7 +132,7 @@
   }
 
   function validateFeedback(review, feedback) {
-    if (!feedback || feedback.reviewFeedbackSchemaVersion !== 3) throw new Error('This is not a supported Curator work file.');
+    if (!feedback || feedback.curatorWorkSchemaVersion !== 1) throw new Error('This is not a supported Curator work file.');
     if (feedback.reviewId !== review.reviewId) throw new Error('This feedback belongs to a different review copy.');
     if ((feedback.sourceSha256 || null) !== (review.sourcePackage?.sourceSha256 || null)) throw new Error('The source package does not match this review copy.');
     const expected = review.candidates.map(item => String(item.id)).sort();
@@ -145,7 +142,7 @@
     }
     const restored = initialState(review);
     Object.assign(restored, clone(feedback));
-    restored.reviewFeedbackSchemaVersion = 3;
+    restored.curatorWorkSchemaVersion = 1;
     restored.candidates = initialState(review).candidates;
     const packaged = Array.isArray(feedback.packagedCandidateIds)
       ? [...new Set(feedback.packagedCandidateIds.map(String))].sort()
@@ -485,7 +482,7 @@
     document.querySelector('#candidate-dialog').close();
     persist();
     renderCandidates();
-    updateActions(`${built.resources.length}-resource package saved; ${archivedCount} ${archivedCount === 1 ? 'candidate was' : 'candidates were'} archived from the active queue with their work history preserved.${review.run.status === 'partial' ? ' This run was incomplete; review the stage warning before use.' : ''}`);
+    updateActions(`${built.resources.length}-resource package saved; ${archivedCount} ${archivedCount === 1 ? 'candidate was' : 'candidates were'} archived from the active queue with their work history preserved.`);
     const workspaceState = document.querySelector('#workspace-save-state');
     workspaceState.textContent = 'Package saved';
     setTimeout(() => { workspaceState.textContent = ''; }, 1800);
@@ -1003,20 +1000,11 @@
     const dialog = document.querySelector('#candidate-dialog'); if (!dialog.open) dialog.showModal();
   }
 
-  function renderLessons() {
-    if (!review.lessons?.length) return;
-    document.querySelector('#lessons-panel').hidden = false;
-    document.querySelector('#lesson-list').replaceChildren(...review.lessons.map(lesson => {
-      const item = element('div', 'lesson'); item.append(element('small', '', `${friendly(lesson.scope)} · ${friendly(lesson.source)}`), element('p', '', lesson.text)); return item;
-    }));
-  }
-
   function initialize() {
     restoreLocal();
     document.title = `${review.title} · Resource Curator`;
     document.querySelector('#candidate-list-name').textContent = review.run.targetCategoryLabel;
     const packageInfo = review.sourcePackage;
-    renderLessons();
     const filter = document.querySelector('#status-filter');
     document.querySelector('#search').addEventListener('input', event => { view.search = event.target.value; renderCandidates(); });
     filter.addEventListener('change', event => { view.status = event.target.value; renderCandidates(); });
@@ -1057,7 +1045,7 @@
     window.addEventListener('beforeunload', event => { if (view.dirty && !view.persisted) { event.preventDefault(); event.returnValue = ''; } });
     setupWorkspaceWindows(); renderSourceOnlyRecords(); renderCandidates(); updateActions();
     const packageText = packageInfo ? `${packageInfo.sourceName}; schema ${packageInfo.schemaVersion}; package ${packageInfo.packageVersion}` : `Standalone location research; ${review.run.targetLocation || 'location not recorded'}`;
-    document.querySelector('#footer').textContent = `Resource Curator v0.36.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
+    document.querySelector('#footer').textContent = `Resource Curator v0.37.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
   }
 
   initialize();

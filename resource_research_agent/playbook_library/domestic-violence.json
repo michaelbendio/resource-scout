@@ -1,7 +1,9 @@
 {
   "categoryId": "domestic-violence",
   "label": "Domestic Violence",
-  "aliases": ["domestic abuse"],
+  "aliases": [
+    "domestic abuse"
+  ],
   "assignment": "Discover confidential, survivor-centered domestic-violence resources realistically available to people in {service_area}. Investigate immediate safety, shelter, advocacy, protective orders, medical and legal support, financial stabilization, housing, and recovery without exposing survivor information. Verify current access methods, populations served, confidentiality, after-hours response, and safe contact practices.",
   "include": [
     "Confidential hotlines, safety planning, emergency response, and shelter",
@@ -14,17 +16,5 @@
     "Couples counseling or mediation presented as a safety response where abuse or coercive control is present",
     "Public-facing contact details that could compromise a confidential shelter location",
     "Generic crime-victim information without a reachable domestic-violence service"
-  ],
-  "verificationQuestions": [
-    "What is the safest current contact method and is help available after hours?",
-    "Are shelter location and survivor information kept confidential?",
-    "Which genders, ages, family arrangements, immigration statuses, and service areas are served?",
-    "Can an advocate help with protection, transport, children, pets, housing, and legal needs?"
-  ],
-  "stages": [
-    {"key": "dv-immediate-safety", "title": "Immediate safety and confidential access", "instruction": "Investigate confidential hotlines, safety planning, emergency shelter, transportation, pet safety, medical response, and after-hours access. Do not expose confidential locations or recommend unsafe contact practices."},
-    {"key": "dv-advocacy", "title": "Legal and systems advocacy", "instruction": "Investigate protective orders, court advocacy, victim rights, immigration relief, law-enforcement accompaniment, forensic and medical advocacy, and help navigating benefits and documentation."},
-    {"key": "dv-stabilization", "title": "Stabilization and recovery", "instruction": "Investigate counseling, child and family services, phones, emergency funds, employment, housing, relocation, and culturally responsive services for diverse survivors."},
-    {"key": "dv-gaps", "title": "Safety and population gap review", "instruction": "Cross-check confidentiality, capacity, eligibility, service-area boundaries, accessibility, language, gender and age inclusion, pet and child options, and safe handoffs. Identify populations or hours without a realistic response."}
   ]
 }

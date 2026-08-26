@@ -1,7 +1,9 @@
 {
   "categoryId": "homeless-services",
   "label": "Homeless Services",
-  "aliases": ["homelessness services"],
+  "aliases": [
+    "homelessness services"
+  ],
   "assignment": "Discover practical non-housing services that help people experiencing homelessness in {service_area} meet daily needs and connect to longer-term help. Follow outreach and coordinating organizations to specific showers, laundry, hygiene, mail, storage, phones, computers, meals, transportation, benefits, medical care, and navigation. Verify location, schedule, eligibility, capacity, belongings rules, and the actual access sequence.",
   "include": [
     "Outreach, drop-in, day-center, navigation, coordinated-entry, and case-management services",
@@ -14,17 +16,5 @@
     "Housing or shelter listings without a distinct practical homeless-service function",
     "General community services whose access rules effectively exclude people without address or identification",
     "Past outreach events or rotating services without a current schedule and contact path"
-  ],
-  "verificationQuestions": [
-    "What can a person obtain on the day of arrival and during what hours?",
-    "Are identification, address, referral, sobriety, or appointment required?",
-    "How are queues, capacity, belongings, pets, mobility, and safety handled?",
-    "Can the service connect someone to identification, benefits, health care, or housing navigation?"
-  ],
-  "stages": [
-    {"key": "homeless-daily-needs", "title": "Daily survival and hygiene", "instruction": "Investigate showers, laundry, hygiene, clothing, haircuts, meals, water, weather response, and safe daytime access. Verify exact schedules, queues, capacity, and belongings or pet rules."},
-    {"key": "homeless-connectivity", "title": "Mail, phones, storage, and transportation", "instruction": "Investigate mailing addresses, document storage, lockers, phones, charging, computers, internet, transport passes, rides, and identification support needed to remain reachable."},
-    {"key": "homeless-navigation", "title": "Outreach, benefits, and health navigation", "instruction": "Investigate street outreach, day centers, coordinated entry, benefits enrollment, medical, dental, vision, behavioral health, case management, and realistic referral handoffs."},
-    {"key": "homeless-gaps", "title": "Daily-access gap review", "instruction": "Cross-check hours, rotating locations, capacity, disability and language access, address and identification barriers, safety, pets, belongings, and transport. Identify weekends, evenings, rural areas, and populations lacking practical access."}
   ]
 }

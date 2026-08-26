@@ -1,7 +1,9 @@
 {
   "categoryId": "clothing-household",
   "label": "Clothing/Household",
-  "aliases": ["clothing and household"],
+  "aliases": [
+    "clothing and household"
+  ],
   "assignment": "Discover realistic clothing and household-goods resources for people in {service_area} who cannot meet basic needs through ordinary retail. Follow relationships from coordinating organizations to the specific clothing closets, vouchers, furniture banks, household-goods programs, emergency replacement services, and work or school clothing people can actually access. Verify what is provided, eligibility, cost, schedules, inventory, service area, and pickup or delivery.",
   "include": [
     "Free clothing closets, vouchers, seasonal clothing, shoes, and coats",
@@ -14,17 +16,5 @@
     "Ordinary clothing, thrift, furniture, appliance, or department stores without a hardship-access program",
     "Donation drop-off locations that do not distribute goods to people in need",
     "Online marketplaces or giveaways without a dependable program, safety boundary, and access process"
-  ],
-  "verificationQuestions": [
-    "What exact goods are distributed, in what condition, and with what inventory limits?",
-    "Is a referral, voucher, appointment, identification, address, or proof of need required?",
-    "How often may someone receive help and are sizes or household composition considered?",
-    "Must items be picked up, or are transportation and delivery available?"
-  ],
-  "stages": [
-    {"key": "clothing-access", "title": "Clothing and footwear access", "instruction": "Investigate free clothing closets, vouchers, shoes, coats, seasonal items, and purpose-specific work, interview, school, maternity, and infant clothing. Verify distribution hours, referral rules, sizing, frequency, and inventory."},
-    {"key": "household-goods", "title": "Furniture and household essentials", "instruction": "Investigate furniture banks, beds, linens, kitchenware, appliances, moving-in kits, and basic household goods. Verify eligibility, fees, pickup, delivery, waitlists, and what is actually available."},
-    {"key": "replacement-specialized", "title": "Emergency and specialized replacement", "instruction": "Investigate rapid help after homelessness, fire, disaster, domestic violence, foster or reentry transitions, and services for children, workers, disabled people, and other populations with distinct needs."},
-    {"key": "clothing-household-gaps", "title": "Inventory and access gap review", "instruction": "Exclude ordinary retailers and donation-only sites, cross-check changing inventory and schedules, and identify gaps involving large sizes, children's needs, furniture delivery, rural access, language, disability, and urgent replacement."}
   ]
 }
