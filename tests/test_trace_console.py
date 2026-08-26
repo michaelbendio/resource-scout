@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
+import subprocess
 import threading
 import time
 import unittest
@@ -93,7 +94,27 @@ class TraceHubTests(unittest.TestCase):
     def test_ui_exposes_requested_controls_without_external_assets(self) -> None:
         for phrase in ("OK — next message", "Skip N", "Run to…", "Trace this flow", "Continue without pausing"):
             self.assertIn(phrase, TRACE_HTML)
+        self.assertIn("function prettyJSON", TRACE_HTML)
+        self.assertIn("server-sent events", TRACE_HTML)
         self.assertNotIn("https://", TRACE_HTML)
+
+    def test_ui_pretty_prints_nested_json_and_streamed_model_events(self) -> None:
+        start = TRACE_HTML.index("function prettyValue")
+        end = TRACE_HTML.index("async function selectEvent", start)
+        functions = TRACE_HTML[start:end]
+        fixture = {
+            "arguments": '{"query":"Mesa food help","options":{"limit":6}}',
+            "body": 'data: {"choices":[{"delta":{"content":"hello"}}]}\n\ndata: [DONE]\n',
+        }
+        script = f"{functions}\nprocess.stdout.write(prettyJSON({json.dumps(fixture)}));"
+        completed = subprocess.run(
+            ["node", "-e", script], capture_output=True, text=True, check=True
+        )
+        rendered = json.loads(completed.stdout)
+        self.assertEqual(6, rendered["arguments"]["options"]["limit"])
+        self.assertEqual("server-sent events", rendered["body"]["format"])
+        self.assertEqual("hello", rendered["body"]["events"][0]["choices"][0]["delta"]["content"])
+        self.assertEqual("[DONE]", rendered["body"]["events"][1])
 
 
 class FakeQwenHandler(BaseHTTPRequestHandler):

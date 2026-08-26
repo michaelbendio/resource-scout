@@ -22,6 +22,9 @@ DSH, Qwen, DDGS, and safe fetch, with single-message approval, skip-N,
 run-to-boundary, stage-flow filtering, and JSON-lines export. It uses a
 disposable database and ports 8766/8082/8083; it does not redirect, stop, or
 write to production Scout or production Qwen.
+Application `0.30.6` makes the Trace Console recursively pretty-print embedded
+JSON strings, including streamed Qwen events and tool-call argument payloads,
+without altering the downloaded raw trace.
 Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
 Step 3 completed under the revised scope: the category-neutral candidate qualification gate and
