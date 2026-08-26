@@ -93,6 +93,7 @@ class ContactLookupTests(unittest.TestCase):
         self.assertTrue(any("Mesa Food" in query for query in first["suggestedSearches"]))
         self.assertTrue(any("Maricopa County" in query for query in first["suggestedSearches"]))
         self.assertIn("missing or broken page alone is not proof", request.content.decode())
+        self.assertIn("not actionable now", request.content.decode())
 
     def test_results_enrich_verified_contact_and_exclude_confirmed_unavailable(self) -> None:
         before = self.discoveries_by_name()
@@ -165,6 +166,73 @@ class ContactLookupTests(unittest.TestCase):
                 ),
             )
         self.assertEqual("candidate", self.store.get_discovery(candidate["id"])["status"])
+
+    def test_unreachable_dead_site_is_audited_and_excluded_from_curator(self) -> None:
+        candidate = self.discoveries_by_name()["Needs Contact"]
+        result = apply_contact_lookup_results(
+            self.store,
+            self.run_id,
+            self.result_document(
+                [
+                    {
+                        "candidateId": candidate["id"],
+                        "status": "unreachable",
+                        "sourceUrl": "https://dead.example.org",
+                        "note": (
+                            "The known official website is dead, and the prescribed searches "
+                            "found no replacement website or current public phone."
+                        ),
+                    }
+                ]
+            ),
+        )
+        self.assertEqual(1, result["unreachableCount"])
+        saved = self.store.get_discovery(candidate["id"])
+        self.assertEqual("unreachable", saved["status"])
+        self.assertEqual("unreachable", saved["candidate"]["contactLookup"]["status"])
+        request = build_contact_lookup_request(self.store, self.run_id)
+        self.assertNotIn(
+            candidate["id"],
+            {item["candidateId"] for item in request.data["candidates"]},
+        )
+        review = build_review_copy(self.store, self.run_id)
+        review_names = {
+            item["candidate"]["organizationName"] for item in review.data["candidates"]
+        }
+        self.assertNotIn("Needs Contact", review_names)
+
+    def test_unreachable_requires_dead_site_source_and_explanation(self) -> None:
+        candidate = self.discoveries_by_name()["Needs Contact"]
+        with self.assertRaisesRegex(ValueError, "cited source URL"):
+            apply_contact_lookup_results(
+                self.store,
+                self.run_id,
+                self.result_document(
+                    [
+                        {
+                            "candidateId": candidate["id"],
+                            "status": "unreachable",
+                            "sourceUrl": "",
+                            "note": "The known official website is dead.",
+                        }
+                    ]
+                ),
+            )
+        with self.assertRaisesRegex(ValueError, "note explaining"):
+            apply_contact_lookup_results(
+                self.store,
+                self.run_id,
+                self.result_document(
+                    [
+                        {
+                            "candidateId": candidate["id"],
+                            "status": "unreachable",
+                            "sourceUrl": "https://dead.example.org",
+                            "note": "",
+                        }
+                    ]
+                ),
+            )
 
     def test_unresolved_lookup_is_not_removed_from_candidates(self) -> None:
         candidate = self.discoveries_by_name()["Needs Contact"]

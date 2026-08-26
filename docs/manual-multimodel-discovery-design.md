@@ -388,10 +388,14 @@ Imported lookup results preserve the cited source, checked date, and note. A
 verified contact fills previously blank website, phone, and address fields. A
 candidate may be marked unavailable only when a cited source credibly establishes
 that the organization or program closed or ended; a failed search or broken page
-is not proof. Scout retains that unavailable lead in its audit display while
-excluding it from candidate counts and future Curator exports. An inconclusive
-lookup remains a candidate and must include concrete follow-up suggestions, which
-become unchecked items in the Curator Notes pane.
+alone is not proof of closure. A separate unreachable outcome applies when a
+known official website is dead and the prescribed searches find no replacement
+website or current public phone. It means the lead is not actionable now, not
+that the organization legally closed. Scout retains unavailable and unreachable
+leads in its audit display while excluding them from candidate counts and future
+Curator exports. An inconclusive lookup remains a candidate and must include
+concrete follow-up suggestions, which become unchecked items in the Curator Notes
+pane.
 
 ## Follow-up packets
 

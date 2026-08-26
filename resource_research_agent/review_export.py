@@ -160,7 +160,7 @@ def build_review_copy(
     discoveries = [
         discovery
         for discovery in reversed(store.list_discoveries(run_id=run_id))
-        if discovery["status"] != "unavailable"
+        if discovery["status"] not in {"unavailable", "unreachable"}
     ]
     manual_snapshot = (
         store.manual_consolidation_snapshot(run_id)

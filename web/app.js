@@ -463,39 +463,40 @@ function researchRunTitle(run) {
 
 function candidateCountForRun(runId) {
   return state.discoveries.filter(
-    discovery => discovery.runId === runId && discovery.status !== 'unavailable',
+    discovery => discovery.runId === runId && !['unavailable', 'unreachable'].includes(discovery.status),
   ).length;
 }
 
 function missingContactCandidatesForRun(runId) {
   return state.discoveries.filter(discovery => {
-    if (discovery.runId !== runId || discovery.status === 'unavailable') return false;
+    if (discovery.runId !== runId || ['unavailable', 'unreachable'].includes(discovery.status)) return false;
     const candidate = discovery.candidate || {};
     return !asText(candidate.website || candidate.url) && !asText(candidate.phone);
   });
 }
 
-function unavailableLeadsForRun(runId) {
+function excludedLeadsForRun(runId) {
   return state.discoveries.filter(
-    discovery => discovery.runId === runId && discovery.status === 'unavailable',
+    discovery => discovery.runId === runId && ['unavailable', 'unreachable'].includes(discovery.status),
   );
 }
 
-function renderUnavailableLeads(runId) {
-  const unavailable = unavailableLeadsForRun(runId);
-  if (!unavailable.length) return null;
+function renderExcludedLeads(runId) {
+  const excluded = excludedLeadsForRun(runId);
+  if (!excluded.length) return null;
   const details = document.createElement('details');
-  details.className = 'unavailable-leads';
+  details.className = 'excluded-leads';
   const summary = document.createElement('summary');
-  summary.textContent = `${unavailable.length} unavailable lead${unavailable.length === 1 ? '' : 's'} retained in Scout`;
+  summary.textContent = `${excluded.length} excluded lead${excluded.length === 1 ? '' : 's'} retained in Scout`;
   const list = document.createElement('ul');
-  unavailable.forEach(discovery => {
+  excluded.forEach(discovery => {
     const item = document.createElement('li');
     const name = document.createElement('strong');
     name.textContent = discovery.candidate?.presentationName || discovery.name;
     const lookup = discovery.candidate?.contactLookup || {};
     const note = document.createElement('span');
-    note.textContent = lookup.note || 'Confirmed unavailable during contact lookup.';
+    const outcome = discovery.status === 'unreachable' ? 'Unreachable' : 'Confirmed closed or ended';
+    note.textContent = `${outcome}: ${lookup.note || 'Documented during contact lookup.'}`;
     item.append(name, note);
     const href = safeHref(asText(lookup.sourceUrl));
     if (href) {
@@ -750,7 +751,7 @@ function renderRuns() {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload),
             });
-            message.textContent = `Contact results applied: ${result.verifiedContactCount} updated, ${result.unavailableCount} unavailable, ${result.unresolvedCount} unresolved.`;
+            message.textContent = `Contact results applied: ${result.verifiedContactCount} updated, ${result.unavailableCount} closed or ended, ${result.unreachableCount} unreachable, ${result.unresolvedCount} unresolved.`;
             await loadResearchData();
           } catch (error) {
             message.textContent = error.message;
@@ -762,8 +763,8 @@ function renderRuns() {
         actions.append(importLookup, importFile, exportLink);
       }
       item.append(actions);
-      const unavailable = renderUnavailableLeads(run.id);
-      if (unavailable) item.append(unavailable);
+      const excluded = renderExcludedLeads(run.id);
+      if (excluded) item.append(excluded);
       if (run.result?.summary) item.append(renderRunFindings(run));
       return item;
     }
@@ -1244,7 +1245,9 @@ function renderCandidates() {
   const filter = document.querySelector('#candidate-run-filter');
   const all = document.createElement('option');
   all.value = '';
-  const activeDiscoveries = state.discoveries.filter(discovery => discovery.status !== 'unavailable');
+  const activeDiscoveries = state.discoveries.filter(
+    discovery => !['unavailable', 'unreachable'].includes(discovery.status),
+  );
   all.textContent = `All candidates (${activeDiscoveries.length})`;
   const options = state.runs.map(run => {
     const option = document.createElement('option');

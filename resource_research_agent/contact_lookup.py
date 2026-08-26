@@ -61,7 +61,7 @@ def build_contact_lookup_request(
     candidates = []
     for discovery in reversed(store.list_discoveries(run_id=run_id)):
         candidate = discovery["candidate"]
-        if discovery["status"] == "unavailable":
+        if discovery["status"] in {"unavailable", "unreachable"}:
             continue
         if _text(candidate.get("website") or candidate.get("url")) or _text(candidate.get("phone")):
             continue
@@ -90,10 +90,16 @@ def build_contact_lookup_request(
         "instructions": {
             "purpose": "Find an official website or public phone number for each candidate.",
             "returnKind": RESULTS_KIND,
-            "allowedStatuses": ["verified-contact", "unavailable", "unresolved"],
+            "allowedStatuses": [
+                "verified-contact",
+                "unavailable",
+                "unreachable",
+                "unresolved",
+            ],
             "rules": [
                 "Use verified-contact only when at least a website or phone is supported by the cited source.",
                 "Use unavailable only with credible evidence that the organization or program closed or ended; a missing or broken page alone is not proof.",
+                "Use unreachable when a known official website is dead and the suggested searches find no replacement website or current public phone. This means the lead is not actionable now, not that the organization legally closed.",
                 "Use unresolved when the search is inconclusive, explain what remains uncertain, and provide concrete suggestedNextSteps for the Resource Specialist's checklist.",
                 "Preserve candidateId exactly so Scout can apply the result to the correct candidate.",
             ],
@@ -104,7 +110,7 @@ def build_contact_lookup_request(
                 "results": [
                     {
                         "candidateId": "integer from this request",
-                        "status": "verified-contact | unavailable | unresolved",
+                        "status": "verified-contact | unavailable | unreachable | unresolved",
                         "website": "",
                         "phone": "",
                         "address": "",

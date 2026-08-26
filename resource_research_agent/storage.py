@@ -110,7 +110,9 @@ CREATE TABLE IF NOT EXISTS discoveries (
 CREATE TABLE IF NOT EXISTS discovery_contact_lookups (
     discovery_id INTEGER PRIMARY KEY REFERENCES discoveries(id) ON DELETE CASCADE,
     run_id INTEGER NOT NULL REFERENCES research_runs(id) ON DELETE CASCADE,
-    status TEXT NOT NULL CHECK (status IN ('verified-contact', 'unavailable', 'unresolved')),
+    status TEXT NOT NULL CHECK (
+        status IN ('verified-contact', 'unavailable', 'unreachable', 'unresolved')
+    ),
     checked_at TEXT NOT NULL,
     website TEXT NOT NULL DEFAULT '',
     phone TEXT NOT NULL DEFAULT '',
@@ -814,6 +816,48 @@ class ResearchStore:
 
     @staticmethod
     def _migrate(connection: sqlite3.Connection) -> None:
+        contact_lookup_sql_row = connection.execute(
+            "SELECT sql FROM sqlite_master WHERE type = 'table' "
+            "AND name = 'discovery_contact_lookups'"
+        ).fetchone()
+        contact_lookup_sql = str(contact_lookup_sql_row["sql"] or "")
+        if "'unreachable'" not in contact_lookup_sql:
+            connection.execute("DROP TABLE IF EXISTS discovery_contact_lookups_migration")
+            connection.execute(
+                """CREATE TABLE discovery_contact_lookups_migration (
+                       discovery_id INTEGER PRIMARY KEY
+                           REFERENCES discoveries(id) ON DELETE CASCADE,
+                       run_id INTEGER NOT NULL
+                           REFERENCES research_runs(id) ON DELETE CASCADE,
+                       status TEXT NOT NULL CHECK (
+                           status IN (
+                               'verified-contact', 'unavailable',
+                               'unreachable', 'unresolved'
+                           )
+                       ),
+                       checked_at TEXT NOT NULL,
+                       website TEXT NOT NULL DEFAULT '',
+                       phone TEXT NOT NULL DEFAULT '',
+                       address TEXT NOT NULL DEFAULT '',
+                       source_url TEXT NOT NULL DEFAULT '',
+                       note TEXT NOT NULL DEFAULT '',
+                       updated_at TEXT NOT NULL
+                   )"""
+            )
+            connection.execute(
+                """INSERT INTO discovery_contact_lookups_migration (
+                       discovery_id, run_id, status, checked_at, website,
+                       phone, address, source_url, note, updated_at
+                   )
+                   SELECT discovery_id, run_id, status, checked_at, website,
+                          phone, address, source_url, note, updated_at
+                   FROM discovery_contact_lookups"""
+            )
+            connection.execute("DROP TABLE discovery_contact_lookups")
+            connection.execute(
+                "ALTER TABLE discovery_contact_lookups_migration "
+                "RENAME TO discovery_contact_lookups"
+            )
         outcome_columns = {
             row["name"]
             for row in connection.execute(
@@ -2729,7 +2773,7 @@ class ResearchStore:
         now = datetime.now(timezone.utc).isoformat()
         prepared: list[dict[str, Any]] = []
         seen: set[int] = set()
-        allowed = {"verified-contact", "unavailable", "unresolved"}
+        allowed = {"verified-contact", "unavailable", "unreachable", "unresolved"}
         for raw in results:
             if not isinstance(raw, dict):
                 raise ValueError("Every contact lookup result must be a JSON object")
@@ -2769,12 +2813,12 @@ class ResearchStore:
                 raise ValueError(
                     f"Candidate {discovery_id} needs a website or phone for verified-contact"
                 )
-            if status in {"verified-contact", "unavailable"}:
+            if status in {"verified-contact", "unavailable", "unreachable"}:
                 if not source_url.startswith(("https://", "http://")):
                     raise ValueError(
                         f"Candidate {discovery_id} needs a cited source URL"
                     )
-            if status in {"unavailable", "unresolved"} and not note:
+            if status in {"unavailable", "unreachable", "unresolved"} and not note:
                 raise ValueError(
                     f"Candidate {discovery_id} needs a note explaining the lookup result"
                 )
@@ -2845,7 +2889,9 @@ class ResearchStore:
                     "already-known" if row["matched_resource_id"] else "candidate"
                 )
                 discovery_status = (
-                    "unavailable" if item["status"] == "unavailable" else restored_status
+                    item["status"]
+                    if item["status"] in {"unavailable", "unreachable"}
+                    else restored_status
                 )
                 connection.execute(
                     """UPDATE discoveries
@@ -2879,6 +2925,7 @@ class ResearchStore:
             "resultCount": len(prepared),
             "verifiedContactCount": counts["verified-contact"],
             "unavailableCount": counts["unavailable"],
+            "unreachableCount": counts["unreachable"],
             "unresolvedCount": counts["unresolved"],
         }
 
