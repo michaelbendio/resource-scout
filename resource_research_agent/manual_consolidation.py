@@ -476,6 +476,9 @@ def consolidate_manual_discovery(
         "unresolvedIdentities": role_counts["unresolved"],
         "candidateIdentities": sum(group["routedRole"] in DIRECT_ROLES for group in groups),
         "pendingIdentityDecisions": sum(item["status"] == "pending" for item in suggestions),
+        "sameIdentityDecisions": sum(item["status"] == "same" for item in suggestions),
+        "separateIdentityDecisions": sum(item["status"] == "separate" for item in suggestions),
+        "unresolvedIdentityDecisions": sum(item["status"] == "unresolved" for item in suggestions),
     }
     input_sha256 = _sha256(
         [
@@ -534,6 +537,27 @@ def record_manual_identity_decision(
         _preliminary_groups(store.manual_leads_for_consolidation(run_id)), proposed
     )
     store.save_manual_identity_decision(run_id, pair[0], pair[1], decision)
+    return consolidate_manual_discovery(store, run_id, duplicate_index)
+
+
+def leave_pending_manual_identities_unresolved(
+    store: ResearchStore,
+    run_id: int,
+    duplicate_index: DuplicateIndex | None = None,
+) -> dict[str, Any]:
+    current = consolidate_manual_discovery(store, run_id, duplicate_index)
+    pending = [
+        {
+            "leftKey": item["leftKey"],
+            "rightKey": item["rightKey"],
+            "decision": "unresolved",
+        }
+        for item in current["suggestions"]
+        if item["status"] == "pending"
+    ]
+    if not pending:
+        raise ValueError("No pending identity pairs remain")
+    store.save_manual_identity_decisions(run_id, pending)
     return consolidate_manual_discovery(store, run_id, duplicate_index)
 
 

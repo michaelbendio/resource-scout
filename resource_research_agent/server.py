@@ -20,6 +20,7 @@ from .manual_discovery import build_manual_discovery_assignment
 from .manual_consolidation import (
     consolidate_manual_discovery,
     finish_manual_discovery,
+    leave_pending_manual_identities_unresolved,
     manual_consolidation_view,
     record_manual_identity_decision,
 )
@@ -272,6 +273,15 @@ class ResearchHandler(BaseHTTPRequestHandler):
                         str(payload.get("rightKey") or ""),
                         str(payload.get("decision") or ""),
                         self.server.duplicate_index,
+                    )
+                )
+            elif (run_id := self._path_id(
+                parsed.path, "/api/manual-discovery-runs", "leave-pending-unresolved"
+            )) is not None:
+                self._read_json()
+                self._json(
+                    leave_pending_manual_identities_unresolved(
+                        self.server.store, run_id, self.server.duplicate_index
                     )
                 )
             elif (run_id := self._path_id(parsed.path, "/api/research-runs", "resume")) is not None:

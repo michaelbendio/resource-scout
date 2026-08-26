@@ -906,14 +906,37 @@ function renderManualConsolidation() {
   if (!consolidation.suggestions.length) {
     suggestionsTarget.replaceChildren(emptyState('No ambiguous identity pairs need review.'));
   } else {
+    const pendingSuggestions = consolidation.suggestions.filter(item => item.status === 'pending');
+    const reviewedSuggestions = consolidation.suggestions.filter(item => item.status !== 'pending');
     const heading = document.createElement('div');
     heading.className = 'manual-suggestion-intro';
     const title = document.createElement('h4');
-    title.textContent = `Identity review · ${consolidation.suggestions.length}`;
+    title.textContent = `Identity review · ${pendingSuggestions.length} pending`;
     const copy = document.createElement('p');
     copy.textContent = 'Decide only whether each pair is the same service identity. This is not a quality or acceptance decision, and no written reason is required.';
     heading.append(title, copy);
-    const cards = consolidation.suggestions.map(suggestion => {
+    if (pendingSuggestions.length > 1) {
+      const leaveAll = document.createElement('button');
+      leaveAll.type = 'button';
+      leaveAll.className = 'secondary';
+      leaveAll.textContent = `Leave all ${pendingSuggestions.length} pending pairs unresolved`;
+      leaveAll.disabled = state.activeManualRun.status !== 'running';
+      leaveAll.addEventListener('click', async () => {
+        if (!window.confirm('Keep every pending pair separate and mark the identity relationship unresolved? You can still revise individual decisions before finishing discovery.')) return;
+        leaveAll.disabled = true;
+        try {
+          state.manualConsolidation = await request(`/api/manual-discovery-runs/${state.activeManualRun.id}/leave-pending-unresolved`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+          });
+          renderManualDiscoveryWorkspace();
+        } catch (error) {
+          document.querySelector('#manual-discovery-message').textContent = error.message;
+          leaveAll.disabled = false;
+        }
+      });
+      heading.append(leaveAll);
+    }
+    const renderSuggestion = suggestion => {
       const card = document.createElement('article');
       card.className = `manual-identity-suggestion ${suggestion.status}`;
       const pair = document.createElement('div');
@@ -959,8 +982,20 @@ function renderManualConsolidation() {
       }
       card.append(pair, reason, actions);
       return card;
-    });
-    suggestionsTarget.replaceChildren(heading, ...cards);
+    };
+    const pendingCards = pendingSuggestions.map(renderSuggestion);
+    const children = [heading];
+    if (!pendingCards.length) children.push(emptyState('No identity pairs are waiting for a decision.'));
+    children.push(...pendingCards);
+    if (reviewedSuggestions.length) {
+      const reviewed = document.createElement('details');
+      reviewed.className = 'manual-reviewed-identities';
+      const summary = document.createElement('summary');
+      summary.textContent = `Review or change ${reviewedSuggestions.length} recorded identity decision${reviewedSuggestions.length === 1 ? '' : 's'}`;
+      reviewed.append(summary, ...reviewedSuggestions.map(renderSuggestion));
+      children.push(reviewed);
+    }
+    suggestionsTarget.replaceChildren(...children);
   }
   document.querySelector('#manual-group-summary').textContent = `View ${consolidation.groups.length} consolidated identity group${consolidation.groups.length === 1 ? '' : 's'}`;
   document.querySelector('#manual-group-list').replaceChildren(...consolidation.groups.map(group => {

@@ -210,6 +210,9 @@ dialog::backdrop { background: rgba(10, 27, 21, .65); }
 .manual-identity-pair strong, .manual-identity-pair small { display: block; }
 .manual-identity-pair small { margin-top: .2rem; color: var(--muted); }
 .manual-identity-suggestion > p { margin-top: .55rem; color: #65543a; font-size: .8rem; }
+.manual-reviewed-identities { margin-top: .7rem; }
+.manual-reviewed-identities > summary { cursor: pointer; color: var(--muted); font-size: .86rem; }
+.manual-reviewed-identities .manual-identity-suggestion { margin-top: .7rem; }
 .manual-identity-actions { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .65rem; }
 .manual-identity-actions button { padding: .42rem .6rem; font-size: .76rem; }
 .manual-identity-actions button[aria-pressed="true"] { border-color: #286b52; color: white; background: #286b52; }

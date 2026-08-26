@@ -10,6 +10,7 @@ from resource_research_agent.importer import ResourcePackageImporter
 from resource_research_agent.manual_consolidation import (
     consolidate_manual_discovery,
     finish_manual_discovery,
+    leave_pending_manual_identities_unresolved,
     record_manual_identity_decision,
 )
 from resource_research_agent.review_export import build_review_copy
@@ -94,6 +95,9 @@ class ManualConsolidationTests(unittest.TestCase):
                 "unresolvedIdentities": 0,
                 "candidateIdentities": 7,
                 "pendingIdentityDecisions": 2,
+                "sameIdentityDecisions": 0,
+                "separateIdentityDecisions": 0,
+                "unresolvedIdentityDecisions": 0,
             },
             result["funnel"],
         )
@@ -365,6 +369,17 @@ class ManualConsolidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "already closed"):
             finish_manual_discovery(self.store, run_id)
         self.assertEqual(ids, [discovery["id"] for discovery in self.store.list_discoveries(run_id)])
+
+    def test_pending_identity_pairs_can_be_left_unresolved_atomically(self) -> None:
+        run_id = self.create_run()
+        self.save_pilot(run_id)
+        result = consolidate_manual_discovery(self.store, run_id)
+        self.assertEqual(2, result["funnel"]["pendingIdentityDecisions"])
+        result = leave_pending_manual_identities_unresolved(self.store, run_id)
+        self.assertEqual(0, result["funnel"]["pendingIdentityDecisions"])
+        self.assertEqual(2, result["funnel"]["unresolvedIdentityDecisions"])
+        self.assertTrue(all(item["status"] == "unresolved" for item in result["suggestions"]))
+        self.assertEqual(7, finish_manual_discovery(self.store, run_id)["result"]["candidateCount"])
 
     def test_manual_curator_export_is_minimal_safe_and_preserves_source_only_records(self) -> None:
         package_path = self.root / "mesa-resource-package.zip"

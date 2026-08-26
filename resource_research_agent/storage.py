@@ -1945,6 +1945,47 @@ class ResearchStore:
             )
         return {"leftKey": left, "rightKey": right, "decision": decision}
 
+    def save_manual_identity_decisions(
+        self, run_id: int, decisions: list[dict[str, str]]
+    ) -> list[dict[str, str]]:
+        normalized = []
+        for item in decisions:
+            left, right = sorted(
+                (str(item.get("leftKey") or ""), str(item.get("rightKey") or ""))
+            )
+            decision = str(item.get("decision") or "")
+            if not left or left == right:
+                raise ValueError("Two different identity groups are required")
+            if decision not in {"same", "separate", "unresolved"}:
+                raise ValueError("Identity decision must be same, separate, or unresolved")
+            normalized.append({"leftKey": left, "rightKey": right, "decision": decision})
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            run = connection.execute(
+                "SELECT run_kind, status FROM research_runs WHERE id = ?", (run_id,)
+            ).fetchone()
+            if not run or run["run_kind"] != "manual-discovery":
+                raise ValueError("Manual discovery run not found")
+            if run["status"] != "running":
+                raise ValueError("Identity decisions can only change while the run is open")
+            for item in normalized:
+                connection.execute(
+                    """INSERT INTO manual_discovery_identity_decisions (
+                           run_id, left_key, right_key, decision, created_at, updated_at
+                       ) VALUES (?, ?, ?, ?, ?, ?)
+                       ON CONFLICT(run_id, left_key, right_key) DO UPDATE SET
+                           decision = excluded.decision, updated_at = excluded.updated_at""",
+                    (
+                        run_id,
+                        item["leftKey"],
+                        item["rightKey"],
+                        item["decision"],
+                        now,
+                        now,
+                    ),
+                )
+        return normalized
+
     def replace_manual_consolidation(
         self,
         run_id: int,

@@ -397,6 +397,8 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertIn("Same identity", javascript)
         self.assertIn("Keep separate", javascript)
         self.assertIn("Leave unresolved", javascript)
+        self.assertIn("Leave all ${pendingSuggestions.length} pending pairs unresolved", javascript)
+        self.assertIn("manual-reviewed-identities", css)
         self.assertIn("@media (max-width: 800px)", css)
         self.assertIn(".manual-source-list { grid-template-columns: 1fr; }", css)
 
@@ -454,6 +456,45 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         candidate = next(item for item in discoveries if item["runId"] == run["id"])
         self.assertEqual("Fresh Food Program", candidate["name"])
         self.assertEqual(2, len(candidate["candidate"]["manualDiscoveryProvenance"]["members"]))
+
+    def test_bulk_unresolved_endpoint_keeps_ambiguous_candidates_separate(self) -> None:
+        run = self.request(
+            "/api/manual-discovery-runs",
+            "POST",
+            {
+                "researchMode": "package",
+                "sourceImportId": self.import_id,
+                "categoryId": "food",
+            },
+        )
+        organization = {
+            "organization": "Example Food Network",
+            "program": "",
+            "website": "https://example.org",
+            "leadType": "provider-organization",
+            "locationOrServiceArea": "Mesa",
+            "whyRelevant": "Food provider",
+            "uncertainty": "Confirm access",
+        }
+        program = dict(organization, program="Fresh Food Program", leadType="program")
+        for source, submitted in (("ChatGPT", organization), ("Claude", program)):
+            self.request(
+                f"/api/manual-discovery-runs/{run['id']}/contributions",
+                "POST",
+                {"sourceLabel": source, "rawText": json.dumps({"leads": [submitted]})},
+            )
+        self.request(f"/api/manual-discovery-runs/{run['id']}/consolidate", "POST", {})
+        resolved = self.request(
+            f"/api/manual-discovery-runs/{run['id']}/leave-pending-unresolved",
+            "POST",
+            {},
+        )
+        self.assertEqual(0, resolved["funnel"]["pendingIdentityDecisions"])
+        self.assertEqual(1, resolved["funnel"]["unresolvedIdentityDecisions"])
+        finished = self.request(
+            f"/api/manual-discovery-runs/{run['id']}/finish", "POST", {}
+        )
+        self.assertEqual(2, finished["result"]["candidateCount"])
 
 
 if __name__ == "__main__":
