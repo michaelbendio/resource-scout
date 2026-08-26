@@ -14,6 +14,13 @@ The source ZIP is opened read-only. Browser uploads are written to a temporary f
 
 ## Research connections
 
+The proposed manual copy/paste workflow for ChatGPT, Grok, Claude, Perplexity,
+and other user-operated chats is specified in
+[`docs/manual-multimodel-discovery-design.md`](docs/manual-multimodel-discovery-design.md).
+It preserves the existing portable Resource Curator handoff while moving detailed
+website and telephone verification to Resource Specialists. It is a branch design,
+not current production behavior.
+
 Hermes and DeepSeek Harness are connected through the same replaceable research-agent interface. Scout owns the research brief, imported context, assignments, candidate records, deterministic duplicate signals, and research lessons. The selected harness receives one bounded assignment and returns a structured research result. Human curation outcomes do not belong to the harness or Scout. Switching harnesses does not move or migrate application data.
 
 Category research runs as four persisted, category-specific stages. Candidates are saved after each completed stage rather than waiting for the entire assignment. If a later stage times out or fails, the run becomes **partial**: completed candidates remain reviewable and exportable, and **Resume research** retries only the unfinished stage before continuing.
