@@ -85,12 +85,14 @@ discovery action.
 Michael also reported that the submitted lead cards did not give him enough
 evidence to make dependable organization/program identity judgments; many of his
 choices were necessarily loose. Those judgments are pilot feedback, not verified
-deduplication ground truth. The production workflow should collapse only exact or
-deterministically identical submissions before curation. Ambiguous relationships
-should remain separate, travel into Curator as possible-duplicate or related-
-program context, and be resolved only when a Resource Specialist's ordinary
-investigation supplies enough evidence. Exhaustive identity adjudication before
-Curator is therefore not an acceptable production workload.
+deduplication ground truth. Version 0.31.6 therefore collapses only exact or
+deterministically identical submissions before curation by default. Identity review
+is optional; unreviewed or unresolved relationships remain separate, travel into
+Curator as possible-related context, and can be resolved when a Resource Specialist's
+ordinary investigation supplies enough evidence. Candidate review titles include
+both organization and program while the underlying Resource editor retains the
+program name. Exhaustive identity adjudication before Curator is no longer a finish
+gate.
 
 ## Preserved DeepSeek comparison boundary
 

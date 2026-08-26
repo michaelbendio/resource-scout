@@ -189,7 +189,7 @@ def build_review_copy(
             )
         candidates.append({
             "id": discovery["id"],
-            "name": discovery["name"],
+            "name": str(discovery["candidate"].get("presentationName") or discovery["name"]),
             "status": discovery["status"],
             "origin": discovery["origin"],
             "createdAt": discovery["createdAt"],

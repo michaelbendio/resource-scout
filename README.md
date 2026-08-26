@@ -19,14 +19,15 @@ user-operated chats is specified in
 [`docs/manual-multimodel-discovery-design.md`](docs/manual-multimodel-discovery-design.md).
 It preserves the existing portable Resource Curator handoff while moving detailed
 website and telephone verification to Resource Specialists. On the
-`manual-multimodel-discovery` branch, the version 0.31.5 workspace can generate a
+`manual-multimodel-discovery` branch, the version 0.31.6 workspace can generate a
 category-specific assignment, preserve pasted or uploaded responses with source
 provenance, validate them, replace or delete unfinished contributions, and recover
 an open run after restart. It also consolidates exact repeats, keeps distinct named
 programs separate, routes directories and limited initiatives outside the provider
-count, exposes package-duplicate signals, and asks for explicit one-click decisions
-on ambiguous identity pairs. Finished direct-service candidates now carry visible
-identity, geography, category, current-signal, and public-access checks into the
+count, and exposes package-duplicate signals. Ambiguous identity review is optional;
+unreviewed relationships stay separate and travel into Curator as possible-related
+context for ordinary specialist investigation. Finished direct-service candidates
+carry visible identity, geography, category, current-signal, and public-access checks into the
 ordinary portable Resource Curator. Source-only records remain visible outside the
 candidate list, and minimally populated resource drafts leave unknown phone,
 address, hours, and verification fields blank. Production `main` is unchanged.

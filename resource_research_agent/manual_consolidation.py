@@ -72,6 +72,12 @@ def _choose_url(values: list[str]) -> str:
     )[0]
 
 
+def _presentation_name(organization: str, program: str, website: str = "") -> str:
+    if organization and program:
+        return f"{organization} · {program}"
+    return program or organization or website or "Unresolved lead"
+
+
 def _route_role(members: list[dict[str, Any]], program: str, organization: str) -> str:
     declared = {member["leadType"] for member in members}
     if not organization and not program:
@@ -288,13 +294,17 @@ def _suggestions(
                     "leftKey": pair[0],
                     "rightKey": pair[1],
                     "left": {
-                        "displayName": left["program"] or left["organization"] or left["website"],
+                        "displayName": _presentation_name(
+                            left["organization"], left["program"], left["website"]
+                        ),
                         "organization": left["organization"],
                         "program": left["program"],
                         "sources": sorted({member["sourceLabel"] for member in left["members"]}),
                     },
                     "right": {
-                        "displayName": right["program"] or right["organization"] or right["website"],
+                        "displayName": _presentation_name(
+                            right["organization"], right["program"], right["website"]
+                        ),
                         "organization": right["organization"],
                         "program": right["program"],
                         "sources": sorted({member["sourceLabel"] for member in right["members"]}),
@@ -376,7 +386,7 @@ def _merged_groups(
             {
                 "stableKey": stable_key,
                 "preliminaryKeys": preliminary_keys,
-                "displayName": program or organization or website or "Unresolved lead",
+                "displayName": _presentation_name(organization, program, website),
                 "organization": organization,
                 "program": program,
                 "website": website,
@@ -505,6 +515,18 @@ def manual_consolidation_view(
     if snapshot is None:
         return None
     preliminary = _preliminary_groups(store.manual_leads_for_consolidation(run_id))
+    preliminary_key_by_lead = {
+        member["id"]: group["stableKey"]
+        for group in preliminary
+        for member in group["members"]
+    }
+    for group in snapshot["groups"]:
+        group["preliminaryKeys"] = sorted(
+            {
+                preliminary_key_by_lead[member["id"]]
+                for member in group["members"]
+            }
+        )
     decisions = {
         (row["leftKey"], row["rightKey"]): row["decision"]
         for row in store.manual_identity_decisions(run_id)
@@ -563,7 +585,9 @@ def leave_pending_manual_identities_unresolved(
     return consolidate_manual_discovery(store, run_id, duplicate_index)
 
 
-def _candidate_from_snapshot_group(group: dict[str, Any]) -> dict[str, Any]:
+def _candidate_from_snapshot_group(
+    group: dict[str, Any], possible_relationships: list[dict[str, Any]]
+) -> dict[str, Any]:
     members = group["members"]
     locations = sorted(
         {member["locationOrServiceArea"] for member in members if member["locationOrServiceArea"]},
@@ -586,7 +610,8 @@ def _candidate_from_snapshot_group(group: dict[str, Any]) -> dict[str, Any]:
         key=lambda value: (value[0].casefold(), value[1].casefold()),
     )
     return {
-        "name": group["displayName"],
+        "name": group["program"] or group["organization"] or group["displayName"],
+        "presentationName": group["displayName"],
         "organizationName": group["organization"],
         "programName": group["program"],
         "website": group["website"],
@@ -599,6 +624,7 @@ def _candidate_from_snapshot_group(group: dict[str, Any]) -> dict[str, Any]:
             for name, check in group["checks"].items()
             if check["state"] in {"uncertain", "conflicting"}
         ],
+        "possibleRelatedSubmissions": possible_relationships,
         "manualDiscoveryChecks": group["checks"],
         "sources": [
             {
@@ -639,6 +665,7 @@ def _candidate_from_snapshot_group(group: dict[str, Any]) -> dict[str, Any]:
             ],
             "duplicateMatches": group["duplicateMatches"],
             "checks": group["checks"],
+            "possibleRelatedSubmissions": possible_relationships,
         },
     }
 
@@ -647,15 +674,54 @@ def finish_manual_discovery(store: ResearchStore, run_id: int) -> dict[str, Any]
     result = manual_consolidation_view(store, run_id)
     if result is None:
         raise ValueError("Consolidate the current responses before finishing discovery")
-    if result["funnel"]["pendingIdentityDecisions"]:
-        raise ValueError("Review each ambiguous identity before finishing discovery")
+    possible_by_key: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for suggestion in result["suggestions"]:
+        if suggestion["status"] not in {"pending", "unresolved"}:
+            continue
+        for own_key, other_key, other in (
+            (suggestion["leftKey"], suggestion["rightKey"], suggestion["right"]),
+            (suggestion["rightKey"], suggestion["leftKey"], suggestion["left"]),
+        ):
+            possible_by_key[own_key].append(
+                {
+                    "identityKeys": [other_key],
+                    "displayName": other["displayName"],
+                    "organization": other["organization"],
+                    "program": other["program"],
+                    "sources": other["sources"],
+                    "reason": suggestion["reason"],
+                    "reasons": [suggestion["reason"]],
+                    "reviewState": suggestion["status"],
+                }
+            )
     candidates = []
     for group in result["groups"]:
         if group["routedRole"] not in DIRECT_ROLES:
             continue
+        relationships_by_label: dict[str, dict[str, Any]] = {}
+        for key in group["preliminaryKeys"]:
+            for item in possible_by_key[key]:
+                relationship_key = item["displayName"]
+                existing = relationships_by_label.get(relationship_key)
+                if existing is None:
+                    relationships_by_label[relationship_key] = dict(item)
+                else:
+                    existing["identityKeys"] = sorted(
+                        set(existing["identityKeys"]) | set(item["identityKeys"])
+                    )
+                    existing["sources"] = sorted(
+                        set(existing["sources"]) | set(item["sources"]), key=str.casefold
+                    )
+                    existing["reasons"] = sorted(
+                        set(existing["reasons"]) | set(item["reasons"]), key=str.casefold
+                    )
+        possible_relationships = sorted(
+            relationships_by_label.values(),
+            key=lambda item: (item["displayName"].casefold(), item["identityKeys"]),
+        )
         candidates.append(
             {
-                "candidate": _candidate_from_snapshot_group(group),
+                "candidate": _candidate_from_snapshot_group(group, possible_relationships),
                 "match": group["duplicateMatches"][0] if group["duplicateMatches"] else None,
             }
         )

@@ -408,7 +408,7 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertIn("@media (max-width: 800px)", css)
         self.assertIn(".manual-source-list { grid-template-columns: 1fr; }", css)
 
-    def test_identity_decision_endpoint_gates_finished_candidates(self) -> None:
+    def test_pending_identity_relationships_do_not_gate_finished_candidates(self) -> None:
         run = self.request(
             "/api/manual-discovery-runs",
             "POST",
@@ -438,30 +438,25 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
             f"/api/manual-discovery-runs/{run['id']}/consolidate", "POST", {}
         )
         self.assertEqual(1, consolidated["funnel"]["pendingIdentityDecisions"])
-        with self.assertRaises(urllib.error.HTTPError) as raised:
-            self.request(f"/api/manual-discovery-runs/{run['id']}/finish", "POST", {})
-        self.assertEqual(400, raised.exception.code)
-        raised.exception.close()
-        suggestion = consolidated["suggestions"][0]
-        reviewed = self.request(
-            f"/api/manual-discovery-runs/{run['id']}/identity-decision",
-            "POST",
-            {
-                "leftKey": suggestion["leftKey"],
-                "rightKey": suggestion["rightKey"],
-                "decision": "same",
-            },
-        )
-        self.assertEqual(0, reviewed["funnel"]["pendingIdentityDecisions"])
-        self.assertEqual(1, reviewed["funnel"]["candidateIdentities"])
         finished = self.request(
             f"/api/manual-discovery-runs/{run['id']}/finish", "POST", {}
         )
-        self.assertEqual(1, finished["result"]["candidateCount"])
+        self.assertEqual(2, finished["result"]["candidateCount"])
         discoveries = self.request("/api/discoveries")["discoveries"]
-        candidate = next(item for item in discoveries if item["runId"] == run["id"])
-        self.assertEqual("Fresh Food Program", candidate["name"])
-        self.assertEqual(2, len(candidate["candidate"]["manualDiscoveryProvenance"]["members"]))
+        candidates = [item for item in discoveries if item["runId"] == run["id"]]
+        program_candidate = next(
+            item for item in candidates if item["candidate"]["programName"] == "Fresh Food Program"
+        )
+        self.assertEqual("Fresh Food Program", program_candidate["name"])
+        self.assertEqual(
+            "Example Food Network · Fresh Food Program",
+            program_candidate["candidate"]["presentationName"],
+        )
+        self.assertEqual(1, len(program_candidate["candidate"]["possibleRelatedSubmissions"]))
+        self.assertEqual(
+            "Example Food Network",
+            program_candidate["candidate"]["possibleRelatedSubmissions"][0]["displayName"],
+        )
 
     def test_bulk_unresolved_endpoint_keeps_ambiguous_candidates_separate(self) -> None:
         run = self.request(

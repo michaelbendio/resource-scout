@@ -101,7 +101,7 @@ class ManualConsolidationTests(unittest.TestCase):
             },
             result["funnel"],
         )
-        roles = {group["displayName"]: group["routedRole"] for group in result["groups"]}
+        roles = {group["program"] or group["organization"]: group["routedRole"] for group in result["groups"]}
         self.assertEqual("directory", roles["Opioid treatment locator"])
         self.assertEqual("routing-source", roles["988 Suicide & Crisis Lifeline"])
         self.assertEqual("outreach-initiative", roles["Overdose prevention outreach"])
@@ -164,7 +164,10 @@ class ManualConsolidationTests(unittest.TestCase):
         self.assertEqual(2, result["funnel"]["consolidatedIdentities"])
         self.assertEqual(1, result["funnel"]["exactDuplicateRows"])
         self.assertEqual([], result["suggestions"])
-        self.assertEqual({"Program A", "Program B"}, {group["displayName"] for group in result["groups"]})
+        self.assertEqual(
+            {"One Organization · Program A", "One Organization · Program B"},
+            {group["displayName"] for group in result["groups"]},
+        )
 
     def test_two_chat_votes_do_not_turn_a_weak_lead_into_verified_truth(self) -> None:
         run_id = self.create_run()
@@ -356,20 +359,10 @@ class ManualConsolidationTests(unittest.TestCase):
         self.assertEqual(1, result["funnel"]["possiblePackageDuplicates"])
         self.assertEqual("known-center", result["groups"][0]["duplicateMatches"][0]["resourceId"])
 
-    def test_finish_requires_identity_review_and_creates_only_direct_candidates(self) -> None:
+    def test_finish_keeps_pending_relationships_separate_and_creates_only_direct_candidates(self) -> None:
         run_id = self.create_run()
         self.save_pilot(run_id)
         result = consolidate_manual_discovery(self.store, run_id)
-        with self.assertRaisesRegex(ValueError, "ambiguous identity"):
-            finish_manual_discovery(self.store, run_id)
-        for suggestion in result["suggestions"]:
-            result = record_manual_identity_decision(
-                self.store,
-                run_id,
-                suggestion["leftKey"],
-                suggestion["rightKey"],
-                "unresolved",
-            )
         finished = finish_manual_discovery(self.store, run_id)
         self.assertEqual("completed", finished["status"])
         self.assertEqual(7, finished["result"]["candidateCount"])
@@ -384,6 +377,18 @@ class ManualConsolidationTests(unittest.TestCase):
         )
         self.assertTrue(
             all(discovery["candidate"]["manualDiscoveryProvenance"]["members"] for discovery in discoveries)
+        )
+        related = [
+            discovery for discovery in discoveries
+            if discovery["candidate"]["possibleRelatedSubmissions"]
+        ]
+        self.assertTrue(related)
+        self.assertTrue(
+            all(
+                relationship["reviewState"] == "pending"
+                for discovery in related
+                for relationship in discovery["candidate"]["possibleRelatedSubmissions"]
+            )
         )
         ids = [discovery["id"] for discovery in discoveries]
         with self.assertRaisesRegex(ValueError, "already closed"):

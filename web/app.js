@@ -921,7 +921,7 @@ function renderManualConsolidation() {
     const title = document.createElement('h4');
     title.textContent = `Identity review · ${pendingSuggestions.length} pending`;
     const copy = document.createElement('p');
-    copy.textContent = 'Decide only whether each pair is the same service identity. This is not a quality or acceptance decision, and no written reason is required.';
+    copy.textContent = 'Optional: merge a pair only when the submitted identity is clear. Unreviewed pairs stay separate and travel to Curator as possible-related context.';
     heading.append(title, copy);
     if (pendingSuggestions.length > 1) {
       const leaveAll = document.createElement('button');
@@ -1074,9 +1074,7 @@ function renderManualDiscoveryWorkspace() {
   consolidate.textContent = state.manualConsolidation ? 'Re-consolidate leads' : 'Consolidate leads';
   const finish = document.querySelector('#finish-manual-discovery');
   finish.hidden = locked;
-  finish.disabled = !state.manualConsolidation
-    || Boolean(progress.errorContributionCount)
-    || Boolean(state.manualConsolidation?.funnel.pendingIdentityDecisions);
+  finish.disabled = !state.manualConsolidation || Boolean(progress.errorContributionCount);
 }
 
 async function openManualDiscoveryRun(runId) {
@@ -1160,7 +1158,7 @@ function renderCandidates() {
     const head = document.createElement('div');
     head.className = 'candidate-head';
     const name = document.createElement('strong');
-    name.textContent = discovery.name;
+    name.textContent = discovery.candidate?.presentationName || discovery.name;
     const status = document.createElement('span');
     status.className = 'candidate-status';
     status.textContent = 'Candidate';
@@ -1315,7 +1313,7 @@ function renderCandidateProfile(discovery) {
 
 function openCandidate(discovery) {
   state.currentCandidate = discovery;
-  document.querySelector('#candidate-dialog-name').textContent = discovery.name;
+  document.querySelector('#candidate-dialog-name').textContent = discovery.candidate?.presentationName || discovery.name;
   const status = document.querySelector('#candidate-dialog-status');
   status.className = 'candidate-status';
   status.textContent = 'Research candidate';
@@ -1486,7 +1484,7 @@ document.querySelector('#consolidate-manual-discovery').addEventListener('click'
     });
     renderManualDiscoveryWorkspace();
     message.textContent = state.manualConsolidation.funnel.pendingIdentityDecisions
-      ? `Consolidation ready. Review ${state.manualConsolidation.funnel.pendingIdentityDecisions} ambiguous identity pair${state.manualConsolidation.funnel.pendingIdentityDecisions === 1 ? '' : 's'}.`
+      ? `Consolidation ready. ${state.manualConsolidation.funnel.pendingIdentityDecisions} possible relationship${state.manualConsolidation.funnel.pendingIdentityDecisions === 1 ? '' : 's'} will remain separate and travel to Curator unless you optionally review them.`
       : 'Consolidation ready. No ambiguous identity pairs remain.';
   } catch (error) {
     message.textContent = error.message;
@@ -1496,7 +1494,12 @@ document.querySelector('#consolidate-manual-discovery').addEventListener('click'
 
 document.querySelector('#finish-manual-discovery').addEventListener('click', async event => {
   const run = state.activeManualRun;
-  if (!run || !window.confirm('Finish discovery and lock these source responses?')) return;
+  if (!run) return;
+  const pending = state.manualConsolidation?.funnel.pendingIdentityDecisions || 0;
+  const relationshipNote = pending
+    ? ` ${pending} unreviewed possible relationship${pending === 1 ? '' : 's'} will remain separate and be included in Curator.`
+    : '';
+  if (!window.confirm(`Finish discovery and lock these source responses?${relationshipNote}`)) return;
   event.currentTarget.disabled = true;
   const message = document.querySelector('#manual-discovery-message');
   message.textContent = 'Finishing the immutable response snapshot…';

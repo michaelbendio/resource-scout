@@ -617,6 +617,11 @@
       head.append(element('strong', '', item.name), status);
       const description = asText(item.candidate?.serviceNeed || item.candidate?.housingNeed || item.candidate?.description || item.candidate?.resourceType || 'Pending');
       button.append(head, element('p', 'candidate-description', description));
+      const possibleRelationships = item.candidate?.possibleRelatedSubmissions || [];
+      if (possibleRelationships.length) button.append(element(
+        'p', 'signal-summary',
+        `${possibleRelationships.length} possible related submission${possibleRelationships.length === 1 ? '' : 's'} to consider during normal curation`,
+      ));
       if (item.knownResourceMatch) button.append(element('p', 'signal-summary', candidateState(item).matchAssessment
         ? `${MATCH_LABELS[candidateState(item).matchAssessment]}: ${item.knownResourceMatch.name}`
         : `Possible relationship: ${item.knownResourceMatch.name}`));
@@ -671,6 +676,27 @@
     if (checkGrid.children.length) checkSection.append(checkGrid);
     else checkSection.append(element('p', 'muted', 'No lightweight check record is available.'));
     target.append(checkSection);
+
+    const relationships = Array.isArray(candidate.possibleRelatedSubmissions)
+      ? candidate.possibleRelatedSubmissions : [];
+    if (relationships.length) {
+      const relationshipSection = element('section', 'candidate-section');
+      relationshipSection.append(
+        element('h3', '', 'Possible related submissions'),
+        element('p', 'muted', 'Scout kept these submissions separate. Resolve a relationship only if ordinary curation supplies enough evidence.'),
+      );
+      relationships.forEach(relationship => {
+        const row = element('div', 'manual-source-row');
+        row.append(
+          element('strong', '', asText(relationship.displayName) || 'Unnamed related submission'),
+          element('small', '', `Submitted by: ${(relationship.sources || []).map(asText).filter(Boolean).join(', ') || 'source not recorded'}`),
+        );
+        (relationship.reasons || [relationship.reason]).map(asText).filter(Boolean)
+          .forEach(reason => row.append(element('small', '', reason)));
+        relationshipSection.append(row);
+      });
+      target.append(relationshipSection);
+    }
 
     const sourceSection = element('section', 'candidate-section');
     sourceSection.append(
@@ -1255,7 +1281,7 @@
     window.addEventListener('beforeunload', event => { if (view.dirty && !view.persisted) { event.preventDefault(); event.returnValue = ''; } });
     setupWorkspaceWindows(); renderSourceOnlyRecords(); renderCandidates(); updateActions();
     const packageText = packageInfo ? `${packageInfo.sourceName}; schema ${packageInfo.schemaVersion}; package ${packageInfo.packageVersion}` : `Standalone location research; ${review.run.targetLocation || 'location not recorded'}`;
-    document.querySelector('#footer').textContent = `Resource Curator v0.31.5 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
+    document.querySelector('#footer').textContent = `Resource Curator v0.31.6 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
   }
 
   initialize();
