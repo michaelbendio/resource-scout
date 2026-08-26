@@ -25,6 +25,9 @@ write to production Scout or production Qwen.
 Application `0.30.6` makes the Trace Console recursively pretty-print embedded
 JSON strings, including streamed Qwen events and tool-call argument payloads,
 without altering the downloaded raw trace.
+Application `0.30.7` renders escaped newlines, carriage returns, and tabs as
+real whitespace in the default readable payload view, while an Exact JSON toggle
+preserves access to the strictly escaped representation.
 Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
 Step 3 completed under the revised scope: the category-neutral candidate qualification gate and

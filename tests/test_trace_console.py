@@ -95,6 +95,8 @@ class TraceHubTests(unittest.TestCase):
         for phrase in ("OK — next message", "Skip N", "Run to…", "Trace this flow", "Continue without pausing"):
             self.assertIn(phrase, TRACE_HTML)
         self.assertIn("function prettyJSON", TRACE_HTML)
+        self.assertIn("function readableJSON", TRACE_HTML)
+        self.assertIn("View exact JSON", TRACE_HTML)
         self.assertIn("server-sent events", TRACE_HTML)
         self.assertNotIn("https://", TRACE_HTML)
 
@@ -115,6 +117,18 @@ class TraceHubTests(unittest.TestCase):
         self.assertEqual("server-sent events", rendered["body"]["format"])
         self.assertEqual("hello", rendered["body"]["events"][0]["choices"][0]["delta"]["content"])
         self.assertEqual("[DONE]", rendered["body"]["events"][1])
+        readable = subprocess.run(
+            [
+                "node",
+                "-e",
+                f'{functions}\nprocess.stdout.write(readableJSON({{text:"first\\n  second"}}));',
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout
+        self.assertIn('"text": "first\n  second"', readable)
+        self.assertNotIn(r"first\n  second", readable)
 
 
 class FakeQwenHandler(BaseHTTPRequestHandler):
