@@ -240,6 +240,7 @@ function showAgent(agent) {
   document.querySelector('#hermes-provider').value = settings.hermesProvider || settings.provider || '';
   document.querySelector('#hermes-model').value = settings.hermesModel || settings.model || '';
   document.querySelector('#hermes-command').value = settings.hermesCommand || settings.command || '';
+  document.querySelector('#dsh-configuration option[value="human"]').hidden = settings.dshConfiguration !== 'human';
   document.querySelector('#dsh-configuration').value = settings.dshConfiguration || 'local-qwen';
   document.querySelector('#dsh-model').value = settings.dshModel || '';
   document.querySelector('#dsh-command').value = settings.dshCommand || '';

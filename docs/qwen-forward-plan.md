@@ -150,7 +150,7 @@ into a later phone-vetted package.
 
 At this checkpoint the selected 8-bit configuration was an optimization input,
 not a production selection. Michael later authorized production cutover on
-2026-08-24; application 0.30.3 carries that decision into the normal service.
+2026-08-24; application 0.30.4 carries that decision into the normal service.
 
 ## Seven approved steps
 
@@ -661,7 +661,7 @@ the remaining categories. The next implementation stage must close alias-aware
 cross-stage deduplication and produce one combined category-level Curator handoff;
 then complete the intended category playbook audits and run one non-Housing pilot.
 This was the gate result before Michael explicitly authorized production Qwen
-cutover on 2026-08-24. Application 0.30.3 implements the separately documented
+cutover on 2026-08-24. Application 0.30.4 implements the separately documented
 Phase 2 service cutover; it does not authorize the remaining 19 benchmark
 categories.
 

@@ -3,7 +3,7 @@
 Status: Phase 1 and the redesigned seven-step calibration are complete. The
 expanded four-stage Housing result selected 8-bit Qwen, and Michael explicitly
 authorized Phase 2 production cutover on 2026-08-24 after reviewing the preserved
-4-bit failures. Application 0.30.3 implements the locked 8-bit production route;
+4-bit failures. Application 0.30.4 implements the locked 8-bit production route;
 live service burn-in and verification are the remaining cutover work.
 
 ## Objective
@@ -236,7 +236,7 @@ Recorded outcome: the initial one-stage calibration passed operationally, but th
 
 Phase 2 operationalizes the proven Phase 1 configuration. It is not another model experiment.
 
-Status: steps 1 through 3 are implemented in application 0.30.3. Step 4 live
+Status: steps 1 through 3 are implemented in application 0.30.4. Step 4 live
 burn-in and step 5 final verification are in progress.
 
 ### Step 1: lock the approved stack

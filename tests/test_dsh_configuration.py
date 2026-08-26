@@ -5,6 +5,7 @@ from dataclasses import replace
 
 from resource_research_agent.dsh_configuration import (
     DEEPSEEK_CONFIGURATION,
+    HUMAN_CONFIGURATION,
     LOCAL_QWEN_CONFIGURATION,
     local_model_catalog_error,
     resolve_dsh_configuration,
@@ -51,7 +52,7 @@ class DSHConfigurationTests(unittest.TestCase):
 
         violations = zero_metered_services_violations(unsafe)
         self.assertIn("model endpoint is not loopback HTTP", violations)
-        self.assertIn("model provider is not qwen-local", violations)
+        self.assertIn("model provider is not an approved local provider", violations)
         self.assertIn("search provider is not DDGS", violations)
         self.assertIn("a model fallback is configured", violations)
         self.assertIn("a search fallback is configured", violations)
@@ -74,6 +75,18 @@ class DSHConfigurationTests(unittest.TestCase):
         self.assertEqual("deepseek-official", configuration.model_provider)
         self.assertEqual("deepseek-official", configuration.search_provider)
         self.assertFalse(configuration.uses_only_unmetered_services)
+
+    def test_human_configuration_is_loopback_only_and_unmetered(self) -> None:
+        configuration = resolve_dsh_configuration(HUMAN_CONFIGURATION)
+
+        self.assertEqual("human-local", configuration.model_provider)
+        self.assertEqual("resource-scout-human", configuration.model)
+        self.assertEqual("http://127.0.0.1:8082/v1", configuration.model_endpoint)
+        self.assertEqual("ddgs", configuration.search_provider)
+        self.assertEqual("safe-http", configuration.fetch_provider)
+        self.assertFalse(configuration.metered)
+        self.assertTrue(configuration.uses_only_unmetered_services)
+        self.assertEqual([], zero_metered_services_violations(configuration))
 
     def test_unknown_configuration_is_rejected(self) -> None:
         with self.assertRaisesRegex(ValueError, "Unknown DSH configuration"):

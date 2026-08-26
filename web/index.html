@@ -12,7 +12,7 @@
       <h1>Resource Scout</h1>
       <p class="lede">Import what is already known. Use it to research more deeply. Keep discoveries separate for Curator and human vetting.</p>
     </div>
-    <span class="header-version" id="app-version">v0.30.3</span>
+    <span class="header-version" id="app-version">v0.30.4</span>
   </header>
 
   <main>
@@ -128,7 +128,7 @@
             <label data-adapter-only="hermes">Hermes model override <input id="hermes-model" placeholder="Use Hermes default"></label>
             <label data-adapter-only="hermes">Hermes command override <input id="hermes-command" placeholder="Find Hermes automatically"></label>
             <label data-adapter-only="dsh">DSH configuration
-              <select id="dsh-configuration"><option value="local-qwen">Local Qwen — no metered services</option><option value="deepseek">DeepSeek — metered</option></select>
+              <select id="dsh-configuration"><option value="local-qwen">Local Qwen — no metered services</option><option value="human" hidden>Human Model — temporary, no metered services</option><option value="deepseek">DeepSeek — metered</option></select>
             </label>
             <label data-adapter-only="dsh" data-dsh-configuration-only="deepseek">DeepSeek model override <input id="dsh-model" placeholder="deepseek-v4-flash"></label>
             <label data-adapter-only="dsh">DSH command override <input id="dsh-command" placeholder="Use the pinned DSH runtime"></label>

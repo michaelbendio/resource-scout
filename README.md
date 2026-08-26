@@ -196,6 +196,36 @@ to begin unless Recent runs is empty. Use `--dry-run` to inspect the plan withou
 creating a run or state file. Miscellaneous can be added only with the explicit
 `--include-miscellaneous` option.
 
+### Temporary Human Scout
+
+To see the model side of Scout's workflow directly, start the isolated Human
+Scout experiment:
+
+```sh
+./human-scout.sh
+```
+
+Keep that Terminal window open, then open the two addresses it prints:
+
+1. `http://127.0.0.1:8082` — Human Model, where Scout's requests appear and wait
+   for your response.
+2. `http://127.0.0.1:8766` — a temporary Resource Scout that uses you instead of
+   Qwen.
+
+Start one category or standalone-location stage in the temporary Scout. Human
+Model shows the complete conversation and the tools DSH offered. You can either
+send the exact answer Scout requested or choose an offered search/fetch tool and
+provide its inputs; DSH executes the same bounded DDGS and safe-fetch tools used
+by Qwen, then returns the result to Human Model for your next decision.
+
+The experiment is loopback-only, uses no metered model or fallback, and writes to
+`data/human-scout.sqlite3`, not the production research database. Its first start
+creates a clean disposable snapshot containing the current resource package but
+no production runs, candidates, or lessons. Later starts resume that temporary
+database. Use `./human-scout.sh --fresh` when you intentionally want to replace
+it with another clean production snapshot. Control-C in its Terminal stops both
+temporary apps; production Scout and Qwen are unaffected.
+
 Before Mesa calibration, freeze the historical comparison into an ignored, separate benchmark directory:
 
 ```sh

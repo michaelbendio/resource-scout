@@ -11,10 +11,15 @@ stale/dead-code audit are finished. Corrected runs 45–47 retained all 18
 candidates with 13 passed, 5 needs review, and 0 failed. The decision retains
 8-bit Qwen and stops model optimization without authorizing the remaining 19
 categories. After reviewing the preserved 4-bit failures, Michael explicitly
-authorized production Qwen cutover on 2026-08-24. Application `0.30.3` locks the
+authorized production Qwen cutover on 2026-08-24. Application `0.30.4` locks the
 normal production route to local 8-bit Qwen, adds an independently supervised and
 self-validating model service, and removes the production DeepSeek credential
 dependency. Live burn-in and final deployment verification remain in progress.
+Application `0.30.4` also adds an isolated, temporary Human Scout learning aid.
+It replaces only the OpenAI-compatible model turn with a local browser inbox so
+Michael can inspect the exact conversation and choose a final answer or one of
+DSH's offered bounded tools. It uses a disposable database and ports 8766/8082;
+it does not redirect, stop, or write to production Scout or production Qwen.
 Michael approved the revised candidate gates, verifier
 contract, discovery expansion, Curator validation, and seven-step forward plan.
 Step 3 completed under the revised scope: the category-neutral candidate qualification gate and
@@ -494,7 +499,7 @@ actionability gates in
 - Repository: `/Users/michaelbendio/resource-scout`
 - Branch: `main`
 - Latest pre-plan documentation commit: `e7c6a477a0aa3084209999e7764ad44fbcb79689`
-- Source application version for the cutover: `0.30.3`
+- Source application version for the cutover: `0.30.4`
 - Increment the application version before pushing any functional or user-visible
   change. Pure internal refactors and documentation-only corrections do not require
   a version increment.

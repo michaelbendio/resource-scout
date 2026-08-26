@@ -14,9 +14,11 @@ from typing import Any
 
 from .dsh_configuration import (
     DEEPSEEK_CONFIGURATION,
+    HUMAN_CONFIGURATION,
     LOCAL_QWEN_CONFIGURATION,
     resolve_dsh_configuration,
 )
+from .human_model import HumanModelError, catalog_health as human_catalog_health
 from .local_qwen import LocalQwenError, validated_health
 
 
@@ -396,7 +398,9 @@ class DSHCLIAdapter(ResearchAgentAdapter):
                 "configured": False, "ready": False, "version": "", "command": "",
                 "message": str(exc), "experimental": True,
             }
-        is_local = configuration.key == LOCAL_QWEN_CONFIGURATION
+        is_qwen = configuration.key == LOCAL_QWEN_CONFIGURATION
+        is_human = configuration.key == HUMAN_CONFIGURATION
+        is_local = is_qwen or is_human
         configured = is_local or bool(os.environ.get("DEEPSEEK_API_KEY", "").strip())
         model = configuration.model
         if not is_local:
@@ -423,10 +427,15 @@ class DSHCLIAdapter(ResearchAgentAdapter):
         except (OSError, subprocess.TimeoutExpired) as exc:
             error = str(exc)
         local_error = ""
-        if is_local and not error:
+        if is_qwen and not error:
             try:
                 validated_health(timeout=2.0)
             except LocalQwenError as exc:
+                local_error = str(exc)
+        elif is_human and not error:
+            try:
+                human_catalog_health(timeout=2.0)
+            except HumanModelError as exc:
                 local_error = str(exc)
         ready = not error and not local_error and configured
         if error:
@@ -435,8 +444,10 @@ class DSHCLIAdapter(ResearchAgentAdapter):
             message = local_error
         elif not configured:
             message = "DSH is installed. Start this app with DEEPSEEK_API_KEY available."
-        elif is_local:
+        elif is_qwen:
             message = "DSH, Local Qwen, DDGS search, and safe page retrieval are ready with no metered services."
+        elif is_human:
+            message = "DSH, Human Model, DDGS search, and safe page retrieval are ready with no metered services."
         else:
             message = "DSH is installed and the DeepSeek API key is available."
         return {
@@ -444,7 +455,11 @@ class DSHCLIAdapter(ResearchAgentAdapter):
             "configured": configured, "ready": ready, "version": version,
             "command": " ".join(shlex.quote(part) for part in command),
             "message": message,
-            "setupCommand": "./local-qwen.sh serve" if is_local else "./run-dsh.sh",
+            "setupCommand": (
+                "./local-qwen.sh serve"
+                if is_qwen
+                else "./human-scout.sh" if is_human else "./run-dsh.sh"
+            ),
             "experimental": True,
             **configuration.as_status(),
             "model": model,
@@ -455,13 +470,20 @@ class DSHCLIAdapter(ResearchAgentAdapter):
         if not command:
             raise AgentRunError("DSH is not installed or its command cannot be found")
         configuration = self._configuration()
-        is_local = configuration.key == LOCAL_QWEN_CONFIGURATION
+        is_qwen = configuration.key == LOCAL_QWEN_CONFIGURATION
+        is_human = configuration.key == HUMAN_CONFIGURATION
+        is_local = is_qwen or is_human
         if not is_local and not os.environ.get("DEEPSEEK_API_KEY", "").strip():
             raise AgentRunError("DEEPSEEK_API_KEY must be available when the app starts")
-        if is_local:
+        if is_qwen:
             try:
                 validated_health(timeout=2.0)
             except LocalQwenError as exc:
+                raise AgentRunError(str(exc)) from exc
+        elif is_human:
+            try:
+                human_catalog_health(timeout=2.0)
+            except HumanModelError as exc:
                 raise AgentRunError(str(exc)) from exc
         timeout = max(30, min(int(self.settings.get("timeoutSeconds", 900)), 7200))
         model = configuration.model
@@ -472,9 +494,13 @@ class DSHCLIAdapter(ResearchAgentAdapter):
         base_patch = PROJECT_ROOT / "dsh-research.patch.yml"
         if not base_patch.is_file():
             raise AgentRunError(f"DSH research configuration is missing: {base_patch}")
-        route_patch = PROJECT_ROOT / "dsh-local-qwen.patch.yml" if is_local else None
+        route_patch = (
+            PROJECT_ROOT / "dsh-local-qwen.patch.yml"
+            if is_qwen
+            else PROJECT_ROOT / "dsh-human.patch.yml" if is_human else None
+        )
         if route_patch is not None and not route_patch.is_file():
-            raise AgentRunError(f"Local Qwen DSH configuration is missing: {route_patch}")
+            raise AgentRunError(f"Local DSH configuration is missing: {route_patch}")
         dsh_home = Path(
             os.environ.get(
                 "RESOURCE_RESEARCH_DSH_HOME",
@@ -510,6 +536,7 @@ class DSHCLIAdapter(ResearchAgentAdapter):
                 # DSH's OpenAI-compatible transport requires a token-shaped
                 # value. MLX is loopback-only and does not authenticate it.
                 environment["RESOURCE_SCOUT_LOCAL_QWEN_TOKEN"] = "local-loopback"
+                environment["RESOURCE_SCOUT_HUMAN_TOKEN"] = "local-loopback"
                 environment["RESOURCE_SCOUT_DDGS_PYTHON"] = str(
                     PROJECT_ROOT / "dsh-runtime" / ".venv-ddgs" / "bin" / "python"
                 )
@@ -537,7 +564,7 @@ class DSHCLIAdapter(ResearchAgentAdapter):
                 "configuration": configuration.key,
                 "provider": configuration.model_provider,
                 "model": model,
-                "runtime": "mlx-lm" if is_local else "deepseek-api",
+                "runtime": "human" if is_human else "mlx-lm" if is_qwen else "deepseek-api",
                 "quantization": configuration.quantization,
                 "endpoint": configuration.model_endpoint,
                 "searchProvider": configuration.search_provider,

@@ -1,0 +1,67 @@
+# Temporary Human Model route. DSH still owns the bounded DDGS search and safe
+# page-fetch tools; only the model decision at each turn is supplied by a person.
+
+- id: llm-pi-ai
+  config:
+    providers:
+      human-local:
+        displayName: Human Model
+        apiKeyEnv: RESOURCE_SCOUT_HUMAN_TOKEN
+        api: openai-completions
+        baseURL: http://127.0.0.1:8082/v1
+        reasoning: off
+        compat:
+          supportsUsageInStreaming: true
+        timeoutMs: 7200000
+        streamIdleTimeoutMs: 7200000
+        models:
+          - id: resource-scout-human
+            name: Resource Scout Human
+            contextWindow: 65536
+            maxTokens: 32768
+            input:
+              - text
+
+- id: agent-default-model
+  config:
+    provider: human-local
+    model: resource-scout-human
+
+- id: system-prompt
+  config:
+    persona: >-
+      You are the human social-service resource researcher temporarily standing in
+      for Qwen. Inspect Scout's exact request and evidence, use only the offered
+      bounded web tools when more evidence is needed, preserve source URLs, and
+      return exactly the structured result the assignment asks for. Unknown is
+      preferable to inference. Do not transfer facts between separate programs.
+
+- id: web
+  config:
+    searchProvider: ddgs
+    fetchProvider: safe-http
+
+- insert:
+    - id: web-search-ddgs
+      name: '@resource-scout/dsh-web-search-ddgs'
+      config:
+        maxCalls: 2
+    - id: web-fetch-safe
+      name: '@resource-scout/dsh-web-fetch-safe'
+      config:
+        timeoutMs: 30000
+        maxBytes: 200000
+        maxRedirects: 5
+        maxCalls: 5
+
+- id: web-search-deepseek
+  disabled: true
+- id: tool-web
+  disabled: false
+  config:
+    search: true
+    fetch: true
+    searchMaxResults: 6
+    searchTimeoutMs: 60000
+    fetchTimeoutMs: 30000
+    fetchMaxOutputChars: 30000
