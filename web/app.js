@@ -2,6 +2,7 @@ const state = {
   runs: [], discoveries: [], lessons: [], agent: null, latestImport: null,
   currentCandidate: null, pollTimer: null, researchMode: 'package',
   researchMethod: 'manual', activeManualRun: null, manualContributions: [], manualConsolidation: null,
+  manualIdentityDecisionPending: false,
   manualAssignmentRequest: 0, customManualSources: 0,
   candidateRunId: null, candidateRunSelectionInitialized: false,
   assignmentDrafts: { package: '', 'standalone-location': '' }, standaloneAutoAssignment: '',
@@ -927,18 +928,25 @@ function renderManualConsolidation() {
       leaveAll.type = 'button';
       leaveAll.className = 'secondary';
       leaveAll.textContent = `Leave all ${pendingSuggestions.length} pending pairs unresolved`;
-      leaveAll.disabled = state.activeManualRun.status !== 'running';
+      leaveAll.disabled = state.activeManualRun.status !== 'running' || state.manualIdentityDecisionPending;
       leaveAll.addEventListener('click', async () => {
+        if (state.manualIdentityDecisionPending) return;
         if (!window.confirm('Keep every pending pair separate and mark the identity relationship unresolved? You can still revise individual decisions before finishing discovery.')) return;
-        leaveAll.disabled = true;
+        state.manualIdentityDecisionPending = true;
+        suggestionsTarget.querySelectorAll('button').forEach(item => { item.disabled = true; });
+        leaveAll.textContent = 'Saving unresolved choices…';
+        document.querySelector('#manual-discovery-message').textContent = 'Saving unresolved identity choices…';
         try {
           state.manualConsolidation = await request(`/api/manual-discovery-runs/${state.activeManualRun.id}/leave-pending-unresolved`, {
             method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
           });
+          state.manualIdentityDecisionPending = false;
           renderManualDiscoveryWorkspace();
+          document.querySelector('#manual-discovery-message').textContent = 'All remaining identity pairs were saved as unresolved.';
         } catch (error) {
+          state.manualIdentityDecisionPending = false;
           document.querySelector('#manual-discovery-message').textContent = error.message;
-          leaveAll.disabled = false;
+          renderManualDiscoveryWorkspace();
         }
       });
       heading.append(leaveAll);
@@ -967,9 +975,20 @@ function renderManualConsolidation() {
         button.className = 'secondary';
         button.textContent = label;
         button.setAttribute('aria-pressed', String(suggestion.status === decision));
-        button.disabled = state.activeManualRun.status !== 'running';
+        button.disabled = state.activeManualRun.status !== 'running' || state.manualIdentityDecisionPending;
         button.addEventListener('click', async () => {
-          actions.querySelectorAll('button').forEach(item => { item.disabled = true; });
+          if (state.manualIdentityDecisionPending) return;
+          state.manualIdentityDecisionPending = true;
+          suggestionsTarget.querySelectorAll('button').forEach(item => { item.disabled = true; });
+          actions.querySelectorAll('button').forEach(item => {
+            item.setAttribute('aria-pressed', String(item === button));
+          });
+          const saving = document.createElement('span');
+          saving.className = 'manual-choice-status';
+          saving.setAttribute('role', 'status');
+          saving.textContent = `Saving “${label}”…`;
+          actions.append(saving);
+          document.querySelector('#manual-discovery-message').textContent = 'Saving identity choice…';
           try {
             state.manualConsolidation = await request(`/api/manual-discovery-runs/${state.activeManualRun.id}/identity-decision`, {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -979,10 +998,14 @@ function renderManualConsolidation() {
                 decision,
               }),
             });
+            state.manualIdentityDecisionPending = false;
             renderManualDiscoveryWorkspace();
+            const remaining = state.manualConsolidation.funnel.pendingIdentityDecisions;
+            document.querySelector('#manual-discovery-message').textContent = `Choice saved. ${remaining} identity pair${remaining === 1 ? '' : 's'} remain.`;
           } catch (error) {
+            state.manualIdentityDecisionPending = false;
             document.querySelector('#manual-discovery-message').textContent = error.message;
-            actions.querySelectorAll('button').forEach(item => { item.disabled = false; });
+            renderManualDiscoveryWorkspace();
           }
         });
         actions.append(button);

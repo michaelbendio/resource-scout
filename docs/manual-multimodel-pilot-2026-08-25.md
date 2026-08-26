@@ -1,7 +1,7 @@
 # Manual multi-model discovery pilot
 
 Status: in progress. The real Addiction contribution set has been replayed through
-the version 0.31.2 manual-discovery endpoints in an isolated branch database. The
+the manual-discovery endpoints in an isolated branch database. The
 Food run is prepared but has no responses. Michael has not yet approved the
 practical workload or candidate presentation, so this is not a production-cutover
 record.
@@ -68,6 +68,29 @@ therefore adds an atomic **Leave all pending pairs unresolved** action. It keeps
 the identities separate, records rather than hides uncertainty, and leaves every
 decision individually editable before finish. It never treats source agreement
 as verification or performs a bulk merge.
+
+The first full human review also exposed two interaction defects. A clicked
+choice did not visibly change until its server response returned, so additional
+clicks could overlap. Saving the unchanged response cards then invalidated the
+consolidation and deleted the recorded choices. The raw contributions remained
+intact. Twenty-three committed choices were recovered from the pilot database
+(16 same, five separate, and two unresolved); the 49 relationships whose requests
+had been rejected were conservatively recorded as unresolved so Michael does not
+have to repeat the review. Version 0.31.5 gives immediate saving feedback, permits
+only one identity request at a time, and makes an exact unchanged response save a
+no-op that preserves the consolidation and its decisions. The repaired pilot has
+no pending identity decisions, but Michael still controls the separate Finish
+discovery action.
+
+Michael also reported that the submitted lead cards did not give him enough
+evidence to make dependable organization/program identity judgments; many of his
+choices were necessarily loose. Those judgments are pilot feedback, not verified
+deduplication ground truth. The production workflow should collapse only exact or
+deterministically identical submissions before curation. Ambiguous relationships
+should remain separate, travel into Curator as possible-duplicate or related-
+program context, and be resolved only when a Resource Specialist's ordinary
+investigation supplies enough evidence. Exhaustive identity adjudication before
+Curator is therefore not an acceptable production workload.
 
 ## Preserved DeepSeek comparison boundary
 

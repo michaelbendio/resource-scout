@@ -216,6 +216,7 @@ dialog::backdrop { background: rgba(10, 27, 21, .65); }
 .manual-identity-actions { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .65rem; }
 .manual-identity-actions button { padding: .42rem .6rem; font-size: .76rem; }
 .manual-identity-actions button[aria-pressed="true"] { border-color: #286b52; color: white; background: #286b52; }
+.manual-choice-status { align-self: center; color: var(--forest); font-size: .78rem; font-weight: 800; }
 .manual-group-details { margin-top: 1rem; }
 .manual-group-details summary { color: var(--forest); cursor: pointer; font-weight: 800; }
 #manual-group-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; margin-top: .7rem; }

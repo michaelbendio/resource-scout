@@ -265,6 +265,26 @@ class ManualConsolidationTests(unittest.TestCase):
         self.assertIsNone(self.store.manual_consolidation_snapshot(run_id))
         self.assertEqual([], self.store.manual_identity_decisions(run_id))
 
+    def test_saving_an_unchanged_response_preserves_consolidation_and_decisions(self) -> None:
+        run_id = self.create_run()
+        first = payload(lead("Example", "Program", lead_type="program"))
+        second = payload(lead("Example"))
+        self.store.save_manual_contribution(run_id, "ChatGPT", first)
+        original = self.store.save_manual_contribution(run_id, "Claude", second)
+        result = consolidate_manual_discovery(self.store, run_id)
+        suggestion = result["suggestions"][0]
+        decided = record_manual_identity_decision(
+            self.store, run_id, suggestion["leftKey"], suggestion["rightKey"], "separate"
+        )
+        snapshot = self.store.manual_consolidation_snapshot(run_id)
+
+        unchanged = self.store.save_manual_contribution(run_id, "Claude", second)
+
+        self.assertEqual(original, unchanged)
+        self.assertEqual(snapshot, self.store.manual_consolidation_snapshot(run_id))
+        self.assertEqual(decided["funnel"], snapshot["funnel"])
+        self.assertEqual("separate", self.store.manual_identity_decisions(run_id)[0]["decision"])
+
     def test_parse_error_must_be_corrected_or_deleted_before_consolidation(self) -> None:
         run_id = self.create_run()
         self.store.save_manual_contribution(run_id, "Grok", "not json")

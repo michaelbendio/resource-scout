@@ -1710,14 +1710,23 @@ class ResearchStore:
                 raise ValueError("Contributions can only be saved to a manual discovery run")
             if run["status"] != "running":
                 raise ValueError("Contributions can only be changed while the run is open")
-            self._invalidate_manual_consolidation(connection, run_id)
             existing = connection.execute(
-                """SELECT id, source_position, created_at
+                """SELECT id, source_position, created_at, source_label, raw_sha256, filename
                    FROM manual_discovery_contributions
                    WHERE run_id = ? AND source_key = ?""",
                 (run_id, source_key),
             ).fetchone()
-            if existing:
+            unchanged = bool(
+                existing
+                and existing["source_label"] == label
+                and existing["raw_sha256"] == raw_sha256
+                and existing["filename"] == safe_filename
+            )
+            if unchanged:
+                contribution_id = int(existing["id"])
+            else:
+                self._invalidate_manual_consolidation(connection, run_id)
+            if existing and not unchanged:
                 contribution_id = int(existing["id"])
                 connection.execute(
                     """UPDATE manual_discovery_contributions
@@ -1744,7 +1753,7 @@ class ResearchStore:
                     "DELETE FROM manual_discovery_leads WHERE contribution_id = ?",
                     (contribution_id,),
                 )
-            else:
+            elif not existing:
                 position = int(
                     connection.execute(
                         """SELECT COALESCE(MAX(source_position), 0) + 1
@@ -1777,31 +1786,32 @@ class ResearchStore:
                     ),
                 )
                 contribution_id = int(cursor.lastrowid)
-            for lead in parsed["leads"]:
-                connection.execute(
-                    """INSERT INTO manual_discovery_leads (
-                           contribution_id, source_ordinal, raw_json, organization, program,
-                           website_raw, website_normalized, lead_type,
-                           location_or_service_area, why_relevant, uncertainty,
-                           normalized_organization, normalized_program, warnings_json
-                       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                    (
-                        contribution_id,
-                        lead["ordinal"],
-                        _json(lead["raw"]),
-                        lead["organization"],
-                        lead["program"],
-                        lead["websiteRaw"],
-                        lead["website"],
-                        lead["leadType"],
-                        lead["locationOrServiceArea"],
-                        lead["whyRelevant"],
-                        lead["uncertainty"],
-                        lead["normalizedOrganization"],
-                        lead["normalizedProgram"],
-                        _json(lead["warnings"]),
-                    ),
-                )
+            if not unchanged:
+                for lead in parsed["leads"]:
+                    connection.execute(
+                        """INSERT INTO manual_discovery_leads (
+                               contribution_id, source_ordinal, raw_json, organization, program,
+                               website_raw, website_normalized, lead_type,
+                               location_or_service_area, why_relevant, uncertainty,
+                               normalized_organization, normalized_program, warnings_json
+                           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                        (
+                            contribution_id,
+                            lead["ordinal"],
+                            _json(lead["raw"]),
+                            lead["organization"],
+                            lead["program"],
+                            lead["websiteRaw"],
+                            lead["website"],
+                            lead["leadType"],
+                            lead["locationOrServiceArea"],
+                            lead["whyRelevant"],
+                            lead["uncertainty"],
+                            lead["normalizedOrganization"],
+                            lead["normalizedProgram"],
+                            _json(lead["warnings"]),
+                        ),
+                    )
         contribution = self.get_manual_contribution(run_id, contribution_id)
         if contribution is None:  # pragma: no cover - guarded by the transaction above
             raise RuntimeError("Saved contribution could not be read")

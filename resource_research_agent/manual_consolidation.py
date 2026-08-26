@@ -521,7 +521,9 @@ def record_manual_identity_decision(
     decision: str,
     duplicate_index: DuplicateIndex | None = None,
 ) -> dict[str, Any]:
-    current = consolidate_manual_discovery(store, run_id, duplicate_index)
+    current = manual_consolidation_view(store, run_id)
+    if current is None:
+        raise ValueError("Consolidate the manual discovery responses before reviewing identities")
     pair = tuple(sorted((str(left_key), str(right_key))))
     if not any(
         (item["leftKey"], item["rightKey"]) == pair for item in current["suggestions"]
