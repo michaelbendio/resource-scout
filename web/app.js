@@ -914,16 +914,21 @@ function renderManualConsolidation() {
   if (!consolidation.suggestions.length) {
     suggestionsTarget.replaceChildren(emptyState('No ambiguous identity pairs need review.'));
   } else {
+    const locked = state.activeManualRun.status !== 'running';
     const pendingSuggestions = consolidation.suggestions.filter(item => item.status === 'pending');
     const reviewedSuggestions = consolidation.suggestions.filter(item => item.status !== 'pending');
     const heading = document.createElement('div');
     heading.className = 'manual-suggestion-intro';
     const title = document.createElement('h4');
-    title.textContent = `Identity review · ${pendingSuggestions.length} pending`;
+    title.textContent = locked
+      ? `Possible relationships retained · ${pendingSuggestions.length}`
+      : `Identity review · ${pendingSuggestions.length} pending`;
     const copy = document.createElement('p');
-    copy.textContent = 'Optional: merge a pair only when the submitted identity is clear. Unreviewed pairs stay separate and travel to Curator as possible-related context.';
+    copy.textContent = locked
+      ? 'Scout kept these leads separate and included the possible relationships in Curator. No further action is required here.'
+      : 'Optional: merge a pair only when the submitted identity is clear. Unreviewed pairs stay separate and travel to Curator as possible-related context.';
     heading.append(title, copy);
-    if (pendingSuggestions.length > 1) {
+    if (!locked && pendingSuggestions.length > 1) {
       const leaveAll = document.createElement('button');
       leaveAll.type = 'button';
       leaveAll.className = 'secondary';
@@ -969,14 +974,15 @@ function renderManualConsolidation() {
       reason.textContent = suggestion.reason;
       const actions = document.createElement('div');
       actions.className = 'manual-identity-actions';
-      for (const [decision, label] of [['same', 'Same identity'], ['separate', 'Keep separate'], ['unresolved', 'Leave unresolved']]) {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'secondary';
-        button.textContent = label;
-        button.setAttribute('aria-pressed', String(suggestion.status === decision));
-        button.disabled = state.activeManualRun.status !== 'running' || state.manualIdentityDecisionPending;
-        button.addEventListener('click', async () => {
+      if (!locked) {
+        for (const [decision, label] of [['same', 'Same identity'], ['separate', 'Keep separate'], ['unresolved', 'Leave unresolved']]) {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'secondary';
+          button.textContent = label;
+          button.setAttribute('aria-pressed', String(suggestion.status === decision));
+          button.disabled = state.manualIdentityDecisionPending;
+          button.addEventListener('click', async () => {
           if (state.manualIdentityDecisionPending) return;
           state.manualIdentityDecisionPending = true;
           suggestionsTarget.querySelectorAll('button').forEach(item => { item.disabled = true; });
@@ -1007,21 +1013,34 @@ function renderManualConsolidation() {
             document.querySelector('#manual-discovery-message').textContent = error.message;
             renderManualDiscoveryWorkspace();
           }
-        });
-        actions.append(button);
+          });
+          actions.append(button);
+        }
       }
-      card.append(pair, reason, actions);
+      card.append(pair, reason);
+      if (!locked) card.append(actions);
       return card;
     };
     const pendingCards = pendingSuggestions.map(renderSuggestion);
     const children = [heading];
     if (!pendingCards.length) children.push(emptyState('No identity pairs are waiting for a decision.'));
-    children.push(...pendingCards);
+    if (locked && pendingCards.length) {
+      const retained = document.createElement('details');
+      retained.className = 'manual-reviewed-identities';
+      const summary = document.createElement('summary');
+      summary.textContent = `Inspect ${pendingCards.length} possible relationship${pendingCards.length === 1 ? '' : 's'}`;
+      retained.append(summary, ...pendingCards);
+      children.push(retained);
+    } else {
+      children.push(...pendingCards);
+    }
     if (reviewedSuggestions.length) {
       const reviewed = document.createElement('details');
       reviewed.className = 'manual-reviewed-identities';
       const summary = document.createElement('summary');
-      summary.textContent = `Review or change ${reviewedSuggestions.length} recorded identity decision${reviewedSuggestions.length === 1 ? '' : 's'}`;
+      summary.textContent = locked
+        ? `Inspect ${reviewedSuggestions.length} recorded identity decision${reviewedSuggestions.length === 1 ? '' : 's'}`
+        : `Review or change ${reviewedSuggestions.length} recorded identity decision${reviewedSuggestions.length === 1 ? '' : 's'}`;
       reviewed.append(summary, ...reviewedSuggestions.map(renderSuggestion));
       children.push(reviewed);
     }
