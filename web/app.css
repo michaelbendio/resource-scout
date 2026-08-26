@@ -99,6 +99,10 @@ body.resizing-research-panes { cursor: col-resize; user-select: none; }
 .run-status.failed { color: #873d35; background: #f6e3e0; }
 .run-progress { margin-top: .2rem; color: #3f5b50; font-size: .82rem; font-weight: 750; }
 .run-actions { display: flex; flex-wrap: wrap; gap: .65rem; align-items: center; margin-top: .25rem; }
+.run-actions button, .run-actions .review-export { padding: .48rem .7rem; font-size: .8rem; }
+.run-action-status { color: #315e4c; font-size: .78rem; font-weight: 750; }
+.run-action-status:empty { display: none; }
+.run-action-status.error { color: #873d35; }
 .excluded-leads { margin-top: .75rem; padding: .65rem .75rem; border: 1px solid #dec9a9; border-radius: 9px; background: #fff9ed; }
 .excluded-leads summary { cursor: pointer; color: #704b19; font-weight: 800; }
 .excluded-leads ul { margin: .6rem 0 0; padding-left: 1.2rem; }

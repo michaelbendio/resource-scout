@@ -5,6 +5,7 @@ const state = {
   manualIdentityDecisionPending: false,
   manualAssignmentRequest: 0, customManualSources: 0,
   candidateRunId: null, candidateRunSelectionInitialized: false,
+  runActionMessages: {},
   assignmentDrafts: { package: '', 'standalone-location': '' }, standaloneAutoAssignment: '',
   categories: [], forGroups: [], activeCategoryId: 'housing', categoryAssignmentDrafts: {},
 };
@@ -471,6 +472,19 @@ function renderRuns() {
     item.append(progress);
     const actions = document.createElement('div');
     actions.className = 'run-actions';
+    const actionStatus = document.createElement('span');
+    actionStatus.className = 'run-action-status';
+    actionStatus.setAttribute('aria-live', 'polite');
+    const savedActionMessage = state.runActionMessages[run.id];
+    if (savedActionMessage) {
+      actionStatus.textContent = savedActionMessage.text;
+      actionStatus.classList.toggle('error', savedActionMessage.kind === 'error');
+    }
+    const showActionMessage = (text, kind = '') => {
+      state.runActionMessages[run.id] = { text, kind };
+      actionStatus.textContent = text;
+      actionStatus.classList.toggle('error', kind === 'error');
+    };
     const openManual = document.createElement('button');
     openManual.type = 'button';
     openManual.className = 'secondary view-manual-run';
@@ -512,26 +526,27 @@ function renderRuns() {
           const file = importFile.files?.[0];
           if (!file) return;
           importLookup.disabled = true;
-          const message = document.querySelector('#research-message');
-          message.textContent = 'Checking and applying the contact results…';
+          importLookup.textContent = 'Importing…';
+          showActionMessage(`Checking ${file.name}…`);
           try {
             const payload = JSON.parse(await file.text());
             const result = await request(`/api/research-runs/${run.id}/contact-lookup`, {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload),
             });
-            message.textContent = `Website lookup results applied: ${result.verifiedContactCount} updated, ${result.unavailableCount} closed or ended, ${result.unreachableCount} unreachable, ${result.unresolvedCount} unresolved.`;
+            showActionMessage(`${file.name} applied: ${result.verifiedContactCount} updated, ${result.unavailableCount} closed or ended, ${result.unreachableCount} unreachable, ${result.unresolvedCount} unresolved.`);
             await loadResearchData();
           } catch (error) {
-            message.textContent = error.message;
+            showActionMessage(`${file.name} was not imported: ${error.message}`, 'error');
             importLookup.disabled = false;
+            importLookup.textContent = 'Import website results';
           } finally {
             importFile.value = '';
           }
         });
         actions.append(importLookup, importFile, exportLink);
     }
-    item.append(actions);
+    item.append(actions, actionStatus);
     const excluded = renderExcludedLeads(run.id);
     if (excluded) item.append(excluded);
     return item;
