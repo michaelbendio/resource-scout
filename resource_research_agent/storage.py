@@ -107,6 +107,18 @@ CREATE TABLE IF NOT EXISTS discoveries (
     stage_id INTEGER,
     FOREIGN KEY (matched_import_id, matched_resource_id) REFERENCES imported_resources(import_id, resource_id)
 );
+CREATE TABLE IF NOT EXISTS discovery_contact_lookups (
+    discovery_id INTEGER PRIMARY KEY REFERENCES discoveries(id) ON DELETE CASCADE,
+    run_id INTEGER NOT NULL REFERENCES research_runs(id) ON DELETE CASCADE,
+    status TEXT NOT NULL CHECK (status IN ('verified-contact', 'unavailable', 'unresolved')),
+    checked_at TEXT NOT NULL,
+    website TEXT NOT NULL DEFAULT '',
+    phone TEXT NOT NULL DEFAULT '',
+    address TEXT NOT NULL DEFAULT '',
+    source_url TEXT NOT NULL DEFAULT '',
+    note TEXT NOT NULL DEFAULT '',
+    updated_at TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS agent_settings (
     key TEXT PRIMARY KEY,
     value_json TEXT NOT NULL
@@ -2710,6 +2722,165 @@ class ResearchStore:
         with self.connect() as connection:
             rows = connection.execute(query, parameters).fetchall()
         return [self._discovery_dict(row) for row in rows]
+
+    def apply_contact_lookup_results(
+        self, run_id: int, results: list[Any]
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        prepared: list[dict[str, Any]] = []
+        seen: set[int] = set()
+        allowed = {"verified-contact", "unavailable", "unresolved"}
+        for raw in results:
+            if not isinstance(raw, dict):
+                raise ValueError("Every contact lookup result must be a JSON object")
+            try:
+                discovery_id = int(raw.get("candidateId"))
+            except (TypeError, ValueError) as error:
+                raise ValueError("Every contact lookup result needs a candidateId") from error
+            if discovery_id in seen:
+                raise ValueError(f"Candidate {discovery_id} appears more than once")
+            seen.add(discovery_id)
+            status = str(raw.get("status") or "").strip()
+            if status not in allowed:
+                raise ValueError(f"Candidate {discovery_id} has an unsupported lookup status")
+            website = str(raw.get("website") or "").strip()
+            phone = str(raw.get("phone") or "").strip()
+            address = str(raw.get("address") or "").strip()
+            source_url = str(raw.get("sourceUrl") or "").strip()
+            note = str(raw.get("note") or "").strip()
+            suggested_next_steps_raw = raw.get("suggestedNextSteps") or []
+            if not isinstance(suggested_next_steps_raw, list):
+                raise ValueError(
+                    f"Candidate {discovery_id} suggestedNextSteps must be a list"
+                )
+            suggested_next_steps = [
+                str(value or "").strip()
+                for value in suggested_next_steps_raw
+                if str(value or "").strip()
+            ]
+            checked_at = str(raw.get("checkedAt") or now).strip()
+            try:
+                datetime.fromisoformat(checked_at.replace("Z", "+00:00"))
+            except ValueError as error:
+                raise ValueError(
+                    f"Candidate {discovery_id} checkedAt must be an ISO-8601 timestamp"
+                ) from error
+            if status == "verified-contact" and not (website or phone):
+                raise ValueError(
+                    f"Candidate {discovery_id} needs a website or phone for verified-contact"
+                )
+            if status in {"verified-contact", "unavailable"}:
+                if not source_url.startswith(("https://", "http://")):
+                    raise ValueError(
+                        f"Candidate {discovery_id} needs a cited source URL"
+                    )
+            if status in {"unavailable", "unresolved"} and not note:
+                raise ValueError(
+                    f"Candidate {discovery_id} needs a note explaining the lookup result"
+                )
+            if status == "unresolved" and not suggested_next_steps:
+                raise ValueError(
+                    f"Candidate {discovery_id} needs suggestedNextSteps for Curator Notes"
+                )
+            if website and not website.startswith(("https://", "http://")):
+                raise ValueError(f"Candidate {discovery_id} website must be an HTTP URL")
+            prepared.append(
+                {
+                    "discoveryId": discovery_id,
+                    "status": status,
+                    "website": website,
+                    "phone": phone,
+                    "address": address,
+                    "sourceUrl": source_url,
+                    "note": note,
+                    "suggestedNextSteps": suggested_next_steps,
+                    "checkedAt": checked_at,
+                }
+            )
+
+        counts = {key: 0 for key in allowed}
+        with self.connect() as connection:
+            run = connection.execute(
+                "SELECT status FROM research_runs WHERE id = ?", (run_id,)
+            ).fetchone()
+            if not run:
+                raise ValueError("Research run not found")
+            if run["status"] not in {"completed", "partial"}:
+                raise ValueError("Contact lookup results require a finished research run")
+            for item in prepared:
+                row = connection.execute(
+                    "SELECT * FROM discoveries WHERE id = ? AND run_id = ?",
+                    (item["discoveryId"], run_id),
+                ).fetchone()
+                if not row:
+                    raise ValueError(
+                        f"Candidate {item['discoveryId']} does not belong to research run {run_id}"
+                    )
+                candidate = json.loads(row["candidate_json"])
+                existing_website = str(candidate.get("website") or candidate.get("url") or "").strip()
+                existing_phone = str(candidate.get("phone") or "").strip()
+                if item["website"] and existing_website and item["website"] != existing_website:
+                    raise ValueError(
+                        f"Candidate {item['discoveryId']} already has a different website"
+                    )
+                if item["phone"] and existing_phone and item["phone"] != existing_phone:
+                    raise ValueError(
+                        f"Candidate {item['discoveryId']} already has a different phone"
+                    )
+                if item["status"] == "verified-contact":
+                    if item["website"]:
+                        candidate["website"] = item["website"]
+                    if item["phone"]:
+                        candidate["phone"] = item["phone"]
+                    if item["address"] and not str(candidate.get("address") or "").strip():
+                        candidate["address"] = item["address"]
+                candidate["contactLookup"] = {
+                    "status": item["status"],
+                    "checkedAt": item["checkedAt"],
+                    "sourceUrl": item["sourceUrl"],
+                    "note": item["note"],
+                    "suggestedNextSteps": item["suggestedNextSteps"],
+                }
+                restored_status = (
+                    "already-known" if row["matched_resource_id"] else "candidate"
+                )
+                discovery_status = (
+                    "unavailable" if item["status"] == "unavailable" else restored_status
+                )
+                connection.execute(
+                    """UPDATE discoveries
+                       SET updated_at = ?, status = ?, candidate_json = ?
+                       WHERE id = ?""",
+                    (now, discovery_status, _json(candidate), item["discoveryId"]),
+                )
+                connection.execute(
+                    """INSERT INTO discovery_contact_lookups (
+                           discovery_id, run_id, status, checked_at, website,
+                           phone, address, source_url, note, updated_at
+                       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                       ON CONFLICT(discovery_id) DO UPDATE SET
+                           status = excluded.status,
+                           checked_at = excluded.checked_at,
+                           website = excluded.website,
+                           phone = excluded.phone,
+                           address = excluded.address,
+                           source_url = excluded.source_url,
+                           note = excluded.note,
+                           updated_at = excluded.updated_at""",
+                    (
+                        item["discoveryId"], run_id, item["status"], item["checkedAt"],
+                        item["website"], item["phone"], item["address"],
+                        item["sourceUrl"], item["note"], now,
+                    ),
+                )
+                counts[item["status"]] += 1
+        return {
+            "runId": run_id,
+            "resultCount": len(prepared),
+            "verifiedContactCount": counts["verified-contact"],
+            "unavailableCount": counts["unavailable"],
+            "unresolvedCount": counts["unresolved"],
+        }
 
     @staticmethod
     def _discovery_dict(row: sqlite3.Row) -> dict[str, Any]:

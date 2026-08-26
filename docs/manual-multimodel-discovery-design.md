@@ -375,6 +375,24 @@ draft uses the existing category taxonomy, stable ID rules, and package builder.
 Blank fields remain blank; Scout does not insert prose such as `Unknown` into a
 phone number, address, hours, or verified field.
 
+### Contact lookup before Curator export
+
+After discovery, Scout identifies candidates that have neither a website nor a
+phone number. The run can export a structured contact-lookup request with three
+suggested searches per candidate: exact-name plus Mesa and category, exact-name
+plus Maricopa County and category, and exact-name plus Arizona official contact.
+The wider searches avoid hiding countywide, regional, or tribal organizations
+whose official pages do not use Mesa in their titles.
+
+Imported lookup results preserve the cited source, checked date, and note. A
+verified contact fills previously blank website, phone, and address fields. A
+candidate may be marked unavailable only when a cited source credibly establishes
+that the organization or program closed or ended; a failed search or broken page
+is not proof. Scout retains that unavailable lead in its audit display while
+excluding it from candidate counts and future Curator exports. An inconclusive
+lookup remains a candidate and must include concrete follow-up suggestions, which
+become unchecked items in the Curator Notes pane.
+
 ## Follow-up packets
 
 Follow-up is selective rather than a second full research run. Scout can generate

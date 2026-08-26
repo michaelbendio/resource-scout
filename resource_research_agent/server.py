@@ -14,6 +14,7 @@ from typing import Any
 from urllib.parse import parse_qs, urlsplit
 
 from . import __version__
+from .contact_lookup import apply_contact_lookup_results, build_contact_lookup_request
 from .duplicates import DuplicateIndex
 from .importer import PackageImportError, ResourcePackageImporter
 from .manual_discovery import build_manual_discovery_assignment
@@ -119,6 +120,15 @@ class ResearchHandler(BaseHTTPRequestHandler):
                         "contributions": self.server.store.list_manual_contributions(run_id),
                         "consolidation": manual_consolidation_view(self.server.store, run_id),
                     })
+            elif (run_id := self._path_id(
+                parsed.path, "/api/research-runs", "contact-lookup"
+            )) is not None:
+                lookup = build_contact_lookup_request(self.server.store, run_id)
+                self._download(
+                    lookup.content,
+                    "application/json; charset=utf-8",
+                    lookup.filename,
+                )
             elif (run_id := self._path_id(parsed.path, "/api/research-runs", "review-copy")) is not None:
                 review_copy = build_review_copy(
                     self.server.store, run_id, template_path=self.server.web_dir / "review-copy.html"
@@ -286,6 +296,14 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 )
             elif (run_id := self._path_id(parsed.path, "/api/research-runs", "resume")) is not None:
                 self._json(self.server.research.resume(run_id), HTTPStatus.ACCEPTED)
+            elif (run_id := self._path_id(
+                parsed.path, "/api/research-runs", "contact-lookup"
+            )) is not None:
+                self._json(
+                    apply_contact_lookup_results(
+                        self.server.store, run_id, self._read_json()
+                    )
+                )
             elif parsed.path == "/api/duplicate-check":
                 payload = self._read_json()
                 candidate = payload.get("candidate", payload)

@@ -462,7 +462,52 @@ function researchRunTitle(run) {
 }
 
 function candidateCountForRun(runId) {
-  return state.discoveries.filter(discovery => discovery.runId === runId).length;
+  return state.discoveries.filter(
+    discovery => discovery.runId === runId && discovery.status !== 'unavailable',
+  ).length;
+}
+
+function missingContactCandidatesForRun(runId) {
+  return state.discoveries.filter(discovery => {
+    if (discovery.runId !== runId || discovery.status === 'unavailable') return false;
+    const candidate = discovery.candidate || {};
+    return !asText(candidate.website || candidate.url) && !asText(candidate.phone);
+  });
+}
+
+function unavailableLeadsForRun(runId) {
+  return state.discoveries.filter(
+    discovery => discovery.runId === runId && discovery.status === 'unavailable',
+  );
+}
+
+function renderUnavailableLeads(runId) {
+  const unavailable = unavailableLeadsForRun(runId);
+  if (!unavailable.length) return null;
+  const details = document.createElement('details');
+  details.className = 'unavailable-leads';
+  const summary = document.createElement('summary');
+  summary.textContent = `${unavailable.length} unavailable lead${unavailable.length === 1 ? '' : 's'} retained in Scout`;
+  const list = document.createElement('ul');
+  unavailable.forEach(discovery => {
+    const item = document.createElement('li');
+    const name = document.createElement('strong');
+    name.textContent = discovery.candidate?.presentationName || discovery.name;
+    const lookup = discovery.candidate?.contactLookup || {};
+    const note = document.createElement('span');
+    note.textContent = lookup.note || 'Confirmed unavailable during contact lookup.';
+    item.append(name, note);
+    const href = safeHref(asText(lookup.sourceUrl));
+    if (href) {
+      const link = document.createElement('a');
+      link.href = href; link.target = '_blank'; link.rel = 'noopener noreferrer';
+      link.textContent = 'View source';
+      item.append(link);
+    }
+    list.append(item);
+  });
+  details.append(summary, list);
+  return details;
 }
 
 function manualRunActionLabel(run) {
@@ -663,6 +708,7 @@ function renderRuns() {
       openManual.addEventListener('click', () => openManualDiscoveryRun(run.id));
       actions.append(openManual);
       if (run.status === 'completed') {
+        const missingContacts = missingContactCandidatesForRun(run.id);
         const viewCandidates = document.createElement('button');
         viewCandidates.type = 'button';
         viewCandidates.className = 'secondary view-candidates';
@@ -674,9 +720,50 @@ function renderRuns() {
         exportLink.href = `/api/research-runs/${run.id}/review-copy`;
         exportLink.download = '';
         exportLink.textContent = 'Export Resource Curator';
-        actions.append(viewCandidates, exportLink);
+        actions.append(viewCandidates);
+        if (missingContacts.length) {
+          const lookupLink = document.createElement('a');
+          lookupLink.className = 'review-export';
+          lookupLink.href = `/api/research-runs/${run.id}/contact-lookup`;
+          lookupLink.download = '';
+          lookupLink.textContent = `Export contact lookup (${missingContacts.length})`;
+          actions.append(lookupLink);
+        }
+        const importLookup = document.createElement('button');
+        importLookup.type = 'button';
+        importLookup.className = 'secondary';
+        importLookup.textContent = 'Import contact results';
+        const importFile = document.createElement('input');
+        importFile.type = 'file';
+        importFile.accept = '.json,application/json';
+        importFile.hidden = true;
+        importLookup.addEventListener('click', () => importFile.click());
+        importFile.addEventListener('change', async () => {
+          const file = importFile.files?.[0];
+          if (!file) return;
+          importLookup.disabled = true;
+          const message = document.querySelector('#research-message');
+          message.textContent = 'Checking and applying the contact results…';
+          try {
+            const payload = JSON.parse(await file.text());
+            const result = await request(`/api/research-runs/${run.id}/contact-lookup`, {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+            });
+            message.textContent = `Contact results applied: ${result.verifiedContactCount} updated, ${result.unavailableCount} unavailable, ${result.unresolvedCount} unresolved.`;
+            await loadResearchData();
+          } catch (error) {
+            message.textContent = error.message;
+            importLookup.disabled = false;
+          } finally {
+            importFile.value = '';
+          }
+        });
+        actions.append(importLookup, importFile, exportLink);
       }
       item.append(actions);
+      const unavailable = renderUnavailableLeads(run.id);
+      if (unavailable) item.append(unavailable);
       if (run.result?.summary) item.append(renderRunFindings(run));
       return item;
     }
@@ -1157,7 +1244,8 @@ function renderCandidates() {
   const filter = document.querySelector('#candidate-run-filter');
   const all = document.createElement('option');
   all.value = '';
-  all.textContent = `All candidates (${state.discoveries.length})`;
+  const activeDiscoveries = state.discoveries.filter(discovery => discovery.status !== 'unavailable');
+  all.textContent = `All candidates (${activeDiscoveries.length})`;
   const options = state.runs.map(run => {
     const option = document.createElement('option');
     option.value = String(run.id);
@@ -1169,8 +1257,8 @@ function renderCandidates() {
 
   const selectedRun = state.runs.find(run => run.id === state.candidateRunId);
   const discoveries = selectedRun
-    ? state.discoveries.filter(discovery => discovery.runId === selectedRun.id)
-    : state.discoveries;
+    ? activeDiscoveries.filter(discovery => discovery.runId === selectedRun.id)
+    : activeDiscoveries;
   document.querySelector('#candidate-count').textContent = discoveries.length;
   document.querySelector('#candidate-inbox-title').textContent = selectedRun
     ? `Research candidates · ${researchRunTitle(selectedRun)}`
@@ -1312,6 +1400,13 @@ function renderCandidateProfile(discovery) {
     : experience);
   addCandidateSection(profile, 'Unknowns to pursue', candidate.unknowns);
   addCandidateSection(profile, 'Follow-up branches', candidate.followUpBranches);
+  if (candidate.contactLookup?.status === 'unresolved') {
+    addCandidateSection(
+      profile,
+      'Contact lookup remains unresolved',
+      [candidate.contactLookup.note, ...(candidate.contactLookup.suggestedNextSteps || [])],
+    );
+  }
 
   const evidence = Array.isArray(candidate.evidence) ? candidate.evidence : [];
   if (evidence.length) {

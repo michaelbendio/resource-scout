@@ -275,6 +275,7 @@ class ManualDiscoveryStorageTests(unittest.TestCase):
         self.assertIn("manual_discovery_identity_groups", tables)
         self.assertIn("manual_discovery_identity_members", tables)
         self.assertIn("manual_discovery_identity_decisions", tables)
+        self.assertIn("discovery_contact_lookups", tables)
 
 
 class ManualDiscoveryHTTPTests(unittest.TestCase):
@@ -424,10 +425,78 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertIn("Collect responses", javascript)
         self.assertIn("function manualRunActionLabel(run)", javascript)
         self.assertIn("openManual.textContent = manualRunActionLabel(run)", javascript)
+        self.assertIn("Export contact lookup", javascript)
+        self.assertIn("Import contact results", javascript)
+        self.assertIn("unavailable lead", javascript)
+        self.assertIn("discovery.status !== 'unavailable'", javascript)
+        self.assertIn(".unavailable-leads", css)
         self.assertIn("#manual-consolidation').scrollIntoView", javascript)
         self.assertIn("manual-reviewed-identities", css)
         self.assertIn("@media (max-width: 800px)", css)
         self.assertIn(".manual-source-list { grid-template-columns: 1fr; }", css)
+
+    def test_contact_lookup_request_and_results_round_trip_through_http(self) -> None:
+        run = self.request(
+            "/api/manual-discovery-runs",
+            "POST",
+            {
+                "researchMode": "package",
+                "sourceImportId": self.import_id,
+                "categoryId": "food",
+            },
+        )
+        raw_text = json.dumps(
+            {
+                "leads": [
+                    {
+                        "organization": "Contactless Pantry",
+                        "program": "Food boxes",
+                        "website": "",
+                        "phone": "",
+                        "address": "",
+                        "leadType": "program",
+                        "locationOrServiceArea": "Mesa, Arizona",
+                        "whyRelevant": "Offers emergency groceries.",
+                        "uncertainty": "Confirm contact information.",
+                    }
+                ]
+            }
+        )
+        self.request(
+            f"/api/manual-discovery-runs/{run['id']}/contributions",
+            "POST",
+            {"sourceLabel": "ChatGPT", "rawText": raw_text},
+        )
+        self.request(f"/api/manual-discovery-runs/{run['id']}/consolidate", "POST", {})
+        self.request(f"/api/manual-discovery-runs/{run['id']}/finish", "POST", {})
+        with urllib.request.urlopen(
+            self.base + f"/api/research-runs/{run['id']}/contact-lookup", timeout=5
+        ) as response:
+            request_document = json.loads(response.read())
+            self.assertIn("attachment", response.headers["Content-Disposition"])
+        self.assertEqual(1, len(request_document["candidates"]))
+        candidate_id = request_document["candidates"][0]["candidateId"]
+        applied = self.request(
+            f"/api/research-runs/{run['id']}/contact-lookup",
+            "POST",
+            {
+                "schemaVersion": 1,
+                "kind": "resource-scout-contact-lookup-results",
+                "runId": run["id"],
+                "results": [
+                    {
+                        "candidateId": candidate_id,
+                        "status": "verified-contact",
+                        "website": "https://contactless.example.org",
+                        "sourceUrl": "https://contactless.example.org/contact",
+                    }
+                ],
+            },
+        )
+        self.assertEqual(1, applied["verifiedContactCount"])
+        discoveries = self.request("/api/discoveries")["discoveries"]
+        saved = next(item for item in discoveries if item["id"] == candidate_id)
+        self.assertEqual("https://contactless.example.org", saved["candidate"]["website"])
 
     def test_pending_identity_relationships_do_not_gate_finished_candidates(self) -> None:
         run = self.request(

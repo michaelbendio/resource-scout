@@ -100,6 +100,21 @@ def _candidate_for_review(candidate: dict[str, Any]) -> dict[str, Any]:
     return value
 
 
+def _curator_notes(discovery: dict[str, Any]) -> str:
+    notes = str(discovery.get("notes") or "").strip()
+    lookup = discovery.get("candidate", {}).get("contactLookup")
+    if not isinstance(lookup, dict) or lookup.get("status") != "unresolved":
+        return notes
+    checklist = []
+    if note := str(lookup.get("note") or "").strip():
+        checklist.append(f"- [ ] Resolve the inconclusive contact search: {note}")
+    for step in lookup.get("suggestedNextSteps") or []:
+        if text := str(step or "").strip():
+            checklist.append(f"- [ ] {text}")
+    block = "Contact lookup follow-up\n" + "\n".join(checklist)
+    return "\n\n".join(value for value in (notes, block) if value)
+
+
 def _render_review_copy(
     data: dict[str, Any],
     *,
@@ -142,7 +157,11 @@ def build_review_copy(
     if run["status"] not in {"completed", "partial"} or not isinstance(run.get("result"), dict):
         raise ReviewCopyError("Only completed or partially completed research runs can be exported")
 
-    discoveries = list(reversed(store.list_discoveries(run_id=run_id)))
+    discoveries = [
+        discovery
+        for discovery in reversed(store.list_discoveries(run_id=run_id))
+        if discovery["status"] != "unavailable"
+    ]
     manual_snapshot = (
         store.manual_consolidation_snapshot(run_id)
         if run.get("runKind") == "manual-discovery"
@@ -223,7 +242,7 @@ def build_review_copy(
             "useForFutureResearch": False,
             "matchAssessment": discovery["matchAssessment"],
             "matchAssessedAt": discovery["matchAssessedAt"],
-            "notes": discovery["notes"],
+            "notes": _curator_notes(discovery),
             "candidate": review_candidate,
             "knownResourceMatch": _known_resource_match(index, discovery),
             "resourceDraft": resource_draft,
