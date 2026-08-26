@@ -430,7 +430,7 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertIn("summary.className = 'run-summary'", javascript)
         self.assertIn("separator.textContent = '·'", javascript)
         self.assertIn("expandedRunIds: new Set()", javascript)
-        self.assertIn("item.open = state.expandedRunIds.has(run.id)", javascript)
+        self.assertIn("item.open = run.status === 'running' || state.expandedRunIds.has(run.id)", javascript)
         self.assertIn(".run[open] > .run-summary::before", css)
         self.assertIn("Export website lookup", javascript)
         self.assertIn("Import website results", javascript)

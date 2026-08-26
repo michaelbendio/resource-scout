@@ -456,7 +456,7 @@ function renderRuns() {
   target.replaceChildren(...state.runs.map(run => {
     const item = document.createElement('details');
     item.className = 'run';
-    item.open = state.expandedRunIds.has(run.id);
+    item.open = run.status === 'running' || state.expandedRunIds.has(run.id);
     item.addEventListener('toggle', () => {
       if (item.open) state.expandedRunIds.add(run.id);
       else state.expandedRunIds.delete(run.id);
