@@ -1,3 +1,3 @@
 """Resource Scout package."""
 
-__version__ = "0.37.7"
+__version__ = "0.37.8"

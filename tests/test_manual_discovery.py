@@ -392,7 +392,7 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertNotIn('id="research-context-note"', html)
         self.assertIn('id="standalone-mode"', html)
         self.assertIn("Research a location without a package", html)
-        self.assertIn(">Start discovery</button>", html)
+        self.assertIn(">Set up discovery</button>", html)
         self.assertIn("status.playbookCategories", javascript)
         self.assertNotIn("categoryId: researchMode === 'package' ? state.activeCategoryId : 'housing'", javascript)
         self.assertIn("copy-manual-assignment", html)

@@ -33,7 +33,7 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertNotIn('id="dsh-configuration"', self.html)
         self.assertIn('id="standalone-mode"', self.html)
         self.assertIn("Research a location without a package", self.html)
-        self.assertIn(">Start discovery</button>", self.html)
+        self.assertIn(">Set up discovery</button>", self.html)
         self.assertNotIn("selectedResearchMethod", self.javascript)
         self.assertNotIn("No chat API or paid fallback is used", self.html)
         self.assertNotIn("Teaching Loop", self.html)
