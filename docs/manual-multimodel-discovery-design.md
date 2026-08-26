@@ -351,16 +351,18 @@ A finished identity becomes the smallest honest candidate draft:
   Specialist; and
 - `evidence`: submitted URLs as lead evidence, not verified factual receipts.
 
-The candidate also carries every source contribution, supplied contact detail,
-rationale, uncertainty, and parser warning in `manualDiscoveryProvenance`. Curator
-places this under a collapsed **Submitted chat details (reference only)** disclosure;
-chat row numbers and internal routing labels are not ordinary curation concepts.
-The ordinary package duplicate warning remains visible.
+The candidate retains every source contribution, supplied contact detail,
+rationale, uncertainty, and parser warning in `manualDiscoveryProvenance` for
+Scout's audit trail. These internal discovery details are not shown in Curator;
+chat row numbers and routing labels are not ordinary curation concepts. The
+ordinary package duplicate warning remains available to Scout.
 
 The Resource Curator export continues to use the existing self-contained HTML,
 Editors, Notes, Print, Ready for package, Save work, and Save package workflow.
-New Curators display plain-language discovery guidance in Candidate Research.
-They begin every candidate Pending. The Outcome list includes **Worth pursuing**
+Editors and Notes fill the workspace side by side; Curator does not display a
+separate Candidate Research pane. The discovery description continues to seed
+the Resource editor's Description field. New Curators begin every candidate
+Pending. The Outcome list includes **Worth pursuing**
 as a positive triage decision; **Ready for package** remains the later completed-
 resource state. A short Editors note points specialists to Resource for phone,
 address, website, hours, description, and Information, and to For for population
@@ -505,7 +507,7 @@ Deliverables:
 
 - identity/geography/category/current-signal/access check states;
 - minimal candidate drafts with explicit unknowns;
-- source-attributed discovery provenance in Candidate Research;
+- source-attributed discovery provenance retained in Scout's audit record;
 - source-only records preserved without becoming provider candidates; and
 - normal portable Curator and ready-resource package behavior.
 

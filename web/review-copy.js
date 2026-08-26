@@ -631,171 +631,6 @@
     }));
   }
 
-  function section(target, title, value) {
-    const values = Array.isArray(value) ? value.map(asText).filter(Boolean) : [asText(value)].filter(Boolean);
-    if (!values.length) return;
-    const wrapper = element('section', 'candidate-section'); wrapper.append(element('h3', '', title));
-    if (Array.isArray(value)) { const list = element('ul'); values.forEach(entry => list.append(element('li', '', entry))); wrapper.append(list); }
-    else wrapper.append(element('p', '', values[0]));
-    target.append(wrapper);
-  }
-
-  function fact(target, label, value, link = false) {
-    const text = asText(value); if (!text) return;
-    const item = element('div', 'candidate-fact'); item.append(element('strong', '', label));
-    const href = link ? safeHref(text) : null;
-    if (href) { const anchor = element('a', '', text); anchor.href = href; anchor.target = '_blank'; anchor.rel = 'noopener noreferrer'; item.append(anchor); }
-    else item.append(element('div', '', text));
-    target.append(item);
-  }
-
-  function appendManualDiscoveryProvenance(target, candidate) {
-    const provenance = candidate.manualDiscoveryProvenance;
-    const checks = candidate.manualDiscoveryChecks;
-    if (!provenance || typeof provenance !== 'object') return;
-    const checkSection = element('section', 'candidate-section');
-    checkSection.append(element('h3', '', 'What the chat responses indicate'));
-    const checkGrid = element('div', 'manual-checks');
-    const checkLabels = {
-      identity: 'Named resource',
-      geography: 'Serves this area',
-      categoryRelevance: 'Fits this category',
-      currentSignal: 'Appears to be active',
-      publicAccess: 'Contact or intake route',
-    };
-    const checkStates = {
-      present: 'Mentioned in a response',
-      uncertain: 'Needs confirmation',
-      conflicting: 'Responses disagree',
-      'not-applicable': 'Not applicable',
-    };
-    const checkNotes = {
-      identity: {
-        present: 'At least one chat response supplied an organization or program name.',
-        uncertain: 'Confirm the organization or program name.',
-        conflicting: 'The chat responses disagree about the resource name.',
-      },
-      geography: {
-        present: 'At least one chat response says this resource may serve the area.',
-        uncertain: 'Confirm that this resource serves the area.',
-        conflicting: 'The chat responses disagree about whether this resource serves the area.',
-      },
-      categoryRelevance: {
-        present: 'At least one chat response connects this resource with the category.',
-        uncertain: 'Confirm that this resource fits the category.',
-        conflicting: 'The chat responses disagree about whether this resource fits the category.',
-      },
-      currentSignal: {
-        present: 'A chat response supplied a website or said the service is currently available.',
-        uncertain: 'Confirm that the organization is still operating and currently offers this service.',
-        conflicting: 'The chat responses conflict about whether this resource is still operating.',
-      },
-      publicAccess: {
-        present: 'A chat response supplied a website or a possible way to contact or apply.',
-        uncertain: 'Confirm how someone contacts, applies for, or is referred to this service.',
-        conflicting: 'The chat responses conflict about whether people can contact this service directly.',
-        'not-applicable': 'This appears to be an initiative rather than a service people contact directly.',
-      },
-    };
-    Object.entries(checkLabels).forEach(([key, label]) => {
-      const check = checks?.[key];
-      if (!check) return;
-      const card = element('div', `manual-check ${asText(check.state)}`);
-      card.append(
-        element('strong', '', label),
-        element('span', '', checkStates[check.state] || friendly(check.state)),
-        element('small', '', checkNotes[key]?.[check.state] || asText(check.note)),
-      );
-      checkGrid.append(card);
-    });
-    if (checkGrid.children.length) checkSection.append(checkGrid);
-    else checkSection.append(element('p', 'muted', 'No lightweight check record is available.'));
-    target.append(checkSection);
-
-    const relationships = Array.isArray(candidate.possibleRelatedSubmissions)
-      ? candidate.possibleRelatedSubmissions : [];
-    if (relationships.length) {
-      const relationshipSection = element('section', 'candidate-section');
-      relationshipSection.append(
-        element('h3', '', 'Possible related submissions'),
-        element('p', 'muted', 'Scout kept these submissions separate. Resolve a relationship only if ordinary curation supplies enough evidence.'),
-      );
-      relationships.forEach(relationship => {
-        const row = element('div', 'manual-source-row');
-        row.append(
-          element('strong', '', asText(relationship.displayName) || 'Unnamed related submission'),
-          element('small', '', `Submitted by: ${(relationship.sources || []).map(asText).filter(Boolean).join(', ') || 'source not recorded'}`),
-        );
-        (relationship.reasons || [relationship.reason]).map(asText).filter(Boolean)
-          .forEach(reason => row.append(element('small', '', reason)));
-        relationshipSection.append(row);
-      });
-      target.append(relationshipSection);
-    }
-
-    const sourceSection = document.createElement('details');
-    sourceSection.className = 'candidate-section manual-source-details';
-    sourceSection.append(
-      element('summary', '', 'Submitted chat details (reference only)'),
-      element('p', 'muted', `${provenance.sourceCount || 0} chat source${provenance.sourceCount === 1 ? '' : 's'} mentioned this lead. These details can suggest what to check, but they are not verified evidence.`),
-    );
-    (provenance.members || []).forEach(member => {
-      const row = element('div', 'manual-source-row');
-      const identity = [asText(member.submittedOrganization), asText(member.submittedProgram)].filter(Boolean).join(' · ') || 'Unnamed submitted lead';
-      row.append(
-        element('strong', '', asText(member.sourceLabel) || 'Unknown chat source'),
-        element('div', '', identity),
-      );
-      const submittedUrl = asText(member.submittedWebsite);
-      const href = safeHref(submittedUrl);
-      if (href) {
-        const link = element('a', '', submittedUrl); link.href = href; link.target = '_blank'; link.rel = 'noopener noreferrer'; row.append(link);
-      } else if (submittedUrl) row.append(element('div', '', submittedUrl));
-      if (asText(member.submittedPhone)) row.append(element('small', '', `Submitted phone: ${asText(member.submittedPhone)}`));
-      if (asText(member.submittedAddress)) row.append(element('small', '', `Submitted address: ${asText(member.submittedAddress)}`));
-      if (asText(member.locationOrServiceArea)) row.append(element('small', '', `Submitted area: ${asText(member.locationOrServiceArea)}`));
-      if (asText(member.whyRelevant)) row.append(element('small', '', `Why it was submitted: ${asText(member.whyRelevant)}`));
-      if (asText(member.uncertainty)) row.append(element('small', '', `Uncertainty: ${asText(member.uncertainty)}`));
-      sourceSection.append(row);
-    });
-    target.append(sourceSection);
-  }
-
-  function candidateDetails(item) {
-    const candidate = item.candidate || {};
-    const wrapper = element('div', 'candidate-details');
-    const summary = asText(candidate.description || candidate.serviceNeed || candidate.housingNeed);
-    if (summary) wrapper.append(element('div', 'candidate-summary', summary));
-    const facts = element('div', 'candidate-facts');
-    fact(facts, 'Organization', candidate.organization); fact(facts, 'Program', candidate.program);
-    if (!candidate.manualDiscoveryProvenance) fact(facts, 'Type', candidate.resourceType);
-    fact(facts, 'Area served', candidate.geography); fact(facts, 'Access timeline', candidate.accessTimeline); fact(facts, 'Phone', candidate.phone);
-    fact(facts, 'Other phone numbers', candidate.additionalPhoneNumbers); fact(facts, 'Address', candidate.address);
-    fact(facts, 'Other addresses', candidate.additionalAddresses); fact(facts, 'Hours', candidate.hours); fact(facts, 'Website', candidate.website || candidate.url, true);
-    if (facts.children.length) wrapper.append(facts);
-    section(wrapper, `${review.run.targetCategoryLabel || 'Resource'} need`, candidate.serviceNeed || candidate.housingNeed);
-    section(wrapper, 'Services provided', candidate.servicesProvided);
-    section(wrapper, 'Suggested Types', candidate.recommendedTypes); section(wrapper, 'Suggested For', candidate.recommendedFor);
-    section(wrapper, 'Classification rationale', candidate.classificationRationale); section(wrapper, 'Eligibility requirements', candidate.eligibility);
-    section(wrapper, 'What to expect', candidate.whatToExpect); section(wrapper, 'How to best connect', candidate.howToBestConnect);
-    section(wrapper, 'Additional notes', candidate.additionalNotes); section(wrapper, 'Barriers and restrictions', candidate.barriers);
-    section(wrapper, 'Unknowns to pursue', candidate.unknowns); section(wrapper, 'Follow-up branches', candidate.followUpBranches);
-    appendManualDiscoveryProvenance(wrapper, candidate);
-    const evidence = Array.isArray(candidate.evidence) ? candidate.evidence : [];
-    if (evidence.length) {
-      const evidenceSection = element('section', 'candidate-section'); evidenceSection.append(element('h3', '', 'Evidence'));
-      evidence.forEach(source => {
-        const card = element('div', 'evidence-card'); const title = asText(source.title || source.url || 'Evidence source'); const href = safeHref(source.url);
-        if (href) { const anchor = element('a', '', title); anchor.href = href; anchor.target = '_blank'; anchor.rel = 'noopener noreferrer'; card.append(anchor); }
-        else card.append(element('strong', '', title));
-        card.append(element('div', '', asText(source.finding || source.quoteOrFinding)));
-        evidenceSection.append(card);
-      });
-      wrapper.append(evidenceSection);
-    }
-    return wrapper;
-  }
-
   function renderSourceOnlyRecords() {
     const records = review.manualDiscovery?.sourceOnlyRecords || [];
     const panel = document.querySelector('#source-only-panel');
@@ -1240,7 +1075,6 @@
     document.querySelector('#candidate-name').textContent = item.name;
     document.querySelector('#notes-window-title').textContent = `Notes — ${item.name}`;
     const status = document.querySelector('#candidate-status'); status.className = `status ${decisionClass(item)}`; status.textContent = decisionText(item);
-    document.querySelector('#candidate-research').replaceChildren(candidateDetails(item));
     document.querySelector('#candidate-editor').replaceChildren(renderReviewEditor(item));
     renderNotes(item);
     const candidates = remainingCandidates();
@@ -1323,7 +1157,7 @@
     window.addEventListener('beforeunload', event => { if (view.dirty && !view.persisted) { event.preventDefault(); event.returnValue = ''; } });
     setupWorkspaceWindows(); renderSourceOnlyRecords(); renderCandidates(); updateActions();
     const packageText = packageInfo ? `${packageInfo.sourceName}; schema ${packageInfo.schemaVersion}; package ${packageInfo.packageVersion}` : `Standalone location research; ${review.run.targetLocation || 'location not recorded'}`;
-    document.querySelector('#footer').textContent = `Resource Curator v0.31.9 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
+    document.querySelector('#footer').textContent = `Resource Curator v0.32.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
   }
 
   initialize();

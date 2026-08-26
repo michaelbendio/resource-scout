@@ -82,19 +82,8 @@
     .pdf-editor,.information-editor { margin-top:1.2rem; padding-top:1rem; border-top:1px solid var(--line); } .pdf-list { display:grid; gap:.45rem; margin:.6rem 0; } .pdf-row { display:flex; justify-content:space-between; gap:.7rem; align-items:center; padding:.55rem .7rem; border:1px solid var(--line); border-radius:8px; background:white; }
     .information-editor textarea { min-height:10rem; max-height:32rem; overflow-y:auto; font-weight:400; line-height:1.45; }
     .standalone-note { padding:.8rem; border-radius:9px; background:var(--amber-bg); color:#704b19; }
-    .candidate-summary { padding:1rem; border-radius:10px; background:#edf4f0; white-space:pre-line; }
-    .candidate-facts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; margin-top:1rem; }
-    .candidate-fact { padding:.85rem .95rem; border:1px solid var(--line); border-radius:9px; background:white; overflow-wrap:anywhere; white-space:pre-line; }
-    .candidate-fact strong { display:block; margin-bottom:.2rem; color:var(--muted); font-size:.72rem; letter-spacing:.07em; text-transform:uppercase; }
-    .candidate-section { margin-top:1rem; padding-top:1rem; border-top:1px solid var(--line); } .candidate-section h3 { margin-bottom:.6rem; } .candidate-section p { margin-top:0; white-space:pre-line; }
-    .evidence-card { padding:.8rem .9rem; border-left:3px solid #7ea38f; background:#f4f7f5; } .evidence-card+.evidence-card { margin-top:.55rem; }
-    .manual-checks { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.55rem; }
-    .manual-check { padding:.7rem .8rem; border-left:4px solid #6c9a84; border-radius:7px; background:#f2f7f4; }
-    .manual-check.uncertain { border-left-color:#d39943; background:#fff9ed; } .manual-check.conflicting { border-left-color:#b55b4f; background:#fbebe8; } .manual-check.not-applicable { border-left-color:#9da6a2; background:#f1f2f1; }
-    .manual-check strong,.manual-check span,.manual-check small { display:block; } .manual-check span { margin-top:.15rem; font-weight:800; text-transform:capitalize; } .manual-check small { margin-top:.2rem; color:var(--muted); }
-    .manual-source-row,.source-only-row { margin-top:.55rem; padding:.75rem .85rem; border:1px solid var(--line); border-radius:8px; background:white; }
-    .manual-source-row strong,.manual-source-row small,.source-only-row strong,.source-only-row small { display:block; } .manual-source-row small,.source-only-row small { margin-top:.2rem; color:var(--muted); }
-    .manual-source-details > summary { cursor:pointer; color:var(--forest); font-weight:800; }
+    .source-only-row { margin-top:.55rem; padding:.75rem .85rem; border:1px solid var(--line); border-radius:8px; background:white; }
+    .source-only-row strong,.source-only-row small { display:block; } .source-only-row small { margin-top:.2rem; color:var(--muted); }
     #source-only-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.6rem; margin-top:1rem; }
     .curator-workspace { width:98vw; max-width:none; height:96vh; max-height:none; padding:0; overflow:hidden; border-radius:12px; background:#e9eeeb; }
     .workspace-toolbar { position:absolute; z-index:50; inset:0 0 auto; display:grid; grid-template-columns:auto auto minmax(0,1fr) auto auto auto; gap:.55rem; align-items:center; height:66px; padding:.7rem .85rem; color:white; background:var(--forest); }
@@ -106,9 +95,8 @@
     .workspace-actions { display:flex; gap:.4rem; align-items:center; } #reset-window-layout { padding:.5rem .65rem; color:white; border:1px solid #92b4a4; background:transparent; } #workspace-save-work,#workspace-download-package { padding:.55rem .7rem; color:var(--forest); background:#b7e2cf; } .workspace-version { margin-left:.15rem; color:#a8d9c3; font-size:.78rem; font-weight:750; white-space:nowrap; } #workspace-save-state { font-size:.78rem; white-space:nowrap; }
     .workspace-canvas { position:absolute; inset:66px 0 0; overflow:hidden; }
     .work-window { position:absolute; display:grid; grid-template-rows:auto minmax(0,1fr); min-width:300px; min-height:60px; overflow:hidden; border:1px solid #8fa198; border-radius:12px; background:var(--panel); box-shadow:0 15px 45px rgba(14,35,28,.22); }
-    #research-window { z-index:2; left:1.5%; top:2%; width:48%; height:65%; }
-    #editor-window { z-index:3; right:1.5%; top:5%; width:48%; height:76%; }
-    #notes-window { z-index:4; left:8%; bottom:2%; width:55%; height:38%; }
+    #editor-window { z-index:3; left:1.25%; top:2%; width:48%; height:96%; }
+    #notes-window { z-index:4; right:1.25%; top:2%; width:48%; height:96%; }
     .window-titlebar { display:flex; justify-content:space-between; gap:1rem; align-items:center; padding:.65rem .8rem; color:white; background:#315d50; cursor:move; user-select:none; touch-action:none; }
     .window-titlebar h3 { color:white; font:750 1rem/1.2 ui-sans-serif,system-ui,sans-serif; }
     .window-resize-handle { position:absolute; z-index:5; touch-action:none; }
@@ -121,7 +109,7 @@
     .window-resize-handle[data-resize="se"] { right:0; bottom:0; cursor:nwse-resize; } .window-resize-handle[data-resize="sw"] { left:0; bottom:0; cursor:nesw-resize; }
     .window-resize-handle[data-resize="se"]::after { content:""; position:absolute; right:4px; bottom:4px; width:10px; height:10px; border-right:2px solid #527467; border-bottom:2px solid #527467; }
     .window-body { overflow:auto; padding:1rem; }
-    .window-body .candidate-details,.window-body .review-editor,.window-body .resource-editor { margin:0; padding:0; border:0; background:transparent; }
+    .window-body .review-editor,.window-body .resource-editor { margin:0; padding:0; border:0; background:transparent; }
     .notes-toolbar { display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; margin-bottom:.7rem; } .notes-toolbar button { flex:0 0 auto; padding:.45rem .75rem; color:var(--forest); border:1px solid #94aa9f; background:white; }
     .notes-toolbar button.selected { color:white; background:var(--forest); }
     .notes-format-help { flex:1 1 260px; color:var(--muted); font-size:.78rem; }
@@ -133,8 +121,8 @@
     footer { margin-top:2rem; color:var(--muted); font-size:.8rem; text-align:center; }
     .resource-print-sheet { display:none; }
     .guidance-dialog { width:min(620px,92vw); padding:1.3rem; } .guidance-dialog h2 { font-family:ui-sans-serif,system-ui,sans-serif; } .guidance-dialog ul { padding-left:1.25rem; } .guidance-dialog li+li { margin-top:.55rem; } .guidance-actions { display:flex; justify-content:flex-end; gap:.55rem; margin-top:1rem; } .guidance-actions .secondary { color:var(--forest); background:white; }
-    @media(max-width:760px) { .candidate-list,.candidate-facts,.resource-fields,.review-controls,.manual-checks,#source-only-list { grid-template-columns:1fr; } .toolbar { grid-template-columns:1fr; } .resource-fields .field:nth-last-child(-n+2) { grid-column:auto; } }
-    @media(max-width:520px) { .candidate-list,.candidate-facts,.taxonomy-add-row { grid-template-columns:1fr; } }
+    @media(max-width:760px) { .candidate-list,.resource-fields,.review-controls,#source-only-list { grid-template-columns:1fr; } .toolbar { grid-template-columns:1fr; } .resource-fields .field:nth-last-child(-n+2) { grid-column:auto; } }
+    @media(max-width:520px) { .candidate-list,.taxonomy-add-row { grid-template-columns:1fr; } }
     @media print {
       body{background:white} header{padding:1.4rem 0;color:var(--ink);background:white;border-bottom:2px solid var(--forest)} header .lede{color:var(--muted)} main{width:100%;margin:1rem 0}.panel{box-shadow:none;break-inside:avoid}.toolbar,.close,.review-actions{display:none}.candidate-list{grid-template-columns:1fr}.candidate{min-height:0;break-inside:avoid}
       body.printing-resource > *:not(#resource-print-sheet){display:none!important}
@@ -144,7 +132,7 @@
   </style>
 </head>
 <body>
-  <header><div><div class="header-title-row"><h1>Resource Curator</h1><span class="header-list-name" id="candidate-list-name"></span></div><p class="lede">Investigate candidates, keep interview notes and checklists, and prepare resources without reconnecting to Scout.</p></div><span class="header-version">v0.31.9</span></header>
+  <header><div><div class="header-title-row"><h1>Resource Curator</h1><span class="header-list-name" id="candidate-list-name"></span></div><p class="lede">Investigate candidates, keep interview notes and checklists, and prepare resources without reconnecting to Scout.</p></div><span class="header-version">v0.32.0</span></header>
   <main>
     <section class="panel review-actions">
       <p class="section-label">Review progress</p><h2>Save, resume, and download</h2>
@@ -161,9 +149,8 @@
     <footer id="footer"></footer>
   </main>
   <dialog id="candidate-dialog" class="curator-workspace">
-    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="reset-window-layout">Reset layout</button><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span class="workspace-version">v0.31.9</span><span id="workspace-save-state" aria-live="polite"></span></div></div>
+    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="reset-window-layout">Reset layout</button><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span class="workspace-version">v0.32.0</span><span id="workspace-save-state" aria-live="polite"></span></div></div>
     <div class="workspace-canvas" id="workspace-canvas">
-      <section class="work-window" id="research-window"><div class="window-titlebar"><h3>Candidate Research</h3></div><div class="window-body" id="candidate-research"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
       <section class="work-window" id="editor-window"><div class="window-titlebar"><h3>Editors</h3></div><div class="window-body" id="candidate-editor"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
       <section class="work-window" id="notes-window"><div class="window-titlebar"><h3 id="notes-window-title">Notes</h3></div><div class="window-body" id="candidate-notes"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
     </div>
