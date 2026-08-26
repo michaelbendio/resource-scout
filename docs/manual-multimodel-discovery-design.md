@@ -6,7 +6,12 @@ parser, immutable provenance storage, category-neutral assignment generator,
 local endpoints, copy/paste workspace, deterministic consolidation, identity
 review, role routing, package duplicate signals, non-inflated funnel, lightweight
 checks, minimal drafts, source-only preservation, and portable Curator handoff are
-covered by regression tests. Stages 5-6 below remain the approved work sequence. Production `main`, frozen
+covered by regression tests. Stage 5 is in progress: the real 255-row Addiction
+set has been replayed in an isolated pilot, version 0.31.2 corrected the resulting
+large-review workflow, and a Food run is prepared for the required second-category
+responses. The exact receipt and remaining approval gates are recorded in
+`docs/manual-multimodel-pilot-2026-08-25.md`. Stage 6 remains gated on the pilot.
+Production `main`, frozen
 DeepSeek results, and existing agent-run records have not been rewritten.
 
 Status: proposed implementation design. This document defines the branch work
