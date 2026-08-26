@@ -25,12 +25,9 @@
     .lede { max-width:720px; color:#c9dbd3; font-size:1.05rem; }
     main { width:min(1120px,94vw); margin:.8rem auto 4rem; }
     .panel { margin-bottom:.8rem; padding:clamp(1.1rem,2.2vw,1.65rem); border:1px solid var(--line); border-radius:16px; background:var(--panel); box-shadow:var(--shadow); }
-    .run-heading { display:flex; flex-wrap:wrap; gap:.4rem .75rem; align-items:baseline; } .run-compact { color:var(--muted); font-size:.86rem; }
     .metric { padding:.9rem 1rem; border-radius:12px; background:#edf3ef; } .metric span { display:block; color:var(--muted); font-size:.72rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; }
     .metric strong { display:block; margin-top:.18rem; overflow-wrap:anywhere; }
-    .summary { display:grid; gap:.85rem; max-width:90ch; color:#34433e; font-size:.96rem; } .stage-finding h3 { font:700 .92rem/1.3 ui-sans-serif,system-ui,sans-serif; } .stage-finding p { margin:.25rem 0 0; }
     details { margin-top:1rem; } summary { color:var(--forest); font-weight:780; cursor:pointer; }
-    .assignment { max-width:86ch; padding:.9rem 1rem; border-left:3px solid #92b4a4; background:#f2f6f3; white-space:pre-line; }
     .review-controls { display:grid; grid-template-columns:minmax(220px,.55fr) minmax(0,1fr); gap:1rem 1.4rem; align-items:end; margin-top:1.2rem; }
     .reviewer-field { display:grid; gap:.35rem; font-weight:750; } .reviewer-field small,.muted,#save-state,#action-message { color:var(--muted); font-weight:400; }
     .action-buttons { display:flex; flex-wrap:wrap; gap:.6rem; }
@@ -132,7 +129,7 @@
   </style>
 </head>
 <body>
-  <header><div><div class="header-title-row"><h1>Resource Curator</h1><span class="header-list-name" id="candidate-list-name"></span></div><p class="lede">Investigate candidates, keep interview notes and checklists, and prepare resources without reconnecting to Scout.</p></div><span class="header-version">v0.34.0</span></header>
+  <header><div><div class="header-title-row"><h1>Resource Curator</h1><span class="header-list-name" id="candidate-list-name"></span></div><p class="lede">Investigate candidates, keep interview notes and checklists, and prepare resources without reconnecting to Scout.</p></div><span class="header-version">v0.35.0</span></header>
   <main>
     <section class="panel review-actions">
       <p class="section-label">Review progress</p><h2>Save, resume, and download</h2>
@@ -142,14 +139,13 @@
         <p id="save-state"></p><p id="action-message" aria-live="polite"></p>
       </div>
     </section>
-    <section class="panel"><p class="section-label">Research trail</p><div class="run-heading"><h2>Research run</h2><span class="run-compact" id="run-compact"></span></div><details><summary id="findings-summary">Research findings</summary><div class="summary" id="summary"></div></details><details><summary>View the research assignment</summary><p class="assignment" id="assignment"></p></details></section>
-    <section class="panel" id="source-only-panel" hidden><p class="section-label">Preserved discovery leads</p><h2>Routing and source-only records</h2><p class="muted">These records remain available as referral or follow-up leads, but they are not counted as provider candidates.</p><div id="source-only-list"></div></section>
+    <section class="panel" id="source-only-panel" hidden><p class="section-label">Preserved discovery leads</p><h2>Routing and source-only records</h2><p class="muted">These records remain available as referral or follow-up leads, but they are not counted as provider candidates.</p><details id="source-only-details"><summary id="source-only-summary">Show preserved records</summary><div id="source-only-list"></div></details></section>
     <section class="panel"><p class="section-label">Human review</p><h2>Research candidates</h2><div class="toolbar"><input id="search" type="search" placeholder="Search candidates" aria-label="Search candidates"><select id="status-filter" aria-label="Filter candidates by curation outcome"><option value="">All candidates</option><option value="ready">Ready for package</option><option value="pending">Pending</option><option value="other-outcome">Outcome recorded</option></select></div><p class="candidate-count" id="candidate-count"></p><div class="candidate-list" id="candidate-list"></div></section>
     <section class="panel" id="lessons-panel" hidden><p class="section-label">Research guidance</p><details><summary><strong>Lessons proposed by this run</strong></summary><div class="lesson-list" id="lesson-list"></div></details></section>
     <footer id="footer"></footer>
   </main>
   <dialog id="candidate-dialog" class="curator-workspace">
-    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="reset-window-layout">Reset layout</button><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span class="workspace-version">v0.34.0</span><span id="workspace-save-state" aria-live="polite"></span></div></div>
+    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="reset-window-layout">Reset layout</button><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span class="workspace-version">v0.35.0</span><span id="workspace-save-state" aria-live="polite"></span></div></div>
     <div class="workspace-canvas" id="workspace-canvas">
       <section class="work-window" id="editor-window"><div class="window-titlebar"><h3>Editors</h3></div><div class="window-body" id="candidate-editor"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
       <section class="work-window" id="notes-window"><div class="window-titlebar"><h3 id="notes-window-title">Notes</h3></div><div class="window-body" id="candidate-notes"></div><div class="window-resize-handles" aria-hidden="true"></div></section>

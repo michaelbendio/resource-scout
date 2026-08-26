@@ -430,12 +430,6 @@
     return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
   }
 
-  function formatCompactWhen(value) {
-    if (!value) return 'date not recorded';
-    const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? value : date.toLocaleString([], { month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit' });
-  }
-
   function safeHref(value) {
     const raw = asText(value);
     if (!raw) return null;
@@ -636,6 +630,8 @@
     const panel = document.querySelector('#source-only-panel');
     panel.hidden = !records.length;
     if (!records.length) return;
+    document.querySelector('#source-only-summary').textContent =
+      `Show ${records.length} preserved record${records.length === 1 ? '' : 's'}`;
     document.querySelector('#source-only-list').replaceChildren(...records.map(record => {
       const row = element('article', 'source-only-row');
       row.append(
@@ -1092,30 +1088,11 @@
     }));
   }
 
-  function renderRunFindings() {
-    const target = document.querySelector('#summary'); const raw = asText(review.run.summary);
-    const parts = raw.split(/\n\s*\n/).map(part => part.trim()).filter(Boolean);
-    const findings = parts.filter((part, index) => !(index === 0 && /^Completed \d+ of \d+ research stages?\.?$/i.test(part)));
-    const content = findings.length ? findings : parts;
-    target.replaceChildren(...content.map(part => {
-      const section = element('section', 'stage-finding'); const separator = part.indexOf(':');
-      if (separator > 0 && separator < 100) section.append(element('h3', '', part.slice(0, separator)), element('p', '', part.slice(separator + 1).trim()));
-      else section.append(element('p', '', part));
-      return section;
-    }));
-    const stageCount = review.run.stages?.length || review.run.progress?.total || content.length;
-    document.querySelector('#findings-summary').textContent = `Research findings — ${stageCount} ${stageCount === 1 ? 'stage' : 'stages'}`;
-  }
-
   function initialize() {
     restoreLocal();
     document.title = `${review.title} · Resource Curator`;
     document.querySelector('#candidate-list-name').textContent = review.run.targetCategoryLabel;
-    renderRunFindings();
-    document.querySelector('#assignment').textContent = review.run.assignment;
-    const packageInfo = review.sourcePackage; const standalone = review.run.researchMode === 'standalone-location';
-    const packageLabel = packageInfo ? `${packageInfo.sourceName.replace(/\.zip$/i, '')} ${packageInfo.packageVersion}` : (standalone ? review.run.targetLocation : 'no package');
-    document.querySelector('#run-compact').textContent = `${formatCompactWhen(review.run.completedAt)}, ${review.run.targetCategoryLabel}, ${packageLabel}${review.run.status === 'completed' ? '' : `, ${friendly(review.run.status)}`}`;
+    const packageInfo = review.sourcePackage;
     renderLessons();
     const filter = document.querySelector('#status-filter');
     document.querySelector('#search').addEventListener('input', event => { view.search = event.target.value; renderCandidates(); });
@@ -1157,7 +1134,7 @@
     window.addEventListener('beforeunload', event => { if (view.dirty && !view.persisted) { event.preventDefault(); event.returnValue = ''; } });
     setupWorkspaceWindows(); renderSourceOnlyRecords(); renderCandidates(); updateActions();
     const packageText = packageInfo ? `${packageInfo.sourceName}; schema ${packageInfo.schemaVersion}; package ${packageInfo.packageVersion}` : `Standalone location research; ${review.run.targetLocation || 'location not recorded'}`;
-    document.querySelector('#footer').textContent = `Resource Curator v0.34.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
+    document.querySelector('#footer').textContent = `Resource Curator v0.35.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
   }
 
   initialize();

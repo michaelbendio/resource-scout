@@ -52,6 +52,7 @@ class ContactLookupTests(unittest.TestCase):
                     "leads": [
                         lead("Needs Contact"),
                         lead("Closed Program"),
+                        lead("Phone Only", phone="480-555-0199"),
                         lead("Already Reachable", website="https://reachable.example.org"),
                     ]
                 }
@@ -77,7 +78,7 @@ class ContactLookupTests(unittest.TestCase):
             "results": results,
         }
 
-    def test_request_contains_only_candidates_missing_website_and_phone(self) -> None:
+    def test_request_contains_every_candidate_missing_a_website(self) -> None:
         request = build_contact_lookup_request(
             self.store,
             self.run_id,
@@ -85,7 +86,11 @@ class ContactLookupTests(unittest.TestCase):
         )
         self.assertEqual("food-contact-lookup-run-1.json", request.filename)
         self.assertEqual(
-            {"Needs Contact · Food assistance", "Closed Program · Food assistance"},
+            {
+                "Needs Contact · Food assistance",
+                "Closed Program · Food assistance",
+                "Phone Only · Food assistance",
+            },
             {item["name"] for item in request.data["candidates"]},
         )
         first = request.data["candidates"][0]
@@ -94,6 +99,30 @@ class ContactLookupTests(unittest.TestCase):
         self.assertTrue(any("Maricopa County" in query for query in first["suggestedSearches"]))
         self.assertIn("missing or broken page alone is not proof", request.content.decode())
         self.assertIn("not actionable now", request.content.decode())
+        phone_only = next(
+            item
+            for item in request.data["candidates"]
+            if item["name"] == "Phone Only · Food assistance"
+        )
+        self.assertEqual("Phone Only", phone_only["organization"])
+
+    def test_verified_contact_requires_an_official_website(self) -> None:
+        candidate = self.discoveries_by_name()["Phone Only"]
+        with self.assertRaisesRegex(ValueError, "needs a website"):
+            apply_contact_lookup_results(
+                self.store,
+                self.run_id,
+                self.result_document(
+                    [
+                        {
+                            "candidateId": candidate["id"],
+                            "status": "verified-contact",
+                            "phone": "480-555-0199",
+                            "sourceUrl": "https://directory.example.org/phone-only",
+                        }
+                    ]
+                ),
+            )
 
     def test_results_enrich_verified_contact_and_exclude_confirmed_unavailable(self) -> None:
         before = self.discoveries_by_name()

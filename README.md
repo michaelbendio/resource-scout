@@ -19,7 +19,7 @@ user-operated chats is specified in
 [`docs/manual-multimodel-discovery-design.md`](docs/manual-multimodel-discovery-design.md).
 It preserves the existing portable Resource Curator handoff while moving detailed
 website and telephone verification to Resource Specialists. On the
-`manual-multimodel-discovery` branch, the version 0.34.0 workspace can generate a
+`manual-multimodel-discovery` branch, the version 0.35.0 workspace can generate a
 category-specific assignment, preserve pasted or uploaded responses with source
 provenance, validate them, replace or delete unfinished contributions, and recover
 an open run after restart. It also consolidates exact repeats, keeps distinct named
@@ -37,6 +37,8 @@ names, keeps source-by-source chat details collapsed unless needed, and offers
 **Worth pursuing** as a positive lead outcome. Manual assignments preserve public
 phone numbers and addresses when a chat can supply them readily; specialists still
 verify and complete Resource, For, and Information fields during curation.
+Before Curator export, Scout can hand off every candidate without a website for
+focused lookup, even when the candidate already has a phone number.
 
 **Manual chat discovery** is the recommended research method on this branch. It
 does not call a chat API: copy the displayed assignment into the chats you choose,

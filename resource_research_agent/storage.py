@@ -2809,9 +2809,9 @@ class ResearchStore:
                 raise ValueError(
                     f"Candidate {discovery_id} checkedAt must be an ISO-8601 timestamp"
                 ) from error
-            if status == "verified-contact" and not (website or phone):
+            if status == "verified-contact" and not website:
                 raise ValueError(
-                    f"Candidate {discovery_id} needs a website or phone for verified-contact"
+                    f"Candidate {discovery_id} needs a website for verified-contact"
                 )
             if status in {"verified-contact", "unavailable", "unreachable"}:
                 if not source_url.startswith(("https://", "http://")):

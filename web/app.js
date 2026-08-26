@@ -467,11 +467,11 @@ function candidateCountForRun(runId) {
   ).length;
 }
 
-function missingContactCandidatesForRun(runId) {
+function missingWebsiteCandidatesForRun(runId) {
   return state.discoveries.filter(discovery => {
     if (discovery.runId !== runId || ['unavailable', 'unreachable'].includes(discovery.status)) return false;
     const candidate = discovery.candidate || {};
-    return !asText(candidate.website || candidate.url) && !asText(candidate.phone);
+    return !asText(candidate.website || candidate.url);
   });
 }
 
@@ -496,7 +496,7 @@ function renderExcludedLeads(runId) {
     const lookup = discovery.candidate?.contactLookup || {};
     const note = document.createElement('span');
     const outcome = discovery.status === 'unreachable' ? 'Unreachable' : 'Confirmed closed or ended';
-    note.textContent = `${outcome}: ${lookup.note || 'Documented during contact lookup.'}`;
+    note.textContent = `${outcome}: ${lookup.note || 'Documented during website lookup.'}`;
     item.append(name, note);
     const href = safeHref(asText(lookup.sourceUrl));
     if (href) {
@@ -709,7 +709,7 @@ function renderRuns() {
       openManual.addEventListener('click', () => openManualDiscoveryRun(run.id));
       actions.append(openManual);
       if (run.status === 'completed') {
-        const missingContacts = missingContactCandidatesForRun(run.id);
+        const missingWebsites = missingWebsiteCandidatesForRun(run.id);
         const viewCandidates = document.createElement('button');
         viewCandidates.type = 'button';
         viewCandidates.className = 'secondary view-candidates';
@@ -722,18 +722,18 @@ function renderRuns() {
         exportLink.download = '';
         exportLink.textContent = 'Export Resource Curator';
         actions.append(viewCandidates);
-        if (missingContacts.length) {
+        if (missingWebsites.length) {
           const lookupLink = document.createElement('a');
           lookupLink.className = 'review-export';
           lookupLink.href = `/api/research-runs/${run.id}/contact-lookup`;
           lookupLink.download = '';
-          lookupLink.textContent = `Export contact lookup (${missingContacts.length})`;
+          lookupLink.textContent = `Export website lookup (${missingWebsites.length})`;
           actions.append(lookupLink);
         }
         const importLookup = document.createElement('button');
         importLookup.type = 'button';
         importLookup.className = 'secondary';
-        importLookup.textContent = 'Import contact results';
+        importLookup.textContent = 'Import website results';
         const importFile = document.createElement('input');
         importFile.type = 'file';
         importFile.accept = '.json,application/json';
@@ -751,7 +751,7 @@ function renderRuns() {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload),
             });
-            message.textContent = `Contact results applied: ${result.verifiedContactCount} updated, ${result.unavailableCount} closed or ended, ${result.unreachableCount} unreachable, ${result.unresolvedCount} unresolved.`;
+            message.textContent = `Website lookup results applied: ${result.verifiedContactCount} updated, ${result.unavailableCount} closed or ended, ${result.unreachableCount} unreachable, ${result.unresolvedCount} unresolved.`;
             await loadResearchData();
           } catch (error) {
             message.textContent = error.message;

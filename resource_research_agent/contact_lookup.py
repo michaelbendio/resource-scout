@@ -63,7 +63,7 @@ def build_contact_lookup_request(
         candidate = discovery["candidate"]
         if discovery["status"] in {"unavailable", "unreachable"}:
             continue
-        if _text(candidate.get("website") or candidate.get("url")) or _text(candidate.get("phone")):
+        if _text(candidate.get("website") or candidate.get("url")):
             continue
         name = _candidate_name(candidate, discovery["name"])
         candidates.append(
@@ -88,7 +88,7 @@ def build_contact_lookup_request(
         "serviceArea": service_area,
         "exportedAt": exported.isoformat(),
         "instructions": {
-            "purpose": "Find an official website or public phone number for each candidate.",
+            "purpose": "Find an official website for each candidate; include useful phone or address details when readily available.",
             "returnKind": RESULTS_KIND,
             "allowedStatuses": [
                 "verified-contact",
@@ -97,7 +97,7 @@ def build_contact_lookup_request(
                 "unresolved",
             ],
             "rules": [
-                "Use verified-contact only when at least a website or phone is supported by the cited source.",
+                "Use verified-contact only when an official website is supported by the cited source.",
                 "Use unavailable only with credible evidence that the organization or program closed or ended; a missing or broken page alone is not proof.",
                 "Use unreachable when a known official website is dead and the suggested searches find no replacement website or current public phone. This means the lead is not actionable now, not that the organization legally closed.",
                 "Use unresolved when the search is inconclusive, explain what remains uncertain, and provide concrete suggestedNextSteps for the Resource Specialist's checklist.",
