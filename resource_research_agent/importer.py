@@ -179,6 +179,45 @@ def resource_id(record: dict[str, Any]) -> str:
     return "generated-" + hashlib.sha256(stable.encode("utf-8")).hexdigest()[:20]
 
 
+def package_content_sha256(
+    resources: list[dict[str, Any]],
+    categories: list[dict[str, Any]],
+    for_groups: list[Any],
+    office_name: str,
+    service_area: str,
+) -> str:
+    payload = {
+        "officeName": office_name,
+        "serviceArea": service_area,
+        "categories": sorted(
+            (
+                {
+                    "id": str(item.get("id") or ""),
+                    "label": str(item.get("label") or ""),
+                    "raw": item.get("raw"),
+                }
+                for item in categories
+            ),
+            key=lambda item: (item["id"].casefold(), item["label"].casefold()),
+        ),
+        "forGroups": for_groups,
+        "resources": sorted(
+            resources,
+            key=lambda item: (
+                resource_id(item).casefold(),
+                json.dumps(item, ensure_ascii=False, sort_keys=True),
+            ),
+        ),
+    }
+    encoded = json.dumps(
+        payload,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
 def _walk_collections(value: Any, path: tuple[str, ...] = (), depth: int = 0) -> Iterator[tuple[tuple[str, ...], list[Any]]]:
     if depth > 4:
         return
@@ -266,6 +305,17 @@ class ImportedPackage:
         }
 
     @property
+    def content_sha256(self) -> str:
+        identity = self.identity
+        return package_content_sha256(
+            self.resources,
+            self.categories,
+            self.for_groups,
+            identity["officeName"],
+            identity["serviceArea"],
+        )
+
+    @property
     def multicategory_target_count(self) -> int:
         return sum(len(resource_category_ids(item)) > 1 for item in self.target_resources)
 
@@ -273,6 +323,7 @@ class ImportedPackage:
         return {
             "sourceName": self.source_name,
             "sourceSha256": self.sha256,
+            "contentSha256": self.content_sha256,
             **self.identity,
             "schema": self.schema.as_dict(),
             "category": {"id": self.target_category_id, "label": self.target_category_label},

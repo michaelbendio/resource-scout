@@ -72,7 +72,13 @@ class DuplicateIndex:
         return sorted(matches, key=lambda item: item["score"], reverse=True)[:limit]
 
     def explain_saved_match(self, discovery: dict[str, Any]) -> dict[str, Any] | None:
-        stored = discovery.get("match")
+        return self.explain_match(discovery.get("candidate", {}), discovery.get("match"))
+
+    def explain_match(
+        self,
+        candidate: dict[str, Any],
+        stored: dict[str, Any] | None,
+    ) -> dict[str, Any] | None:
         if not stored:
             return None
         import_id = int(stored["importId"])
@@ -81,13 +87,15 @@ class DuplicateIndex:
             (
                 match
                 for match in self.match(
-                    discovery.get("candidate", {}), import_id=import_id, limit=100
+                    candidate, import_id=import_id, limit=100
                 )
                 if match["resourceId"] == resource_id
             ),
             None,
         )
         if recomputed:
+            if stored.get("classification") in {"already-in-package", "possible-duplicate"}:
+                recomputed = {**recomputed, "classification": stored["classification"]}
             return recomputed
         record = self.store.full_resource(import_id, resource_id)
         return {

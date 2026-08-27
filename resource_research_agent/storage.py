@@ -12,6 +12,7 @@ from .importer import (
     ImportedPackage,
     iter_index_values,
     normalize_index_value,
+    package_content_sha256,
     package_identity,
     resource_category_ids,
     resource_id,
@@ -26,6 +27,7 @@ CREATE TABLE IF NOT EXISTS imports (
     id INTEGER PRIMARY KEY,
     source_name TEXT NOT NULL,
     source_sha256 TEXT NOT NULL,
+    content_sha256 TEXT NOT NULL,
     imported_at TEXT NOT NULL,
     json_member TEXT NOT NULL,
     resource_path TEXT NOT NULL,
@@ -223,6 +225,23 @@ CREATE TABLE IF NOT EXISTS manual_discovery_identity_decisions (
     UNIQUE (run_id, left_key, right_key),
     CHECK (left_key < right_key)
 );
+CREATE TABLE IF NOT EXISTS research_run_reconciliations (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL REFERENCES research_runs(id) ON DELETE CASCADE,
+    target_import_id INTEGER NOT NULL REFERENCES imports(id),
+    created_at TEXT NOT NULL,
+    result_json TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS discovery_reconciliation_matches (
+    reconciliation_id INTEGER NOT NULL
+        REFERENCES research_run_reconciliations(id) ON DELETE CASCADE,
+    discovery_id INTEGER NOT NULL REFERENCES discoveries(id) ON DELETE CASCADE,
+    resource_id TEXT NOT NULL,
+    score REAL NOT NULL,
+    classification TEXT NOT NULL,
+    signals_json TEXT NOT NULL DEFAULT '[]',
+    PRIMARY KEY (reconciliation_id, discovery_id)
+);
 """
 
 
@@ -363,6 +382,7 @@ class ResearchStore:
             "office_name": "TEXT NOT NULL DEFAULT ''",
             "service_area": "TEXT NOT NULL DEFAULT ''",
             "identity_source": "TEXT NOT NULL DEFAULT ''",
+            "content_sha256": "TEXT NOT NULL DEFAULT ''",
         }.items():
             if name not in import_columns:
                 connection.execute(
@@ -394,6 +414,41 @@ class ResearchStore:
                 "UPDATE imports SET office_name = ?, service_area = ?, "
                 "identity_source = ? WHERE id = ?",
                 (office_name, service_area, source, row["id"]),
+            )
+        content_rows = connection.execute(
+            "SELECT id, for_groups_json, office_name, service_area FROM imports "
+            "WHERE content_sha256 = ''"
+        ).fetchall()
+        for row in content_rows:
+            categories = [
+                {
+                    "id": item["category_id"],
+                    "label": item["label"],
+                    "raw": json.loads(item["raw_json"]),
+                }
+                for item in connection.execute(
+                    "SELECT category_id, label, raw_json FROM categories "
+                    "WHERE import_id = ? ORDER BY category_id",
+                    (row["id"],),
+                ).fetchall()
+            ]
+            resources = [
+                json.loads(item["raw_json"])
+                for item in connection.execute(
+                    "SELECT raw_json FROM imported_resources WHERE import_id = ?",
+                    (row["id"],),
+                ).fetchall()
+            ]
+            content_sha256 = package_content_sha256(
+                resources,
+                categories,
+                json.loads(row["for_groups_json"] or "[]"),
+                row["office_name"],
+                row["service_area"],
+            )
+            connection.execute(
+                "UPDATE imports SET content_sha256 = ? WHERE id = ?",
+                (content_sha256, row["id"]),
             )
 
     @staticmethod
@@ -458,15 +513,16 @@ class ResearchStore:
         with self.connect() as connection:
             cursor = connection.execute(
                 """INSERT INTO imports (
-                    source_name, source_sha256, imported_at, json_member, resource_path,
+                    source_name, source_sha256, content_sha256, imported_at, json_member, resource_path,
                     category_path, schema_version, package_version, target_category_id,
                     target_category_label, resource_count, target_resource_count,
                     multicategory_target_count, metadata_json, manifest_json, for_groups_json,
                     office_name, service_area, identity_source
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     package.source_name,
                     package.sha256,
+                    package.content_sha256,
                     now,
                     schema["jsonMember"],
                     schema["resourcePath"],
@@ -655,6 +711,7 @@ class ResearchStore:
             "id": row["id"],
             "sourceName": row["source_name"],
             "sourceSha256": row["source_sha256"],
+            "contentSha256": row["content_sha256"],
             "officeName": row["office_name"],
             "serviceArea": row["service_area"],
             "identitySource": row["identity_source"],
@@ -1410,7 +1467,9 @@ class ResearchStore:
         with self.connect() as connection:
             row = connection.execute(
                 """SELECT research_runs.*, imports.office_name AS source_office_name,
-                          imports.service_area AS source_service_area
+                          imports.service_area AS source_service_area,
+                          imports.source_sha256 AS source_package_sha256,
+                          imports.content_sha256 AS source_package_content_sha256
                    FROM research_runs
                    LEFT JOIN imports ON imports.id = research_runs.source_import_id
                    WHERE research_runs.id = ?
@@ -1421,13 +1480,16 @@ class ResearchStore:
             return None
         value = self._run_dict(row)
         value["manualProgress"] = self.manual_discovery_progress(run_id)
+        value["reconciliation"] = self.latest_run_reconciliation(run_id)
         return value
 
     def list_runs(self, limit: int = 30) -> list[dict[str, Any]]:
         with self.connect() as connection:
             rows = connection.execute(
                 """SELECT research_runs.*, imports.office_name AS source_office_name,
-                          imports.service_area AS source_service_area
+                          imports.service_area AS source_service_area,
+                          imports.source_sha256 AS source_package_sha256,
+                          imports.content_sha256 AS source_package_content_sha256
                    FROM research_runs
                    LEFT JOIN imports ON imports.id = research_runs.source_import_id
                    WHERE research_runs.run_kind = 'manual-discovery'
@@ -1438,8 +1500,119 @@ class ResearchStore:
         for row in rows:
             value = self._run_dict(row)
             value["manualProgress"] = self.manual_discovery_progress(int(row["id"]))
+            value["reconciliation"] = self.latest_run_reconciliation(int(row["id"]))
             result.append(value)
         return result
+
+    def save_run_reconciliation(
+        self,
+        run_id: int,
+        target_import_id: int,
+        matches: list[dict[str, Any]],
+        result: dict[str, Any],
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            run = connection.execute(
+                "SELECT status, run_kind, research_mode FROM research_runs WHERE id = ?",
+                (run_id,),
+            ).fetchone()
+            if not run or run["run_kind"] != "manual-discovery":
+                raise ValueError("Discovery run not found")
+            if run["status"] != "completed":
+                raise ValueError("Finish discovery before reconciling its candidates")
+            if run["research_mode"] != "package":
+                raise ValueError("Standalone-location research has no package to reconcile")
+            if not connection.execute(
+                "SELECT 1 FROM imports WHERE id = ?", (target_import_id,)
+            ).fetchone():
+                raise ValueError("Resource package snapshot not found")
+            discovery_ids = {
+                int(row["id"])
+                for row in connection.execute(
+                    "SELECT id FROM discoveries WHERE run_id = ?", (run_id,)
+                ).fetchall()
+            }
+            if any(int(item["discoveryId"]) not in discovery_ids for item in matches):
+                raise ValueError("A reconciliation match does not belong to this discovery run")
+            cursor = connection.execute(
+                """INSERT INTO research_run_reconciliations (
+                       run_id, target_import_id, created_at, result_json
+                   ) VALUES (?, ?, ?, ?)""",
+                (run_id, target_import_id, now, _json(result)),
+            )
+            reconciliation_id = int(cursor.lastrowid)
+            for item in matches:
+                connection.execute(
+                    """INSERT INTO discovery_reconciliation_matches (
+                           reconciliation_id, discovery_id, resource_id, score,
+                           classification, signals_json
+                       ) VALUES (?, ?, ?, ?, ?, ?)""",
+                    (
+                        reconciliation_id,
+                        int(item["discoveryId"]),
+                        str(item["resourceId"]),
+                        float(item["score"]),
+                        str(item["classification"]),
+                        _json(item.get("signals", [])),
+                    ),
+                )
+        saved = self.latest_run_reconciliation(run_id)
+        if saved is None:  # pragma: no cover - guarded by insert above
+            raise RuntimeError("Saved reconciliation could not be read")
+        return saved
+
+    def latest_run_reconciliation(self, run_id: int) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT reconciliations.*, imports.source_name,
+                          imports.source_sha256, imports.content_sha256,
+                          imports.package_version,
+                          imports.office_name, imports.service_area
+                   FROM research_run_reconciliations reconciliations
+                   JOIN imports ON imports.id = reconciliations.target_import_id
+                   WHERE reconciliations.run_id = ?
+                   ORDER BY reconciliations.id DESC LIMIT 1""",
+                (run_id,),
+            ).fetchone()
+        if not row:
+            return None
+        return {
+            "id": row["id"],
+            "runId": row["run_id"],
+            "targetImportId": row["target_import_id"],
+            "createdAt": row["created_at"],
+            "result": json.loads(row["result_json"]),
+            "targetPackage": {
+                "sourceName": row["source_name"],
+                "sourceSha256": row["source_sha256"],
+                "contentSha256": row["content_sha256"],
+                "packageVersion": row["package_version"],
+                "officeName": row["office_name"],
+                "serviceArea": row["service_area"],
+            },
+        }
+
+    def reconciliation_matches(self, reconciliation_id: int) -> dict[int, dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT matches.*, reconciliations.target_import_id
+                   FROM discovery_reconciliation_matches matches
+                   JOIN research_run_reconciliations reconciliations
+                     ON reconciliations.id = matches.reconciliation_id
+                   WHERE matches.reconciliation_id = ?""",
+                (reconciliation_id,),
+            ).fetchall()
+        return {
+            int(row["discovery_id"]): {
+                "importId": row["target_import_id"],
+                "resourceId": row["resource_id"],
+                "score": row["score"],
+                "classification": row["classification"],
+                "signals": json.loads(row["signals_json"]),
+            }
+            for row in rows
+        }
 
     @staticmethod
     def _run_dict(row: sqlite3.Row) -> dict[str, Any]:
@@ -1458,6 +1631,16 @@ class ResearchStore:
             "targetCategoryId": row["target_category_id"],
             "targetCategoryLabel": row["target_category_label"],
             "sourceImportId": row["source_import_id"],
+            "sourcePackageSha256": (
+                row["source_package_sha256"]
+                if "source_package_sha256" in row.keys()
+                else source_package.get("sourceSha256")
+            ),
+            "sourcePackageContentSha256": (
+                row["source_package_content_sha256"]
+                if "source_package_content_sha256" in row.keys()
+                else source_package.get("contentSha256")
+            ),
             "sourceOfficeName": row["source_office_name"]
                 if "source_office_name" in row.keys()
                 else source_package.get("officeName"),

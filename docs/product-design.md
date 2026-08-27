@@ -45,6 +45,20 @@ phone searches, may be recorded as unreachable. Closure or program termination
 requires credible evidence. Inconclusive results remain candidates and receive a
 plain-language Notes checklist with specific next searches.
 
+## Completed-run reconciliation
+
+A completed discovery remains linked to the package that shaped its original
+assignment. When the connected package's normalized resources or taxonomy change,
+Scout may append a reconciliation against that newer snapshot without repeating
+discovery or rewriting the original record. Re-uploading unchanged content does
+not offer reconciliation.
+
+The newest reconciliation becomes the package basis for a replacement Curator.
+A candidate is omitted as already represented only when the package and candidate
+share an exact identity and an exact website or address. Weaker similarities remain
+visible as possible relationships. Reconciliation never copies unverified candidate
+fields into an existing curated resource.
+
 ## Curator handoff
 
 Completed discovery exports one self-contained Curator scoped to that run. It has

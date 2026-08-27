@@ -25,6 +25,7 @@ from .manual_consolidation import (
     manual_consolidation_view,
     record_manual_identity_decision,
 )
+from .reconciliation import reconcile_completed_run
 from .playbooks import PLAYBOOKS, playbook_for
 from .review_export import build_review_copy
 from .storage import ResearchStore
@@ -92,12 +93,7 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     ),
                 })
             elif parsed.path == "/api/discoveries":
-                self._json({
-                    "discoveries": [
-                        self._with_match_details(discovery)
-                        for discovery in self.server.store.list_discoveries()
-                    ]
-                })
+                self._json({"discoveries": self._discoveries_with_match_details()})
             elif parsed.path == "/api/research-runs":
                 self._json({"runs": self.server.store.list_runs()})
             elif (run_id := self._path_id(
@@ -257,6 +253,17 @@ class ResearchHandler(BaseHTTPRequestHandler):
                         self.server.store, run_id, self._read_json()
                     )
                 )
+            elif (run_id := self._path_id(
+                parsed.path, "/api/research-runs", "reconcile"
+            )) is not None:
+                payload = self._read_json()
+                self._json(
+                    reconcile_completed_run(
+                        self.server.store,
+                        run_id,
+                        int(payload["importId"]) if payload.get("importId") else None,
+                    )
+                )
             else:
                 self._error(HTTPStatus.NOT_FOUND, "Not found")
         except (ValueError, PackageImportError) as error:
@@ -308,6 +315,7 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 "importId": import_id,
                 "sourceName": summary["sourceName"],
                 "sourceSha256": summary["sourceSha256"],
+                "contentSha256": summary["contentSha256"],
                 "officeName": summary["officeName"],
                 "serviceArea": summary["serviceArea"],
             }
@@ -429,10 +437,32 @@ class ResearchHandler(BaseHTTPRequestHandler):
         match = re.fullmatch(re.escape(prefix) + r"/(\d+)" + ending, path)
         return int(match.group(1)) if match else None
 
-    def _with_match_details(self, discovery: dict[str, Any]) -> dict[str, Any]:
-        value = dict(discovery)
-        value["matchDetails"] = self.server.duplicate_index.explain_saved_match(discovery)
-        return value
+    def _discoveries_with_match_details(self) -> list[dict[str, Any]]:
+        discoveries = self.server.store.list_discoveries()
+        reconciliations: dict[int, dict[str, Any] | None] = {}
+        reconciliation_matches: dict[int, dict[int, dict[str, Any]]] = {}
+        result = []
+        for discovery in discoveries:
+            run_id = int(discovery["runId"])
+            if run_id not in reconciliations:
+                reconciliation = self.server.store.latest_run_reconciliation(run_id)
+                reconciliations[run_id] = reconciliation
+                if reconciliation:
+                    reconciliation_matches[run_id] = self.server.store.reconciliation_matches(
+                        int(reconciliation["id"])
+                    )
+            reconciliation = reconciliations[run_id]
+            stored_match = (
+                reconciliation_matches.get(run_id, {}).get(discovery["id"])
+                if reconciliation
+                else discovery.get("match")
+            )
+            value = dict(discovery)
+            value["matchDetails"] = self.server.duplicate_index.explain_match(
+                discovery.get("candidate", {}), stored_match
+            )
+            result.append(value)
+        return result
 
     def _access_context(self) -> dict[str, Any]:
         requester = None

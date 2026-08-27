@@ -1037,6 +1037,12 @@
     document.title = `${review.title} · Resource Curator`;
     document.querySelector('#candidate-list-name').textContent = review.run.targetCategoryLabel;
     const packageInfo = review.sourcePackage;
+    const reconciliation = review.run.reconciliation?.result;
+    const reconciliationNote = document.querySelector('#reconciliation-note');
+    if (reconciliation?.alreadyKnownCount) {
+      reconciliationNote.hidden = false;
+      reconciliationNote.textContent = `Scout compared this discovery with the current resource package and left out ${reconciliation.alreadyKnownCount} candidate${reconciliation.alreadyKnownCount === 1 ? '' : 's'} already represented there.`;
+    }
     const filter = document.querySelector('#status-filter');
     document.querySelector('#search').addEventListener('input', event => { view.search = event.target.value; renderCandidates(); });
     filter.addEventListener('change', event => { view.status = event.target.value; renderCandidates(); });
@@ -1077,7 +1083,7 @@
     window.addEventListener('beforeunload', event => { if (view.dirty && !view.persisted) { event.preventDefault(); event.returnValue = ''; } });
     setupWorkspaceWindows(); renderSourceOnlyRecords(); renderCandidates(); updateActions();
     const packageText = packageInfo ? `${packageInfo.sourceName}; schema ${packageInfo.schemaVersion}; package ${packageInfo.packageVersion}` : `Standalone location research; ${review.run.targetLocation || 'location not recorded'}`;
-    document.querySelector('#footer').textContent = `Resource Curator v0.38.3 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
+    document.querySelector('#footer').textContent = `Resource Curator v0.39.0 · Exported ${formatWhen(review.exportedAt)} · ${packageText} · Curator schema ${review.reviewCopySchemaVersion}`;
   }
 
   initialize();

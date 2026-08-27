@@ -4,7 +4,7 @@ Resource Scout turns resource leads gathered from several consumer chat products
 into a consolidated candidate list and a portable Resource Curator. It is designed
 for repeated use across TSO locations and resource categories.
 
-Version 0.38.3 is a chat-discovery-only product. The former model-agent,
+Version 0.39.0 is a chat-discovery-only product. The former model-agent,
 optimization, benchmark, trace, and teaching systems are not part of this codebase.
 
 ## Workflow
@@ -28,6 +28,13 @@ optimization, benchmark, trace, and teaching systems are not part of this codeba
    unreachable entries are removed from the Curator candidate list; inconclusive
    searches become plain-language checklist items in Notes.
 8. Export **Resource Curator**.
+
+When a genuinely changed resource package is connected after a discovery has
+finished, its run card offers **Reconcile with current package**. Scout preserves
+the package used during discovery, compares the existing candidates with the new
+package, omits only candidates supported as the same resource by an exact identity
+plus exact website or address, and keeps weaker relationships for human review.
+The replacement Curator uses the reconciled package as its additions-only base.
 
 Scout is for discovery and consolidation. Resource Specialists perform the website
 review, telephone interview, classification, editing, printing, and final package

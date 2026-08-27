@@ -59,6 +59,16 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertNotIn("stage-summary-card", self.css)
         self.assertNotIn("Resume research", self.javascript)
 
+    def test_completed_runs_offer_reconciliation_only_for_changed_package_content(self) -> None:
+        self.assertIn("function hasNewPackageForRun(run)", self.javascript)
+        self.assertIn("state.latestImport.contentSha256 !== effectiveRunPackageContentSha256(run)", self.javascript)
+        self.assertIn("Reconcile with current package", self.javascript)
+        self.assertIn("/reconcile`,", self.javascript)
+        self.assertNotIn("window.confirm", self.javascript[
+            self.javascript.index("function hasNewPackageForRun(run)"):
+            self.javascript.index("function renderExcludedLeads")
+        ])
+
     def test_runs_show_place_duration_and_candidate_context(self) -> None:
         self.assertIn("function formatDuration(run)", self.javascript)
         self.assertIn("function runPlace(run)", self.javascript)

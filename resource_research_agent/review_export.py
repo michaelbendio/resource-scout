@@ -59,9 +59,11 @@ def _run_title(run: dict[str, Any]) -> str:
 
 
 def _known_resource_match(
-    index: DuplicateIndex, discovery: dict[str, Any]
+    index: DuplicateIndex,
+    discovery: dict[str, Any],
+    stored_match: dict[str, Any] | None,
 ) -> dict[str, Any] | None:
-    explained = index.explain_saved_match(discovery)
+    explained = index.explain_match(discovery.get("candidate", {}), stored_match)
     if not explained:
         return None
     return {
@@ -161,7 +163,24 @@ def build_review_copy(
     ]
     manual_snapshot = store.manual_consolidation_snapshot(run_id)
     manual_contributions = store.list_manual_contributions(run_id)
-    import_id = run.get("sourceImportId") or run.get("seedImportId")
+    reconciliation = run.get("reconciliation")
+    reconciliation_matches = (
+        store.reconciliation_matches(int(reconciliation["id"]))
+        if reconciliation
+        else {}
+    )
+    if reconciliation:
+        discoveries = [
+            discovery
+            for discovery in discoveries
+            if reconciliation_matches.get(discovery["id"], {}).get("classification")
+            != "already-in-package"
+        ]
+    import_id = (
+        reconciliation["targetImportId"]
+        if reconciliation
+        else run.get("sourceImportId") or run.get("seedImportId")
+    )
     if import_id is None:
         matched_imports = {
             int(discovery["match"]["importId"])
@@ -226,7 +245,15 @@ def build_review_copy(
             "matchAssessment": discovery["matchAssessment"],
             "notes": _curator_notes(discovery),
             "candidate": review_candidate,
-            "knownResourceMatch": _known_resource_match(index, discovery),
+            "knownResourceMatch": _known_resource_match(
+                index,
+                discovery,
+                (
+                    reconciliation_matches.get(discovery["id"])
+                    if reconciliation
+                    else discovery.get("match")
+                ),
+            ),
             "resourceDraft": resource_draft,
         })
 
@@ -259,6 +286,7 @@ def build_review_copy(
             "targetCategoryLabel": run.get("targetCategoryLabel", "Housing"),
             "summary": str(run["result"].get("summary") or ""),
             "candidateCount": len(candidates),
+            "reconciliation": reconciliation,
         },
         "sourcePackage": (
             {

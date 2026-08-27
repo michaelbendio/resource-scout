@@ -328,6 +328,19 @@ function candidateCountForRun(runId) {
   ).length;
 }
 
+function effectiveRunPackageContentSha256(run) {
+  return run.reconciliation?.targetPackage?.contentSha256 || run.sourcePackageContentSha256 || '';
+}
+
+function hasNewPackageForRun(run) {
+  return Boolean(
+    run.status === 'completed'
+    && run.researchMode === 'package'
+    && state.latestImport?.contentSha256
+    && state.latestImport.contentSha256 !== effectiveRunPackageContentSha256(run),
+  );
+}
+
 function missingWebsiteCandidatesForRun(runId) {
   return state.discoveries.filter(discovery => {
     if (discovery.runId !== runId || ['unavailable', 'unreachable'].includes(discovery.status)) return false;
@@ -427,6 +440,13 @@ function renderRuns() {
     const errors = run.manualProgress?.errorContributionCount || 0;
     progress.textContent = `${received} response${received === 1 ? '' : 's'} received · ${leads} parsed lead${leads === 1 ? '' : 's'}${errors ? ` · ${errors} needs correction` : ''}`;
     body.append(progress);
+    if (run.reconciliation) {
+      const reconciliation = document.createElement('div');
+      reconciliation.className = 'run-reconciliation';
+      const result = run.reconciliation.result;
+      reconciliation.textContent = `Compared with ${run.reconciliation.targetPackage.sourceName}: ${result.knownCategoryResourceCount} existing ${run.targetCategoryLabel || 'category'} resource${result.knownCategoryResourceCount === 1 ? '' : 's'} · ${result.alreadyKnownCount} likely already included · ${result.possibleRelationshipCount} possible relationship${result.possibleRelationshipCount === 1 ? '' : 's'}.`;
+      body.append(reconciliation);
+    }
     const actions = document.createElement('div');
     actions.className = 'run-actions';
     const actionStatus = document.createElement('span');
@@ -464,6 +484,30 @@ function renderRuns() {
         exportLink.download = '';
         exportLink.textContent = 'Export Resource Curator';
         actions.append(viewCandidates);
+        if (hasNewPackageForRun(run)) {
+          const reconcile = document.createElement('button');
+          reconcile.type = 'button';
+          reconcile.className = 'secondary';
+          reconcile.textContent = 'Reconcile with current package';
+          reconcile.addEventListener('click', async () => {
+            reconcile.disabled = true;
+            reconcile.textContent = 'Reconciling…';
+            showActionMessage(`Comparing candidates with ${state.latestImport.sourceName}…`);
+            try {
+              const result = await request(`/api/research-runs/${run.id}/reconcile`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ importId: state.latestImport.id }),
+              });
+              showActionMessage(`Compared ${result.candidateCount} candidates: ${result.alreadyKnownCount} likely already included, ${result.possibleRelationshipCount} possible relationships, ${result.unmatchedCount} unmatched. Export a new Resource Curator.`);
+              await loadResearchData();
+            } catch (error) {
+              showActionMessage(`Reconciliation failed: ${error.message}`, 'error');
+              reconcile.disabled = false;
+              reconcile.textContent = 'Reconcile with current package';
+            }
+          });
+          actions.append(reconcile);
+        }
         if (missingWebsites.length) {
           const lookupLink = document.createElement('a');
           lookupLink.className = 'review-export';
