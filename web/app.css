@@ -57,6 +57,7 @@ button.secondary:hover { background: #d8e8df; }
 .text-button:hover { background: #e8f0eb; }
 .message { grid-column: 1 / -1; color: var(--muted); min-height: 1.5em; }
 .message.error { color: #9a2e25; }
+#import-message:empty { display: none; }
 .section-head { display: flex; justify-content: space-between; gap: 1rem; align-items: end; }
 .muted { color: var(--muted); }
 input { width: 100%; border: 1px solid #bdc6c1; border-radius: 8px; background: white; color: var(--ink); padding: .72rem .8rem; font: inherit; }
@@ -91,8 +92,10 @@ textarea { resize: vertical; }
 .research-divider.dragging { cursor: col-resize; }
 body.resizing-research-panes { cursor: col-resize; user-select: none; }
 .run-list, .candidate-list { display: grid; gap: .7rem; margin-top: 1rem; }
+.run-list { grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); align-items: start; }
+.candidate-list { grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr)); align-items: stretch; }
 .run, .candidate { padding: .9rem 1rem; border: 1px solid var(--line); border-radius: 10px; background: white; }
-.run { display: block; padding: 0; overflow: hidden; }
+.run { display: block; align-self: start; padding: 0; overflow: hidden; }
 .run-summary { display: flex; gap: .35rem; align-items: center; padding: .72rem .85rem; color: var(--forest); cursor: pointer; }
 .run-summary::-webkit-details-marker { display: none; }
 .run-summary::before { content: '▸'; flex: 0 0 auto; transition: transform .12s ease; }
@@ -131,7 +134,7 @@ body.resizing-research-panes { cursor: col-resize; user-select: none; }
 .candidate-context { display: block; margin-top: .3rem; color: #65736e; font-size: .74rem; font-weight: 700; }
 .candidate-match { color: #87591b !important; font-weight: 700; }
 .count-badge { color: var(--forest); background: var(--mint); font-size: .82rem; }
-.empty-state { padding: 1rem; border: 1px dashed #cbd0cc; border-radius: 10px; color: var(--muted); text-align: center; }
+.empty-state { grid-column: 1 / -1; padding: 1rem; border: 1px dashed #cbd0cc; border-radius: 10px; color: var(--muted); text-align: center; }
 .candidate-status { margin-top: .8rem; }
 .candidate-profile { display: grid; gap: 1rem; margin-top: 1.4rem; }
 .candidate-summary { padding: 1rem; border-radius: 10px; background: #edf4f0; }

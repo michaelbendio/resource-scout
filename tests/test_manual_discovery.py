@@ -478,6 +478,9 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertIn("['ChatGPT', 'Grok', 'Claude', 'Perplexity']", javascript)
         self.assertIn("Choose text or JSON file", javascript)
         self.assertIn("window.confirm", javascript)
+        self.assertIn("#import-message:empty { display: none; }", css)
+        self.assertIn(".run-list { grid-template-columns: repeat(auto-fit", css)
+        self.assertIn(".candidate-list { grid-template-columns: repeat(auto-fit", css)
         self.assertNotIn("Finish discovery and lock", javascript)
         finish_block = javascript[
             javascript.index("document.querySelector('#finish-manual-discovery').addEventListener"):
@@ -523,7 +526,7 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertIn("input.setAttribute('aria-label', `Select ${category.label}`)", javascript)
         self.assertNotIn("category.resourceCount", javascript)
         self.assertIn(".category-list { display: flex; flex-wrap: wrap", css)
-        self.assertNotIn("grid-template-columns: repeat(auto-fit", css)
+        self.assertNotIn(".category-list { display: grid", css)
         self.assertNotIn(".category-row + .category-row", css)
         self.assertIn("excluded lead", javascript)
         self.assertIn("'unavailable', 'unreachable'", javascript)
