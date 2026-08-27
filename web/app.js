@@ -25,7 +25,7 @@ function showImport(summary) {
   state.latestImport = summary;
   document.querySelector('#package-status-name').textContent = summary.sourceName;
   document.querySelector('#package-status').hidden = false;
-  document.querySelector('#file-label').textContent = 'Choose a different package…';
+  document.querySelector('#file-label').textContent = 'Choose a different package';
   document.querySelector('#package-details').hidden = false;
   document.querySelector('#package-details-copy').textContent = [
     summary.officeName,
@@ -74,8 +74,12 @@ function packageDefaultAssignment() {
 function updateCategoryCopy() {
   const category = activeCategory();
   document.querySelector('#research-heading-title').textContent = `Collect ${category.label} leads from your chats`;
+  const standalone = selectedResearchMode() === 'standalone-location';
+  document.querySelector('#category-guidance').textContent = standalone
+    ? 'Choose a category to focus discovery for this location. Scout provides category-aware guidance without using a resource package.'
+    : 'Choose a category to focus the discovery. Scout uses existing resources, Types, For groups, and category-aware guidance from the connected package.';
   const forGroups = state.forGroups.length ? state.forGroups.join(', ') : 'None defined in this package';
-  document.querySelector('#category-taxonomy-note').textContent = `For: ${forGroups}`;
+  document.querySelector('#category-taxonomy-note').textContent = standalone ? '' : `For: ${forGroups}`;
 }
 
 function renderCategoryChooser() {
@@ -224,6 +228,11 @@ function switchResearchMode() {
   state.assignmentDrafts[state.researchMode] = assignment.value;
   state.researchMode = nextMode;
   document.querySelector('#standalone-research-fields').hidden = nextMode !== 'standalone-location';
+  const locationButton = document.querySelector('#research-location-mode');
+  locationButton.textContent = nextMode === 'standalone-location'
+    ? 'Use a resource package'
+    : 'Research a location';
+  locationButton.setAttribute('aria-pressed', String(nextMode === 'standalone-location'));
   if (nextMode === 'package') {
     assignment.value = state.categoryAssignmentDrafts[state.activeCategoryId]
       || state.assignmentDrafts.package || packageDefaultAssignment();
@@ -231,6 +240,7 @@ function switchResearchMode() {
     state.standaloneAutoAssignment = standaloneDefaultAssignment(document.querySelector('#target-location').value);
     assignment.value = state.assignmentDrafts['standalone-location'] || state.standaloneAutoAssignment;
   }
+  updateCategoryCopy();
   updateStartResearchState();
   refreshManualAssignment();
 }
@@ -1262,6 +1272,7 @@ async function importSelectedPackage() {
   message.textContent = 'Reading the package and building the known-resource index…';
   try {
     const result = await request('/api/import', { method: 'POST', body: new FormData(form) });
+    document.querySelector('#standalone-mode').checked = false;
     showImport(result.import);
     switchResearchMode();
     await loadResearchData();
@@ -1270,7 +1281,7 @@ async function importSelectedPackage() {
     message.className = 'message error';
     message.textContent = error.message;
     document.querySelector('#file-label').textContent = state.latestImport
-      ? 'Choose a different package…' : 'Choose resource package…';
+      ? 'Choose a different package' : 'Choose resource package';
   } finally {
     chooser.classList.remove('busy');
     input.value = '';
@@ -1283,7 +1294,11 @@ document.querySelector('#package-input').addEventListener('change', () => {
 
 document.querySelector('#import-form').addEventListener('submit', event => event.preventDefault());
 
-document.querySelector('#standalone-mode').addEventListener('change', switchResearchMode);
+document.querySelector('#research-location-mode').addEventListener('click', () => {
+  const mode = document.querySelector('#standalone-mode');
+  mode.checked = !mode.checked;
+  switchResearchMode();
+});
 document.querySelector('#target-location').addEventListener('input', updateStandaloneAutoAssignment);
 document.querySelector('#regional-scope').addEventListener('input', () => {
   refreshManualAssignment();

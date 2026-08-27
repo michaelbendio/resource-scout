@@ -32,7 +32,20 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertNotIn('id="agent-adapter"', self.html)
         self.assertNotIn('id="dsh-configuration"', self.html)
         self.assertIn('id="standalone-mode"', self.html)
-        self.assertIn("Research a location without a package", self.html)
+        self.assertIn('id="research-location-mode"', self.html)
+        self.assertIn(">Research a location</button>", self.html)
+        self.assertNotIn("Research a location without a package", self.html)
+        package_intake = self.html[
+            self.html.index('class="panel import-panel"'):
+            self.html.index('class="panel category-panel"')
+        ]
+        resource_discovery = self.html[
+            self.html.index('class="panel research-panel"'):
+            self.html.index('class="research-results"')
+        ]
+        self.assertIn('id="standalone-research-fields"', package_intake)
+        self.assertNotIn('id="standalone-research-fields"', resource_discovery)
+        self.assertNotIn("Connect a resource package", package_intake)
         self.assertIn(">Set up discovery</button>", self.html)
         self.assertNotIn("selectedResearchMethod", self.javascript)
         self.assertNotIn("No chat API or paid fallback is used", self.html)

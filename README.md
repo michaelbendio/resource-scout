@@ -4,13 +4,13 @@ Resource Scout turns resource leads gathered from several consumer chat products
 into a consolidated candidate list and a portable Resource Curator. It is designed
 for repeated use across TSO locations and resource categories.
 
-Version 0.39.1 is a chat-discovery-only product. The former model-agent,
+Version 0.39.2 is a chat-discovery-only product. The former model-agent,
 optimization, benchmark, trace, and teaching systems are not part of this codebase.
 
 ## Workflow
 
-1. Connect an existing TSO Resources package, or choose **Research a location
-   without a package**.
+1. Connect an existing TSO Resources package. For the less common package-free
+   workflow, choose **Research a location** alongside the package control.
 2. Select a category and set up discovery.
 3. Copy Scout's category- and location-specific assignment into ChatGPT, Grok,
    Claude, Perplexity, or another chat of your choice.

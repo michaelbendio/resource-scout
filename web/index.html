@@ -12,7 +12,7 @@
       <h1>Resource Scout</h1>
       <p class="lede">Import what is already known. Use it to research more deeply. Keep discoveries separate for Curator and human vetting.</p>
     </div>
-    <span class="header-version" id="app-version">v0.39.1</span>
+    <span class="header-version" id="app-version">v0.39.2</span>
   </header>
 
   <main>
@@ -29,21 +29,30 @@
     </section>
 
     <section class="panel import-panel">
-      <div>
-        <p class="step">01 · Package intake</p>
-        <h2>Connect a resource package</h2>
-        <p>Select a resource-package ZIP to load its categories, existing resources, Types, and For groups.</p>
-      </div>
+      <p class="step">01 · Package intake</p>
       <form id="import-form">
-        <div class="package-status" id="package-status" hidden>
-          <span class="package-status-icon" aria-hidden="true">✓</span>
-          <div><strong id="package-status-name"></strong><small>Connected</small></div>
+        <input type="checkbox" id="standalone-mode" hidden>
+        <div class="package-intake-controls">
+          <div class="package-status" id="package-status" hidden>
+            <span class="package-status-icon" aria-hidden="true">✓</span>
+            <div><strong id="package-status-name"></strong><small>Connected</small></div>
+          </div>
+          <div class="package-actions">
+            <label class="package-button" for="package-input">
+              <span id="file-label">Choose resource package</span>
+              <input id="package-input" name="package" type="file" accept=".zip,application/zip" required>
+            </label>
+            <button type="button" class="secondary" id="research-location-mode" aria-pressed="false">Research a location</button>
+          </div>
         </div>
-        <label class="package-button" for="package-input">
-          <span id="file-label">Choose resource package…</span>
-          <input id="package-input" name="package" type="file" accept=".zip,application/zip" required>
-        </label>
-        <p class="package-safety">The source ZIP is read only. The app records a separate research snapshot and never changes the original file.</p>
+        <div class="standalone-fields" id="standalone-research-fields" hidden>
+          <label>Research location
+            <input id="target-location" placeholder="Mesa, Arizona" autocomplete="off">
+          </label>
+          <label>Nearby areas to consider <span class="optional">Optional</span>
+            <input id="regional-scope" placeholder="Maricopa County and nearby programs serving Mesa" autocomplete="off">
+          </label>
+        </div>
         <details id="package-details" hidden>
           <summary>Package details</summary>
           <p id="package-details-copy"></p>
@@ -60,7 +69,7 @@
         </div>
         <span class="count-badge" id="category-supported-count"></span>
       </div>
-      <p class="muted">Choose a category to focus the discovery. Scout uses existing resources, Types, For groups, and category-aware guidance from the connected package.</p>
+      <p class="muted" id="category-guidance">Choose a category to focus the discovery. Scout uses existing resources, Types, For groups, and category-aware guidance from the connected package.</p>
       <div class="category-list" id="category-grid"></div>
       <p class="taxonomy-note" id="category-taxonomy-note"></p>
     </section>
@@ -75,18 +84,6 @@
       </div>
 
       <form id="research-form" class="research-form">
-        <label class="standalone-option">
-          <input type="checkbox" id="standalone-mode">
-          <span><strong>Research a location without a package</strong><small>Keep this discovery separate from the connected office package.</small></span>
-        </label>
-        <div class="standalone-fields" id="standalone-research-fields" hidden>
-          <label>Research location
-            <input id="target-location" placeholder="Mesa, Arizona" autocomplete="off">
-          </label>
-          <label>Nearby areas to consider <span class="optional">Optional</span>
-            <input id="regional-scope" placeholder="Maricopa County and nearby programs serving Mesa" autocomplete="off">
-          </label>
-        </div>
         <div class="assignment-heading">
           <details class="research-assignment-details">
             <summary>Assignment</summary>
