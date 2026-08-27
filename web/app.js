@@ -345,7 +345,7 @@ function missingWebsiteCandidatesForRun(runId) {
   return state.discoveries.filter(discovery => {
     if (discovery.runId !== runId || ['unavailable', 'unreachable'].includes(discovery.status)) return false;
     const candidate = discovery.candidate || {};
-    return !asText(candidate.website || candidate.url);
+    return !asText(candidate.website || candidate.url) && !candidate.contactLookup;
   });
 }
 
@@ -484,7 +484,51 @@ function renderRuns() {
         exportLink.download = '';
         exportLink.textContent = 'Export Resource Curator';
         actions.append(viewCandidates);
-        if (hasNewPackageForRun(run)) {
+        const hasNewPackage = hasNewPackageForRun(run);
+        if (hasNewPackage && missingWebsites.length && !savedActionMessage) {
+          actionStatus.textContent = `${missingWebsites.length} candidate${missingWebsites.length === 1 ? '' : 's'} need website lookup before Scout compares this discovery with the newly connected package.`;
+        }
+        if (missingWebsites.length) {
+          const lookupLink = document.createElement('a');
+          lookupLink.className = 'review-export';
+          lookupLink.href = `/api/research-runs/${run.id}/contact-lookup`;
+          lookupLink.download = '';
+          lookupLink.textContent = `Export website lookup (${missingWebsites.length})`;
+          actions.append(lookupLink);
+          const importLookup = document.createElement('button');
+          importLookup.type = 'button';
+          importLookup.className = 'secondary';
+          importLookup.textContent = 'Import website results';
+          const importFile = document.createElement('input');
+          importFile.type = 'file';
+          importFile.accept = '.json,application/json';
+          importFile.hidden = true;
+          importLookup.addEventListener('click', () => importFile.click());
+          importFile.addEventListener('change', async () => {
+            const file = importFile.files?.[0];
+            if (!file) return;
+            importLookup.disabled = true;
+            importLookup.textContent = 'Importing…';
+            showActionMessage(`Checking ${file.name}…`);
+            try {
+              const payload = JSON.parse(await file.text());
+              const result = await request(`/api/research-runs/${run.id}/contact-lookup`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+              });
+              showActionMessage(`${file.name} applied: ${result.verifiedContactCount} updated, ${result.unavailableCount} closed or ended, ${result.unreachableCount} unreachable, ${result.unresolvedCount} unresolved.`);
+              await loadResearchData();
+            } catch (error) {
+              showActionMessage(`${file.name} was not imported: ${error.message}`, 'error');
+              importLookup.disabled = false;
+              importLookup.textContent = 'Import website results';
+            } finally {
+              importFile.value = '';
+            }
+          });
+          actions.append(importLookup, importFile);
+        }
+        if (hasNewPackage && !missingWebsites.length) {
           const reconcile = document.createElement('button');
           reconcile.type = 'button';
           reconcile.className = 'secondary';
@@ -508,46 +552,7 @@ function renderRuns() {
           });
           actions.append(reconcile);
         }
-        if (missingWebsites.length) {
-          const lookupLink = document.createElement('a');
-          lookupLink.className = 'review-export';
-          lookupLink.href = `/api/research-runs/${run.id}/contact-lookup`;
-          lookupLink.download = '';
-          lookupLink.textContent = `Export website lookup (${missingWebsites.length})`;
-          actions.append(lookupLink);
-        }
-        const importLookup = document.createElement('button');
-        importLookup.type = 'button';
-        importLookup.className = 'secondary';
-        importLookup.textContent = 'Import website results';
-        const importFile = document.createElement('input');
-        importFile.type = 'file';
-        importFile.accept = '.json,application/json';
-        importFile.hidden = true;
-        importLookup.addEventListener('click', () => importFile.click());
-        importFile.addEventListener('change', async () => {
-          const file = importFile.files?.[0];
-          if (!file) return;
-          importLookup.disabled = true;
-          importLookup.textContent = 'Importing…';
-          showActionMessage(`Checking ${file.name}…`);
-          try {
-            const payload = JSON.parse(await file.text());
-            const result = await request(`/api/research-runs/${run.id}/contact-lookup`, {
-              method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload),
-            });
-            showActionMessage(`${file.name} applied: ${result.verifiedContactCount} updated, ${result.unavailableCount} closed or ended, ${result.unreachableCount} unreachable, ${result.unresolvedCount} unresolved.`);
-            await loadResearchData();
-          } catch (error) {
-            showActionMessage(`${file.name} was not imported: ${error.message}`, 'error');
-            importLookup.disabled = false;
-            importLookup.textContent = 'Import website results';
-          } finally {
-            importFile.value = '';
-          }
-        });
-        actions.append(importLookup, importFile, exportLink);
+        actions.append(exportLink);
     }
     body.append(actions, actionStatus);
     const excluded = renderExcludedLeads(run.id);
@@ -1259,7 +1264,8 @@ async function importSelectedPackage() {
     const result = await request('/api/import', { method: 'POST', body: new FormData(form) });
     showImport(result.import);
     switchResearchMode();
-    message.textContent = `${result.import.sourceName} connected. The source ZIP was not changed.`;
+    await loadResearchData();
+    message.textContent = `${result.import.sourceName} connected. Scout read a private copy and did not change your ZIP.`;
   } catch (error) {
     message.className = 'message error';
     message.textContent = error.message;

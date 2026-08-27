@@ -62,12 +62,28 @@ class ScoutLayoutTests(unittest.TestCase):
     def test_completed_runs_offer_reconciliation_only_for_changed_package_content(self) -> None:
         self.assertIn("function hasNewPackageForRun(run)", self.javascript)
         self.assertIn("state.latestImport.contentSha256 !== effectiveRunPackageContentSha256(run)", self.javascript)
+        self.assertIn("hasNewPackage && !missingWebsites.length", self.javascript)
+        self.assertIn("need website lookup before Scout compares", self.javascript)
         self.assertIn("Reconcile with current package", self.javascript)
         self.assertIn("/reconcile`,", self.javascript)
         self.assertNotIn("window.confirm", self.javascript[
             self.javascript.index("function hasNewPackageForRun(run)"):
             self.javascript.index("function renderExcludedLeads")
         ])
+
+    def test_package_import_refreshes_runs_and_explains_zip_safety(self) -> None:
+        import_start = self.javascript.index("async function importSelectedPackage()")
+        import_end = self.javascript.index(
+            "document.querySelector('#package-input').addEventListener", import_start
+        )
+        import_javascript = self.javascript[import_start:import_end]
+        self.assertIn("await loadResearchData();", import_javascript)
+        self.assertIn("Scout read a private copy and did not change your ZIP", import_javascript)
+
+    def test_completed_contact_lookup_is_not_offered_again(self) -> None:
+        lookup_start = self.javascript.index("function missingWebsiteCandidatesForRun(runId)")
+        lookup_end = self.javascript.index("function excludedLeadsForRun", lookup_start)
+        self.assertIn("!candidate.contactLookup", self.javascript[lookup_start:lookup_end])
 
     def test_runs_show_place_duration_and_candidate_context(self) -> None:
         self.assertIn("function formatDuration(run)", self.javascript)
