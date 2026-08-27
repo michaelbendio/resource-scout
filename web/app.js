@@ -12,66 +12,6 @@ const state = {
 
 const PACKAGE_DEFAULT_ASSIGNMENT = 'Choose a category and location to prepare a focused resource-discovery assignment.';
 
-function setupResearchPaneResizer() {
-  const container = document.querySelector('#research-results');
-  const divider = document.querySelector('#research-divider');
-  if (!container || !divider) return;
-  const storageKey = 'resource-scout:runs-pane-ratio';
-  const minimumRuns = 280;
-  const minimumCandidates = 360;
-  let ratio = Number.parseFloat(localStorage.getItem(storageKey) || '0.4');
-  if (!Number.isFinite(ratio)) ratio = 0.4;
-
-  function setRunsWidth(requestedWidth, save = false) {
-    const total = container.getBoundingClientRect().width;
-    if (!total) return;
-    const dividerWidth = divider.getBoundingClientRect().width || 16;
-    const maximumRuns = Math.max(minimumRuns, total - dividerWidth - minimumCandidates);
-    const width = Math.min(maximumRuns, Math.max(minimumRuns, requestedWidth));
-    ratio = width / total;
-    container.style.setProperty('--runs-pane-width', `${width}px`);
-    divider.setAttribute('aria-valuenow', String(Math.round(ratio * 100)));
-    if (save) localStorage.setItem(storageKey, String(ratio));
-  }
-
-  function setFromPointer(event, save = false) {
-    const bounds = container.getBoundingClientRect();
-    setRunsWidth(event.clientX - bounds.left, save);
-  }
-
-  divider.addEventListener('pointerdown', event => {
-    if (event.button !== 0) return;
-    divider.setPointerCapture(event.pointerId);
-    divider.classList.add('dragging');
-    document.body.classList.add('resizing-research-panes');
-    setFromPointer(event);
-  });
-  divider.addEventListener('pointermove', event => {
-    if (!divider.hasPointerCapture(event.pointerId)) return;
-    setFromPointer(event);
-  });
-  divider.addEventListener('pointerup', event => {
-    if (divider.hasPointerCapture(event.pointerId)) divider.releasePointerCapture(event.pointerId);
-    divider.classList.remove('dragging');
-    document.body.classList.remove('resizing-research-panes');
-    setFromPointer(event, true);
-  });
-  divider.addEventListener('pointercancel', () => {
-    divider.classList.remove('dragging');
-    document.body.classList.remove('resizing-research-panes');
-  });
-  divider.addEventListener('keydown', event => {
-    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-    event.preventDefault();
-    const total = container.getBoundingClientRect().width;
-    if (event.key === 'Home') setRunsWidth(total * .25, true);
-    else if (event.key === 'End') setRunsWidth(total * .7, true);
-    else setRunsWidth((total * ratio) + (event.key === 'ArrowRight' ? 32 : -32), true);
-  });
-  window.addEventListener('resize', () => setRunsWidth(container.getBoundingClientRect().width * ratio));
-  setRunsWidth(container.getBoundingClientRect().width * ratio);
-}
-
 async function request(url, options = {}) {
   const response = await fetch(url, options);
   const body = await response.json();
@@ -1408,6 +1348,5 @@ document.querySelector('#candidate-run-filter').addEventListener('change', event
 });
 
 state.assignmentDrafts.package = document.querySelector('#research-assignment').value;
-setupResearchPaneResizer();
 switchResearchMode();
 refresh().catch(error => { document.querySelector('#import-message').textContent = error.message; });

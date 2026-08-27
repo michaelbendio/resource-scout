@@ -83,14 +83,7 @@ textarea { resize: vertical; }
 .optional { color: var(--muted); font-weight: 500; }
 .form-actions { display: flex; gap: 1rem; align-items: center; }
 .form-actions button { flex: 0 0 auto; }
-.research-results { --runs-pane-width: 40%; display: grid; grid-template-columns: minmax(280px, var(--runs-pane-width)) 16px minmax(360px, 1fr); gap: 0; margin-top: 1rem; align-items: start; }
-.research-divider { position: relative; align-self: stretch; min-height: 9rem; cursor: col-resize; touch-action: none; outline: none; }
-.research-divider::before { content: ""; position: absolute; inset: 0 5px; border-radius: 999px; background: #d5ded9; transition: background .15s ease; }
-.research-divider span { position: sticky; top: 1rem; display: block; width: 6px; height: 56px; margin: 1rem auto; border-radius: 999px; background: #789387; box-shadow: inset 2px 0 rgba(255,255,255,.45), inset -2px 0 rgba(23,75,59,.18); }
-.research-divider:hover::before, .research-divider:focus-visible::before, .research-divider.dragging::before { background: #a9c6b8; }
-.research-divider:focus-visible { box-shadow: 0 0 0 3px rgba(23,75,59,.22); border-radius: 8px; }
-.research-divider.dragging { cursor: col-resize; }
-body.resizing-research-panes { cursor: col-resize; user-select: none; }
+.research-results { display: grid; gap: 1rem; margin-top: 1rem; align-items: start; }
 .run-list, .candidate-list { display: grid; gap: .7rem; margin-top: 1rem; }
 .run-list { grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); align-items: start; }
 .candidate-list { grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr)); align-items: stretch; }
@@ -240,9 +233,6 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; background:
   .private-access > button { grid-column: 1 / -1; width: 100%; }
   .import-panel form { margin-top: 1.4rem; }
   .workspace > * + * { margin-top: 1rem; }
-  .research-results { grid-template-columns: 1fr; }
-  .candidates-panel { margin-top: 1rem; }
-  .research-divider { display: none; }
   .manual-source-list { grid-template-columns: 1fr; }
   .manual-funnel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

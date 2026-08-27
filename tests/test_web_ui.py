@@ -15,12 +15,12 @@ class ScoutLayoutTests(unittest.TestCase):
         cls.css = (web / "app.css").read_text(encoding="utf-8")
         cls.javascript = (web / "app.js").read_text(encoding="utf-8")
 
-    def test_recent_runs_and_candidate_inbox_have_an_accessible_divider(self) -> None:
-        self.assertIn('id="research-divider"', self.html)
-        self.assertIn('role="separator"', self.html)
-        self.assertIn('aria-orientation="vertical"', self.html)
-        self.assertLess(self.html.index('class="panel runs-panel"'), self.html.index('id="research-divider"'))
-        self.assertLess(self.html.index('id="research-divider"'), self.html.index('class="panel candidates-panel"'))
+    def test_research_records_follow_research_trail(self) -> None:
+        self.assertNotIn('id="research-divider"', self.html)
+        self.assertLess(
+            self.html.index('class="panel runs-panel"'),
+            self.html.index('class="panel candidates-panel"'),
+        )
 
     def test_top_bar_uses_resource_scout_name(self) -> None:
         self.assertIn("<title>Resource Scout</title>", self.html)
@@ -46,13 +46,11 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertNotIn('class="app-footer"', self.html)
         self.assertIn(".header-version { position: absolute;", self.css)
 
-    def test_divider_supports_pointer_keyboard_and_responsive_layouts(self) -> None:
-        self.assertIn("divider.addEventListener('pointerdown'", self.javascript)
-        self.assertIn("divider.addEventListener('pointermove'", self.javascript)
-        self.assertIn("divider.addEventListener('keydown'", self.javascript)
-        self.assertIn("setupResearchPaneResizer();", self.javascript)
-        self.assertIn("grid-template-columns: minmax(280px, var(--runs-pane-width)) 16px minmax(360px, 1fr)", self.css)
-        self.assertIn(".research-divider { display: none; }", self.css)
+    def test_research_panels_are_stacked_full_width(self) -> None:
+        self.assertNotIn("setupResearchPaneResizer", self.javascript)
+        self.assertNotIn("resource-scout:runs-pane-ratio", self.javascript)
+        self.assertIn(".research-results { display: grid; gap: 1rem;", self.css)
+        self.assertNotIn(".research-divider", self.css)
 
     def test_recent_runs_have_no_agent_stage_or_resume_controls(self) -> None:
         self.assertNotIn("renderRunFindings", self.javascript)
