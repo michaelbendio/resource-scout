@@ -67,7 +67,10 @@ textarea { resize: vertical; }
 .research-heading > div:first-child { max-width: 760px; }
 .research-form { margin-top: 1.5rem; }
 .research-form label { display: grid; gap: .35rem; color: #3d4b46; font-size: .82rem; font-weight: 750; }
-.assignment-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+.assignment-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; }
+.research-assignment-details { flex: 1 1 auto; min-width: 0; }
+.research-assignment-details summary { color: #3d4b46; cursor: pointer; font-size: .82rem; font-weight: 750; }
+.research-assignment-details textarea { margin-top: .45rem; }
 .assignment-heading .text-button { padding: .2rem .45rem; font-size: .78rem; }
 .research-form .standalone-option { display: flex; gap: .65rem; align-items: flex-start; padding: .85rem .9rem; border: 1px solid var(--line); border-radius: 10px; background: white; cursor: pointer; }
 .standalone-option:has(input:checked) { border-color: #6e9a85; background: #eef6f1; box-shadow: inset 0 0 0 1px #6e9a85; }

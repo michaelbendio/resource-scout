@@ -12,7 +12,7 @@
       <h1>Resource Scout</h1>
       <p class="lede">Import what is already known. Use it to research more deeply. Keep discoveries separate for Curator and human vetting.</p>
     </div>
-    <span class="header-version" id="app-version">v0.38.0</span>
+    <span class="header-version" id="app-version">v0.38.1</span>
   </header>
 
   <main>
@@ -87,9 +87,13 @@
             <input id="regional-scope" placeholder="Maricopa County and nearby programs serving Mesa" autocomplete="off">
           </label>
         </div>
-        <label><span class="assignment-heading"><span>Assignment</span><button type="button" class="text-button" id="copy-assignment">Copy assignment</button></span>
-          <textarea id="research-assignment" rows="6">Choose a category and location to prepare a focused resource-discovery assignment.</textarea>
-        </label>
+        <div class="assignment-heading">
+          <details class="research-assignment-details">
+            <summary>Assignment</summary>
+            <textarea id="research-assignment" rows="6" aria-label="Discovery assignment">Choose a category and location to prepare a focused resource-discovery assignment.</textarea>
+          </details>
+          <button type="button" class="text-button" id="copy-assignment">Copy assignment</button>
+        </div>
         <div class="form-actions">
           <button type="submit" id="start-research">Set up discovery</button>
           <span class="muted" id="research-message" aria-live="polite"></span>

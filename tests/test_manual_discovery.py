@@ -448,6 +448,16 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertIn('id="standalone-mode"', html)
         self.assertIn("Research a location without a package", html)
         self.assertIn(">Set up discovery</button>", html)
+        self.assertIn('<details class="research-assignment-details">', html)
+        self.assertIn("<summary>Assignment</summary>", html)
+        resource_assignment = html[
+            html.index('<div class="assignment-heading">'):
+            html.index('<div class="form-actions">')
+        ]
+        self.assertLess(
+            resource_assignment.index("</details>"),
+            resource_assignment.index('id="copy-assignment"'),
+        )
         self.assertIn("status.playbookCategories", javascript)
         self.assertNotIn("categoryId: researchMode === 'package' ? state.activeCategoryId : 'housing'", javascript)
         self.assertIn("copy-manual-assignment", html)
