@@ -4,7 +4,7 @@ Resource Scout turns resource leads gathered from several consumer chat products
 into a consolidated candidate list and a portable Resource Curator. It is designed
 for repeated use across TSO locations and resource categories.
 
-Version 0.39.2 is a chat-discovery-only product. The former model-agent,
+Version 0.40.0 is a chat-discovery-only product. The former model-agent,
 optimization, benchmark, trace, and teaching systems are not part of this codebase.
 
 ## Workflow
@@ -28,6 +28,18 @@ optimization, benchmark, trace, and teaching systems are not part of this codeba
    unreachable entries are removed from the Curator candidate list; inconclusive
    searches become plain-language checklist items in Notes.
 8. Export **Resource Curator**.
+
+## Candidate packages
+
+After connecting a resource package, **Save Candidate Package** downloads one
+location-named ZIP such as `mesa-candidates.zip`. It contains the consolidated
+candidates from every completed discovery associated with that connected
+package, grouped by category and accompanied by their source responses,
+source-only records, closed or unreachable records, and package provenance.
+
+Candidate packages are the portable handoff from Resource Scout to
+AutoCurator. They do not contain curation decisions and do not alter the
+connected resource package.
 
 When a genuinely changed resource package is connected after a discovery has
 finished, its run card offers **Reconcile with current package**. Scout preserves

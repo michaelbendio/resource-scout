@@ -14,6 +14,7 @@ from typing import Any
 from urllib.parse import parse_qs, urlsplit
 
 from . import __version__
+from .candidate_package import CandidatePackageError, build_candidate_package
 from .contact_lookup import apply_contact_lookup_results, build_contact_lookup_request
 from .duplicates import DuplicateIndex
 from .importer import PackageImportError, ResourcePackageImporter
@@ -96,6 +97,11 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 self._json({"discoveries": self._discoveries_with_match_details()})
             elif parsed.path == "/api/research-runs":
                 self._json({"runs": self.server.store.list_runs()})
+            elif parsed.path == "/api/candidate-package":
+                query = parse_qs(parsed.query)
+                import_id = int(query["importId"][0]) if query.get("importId") else None
+                package = build_candidate_package(self.server.store, import_id)
+                self._download(package.content, "application/zip", package.filename)
             elif (run_id := self._path_id(
                 parsed.path, "/api/manual-discovery-runs", "contributions"
             )) is not None:
@@ -136,7 +142,7 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 self._file(self.server.web_dir / "app.js", "text/javascript; charset=utf-8")
             else:
                 self._error(HTTPStatus.NOT_FOUND, "Not found")
-        except (ValueError, PackageImportError) as error:
+        except (ValueError, PackageImportError, CandidatePackageError) as error:
             self._error(HTTPStatus.BAD_REQUEST, str(error))
         except Exception as error:
             self._error(HTTPStatus.INTERNAL_SERVER_ERROR, f"Unexpected error: {error}")

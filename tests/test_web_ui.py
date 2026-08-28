@@ -59,6 +59,10 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertNotIn('class="app-footer"', self.html)
         self.assertIn(".header-version { position: absolute;", self.css)
 
+    def test_connected_package_can_export_one_location_candidate_package(self) -> None:
+        self.assertIn("Save Candidate Package", self.html)
+        self.assertIn("/api/candidate-package?importId=", self.javascript)
+
     def test_research_panels_are_stacked_full_width(self) -> None:
         self.assertNotIn("setupResearchPaneResizer", self.javascript)
         self.assertNotIn("resource-scout:runs-pane-ratio", self.javascript)

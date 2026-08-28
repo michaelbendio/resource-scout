@@ -37,6 +37,10 @@ function showImport(summary) {
     `imported ${formatWhen(summary.importedAt)}`,
     `SHA-256 ${summary.sourceSha256}`,
   ].join(' · ');
+  const candidatePackage = document.querySelector('#candidate-package-export');
+  candidatePackage.href = `/api/candidate-package?importId=${summary.id}`;
+  candidatePackage.download = '';
+  candidatePackage.hidden = false;
   state.categories = summary.categories || [];
   state.forGroups = summary.forGroups || [];
   if (importChanged) {
