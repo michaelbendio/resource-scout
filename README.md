@@ -4,8 +4,9 @@ Resource Scout turns resource leads gathered from several consumer chat products
 into a consolidated candidate list and a portable Resource Curator. It is designed
 for repeated use across TSO locations and resource categories.
 
-Version 0.40.0 is a chat-discovery-only product. The former model-agent,
-optimization, benchmark, trace, and teaching systems are not part of this codebase.
+Version 0.41.0 adds Scout-owned, Codex-controlled AutoCurator jobs while keeping
+chat discovery as the only research path. The former model-agent, optimization,
+benchmark, trace, and teaching systems are not part of this codebase.
 
 ## Workflow
 
@@ -40,6 +41,22 @@ source-only records, closed or unreachable records, and package provenance.
 Candidate packages are the portable handoff from Resource Scout to
 AutoCurator. They do not contain curation decisions and do not alter the
 connected resource package.
+
+## AutoCurator
+
+After all named service categories have completed research, Scout prepares one
+durable curation assignment at a time for Codex. It validates and stores a
+disposition for every consolidated candidate, resumes completed work without
+repeating it, and carries previously curated resources forward so one program
+can be classified under more than one category.
+
+When every category except Miscellaneous is curated, Scout invokes a configured,
+versioned Resource Assistant checkout to create `auto[Location].html`. Reviewers
+mark any vetted resources **Ready to package** in that normal TSO Resources file.
+Each successful save exports one standard additions-only package and removes the
+saved resources from that browser's active review queue. See
+[`docs/autocurator.md`](docs/autocurator.md) for the full contract and pacing
+policy.
 
 When a genuinely changed resource package is connected after a discovery has
 finished, its run card offers **Reconcile with current package**. Scout preserves
@@ -115,4 +132,5 @@ python3 -m unittest discover -s tests
 The suite covers package import and duplicate indexing, category guidance,
 response parsing, conservative consolidation, identity decisions, contact lookup,
 Curator isolation and package creation, Tailscale behavior, background service
-configuration, and Scout/Curator UI wiring.
+configuration, AutoCurator durability, curation validation, progress and pacing,
+Resource Assistant generation, and Scout/Curator UI wiring.

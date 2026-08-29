@@ -129,3 +129,15 @@ The first production gate requires all of the following:
 Stephanie's Employment feedback may refine the curation assignment before the
 remaining Mesa categories are curated. Infrastructure and deterministic safety
 tests do not depend on that wording.
+
+The Resource Assistant generator's legacy `--category` option exists only to
+reproduce the Employment-only `autoMesa.html` already sent to Stephanie. Remove
+that option when Stephanie's feedback is incorporated; the production
+AutoCurator path must then generate one all-category review file only.
+
+At that same Stephanie-feedback gate, discuss and agree on three curation rules
+before changing the Codex assignment: assigning one resource to every appropriate
+category, conservatively detecting existing For groups, and handling a warranted
+For group that is absent from the taxonomy. AutoCurator must not silently create
+the missing group. The proposed behavior is to add an Information note beginning
+`[Human--I suggest you make a new For group for ...]` for human review.

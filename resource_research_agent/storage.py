@@ -242,6 +242,54 @@ CREATE TABLE IF NOT EXISTS discovery_reconciliation_matches (
     signals_json TEXT NOT NULL DEFAULT '[]',
     PRIMARY KEY (reconciliation_id, discovery_id)
 );
+CREATE TABLE IF NOT EXISTS autocurator_jobs (
+    id INTEGER PRIMARY KEY,
+    import_id INTEGER NOT NULL REFERENCES imports(id),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (status IN ('pending', 'in-progress', 'completed')),
+    assignment_version TEXT NOT NULL,
+    candidate_package_sha256 TEXT NOT NULL CHECK (length(candidate_package_sha256) = 64),
+    location_name TEXT NOT NULL,
+    office_name TEXT NOT NULL DEFAULT '',
+    service_area TEXT NOT NULL DEFAULT '',
+    source_package_sha256 TEXT NOT NULL,
+    source_package_content_sha256 TEXT NOT NULL,
+    source_package_version TEXT NOT NULL DEFAULT '',
+    UNIQUE (import_id, candidate_package_sha256, assignment_version)
+);
+CREATE TABLE IF NOT EXISTS autocurator_categories (
+    job_id INTEGER NOT NULL REFERENCES autocurator_jobs(id) ON DELETE CASCADE,
+    category_id TEXT NOT NULL,
+    category_label TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (
+        status IN ('pending', 'assigned', 'completed', 'failed')
+    ),
+    canonical_run_id INTEGER REFERENCES research_runs(id),
+    candidate_count INTEGER NOT NULL DEFAULT 0,
+    assignment_json TEXT NOT NULL,
+    assignment_sha256 TEXT NOT NULL CHECK (length(assignment_sha256) = 64),
+    result_json TEXT,
+    result_sha256 TEXT NOT NULL DEFAULT '' CHECK (
+        result_sha256 = '' OR length(result_sha256) = 64
+    ),
+    resource_count INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL,
+    assigned_at TEXT,
+    completed_at TEXT,
+    updated_at TEXT NOT NULL,
+    error TEXT NOT NULL DEFAULT '',
+    PRIMARY KEY (job_id, category_id)
+);
+CREATE TABLE IF NOT EXISTS autocurator_progress_events (
+    id INTEGER PRIMARY KEY,
+    job_id INTEGER NOT NULL REFERENCES autocurator_jobs(id) ON DELETE CASCADE,
+    category_id TEXT,
+    created_at TEXT NOT NULL,
+    phase TEXT NOT NULL,
+    message TEXT NOT NULL,
+    details_json TEXT NOT NULL DEFAULT '{}'
+);
 """
 
 
@@ -1830,6 +1878,327 @@ class ResearchStore:
             "unavailableCount": counts["unavailable"],
             "unreachableCount": counts["unreachable"],
             "unresolvedCount": counts["unresolved"],
+        }
+
+    def create_autocurator_job(
+        self,
+        job: dict[str, Any],
+        categories: list[dict[str, Any]],
+    ) -> int:
+        if not categories:
+            raise ValueError("AutoCurator needs at least one researched category")
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            existing = connection.execute(
+                """SELECT id FROM autocurator_jobs
+                   WHERE import_id = ? AND candidate_package_sha256 = ?
+                     AND assignment_version = ?""",
+                (
+                    int(job["importId"]),
+                    str(job["candidatePackageSha256"]),
+                    str(job["assignmentVersion"]),
+                ),
+            ).fetchone()
+            if existing:
+                return int(existing["id"])
+            cursor = connection.execute(
+                """INSERT INTO autocurator_jobs (
+                       import_id, created_at, updated_at, status,
+                       assignment_version, candidate_package_sha256,
+                       location_name, office_name, service_area,
+                       source_package_sha256, source_package_content_sha256,
+                       source_package_version
+                   ) VALUES (?, ?, ?, 'pending', ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    int(job["importId"]), now, now,
+                    str(job["assignmentVersion"]),
+                    str(job["candidatePackageSha256"]),
+                    str(job["locationName"]),
+                    str(job.get("officeName") or ""),
+                    str(job.get("serviceArea") or ""),
+                    str(job["sourcePackageSha256"]),
+                    str(job["sourcePackageContentSha256"]),
+                    str(job.get("sourcePackageVersion") or ""),
+                ),
+            )
+            job_id = int(cursor.lastrowid)
+            for category in categories:
+                connection.execute(
+                    """INSERT INTO autocurator_categories (
+                           job_id, category_id, category_label, status,
+                           canonical_run_id, candidate_count, assignment_json,
+                           assignment_sha256, created_at, updated_at
+                       ) VALUES (?, ?, ?, 'pending', ?, ?, ?, ?, ?, ?)""",
+                    (
+                        job_id,
+                        str(category["categoryId"]),
+                        str(category["categoryLabel"]),
+                        category.get("canonicalRunId"),
+                        int(category.get("candidateCount") or 0),
+                        _json(category["assignment"]),
+                        str(category["assignmentSha256"]),
+                        now,
+                        now,
+                    ),
+                )
+            connection.execute(
+                """INSERT INTO autocurator_progress_events (
+                       job_id, category_id, created_at, phase, message, details_json
+                   ) VALUES (?, NULL, ?, 'curation-start', ?, ?)""",
+                (
+                    job_id,
+                    now,
+                    f"AutoCurator prepared {len(categories)} categories for Codex.",
+                    _json({"categoryCount": len(categories)}),
+                ),
+            )
+        return job_id
+
+    def get_autocurator_job(self, job_id: int) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            job = connection.execute(
+                "SELECT * FROM autocurator_jobs WHERE id = ?", (job_id,)
+            ).fetchone()
+            if not job:
+                return None
+            categories = connection.execute(
+                """SELECT * FROM autocurator_categories
+                   WHERE job_id = ? ORDER BY rowid""",
+                (job_id,),
+            ).fetchall()
+        category_values = [self._autocurator_category_dict(row) for row in categories]
+        completed = sum(item["status"] == "completed" for item in category_values)
+        failed = sum(item["status"] == "failed" for item in category_values)
+        return {
+            "id": job["id"],
+            "importId": job["import_id"],
+            "createdAt": job["created_at"],
+            "updatedAt": job["updated_at"],
+            "status": job["status"],
+            "assignmentVersion": job["assignment_version"],
+            "candidatePackageSha256": job["candidate_package_sha256"],
+            "locationName": job["location_name"],
+            "officeName": job["office_name"],
+            "serviceArea": job["service_area"],
+            "sourcePackageSha256": job["source_package_sha256"],
+            "sourcePackageContentSha256": job["source_package_content_sha256"],
+            "sourcePackageVersion": job["source_package_version"],
+            "progress": {
+                "completed": completed,
+                "failed": failed,
+                "total": len(category_values),
+            },
+            "categories": category_values,
+        }
+
+    def list_autocurator_jobs(self, import_id: int | None = None) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            if import_id is None:
+                rows = connection.execute(
+                    "SELECT id FROM autocurator_jobs ORDER BY id DESC"
+                ).fetchall()
+            else:
+                rows = connection.execute(
+                    """SELECT id FROM autocurator_jobs
+                       WHERE import_id = ? ORDER BY id DESC""",
+                    (int(import_id),),
+                ).fetchall()
+        return [
+            job for row in rows
+            if (job := self.get_autocurator_job(int(row["id"]))) is not None
+        ]
+
+    def mark_autocurator_category_assigned(
+        self, job_id: int, category_id: str
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT status FROM autocurator_categories
+                   WHERE job_id = ? AND category_id = ?""",
+                (job_id, category_id),
+            ).fetchone()
+            if not row:
+                raise ValueError("AutoCurator category not found")
+            if row["status"] == "completed":
+                raise ValueError("AutoCurator category is already completed")
+            connection.execute(
+                """UPDATE autocurator_categories
+                   SET status = 'assigned', assigned_at = COALESCE(assigned_at, ?),
+                       updated_at = ?, error = ''
+                   WHERE job_id = ? AND category_id = ?""",
+                (now, now, job_id, category_id),
+            )
+            connection.execute(
+                """UPDATE autocurator_jobs
+                   SET status = 'in-progress', updated_at = ? WHERE id = ?""",
+                (now, job_id),
+            )
+            connection.execute(
+                """INSERT INTO autocurator_progress_events (
+                       job_id, category_id, created_at, phase, message, details_json
+                   ) VALUES (?, ?, ?, 'category-assigned', ?, '{}')""",
+                (job_id, category_id, now, f"{category_id} was assigned to Codex."),
+            )
+        job = self.get_autocurator_job(job_id)
+        return next(item for item in job["categories"] if item["categoryId"] == category_id)
+
+    def update_autocurator_category_assignment(
+        self,
+        job_id: int,
+        category_id: str,
+        assignment: dict[str, Any],
+        assignment_sha256: str,
+    ) -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT status FROM autocurator_categories
+                   WHERE job_id = ? AND category_id = ?""",
+                (job_id, category_id),
+            ).fetchone()
+            if not row:
+                raise ValueError("AutoCurator category not found")
+            if row["status"] == "completed":
+                raise ValueError("Completed AutoCurator assignments are immutable")
+            connection.execute(
+                """UPDATE autocurator_categories
+                   SET assignment_json = ?, assignment_sha256 = ?, updated_at = ?
+                   WHERE job_id = ? AND category_id = ?""",
+                (_json(assignment), assignment_sha256, now, job_id, category_id),
+            )
+
+    def save_autocurator_category_result(
+        self,
+        job_id: int,
+        category_id: str,
+        result: dict[str, Any],
+        result_sha256: str,
+        resource_count: int,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT category_label FROM autocurator_categories
+                   WHERE job_id = ? AND category_id = ?""",
+                (job_id, category_id),
+            ).fetchone()
+            if not row:
+                raise ValueError("AutoCurator category not found")
+            connection.execute(
+                """UPDATE autocurator_categories
+                   SET status = 'completed', result_json = ?, result_sha256 = ?,
+                       resource_count = ?, completed_at = ?, updated_at = ?, error = ''
+                   WHERE job_id = ? AND category_id = ?""",
+                (
+                    _json(result), result_sha256, int(resource_count), now, now,
+                    job_id, category_id,
+                ),
+            )
+            remaining = int(connection.execute(
+                """SELECT COUNT(*) FROM autocurator_categories
+                   WHERE job_id = ? AND status != 'completed'""",
+                (job_id,),
+            ).fetchone()[0])
+            connection.execute(
+                """UPDATE autocurator_jobs SET status = ?, updated_at = ?
+                   WHERE id = ?""",
+                ("completed" if remaining == 0 else "in-progress", now, job_id),
+            )
+            connection.execute(
+                """INSERT INTO autocurator_progress_events (
+                       job_id, category_id, created_at, phase, message, details_json
+                   ) VALUES (?, ?, ?, 'category-completed', ?, ?)""",
+                (
+                    job_id, category_id, now,
+                    f"{row['category_label']} curation completed with {resource_count} resources.",
+                    _json({"resourceCount": int(resource_count)}),
+                ),
+            )
+        job = self.get_autocurator_job(job_id)
+        if job and job["status"] == "completed":
+            self.record_autocurator_progress(
+                job_id,
+                "curation-completed",
+                f"AutoCurator completed all {job['progress']['total']} categories.",
+                details=job["progress"],
+            )
+            job = self.get_autocurator_job(job_id)
+        return job
+
+    def record_autocurator_progress(
+        self,
+        job_id: int,
+        phase: str,
+        message: str,
+        *,
+        category_id: str | None = None,
+        details: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            if not connection.execute(
+                "SELECT 1 FROM autocurator_jobs WHERE id = ?", (job_id,)
+            ).fetchone():
+                raise ValueError("AutoCurator job not found")
+            cursor = connection.execute(
+                """INSERT INTO autocurator_progress_events (
+                       job_id, category_id, created_at, phase, message, details_json
+                   ) VALUES (?, ?, ?, ?, ?, ?)""",
+                (
+                    job_id, category_id, now, str(phase), str(message),
+                    _json(details or {}),
+                ),
+            )
+        return {
+            "id": int(cursor.lastrowid),
+            "jobId": job_id,
+            "categoryId": category_id,
+            "createdAt": now,
+            "phase": str(phase),
+            "message": str(message),
+            "details": details or {},
+        }
+
+    def list_autocurator_progress(self, job_id: int) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT * FROM autocurator_progress_events
+                   WHERE job_id = ? ORDER BY id""",
+                (job_id,),
+            ).fetchall()
+        return [
+            {
+                "id": row["id"],
+                "jobId": row["job_id"],
+                "categoryId": row["category_id"],
+                "createdAt": row["created_at"],
+                "phase": row["phase"],
+                "message": row["message"],
+                "details": json.loads(row["details_json"]),
+            }
+            for row in rows
+        ]
+
+    @staticmethod
+    def _autocurator_category_dict(row: sqlite3.Row) -> dict[str, Any]:
+        return {
+            "jobId": row["job_id"],
+            "categoryId": row["category_id"],
+            "categoryLabel": row["category_label"],
+            "status": row["status"],
+            "canonicalRunId": row["canonical_run_id"],
+            "candidateCount": row["candidate_count"],
+            "assignment": json.loads(row["assignment_json"]),
+            "assignmentSha256": row["assignment_sha256"],
+            "result": json.loads(row["result_json"]) if row["result_json"] else None,
+            "resultSha256": row["result_sha256"],
+            "resourceCount": row["resource_count"],
+            "createdAt": row["created_at"],
+            "assignedAt": row["assigned_at"],
+            "completedAt": row["completed_at"],
+            "updatedAt": row["updated_at"],
+            "error": row["error"],
         }
 
     @staticmethod
