@@ -21,6 +21,7 @@ from .scout_curation import (
     save_scout_curation_result,
 )
 from .scout_review import build_scout_review_file
+from .scout_progress import build_scout_progress
 from .candidate_package import CandidatePackageError, build_candidate_package
 from .contact_lookup import apply_contact_lookup_results, build_contact_lookup_request
 from .duplicates import DuplicateIndex
@@ -104,6 +105,10 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 self._json({"discoveries": self._discoveries_with_match_details()})
             elif parsed.path == "/api/research-runs":
                 self._json({"runs": self.server.store.list_runs()})
+            elif parsed.path == "/api/scout-progress":
+                query = parse_qs(parsed.query)
+                import_id = int(query["importId"][0]) if query.get("importId") else None
+                self._json(build_scout_progress(self.server.store, import_id))
             elif parsed.path == "/api/candidate-package":
                 query = parse_qs(parsed.query)
                 import_id = int(query["importId"][0]) if query.get("importId") else None
@@ -222,6 +227,48 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     int(payload["importId"]) if payload.get("importId") else None,
                 )
                 self._json(job, HTTPStatus.CREATED)
+            elif parsed.path == "/api/scout-progress":
+                payload = self._read_json()
+                import_id = int(payload.get("importId") or 0)
+                phase = str(payload.get("phase") or "").strip()
+                message = str(payload.get("message") or "").strip()
+                details = payload.get("details") or {}
+                if not import_id or not phase or not message:
+                    raise ValueError(
+                        "Scout progress needs an import, phase, and message"
+                    )
+                if not isinstance(details, dict):
+                    raise ValueError("Scout progress details must be an object")
+                next_chatgpt = details.get("nextChatgpt")
+                if next_chatgpt is not None:
+                    if not isinstance(next_chatgpt, dict):
+                        raise ValueError("Next ChatGPT progress must be an object")
+                    try:
+                        delay_minutes = int(next_chatgpt.get("delayMinutes"))
+                    except (TypeError, ValueError) as error:
+                        raise ValueError(
+                            "Next ChatGPT progress needs a delay duration"
+                        ) from error
+                    if delay_minutes < 0 or delay_minutes > 24 * 60:
+                        raise ValueError("Next ChatGPT delay is outside the supported range")
+                    if not str(next_chatgpt.get("scheduledAt") or "").strip():
+                        raise ValueError(
+                            "Next ChatGPT progress needs a scheduled assignment time"
+                        )
+                    next_chatgpt["delayMinutes"] = delay_minutes
+                event = self.server.store.record_scout_workflow_progress(
+                    import_id,
+                    phase,
+                    message,
+                    category_id=str(payload.get("categoryId") or "") or None,
+                    details=details,
+                )
+                self._json({
+                    "event": event,
+                    "progress": build_scout_progress(
+                        self.server.store, import_id
+                    ),
+                }, HTTPStatus.CREATED)
             elif (job_id := self._path_id(
                 parsed.path, "/api/scout-curation-jobs", "next-assignment"
             )) is not None:

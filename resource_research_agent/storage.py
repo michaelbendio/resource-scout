@@ -290,6 +290,15 @@ CREATE TABLE IF NOT EXISTS scout_curation_progress_events (
     message TEXT NOT NULL,
     details_json TEXT NOT NULL DEFAULT '{}'
 );
+CREATE TABLE IF NOT EXISTS scout_workflow_progress_events (
+    id INTEGER PRIMARY KEY,
+    import_id INTEGER NOT NULL REFERENCES imports(id) ON DELETE CASCADE,
+    category_id TEXT,
+    created_at TEXT NOT NULL,
+    phase TEXT NOT NULL,
+    message TEXT NOT NULL,
+    details_json TEXT NOT NULL DEFAULT '{}'
+);
 """
 
 
@@ -2037,6 +2046,71 @@ class ResearchStore:
                 ),
             )
         return job_id
+
+    def record_scout_workflow_progress(
+        self,
+        import_id: int,
+        phase: str,
+        message: str,
+        *,
+        category_id: str | None = None,
+        details: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            if not connection.execute(
+                "SELECT 1 FROM imports WHERE id = ?", (int(import_id),)
+            ).fetchone():
+                raise ValueError("Resource package snapshot not found")
+            cursor = connection.execute(
+                """INSERT INTO scout_workflow_progress_events (
+                       import_id, category_id, created_at, phase, message,
+                       details_json
+                   ) VALUES (?, ?, ?, ?, ?, ?)""",
+                (
+                    int(import_id),
+                    str(category_id or "").strip() or None,
+                    now,
+                    str(phase).strip(),
+                    str(message).strip(),
+                    _json(details or {}),
+                ),
+            )
+            event_id = int(cursor.lastrowid)
+        return self.get_scout_workflow_progress_event(event_id)
+
+    def get_scout_workflow_progress_event(
+        self, event_id: int
+    ) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM scout_workflow_progress_events WHERE id = ?",
+                (int(event_id),),
+            ).fetchone()
+        return self._scout_workflow_progress_dict(row) if row else None
+
+    def list_scout_workflow_progress(
+        self, import_id: int, *, limit: int = 50
+    ) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT * FROM scout_workflow_progress_events
+                   WHERE import_id = ? ORDER BY id DESC LIMIT ?""",
+                (int(import_id), max(1, min(int(limit), 500))),
+            ).fetchall()
+        return [self._scout_workflow_progress_dict(row) for row in rows]
+
+    @staticmethod
+    def _scout_workflow_progress_dict(row: sqlite3.Row) -> dict[str, Any]:
+        return {
+            "id": row["id"],
+            "importId": row["import_id"],
+            "categoryId": row["category_id"],
+            "createdAt": row["created_at"],
+            "phase": row["phase"],
+            "message": row["message"],
+            "details": json.loads(row["details_json"] or "{}"),
+        }
 
     def get_scout_curation_job(self, job_id: int) -> dict[str, Any] | None:
         with self.connect() as connection:

@@ -434,7 +434,24 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertIn("Flagstaff, Arizona", result["assignment"])
         self.assertNotIn("Housing", result["assignment"])
 
-    def test_manual_workspace_is_served_as_the_recommended_touch_usable_path(self) -> None:
+    def test_scout_progress_and_research_records_are_the_recommended_browser_path(self) -> None:
+        with urllib.request.urlopen(self.base + "/", timeout=5) as response:
+            html = response.read().decode()
+        with urllib.request.urlopen(self.base + "/app.js", timeout=5) as response:
+            javascript = response.read().decode()
+        with urllib.request.urlopen(self.base + "/app.css", timeout=5) as response:
+            css = response.read().decode()
+        self.assertIn('id="scout-progress-panel"', html)
+        self.assertIn("05 · Research records", html)
+        self.assertIn('id="candidate-run-filter"', html)
+        self.assertNotIn('id="standalone-mode"', html)
+        self.assertNotIn(">Set up discovery</button>", html)
+        self.assertNotIn("Save Candidate Package", html)
+        self.assertIn("/api/scout-progress?importId=", javascript)
+        self.assertIn("loadScoutProgress", javascript)
+        self.assertIn(".scout-progress-panel", css)
+
+    def _legacy_manual_workspace_assertions(self) -> None:
         with urllib.request.urlopen(self.base + "/", timeout=5) as response:
             html = response.read().decode()
         with urllib.request.urlopen(self.base + "/app.js", timeout=5) as response:

@@ -88,7 +88,15 @@ the operator is told the chosen duration and expected assignment time. Codex may
 extend the delay when indirect or abbreviated feedback suggests throttling. An
 explicit reset time always takes precedence. ChatGPT assignments never overlap.
 
-Scout records progress durably, and Codex reports it in the active task:
+Scout records progress durably. The browser's permanent **Scout progress** area
+shows the active office and phase, actual research and curation counts, the
+latest update, errors, and the `auto[Location].html` ready/created message with a
+download control. It also shows the selected delay duration and scheduled time
+for the next ChatGPT assignment. **Research records** remains the one place to
+inspect prior runs and their candidates; Scout does not duplicate that history
+in the progress area.
+
+Codex also reports:
 
 - research start and curation start;
 - each completed category with per-source, consolidated, and curated counts;

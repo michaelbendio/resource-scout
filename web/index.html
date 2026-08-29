@@ -10,28 +10,20 @@
   <header>
     <div>
       <h1>Resource Scout</h1>
-      <p class="lede">Import what is already known. Use it to research more deeply. Keep discoveries separate for Curator and human vetting.</p>
+      <p class="lede">Research, consolidate, and curate resources for human review.</p>
     </div>
     <span class="header-version" id="app-version">v0.41.0</span>
   </header>
 
   <main>
-    <section class="private-access" id="private-access" hidden>
-      <div class="private-access-icon" aria-hidden="true">✓</div>
-      <div class="private-access-copy">
-        <p class="step">Private iPad access</p>
-        <h2 id="private-access-title">Private access is ready</h2>
-        <p id="private-access-detail">Open this address on an iPad connected to your Tailscale network.</p>
-        <a id="private-access-url" href=""></a>
-        <p class="private-access-note">Private to your Tailscale network. This app does not use public Funnel.</p>
-      </div>
-      <button type="button" class="secondary" id="copy-private-url">Copy private address</button>
+    <section class="ipad-access" id="private-access" hidden>
+      <strong>iPad access:</strong>
+      <a id="private-access-url" href=""></a>
     </section>
 
     <section class="panel import-panel">
       <p class="step">01 · Package intake</p>
       <form id="import-form">
-        <input type="checkbox" id="standalone-mode" hidden>
         <div class="package-intake-controls">
           <div class="package-status" id="package-status" hidden>
             <span class="package-status-icon" aria-hidden="true">✓</span>
@@ -42,17 +34,7 @@
               <span id="file-label">Choose resource package</span>
               <input id="package-input" name="package" type="file" accept=".zip,application/zip" required>
             </label>
-            <a class="review-export candidate-package-export" id="candidate-package-export" hidden>Save Candidate Package</a>
-            <button type="button" class="secondary" id="research-location-mode" aria-pressed="false">Research a location</button>
           </div>
-        </div>
-        <div class="standalone-fields" id="standalone-research-fields" hidden>
-          <label>Research location
-            <input id="target-location" placeholder="Mesa, Arizona" autocomplete="off">
-          </label>
-          <label>Nearby areas to consider <span class="optional">Optional</span>
-            <input id="regional-scope" placeholder="Maricopa County and nearby programs serving Mesa" autocomplete="off">
-          </label>
         </div>
         <details id="package-details" hidden>
           <summary>Package details</summary>
@@ -62,53 +44,38 @@
       <p class="message" id="import-message" aria-live="polite"></p>
     </section>
 
-    <section class="panel category-panel" id="category-panel" hidden>
+    <section class="panel scout-progress-panel" id="scout-progress-panel">
       <div class="section-head">
         <div>
-          <p class="step">02 · Research category</p>
-          <h2>Choose one category for this research run</h2>
+          <p class="step">02 · Scout progress</p>
+          <h2 id="scout-progress-title">Waiting for a resource package</h2>
         </div>
-        <span class="count-badge" id="category-supported-count"></span>
+        <span class="progress-phase" id="scout-progress-phase">Waiting</span>
       </div>
-      <p class="muted" id="category-guidance">Choose a category to focus the discovery. Scout uses existing resources, Types, For groups, and category-aware guidance from the connected package.</p>
-      <div class="category-list" id="category-grid"></div>
-      <p class="taxonomy-note" id="category-taxonomy-note"></p>
-    </section>
-
-    <section class="panel research-panel" id="research-panel">
-      <div class="section-head research-heading">
+      <p class="scout-progress-message" id="scout-progress-message" aria-live="polite">Connect a package to see research and curation progress.</p>
+      <div class="scout-progress-metrics" id="scout-progress-metrics" hidden>
+        <div><span>Research</span><strong id="scout-research-progress">0 of 0 categories</strong></div>
+        <div><span>Curation</span><strong id="scout-curation-progress">0 of 0 categories</strong></div>
+      </div>
+      <div class="next-chatgpt" id="next-chatgpt" hidden>
+        <strong id="next-chatgpt-category"></strong>
+        <dl>
+          <div><dt>Delay</dt><dd id="next-chatgpt-delay"></dd></div>
+          <div><dt>Scheduled assignment</dt><dd id="next-chatgpt-time"></dd></div>
+        </dl>
+        <p id="next-chatgpt-reason" hidden></p>
+      </div>
+      <p class="progress-updated" id="scout-progress-updated" hidden></p>
+      <div class="review-file-ready" id="review-file-ready" hidden>
         <div>
-          <p class="step">03 · Resource discovery</p>
-          <h2 id="research-heading-title">Collect leads from your chats</h2>
-          <p class="muted" id="research-heading-detail">Copy one focused assignment into the chats you choose, then bring their responses back to Scout.</p>
+          <strong id="review-file-title"></strong>
+          <p id="review-file-detail"></p>
         </div>
+        <a class="review-export" id="review-file-download">Download review file</a>
       </div>
-
-      <form id="research-form" class="research-form">
-        <div class="assignment-heading">
-          <details class="research-assignment-details">
-            <summary>Assignment</summary>
-            <textarea id="research-assignment" rows="6" aria-label="Discovery assignment">Choose a category and location to prepare a focused resource-discovery assignment.</textarea>
-          </details>
-          <button type="button" class="text-button" id="copy-assignment">Copy assignment</button>
-        </div>
-        <div class="form-actions">
-          <button type="submit" id="start-research">Set up discovery</button>
-          <span class="muted" id="research-message" aria-live="polite"></span>
-        </div>
-      </form>
-
     </section>
 
     <section class="research-results" id="research-results">
-      <article class="panel runs-panel">
-        <div class="section-head">
-          <div><p class="step">04 · Research trail</p><h2>Recent runs</h2></div>
-          <button type="button" class="text-button" id="refresh-research">Refresh</button>
-        </div>
-        <div id="run-list" class="run-list"></div>
-      </article>
-
       <article class="panel candidates-panel">
         <div class="section-head">
           <div><p class="step">05 · Research records</p><h2 id="candidate-inbox-title">Research candidates</h2></div>
@@ -118,7 +85,7 @@
           <label for="candidate-run-filter">Research run</label>
           <select id="candidate-run-filter"></select>
         </div>
-        <p class="muted" id="candidate-inbox-context">Candidates appear after discovery finishes. Human vetting, resource editing, and package preparation happen in the exported Resource Curator.</p>
+        <p class="muted" id="candidate-inbox-context">Candidates appear after Scout finishes researching a category.</p>
         <div id="candidate-list" class="candidate-list"></div>
       </article>
 
@@ -133,7 +100,7 @@
       <p class="candidate-status" id="candidate-dialog-status"></p>
     </div>
     <div id="candidate-profile"></div>
-    <section class="curator-handoff"><h3>Continue in Resource Curator</h3><p>Use this run’s <strong>Export Resource Curator</strong> link for human vetting, resource editing, printing, and package preparation.</p></section>
+    <section class="curator-handoff"><h3>Scout curation</h3><p>Codex-controlled curation evaluates these candidates before Scout creates the office review file.</p></section>
     <details class="raw-record"><summary>View candidate JSON</summary><pre id="candidate-json"></pre></details>
   </dialog>
 

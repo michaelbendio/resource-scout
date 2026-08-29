@@ -21,6 +21,7 @@ from resource_research_agent.manual_consolidation import (
     finish_manual_discovery,
 )
 from resource_research_agent.server import ResearchHTTPServer
+from resource_research_agent.scout_progress import build_scout_progress
 from resource_research_agent.storage import ResearchStore
 
 
@@ -107,6 +108,76 @@ class CandidatePackageTests(unittest.TestCase):
                 content = response.read()
             with zipfile.ZipFile(io.BytesIO(content)) as archive:
                 self.assertIn(CANDIDATE_PACKAGE_MEMBER, archive.namelist())
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=5)
+
+    def test_scout_progress_combines_research_counts_and_chatgpt_schedule(self) -> None:
+        initial = build_scout_progress(self.store, self.import_id)
+        self.assertEqual({"completed": 1, "total": 2}, initial["research"])
+        self.assertEqual("research", initial["phase"])
+        self.assertIsNone(initial["nextChatgpt"])
+
+        event = self.store.record_scout_workflow_progress(
+            self.import_id,
+            "research",
+            "Employment research is complete; Food is next.",
+            category_id="food",
+            details={
+                "nextChatgpt": {
+                    "categoryId": "food",
+                    "categoryLabel": "Food",
+                    "delayMinutes": 17,
+                    "scheduledAt": "2026-08-28T22:17:00+00:00",
+                    "reason": "Random 10-20 minute research interval.",
+                }
+            },
+        )
+        self.assertEqual("food", event["categoryId"])
+        progress = build_scout_progress(self.store, self.import_id)
+        self.assertEqual("Employment research is complete; Food is next.", progress["message"])
+        self.assertEqual(17, progress["nextChatgpt"]["delayMinutes"])
+        self.assertEqual("Food", progress["nextChatgpt"]["categoryLabel"])
+
+    def test_http_progress_records_and_returns_delay_duration(self) -> None:
+        web_dir = Path(__file__).resolve().parent.parent / "web"
+        server = ResearchHTTPServer(("127.0.0.1", 0), self.store, web_dir)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        base = f"http://127.0.0.1:{server.server_address[1]}"
+        payload = {
+            "importId": self.import_id,
+            "phase": "research",
+            "categoryId": "food",
+            "message": "Food research is scheduled.",
+            "details": {
+                "nextChatgpt": {
+                    "categoryId": "food",
+                    "categoryLabel": "Food",
+                    "delayMinutes": 14,
+                    "scheduledAt": "2026-08-28T22:14:00+00:00",
+                }
+            },
+        }
+        try:
+            request = urllib.request.Request(
+                base + "/api/scout-progress",
+                data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(request, timeout=5) as response:
+                response_status = response.status
+                saved = json.loads(response.read())
+            self.assertEqual(201, response_status)
+            self.assertEqual(14, saved["progress"]["nextChatgpt"]["delayMinutes"])
+            with urllib.request.urlopen(
+                base + f"/api/scout-progress?importId={self.import_id}", timeout=5
+            ) as response:
+                progress = json.loads(response.read())
+            self.assertEqual("Food research is scheduled.", progress["message"])
+            self.assertEqual("2026-08-28T22:14:00+00:00", progress["nextChatgpt"]["scheduledAt"])
         finally:
             server.shutdown()
             server.server_close()

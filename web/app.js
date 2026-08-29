@@ -8,6 +8,7 @@ const state = {
   runActionMessages: {}, expandedRunIds: new Set(),
   assignmentDrafts: { package: '', 'standalone-location': '' }, standaloneAutoAssignment: '',
   categories: [], forGroups: [], activeCategoryId: 'housing', categoryAssignmentDrafts: {},
+  workflowProgress: null, progressPollTimer: null,
 };
 
 const PACKAGE_DEFAULT_ASSIGNMENT = 'Choose a category and location to prepare a focused resource-discovery assignment.';
@@ -37,32 +38,13 @@ function showImport(summary) {
     `imported ${formatWhen(summary.importedAt)}`,
     `SHA-256 ${summary.sourceSha256}`,
   ].join(' · ');
-  const candidatePackage = document.querySelector('#candidate-package-export');
-  candidatePackage.href = `/api/candidate-package?importId=${summary.id}`;
-  candidatePackage.download = '';
-  candidatePackage.hidden = false;
   state.categories = summary.categories || [];
   state.forGroups = summary.forGroups || [];
   if (importChanged) {
     state.categoryAssignmentDrafts = {};
     state.assignmentDrafts.package = '';
   }
-  const supported = state.categories.filter(category => category.supported);
-  if (!supported.some(category => category.id === state.activeCategoryId)) {
-    state.activeCategoryId = supported.find(category => category.id.toLowerCase() === 'housing')?.id
-      || supported[0]?.id || 'housing';
-  }
-  document.querySelector('#category-panel').hidden = false;
-  document.querySelector('#research-panel').hidden = false;
   document.querySelector('#research-results').hidden = false;
-  renderCategoryChooser();
-  updateCategoryCopy();
-  if (importChanged && selectedResearchMode() === 'package') {
-    document.querySelector('#research-assignment').value = packageDefaultAssignment();
-    state.assignmentDrafts.package = packageDefaultAssignment();
-  }
-  updateStartResearchState();
-  refreshManualAssignment();
 }
 
 function activeCategory() {
@@ -147,18 +129,75 @@ function showAccess(access) {
   const link = document.querySelector('#private-access-url');
   link.href = url;
   link.textContent = url;
-  const requester = access.requester;
-  const connectedRemotely = Boolean(requester?.name || requester?.login);
-  document.querySelector('#private-access-title').textContent = connectedRemotely
-    ? 'Connected privately through Tailscale'
-    : 'Private access is ready';
-  document.querySelector('#private-access-detail').textContent = connectedRemotely
-    ? `Signed in as ${requester.name || requester.login}.`
-    : 'Open this address on an iPad connected to your Tailscale network.';
-  link.hidden = connectedRemotely;
-  const copyButton = document.querySelector('#copy-private-url');
-  copyButton.hidden = connectedRemotely;
-  copyButton.dataset.url = url;
+}
+
+function friendlyProgressPhase(value) {
+  const labels = {
+    research: 'Research',
+    'ready-for-curation': 'Ready for curation',
+    'curation-start': 'Curation',
+    'category-assigned': 'Curation',
+    'category-completed': 'Curation',
+    'curation-heartbeat': 'Curation',
+    'curation-completed': 'Curation complete',
+    curation: 'Curation',
+    'review-file': 'Review file',
+    'review-file-built': 'Review file created',
+    'waiting-for-feedback': 'Waiting for feedback',
+  };
+  return labels[value] || String(value || 'Scout progress').replaceAll('-', ' ');
+}
+
+function renderScoutProgress(progress) {
+  state.workflowProgress = progress;
+  const location = progress.locationName || progress.officeName || 'Current office';
+  const phaseLabel = friendlyProgressPhase(progress.phase);
+  document.querySelector('#scout-progress-title').textContent = `Current work: ${location} — ${phaseLabel}`;
+  document.querySelector('#scout-progress-phase').textContent = phaseLabel;
+  document.querySelector('#scout-progress-message').textContent = progress.message;
+  const metrics = document.querySelector('#scout-progress-metrics');
+  metrics.hidden = false;
+  document.querySelector('#scout-research-progress').textContent = `${progress.research.completed} of ${progress.research.total} categories`;
+  const curationFailures = Number(progress.curation.failed || 0);
+  document.querySelector('#scout-curation-progress').textContent = `${progress.curation.completed} of ${progress.curation.total} categories${curationFailures ? ` · ${curationFailures} need attention` : ''}`;
+
+  const next = progress.nextChatgpt;
+  const nextPanel = document.querySelector('#next-chatgpt');
+  nextPanel.hidden = !next;
+  if (next) {
+    const category = next.categoryLabel || next.categoryId || 'Next category';
+    document.querySelector('#next-chatgpt-category').textContent = `Next ChatGPT research: ${category}`;
+    document.querySelector('#next-chatgpt-delay').textContent = `${next.delayMinutes} minute${Number(next.delayMinutes) === 1 ? '' : 's'}`;
+    document.querySelector('#next-chatgpt-time').textContent = formatWhen(next.scheduledAt);
+    const reason = document.querySelector('#next-chatgpt-reason');
+    reason.textContent = next.reason || '';
+    reason.hidden = !next.reason;
+  }
+
+  const updated = document.querySelector('#scout-progress-updated');
+  updated.hidden = !progress.updatedAt;
+  updated.textContent = progress.updatedAt ? `Latest update: ${formatWhen(progress.updatedAt)}` : '';
+
+  const review = progress.reviewFile;
+  const reviewPanel = document.querySelector('#review-file-ready');
+  reviewPanel.hidden = !review;
+  if (review) {
+    document.querySelector('#review-file-title').textContent = review.status === 'created'
+      ? `${review.filename} created`
+      : `${review.filename} is ready`;
+    const created = review.createdAt ? ` · created ${formatWhen(review.createdAt)}` : '';
+    document.querySelector('#review-file-detail').textContent = `${review.categoryCount} curated categories · ${review.resourceCount} proposed resources${created}`;
+    const download = document.querySelector('#review-file-download');
+    download.href = review.downloadUrl;
+    download.download = review.filename;
+    download.textContent = `Download ${review.filename}`;
+  }
+}
+
+async function loadScoutProgress() {
+  if (!state.latestImport) return;
+  const progress = await request(`/api/scout-progress?importId=${state.latestImport.id}`);
+  renderScoutProgress(progress);
 }
 
 function selectedResearchMode() {
@@ -408,7 +447,6 @@ function manualRunActionLabel(run) {
 function selectCandidateRun(runId, { scroll = false } = {}) {
   state.candidateRunId = runId;
   state.candidateRunSelectionInitialized = true;
-  renderRuns();
   renderCandidates();
   if (scroll) {
     document.querySelector('.candidates-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1042,8 +1080,8 @@ function renderCandidates() {
     ? `Research candidates · ${researchRunTitle(selectedRun)}`
     : 'Research candidates · All runs';
   document.querySelector('#candidate-inbox-context').textContent = selectedRun
-      ? `Showing only candidates associated with discovery run ${selectedRun.id}. Use its run card to export a Resource Curator for human vetting, resource editing, and package preparation.`
-    : 'Showing candidates from every research run. Choose one run to inspect or export its Resource Curator.';
+    ? `Showing only candidates associated with discovery run ${selectedRun.id}.`
+    : 'Showing candidates from every research run. Choose one run to inspect its discoveries.';
   if (!discoveries.length) {
     target.replaceChildren(emptyState(selectedRun
       ? 'No candidates have been saved for this research run yet.'
@@ -1241,7 +1279,7 @@ async function loadResearchData() {
   } else if (state.candidateRunId != null && !state.runs.some(run => run.id === state.candidateRunId)) {
     state.candidateRunId = null;
   }
-  renderRuns(); renderCandidates();
+  renderCandidates();
 }
 
 async function refresh() {
@@ -1252,16 +1290,8 @@ async function refresh() {
     showImport(status.latestImport);
   } else {
     state.latestImport = null;
-    state.categories = status.playbookCategories || [];
-    if (!state.categories.some(category => category.id === state.activeCategoryId)) {
-      state.activeCategoryId = state.categories[0]?.id || '';
-    }
-    document.querySelector('#category-panel').hidden = !state.categories.length;
-    renderCategoryChooser();
-    updateCategoryCopy();
-    updateStartResearchState();
   }
-  await loadResearchData();
+  await Promise.all([loadResearchData(), loadScoutProgress()]);
 }
 
 async function importSelectedPackage() {
@@ -1276,10 +1306,8 @@ async function importSelectedPackage() {
   message.textContent = 'Reading the package and building the known-resource index…';
   try {
     const result = await request('/api/import', { method: 'POST', body: new FormData(form) });
-    document.querySelector('#standalone-mode').checked = false;
     showImport(result.import);
-    switchResearchMode();
-    await loadResearchData();
+    await Promise.all([loadResearchData(), loadScoutProgress()]);
     message.textContent = `${result.import.sourceName} connected. Scout read a private copy and did not change your ZIP.`;
   } catch (error) {
     message.className = 'message error';
@@ -1298,15 +1326,6 @@ document.querySelector('#package-input').addEventListener('change', () => {
 
 document.querySelector('#import-form').addEventListener('submit', event => event.preventDefault());
 
-document.querySelector('#research-location-mode').addEventListener('click', () => {
-  const mode = document.querySelector('#standalone-mode');
-  mode.checked = !mode.checked;
-  switchResearchMode();
-});
-document.querySelector('#target-location').addEventListener('input', updateStandaloneAutoAssignment);
-document.querySelector('#regional-scope').addEventListener('input', () => {
-  refreshManualAssignment();
-});
 document.querySelector('#close-candidate').addEventListener('click', () => document.querySelector('#candidate-dialog').close());
 document.querySelector('#close-manual-discovery').addEventListener('click', () => {
   document.querySelector('#manual-discovery-dialog').close();
@@ -1314,12 +1333,8 @@ document.querySelector('#close-manual-discovery').addEventListener('click', () =
     state.activeManualRun = null;
     state.manualContributions = [];
     state.manualConsolidation = null;
-    document.querySelector('#research-message').textContent = 'Discovery setup closed. No discovery was started.';
+    document.querySelector('#scout-progress-message').textContent = 'Discovery setup closed. No discovery was started.';
   }
-});
-
-document.querySelector('#copy-assignment').addEventListener('click', event => {
-  copyText(document.querySelector('#research-assignment').value, event.currentTarget, 'Copy assignment');
 });
 
 document.querySelector('#copy-manual-assignment').addEventListener('click', event => {
@@ -1371,51 +1386,20 @@ document.querySelector('#finish-manual-discovery').addEventListener('click', asy
     state.activeManualRun = null;
     state.manualContributions = [];
     state.manualConsolidation = null;
-    document.querySelector('#research-message').textContent = 'Discovery finished. Continue with its actions in Recent runs.';
+    document.querySelector('#scout-progress-message').textContent = 'Discovery finished. Its candidates are available in Research records.';
   } catch (error) {
     message.textContent = error.message;
     event.currentTarget.disabled = false;
   }
 });
 
-document.querySelector('#copy-private-url').addEventListener('click', async event => {
-  const button = event.currentTarget;
-  const url = button.dataset.url || '';
-  try {
-    await navigator.clipboard.writeText(url);
-    button.textContent = 'Address copied';
-    setTimeout(() => { button.textContent = 'Copy private address'; }, 1500);
-  } catch {
-    button.textContent = 'Press and hold the address to copy';
-  }
-});
-
-document.querySelector('#research-form').addEventListener('submit', async event => {
-  event.preventDefault();
-  const button = document.querySelector('#start-research');
-  const message = document.querySelector('#research-message');
-  button.disabled = true;
-  message.textContent = 'Opening the discovery workspace…';
-  try {
-    const payload = {
-      ...manualAssignmentPayload(),
-      assignment: document.querySelector('#research-assignment').value,
-    };
-    openManualDiscoverySetup(payload);
-    message.textContent = 'Discovery workspace ready. Scout will start the discovery when you validate and save the first response.';
-  } catch (error) {
-    message.textContent = error.message;
-  } finally { updateStartResearchState(); }
-});
-
-document.querySelector('#refresh-research').addEventListener('click', () => loadResearchData().catch(error => {
-  document.querySelector('#research-message').textContent = error.message;
-}));
-
 document.querySelector('#candidate-run-filter').addEventListener('change', event => {
   selectCandidateRun(event.target.value ? Number(event.target.value) : null);
 });
 
-state.assignmentDrafts.package = document.querySelector('#research-assignment').value;
-switchResearchMode();
 refresh().catch(error => { document.querySelector('#import-message').textContent = error.message; });
+state.progressPollTimer = window.setInterval(() => {
+  loadScoutProgress().catch(error => {
+    document.querySelector('#scout-progress-message').textContent = error.message;
+  });
+}, 15000);

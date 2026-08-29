@@ -12,33 +12,29 @@ not part of this codebase.
 
 ## Workflow
 
-1. Connect an existing TSO Resources package. For the less common package-free
-   workflow, choose **Research a location** alongside the package control.
-2. Select a category and set up discovery.
-3. Copy Scout's category- and location-specific assignment into ChatGPT, Grok,
-   Claude, Perplexity, or another chat of your choice.
-4. Paste each response into Scout. The first valid saved response starts the
-   discovery. Scout preserves the submitted text and source label, parses the leads,
-   and reports any response that needs correction.
-5. Consolidate the leads. Scout collapses exact repetitions and clear same-program
-   aliases, keeps genuinely uncertain identities separate, distinguishes providers
-   and programs from directories and routing sources, and compares candidates with
-   resources already in the package.
-6. Finish discovery. Curator groups distinct programs under their organization so
-   specialists can work through a large provider without doing record linkage.
-7. For candidates without a website, export Scout's contact-search assignment,
-   complete those searches, and return the results. Confirmed unavailable or
-   unreachable entries are removed from the Curator candidate list; inconclusive
-   searches become plain-language checklist items in Notes.
-8. Export **Resource Curator**.
+1. Connect an existing TSO Resources package.
+2. Codex shepherds Scout's research category by category using ChatGPT, Grok,
+   Claude, and Perplexity. Scout preserves each response, consolidates the leads,
+   and compares candidates with the connected package.
+3. Scout's progress area reports research and curation counts, the current
+   activity, the selected delay and scheduled time for the next ChatGPT run, and
+   a 15-minute heartbeat during long categories.
+4. After research finishes, Scout curates each non-Miscellaneous category through
+   durable Codex-controlled assignments.
+5. Scout creates a transient `auto[Location].html` for human review and displays
+   a ready message and download control.
+6. Reviewers edit ordinary resources in that file, mark vetted resources **Ready
+   to package**, save a standard package spanning any ready categories, and merge
+   it into the office HTML. Successfully packaged resources are hidden locally.
 
 ## Candidate packages
 
-After connecting a resource package, **Save Candidate Package** downloads one
-location-named ZIP such as `mesa-candidates.zip`. It contains the consolidated
-candidates from every completed discovery associated with that connected
-package, grouped by category and accompanied by their source responses,
-source-only records, closed or unreachable records, and package provenance.
+Scout can build an internal location-wide candidate snapshot such as
+`mesa-candidates.zip`. It contains the consolidated candidates from every
+completed discovery associated with the connected package, grouped by category
+and accompanied by their source responses, source-only records, closed or
+unreachable records, and package provenance. The main Scout screen does not ask
+the operator to save this intermediate package.
 
 Candidate packages are a portable Scout snapshot. They do not contain curation
 decisions and do not alter the connected resource package.
@@ -59,31 +55,16 @@ that browser's active review queue. See
 [`docs/scout-curation.md`](docs/scout-curation.md) for the full contract and pacing
 policy.
 
-When a genuinely changed resource package is connected after a discovery has
-finished, its run card offers **Reconcile with current package**. Scout preserves
-the package used during discovery, compares the existing candidates with the new
-package, omits only candidates supported as the same resource by an exact identity
-plus exact website or address, and keeps weaker relationships for human review.
-The replacement Curator uses the reconciled package as its additions-only base.
+When a genuinely changed resource package is connected after discovery has
+finished, Scout can reconcile the preserved discoveries against it without
+repeating research. It omits only candidates supported as the same resource by
+an exact identity plus exact website or address and keeps weaker relationships
+for review. The resulting office review file uses that reconciled package as its
+additions-only base.
 
 Resource Specialists perform the website review, telephone interview,
-classification, editing, printing, and final package decision in Scout's review
-file.
-
-## Resource Curator
-
-Each Curator is a self-contained HTML file. It contains two resizable work areas:
-**Editors** and **Notes**. Editors contains Categories, Resource, and For tabs.
-
-The candidate's concise service summary initially fills Description. Available
-phone, address, website, and other contact information fill their matching fields.
-The specialist completes and corrects the resource, prints it for review, and marks
-it **Ready for package** when satisfied.
-
-**Save work** downloads a portable JSON checkpoint. **Save a resource package**
-creates an additions-only ZIP containing currently ready resources. The ZIP can be
-merged through TSO Resources. Curators created without a source package can save
-work but cannot create a resource package.
+classification, editing, printing, and final package decision in Scout's normal
+TSO Resources review file.
 
 ## Run Scout
 
@@ -118,11 +99,11 @@ does not remove Scout's database or logs.
 ## Data and privacy
 
 The connected package is read without modifying the source ZIP. Scout stores an
-immutable import snapshot, the chat responses pasted by the user, deterministic
-consolidation records, contact-search results, and completed candidate records in
-its local SQLite database. A Curator export contains only the selected completed
-run, the fields needed for curation and package creation, limited package identity,
-and plain-language provenance for source-only records.
+immutable import snapshot, chat responses, deterministic consolidation records,
+contact-search results, completed candidate records, curation assignments, and
+workflow progress in its local SQLite database. A generated office review file
+contains curated proposals and only the office/package provenance needed for
+review and standard package creation.
 
 ## Tests
 
@@ -134,4 +115,4 @@ The suite covers package import and duplicate indexing, category guidance,
 response parsing, conservative consolidation, identity decisions, contact lookup,
 Curator isolation and package creation, Tailscale behavior, background service
 configuration, Resource Scout curation durability, curation validation, progress
-and pacing, Scout-owned review-file generation, and Scout/Curator UI wiring.
+and pacing, Scout-owned review-file generation, and Scout/review-file UI wiring.

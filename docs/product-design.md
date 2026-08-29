@@ -2,71 +2,72 @@
 
 ## Product boundary
 
-Resource Scout prepares a focused assignment, accepts responses copied from chats,
-consolidates submitted leads conservatively, compares them with an optional source
-package, and hands the resulting candidates to Resource Curator.
+Resource Scout owns the path from office-package intake through multi-model
+research, conservative consolidation, Codex-controlled curation, and generation
+of a transient office review file such as `autoMesa.html`.
 
-Scout does not decide whether a candidate is worthwhile. Curator does not require
-a separate outcome form. A specialist's operational decision is expressed by
-finishing a resource and marking it **Ready for package**; candidates that are not
-ready remain pending.
+The review file is a normal TSO Resources application with additional proposal
+review controls. It is an artifact created by Scout, not a separate product, and
+is never named `autoNew.html` or Resource Curator.
 
-## Discovery contract
+## Research and consolidation
 
-The assignment requests leads rather than complete resource dossiers. It asks for
-organization, program, website, readily available contact fields, lead role,
-service area, a concise reason the lead matters, and uncertainty. Category guidance
-defines what to include and what should not be treated as a candidate. Unknown
-details are acceptable and do not by themselves discard a lead.
+Codex shepherds research one category at a time with ChatGPT, Grok, Claude, and
+Perplexity. Scout preserves every source response and attribution. Exact repeated
+submissions collapse deterministically; clear same-program aliases may collapse,
+while genuinely uncertain identities remain separate. Directories and routing
+systems remain source-only records rather than inflating candidate counts.
 
-The response parser preserves the original text and source label. Parsed claims are
-leads, not verified facts. Agreement among chats is useful identity evidence but is
-not treated as truth.
+ChatGPT assignments are spaced by a randomly selected 10-to-20-minute baseline.
+Codex may extend that delay when indirect feedback suggests throttling and reports
+the chosen delay before each assignment. Long categories receive a progress
+heartbeat every 15 minutes.
 
-## Consolidation
+## Curation and office review
 
-Exact repeated submissions collapse deterministically. Clear same-program naming
-variants and matching access-point aliases collapse automatically. Similar
-identities otherwise remain separate. A shared website alone is never identity
-evidence. Named programs remain distinct when their service, population, intake,
-or administration is materially different. Ordinary locations are not counted as
-separate services. Directories and routing systems remain available as source-only
-records rather than inflating the candidate count.
+After all named categories have been researched, Scout gives Codex one durable
+curation assignment at a time. `Miscellaneous` is ignored. Completed work resumes
+without repetition, and every consolidated candidate receives a deterministic
+disposition. These dispositions establish completeness and provenance; they are
+not reviewer-facing outcomes.
 
-Candidate inclusion requires a credible indication of category relevance and
-service to the selected area. Scout preserves uncertainty for the specialist.
+Scout then generates `auto[Location].html` with all ordinary categories visible
+and only curated resources populated. Reviewers edit proposals in the normal Admin
+experience and mark satisfactory resources **Ready to package**. Saving creates
+one standard additions-only resource package containing all currently ready
+resources, even when they span categories. After a successful save, those
+resources are hidden locally but retained in packaged history. Deleting a proposal
+discards it from that review copy without creating an exportable tombstone.
 
-## Contact completion
+The final human-vetted package is authoritative. Scout never writes curated
+proposals directly into the office package or office HTML.
 
-Website presence is the trigger for additional contact research. A confirmed
-current website makes a lead actionable even if a phone number is not yet known.
-A known official website that is dead, followed by unsuccessful replacement and
-phone searches, may be recorded as unreachable. Closure or program termination
-requires credible evidence. Inconclusive results remain candidates and receive a
-plain-language Notes checklist with specific next searches.
+## Progress and history
 
-## Completed-run reconciliation
+The main screen stays intentionally small:
 
-A completed discovery remains linked to the package that shaped its original
-assignment. When the connected package's normalized resources or taxonomy change,
-Scout may append a reconciliation against that newer snapshot without repeating
-discovery or rewriting the original record. Re-uploading unchanged content does
-not offer reconciliation.
+- package intake has no operator-facing candidate-package export;
+- Scout progress shows the office, current phase, actual research and curation
+  counts, current activity, latest update, next ChatGPT category, delay duration,
+  scheduled assignment time, and any adjustment reason;
+- the progress area announces when `auto[Location].html` is ready or created and
+  provides its download;
+- Research records is the sole browser view for prior runs and candidates.
 
-The newest reconciliation becomes the package basis for a replacement Curator.
-A candidate is omitted as already represented only when the package and candidate
-share an exact identity and an exact website or address. Weaker similarities remain
-visible as possible relationships. Reconciliation never copies unverified candidate
-fields into an existing curated resource.
+## Reconciliation
 
-## Curator handoff
+A completed discovery remains linked to the package that shaped its assignment.
+When a connected package genuinely changes, Scout can append reconciliation
+against the newer snapshot without repeating discovery or rewriting the original
+record. A candidate is omitted as already represented only when exact identity is
+supported by an exact website or address. Weaker relationships stay visible for
+review.
 
-Completed discovery exports one self-contained Curator scoped to that run. It has
-Editors and Notes work areas, stable candidate and draft IDs, optional known-resource
-relationship review, printable client-facing output, portable work checkpoints,
-and additions-only package creation when a source package exists. Multiple distinct
-programs from one organization appear together in a collapsible organization group;
-specialists are not asked to resolve speculative submission relationships.
+## Deferred feedback gate
 
-The Curator export excludes the Scout database, source-package full records,
-credentials, old research machinery, and hidden outcome or teaching fields.
+The Employment-only compatibility path exists solely to reproduce the
+`autoMesa.html` already sent to Stephanie. Remove it when her feedback is
+incorporated. At that point, discuss multi-category resource assignment,
+conservative detection of existing For groups, and the treatment of warranted but
+missing groups. Scout must not silently create a For group; the proposed human note
+begins `[Human--I suggest you make a new For group for ...]`.

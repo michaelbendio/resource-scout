@@ -23,6 +23,7 @@ from resource_research_agent.scout_curation import (
 from resource_research_agent.scout_review import (
     build_scout_review_file,
 )
+from resource_research_agent.scout_progress import build_scout_progress
 from resource_research_agent.duplicates import DuplicateIndex
 from resource_research_agent.importer import ResourcePackageImporter
 from resource_research_agent.manual_consolidation import (
@@ -317,6 +318,25 @@ class ScoutCurationTests(unittest.TestCase):
         self.assertFalse(progress_heartbeat_due(completed_at, completed_at + timedelta(minutes=14)))
         self.assertTrue(progress_heartbeat_due(completed_at, completed_at + timedelta(minutes=15)))
 
+    def test_curation_start_clears_an_old_chatgpt_schedule(self) -> None:
+        self.store.record_scout_workflow_progress(
+            self.import_id,
+            "research",
+            "All research is complete.",
+            details={
+                "nextChatgpt": {
+                    "categoryId": "food",
+                    "categoryLabel": "Food",
+                    "delayMinutes": 15,
+                    "scheduledAt": "2026-08-28T22:15:00+00:00",
+                }
+            },
+        )
+        prepare_scout_curation_job(self.store, self.import_id)
+        progress = build_scout_progress(self.store, self.import_id)
+        self.assertEqual("curation-start", progress["phase"])
+        self.assertIsNone(progress["nextChatgpt"])
+
     def test_http_contract_exposes_durable_assignments_results_and_progress(self) -> None:
         web_dir = Path(__file__).resolve().parent.parent / "web"
         server = ResearchHTTPServer(("127.0.0.1", 0), self.store, web_dir)
@@ -426,6 +446,14 @@ class ScoutCurationTests(unittest.TestCase):
         last_event = self.store.list_scout_curation_progress(job["id"])[-1]
         self.assertEqual("review-file-built", last_event["phase"])
         self.assertEqual(__build__, last_event["details"]["scoutBuild"])
+        progress = build_scout_progress(self.store, self.import_id)
+        self.assertEqual("created", progress["reviewFile"]["status"])
+        self.assertEqual("autoMesa.html", progress["reviewFile"]["filename"])
+        self.assertEqual(1, progress["reviewFile"]["resourceCount"])
+        self.assertEqual(
+            f"/api/scout-curation-jobs/{job['id']}/review-file",
+            progress["reviewFile"]["downloadUrl"],
+        )
 
 
 if __name__ == "__main__":
