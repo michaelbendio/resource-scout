@@ -14,13 +14,13 @@ from typing import Any
 from urllib.parse import parse_qs, urlsplit
 
 from . import __version__
-from .autocurator import (
-    build_autocurator_seed,
-    next_autocurator_assignment,
-    prepare_autocurator_job,
-    save_autocurator_result,
+from .scout_curation import (
+    build_scout_review_seed,
+    next_scout_curation_assignment,
+    prepare_scout_curation_job,
+    save_scout_curation_result,
 )
-from .autocurator_generation import build_autocurator_review_file
+from .scout_review import build_scout_review_file
 from .candidate_package import CandidatePackageError, build_candidate_package
 from .contact_lookup import apply_contact_lookup_results, build_contact_lookup_request
 from .duplicates import DuplicateIndex
@@ -49,20 +49,12 @@ class ResearchHTTPServer(ThreadingHTTPServer):
         store: ResearchStore,
         web_dir: Path,
         private_url: str | None = None,
-        resource_assistant_checkout: str | Path | None = None,
     ) -> None:
         super().__init__(address, ResearchHandler)
         self.store = store
         self.duplicate_index = DuplicateIndex(store)
         self.web_dir = web_dir
         self.private_url = private_url
-        configured_checkout = resource_assistant_checkout or os.environ.get(
-            "RESOURCE_ASSISTANT_CHECKOUT"
-        )
-        self.resource_assistant_checkout = (
-            Path(configured_checkout).expanduser().resolve()
-            if configured_checkout else None
-        )
 
 
 class ResearchHandler(BaseHTTPRequestHandler):
@@ -117,33 +109,28 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 import_id = int(query["importId"][0]) if query.get("importId") else None
                 package = build_candidate_package(self.server.store, import_id)
                 self._download(package.content, "application/zip", package.filename)
-            elif parsed.path == "/api/autocurator-jobs":
+            elif parsed.path == "/api/scout-curation-jobs":
                 query = parse_qs(parsed.query)
                 import_id = int(query["importId"][0]) if query.get("importId") else None
                 self._json({
-                    "jobs": self.server.store.list_autocurator_jobs(import_id)
+                    "jobs": self.server.store.list_scout_curation_jobs(import_id)
                 })
             elif (job_id := self._path_id(
-                parsed.path, "/api/autocurator-jobs", "progress"
+                parsed.path, "/api/scout-curation-jobs", "progress"
             )) is not None:
                 self._json({
-                    "events": self.server.store.list_autocurator_progress(job_id)
+                    "events": self.server.store.list_scout_curation_progress(job_id)
                 })
             elif (job_id := self._path_id(
-                parsed.path, "/api/autocurator-jobs", "seed"
+                parsed.path, "/api/scout-curation-jobs", "seed"
             )) is not None:
-                self._json(build_autocurator_seed(self.server.store, job_id))
+                self._json(build_scout_review_seed(self.server.store, job_id))
             elif (job_id := self._path_id(
-                parsed.path, "/api/autocurator-jobs", "review-file"
+                parsed.path, "/api/scout-curation-jobs", "review-file"
             )) is not None:
-                if not self.server.resource_assistant_checkout:
-                    raise ValueError(
-                        "Configure RESOURCE_ASSISTANT_CHECKOUT before building a review file"
-                    )
-                review_file = build_autocurator_review_file(
+                review_file = build_scout_review_file(
                     self.server.store,
                     job_id,
-                    self.server.resource_assistant_checkout,
                 )
                 self._download(
                     review_file.content,
@@ -151,13 +138,13 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     review_file.filename,
                 )
             elif (job_id := self._path_id(
-                parsed.path, "/api/autocurator-jobs"
+                parsed.path, "/api/scout-curation-jobs"
             )) is not None:
-                job = self.server.store.get_autocurator_job(job_id)
+                job = self.server.store.get_scout_curation_job(job_id)
                 if job:
                     self._json(job)
                 else:
-                    self._error(HTTPStatus.NOT_FOUND, "AutoCurator job not found")
+                    self._error(HTTPStatus.NOT_FOUND, "Resource Scout curation job not found")
             elif (run_id := self._path_id(
                 parsed.path, "/api/manual-discovery-runs", "contributions"
             )) is not None:
@@ -228,47 +215,47 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     self._create_manual_discovery_run(self._read_json()),
                     HTTPStatus.CREATED,
                 )
-            elif parsed.path == "/api/autocurator-jobs":
+            elif parsed.path == "/api/scout-curation-jobs":
                 payload = self._read_json()
-                job = prepare_autocurator_job(
+                job = prepare_scout_curation_job(
                     self.server.store,
                     int(payload["importId"]) if payload.get("importId") else None,
                 )
                 self._json(job, HTTPStatus.CREATED)
             elif (job_id := self._path_id(
-                parsed.path, "/api/autocurator-jobs", "next-assignment"
+                parsed.path, "/api/scout-curation-jobs", "next-assignment"
             )) is not None:
                 self._read_json()
                 self._json({
-                    "assignment": next_autocurator_assignment(
+                    "assignment": next_scout_curation_assignment(
                         self.server.store, job_id
                     )
                 })
             elif (job_id := self._path_id(
-                parsed.path, "/api/autocurator-jobs", "results"
+                parsed.path, "/api/scout-curation-jobs", "results"
             )) is not None:
                 payload = self._read_json()
                 result = payload.get("result")
                 if not isinstance(result, dict):
-                    raise ValueError("AutoCurator result must be one JSON object")
-                self._json(save_autocurator_result(
+                    raise ValueError("Resource Scout curation result must be one JSON object")
+                self._json(save_scout_curation_result(
                     self.server.store,
                     job_id,
                     str(payload.get("categoryId") or ""),
                     result,
                 ))
             elif (job_id := self._path_id(
-                parsed.path, "/api/autocurator-jobs", "progress"
+                parsed.path, "/api/scout-curation-jobs", "progress"
             )) is not None:
                 payload = self._read_json()
                 phase = str(payload.get("phase") or "").strip()
                 message = str(payload.get("message") or "").strip()
                 if not phase or not message:
-                    raise ValueError("AutoCurator progress needs a phase and message")
+                    raise ValueError("Resource Scout curation progress needs a phase and message")
                 details = payload.get("details") or {}
                 if not isinstance(details, dict):
-                    raise ValueError("AutoCurator progress details must be an object")
-                self._json(self.server.store.record_autocurator_progress(
+                    raise ValueError("Resource Scout curation progress details must be an object")
+                self._json(self.server.store.record_scout_curation_progress(
                     job_id,
                     phase,
                     message,

@@ -10,17 +10,18 @@ import zipfile
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from resource_research_agent.autocurator import (
-    AutoCuratorError,
-    build_autocurator_seed,
-    next_autocurator_assignment,
-    prepare_autocurator_job,
+from resource_research_agent import __build__, __version__
+from resource_research_agent.scout_curation import (
+    ScoutCurationError,
+    build_scout_review_seed,
+    next_scout_curation_assignment,
+    prepare_scout_curation_job,
     progress_heartbeat_due,
-    save_autocurator_result,
+    save_scout_curation_result,
     schedule_chatgpt_assignment,
 )
-from resource_research_agent.autocurator_generation import (
-    build_autocurator_review_file,
+from resource_research_agent.scout_review import (
+    build_scout_review_file,
 )
 from resource_research_agent.duplicates import DuplicateIndex
 from resource_research_agent.importer import ResourcePackageImporter
@@ -51,7 +52,7 @@ class FixedRandom:
         return self.value
 
 
-class AutoCuratorTests(unittest.TestCase):
+class ScoutCurationTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory()
         self.root = Path(self.temporary.name)
@@ -124,7 +125,7 @@ class AutoCuratorTests(unittest.TestCase):
         current_ids = [str(item["id"]) for item in assignment["candidates"]]
         all_candidate_ids = candidate_ids or current_ids
         return {
-            "autoCuratorResultSchemaVersion": 1,
+            "scoutCurationResultSchemaVersion": 1,
             "assignmentSha256": assignment["assignmentSha256"],
             "categoryId": assignment["category"]["id"],
             "resources": [{
@@ -149,7 +150,7 @@ class AutoCuratorTests(unittest.TestCase):
         }
 
     def test_prepares_resumable_job_and_uses_most_complete_category_run(self) -> None:
-        job = prepare_autocurator_job(self.store, self.import_id)
+        job = prepare_scout_curation_job(self.store, self.import_id)
         self.assertEqual(["employment", "food"], [
             item["categoryId"] for item in job["categories"]
         ])
@@ -176,38 +177,71 @@ class AutoCuratorTests(unittest.TestCase):
             ["Veterans"],
             job["categories"][0]["assignment"]["availableForGroups"],
         )
-        resumed = prepare_autocurator_job(self.store, self.import_id)
+        resumed = prepare_scout_curation_job(self.store, self.import_id)
         self.assertEqual(job["id"], resumed["id"])
-        self.assertEqual(1, len(self.store.list_autocurator_jobs(self.import_id)))
+        self.assertEqual(1, len(self.store.list_scout_curation_jobs(self.import_id)))
 
     def test_new_research_snapshot_creates_a_new_job_without_rewriting_the_old_one(self) -> None:
-        original = prepare_autocurator_job(self.store, self.import_id)
+        original = prepare_scout_curation_job(self.store, self.import_id)
         newer_run = self.completed_run(
             "employment", "Employment", ["ChatGPT", "Claude", "Grok"]
         )
-        refreshed = prepare_autocurator_job(self.store, self.import_id)
+        refreshed = prepare_scout_curation_job(self.store, self.import_id)
         self.assertNotEqual(original["id"], refreshed["id"])
         self.assertNotEqual(
             original["candidatePackageSha256"], refreshed["candidatePackageSha256"]
         )
         self.assertEqual(newer_run, refreshed["categories"][0]["canonicalRunId"])
-        preserved = self.store.get_autocurator_job(original["id"])
+        preserved = self.store.get_scout_curation_job(original["id"])
         self.assertEqual(
             self.employment_run, preserved["categories"][0]["canonicalRunId"]
         )
 
+    def test_migrates_short_lived_v041_curation_table_names(self) -> None:
+        original = prepare_scout_curation_job(self.store, self.import_id)
+        legacy_prefix = "auto" + "curator"
+        with self.store.connect() as connection:
+            connection.execute(
+                f"ALTER TABLE scout_curation_jobs RENAME TO {legacy_prefix}_jobs"
+            )
+            connection.execute(
+                "ALTER TABLE scout_curation_categories "
+                f"RENAME TO {legacy_prefix}_categories"
+            )
+            connection.execute(
+                "ALTER TABLE scout_curation_progress_events "
+                f"RENAME TO {legacy_prefix}_progress_events"
+            )
+
+        migrated_store = ResearchStore(self.store.path)
+        migrated = migrated_store.get_scout_curation_job(original["id"])
+        self.assertIsNotNone(migrated)
+        self.assertEqual(original["candidatePackageSha256"], migrated["candidatePackageSha256"])
+        self.assertEqual(
+            ["employment", "food"],
+            [item["categoryId"] for item in migrated["categories"]],
+        )
+        with migrated_store.connect() as connection:
+            tables = {
+                str(row["name"])
+                for row in connection.execute(
+                    "SELECT name FROM sqlite_master WHERE type = 'table'"
+                )
+            }
+        self.assertFalse(any(name.startswith(legacy_prefix) for name in tables))
+
     def test_curates_one_category_at_a_time_and_builds_all_category_seed(self) -> None:
-        job = prepare_autocurator_job(self.store, self.import_id)
-        employment = next_autocurator_assignment(self.store, job["id"])
+        job = prepare_scout_curation_job(self.store, self.import_id)
+        employment = next_scout_curation_assignment(self.store, job["id"])
         self.assertEqual("employment", employment["category"]["id"])
         self.assertEqual(employment["assignmentSha256"], assignment_digest(employment))
         employment_result = self.result_for(employment, resource_id="mesa-help")
-        saved = save_autocurator_result(
+        saved = save_scout_curation_result(
             self.store, job["id"], "employment", employment_result
         )
         self.assertEqual(1, saved["progress"]["completed"])
 
-        food = next_autocurator_assignment(self.store, job["id"])
+        food = next_scout_curation_assignment(self.store, job["id"])
         self.assertEqual("food", food["category"]["id"])
         self.assertEqual(1, len(food["previouslyCuratedResources"]))
         old_candidate_ids = employment_result["resources"][0]["candidateIds"]
@@ -218,13 +252,13 @@ class AutoCuratorTests(unittest.TestCase):
             categories=["employment", "food"],
             candidate_ids=old_candidate_ids + food_candidate_ids,
         )
-        completed = save_autocurator_result(
+        completed = save_scout_curation_result(
             self.store, job["id"], "food", food_result
         )
         self.assertEqual("completed", completed["status"])
-        self.assertIsNone(next_autocurator_assignment(self.store, job["id"]))
+        self.assertIsNone(next_scout_curation_assignment(self.store, job["id"]))
 
-        seed = build_autocurator_seed(self.store, job["id"])
+        seed = build_scout_review_seed(self.store, job["id"])
         self.assertEqual(["employment", "food"], [
             item["id"] for item in seed["categories"]
         ])
@@ -233,29 +267,29 @@ class AutoCuratorTests(unittest.TestCase):
         self.assertNotIn("candidateIds", seed["resources"][0])
         self.assertEqual([], seed["deletions"])
         phases = [
-            event["phase"] for event in self.store.list_autocurator_progress(job["id"])
+            event["phase"] for event in self.store.list_scout_curation_progress(job["id"])
         ]
         self.assertEqual(1, phases.count("curation-completed"))
 
     def test_rejects_a_result_that_does_not_cover_the_assignment(self) -> None:
-        job = prepare_autocurator_job(self.store, self.import_id)
-        assignment = next_autocurator_assignment(self.store, job["id"])
+        job = prepare_scout_curation_job(self.store, self.import_id)
+        assignment = next_scout_curation_assignment(self.store, job["id"])
         result = self.result_for(assignment, resource_id="mesa-help")
         result["candidateDispositions"].pop()
-        with self.assertRaisesRegex(AutoCuratorError, "missing candidate dispositions"):
-            save_autocurator_result(
+        with self.assertRaisesRegex(ScoutCurationError, "missing candidate dispositions"):
+            save_scout_curation_result(
                 self.store, job["id"], "employment", result
             )
         result = self.result_for(assignment, resource_id="mesa-help")
         result["assignmentSha256"] = "0" * 64
-        with self.assertRaisesRegex(AutoCuratorError, "assigned curation snapshot"):
-            save_autocurator_result(
+        with self.assertRaisesRegex(ScoutCurationError, "assigned curation snapshot"):
+            save_scout_curation_result(
                 self.store, job["id"], "employment", result
             )
         result = self.result_for(assignment, resource_id="mesa-help")
         result["resources"][0]["candidateIds"].pop()
-        with self.assertRaisesRegex(AutoCuratorError, "missing contributing candidate IDs"):
-            save_autocurator_result(
+        with self.assertRaisesRegex(ScoutCurationError, "missing contributing candidate IDs"):
+            save_scout_curation_result(
                 self.store, job["id"], "employment", result
             )
 
@@ -301,17 +335,17 @@ class AutoCuratorTests(unittest.TestCase):
                 return json.loads(response.read())
 
         try:
-            job = post("/api/autocurator-jobs", {"importId": self.import_id})
+            job = post("/api/scout-curation-jobs", {"importId": self.import_id})
             assignment = post(
-                f"/api/autocurator-jobs/{job['id']}/next-assignment", {}
+                f"/api/scout-curation-jobs/{job['id']}/next-assignment", {}
             )["assignment"]
             result = self.result_for(assignment, resource_id="mesa-help")
-            saved = post(f"/api/autocurator-jobs/{job['id']}/results", {
+            saved = post(f"/api/scout-curation-jobs/{job['id']}/results", {
                 "categoryId": "employment",
                 "result": result,
             })
             self.assertEqual(1, saved["progress"]["completed"])
-            event = post(f"/api/autocurator-jobs/{job['id']}/progress", {
+            event = post(f"/api/scout-curation-jobs/{job['id']}/progress", {
                 "categoryId": "food",
                 "phase": "curation-heartbeat",
                 "message": "Food curation is still in progress.",
@@ -319,31 +353,48 @@ class AutoCuratorTests(unittest.TestCase):
             })
             self.assertEqual("curation-heartbeat", event["phase"])
             with urllib.request.urlopen(
-                base + f"/api/autocurator-jobs/{job['id']}/progress", timeout=5
+                base + f"/api/scout-curation-jobs/{job['id']}/progress", timeout=5
             ) as response:
                 events = json.loads(response.read())["events"]
             self.assertEqual("curation-heartbeat", events[-1]["phase"])
             with urllib.request.urlopen(
-                base + f"/api/autocurator-jobs?importId={self.import_id}", timeout=5
+                base + f"/api/scout-curation-jobs?importId={self.import_id}", timeout=5
             ) as response:
                 jobs = json.loads(response.read())["jobs"]
             self.assertEqual([job["id"]], [item["id"] for item in jobs])
+
+            food = post(
+                f"/api/scout-curation-jobs/{job['id']}/next-assignment", {}
+            )["assignment"]
+            post(f"/api/scout-curation-jobs/{job['id']}/results", {
+                "categoryId": "food",
+                "result": self.result_for(food, resource_id="mesa-food"),
+            })
+            with urllib.request.urlopen(
+                base + f"/api/scout-curation-jobs/{job['id']}/review-file",
+                timeout=5,
+            ) as response:
+                review_file = response.read()
+                disposition = response.headers.get("Content-Disposition", "")
+            self.assertIn('filename="autoMesa.html"', disposition)
+            self.assertIn(b"AutoMesa TSO Resources", review_file)
+            self.assertIn(b"Resource Scout", review_file)
         finally:
             server.shutdown()
             server.server_close()
             thread.join(timeout=5)
 
-    def test_builds_versioned_review_file_through_resource_assistant(self) -> None:
-        job = prepare_autocurator_job(self.store, self.import_id)
-        employment = next_autocurator_assignment(self.store, job["id"])
+    def test_resource_scout_builds_its_versioned_auto_office_review_file(self) -> None:
+        job = prepare_scout_curation_job(self.store, self.import_id)
+        employment = next_scout_curation_assignment(self.store, job["id"])
         employment_result = self.result_for(employment, resource_id="mesa-help")
-        save_autocurator_result(
+        save_scout_curation_result(
             self.store, job["id"], "employment", employment_result
         )
-        food = next_autocurator_assignment(self.store, job["id"])
+        food = next_scout_curation_assignment(self.store, job["id"])
         old_candidate_ids = employment_result["resources"][0]["candidateIds"]
         food_candidate_ids = [str(item["id"]) for item in food["candidates"]]
-        save_autocurator_result(
+        save_scout_curation_result(
             self.store,
             job["id"],
             "food",
@@ -355,41 +406,26 @@ class AutoCuratorTests(unittest.TestCase):
             ),
         )
 
-        checkout = self.root / "resource-assistant"
-        (checkout / "src").mkdir(parents=True)
-        (checkout / "src" / "release.json").write_text(json.dumps({
-            "version": "2.3.5",
-            "build": 151,
-        }), encoding="utf-8")
-        (checkout / "make-autocurator").write_text(
-            """import argparse, json, pathlib, zipfile
-parser = argparse.ArgumentParser()
-parser.add_argument('candidates')
-parser.add_argument('--seed', required=True)
-parser.add_argument('--output', required=True)
-args = parser.parse_args()
-with zipfile.ZipFile(args.candidates) as archive:
-    candidate = json.loads(archive.read('scout-candidates.json'))
-seed = json.loads(pathlib.Path(args.seed).read_text())
-location = candidate['location']['name']
-pathlib.Path(args.output).write_text(
-    f'<meta name="autocurator-location-name" content="{location}">'
-    f'<script id="seed-data" type="application/json">{json.dumps(seed)}</script>'
-)
-""",
-            encoding="utf-8",
-        )
-
-        review_file = build_autocurator_review_file(
-            self.store, job["id"], checkout
-        )
+        review_file = build_scout_review_file(self.store, job["id"])
         self.assertEqual("autoMesa.html", review_file.filename)
-        self.assertEqual("2.3.5", review_file.resource_assistant_version)
-        self.assertEqual(151, review_file.resource_assistant_build)
-        self.assertIn(b'"employment", "food"', review_file.content)
-        last_event = self.store.list_autocurator_progress(job["id"])[-1]
+        self.assertEqual(__version__, review_file.scout_version)
+        self.assertEqual(__build__, review_file.scout_build)
+        self.assertIn(
+            b'<meta name="tso-storage-id" content="scout-review-mesa">',
+            review_file.content,
+        )
+        self.assertIn(
+            b'<meta name="scout-review-location-name" content="Mesa">',
+            review_file.content,
+        )
+        self.assertNotIn(b"Auto" + b"Curator", review_file.content)
+        self.assertIn(
+            b'<meta name="scout-review-curated-category-ids" content="employment,food">',
+            review_file.content,
+        )
+        last_event = self.store.list_scout_curation_progress(job["id"])[-1]
         self.assertEqual("review-file-built", last_event["phase"])
-        self.assertEqual(151, last_event["details"]["resourceAssistantBuild"])
+        self.assertEqual(__build__, last_event["details"]["scoutBuild"])
 
 
 if __name__ == "__main__":

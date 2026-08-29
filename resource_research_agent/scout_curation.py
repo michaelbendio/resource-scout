@@ -11,11 +11,11 @@ from .candidate_package import build_candidate_package
 from .storage import ResearchStore
 
 
-AUTOCURATOR_ASSIGNMENT_VERSION = "codex-curation-v1"
-AUTOCURATOR_RESULT_SCHEMA_VERSION = 1
+SCOUT_CURATION_ASSIGNMENT_VERSION = "codex-curation-v1"
+SCOUT_CURATION_RESULT_SCHEMA_VERSION = 1
 
 
-class AutoCuratorError(ValueError):
+class ScoutCurationError(ValueError):
     """Raised when a curation job or Codex result violates its durable contract."""
 
 
@@ -57,7 +57,7 @@ def _unique_text(values: Any) -> list[str]:
 
 def _canonical_run(run_payloads: list[dict[str, Any]]) -> dict[str, Any]:
     if not run_payloads:
-        raise AutoCuratorError("A researched category has no completed Scout run")
+        raise ScoutCurationError("A researched category has no completed Scout run")
     return max(
         run_payloads,
         key=lambda item: (
@@ -88,8 +88,8 @@ def _assignment(
     candidates = durable_run.get("candidates") or []
     return {
         "assignmentSchemaVersion": 1,
-        "assignmentVersion": AUTOCURATOR_ASSIGNMENT_VERSION,
-        "role": "Codex-controlled AutoCurator",
+        "assignmentVersion": SCOUT_CURATION_ASSIGNMENT_VERSION,
+        "role": "Codex-controlled Resource Scout curation",
         "location": deepcopy(candidate_package["location"]),
         "sourcePackage": deepcopy(candidate_package["sourcePackage"]),
         "availableCategories": [
@@ -119,7 +119,7 @@ def _assignment(
             "Return only one JSON object matching outputContract.",
         ],
         "outputContract": {
-            "autoCuratorResultSchemaVersion": AUTOCURATOR_RESULT_SCHEMA_VERSION,
+            "scoutCurationResultSchemaVersion": SCOUT_CURATION_RESULT_SCHEMA_VERSION,
             "assignmentSha256": "Copy from this assignment's assignmentSha256 field.",
             "categoryId": category["id"],
             "resources": [{
@@ -148,13 +148,13 @@ def _assignment(
     }
 
 
-def prepare_autocurator_job(
+def prepare_scout_curation_job(
     store: ResearchStore,
     import_id: int | None = None,
 ) -> dict[str, Any]:
     selected_import_id = import_id or store.latest_import_id()
     if selected_import_id is None:
-        raise AutoCuratorError("Connect a resource package before starting AutoCurator")
+        raise ScoutCurationError("Connect a resource package before starting Resource Scout curation")
     candidate_package = build_candidate_package(store, int(selected_import_id))
     package_data = candidate_package.data
     incomplete_categories = [
@@ -164,8 +164,8 @@ def prepare_autocurator_job(
         and item.get("researchStatus") != "completed"
     ]
     if incomplete_categories:
-        raise AutoCuratorError(
-            "Finish Scout research before starting AutoCurator. Remaining categories: "
+        raise ScoutCurationError(
+            "Finish Scout research before starting Resource Scout curation. Remaining categories: "
             + ", ".join(f"'{label}'" for label in incomplete_categories)
         )
     package_fingerprint = {
@@ -183,8 +183,8 @@ def prepare_autocurator_job(
     package_fingerprint["runs"] = _durable_run_payloads(package_data.get("runs"))
     candidate_package_sha256 = _sha256(package_fingerprint)
     existing = next((
-        job for job in store.list_autocurator_jobs(int(selected_import_id))
-        if job["assignmentVersion"] == AUTOCURATOR_ASSIGNMENT_VERSION
+        job for job in store.list_scout_curation_jobs(int(selected_import_id))
+        if job["assignmentVersion"] == SCOUT_CURATION_ASSIGNMENT_VERSION
         and job["candidatePackageSha256"] == candidate_package_sha256
     ), None)
     if existing:
@@ -217,10 +217,10 @@ def prepare_autocurator_job(
             "assignmentSha256": assignment_sha256,
         })
 
-    job_id = store.create_autocurator_job(
+    job_id = store.create_scout_curation_job(
         {
             "importId": int(selected_import_id),
-            "assignmentVersion": AUTOCURATOR_ASSIGNMENT_VERSION,
+            "assignmentVersion": SCOUT_CURATION_ASSIGNMENT_VERSION,
             "candidatePackageSha256": candidate_package_sha256,
             "locationName": package_data["location"]["name"],
             "officeName": package_data["location"].get("officeName") or "",
@@ -231,9 +231,9 @@ def prepare_autocurator_job(
         },
         category_rows,
     )
-    job = store.get_autocurator_job(job_id)
+    job = store.get_scout_curation_job(job_id)
     if job is None:  # pragma: no cover - guarded by the insert above
-        raise RuntimeError("Created AutoCurator job could not be read")
+        raise RuntimeError("Created Resource Scout curation job could not be read")
     return job
 
 
@@ -268,10 +268,10 @@ def _completed_resources(job: dict[str, Any]) -> list[dict[str, Any]]:
     return [merged[resource_id] for resource_id in order]
 
 
-def next_autocurator_assignment(store: ResearchStore, job_id: int) -> dict[str, Any] | None:
-    job = store.get_autocurator_job(job_id)
+def next_scout_curation_assignment(store: ResearchStore, job_id: int) -> dict[str, Any] | None:
+    job = store.get_scout_curation_job(job_id)
     if not job:
-        raise AutoCuratorError("AutoCurator job not found")
+        raise ScoutCurationError("Resource Scout curation job not found")
     category = next(
         (item for item in job["categories"] if item["status"] == "assigned"),
         None,
@@ -288,10 +288,10 @@ def next_autocurator_assignment(store: ResearchStore, job_id: int) -> dict[str, 
         assignment["previouslyCuratedResources"] = _completed_resources(job)
         digest = _assignment_sha256(assignment)
         assignment["assignmentSha256"] = digest
-        store.update_autocurator_category_assignment(
+        store.update_scout_curation_category_assignment(
             job_id, category["categoryId"], assignment, digest
         )
-        category = store.mark_autocurator_category_assigned(
+        category = store.mark_scout_curation_category_assigned(
             job_id, category["categoryId"]
         )
     return category["assignment"]
@@ -305,25 +305,25 @@ def _normalize_resource(
     now: str,
 ) -> dict[str, Any]:
     if not isinstance(resource, dict):
-        raise AutoCuratorError("Every curated resource must be an object")
+        raise ScoutCurationError("Every curated resource must be an object")
     resource_id = _text(resource.get("id"))
     name = _text(resource.get("name"))
     if not resource_id or not name:
-        raise AutoCuratorError("Every curated resource needs a stable ID and name")
+        raise ScoutCurationError("Every curated resource needs a stable ID and name")
     categories = _unique_text(resource.get("categories"))
     if category_id not in categories:
-        raise AutoCuratorError(f"Resource '{name}' is missing category '{category_id}'")
+        raise ScoutCurationError(f"Resource '{name}' is missing category '{category_id}'")
     unknown_categories = set(categories) - valid_category_ids
     if unknown_categories:
-        raise AutoCuratorError(
+        raise ScoutCurationError(
             f"Resource '{name}' uses unknown categories: {', '.join(sorted(unknown_categories))}"
         )
     candidate_ids = _unique_text(resource.get("candidateIds"))
     if not candidate_ids:
-        raise AutoCuratorError(f"Resource '{name}' has no contributing candidate IDs")
+        raise ScoutCurationError(f"Resource '{name}' has no contributing candidate IDs")
     filters = resource.get("categoryFilters") or {}
     if not isinstance(filters, dict):
-        raise AutoCuratorError(f"Resource '{name}' categoryFilters must be an object")
+        raise ScoutCurationError(f"Resource '{name}' categoryFilters must be an object")
     normalized_filters = {
         str(key): _unique_text(value)
         for key, value in filters.items()
@@ -348,31 +348,31 @@ def _normalize_resource(
     }
 
 
-def save_autocurator_result(
+def save_scout_curation_result(
     store: ResearchStore,
     job_id: int,
     category_id: str,
     result: dict[str, Any],
 ) -> dict[str, Any]:
-    job = store.get_autocurator_job(job_id)
+    job = store.get_scout_curation_job(job_id)
     if not job:
-        raise AutoCuratorError("AutoCurator job not found")
+        raise ScoutCurationError("Resource Scout curation job not found")
     category = next(
         (item for item in job["categories"] if item["categoryId"] == category_id),
         None,
     )
     if not category:
-        raise AutoCuratorError("AutoCurator category not found")
+        raise ScoutCurationError("Resource Scout curation category not found")
     if category["status"] != "assigned":
-        raise AutoCuratorError("Assign this category to Codex before saving its result")
+        raise ScoutCurationError("Assign this category to Codex before saving its result")
     if not isinstance(result, dict):
-        raise AutoCuratorError("Codex curation result must be one JSON object")
-    if result.get("autoCuratorResultSchemaVersion") != AUTOCURATOR_RESULT_SCHEMA_VERSION:
-        raise AutoCuratorError("Unsupported AutoCurator result schema version")
+        raise ScoutCurationError("Codex curation result must be one JSON object")
+    if result.get("scoutCurationResultSchemaVersion") != SCOUT_CURATION_RESULT_SCHEMA_VERSION:
+        raise ScoutCurationError("Unsupported Resource Scout curation result schema version")
     if str(result.get("assignmentSha256") or "") != category["assignmentSha256"]:
-        raise AutoCuratorError("Codex result does not match the assigned curation snapshot")
+        raise ScoutCurationError("Codex result does not match the assigned curation snapshot")
     if str(result.get("categoryId") or "") != category_id:
-        raise AutoCuratorError("Codex result belongs to another category")
+        raise ScoutCurationError("Codex result belongs to another category")
 
     assignment_candidates = category["assignment"].get("candidates") or []
     expected_candidate_ids = {str(item.get("id")) for item in assignment_candidates}
@@ -389,36 +389,36 @@ def save_autocurator_result(
     ]
     resource_ids = [resource["id"] for resource in resources]
     if len(resource_ids) != len(set(resource_ids)):
-        raise AutoCuratorError("Codex result contains duplicate resource IDs")
+        raise ScoutCurationError("Codex result contains duplicate resource IDs")
     prior_resource_ids = {resource["id"] for resource in _completed_resources(job)}
     known_resource_ids = set(resource_ids) | prior_resource_ids
 
     dispositions = result.get("candidateDispositions")
     if not isinstance(dispositions, list):
-        raise AutoCuratorError("Codex result needs candidateDispositions")
+        raise ScoutCurationError("Codex result needs candidateDispositions")
     seen_candidate_ids: set[str] = set()
     normalized_dispositions: list[dict[str, Any]] = []
     allowed = {"curated", "merged", "omitted"}
     for disposition in dispositions:
         if not isinstance(disposition, dict):
-            raise AutoCuratorError("Every candidate disposition must be an object")
+            raise ScoutCurationError("Every candidate disposition must be an object")
         candidate_id = str(disposition.get("candidateId") or "")
         state = str(disposition.get("disposition") or "")
         linked_resources = _unique_text(disposition.get("resourceIds"))
         reason = str(disposition.get("reason") or "").strip()
         if candidate_id not in expected_candidate_ids:
-            raise AutoCuratorError(f"Unknown candidate disposition: {candidate_id}")
+            raise ScoutCurationError(f"Unknown candidate disposition: {candidate_id}")
         if candidate_id in seen_candidate_ids:
-            raise AutoCuratorError(f"Candidate {candidate_id} has more than one disposition")
+            raise ScoutCurationError(f"Candidate {candidate_id} has more than one disposition")
         if state not in allowed:
-            raise AutoCuratorError(f"Candidate {candidate_id} has an invalid disposition")
+            raise ScoutCurationError(f"Candidate {candidate_id} has an invalid disposition")
         if state == "omitted" and not reason:
-            raise AutoCuratorError(f"Omitted candidate {candidate_id} needs a reason")
+            raise ScoutCurationError(f"Omitted candidate {candidate_id} needs a reason")
         if state != "omitted" and not linked_resources:
-            raise AutoCuratorError(f"Candidate {candidate_id} needs a resource link")
+            raise ScoutCurationError(f"Candidate {candidate_id} needs a resource link")
         unknown_resource_ids = set(linked_resources) - known_resource_ids
         if unknown_resource_ids:
-            raise AutoCuratorError(
+            raise ScoutCurationError(
                 f"Candidate {candidate_id} links unknown resources: "
                 + ", ".join(sorted(unknown_resource_ids))
             )
@@ -431,7 +431,7 @@ def save_autocurator_result(
         })
     missing = expected_candidate_ids - seen_candidate_ids
     if missing:
-        raise AutoCuratorError(
+        raise ScoutCurationError(
             "Codex result is missing candidate dispositions: " + ", ".join(sorted(missing))
         )
     known_candidate_ids = expected_candidate_ids | {
@@ -446,7 +446,7 @@ def save_autocurator_result(
     }
     unknown_resource_candidates = covered_by_resources - known_candidate_ids
     if unknown_resource_candidates:
-        raise AutoCuratorError(
+        raise ScoutCurationError(
             "Curated resources contain unknown candidate IDs: "
             + ", ".join(sorted(unknown_resource_candidates))
         )
@@ -457,7 +457,7 @@ def save_autocurator_result(
     }
     missing_resource_candidates = required_resource_candidates - covered_by_resources
     if missing_resource_candidates:
-        raise AutoCuratorError(
+        raise ScoutCurationError(
             "Curated resources are missing contributing candidate IDs: "
             + ", ".join(sorted(missing_resource_candidates))
         )
@@ -467,19 +467,19 @@ def save_autocurator_result(
         if item["disposition"] == "omitted"
     } & covered_by_resources
     if omitted_resource_candidates:
-        raise AutoCuratorError(
+        raise ScoutCurationError(
             "Omitted candidates appear in curated resources: "
             + ", ".join(sorted(omitted_resource_candidates))
         )
 
     normalized = {
-        "autoCuratorResultSchemaVersion": AUTOCURATOR_RESULT_SCHEMA_VERSION,
+        "scoutCurationResultSchemaVersion": SCOUT_CURATION_RESULT_SCHEMA_VERSION,
         "assignmentSha256": category["assignmentSha256"],
         "categoryId": category_id,
         "resources": resources,
         "candidateDispositions": normalized_dispositions,
     }
-    return store.save_autocurator_category_result(
+    return store.save_scout_curation_category_result(
         job_id,
         category_id,
         normalized,
@@ -488,15 +488,15 @@ def save_autocurator_result(
     )
 
 
-def build_autocurator_seed(store: ResearchStore, job_id: int) -> dict[str, Any]:
-    job = store.get_autocurator_job(job_id)
+def build_scout_review_seed(store: ResearchStore, job_id: int) -> dict[str, Any]:
+    job = store.get_scout_curation_job(job_id)
     if not job:
-        raise AutoCuratorError("AutoCurator job not found")
+        raise ScoutCurationError("Resource Scout curation job not found")
     if job["status"] != "completed":
-        raise AutoCuratorError("Finish every AutoCurator category before building HTML")
+        raise ScoutCurationError("Finish every Resource Scout curation category before building HTML")
     summary = store.import_summary(job["importId"])
     if not summary:
-        raise AutoCuratorError("AutoCurator source package snapshot is missing")
+        raise ScoutCurationError("Resource Scout curation source package snapshot is missing")
     resources = _completed_resources(job)
     for resource in resources:
         resource.pop("candidateIds", None)

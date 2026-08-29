@@ -1,12 +1,14 @@
 # Resource Scout
 
-Resource Scout turns resource leads gathered from several consumer chat products
-into a consolidated candidate list and a portable Resource Curator. It is designed
-for repeated use across TSO locations and resource categories.
+Resource Scout researches, consolidates, and curates resource candidates gathered
+from several consumer AI products. It creates a self-contained TSO Resources
+review file such as `autoMesa.html` for human vetting and package creation. It is
+designed for repeated use across TSO locations and resource categories.
 
-Version 0.41.0 adds Scout-owned, Codex-controlled AutoCurator jobs while keeping
-chat discovery as the only research path. The former model-agent, optimization,
-benchmark, trace, and teaching systems are not part of this codebase.
+Version 0.41.0 adds Scout-owned, Codex-controlled curation jobs and versioned
+review-file generation while keeping chat discovery as the only research path.
+The former model-agent, optimization, benchmark, trace, and teaching systems are
+not part of this codebase.
 
 ## Workflow
 
@@ -38,11 +40,10 @@ candidates from every completed discovery associated with that connected
 package, grouped by category and accompanied by their source responses,
 source-only records, closed or unreachable records, and package provenance.
 
-Candidate packages are the portable handoff from Resource Scout to
-AutoCurator. They do not contain curation decisions and do not alter the
-connected resource package.
+Candidate packages are a portable Scout snapshot. They do not contain curation
+decisions and do not alter the connected resource package.
 
-## AutoCurator
+## Resource Scout curation
 
 After all named service categories have completed research, Scout prepares one
 durable curation assignment at a time for Codex. It validates and stores a
@@ -50,12 +51,12 @@ disposition for every consolidated candidate, resumes completed work without
 repeating it, and carries previously curated resources forward so one program
 can be classified under more than one category.
 
-When every category except Miscellaneous is curated, Scout invokes a configured,
-versioned Resource Assistant checkout to create `auto[Location].html`. Reviewers
-mark any vetted resources **Ready to package** in that normal TSO Resources file.
-Each successful save exports one standard additions-only package and removes the
-saved resources from that browser's active review queue. See
-[`docs/autocurator.md`](docs/autocurator.md) for the full contract and pacing
+When every category except Miscellaneous is curated, Scout creates a versioned,
+self-contained `auto[Location].html`. Reviewers mark any vetted resources
+**Ready to package** in that normal TSO Resources file. Each successful save
+exports one standard additions-only package and removes the saved resources from
+that browser's active review queue. See
+[`docs/scout-curation.md`](docs/scout-curation.md) for the full contract and pacing
 policy.
 
 When a genuinely changed resource package is connected after a discovery has
@@ -65,9 +66,9 @@ package, omits only candidates supported as the same resource by an exact identi
 plus exact website or address, and keeps weaker relationships for human review.
 The replacement Curator uses the reconciled package as its additions-only base.
 
-Scout is for discovery and consolidation. Resource Specialists perform the website
-review, telephone interview, classification, editing, printing, and final package
-decision in Curator.
+Resource Specialists perform the website review, telephone interview,
+classification, editing, printing, and final package decision in Scout's review
+file.
 
 ## Resource Curator
 
@@ -132,5 +133,5 @@ python3 -m unittest discover -s tests
 The suite covers package import and duplicate indexing, category guidance,
 response parsing, conservative consolidation, identity decisions, contact lookup,
 Curator isolation and package creation, Tailscale behavior, background service
-configuration, AutoCurator durability, curation validation, progress and pacing,
-Resource Assistant generation, and Scout/Curator UI wiring.
+configuration, Resource Scout curation durability, curation validation, progress
+and pacing, Scout-owned review-file generation, and Scout/Curator UI wiring.
