@@ -68,6 +68,8 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertIn("curationFailures", self.javascript)
         self.assertIn("need attention", self.javascript)
         self.assertIn("review.downloadUrl", self.javascript)
+        self.assertIn("`Creating ${reviewFilename}`", self.javascript)
+        self.assertIn("`${reviewFilename} is ready`", self.javascript)
         self.assertIn("}, 15000);", self.javascript)
 
     def test_resource_candidates_are_section_three_and_package_scoped(self) -> None:

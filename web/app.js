@@ -152,9 +152,11 @@ function friendlyProgressPhase(value) {
 
 function renderScoutProgress(progress) {
   state.workflowProgress = progress;
-  const location = progress.locationName || progress.officeName || 'Current office';
   const phaseLabel = friendlyProgressPhase(progress.phase);
-  document.querySelector('#scout-progress-title').textContent = `Current work: ${location} — ${phaseLabel}`;
+  const reviewFilename = progress.reviewFile?.filename || progress.targetReviewFilename || 'office review file';
+  document.querySelector('#scout-progress-title').textContent = progress.reviewFile
+    ? `${reviewFilename} is ready`
+    : `Creating ${reviewFilename}`;
   document.querySelector('#scout-progress-phase').textContent = phaseLabel;
   document.querySelector('#scout-progress-message').textContent = progress.message;
   const metrics = document.querySelector('#scout-progress-metrics');

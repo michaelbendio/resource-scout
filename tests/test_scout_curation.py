@@ -448,6 +448,7 @@ class ScoutCurationTests(unittest.TestCase):
         self.assertEqual(__build__, last_event["details"]["scoutBuild"])
         progress = build_scout_progress(self.store, self.import_id)
         self.assertEqual("created", progress["reviewFile"]["status"])
+        self.assertEqual("autoMesa.html", progress["targetReviewFilename"])
         self.assertEqual("autoMesa.html", progress["reviewFile"]["filename"])
         self.assertEqual(1, progress["reviewFile"]["resourceCount"])
         self.assertEqual(

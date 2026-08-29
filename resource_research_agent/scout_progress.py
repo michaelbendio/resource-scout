@@ -147,6 +147,7 @@ def build_scout_progress(
         "sourceName": summary.get("sourceName"),
         "officeName": summary.get("officeName"),
         "locationName": location_name,
+        "targetReviewFilename": _review_filename(location_name),
         "phase": phase,
         "message": message,
         "categoryId": category_id or None,

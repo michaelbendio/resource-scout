@@ -116,6 +116,7 @@ class CandidatePackageTests(unittest.TestCase):
     def test_scout_progress_combines_research_counts_and_chatgpt_schedule(self) -> None:
         initial = build_scout_progress(self.store, self.import_id)
         self.assertEqual({"completed": 1, "total": 2}, initial["research"])
+        self.assertEqual("autoMesa.html", initial["targetReviewFilename"])
         self.assertEqual("research", initial["phase"])
         self.assertIsNone(initial["nextChatgpt"])
 
