@@ -18,7 +18,7 @@ class ScoutLayoutTests(unittest.TestCase):
     def test_progress_precedes_resource_candidates_and_recent_runs_are_removed(self) -> None:
         self.assertLess(
             self.html.index('id="scout-progress-panel"'),
-            self.html.index('class="panel candidates-panel"'),
+            self.html.index('class="panel candidates-panel" id="resource-candidates-panel"'),
         )
         self.assertNotIn('class="panel runs-panel"', self.html)
         self.assertNotIn('id="run-list"', self.html)
@@ -85,6 +85,14 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertIn("Scout curation", self.html)
         self.assertIn("Codex-controlled curation", self.html)
         self.assertNotIn("Resource Curator", self.html)
+
+    def test_resource_candidates_start_collapsed(self) -> None:
+        start = self.html.index('<details class="panel candidates-panel"')
+        end = self.html.index(">", start)
+        opening_tag = self.html[start:end]
+        self.assertNotIn(" open", opening_tag)
+        self.assertIn('class="section-head candidate-panel-summary"', self.html)
+        self.assertIn(".candidates-panel[open]", self.css)
 
     def test_ipad_access_is_one_compact_clickable_line(self) -> None:
         start = self.html.index('<section class="ipad-access"')
