@@ -5,8 +5,11 @@ from several consumer AI products. It creates a self-contained TSO Resources
 review file such as `autoMesa.html` for human vetting and package creation. It is
 designed for repeated use across TSO locations and resource categories.
 
-Version 0.41.0 adds Scout-owned, Codex-controlled curation jobs and versioned
-review-file generation while keeping chat discovery as the only research path.
+Version 0.42.0 adds durable ChatGPT assignment scheduling with explicit
+scheduled, due, sent, and cooldown states. A past-due assignment becomes due
+immediately when Scout restarts instead of receiving another delay. It retains
+the Scout-owned, Codex-controlled curation and review-file workflow introduced
+in 0.41.0 while keeping chat discovery as the only research path.
 The former model-agent, optimization, benchmark, trace, and teaching systems are
 not part of this codebase.
 
@@ -17,8 +20,8 @@ not part of this codebase.
    Claude, and Perplexity. Scout preserves each response, consolidates the leads,
    and compares candidates with the connected package.
 3. Scout's progress area reports research and curation counts, the current
-   activity, the selected delay and scheduled time for the next ChatGPT run, and
-   a 15-minute heartbeat during long categories.
+   activity, the selected delay, scheduled time, and delivery state for the next
+   ChatGPT run, and a 15-minute heartbeat during long categories.
 4. After research finishes, Scout curates each non-Miscellaneous category through
    durable Codex-controlled assignments.
 5. Scout creates a transient `auto[Location].html` for human review and displays

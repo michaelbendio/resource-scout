@@ -165,17 +165,38 @@ function renderScoutProgress(progress) {
   const curationFailures = Number(progress.curation.failed || 0);
   document.querySelector('#scout-curation-progress').textContent = `${progress.curation.completed} of ${progress.curation.total} categories${curationFailures ? ` · ${curationFailures} need attention` : ''}`;
 
-  const next = progress.nextChatgpt;
+  const next = progress.chatgptAssignment || progress.nextChatgpt;
   const nextPanel = document.querySelector('#next-chatgpt');
   nextPanel.hidden = !next;
   if (next) {
     const category = next.categoryLabel || next.categoryId || 'Next category';
-    document.querySelector('#next-chatgpt-category').textContent = `Next ChatGPT research: ${category}`;
+    const status = String(next.status || 'scheduled');
+    const statusLabels = {
+      scheduled: 'Scheduled',
+      due: 'Due now',
+      sent: 'Sent',
+      'cooling-down': 'Cooling down',
+    };
+    nextPanel.dataset.status = status;
+    document.querySelector('#next-chatgpt-category').textContent = `ChatGPT research: ${category}`;
+    document.querySelector('#next-chatgpt-status').textContent = statusLabels[status] || status;
     document.querySelector('#next-chatgpt-delay').textContent = `${next.delayMinutes} minute${Number(next.delayMinutes) === 1 ? '' : 's'}`;
-    document.querySelector('#next-chatgpt-time').textContent = formatWhen(next.scheduledAt);
+    const actionTime = status === 'cooling-down'
+      ? next.cooldownUntil
+      : status === 'sent'
+        ? next.sentAt
+        : next.scheduledAt;
+    document.querySelector('#next-chatgpt-time-label').textContent = status === 'cooling-down'
+      ? 'Retry'
+      : status === 'sent'
+        ? 'Sent'
+        : 'Scheduled assignment';
+    document.querySelector('#next-chatgpt-time').textContent = formatWhen(actionTime);
     const reason = document.querySelector('#next-chatgpt-reason');
-    reason.textContent = next.reason || '';
-    reason.hidden = !next.reason;
+    reason.textContent = next.statusNote || next.reason || '';
+    reason.hidden = !reason.textContent;
+  } else {
+    delete nextPanel.dataset.status;
   }
 
   const updated = document.querySelector('#scout-progress-updated');

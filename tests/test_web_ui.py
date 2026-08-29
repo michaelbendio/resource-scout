@@ -57,6 +57,7 @@ class ScoutLayoutTests(unittest.TestCase):
             "scout-research-progress",
             "scout-curation-progress",
             "next-chatgpt-delay",
+            "next-chatgpt-status",
             "next-chatgpt-time",
             "review-file-ready",
             "review-file-download",
@@ -65,6 +66,10 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertIn("Scheduled assignment", self.html)
         self.assertIn("/api/scout-progress?importId=", self.javascript)
         self.assertIn("next.delayMinutes", self.javascript)
+        self.assertIn("progress.chatgptAssignment || progress.nextChatgpt", self.javascript)
+        self.assertIn("'cooling-down': 'Cooling down'", self.javascript)
+        self.assertIn('data-status="due"', self.css)
+        self.assertIn('data-status="sent"', self.css)
         self.assertIn("curationFailures", self.javascript)
         self.assertIn("need attention", self.javascript)
         self.assertIn("review.downloadUrl", self.javascript)

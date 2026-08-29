@@ -117,7 +117,17 @@ def build_scout_progress(
         if current_event is workflow_event
         else {}
     )
-    next_chatgpt = details.get("nextChatgpt")
+    chatgpt_assignment = (
+        store.latest_chatgpt_assignment_schedule(selected_import_id)
+        if not (curation_event and current_event is curation_event)
+        else None
+    )
+    next_chatgpt = (
+        chatgpt_assignment
+        if chatgpt_assignment
+        and chatgpt_assignment.get("status") in {"scheduled", "due", "cooling-down"}
+        else details.get("nextChatgpt")
+    )
     if not isinstance(next_chatgpt, dict):
         next_chatgpt = None
 
@@ -163,5 +173,6 @@ def build_scout_progress(
             "total": int(curation.get("total") or research_total),
         },
         "nextChatgpt": next_chatgpt,
+        "chatgptAssignment": chatgpt_assignment,
         "reviewFile": review_file,
     }

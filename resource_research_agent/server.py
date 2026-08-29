@@ -4,6 +4,7 @@ import json
 import os
 import re
 import tempfile
+from datetime import datetime, timedelta, timezone
 from email.header import decode_header, make_header
 from email.parser import BytesParser
 from email.policy import default
@@ -128,6 +129,36 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 query = parse_qs(parsed.query)
                 import_id = int(query["importId"][0]) if query.get("importId") else None
                 self._json(build_scout_progress(self.server.store, import_id))
+            elif parsed.path == "/api/chatgpt-assignments/due":
+                query = parse_qs(parsed.query)
+                import_id = int(query["importId"][0]) if query.get("importId") else None
+                self._json({
+                    "assignments": self.server.store.due_chatgpt_assignment_schedules(
+                        import_id
+                    )
+                })
+            elif parsed.path == "/api/chatgpt-assignments":
+                query = parse_qs(parsed.query)
+                import_id = int(
+                    query["importId"][0]
+                    if query.get("importId")
+                    else self.server.store.latest_import_id() or 0
+                )
+                if not import_id:
+                    raise ValueError("Connect a resource package before viewing ChatGPT assignments")
+                self._json({
+                    "assignment": self.server.store.latest_chatgpt_assignment_schedule(
+                        import_id
+                    )
+                })
+            elif (schedule_id := self._path_id(
+                parsed.path, "/api/chatgpt-assignments"
+            )) is not None:
+                schedule = self.server.store.get_chatgpt_assignment_schedule(schedule_id)
+                if schedule:
+                    self._json(schedule)
+                else:
+                    self._error(HTTPStatus.NOT_FOUND, "ChatGPT assignment schedule not found")
             elif parsed.path == "/api/candidate-package":
                 query = parse_qs(parsed.query)
                 import_id = int(query["importId"][0]) if query.get("importId") else None
@@ -288,6 +319,95 @@ class ResearchHandler(BaseHTTPRequestHandler):
                         self.server.store, import_id
                     ),
                 }, HTTPStatus.CREATED)
+            elif parsed.path == "/api/chatgpt-assignments":
+                payload = self._read_json()
+                schedule = self.server.store.create_chatgpt_assignment_schedule(
+                    int(payload.get("importId") or 0),
+                    str(payload.get("categoryId") or ""),
+                    str(payload.get("categoryLabel") or ""),
+                    str(payload.get("assignment") or ""),
+                    int(payload.get("delayMinutes") or 0),
+                    str(payload.get("scheduledAt") or ""),
+                    reason=str(payload.get("reason") or ""),
+                )
+                default_message = (
+                    f"ChatGPT research for {schedule['categoryLabel']} is due now. "
+                    "Codex is delivering the assignment."
+                    if schedule["status"] == "due"
+                    else (
+                        f"ChatGPT research for {schedule['categoryLabel']} is scheduled "
+                        f"after a {schedule['delayMinutes']}-minute interval."
+                    )
+                )
+                event = self.server.store.record_scout_workflow_progress(
+                    schedule["importId"],
+                    "research",
+                    str(payload.get("message") or default_message),
+                    category_id=schedule["categoryId"],
+                    details={"chatgptAssignmentId": schedule["id"]},
+                )
+                self._json({
+                    "assignment": schedule,
+                    "event": event,
+                    "progress": build_scout_progress(
+                        self.server.store, schedule["importId"]
+                    ),
+                }, HTTPStatus.CREATED)
+            elif (schedule_id := self._path_id(
+                parsed.path, "/api/chatgpt-assignments", "sent"
+            )) is not None:
+                payload = self._read_json()
+                schedule = self.server.store.mark_chatgpt_assignment_sent(
+                    schedule_id,
+                    sent_at=payload.get("sentAt") or None,
+                )
+                event = self.server.store.record_scout_workflow_progress(
+                    schedule["importId"],
+                    "research",
+                    str(payload.get("message") or (
+                        f"ChatGPT received the {schedule['categoryLabel']} research assignment."
+                    )),
+                    category_id=schedule["categoryId"],
+                    details={"chatgptAssignmentId": schedule["id"]},
+                )
+                self._json({
+                    "assignment": schedule,
+                    "event": event,
+                    "progress": build_scout_progress(
+                        self.server.store, schedule["importId"]
+                    ),
+                })
+            elif (schedule_id := self._path_id(
+                parsed.path, "/api/chatgpt-assignments", "cooldown"
+            )) is not None:
+                payload = self._read_json()
+                cooldown_until = payload.get("cooldownUntil")
+                if not cooldown_until:
+                    cooldown_until = (
+                        datetime.now(timezone.utc) + timedelta(minutes=30)
+                    ).isoformat()
+                schedule = self.server.store.cool_down_chatgpt_assignment(
+                    schedule_id,
+                    cooldown_until,
+                    note=str(payload.get("note") or ""),
+                )
+                event = self.server.store.record_scout_workflow_progress(
+                    schedule["importId"],
+                    "research",
+                    str(payload.get("message") or (
+                        "ChatGPT appears throttled. Scout will let it cool down "
+                        f"before retrying {schedule['categoryLabel']}."
+                    )),
+                    category_id=schedule["categoryId"],
+                    details={"chatgptAssignmentId": schedule["id"]},
+                )
+                self._json({
+                    "assignment": schedule,
+                    "event": event,
+                    "progress": build_scout_progress(
+                        self.server.store, schedule["importId"]
+                    ),
+                })
             elif (job_id := self._path_id(
                 parsed.path, "/api/scout-curation-jobs", "next-assignment"
             )) is not None:

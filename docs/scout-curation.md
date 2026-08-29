@@ -87,6 +87,12 @@ minutes after the preceding ChatGPT assignment completes. Before every delay,
 the operator is told the chosen duration and expected assignment time. Codex may
 extend the delay when indirect or abbreviated feedback suggests throttling. An
 explicit reset time always takes precedence. ChatGPT assignments never overlap.
+Scout persists each assignment as **Scheduled**, **Due**, **Sent**, or
+**Cooling down**. The assignment becomes Due when its original scheduled time
+arrives. If Scout was not running when that happened, it becomes Due immediately
+on restart; Scout does not impose a fresh delay after an idle period. A throttle
+signal moves the due assignment into a 30-minute cooldown, after which the same
+assignment becomes Due again.
 
 Scout records progress durably. The browser's permanent **Scout progress** area
 shows the active office and phase, actual research and curation counts, the
@@ -94,7 +100,7 @@ latest update, errors, and the `auto[Location].html` ready/created message with 
 download control. Its main heading names the intended output throughout the
 workflow, such as **Creating autoProvo.html**, and changes to
 **autoProvo.html is ready** after generation. It also shows the selected delay duration and scheduled time
-for the next ChatGPT assignment. **Resource candidates** is section 03 and shows
+and delivery status for the next ChatGPT assignment. **Resource candidates** is section 03 and shows
 only the category runs and candidates associated with the currently connected
 office package. Scout does not mix another office's candidates into that view or
 duplicate candidate details in the progress area.

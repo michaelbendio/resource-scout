@@ -299,6 +299,26 @@ CREATE TABLE IF NOT EXISTS scout_workflow_progress_events (
     message TEXT NOT NULL,
     details_json TEXT NOT NULL DEFAULT '{}'
 );
+CREATE TABLE IF NOT EXISTS chatgpt_assignment_schedules (
+    id INTEGER PRIMARY KEY,
+    import_id INTEGER NOT NULL REFERENCES imports(id) ON DELETE CASCADE,
+    category_id TEXT NOT NULL,
+    category_label TEXT NOT NULL,
+    assignment TEXT NOT NULL,
+    delay_minutes INTEGER NOT NULL CHECK (delay_minutes >= 0),
+    scheduled_at TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (
+        status IN ('scheduled', 'due', 'sent', 'cooling-down')
+    ),
+    reason TEXT NOT NULL DEFAULT '',
+    status_note TEXT NOT NULL DEFAULT '',
+    cooldown_until TEXT,
+    sent_at TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS chatgpt_assignment_import_status
+    ON chatgpt_assignment_schedules(import_id, status, id);
 """
 
 
@@ -2098,6 +2118,272 @@ class ResearchStore:
             )
             event_id = int(cursor.lastrowid)
         return self.get_scout_workflow_progress_event(event_id)
+
+    @staticmethod
+    def _chatgpt_timestamp(value: str | datetime, field: str) -> datetime:
+        if isinstance(value, datetime):
+            parsed = value
+        else:
+            text = str(value or "").strip()
+            if not text:
+                raise ValueError(f"ChatGPT assignment needs {field}")
+            try:
+                parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+            except ValueError as error:
+                raise ValueError(
+                    f"ChatGPT assignment {field} must be an ISO-8601 time"
+                ) from error
+        if parsed.tzinfo is None:
+            raise ValueError(f"ChatGPT assignment {field} must include a time zone")
+        return parsed.astimezone(timezone.utc)
+
+    @staticmethod
+    def _refresh_chatgpt_assignment_states(
+        connection: sqlite3.Connection,
+        *,
+        import_id: int | None = None,
+        now: datetime | None = None,
+    ) -> None:
+        current = (now or datetime.now(timezone.utc)).astimezone(timezone.utc).isoformat()
+        scope = " AND import_id = ?" if import_id is not None else ""
+        parameters: tuple[Any, ...] = (
+            (current, current, int(import_id))
+            if import_id is not None
+            else (current, current)
+        )
+        connection.execute(
+            """UPDATE chatgpt_assignment_schedules
+               SET status = 'due', updated_at = ?
+               WHERE status = 'scheduled' AND scheduled_at <= ?""" + scope,
+            parameters,
+        )
+        connection.execute(
+            """UPDATE chatgpt_assignment_schedules
+               SET status = 'due', updated_at = ?, cooldown_until = NULL
+               WHERE status = 'cooling-down' AND cooldown_until <= ?""" + scope,
+            parameters,
+        )
+
+    def create_chatgpt_assignment_schedule(
+        self,
+        import_id: int,
+        category_id: str,
+        category_label: str,
+        assignment: str,
+        delay_minutes: int,
+        scheduled_at: str | datetime,
+        *,
+        reason: str = "",
+        now: datetime | None = None,
+    ) -> dict[str, Any]:
+        category_id = str(category_id or "").strip()
+        category_label = str(category_label or "").strip()
+        assignment = str(assignment or "").strip()
+        delay_minutes = int(delay_minutes)
+        if not category_id or not category_label or not assignment:
+            raise ValueError(
+                "ChatGPT assignment needs a category, category label, and assignment"
+            )
+        if delay_minutes < 0 or delay_minutes > 24 * 60:
+            raise ValueError("ChatGPT assignment delay is outside the supported range")
+        scheduled = self._chatgpt_timestamp(scheduled_at, "scheduled time")
+        current = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
+        initial_status = "due" if scheduled <= current else "scheduled"
+        current_text = current.isoformat()
+        with self.connect() as connection:
+            if not connection.execute(
+                "SELECT 1 FROM imports WHERE id = ?", (int(import_id),)
+            ).fetchone():
+                raise ValueError("Resource package snapshot not found")
+            self._refresh_chatgpt_assignment_states(
+                connection, import_id=int(import_id), now=current
+            )
+            active = connection.execute(
+                """SELECT id FROM chatgpt_assignment_schedules
+                   WHERE import_id = ?
+                     AND status IN ('scheduled', 'due', 'cooling-down')
+                   ORDER BY id DESC LIMIT 1""",
+                (int(import_id),),
+            ).fetchone()
+            if active:
+                raise ValueError(
+                    f"ChatGPT assignment {active['id']} is already active for this package"
+                )
+            cursor = connection.execute(
+                """INSERT INTO chatgpt_assignment_schedules (
+                       import_id, category_id, category_label, assignment,
+                       delay_minutes, scheduled_at, status, reason,
+                       status_note, cooldown_until, sent_at, created_at, updated_at
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, '', NULL, NULL, ?, ?)""",
+                (
+                    int(import_id),
+                    category_id,
+                    category_label,
+                    assignment,
+                    delay_minutes,
+                    scheduled.isoformat(),
+                    initial_status,
+                    str(reason or "").strip(),
+                    current_text,
+                    current_text,
+                ),
+            )
+            schedule_id = int(cursor.lastrowid)
+        schedule = self.get_chatgpt_assignment_schedule(schedule_id, now=current)
+        if schedule is None:  # pragma: no cover - guarded by the insert above
+            raise RuntimeError("Created ChatGPT assignment schedule could not be read")
+        return schedule
+
+    def get_chatgpt_assignment_schedule(
+        self,
+        schedule_id: int,
+        *,
+        now: datetime | None = None,
+    ) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            self._refresh_chatgpt_assignment_states(connection, now=now)
+            row = connection.execute(
+                "SELECT * FROM chatgpt_assignment_schedules WHERE id = ?",
+                (int(schedule_id),),
+            ).fetchone()
+        return self._chatgpt_assignment_dict(row) if row else None
+
+    def latest_chatgpt_assignment_schedule(
+        self,
+        import_id: int,
+        *,
+        active_only: bool = False,
+        now: datetime | None = None,
+    ) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            self._refresh_chatgpt_assignment_states(
+                connection, import_id=int(import_id), now=now
+            )
+            active_clause = (
+                " AND status IN ('scheduled', 'due', 'cooling-down')"
+                if active_only
+                else ""
+            )
+            row = connection.execute(
+                """SELECT * FROM chatgpt_assignment_schedules
+                   WHERE import_id = ?""" + active_clause + " ORDER BY id DESC LIMIT 1",
+                (int(import_id),),
+            ).fetchone()
+        return self._chatgpt_assignment_dict(row) if row else None
+
+    def due_chatgpt_assignment_schedules(
+        self,
+        import_id: int | None = None,
+        *,
+        now: datetime | None = None,
+    ) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            self._refresh_chatgpt_assignment_states(
+                connection, import_id=import_id, now=now
+            )
+            if import_id is None:
+                rows = connection.execute(
+                    """SELECT * FROM chatgpt_assignment_schedules
+                       WHERE status = 'due' ORDER BY scheduled_at, id"""
+                ).fetchall()
+            else:
+                rows = connection.execute(
+                    """SELECT * FROM chatgpt_assignment_schedules
+                       WHERE import_id = ? AND status = 'due'
+                       ORDER BY scheduled_at, id""",
+                    (int(import_id),),
+                ).fetchall()
+        return [self._chatgpt_assignment_dict(row) for row in rows]
+
+    def mark_chatgpt_assignment_sent(
+        self,
+        schedule_id: int,
+        *,
+        sent_at: str | datetime | None = None,
+    ) -> dict[str, Any]:
+        sent = self._chatgpt_timestamp(
+            sent_at or datetime.now(timezone.utc), "sent time"
+        )
+        updated = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            self._refresh_chatgpt_assignment_states(connection, now=sent)
+            row = connection.execute(
+                "SELECT status FROM chatgpt_assignment_schedules WHERE id = ?",
+                (int(schedule_id),),
+            ).fetchone()
+            if not row:
+                raise ValueError("ChatGPT assignment schedule not found")
+            if row["status"] == "sent":
+                raise ValueError("ChatGPT assignment was already marked sent")
+            if row["status"] != "due":
+                raise ValueError("ChatGPT assignment is not due yet")
+            connection.execute(
+                """UPDATE chatgpt_assignment_schedules
+                   SET status = 'sent', sent_at = ?, cooldown_until = NULL,
+                       status_note = '', updated_at = ? WHERE id = ?""",
+                (sent.isoformat(), updated, int(schedule_id)),
+            )
+        schedule = self.get_chatgpt_assignment_schedule(schedule_id, now=sent)
+        if schedule is None:  # pragma: no cover
+            raise RuntimeError("Sent ChatGPT assignment schedule could not be read")
+        return schedule
+
+    def cool_down_chatgpt_assignment(
+        self,
+        schedule_id: int,
+        cooldown_until: str | datetime,
+        *,
+        note: str = "",
+        now: datetime | None = None,
+    ) -> dict[str, Any]:
+        current = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
+        retry = self._chatgpt_timestamp(cooldown_until, "cooldown time")
+        if retry <= current:
+            raise ValueError("ChatGPT cooldown time must be in the future")
+        with self.connect() as connection:
+            self._refresh_chatgpt_assignment_states(connection, now=current)
+            row = connection.execute(
+                "SELECT status FROM chatgpt_assignment_schedules WHERE id = ?",
+                (int(schedule_id),),
+            ).fetchone()
+            if not row:
+                raise ValueError("ChatGPT assignment schedule not found")
+            if row["status"] != "due":
+                raise ValueError("Only a due ChatGPT assignment can enter cooldown")
+            connection.execute(
+                """UPDATE chatgpt_assignment_schedules
+                   SET status = 'cooling-down', cooldown_until = ?,
+                       status_note = ?, updated_at = ? WHERE id = ?""",
+                (
+                    retry.isoformat(),
+                    str(note or "").strip(),
+                    current.isoformat(),
+                    int(schedule_id),
+                ),
+            )
+        schedule = self.get_chatgpt_assignment_schedule(schedule_id, now=current)
+        if schedule is None:  # pragma: no cover
+            raise RuntimeError("Cooling ChatGPT assignment schedule could not be read")
+        return schedule
+
+    @staticmethod
+    def _chatgpt_assignment_dict(row: sqlite3.Row) -> dict[str, Any]:
+        return {
+            "id": int(row["id"]),
+            "importId": int(row["import_id"]),
+            "categoryId": row["category_id"],
+            "categoryLabel": row["category_label"],
+            "assignment": row["assignment"],
+            "delayMinutes": int(row["delay_minutes"]),
+            "scheduledAt": row["scheduled_at"],
+            "status": row["status"],
+            "reason": row["reason"],
+            "statusNote": row["status_note"],
+            "cooldownUntil": row["cooldown_until"],
+            "sentAt": row["sent_at"],
+            "createdAt": row["created_at"],
+            "updatedAt": row["updated_at"],
+        }
 
     def get_scout_workflow_progress_event(
         self, event_id: int

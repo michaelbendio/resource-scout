@@ -69,6 +69,12 @@ button.secondary:hover { background: #d8e8df; }
 .next-chatgpt dt { color: #7b684a; font-size: .72rem; font-weight: 800; text-transform: uppercase; }
 .next-chatgpt dd { margin: 0; font-weight: 750; }
 .next-chatgpt p { margin-top: .6rem; color: #6d5635; font-size: .85rem; }
+.next-chatgpt[data-status="due"] { border-left-color: #b94f36; background: #fff0eb; }
+.next-chatgpt[data-status="due"] > strong { color: #7d2f20; }
+.next-chatgpt[data-status="cooling-down"] { border-left-color: #7c699f; background: #f5f0ff; }
+.next-chatgpt[data-status="cooling-down"] > strong { color: #55406f; }
+.next-chatgpt[data-status="sent"] { border-left-color: #398263; background: #edf8f2; }
+.next-chatgpt[data-status="sent"] > strong { color: #205f48; }
 .progress-updated { color: var(--muted); font-size: .78rem; }
 .review-file-ready { display: flex; justify-content: space-between; gap: 1rem; align-items: center; margin-top: 1rem; padding: 1rem 1.1rem; border: 1px solid #83b69f; border-radius: 10px; background: #eaf6ef; }
 .review-file-ready p { margin-top: .25rem; color: #426154; font-size: .84rem; }
