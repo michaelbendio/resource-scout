@@ -1624,18 +1624,38 @@ class ResearchStore:
         value["reconciliation"] = self.latest_run_reconciliation(run_id)
         return value
 
-    def list_runs(self, limit: int = 30) -> list[dict[str, Any]]:
+    def list_runs(
+        self,
+        limit: int = 30,
+        *,
+        import_id: int | None = None,
+    ) -> list[dict[str, Any]]:
+        package_scope = ""
+        parameters: tuple[Any, ...]
+        if import_id is not None:
+            package_scope = """
+                     AND COALESCE(
+                           (SELECT target_import_id
+                              FROM research_run_reconciliations
+                             WHERE run_id = research_runs.id
+                             ORDER BY id DESC LIMIT 1),
+                           research_runs.source_import_id
+                         ) = ?"""
+            parameters = (int(import_id), max(1, min(limit, 100)))
+        else:
+            parameters = (max(1, min(limit, 100)),)
         with self.connect() as connection:
             rows = connection.execute(
-                """SELECT research_runs.*, imports.office_name AS source_office_name,
+                f"""SELECT research_runs.*, imports.office_name AS source_office_name,
                           imports.service_area AS source_service_area,
                           imports.source_sha256 AS source_package_sha256,
                           imports.content_sha256 AS source_package_content_sha256
                    FROM research_runs
                    LEFT JOIN imports ON imports.id = research_runs.source_import_id
                    WHERE research_runs.run_kind = 'manual-discovery'
+                   {package_scope}
                    ORDER BY research_runs.id DESC LIMIT ?""",
-                (max(1, min(limit, 100)),),
+                parameters,
             ).fetchall()
         result = []
         for row in rows:

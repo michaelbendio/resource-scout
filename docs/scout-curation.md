@@ -92,9 +92,10 @@ Scout records progress durably. The browser's permanent **Scout progress** area
 shows the active office and phase, actual research and curation counts, the
 latest update, errors, and the `auto[Location].html` ready/created message with a
 download control. It also shows the selected delay duration and scheduled time
-for the next ChatGPT assignment. **Research records** remains the one place to
-inspect prior runs and their candidates; Scout does not duplicate that history
-in the progress area.
+for the next ChatGPT assignment. **Resource candidates** is section 03 and shows
+only the category runs and candidates associated with the currently connected
+office package. Scout does not mix another office's candidates into that view or
+duplicate candidate details in the progress area.
 
 Codex also reports:
 

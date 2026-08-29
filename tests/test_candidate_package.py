@@ -183,6 +183,85 @@ class CandidatePackageTests(unittest.TestCase):
             server.server_close()
             thread.join(timeout=5)
 
+    def test_http_candidate_views_are_scoped_to_one_office_package(self) -> None:
+        package_path = self.root / "provo-resource-package.zip"
+        with zipfile.ZipFile(package_path, "w") as archive:
+            archive.writestr("tso-resources.json", json.dumps({
+                "resourcePackageSchemaVersion": 3,
+                "packageVersion": 9,
+                "officeName": "Provo TSO",
+                "serviceArea": "Utah County, Utah",
+                "categories": [
+                    {"id": "education", "name": "Education", "filters": []},
+                ],
+                "resources": [],
+            }))
+        provo_import_id = self.store.save_import(
+            ResourcePackageImporter("Education").read(package_path)
+        )
+        provo_run_id = self.store.create_manual_discovery_run(
+            "Find Education resources",
+            {"researchContext": {"mode": "package"}},
+            provo_import_id,
+            target_category_id="education",
+            target_category_label="Education",
+        )
+        self.store.save_manual_contribution(
+            provo_run_id,
+            "ChatGPT",
+            json.dumps({
+                "leads": [{
+                    "organization": "Provo Learning Center",
+                    "program": "Adult Education",
+                    "website": "https://example.org/provo-learning",
+                    "phone": "801-555-0100",
+                    "address": "1 Center Street, Provo, UT",
+                    "leadType": "program",
+                    "locationOrServiceArea": "Provo",
+                    "whyRelevant": "Provides adult education.",
+                    "uncertainty": "Confirm enrollment dates.",
+                }]
+            }),
+        )
+        consolidate_manual_discovery(
+            self.store, provo_run_id, DuplicateIndex(self.store)
+        )
+        finish_manual_discovery(self.store, provo_run_id)
+
+        web_dir = Path(__file__).resolve().parent.parent / "web"
+        server = ResearchHTTPServer(("127.0.0.1", 0), self.store, web_dir)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        base = f"http://127.0.0.1:{server.server_address[1]}"
+        try:
+            with urllib.request.urlopen(
+                base + f"/api/research-runs?importId={provo_import_id}",
+                timeout=5,
+            ) as response:
+                runs = json.loads(response.read())["runs"]
+            self.assertEqual([provo_run_id], [run["id"] for run in runs])
+            self.assertEqual(["Provo TSO"], [run["sourceOfficeName"] for run in runs])
+
+            with urllib.request.urlopen(
+                base + f"/api/discoveries?importId={provo_import_id}",
+                timeout=5,
+            ) as response:
+                discoveries = json.loads(response.read())["discoveries"]
+            self.assertEqual({provo_run_id}, {
+                discovery["runId"] for discovery in discoveries
+            })
+
+            with urllib.request.urlopen(
+                base + f"/api/research-runs?importId={self.import_id}",
+                timeout=5,
+            ) as response:
+                mesa_runs = json.loads(response.read())["runs"]
+            self.assertEqual([self.run_id], [run["id"] for run in mesa_runs])
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=5)
+
 
 if __name__ == "__main__":
     unittest.main()

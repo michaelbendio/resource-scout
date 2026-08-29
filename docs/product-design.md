@@ -52,7 +52,8 @@ The main screen stays intentionally small:
   scheduled assignment time, and any adjustment reason;
 - the progress area announces when `auto[Location].html` is ready or created and
   provides its download;
-- Research records is the sole browser view for prior runs and candidates.
+- Resource candidates is section 03 and is scoped to the currently connected
+  office package.
 
 ## Reconciliation
 

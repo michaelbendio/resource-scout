@@ -43,6 +43,8 @@ function showImport(summary) {
   if (importChanged) {
     state.categoryAssignmentDrafts = {};
     state.assignmentDrafts.package = '';
+    state.candidateRunId = null;
+    state.candidateRunSelectionInitialized = false;
   }
   document.querySelector('#research-results').hidden = false;
 }
@@ -1061,7 +1063,7 @@ function renderCandidates() {
   const activeDiscoveries = state.discoveries.filter(
     discovery => !['unavailable', 'unreachable'].includes(discovery.status),
   );
-  all.textContent = `All candidates (${activeDiscoveries.length})`;
+  all.textContent = `All resource candidates (${activeDiscoveries.length})`;
   const options = state.runs.map(run => {
     const option = document.createElement('option');
     option.value = String(run.id);
@@ -1077,15 +1079,15 @@ function renderCandidates() {
     : activeDiscoveries;
   document.querySelector('#candidate-count').textContent = discoveries.length;
   document.querySelector('#candidate-inbox-title').textContent = selectedRun
-    ? `Research candidates · ${researchRunTitle(selectedRun)}`
-    : 'Research candidates · All runs';
+    ? `Resource candidates · ${researchRunTitle(selectedRun)}`
+    : `Resource candidates · ${state.latestImport?.officeName || 'current package'}`;
   document.querySelector('#candidate-inbox-context').textContent = selectedRun
-    ? `Showing only candidates associated with discovery run ${selectedRun.id}.`
-    : 'Showing candidates from every research run. Choose one run to inspect its discoveries.';
+    ? `Showing resource candidates from ${researchRunTitle(selectedRun)}.`
+    : `Showing resource candidates from every research run for ${state.latestImport?.sourceName || 'the current package'}.`;
   if (!discoveries.length) {
     target.replaceChildren(emptyState(selectedRun
-      ? 'No candidates have been saved for this research run yet.'
-      : 'Research candidates will appear here after a discovery run.'));
+      ? 'No resource candidates have been saved for this research run yet.'
+      : 'Resource candidates will appear here after Scout finishes a category.'));
     return;
   }
   target.replaceChildren(...discoveries.map(discovery => {
@@ -1098,7 +1100,7 @@ function renderCandidates() {
     name.textContent = discovery.candidate?.presentationName || discovery.name;
     const status = document.createElement('span');
     status.className = 'candidate-status';
-    status.textContent = 'Candidate';
+    status.textContent = 'Resource candidate';
     head.append(name, status);
     const description = document.createElement('p');
     description.textContent = candidateDescription(discovery);
@@ -1260,15 +1262,22 @@ function openCandidate(discovery) {
   document.querySelector('#candidate-dialog-name').textContent = discovery.candidate?.presentationName || discovery.name;
   const status = document.querySelector('#candidate-dialog-status');
   status.className = 'candidate-status';
-  status.textContent = 'Research candidate';
+  status.textContent = 'Resource candidate';
   document.querySelector('#candidate-profile').replaceChildren(renderCandidateProfile(discovery));
   document.querySelector('#candidate-json').textContent = JSON.stringify(discovery.candidate, null, 2);
   document.querySelector('#candidate-dialog').showModal();
 }
 
 async function loadResearchData() {
+  if (!state.latestImport) {
+    state.runs = [];
+    state.discoveries = [];
+    renderCandidates();
+    return;
+  }
+  const scope = `?importId=${state.latestImport.id}`;
   const [runs, discoveries] = await Promise.all([
-    request('/api/research-runs'), request('/api/discoveries'),
+    request(`/api/research-runs${scope}`), request(`/api/discoveries${scope}`),
   ]);
   state.runs = runs.runs;
   state.discoveries = discoveries.discoveries;
@@ -1386,7 +1395,7 @@ document.querySelector('#finish-manual-discovery').addEventListener('click', asy
     state.activeManualRun = null;
     state.manualContributions = [];
     state.manualConsolidation = null;
-    document.querySelector('#scout-progress-message').textContent = 'Discovery finished. Its candidates are available in Research records.';
+    document.querySelector('#scout-progress-message').textContent = 'Discovery finished. Its resource candidates are available in section 03.';
   } catch (error) {
     message.textContent = error.message;
     event.currentTarget.disabled = false;

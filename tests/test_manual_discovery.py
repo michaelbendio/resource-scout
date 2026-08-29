@@ -434,7 +434,7 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         self.assertIn("Flagstaff, Arizona", result["assignment"])
         self.assertNotIn("Housing", result["assignment"])
 
-    def test_scout_progress_and_research_records_are_the_recommended_browser_path(self) -> None:
+    def test_scout_progress_and_resource_candidates_are_the_recommended_browser_path(self) -> None:
         with urllib.request.urlopen(self.base + "/", timeout=5) as response:
             html = response.read().decode()
         with urllib.request.urlopen(self.base + "/app.js", timeout=5) as response:
@@ -442,12 +442,14 @@ class ManualDiscoveryHTTPTests(unittest.TestCase):
         with urllib.request.urlopen(self.base + "/app.css", timeout=5) as response:
             css = response.read().decode()
         self.assertIn('id="scout-progress-panel"', html)
-        self.assertIn("05 · Research records", html)
+        self.assertIn("03 · Resource candidates", html)
         self.assertIn('id="candidate-run-filter"', html)
         self.assertNotIn('id="standalone-mode"', html)
         self.assertNotIn(">Set up discovery</button>", html)
         self.assertNotIn("Save Candidate Package", html)
         self.assertIn("/api/scout-progress?importId=", javascript)
+        self.assertIn("/api/research-runs${scope}", javascript)
+        self.assertIn("/api/discoveries${scope}", javascript)
         self.assertIn("loadScoutProgress", javascript)
         self.assertIn(".scout-progress-panel", css)
 

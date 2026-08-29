@@ -102,9 +102,28 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     ),
                 })
             elif parsed.path == "/api/discoveries":
-                self._json({"discoveries": self._discoveries_with_match_details()})
+                query = parse_qs(parsed.query)
+                import_id = int(query["importId"][0]) if query.get("importId") else None
+                run_ids = None
+                if import_id is not None:
+                    run_ids = {
+                        int(run["id"])
+                        for run in self.server.store.list_runs(
+                            limit=100, import_id=import_id
+                        )
+                    }
+                self._json({
+                    "discoveries": self._discoveries_with_match_details(run_ids)
+                })
             elif parsed.path == "/api/research-runs":
-                self._json({"runs": self.server.store.list_runs()})
+                query = parse_qs(parsed.query)
+                import_id = int(query["importId"][0]) if query.get("importId") else None
+                self._json({
+                    "runs": self.server.store.list_runs(
+                        limit=100 if import_id is not None else 30,
+                        import_id=import_id,
+                    )
+                })
             elif parsed.path == "/api/scout-progress":
                 query = parse_qs(parsed.query)
                 import_id = int(query["importId"][0]) if query.get("importId") else None
@@ -580,13 +599,18 @@ class ResearchHandler(BaseHTTPRequestHandler):
         match = re.fullmatch(re.escape(prefix) + r"/(\d+)" + ending, path)
         return int(match.group(1)) if match else None
 
-    def _discoveries_with_match_details(self) -> list[dict[str, Any]]:
+    def _discoveries_with_match_details(
+        self,
+        run_ids: set[int] | None = None,
+    ) -> list[dict[str, Any]]:
         discoveries = self.server.store.list_discoveries()
         reconciliations: dict[int, dict[str, Any] | None] = {}
         reconciliation_matches: dict[int, dict[int, dict[str, Any]]] = {}
         result = []
         for discovery in discoveries:
             run_id = int(discovery["runId"])
+            if run_ids is not None and run_id not in run_ids:
+                continue
             if run_id not in reconciliations:
                 reconciliation = self.server.store.latest_run_reconciliation(run_id)
                 reconciliations[run_id] = reconciliation

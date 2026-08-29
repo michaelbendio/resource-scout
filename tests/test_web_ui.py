@@ -15,7 +15,7 @@ class ScoutLayoutTests(unittest.TestCase):
         cls.css = (web / "app.css").read_text(encoding="utf-8")
         cls.javascript = (web / "app.js").read_text(encoding="utf-8")
 
-    def test_progress_precedes_research_records_and_recent_runs_are_removed(self) -> None:
+    def test_progress_precedes_resource_candidates_and_recent_runs_are_removed(self) -> None:
         self.assertLess(
             self.html.index('id="scout-progress-panel"'),
             self.html.index('class="panel candidates-panel"'),
@@ -70,10 +70,16 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertIn("review.downloadUrl", self.javascript)
         self.assertIn("}, 15000);", self.javascript)
 
-    def test_research_records_remain_the_candidate_history(self) -> None:
-        self.assertIn("05 · Research records", self.html)
+    def test_resource_candidates_are_section_three_and_package_scoped(self) -> None:
+        self.assertIn("03 · Resource candidates", self.html)
         self.assertIn('id="candidate-run-filter"', self.html)
         self.assertIn('id="candidate-list"', self.html)
+        self.assertIn("Category research run", self.html)
+        self.assertIn("?importId=${state.latestImport.id}", self.javascript)
+        self.assertIn("request(`/api/research-runs${scope}`)", self.javascript)
+        self.assertIn("request(`/api/discoveries${scope}`)", self.javascript)
+        self.assertNotIn("05 · Research records", self.html)
+        self.assertNotIn("Research candidates", self.html)
         self.assertIn("Scout curation", self.html)
         self.assertIn("Codex-controlled curation", self.html)
         self.assertNotIn("Resource Curator", self.html)
@@ -97,6 +103,7 @@ class ScoutLayoutTests(unittest.TestCase):
             "await Promise.all([loadResearchData(), loadScoutProgress()]);",
             import_javascript,
         )
+        self.assertIn("state.candidateRunSelectionInitialized = false", self.javascript)
         self.assertIn(
             "Scout read a private copy and did not change your ZIP",
             import_javascript,
