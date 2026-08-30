@@ -5,11 +5,16 @@ from several consumer AI products. It creates a self-contained TSO Resources
 review file such as `autoMesa.html` for human vetting and package creation. It is
 designed for repeated use across TSO locations and resource categories.
 
-Version 0.42.0 adds durable ChatGPT assignment scheduling with explicit
+Version 0.42.1 keeps each generated review file's embedded curated resources as
+an immutable base and saves only the reviewer's compact changes, ready marks,
+deletions, and packaged-resource IDs. This avoids duplicating a large curation
+result in browser storage and keeps the review file usable under Safari's
+smaller local-file storage allowance. Review state is scoped to the exact
+generated curation artifact.
+
+Version 0.42.0 added durable ChatGPT assignment scheduling with explicit
 scheduled, due, sent, and cooldown states. A past-due assignment becomes due
-immediately when Scout restarts instead of receiving another delay. It retains
-the Scout-owned, Codex-controlled curation and review-file workflow introduced
-in 0.41.0 while keeping chat discovery as the only research path.
+immediately when Scout restarts instead of receiving another delay.
 The former model-agent, optimization, benchmark, trace, and teaching systems are
 not part of this codebase.
 

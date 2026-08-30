@@ -12,6 +12,7 @@
 <meta name="scout-review-category-label" content="">
 <meta name="scout-review-curated-category-ids" content="">
 <meta name="scout-review-candidate-package-sha256" content="">
+<meta name="scout-review-artifact-id" content="">
 <title>&lt;New&gt; TSO Resources</title>
 
 <!-- ===== APP CSS START ===== -->
@@ -2591,7 +2592,9 @@ const UNDO_STORAGE_KEY = getStorageKey("Undo");
 const PRE_MERGE_STORAGE_KEY = getStorageKey("PreMerge");
 const DELETION_REVIEW_STORAGE_KEY = getStorageKey("DeletionReview");
 const DISMISSED_TIPS_STORAGE_KEY = getStorageKey("DismissedTips");
-const SCOUT_REVIEW_STORAGE_KEY = getStorageKey("ScoutReviewV1");
+const SCOUT_REVIEW_ARTIFACT_ID = getMetaContent("scout-review-artifact-id") || "legacy";
+const SCOUT_REVIEW_LEGACY_STORAGE_KEY = getStorageKey("ScoutReviewV1");
+const SCOUT_REVIEW_STORAGE_KEY = getStorageKey(`ScoutReviewV2:${SCOUT_REVIEW_ARTIFACT_ID}`);
 const NEW_ADMIN_TRAINING_PENDING_KEY = "tsoResourcesNewAdminTrainingPending";
 const STARTUP_STATE_STORAGE_KEYS = [
   UPDATE_SEEN_STORAGE_KEY,
@@ -2606,15 +2609,16 @@ function shouldResetTemplateStorageOnStartup(fileName = getCurrentHtmlFileName()
 }
 
 function runStartupStateReset(fileName = getCurrentHtmlFileName()){
-  STARTUP_STATE_STORAGE_KEYS.forEach(key => localStorage.removeItem(key));
-  if(shouldResetTemplateStorageOnStartup(fileName)){
-    localStorage.removeItem(DATA_STORAGE_KEY);
-    localStorage.removeItem(TSO_NAME_STORAGE_KEY);
-    localStorage.removeItem(PRE_MERGE_STORAGE_KEY);
-  }
-  sessionStorage.clear();
+  try{
+    STARTUP_STATE_STORAGE_KEYS.forEach(key => localStorage.removeItem(key));
+    if(shouldResetTemplateStorageOnStartup(fileName)){
+      localStorage.removeItem(DATA_STORAGE_KEY);
+      localStorage.removeItem(TSO_NAME_STORAGE_KEY);
+      localStorage.removeItem(PRE_MERGE_STORAGE_KEY);
+    }
+    sessionStorage.clear();
+  }catch(_err){}
 }
-runStartupStateReset();
 
 function clearTemporaryLocalState(){
   STARTUP_STATE_STORAGE_KEYS.forEach(key => localStorage.removeItem(key));
@@ -2628,6 +2632,7 @@ function clearCurrentLocalState({ clearFavorites = false } = {}){
   localStorage.removeItem(PRE_MERGE_STORAGE_KEY);
   localStorage.removeItem(DISMISSED_TIPS_STORAGE_KEY);
   localStorage.removeItem(NEW_ADMIN_TRAINING_PENDING_KEY);
+  localStorage.removeItem(SCOUT_REVIEW_LEGACY_STORAGE_KEY);
   localStorage.removeItem(SCOUT_REVIEW_STORAGE_KEY);
   if(clearFavorites) localStorage.removeItem(FAVORITE_RESOURCE_IDS_STORAGE_KEY);
 }
@@ -2674,8 +2679,218 @@ function freshStartFromSeed(){
   alert("No cleanup was run. Type 1, 2, or 3.");
 }
 
+// Register recovery before any persisted application data is read. This keeps
+// Fresh Start available even when browser storage is unavailable or full.
+window.addEventListener("keydown", (e) => {
+  const isFreshStartShortcut = e.ctrlKey && e.altKey && (e.code === "KeyF" || e.key === "F" || e.key === "f");
+  if(!isFreshStartShortcut) return;
+  e.preventDefault();
+  e.stopPropagation();
+  freshStartFromSeed();
+}, true);
+
+runStartupStateReset();
+
+let scoutReviewStorageError = null;
+
+function cloneScoutReviewValue(value){
+  if(value === undefined) return undefined;
+  return JSON.parse(JSON.stringify(value));
+}
+
+function scoutReviewValuesEqual(left, right){
+  return JSON.stringify(left) === JSON.stringify(right);
+}
+
+function noteScoutReviewStorageError(error){
+  if(!isScoutReviewMode() || scoutReviewStorageError) return;
+  const message = error && error.message ? String(error.message) : String(error || "Browser storage is unavailable.");
+  scoutReviewStorageError = new Error(
+    "This Scout review file opened from its embedded resources, but the browser could not save review changes. " +
+    "Use Ctrl-Option-F and choose 2 to clear this file's saved review state, then reload. " +
+    `Browser message: ${message}`
+  );
+}
+
+function readScoutReviewStorage(key){
+  try{
+    return localStorage.getItem(key);
+  }catch(error){
+    noteScoutReviewStorageError(error);
+    return null;
+  }
+}
+
+function normalizeScoutReviewBatch(batch){
+  if(!batch || typeof batch !== "object") return null;
+  const resourceIds = Array.from(new Set(
+    (Array.isArray(batch.resourceIds) ? batch.resourceIds : [])
+      .map(String).filter(Boolean)
+  ));
+  if(!resourceIds.length) return null;
+  return {
+    id:String(batch.id || ""),
+    savedAt:String(batch.savedAt || ""),
+    packageVersion:batch.packageVersion,
+    fileName:String(batch.fileName || ""),
+    resourceIds
+  };
+}
+
+function normalizeScoutReviewState(value){
+  const source = value && typeof value === "object" && !Array.isArray(value) ? value : {};
+  const packagedBatches = (Array.isArray(source.packagedBatches) ? source.packagedBatches : [])
+    .map(normalizeScoutReviewBatch).filter(Boolean);
+  const packagedResourceIds = new Set(packagedBatches.flatMap(batch => batch.resourceIds));
+  const readyResourceIds = Array.from(new Set(
+    (Array.isArray(source.readyResourceIds) ? source.readyResourceIds : [])
+      .map(String).filter(id => id && !packagedResourceIds.has(id))
+  ));
+  const resourceOverrides = (Array.isArray(source.resourceOverrides) ? source.resourceOverrides : [])
+    .filter(resource => resource && String(resource.id || ""))
+    .map(resource => cloneScoutReviewValue(resource));
+  const addedResources = (Array.isArray(source.addedResources) ? source.addedResources : [])
+    .filter(resource => resource && String(resource.id || ""))
+    .map(resource => cloneScoutReviewValue(resource));
+  const deletedResourceIds = Array.from(new Set(
+    (Array.isArray(source.deletedResourceIds) ? source.deletedResourceIds : [])
+      .map(String).filter(id => id && !packagedResourceIds.has(id))
+  ));
+  const topLevelOverrides = source.topLevelOverrides && typeof source.topLevelOverrides === "object"
+    && !Array.isArray(source.topLevelOverrides)
+    ? cloneScoutReviewValue(source.topLevelOverrides)
+    : {};
+  return {
+    schemaVersion:2,
+    artifactId:SCOUT_REVIEW_ARTIFACT_ID,
+    readyResourceIds,
+    packagedBatches,
+    resourceOverrides,
+    addedResources,
+    deletedResourceIds,
+    categoriesOverride:Array.isArray(source.categoriesOverride)
+      ? cloneScoutReviewValue(source.categoriesOverride)
+      : null,
+    forGroupsOverride:Array.isArray(source.forGroupsOverride)
+      ? cloneScoutReviewValue(source.forGroupsOverride)
+      : null,
+    topLevelOverrides
+  };
+}
+
+function loadScoutReviewState(){
+  if(!isScoutReviewMode()) return normalizeScoutReviewState({});
+  try{
+    return normalizeScoutReviewState(
+      JSON.parse(readScoutReviewStorage(SCOUT_REVIEW_STORAGE_KEY) || "null")
+    );
+  }catch(error){
+    noteScoutReviewStorageError(error);
+    return normalizeScoutReviewState({});
+  }
+}
+
+function applyScoutReviewState(baseData, state){
+  const nextData = cloneScoutReviewValue(baseData);
+  Object.entries(state.topLevelOverrides || {}).forEach(([key, value]) => {
+    nextData[key] = cloneScoutReviewValue(value);
+  });
+  if(Array.isArray(state.categoriesOverride)){
+    nextData.categories = cloneScoutReviewValue(state.categoriesOverride);
+  }
+  if(Array.isArray(state.forGroupsOverride)){
+    nextData.forGroups = cloneScoutReviewValue(state.forGroupsOverride);
+  }
+  const resourcesById = new Map((nextData.resources || []).map(resource => [String(resource.id || ""), resource]));
+  state.resourceOverrides.forEach(resource => resourcesById.set(String(resource.id || ""), cloneScoutReviewValue(resource)));
+  state.addedResources.forEach(resource => resourcesById.set(String(resource.id || ""), cloneScoutReviewValue(resource)));
+  const hiddenIds = new Set([
+    ...state.deletedResourceIds,
+    ...state.packagedBatches.flatMap(batch => batch.resourceIds)
+  ]);
+  nextData.resources = Array.from(resourcesById.values())
+    .filter(resource => !hiddenIds.has(String(resource && resource.id || "")));
+  return nextData;
+}
+
+function buildCompactScoutReviewState(currentData, sourceState){
+  const previous = normalizeScoutReviewState(sourceState);
+  const base = scoutReviewBaseData || currentData;
+  const baseResources = new Map((base.resources || []).map(resource => [String(resource.id || ""), resource]));
+  const currentResources = new Map((currentData.resources || []).map(resource => [String(resource.id || ""), resource]));
+  const packagedResourceIds = new Set(previous.packagedBatches.flatMap(batch => batch.resourceIds));
+  const previousOverrides = new Map(previous.resourceOverrides.map(resource => [String(resource.id || ""), resource]));
+  const previousAdded = new Map(previous.addedResources.map(resource => [String(resource.id || ""), resource]));
+  const resourceOverrides = [];
+  const addedResources = [];
+
+  currentResources.forEach((resource, id) => {
+    const baseResource = baseResources.get(id);
+    if(!baseResource){
+      addedResources.push(cloneScoutReviewValue(resource));
+    }else if(!scoutReviewValuesEqual(resource, baseResource)){
+      resourceOverrides.push(cloneScoutReviewValue(resource));
+    }
+  });
+  packagedResourceIds.forEach(id => {
+    if(currentResources.has(id)) return;
+    if(previousOverrides.has(id)) resourceOverrides.push(cloneScoutReviewValue(previousOverrides.get(id)));
+    if(previousAdded.has(id)) addedResources.push(cloneScoutReviewValue(previousAdded.get(id)));
+  });
+
+  const deletedResourceIds = Array.from(baseResources.keys())
+    .filter(id => !currentResources.has(id) && !packagedResourceIds.has(id));
+  const ignoredTopLevelKeys = new Set(["categories", "forGroups", "resources", "appVersion"]);
+  const topLevelOverrides = {};
+  new Set([...Object.keys(base || {}), ...Object.keys(currentData || {})]).forEach(key => {
+    if(ignoredTopLevelKeys.has(key)) return;
+    if(!scoutReviewValuesEqual(currentData[key], base[key])){
+      topLevelOverrides[key] = cloneScoutReviewValue(currentData[key]);
+    }
+  });
+
+  return normalizeScoutReviewState({
+    ...previous,
+    readyResourceIds:previous.readyResourceIds.filter(id => currentResources.has(id)),
+    resourceOverrides,
+    addedResources,
+    deletedResourceIds,
+    categoriesOverride:scoutReviewValuesEqual(currentData.categories, base.categories)
+      ? null
+      : currentData.categories,
+    forGroupsOverride:scoutReviewValuesEqual(currentData.forGroups, base.forGroups)
+      ? null
+      : currentData.forGroups,
+    topLevelOverrides
+  });
+}
+
+function writeCompactScoutReviewState(state){
+  const serialized = JSON.stringify(state);
+  try{
+    localStorage.setItem(SCOUT_REVIEW_STORAGE_KEY, serialized);
+    localStorage.removeItem(DATA_STORAGE_KEY);
+    localStorage.removeItem(SCOUT_REVIEW_LEGACY_STORAGE_KEY);
+    return true;
+  }catch(firstError){
+    // Old review builds stored a full resource snapshot under these keys. Clear
+    // only this review file's obsolete copies, then retry the compact overlay.
+    try{
+      localStorage.removeItem(DATA_STORAGE_KEY);
+      localStorage.removeItem(SCOUT_REVIEW_LEGACY_STORAGE_KEY);
+      localStorage.setItem(SCOUT_REVIEW_STORAGE_KEY, serialized);
+      return true;
+    }catch(secondError){
+      noteScoutReviewStorageError(secondError || firstError);
+      return false;
+    }
+  }
+}
+
 // Main persisted app data snapshot (categories/resources + metadata).
-let data = JSON.parse(localStorage.getItem(DATA_STORAGE_KEY) || "null");
+let scoutReviewBaseData = null;
+let scoutReviewState = loadScoutReviewState();
+let data = null;
 const TIP_TEXT = {
   user: "Click a category to see its resources and click a resource for details. Use the printer button to select it for printing. Use the star to add it to or remove it from Favorites.",
   newAdminWelcome: "Welcome to you, new admin. Press Ctrl+Alt+A to enter admin mode",
@@ -2684,53 +2899,34 @@ const TIP_TEXT = {
 const DEFAULT_RESOURCE_PACKAGE_FILENAME = "tso-resources.json";
 const CATEGORY_REMINDER_TEXT = "Report bugs or request enhancments to Elder Bendio (michaelbendio@gmail.com)"
 
-if(!data){
-  data = seed;
-}
-data = processResourcePackageData(data, { sourceName:"Saved browser resource data" }).data;
-const appliedCategoryPreset = applyDefaultCategoryPreset(data);
-data.appVersion = APP_VERSION;
-if(!localStorage.getItem(DATA_STORAGE_KEY) || appliedCategoryPreset){
-  localStorage.setItem(DATA_STORAGE_KEY, JSON.stringify(data));
-}
-
-function normalizeScoutReviewState(value){
-  const source = value && typeof value === "object" && !Array.isArray(value) ? value : {};
-  const activeResourceIds = new Set(data.resources.map(resource => String(resource && resource.id || "")));
-  const readyResourceIds = Array.from(new Set(
-    (Array.isArray(source.readyResourceIds) ? source.readyResourceIds : [])
-      .map(String)
-      .filter(id => id && activeResourceIds.has(id))
-  ));
-  const packagedBatches = (Array.isArray(source.packagedBatches) ? source.packagedBatches : [])
-    .filter(batch => batch && typeof batch === "object" && Array.isArray(batch.resources))
-    .map(batch => ({
-      id:String(batch.id || ""),
-      savedAt:String(batch.savedAt || ""),
-      packageVersion:batch.packageVersion,
-      fileName:String(batch.fileName || ""),
-      resources:batch.resources.map(resource => cloneDataObject(resource))
-    }));
-  return { schemaVersion:1, readyResourceIds, packagedBatches };
-}
-
-function loadScoutReviewState(){
-  if(!isScoutReviewMode()) return normalizeScoutReviewState({});
-  try{
-    return normalizeScoutReviewState(
-      JSON.parse(localStorage.getItem(SCOUT_REVIEW_STORAGE_KEY) || "null")
-    );
-  }catch(_err){
-    return normalizeScoutReviewState({});
+if(isScoutReviewMode()){
+  scoutReviewBaseData = processResourcePackageData(cloneScoutReviewValue(seed), {
+    sourceName:"Embedded Scout review resources"
+  }).data;
+  applyDefaultCategoryPreset(scoutReviewBaseData);
+  scoutReviewBaseData.appVersion = APP_VERSION;
+  data = applyScoutReviewState(scoutReviewBaseData, scoutReviewState);
+  data = processResourcePackageData(data, { sourceName:"Saved Scout review changes" }).data;
+}else{
+  data = JSON.parse(localStorage.getItem(DATA_STORAGE_KEY) || "null") || seed;
+  data = processResourcePackageData(data, { sourceName:"Saved browser resource data" }).data;
+  const appliedCategoryPreset = applyDefaultCategoryPreset(data);
+  data.appVersion = APP_VERSION;
+  if(!localStorage.getItem(DATA_STORAGE_KEY) || appliedCategoryPreset){
+    localStorage.setItem(DATA_STORAGE_KEY, JSON.stringify(data));
   }
 }
 
-let scoutReviewState = loadScoutReviewState();
+const activeScoutReviewResourceIds = new Set((data.resources || []).map(resource => String(resource && resource.id || "")));
+scoutReviewState = normalizeScoutReviewState({
+  ...scoutReviewState,
+  readyResourceIds:scoutReviewState.readyResourceIds.filter(id => activeScoutReviewResourceIds.has(String(id)))
+});
 
 function persistScoutReviewState(nextState = scoutReviewState){
   if(!isScoutReviewMode()) return;
-  const normalized = normalizeScoutReviewState(nextState);
-  localStorage.setItem(SCOUT_REVIEW_STORAGE_KEY, JSON.stringify(normalized));
+  const normalized = buildCompactScoutReviewState(data, nextState);
+  writeCompactScoutReviewState(normalized);
   scoutReviewState = normalized;
 }
 
@@ -4103,7 +4299,12 @@ function renderSearchDetailView(){
 // data snapshot in localStorage. The snapshot expires as soon as another change
 // is persisted so restoring it cannot silently discard newer work.
 
+let scoutReviewUndoSnapshot = null;
+
 function getUndoSnapshot(){
+  if(isScoutReviewMode()) return scoutReviewUndoSnapshot
+    ? cloneScoutReviewValue(scoutReviewUndoSnapshot)
+    : null;
   try{
     const raw = localStorage.getItem(UNDO_STORAGE_KEY);
     if(!raw) return null;
@@ -4117,15 +4318,24 @@ function getUndoSnapshot(){
 }
 
 function clearUndoSnapshot(){
+  if(isScoutReviewMode()){
+    scoutReviewUndoSnapshot = null;
+    return;
+  }
   localStorage.removeItem(UNDO_STORAGE_KEY);
 }
 
 function setUndoSnapshot(message){
-  localStorage.setItem(UNDO_STORAGE_KEY, JSON.stringify({
+  const snapshot = {
     dataSnapshot: JSON.parse(JSON.stringify(data)),
     message: String(message || ""),
     awaitingPostActionPersist:true
-  }));
+  };
+  if(isScoutReviewMode()){
+    scoutReviewUndoSnapshot = snapshot;
+    return;
+  }
+  localStorage.setItem(UNDO_STORAGE_KEY, JSON.stringify(snapshot));
 }
 
 function updateUndoSnapshotAfterPersist(){
@@ -4133,6 +4343,10 @@ function updateUndoSnapshotAfterPersist(){
   if(!snapshot) return;
   if(snapshot.awaitingPostActionPersist){
     delete snapshot.awaitingPostActionPersist;
+    if(isScoutReviewMode()){
+      scoutReviewUndoSnapshot = snapshot;
+      return;
+    }
     localStorage.setItem(UNDO_STORAGE_KEY, JSON.stringify(snapshot));
     return;
   }
@@ -5134,7 +5348,11 @@ function persist(){
   if(DEBUG) assertInvariants("persist");
   data.appVersion = APP_VERSION;
   data.lastModified = nowISO();
-  localStorage.setItem(DATA_STORAGE_KEY, JSON.stringify(data));
+  if(isScoutReviewMode()){
+    persistScoutReviewState(scoutReviewState);
+  }else{
+    localStorage.setItem(DATA_STORAGE_KEY, JSON.stringify(data));
+  }
   updateUndoSnapshotAfterPersist();
 }
 
@@ -5859,7 +6077,7 @@ function archiveScoutReviewPackagedResources(resourceIds, packageVersion, fileNa
         savedAt,
         packageVersion,
         fileName:String(fileName || ""),
-        resources
+        resourceIds:resources.map(resource => String(resource.id || ""))
       }
     ]
   };
@@ -10284,14 +10502,6 @@ function renderSharePointPublishingModal(){
 // Source: src/js/110-shortcuts.js
 /* ---------- Application Shortcuts ---------- */
 window.addEventListener("keydown", (e) => {
-  const isFreshStartShortcut = e.ctrlKey && e.altKey && (e.code === "KeyF" || e.key === "F" || e.key === "f");
-  if(!isFreshStartShortcut) return;
-  e.preventDefault();
-  e.stopPropagation();
-  freshStartFromSeed();
-}, true);
-
-window.addEventListener("keydown", (e) => {
   if(e.key !== "Escape") return;
   const modal = document.getElementById("referenceModal");
   if(!modal || modal.classList.contains("hidden")) return;
@@ -10331,6 +10541,9 @@ window.addEventListener("keydown", (e) => {
 
 setAdminVisibility(false);
 safeRender();
+if(scoutReviewStorageError){
+  showAppError("Scout review storage", scoutReviewStorageError);
+}
 
 </script>
 <!-- ===== APP JS END ===== -->

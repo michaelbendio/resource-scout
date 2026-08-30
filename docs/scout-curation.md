@@ -56,6 +56,15 @@ Review state and candidate provenance remain local to Scout's review file and
 are not exported as office administrative data. The exported file is a standard
 mergeable TSO Resources package.
 
+The embedded curated resources are the immutable base for that generated
+artifact. Browser storage contains only a compact overlay: edited or added
+resources, deleted IDs, ready IDs, packaged IDs and small package-history
+records, plus changed category or For definitions. The artifact has a stable
+identity derived from its curated contents, so repeated downloads of the same
+artifact reopen the same local review work while a newly curated artifact starts
+with independent state. Packaged resources are reconstructed from the embedded
+base and any saved edits rather than duplicated in package history.
+
 ## Curation contract
 
 Scout creates one durable curation job for each researched,

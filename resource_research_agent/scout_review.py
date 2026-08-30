@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import re
@@ -99,6 +100,17 @@ def build_scout_review_file(store: ResearchStore, job_id: int) -> ScoutReviewFil
         "page title",
     )
     seed_json = json.dumps(seed, ensure_ascii=False, indent=2).replace("</", "<\\/")
+    artifact_seed = dict(seed)
+    artifact_seed.pop("packageCreatedAt", None)
+    artifact_seed.pop("lastModified", None)
+    artifact_source = json.dumps(
+        artifact_seed,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    artifact_id = f"scout-review-{hashlib.sha256(artifact_source).hexdigest()[:24]}"
+    document = _replace_meta(document, "scout-review-artifact-id", artifact_id)
     document = _replace_once(
         r'<script\s+id=["\']seed-data["\']\s+type=["\']application/json["\']>[\s\S]*?</script>',
         f'<script id="seed-data" type="application/json">\n{seed_json}\n</script>',
@@ -108,12 +120,12 @@ def build_scout_review_file(store: ResearchStore, job_id: int) -> ScoutReviewFil
     release = {
         "version": __version__,
         "build": __build__,
-        "date": "2026-08-28",
-        "message": "Add Scout curation and review files",
+        "date": "2026-08-29",
+        "message": "Keep Scout review state compact and browser-safe",
         "changes": [{
-            "date": "2026-08-28",
+            "date": "2026-08-29",
             "version": __version__,
-            "message": "Review and package Resource Scout curated resources",
+            "message": "Keep review edits and package selections reliable in Safari",
         }],
     }
     release_json = json.dumps(release, ensure_ascii=False, indent=2).replace("</", "<\\/")

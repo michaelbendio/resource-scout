@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import tempfile
 import threading
 import unittest
@@ -443,6 +444,13 @@ class ScoutCurationTests(unittest.TestCase):
             b'<meta name="scout-review-curated-category-ids" content="employment,food">',
             review_file.content,
         )
+        artifact_match = re.search(
+            rb'<meta name="scout-review-artifact-id" content="(scout-review-[0-9a-f]{24})">',
+            review_file.content,
+        )
+        self.assertIsNotNone(artifact_match)
+        repeated = build_scout_review_file(self.store, job["id"])
+        self.assertIn(artifact_match.group(0), repeated.content)
         last_event = self.store.list_scout_curation_progress(job["id"])[-1]
         self.assertEqual("review-file-built", last_event["phase"])
         self.assertEqual(__build__, last_event["details"]["scoutBuild"])
