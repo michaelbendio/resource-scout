@@ -5,6 +5,11 @@ from several consumer AI products. It creates a self-contained TSO Resources
 review file such as `autoMesa.html` for human vetting and package creation. It is
 designed for repeated use across TSO locations and resource categories.
 
+Version 0.43.1 preserves every completed research run for the connected office
+when Scout builds its candidate snapshot, even after many newer runs have been
+created for another office. Long-lived Mesa and Provo research therefore remains
+available for later curation without depending on the recent-runs display limit.
+
 Version 0.43.0 makes proposal quality, rather than proposal volume, the curation
 target. Codex must keep the smallest high-confidence set of direct, actionable
 services, explicitly dispose of every candidate, consolidate related programs

@@ -92,6 +92,35 @@ class CandidatePackageTests(unittest.TestCase):
             embedded = json.loads(archive.read(CANDIDATE_PACKAGE_MEMBER))
         self.assertEqual(package.data["sourcePackage"], embedded["sourcePackage"])
 
+    def test_package_keeps_completed_runs_after_other_office_has_many_newer_runs(self) -> None:
+        provo_path = self.root / "provo-resource-package.zip"
+        with zipfile.ZipFile(provo_path, "w") as archive:
+            archive.writestr("tso-resources.json", json.dumps({
+                "resourcePackageSchemaVersion": 3,
+                "packageVersion": 1,
+                "officeName": "Provo TSO",
+                "serviceArea": "Utah County, Utah",
+                "categories": [{"id": "employment", "name": "Employment", "filters": []}],
+                "forGroups": [],
+                "resources": [],
+            }))
+        provo_import_id = self.store.save_import(
+            ResourcePackageImporter("Employment").read(provo_path)
+        )
+        for index in range(31):
+            self.store.create_manual_discovery_run(
+                f"Newer Provo run {index}",
+                {"researchContext": {"mode": "package"}},
+                provo_import_id,
+                target_category_id="employment",
+                target_category_label="Employment",
+            )
+
+        package = build_candidate_package(self.store, self.import_id)
+
+        self.assertEqual([self.run_id], package.data["categoryManifest"][0]["runIds"])
+        self.assertEqual(1, len(package.data["runs"]))
+
     def test_http_endpoint_downloads_location_named_zip(self) -> None:
         web_dir = Path(__file__).resolve().parent.parent / "web"
         server = ResearchHTTPServer(("127.0.0.1", 0), self.store, web_dir)

@@ -1646,7 +1646,7 @@ class ResearchStore:
 
     def list_runs(
         self,
-        limit: int = 30,
+        limit: int | None = 30,
         *,
         import_id: int | None = None,
     ) -> list[dict[str, Any]]:
@@ -1661,9 +1661,13 @@ class ResearchStore:
                              ORDER BY id DESC LIMIT 1),
                            research_runs.source_import_id
                          ) = ?"""
-            parameters = (int(import_id), max(1, min(limit, 100)))
+            parameters = (int(import_id),)
         else:
-            parameters = (max(1, min(limit, 100)),)
+            parameters = ()
+        limit_clause = ""
+        if limit is not None:
+            limit_clause = " LIMIT ?"
+            parameters += (max(1, min(limit, 100)),)
         with self.connect() as connection:
             rows = connection.execute(
                 f"""SELECT research_runs.*, imports.office_name AS source_office_name,
@@ -1674,7 +1678,7 @@ class ResearchStore:
                    LEFT JOIN imports ON imports.id = research_runs.source_import_id
                    WHERE research_runs.run_kind = 'manual-discovery'
                    {package_scope}
-                   ORDER BY research_runs.id DESC LIMIT ?""",
+                   ORDER BY research_runs.id DESC{limit_clause}""",
                 parameters,
             ).fetchall()
         result = []

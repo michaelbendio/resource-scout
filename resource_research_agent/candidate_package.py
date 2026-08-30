@@ -76,10 +76,11 @@ def build_candidate_package(
 
     exported = exported_at or datetime.now(timezone.utc)
     completed_runs = [
-        run for run in reversed(store.list_runs())
+        run for run in reversed(
+            store.list_runs(limit=None, import_id=int(selected_import_id))
+        )
         if run.get("status") == "completed"
         and run.get("researchMode", "package") == "package"
-        and _effective_import_id(run) == int(selected_import_id)
     ]
     run_payloads = []
     for run in completed_runs:
