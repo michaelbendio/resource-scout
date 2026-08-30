@@ -179,6 +179,23 @@ class ScoutCurationTests(unittest.TestCase):
             ["Veterans"],
             job["categories"][0]["assignment"]["availableForGroups"],
         )
+        assignment = job["categories"][0]["assignment"]
+        self.assertEqual(
+            "codex-curation-v2-direct-service",
+            assignment["assignmentVersion"],
+        )
+        self.assertIn(
+            "smallest high-confidence set",
+            assignment["curationPolicy"]["objective"],
+        )
+        self.assertIn(
+            "barrier",
+            assignment["curationPolicy"]["crossCategoryTest"],
+        )
+        self.assertTrue(any(
+            "no target count" in instruction
+            for instruction in assignment["instructions"]
+        ))
         resumed = prepare_scout_curation_job(self.store, self.import_id)
         self.assertEqual(job["id"], resumed["id"])
         self.assertEqual(1, len(self.store.list_scout_curation_jobs(self.import_id)))
@@ -442,6 +459,10 @@ class ScoutCurationTests(unittest.TestCase):
         self.assertNotIn(b"Auto" + b"Curator", review_file.content)
         self.assertIn(
             b'<meta name="scout-review-curated-category-ids" content="employment,food">',
+            review_file.content,
+        )
+        self.assertIn(
+            b"Curate the smallest high-confidence direct-service set",
             review_file.content,
         )
         artifact_match = re.search(

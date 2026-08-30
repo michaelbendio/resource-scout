@@ -121,12 +121,19 @@ def build_scout_review_file(store: ResearchStore, job_id: int) -> ScoutReviewFil
         "version": __version__,
         "build": __build__,
         "date": "2026-08-29",
-        "message": "Keep Scout review state compact and browser-safe",
-        "changes": [{
-            "date": "2026-08-29",
-            "version": __version__,
-            "message": "Keep review edits and package selections reliable in Safari",
-        }],
+        "message": "Curate the smallest high-confidence direct-service set",
+        "changes": [
+            {
+                "date": "2026-08-29",
+                "version": __version__,
+                "message": "Keep proposals focused and category assignments direct",
+            },
+            {
+                "date": "2026-08-29",
+                "version": "0.42.1",
+                "message": "Keep review edits and package selections reliable in Safari",
+            },
+        ],
     }
     release_json = json.dumps(release, ensure_ascii=False, indent=2).replace("</", "<\\/")
     document = _replace_once(

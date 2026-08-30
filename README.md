@@ -5,6 +5,13 @@ from several consumer AI products. It creates a self-contained TSO Resources
 review file such as `autoMesa.html` for human vetting and package creation. It is
 designed for repeated use across TSO locations and resource categories.
 
+Version 0.43.0 makes proposal quality, rather than proposal volume, the curation
+target. Codex must keep the smallest high-confidence set of direct, actionable
+services, explicitly dispose of every candidate, consolidate related programs
+that share an organization or intake path, and add another category only when
+the same program directly serves it. Indirect barrier removal and downstream
+outcomes no longer justify category assignment.
+
 Version 0.42.1 keeps each generated review file's embedded curated resources as
 an immutable base and saves only the reviewer's compact changes, ready marks,
 deletions, and packaged-resource IDs. This avoids duplicating a large curation

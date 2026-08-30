@@ -11,7 +11,7 @@ from .candidate_package import build_candidate_package
 from .storage import ResearchStore
 
 
-SCOUT_CURATION_ASSIGNMENT_VERSION = "codex-curation-v1"
+SCOUT_CURATION_ASSIGNMENT_VERSION = "codex-curation-v2-direct-service"
 SCOUT_CURATION_RESULT_SCHEMA_VERSION = 1
 
 
@@ -109,13 +109,45 @@ def _assignment(
         "sourceOnlyRecords": deepcopy(durable_run.get("sourceOnlyRecords") or []),
         "sourceResponses": deepcopy(durable_run.get("sourceResponses") or []),
         "previouslyCuratedResources": [],
+        "curationPolicy": {
+            "objective": (
+                "Build the smallest high-confidence set of distinct, currently actionable "
+                "resources that directly serve this category. Completeness is candidate "
+                "disposition coverage, not proposal volume."
+            ),
+            "directServiceTest": (
+                "Keep a proposal in a category only when the named program itself directly "
+                "provides a substantial service that a person would reasonably seek under "
+                "that category."
+            ),
+            "crossCategoryTest": (
+                "Add another category only when the same named program independently passes "
+                "that category's direct-service test. Do not add a category merely because "
+                "the service removes a barrier, supports a later outcome, supplies a referral, "
+                "or serves people who may also need that category."
+            ),
+            "portfolioGuidance": (
+                "Prefer fewer strong additions over broad coverage. Do not keep a marginal "
+                "candidate to meet a quota."
+            ),
+            "forGroupPolicy": (
+                "Apply only an existing For group when current evidence clearly identifies "
+                "that population. Never create or suggest a missing For group in this pass."
+            ),
+        },
         "instructions": [
             "Curate every candidate or explicitly omit it with a reason.",
-            "Research and consolidate candidates into ordinary TSO Resources records.",
-            "Prefer one actionable program or provider per resource; do not split ordinary locations.",
+            "Treat candidate coverage as an audit requirement, not an instruction to propose every candidate.",
+            "Propose only distinct, current, actionable programs or providers that directly deliver the current category's service.",
+            "Omit generic employer career pages, general school catalogs, broad directories, referral-only pages, and programs whose connection to the category is only an indirect barrier or downstream outcome.",
+            "Prefer one actionable program or provider per resource; consolidate aliases and duplicate program descriptions, and do not split ordinary locations.",
             "Preserve uncertainty in plain language and do not invent facts.",
+            "A broken page alone does not prove closure; use current official or primary evidence before omitting a candidate as closed or inaccessible.",
             "Reuse and extend a previously curated resource when it is the same program.",
-            "Every resource must include the current category and contributing candidate IDs.",
+            "Every new resource must include the current category and contributing candidate IDs.",
+            "Assign another category only when the same named program directly and independently provides a substantial service in that category; barrier removal, referrals, and likely client overlap are not enough.",
+            "Apply only clearly evidenced existing For groups. Do not create or suggest a missing For group.",
+            "Prefer the smallest high-confidence proposal set; there is no target count or coverage quota.",
             "Return only one JSON object matching outputContract.",
         ],
         "outputContract": {

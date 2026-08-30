@@ -86,6 +86,20 @@ links to all contributing candidate IDs. Scout rejects missing candidate
 coverage, unknown candidate IDs, duplicate generated IDs, a wrong location, or
 invalid fields.
 
+Candidate coverage does not mean proposal coverage. Codex builds the smallest
+high-confidence set of distinct, current, actionable resources that directly
+serve the category and gives every omitted candidate a reason. Generic employer
+career pages, general school catalogs, broad directories, referral-only pages,
+and services connected only through barrier removal or a downstream outcome are
+normally omitted. There is no proposal quota.
+
+A resource receives an additional category only when the same named program
+directly provides a substantial, independently useful service that a person
+would reasonably seek under that category. A referral, a helpful side effect,
+or likely overlap among clients is not sufficient. Existing For groups are
+applied only when current evidence clearly supports them; Scout neither creates
+nor suggests a missing For group during this curation pass.
+
 The final human-vetted package is authoritative. A Codex result is a proposal
 and never overwrites an office package directly.
 
