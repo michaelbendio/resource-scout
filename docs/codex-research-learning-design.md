@@ -845,4 +845,4 @@ supports a narrower roster.
 - test playbook coverage, roster roles, disabled pacing, restart-safe state,
   challenger versus shadow inclusion, whole-office completion, curation gating,
   APIs, and existing browser behavior; and
-- release as Resource Scout v0.46.0 build 12.
+- release as Resource Scout v0.46.0 build 13.

@@ -90,6 +90,17 @@ class CodexFirstResearchTests(unittest.TestCase):
         self.assertEqual({"completed": 0, "total": 1}, progress["research"])
         self.assertIsNone(progress["reviewFile"])
         self.assertEqual(0, progress["curation"]["completed"])
+        self.store.record_scout_workflow_progress(
+            self.import_id,
+            "codex-first-heartbeat",
+            "Still researching Food; checking public records and provider pages.",
+            category_id="food",
+        )
+        heartbeat = build_scout_progress(self.store, self.import_id)
+        self.assertEqual(
+            "Still researching Food; checking public records and provider pages.",
+            heartbeat["message"],
+        )
 
     def test_challengers_shadow_disabled_and_chatgpt_pacing(self) -> None:
         roster = {

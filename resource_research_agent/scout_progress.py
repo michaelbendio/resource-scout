@@ -135,6 +135,17 @@ def build_scout_progress(
                 [str(active_codex.get("updatedAt") or "")]
                 + [str(item.get("updatedAt") or "") for item in assignments]
             )
+            heartbeat_event = (
+                workflow_event
+                if workflow_event
+                and str(workflow_event.get("phase") or "") == "codex-first-heartbeat"
+                and str(workflow_event.get("categoryId") or "") == category_id
+                and str(workflow_event.get("createdAt") or "") >= str(updated_at or "")
+                else None
+            )
+            if heartbeat_event:
+                message = str(heartbeat_event.get("message") or message)
+                updated_at = heartbeat_event.get("createdAt")
         else:
             message = (
                 f"Codex-first research is complete for all {len(codex_jobs)} categories. "
