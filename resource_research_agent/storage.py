@@ -1582,6 +1582,14 @@ class ResearchStore:
             "groups": groups,
         }
 
+    def manual_consolidation_funnel(self, run_id: int) -> dict[str, int] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT funnel_json FROM manual_discovery_consolidations WHERE run_id = ?",
+                (run_id,),
+            ).fetchone()
+        return json.loads(row["funnel_json"]) if row else None
+
     def manual_discovery_progress(self, run_id: int) -> dict[str, int]:
         with self.connect() as connection:
             row = connection.execute(
@@ -1600,6 +1608,25 @@ class ResearchStore:
             "parsedContributionCount": int(row["parsed_count"] or 0),
             "errorContributionCount": int(row["error_count"] or 0),
             "leadCount": int(row["lead_count"] or 0),
+        }
+
+    def discovery_contact_lookup_progress(self, run_id: int) -> dict[str, int]:
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT COUNT(*) AS result_count,
+                          SUM(status = 'verified-contact') AS verified_count,
+                          SUM(status = 'unavailable') AS unavailable_count,
+                          SUM(status = 'unreachable') AS unreachable_count,
+                          SUM(status = 'unresolved') AS unresolved_count
+                   FROM discovery_contact_lookups WHERE run_id = ?""",
+                (run_id,),
+            ).fetchone()
+        return {
+            "resultCount": int(row["result_count"] or 0),
+            "verifiedContactCount": int(row["verified_count"] or 0),
+            "unavailableCount": int(row["unavailable_count"] or 0),
+            "unreachableCount": int(row["unreachable_count"] or 0),
+            "unresolvedCount": int(row["unresolved_count"] or 0),
         }
 
     def find_focused_research_job(

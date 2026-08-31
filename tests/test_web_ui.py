@@ -57,6 +57,10 @@ class ScoutLayoutTests(unittest.TestCase):
             "scout-research-progress",
             "scout-curation-progress",
             "scout-codex-first-progress",
+            "codex-progress-detail",
+            "codex-pass-list",
+            "codex-researcher-list",
+            "codex-category-list",
             "next-chatgpt-delay",
             "next-chatgpt-status",
             "next-chatgpt-time",
@@ -73,6 +77,10 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertIn('data-status="sent"', self.css)
         self.assertIn("curationFailures", self.javascript)
         self.assertIn("progress.codexFirstResearch", self.javascript)
+        self.assertIn("/api/codex-first-research?importId=", self.javascript)
+        self.assertIn("renderCodexFirstDetail", self.javascript)
+        self.assertIn("Detailed research progress", self.html)
+        self.assertIn(".codex-category-row", self.css)
         self.assertIn("Codex-first research", self.html)
         self.assertIn("need attention", self.javascript)
         self.assertIn("review.downloadUrl", self.javascript)

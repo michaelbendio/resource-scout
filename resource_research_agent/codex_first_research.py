@@ -313,12 +313,40 @@ def codex_first_view(store: ResearchStore, import_id: int) -> dict[str, Any]:
     categories: list[dict[str, Any]] = []
     for job in jobs:
         assignments = store.list_codex_first_assignments(int(job["id"]))
+        assignments_by_researcher = {
+            str(item["researcher"]): item for item in assignments
+        }
+        run_id = int(job["runId"])
+        contribution_progress = store.manual_discovery_progress(run_id)
+        funnel = store.manual_consolidation_funnel(run_id) or {}
+        contact_progress = store.discovery_contact_lookup_progress(run_id)
         categories.append({
             "jobId": int(job["id"]),
             "categoryId": str(job["categoryId"]),
             "categoryLabel": str(job["categoryLabel"]),
             "status": str(job["status"]),
-            "primary": dict(job["progress"]),
+            "primary": {
+                **dict(job["progress"]),
+                "passes": [
+                    {
+                        "ordinal": int(item["ordinal"]),
+                        "focusKey": str(item["focusKey"]),
+                        "focusLabel": str(item["focusLabel"]),
+                        "passKind": str(item["passKind"]),
+                        "status": str(item["status"]),
+                        "leadCount": int(item["leadCount"]),
+                    }
+                    for item in job["passes"]
+                ],
+            },
+            "funnel": {
+                "submittedLeads": int(contribution_progress["leadCount"]),
+                "sourceResponses": int(contribution_progress["parsedContributionCount"]),
+                "consolidatedIdentities": int(funnel.get("consolidatedIdentities") or 0),
+                "candidateIdentities": int(funnel.get("candidateIdentities") or 0),
+                "verifiedContacts": int(contact_progress["verifiedContactCount"]),
+                "contactResults": int(contact_progress["resultCount"]),
+            },
             "researchers": [
                 {
                     "name": item["name"],
@@ -327,8 +355,11 @@ def codex_first_view(store: ResearchStore, import_id: int) -> dict[str, Any]:
                         "completed" if item["name"] == "Codex" and job["status"] == "completed"
                         else "in-progress" if item["name"] == "Codex" and job["status"] == "in-progress"
                         else "pending" if item["name"] == "Codex"
-                        else next((a["status"] for a in assignments if a["researcher"] == item["name"]), "pending")
+                        else (assignments_by_researcher.get(item["name"]) or {}).get("status", "pending")
                     ),
+                    "leadCount": int(
+                        (assignments_by_researcher.get(item["name"]) or {}).get("leadCount") or 0
+                    ) if item["name"] != "Codex" else int(job["progress"]["leadCount"]),
                 }
                 for item in (job["plan"].get("researcherRoster") or {}).get("researchers") or []
                 if item["role"] != "disabled"

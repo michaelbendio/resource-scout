@@ -8,7 +8,7 @@ const state = {
   runActionMessages: {}, expandedRunIds: new Set(),
   assignmentDrafts: { package: '', 'standalone-location': '' }, standaloneAutoAssignment: '',
   categories: [], forGroups: [], activeCategoryId: 'housing', categoryAssignmentDrafts: {},
-  workflowProgress: null, progressPollTimer: null,
+  workflowProgress: null, codexFirstProgress: null, progressPollTimer: null,
 };
 
 const PACKAGE_DEFAULT_ASSIGNMENT = 'Choose a category and location to prepare a focused resource-discovery assignment.';
@@ -154,6 +154,130 @@ function friendlyProgressPhase(value) {
   return labels[value] || String(value || 'Scout progress').replaceAll('-', ' ');
 }
 
+function researchStatusLabel(value) {
+  const labels = {
+    pending: 'Pending',
+    assigned: 'Assigned',
+    'in-progress': 'In progress',
+    completed: 'Completed',
+    failed: 'Needs attention',
+  };
+  return labels[value] || String(value || 'pending').replaceAll('-', ' ');
+}
+
+function appendProgressFact(target, label, value) {
+  const item = document.createElement('div');
+  const name = document.createElement('span');
+  const count = document.createElement('strong');
+  name.textContent = label;
+  count.textContent = value;
+  item.append(name, count);
+  target.append(item);
+}
+
+function researcherStatus(category, name) {
+  return category.researchers.find(item => item.name === name)?.status || 'pending';
+}
+
+function renderCodexFirstDetail(view) {
+  state.codexFirstProgress = view;
+  const detail = document.querySelector('#codex-progress-detail');
+  detail.hidden = !view?.categories?.length;
+  if (detail.hidden) return;
+
+  document.querySelector('#codex-progress-summary').textContent = `${view.completedCategories} of ${view.totalCategories} complete`;
+  const active = view.activeCategory;
+  const activePanel = document.querySelector('#codex-active-progress');
+  activePanel.hidden = !active;
+  if (active) {
+    document.querySelector('#codex-active-category').textContent = active.categoryLabel;
+    const primaryComplete = Number(active.primary.completed) === Number(active.primary.total);
+    const challengerComplete = active.researchers.filter(item => item.role === 'challenger' && item.status === 'completed').length;
+    document.querySelector('#codex-active-status').textContent = !primaryComplete
+      ? 'Codex research'
+      : challengerComplete < 3
+        ? 'Challenger research'
+        : 'Consolidation and verification';
+
+    const funnel = document.querySelector('#codex-active-funnel');
+    funnel.replaceChildren();
+    appendProgressFact(funnel, 'Submitted leads', String(active.funnel.submittedLeads));
+    appendProgressFact(funnel, 'Consolidated identities', String(active.funnel.consolidatedIdentities));
+    appendProgressFact(funnel, 'Candidates', String(active.funnel.candidateIdentities));
+    appendProgressFact(funnel, 'Verified contacts', String(active.funnel.verifiedContacts));
+
+    const passList = document.querySelector('#codex-pass-list');
+    passList.replaceChildren();
+    for (const researchPass of active.primary.passes) {
+      const item = document.createElement('li');
+      const description = document.createElement('div');
+      const title = document.createElement('strong');
+      const kind = document.createElement('small');
+      const result = document.createElement('small');
+      title.textContent = researchPass.focusLabel;
+      kind.textContent = researchPass.passKind === 'gap' ? 'Deterministic gap pass' : 'Fixed focused pass';
+      result.textContent = researchPass.status === 'completed'
+        ? `${researchPass.leadCount} lead${researchPass.leadCount === 1 ? '' : 's'}`
+        : researchStatusLabel(researchPass.status);
+      description.append(title, kind);
+      item.append(description, result);
+      passList.append(item);
+    }
+
+    const researcherList = document.querySelector('#codex-researcher-list');
+    researcherList.replaceChildren();
+    for (const researcher of active.researchers) {
+      const item = document.createElement('div');
+      const identity = document.createElement('div');
+      const name = document.createElement('strong');
+      const role = document.createElement('small');
+      const status = document.createElement('span');
+      item.className = 'codex-researcher';
+      name.textContent = researcher.name;
+      role.textContent = `${researcher.role}${researcher.leadCount ? ` · ${researcher.leadCount} leads` : ''}`;
+      status.className = 'codex-status';
+      status.dataset.status = researcher.status;
+      status.textContent = researchStatusLabel(researcher.status);
+      identity.append(name, role);
+      item.append(identity, status);
+      researcherList.append(item);
+    }
+  }
+
+  const categoryList = document.querySelector('#codex-category-list');
+  categoryList.replaceChildren();
+  for (const category of view.categories) {
+    const row = document.createElement('div');
+    const identity = document.createElement('div');
+    const name = document.createElement('strong');
+    const sequence = document.createElement('small');
+    const primary = document.createElement('div');
+    const primaryTitle = document.createElement('strong');
+    const primaryDetail = document.createElement('small');
+    const external = document.createElement('div');
+    const externalTitle = document.createElement('strong');
+    const externalDetail = document.createElement('small');
+    const status = document.createElement('span');
+    const challengerCompleted = category.researchers.filter(item => item.role === 'challenger' && item.status === 'completed').length;
+    row.className = 'codex-category-row';
+    row.dataset.status = category.status;
+    name.textContent = category.categoryLabel;
+    sequence.textContent = `Category ${view.categories.indexOf(category) + 1} of ${view.totalCategories}`;
+    primaryTitle.textContent = `${category.primary.completed} of ${category.primary.total} Codex passes`;
+    primaryDetail.textContent = `${category.primary.leadCount} Codex leads · ${category.funnel.consolidatedIdentities} consolidated identities`;
+    externalTitle.textContent = `${challengerCompleted} of 3 challengers complete`;
+    externalDetail.textContent = `Claude shadow: ${researchStatusLabel(researcherStatus(category, 'Claude')).toLowerCase()}`;
+    status.className = 'codex-status';
+    status.dataset.status = category.status;
+    status.textContent = researchStatusLabel(category.status);
+    identity.append(name, sequence);
+    primary.append(primaryTitle, primaryDetail);
+    external.append(externalTitle, externalDetail);
+    row.append(identity, primary, external, status);
+    categoryList.append(row);
+  }
+}
+
 function renderScoutProgress(progress) {
   state.workflowProgress = progress;
   const phaseLabel = friendlyProgressPhase(progress.phase);
@@ -239,8 +363,12 @@ function renderScoutProgress(progress) {
 
 async function loadScoutProgress() {
   if (!state.latestImport) return;
-  const progress = await request(`/api/scout-progress?importId=${state.latestImport.id}`);
+  const [progress, codexFirst] = await Promise.all([
+    request(`/api/scout-progress?importId=${state.latestImport.id}`),
+    request(`/api/codex-first-research?importId=${state.latestImport.id}`),
+  ]);
   renderScoutProgress(progress);
+  renderCodexFirstDetail(codexFirst);
 }
 
 function selectedResearchMode() {

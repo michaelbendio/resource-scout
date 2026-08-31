@@ -90,6 +90,13 @@ class CodexFirstResearchTests(unittest.TestCase):
         self.assertEqual({"completed": 0, "total": 1}, progress["research"])
         self.assertIsNone(progress["reviewFile"])
         self.assertEqual(0, progress["curation"]["completed"])
+        detailed = codex_first_view(self.store, self.import_id)
+        category = detailed["activeCategory"]
+        self.assertEqual(4, len(category["primary"]["passes"]))
+        self.assertEqual("pending", category["primary"]["passes"][0]["status"])
+        self.assertEqual(0, category["funnel"]["submittedLeads"])
+        self.assertEqual(0, category["funnel"]["verifiedContacts"])
+        self.assertTrue(all("leadCount" in item for item in category["researchers"]))
         self.store.record_scout_workflow_progress(
             self.import_id,
             "codex-first-heartbeat",
