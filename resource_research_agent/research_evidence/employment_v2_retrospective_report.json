@@ -1,0 +1,149 @@
+{
+  "experimentMode": "employment-retrospective-v1",
+  "locations": [
+    {
+      "evaluationSha256": "f8feefe14075b7aab4477ea91c97d7ff5a14d02f7aa924cbfd0f8c90ec6db5b8",
+      "jobId": 1,
+      "locationName": "Mesa",
+      "primaryRecovered": 6,
+      "primaryTargets": 6
+    },
+    {
+      "evaluationSha256": "3112d3e2904f8aca74e38aef021b893647c2aa5db35be7d5c8e8a2a53b6f8d19",
+      "jobId": 2,
+      "locationName": "Provo",
+      "primaryRecovered": 3,
+      "primaryTargets": 3
+    }
+  ],
+  "outcomeCounts": {
+    "ambiguous": 0,
+    "credible-equivalent": 0,
+    "exact": 11,
+    "missed": 0,
+    "parent-only": 0
+  },
+  "outcomes": [
+    {
+      "candidateStableKey": "identity-cd814652f359f2d3fcdd",
+      "evidence": ["strong normalized organization or program identity"],
+      "outcome": "exact",
+      "researchFocusKeys": ["population-specific"],
+      "targetKey": "mesa-arouet-employment-reentry",
+      "tier": "primary"
+    },
+    {
+      "candidateStableKey": "identity-d61ef442fd4f13c762a1",
+      "evidence": [
+        "same normalized official URL",
+        "strong normalized organization or program identity"
+      ],
+      "outcome": "exact",
+      "researchFocusKeys": ["community-embedded"],
+      "targetKey": "mesa-cplc-workforce-development",
+      "tier": "primary"
+    },
+    {
+      "candidateStableKey": "identity-f8bf18f1e7b0ed2a2b13",
+      "evidence": [
+        "same normalized official URL",
+        "strong normalized organization or program identity"
+      ],
+      "outcome": "exact",
+      "researchFocusKeys": ["supported-employment"],
+      "targetKey": "mesa-rise-supported-employment",
+      "tier": "primary"
+    },
+    {
+      "candidateStableKey": "identity-9e12bf833f2e80c92d31",
+      "evidence": [
+        "same normalized official URL",
+        "strong normalized organization or program identity"
+      ],
+      "outcome": "exact",
+      "researchFocusKeys": ["population-specific"],
+      "targetKey": "mesa-irc-refugee-employment",
+      "tier": "primary"
+    },
+    {
+      "candidateStableKey": "identity-2de08f9fd846f80bc599",
+      "evidence": [
+        "same official domain with matching identity terms",
+        "strong normalized organization or program identity"
+      ],
+      "outcome": "exact",
+      "researchFocusKeys": ["population-specific"],
+      "targetKey": "mesa-lss-refugee-support",
+      "tier": "primary"
+    },
+    {
+      "candidateStableKey": "identity-9d218646ce3b67e8eea2",
+      "evidence": ["same normalized official URL"],
+      "outcome": "exact",
+      "researchFocusKeys": ["community-embedded"],
+      "targetKey": "mesa-svdp-workforce-readiness",
+      "tier": "primary"
+    },
+    {
+      "candidateStableKey": "identity-b688c08411e660aa27c7",
+      "evidence": [
+        "same normalized official URL",
+        "strong normalized organization or program identity"
+      ],
+      "outcome": "exact",
+      "researchFocusKeys": ["immediate-employment"],
+      "targetKey": "provo-express-staffing",
+      "tier": "primary"
+    },
+    {
+      "candidateStableKey": "identity-906300df9da05c525a05",
+      "evidence": ["same normalized official URL"],
+      "outcome": "exact",
+      "researchFocusKeys": ["training-advancement"],
+      "targetKey": "provo-tech-moms-reentry",
+      "tier": "primary"
+    },
+    {
+      "candidateStableKey": "identity-ba8b6ecf667b1853397b",
+      "evidence": [
+        "same normalized official URL",
+        "strong normalized organization or program identity"
+      ],
+      "outcome": "exact",
+      "researchFocusKeys": ["population-specific"],
+      "targetKey": "provo-utah-valley-refugees",
+      "tier": "primary"
+    },
+    {
+      "candidateStableKey": "identity-4607ebf9f46099b5cba6",
+      "evidence": [
+        "same normalized official URL",
+        "strong normalized organization or program identity"
+      ],
+      "outcome": "exact",
+      "researchFocusKeys": ["public-workforce"],
+      "targetKey": "provo-dws-apprenticeship",
+      "tier": "secondary"
+    },
+    {
+      "candidateStableKey": "identity-53893d68aa2f59e4a4de",
+      "evidence": [
+        "same normalized official URL",
+        "strong normalized organization or program identity"
+      ],
+      "outcome": "exact",
+      "researchFocusKeys": ["training-advancement"],
+      "targetKey": "provo-uvu-career-training",
+      "tier": "secondary"
+    }
+  ],
+  "reportSha256": "84d4f6db78124dc944913e9c93dc06300a772111917c76ff5296757f655b0868",
+  "schemaVersion": 1,
+  "status": "complete",
+  "threshold": {
+    "available": 9,
+    "met": true,
+    "recovered": 9,
+    "required": 8
+  }
+}

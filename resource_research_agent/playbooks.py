@@ -8,7 +8,25 @@ from typing import Any
 
 PLAYBOOK_LIBRARY_DIR = Path(__file__).with_name("playbook_library")
 DEFAULT_SERVICE_AREA = "Utah County"
-PLAYBOOK_LIBRARY_VERSION = "chat-discovery-v1"
+PLAYBOOK_LIBRARY_VERSION = "chat-discovery-v2"
+
+
+@dataclass(frozen=True)
+class ResearchFocus:
+    key: str
+    label: str
+    direction: str
+    coverage: tuple[str, ...]
+    vocabulary: tuple[str, ...]
+    source_channels: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class FocusedResearchPlaybook:
+    version: str
+    alternative_vocabulary: tuple[str, ...]
+    source_channels: tuple[str, ...]
+    focuses: tuple[ResearchFocus, ...]
 
 
 @dataclass(frozen=True)
@@ -21,6 +39,7 @@ class CategoryPlaybook:
     aliases: tuple[str, ...]
     library_version: str
     source: str
+    focused_research: FocusedResearchPlaybook | None = None
 
 
 def normalize_supported_category(category_id: str) -> str | None:
@@ -75,6 +94,61 @@ def _load_library() -> tuple[dict[str, CategoryPlaybook], dict[str, str]]:
                 f"{path.name}: assignment may use only the {{service_area}} placeholder"
             )
         raw_aliases = _text_list(value.get("aliases", []), "aliases", path, required=False)
+        focused_value = value.get("focusedResearch")
+        focused_research = None
+        if focused_value is not None:
+            if not isinstance(focused_value, dict):
+                raise RuntimeError(f"{path.name}: focusedResearch must be an object")
+            focus_values = focused_value.get("focuses")
+            if not isinstance(focus_values, list) or not focus_values:
+                raise RuntimeError(
+                    f"{path.name}: focusedResearch.focuses must be a non-empty array"
+                )
+            focuses: list[ResearchFocus] = []
+            focus_keys: set[str] = set()
+            for focus_value in focus_values:
+                if not isinstance(focus_value, dict):
+                    raise RuntimeError(f"{path.name}: every focus must be an object")
+                key = _text(focus_value.get("key"), "focus.key", path)
+                if key in focus_keys:
+                    raise RuntimeError(f"{path.name}: duplicate focus key {key}")
+                focus_keys.add(key)
+                focuses.append(ResearchFocus(
+                    key=key,
+                    label=_text(focus_value.get("label"), "focus.label", path),
+                    direction=_text(
+                        focus_value.get("direction"), "focus.direction", path
+                    ),
+                    coverage=_text_list(
+                        focus_value.get("coverage"), "focus.coverage", path
+                    ),
+                    vocabulary=_text_list(
+                        focus_value.get("vocabulary", []),
+                        "focus.vocabulary",
+                        path,
+                        required=False,
+                    ),
+                    source_channels=_text_list(
+                        focus_value.get("sourceChannels", []),
+                        "focus.sourceChannels",
+                        path,
+                        required=False,
+                    ),
+                ))
+            focused_research = FocusedResearchPlaybook(
+                version=_text(focused_value.get("version"), "focusedResearch.version", path),
+                alternative_vocabulary=_text_list(
+                    focused_value.get("alternativeVocabulary"),
+                    "focusedResearch.alternativeVocabulary",
+                    path,
+                ),
+                source_channels=_text_list(
+                    focused_value.get("sourceChannels"),
+                    "focusedResearch.sourceChannels",
+                    path,
+                ),
+                focuses=tuple(focuses),
+            )
         playbook = CategoryPlaybook(
             category_id=category_id,
             label=label,
@@ -84,6 +158,7 @@ def _load_library() -> tuple[dict[str, CategoryPlaybook], dict[str, str]]:
             aliases=raw_aliases,
             library_version=PLAYBOOK_LIBRARY_VERSION,
             source=path.name,
+            focused_research=focused_research,
         )
         playbooks[normalized_id] = playbook
         for alias in (category_id, label, *raw_aliases):
@@ -123,6 +198,7 @@ def _generic_playbook(category_id: str, category_label: str) -> CategoryPlaybook
         aliases=(),
         library_version=PLAYBOOK_LIBRARY_VERSION,
         source="generated fallback",
+        focused_research=None,
     )
 
 

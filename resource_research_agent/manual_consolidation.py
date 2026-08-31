@@ -770,6 +770,9 @@ def _candidate_from_snapshot_group(
                 {
                     "leadId": member["id"],
                     "sourceLabel": member["sourceLabel"],
+                    "researchFocusKey": member.get("researchFocusKey") or "",
+                    "researchFocusLabel": member.get("researchFocusLabel") or "",
+                    "researchPassKind": member.get("researchPassKind") or "",
                     "sourceOrdinal": member["sourceOrdinal"],
                     "submittedOrganization": member["organization"],
                     "submittedProgram": member["program"],

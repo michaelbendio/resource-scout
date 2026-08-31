@@ -14,5 +14,84 @@
     "Generic job boards without a local support, placement, or verified hiring pathway",
     "Commercial training whose cost or outcomes cannot be established",
     "Stale job openings presented as durable resources"
-  ]
+  ],
+  "focusedResearch": {
+    "version": "employment-focused-v2",
+    "alternativeVocabulary": [
+      "economic empowerment",
+      "workforce readiness",
+      "career pathways",
+      "self-sufficiency",
+      "reentry stabilization",
+      "vocational development",
+      "job retention",
+      "family economic mobility"
+    ],
+    "sourceChannels": [
+      "Official provider and named-program pages",
+      "State, county, city, and workforce-board pages",
+      "Registered apprenticeship and credential registries",
+      "College continuing-education and technical-training catalogs",
+      "Government contracts, grants, partner lists, and public announcements",
+      "Current community referral documents and primary-source PDFs"
+    ],
+    "focuses": [
+      {
+        "key": "public-workforce",
+        "label": "Public workforce infrastructure",
+        "direction": "Find public workforce centers and named government programs that provide placement, counseling, benefits-linked employment, vocational rehabilitation, veterans services, bonding, employer incentives, or apprenticeship access.",
+        "coverage": ["Public workforce centers", "Vocational rehabilitation", "Veterans employment", "Benefits-linked employment", "Apprenticeship access"],
+        "vocabulary": ["one-stop workforce", "vocational rehabilitation", "federal bonding", "work opportunity tax credit"],
+        "sourceChannels": ["Government program pages", "Workforce board pages", "Public program registries"]
+      },
+      {
+        "key": "immediate-employment",
+        "label": "Immediate employment and staffing",
+        "direction": "Find credible local staffing, temporary, shift-work, day-labor, temp-to-hire, and unusually accessible direct hiring pathways with a durable public intake route.",
+        "coverage": ["Staffing offices", "Temporary and shift work", "Temp-to-hire", "Accessible direct hiring"],
+        "vocabulary": ["daily pay", "same day work", "job seeker intake", "temp to hire"],
+        "sourceChannels": ["Official local office pages", "Employer hiring program pages"]
+      },
+      {
+        "key": "training-advancement",
+        "label": "Training, credentials, apprenticeships, and advancement",
+        "direction": "Find concrete career training, registered apprenticeships, credentials, returnships, technical-college programs, and short university or employer training with a practical enrollment path.",
+        "coverage": ["Registered apprenticeships", "Technical training", "Credentials", "Career return programs", "Continuing education"],
+        "vocabulary": ["earn and learn", "returnship", "career training", "industry credential"],
+        "sourceChannels": ["Apprenticeship registries", "College catalogs", "Official training-program pages"]
+      },
+      {
+        "key": "supported-employment",
+        "label": "Disability and supported employment",
+        "direction": "Find disability-specific supported employment, job development, placement, coaching, and workplace skill-acquisition programs that credibly serve the area.",
+        "coverage": ["Supported employment", "Job coaching", "Disability job development", "Work-site skill acquisition"],
+        "vocabulary": ["supported employment", "job development", "employment coaching", "vocational services"],
+        "sourceChannels": ["Official disability-provider pages", "State vocational-rehabilitation provider information"]
+      },
+      {
+        "key": "population-specific",
+        "label": "Population-specific employment pathways",
+        "direction": "Find employment programs designed for refugees, immigrants, people returning from incarceration, women returning to work, youth, seniors, veterans, single parents, or other populations facing defined barriers.",
+        "coverage": ["Refugee employment", "Reentry employment", "Women returning to work", "Youth and senior employment", "Veteran pathways"],
+        "vocabulary": ["workforce re-entry", "refugee employment", "economic mobility", "reentry employment", "career return"],
+        "sourceChannels": ["Official resettlement-provider pages", "Corrections and reentry partner lists", "Population-specific nonprofit pages"]
+      },
+      {
+        "key": "community-embedded",
+        "label": "Employment inside broader community services",
+        "direction": "Find substantial named employment, transitional-work, or workforce-readiness programs embedded in shelters, food providers, community-action agencies, family services, reentry organizations, and faith-based organizations.",
+        "coverage": ["Transitional work", "Workforce readiness", "Employment inside basic-needs organizations", "Barrier-removal tied directly to work"],
+        "vocabulary": ["transitional work", "workforce readiness", "job opportunities", "economic empowerment"],
+        "sourceChannels": ["Official program pages", "Community service program reports", "Provider annual reports"]
+      },
+      {
+        "key": "non-obvious-sources",
+        "label": "Non-obvious source channels",
+        "direction": "Search current contracts, grants, public partner lists, board materials, catalogs, registries, and primary-source PDFs for named employment providers or programs not readily visible through general service searches.",
+        "coverage": ["Contracted providers", "Grant-funded named programs", "Partner programs", "Registry-listed services"],
+        "vocabulary": ["contracted provider", "workforce grant", "employment partner", "program catalog"],
+        "sourceChannels": ["Government contracts and grants", "Partner announcements", "Public meeting materials", "Primary-source PDFs"]
+      }
+    ]
+  }
 }

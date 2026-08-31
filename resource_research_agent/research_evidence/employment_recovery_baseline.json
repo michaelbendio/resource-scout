@@ -1,0 +1,42 @@
+{
+  "baselineVersion": "resource-scout-0.43.1-build-9",
+  "playbookVersion": "chat-discovery-v1",
+  "curationVersion": "codex-curation-v2-direct-service",
+  "locations": {
+    "mesa": {
+      "importId": 4,
+      "researchRunId": 12,
+      "curationJobId": 4,
+      "submittedLeads": 72,
+      "identityGroups": 63,
+      "multiSourceGroups": 7,
+      "curationCandidates": 54,
+      "curatedResources": 17
+    },
+    "provo": {
+      "importId": 3,
+      "researchRunId": 31,
+      "curationJobId": 3,
+      "submittedLeads": 63,
+      "identityGroups": 58,
+      "multiSourceGroups": 3,
+      "curationCandidates": 48,
+      "curatedResources": 15
+    }
+  },
+  "primaryTargets": [
+    {"key":"mesa-arouet-employment-reentry","location":"Mesa","name":"Arouet Foundation · Employment Readiness and Reentry Support for Women","website":"https://arouetfoundation.org/","branches":["population-specific","non-obvious-sources"]},
+    {"key":"mesa-cplc-workforce-development","location":"Mesa","name":"Chicanos Por La Causa · Workforce Development and Employment Services","website":"https://cplc.org/","branches":["community-embedded","population-specific"]},
+    {"key":"mesa-rise-supported-employment","location":"Mesa","name":"RISE Services, Inc. · Supported Employment Services","website":"https://riseservicesincaz.org/employment-services/","branches":["supported-employment"]},
+    {"key":"mesa-irc-refugee-employment","location":"Mesa","name":"International Rescue Committee (IRC) – Phoenix · Refugee Employment Services","website":"https://www.rescue.org/united-states/phoenix-az","branches":["population-specific"]},
+    {"key":"mesa-lss-refugee-support","location":"Mesa","name":"Lutheran Social Services of the Southwest · Refugee Support Services","website":"https://des.az.gov/refugee-resettlement","branches":["population-specific","non-obvious-sources"]},
+    {"key":"mesa-svdp-workforce-readiness","location":"Mesa","name":"Society of St. Vincent de Paul · Workforce Readiness and Neighborhood Brigade","website":"https://www.stvincentdepaul.net/our-work/workforce-readiness-and-job-opportunities","branches":["community-embedded"]},
+    {"key":"provo-express-staffing","location":"Provo","name":"Express Employment Professionals - Provo","website":"https://www.expresspros.com/us-utah-provo","branches":["immediate-employment"]},
+    {"key":"provo-tech-moms-reentry","location":"Provo","name":"Tech-Moms · Tech-Moms Workforce Re-Entry Tech Training","website":"https://www.tech-moms.org/","branches":["training-advancement","population-specific"]},
+    {"key":"provo-utah-valley-refugees","location":"Provo","name":"Utah Valley Refugees - Employment and Case Management","website":"https://utahvalleyrefugees.org/","branches":["population-specific","community-embedded"]}
+  ],
+  "secondaryTargets": [
+    {"key":"provo-dws-apprenticeship","location":"Provo","name":"Utah Department of Workforce Services · Registered Apprenticeship Program","website":"https://apprenticeship.utah.gov/","branches":["training-advancement"]},
+    {"key":"provo-uvu-career-training","location":"Provo","name":"Utah Valley University · Career Training Programs through Continuing Education","website":"https://careertraining.uvu.edu/","branches":["training-advancement"]}
+  ]
+}

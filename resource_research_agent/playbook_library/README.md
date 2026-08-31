@@ -12,7 +12,10 @@ chat-discovery assignment for one resource category.
 - `exclude` identifies tempting results that should not become candidates.
 
 These files guide lead discovery. They do not define dossier fields, verification
-gates, research stages, known providers, or candidate outcomes. Existing resources
-come from the connected package.
+gates, known providers, or candidate outcomes. Existing resources come from the
+connected package. A category may also contain an experimental `focusedResearch`
+object with a separately versioned list of stable focus keys, coverage branches,
+alternative vocabulary, and source channels. Scout uses that object only through
+the focused-research workflow; the compact chat assignment remains available.
 
 After editing guidance, run `python3 -m unittest discover -s tests`.

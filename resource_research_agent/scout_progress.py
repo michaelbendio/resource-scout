@@ -72,6 +72,16 @@ def build_scout_progress(
     workflow_events = store.list_scout_workflow_progress(selected_import_id, limit=1)
     workflow_event = workflow_events[0] if workflow_events else None
     current_event = _newer_event(workflow_event, curation_event)
+    focused_jobs = store.list_focused_research_jobs(selected_import_id)
+    focused_job = focused_jobs[0] if focused_jobs else None
+    focused_active = bool(
+        focused_job and focused_job.get("status") in {"pending", "in-progress"}
+    )
+    focused_is_newest = bool(
+        focused_job
+        and str(focused_job.get("updatedAt") or "")
+        >= str((current_event or {}).get("createdAt") or "")
+    )
 
     research_completed = len(completed_category_ids & set(category_labels))
     research_total = len(categories)
@@ -82,7 +92,44 @@ def build_scout_progress(
     }
     location_name = _location_name(summary)
 
-    if current_event:
+    if focused_active or (focused_job and focused_is_newest):
+        phase = (
+            "focused-research" if focused_active else "focused-research-complete"
+        )
+        assigned_pass = next(
+            (
+                item for item in focused_job["passes"]
+                if item.get("status") == "assigned"
+            ),
+            None,
+        )
+        next_pass = assigned_pass or next(
+            (
+                item for item in focused_job["passes"]
+                if item.get("status") == "pending"
+            ),
+            None,
+        )
+        category_id = str(focused_job.get("categoryId") or "")
+        progress = focused_job.get("progress") or {}
+        if not focused_active:
+            evaluation = focused_job.get("evaluation") or {}
+            message = (
+                f"Focused {focused_job.get('categoryLabel') or 'resource'} research "
+                f"is complete for {focused_job.get('locationName')}. "
+                f"Recovered {evaluation.get('locationPrimaryRecoveredCount', 0)} of "
+                f"{evaluation.get('locationPrimaryTargetCount', 0)} primary retrospective targets."
+            )
+        elif next_pass:
+            message = (
+                f"Focused {focused_job.get('categoryLabel') or 'resource'} research: "
+                f"{next_pass.get('focusLabel')}. "
+                f"{progress.get('completed', 0)} of {progress.get('total', 0)} passes complete."
+            )
+        else:
+            message = "Focused research passes are complete and ready for evaluation."
+        updated_at = focused_job.get("updatedAt")
+    elif current_event:
         phase = str(current_event.get("phase") or "Scout progress")
         message = str(current_event.get("message") or "Scout progress was updated.")
         category_id = str(current_event.get("categoryId") or "")
@@ -175,4 +222,21 @@ def build_scout_progress(
         "nextChatgpt": next_chatgpt,
         "chatgptAssignment": chatgpt_assignment,
         "reviewFile": review_file,
+        "focusedResearch": (
+            {
+                "jobId": focused_job["id"],
+                "status": focused_job["status"],
+                "categoryId": focused_job["categoryId"],
+                "categoryLabel": focused_job["categoryLabel"],
+                "playbookVersion": focused_job["playbookVersion"],
+                "completed": int(focused_job["progress"]["completed"]),
+                "total": int(focused_job["progress"]["total"]),
+                "leadCount": int(focused_job["progress"]["leadCount"]),
+                "activeFocus": next((
+                    item["focusLabel"] for item in focused_job["passes"]
+                    if item["status"] == "assigned"
+                ), None),
+            }
+            if focused_job else None
+        ),
     }

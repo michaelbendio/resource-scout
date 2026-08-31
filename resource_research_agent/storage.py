@@ -225,6 +225,66 @@ CREATE TABLE IF NOT EXISTS manual_discovery_identity_decisions (
     UNIQUE (run_id, left_key, right_key),
     CHECK (left_key < right_key)
 );
+CREATE TABLE IF NOT EXISTS focused_research_jobs (
+    id INTEGER PRIMARY KEY,
+    run_id INTEGER NOT NULL UNIQUE REFERENCES research_runs(id) ON DELETE CASCADE,
+    import_id INTEGER NOT NULL REFERENCES imports(id) ON DELETE CASCADE,
+    category_id TEXT NOT NULL,
+    category_label TEXT NOT NULL,
+    location_name TEXT NOT NULL,
+    service_area TEXT NOT NULL,
+    playbook_version TEXT NOT NULL,
+    experiment_mode TEXT NOT NULL DEFAULT 'retrospective',
+    status TEXT NOT NULL CHECK (
+        status IN ('pending', 'in-progress', 'completed', 'failed')
+    ),
+    plan_json TEXT NOT NULL,
+    plan_sha256 TEXT NOT NULL CHECK (length(plan_sha256) = 64),
+    baseline_manifest_sha256 TEXT NOT NULL CHECK (length(baseline_manifest_sha256) = 64),
+    final_manifest_sha256 TEXT NOT NULL DEFAULT '' CHECK (
+        final_manifest_sha256 = '' OR length(final_manifest_sha256) = 64
+    ),
+    evaluation_json TEXT,
+    evaluation_sha256 TEXT NOT NULL DEFAULT '' CHECK (
+        evaluation_sha256 = '' OR length(evaluation_sha256) = 64
+    ),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    completed_at TEXT,
+    error TEXT NOT NULL DEFAULT '',
+    UNIQUE (import_id, category_id, playbook_version, plan_sha256, experiment_mode)
+);
+CREATE TABLE IF NOT EXISTS focused_research_passes (
+    id INTEGER PRIMARY KEY,
+    job_id INTEGER NOT NULL REFERENCES focused_research_jobs(id) ON DELETE CASCADE,
+    ordinal INTEGER NOT NULL CHECK (ordinal > 0),
+    focus_key TEXT NOT NULL,
+    focus_label TEXT NOT NULL,
+    pass_kind TEXT NOT NULL CHECK (pass_kind IN ('focus', 'gap')),
+    status TEXT NOT NULL CHECK (
+        status IN ('pending', 'assigned', 'completed', 'failed')
+    ),
+    definition_json TEXT NOT NULL,
+    assignment TEXT NOT NULL DEFAULT '',
+    assignment_sha256 TEXT NOT NULL DEFAULT '' CHECK (
+        assignment_sha256 = '' OR length(assignment_sha256) = 64
+    ),
+    candidate_manifest_sha256 TEXT NOT NULL DEFAULT '' CHECK (
+        candidate_manifest_sha256 = '' OR length(candidate_manifest_sha256) = 64
+    ),
+    contribution_id INTEGER REFERENCES manual_discovery_contributions(id),
+    lead_count INTEGER NOT NULL DEFAULT 0 CHECK (lead_count >= 0),
+    coverage_json TEXT NOT NULL DEFAULT '{}',
+    created_at TEXT NOT NULL,
+    assigned_at TEXT,
+    completed_at TEXT,
+    updated_at TEXT NOT NULL,
+    error TEXT NOT NULL DEFAULT '',
+    UNIQUE (job_id, ordinal),
+    UNIQUE (job_id, focus_key)
+);
+CREATE INDEX IF NOT EXISTS focused_research_import_status
+    ON focused_research_jobs(import_id, status, id);
 CREATE TABLE IF NOT EXISTS research_run_reconciliations (
     id INTEGER PRIMARY KEY,
     run_id INTEGER NOT NULL REFERENCES research_runs(id) ON DELETE CASCADE,
@@ -1225,10 +1285,13 @@ class ResearchStore:
         with self.connect() as connection:
             rows = connection.execute(
                 """SELECT leads.*, contributions.source_label,
-                          contributions.source_position, contributions.raw_sha256
+                          contributions.source_position, contributions.raw_sha256,
+                          passes.focus_key, passes.focus_label, passes.pass_kind
                    FROM manual_discovery_leads AS leads
                    JOIN manual_discovery_contributions AS contributions
                      ON contributions.id = leads.contribution_id
+                   LEFT JOIN focused_research_passes AS passes
+                     ON passes.contribution_id = contributions.id
                    WHERE contributions.run_id = ?
                    ORDER BY contributions.source_position, leads.source_ordinal""",
                 (run_id,),
@@ -1241,6 +1304,9 @@ class ResearchStore:
                 "sourcePosition": row["source_position"],
                 "sourceOrdinal": row["source_ordinal"],
                 "rawSha256": row["raw_sha256"],
+                "researchFocusKey": row["focus_key"] or "",
+                "researchFocusLabel": row["focus_label"] or "",
+                "researchPassKind": row["pass_kind"] or "",
                 "raw": json.loads(row["raw_json"]),
                 "organization": row["organization"],
                 "program": row["program"],
@@ -1434,11 +1500,14 @@ class ResearchStore:
                 member_rows = connection.execute(
                     """SELECT members.membership_reason, members.deterministic_signal,
                               leads.*, contributions.source_label,
-                              contributions.source_position
+                              contributions.source_position,
+                              passes.focus_key, passes.focus_label, passes.pass_kind
                        FROM manual_discovery_identity_members AS members
                        JOIN manual_discovery_leads AS leads ON leads.id = members.lead_id
                        JOIN manual_discovery_contributions AS contributions
                          ON contributions.id = leads.contribution_id
+                       LEFT JOIN focused_research_passes AS passes
+                         ON passes.contribution_id = contributions.id
                        WHERE members.group_id = ? ORDER BY members.source_order""",
                     (row["id"],),
                 ).fetchall()
@@ -1459,6 +1528,9 @@ class ResearchStore:
                             "sourceLabel": member["source_label"],
                             "sourcePosition": member["source_position"],
                             "sourceOrdinal": member["source_ordinal"],
+                            "researchFocusKey": member["focus_key"] or "",
+                            "researchFocusLabel": member["focus_label"] or "",
+                            "researchPassKind": member["pass_kind"] or "",
                             "organization": member["organization"],
                             "program": member["program"],
                             "website": member["website_normalized"],
@@ -1500,6 +1572,389 @@ class ResearchStore:
             "parsedContributionCount": int(row["parsed_count"] or 0),
             "errorContributionCount": int(row["error_count"] or 0),
             "leadCount": int(row["lead_count"] or 0),
+        }
+
+    def find_focused_research_job(
+        self,
+        import_id: int,
+        category_id: str,
+        playbook_version: str,
+        plan_sha256: str,
+        experiment_mode: str,
+    ) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT id FROM focused_research_jobs
+                   WHERE import_id = ? AND category_id = ?
+                     AND playbook_version = ? AND plan_sha256 = ?
+                     AND experiment_mode = ?""",
+                (
+                    import_id,
+                    category_id,
+                    playbook_version,
+                    plan_sha256,
+                    experiment_mode,
+                ),
+            ).fetchone()
+        return self.get_focused_research_job(int(row["id"])) if row else None
+
+    def create_focused_research_job(
+        self,
+        *,
+        run_id: int,
+        import_id: int,
+        category_id: str,
+        category_label: str,
+        location_name: str,
+        service_area: str,
+        playbook_version: str,
+        experiment_mode: str,
+        plan: dict[str, Any],
+        plan_sha256: str,
+        baseline_manifest_sha256: str,
+        passes: list[dict[str, Any]],
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            run = connection.execute(
+                "SELECT status, run_kind FROM research_runs WHERE id = ?", (run_id,)
+            ).fetchone()
+            if not run or run["run_kind"] != "manual-discovery":
+                raise ValueError("Focused research needs a manual discovery run")
+            if run["status"] != "running":
+                raise ValueError("Focused research needs an open discovery run")
+            cursor = connection.execute(
+                """INSERT INTO focused_research_jobs (
+                       run_id, import_id, category_id, category_label,
+                       location_name, service_area, playbook_version,
+                       experiment_mode, status, plan_json, plan_sha256,
+                       baseline_manifest_sha256, created_at, updated_at
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?, ?, ?)""",
+                (
+                    run_id,
+                    import_id,
+                    category_id,
+                    category_label,
+                    location_name,
+                    service_area,
+                    playbook_version,
+                    experiment_mode,
+                    _json(plan),
+                    plan_sha256,
+                    baseline_manifest_sha256,
+                    now,
+                    now,
+                ),
+            )
+            job_id = int(cursor.lastrowid)
+            for ordinal, research_pass in enumerate(passes, start=1):
+                connection.execute(
+                    """INSERT INTO focused_research_passes (
+                           job_id, ordinal, focus_key, focus_label, pass_kind,
+                           status, definition_json, created_at, updated_at
+                       ) VALUES (?, ?, ?, ?, 'focus', 'pending', ?, ?, ?)""",
+                    (
+                        job_id,
+                        ordinal,
+                        research_pass["key"],
+                        research_pass["label"],
+                        _json(research_pass),
+                        now,
+                        now,
+                    ),
+                )
+        job = self.get_focused_research_job(job_id)
+        if job is None:  # pragma: no cover
+            raise RuntimeError("Focused research job could not be read")
+        return job
+
+    def get_focused_research_job(self, job_id: int) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM focused_research_jobs WHERE id = ?", (job_id,)
+            ).fetchone()
+            if not row:
+                return None
+            pass_rows = connection.execute(
+                """SELECT * FROM focused_research_passes
+                   WHERE job_id = ? ORDER BY ordinal""",
+                (job_id,),
+            ).fetchall()
+        result = self._focused_research_job_dict(row)
+        result["passes"] = [self._focused_research_pass_dict(item) for item in pass_rows]
+        result["progress"] = {
+            "completed": sum(item["status"] == "completed" for item in result["passes"]),
+            "failed": sum(item["status"] == "failed" for item in result["passes"]),
+            "total": len(result["passes"]),
+            "leadCount": sum(int(item["leadCount"]) for item in result["passes"]),
+        }
+        return result
+
+    def list_focused_research_jobs(
+        self, import_id: int | None = None
+    ) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            if import_id is None:
+                rows = connection.execute(
+                    "SELECT id FROM focused_research_jobs ORDER BY id DESC"
+                ).fetchall()
+            else:
+                rows = connection.execute(
+                    """SELECT id FROM focused_research_jobs
+                       WHERE import_id = ? ORDER BY id DESC""",
+                    (import_id,),
+                ).fetchall()
+        return [
+            job
+            for row in rows
+            if (job := self.get_focused_research_job(int(row["id"]))) is not None
+        ]
+
+    def assign_focused_research_pass(
+        self,
+        job_id: int,
+        focus_key: str,
+        assignment: str,
+        assignment_sha256: str,
+        candidate_manifest_sha256: str,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT * FROM focused_research_passes
+                   WHERE job_id = ? AND focus_key = ?""",
+                (job_id, focus_key),
+            ).fetchone()
+            if not row:
+                raise ValueError("Focused research pass not found")
+            if row["status"] == "completed":
+                raise ValueError("Focused research pass is already completed")
+            if row["status"] == "assigned":
+                if (
+                    row["assignment_sha256"] != assignment_sha256
+                    or row["candidate_manifest_sha256"] != candidate_manifest_sha256
+                ):
+                    raise ValueError("Assigned focused research pass is immutable")
+            elif row["status"] != "pending":
+                raise ValueError("Failed focused research pass cannot be assigned")
+            else:
+                connection.execute(
+                    """UPDATE focused_research_passes
+                       SET status = 'assigned', assignment = ?, assignment_sha256 = ?,
+                           candidate_manifest_sha256 = ?, assigned_at = ?,
+                           updated_at = ?, error = ''
+                       WHERE id = ?""",
+                    (
+                        assignment,
+                        assignment_sha256,
+                        candidate_manifest_sha256,
+                        now,
+                        now,
+                        row["id"],
+                    ),
+                )
+                connection.execute(
+                    """UPDATE focused_research_jobs
+                       SET status = 'in-progress', updated_at = ?, error = ''
+                       WHERE id = ?""",
+                    (now, job_id),
+                )
+        job = self.get_focused_research_job(job_id)
+        assert job is not None
+        return next(item for item in job["passes"] if item["focusKey"] == focus_key)
+
+    def complete_focused_research_pass(
+        self,
+        job_id: int,
+        focus_key: str,
+        contribution_id: int,
+        lead_count: int,
+        coverage: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT * FROM focused_research_passes
+                   WHERE job_id = ? AND focus_key = ?""",
+                (job_id, focus_key),
+            ).fetchone()
+            if not row:
+                raise ValueError("Focused research pass not found")
+            if row["status"] == "completed":
+                if int(row["contribution_id"] or 0) != int(contribution_id):
+                    raise ValueError("Completed focused research pass is immutable")
+            elif row["status"] != "assigned":
+                raise ValueError("Assign the focused research pass before completing it")
+            else:
+                contribution = connection.execute(
+                    """SELECT run_id FROM manual_discovery_contributions
+                       WHERE id = ?""",
+                    (contribution_id,),
+                ).fetchone()
+                job = connection.execute(
+                    "SELECT run_id FROM focused_research_jobs WHERE id = ?", (job_id,)
+                ).fetchone()
+                if not contribution or not job or contribution["run_id"] != job["run_id"]:
+                    raise ValueError("Focused research contribution belongs to another run")
+                connection.execute(
+                    """UPDATE focused_research_passes
+                       SET status = 'completed', contribution_id = ?, lead_count = ?,
+                           coverage_json = ?, completed_at = ?, updated_at = ?, error = ''
+                       WHERE id = ?""",
+                    (
+                        contribution_id,
+                        int(lead_count),
+                        _json(coverage or {}),
+                        now,
+                        now,
+                        row["id"],
+                    ),
+                )
+                connection.execute(
+                    "UPDATE focused_research_jobs SET updated_at = ? WHERE id = ?",
+                    (now, job_id),
+                )
+        job = self.get_focused_research_job(job_id)
+        assert job is not None
+        return next(item for item in job["passes"] if item["focusKey"] == focus_key)
+
+    def add_focused_gap_pass(
+        self,
+        job_id: int,
+        definition: dict[str, Any],
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            existing = connection.execute(
+                """SELECT id FROM focused_research_passes
+                   WHERE job_id = ? AND focus_key = 'gap'""",
+                (job_id,),
+            ).fetchone()
+            if not existing:
+                incomplete = int(connection.execute(
+                    """SELECT COUNT(*) FROM focused_research_passes
+                       WHERE job_id = ? AND pass_kind = 'focus'
+                         AND status != 'completed'""",
+                    (job_id,),
+                ).fetchone()[0])
+                if incomplete:
+                    raise ValueError("Complete every fixed focus before creating the gap pass")
+                ordinal = int(connection.execute(
+                    """SELECT COALESCE(MAX(ordinal), 0) + 1
+                       FROM focused_research_passes WHERE job_id = ?""",
+                    (job_id,),
+                ).fetchone()[0])
+                connection.execute(
+                    """INSERT INTO focused_research_passes (
+                           job_id, ordinal, focus_key, focus_label, pass_kind,
+                           status, definition_json, created_at, updated_at
+                       ) VALUES (?, ?, 'gap', 'Coverage gap follow-up', 'gap',
+                                 'pending', ?, ?, ?)""",
+                    (job_id, ordinal, _json(definition), now, now),
+                )
+        job = self.get_focused_research_job(job_id)
+        assert job is not None
+        return next(item for item in job["passes"] if item["focusKey"] == "gap")
+
+    def complete_focused_research_job(
+        self,
+        job_id: int,
+        final_manifest_sha256: str,
+        evaluation: dict[str, Any],
+        evaluation_sha256: str,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT status FROM focused_research_jobs WHERE id = ?", (job_id,)
+            ).fetchone()
+            if not row:
+                raise ValueError("Focused research job not found")
+            incomplete = int(connection.execute(
+                """SELECT COUNT(*) FROM focused_research_passes
+                   WHERE job_id = ? AND status != 'completed'""",
+                (job_id,),
+            ).fetchone()[0])
+            if incomplete:
+                raise ValueError("Complete every focused research pass first")
+            if row["status"] == "completed":
+                current = connection.execute(
+                    """SELECT final_manifest_sha256, evaluation_sha256
+                       FROM focused_research_jobs WHERE id = ?""",
+                    (job_id,),
+                ).fetchone()
+                if (
+                    current["final_manifest_sha256"] != final_manifest_sha256
+                    or current["evaluation_sha256"] != evaluation_sha256
+                ):
+                    raise ValueError("Completed focused research evaluation is immutable")
+            else:
+                connection.execute(
+                    """UPDATE focused_research_jobs
+                       SET status = 'completed', final_manifest_sha256 = ?,
+                           evaluation_json = ?, evaluation_sha256 = ?,
+                           completed_at = ?, updated_at = ?, error = ''
+                       WHERE id = ?""",
+                    (
+                        final_manifest_sha256,
+                        _json(evaluation),
+                        evaluation_sha256,
+                        now,
+                        now,
+                        job_id,
+                    ),
+                )
+        job = self.get_focused_research_job(job_id)
+        assert job is not None
+        return job
+
+    @staticmethod
+    def _focused_research_job_dict(row: sqlite3.Row) -> dict[str, Any]:
+        return {
+            "id": row["id"],
+            "runId": row["run_id"],
+            "importId": row["import_id"],
+            "categoryId": row["category_id"],
+            "categoryLabel": row["category_label"],
+            "locationName": row["location_name"],
+            "serviceArea": row["service_area"],
+            "playbookVersion": row["playbook_version"],
+            "experimentMode": row["experiment_mode"],
+            "status": row["status"],
+            "plan": json.loads(row["plan_json"]),
+            "planSha256": row["plan_sha256"],
+            "baselineManifestSha256": row["baseline_manifest_sha256"],
+            "finalManifestSha256": row["final_manifest_sha256"],
+            "evaluation": json.loads(row["evaluation_json"]) if row["evaluation_json"] else None,
+            "evaluationSha256": row["evaluation_sha256"],
+            "createdAt": row["created_at"],
+            "updatedAt": row["updated_at"],
+            "completedAt": row["completed_at"],
+            "error": row["error"],
+        }
+
+    @staticmethod
+    def _focused_research_pass_dict(row: sqlite3.Row) -> dict[str, Any]:
+        return {
+            "id": row["id"],
+            "jobId": row["job_id"],
+            "ordinal": row["ordinal"],
+            "focusKey": row["focus_key"],
+            "focusLabel": row["focus_label"],
+            "passKind": row["pass_kind"],
+            "status": row["status"],
+            "definition": json.loads(row["definition_json"]),
+            "assignment": row["assignment"],
+            "assignmentSha256": row["assignment_sha256"],
+            "candidateManifestSha256": row["candidate_manifest_sha256"],
+            "contributionId": row["contribution_id"],
+            "leadCount": row["lead_count"],
+            "coverage": json.loads(row["coverage_json"]),
+            "createdAt": row["created_at"],
+            "assignedAt": row["assigned_at"],
+            "completedAt": row["completed_at"],
+            "updatedAt": row["updated_at"],
+            "error": row["error"],
         }
 
     def finish_manual_consolidated_run(

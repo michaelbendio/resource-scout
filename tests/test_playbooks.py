@@ -17,7 +17,7 @@ EXPECTED_CATEGORIES = {
 
 class DiscoveryGuidanceTests(unittest.TestCase):
     def test_every_category_has_compact_discovery_guidance(self) -> None:
-        self.assertEqual("chat-discovery-v1", PLAYBOOK_LIBRARY_VERSION)
+        self.assertEqual("chat-discovery-v2", PLAYBOOK_LIBRARY_VERSION)
         self.assertEqual(EXPECTED_CATEGORIES, set(PLAYBOOKS))
         for category_id, playbook in PLAYBOOKS.items():
             with self.subTest(category=category_id):
@@ -27,6 +27,30 @@ class DiscoveryGuidanceTests(unittest.TestCase):
                 self.assertIn("Utah County", playbook.default_assignment)
                 self.assertFalse(hasattr(playbook, "stages"))
                 self.assertFalse(hasattr(playbook, "factual_fields"))
+
+    def test_employment_has_versioned_focused_research(self) -> None:
+        employment = playbook_for("employment", "Employment", "Mesa, Arizona")
+        focused = employment.focused_research
+        self.assertIsNotNone(focused)
+        assert focused is not None
+        self.assertEqual("employment-focused-v2", focused.version)
+        self.assertEqual(
+            [
+                "public-workforce",
+                "immediate-employment",
+                "training-advancement",
+                "supported-employment",
+                "population-specific",
+                "community-embedded",
+                "non-obvious-sources",
+            ],
+            [focus.key for focus in focused.focuses],
+        )
+        self.assertIn("economic empowerment", focused.alternative_vocabulary)
+        self.assertTrue(all(focus.coverage for focus in focused.focuses))
+
+    def test_other_categories_keep_compact_guidance(self) -> None:
+        self.assertIsNone(playbook_for("food", "Food").focused_research)
 
     def test_service_area_changes_without_changing_category_scope(self) -> None:
         original = playbook_for("food", "Food")

@@ -146,6 +146,8 @@ function friendlyProgressPhase(value) {
     'review-file': 'Review file',
     'review-file-built': 'Review file created',
     'waiting-for-feedback': 'Waiting for feedback',
+    'focused-research': 'Focused research',
+    'focused-research-complete': 'Focused research complete',
   };
   return labels[value] || String(value || 'Scout progress').replaceAll('-', ' ');
 }
@@ -164,6 +166,13 @@ function renderScoutProgress(progress) {
   document.querySelector('#scout-research-progress').textContent = `${progress.research.completed} of ${progress.research.total} categories`;
   const curationFailures = Number(progress.curation.failed || 0);
   document.querySelector('#scout-curation-progress').textContent = `${progress.curation.completed} of ${progress.curation.total} categories${curationFailures ? ` · ${curationFailures} need attention` : ''}`;
+  const focused = progress.focusedResearch;
+  const focusedMetric = document.querySelector('#scout-focused-research-metric');
+  focusedMetric.hidden = !focused;
+  if (focused) {
+    const active = focused.activeFocus ? ` · ${focused.activeFocus}` : '';
+    document.querySelector('#scout-focused-research-progress').textContent = `${focused.completed} of ${focused.total} passes · ${focused.leadCount} leads${active}`;
+  }
 
   const next = progress.chatgptAssignment || progress.nextChatgpt;
   const nextPanel = document.querySelector('#next-chatgpt');

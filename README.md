@@ -5,6 +5,16 @@ from several consumer AI products. It creates a self-contained TSO Resources
 review file such as `autoMesa.html` for human vetting and package creation. It is
 designed for repeated use across TSO locations and resource categories.
 
+Version 0.44.0 adds an evidence-gated Codex focused-research laboratory without
+changing Scout's existing four-AI workflow. Employment research can now run as
+durable, candidate-aware focus passes followed by a deterministic gap pass.
+Scout preserves each pass, its exact assignment, leads, source focus, and
+cross-pass provenance; Section 02 shows compact operational progress. A sealed
+Mesa-and-Provo retrospective recovered all nine primary targets and both
+secondary diagnostics, exceeding the approved eight-of-nine advancement gate.
+The detailed result remains an evaluation artifact and no learned guidance is
+activated automatically.
+
 Version 0.43.1 preserves every completed research run for the connected office
 when Scout builds its candidate snapshot, even after many newer runs have been
 created for another office. Long-lived Mesa and Provo research therefore remains
@@ -133,6 +143,8 @@ python3 -m unittest discover -s tests
 
 The suite covers package import and duplicate indexing, category guidance,
 response parsing, conservative consolidation, identity decisions, contact lookup,
-Curator isolation and package creation, Tailscale behavior, background service
-configuration, Resource Scout curation durability, curation validation, progress
-and pacing, Scout-owned review-file generation, and Scout/review-file UI wiring.
+focused-research planning, resumability, target sealing, gap analysis, provenance,
+retrospective evaluation, Curator isolation and package creation, Tailscale
+behavior, background service configuration, Resource Scout curation durability,
+curation validation, progress and pacing, Scout-owned review-file generation, and
+Scout/review-file UI wiring.

@@ -26,6 +26,14 @@ from .scout_progress import build_scout_progress
 from .candidate_package import CandidatePackageError, build_candidate_package
 from .contact_lookup import apply_contact_lookup_results, build_contact_lookup_request
 from .duplicates import DuplicateIndex
+from .focused_research import (
+    evaluate_focused_research_job,
+    employment_retrospective_report,
+    next_focused_research_assignment,
+    prepare_focused_gap_pass,
+    prepare_focused_research_job,
+    save_focused_research_result,
+)
 from .importer import PackageImportError, ResourcePackageImporter
 from .manual_discovery import build_manual_discovery_assignment, parse_manual_contribution
 from .manual_consolidation import (
@@ -129,6 +137,22 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 query = parse_qs(parsed.query)
                 import_id = int(query["importId"][0]) if query.get("importId") else None
                 self._json(build_scout_progress(self.server.store, import_id))
+            elif parsed.path == "/api/focused-research-jobs":
+                query = parse_qs(parsed.query)
+                import_id = int(query["importId"][0]) if query.get("importId") else None
+                self._json({
+                    "jobs": self.server.store.list_focused_research_jobs(import_id)
+                })
+            elif parsed.path == "/api/focused-research-retrospective":
+                self._json(employment_retrospective_report(self.server.store))
+            elif (job_id := self._path_id(
+                parsed.path, "/api/focused-research-jobs"
+            )) is not None:
+                job = self.server.store.get_focused_research_job(job_id)
+                if job:
+                    self._json(job)
+                else:
+                    self._error(HTTPStatus.NOT_FOUND, "Focused research job not found")
             elif parsed.path == "/api/chatgpt-assignments/due":
                 query = parse_qs(parsed.query)
                 import_id = int(query["importId"][0]) if query.get("importId") else None
@@ -277,6 +301,48 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     int(payload["importId"]) if payload.get("importId") else None,
                 )
                 self._json(job, HTTPStatus.CREATED)
+            elif parsed.path == "/api/focused-research-jobs":
+                payload = self._read_json()
+                job = prepare_focused_research_job(
+                    self.server.store,
+                    int(payload["importId"]) if payload.get("importId") else None,
+                    str(payload.get("categoryId") or "employment"),
+                )
+                self._json(job, HTTPStatus.CREATED)
+            elif (job_id := self._path_id(
+                parsed.path, "/api/focused-research-jobs", "next-assignment"
+            )) is not None:
+                self._read_json()
+                self._json({
+                    "assignment": next_focused_research_assignment(
+                        self.server.store, job_id
+                    )
+                })
+            elif (job_id := self._path_id(
+                parsed.path, "/api/focused-research-jobs", "results"
+            )) is not None:
+                payload = self._read_json()
+                self._json(save_focused_research_result(
+                    self.server.store,
+                    job_id,
+                    str(payload.get("focusKey") or ""),
+                    str(payload.get("rawText") or ""),
+                ))
+            elif (job_id := self._path_id(
+                parsed.path, "/api/focused-research-jobs", "gap"
+            )) is not None:
+                self._read_json()
+                self._json(prepare_focused_gap_pass(self.server.store, job_id))
+            elif (job_id := self._path_id(
+                parsed.path, "/api/focused-research-jobs", "evaluate"
+            )) is not None:
+                payload = self._read_json()
+                adjudications = payload.get("adjudications") or []
+                if not isinstance(adjudications, list):
+                    raise ValueError("Recovery adjudications must be an array")
+                self._json(evaluate_focused_research_job(
+                    self.server.store, job_id, adjudications
+                ))
             elif parsed.path == "/api/scout-progress":
                 payload = self._read_json()
                 import_id = int(payload.get("importId") or 0)
