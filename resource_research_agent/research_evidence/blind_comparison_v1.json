@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "experimentMode": "blind-comparison-v1",
+  "location": {
+    "importId": 3,
+    "officeName": "Provo TSO",
+    "serviceArea": "Utah County, Utah",
+    "sourceName": "provo-resource-package.zip",
+    "sourceSha256": "486788adbc854ff27a698fbf5e2fcaa254db155e4fcc582f8a72d8fe5ed968fd",
+    "contentSha256": "64e37f5dee232b721116b6fded519ee9ed1bc5f1342bf91363e55b2a5f16f40c"
+  },
+  "curation": {
+    "jobId": 3,
+    "assignmentVersion": "codex-curation-v2-direct-service"
+  },
+  "subscriptionContext": {
+    "ChatGPT": {"monthlyUsd": 200, "decisionRole": "primary Codex environment"},
+    "Grok": {"monthlyUsd": 300, "decisionRole": "sunk cost through April 2027"},
+    "Claude": {"monthlyUsd": 20, "decisionRole": "renewal under evaluation"},
+    "Perplexity": {"monthlyUsd": 20, "decisionRole": "renewal under evaluation"}
+  },
+  "heldOutCategories": [
+    {
+      "categoryId": "housing",
+      "categoryLabel": "Housing",
+      "researchCharacteristic": "relationship tracing across crisis, voucher, supportive, and long-term pathways",
+      "shadowRunId": 37,
+      "curationResultSha256": "bf87d0f28dde003b58238c8692421a21c058cdd8391be7c0818c8163a4670b74",
+      "contributions": [
+        {"id": 134, "source": "ChatGPT", "leadCount": 13, "rawSha256": "e499e68a6736c66d48657ad0a17e4e470acb3e674a6b6e08afe15ea3c2197db5"},
+        {"id": 135, "source": "Grok", "leadCount": 12, "rawSha256": "816b2ad435113c2cbf0d2f436c481eecb6fa7a77f121abe53f78c3e48e45cfdb"},
+        {"id": 136, "source": "Claude", "leadCount": 8, "rawSha256": "2388763180a8592a012fc7ff5615e7afd85534ca01f3d3d8ebf65eb0598dd88b"},
+        {"id": 137, "source": "Perplexity", "leadCount": 13, "rawSha256": "08e807ee2a6c6bc88ba9a49fed96d873c6aef297a4ab4a4a030dc534ecc65306"}
+      ]
+    },
+    {
+      "categoryId": "medical-dental-vision",
+      "categoryLabel": "Medical, Dental, Vision",
+      "researchCharacteristic": "clinical scope, payer, charity-care, referral, and population-access verification",
+      "shadowRunId": 35,
+      "curationResultSha256": "a37e63be9bcef740c52bf271aa98882eedfd80b6b31f8d85a998d882d4f741bc",
+      "contributions": [
+        {"id": 126, "source": "ChatGPT", "leadCount": 13, "rawSha256": "22c8c3eb8f1be8c22b32f4d2d165879d7b0d7a896a4d4432ff9281adeb8ee991"},
+        {"id": 127, "source": "Grok", "leadCount": 15, "rawSha256": "670976fd27c153b3f919020c2c3cdea5e6ad91b520bce554eeefc04fb124ddcf"},
+        {"id": 128, "source": "Claude", "leadCount": 12, "rawSha256": "c7d09e951924f19762e7ca98af2b75dfbb9c8f19499a777c84da4b09c50f3969"},
+        {"id": 129, "source": "Perplexity", "leadCount": 15, "rawSha256": "cbbbd53ce9ae435a5315ef277d30de4828eb14cd85b5ff0dfdd1f2ea4b5a3396"}
+      ]
+    },
+    {
+      "categoryId": "clothing-household",
+      "categoryLabel": "Clothing/Household",
+      "researchCharacteristic": "small community and faith programs hidden inside broader basic-needs services",
+      "shadowRunId": 27,
+      "curationResultSha256": "3a3f48bb08c725614627aaef61db8f7ed4b1518422bcf7d5cf4f9753785e91ec",
+      "contributions": [
+        {"id": 94, "source": "ChatGPT", "leadCount": 12, "rawSha256": "658c11969414803d2bfa096d2259d74421703c1e21758886b38c3b5653e9ab84"},
+        {"id": 95, "source": "Grok", "leadCount": 14, "rawSha256": "25349f761e5b6ae277e90187bbda18c1989dc6de821fa7b2ce8c241ab319f100"},
+        {"id": 96, "source": "Claude", "leadCount": 11, "rawSha256": "8968a03b335e750f6135090419d450b8ef4c3d26d6f5837a6e1026067cf46877"},
+        {"id": 97, "source": "Perplexity", "leadCount": 10, "rawSha256": "4ddf28ab44fd595e5525c3dcdfac40e233ba4890334e710fc866347db91571f4"}
+      ]
+    },
+    {
+      "categoryId": "transportation",
+      "categoryLabel": "Transportation",
+      "researchCharacteristic": "route, eligibility, reservation, trip-purpose, and vehicle-access logistics",
+      "shadowRunId": 42,
+      "curationResultSha256": "ac422be4ab6f5e8bfe4ea49d8cc04b1968a9a6ca5978cd6bf0e343fe8e0b5d14",
+      "contributions": [
+        {"id": 154, "source": "ChatGPT", "leadCount": 13, "rawSha256": "cef9249ec719c74508a09165899f1b5202ec084e5453cac836d755eb901de3af"},
+        {"id": 155, "source": "Grok", "leadCount": 15, "rawSha256": "6c1f26799b86440c73d3f11e74651441c11bf027a20a528b8898ded92d65e03e"},
+        {"id": 156, "source": "Claude", "leadCount": 12, "rawSha256": "4af25b141686a8093611fdb6a1c1bda0511702d7fef39326642c1548a1bf8e63"},
+        {"id": 157, "source": "Perplexity", "leadCount": 9, "rawSha256": "75c29b5ac9e99bbdc133610ef130eb05fc51bb9c2121ba275dcf7f8eff18c110"}
+      ]
+    }
+  ]
+}

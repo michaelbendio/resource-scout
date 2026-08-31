@@ -148,6 +148,10 @@ function friendlyProgressPhase(value) {
     'waiting-for-feedback': 'Waiting for feedback',
     'focused-research': 'Focused research',
     'focused-research-complete': 'Focused research complete',
+    'blind-research': 'Blind research',
+    'blind-codex-closed': 'Codex results closed',
+    'blind-review': 'Source-hidden review',
+    'blind-comparison-complete': 'Blind comparison complete',
   };
   return labels[value] || String(value || 'Scout progress').replaceAll('-', ' ');
 }
@@ -156,9 +160,10 @@ function renderScoutProgress(progress) {
   state.workflowProgress = progress;
   const phaseLabel = friendlyProgressPhase(progress.phase);
   const reviewFilename = progress.reviewFile?.filename || progress.targetReviewFilename || 'office review file';
-  document.querySelector('#scout-progress-title').textContent = progress.reviewFile
-    ? `${reviewFilename} is ready`
-    : `Creating ${reviewFilename}`;
+  const blind = progress.blindComparison;
+  document.querySelector('#scout-progress-title').textContent = blind
+    ? (blind.status === 'completed' ? 'Blind comparison report is ready' : 'Running blind research comparison')
+    : (progress.reviewFile ? `${reviewFilename} is ready` : `Creating ${reviewFilename}`);
   document.querySelector('#scout-progress-phase').textContent = phaseLabel;
   document.querySelector('#scout-progress-message').textContent = progress.message;
   const metrics = document.querySelector('#scout-progress-metrics');
@@ -172,6 +177,15 @@ function renderScoutProgress(progress) {
   if (focused) {
     const active = focused.activeFocus ? ` · ${focused.activeFocus}` : '';
     document.querySelector('#scout-focused-research-progress').textContent = `${focused.completed} of ${focused.total} passes · ${focused.leadCount} leads${active}`;
+  }
+  const blindMetric = document.querySelector('#scout-blind-comparison-metric');
+  blindMetric.hidden = !blind;
+  if (blind) {
+    const shadow = blind.shadowRevealed ? 'shadows revealed' : 'shadows sealed';
+    const review = blind.status === 'reviewing' || blind.status === 'completed'
+      ? ` · ${blind.reviewedCategories} of ${blind.totalCategories} reviews`
+      : '';
+    document.querySelector('#scout-blind-comparison-progress').textContent = `${blind.completedCategories} of ${blind.totalCategories} categories · ${blind.completedPasses} of ${blind.totalPasses} passes · ${blind.leadCount} leads · ${shadow}${review}`;
   }
 
   const next = progress.chatgptAssignment || progress.nextChatgpt;

@@ -285,6 +285,55 @@ CREATE TABLE IF NOT EXISTS focused_research_passes (
 );
 CREATE INDEX IF NOT EXISTS focused_research_import_status
     ON focused_research_jobs(import_id, status, id);
+CREATE TABLE IF NOT EXISTS blind_comparison_studies (
+    id INTEGER PRIMARY KEY,
+    experiment_mode TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (
+        status IN (
+            'sealed', 'researching', 'codex-closed',
+            'revealed', 'reviewing', 'completed'
+        )
+    ),
+    fixture_json TEXT NOT NULL,
+    fixture_sha256 TEXT NOT NULL CHECK (length(fixture_sha256) = 64),
+    curation_assignment_version TEXT NOT NULL,
+    report_json TEXT,
+    report_sha256 TEXT NOT NULL DEFAULT '' CHECK (
+        report_sha256 = '' OR length(report_sha256) = 64
+    ),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    codex_closed_at TEXT,
+    revealed_at TEXT,
+    completed_at TEXT,
+    UNIQUE (experiment_mode, fixture_sha256)
+);
+CREATE TABLE IF NOT EXISTS blind_comparison_categories (
+    study_id INTEGER NOT NULL
+        REFERENCES blind_comparison_studies(id) ON DELETE CASCADE,
+    ordinal INTEGER NOT NULL CHECK (ordinal > 0),
+    import_id INTEGER NOT NULL REFERENCES imports(id),
+    category_id TEXT NOT NULL,
+    category_label TEXT NOT NULL,
+    shadow_run_id INTEGER NOT NULL REFERENCES research_runs(id),
+    shadow_seal_sha256 TEXT NOT NULL CHECK (length(shadow_seal_sha256) = 64),
+    focused_job_id INTEGER NOT NULL REFERENCES focused_research_jobs(id),
+    review_assignment_json TEXT,
+    review_assignment_sha256 TEXT NOT NULL DEFAULT '' CHECK (
+        review_assignment_sha256 = '' OR length(review_assignment_sha256) = 64
+    ),
+    review_result_json TEXT,
+    review_result_sha256 TEXT NOT NULL DEFAULT '' CHECK (
+        review_result_sha256 = '' OR length(review_result_sha256) = 64
+    ),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    PRIMARY KEY (study_id, category_id),
+    UNIQUE (study_id, ordinal),
+    UNIQUE (focused_job_id)
+);
+CREATE INDEX IF NOT EXISTS blind_comparison_status
+    ON blind_comparison_studies(status, id);
 CREATE TABLE IF NOT EXISTS research_run_reconciliations (
     id INTEGER PRIMARY KEY,
     run_id INTEGER NOT NULL REFERENCES research_runs(id) ON DELETE CASCADE,
@@ -1907,6 +1956,308 @@ class ResearchStore:
         job = self.get_focused_research_job(job_id)
         assert job is not None
         return job
+
+    def manual_contribution_seal(self, run_id: int) -> list[dict[str, Any]]:
+        """Return immutable contribution metadata without exposing response text."""
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT contributions.id, contributions.source_label,
+                          contributions.source_position, contributions.raw_sha256,
+                          COUNT(leads.id) AS lead_count
+                   FROM manual_discovery_contributions AS contributions
+                   LEFT JOIN manual_discovery_leads AS leads
+                     ON leads.contribution_id = contributions.id
+                   WHERE contributions.run_id = ?
+                   GROUP BY contributions.id
+                   ORDER BY contributions.source_position""",
+                (run_id,),
+            ).fetchall()
+        return [
+            {
+                "id": int(row["id"]),
+                "source": str(row["source_label"]),
+                "position": int(row["source_position"]),
+                "rawSha256": str(row["raw_sha256"]),
+                "leadCount": int(row["lead_count"] or 0),
+            }
+            for row in rows
+        ]
+
+    def find_blind_comparison_study(
+        self, experiment_mode: str, fixture_sha256: str
+    ) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT id FROM blind_comparison_studies
+                   WHERE experiment_mode = ? AND fixture_sha256 = ?""",
+                (experiment_mode, fixture_sha256),
+            ).fetchone()
+        return self.get_blind_comparison_study(int(row["id"])) if row else None
+
+    def create_blind_comparison_study(
+        self,
+        *,
+        experiment_mode: str,
+        fixture: dict[str, Any],
+        fixture_sha256: str,
+        curation_assignment_version: str,
+        categories: list[dict[str, Any]],
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            cursor = connection.execute(
+                """INSERT INTO blind_comparison_studies (
+                       experiment_mode, status, fixture_json, fixture_sha256,
+                       curation_assignment_version, created_at, updated_at
+                   ) VALUES (?, 'sealed', ?, ?, ?, ?, ?)""",
+                (
+                    experiment_mode,
+                    _json(fixture),
+                    fixture_sha256,
+                    curation_assignment_version,
+                    now,
+                    now,
+                ),
+            )
+            study_id = int(cursor.lastrowid)
+            for ordinal, category in enumerate(categories, start=1):
+                connection.execute(
+                    """INSERT INTO blind_comparison_categories (
+                           study_id, ordinal, import_id, category_id,
+                           category_label, shadow_run_id, shadow_seal_sha256,
+                           focused_job_id, created_at, updated_at
+                       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (
+                        study_id,
+                        ordinal,
+                        int(category["importId"]),
+                        str(category["categoryId"]),
+                        str(category["categoryLabel"]),
+                        int(category["shadowRunId"]),
+                        str(category["shadowSealSha256"]),
+                        int(category["focusedJobId"]),
+                        now,
+                        now,
+                    ),
+                )
+        study = self.get_blind_comparison_study(study_id)
+        if study is None:  # pragma: no cover
+            raise RuntimeError("Blind comparison study could not be read")
+        return study
+
+    def get_blind_comparison_study(self, study_id: int) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM blind_comparison_studies WHERE id = ?", (study_id,)
+            ).fetchone()
+            if not row:
+                return None
+            category_rows = connection.execute(
+                """SELECT * FROM blind_comparison_categories
+                   WHERE study_id = ? ORDER BY ordinal""",
+                (study_id,),
+            ).fetchall()
+        result = {
+            "id": int(row["id"]),
+            "experimentMode": str(row["experiment_mode"]),
+            "status": str(row["status"]),
+            "fixture": json.loads(row["fixture_json"]),
+            "fixtureSha256": str(row["fixture_sha256"]),
+            "curationAssignmentVersion": str(row["curation_assignment_version"]),
+            "report": json.loads(row["report_json"]) if row["report_json"] else None,
+            "reportSha256": str(row["report_sha256"]),
+            "createdAt": row["created_at"],
+            "updatedAt": row["updated_at"],
+            "codexClosedAt": row["codex_closed_at"],
+            "revealedAt": row["revealed_at"],
+            "completedAt": row["completed_at"],
+            "categories": [],
+        }
+        for category_row in category_rows:
+            result["categories"].append({
+                "ordinal": int(category_row["ordinal"]),
+                "importId": int(category_row["import_id"]),
+                "categoryId": str(category_row["category_id"]),
+                "categoryLabel": str(category_row["category_label"]),
+                "shadowRunId": int(category_row["shadow_run_id"]),
+                "shadowSealSha256": str(category_row["shadow_seal_sha256"]),
+                "focusedJobId": int(category_row["focused_job_id"]),
+                "focusedJob": self.get_focused_research_job(
+                    int(category_row["focused_job_id"])
+                ),
+                "reviewAssignment": (
+                    json.loads(category_row["review_assignment_json"])
+                    if category_row["review_assignment_json"] else None
+                ),
+                "reviewAssignmentSha256": str(
+                    category_row["review_assignment_sha256"]
+                ),
+                "reviewResult": (
+                    json.loads(category_row["review_result_json"])
+                    if category_row["review_result_json"] else None
+                ),
+                "reviewResultSha256": str(category_row["review_result_sha256"]),
+                "updatedAt": category_row["updated_at"],
+            })
+        return result
+
+    def list_blind_comparison_studies(self) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                "SELECT id FROM blind_comparison_studies ORDER BY id DESC"
+            ).fetchall()
+        return [
+            study for row in rows
+            if (study := self.get_blind_comparison_study(int(row["id"]))) is not None
+        ]
+
+    def transition_blind_comparison_study(
+        self,
+        study_id: int,
+        *,
+        allowed_statuses: set[str],
+        status: str,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        timestamp_column = {
+            "codex-closed": "codex_closed_at",
+            "revealed": "revealed_at",
+        }.get(status)
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT status FROM blind_comparison_studies WHERE id = ?", (study_id,)
+            ).fetchone()
+            if not row:
+                raise ValueError("Blind comparison study not found")
+            current = str(row["status"])
+            if current == status:
+                pass
+            elif current not in allowed_statuses:
+                raise ValueError(
+                    f"Blind comparison cannot move from {current} to {status}"
+                )
+            elif timestamp_column:
+                connection.execute(
+                    f"""UPDATE blind_comparison_studies
+                        SET status = ?, updated_at = ?, {timestamp_column} = ?
+                        WHERE id = ?""",
+                    (status, now, now, study_id),
+                )
+            else:
+                connection.execute(
+                    """UPDATE blind_comparison_studies
+                       SET status = ?, updated_at = ? WHERE id = ?""",
+                    (status, now, study_id),
+                )
+        study = self.get_blind_comparison_study(study_id)
+        assert study is not None
+        return study
+
+    def save_blind_review_assignment(
+        self,
+        study_id: int,
+        category_id: str,
+        assignment: dict[str, Any],
+        assignment_sha256: str,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT review_assignment_sha256
+                   FROM blind_comparison_categories
+                   WHERE study_id = ? AND category_id = ?""",
+                (study_id, category_id),
+            ).fetchone()
+            if not row:
+                raise ValueError("Blind comparison category not found")
+            existing = str(row["review_assignment_sha256"] or "")
+            if existing and existing != assignment_sha256:
+                raise ValueError("Blind review assignment is immutable")
+            connection.execute(
+                """UPDATE blind_comparison_categories
+                   SET review_assignment_json = ?, review_assignment_sha256 = ?,
+                       updated_at = ?
+                   WHERE study_id = ? AND category_id = ?""",
+                (_json(assignment), assignment_sha256, now, study_id, category_id),
+            )
+            connection.execute(
+                """UPDATE blind_comparison_studies
+                   SET status = CASE WHEN status = 'revealed' THEN 'reviewing' ELSE status END,
+                       updated_at = ? WHERE id = ?""",
+                (now, study_id),
+            )
+        study = self.get_blind_comparison_study(study_id)
+        assert study is not None
+        return next(
+            item for item in study["categories"] if item["categoryId"] == category_id
+        )
+
+    def save_blind_review_result(
+        self,
+        study_id: int,
+        category_id: str,
+        result: dict[str, Any],
+        result_sha256: str,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT review_result_sha256 FROM blind_comparison_categories
+                   WHERE study_id = ? AND category_id = ?""",
+                (study_id, category_id),
+            ).fetchone()
+            if not row:
+                raise ValueError("Blind comparison category not found")
+            existing = str(row["review_result_sha256"] or "")
+            if existing and existing != result_sha256:
+                raise ValueError("Blind review result is immutable")
+            connection.execute(
+                """UPDATE blind_comparison_categories
+                   SET review_result_json = ?, review_result_sha256 = ?, updated_at = ?
+                   WHERE study_id = ? AND category_id = ?""",
+                (_json(result), result_sha256, now, study_id, category_id),
+            )
+        study = self.get_blind_comparison_study(study_id)
+        assert study is not None
+        return next(
+            item for item in study["categories"] if item["categoryId"] == category_id
+        )
+
+    def complete_blind_comparison_study(
+        self,
+        study_id: int,
+        report: dict[str, Any],
+        report_sha256: str,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT status, report_sha256 FROM blind_comparison_studies
+                   WHERE id = ?""",
+                (study_id,),
+            ).fetchone()
+            if not row:
+                raise ValueError("Blind comparison study not found")
+            if str(row["status"]) == "completed":
+                if str(row["report_sha256"]) != report_sha256:
+                    raise ValueError("Completed blind comparison report is immutable")
+            else:
+                missing = int(connection.execute(
+                    """SELECT COUNT(*) FROM blind_comparison_categories
+                       WHERE study_id = ? AND review_result_json IS NULL""",
+                    (study_id,),
+                ).fetchone()[0])
+                if missing:
+                    raise ValueError("Complete every blind review before reporting")
+                connection.execute(
+                    """UPDATE blind_comparison_studies
+                       SET status = 'completed', report_json = ?, report_sha256 = ?,
+                           completed_at = ?, updated_at = ? WHERE id = ?""",
+                    (_json(report), report_sha256, now, now, study_id),
+                )
+        study = self.get_blind_comparison_study(study_id)
+        assert study is not None
+        return study
 
     @staticmethod
     def _focused_research_job_dict(row: sqlite3.Row) -> dict[str, Any]:

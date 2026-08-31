@@ -1,4 +1,4 @@
 """Resource Scout package."""
 
-__version__ = "0.44.0"
-__build__ = 10
+__version__ = "0.45.0"
+__build__ = 11

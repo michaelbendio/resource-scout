@@ -19,6 +19,7 @@ from .storage import ResearchStore
 
 EVIDENCE_PATH = Path(__file__).with_name("research_evidence") / "employment_recovery_baseline.json"
 FOCUSED_RESEARCH_EXPERIMENT_MODE = "employment-retrospective-v1"
+BLIND_COMPARISON_EXPERIMENT_MODE = "blind-comparison-v1"
 
 
 def canonical_json(value: Any) -> str:
@@ -66,13 +67,14 @@ def build_focused_plan(
     category_label: str,
     office_name: str,
     service_area: str,
+    experiment_mode: str = FOCUSED_RESEARCH_EXPERIMENT_MODE,
 ) -> dict[str, Any]:
     focused = playbook.focused_research
     if focused is None:
         raise ValueError(f"{category_label} does not have focused research guidance")
     return {
         "schemaVersion": 1,
-        "experimentMode": FOCUSED_RESEARCH_EXPERIMENT_MODE,
+        "experimentMode": experiment_mode,
         "importId": int(import_id),
         "locationName": _location_name(office_name, service_area),
         "officeName": office_name,
@@ -224,7 +226,10 @@ def build_focus_assignment(
         "",
         base,
         "",
-        "This is a focused pass. Do not broaden it into another general Employment list.",
+        (
+            "This is a focused pass. Do not broaden it into another general "
+            f"{plan['category']['label']} list."
+        ),
     ])
 
 
@@ -232,6 +237,9 @@ def prepare_focused_research_job(
     store: ResearchStore,
     import_id: int | None = None,
     category_id: str = "employment",
+    *,
+    experiment_mode: str = FOCUSED_RESEARCH_EXPERIMENT_MODE,
+    redact_recovery_targets: bool | None = None,
 ) -> dict[str, Any]:
     selected_import_id = int(import_id or store.latest_import_id() or 0)
     if not selected_import_id:
@@ -252,6 +260,7 @@ def prepare_focused_research_job(
         category_label=str(category["label"]),
         office_name=str(summary.get("officeName") or ""),
         service_area=str(summary.get("serviceArea") or ""),
+        experiment_mode=experiment_mode,
     )
     plan_sha = json_sha256(plan)
     existing = store.find_focused_research_job(
@@ -259,13 +268,19 @@ def prepare_focused_research_job(
         str(category["id"]),
         plan["playbookVersion"],
         plan_sha,
-        FOCUSED_RESEARCH_EXPERIMENT_MODE,
+        experiment_mode,
     )
     if existing:
         return existing
     location_name = str(plan["locationName"])
+    if redact_recovery_targets is None:
+        redact_recovery_targets = experiment_mode == FOCUSED_RESEARCH_EXPERIMENT_MODE
     known_resources = build_known_resource_manifest(
-        store, selected_import_id, str(category["id"]), location_name
+        store,
+        selected_import_id,
+        str(category["id"]),
+        location_name,
+        redact_recovery_targets=redact_recovery_targets,
     )
     baseline_sha = json_sha256(known_resources)
     assignment = (
@@ -302,7 +317,7 @@ def prepare_focused_research_job(
             location_name=location_name,
             service_area=str(summary.get("serviceArea") or ""),
             playbook_version=plan["playbookVersion"],
-            experiment_mode=FOCUSED_RESEARCH_EXPERIMENT_MODE,
+            experiment_mode=experiment_mode,
             plan=plan,
             plan_sha256=plan_sha,
             baseline_manifest_sha256=baseline_sha,
@@ -330,11 +345,15 @@ def next_focused_research_assignment(
     )
     if not research_pass:
         return None
+    redact_recovery_targets = (
+        str(job.get("experimentMode") or "") == FOCUSED_RESEARCH_EXPERIMENT_MODE
+    )
     known = build_known_resource_manifest(
         store,
         int(job["importId"]),
         str(job["categoryId"]),
         str(job["locationName"]),
+        redact_recovery_targets=redact_recovery_targets,
     )
     candidates = build_candidate_manifest(store, int(job["runId"]))
     manifest_sha = json_sha256({"known": known, "candidates": candidates})
@@ -426,7 +445,8 @@ def prepare_focused_gap_pass(
         )
     else:
         direction = (
-            "Make one final adversarial search for direct-service Employment programs "
+            "Make one final adversarial search for direct-service "
+            f"{job['categoryLabel']} programs "
             "that the fixed passes and current candidate manifest may have missed."
         )
     definition = {
@@ -456,6 +476,63 @@ def prepare_focused_gap_pass(
         },
     }
     return store.add_focused_gap_pass(job_id, definition)
+
+
+def close_focused_research_job(
+    store: ResearchStore,
+    job_id: int,
+) -> dict[str, Any]:
+    """Close a non-retrospective focused job without consulting held-out evidence."""
+    job = store.get_focused_research_job(job_id)
+    if not job:
+        raise ValueError("Focused research job not found")
+    if job["status"] == "completed":
+        return job
+    if str(job.get("experimentMode") or "") == FOCUSED_RESEARCH_EXPERIMENT_MODE:
+        raise ValueError("Employment retrospective jobs must use recovery evaluation")
+    if not any(item["passKind"] == "gap" for item in job["passes"]):
+        raise ValueError("Create and complete the coverage gap pass before closing")
+    if any(item["status"] != "completed" for item in job["passes"]):
+        raise ValueError("Complete every focused research pass before closing")
+
+    snapshot = consolidate_manual_discovery(store, int(job["runId"]))
+    if any(item["status"] == "pending" for item in snapshot["suggestions"]):
+        snapshot = leave_pending_manual_identities_unresolved(
+            store, int(job["runId"])
+        )
+    finish_manual_discovery(store, int(job["runId"]))
+    manifest = [
+        {
+            "stableKey": str(group.get("stableKey") or ""),
+            "website": str(group.get("website") or ""),
+            "memberCount": len(group.get("members") or []),
+        }
+        for group in snapshot["groups"]
+    ]
+    evaluation = {
+        "schemaVersion": 1,
+        "experimentMode": str(job.get("experimentMode") or ""),
+        "categoryId": str(job.get("categoryId") or ""),
+        "submittedLeadCount": sum(
+            int(item.get("leadCount") or 0) for item in job["passes"]
+        ),
+        "consolidatedIdentityCount": int(
+            snapshot["funnel"].get("consolidatedIdentities") or 0
+        ),
+        "candidateIdentityCount": int(
+            snapshot["funnel"].get("candidateIdentities") or 0
+        ),
+        "unresolvedIdentityCount": sum(
+            str(group.get("consolidationState") or "") == "unresolved"
+            for group in snapshot["groups"]
+        ),
+    }
+    return store.complete_focused_research_job(
+        job_id,
+        final_manifest_sha256=json_sha256(manifest),
+        evaluation=evaluation,
+        evaluation_sha256=json_sha256(evaluation),
+    )
 
 
 def _url_identity(value: str) -> tuple[str, str]:

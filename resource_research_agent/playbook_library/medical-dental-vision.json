@@ -17,5 +17,61 @@
     "Emergency departments presented as routine care when safer ongoing access exists",
     "Commercial discount advertising without a defined low-cost or charity program",
     "Clinics whose stated specialty, payer, referral, or residency rules make access unrealistic"
-  ]
+  ],
+  "focusedResearch": {
+    "version": "medical-dental-vision-focused-v1",
+    "alternativeVocabulary": [
+      "sliding fee", "charity care", "financial assistance", "safety net clinic",
+      "federally qualified health center", "free clinic", "vision voucher",
+      "dental access", "prescription assistance", "care navigation"
+    ],
+    "sourceChannels": [
+      "official clinic, health-system, and public-health pages",
+      "federal and state provider directories that link to operating providers",
+      "official charity-care and financial-assistance policies",
+      "medical-school, dental-school, and professional-association clinics"
+    ],
+    "focuses": [
+      {
+        "key": "primary-urgent",
+        "label": "Primary, preventive, and urgent care",
+        "direction": "Find concrete clinics for uninsured or underinsured patients and verify sliding fees, appointments, walk-ins, age limits, and service scope.",
+        "coverage": ["primary care", "preventive care", "urgent care alternatives", "reproductive and chronic care"],
+        "vocabulary": ["same day clinic", "uninsured patients", "community health center", "medical home"],
+        "sourceChannels": ["FQHC operators", "county health", "free and charitable clinics"]
+      },
+      {
+        "key": "dental",
+        "label": "Dental access",
+        "direction": "Find named dental clinics and programs spanning prevention, pain and infection, extraction, restoration, dentures, and specialty referrals.",
+        "coverage": ["low-cost dental clinic", "urgent dental pain", "restorative care", "dentures and specialty referral"],
+        "vocabulary": ["dental sliding scale", "reduced fee dentistry", "dental school clinic", "oral health program"],
+        "sourceChannels": ["dental schools", "community health centers", "charitable dental operators", "state dental associations"]
+      },
+      {
+        "key": "vision",
+        "label": "Vision and eye-care access",
+        "direction": "Find practical pathways for exams, glasses, low-vision services, and medically necessary ophthalmology for people facing cost barriers.",
+        "coverage": ["eye exams", "glasses", "low vision", "ophthalmology referrals"],
+        "vocabulary": ["vision assistance", "eyeglass voucher", "low vision rehabilitation", "charitable eye care"],
+        "sourceChannels": ["official vision charities", "community clinics", "ophthalmology programs", "Lions and local operating partners"]
+      },
+      {
+        "key": "specialty-support",
+        "label": "Specialty, diagnostics, prescriptions, and coverage",
+        "direction": "Trace primary care or health systems to named specialty, lab, imaging, prescription, equipment, insurance-enrollment, and charity-care pathways.",
+        "coverage": ["specialty referral", "labs and imaging", "prescription help", "coverage and hospital financial assistance"],
+        "vocabulary": ["patient assistance", "financial assistance policy", "specialty access", "diagnostic services"],
+        "sourceChannels": ["health systems", "hospital charity-care offices", "pharmacy assistance programs", "coverage navigators"]
+      },
+      {
+        "key": "population-mobile",
+        "label": "Population-specific, mobile, and accessible care",
+        "direction": "Find direct care designed for people experiencing homelessness, immigrants, children, older adults, disabilities, or transportation barriers.",
+        "coverage": ["mobile care", "homeless health", "immigrant and language access", "disability-accessible and transportation-supported care"],
+        "vocabulary": ["mobile clinic", "street medicine", "refugee health", "accessible health care"],
+        "sourceChannels": ["mobile providers", "school and homeless-health programs", "refugee organizations", "disability service networks"]
+      }
+    ]
+  }
 }

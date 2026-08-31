@@ -82,6 +82,16 @@ def build_scout_progress(
         and str(focused_job.get("updatedAt") or "")
         >= str((current_event or {}).get("createdAt") or "")
     )
+    blind_studies = store.list_blind_comparison_studies()
+    blind_study = blind_studies[0] if blind_studies else None
+    blind_is_newest = bool(
+        blind_study
+        and str(blind_study.get("updatedAt") or "")
+        >= max(
+            str((current_event or {}).get("createdAt") or ""),
+            str((focused_job or {}).get("updatedAt") or ""),
+        )
+    )
 
     research_completed = len(completed_category_ids & set(category_labels))
     research_total = len(categories)
@@ -92,7 +102,51 @@ def build_scout_progress(
     }
     location_name = _location_name(summary)
 
-    if focused_active or (focused_job and focused_is_newest):
+    if blind_study and blind_is_newest:
+        blind_status = str(blind_study.get("status") or "")
+        blind_categories = blind_study.get("categories") or []
+        completed_blind_categories = sum(
+            str((item.get("focusedJob") or {}).get("status") or "") == "completed"
+            for item in blind_categories
+        )
+        reviewed_blind_categories = sum(bool(item.get("reviewResult")) for item in blind_categories)
+        active_blind_category = next((
+            item for item in blind_categories
+            if str((item.get("focusedJob") or {}).get("status") or "") != "completed"
+        ), None)
+        if blind_status == "researching":
+            phase = "blind-research"
+            category_id = str((active_blind_category or {}).get("categoryId") or "")
+            message = (
+                f"Blind comparison research: {(active_blind_category or {}).get('categoryLabel') or 'held-out categories'}. "
+                f"{completed_blind_categories} of {len(blind_categories)} Codex category results are closed. "
+                "Four-AI identities remain sealed."
+            )
+        elif blind_status == "codex-closed":
+            phase = "blind-codex-closed"
+            category_id = ""
+            message = (
+                "Every Codex held-out result is closed. Four-AI identities remain sealed "
+                "and are ready for controlled reveal."
+            )
+        elif blind_status in {"revealed", "reviewing"}:
+            phase = "blind-review"
+            category_id = ""
+            message = (
+                f"Source-hidden comparison review: {reviewed_blind_categories} of "
+                f"{len(blind_categories)} categories complete."
+            )
+        else:
+            phase = "blind-comparison-complete"
+            category_id = ""
+            comparison = (blind_study.get("report") or {}).get("aggregateComparison") or {}
+            message = (
+                "Blind comparison is complete. "
+                f"Codex contributed {comparison.get('codexCuratedCount', 0)} curated identities; "
+                f"the four-AI union contributed {comparison.get('fourAiCuratedCount', 0)}."
+            )
+        updated_at = blind_study.get("updatedAt")
+    elif focused_active or (focused_job and focused_is_newest):
         phase = (
             "focused-research" if focused_active else "focused-research-complete"
         )
@@ -237,6 +291,38 @@ def build_scout_progress(
                     if item["status"] == "assigned"
                 ), None),
             }
-            if focused_job else None
+            if focused_job and not (blind_study and blind_is_newest) else None
+        ),
+        "blindComparison": (
+            {
+                "studyId": int(blind_study["id"]),
+                "status": str(blind_study["status"]),
+                "completedCategories": sum(
+                    str((item.get("focusedJob") or {}).get("status") or "") == "completed"
+                    for item in blind_study.get("categories") or []
+                ),
+                "totalCategories": len(blind_study.get("categories") or []),
+                "completedPasses": sum(
+                    int(((item.get("focusedJob") or {}).get("progress") or {}).get("completed") or 0)
+                    for item in blind_study.get("categories") or []
+                ),
+                "totalPasses": sum(
+                    int(((item.get("focusedJob") or {}).get("progress") or {}).get("total") or 0)
+                    for item in blind_study.get("categories") or []
+                ),
+                "leadCount": sum(
+                    int(((item.get("focusedJob") or {}).get("progress") or {}).get("leadCount") or 0)
+                    for item in blind_study.get("categories") or []
+                ),
+                "reviewedCategories": sum(
+                    bool(item.get("reviewResult"))
+                    for item in blind_study.get("categories") or []
+                ),
+                "shadowRevealed": str(blind_study.get("status") or "") in {
+                    "revealed", "reviewing", "completed"
+                },
+                "reportSha256": str(blind_study.get("reportSha256") or ""),
+            }
+            if blind_study and blind_is_newest else None
         ),
     }

@@ -5,7 +5,16 @@ from several consumer AI products. It creates a self-contained TSO Resources
 review file such as `autoMesa.html` for human vetting and package creation. It is
 designed for repeated use across TSO locations and resource categories.
 
-Version 0.44.0 adds an evidence-gated Codex focused-research laboratory without
+Version 0.45.0 adds the sealed, held-out comparison needed to judge whether
+Codex-focused research can replace Scout's four-AI union. Scout now preserves a
+durable comparison study, prevents access to shadow identities until every
+Codex result is closed, applies one source-hidden review policy, and reports
+duplicate-adjusted yield, survival, effort, and marginal contribution. The
+completed Provo comparison found that Codex was the strongest individual
+researcher but did not yet match the combined four-AI union, so this release
+does not change the production researcher roster or activate a learned lesson.
+
+Version 0.44.0 added an evidence-gated Codex focused-research laboratory without
 changing Scout's existing four-AI workflow. Employment research can now run as
 durable, candidate-aware focus passes followed by a deterministic gap pass.
 Scout preserves each pass, its exact assignment, leads, source focus, and

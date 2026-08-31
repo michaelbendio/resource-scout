@@ -56,6 +56,7 @@ class ScoutLayoutTests(unittest.TestCase):
         for element_id in (
             "scout-research-progress",
             "scout-curation-progress",
+            "scout-blind-comparison-progress",
             "next-chatgpt-delay",
             "next-chatgpt-status",
             "next-chatgpt-time",
@@ -71,6 +72,8 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertIn('data-status="due"', self.css)
         self.assertIn('data-status="sent"', self.css)
         self.assertIn("curationFailures", self.javascript)
+        self.assertIn("progress.blindComparison", self.javascript)
+        self.assertIn("shadows sealed", self.javascript)
         self.assertIn("need attention", self.javascript)
         self.assertIn("review.downloadUrl", self.javascript)
         self.assertIn("`Creating ${reviewFilename}`", self.javascript)

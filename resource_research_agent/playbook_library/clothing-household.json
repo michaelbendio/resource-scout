@@ -16,5 +16,60 @@
     "Ordinary clothing, thrift, furniture, appliance, or department stores without a hardship-access program",
     "Donation drop-off locations that do not distribute goods to people in need",
     "Online marketplaces or giveaways without a dependable program, safety boundary, and access process"
-  ]
+  ],
+  "focusedResearch": {
+    "version": "clothing-household-focused-v1",
+    "alternativeVocabulary": [
+      "clothing closet", "community closet", "career clothing", "furniture bank",
+      "household setup", "basic needs pantry", "beds for children", "material assistance"
+    ],
+    "sourceChannels": [
+      "official nonprofit and faith-community program pages",
+      "school district, refugee, reentry, and domestic-violence providers",
+      "furniture-bank and household-goods networks",
+      "current local service guides only when they identify an operating provider"
+    ],
+    "focuses": [
+      {
+        "key": "general-clothing",
+        "label": "General clothing closets",
+        "direction": "Find dependable programs that distribute free clothing, shoes, coats, or vouchers and verify schedule, referral, frequency, and service area.",
+        "coverage": ["free clothing closets", "shoes and coats", "clothing vouchers", "seasonal distributions"],
+        "vocabulary": ["clothes closet", "community wardrobe", "material assistance", "free store"],
+        "sourceChannels": ["faith and neighborhood programs", "community action", "basic-needs nonprofits"]
+      },
+      {
+        "key": "purpose-specific-clothing",
+        "label": "Purpose-specific clothing",
+        "direction": "Find direct programs for work, interviews, school, maternity, infants, veterans, refugees, or other needs where ordinary general closets may not suffice.",
+        "coverage": ["career and interview clothing", "school clothing", "maternity and infant goods", "population-specific clothing"],
+        "vocabulary": ["career closet", "dress for success", "back to school clothing", "baby boutique"],
+        "sourceChannels": ["workforce programs", "schools", "pregnancy centers", "refugee and veteran providers"]
+      },
+      {
+        "key": "furniture-household",
+        "label": "Furniture and household setup",
+        "direction": "Find programs that place beds, furniture, linens, kitchenware, appliances, or complete household setups with clients; exclude donation-only operations.",
+        "coverage": ["furniture banks", "beds and linens", "kitchen and household goods", "appliances and delivery"],
+        "vocabulary": ["home starter kit", "household establishment", "furniture ministry", "beds for kids"],
+        "sourceChannels": ["furniture banks", "housing programs", "refugee resettlement", "faith furniture ministries"]
+      },
+      {
+        "key": "crisis-replacement",
+        "label": "Crisis and emergency replacement",
+        "direction": "Find direct material help after homelessness, fire, disaster, domestic violence, foster placement, or sudden relocation.",
+        "coverage": ["fire and disaster replacement", "domestic-violence relocation", "homeless-to-housed setup", "emergency vouchers"],
+        "vocabulary": ["disaster casework", "move-in assistance", "rapid rehousing furniture", "emergency household goods"],
+        "sourceChannels": ["disaster responders", "domestic-violence programs", "housing stabilization providers", "family crisis agencies"]
+      },
+      {
+        "key": "community-embedded",
+        "label": "Non-obvious embedded material assistance",
+        "direction": "Look inside broader anti-poverty, disability, senior, immigrant, reentry, and family organizations for named clothing or household programs.",
+        "coverage": ["embedded clothing help", "population-specific household goods", "referral partnerships", "delivery and accessibility"],
+        "vocabulary": ["basic needs assistance", "client closet", "material support", "household stabilization"],
+        "sourceChannels": ["broader community-service organizations", "case-management providers", "mutual-aid programs with dependable intake"]
+      }
+    ]
+  }
 }

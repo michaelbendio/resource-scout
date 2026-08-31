@@ -713,3 +713,85 @@ parent-only, ambiguous, missed, or human-adjudicated outcomes. The approved
 eight-of-nine gate was therefore met at nine of nine. This result supports
 proceeding to the separately authorized v0.45.0 blind comparison; it does not by
 itself replace the four-AI production workflow or activate any proposed lesson.
+
+## v0.45.0 implementation plan and completed result
+
+### Stage 0 — Seal the held-out comparison
+
+- preserve one exact Provo package, curation policy, four completed shadow runs,
+  and their response hashes in a versioned fixture;
+- select Housing, Medical/Dental/Vision, Clothing/Household, and Transportation
+  because their service channels and direct-service boundaries differ; and
+- reject the experiment if the package, curation result, response set, or policy
+  changes.
+
+### Stage 1 — Generalize focused research without changing production
+
+- allow a focused job to name a category and experiment mode;
+- add five fixed focus passes plus one deterministic gap pass for every held-out
+  category;
+- preserve the exact assignment, candidate manifest, contribution, pass focus,
+  consolidation, and negative result; and
+- keep the normal four-AI workflow and all active playbooks unchanged.
+
+### Stage 2 — Enforce the blind boundary durably
+
+- store comparison studies and category state in SQLite;
+- expose only response counts, lead counts, and seals while Codex researches;
+- require every Codex pass and gap pass to close before reveal; and
+- revalidate every shadow response hash at reveal time.
+
+### Stage 3 — Apply one source-hidden review
+
+- combine duplicate-adjusted identities without exposing model attribution;
+- review every candidate against the same smallest-set direct-service policy;
+- record curated, omitted, already-known, needs-research, and explicit duplicate
+  outcomes; and
+- record decision, edit, adjudication, and elapsed-review counts.
+
+### Stage 4 — Report evidence and progress
+
+- calculate submitted leads, duplicate-adjusted identities, curated identities,
+  survival rate, and model-only marginal curated identities;
+- report Codex versus the four-AI union by category and in aggregate;
+- show a compact sealed/revealed/completed metric in Scout Section 02; and
+- treat the report as evidence for a subscription decision, not as authority to
+  disable a researcher.
+
+### Stage 5 — Verify and release
+
+- test sealed access, changed-response rejection, restart-safe state,
+  source-hidden assignments, complete dispositions, duplicate rules,
+  deterministic reporting, APIs, progress, and existing workflows;
+- preserve the immutable fixture and completed report in source control while
+  excluding the live database; and
+- release as Resource Scout v0.45.0 build 11.
+
+### Completed blind result
+
+The experiment closed 54 Codex leads into 53 identities before the four-AI
+identities were revealed. The source-hidden union contained 130
+duplicate-adjusted identities, of which 86 survived curation.
+
+- Codex: 51 duplicate-adjusted identities, 45 curated, 88.24% survival, and 17
+  marginal curated identities.
+- ChatGPT: 46 identities, 34 curated, 73.91% survival, and 4 marginal curated
+  identities.
+- Grok: 55 identities, 37 curated, 67.27% survival, and 12 marginal curated
+  identities.
+- Claude: 41 identities, 27 curated, 65.85% survival, and 2 marginal curated
+  identities.
+- Perplexity: 41 identities, 31 curated, 75.61% survival, and 9 marginal curated
+  identities.
+
+Codex was the strongest individual researcher: it produced the most curated
+identities and the highest survival rate. It did not match the union. Codex
+contributed 45 curated identities, the four-AI union contributed 69, 28 were
+shared, 17 were Codex-only, and 41 were four-AI-only. The result therefore
+supports Codex-first research with challengers, but not a Codex-only production
+default. Perplexity made a material marginal contribution in this sample.
+Claude made the smallest marginal contribution, but four held-out categories in
+one location are not enough to disable it automatically. The next release must
+use this evidence when defining configurable primary, challenger, shadow, and
+disabled roles and must preserve a challenger path until whole-office evidence
+supports a narrower roster.
