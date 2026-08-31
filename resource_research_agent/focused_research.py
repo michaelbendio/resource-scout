@@ -19,7 +19,7 @@ from .storage import ResearchStore
 
 EVIDENCE_PATH = Path(__file__).with_name("research_evidence") / "employment_recovery_baseline.json"
 FOCUSED_RESEARCH_EXPERIMENT_MODE = "employment-retrospective-v1"
-BLIND_COMPARISON_EXPERIMENT_MODE = "blind-comparison-v1"
+CODEX_FIRST_EXPERIMENT_MODE = "codex-first-v1"
 
 
 def canonical_json(value: Any) -> str:
@@ -68,11 +68,12 @@ def build_focused_plan(
     office_name: str,
     service_area: str,
     experiment_mode: str = FOCUSED_RESEARCH_EXPERIMENT_MODE,
+    researcher_roster: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     focused = playbook.focused_research
     if focused is None:
         raise ValueError(f"{category_label} does not have focused research guidance")
-    return {
+    plan = {
         "schemaVersion": 1,
         "experimentMode": experiment_mode,
         "importId": int(import_id),
@@ -94,6 +95,9 @@ def build_focused_plan(
             "kind": "gap",
         },
     }
+    if researcher_roster is not None:
+        plan["researcherRoster"] = researcher_roster
+    return plan
 
 
 def _target_terms(location_name: str) -> tuple[set[str], set[str]]:
@@ -240,6 +244,7 @@ def prepare_focused_research_job(
     *,
     experiment_mode: str = FOCUSED_RESEARCH_EXPERIMENT_MODE,
     redact_recovery_targets: bool | None = None,
+    researcher_roster: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     selected_import_id = int(import_id or store.latest_import_id() or 0)
     if not selected_import_id:
@@ -261,6 +266,7 @@ def prepare_focused_research_job(
         office_name=str(summary.get("officeName") or ""),
         service_area=str(summary.get("serviceArea") or ""),
         experiment_mode=experiment_mode,
+        researcher_roster=researcher_roster,
     )
     plan_sha = json_sha256(plan)
     existing = store.find_focused_research_job(
@@ -509,13 +515,13 @@ def close_focused_research_job(
         }
         for group in snapshot["groups"]
     ]
+    run_progress = store.manual_discovery_progress(int(job["runId"]))
     evaluation = {
         "schemaVersion": 1,
         "experimentMode": str(job.get("experimentMode") or ""),
         "categoryId": str(job.get("categoryId") or ""),
-        "submittedLeadCount": sum(
-            int(item.get("leadCount") or 0) for item in job["passes"]
-        ),
+        "submittedLeadCount": int(run_progress["leadCount"]),
+        "sourceResponseCount": int(run_progress["parsedContributionCount"]),
         "consolidatedIdentityCount": int(
             snapshot["funnel"].get("consolidatedIdentities") or 0
         ),

@@ -160,7 +160,7 @@ class CandidatePackageTests(unittest.TestCase):
                     "categoryLabel": "Food",
                     "delayMinutes": 17,
                     "scheduledAt": "2026-08-28T22:17:00+00:00",
-                    "reason": "Random 10-20 minute research interval.",
+                    "reason": "Random 5-10 minute research interval.",
                 }
             },
         )

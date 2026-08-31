@@ -7,8 +7,9 @@ from typing import Any
 
 
 PLAYBOOK_LIBRARY_DIR = Path(__file__).with_name("playbook_library")
+DEFAULT_FOCUSED_STRATEGY_PATH = Path(__file__).with_name("focused_research_strategy.json")
 DEFAULT_SERVICE_AREA = "Utah County"
-PLAYBOOK_LIBRARY_VERSION = "chat-discovery-v2"
+PLAYBOOK_LIBRARY_VERSION = "codex-first-v1"
 
 
 @dataclass(frozen=True)
@@ -94,7 +95,17 @@ def _load_library() -> tuple[dict[str, CategoryPlaybook], dict[str, str]]:
                 f"{path.name}: assignment may use only the {{service_area}} placeholder"
             )
         raw_aliases = _text_list(value.get("aliases", []), "aliases", path, required=False)
+        scope = _text_list(value.get("include"), "include", path)
         focused_value = value.get("focusedResearch")
+        if focused_value is None:
+            focused_value = _read_object(DEFAULT_FOCUSED_STRATEGY_PATH)
+            focused_value = json.loads(json.dumps(focused_value).replace(
+                "{category}", label.casefold()
+            ))
+            for focus in focused_value.get("focuses") or []:
+                coverage = focus.get("coverage") or []
+                if coverage == ["{scope}"]:
+                    focus["coverage"] = list(scope)
         focused_research = None
         if focused_value is not None:
             if not isinstance(focused_value, dict):
@@ -153,7 +164,7 @@ def _load_library() -> tuple[dict[str, CategoryPlaybook], dict[str, str]]:
             category_id=category_id,
             label=label,
             default_assignment=assignment_template.format(service_area=DEFAULT_SERVICE_AREA),
-            scope=_text_list(value.get("include"), "include", path),
+            scope=scope,
             exclusions=_text_list(value.get("exclude"), "exclude", path),
             aliases=raw_aliases,
             library_version=PLAYBOOK_LIBRARY_VERSION,
@@ -175,9 +186,43 @@ def _load_library() -> tuple[dict[str, CategoryPlaybook], dict[str, str]]:
 PLAYBOOKS, PLAYBOOK_ALIASES = _load_library()
 
 
+def _default_focused_research(
+    label: str, scope: tuple[str, ...]
+) -> FocusedResearchPlaybook:
+    value = _read_object(DEFAULT_FOCUSED_STRATEGY_PATH)
+    focuses: list[ResearchFocus] = []
+    for focus in value["focuses"]:
+        coverage = list(focus["coverage"])
+        if coverage == ["{scope}"]:
+            coverage = list(scope)
+        focuses.append(ResearchFocus(
+            key=str(focus["key"]),
+            label=str(focus["label"]),
+            direction=str(focus["direction"]).replace("{category}", label.casefold()),
+            coverage=tuple(str(item) for item in coverage),
+            vocabulary=tuple(str(item) for item in focus.get("vocabulary") or []),
+            source_channels=tuple(
+                str(item) for item in focus.get("sourceChannels") or []
+            ),
+        ))
+    return FocusedResearchPlaybook(
+        version=str(value["version"]),
+        alternative_vocabulary=tuple(
+            str(item) for item in value["alternativeVocabulary"]
+        ),
+        source_channels=tuple(str(item) for item in value["sourceChannels"]),
+        focuses=tuple(focuses),
+    )
+
+
 def _generic_playbook(category_id: str, category_label: str) -> CategoryPlaybook:
     label = str(category_label or category_id).strip() or "Resource"
     subject = label.casefold()
+    scope = (
+        f"Direct and practical {subject} help",
+        f"Public, nonprofit, and credible private {subject} programs",
+        "Programs that credibly serve the selected area",
+    )
     return CategoryPlaybook(
         category_id=str(category_id).strip() or subject,
         label=label,
@@ -185,11 +230,7 @@ def _generic_playbook(category_id: str, category_label: str) -> CategoryPlaybook
             f"Discover credible {subject} resource leads for people in {DEFAULT_SERVICE_AREA}. "
             "Prioritize distinct providers, named programs, and practical ways to begin receiving help."
         ),
-        scope=(
-            f"Direct and practical {subject} help",
-            f"Public, nonprofit, and credible private {subject} programs",
-            "Programs that credibly serve the selected area",
-        ),
+        scope=scope,
         exclusions=(
             "Directories with no specific useful provider or program behind the listing",
             "Organizations with no credible indication that the relevant service is available",
@@ -198,7 +239,7 @@ def _generic_playbook(category_id: str, category_label: str) -> CategoryPlaybook
         aliases=(),
         library_version=PLAYBOOK_LIBRARY_VERSION,
         source="generated fallback",
-        focused_research=None,
+        focused_research=_default_focused_research(label, scope),
     )
 
 

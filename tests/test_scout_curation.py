@@ -316,18 +316,18 @@ class ScoutCurationTests(unittest.TestCase):
         completed_at = datetime(2026, 8, 28, 18, 0, tzinfo=timezone.utc)
         schedule = schedule_chatgpt_assignment(
             completed_at,
-            FixedRandom(14),
+            FixedRandom(8),
             adjustment_minutes=6,
             reason="Recent responses suggest lighter throttling is prudent.",
         )
-        self.assertEqual(20, schedule.delay_minutes)
-        self.assertEqual(completed_at + timedelta(minutes=20), schedule.scheduled_at)
-        self.assertIn("wait 20 minutes", schedule.message)
+        self.assertEqual(14, schedule.delay_minutes)
+        self.assertEqual(completed_at + timedelta(minutes=14), schedule.scheduled_at)
+        self.assertIn("wait 14 minutes", schedule.message)
         self.assertIn("lighter throttling", schedule.message)
         reset_at = completed_at + timedelta(minutes=37, seconds=30)
         reset_schedule = schedule_chatgpt_assignment(
             completed_at,
-            FixedRandom(10),
+            FixedRandom(5),
             explicit_reset_at=reset_at,
         )
         self.assertEqual(38, reset_schedule.delay_minutes)

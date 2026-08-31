@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "version": "researcher-roster-v1",
+  "researchers": [
+    {"name": "Codex", "role": "primary"},
+    {"name": "ChatGPT", "role": "challenger"},
+    {"name": "Grok", "role": "challenger"},
+    {"name": "Perplexity", "role": "challenger"},
+    {"name": "Claude", "role": "shadow"}
+  ]
+}

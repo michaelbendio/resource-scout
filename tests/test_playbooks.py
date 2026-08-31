@@ -17,7 +17,7 @@ EXPECTED_CATEGORIES = {
 
 class DiscoveryGuidanceTests(unittest.TestCase):
     def test_every_category_has_compact_discovery_guidance(self) -> None:
-        self.assertEqual("chat-discovery-v2", PLAYBOOK_LIBRARY_VERSION)
+        self.assertEqual("codex-first-v1", PLAYBOOK_LIBRARY_VERSION)
         self.assertEqual(EXPECTED_CATEGORIES, set(PLAYBOOKS))
         for category_id, playbook in PLAYBOOKS.items():
             with self.subTest(category=category_id):
@@ -49,8 +49,15 @@ class DiscoveryGuidanceTests(unittest.TestCase):
         self.assertIn("economic empowerment", focused.alternative_vocabulary)
         self.assertTrue(all(focus.coverage for focus in focused.focuses))
 
-    def test_other_categories_keep_compact_guidance(self) -> None:
-        self.assertIsNone(playbook_for("food", "Food").focused_research)
+    def test_every_category_has_versioned_focused_guidance(self) -> None:
+        for category_id in EXPECTED_CATEGORIES:
+            with self.subTest(category=category_id):
+                focused = playbook_for(category_id, PLAYBOOKS[category_id].label).focused_research
+                self.assertIsNotNone(focused)
+                assert focused is not None
+                self.assertTrue(focused.version)
+                self.assertTrue(focused.focuses)
+                self.assertTrue(all(focus.coverage for focus in focused.focuses))
 
     def test_service_area_changes_without_changing_category_scope(self) -> None:
         original = playbook_for("food", "Food")
@@ -65,6 +72,7 @@ class DiscoveryGuidanceTests(unittest.TestCase):
         self.assertEqual("generated fallback", playbook.source)
         self.assertTrue(playbook.scope)
         self.assertTrue(playbook.exclusions)
+        self.assertIsNotNone(playbook.focused_research)
 
     def test_guidance_is_included_in_the_chat_assignment(self) -> None:
         playbook = playbook_for("clothing-household", "Clothing/Household", "Mesa")

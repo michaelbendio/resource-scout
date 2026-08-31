@@ -1,0 +1,47 @@
+{
+  "version": "category-focused-v1",
+  "alternativeVocabulary": [
+    "assistance", "support", "access", "stabilization", "navigation",
+    "eligibility", "intake", "direct service"
+  ],
+  "sourceChannels": [
+    "Official provider and named-program pages",
+    "State, county, city, and special-district pages",
+    "Current government contracts, grants, registries, and partner lists",
+    "Current primary-source PDFs and referral materials"
+  ],
+  "focuses": [
+    {
+      "key": "direct-service-landscape",
+      "label": "Direct-service landscape",
+      "direction": "Find distinct, currently operating {category} providers and named programs with a practical way to begin receiving help.",
+      "coverage": ["{scope}"],
+      "vocabulary": ["apply", "enroll", "appointment", "walk-in", "intake"],
+      "sourceChannels": ["Official provider pages", "Named-program pages"]
+    },
+    {
+      "key": "public-system-pathways",
+      "label": "Public-system pathways",
+      "direction": "Search government agencies, contracted providers, public benefits, and publicly funded {category} pathways that credibly serve the selected area.",
+      "coverage": ["Public programs", "Contracted providers", "Benefits and eligibility pathways"],
+      "vocabulary": ["program eligibility", "contracted provider", "public benefit", "service area"],
+      "sourceChannels": ["Government program pages", "Contracts and provider registries"]
+    },
+    {
+      "key": "community-population-pathways",
+      "label": "Community and population-specific pathways",
+      "direction": "Find substantial {category} programs embedded in community organizations and programs designed for populations facing defined access barriers.",
+      "coverage": ["Community-embedded programs", "Population-specific services", "Barrier-aware access"],
+      "vocabulary": ["community program", "specialized services", "culturally responsive", "accessible services"],
+      "sourceChannels": ["Community organization program pages", "Population-specific provider pages"]
+    },
+    {
+      "key": "non-obvious-primary-sources",
+      "label": "Non-obvious primary sources",
+      "direction": "Search grants, contracts, board materials, partner announcements, registries, catalogs, and current primary-source PDFs for named {category} programs missed by ordinary web searches.",
+      "coverage": ["Grant-funded programs", "Registry-listed services", "Partner programs", "Programs documented in primary-source PDFs"],
+      "vocabulary": ["grant award", "service contract", "provider list", "program catalog", "partner program"],
+      "sourceChannels": ["Government contracts and grants", "Public meeting materials", "Provider registries", "Primary-source PDFs"]
+    }
+  ]
+}

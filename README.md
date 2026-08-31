@@ -5,14 +5,16 @@ from several consumer AI products. It creates a self-contained TSO Resources
 review file such as `autoMesa.html` for human vetting and package creation. It is
 designed for repeated use across TSO locations and resource categories.
 
-Version 0.45.0 adds the sealed, held-out comparison needed to judge whether
-Codex-focused research can replace Scout's four-AI union. Scout now preserves a
-durable comparison study, prevents access to shadow identities until every
-Codex result is closed, applies one source-hidden review policy, and reports
-duplicate-adjusted yield, survival, effort, and marginal contribution. The
-completed Provo comparison found that Codex was the strongest individual
-researcher but did not yet match the combined four-AI union, so this release
-does not change the production researcher roster or activate a learned lesson.
+Version 0.46.0 makes Codex-first research the durable whole-office workflow.
+Every non-Miscellaneous category has a versioned focused playbook and gap pass.
+The readable researcher roster assigns Codex as primary, ChatGPT, Grok, and
+Perplexity as one-pass challengers, and Claude as a non-blocking shadow source.
+Scout saves every exact assignment and response, excludes shadow results from
+candidate packages, resumes category state after restart, and prevents curation
+until the configured research plan is complete. ChatGPT's random baseline is
+now 5–10 minutes; the existing 30-minute throttle cooldown remains. The v0.45
+blind-comparison runtime was retired after its immutable evidence and report
+were preserved.
 
 Version 0.44.0 added an evidence-gated Codex focused-research laboratory without
 changing Scout's existing four-AI workflow. Employment research can now run as
@@ -52,9 +54,10 @@ not part of this codebase.
 ## Workflow
 
 1. Connect an existing TSO Resources package.
-2. Codex shepherds Scout's research category by category using ChatGPT, Grok,
-   Claude, and Perplexity. Scout preserves each response, consolidates the leads,
-   and compares candidates with the connected package.
+2. Codex performs focused and coverage-gap research category by category.
+   ChatGPT, Grok, and Perplexity each receive one adversarial assignment to find
+   what Codex missed. Claude may run as a non-blocking shadow source. Scout
+   preserves exact assignments, responses, roles, and attribution.
 3. Scout's progress area reports research and curation counts, the current
    activity, the selected delay, scheduled time, and delivery state for the next
    ChatGPT run, and a 15-minute heartbeat during long categories.

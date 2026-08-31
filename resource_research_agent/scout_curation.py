@@ -9,6 +9,7 @@ from typing import Any
 
 from .candidate_package import build_candidate_package
 from .storage import ResearchStore
+from .focused_research import CODEX_FIRST_EXPERIMENT_MODE
 
 
 SCOUT_CURATION_ASSIGNMENT_VERSION = "codex-curation-v2-direct-service"
@@ -187,6 +188,20 @@ def prepare_scout_curation_job(
     selected_import_id = import_id or store.latest_import_id()
     if selected_import_id is None:
         raise ScoutCurationError("Connect a resource package before starting Resource Scout curation")
+    codex_first_jobs = [
+        job for job in store.list_focused_research_jobs(int(selected_import_id))
+        if str(job.get("experimentMode") or "") == CODEX_FIRST_EXPERIMENT_MODE
+    ]
+    incomplete_codex_first = [
+        str(job.get("categoryLabel") or job.get("categoryId") or "unnamed category")
+        for job in codex_first_jobs
+        if job.get("status") != "completed"
+    ]
+    if incomplete_codex_first:
+        raise ScoutCurationError(
+            "Finish the configured Codex-first research plan before curation. Remaining categories: "
+            + ", ".join(f"'{label}'" for label in incomplete_codex_first)
+        )
     candidate_package = build_candidate_package(store, int(selected_import_id))
     package_data = candidate_package.data
     incomplete_categories = [
@@ -587,7 +602,7 @@ def schedule_chatgpt_assignment(
             scheduled_at=explicit_reset_at,
             reason=_text(reason) or "ChatGPT supplied an explicit reset time.",
         )
-    baseline = int(random_source.randint(10, 20))
+    baseline = int(random_source.randint(5, 10))
     adjustment = max(0, int(adjustment_minutes))
     delay = baseline + adjustment
     from datetime import timedelta

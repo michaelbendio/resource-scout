@@ -15,14 +15,12 @@ from typing import Any
 from urllib.parse import parse_qs, urlsplit
 
 from . import __version__
-from .blind_comparison import (
-    blind_comparison_view,
-    build_blind_review_assignment,
-    close_blind_codex_arm,
-    complete_blind_comparison,
-    prepare_blind_comparison,
-    reveal_blind_shadows,
-    save_blind_review_result,
+from .codex_first_research import (
+    codex_first_view,
+    next_codex_first_assignment,
+    prepare_codex_first_plan,
+    save_codex_first_external_result,
+    save_codex_first_primary_result,
 )
 from .scout_curation import (
     build_scout_review_seed,
@@ -154,21 +152,12 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 })
             elif parsed.path == "/api/focused-research-retrospective":
                 self._json(employment_retrospective_report(self.server.store))
-            elif parsed.path == "/api/blind-comparisons":
-                self._json({
-                    "studies": [
-                        blind_comparison_view(study)
-                        for study in self.server.store.list_blind_comparison_studies()
-                    ]
-                })
-            elif (study_id := self._path_id(
-                parsed.path, "/api/blind-comparisons"
-            )) is not None:
-                study = self.server.store.get_blind_comparison_study(study_id)
-                if study:
-                    self._json(blind_comparison_view(study))
-                else:
-                    self._error(HTTPStatus.NOT_FOUND, "Blind comparison study not found")
+            elif parsed.path == "/api/codex-first-research":
+                query = parse_qs(parsed.query)
+                import_id = int(query["importId"][0]) if query.get("importId") else int(
+                    self.server.store.latest_import_id() or 0
+                )
+                self._json(codex_first_view(self.server.store, import_id))
             elif (job_id := self._path_id(
                 parsed.path, "/api/focused-research-jobs"
             )) is not None:
@@ -333,46 +322,38 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     str(payload.get("categoryId") or "employment"),
                 )
                 self._json(job, HTTPStatus.CREATED)
-            elif parsed.path == "/api/blind-comparisons":
-                self._read_json()
-                self._json(prepare_blind_comparison(self.server.store), HTTPStatus.CREATED)
-            elif (study_id := self._path_id(
-                parsed.path, "/api/blind-comparisons", "close-codex"
-            )) is not None:
-                self._read_json()
-                self._json(close_blind_codex_arm(self.server.store, study_id))
-            elif (study_id := self._path_id(
-                parsed.path, "/api/blind-comparisons", "reveal"
-            )) is not None:
-                self._read_json()
-                self._json(reveal_blind_shadows(self.server.store, study_id))
-            elif (study_id := self._path_id(
-                parsed.path, "/api/blind-comparisons", "review-assignment"
-            )) is not None:
+            elif parsed.path == "/api/codex-first-research":
                 payload = self._read_json()
-                self._json(build_blind_review_assignment(
+                roster = payload.get("roster")
+                if roster is not None and not isinstance(roster, dict):
+                    raise ValueError("Researcher roster must be an object")
+                self._json(prepare_codex_first_plan(
                     self.server.store,
-                    study_id,
-                    str(payload.get("categoryId") or ""),
-                ))
-            elif (study_id := self._path_id(
-                parsed.path, "/api/blind-comparisons", "review-result"
-            )) is not None:
+                    int(payload["importId"]) if payload.get("importId") else None,
+                    roster=roster,
+                ), HTTPStatus.CREATED)
+            elif parsed.path == "/api/codex-first-research/next-assignment":
                 payload = self._read_json()
-                result = payload.get("result")
-                if not isinstance(result, dict):
-                    raise ValueError("Blind review result must be an object")
-                self._json(save_blind_review_result(
+                self._json({"assignment": next_codex_first_assignment(
                     self.server.store,
-                    study_id,
-                    str(payload.get("categoryId") or ""),
-                    result,
+                    int(payload.get("importId") or 0),
+                    str(payload.get("researcher") or ""),
+                )})
+            elif parsed.path == "/api/codex-first-research/primary-result":
+                payload = self._read_json()
+                self._json(save_codex_first_primary_result(
+                    self.server.store,
+                    int(payload.get("jobId") or 0),
+                    str(payload.get("focusKey") or ""),
+                    str(payload.get("rawText") or ""),
                 ))
-            elif (study_id := self._path_id(
-                parsed.path, "/api/blind-comparisons", "report"
-            )) is not None:
-                self._read_json()
-                self._json(complete_blind_comparison(self.server.store, study_id))
+            elif parsed.path == "/api/codex-first-research/external-result":
+                payload = self._read_json()
+                self._json(save_codex_first_external_result(
+                    self.server.store,
+                    int(payload.get("assignmentId") or 0),
+                    str(payload.get("rawText") or ""),
+                ))
             elif (job_id := self._path_id(
                 parsed.path, "/api/focused-research-jobs", "next-assignment"
             )) is not None:

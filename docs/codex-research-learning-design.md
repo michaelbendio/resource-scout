@@ -795,3 +795,54 @@ one location are not enough to disable it automatically. The next release must
 use this evidence when defining configurable primary, challenger, shadow, and
 disabled roles and must preserve a challenger path until whole-office evidence
 supports a narrower roster.
+
+## v0.46.0 implementation plan and decisions
+
+### Stage 1 — Retire the completed comparison runtime
+
+- preserve the v0.45 fixture, immutable report, and historical design record;
+- remove blind-study tables from new databases and remove its endpoints, UI,
+  implementation module, and runtime-specific tests; and
+- treat the comparison as evidence, not a recurring product mode.
+
+### Stage 2 — Generalize category playbooks
+
+- retain the specialized Employment, Housing, Clothing/Household,
+  Medical/Dental/Vision, and Transportation playbooks;
+- give every other non-Miscellaneous category a readable common focused
+  strategy combined with its own JSON scope and exclusions;
+- create a deterministic gap pass from actual pass yields and candidates; and
+- snapshot the exact strategy, playbook version, assignments, and manifests in
+  durable focused jobs.
+
+### Stage 3 — Configure researcher roles
+
+- use a readable versioned roster with exactly one primary;
+- default Codex to primary, ChatGPT/Grok/Perplexity to challenger, and Claude to
+  shadow;
+- give each challenger or shadow one adversarial assignment after Codex closes
+  its gap pass;
+- include challenger responses in the candidate run, but retain shadow
+  responses outside it as non-blocking evidence; and
+- give disabled researchers no assignment and no pacing.
+
+### Stage 4 — Whole-office orchestration
+
+- prepare all non-Miscellaneous categories in connected-package order;
+- process only the first incomplete category;
+- resume immutable assigned passes and external assignments after restart;
+- close a category only after Codex and every configured challenger complete;
+  and
+- refuse curation while any configured Codex-first category remains incomplete.
+
+### Stage 5 — Pacing, progress, tests, and release
+
+- reduce the random ChatGPT baseline from 10–20 to 5–10 minutes because the
+  latest production run showed no automation warning;
+- retain overdue-immediate delivery, explicit-reset precedence, one active
+  assignment, and the 30-minute throttle cooldown;
+- show whole-office Codex-first category/pass/lead progress in Scout Section 02;
+- test playbook coverage, roster roles, disabled pacing, restart-safe state,
+  challenger versus shadow inclusion, whole-office completion, curation gating,
+  APIs, and existing browser behavior; and
+- release as Resource Scout v0.46.0 build 12.

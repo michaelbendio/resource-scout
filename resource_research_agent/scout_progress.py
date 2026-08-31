@@ -4,6 +4,7 @@ import re
 from typing import Any
 
 from .storage import ResearchStore
+from .focused_research import CODEX_FIRST_EXPERIMENT_MODE
 
 
 def _effective_import_id(run: dict[str, Any]) -> int | None:
@@ -73,7 +74,28 @@ def build_scout_progress(
     workflow_event = workflow_events[0] if workflow_events else None
     current_event = _newer_event(workflow_event, curation_event)
     focused_jobs = store.list_focused_research_jobs(selected_import_id)
-    focused_job = focused_jobs[0] if focused_jobs else None
+    codex_jobs_by_category = {
+        str(item["categoryId"]): item
+        for item in focused_jobs
+        if str(item.get("experimentMode") or "") == CODEX_FIRST_EXPERIMENT_MODE
+    }
+    codex_jobs = [
+        codex_jobs_by_category[category_id]
+        for category_id in category_labels
+        if category_id in codex_jobs_by_category
+    ]
+    codex_plan_in_progress = bool(
+        codex_jobs and any(item["status"] != "completed" for item in codex_jobs)
+    )
+    if codex_plan_in_progress:
+        job = None
+        curation_events = []
+        curation_event = None
+        current_event = workflow_event
+    focused_job = next((
+        item for item in focused_jobs
+        if str(item.get("experimentMode") or "") != CODEX_FIRST_EXPERIMENT_MODE
+    ), None)
     focused_active = bool(
         focused_job and focused_job.get("status") in {"pending", "in-progress"}
     )
@@ -82,19 +104,12 @@ def build_scout_progress(
         and str(focused_job.get("updatedAt") or "")
         >= str((current_event or {}).get("createdAt") or "")
     )
-    blind_studies = store.list_blind_comparison_studies()
-    blind_study = blind_studies[0] if blind_studies else None
-    blind_is_newest = bool(
-        blind_study
-        and str(blind_study.get("updatedAt") or "")
-        >= max(
-            str((current_event or {}).get("createdAt") or ""),
-            str((focused_job or {}).get("updatedAt") or ""),
-        )
-    )
 
     research_completed = len(completed_category_ids & set(category_labels))
     research_total = len(categories)
+    if codex_jobs:
+        research_completed = sum(item["status"] == "completed" for item in codex_jobs)
+        research_total = len(codex_jobs)
     curation = (job or {}).get("progress") or {
         "completed": 0,
         "failed": 0,
@@ -102,50 +117,30 @@ def build_scout_progress(
     }
     location_name = _location_name(summary)
 
-    if blind_study and blind_is_newest:
-        blind_status = str(blind_study.get("status") or "")
-        blind_categories = blind_study.get("categories") or []
-        completed_blind_categories = sum(
-            str((item.get("focusedJob") or {}).get("status") or "") == "completed"
-            for item in blind_categories
-        )
-        reviewed_blind_categories = sum(bool(item.get("reviewResult")) for item in blind_categories)
-        active_blind_category = next((
-            item for item in blind_categories
-            if str((item.get("focusedJob") or {}).get("status") or "") != "completed"
-        ), None)
-        if blind_status == "researching":
-            phase = "blind-research"
-            category_id = str((active_blind_category or {}).get("categoryId") or "")
+    if codex_jobs:
+        completed_codex = sum(item["status"] == "completed" for item in codex_jobs)
+        active_codex = next((item for item in codex_jobs if item["status"] != "completed"), None)
+        phase = "codex-first-research" if active_codex else "codex-first-research-complete"
+        category_id = str((active_codex or {}).get("categoryId") or "")
+        if active_codex:
+            assignments = store.list_codex_first_assignments(int(active_codex["id"]))
+            completed_sources = sum(item["status"] == "completed" for item in assignments)
             message = (
-                f"Blind comparison research: {(active_blind_category or {}).get('categoryLabel') or 'held-out categories'}. "
-                f"{completed_blind_categories} of {len(blind_categories)} Codex category results are closed. "
-                "Four-AI identities remain sealed."
+                f"Codex-first research: {active_codex['categoryLabel']}. "
+                f"{completed_codex} of {len(codex_jobs)} categories complete; "
+                f"{active_codex['progress']['completed']} of {active_codex['progress']['total']} "
+                f"Codex passes and {completed_sources} challenger or shadow responses complete."
             )
-        elif blind_status == "codex-closed":
-            phase = "blind-codex-closed"
-            category_id = ""
-            message = (
-                "Every Codex held-out result is closed. Four-AI identities remain sealed "
-                "and are ready for controlled reveal."
-            )
-        elif blind_status in {"revealed", "reviewing"}:
-            phase = "blind-review"
-            category_id = ""
-            message = (
-                f"Source-hidden comparison review: {reviewed_blind_categories} of "
-                f"{len(blind_categories)} categories complete."
+            updated_at = max(
+                [str(active_codex.get("updatedAt") or "")]
+                + [str(item.get("updatedAt") or "") for item in assignments]
             )
         else:
-            phase = "blind-comparison-complete"
-            category_id = ""
-            comparison = (blind_study.get("report") or {}).get("aggregateComparison") or {}
             message = (
-                "Blind comparison is complete. "
-                f"Codex contributed {comparison.get('codexCuratedCount', 0)} curated identities; "
-                f"the four-AI union contributed {comparison.get('fourAiCuratedCount', 0)}."
+                f"Codex-first research is complete for all {len(codex_jobs)} categories. "
+                "Scout is ready for Codex-controlled curation."
             )
-        updated_at = blind_study.get("updatedAt")
+            updated_at = max(str(item.get("updatedAt") or "") for item in codex_jobs)
     elif focused_active or (focused_job and focused_is_newest):
         phase = (
             "focused-research" if focused_active else "focused-research-complete"
@@ -291,38 +286,24 @@ def build_scout_progress(
                     if item["status"] == "assigned"
                 ), None),
             }
-            if focused_job and not (blind_study and blind_is_newest) else None
+            if focused_job and not codex_jobs else None
         ),
-        "blindComparison": (
+        "codexFirstResearch": (
             {
-                "studyId": int(blind_study["id"]),
-                "status": str(blind_study["status"]),
-                "completedCategories": sum(
-                    str((item.get("focusedJob") or {}).get("status") or "") == "completed"
-                    for item in blind_study.get("categories") or []
-                ),
-                "totalCategories": len(blind_study.get("categories") or []),
+                "status": "completed" if all(item["status"] == "completed" for item in codex_jobs) else "in-progress",
+                "completedCategories": sum(item["status"] == "completed" for item in codex_jobs),
+                "totalCategories": len(codex_jobs),
                 "completedPasses": sum(
-                    int(((item.get("focusedJob") or {}).get("progress") or {}).get("completed") or 0)
-                    for item in blind_study.get("categories") or []
+                    int(item["progress"]["completed"]) for item in codex_jobs
                 ),
                 "totalPasses": sum(
-                    int(((item.get("focusedJob") or {}).get("progress") or {}).get("total") or 0)
-                    for item in blind_study.get("categories") or []
+                    int(item["progress"]["total"]) for item in codex_jobs
                 ),
                 "leadCount": sum(
-                    int(((item.get("focusedJob") or {}).get("progress") or {}).get("leadCount") or 0)
-                    for item in blind_study.get("categories") or []
+                    int(item["progress"]["leadCount"]) for item in codex_jobs
                 ),
-                "reviewedCategories": sum(
-                    bool(item.get("reviewResult"))
-                    for item in blind_study.get("categories") or []
-                ),
-                "shadowRevealed": str(blind_study.get("status") or "") in {
-                    "revealed", "reviewing", "completed"
-                },
-                "reportSha256": str(blind_study.get("reportSha256") or ""),
+                "activeCategory": category_labels.get(category_id) or None,
             }
-            if blind_study and blind_is_newest else None
+            if codex_jobs else None
         ),
     }

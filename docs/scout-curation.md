@@ -13,10 +13,11 @@ HTML file or another repository at generation time.
 
 ## End-to-end flow
 
-1. Scout connects one office resource package and researches every named service
-   category with ChatGPT, Grok, Claude, and Perplexity.
-2. Scout preserves each submitted response and consolidates the four candidate
-   sets without losing source attribution or visible uncertainty.
+1. Scout connects one office resource package and runs Codex's focused playbook
+   and coverage-gap pass for every named service category.
+2. ChatGPT, Grok, and Perplexity each receive one adversarial challenger
+   assignment after Codex; Claude remains a non-blocking shadow by default.
+   Scout preserves every exact assignment, response, role, and attribution.
 3. After all named categories have completed research, Scout prepares one
    category at a time for Codex. `Miscellaneous` is ignored.
 4. Scout validates and stores each curation result, including deterministic
@@ -105,7 +106,7 @@ and never overwrites an office package directly.
 
 ## Research pacing and progress
 
-ChatGPT assignments use a randomly selected baseline delay of 10 through 20
+ChatGPT assignments use a randomly selected baseline delay of 5 through 10
 minutes after the preceding ChatGPT assignment completes. Before every delay,
 the operator is told the chosen duration and expected assignment time. Codex may
 extend the delay when indirect or abbreviated feedback suggests throttling. An
@@ -164,6 +165,26 @@ The first production gate requires:
 - a Mesa pilot package merged into a disposable Mesa data copy with only the
   selected stable resource IDs incorporated;
 - preservation of unrelated packages and live Scout database files.
+
+## Codex-first research contract
+
+`researcher_roster.json` is the readable, versioned default roster. A durable
+focused-job plan stores an immutable copy, so changing the file affects only new
+plans. `focused_research_strategy.json` supplies the readable common focused
+strategy for categories without a more specialized embedded strategy; each
+category's JSON playbook supplies its category-specific scope and exclusions.
+
+The default roles are Codex primary; ChatGPT, Grok, and Perplexity challengers;
+and Claude shadow. A challenger is required before that category closes. A
+shadow response can arrive later, never blocks the next category, and is not
+written into the candidate run. A disabled researcher receives neither an
+assignment nor a ChatGPT timer. Scout processes categories in connected-package
+order, skips Miscellaneous, and refuses to start curation while any category in
+the configured plan is incomplete.
+
+The v0.45 blind comparison was one-time evidence. Its fixture and immutable
+report remain in source control; its tables, endpoints, UI, and tests are not
+part of the v0.46 production runtime.
 
 The Employment-only compatibility path exists solely to reproduce the
 `autoMesa.html` already sent to Stephanie. Remove it when Stephanie's feedback

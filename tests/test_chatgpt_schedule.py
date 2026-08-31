@@ -48,7 +48,7 @@ class ChatGPTAssignmentScheduleTests(unittest.TestCase):
             "Research Housing",
             15,
             started + timedelta(minutes=15),
-            reason="Random 10-20 minute research interval.",
+            reason="Random 5-10 minute research interval.",
             now=started,
         )
         self.assertEqual("scheduled", schedule["status"])

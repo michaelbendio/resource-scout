@@ -12,13 +12,17 @@ is never named `autoNew.html` or Resource Curator.
 
 ## Research and consolidation
 
-Codex shepherds research one category at a time with ChatGPT, Grok, Claude, and
-Perplexity. Scout preserves every source response and attribution. Exact repeated
-submissions collapse deterministically; clear same-program aliases may collapse,
-while genuinely uncertain identities remain separate. Directories and routing
-systems remain source-only records rather than inflating candidate counts.
+Codex performs one versioned category playbook at a time, including focused
+passes and a deterministic coverage-gap pass. After Codex closes its passes,
+ChatGPT, Grok, and Perplexity each receive one adversarial assignment to find
+what Codex missed. Claude is retained as a non-blocking shadow source. The
+readable researcher roster can assign primary, challenger, shadow, or disabled
+roles; disabled researchers receive no assignment or pacing. Challenger results
+join the candidate run. Shadow results remain durable evidence but do not enter
+candidate packages. Scout preserves every exact assignment, response, role, and
+attribution.
 
-ChatGPT assignments are spaced by a randomly selected 10-to-20-minute baseline.
+ChatGPT assignments are spaced by a randomly selected 5-to-10-minute baseline.
 Codex may extend that delay when indirect feedback suggests throttling and reports
 the chosen delay before each assignment. Long categories receive a progress
 heartbeat every 15 minutes.
