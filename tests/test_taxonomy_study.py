@@ -725,6 +725,19 @@ class TaxonomyStudyTests(unittest.TestCase):
                             "informationText": "",
                         },
                     },
+                    {
+                        "corpusKey": "connected-package:6b2d7fcadeec59dea6cd835e732ef55f",
+                        "resourceId": "lifewell",
+                        "name": "Lifewell Behavioral Wellness / Terros",
+                        "priorCategoryIds": ["mental-health"],
+                        "proposedCategoryIds": ["mental-health"],
+                        "priorForGroups": ["Medically vulnerable"],
+                        "resource": {
+                            "name": "Lifewell Behavioral Wellness / Terros",
+                            "description": "Integrated treatment for serious mental illness.",
+                            "informationText": "",
+                        },
+                    },
                 ],
             },
         }
@@ -747,6 +760,10 @@ class TaxonomyStudyTests(unittest.TestCase):
                 "Homeless", "Disabled", "Seniors", "Veterans", "Youth",
             )
         ))
+        self.assertNotIn(
+            "Medically vulnerable",
+            [item["label"] for item in assignments[2]["groups"]],
+        )
 
     def test_type_and_group_filtering_ors_within_and_ands_across(self) -> None:
         selected_types = {"Online Education", "GED/HSE"}

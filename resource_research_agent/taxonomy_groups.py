@@ -191,7 +191,7 @@ _EXISTING_GROUP_REVIEW: dict[tuple[str, str], tuple[str, str, str]] = {
 
     # Medically vulnerable
     ("connected-package:6b2d7fcadeec59dea6cd835e732ef55f", "medically-vulnerable"):
-        ("keep", "target", "The program has a specialized integrated-care pathway for serious mental illness and co-occurring conditions."),
+        ("remove", "target", "Serious mental illness and integrated treatment do not by themselves establish a specialized medically vulnerable access pathway."),
     ("connected-package:446d7aeaa7a45f7bab5d72f34d1b10e3", "medically-vulnerable"):
         ("remove", "target", "General substance-use treatment and insurance access do not establish medically vulnerable eligibility."),
 
@@ -525,7 +525,7 @@ def infer_group_proposal(packet_record: dict[str, Any]) -> dict[str, Any]:
         "studyId": int(packet_record["studyId"]),
         "packetSha256": packet_record["packetSha256"],
         "inferenceEngine": {
-            "version": "for-groups-v1.5",
+            "version": "for-groups-v1.6",
             "catalogSha256": _sha256(catalog_items),
             "rulesSha256": _sha256(GROUP_REVIEW_RULES),
             "patternsSha256": _sha256(_PATTERNS),
