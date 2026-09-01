@@ -11,6 +11,11 @@ from .taxonomy_study import TaxonomyStudyError
 
 
 APPROVED_CATEGORY_RULES = {
+    "clothingHouseholdSplit": (
+        "Replace Clothing/Household with separate Clothing and Household Essentials "
+        "need Categories. Put school supplies in Education and medical equipment in "
+        "Independent Living."
+    ),
     "parentingAndChildDevelopment": (
         "Keep Parenting & Child Development as one need Category. Child Care, Parenting "
         "Education, Early Intervention, Home Visiting, and similar distinctions may be Types."
@@ -98,8 +103,7 @@ def approve_categories_and_prepare_type_review(
         rules_sha256,
         source="michael-approved-category-foundation",
         note=(
-            "Michael approved all four Category judgments before category-by-category "
-            "Type design."
+            "Michael approved the Category foundation before category-by-category Type design."
         ),
     )
     refreshed = store.get_taxonomy_study(study_id)
@@ -228,9 +232,9 @@ def build_type_review_packets(study: dict[str, Any]) -> list[dict[str, Any]]:
             "packetSha256": _sha256(packet),
         })
     packets.sort(key=lambda item: (item["categoryLabel"].casefold(), item["categoryId"]))
-    if len(packets) != 19:
+    if len(packets) != 20:
         raise TaxonomyStudyError(
-            f"Expected 19 approved need Categories, found {len(packets)}"
+            f"Expected 20 approved need Categories, found {len(packets)}"
         )
     return packets
 

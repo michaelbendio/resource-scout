@@ -9,9 +9,16 @@ from .scout_curation import completed_scout_curation_resources
 from .storage import ResearchStore
 
 
-TAXONOMY_STUDY_VERSION = "needs-types-for-v4"
+TAXONOMY_STUDY_VERSION = "needs-types-for-v5"
 
 APPROVED_MESA_CATEGORY_DIRECTIONS = {
+    "clothing-household": {
+        "decision": "split-needs",
+        "direction": (
+            "Replace the combined heading with Clothing and Household Essentials; "
+            "move school supplies to Education and medical equipment to Independent Living."
+        ),
+    },
     "seniors": {
         "decision": "reclassify-for",
         "targetFor": ["Seniors"],

@@ -236,6 +236,7 @@ class TaxonomyStudyTests(unittest.TestCase):
         with self.store.connect() as connection:
             rows = [
                 ("children-pregnancy", "Children/Pregnancy"),
+                ("clothing-household", "Clothing/Household"),
                 ("disability", "Disability"),
                 ("reentry-support", "Reentry Support"),
                 ("veterans", "Veterans"),
@@ -303,7 +304,7 @@ class TaxonomyStudyTests(unittest.TestCase):
 
     def test_mesa_resource_targets_never_use_retired_headings(self) -> None:
         retired = {
-            "children-pregnancy", "disability", "reentry-support",
+            "children-pregnancy", "clothing-household", "disability", "reentry-support",
             "miscellaneous", "seniors", "veterans",
         }
         self.assertTrue(RESOURCE_TARGETS)
@@ -356,7 +357,7 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertEqual(20, proposal["coverage"]["targetCategoryCounts"][
             "parenting-child-development"
         ])
-        self.assertEqual(18, proposal["coverage"]["targetCategoryCounts"][
+        self.assertEqual(19, proposal["coverage"]["targetCategoryCounts"][
             "independent-living"
         ])
         self.assertEqual(11, proposal["coverage"]["targetCategoryCounts"][
@@ -415,7 +416,7 @@ class TaxonomyStudyTests(unittest.TestCase):
             {
                 "addiction",
                 "caregiving",
-                "clothing-household",
+                "clothing",
                 "domestic-violence",
                 "education",
                 "employment",
@@ -423,6 +424,7 @@ class TaxonomyStudyTests(unittest.TestCase):
                 "food",
                 "homeless-services",
                 "housing",
+                "household-essentials",
                 "id-recovery",
                 "immigration",
                 "independent-living",
@@ -442,6 +444,8 @@ class TaxonomyStudyTests(unittest.TestCase):
 
     def test_new_categories_cover_redistributed_resources(self) -> None:
         for category_id in (
+            "clothing",
+            "household-essentials",
             "parenting-child-development",
             "independent-living",
             "caregiving",
@@ -506,6 +510,34 @@ class TaxonomyStudyTests(unittest.TestCase):
         ]
         self.assertIn("Online Education", online_ged)
         self.assertIn("GED/HSE", online_ged)
+        self.assertEqual(
+            ["School Supplies"],
+            education["assignments"]["ebac95249761b88323fc73b4e26259fd"],
+        )
+
+        clothing = CATEGORY_TYPE_DESIGNS["clothing"]
+        clothing_labels = {item["label"] for item in clothing["types"]}
+        self.assertEqual(
+            {"General Clothing", "Dress Clothing", "Work Clothing", "School Clothing"},
+            clothing_labels,
+        )
+        self.assertEqual(
+            ["Dress Clothing"],
+            clothing["assignments"]["3367433d5c6845b44636936a2902a3bb"],
+        )
+        self.assertNotIn("Medical Equipment", clothing_labels)
+
+        household = CATEGORY_TYPE_DESIGNS["household-essentials"]
+        self.assertEqual(
+            {"Furniture", "Household Goods", "Hygiene Supplies", "Baby Supplies"},
+            {item["label"] for item in household["types"]},
+        )
+
+        independent_living = CATEGORY_TYPE_DESIGNS["independent-living"]
+        self.assertEqual(
+            ["Assistive Technology"],
+            independent_living["assignments"]["d6de881b1d1c0d17801cfcc7e6614ffd"],
+        )
 
         employment = CATEGORY_TYPE_DESIGNS["employment"]
         self.assertEqual(

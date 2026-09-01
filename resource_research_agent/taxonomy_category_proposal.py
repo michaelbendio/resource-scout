@@ -16,6 +16,7 @@ MESA_TAXONOMY_CORPUS_SHA256 = (
 
 RETIRED_CATEGORY_IDS = {
     "children-pregnancy",
+    "clothing-household",
     "disability",
     "reentry-support",
     "miscellaneous",
@@ -24,6 +25,42 @@ RETIRED_CATEGORY_IDS = {
 }
 
 PROPOSED_NEED_CATEGORIES = [
+    {
+        "id": "clothing",
+        "label": "Clothing",
+        "interviewerQuestion": "Does this person need clothing or shoes?",
+        "includes": [
+            "general clothing and shoes",
+            "dress and interview clothing",
+            "work clothing and uniforms",
+            "school clothing and uniforms",
+        ],
+        "boundary": (
+            "Furniture, household goods, hygiene items, and baby supplies belong in "
+            "Household Essentials; school supplies belong in Education."
+        ),
+        "reviewQuestion": "Do the Clothing Types reflect the reason the clothing is needed?",
+    },
+    {
+        "id": "household-essentials",
+        "label": "Household Essentials",
+        "interviewerQuestion": (
+            "Does this household need furniture, household goods, hygiene items, or baby supplies?"
+        ),
+        "includes": [
+            "furniture and major furnishings",
+            "linens, dishes, appliances, and household necessities",
+            "toiletries and hygiene supplies",
+            "diapers, cribs, car seats, and other baby supplies",
+        ],
+        "boundary": (
+            "Clothing remains a separate need; school supplies belong in Education; "
+            "medical equipment belongs in Independent Living."
+        ),
+        "reviewQuestion": (
+            "Does Household Essentials clearly cover the material goods a household needs?"
+        ),
+    },
     {
         "id": "parenting-child-development",
         "label": "Parenting & Child Development",
@@ -39,7 +76,7 @@ PROPOSED_NEED_CATEGORIES = [
         ],
         "boundary": (
             "Pregnancy medical care remains Medical; early education may also appear "
-            "in Education; material aid appears in Clothing/Household or Food."
+            "in Education; material aid appears in Clothing, Household Essentials, or Food."
         ),
         "reviewQuestion": (
             "Is this one coherent need Category, or should Child Care become a separate need?"
@@ -112,11 +149,12 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "medical-dental-vision", "mental-health", "addiction",
     ],
     "1ed84b657420da445ac082991959b3f8": [
-        "parenting-child-development", "education", "clothing-household",
+        "parenting-child-development", "education", "clothing",
+        "household-essentials",
     ],
     "ed9cec6557722e44984887fb41637d6e": [
         "medical-dental-vision", "parenting-child-development",
-        "clothing-household",
+        "clothing", "household-essentials",
     ],
     "2822ad624344c1ae4686dbbb665c3700": ["parenting-child-development"],
     "313775a628d6ace7912cbbd7fe30a8a3": ["parenting-child-development"],
@@ -126,12 +164,12 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
     "220a1f02f8cd1658a7e7cd4b8e2906aa": ["parenting-child-development"],
     "8f5bf98773af65b68a2a025cff1b0d59": ["mental-health"],
     "a6043035dfbf51e34bad108416bca340": [
-        "parenting-child-development", "clothing-household", "food",
+        "parenting-child-development", "food", "household-essentials",
     ],
     "ce0a9cdfa73bbb3fdafb2603d8099f40": ["mental-health"],
     "0df6bb236d8c7bf168ce4867dc83360e": [
         "housing", "homeless-services", "parenting-child-development",
-        "clothing-household",
+        "household-essentials",
     ],
     "ec74c1192ef14f1debb3a31c912a1bbc": [
         "medical-dental-vision", "parenting-child-development", "mental-health",
@@ -202,12 +240,12 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "addiction", "mental-health", "housing",
     ],
     "df171bb522d8c9a10c10b5c20e52cc1b": [
-        "employment", "clothing-household", "transportation", "mental-health",
+        "employment", "clothing", "transportation", "mental-health",
         "housing",
     ],
     "528e3dad283cd117ea2ff80b3bec333c": [
         "parenting-child-development", "legal", "id-recovery", "food",
-        "clothing-household", "transportation", "employment",
+        "clothing", "transportation", "employment",
     ],
     "f5956fe09395d25458ca9fda67d737c9": ["employment", "transportation"],
     "8228b3327c959acccf53469fa50397a9": ["employment", "housing"],
@@ -244,7 +282,7 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "financial-assistance", "legal", "id-recovery",
     ],
     "70ea356cba96bcc304b79ca2a5469f9c": [
-        "employment", "education", "clothing-household",
+        "employment", "education", "clothing",
     ],
     "f0e0dca057e2ec54e46f72a3bdadd85e": ["mental-health"],
     "aa9a90d7f959067cb0447b4e06a5cb13": [
@@ -260,6 +298,40 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
     ],
     "1c01cd6b13aaf41619e7cdc09b4c6725": ["legal"],
     "948dd967fb329f7e5f04c0814a113889": ["caregiving", "medical-dental-vision"],
+    # Clothing/Household split
+    "2683e222e5f6957b1e5bddb3292334d1": ["clothing", "household-essentials"],
+    "d6de881b1d1c0d17801cfcc7e6614ffd": ["independent-living"],
+    "aeed9f6c57cf87a109315fe1590a12d2": ["clothing"],
+    "337e91d961e84d96ee124c6c891045eb": ["clothing", "household-essentials"],
+    "4ea93a335a4945322184f2ce0e01feb5": ["clothing", "household-essentials"],
+    "442b7ced0e864db023bebfb05ecc9870": ["household-essentials"],
+    "ebac95249761b88323fc73b4e26259fd": [
+        "clothing", "household-essentials", "education",
+    ],
+    "ea17c3d484efe07c9892521284d54e24": ["clothing"],
+    "de5e0aa4a6c2164fb8b4a9fcfdcdac9b": ["clothing"],
+    "7e66c8c912ad9889aa3627405af218f3": ["clothing"],
+    "fbd7ac5640a1ad45864261484e2bcbf0": ["clothing", "household-essentials"],
+    "48635b5d3545aa10e94ee5ef9259b840": ["clothing", "household-essentials"],
+    "5359125c3611d817c5b9511c96a017fa": ["clothing", "household-essentials"],
+    "6ce0d0fd810d670dae505e267ea6e01a": [
+        "clothing", "household-essentials", "education",
+    ],
+    "663199b0f4bb6151cde8abc21bceb26c": ["clothing"],
+    "73dfadc219f93cdde3c2e07d3e1045b4": ["clothing", "household-essentials"],
+    "7bacf0bff58c51dc50d9c02ccd69eac4": ["clothing", "household-essentials"],
+    "882badd1df67753d02e23796b2875118": ["clothing", "household-essentials"],
+    "c399be50023b7d9bbbd54bbdea6b4b5f": ["clothing", "household-essentials"],
+    "08497e5f8c33c372d57430bc722bb639": ["clothing"],
+    "c74ea9adad61a6ff3fd9e49ae50d61d2": [
+        "clothing", "household-essentials", "education",
+    ],
+    "edacb348adc1480fe0ac0b9b6f1e8580": [
+        "clothing", "household-essentials", "education",
+    ],
+    "669bd738b302f2f17f9caa6163dd35ed": ["household-essentials"],
+    "1a240d601f09634fb93383fd76971b5c": ["household-essentials"],
+    "3367433d5c6845b44636936a2902a3bb": ["clothing"],
 }
 
 
