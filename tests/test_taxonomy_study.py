@@ -738,6 +738,19 @@ class TaxonomyStudyTests(unittest.TestCase):
                             "informationText": "",
                         },
                     },
+                    {
+                        "corpusKey": "automesa-curated:8b0cbd343a20dc0118ec3fa8c9a17d1f",
+                        "resourceId": "srp",
+                        "name": "Salt River Project",
+                        "priorCategoryIds": ["utilities-phone-internet"],
+                        "proposedCategoryIds": ["utilities-phone-internet"],
+                        "priorForGroups": ["Medically vulnerable"],
+                        "resource": {
+                            "name": "Salt River Project",
+                            "description": "A specialized pathway for medically vulnerable utility customers.",
+                            "informationText": "",
+                        },
+                    },
                 ],
             },
         }
@@ -764,6 +777,8 @@ class TaxonomyStudyTests(unittest.TestCase):
             "Medically vulnerable",
             [item["label"] for item in assignments[2]["groups"]],
         )
+        srp_groups = {item["label"]: item for item in assignments[3]["groups"]}
+        self.assertEqual("accommodate", srp_groups["Medically vulnerable"]["mode"])
 
     def test_type_and_group_filtering_ors_within_and_ands_across(self) -> None:
         selected_types = {"Online Education", "GED/HSE"}
