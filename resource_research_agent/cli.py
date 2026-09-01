@@ -29,7 +29,7 @@ from .taxonomy_types import (
     approve_categories_and_prepare_type_review,
     taxonomy_types_status,
 )
-from .taxonomy_type_design import save_new_category_type_designs
+from .taxonomy_type_design import save_category_type_designs
 
 
 def parser() -> argparse.ArgumentParser:
@@ -108,9 +108,14 @@ def parser() -> argparse.ArgumentParser:
     )
     taxonomy_type_packet.add_argument("study_id", type=int)
     taxonomy_type_packet.add_argument("category_id")
+    taxonomy_design_types = subcommands.add_parser(
+        "taxonomy-design-category-types",
+        help="Save the complete category-by-category Type design",
+    )
+    taxonomy_design_types.add_argument("study_id", type=int)
     taxonomy_design_new_types = subcommands.add_parser(
         "taxonomy-design-new-category-types",
-        help="Design Types for Parenting, Independent Living, and Caregiving",
+        help=argparse.SUPPRESS,
     )
     taxonomy_design_new_types.add_argument("study_id", type=int)
     taxonomy_type_design = subcommands.add_parser(
@@ -236,8 +241,11 @@ def main(argv: list[str] | None = None) -> int:
             raise ValueError("Type review packet not found")
         print(json.dumps(packets[0], ensure_ascii=False, indent=2))
         return 0
-    if args.command == "taxonomy-design-new-category-types":
-        value = save_new_category_type_designs(store, args.study_id)
+    if args.command in (
+        "taxonomy-design-category-types",
+        "taxonomy-design-new-category-types",
+    ):
+        value = save_category_type_designs(store, args.study_id)
         print(json.dumps(value, ensure_ascii=False, indent=2))
         return 0
     if args.command == "taxonomy-type-design":

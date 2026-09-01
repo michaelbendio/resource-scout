@@ -29,7 +29,7 @@ from resource_research_agent.taxonomy_types import (
     build_type_review_packets,
 )
 from resource_research_agent.taxonomy_type_design import (
-    NEW_CATEGORY_TYPE_DESIGNS,
+    CATEGORY_TYPE_DESIGNS,
     build_type_design,
 )
 
@@ -386,20 +386,44 @@ class TaxonomyStudyTests(unittest.TestCase):
             APPROVED_CATEGORY_RULES["categoryEvidence"],
         )
 
-    def test_new_category_type_designs_have_compact_unique_labels(self) -> None:
-        for category_id, specification in NEW_CATEGORY_TYPE_DESIGNS.items():
+    def test_all_approved_categories_have_compact_unique_type_labels(self) -> None:
+        self.assertEqual(
+            set(CATEGORY_TYPE_DESIGNS),
+            {
+                "addiction",
+                "caregiving",
+                "clothing-household",
+                "domestic-violence",
+                "education",
+                "employment",
+                "financial-assistance",
+                "food",
+                "homeless-services",
+                "housing",
+                "id-recovery",
+                "immigration",
+                "independent-living",
+                "legal",
+                "medical-dental-vision",
+                "mental-health",
+                "parenting-child-development",
+                "transportation",
+                "utilities-phone-internet",
+            },
+        )
+        for category_id, specification in CATEGORY_TYPE_DESIGNS.items():
             labels = [item["label"] for item in specification["types"]]
             with self.subTest(category_id=category_id):
                 self.assertEqual(len(labels), len(set(labels)))
                 self.assertTrue(all(len(label) <= 24 for label in labels))
 
-    def test_new_category_type_designs_cover_redistributed_resources(self) -> None:
+    def test_new_categories_cover_redistributed_resources(self) -> None:
         for category_id in (
             "parenting-child-development",
             "independent-living",
             "caregiving",
         ):
-            specification = NEW_CATEGORY_TYPE_DESIGNS[category_id]
+            specification = CATEGORY_TYPE_DESIGNS[category_id]
             with self.subTest(category_id=category_id):
                 self.assertEqual(
                     set(specification["assignments"]),
@@ -411,7 +435,7 @@ class TaxonomyStudyTests(unittest.TestCase):
                 )
 
     def test_need_type_designs_preserve_method_boundaries(self) -> None:
-        housing = NEW_CATEGORY_TYPE_DESIGNS["housing"]
+        housing = CATEGORY_TYPE_DESIGNS["housing"]
         housing_labels = {item["label"] for item in housing["types"]}
         self.assertIn("Emergency Shelter", housing_labels)
         self.assertIn("Rapid Rehousing", housing_labels)
@@ -419,7 +443,7 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertNotIn("Veterans", housing_labels)
         self.assertNotIn("Seniors", housing_labels)
 
-        homeless = NEW_CATEGORY_TYPE_DESIGNS["homeless-services"]
+        homeless = CATEGORY_TYPE_DESIGNS["homeless-services"]
         self.assertEqual(
             homeless["assignments"]["0df6bb236d8c7bf168ce4867dc83360e"],
             "no-type-needed",
@@ -429,7 +453,7 @@ class TaxonomyStudyTests(unittest.TestCase):
             homeless["assignments"]["91d5cdd19b42853fb4bbe8e57f325be0"],
         )
 
-        financial = NEW_CATEGORY_TYPE_DESIGNS["financial-assistance"]
+        financial = CATEGORY_TYPE_DESIGNS["financial-assistance"]
         self.assertIn(
             "Disability Income",
             financial["assignments"]["8d70eda15ed4d365bd3ffb2577c8653e"],
@@ -437,6 +461,55 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertIn(
             "Benefits Navigation",
             financial["assignments"]["c6862828db3631873bf2eb1f4ff99bea"],
+        )
+
+        education = CATEGORY_TYPE_DESIGNS["education"]
+        online_ged = education["assignments"][
+            "cce4f2f7537a93ea0f58d524dc2dd818"
+        ]
+        self.assertIn("Online Education", online_ged)
+        self.assertIn("GED/HSE", online_ged)
+
+        employment = CATEGORY_TYPE_DESIGNS["employment"]
+        self.assertEqual(
+            employment["assignments"]["ffb70295ec3f1e3256fc1955ec7ad5c0"],
+            ["Staffing/Temp Work", "Job Search & Placement"],
+        )
+
+        addiction = CATEGORY_TYPE_DESIGNS["addiction"]
+        self.assertEqual(
+            addiction["assignments"]["56082a4920ef5e52ae645088882ab65d"],
+            ["Harm Reduction"],
+        )
+
+        medical = CATEGORY_TYPE_DESIGNS["medical-dental-vision"]
+        self.assertIn(
+            "Medical Respite",
+            medical["assignments"]["69bc2e9938b04722b0c8cdc1d67dadc8"],
+        )
+
+        mental_health = CATEGORY_TYPE_DESIGNS["mental-health"]
+        self.assertIn(
+            "Post-discharge Followup",
+            mental_health["assignments"]["f6b55e24c78fb7889c9767c7527512ea"],
+        )
+
+        legal = CATEGORY_TYPE_DESIGNS["legal"]
+        self.assertIn(
+            "Housing/Eviction Law",
+            legal["assignments"]["a75559d019132060ea10e3390d9106ab"],
+        )
+
+        immigration = CATEGORY_TYPE_DESIGNS["immigration"]
+        self.assertEqual(
+            immigration["assignments"]["dca1d74f147af392005268006630b3ce"],
+            ["Case Status/Biometrics"],
+        )
+
+        domestic_violence = CATEGORY_TYPE_DESIGNS["domestic-violence"]
+        self.assertEqual(
+            domestic_violence["assignments"]["85a5b070658ea4afa6c89b604340e53e"],
+            ["Address Confidentiality"],
         )
 
     def test_type_design_requires_coverage_but_allows_no_type_needed(self) -> None:
