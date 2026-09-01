@@ -729,6 +729,66 @@ class TaxonomyStudyTests(unittest.TestCase):
         )
         self.assertEqual("accommodate", bridging_group["mode"])
 
+    def test_reviewed_all_age_resources_accommodate_youth(self) -> None:
+        reviewed_resources = [
+            (
+                "automesa-curated:ea77fba8e182ba83a7f60438bece546b",
+                "agave-ridge",
+                "Addiction treatment serving adolescents and adults.",
+            ),
+            (
+                "automesa-curated:7de41696b045cd6fdb9bb5c25cf7c53f",
+                "common-ground",
+                "Reentry services for youth and adults.",
+            ),
+            (
+                "automesa-curated:00cca473db91285a4a393f5ba53add8f",
+                "chandler-gilbert-arc",
+                "Adult disability services that also include adolescents.",
+            ),
+            (
+                "automesa-curated:9630eddb85bca6d59fb0dc70da0935a8",
+                "mind-24-7",
+                "Walk-in mental-health care for adults and youth.",
+            ),
+            (
+                "automesa-curated:03c08ccec6ec7f669d5594a7c8499d06",
+                "wecycle",
+                "Refurbished bicycles for adults and youth.",
+            ),
+        ]
+        packet = {
+            "studyId": 1,
+            "packetSha256": "b" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [
+                    {
+                        "corpusKey": corpus_key,
+                        "resourceId": resource_id,
+                        "name": resource_id,
+                        "priorCategoryIds": ["test-category"],
+                        "proposedCategoryIds": ["test-category"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": resource_id,
+                            "description": description,
+                            "informationText": "",
+                        },
+                    }
+                    for corpus_key, resource_id, description in reviewed_resources
+                ],
+            },
+        }
+        assignments = infer_group_proposal(packet)["assignments"]
+        self.assertEqual(len(reviewed_resources), len(assignments))
+        for assignment in assignments:
+            youth = next(
+                item for item in assignment["groups"] if item["label"] == "Youth"
+            )
+            self.assertEqual("accommodate", youth["mode"])
+
     def test_group_catalog_matches_michaels_reviewed_vocabulary(self) -> None:
         self.assertEqual({
             "Seniors", "Veterans", "Re-entry", "Pregnant/postpartum",

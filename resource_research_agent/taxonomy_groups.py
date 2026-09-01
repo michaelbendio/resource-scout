@@ -316,6 +316,16 @@ _INFERRED_GROUP_REVIEW: dict[tuple[str, str], tuple[str, str, str]] = {
         ("remove", "target", "The adult-protective-services record documents abuse and unsafe caregiving generally but no domestic- or partner-abuse service."),
     ("automesa-curated:442b7ced0e864db023bebfb05ecc9870", "domestic-violence-survivors"):
         ("keep", "accommodate", "The general furniture bank accepts agency referrals involving domestic violence among several transition circumstances."),
+    ("automesa-curated:ea77fba8e182ba83a7f60438bece546b", "youth-young-adults"):
+        ("keep", "accommodate", "The general addiction intensive-outpatient program serves adolescents and adults without documenting a dedicated youth track."),
+    ("automesa-curated:7de41696b045cd6fdb9bb5c25cf7c53f", "youth-young-adults"):
+        ("keep", "accommodate", "The general reentry program serves previously incarcerated youth and adults without documenting a dedicated youth track."),
+    ("automesa-curated:00cca473db91285a4a393f5ba53add8f", "youth-young-adults"):
+        ("keep", "accommodate", "The adult developmental-disability resource includes adolescents but does not document a dedicated youth program."),
+    ("automesa-curated:9630eddb85bca6d59fb0dc70da0935a8", "youth-young-adults"):
+        ("keep", "accommodate", "The general walk-in mental-health service accepts adults and youth without documenting a dedicated youth track."),
+    ("automesa-curated:03c08ccec6ec7f669d5594a7c8499d06", "youth-young-adults"):
+        ("keep", "accommodate", "The general bicycle program serves adults and youth with age-specific participation terms but no dedicated youth program."),
 }
 
 
@@ -549,7 +559,7 @@ def infer_group_proposal(packet_record: dict[str, Any]) -> dict[str, Any]:
         "studyId": int(packet_record["studyId"]),
         "packetSha256": packet_record["packetSha256"],
         "inferenceEngine": {
-            "version": "for-groups-v1.18",
+            "version": "for-groups-v1.19",
             "catalogSha256": _sha256(catalog_items),
             "rulesSha256": _sha256(GROUP_REVIEW_RULES),
             "patternsSha256": _sha256(_PATTERNS),
