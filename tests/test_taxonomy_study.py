@@ -392,6 +392,15 @@ class TaxonomyStudyTests(unittest.TestCase):
             with self.subTest(category_id=category_id):
                 self.assertEqual(len(labels), len(set(labels)))
                 self.assertTrue(all(len(label) <= 24 for label in labels))
+
+    def test_new_category_type_designs_cover_redistributed_resources(self) -> None:
+        for category_id in (
+            "parenting-child-development",
+            "independent-living",
+            "caregiving",
+        ):
+            specification = NEW_CATEGORY_TYPE_DESIGNS[category_id]
+            with self.subTest(category_id=category_id):
                 self.assertEqual(
                     set(specification["assignments"]),
                     {
