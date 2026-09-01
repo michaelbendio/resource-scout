@@ -525,6 +525,14 @@ class TaxonomyStudyTests(unittest.TestCase):
             ["Dress Clothing"],
             clothing["assignments"]["3367433d5c6845b44636936a2902a3bb"],
         )
+        self.assertEqual(
+            ["General Clothing"],
+            clothing["assignments"]["7bacf0bff58c51dc50d9c02ccd69eac4"],
+        )
+        self.assertEqual(
+            ["Work Clothing"],
+            clothing["assignments"]["70ea356cba96bcc304b79ca2a5469f9c"],
+        )
         self.assertNotIn("Medical Equipment", clothing_labels)
 
         household = CATEGORY_TYPE_DESIGNS["household-essentials"]

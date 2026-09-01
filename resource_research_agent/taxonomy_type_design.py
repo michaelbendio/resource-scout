@@ -83,7 +83,7 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "6ce0d0fd810d670dae505e267ea6e01a": ["General Clothing"],
             "663199b0f4bb6151cde8abc21bceb26c": ["General Clothing"],
             "73dfadc219f93cdde3c2e07d3e1045b4": ["General Clothing", "Dress Clothing", "Work Clothing"],
-            "7bacf0bff58c51dc50d9c02ccd69eac4": ["General Clothing", "Dress Clothing"],
+            "7bacf0bff58c51dc50d9c02ccd69eac4": ["General Clothing"],
             "882badd1df67753d02e23796b2875118": ["General Clothing"],
             "c399be50023b7d9bbbd54bbdea6b4b5f": ["General Clothing"],
             "08497e5f8c33c372d57430bc722bb639": ["Dress Clothing", "Work Clothing"],
