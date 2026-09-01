@@ -592,7 +592,7 @@ class TaxonomyStudyTests(unittest.TestCase):
         veteran = proposal["assignments"][1]["groups"]
         self.assertEqual("target", veteran[0]["mode"])
 
-    def test_specific_disability_group_also_includes_broad_group(self) -> None:
+    def test_specific_disability_evidence_uses_only_disabled_group(self) -> None:
         packet = {
             "studyId": 1,
             "packetSha256": "8" * 64,
@@ -618,14 +618,13 @@ class TaxonomyStudyTests(unittest.TestCase):
             item["label"]
             for item in infer_group_proposal(packet)["assignments"][0]["groups"]
         }
-        self.assertEqual({"Vision impaired", "Disabled"}, labels)
+        self.assertEqual({"Disabled"}, labels)
 
     def test_group_catalog_matches_michaels_reviewed_vocabulary(self) -> None:
         self.assertEqual({
             "Seniors", "Veterans", "Re-entry", "Pregnant/postpartum",
             "Families", "Disabled", "Caregivers", "Youth", "Women", "Men",
-            "LGBTQ+", "Spanish", "Hearing impaired", "Vision impaired",
-            "Immigrants", "Native American", "Homeless",
+            "LGBTQ+", "Spanish", "Immigrants", "Native American", "Homeless",
             "Domestic violence survivors", "Low-income households",
             "Uninsured/underinsured", "Pet owners", "Medically vulnerable",
         }, {item["label"] for item in GROUP_CATALOG})

@@ -55,8 +55,6 @@ GROUP_CATALOG: list[dict[str, Any]] = [
     {"id": "men", "label": "Men", "definition": "Programs expressly designed for or limited to men."},
     {"id": "lgbtq", "label": "LGBTQ+", "definition": "LGBTQ+, transgender, queer, or gender-diverse people."},
     {"id": "spanish-speaking", "label": "Spanish", "definition": "People who can use a documented Spanish-language service or access path."},
-    {"id": "deaf-hard-of-hearing", "label": "Hearing impaired", "definition": "Deaf, DeafBlind, and hard-of-hearing people with a dedicated or accessible pathway."},
-    {"id": "blind-low-vision", "label": "Vision impaired", "definition": "Blind and low-vision people with a dedicated or accessible pathway."},
     {"id": "immigrants", "label": "Immigrants", "definition": "Immigrants, refugees, asylees, humanitarian parolees, and people seeking or maintaining immigration status."},
     {"id": "native-american", "label": "Native American", "definition": "Native American, American Indian, Alaska Native, or tribal communities."},
     {"id": "experiencing-homelessness", "label": "Homeless", "definition": "People who are unsheltered, in shelter, or otherwise experiencing homelessness."},
@@ -104,15 +102,13 @@ _PATTERNS: dict[str, dict[str, tuple[str, ...]]] = {
     "exiting-corrections": {"target": (r"\breentry\b", r"\bre-entry\b", r"\breturning from incarceration\b", r"\bpost-release\b", r"\bpre-release\b", r"\bjustice-involved\b", r"\bformerly incarcerated\b")},
     "pregnant-postpartum": {"target": (r"\bpregnan(?:t|cy)\b", r"\bpostpartum\b", r"\bprenatal\b", r"\bmaternity\b", r"\bmaternal\b")},
     "families-with-children": {"target": (r"\bfamilies with (?:minor )?children\b", r"\bparents? and children\b", r"\bparenting families\b", r"\bchildren and families\b")},
-    "people-with-disabilities": {"target": (r"\bpeople with disabilities\b", r"\badults? with disabilities\b", r"\bdevelopmental disabilities\b", r"\bintellectual disabilities\b", r"\bdisability-specific\b")},
+    "people-with-disabilities": {"target": (r"\bpeople with disabilities\b", r"\badults? with disabilities\b", r"\bdevelopmental disabilities\b", r"\bintellectual disabilities\b", r"\bdisability-specific\b", r"\bdeafblind\b", r"\bdeaf(?:,| and|/) hard of hearing\b", r"\bhard-of-hearing\b", r"\bdeaf survivors?\b", r"\bblind/low-vision\b", r"\bblind and visually impaired\b", r"\bblind or low vision\b", r"\blow-vision\b", r"\bvision loss\b")},
     "caregivers": {"target": (r"\bfamily caregivers?\b", r"\bunpaid caregivers?\b", r"\bcaregiver support\b", r"\bcare partners?\b", r"\bkinship care(?:givers?)?\b", r"\bgrandparents raising grandchildren\b", r"\bgrandfamilies\b", r"\brelatives raising children\b")},
     "youth-young-adults": {"target": (r"\byouth(?:s)?\b", r"\byoung adults?\b", r"\bteens?\b", r"\badolescents?\b", r"\bages? 1[2-9][–-](?:2[0-5]|19)\b")},
     "women": {"target": (r"\bwomen-only\b", r"\bfor women\b", r"\bwomen's (?:center|program|services|housing|shelter|recovery)\b")},
     "men": {"target": (r"\bmen-only\b", r"\bfor men\b", r"\bmen's (?:center|program|services|housing|shelter|recovery)\b")},
     "lgbtq": {"target": (r"\blgbtq\+?\b", r"\btransgender\b", r"\bgender-diverse\b", r"\bqueer\b")},
     "spanish-speaking": {"accommodate": (r"\bspanish\b",)},
-    "deaf-hard-of-hearing": {"target": (r"\bdeafblind\b", r"\bdeaf(?:,| and|/) hard of hearing\b", r"\bhard-of-hearing\b", r"\bdeaf survivors?\b")},
-    "blind-low-vision": {"target": (r"\bblind/low-vision\b", r"\bblind and visually impaired\b", r"\bblind or low vision\b", r"\blow-vision\b", r"\bvision loss\b")},
     "immigrants": {"target": (r"\bimmigrants?\b", r"\bimmigration legal\b", r"\bnaturalization\b", r"\brefugees?\b", r"\basylees?\b", r"\bhumanitarian migrants?\b", r"\bnewly arrived humanitarian\b")},
     "native-american": {"target": (r"\bnative american\b", r"\bamerican indian\b", r"\burban indian\b", r"\btribal communities\b")},
     "experiencing-homelessness": {"target": (r"\bpeople experiencing homelessness\b", r"\bpeople who are homeless\b", r"\bhomeless (?:adults|families|youth|seniors|veterans|people)\b", r"\bunsheltered\b", r"\brunaway youth\b")},
@@ -124,10 +120,7 @@ _PATTERNS: dict[str, dict[str, tuple[str, ...]]] = {
 }
 
 
-_HIERARCHY = {
-    "deaf-hard-of-hearing": "people-with-disabilities",
-    "blind-low-vision": "people-with-disabilities",
-}
+_HIERARCHY: dict[str, str] = {}
 
 
 # Every inherited label that the deterministic rules cannot independently
@@ -527,7 +520,7 @@ def infer_group_proposal(packet_record: dict[str, Any]) -> dict[str, Any]:
         "studyId": int(packet_record["studyId"]),
         "packetSha256": packet_record["packetSha256"],
         "inferenceEngine": {
-            "version": "for-groups-v1.8",
+            "version": "for-groups-v1.9",
             "catalogSha256": _sha256(catalog_items),
             "rulesSha256": _sha256(GROUP_REVIEW_RULES),
             "patternsSha256": _sha256(_PATTERNS),
