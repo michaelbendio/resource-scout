@@ -1013,6 +1013,65 @@ class TaxonomyStudyTests(unittest.TestCase):
             {item["label"] for item in assignments[1]["groups"]},
         )
 
+    def test_senior_review_distinguishes_pathways_from_division_names(self) -> None:
+        packet = {
+            "studyId": 1,
+            "packetSha256": "1" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [
+                    {
+                        "corpusKey": "automesa-curated:33560faa0e326f7d9f179cfc8f356488",
+                        "resourceId": "allthrive-rides",
+                        "name": "AllThrive Transportation",
+                        "priorCategoryIds": ["transportation"],
+                        "proposedCategoryIds": ["transportation"],
+                        "priorForGroups": ["Seniors"],
+                        "resource": {
+                            "name": "AllThrive Transportation",
+                            "description": "Volunteer rides for older adults and other community members.",
+                            "informationText": "",
+                        },
+                    },
+                    {
+                        "corpusKey": "automesa-curated:fa0719b16ad0843652d8175fb792ca87",
+                        "resourceId": "mesa-utilities",
+                        "name": "City of Mesa Utilities",
+                        "priorCategoryIds": ["utilities-phone-internet"],
+                        "proposedCategoryIds": ["utilities-phone-internet"],
+                        "priorForGroups": ["Seniors"],
+                        "resource": {
+                            "name": "City of Mesa Utilities",
+                            "description": "Limited-income senior water-rate discount.",
+                            "informationText": "",
+                        },
+                    },
+                    {
+                        "corpusKey": "automesa-curated:bcc694b6232b6b88cd40c57d3052f4ca",
+                        "resourceId": "county-cap",
+                        "name": "Maricopa County Human Services",
+                        "priorCategoryIds": ["financial-assistance"],
+                        "proposedCategoryIds": ["financial-assistance"],
+                        "priorForGroups": ["Seniors"],
+                        "resource": {
+                            "name": "Maricopa County Human Services",
+                            "description": "General aid administered by the Senior Services and Community Resilience Division.",
+                            "informationText": "",
+                        },
+                    },
+                ],
+            },
+        }
+        assignments = infer_group_proposal(packet)["assignments"]
+        for index in (0, 1):
+            groups = {item["label"]: item for item in assignments[index]["groups"]}
+            self.assertEqual("accommodate", groups["Seniors"]["mode"])
+        self.assertNotIn(
+            "Seniors",
+            {item["label"] for item in assignments[2]["groups"]},
+        )
+
     def test_multiple_categories_are_ored(self) -> None:
         self.assertTrue(matches_category_filter(
             resource_categories={"education", "employment"},
