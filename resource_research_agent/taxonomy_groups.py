@@ -31,7 +31,7 @@ GROUP_REVIEW_RULES = {
     "evidence": [
         "Use explicit resource text, an existing For assignment, or a retired population-shaped Category.",
         "Do not infer identity from a provider name, neighborhood, diagnosis, or universal availability alone.",
-        "Spanish-language access supports Spanish-speaking; it does not by itself support Hispanic/Latino.",
+        "Spanish-language access supports the Spanish group; it does not by itself support Hispanic/Latino.",
         "A referral to another organization does not prove the referring resource targets that population.",
         "When the evidence establishes a need but not a population, use no-group-needed rather than guessing.",
     ],
@@ -45,30 +45,24 @@ GROUP_REVIEW_RULES = {
 GROUP_CATALOG: list[dict[str, Any]] = [
     {"id": "seniors", "label": "Seniors", "definition": "Older adults, including programs using a stated age threshold."},
     {"id": "veterans", "label": "Veterans", "definition": "Veterans, service members, and military-connected households when expressly included."},
-    {"id": "exiting-corrections", "label": "Exiting corrections", "definition": "People preparing to leave or returning from jail, prison, probation, or parole."},
+    {"id": "exiting-corrections", "label": "Re-entry", "definition": "People preparing to leave or returning from jail, prison, probation, or parole."},
     {"id": "pregnant-postpartum", "label": "Pregnant/postpartum", "definition": "People who are pregnant, recently gave birth, or need postpartum support."},
-    {"id": "families-with-children", "label": "Families with children", "definition": "Parents, guardians, or households caring for minor children."},
-    {"id": "people-with-disabilities", "label": "People with disabilities", "definition": "People with physical, sensory, intellectual, developmental, or other disabilities."},
-    {"id": "caregivers", "label": "Caregivers", "definition": "Unpaid family or informal caregivers supporting another person."},
-    {"id": "kinship-caregivers", "label": "Kinship caregivers", "definition": "Grandparents or other relatives raising children."},
-    {"id": "youth-young-adults", "label": "Youth/young adults", "definition": "Adolescents and transition-age young adults in a dedicated program."},
+    {"id": "families-with-children", "label": "Families", "definition": "Parents, guardians, or households caring for minor children."},
+    {"id": "people-with-disabilities", "label": "Disabled", "definition": "People with physical, sensory, intellectual, developmental, or other disabilities."},
+    {"id": "caregivers", "label": "Caregivers", "definition": "Unpaid family, kinship, or informal caregivers supporting another person, including relatives raising children."},
+    {"id": "youth-young-adults", "label": "Youth", "definition": "Adolescents and transition-age young adults in a dedicated program."},
     {"id": "women", "label": "Women", "definition": "Programs expressly designed for or limited to women."},
     {"id": "men", "label": "Men", "definition": "Programs expressly designed for or limited to men."},
-    {"id": "lgbtq", "label": "LGBTQ+ people", "definition": "LGBTQ+, transgender, queer, or gender-diverse people."},
-    {"id": "spanish-speaking", "label": "Spanish-speaking", "definition": "People who can use a documented Spanish-language service or access path."},
-    {"id": "deaf-hard-of-hearing", "label": "Deaf/hard of hearing", "definition": "Deaf, DeafBlind, and hard-of-hearing people with a dedicated or accessible pathway."},
-    {"id": "blind-low-vision", "label": "Blind/low vision", "definition": "Blind and low-vision people with a dedicated or accessible pathway."},
-    {"id": "refugees-asylees", "label": "Refugees/asylees", "definition": "Refugees, asylees, humanitarian parolees, and related newcomer populations."},
-    {"id": "immigrants", "label": "Immigrants", "definition": "Immigrants and people seeking or maintaining immigration status."},
+    {"id": "lgbtq", "label": "LGBTQ+", "definition": "LGBTQ+, transgender, queer, or gender-diverse people."},
+    {"id": "spanish-speaking", "label": "Spanish", "definition": "People who can use a documented Spanish-language service or access path."},
+    {"id": "deaf-hard-of-hearing", "label": "Hearing impaired", "definition": "Deaf, DeafBlind, and hard-of-hearing people with a dedicated or accessible pathway."},
+    {"id": "blind-low-vision", "label": "Vision impaired", "definition": "Blind and low-vision people with a dedicated or accessible pathway."},
+    {"id": "immigrants", "label": "Immigrants", "definition": "Immigrants, refugees, asylees, humanitarian parolees, and people seeking or maintaining immigration status."},
     {"id": "native-american", "label": "Native American", "definition": "Native American, American Indian, Alaska Native, or tribal communities."},
-    {"id": "experiencing-homelessness", "label": "People experiencing homelessness", "definition": "People who are unsheltered, in shelter, or otherwise experiencing homelessness."},
+    {"id": "experiencing-homelessness", "label": "Homeless", "definition": "People who are unsheltered, in shelter, or otherwise experiencing homelessness."},
     {"id": "domestic-violence-survivors", "label": "Domestic violence survivors", "definition": "People experiencing or surviving domestic, dating, or partner abuse."},
-    {"id": "sexual-assault-survivors", "label": "Sexual assault survivors", "definition": "People experiencing or surviving sexual assault or sexual violence."},
-    {"id": "trafficking-survivors", "label": "Trafficking survivors", "definition": "People experiencing or surviving human or sex trafficking."},
-    {"id": "foster-youth", "label": "Foster youth", "definition": "Young people currently or formerly in foster care."},
     {"id": "low-income", "label": "Low-income households", "definition": "People whose income or poverty level is an explicit eligibility or service focus."},
     {"id": "uninsured-underinsured", "label": "Uninsured/underinsured", "definition": "People without adequate health coverage who have a documented access pathway."},
-    {"id": "homebound", "label": "Homebound people", "definition": "People unable to leave home easily who have a home-based or delivered service."},
     {"id": "people-with-pets", "label": "People with pets", "definition": "People whose pets are expressly welcomed, sheltered, or accommodated."},
     {"id": "medically-vulnerable", "label": "Medically vulnerable", "definition": "People whose serious health condition creates a documented specialized access need."},
 ]
@@ -111,8 +105,7 @@ _PATTERNS: dict[str, dict[str, tuple[str, ...]]] = {
     "pregnant-postpartum": {"target": (r"\bpregnan(?:t|cy)\b", r"\bpostpartum\b", r"\bprenatal\b", r"\bmaternity\b", r"\bmaternal\b")},
     "families-with-children": {"target": (r"\bfamilies with (?:minor )?children\b", r"\bparents? and children\b", r"\bparenting families\b", r"\bchildren and families\b")},
     "people-with-disabilities": {"target": (r"\bpeople with disabilities\b", r"\badults? with disabilities\b", r"\bdevelopmental disabilities\b", r"\bintellectual disabilities\b", r"\bdisability-specific\b")},
-    "caregivers": {"target": (r"\bfamily caregivers?\b", r"\bunpaid caregivers?\b", r"\bcaregiver support\b", r"\bcare partners?\b")},
-    "kinship-caregivers": {"target": (r"\bkinship care(?:givers?)?\b", r"\bgrandparents raising grandchildren\b", r"\bgrandfamilies\b", r"\brelatives raising children\b")},
+    "caregivers": {"target": (r"\bfamily caregivers?\b", r"\bunpaid caregivers?\b", r"\bcaregiver support\b", r"\bcare partners?\b", r"\bkinship care(?:givers?)?\b", r"\bgrandparents raising grandchildren\b", r"\bgrandfamilies\b", r"\brelatives raising children\b")},
     "youth-young-adults": {"target": (r"\byouth(?:s)?\b", r"\byoung adults?\b", r"\bteens?\b", r"\badolescents?\b", r"\bages? 1[2-9][–-](?:2[0-5]|19)\b")},
     "women": {"target": (r"\bwomen-only\b", r"\bfor women\b", r"\bwomen's (?:center|program|services|housing|shelter|recovery)\b")},
     "men": {"target": (r"\bmen-only\b", r"\bfor men\b", r"\bmen's (?:center|program|services|housing|shelter|recovery)\b")},
@@ -120,17 +113,12 @@ _PATTERNS: dict[str, dict[str, tuple[str, ...]]] = {
     "spanish-speaking": {"accommodate": (r"\bspanish\b",)},
     "deaf-hard-of-hearing": {"target": (r"\bdeafblind\b", r"\bdeaf(?:,| and|/) hard of hearing\b", r"\bhard-of-hearing\b", r"\bdeaf survivors?\b")},
     "blind-low-vision": {"target": (r"\bblind/low-vision\b", r"\bblind and visually impaired\b", r"\bblind or low vision\b", r"\blow-vision\b", r"\bvision loss\b")},
-    "refugees-asylees": {"target": (r"\brefugees?\b", r"\basylees?\b", r"\bhumanitarian migrants?\b", r"\bnewly arrived humanitarian\b")},
-    "immigrants": {"target": (r"\bimmigrants?\b", r"\bimmigration legal\b", r"\bnaturalization\b")},
+    "immigrants": {"target": (r"\bimmigrants?\b", r"\bimmigration legal\b", r"\bnaturalization\b", r"\brefugees?\b", r"\basylees?\b", r"\bhumanitarian migrants?\b", r"\bnewly arrived humanitarian\b")},
     "native-american": {"target": (r"\bnative american\b", r"\bamerican indian\b", r"\burban indian\b", r"\btribal communities\b")},
     "experiencing-homelessness": {"target": (r"\bpeople experiencing homelessness\b", r"\bpeople who are homeless\b", r"\bhomeless (?:adults|families|youth|seniors|veterans|people)\b", r"\bunsheltered\b", r"\brunaway youth\b")},
     "domestic-violence-survivors": {"target": (r"\bdomestic violence\b", r"\bpartner abuse\b", r"\bintimate partner violence\b")},
-    "sexual-assault-survivors": {"target": (r"\bsexual assault\b", r"\bsexual violence\b")},
-    "trafficking-survivors": {"target": (r"\btrafficking survivors?\b", r"\bsurvivors? of (?:human|sex) trafficking\b")},
-    "foster-youth": {"target": (r"\bfoster youth\b", r"\bfoster-impacted young adults?\b", r"\bformer foster youth\b", r"\bfoster (?:children|families|care)\b")},
     "low-income": {"target": (r"\blow-income\b", r"\bincome-qualified\b", r"\bat or below \d+% (?:fpl|ami)\b", r"\bpoverty level\b")},
     "uninsured-underinsured": {"accommodate": (r"\buninsured(?: and| or|/) underinsured\b", r"\bfor uninsured patients\b", r"\buninsured people\b", r"\bsliding[- ]fee\b")},
-    "homebound": {"target": (r"\bhomebound\b", r"\bhome-delivered\b")},
     "people-with-pets": {"accommodate": (r"\bpet-friendly\b", r"\bpets? (?:are )?(?:welcome|welcomed|allowed)\b", r"\bpet companion\b", r"\bboard pets\b")},
     "medically-vulnerable": {"target": (r"\bmedically vulnerable\b", r"\btoo sick or injured to recover on the street\b", r"\bcomplex medical conditions\b")},
 }
@@ -139,8 +127,6 @@ _PATTERNS: dict[str, dict[str, tuple[str, ...]]] = {
 _HIERARCHY = {
     "deaf-hard-of-hearing": "people-with-disabilities",
     "blind-low-vision": "people-with-disabilities",
-    "kinship-caregivers": "caregivers",
-    "refugees-asylees": "immigrants",
 }
 
 
@@ -237,7 +223,7 @@ _EXISTING_GROUP_REVIEW: dict[tuple[str, str], tuple[str, str, str]] = {
     ("automesa-curated:9674f1a708712c74c41c9d591821a356", "seniors"):
         ("remove", "target", "General food services have no older-adult pathway."),
 
-    # Spanish-speaking
+    # Spanish
     ("automesa-curated:220a1f02f8cd1658a7e7cd4b8e2906aa", "spanish-speaking"):
         ("remove", "accommodate", "The frozen resource record documents no Spanish-language access path."),
 
@@ -272,8 +258,6 @@ _EXISTING_GROUP_REVIEW: dict[tuple[str, str], tuple[str, str, str]] = {
 # Focused second-pass decisions for misleading text matches and for concrete
 # accommodations whose mode cannot be expressed safely by a broad regex.
 _INFERRED_GROUP_REVIEW: dict[tuple[str, str], tuple[str, str, str]] = {
-    ("automesa-curated:1bd2fb5b4587feef40252e0630c6c94c", "foster-youth"):
-        ("remove", "target", "Adult Foster Care is an adult living arrangement, not foster-youth service."),
     ("automesa-curated:6aa599e3a9f6ce52dd0a27bc6e625fd2", "men"):
         ("remove", "target", "The men's-center wording is a warning about a different co-located provider, not a CBI program."),
     ("automesa-curated:c399be50023b7d9bbbd54bbdea6b4b5f", "domestic-violence-survivors"):
@@ -408,7 +392,8 @@ def _add_relation(
 
 def infer_group_proposal(packet_record: dict[str, Any]) -> dict[str, Any]:
     packet = packet_record["packet"]
-    catalog = {item["id"]: item for item in packet["catalog"]}
+    catalog_items = deepcopy(GROUP_CATALOG)
+    catalog = {item["id"]: item for item in catalog_items}
     assignments: list[dict[str, Any]] = []
     group_counts: Counter[str] = Counter()
     mode_counts: Counter[str] = Counter()
@@ -540,7 +525,9 @@ def infer_group_proposal(packet_record: dict[str, Any]) -> dict[str, Any]:
         "studyId": int(packet_record["studyId"]),
         "packetSha256": packet_record["packetSha256"],
         "inferenceEngine": {
-            "version": "for-groups-v1.3",
+            "version": "for-groups-v1.5",
+            "catalogSha256": _sha256(catalog_items),
+            "rulesSha256": _sha256(GROUP_REVIEW_RULES),
             "patternsSha256": _sha256(_PATTERNS),
             "hierarchySha256": _sha256(_HIERARCHY),
             "categoryRulesSha256": _sha256({
@@ -568,8 +555,8 @@ def infer_group_proposal(packet_record: dict[str, Any]) -> dict[str, Any]:
                 for key, value in sorted(_INFERRED_GROUP_REVIEW.items())
             ]),
         },
-        "rules": deepcopy(packet["rules"]),
-        "catalog": deepcopy(packet["catalog"]),
+        "rules": deepcopy(GROUP_REVIEW_RULES),
+        "catalog": catalog_items,
         "assignments": assignments,
         "coverage": {
             "resourceCount": len(assignments),

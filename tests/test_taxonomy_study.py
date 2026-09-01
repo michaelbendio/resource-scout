@@ -549,7 +549,11 @@ class TaxonomyStudyTests(unittest.TestCase):
             "packetSha256": "7" * 64,
             "packet": {
                 "rules": GROUP_REVIEW_RULES,
-                "catalog": GROUP_CATALOG,
+                "catalog": [
+                    ({**item, "label": "Spanish-speaking"}
+                     if item["id"] == "spanish-speaking" else item)
+                    for item in GROUP_CATALOG
+                ],
                 "resources": [
                     {
                         "corpusKey": "automesa-curated:spanish-class",
@@ -582,7 +586,7 @@ class TaxonomyStudyTests(unittest.TestCase):
         }
         proposal = infer_group_proposal(packet)
         spanish = proposal["assignments"][0]["groups"]
-        self.assertEqual(["Spanish-speaking"], [item["label"] for item in spanish])
+        self.assertEqual(["Spanish"], [item["label"] for item in spanish])
         self.assertEqual("accommodate", spanish[0]["mode"])
         self.assertNotIn("Hispanic/Latino", [item["label"] for item in spanish])
         veteran = proposal["assignments"][1]["groups"]
@@ -614,7 +618,17 @@ class TaxonomyStudyTests(unittest.TestCase):
             item["label"]
             for item in infer_group_proposal(packet)["assignments"][0]["groups"]
         }
-        self.assertEqual({"Blind/low vision", "People with disabilities"}, labels)
+        self.assertEqual({"Vision impaired", "Disabled"}, labels)
+
+    def test_group_catalog_matches_michaels_reviewed_vocabulary(self) -> None:
+        self.assertEqual({
+            "Seniors", "Veterans", "Re-entry", "Pregnant/postpartum",
+            "Families", "Disabled", "Caregivers", "Youth", "Women", "Men",
+            "LGBTQ+", "Spanish", "Hearing impaired", "Vision impaired",
+            "Immigrants", "Native American", "Homeless",
+            "Domestic violence survivors", "Low-income households",
+            "Uninsured/underinsured", "People with pets", "Medically vulnerable",
+        }, {item["label"] for item in GROUP_CATALOG})
 
     def test_need_category_supplies_population_evidence(self) -> None:
         packet = {
@@ -721,26 +735,25 @@ class TaxonomyStudyTests(unittest.TestCase):
         )
         mvd_groups = {item["label"]: item for item in assignments[1]["groups"]}
         self.assertEqual({
-            "People experiencing homelessness",
-            "People with disabilities",
+            "Homeless",
+            "Disabled",
             "Seniors",
             "Veterans",
-            "Youth/young adults",
+            "Youth",
         }, set(mvd_groups))
         self.assertTrue(all(
             mvd_groups[label]["mode"] == "accommodate"
             for label in (
-                "People experiencing homelessness", "People with disabilities",
-                "Seniors", "Veterans", "Youth/young adults",
+                "Homeless", "Disabled", "Seniors", "Veterans", "Youth",
             )
         ))
 
     def test_type_and_group_filtering_ors_within_and_ands_across(self) -> None:
         selected_types = {"Online Education", "GED/HSE"}
-        selected_groups = {"Spanish-speaking", "Veterans"}
+        selected_groups = {"Spanish", "Veterans"}
         self.assertTrue(matches_type_and_group_filters(
             resource_types={"Online Education"},
-            resource_groups={"Spanish-speaking"},
+            resource_groups={"Spanish"},
             selected_types=selected_types,
             selected_groups=selected_groups,
         ))
@@ -752,7 +765,7 @@ class TaxonomyStudyTests(unittest.TestCase):
         ))
         self.assertFalse(matches_type_and_group_filters(
             resource_types={"Online Education"},
-            resource_groups={"Youth/young adults"},
+            resource_groups={"Youth"},
             selected_types=selected_types,
             selected_groups=selected_groups,
         ))
