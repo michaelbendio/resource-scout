@@ -199,6 +199,71 @@ class CodexFirstResearchTests(unittest.TestCase):
             self.store.manual_discovery_progress(job["runId"])["leadCount"],
         )
 
+    def test_codex_primary_work_skips_a_provider_gated_category(self) -> None:
+        root = Path(self.temporary.name)
+        package = root / "two-category-resource-package.zip"
+        with zipfile.ZipFile(package, "w") as archive:
+            archive.writestr("tso-resources.json", json.dumps({
+                "resourcePackageSchemaVersion": 3,
+                "packageVersion": 1,
+                "officeName": "Test TSO",
+                "serviceArea": "Test County",
+                "categories": [
+                    {"id": "food", "name": "Food", "filters": []},
+                    {"id": "legal", "name": "Legal", "filters": []},
+                    {"id": "miscellaneous", "name": "Miscellaneous", "filters": []},
+                ],
+                "forGroups": [],
+                "resources": [],
+            }))
+        import_id = self.store.save_import(ResourcePackageImporter(None).read(package))
+        plan = prepare_codex_first_plan(self.store, import_id)
+        first_job_id = plan["categories"][0]["jobId"]
+        second_job_id = plan["categories"][1]["jobId"]
+
+        result_index = 0
+        while True:
+            assignment = next_codex_first_assignment(
+                self.store,
+                import_id,
+                "Codex",
+                random_source=FixedRandom(5),
+                now=datetime(2026, 8, 31, 18, 0, tzinfo=timezone.utc),
+            )
+            self.assertIsNotNone(assignment)
+            self.assertEqual(first_job_id, assignment["job"]["id"])
+            research_pass = assignment["researchPass"]
+            save_codex_first_primary_result(
+                self.store,
+                first_job_id,
+                research_pass["focusKey"],
+                response(f"First Category {result_index}"),
+            )
+            result_index += 1
+            if research_pass["passKind"] == "gap":
+                break
+
+        next_category = next_codex_first_assignment(
+            self.store,
+            import_id,
+            "Codex",
+            random_source=FixedRandom(5),
+            now=datetime(2026, 8, 31, 18, 5, tzinfo=timezone.utc),
+        )
+        self.assertIsNotNone(next_category)
+        self.assertEqual(second_job_id, next_category["job"]["id"])
+        self.assertEqual(
+            {"ChatGPT", "Grok", "Perplexity", "Claude"},
+            {
+                item["researcher"]
+                for item in self.store.list_codex_first_assignments(first_job_id)
+            },
+        )
+        self.assertEqual(
+            "in-progress",
+            self.store.get_focused_research_job(first_job_id)["status"],
+        )
+
     def test_whole_office_codex_only_cycle_completes_without_chatgpt_pacing(self) -> None:
         root = Path(self.temporary.name)
         package = root / "whole-office-resource-package.zip"

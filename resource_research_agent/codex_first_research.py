@@ -286,21 +286,22 @@ def next_codex_first_assignment(
         raise ValueError("Prepare Codex-first research before requesting assignments")
     wanted = str(researcher or "").strip()
     if wanted == "Codex":
-        job = next((item for item in jobs if item["status"] != "completed"), None)
-        if not job:
-            return None
-        if all(item["status"] == "completed" for item in job["passes"]):
-            if not any(item["passKind"] == "gap" for item in job["passes"]):
-                prepare_focused_gap_pass(store, int(job["id"]))
-                job = store.get_focused_research_job(int(job["id"])) or job
-            else:
-                prepare_codex_first_challenges(
-                    store, int(job["id"]), random_source=random_source, now=now
-                )
-                _close_if_ready(store, int(job["id"]))
-                return None
-        research_pass = next_focused_research_assignment(store, int(job["id"]))
-        return {"kind": "primary", "job": job, "researchPass": research_pass}
+        for job in jobs:
+            if job["status"] == "completed":
+                continue
+            if all(item["status"] == "completed" for item in job["passes"]):
+                if not any(item["passKind"] == "gap" for item in job["passes"]):
+                    prepare_focused_gap_pass(store, int(job["id"]))
+                    job = store.get_focused_research_job(int(job["id"])) or job
+                else:
+                    prepare_codex_first_challenges(
+                        store, int(job["id"]), random_source=random_source, now=now
+                    )
+                    _close_if_ready(store, int(job["id"]))
+                    continue
+            research_pass = next_focused_research_assignment(store, int(job["id"]))
+            return {"kind": "primary", "job": job, "researchPass": research_pass}
+        return None
     for job in jobs:
         match = next((
             item for item in store.list_codex_first_assignments(int(job["id"]))
