@@ -17,6 +17,7 @@ from .importer import ResourcePackageImporter
 from .server import serve
 from .storage import ResearchStore
 from .tailscale import TailscaleAccessError, TailscaleServeManager
+from .taxonomy_study import prepare_taxonomy_study, taxonomy_study_summary
 
 
 def parser() -> argparse.ArgumentParser:
@@ -55,6 +56,20 @@ def parser() -> argparse.ArgumentParser:
         "replay-reveal", help="Reveal holdouts and calculate the final comparison"
     )
     replay_reveal.add_argument("study_id", type=int)
+    taxonomy_prepare = subcommands.add_parser(
+        "taxonomy-prepare", help="Freeze a full-corpus taxonomy review study"
+    )
+    taxonomy_prepare.add_argument("--import-id", type=int, required=True)
+    taxonomy_prepare.add_argument("--curation-job-id", type=int, required=True)
+    taxonomy_prepare.add_argument("--replay-study-id", type=int, required=True)
+    taxonomy_status = subcommands.add_parser(
+        "taxonomy-status", help="Show a concise taxonomy study status"
+    )
+    taxonomy_status.add_argument("study_id", type=int)
+    taxonomy_review = subcommands.add_parser(
+        "taxonomy-category-review", help="Show the need-Category review worksheet"
+    )
+    taxonomy_review.add_argument("study_id", type=int)
     return result
 
 
@@ -116,6 +131,27 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "replay-reveal":
         value = reveal_and_complete_codex_replay(store, args.study_id)
         print(json.dumps(value, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-prepare":
+        value = prepare_taxonomy_study(
+            store,
+            args.import_id,
+            curation_job_id=args.curation_job_id,
+            replay_study_id=args.replay_study_id,
+        )
+        print(json.dumps(taxonomy_study_summary(value), ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-status":
+        value = store.get_taxonomy_study(args.study_id)
+        if value is None:
+            raise ValueError("Taxonomy study not found")
+        print(json.dumps(taxonomy_study_summary(value), ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-category-review":
+        value = store.get_taxonomy_study(args.study_id)
+        if value is None:
+            raise ValueError("Taxonomy study not found")
+        print(json.dumps(value["categoryReview"], ensure_ascii=False, indent=2))
         return 0
     return 2
 

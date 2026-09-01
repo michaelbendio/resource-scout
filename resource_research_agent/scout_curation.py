@@ -315,6 +315,15 @@ def _completed_resources(job: dict[str, Any]) -> list[dict[str, Any]]:
     return [merged[resource_id] for resource_id in order]
 
 
+def completed_scout_curation_resources(job: dict[str, Any]) -> list[dict[str, Any]]:
+    """Return the stable merged resource set produced by a completed curation job."""
+    if job.get("status") != "completed":
+        raise ScoutCurationError(
+            "Finish every Resource Scout curation category before reading its resource set"
+        )
+    return _completed_resources(job)
+
+
 def next_scout_curation_assignment(store: ResearchStore, job_id: int) -> dict[str, Any] | None:
     job = store.get_scout_curation_job(job_id)
     if not job:

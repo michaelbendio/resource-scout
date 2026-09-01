@@ -425,6 +425,44 @@ CREATE TABLE IF NOT EXISTS scout_curation_progress_events (
     message TEXT NOT NULL,
     details_json TEXT NOT NULL DEFAULT '{}'
 );
+CREATE TABLE IF NOT EXISTS taxonomy_studies (
+    id INTEGER PRIMARY KEY,
+    import_id INTEGER NOT NULL REFERENCES imports(id),
+    curation_job_id INTEGER NOT NULL REFERENCES scout_curation_jobs(id),
+    replay_study_id INTEGER NOT NULL REFERENCES codex_replay_studies(id),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (
+        status IN (
+            'category-review', 'types-review', 'groups-review',
+            'audit-review', 'approved', 'compiled'
+        )
+    ),
+    study_version TEXT NOT NULL,
+    source_package_content_sha256 TEXT NOT NULL CHECK (
+        length(source_package_content_sha256) = 64
+    ),
+    curation_result_sha256 TEXT NOT NULL CHECK (
+        length(curation_result_sha256) = 64
+    ),
+    replay_report_sha256 TEXT NOT NULL CHECK (
+        length(replay_report_sha256) = 64
+    ),
+    corpus_json TEXT NOT NULL,
+    corpus_sha256 TEXT NOT NULL CHECK (length(corpus_sha256) = 64),
+    category_review_json TEXT NOT NULL,
+    category_review_sha256 TEXT NOT NULL CHECK (
+        length(category_review_sha256) = 64
+    ),
+    approved_at TEXT,
+    compiled_at TEXT,
+    UNIQUE (
+        import_id, curation_job_id, replay_study_id,
+        study_version, corpus_sha256
+    )
+);
+CREATE INDEX IF NOT EXISTS taxonomy_study_status
+    ON taxonomy_studies(import_id, status, id);
 CREATE TABLE IF NOT EXISTS scout_workflow_progress_events (
     id INTEGER PRIMARY KEY,
     import_id INTEGER NOT NULL REFERENCES imports(id) ON DELETE CASCADE,
@@ -1109,6 +1147,25 @@ class ResearchStore:
                 (import_id, resource_id_value),
             ).fetchone()
         return json.loads(row["raw_json"]) if row else None
+
+    def list_import_resources(self, import_id: int) -> list[dict[str, Any]]:
+        """Return the exact imported resource records in stable source order."""
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT resource_id, name, category_ids_json, raw_json
+                   FROM imported_resources
+                   WHERE import_id = ? ORDER BY rowid""",
+                (int(import_id),),
+            ).fetchall()
+        return [
+            {
+                "resourceId": str(row["resource_id"]),
+                "name": str(row["name"]),
+                "categories": json.loads(row["category_ids_json"]),
+                "resource": json.loads(row["raw_json"]),
+            }
+            for row in rows
+        ]
 
     def create_manual_discovery_run(
         self,
@@ -3591,6 +3648,96 @@ class ResearchStore:
                 "details": json.loads(row["details_json"]),
             }
             for row in rows
+        ]
+
+    def create_taxonomy_study(self, study: dict[str, Any]) -> int:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            existing = connection.execute(
+                """SELECT id FROM taxonomy_studies
+                   WHERE import_id = ? AND curation_job_id = ?
+                     AND replay_study_id = ? AND study_version = ?
+                     AND corpus_sha256 = ?""",
+                (
+                    int(study["importId"]),
+                    int(study["curationJobId"]),
+                    int(study["replayStudyId"]),
+                    str(study["studyVersion"]),
+                    str(study["corpusSha256"]),
+                ),
+            ).fetchone()
+            if existing:
+                return int(existing["id"])
+            cursor = connection.execute(
+                """INSERT INTO taxonomy_studies (
+                       import_id, curation_job_id, replay_study_id,
+                       created_at, updated_at, status, study_version,
+                       source_package_content_sha256, curation_result_sha256,
+                       replay_report_sha256, corpus_json, corpus_sha256,
+                       category_review_json, category_review_sha256
+                   ) VALUES (?, ?, ?, ?, ?, 'category-review', ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    int(study["importId"]),
+                    int(study["curationJobId"]),
+                    int(study["replayStudyId"]),
+                    now,
+                    now,
+                    str(study["studyVersion"]),
+                    str(study["sourcePackageContentSha256"]),
+                    str(study["curationResultSha256"]),
+                    str(study["replayReportSha256"]),
+                    _json(study["corpus"]),
+                    str(study["corpusSha256"]),
+                    _json(study["categoryReview"]),
+                    str(study["categoryReviewSha256"]),
+                ),
+            )
+        return int(cursor.lastrowid)
+
+    def get_taxonomy_study(self, study_id: int) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM taxonomy_studies WHERE id = ?", (int(study_id),)
+            ).fetchone()
+        if not row:
+            return None
+        return {
+            "id": int(row["id"]),
+            "importId": int(row["import_id"]),
+            "curationJobId": int(row["curation_job_id"]),
+            "replayStudyId": int(row["replay_study_id"]),
+            "createdAt": row["created_at"],
+            "updatedAt": row["updated_at"],
+            "status": str(row["status"]),
+            "studyVersion": str(row["study_version"]),
+            "sourcePackageContentSha256": str(row["source_package_content_sha256"]),
+            "curationResultSha256": str(row["curation_result_sha256"]),
+            "replayReportSha256": str(row["replay_report_sha256"]),
+            "corpus": json.loads(row["corpus_json"]),
+            "corpusSha256": str(row["corpus_sha256"]),
+            "categoryReview": json.loads(row["category_review_json"]),
+            "categoryReviewSha256": str(row["category_review_sha256"]),
+            "approvedAt": row["approved_at"],
+            "compiledAt": row["compiled_at"],
+        }
+
+    def list_taxonomy_studies(
+        self, import_id: int | None = None
+    ) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            if import_id is None:
+                rows = connection.execute(
+                    "SELECT id FROM taxonomy_studies ORDER BY id DESC"
+                ).fetchall()
+            else:
+                rows = connection.execute(
+                    """SELECT id FROM taxonomy_studies
+                       WHERE import_id = ? ORDER BY id DESC""",
+                    (int(import_id),),
+                ).fetchall()
+        return [
+            study for row in rows
+            if (study := self.get_taxonomy_study(int(row["id"]))) is not None
         ]
 
     @staticmethod
