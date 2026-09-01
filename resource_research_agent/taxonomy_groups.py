@@ -49,7 +49,6 @@ GROUP_CATALOG: list[dict[str, Any]] = [
     {"id": "pregnant-postpartum", "label": "Pregnant/postpartum", "definition": "People who are pregnant, recently gave birth, or need postpartum support."},
     {"id": "families-with-children", "label": "Families", "definition": "Parents, guardians, or households caring for minor children."},
     {"id": "people-with-disabilities", "label": "Disabled", "definition": "People with physical, sensory, intellectual, developmental, or other disabilities."},
-    {"id": "caregivers", "label": "Caregivers", "definition": "Unpaid family, kinship, or informal caregivers supporting another person, including relatives raising children."},
     {"id": "youth-young-adults", "label": "Youth", "definition": "Adolescents and transition-age young adults in a dedicated program."},
     {"id": "women", "label": "Women", "definition": "Programs expressly designed for or limited to women."},
     {"id": "men", "label": "Men", "definition": "Programs expressly designed for or limited to men."},
@@ -86,7 +85,6 @@ _LEGACY_CATEGORY_GROUPS = {
 
 
 _NEED_CATEGORY_GROUPS = {
-    "caregiving": "caregivers",
     "domestic-violence": "domestic-violence-survivors",
     "homeless-services": "experiencing-homelessness",
     "immigration": "immigrants",
@@ -101,9 +99,8 @@ _PATTERNS: dict[str, dict[str, tuple[str, ...]]] = {
     "veterans": {"target": (r"\bveterans?\b", r"\bservice members?\b", r"\bmilitary families\b")},
     "exiting-corrections": {"target": (r"\breentry\b", r"\bre-entry\b", r"\breturning from incarceration\b", r"\bpost-release\b", r"\bpre-release\b", r"\bjustice-involved\b", r"\bformerly incarcerated\b")},
     "pregnant-postpartum": {"target": (r"\bpregnan(?:t|cy)\b", r"\bpostpartum\b", r"\bprenatal\b", r"\bmaternity\b", r"\bmaternal\b")},
-    "families-with-children": {"target": (r"\bfamilies with (?:minor )?children\b", r"\bparents? and children\b", r"\bparenting families\b", r"\bchildren and families\b")},
+    "families-with-children": {"target": (r"\bfamilies with (?:minor )?children\b", r"\bparents? and children\b", r"\bparenting families\b", r"\bchildren and families\b", r"\b(?:foster|kinship) (?:families|caregivers)\b")},
     "people-with-disabilities": {"target": (r"\bpeople with disabilities\b", r"\badults? with disabilities\b", r"\bdevelopmental disabilities\b", r"\bintellectual disabilities\b", r"\bdisability-specific\b", r"\bdeafblind\b", r"\bdeaf(?:,| and|/) hard of hearing\b", r"\bhard-of-hearing\b", r"\bdeaf survivors?\b", r"\bblind/low-vision\b", r"\bblind and visually impaired\b", r"\bblind or low vision\b", r"\blow-vision\b", r"\bvision loss\b")},
-    "caregivers": {"target": (r"\bfamily caregivers?\b", r"\bunpaid caregivers?\b", r"\bcaregiver support\b", r"\bcare partners?\b", r"\bkinship care(?:givers?)?\b", r"\bgrandparents raising grandchildren\b", r"\bgrandfamilies\b", r"\brelatives raising children\b")},
     "youth-young-adults": {"target": (r"\byouth(?:s)?\b", r"\byoung adults?\b", r"\bteens?\b", r"\badolescents?\b", r"\bages? 1[2-9][–-](?:2[0-5]|19)\b")},
     "women": {"target": (r"\bwomen-only\b", r"\bfor women\b", r"\bwomen's (?:center|program|services|housing|shelter|recovery)\b")},
     "men": {"target": (r"\bmen-only\b", r"\bfor men\b", r"\bmen's (?:center|program|services|housing|shelter|recovery)\b")},
@@ -526,7 +523,7 @@ def infer_group_proposal(packet_record: dict[str, Any]) -> dict[str, Any]:
         "studyId": int(packet_record["studyId"]),
         "packetSha256": packet_record["packetSha256"],
         "inferenceEngine": {
-            "version": "for-groups-v1.11",
+            "version": "for-groups-v1.12",
             "catalogSha256": _sha256(catalog_items),
             "rulesSha256": _sha256(GROUP_REVIEW_RULES),
             "patternsSha256": _sha256(_PATTERNS),

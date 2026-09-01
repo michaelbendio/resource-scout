@@ -9,7 +9,7 @@ from .scout_curation import completed_scout_curation_resources
 from .storage import ResearchStore
 
 
-TAXONOMY_STUDY_VERSION = "needs-types-for-v1"
+TAXONOMY_STUDY_VERSION = "needs-types-for-v2"
 
 APPROVED_MESA_CATEGORY_DIRECTIONS = {
     "seniors": {

@@ -359,7 +359,7 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertEqual(18, proposal["coverage"]["targetCategoryCounts"][
             "independent-living"
         ])
-        self.assertEqual(10, proposal["coverage"]["targetCategoryCounts"][
+        self.assertEqual(11, proposal["coverage"]["targetCategoryCounts"][
             "caregiving"
         ])
 
@@ -623,11 +623,51 @@ class TaxonomyStudyTests(unittest.TestCase):
     def test_group_catalog_matches_michaels_reviewed_vocabulary(self) -> None:
         self.assertEqual({
             "Seniors", "Veterans", "Re-entry", "Pregnant/postpartum",
-            "Families", "Disabled", "Caregivers", "Youth", "Women", "Men",
+            "Families", "Disabled", "Youth", "Women", "Men",
             "LGBTQ+", "Spanish", "Immigrants", "Native American", "Homeless",
             "Domestic violence survivors", "Low-income households",
             "Uninsured/underinsured", "Pet owners", "Medically vulnerable",
         }, {item["label"] for item in GROUP_CATALOG})
+
+    def test_caregiving_is_a_need_category_not_a_for_group(self) -> None:
+        self.assertNotIn("Caregivers", {item["label"] for item in GROUP_CATALOG})
+        self.assertIn(
+            "caregiving",
+            RESOURCE_TARGETS["eb94f24384f8e51a2b237d7d8c507948"],
+        )
+        self.assertEqual(
+            ["Respite", "Care Coordination"],
+            CATEGORY_TYPE_DESIGNS["caregiving"]["assignments"][
+                "eb94f24384f8e51a2b237d7d8c507948"
+            ],
+        )
+
+        packet = {
+            "studyId": 1,
+            "packetSha256": "d" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [{
+                    "corpusKey": "automesa-curated:foster",
+                    "resourceId": "foster",
+                    "name": "Foster essentials",
+                    "priorCategoryIds": ["clothing-household"],
+                    "proposedCategoryIds": ["clothing-household"],
+                    "priorForGroups": [],
+                    "resource": {
+                        "name": "Foster essentials",
+                        "description": "Supplies for foster and kinship caregivers.",
+                        "informationText": "",
+                    },
+                }],
+            },
+        }
+        labels = {
+            item["label"]
+            for item in infer_group_proposal(packet)["assignments"][0]["groups"]
+        }
+        self.assertEqual({"Families"}, labels)
 
     def test_need_category_supplies_population_evidence(self) -> None:
         packet = {

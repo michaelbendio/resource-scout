@@ -903,6 +903,9 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
                 "Respite", "Adult Day", "In-home Support", "Care Coordination",
             ],
             "b21220ad00416ac580741d14ba3a1e7d": ["Respite"],
+            "eb94f24384f8e51a2b237d7d8c507948": [
+                "Respite", "Care Coordination",
+            ],
             "b47b61d084512681adb9c7ccacf2268c": ["Respite", "Support Groups"],
             "38629d0e712141f7531b4cff4b0bfd53": [
                 "Respite", "Support Groups", "Care Coordination",
