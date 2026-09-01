@@ -63,7 +63,7 @@ GROUP_CATALOG: list[dict[str, Any]] = [
     {"id": "domestic-violence-survivors", "label": "Domestic violence survivors", "definition": "People experiencing or surviving domestic, dating, or partner abuse."},
     {"id": "low-income", "label": "Low-income households", "definition": "People whose income or poverty level is an explicit eligibility or service focus."},
     {"id": "uninsured-underinsured", "label": "Uninsured/underinsured", "definition": "People without adequate health coverage who have a documented access pathway."},
-    {"id": "people-with-pets", "label": "People with pets", "definition": "People whose pets are expressly welcomed, sheltered, or accommodated."},
+    {"id": "people-with-pets", "label": "Pet owners", "definition": "People whose pets are expressly welcomed, sheltered, or accommodated."},
     {"id": "medically-vulnerable", "label": "Medically vulnerable", "definition": "People whose serious health condition creates a documented specialized access need."},
 ]
 
@@ -527,7 +527,7 @@ def infer_group_proposal(packet_record: dict[str, Any]) -> dict[str, Any]:
         "studyId": int(packet_record["studyId"]),
         "packetSha256": packet_record["packetSha256"],
         "inferenceEngine": {
-            "version": "for-groups-v1.7",
+            "version": "for-groups-v1.8",
             "catalogSha256": _sha256(catalog_items),
             "rulesSha256": _sha256(GROUP_REVIEW_RULES),
             "patternsSha256": _sha256(_PATTERNS),

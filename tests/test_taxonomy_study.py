@@ -627,7 +627,7 @@ class TaxonomyStudyTests(unittest.TestCase):
             "LGBTQ+", "Spanish", "Hearing impaired", "Vision impaired",
             "Immigrants", "Native American", "Homeless",
             "Domestic violence survivors", "Low-income households",
-            "Uninsured/underinsured", "People with pets", "Medically vulnerable",
+            "Uninsured/underinsured", "Pet owners", "Medically vulnerable",
         }, {item["label"] for item in GROUP_CATALOG})
 
     def test_need_category_supplies_population_evidence(self) -> None:
