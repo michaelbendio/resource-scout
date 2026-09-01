@@ -25,6 +25,11 @@ from .taxonomy_study import (
     record_mesa_category_directions,
     taxonomy_study_summary,
 )
+from .taxonomy_types import (
+    approve_categories_and_prepare_type_review,
+    taxonomy_types_status,
+)
+from .taxonomy_type_design import save_new_category_type_designs
 
 
 def parser() -> argparse.ArgumentParser:
@@ -92,6 +97,33 @@ def parser() -> argparse.ArgumentParser:
         help="Show the latest resource-level need-Category proposal",
     )
     taxonomy_category_proposal.add_argument("study_id", type=int)
+    taxonomy_approve_categories = subcommands.add_parser(
+        "taxonomy-approve-mesa-categories",
+        help="Approve the Mesa need Categories and prepare Type review packets",
+    )
+    taxonomy_approve_categories.add_argument("study_id", type=int)
+    taxonomy_type_packet = subcommands.add_parser(
+        "taxonomy-type-packet",
+        help="Show one exact category-by-category Type review packet",
+    )
+    taxonomy_type_packet.add_argument("study_id", type=int)
+    taxonomy_type_packet.add_argument("category_id")
+    taxonomy_design_new_types = subcommands.add_parser(
+        "taxonomy-design-new-category-types",
+        help="Design Types for Parenting, Independent Living, and Caregiving",
+    )
+    taxonomy_design_new_types.add_argument("study_id", type=int)
+    taxonomy_type_design = subcommands.add_parser(
+        "taxonomy-type-design",
+        help="Show the latest Type design for one Category",
+    )
+    taxonomy_type_design.add_argument("study_id", type=int)
+    taxonomy_type_design.add_argument("category_id")
+    taxonomy_types_status_command = subcommands.add_parser(
+        "taxonomy-types-status",
+        help="Show category-by-category Types design progress",
+    )
+    taxonomy_types_status_command.add_argument("study_id", type=int)
     return result
 
 
@@ -191,6 +223,34 @@ def main(argv: list[str] | None = None) -> int:
         if not proposals:
             raise ValueError("The taxonomy study has no Category proposal")
         print(json.dumps(proposals[-1], ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-approve-mesa-categories":
+        value = approve_categories_and_prepare_type_review(store, args.study_id)
+        print(json.dumps(value, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-type-packet":
+        packets = store.list_taxonomy_type_review_packets(
+            args.study_id, args.category_id
+        )
+        if not packets:
+            raise ValueError("Type review packet not found")
+        print(json.dumps(packets[0], ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-design-new-category-types":
+        value = save_new_category_type_designs(store, args.study_id)
+        print(json.dumps(value, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-type-design":
+        values = store.list_taxonomy_type_design_revisions(
+            args.study_id, args.category_id
+        )
+        if not values:
+            raise ValueError("Type design not found")
+        print(json.dumps(values[-1], ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-types-status":
+        value = taxonomy_types_status(store, args.study_id)
+        print(json.dumps(value, ensure_ascii=False, indent=2))
         return 0
     return 2
 

@@ -488,6 +488,43 @@ CREATE TABLE IF NOT EXISTS taxonomy_category_redistribution_proposals (
     PRIMARY KEY (study_id, revision),
     UNIQUE (study_id, proposal_sha256)
 );
+CREATE TABLE IF NOT EXISTS taxonomy_category_approvals (
+    study_id INTEGER PRIMARY KEY REFERENCES taxonomy_studies(id) ON DELETE CASCADE,
+    approved_at TEXT NOT NULL,
+    proposal_sha256 TEXT NOT NULL CHECK (length(proposal_sha256) = 64),
+    rules_json TEXT NOT NULL,
+    rules_sha256 TEXT NOT NULL CHECK (length(rules_sha256) = 64),
+    source TEXT NOT NULL,
+    note TEXT NOT NULL DEFAULT ''
+);
+CREATE TABLE IF NOT EXISTS taxonomy_type_review_packets (
+    study_id INTEGER NOT NULL REFERENCES taxonomy_studies(id) ON DELETE CASCADE,
+    category_id TEXT NOT NULL,
+    category_label TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (status IN ('pending', 'designed', 'reviewed')),
+    based_on_proposal_sha256 TEXT NOT NULL CHECK (
+        length(based_on_proposal_sha256) = 64
+    ),
+    packet_json TEXT NOT NULL,
+    packet_sha256 TEXT NOT NULL CHECK (length(packet_sha256) = 64),
+    PRIMARY KEY (study_id, category_id)
+);
+CREATE TABLE IF NOT EXISTS taxonomy_type_design_revisions (
+    study_id INTEGER NOT NULL REFERENCES taxonomy_studies(id) ON DELETE CASCADE,
+    category_id TEXT NOT NULL,
+    revision INTEGER NOT NULL CHECK (revision >= 1),
+    created_at TEXT NOT NULL,
+    based_on_packet_sha256 TEXT NOT NULL CHECK (
+        length(based_on_packet_sha256) = 64
+    ),
+    design_json TEXT NOT NULL,
+    design_sha256 TEXT NOT NULL CHECK (length(design_sha256) = 64),
+    source TEXT NOT NULL,
+    note TEXT NOT NULL DEFAULT '',
+    PRIMARY KEY (study_id, category_id, revision),
+    UNIQUE (study_id, category_id, design_sha256)
+);
 CREATE TABLE IF NOT EXISTS scout_workflow_progress_events (
     id INTEGER PRIMARY KEY,
     import_id INTEGER NOT NULL REFERENCES imports(id) ON DELETE CASCADE,
@@ -3915,6 +3952,260 @@ class ResearchStore:
             for row in rows
         ]
 
+    def approve_taxonomy_category_proposal(
+        self,
+        study_id: int,
+        proposal_sha256: str,
+        rules: dict[str, Any],
+        rules_sha256: str,
+        *,
+        source: str,
+        note: str = "",
+    ) -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            study = connection.execute(
+                "SELECT status FROM taxonomy_studies WHERE id = ?",
+                (int(study_id),),
+            ).fetchone()
+            if not study:
+                raise ValueError("Taxonomy study not found")
+            proposal = connection.execute(
+                """SELECT proposal_sha256
+                   FROM taxonomy_category_redistribution_proposals
+                   WHERE study_id = ? ORDER BY revision DESC LIMIT 1""",
+                (int(study_id),),
+            ).fetchone()
+            if not proposal or str(proposal["proposal_sha256"]) != str(
+                proposal_sha256
+            ):
+                raise ValueError("Approve the latest Category proposal")
+            existing = connection.execute(
+                """SELECT proposal_sha256, rules_sha256
+                   FROM taxonomy_category_approvals WHERE study_id = ?""",
+                (int(study_id),),
+            ).fetchone()
+            if existing:
+                if (
+                    str(existing["proposal_sha256"]) == str(proposal_sha256)
+                    and str(existing["rules_sha256"]) == str(rules_sha256)
+                ):
+                    return
+                raise ValueError("The Category proposal already has another approval")
+            connection.execute(
+                """INSERT INTO taxonomy_category_approvals (
+                       study_id, approved_at, proposal_sha256, rules_json,
+                       rules_sha256, source, note
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    int(study_id),
+                    now,
+                    str(proposal_sha256),
+                    _json(rules),
+                    str(rules_sha256),
+                    str(source),
+                    str(note),
+                ),
+            )
+            connection.execute(
+                """UPDATE taxonomy_studies SET status = 'types-review',
+                       updated_at = ? WHERE id = ?""",
+                (now, int(study_id)),
+            )
+
+    def get_taxonomy_category_approval(
+        self, study_id: int
+    ) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM taxonomy_category_approvals WHERE study_id = ?",
+                (int(study_id),),
+            ).fetchone()
+        if not row:
+            return None
+        return {
+            "studyId": int(row["study_id"]),
+            "approvedAt": row["approved_at"],
+            "proposalSha256": str(row["proposal_sha256"]),
+            "rules": json.loads(row["rules_json"]),
+            "rulesSha256": str(row["rules_sha256"]),
+            "source": str(row["source"]),
+            "note": str(row["note"]),
+        }
+
+    def create_taxonomy_type_review_packets(
+        self,
+        study_id: int,
+        packets: list[dict[str, Any]],
+        *,
+        based_on_proposal_sha256: str,
+    ) -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            approval = connection.execute(
+                """SELECT proposal_sha256 FROM taxonomy_category_approvals
+                   WHERE study_id = ?""",
+                (int(study_id),),
+            ).fetchone()
+            if not approval or str(approval["proposal_sha256"]) != str(
+                based_on_proposal_sha256
+            ):
+                raise ValueError("Approve this Category proposal before Types review")
+            for packet in packets:
+                existing = connection.execute(
+                    """SELECT packet_sha256 FROM taxonomy_type_review_packets
+                       WHERE study_id = ? AND category_id = ?""",
+                    (int(study_id), str(packet["categoryId"])),
+                ).fetchone()
+                if existing:
+                    if str(existing["packet_sha256"]) == str(packet["packetSha256"]):
+                        continue
+                    raise ValueError(
+                        f"Type packet changed for {packet['categoryId']}; create a new study"
+                    )
+                connection.execute(
+                    """INSERT INTO taxonomy_type_review_packets (
+                           study_id, category_id, category_label, created_at,
+                           status, based_on_proposal_sha256, packet_json,
+                           packet_sha256
+                       ) VALUES (?, ?, ?, ?, 'pending', ?, ?, ?)""",
+                    (
+                        int(study_id),
+                        str(packet["categoryId"]),
+                        str(packet["categoryLabel"]),
+                        now,
+                        str(based_on_proposal_sha256),
+                        _json(packet["packet"]),
+                        str(packet["packetSha256"]),
+                    ),
+                )
+
+    def list_taxonomy_type_review_packets(
+        self,
+        study_id: int,
+        category_id: str | None = None,
+    ) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            if category_id is None:
+                rows = connection.execute(
+                    """SELECT * FROM taxonomy_type_review_packets
+                       WHERE study_id = ? ORDER BY category_label, category_id""",
+                    (int(study_id),),
+                ).fetchall()
+            else:
+                rows = connection.execute(
+                    """SELECT * FROM taxonomy_type_review_packets
+                       WHERE study_id = ? AND category_id = ?""",
+                    (int(study_id), str(category_id)),
+                ).fetchall()
+        return [
+            {
+                "studyId": int(row["study_id"]),
+                "categoryId": str(row["category_id"]),
+                "categoryLabel": str(row["category_label"]),
+                "createdAt": row["created_at"],
+                "status": str(row["status"]),
+                "basedOnProposalSha256": str(row["based_on_proposal_sha256"]),
+                "packet": json.loads(row["packet_json"]),
+                "packetSha256": str(row["packet_sha256"]),
+            }
+            for row in rows
+        ]
+
+    def save_taxonomy_type_design_revision(
+        self,
+        study_id: int,
+        category_id: str,
+        design: dict[str, Any],
+        design_sha256: str,
+        *,
+        based_on_packet_sha256: str,
+        source: str,
+        note: str = "",
+    ) -> int:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            packet = connection.execute(
+                """SELECT packet_sha256 FROM taxonomy_type_review_packets
+                   WHERE study_id = ? AND category_id = ?""",
+                (int(study_id), str(category_id)),
+            ).fetchone()
+            if not packet or str(packet["packet_sha256"]) != str(
+                based_on_packet_sha256
+            ):
+                raise ValueError("The Type review packet changed; rebuild the design")
+            existing = connection.execute(
+                """SELECT revision FROM taxonomy_type_design_revisions
+                   WHERE study_id = ? AND category_id = ? AND design_sha256 = ?""",
+                (int(study_id), str(category_id), str(design_sha256)),
+            ).fetchone()
+            if existing:
+                return int(existing["revision"])
+            row = connection.execute(
+                """SELECT COALESCE(MAX(revision), 0) AS revision
+                   FROM taxonomy_type_design_revisions
+                   WHERE study_id = ? AND category_id = ?""",
+                (int(study_id), str(category_id)),
+            ).fetchone()
+            revision = int(row["revision"]) + 1
+            connection.execute(
+                """INSERT INTO taxonomy_type_design_revisions (
+                       study_id, category_id, revision, created_at,
+                       based_on_packet_sha256, design_json, design_sha256,
+                       source, note
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    int(study_id),
+                    str(category_id),
+                    revision,
+                    now,
+                    str(based_on_packet_sha256),
+                    _json(design),
+                    str(design_sha256),
+                    str(source),
+                    str(note),
+                ),
+            )
+            connection.execute(
+                """UPDATE taxonomy_type_review_packets SET status = 'designed'
+                   WHERE study_id = ? AND category_id = ?""",
+                (int(study_id), str(category_id)),
+            )
+        return revision
+
+    def list_taxonomy_type_design_revisions(
+        self,
+        study_id: int,
+        category_id: str | None = None,
+    ) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            if category_id is None:
+                rows = connection.execute(
+                    """SELECT * FROM taxonomy_type_design_revisions
+                       WHERE study_id = ? ORDER BY category_id, revision""",
+                    (int(study_id),),
+                ).fetchall()
+            else:
+                rows = connection.execute(
+                    """SELECT * FROM taxonomy_type_design_revisions
+                       WHERE study_id = ? AND category_id = ? ORDER BY revision""",
+                    (int(study_id), str(category_id)),
+                ).fetchall()
+        return [
+            {
+                "studyId": int(row["study_id"]),
+                "categoryId": str(row["category_id"]),
+                "revision": int(row["revision"]),
+                "createdAt": row["created_at"],
+                "basedOnPacketSha256": str(row["based_on_packet_sha256"]),
+                "design": json.loads(row["design_json"]),
+                "designSha256": str(row["design_sha256"]),
+                "source": str(row["source"]),
+                "note": str(row["note"]),
+            }
+            for row in rows
+        ]
+
     def get_taxonomy_study(self, study_id: int) -> dict[str, Any] | None:
         with self.connect() as connection:
             row = connection.execute(
@@ -3926,6 +4217,7 @@ class ResearchStore:
         proposals = self.list_taxonomy_category_redistribution_proposals(
             int(row["id"])
         )
+        category_approval = self.get_taxonomy_category_approval(int(row["id"]))
         return {
             "id": int(row["id"]),
             "importId": int(row["import_id"]),
@@ -3947,6 +4239,7 @@ class ResearchStore:
             ),
             "categoryReviewRevisions": revisions,
             "categoryRedistributionProposals": proposals,
+            "categoryApproval": category_approval,
             "approvedAt": row["approved_at"],
             "compiledAt": row["compiled_at"],
         }

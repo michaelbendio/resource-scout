@@ -23,6 +23,15 @@ from resource_research_agent.taxonomy_study import (
     record_mesa_category_directions,
     taxonomy_study_summary,
 )
+from resource_research_agent.taxonomy_types import (
+    APPROVED_CATEGORY_RULES,
+    TYPE_REVIEW_RULES,
+    build_type_review_packets,
+)
+from resource_research_agent.taxonomy_type_design import (
+    NEW_CATEGORY_TYPE_DESIGNS,
+    build_type_design,
+)
 
 
 def digest(value: object) -> str:
@@ -345,6 +354,75 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertEqual(10, proposal["coverage"]["targetCategoryCounts"][
             "caregiving"
         ])
+
+    def test_type_packets_require_the_approved_category_rules(self) -> None:
+        study = {
+            "id": 1,
+            "corpusSha256": MESA_TAXONOMY_CORPUS_SHA256,
+            "corpus": {"categories": [], "resources": []},
+            "categoryRedistributionProposals": [{
+                "proposalSha256": "5" * 64,
+                "proposal": {
+                    "proposedNeedCategories": [],
+                    "assignments": [],
+                },
+            }],
+            "categoryApproval": None,
+        }
+        with self.assertRaisesRegex(TaxonomyStudyError, "Approve the Category"):
+            build_type_review_packets(study)
+        study["categoryApproval"] = {
+            "proposalSha256": "5" * 64,
+            "rules": {"different": "rules"},
+        }
+        with self.assertRaisesRegex(TaxonomyStudyError, "rules do not match"):
+            build_type_review_packets(study)
+
+    def test_type_review_rules_allow_legitimate_no_type_disposition(self) -> None:
+        self.assertIn("no-type-needed", TYPE_REVIEW_RULES["dispositions"])
+        self.assertIn("Never invent", TYPE_REVIEW_RULES["optional"])
+        self.assertIn(
+            "named, accountable navigation pathway",
+            APPROVED_CATEGORY_RULES["categoryEvidence"],
+        )
+
+    def test_new_category_type_designs_have_compact_unique_labels(self) -> None:
+        for category_id, specification in NEW_CATEGORY_TYPE_DESIGNS.items():
+            labels = [item["label"] for item in specification["types"]]
+            with self.subTest(category_id=category_id):
+                self.assertEqual(len(labels), len(set(labels)))
+                self.assertTrue(all(len(label) <= 24 for label in labels))
+                self.assertEqual(
+                    set(specification["assignments"]),
+                    {
+                        resource_id
+                        for resource_id, targets in RESOURCE_TARGETS.items()
+                        if category_id in targets
+                    },
+                )
+
+    def test_type_design_requires_coverage_but_allows_no_type_needed(self) -> None:
+        packet = {
+            "studyId": 1,
+            "categoryId": "caregiving",
+            "categoryLabel": "Caregiving",
+            "packetSha256": "6" * 64,
+            "packet": {
+                "typeReviewRules": {"definition": "A Type explains how."},
+                "resources": [{"resourceId": "one", "name": "One"}],
+            },
+        }
+        specification = {
+            "types": [{"label": "Respite", "definition": "Relief."}],
+            "assignments": {},
+            "boundary": "Test boundary.",
+        }
+        with self.assertRaisesRegex(TaxonomyStudyError, "coverage mismatch"):
+            build_type_design(packet, specification)
+        specification["assignments"] = {"one": "no-type-needed"}
+        design = build_type_design(packet, specification)
+        self.assertEqual(1, design["coverage"]["noTypeNeededCount"])
+        self.assertEqual("no-type-needed", design["assignments"][0]["disposition"])
 
 
 if __name__ == "__main__":
