@@ -324,6 +324,20 @@ class ScoutCurationTests(unittest.TestCase):
         self.assertEqual(completed_at + timedelta(minutes=14), schedule.scheduled_at)
         self.assertIn("wait 14 minutes", schedule.message)
         self.assertIn("lighter throttling", schedule.message)
+        recent_send = schedule_chatgpt_assignment(
+            completed_at,
+            FixedRandom(8),
+            previous_sent_at=completed_at - timedelta(minutes=4),
+        )
+        self.assertEqual(4, recent_send.delay_minutes)
+        self.assertEqual(completed_at + timedelta(minutes=4), recent_send.scheduled_at)
+        elapsed_send = schedule_chatgpt_assignment(
+            completed_at,
+            FixedRandom(10),
+            previous_sent_at=completed_at - timedelta(minutes=18),
+        )
+        self.assertEqual(0, elapsed_send.delay_minutes)
+        self.assertEqual(completed_at, elapsed_send.scheduled_at)
         reset_at = completed_at + timedelta(minutes=37, seconds=30)
         reset_schedule = schedule_chatgpt_assignment(
             completed_at,

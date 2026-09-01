@@ -188,10 +188,19 @@ def prepare_codex_first_challenges(
             if latest and latest["assignment"] == assignment_text:
                 stored_schedule = latest
             else:
+                previous_sent_at = (
+                    datetime.fromisoformat(str(latest["sentAt"]))
+                    if latest and latest.get("sentAt")
+                    else None
+                )
                 schedule = schedule_chatgpt_assignment(
                     current,
                     random_source,
-                    reason="Random 5-10 minute research interval.",
+                    reason=(
+                        "Random 5-10 minute research interval measured from "
+                        "the previous ChatGPT send."
+                    ),
+                    previous_sent_at=previous_sent_at,
                 )
                 stored_schedule = store.create_chatgpt_assignment_schedule(
                     int(job["importId"]), str(job["categoryId"]),

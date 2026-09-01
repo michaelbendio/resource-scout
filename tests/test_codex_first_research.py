@@ -123,12 +123,26 @@ class CodexFirstResearchTests(unittest.TestCase):
         }
         plan = prepare_codex_first_plan(self.store, self.import_id, roster=roster)
         job_id = plan["categories"][0]["jobId"]
+        prepared_at = datetime(2026, 8, 31, 18, 0, tzinfo=timezone.utc)
+        previous_sent_at = prepared_at - timedelta(minutes=18)
+        previous_schedule = self.store.create_chatgpt_assignment_schedule(
+            self.import_id,
+            "previous-category",
+            "Previous Category",
+            "Previous ChatGPT assignment",
+            0,
+            previous_sent_at,
+            now=previous_sent_at,
+        )
+        self.store.mark_chatgpt_assignment_sent(
+            previous_schedule["id"], sent_at=previous_sent_at
+        )
         index = 0
         while True:
             assignment = next_codex_first_assignment(
                 self.store, self.import_id, "Codex",
                 random_source=FixedRandom(7),
-                now=datetime(2026, 8, 31, 18, 0, tzinfo=timezone.utc),
+                now=prepared_at,
             )
             if assignment is None:
                 break
@@ -146,8 +160,13 @@ class CodexFirstResearchTests(unittest.TestCase):
         self.assertNotIn("Perplexity", {item["researcher"] for item in assignments})
         chatgpt = next(item for item in assignments if item["researcher"] == "ChatGPT")
         schedule = self.store.get_chatgpt_assignment_schedule(chatgpt["chatgptScheduleId"])
-        self.assertEqual(7, schedule["delayMinutes"])
-        self.assertEqual("Random 5-10 minute research interval.", schedule["reason"])
+        self.assertEqual(0, schedule["delayMinutes"])
+        self.assertEqual(prepared_at.isoformat(), schedule["scheduledAt"])
+        self.assertEqual("due", schedule["status"])
+        self.assertEqual(
+            "Random 5-10 minute research interval measured from the previous ChatGPT send.",
+            schedule["reason"],
+        )
         self.assertIsNone(next_codex_first_assignment(
             ResearchStore(self.store.path), self.import_id, "Codex",
             random_source=FixedRandom(9),

@@ -592,6 +592,7 @@ def schedule_chatgpt_assignment(
     adjustment_minutes: int = 0,
     reason: str = "",
     explicit_reset_at: datetime | None = None,
+    previous_sent_at: datetime | None = None,
 ) -> ChatGPTSchedule:
     if explicit_reset_at and explicit_reset_at > completed_at:
         import math
@@ -604,12 +605,24 @@ def schedule_chatgpt_assignment(
         )
     baseline = int(random_source.randint(5, 10))
     adjustment = max(0, int(adjustment_minutes))
-    delay = baseline + adjustment
+    spacing = baseline + adjustment
     from datetime import timedelta
+
+    spacing_anchor = previous_sent_at or completed_at
+    scheduled_at = max(
+        completed_at,
+        spacing_anchor + timedelta(minutes=spacing),
+    )
+    import math
+
+    delay = max(
+        0,
+        math.ceil((scheduled_at - completed_at).total_seconds() / 60),
+    )
 
     return ChatGPTSchedule(
         delay_minutes=delay,
-        scheduled_at=completed_at + timedelta(minutes=delay),
+        scheduled_at=scheduled_at,
         reason=_text(reason),
     )
 
