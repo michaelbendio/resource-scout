@@ -750,6 +750,19 @@ class TaxonomyStudyTests(unittest.TestCase):
                             "informationText": "",
                         },
                     },
+                    {
+                        "corpusKey": "automesa-curated:f76b64043d73b489d7067d9f9d856b42",
+                        "resourceId": "de-colores",
+                        "name": "De Colores",
+                        "priorCategoryIds": ["domestic-violence"],
+                        "proposedCategoryIds": ["domestic-violence"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "De Colores",
+                            "description": "Domestic-violence services expressly serving LGBTQ+ survivors.",
+                            "informationText": "",
+                        },
+                    },
                 ],
             },
         }
@@ -778,6 +791,10 @@ class TaxonomyStudyTests(unittest.TestCase):
         )
         srp_groups = {item["label"]: item for item in assignments[3]["groups"]}
         self.assertEqual("accommodate", srp_groups["Medically vulnerable"]["mode"])
+        de_colores_groups = {
+            item["label"]: item for item in assignments[4]["groups"]
+        }
+        self.assertEqual("accommodate", de_colores_groups["LGBTQ+"]["mode"])
 
     def test_type_and_group_filtering_ors_within_and_ands_across(self) -> None:
         selected_types = {"Online Education", "GED/HSE"}
