@@ -458,6 +458,20 @@ class TaxonomyStudyTests(unittest.TestCase):
                 )
 
     def test_need_type_designs_preserve_method_boundaries(self) -> None:
+        food = CATEGORY_TYPE_DESIGNS["food"]
+        self.assertIn(
+            "Gov't Benefits",
+            food["assignments"]["cd0fd35209b8684c1b85d3a08afb1f4d"],
+        )
+        self.assertEqual(
+            ["Infant Formula"],
+            food["assignments"]["a6043035dfbf51e34bad108416bca340"],
+        )
+        self.assertNotIn(
+            "Food Benefits",
+            {item["label"] for item in food["types"]},
+        )
+
         housing = CATEGORY_TYPE_DESIGNS["housing"]
         housing_labels = {item["label"] for item in housing["types"]}
         self.assertIn("Emergency Shelter", housing_labels)
