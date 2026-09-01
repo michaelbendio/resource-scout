@@ -525,6 +525,30 @@ CREATE TABLE IF NOT EXISTS taxonomy_type_design_revisions (
     PRIMARY KEY (study_id, category_id, revision),
     UNIQUE (study_id, category_id, design_sha256)
 );
+CREATE TABLE IF NOT EXISTS taxonomy_group_review_packets (
+    study_id INTEGER PRIMARY KEY REFERENCES taxonomy_studies(id) ON DELETE CASCADE,
+    created_at TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (status IN ('pending', 'inferred', 'reviewed')),
+    based_on_corpus_sha256 TEXT NOT NULL CHECK (
+        length(based_on_corpus_sha256) = 64
+    ),
+    packet_json TEXT NOT NULL,
+    packet_sha256 TEXT NOT NULL CHECK (length(packet_sha256) = 64)
+);
+CREATE TABLE IF NOT EXISTS taxonomy_group_inference_revisions (
+    study_id INTEGER NOT NULL REFERENCES taxonomy_studies(id) ON DELETE CASCADE,
+    revision INTEGER NOT NULL CHECK (revision >= 1),
+    created_at TEXT NOT NULL,
+    based_on_packet_sha256 TEXT NOT NULL CHECK (
+        length(based_on_packet_sha256) = 64
+    ),
+    proposal_json TEXT NOT NULL,
+    proposal_sha256 TEXT NOT NULL CHECK (length(proposal_sha256) = 64),
+    source TEXT NOT NULL,
+    note TEXT NOT NULL DEFAULT '',
+    PRIMARY KEY (study_id, revision),
+    UNIQUE (study_id, proposal_sha256)
+);
 CREATE TABLE IF NOT EXISTS scout_workflow_progress_events (
     id INTEGER PRIMARY KEY,
     import_id INTEGER NOT NULL REFERENCES imports(id) ON DELETE CASCADE,
@@ -4200,6 +4224,156 @@ class ResearchStore:
                 "basedOnPacketSha256": str(row["based_on_packet_sha256"]),
                 "design": json.loads(row["design_json"]),
                 "designSha256": str(row["design_sha256"]),
+                "source": str(row["source"]),
+                "note": str(row["note"]),
+            }
+            for row in rows
+        ]
+
+    def save_taxonomy_group_review_packet(
+        self,
+        study_id: int,
+        packet: dict[str, Any],
+        packet_sha256: str,
+        *,
+        based_on_corpus_sha256: str,
+    ) -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            study = connection.execute(
+                "SELECT corpus_sha256 FROM taxonomy_studies WHERE id = ?",
+                (int(study_id),),
+            ).fetchone()
+            if not study or str(study["corpus_sha256"]) != str(
+                based_on_corpus_sha256
+            ):
+                raise ValueError("The taxonomy corpus changed; rebuild the group packet")
+            existing = connection.execute(
+                """SELECT packet_sha256 FROM taxonomy_group_review_packets
+                   WHERE study_id = ?""",
+                (int(study_id),),
+            ).fetchone()
+            if existing:
+                if str(existing["packet_sha256"]) != str(packet_sha256):
+                    raise ValueError(
+                        "A different group review packet already exists for this study"
+                    )
+                return
+            connection.execute(
+                """INSERT INTO taxonomy_group_review_packets (
+                       study_id, created_at, status, based_on_corpus_sha256,
+                       packet_json, packet_sha256
+                   ) VALUES (?, ?, 'pending', ?, ?, ?)""",
+                (
+                    int(study_id),
+                    now,
+                    str(based_on_corpus_sha256),
+                    _json(packet),
+                    str(packet_sha256),
+                ),
+            )
+            connection.execute(
+                """UPDATE taxonomy_studies
+                   SET status = 'groups-review', updated_at = ? WHERE id = ?""",
+                (now, int(study_id)),
+            )
+
+    def get_taxonomy_group_review_packet(
+        self,
+        study_id: int,
+    ) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT * FROM taxonomy_group_review_packets
+                   WHERE study_id = ?""",
+                (int(study_id),),
+            ).fetchone()
+        if not row:
+            return None
+        return {
+            "studyId": int(row["study_id"]),
+            "createdAt": row["created_at"],
+            "status": str(row["status"]),
+            "basedOnCorpusSha256": str(row["based_on_corpus_sha256"]),
+            "packet": json.loads(row["packet_json"]),
+            "packetSha256": str(row["packet_sha256"]),
+        }
+
+    def save_taxonomy_group_inference_revision(
+        self,
+        study_id: int,
+        proposal: dict[str, Any],
+        proposal_sha256: str,
+        *,
+        based_on_packet_sha256: str,
+        source: str,
+        note: str = "",
+    ) -> int:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            packet = connection.execute(
+                """SELECT packet_sha256 FROM taxonomy_group_review_packets
+                   WHERE study_id = ?""",
+                (int(study_id),),
+            ).fetchone()
+            if not packet or str(packet["packet_sha256"]) != str(
+                based_on_packet_sha256
+            ):
+                raise ValueError("The group review packet changed; rebuild the inference")
+            existing = connection.execute(
+                """SELECT revision FROM taxonomy_group_inference_revisions
+                   WHERE study_id = ? AND proposal_sha256 = ?""",
+                (int(study_id), str(proposal_sha256)),
+            ).fetchone()
+            if existing:
+                return int(existing["revision"])
+            row = connection.execute(
+                """SELECT COALESCE(MAX(revision), 0) AS revision
+                   FROM taxonomy_group_inference_revisions WHERE study_id = ?""",
+                (int(study_id),),
+            ).fetchone()
+            revision = int(row["revision"]) + 1
+            connection.execute(
+                """INSERT INTO taxonomy_group_inference_revisions (
+                       study_id, revision, created_at, based_on_packet_sha256,
+                       proposal_json, proposal_sha256, source, note
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    int(study_id),
+                    revision,
+                    now,
+                    str(based_on_packet_sha256),
+                    _json(proposal),
+                    str(proposal_sha256),
+                    str(source),
+                    str(note),
+                ),
+            )
+            connection.execute(
+                """UPDATE taxonomy_group_review_packets SET status = 'inferred'
+                   WHERE study_id = ?""",
+                (int(study_id),),
+            )
+        return revision
+
+    def list_taxonomy_group_inference_revisions(
+        self,
+        study_id: int,
+    ) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT * FROM taxonomy_group_inference_revisions
+                   WHERE study_id = ? ORDER BY revision""",
+                (int(study_id),),
+            ).fetchall()
+        return [
+            {
+                "studyId": int(row["study_id"]),
+                "revision": int(row["revision"]),
+                "createdAt": row["created_at"],
+                "basedOnPacketSha256": str(row["based_on_packet_sha256"]),
+                "proposal": json.loads(row["proposal_json"]),
+                "proposalSha256": str(row["proposal_sha256"]),
                 "source": str(row["source"]),
                 "note": str(row["note"]),
             }

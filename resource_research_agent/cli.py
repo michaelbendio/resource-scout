@@ -30,6 +30,11 @@ from .taxonomy_types import (
     taxonomy_types_status,
 )
 from .taxonomy_type_design import save_category_type_designs
+from .taxonomy_groups import (
+    build_group_review_packet,
+    save_group_inference,
+    taxonomy_groups_status,
+)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -115,7 +120,7 @@ def parser() -> argparse.ArgumentParser:
     taxonomy_design_types.add_argument("study_id", type=int)
     taxonomy_design_new_types = subcommands.add_parser(
         "taxonomy-design-new-category-types",
-        help=argparse.SUPPRESS,
+        help="Legacy alias for taxonomy-design-category-types",
     )
     taxonomy_design_new_types.add_argument("study_id", type=int)
     taxonomy_type_design = subcommands.add_parser(
@@ -129,6 +134,26 @@ def parser() -> argparse.ArgumentParser:
         help="Show category-by-category Types design progress",
     )
     taxonomy_types_status_command.add_argument("study_id", type=int)
+    taxonomy_groups_prepare = subcommands.add_parser(
+        "taxonomy-groups-prepare",
+        help="Freeze the full-corpus For-group review packet",
+    )
+    taxonomy_groups_prepare.add_argument("study_id", type=int)
+    taxonomy_groups_infer = subcommands.add_parser(
+        "taxonomy-groups-infer",
+        help="Infer target and accommodation For groups for every resource",
+    )
+    taxonomy_groups_infer.add_argument("study_id", type=int)
+    taxonomy_groups_status_command = subcommands.add_parser(
+        "taxonomy-groups-status",
+        help="Show full-corpus For-group inference progress",
+    )
+    taxonomy_groups_status_command.add_argument("study_id", type=int)
+    taxonomy_groups_proposal = subcommands.add_parser(
+        "taxonomy-groups-proposal",
+        help="Show the latest full-corpus For-group proposal for review",
+    )
+    taxonomy_groups_proposal.add_argument("study_id", type=int)
     return result
 
 
@@ -259,6 +284,24 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "taxonomy-types-status":
         value = taxonomy_types_status(store, args.study_id)
         print(json.dumps(value, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-groups-prepare":
+        value = build_group_review_packet(store, args.study_id)
+        print(json.dumps(value, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-groups-infer":
+        value = save_group_inference(store, args.study_id)
+        print(json.dumps(value, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-groups-status":
+        value = taxonomy_groups_status(store, args.study_id)
+        print(json.dumps(value, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-groups-proposal":
+        values = store.list_taxonomy_group_inference_revisions(args.study_id)
+        if not values:
+            raise ValueError("For-group proposal not found")
+        print(json.dumps(values[-1], ensure_ascii=False, indent=2))
         return 0
     return 2
 

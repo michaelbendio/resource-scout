@@ -32,6 +32,14 @@ from resource_research_agent.taxonomy_type_design import (
     CATEGORY_TYPE_DESIGNS,
     build_type_design,
 )
+from resource_research_agent.taxonomy_groups import (
+    GROUP_CATALOG,
+    GROUP_REVIEW_RULES,
+    group_browse_category_rows,
+    infer_group_proposal,
+    matches_category_filter,
+    matches_type_and_group_filters,
+)
 
 
 def digest(value: object) -> str:
@@ -534,6 +542,258 @@ class TaxonomyStudyTests(unittest.TestCase):
         design = build_type_design(packet, specification)
         self.assertEqual(1, design["coverage"]["noTypeNeededCount"])
         self.assertEqual("no-type-needed", design["assignments"][0]["disposition"])
+
+    def test_group_inference_distinguishes_target_from_accommodation(self) -> None:
+        packet = {
+            "studyId": 1,
+            "packetSha256": "7" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [
+                    {
+                        "corpusKey": "automesa-curated:spanish-class",
+                        "resourceId": "spanish-class",
+                        "name": "Community Class",
+                        "priorCategoryIds": ["education"],
+                        "proposedCategoryIds": ["education"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "Community Class",
+                            "description": "Online GED classes with Spanish-language enrollment help.",
+                            "informationText": "",
+                        },
+                    },
+                    {
+                        "corpusKey": "automesa-curated:veteran-job",
+                        "resourceId": "veteran-job",
+                        "name": "Veteran Job Program",
+                        "priorCategoryIds": ["employment"],
+                        "proposedCategoryIds": ["employment"],
+                        "priorForGroups": ["Veterans"],
+                        "resource": {
+                            "name": "Veteran Job Program",
+                            "description": "Career services for veterans.",
+                            "informationText": "",
+                        },
+                    },
+                ],
+            },
+        }
+        proposal = infer_group_proposal(packet)
+        spanish = proposal["assignments"][0]["groups"]
+        self.assertEqual(["Spanish-speaking"], [item["label"] for item in spanish])
+        self.assertEqual("accommodate", spanish[0]["mode"])
+        self.assertNotIn("Hispanic/Latino", [item["label"] for item in spanish])
+        veteran = proposal["assignments"][1]["groups"]
+        self.assertEqual("target", veteran[0]["mode"])
+
+    def test_specific_disability_group_also_includes_broad_group(self) -> None:
+        packet = {
+            "studyId": 1,
+            "packetSha256": "8" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [{
+                    "corpusKey": "connected-package:vision",
+                    "resourceId": "vision",
+                    "name": "Vision Service",
+                    "priorCategoryIds": ["medical-dental-vision"],
+                    "proposedCategoryIds": ["medical-dental-vision"],
+                    "priorForGroups": [],
+                    "resource": {
+                        "name": "Vision Service",
+                        "description": "Rehabilitation for blind or low vision adults.",
+                        "informationText": "",
+                    },
+                }],
+            },
+        }
+        labels = {
+            item["label"]
+            for item in infer_group_proposal(packet)["assignments"][0]["groups"]
+        }
+        self.assertEqual({"Blind/low vision", "People with disabilities"}, labels)
+
+    def test_need_category_supplies_population_evidence(self) -> None:
+        packet = {
+            "studyId": 1,
+            "packetSha256": "9" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [{
+                    "corpusKey": "automesa-curated:safe-shelter",
+                    "resourceId": "safe-shelter",
+                    "name": "Safe Shelter",
+                    "priorCategoryIds": [],
+                    "proposedCategoryIds": ["domestic-violence"],
+                    "priorForGroups": [],
+                    "resource": {
+                        "name": "Safe Shelter",
+                        "description": "Emergency shelter and advocacy.",
+                        "informationText": "",
+                    },
+                }],
+            },
+        }
+        assignment = infer_group_proposal(packet)["assignments"][0]
+        self.assertEqual(
+            ["Domestic violence survivors"],
+            [item["label"] for item in assignment["groups"]],
+        )
+        self.assertEqual(
+            "approved-need-category",
+            assignment["groups"][0]["evidence"][0]["source"],
+        )
+
+    def test_inherited_group_without_support_is_flagged_for_review(self) -> None:
+        packet = {
+            "studyId": 1,
+            "packetSha256": "a" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [{
+                    "corpusKey": "connected-package:generic",
+                    "resourceId": "generic",
+                    "name": "Generic Service",
+                    "priorCategoryIds": ["employment"],
+                    "proposedCategoryIds": ["employment"],
+                    "priorForGroups": ["Veterans"],
+                    "resource": {
+                        "name": "Generic Service",
+                        "description": "General employment help.",
+                        "informationText": "",
+                    },
+                }],
+            },
+        }
+        assignment = infer_group_proposal(packet)["assignments"][0]
+        self.assertEqual("review-existing-only", assignment["reviewStatus"])
+        self.assertEqual("existing-only", assignment["groups"][0]["evidenceStatus"])
+
+    def test_full_corpus_review_rejects_false_matches_and_sets_accommodations(self) -> None:
+        packet = {
+            "studyId": 1,
+            "packetSha256": "b" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [
+                    {
+                        "corpusKey": "automesa-curated:1bd2fb5b4587feef40252e0630c6c94c",
+                        "resourceId": "fsl",
+                        "name": "Foundation for Senior Living",
+                        "priorCategoryIds": ["independent-living"],
+                        "proposedCategoryIds": ["independent-living"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "Foundation for Senior Living",
+                            "description": "Adult Foster Care and services for older adults.",
+                            "informationText": "",
+                        },
+                    },
+                    {
+                        "corpusKey": "automesa-curated:b684b97f8e67ea1cb39778d953a2c4cf",
+                        "resourceId": "mvd",
+                        "name": "Arizona MVD",
+                        "priorCategoryIds": ["id-recovery"],
+                        "proposedCategoryIds": ["id-recovery"],
+                        "priorForGroups": ["Seniors"],
+                        "resource": {
+                            "name": "Arizona MVD",
+                            "description": (
+                                "Free ID cards for people age 65 or older, qualifying "
+                                "SSI recipients, youth in DCS custody, and homeless veterans."
+                            ),
+                            "informationText": "",
+                        },
+                    },
+                ],
+            },
+        }
+        assignments = infer_group_proposal(packet)["assignments"]
+        self.assertNotIn(
+            "Foster youth",
+            [item["label"] for item in assignments[0]["groups"]],
+        )
+        mvd_groups = {item["label"]: item for item in assignments[1]["groups"]}
+        self.assertEqual({
+            "People experiencing homelessness",
+            "People with disabilities",
+            "Seniors",
+            "Veterans",
+            "Youth/young adults",
+        }, set(mvd_groups))
+        self.assertTrue(all(
+            mvd_groups[label]["mode"] == "accommodate"
+            for label in (
+                "People experiencing homelessness", "People with disabilities",
+                "Seniors", "Veterans", "Youth/young adults",
+            )
+        ))
+
+    def test_type_and_group_filtering_ors_within_and_ands_across(self) -> None:
+        selected_types = {"Online Education", "GED/HSE"}
+        selected_groups = {"Spanish-speaking", "Veterans"}
+        self.assertTrue(matches_type_and_group_filters(
+            resource_types={"Online Education"},
+            resource_groups={"Spanish-speaking"},
+            selected_types=selected_types,
+            selected_groups=selected_groups,
+        ))
+        self.assertTrue(matches_type_and_group_filters(
+            resource_types={"GED/HSE"},
+            resource_groups={"Veterans"},
+            selected_types=selected_types,
+            selected_groups=selected_groups,
+        ))
+        self.assertFalse(matches_type_and_group_filters(
+            resource_types={"Online Education"},
+            resource_groups={"Youth/young adults"},
+            selected_types=selected_types,
+            selected_groups=selected_groups,
+        ))
+        self.assertFalse(matches_type_and_group_filters(
+            resource_types={"Financial aid"},
+            resource_groups={"Veterans"},
+            selected_types=selected_types,
+            selected_groups=selected_groups,
+        ))
+
+    def test_multiple_categories_are_ored(self) -> None:
+        self.assertTrue(matches_category_filter(
+            resource_categories={"education", "employment"},
+            selected_categories={"housing", "education"},
+        ))
+        self.assertFalse(matches_category_filter(
+            resource_categories={"education"},
+            selected_categories={"housing", "food"},
+        ))
+
+    def test_group_browse_deduplicates_within_each_need_heading(self) -> None:
+        resources = [
+            {
+                "corpusKey": "resource:one",
+                "categoryIds": ["education", "employment"],
+                "groupIds": ["spanish-speaking", "veterans"],
+            },
+            {
+                "corpusKey": "resource:two",
+                "categoryIds": ["education"],
+                "groupIds": ["youth-young-adults"],
+            },
+        ]
+        rows = group_browse_category_rows(
+            resources,
+            selected_groups={"spanish-speaking", "veterans"},
+        )
+        self.assertEqual({
+            "education": ["resource:one"],
+            "employment": ["resource:one"],
+        }, rows)
 
 
 if __name__ == "__main__":
