@@ -664,6 +664,71 @@ class TaxonomyStudyTests(unittest.TestCase):
             )
             self.assertEqual("target", spanish["mode"])
 
+    def test_reviewed_domestic_violence_assignments_remove_unsupported_and_accommodate_furniture_bank(self) -> None:
+        packet = {
+            "studyId": 1,
+            "packetSha256": "a" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [
+                    {
+                        "corpusKey": "automesa-curated:ce14bd1aa42c212343ff01bdda80381e",
+                        "resourceId": "elder-affairs",
+                        "name": "Elder Affairs",
+                        "priorCategoryIds": ["seniors"],
+                        "proposedCategoryIds": ["seniors", "domestic-violence"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "Elder Affairs",
+                            "description": "Help with elder abuse, exploitation, scams, and fraud.",
+                            "informationText": "",
+                        },
+                    },
+                    {
+                        "corpusKey": "automesa-curated:b47b61d084512681adb9c7ccacf2268c",
+                        "resourceId": "adult-protective-services",
+                        "name": "Adult Protective Services",
+                        "priorCategoryIds": ["seniors"],
+                        "proposedCategoryIds": ["seniors", "domestic-violence"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "Adult Protective Services",
+                            "description": "Reports of vulnerable-adult abuse or unsafe caregiving.",
+                            "informationText": "",
+                        },
+                    },
+                    {
+                        "corpusKey": "automesa-curated:442b7ced0e864db023bebfb05ecc9870",
+                        "resourceId": "bridging-az",
+                        "name": "Bridging AZ",
+                        "priorCategoryIds": ["clothing-household"],
+                        "proposedCategoryIds": ["clothing-household"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "Bridging AZ",
+                            "description": "Furniture referrals for people moving from homelessness, domestic violence, treatment, or other crises.",
+                            "informationText": "",
+                        },
+                    },
+                ],
+            },
+        }
+        assignments = {
+            item["resourceId"]: item
+            for item in infer_group_proposal(packet)["assignments"]
+        }
+        for resource_id in ("elder-affairs", "adult-protective-services"):
+            self.assertNotIn(
+                "Domestic violence survivors",
+                [item["label"] for item in assignments[resource_id]["groups"]],
+            )
+        bridging_group = next(
+            item for item in assignments["bridging-az"]["groups"]
+            if item["label"] == "Domestic violence survivors"
+        )
+        self.assertEqual("accommodate", bridging_group["mode"])
+
     def test_group_catalog_matches_michaels_reviewed_vocabulary(self) -> None:
         self.assertEqual({
             "Seniors", "Veterans", "Re-entry", "Pregnant/postpartum",

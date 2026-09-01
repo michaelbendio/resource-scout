@@ -310,6 +310,12 @@ _INFERRED_GROUP_REVIEW: dict[tuple[str, str], tuple[str, str, str]] = {
         ("keep", "target", "The domestic-violence resource expressly offers a named Spanish-language service rather than only a general language-access path."),
     ("automesa-curated:38629d0e712141f7531b4cff4b0bfd53", "spanish-speaking"):
         ("keep", "target", "The caregiver resource offers a dedicated Spanish-language support group rather than only general bilingual access."),
+    ("automesa-curated:ce14bd1aa42c212343ff01bdda80381e", "domestic-violence-survivors"):
+        ("remove", "target", "The elder-affairs record documents elder abuse and exploitation generally but no domestic- or partner-abuse service."),
+    ("automesa-curated:b47b61d084512681adb9c7ccacf2268c", "domestic-violence-survivors"):
+        ("remove", "target", "The adult-protective-services record documents abuse and unsafe caregiving generally but no domestic- or partner-abuse service."),
+    ("automesa-curated:442b7ced0e864db023bebfb05ecc9870", "domestic-violence-survivors"):
+        ("keep", "accommodate", "The general furniture bank accepts agency referrals involving domestic violence among several transition circumstances."),
 }
 
 
@@ -543,7 +549,7 @@ def infer_group_proposal(packet_record: dict[str, Any]) -> dict[str, Any]:
         "studyId": int(packet_record["studyId"]),
         "packetSha256": packet_record["packetSha256"],
         "inferenceEngine": {
-            "version": "for-groups-v1.17",
+            "version": "for-groups-v1.18",
             "catalogSha256": _sha256(catalog_items),
             "rulesSha256": _sha256(GROUP_REVIEW_RULES),
             "patternsSha256": _sha256(_PATTERNS),
