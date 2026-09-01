@@ -219,7 +219,7 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "addiction", "mental-health", "housing",
     ],
     "617d4be1951f67468b5ddffdb2f670f5": [
-        "addiction", "housing", "homeless-services", "legal",
+        "addiction", "housing", "legal",
     ],
     "2888d7f802c66d6db7f0cdfc3d5f1b36": ["mental-health"],
     # Seniors (two shared records are listed under Disability above)

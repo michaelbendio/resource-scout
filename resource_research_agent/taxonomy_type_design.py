@@ -274,7 +274,6 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "a3782d71fb0f13f124d33c95dadd779c": ["Homeless Navigation"],
             "08a26b747ffe8b1ea284e491a62d39e7": ["Day Center", "Showers & Laundry", "Mail & Storage", "ID & Documents", "Meals & Basic Needs", "Homeless Navigation"],
             "91d5cdd19b42853fb4bbe8e57f325be0": ["Street Outreach", "Meals & Basic Needs", "Homeless Navigation"],
-            "617d4be1951f67468b5ddffdb2f670f5": ["Homeless Navigation"],
             "19a8af5b80be03028603cfa5e8bebb6e": ["Day Center", "Showers & Laundry", "Homeless Navigation", "Overnight Lodging"],
             "2af79fdd0101ee3a198c732086f9bfc6": ["Street Outreach", "Homeless Navigation"],
         },

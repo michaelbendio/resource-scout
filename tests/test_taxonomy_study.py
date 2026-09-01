@@ -956,6 +956,63 @@ class TaxonomyStudyTests(unittest.TestCase):
         }
         self.assertEqual("accommodate", groups["Re-entry"]["mode"])
 
+    def test_homeless_group_requires_current_homeless_service_evidence(self) -> None:
+        self.assertNotIn(
+            "homeless-services",
+            RESOURCE_TARGETS["617d4be1951f67468b5ddffdb2f670f5"],
+        )
+        self.assertNotIn(
+            "617d4be1951f67468b5ddffdb2f670f5",
+            CATEGORY_TYPE_DESIGNS["homeless-services"]["assignments"],
+        )
+
+        packet = {
+            "studyId": 1,
+            "packetSha256": "f" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [
+                    {
+                        "corpusKey": "automesa-curated:212ecd27650ff9a74102bc122a331934",
+                        "resourceId": "plan",
+                        "name": "Phoenix Legal Action Network",
+                        "priorCategoryIds": ["immigration"],
+                        "proposedCategoryIds": ["immigration"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "Phoenix Legal Action Network",
+                            "description": "Immigration help prioritizing people experiencing homelessness.",
+                            "informationText": "",
+                        },
+                    },
+                    {
+                        "corpusKey": "automesa-curated:15507c56e359f505d8f574491c7962ac",
+                        "resourceId": "rsm",
+                        "name": "Resurrection Street Ministry",
+                        "priorCategoryIds": ["food"],
+                        "proposedCategoryIds": ["food"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "Resurrection Street Ministry",
+                            "description": (
+                                "An access listing mentions people experiencing homelessness, "
+                                "but pantry eligibility is uncertain."
+                            ),
+                            "informationText": "",
+                        },
+                    },
+                ],
+            },
+        }
+        assignments = infer_group_proposal(packet)["assignments"]
+        plan_groups = {item["label"]: item for item in assignments[0]["groups"]}
+        self.assertEqual("accommodate", plan_groups["Homeless"]["mode"])
+        self.assertNotIn(
+            "Homeless",
+            {item["label"] for item in assignments[1]["groups"]},
+        )
+
     def test_multiple_categories_are_ored(self) -> None:
         self.assertTrue(matches_category_filter(
             resource_categories={"education", "employment"},
