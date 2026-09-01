@@ -925,6 +925,37 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertEqual("target", connections_groups["Native American"]["mode"])
         self.assertEqual("target", connections_groups["LGBTQ+"]["mode"])
 
+    def test_reentry_aware_public_education_is_an_accommodation(self) -> None:
+        packet = {
+            "studyId": 1,
+            "packetSha256": "e" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [{
+                    "corpusKey": "automesa-curated:d633e161d87ac6cf94df2a2a6b877ab1",
+                    "resourceId": "fxg",
+                    "name": "Frank X. Gordon Adult Education",
+                    "priorCategoryIds": ["education"],
+                    "proposedCategoryIds": ["education"],
+                    "priorForGroups": ["Exiting corrections"],
+                    "resource": {
+                        "name": "Frank X. Gordon Adult Education",
+                        "description": (
+                            "Reentry-aware GED and ESOL classes open to probationers "
+                            "and the general public."
+                        ),
+                        "informationText": "",
+                    },
+                }],
+            },
+        }
+        groups = {
+            item["label"]: item
+            for item in infer_group_proposal(packet)["assignments"][0]["groups"]
+        }
+        self.assertEqual("accommodate", groups["Re-entry"]["mode"])
+
     def test_multiple_categories_are_ored(self) -> None:
         self.assertTrue(matches_category_filter(
             resource_categories={"education", "employment"},

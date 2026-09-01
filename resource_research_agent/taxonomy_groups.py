@@ -290,6 +290,8 @@ _INFERRED_GROUP_REVIEW: dict[tuple[str, str], tuple[str, str, str]] = {
         ("keep", "accommodate", "The broader mobile-advocacy program expressly extends service into rural and tribal communities."),
     ("automesa-curated:5add8558737e9cfc392878fce4cca308", "native-american"):
         ("keep", "accommodate", "The broadly available food and WIC services are delivered through a Native and urban Indian health organization."),
+    ("automesa-curated:d633e161d87ac6cf94df2a2a6b877ab1", "exiting-corrections"):
+        ("keep", "accommodate", "The adult-education program is reentry-aware and probation-connected but expressly open to both probationers and the general public."),
 }
 
 
@@ -523,7 +525,7 @@ def infer_group_proposal(packet_record: dict[str, Any]) -> dict[str, Any]:
         "studyId": int(packet_record["studyId"]),
         "packetSha256": packet_record["packetSha256"],
         "inferenceEngine": {
-            "version": "for-groups-v1.12",
+            "version": "for-groups-v1.13",
             "catalogSha256": _sha256(catalog_items),
             "rulesSha256": _sha256(GROUP_REVIEW_RULES),
             "patternsSha256": _sha256(_PATTERNS),
