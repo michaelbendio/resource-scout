@@ -107,7 +107,7 @@ _PATTERNS: dict[str, dict[str, tuple[str, ...]]] = {
     "youth-young-adults": {"target": (r"\byouth(?:s)?\b", r"\byoung adults?\b", r"\bteens?\b", r"\badolescents?\b", r"\bages? 1[2-9][–-](?:2[0-5]|19)\b")},
     "women": {"target": (r"\bwomen-only\b", r"\bfor women\b", r"\bwomen's (?:center|program|services|housing|shelter|recovery)\b")},
     "men": {"target": (r"\bmen-only\b", r"\bfor men\b", r"\bmen's (?:center|program|services|housing|shelter|recovery)\b")},
-    "lgbtq": {"target": (r"\blgbtq\+?\b", r"\btransgender\b", r"\bgender-diverse\b", r"\bqueer\b")},
+    "lgbtq": {"target": (r"\blgbtq\+?\b", r"\btransgender\b", r"\bgender-diverse\b", r"\bqueer\b", r"\btwo-spirit\b")},
     "spanish-speaking": {"accommodate": (r"\bspanish\b",)},
     "immigrants": {"target": (r"\bimmigrants?\b", r"\bimmigration legal\b", r"\bnaturalization\b", r"\brefugees?\b", r"\basylees?\b", r"\bhumanitarian migrants?\b", r"\bnewly arrived humanitarian\b")},
     "native-american": {"target": (r"\bnative american\b", r"\bamerican indian\b", r"\burban indian\b", r"\btribal communities\b")},
@@ -289,6 +289,10 @@ _INFERRED_GROUP_REVIEW: dict[tuple[str, str], tuple[str, str, str]] = {
         ("keep", "accommodate", "The general utility provides a specialized medical-equipment and medical-vulnerability access pathway."),
     ("automesa-curated:f76b64043d73b489d7067d9f9d856b42", "lgbtq"):
         ("keep", "accommodate", "The broader domestic-violence program expressly serves LGBTQ+ survivors but is not LGBTQ+-specific."),
+    ("automesa-curated:7edc59ef2bb7bef8e25a7d32fd382159", "native-american"):
+        ("keep", "accommodate", "The broader mobile-advocacy program expressly extends service into rural and tribal communities."),
+    ("automesa-curated:5add8558737e9cfc392878fce4cca308", "native-american"):
+        ("keep", "accommodate", "The broadly available food and WIC services are delivered through a Native and urban Indian health organization."),
 }
 
 
@@ -522,7 +526,7 @@ def infer_group_proposal(packet_record: dict[str, Any]) -> dict[str, Any]:
         "studyId": int(packet_record["studyId"]),
         "packetSha256": packet_record["packetSha256"],
         "inferenceEngine": {
-            "version": "for-groups-v1.10",
+            "version": "for-groups-v1.11",
             "catalogSha256": _sha256(catalog_items),
             "rulesSha256": _sha256(GROUP_REVIEW_RULES),
             "patternsSha256": _sha256(_PATTERNS),

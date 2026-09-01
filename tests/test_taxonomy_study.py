@@ -824,6 +824,67 @@ class TaxonomyStudyTests(unittest.TestCase):
             selected_groups=selected_groups,
         ))
 
+    def test_native_review_distinguishes_targets_from_accommodations(self) -> None:
+        packet = {
+            "studyId": 1,
+            "packetSha256": "c" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [
+                    {
+                        "corpusKey": "automesa-curated:7edc59ef2bb7bef8e25a7d32fd382159",
+                        "resourceId": "eves-place",
+                        "name": "Eve's Place Mobile Advocacy",
+                        "priorCategoryIds": ["domestic-violence"],
+                        "proposedCategoryIds": ["domestic-violence"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "Eve's Place Mobile Advocacy",
+                            "description": "Mobile advocacy serving rural and tribal communities.",
+                            "informationText": "",
+                        },
+                    },
+                    {
+                        "corpusKey": "automesa-curated:5add8558737e9cfc392878fce4cca308",
+                        "resourceId": "native-health-wic",
+                        "name": "NATIVE HEALTH food pantry and WIC",
+                        "priorCategoryIds": ["food"],
+                        "proposedCategoryIds": ["food"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "NATIVE HEALTH food pantry and WIC",
+                            "description": "Broadly available services administered by an urban Indian health center.",
+                            "informationText": "",
+                        },
+                    },
+                    {
+                        "corpusKey": "automesa-curated:cfddfe7aec2aa52de1a56c0d3d797d9e",
+                        "resourceId": "native-connections",
+                        "name": "Native American Connections",
+                        "priorCategoryIds": ["addiction"],
+                        "proposedCategoryIds": ["addiction"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "Native American Connections",
+                            "description": "Traditional healing and dedicated residential programs for two-spirit adults.",
+                            "informationText": "",
+                        },
+                    },
+                ],
+            },
+        }
+        assignments = infer_group_proposal(packet)["assignments"]
+        eves_groups = {item["label"]: item for item in assignments[0]["groups"]}
+        self.assertEqual("accommodate", eves_groups["Native American"]["mode"])
+        wic_groups = {item["label"]: item for item in assignments[1]["groups"]}
+        self.assertEqual("accommodate", wic_groups["Native American"]["mode"])
+        connections_groups = {
+            item["label"]: item for item in assignments[2]["groups"]
+        }
+        self.assertEqual("target", connections_groups["Native American"]["mode"])
+        self.assertEqual("target", connections_groups["LGBTQ+"]["mode"])
+
     def test_multiple_categories_are_ored(self) -> None:
         self.assertTrue(matches_category_filter(
             resource_categories={"education", "employment"},
