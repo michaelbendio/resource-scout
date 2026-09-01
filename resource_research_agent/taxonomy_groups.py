@@ -306,6 +306,10 @@ _INFERRED_GROUP_REVIEW: dict[tuple[str, str], tuple[str, str, str]] = {
         ("remove", "target", "Senior Services and Community Resilience is the administering division's name; the general assistance program documents no senior eligibility or pathway."),
     ("automesa-curated:138a8c6f2c950488f75f8766e2ef6252", "veterans"):
         ("keep", "accommodate", "The general legal clinic includes veterans' issues among its consultation subjects but has no dedicated veteran clinic or eligibility pathway."),
+    ("automesa-curated:f76b64043d73b489d7067d9f9d856b42", "spanish-speaking"):
+        ("keep", "target", "The domestic-violence resource expressly offers a named Spanish-language service rather than only a general language-access path."),
+    ("automesa-curated:38629d0e712141f7531b4cff4b0bfd53", "spanish-speaking"):
+        ("keep", "target", "The caregiver resource offers a dedicated Spanish-language support group rather than only general bilingual access."),
 }
 
 
@@ -539,7 +543,7 @@ def infer_group_proposal(packet_record: dict[str, Any]) -> dict[str, Any]:
         "studyId": int(packet_record["studyId"]),
         "packetSha256": packet_record["packetSha256"],
         "inferenceEngine": {
-            "version": "for-groups-v1.16",
+            "version": "for-groups-v1.17",
             "catalogSha256": _sha256(catalog_items),
             "rulesSha256": _sha256(GROUP_REVIEW_RULES),
             "patternsSha256": _sha256(_PATTERNS),

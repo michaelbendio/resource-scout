@@ -620,6 +620,50 @@ class TaxonomyStudyTests(unittest.TestCase):
         }
         self.assertEqual({"Disabled"}, labels)
 
+    def test_reviewed_spanish_services_are_targets_not_only_accommodations(self) -> None:
+        packet = {
+            "studyId": 1,
+            "packetSha256": "9" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [
+                    {
+                        "corpusKey": "automesa-curated:f76b64043d73b489d7067d9f9d856b42",
+                        "resourceId": "de-colores",
+                        "name": "De Colores",
+                        "priorCategoryIds": ["domestic-violence"],
+                        "proposedCategoryIds": ["domestic-violence"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "De Colores",
+                            "description": "Domestic-violence shelter and Spanish-language services.",
+                            "informationText": "",
+                        },
+                    },
+                    {
+                        "corpusKey": "automesa-curated:38629d0e712141f7531b4cff4b0bfd53",
+                        "resourceId": "duet",
+                        "name": "Duet",
+                        "priorCategoryIds": ["seniors"],
+                        "proposedCategoryIds": ["seniors"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "Duet",
+                            "description": "A dedicated Spanish caregiver support group.",
+                            "informationText": "",
+                        },
+                    },
+                ],
+            },
+        }
+        assignments = infer_group_proposal(packet)["assignments"]
+        for assignment in assignments:
+            spanish = next(
+                item for item in assignment["groups"] if item["label"] == "Spanish"
+            )
+            self.assertEqual("target", spanish["mode"])
+
     def test_group_catalog_matches_michaels_reviewed_vocabulary(self) -> None:
         self.assertEqual({
             "Seniors", "Veterans", "Re-entry", "Pregnant/postpartum",
