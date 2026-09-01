@@ -115,7 +115,7 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "0df6bb236d8c7bf168ce4867dc83360e": ["Baby Supplies"],
             "6ce0d0fd810d670dae505e267ea6e01a": ["Baby Supplies", "Hygiene Supplies"],
             "73dfadc219f93cdde3c2e07d3e1045b4": ["Household Goods"],
-            "7bacf0bff58c51dc50d9c02ccd69eac4": ["Hygiene Supplies"],
+            "7bacf0bff58c51dc50d9c02ccd69eac4": ["Baby Supplies"],
             "882badd1df67753d02e23796b2875118": ["Furniture", "Household Goods"],
             "c399be50023b7d9bbbd54bbdea6b4b5f": ["Furniture", "Household Goods", "Hygiene Supplies"],
             "c74ea9adad61a6ff3fd9e49ae50d61d2": ["Hygiene Supplies"],
