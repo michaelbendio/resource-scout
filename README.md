@@ -16,6 +16,13 @@ now 5–10 minutes; the existing 30-minute throttle cooldown remains. The v0.45
 blind-comparison runtime was retired after its immutable evidence and report
 were preserved.
 
+The source-hidden Codex-first replay compares the completed v1 run with a fresh
+v2 proposal on the same immutable package baseline. Saved provider results are
+split into anonymous lesson evidence and sealed identities; providers do not
+rerun, and no active playbook changes automatically. See
+[`docs/codex-first-replay.md`](docs/codex-first-replay.md) for its durable study,
+API, metrics, and evidence-boundary contract.
+
 Version 0.44.0 added an evidence-gated Codex focused-research laboratory without
 changing Scout's existing four-AI workflow. Employment research can now run as
 durable, candidate-aware focus passes followed by a deterministic gap pass.

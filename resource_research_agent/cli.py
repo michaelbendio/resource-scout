@@ -6,6 +6,13 @@ import sys
 from pathlib import Path
 
 from .duplicates import DuplicateIndex
+from .codex_replay import (
+    codex_replay_view,
+    next_codex_replay_assignment,
+    prepare_codex_replay_study,
+    reveal_and_complete_codex_replay,
+    save_codex_replay_result,
+)
 from .importer import ResourcePackageImporter
 from .server import serve
 from .storage import ResearchStore
@@ -31,6 +38,23 @@ def parser() -> argparse.ArgumentParser:
     match_command.add_argument("candidate", help="JSON file containing a candidate object")
     match_command.add_argument("--limit", type=int, default=5)
     subcommands.add_parser("summary", help="Show the latest import summary")
+    replay_prepare = subcommands.add_parser(
+        "replay-prepare", help="Seal a source-hidden Codex-first v1/v2 replay"
+    )
+    replay_prepare.add_argument("--import-id", type=int)
+    replay_status = subcommands.add_parser("replay-status", help="Show a Codex replay")
+    replay_status.add_argument("study_id", type=int)
+    replay_next = subcommands.add_parser("replay-next", help="Read the next v2 assignment")
+    replay_next.add_argument("study_id", type=int)
+    replay_submit = subcommands.add_parser("replay-submit", help="Submit one v2 pass result")
+    replay_submit.add_argument("study_id", type=int)
+    replay_submit.add_argument("job_id", type=int)
+    replay_submit.add_argument("focus_key")
+    replay_submit.add_argument("result_file")
+    replay_reveal = subcommands.add_parser(
+        "replay-reveal", help="Reveal holdouts and calculate the final comparison"
+    )
+    replay_reveal.add_argument("study_id", type=int)
     return result
 
 
@@ -70,6 +94,28 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "summary":
         print(json.dumps(store.import_summary(), ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "replay-prepare":
+        value = prepare_codex_replay_study(store, args.import_id)
+        print(json.dumps(value, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "replay-status":
+        print(json.dumps(codex_replay_view(store, args.study_id), ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "replay-next":
+        value = next_codex_replay_assignment(store, args.study_id)
+        print(json.dumps({"assignment": value}, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "replay-submit":
+        raw_text = Path(args.result_file).read_text(encoding="utf-8")
+        value = save_codex_replay_result(
+            store, args.study_id, args.job_id, args.focus_key, raw_text
+        )
+        print(json.dumps(value, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "replay-reveal":
+        value = reveal_and_complete_codex_replay(store, args.study_id)
+        print(json.dumps(value, ensure_ascii=False, indent=2))
         return 0
     return 2
 

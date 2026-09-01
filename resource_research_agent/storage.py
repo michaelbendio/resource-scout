@@ -313,6 +313,53 @@ CREATE TABLE IF NOT EXISTS codex_first_research_assignments (
 );
 CREATE INDEX IF NOT EXISTS codex_first_assignment_status
     ON codex_first_research_assignments(job_id, role, status, id);
+CREATE TABLE IF NOT EXISTS codex_replay_studies (
+    id INTEGER PRIMARY KEY,
+    import_id INTEGER NOT NULL REFERENCES imports(id),
+    replay_version TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (
+        status IN ('sealed', 'running', 'codex-closed', 'revealed', 'completed')
+    ),
+    package_fixture_json TEXT NOT NULL,
+    package_fixture_sha256 TEXT NOT NULL CHECK (length(package_fixture_sha256) = 64),
+    report_json TEXT,
+    report_sha256 TEXT NOT NULL DEFAULT '' CHECK (
+        report_sha256 = '' OR length(report_sha256) = 64
+    ),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    codex_closed_at TEXT,
+    revealed_at TEXT,
+    completed_at TEXT,
+    UNIQUE (import_id, replay_version, package_fixture_sha256)
+);
+CREATE TABLE IF NOT EXISTS codex_replay_categories (
+    study_id INTEGER NOT NULL REFERENCES codex_replay_studies(id) ON DELETE CASCADE,
+    ordinal INTEGER NOT NULL CHECK (ordinal > 0),
+    category_id TEXT NOT NULL,
+    category_label TEXT NOT NULL,
+    v1_job_id INTEGER NOT NULL REFERENCES focused_research_jobs(id),
+    v2_job_id INTEGER NOT NULL REFERENCES focused_research_jobs(id),
+    v1_snapshot_json TEXT NOT NULL,
+    v1_snapshot_sha256 TEXT NOT NULL CHECK (length(v1_snapshot_sha256) = 64),
+    lesson_evidence_json TEXT NOT NULL,
+    lesson_evidence_sha256 TEXT NOT NULL CHECK (length(lesson_evidence_sha256) = 64),
+    sealed_holdout_json TEXT NOT NULL,
+    sealed_holdout_sha256 TEXT NOT NULL CHECK (length(sealed_holdout_sha256) = 64),
+    v2_plan_json TEXT NOT NULL,
+    v2_plan_sha256 TEXT NOT NULL CHECK (length(v2_plan_sha256) = 64),
+    metrics_json TEXT,
+    metrics_sha256 TEXT NOT NULL DEFAULT '' CHECK (
+        metrics_sha256 = '' OR length(metrics_sha256) = 64
+    ),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    PRIMARY KEY (study_id, category_id),
+    UNIQUE (study_id, ordinal),
+    UNIQUE (v2_job_id)
+);
+CREATE INDEX IF NOT EXISTS codex_replay_status
+    ON codex_replay_studies(status, id);
 CREATE TABLE IF NOT EXISTS research_run_reconciliations (
     id INTEGER PRIMARY KEY,
     run_id INTEGER NOT NULL REFERENCES research_runs(id) ON DELETE CASCADE,
@@ -2112,6 +2159,244 @@ class ResearchStore:
         value = self.get_codex_first_assignment(assignment_id)
         assert value is not None
         return value
+
+    def find_codex_replay_study(
+        self, import_id: int, replay_version: str, package_fixture_sha256: str
+    ) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT id FROM codex_replay_studies
+                   WHERE import_id = ? AND replay_version = ?
+                     AND package_fixture_sha256 = ?""",
+                (int(import_id), str(replay_version), str(package_fixture_sha256)),
+            ).fetchone()
+        return self.get_codex_replay_study(int(row["id"])) if row else None
+
+    def create_codex_replay_study(
+        self,
+        *,
+        import_id: int,
+        replay_version: str,
+        package_fixture: dict[str, Any],
+        package_fixture_sha256: str,
+        categories: list[dict[str, Any]],
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            cursor = connection.execute(
+                """INSERT INTO codex_replay_studies (
+                       import_id, replay_version, status, package_fixture_json,
+                       package_fixture_sha256, created_at, updated_at
+                   ) VALUES (?, ?, 'sealed', ?, ?, ?, ?)""",
+                (
+                    int(import_id), str(replay_version), _json(package_fixture),
+                    str(package_fixture_sha256), now, now,
+                ),
+            )
+            study_id = int(cursor.lastrowid)
+            for ordinal, category in enumerate(categories, start=1):
+                connection.execute(
+                    """INSERT INTO codex_replay_categories (
+                           study_id, ordinal, category_id, category_label,
+                           v1_job_id, v2_job_id, v1_snapshot_json,
+                           v1_snapshot_sha256, lesson_evidence_json,
+                           lesson_evidence_sha256, sealed_holdout_json,
+                           sealed_holdout_sha256, v2_plan_json, v2_plan_sha256,
+                           created_at, updated_at
+                       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (
+                        study_id, ordinal, str(category["categoryId"]),
+                        str(category["categoryLabel"]), int(category["v1JobId"]),
+                        int(category["v2JobId"]), _json(category["v1Snapshot"]),
+                        str(category["v1SnapshotSha256"]),
+                        _json(category["lessonEvidence"]),
+                        str(category["lessonEvidenceSha256"]),
+                        _json(category["sealedHoldout"]),
+                        str(category["sealedHoldoutSha256"]),
+                        _json(category["v2Plan"]), str(category["v2PlanSha256"]),
+                        now, now,
+                    ),
+                )
+        study = self.get_codex_replay_study(study_id)
+        if study is None:  # pragma: no cover
+            raise RuntimeError("Codex replay study could not be read")
+        return study
+
+    def get_codex_replay_study(self, study_id: int) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM codex_replay_studies WHERE id = ?", (int(study_id),)
+            ).fetchone()
+            if not row:
+                return None
+            category_rows = connection.execute(
+                """SELECT * FROM codex_replay_categories
+                   WHERE study_id = ? ORDER BY ordinal""",
+                (int(study_id),),
+            ).fetchall()
+        result = {
+            "id": int(row["id"]),
+            "importId": int(row["import_id"]),
+            "replayVersion": str(row["replay_version"]),
+            "status": str(row["status"]),
+            "packageFixture": json.loads(row["package_fixture_json"]),
+            "packageFixtureSha256": str(row["package_fixture_sha256"]),
+            "report": json.loads(row["report_json"]) if row["report_json"] else None,
+            "reportSha256": str(row["report_sha256"]),
+            "createdAt": row["created_at"],
+            "updatedAt": row["updated_at"],
+            "codexClosedAt": row["codex_closed_at"],
+            "revealedAt": row["revealed_at"],
+            "completedAt": row["completed_at"],
+            "categories": [],
+        }
+        for category in category_rows:
+            result["categories"].append({
+                "ordinal": int(category["ordinal"]),
+                "categoryId": str(category["category_id"]),
+                "categoryLabel": str(category["category_label"]),
+                "v1JobId": int(category["v1_job_id"]),
+                "v2JobId": int(category["v2_job_id"]),
+                "v1Snapshot": json.loads(category["v1_snapshot_json"]),
+                "v1SnapshotSha256": str(category["v1_snapshot_sha256"]),
+                "lessonEvidence": json.loads(category["lesson_evidence_json"]),
+                "lessonEvidenceSha256": str(category["lesson_evidence_sha256"]),
+                "sealedHoldout": json.loads(category["sealed_holdout_json"]),
+                "sealedHoldoutSha256": str(category["sealed_holdout_sha256"]),
+                "v2Plan": json.loads(category["v2_plan_json"]),
+                "v2PlanSha256": str(category["v2_plan_sha256"]),
+                "metrics": (
+                    json.loads(category["metrics_json"])
+                    if category["metrics_json"] else None
+                ),
+                "metricsSha256": str(category["metrics_sha256"]),
+                "updatedAt": category["updated_at"],
+            })
+        return result
+
+    def list_codex_replay_studies(
+        self, import_id: int | None = None
+    ) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            if import_id is None:
+                rows = connection.execute(
+                    "SELECT id FROM codex_replay_studies ORDER BY id DESC"
+                ).fetchall()
+            else:
+                rows = connection.execute(
+                    """SELECT id FROM codex_replay_studies
+                       WHERE import_id = ? ORDER BY id DESC""",
+                    (int(import_id),),
+                ).fetchall()
+        return [
+            study for row in rows
+            if (study := self.get_codex_replay_study(int(row["id"]))) is not None
+        ]
+
+    def transition_codex_replay_study(
+        self,
+        study_id: int,
+        *,
+        allowed_statuses: set[str],
+        status: str,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        timestamp = {
+            "codex-closed": "codex_closed_at",
+            "revealed": "revealed_at",
+        }.get(status)
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT status FROM codex_replay_studies WHERE id = ?", (int(study_id),)
+            ).fetchone()
+            if not row:
+                raise ValueError("Codex replay study not found")
+            current = str(row["status"])
+            if current != status:
+                if current not in allowed_statuses:
+                    raise ValueError(
+                        f"Codex replay cannot move from {current} to {status}"
+                    )
+                if timestamp:
+                    connection.execute(
+                        f"""UPDATE codex_replay_studies
+                            SET status = ?, updated_at = ?, {timestamp} = ?
+                            WHERE id = ?""",
+                        (status, now, now, int(study_id)),
+                    )
+                else:
+                    connection.execute(
+                        """UPDATE codex_replay_studies
+                           SET status = ?, updated_at = ? WHERE id = ?""",
+                        (status, now, int(study_id)),
+                    )
+        study = self.get_codex_replay_study(study_id)
+        assert study is not None
+        return study
+
+    def save_codex_replay_metrics(
+        self, study_id: int, category_id: str,
+        metrics: dict[str, Any], metrics_sha256: str,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT metrics_sha256 FROM codex_replay_categories
+                   WHERE study_id = ? AND category_id = ?""",
+                (int(study_id), str(category_id)),
+            ).fetchone()
+            if not row:
+                raise ValueError("Codex replay category not found")
+            existing = str(row["metrics_sha256"] or "")
+            if existing and existing != metrics_sha256:
+                raise ValueError("Codex replay category metrics are immutable")
+            connection.execute(
+                """UPDATE codex_replay_categories
+                   SET metrics_json = ?, metrics_sha256 = ?, updated_at = ?
+                   WHERE study_id = ? AND category_id = ?""",
+                (_json(metrics), metrics_sha256, now, int(study_id), str(category_id)),
+            )
+        study = self.get_codex_replay_study(study_id)
+        assert study is not None
+        return next(
+            item for item in study["categories"]
+            if item["categoryId"] == str(category_id)
+        )
+
+    def complete_codex_replay_study(
+        self, study_id: int, report: dict[str, Any], report_sha256: str
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT status, report_sha256 FROM codex_replay_studies
+                   WHERE id = ?""",
+                (int(study_id),),
+            ).fetchone()
+            if not row:
+                raise ValueError("Codex replay study not found")
+            if str(row["status"]) == "completed":
+                if str(row["report_sha256"]) != report_sha256:
+                    raise ValueError("Completed Codex replay report is immutable")
+            else:
+                if str(row["status"]) != "revealed":
+                    raise ValueError("Reveal the sealed holdouts before reporting")
+                missing = int(connection.execute(
+                    """SELECT COUNT(*) FROM codex_replay_categories
+                       WHERE study_id = ? AND metrics_json IS NULL""",
+                    (int(study_id),),
+                ).fetchone()[0])
+                if missing:
+                    raise ValueError("Calculate every category before reporting")
+                connection.execute(
+                    """UPDATE codex_replay_studies
+                       SET status = 'completed', report_json = ?, report_sha256 = ?,
+                           completed_at = ?, updated_at = ? WHERE id = ?""",
+                    (_json(report), report_sha256, now, now, int(study_id)),
+                )
+        study = self.get_codex_replay_study(study_id)
+        assert study is not None
+        return study
 
     @staticmethod
     def _focused_research_job_dict(row: sqlite3.Row) -> dict[str, Any]:

@@ -22,6 +22,13 @@ from .codex_first_research import (
     save_codex_first_external_result,
     save_codex_first_primary_result,
 )
+from .codex_replay import (
+    codex_replay_view,
+    next_codex_replay_assignment,
+    prepare_codex_replay_study,
+    reveal_and_complete_codex_replay,
+    save_codex_replay_result,
+)
 from .scout_curation import (
     build_scout_review_seed,
     next_scout_curation_assignment,
@@ -158,6 +165,19 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     self.server.store.latest_import_id() or 0
                 )
                 self._json(codex_first_view(self.server.store, import_id))
+            elif parsed.path == "/api/codex-replays":
+                query = parse_qs(parsed.query)
+                import_id = int(query["importId"][0]) if query.get("importId") else None
+                self._json({
+                    "studies": [
+                        codex_replay_view(self.server.store, int(study["id"]))
+                        for study in self.server.store.list_codex_replay_studies(import_id)
+                    ]
+                })
+            elif (study_id := self._path_id(
+                parsed.path, "/api/codex-replays"
+            )) is not None:
+                self._json(codex_replay_view(self.server.store, study_id))
             elif (job_id := self._path_id(
                 parsed.path, "/api/focused-research-jobs"
             )) is not None:
@@ -353,6 +373,39 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     self.server.store,
                     int(payload.get("assignmentId") or 0),
                     str(payload.get("rawText") or ""),
+                ))
+            elif parsed.path == "/api/codex-replays":
+                payload = self._read_json()
+                self._json(prepare_codex_replay_study(
+                    self.server.store,
+                    int(payload["importId"]) if payload.get("importId") else None,
+                ), HTTPStatus.CREATED)
+            elif (study_id := self._path_id(
+                parsed.path, "/api/codex-replays", "next-assignment"
+            )) is not None:
+                self._read_json()
+                self._json({
+                    "assignment": next_codex_replay_assignment(
+                        self.server.store, study_id
+                    )
+                })
+            elif (study_id := self._path_id(
+                parsed.path, "/api/codex-replays", "results"
+            )) is not None:
+                payload = self._read_json()
+                self._json(save_codex_replay_result(
+                    self.server.store,
+                    study_id,
+                    int(payload.get("jobId") or 0),
+                    str(payload.get("focusKey") or ""),
+                    str(payload.get("rawText") or ""),
+                ))
+            elif (study_id := self._path_id(
+                parsed.path, "/api/codex-replays", "reveal"
+            )) is not None:
+                self._read_json()
+                self._json(reveal_and_complete_codex_replay(
+                    self.server.store, study_id
                 ))
             elif (job_id := self._path_id(
                 parsed.path, "/api/focused-research-jobs", "next-assignment"
