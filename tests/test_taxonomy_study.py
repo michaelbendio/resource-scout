@@ -362,6 +362,21 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertEqual(11, proposal["coverage"]["targetCategoryCounts"][
             "caregiving"
         ])
+        assignment_by_id = {
+            item["resourceId"]: item for item in assignments
+        }
+        self.assertEqual(
+            ["legal"],
+            assignment_by_id["ce14bd1aa42c212343ff01bdda80381e"][
+                "proposedNeedCategories"
+            ],
+        )
+        self.assertEqual(
+            ["caregiving", "legal"],
+            assignment_by_id["b47b61d084512681adb9c7ccacf2268c"][
+                "proposedNeedCategories"
+            ],
+        )
 
     def test_type_packets_require_the_approved_category_rules(self) -> None:
         study = {
@@ -518,6 +533,14 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertEqual(
             domestic_violence["assignments"]["85a5b070658ea4afa6c89b604340e53e"],
             ["Address Confidentiality"],
+        )
+        self.assertNotIn(
+            "ce14bd1aa42c212343ff01bdda80381e",
+            domestic_violence["assignments"],
+        )
+        self.assertNotIn(
+            "b47b61d084512681adb9c7ccacf2268c",
+            domestic_violence["assignments"],
         )
 
     def test_type_design_requires_coverage_but_allows_no_type_needed(self) -> None:

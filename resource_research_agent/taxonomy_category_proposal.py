@@ -227,9 +227,9 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
     "debb9e4a689060f00162da9ac2f8063b": [
         "independent-living", "caregiving", "medical-dental-vision",
     ],
-    "ce14bd1aa42c212343ff01bdda80381e": ["legal", "domestic-violence"],
+    "ce14bd1aa42c212343ff01bdda80381e": ["legal"],
     "b47b61d084512681adb9c7ccacf2268c": [
-        "caregiving", "legal", "domestic-violence",
+        "caregiving", "legal",
     ],
     "38629d0e712141f7531b4cff4b0bfd53": [
         "caregiving", "parenting-child-development", "legal",
