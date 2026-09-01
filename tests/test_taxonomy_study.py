@@ -1072,6 +1072,34 @@ class TaxonomyStudyTests(unittest.TestCase):
             {item["label"] for item in assignments[2]["groups"]},
         )
 
+    def test_general_legal_clinic_accommodates_veterans(self) -> None:
+        packet = {
+            "studyId": 1,
+            "packetSha256": "2" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [{
+                    "corpusKey": "automesa-curated:138a8c6f2c950488f75f8766e2ef6252",
+                    "resourceId": "legal-center",
+                    "name": "Arizona Legal Center",
+                    "priorCategoryIds": ["legal"],
+                    "proposedCategoryIds": ["legal"],
+                    "priorForGroups": ["Veterans"],
+                    "resource": {
+                        "name": "Arizona Legal Center",
+                        "description": "General legal consultations include veterans issues.",
+                        "informationText": "",
+                    },
+                }],
+            },
+        }
+        groups = {
+            item["label"]: item
+            for item in infer_group_proposal(packet)["assignments"][0]["groups"]
+        }
+        self.assertEqual("accommodate", groups["Veterans"]["mode"])
+
     def test_multiple_categories_are_ored(self) -> None:
         self.assertTrue(matches_category_filter(
             resource_categories={"education", "employment"},
