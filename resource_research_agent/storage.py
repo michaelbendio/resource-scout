@@ -463,6 +463,31 @@ CREATE TABLE IF NOT EXISTS taxonomy_studies (
 );
 CREATE INDEX IF NOT EXISTS taxonomy_study_status
     ON taxonomy_studies(import_id, status, id);
+CREATE TABLE IF NOT EXISTS taxonomy_category_review_revisions (
+    study_id INTEGER NOT NULL REFERENCES taxonomy_studies(id) ON DELETE CASCADE,
+    revision INTEGER NOT NULL CHECK (revision >= 0),
+    created_at TEXT NOT NULL,
+    review_json TEXT NOT NULL,
+    review_sha256 TEXT NOT NULL CHECK (length(review_sha256) = 64),
+    source TEXT NOT NULL,
+    note TEXT NOT NULL DEFAULT '',
+    PRIMARY KEY (study_id, revision),
+    UNIQUE (study_id, review_sha256)
+);
+CREATE TABLE IF NOT EXISTS taxonomy_category_redistribution_proposals (
+    study_id INTEGER NOT NULL REFERENCES taxonomy_studies(id) ON DELETE CASCADE,
+    revision INTEGER NOT NULL CHECK (revision >= 1),
+    created_at TEXT NOT NULL,
+    based_on_category_review_sha256 TEXT NOT NULL CHECK (
+        length(based_on_category_review_sha256) = 64
+    ),
+    proposal_json TEXT NOT NULL,
+    proposal_sha256 TEXT NOT NULL CHECK (length(proposal_sha256) = 64),
+    source TEXT NOT NULL,
+    note TEXT NOT NULL DEFAULT '',
+    PRIMARY KEY (study_id, revision),
+    UNIQUE (study_id, proposal_sha256)
+);
 CREATE TABLE IF NOT EXISTS scout_workflow_progress_events (
     id INTEGER PRIMARY KEY,
     import_id INTEGER NOT NULL REFERENCES imports(id) ON DELETE CASCADE,
@@ -3692,7 +3717,203 @@ class ResearchStore:
                     str(study["categoryReviewSha256"]),
                 ),
             )
-        return int(cursor.lastrowid)
+            study_id = int(cursor.lastrowid)
+            connection.execute(
+                """INSERT INTO taxonomy_category_review_revisions (
+                       study_id, revision, created_at, review_json,
+                       review_sha256, source, note
+                   ) VALUES (?, 0, ?, ?, ?, 'scout-generated', ?)""",
+                (
+                    study_id,
+                    now,
+                    _json(study["categoryReview"]),
+                    str(study["categoryReviewSha256"]),
+                    "Initial need-Category worksheet frozen with the study corpus.",
+                ),
+            )
+        return study_id
+
+    def save_taxonomy_category_review_revision(
+        self,
+        study_id: int,
+        review: dict[str, Any],
+        review_sha256: str,
+        *,
+        expected_prior_sha256: str,
+        source: str,
+        note: str = "",
+    ) -> int:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            study = connection.execute(
+                """SELECT category_review_json, category_review_sha256
+                   FROM taxonomy_studies WHERE id = ?""",
+                (int(study_id),),
+            ).fetchone()
+            if not study:
+                raise ValueError("Taxonomy study not found")
+            current_sha256 = str(study["category_review_sha256"])
+            if current_sha256 != str(expected_prior_sha256):
+                raise ValueError(
+                    "The Category review changed after it was read; reload it before saving"
+                )
+            existing = connection.execute(
+                """SELECT revision FROM taxonomy_category_review_revisions
+                   WHERE study_id = ? AND review_sha256 = ?""",
+                (int(study_id), str(review_sha256)),
+            ).fetchone()
+            if existing:
+                return int(existing["revision"])
+            base = connection.execute(
+                """SELECT revision FROM taxonomy_category_review_revisions
+                   WHERE study_id = ? ORDER BY revision DESC LIMIT 1""",
+                (int(study_id),),
+            ).fetchone()
+            if base is None:
+                connection.execute(
+                    """INSERT INTO taxonomy_category_review_revisions (
+                           study_id, revision, created_at, review_json,
+                           review_sha256, source, note
+                       ) VALUES (?, 0, ?, ?, ?, 'scout-generated', ?)""",
+                    (
+                        int(study_id),
+                        now,
+                        str(study["category_review_json"]),
+                        current_sha256,
+                        "Backfilled initial need-Category worksheet.",
+                    ),
+                )
+                revision = 1
+            else:
+                revision = int(base["revision"]) + 1
+            connection.execute(
+                """INSERT INTO taxonomy_category_review_revisions (
+                       study_id, revision, created_at, review_json,
+                       review_sha256, source, note
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    int(study_id),
+                    revision,
+                    now,
+                    _json(review),
+                    str(review_sha256),
+                    str(source),
+                    str(note),
+                ),
+            )
+            connection.execute(
+                """UPDATE taxonomy_studies
+                   SET category_review_json = ?, category_review_sha256 = ?,
+                       updated_at = ? WHERE id = ?""",
+                (_json(review), str(review_sha256), now, int(study_id)),
+            )
+        return revision
+
+    def list_taxonomy_category_review_revisions(
+        self, study_id: int
+    ) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT * FROM taxonomy_category_review_revisions
+                   WHERE study_id = ? ORDER BY revision""",
+                (int(study_id),),
+            ).fetchall()
+        return [
+            {
+                "studyId": int(row["study_id"]),
+                "revision": int(row["revision"]),
+                "createdAt": row["created_at"],
+                "review": json.loads(row["review_json"]),
+                "reviewSha256": str(row["review_sha256"]),
+                "source": str(row["source"]),
+                "note": str(row["note"]),
+            }
+            for row in rows
+        ]
+
+    def save_taxonomy_category_redistribution_proposal(
+        self,
+        study_id: int,
+        proposal: dict[str, Any],
+        proposal_sha256: str,
+        *,
+        based_on_category_review_sha256: str,
+        source: str,
+        note: str = "",
+    ) -> int:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            study = connection.execute(
+                """SELECT category_review_sha256 FROM taxonomy_studies
+                   WHERE id = ?""",
+                (int(study_id),),
+            ).fetchone()
+            if not study:
+                raise ValueError("Taxonomy study not found")
+            if str(study["category_review_sha256"]) != str(
+                based_on_category_review_sha256
+            ):
+                raise ValueError(
+                    "The Category review changed; rebuild the redistribution proposal"
+                )
+            existing = connection.execute(
+                """SELECT revision
+                   FROM taxonomy_category_redistribution_proposals
+                   WHERE study_id = ? AND proposal_sha256 = ?""",
+                (int(study_id), str(proposal_sha256)),
+            ).fetchone()
+            if existing:
+                return int(existing["revision"])
+            row = connection.execute(
+                """SELECT COALESCE(MAX(revision), 0) AS revision
+                   FROM taxonomy_category_redistribution_proposals
+                   WHERE study_id = ?""",
+                (int(study_id),),
+            ).fetchone()
+            revision = int(row["revision"]) + 1
+            connection.execute(
+                """INSERT INTO taxonomy_category_redistribution_proposals (
+                       study_id, revision, created_at,
+                       based_on_category_review_sha256, proposal_json,
+                       proposal_sha256, source, note
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    int(study_id),
+                    revision,
+                    now,
+                    str(based_on_category_review_sha256),
+                    _json(proposal),
+                    str(proposal_sha256),
+                    str(source),
+                    str(note),
+                ),
+            )
+        return revision
+
+    def list_taxonomy_category_redistribution_proposals(
+        self, study_id: int
+    ) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT * FROM taxonomy_category_redistribution_proposals
+                   WHERE study_id = ? ORDER BY revision""",
+                (int(study_id),),
+            ).fetchall()
+        return [
+            {
+                "studyId": int(row["study_id"]),
+                "revision": int(row["revision"]),
+                "createdAt": row["created_at"],
+                "basedOnCategoryReviewSha256": str(
+                    row["based_on_category_review_sha256"]
+                ),
+                "proposal": json.loads(row["proposal_json"]),
+                "proposalSha256": str(row["proposal_sha256"]),
+                "source": str(row["source"]),
+                "note": str(row["note"]),
+            }
+            for row in rows
+        ]
 
     def get_taxonomy_study(self, study_id: int) -> dict[str, Any] | None:
         with self.connect() as connection:
@@ -3701,6 +3922,10 @@ class ResearchStore:
             ).fetchone()
         if not row:
             return None
+        revisions = self.list_taxonomy_category_review_revisions(int(row["id"]))
+        proposals = self.list_taxonomy_category_redistribution_proposals(
+            int(row["id"])
+        )
         return {
             "id": int(row["id"]),
             "importId": int(row["import_id"]),
@@ -3717,6 +3942,11 @@ class ResearchStore:
             "corpusSha256": str(row["corpus_sha256"]),
             "categoryReview": json.loads(row["category_review_json"]),
             "categoryReviewSha256": str(row["category_review_sha256"]),
+            "categoryReviewRevision": (
+                revisions[-1]["revision"] if revisions else 0
+            ),
+            "categoryReviewRevisions": revisions,
+            "categoryRedistributionProposals": proposals,
             "approvedAt": row["approved_at"],
             "compiledAt": row["compiled_at"],
         }

@@ -10,9 +10,17 @@ from pathlib import Path
 
 from resource_research_agent.importer import ResourcePackageImporter
 from resource_research_agent.storage import ResearchStore
+from resource_research_agent.taxonomy_category_proposal import (
+    MESA_TAXONOMY_CORPUS_SHA256,
+    PROPOSED_NEED_CATEGORIES,
+    RESOURCE_TARGETS,
+    RETIRED_CATEGORY_IDS,
+    build_mesa_category_redistribution_proposal,
+)
 from resource_research_agent.taxonomy_study import (
     TaxonomyStudyError,
     prepare_taxonomy_study,
+    record_mesa_category_directions,
     taxonomy_study_summary,
 )
 
@@ -207,6 +215,48 @@ class TaxonomyStudyTests(unittest.TestCase):
             first["categoryReviewSha256"], second["categoryReviewSha256"]
         )
 
+    def test_approved_directions_create_revision_without_losing_initial_review(self) -> None:
+        with self.store.connect() as connection:
+            rows = [
+                ("children-pregnancy", "Children/Pregnancy"),
+                ("disability", "Disability"),
+                ("reentry-support", "Reentry Support"),
+                ("veterans", "Veterans"),
+            ]
+            connection.executemany(
+                """INSERT INTO categories (import_id, category_id, label, raw_json)
+                   VALUES (?, ?, ?, '{}')""",
+                [(self.import_id, category_id, label) for category_id, label in rows],
+            )
+        study = prepare_taxonomy_study(
+            self.store,
+            self.import_id,
+            curation_job_id=self.curation_job_id,
+            replay_study_id=self.replay_study_id,
+        )
+        original_sha = study["categoryReviewSha256"]
+        updated = record_mesa_category_directions(self.store, study["id"])
+        self.assertEqual(1, updated["categoryReviewRevision"])
+        self.assertNotEqual(original_sha, updated["categoryReviewSha256"])
+        self.assertEqual(2, len(updated["categoryReviewRevisions"]))
+        self.assertEqual(
+            original_sha,
+            updated["categoryReviewRevisions"][0]["reviewSha256"],
+        )
+        seniors = next(
+            item for item in updated["categoryReview"]["categories"]
+            if item["categoryId"] == "seniors"
+        )
+        disability = next(
+            item for item in updated["categoryReview"]["categories"]
+            if item["categoryId"] == "disability"
+        )
+        self.assertEqual("reclassify-for", seniors["decision"])
+        self.assertEqual(["Seniors"], seniors["targetFor"])
+        self.assertEqual("direction-approved", seniors["reviewStatus"])
+        self.assertIsNone(disability["decision"])
+        self.assertEqual("analysis-required", disability["reviewStatus"])
+
     def test_requires_completed_revealed_replay(self) -> None:
         with self.store.connect() as connection:
             connection.execute(
@@ -222,6 +272,79 @@ class TaxonomyStudyTests(unittest.TestCase):
                 curation_job_id=self.curation_job_id,
                 replay_study_id=self.replay_study_id,
             )
+
+    def test_mesa_proposal_refuses_another_frozen_corpus(self) -> None:
+        study = prepare_taxonomy_study(
+            self.store,
+            self.import_id,
+            curation_job_id=self.curation_job_id,
+            replay_study_id=self.replay_study_id,
+        )
+        self.assertNotEqual(MESA_TAXONOMY_CORPUS_SHA256, study["corpusSha256"])
+        with self.assertRaisesRegex(TaxonomyStudyError, "another frozen corpus"):
+            build_mesa_category_redistribution_proposal(study)
+
+    def test_mesa_resource_targets_never_use_retired_headings(self) -> None:
+        retired = {
+            "children-pregnancy", "disability", "reentry-support",
+            "miscellaneous", "seniors", "veterans",
+        }
+        self.assertTrue(RESOURCE_TARGETS)
+        for resource_id, targets in RESOURCE_TARGETS.items():
+            with self.subTest(resource_id=resource_id):
+                self.assertTrue(targets)
+                self.assertEqual(len(targets), len(set(targets)))
+                self.assertFalse(retired.intersection(targets))
+
+    def test_mesa_proposal_covers_each_affected_resource_exactly_once(self) -> None:
+        target_ids = {
+            category_id
+            for targets in RESOURCE_TARGETS.values()
+            for category_id in targets
+        }
+        current_ids = sorted(
+            (target_ids - {item["id"] for item in PROPOSED_NEED_CATEGORIES})
+            | RETIRED_CATEGORY_IDS
+        )
+        study = {
+            "id": 1,
+            "corpusSha256": MESA_TAXONOMY_CORPUS_SHA256,
+            "categoryReviewSha256": "4" * 64,
+            "corpus": {
+                "categories": [
+                    {"id": category_id, "label": category_id}
+                    for category_id in current_ids
+                ],
+                "resources": [
+                    {
+                        "corpusKey": f"automesa-curated:{resource_id}",
+                        "origin": "automesa-curated",
+                        "resourceId": resource_id,
+                        "name": f"Resource {resource_id}",
+                        "categories": ["seniors"],
+                        "resource": {"id": resource_id},
+                    }
+                    for resource_id in RESOURCE_TARGETS
+                ],
+            },
+        }
+        proposal = build_mesa_category_redistribution_proposal(study)
+        assignments = proposal["assignments"]
+        self.assertEqual(len(RESOURCE_TARGETS), len(assignments))
+        self.assertEqual(
+            set(RESOURCE_TARGETS),
+            {item["resourceId"] for item in assignments},
+        )
+        self.assertEqual(0, proposal["coverage"]["unassignedCount"])
+        self.assertEqual(20, proposal["coverage"]["targetCategoryCounts"][
+            "parenting-child-development"
+        ])
+        self.assertEqual(18, proposal["coverage"]["targetCategoryCounts"][
+            "independent-living"
+        ])
+        self.assertEqual(10, proposal["coverage"]["targetCategoryCounts"][
+            "caregiving"
+        ])
 
 
 if __name__ == "__main__":

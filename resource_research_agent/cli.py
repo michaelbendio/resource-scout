@@ -17,7 +17,14 @@ from .importer import ResourcePackageImporter
 from .server import serve
 from .storage import ResearchStore
 from .tailscale import TailscaleAccessError, TailscaleServeManager
-from .taxonomy_study import prepare_taxonomy_study, taxonomy_study_summary
+from .taxonomy_category_proposal import (
+    save_mesa_category_redistribution_proposal,
+)
+from .taxonomy_study import (
+    prepare_taxonomy_study,
+    record_mesa_category_directions,
+    taxonomy_study_summary,
+)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -70,6 +77,21 @@ def parser() -> argparse.ArgumentParser:
         "taxonomy-category-review", help="Show the need-Category review worksheet"
     )
     taxonomy_review.add_argument("study_id", type=int)
+    taxonomy_approve_directions = subcommands.add_parser(
+        "taxonomy-record-mesa-directions",
+        help="Record Michael's approved Mesa need-Category directions",
+    )
+    taxonomy_approve_directions.add_argument("study_id", type=int)
+    taxonomy_propose_categories = subcommands.add_parser(
+        "taxonomy-propose-mesa-categories",
+        help="Create the resource-level Mesa need-Category proposal",
+    )
+    taxonomy_propose_categories.add_argument("study_id", type=int)
+    taxonomy_category_proposal = subcommands.add_parser(
+        "taxonomy-category-proposal",
+        help="Show the latest resource-level need-Category proposal",
+    )
+    taxonomy_category_proposal.add_argument("study_id", type=int)
     return result
 
 
@@ -152,6 +174,23 @@ def main(argv: list[str] | None = None) -> int:
         if value is None:
             raise ValueError("Taxonomy study not found")
         print(json.dumps(value["categoryReview"], ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-record-mesa-directions":
+        value = record_mesa_category_directions(store, args.study_id)
+        print(json.dumps(taxonomy_study_summary(value), ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-propose-mesa-categories":
+        value = save_mesa_category_redistribution_proposal(store, args.study_id)
+        print(json.dumps(value, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-category-proposal":
+        value = store.get_taxonomy_study(args.study_id)
+        if value is None:
+            raise ValueError("Taxonomy study not found")
+        proposals = value.get("categoryRedistributionProposals") or []
+        if not proposals:
+            raise ValueError("The taxonomy study has no Category proposal")
+        print(json.dumps(proposals[-1], ensure_ascii=False, indent=2))
         return 0
     return 2
 

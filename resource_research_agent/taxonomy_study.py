@@ -11,6 +11,44 @@ from .storage import ResearchStore
 
 TAXONOMY_STUDY_VERSION = "needs-types-for-v1"
 
+APPROVED_MESA_CATEGORY_DIRECTIONS = {
+    "seniors": {
+        "decision": "reclassify-for",
+        "targetFor": ["Seniors"],
+        "direction": "Move each resource to the need Category or Categories it addresses.",
+    },
+    "veterans": {
+        "decision": "reclassify-for",
+        "targetFor": ["Veterans"],
+        "direction": "Move each resource to the need Category or Categories it addresses.",
+    },
+    "reentry-support": {
+        "decision": "reclassify-for",
+        "targetFor": ["Exiting corrections"],
+        "direction": "Move each resource to the need Category or Categories it addresses.",
+    },
+    "children-pregnancy": {
+        "decision": "split-needs",
+        "targetForCandidates": ["Pregnant/postpartum", "Families with children"],
+        "direction": (
+            "Retire the mixed heading, infer applicable For groups, and identify "
+            "genuine parenting, child-development, or other need gaps before redistribution."
+        ),
+    },
+    "disability": {
+        "decision": None,
+        "direction": (
+            "Do not decide from the heading alone. Infer People with disabilities where "
+            "supported and identify genuine assistive-technology, caregiving, daily-living, "
+            "or other need gaps before deciding whether any need Category remains."
+        ),
+    },
+    "miscellaneous": {
+        "decision": "retire",
+        "direction": "Remove the empty catch-all from the proposed need taxonomy.",
+    },
+}
+
 
 class TaxonomyStudyError(ValueError):
     """Raised when Scout cannot prepare a reproducible taxonomy review."""
@@ -256,6 +294,8 @@ def prepare_taxonomy_study(
 def taxonomy_study_summary(study: dict[str, Any]) -> dict[str, Any]:
     resources = study["corpus"]["resources"]
     categories = study["categoryReview"]["categories"]
+    proposals = study.get("categoryRedistributionProposals") or []
+    latest_proposal = proposals[-1] if proposals else None
     return {
         "id": study["id"],
         "status": study["status"],
@@ -265,6 +305,20 @@ def taxonomy_study_summary(study: dict[str, Any]) -> dict[str, Any]:
         "replayStudyId": study["replayStudyId"],
         "corpusSha256": study["corpusSha256"],
         "categoryReviewSha256": study["categoryReviewSha256"],
+        "categoryReviewRevision": study.get("categoryReviewRevision", 0),
+        "categoryRedistributionProposal": (
+            {
+                "revision": latest_proposal["revision"],
+                "proposalSha256": latest_proposal["proposalSha256"],
+                "affectedResourceCount": latest_proposal["proposal"]["coverage"][
+                    "affectedResourceCount"
+                ],
+                "unassignedCount": latest_proposal["proposal"]["coverage"][
+                    "unassignedCount"
+                ],
+            }
+            if latest_proposal else None
+        ),
         "resourceCounts": {
             "connectedPackage": sum(
                 item["origin"] == "connected-package" for item in resources
@@ -285,3 +339,64 @@ def taxonomy_study_summary(study: dict[str, Any]) -> dict[str, Any]:
             if item["attention"]
         ],
     }
+
+
+def record_mesa_category_directions(
+    store: ResearchStore,
+    study_id: int,
+) -> dict[str, Any]:
+    study = store.get_taxonomy_study(study_id)
+    if study is None:
+        raise TaxonomyStudyError("Taxonomy study not found")
+    if study["studyVersion"] != TAXONOMY_STUDY_VERSION:
+        raise TaxonomyStudyError("The Category directions do not match this study version")
+    review = deepcopy(study["categoryReview"])
+    by_id = {
+        str(item["categoryId"]): item
+        for item in review.get("categories") or []
+    }
+    missing = sorted(set(APPROVED_MESA_CATEGORY_DIRECTIONS) - set(by_id))
+    if missing:
+        raise TaxonomyStudyError(
+            "The study is missing reviewed Categories: " + ", ".join(missing)
+        )
+    for category_id, direction in APPROVED_MESA_CATEGORY_DIRECTIONS.items():
+        row = by_id[category_id]
+        row.update(deepcopy(direction))
+        row["reviewStatus"] = (
+            "analysis-required" if direction["decision"] is None
+            else "direction-approved"
+        )
+        row["redistributionStatus"] = (
+            "not-applicable" if direction["decision"] == "retire"
+            else "analysis-pending"
+        )
+    review["schemaVersion"] = 2
+    review["decisionSemantics"] = {
+        "direction-approved": (
+            "Michael approved the direction; individual resource redistribution "
+            "and any new need Categories still require review."
+        ),
+        "analysis-required": (
+            "The heading is not approved or rejected until its resources reveal "
+            "whether a distinct need Category is warranted."
+        ),
+    }
+    review_sha256 = _sha256(review)
+    revision = store.save_taxonomy_category_review_revision(
+        study_id,
+        review,
+        review_sha256,
+        expected_prior_sha256=study["categoryReviewSha256"],
+        source="michael-approved-direction",
+        note=(
+            "Approved Category directions from the Types and For-groups design review; "
+            "resource-level redistribution remains proposal-only."
+        ),
+    )
+    result = store.get_taxonomy_study(study_id)
+    if result is None:  # pragma: no cover
+        raise RuntimeError("Updated taxonomy study could not be read")
+    if int(result["categoryReviewRevision"]) != revision:  # pragma: no cover
+        raise RuntimeError("Updated taxonomy revision could not be read")
+    return result
