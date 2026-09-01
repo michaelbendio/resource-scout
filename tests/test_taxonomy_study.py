@@ -410,6 +410,35 @@ class TaxonomyStudyTests(unittest.TestCase):
                     },
                 )
 
+    def test_need_type_designs_preserve_method_boundaries(self) -> None:
+        housing = NEW_CATEGORY_TYPE_DESIGNS["housing"]
+        housing_labels = {item["label"] for item in housing["types"]}
+        self.assertIn("Emergency Shelter", housing_labels)
+        self.assertIn("Rapid Rehousing", housing_labels)
+        self.assertIn("Rental Assistance", housing_labels)
+        self.assertNotIn("Veterans", housing_labels)
+        self.assertNotIn("Seniors", housing_labels)
+
+        homeless = NEW_CATEGORY_TYPE_DESIGNS["homeless-services"]
+        self.assertEqual(
+            homeless["assignments"]["0df6bb236d8c7bf168ce4867dc83360e"],
+            "no-type-needed",
+        )
+        self.assertIn(
+            "Street Outreach",
+            homeless["assignments"]["91d5cdd19b42853fb4bbe8e57f325be0"],
+        )
+
+        financial = NEW_CATEGORY_TYPE_DESIGNS["financial-assistance"]
+        self.assertIn(
+            "Disability Income",
+            financial["assignments"]["8d70eda15ed4d365bd3ffb2577c8653e"],
+        )
+        self.assertIn(
+            "Benefits Navigation",
+            financial["assignments"]["c6862828db3631873bf2eb1f4ff99bea"],
+        )
+
     def test_type_design_requires_coverage_but_allows_no_type_needed(self) -> None:
         packet = {
             "studyId": 1,
