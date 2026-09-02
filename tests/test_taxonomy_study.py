@@ -392,7 +392,7 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertEqual(17, proposal["coverage"]["targetCategoryCounts"][
             "parenting-child-development"
         ])
-        self.assertEqual(19, proposal["coverage"]["targetCategoryCounts"][
+        self.assertEqual(20, proposal["coverage"]["targetCategoryCounts"][
             "independent-living"
         ])
         self.assertEqual(11, proposal["coverage"]["targetCategoryCounts"][
@@ -1273,9 +1273,26 @@ class TaxonomyStudyTests(unittest.TestCase):
         )
 
         independent_living = CATEGORY_TYPE_DESIGNS["independent-living"]
+        independent_living_labels = {
+            item["label"] for item in independent_living["types"]
+        }
+        self.assertEqual(9, len(independent_living_labels))
+        self.assertNotIn("Long-Term Care", independent_living_labels)
         self.assertEqual(
             ["Assistive Technology"],
             independent_living["assignments"]["d6de881b1d1c0d17801cfcc7e6614ffd"],
+        )
+        self.assertEqual(
+            "no-type-needed",
+            independent_living["assignments"]["a246f47cd18fc8d7b1bfa520a0451300"],
+        )
+        self.assertEqual(
+            ["In-home Support", "Case Management"],
+            independent_living["assignments"]["eb94f24384f8e51a2b237d7d8c507948"],
+        )
+        self.assertIn(
+            "independent-living",
+            RESOURCE_TARGETS["eb94f24384f8e51a2b237d7d8c507948"],
         )
 
         employment = CATEGORY_TYPE_DESIGNS["employment"]
@@ -1537,6 +1554,57 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertTrue(all(
             any(
                 group["label"] == "Families" and group["mode"] == "target"
+                for group in assignment["groups"]
+            )
+            for assignment in assignments
+        ))
+
+    def test_independent_living_programs_include_disabled_group(self) -> None:
+        resources = [
+            (
+                "debb9e4a689060f00162da9ac2f8063b",
+                "AllThrive 365",
+                "Adult day health for older adults and younger adults with disability.",
+            ),
+            (
+                "df1db0951c8ad7dd0bcc0ec05a41b169",
+                "Maricopa County SAIL",
+                "Independent living help for seniors and adults with physical disability.",
+            ),
+            (
+                "b41ef2cfadba3f4bedf490af52f17362",
+                "Oakwood Creative Care",
+                "Adult day care for dementia, Parkinson's, stroke, and traumatic brain injury.",
+            ),
+        ]
+        packet = {
+            "studyId": 1,
+            "packetSha256": "e" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [
+                    {
+                        "corpusKey": f"automesa-curated:{resource_id}",
+                        "resourceId": resource_id,
+                        "name": name,
+                        "priorCategoryIds": ["seniors"],
+                        "proposedCategoryIds": ["independent-living"],
+                        "priorForGroups": ["Seniors"],
+                        "resource": {
+                            "name": name,
+                            "description": description,
+                            "informationText": "",
+                        },
+                    }
+                    for resource_id, name, description in resources
+                ],
+            },
+        }
+        assignments = infer_group_proposal(packet)["assignments"]
+        self.assertTrue(all(
+            any(
+                group["label"] == "Disabled" and group["mode"] == "target"
                 for group in assignment["groups"]
             )
             for assignment in assignments

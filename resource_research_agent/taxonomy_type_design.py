@@ -1488,10 +1488,6 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
                 "label": "Vision Rehabilitation",
                 "definition": "Specialized rehabilitation and skills for blindness or low vision.",
             },
-            {
-                "label": "Long-Term Care",
-                "definition": "Eligibility or service pathways for sustained home or community-based care.",
-            },
         ],
         "assignments": {
             "a121b7ac06dc9b9ef503e462d5cffdd8": [
@@ -1508,7 +1504,10 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
                 "Communication Access", "Assistive Technology", "Self-Advocacy",
             ],
             "c30d34b41e5260bdd10a194738ec8df2": ["Adaptive Recreation"],
-            "a246f47cd18fc8d7b1bfa520a0451300": ["Long-Term Care"],
+            "a246f47cd18fc8d7b1bfa520a0451300": "no-type-needed",
+            "eb94f24384f8e51a2b237d7d8c507948": [
+                "In-home Support", "Case Management",
+            ],
             "6be73b6539fd16b3a6c84ffad77aace8": [
                 "Assistive Technology", "Living Skills",
             ],

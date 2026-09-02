@@ -201,7 +201,7 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "independent-living", "utilities-phone-internet",
     ],
     "eb94f24384f8e51a2b237d7d8c507948": [
-        "caregiving",
+        "independent-living", "caregiving",
     ],
     "4ac8a5df1279284d2d5e64df54b5c1dd": ["independent-living", "education"],
     "c30d34b41e5260bdd10a194738ec8df2": ["independent-living"],
