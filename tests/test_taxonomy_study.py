@@ -524,6 +524,16 @@ class TaxonomyStudyTests(unittest.TestCase):
             utilities["assignments"]["ee67d6c2ce1b1b7f9dbf0b2ef86ef972"],
         )
 
+        id_recovery = CATEGORY_TYPE_DESIGNS["id-recovery"]
+        self.assertIn(
+            "Mail Service",
+            id_recovery["assignments"]["5bfda48463f45755a59145fa7d226906"],
+        )
+        self.assertIn(
+            "Mail Service",
+            id_recovery["assignments"]["fb14c6d3b942c86033ad23bf8b60fb48"],
+        )
+
         education = CATEGORY_TYPE_DESIGNS["education"]
         online_ged = education["assignments"][
             "cce4f2f7537a93ea0f58d524dc2dd818"
