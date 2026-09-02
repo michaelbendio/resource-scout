@@ -9,7 +9,7 @@ from .scout_curation import completed_scout_curation_resources
 from .storage import ResearchStore
 
 
-TAXONOMY_STUDY_VERSION = "needs-types-for-v5"
+TAXONOMY_STUDY_VERSION = "needs-types-for-v6"
 
 APPROVED_MESA_CATEGORY_DIRECTIONS = {
     "clothing-household": {

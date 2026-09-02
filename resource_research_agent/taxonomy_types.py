@@ -11,6 +11,10 @@ from .taxonomy_study import TaxonomyStudyError
 
 
 APPROVED_CATEGORY_RULES = {
+    "systemCoordinationBoundary": (
+        "Provider collaboration, training, research, vehicle sharing, and other system-level "
+        "coordination do not establish a client-facing Transportation need assignment."
+    ),
     "clothingHouseholdSplit": (
         "Replace Clothing/Household with separate Clothing and Household Essentials "
         "need Categories. Put school supplies in Education and medical equipment in "

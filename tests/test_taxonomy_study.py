@@ -505,9 +505,17 @@ class TaxonomyStudyTests(unittest.TestCase):
         )
 
         transportation = CATEGORY_TYPE_DESIGNS["transportation"]
-        self.assertEqual(
-            "no-type-needed",
-            transportation["assignments"]["00cca473db91285a4a393f5ba53add8f"],
+        self.assertNotIn(
+            "00cca473db91285a4a393f5ba53add8f",
+            transportation["assignments"],
+        )
+        self.assertNotIn(
+            "transportation",
+            RESOURCE_TARGETS["00cca473db91285a4a393f5ba53add8f"],
+        )
+        self.assertIn(
+            "independent-living",
+            RESOURCE_TARGETS["00cca473db91285a4a393f5ba53add8f"],
         )
         self.assertNotIn(
             "Mobility Management",
