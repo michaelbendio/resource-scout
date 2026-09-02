@@ -9,7 +9,7 @@ from .scout_curation import completed_scout_curation_resources
 from .storage import ResearchStore
 
 
-TAXONOMY_STUDY_VERSION = "needs-types-for-v6"
+TAXONOMY_STUDY_VERSION = "needs-types-for-v7"
 
 APPROVED_MESA_CATEGORY_DIRECTIONS = {
     "clothing-household": {
@@ -320,6 +320,9 @@ def taxonomy_study_summary(study: dict[str, Any]) -> dict[str, Any]:
                 "affectedResourceCount": latest_proposal["proposal"]["coverage"][
                     "affectedResourceCount"
                 ],
+                "fullCorpusAdditionResourceCount": latest_proposal["proposal"][
+                    "coverage"
+                ].get("fullCorpusAdditionResourceCount", 0),
                 "unassignedCount": latest_proposal["proposal"]["coverage"][
                     "unassignedCount"
                 ],

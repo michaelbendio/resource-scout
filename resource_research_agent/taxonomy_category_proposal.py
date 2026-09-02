@@ -335,6 +335,57 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
 }
 
 
+# Category review originally redistributed only resources attached to headings that
+# are being retired. The full-corpus review can also add a valid secondary need to
+# a resource whose original heading remains in place. Keep those additions
+# separate so the original redistribution decision remains auditable.
+RESOURCE_CATEGORY_ADDITIONS: dict[str, list[str]] = {
+    # Recovery residences and residential substance-use treatment
+    "cfddfe7aec2aa52de1a56c0d3d797d9e": ["housing"],
+    "a21c310d2a515339bb648af71577d74d": ["housing"],
+    "5f7fa3abe7c319ad1bd03122a3caae11": ["housing"],
+    "86255417090cba31f14b0d7e9334d157": ["housing"],
+    "349f6314644d54f9964a53688887cc47": ["housing"],
+    "db242d7df7b5e913727adc08e1ab4029": ["housing"],
+    "25eba00c6cbab9b8fd1950d2938172b3": ["housing"],
+    "14d40b4e4bdd71c67e009326f3716119": ["housing"],
+    "0be7372bda5d130e905a555ea663b1aa": ["housing"],
+    "5494e7153548657ba7384d98b5d24247": ["housing"],
+    # Shelter and transitional-housing programs
+    "096327d7591511a067b7e9dd29f900b6": ["housing"],
+    "ed0745322850d01341f8baf07c69f0a0": ["housing"],
+    "19a8af5b80be03028603cfa5e8bebb6e": ["housing"],
+    "78410d1265bcc4f89c056a7d624434f8": ["housing"],
+    "bd8d70a1ed5b94634c74d90a66d1ea64": ["housing"],
+    "626aab0a5b4c6dcd7811605470690fc3": ["housing"],
+    "177117c4ee2b5824559a13d70c603148": ["housing"],
+    "b666b49c655c08750bdf54de800e82af": ["housing"],
+    "f76b64043d73b489d7067d9f9d856b42": ["housing"],
+    "ea694e1df9c5ce31796e579520312da9": ["housing"],
+    # Rent, deposits, eviction prevention, and accountable navigation
+    "106d516390d810b1989b53d59ae806c9": ["housing"],
+    "5a185dff18772905536e3488f7b75129": ["housing"],
+    "27adbd6da40ba1d0325ed17d523a3e94": ["housing"],
+    "987a8b8eb5e82e8c0216ef7bb436693f": ["housing"],
+    "4d728e518eb341e958f91d67d4cac4cd": ["housing"],
+    "bcc694b6232b6b88cd40c57d3052f4ca": ["housing"],
+    "ff1488daaf584a5c3e58c81b4e22bf10": ["housing"],
+    "5fd29d6c772cabbc8a6abc6614f9d3bd": ["housing"],
+    "fcdf7044337d12d9e7bdd3a7a732fd08": ["housing"],
+    "da4f4b5a717ae241f3363cc09eb4298a": ["housing"],
+    "08a26b747ffe8b1ea284e491a62d39e7": ["housing"],
+    "3460a40faf90d00f895061b117f1d9cc": ["housing"],
+    # Legal intervention that directly preserves housing
+    "138a8c6f2c950488f75f8766e2ef6252": ["housing"],
+    "c8f5de50d9d41ce30ec0b8b6ef45b249": ["housing"],
+    "a75559d019132060ea10e3390d9106ab": ["housing"],
+    "6d4803e545580ed7abc3cd8bb87b1314": ["housing"],
+    # These records were already redistributed from a retired population heading.
+    "fb402105bec44e0623b4ccf8d7064802": ["housing"],
+    "948dd967fb329f7e5f04c0814a113889": ["housing"],
+}
+
+
 def _canonical_json(value: Any) -> str:
     return json.dumps(
         value,
@@ -360,8 +411,11 @@ def build_mesa_category_redistribution_proposal(
         for item in study["corpus"]["resources"]
         if RETIRED_CATEGORY_IDS.intersection(item["categories"])
     ]
-    by_resource_id = {item["resourceId"]: item for item in affected}
-    expected_ids = set(by_resource_id)
+    affected_by_resource_id = {item["resourceId"]: item for item in affected}
+    all_by_resource_id = {
+        item["resourceId"]: item for item in study["corpus"]["resources"]
+    }
+    expected_ids = set(affected_by_resource_id)
     actual_ids = set(RESOURCE_TARGETS)
     if expected_ids != actual_ids:
         missing = sorted(expected_ids - actual_ids)
@@ -369,12 +423,32 @@ def build_mesa_category_redistribution_proposal(
         raise TaxonomyStudyError(
             f"Redistribution coverage mismatch; missing={missing}, extra={extra}"
         )
+    unknown_addition_resources = sorted(
+        set(RESOURCE_CATEGORY_ADDITIONS) - set(all_by_resource_id)
+    )
+    if unknown_addition_resources:
+        raise TaxonomyStudyError(
+            "Full-corpus Category additions reference unknown resources: "
+            + ", ".join(unknown_addition_resources)
+        )
     current_ids = {item["id"] for item in study["corpus"]["categories"]}
     proposed_ids = {item["id"] for item in PROPOSED_NEED_CATEGORIES}
     allowed_ids = (current_ids - RETIRED_CATEGORY_IDS) | proposed_ids
     assignments: list[dict[str, Any]] = []
     target_counts: Counter[str] = Counter()
-    for resource_id, targets in RESOURCE_TARGETS.items():
+    assignment_ids = set(RESOURCE_TARGETS) | set(RESOURCE_CATEGORY_ADDITIONS)
+    for resource_id in assignment_ids:
+        item = all_by_resource_id[resource_id]
+        base_targets = (
+            list(RESOURCE_TARGETS[resource_id])
+            if resource_id in RESOURCE_TARGETS
+            else list(item["categories"])
+        )
+        additions = list(RESOURCE_CATEGORY_ADDITIONS.get(resource_id) or [])
+        targets = base_targets + [
+            category_id for category_id in additions
+            if category_id not in base_targets
+        ]
         if not targets or len(targets) != len(set(targets)):
             raise TaxonomyStudyError(
                 f"Resource {resource_id} needs distinct non-empty target Categories"
@@ -384,7 +458,6 @@ def build_mesa_category_redistribution_proposal(
             raise TaxonomyStudyError(
                 f"Resource {resource_id} has unknown target Categories: {unknown}"
             )
-        item = by_resource_id[resource_id]
         removed = sorted(RETIRED_CATEGORY_IDS.intersection(item["categories"]))
         target_counts.update(targets)
         assignments.append({
@@ -419,7 +492,8 @@ def build_mesa_category_redistribution_proposal(
         "assignments": assignments,
         "coverage": {
             "affectedResourceCount": len(affected),
-            "uniqueAffectedResourceCount": len(by_resource_id),
+            "uniqueAffectedResourceCount": len(affected_by_resource_id),
+            "fullCorpusAdditionResourceCount": len(RESOURCE_CATEGORY_ADDITIONS),
             "assignmentCount": len(assignments),
             "unassignedCount": 0,
             "targetCategoryCounts": dict(sorted(target_counts.items())),

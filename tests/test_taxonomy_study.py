@@ -13,6 +13,7 @@ from resource_research_agent.storage import ResearchStore
 from resource_research_agent.taxonomy_category_proposal import (
     MESA_TAXONOMY_CORPUS_SHA256,
     PROPOSED_NEED_CATEGORIES,
+    RESOURCE_CATEGORY_ADDITIONS,
     RESOURCE_TARGETS,
     RETIRED_CATEGORY_IDS,
     build_mesa_category_redistribution_proposal,
@@ -314,6 +315,12 @@ class TaxonomyStudyTests(unittest.TestCase):
                 self.assertTrue(targets)
                 self.assertEqual(len(targets), len(set(targets)))
                 self.assertFalse(retired.intersection(targets))
+        self.assertTrue(RESOURCE_CATEGORY_ADDITIONS)
+        for resource_id, additions in RESOURCE_CATEGORY_ADDITIONS.items():
+            with self.subTest(resource_id=resource_id):
+                self.assertTrue(additions)
+                self.assertEqual(len(additions), len(set(additions)))
+                self.assertFalse(retired.intersection(additions))
 
     def test_mesa_proposal_covers_each_affected_resource_exactly_once(self) -> None:
         target_ids = {
@@ -344,15 +351,34 @@ class TaxonomyStudyTests(unittest.TestCase):
                         "resource": {"id": resource_id},
                     }
                     for resource_id in RESOURCE_TARGETS
+                ] + [
+                    {
+                        "corpusKey": f"connected-package:{resource_id}",
+                        "origin": "connected-package",
+                        "resourceId": resource_id,
+                        "name": f"Resource {resource_id}",
+                        "categories": ["addiction"],
+                        "resource": {"id": resource_id},
+                    }
+                    for resource_id in (
+                        set(RESOURCE_CATEGORY_ADDITIONS) - set(RESOURCE_TARGETS)
+                    )
                 ],
             },
         }
         proposal = build_mesa_category_redistribution_proposal(study)
         assignments = proposal["assignments"]
-        self.assertEqual(len(RESOURCE_TARGETS), len(assignments))
+        expected_assignment_ids = (
+            set(RESOURCE_TARGETS) | set(RESOURCE_CATEGORY_ADDITIONS)
+        )
+        self.assertEqual(len(expected_assignment_ids), len(assignments))
         self.assertEqual(
-            set(RESOURCE_TARGETS),
+            expected_assignment_ids,
             {item["resourceId"] for item in assignments},
+        )
+        self.assertEqual(
+            len(RESOURCE_CATEGORY_ADDITIONS),
+            proposal["coverage"]["fullCorpusAdditionResourceCount"],
         )
         self.assertEqual(0, proposal["coverage"]["unassignedCount"])
         self.assertEqual(20, proposal["coverage"]["targetCategoryCounts"][
@@ -376,6 +402,24 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertEqual(
             ["caregiving", "legal"],
             assignment_by_id["b47b61d084512681adb9c7ccacf2268c"][
+                "proposedNeedCategories"
+            ],
+        )
+        self.assertEqual(
+            ["addiction", "housing"],
+            assignment_by_id["a21c310d2a515339bb648af71577d74d"][
+                "proposedNeedCategories"
+            ],
+        )
+        self.assertEqual(
+            [],
+            assignment_by_id["a21c310d2a515339bb648af71577d74d"][
+                "removeCategories"
+            ],
+        )
+        self.assertIn(
+            "housing",
+            assignment_by_id["fb402105bec44e0623b4ccf8d7064802"][
                 "proposedNeedCategories"
             ],
         )
@@ -482,6 +526,9 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertIn("Emergency Shelter", housing_labels)
         self.assertIn("Rapid Rehousing", housing_labels)
         self.assertIn("Rental Assistance", housing_labels)
+        self.assertIn("Recovery Housing", housing_labels)
+        self.assertIn("Eviction Prevention", housing_labels)
+        self.assertIn("Eviction Legal Help", housing_labels)
         self.assertNotIn("Veterans", housing_labels)
         self.assertNotIn("Seniors", housing_labels)
 
@@ -552,6 +599,26 @@ class TaxonomyStudyTests(unittest.TestCase):
             ["Emergency Shelter", "Rapid Rehousing", "Housing Navigation"],
             housing["assignments"]["15b833547484fe110411244b99712ca9"],
         )
+        self.assertEqual(
+            ["Recovery Housing"],
+            housing["assignments"]["a21c310d2a515339bb648af71577d74d"],
+        )
+        self.assertEqual(
+            ["Treatment Housing"],
+            housing["assignments"]["14d40b4e4bdd71c67e009326f3716119"],
+        )
+        self.assertIn(
+            "Eviction Prevention",
+            housing["assignments"]["773f0771a3cca46a7a57189d17a58a01"],
+        )
+        self.assertEqual(
+            ["Eviction Legal Help"],
+            housing["assignments"]["a75559d019132060ea10e3390d9106ab"],
+        )
+        self.assertNotIn(
+            "6f857637fa2be0cd00ed6fc1671bded3",
+            housing["assignments"],
+        )
         family_hub_flag = next(
             item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
             if item["proposedIdentity"].startswith("Family Housing Hub")
@@ -562,6 +629,34 @@ class TaxonomyStudyTests(unittest.TestCase):
                 "eadaaf197b67dc1d520ae55c2dc28a19",
             },
             set(family_hub_flag["resourceIds"]),
+        )
+        sister_place_flag = next(
+            item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item["proposedIdentity"].startswith("My Sister's Place")
+        )
+        self.assertEqual(
+            {
+                "bd8d70a1ed5b94634c74d90a66d1ea64",
+                "ea694e1df9c5ce31796e579520312da9",
+            },
+            set(sister_place_flag["resourceIds"]),
+        )
+        separate_resources = {
+            item["proposedIdentity"]: item
+            for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item["kind"] == "separate-resource-required"
+        }
+        self.assertEqual(
+            ["Transitional Housing"],
+            separate_resources["House of Refuge — Transitional Housing"][
+                "proposedTypes"
+            ],
+        )
+        self.assertEqual(
+            ["Recovery Housing", "Transitional Housing"],
+            separate_resources["The Mesa House — Sober and Transitional Housing"][
+                "proposedTypes"
+            ],
         )
 
         education = CATEGORY_TYPE_DESIGNS["education"]
