@@ -544,6 +544,14 @@ class TaxonomyStudyTests(unittest.TestCase):
             ["Baby Supplies"],
             household["assignments"]["7bacf0bff58c51dc50d9c02ccd69eac4"],
         )
+        self.assertEqual(
+            ["Baby Supplies"],
+            household["assignments"]["337e91d961e84d96ee124c6c891045eb"],
+        )
+        self.assertEqual(
+            "no-type-needed",
+            household["assignments"]["669bd738b302f2f17f9caa6163dd35ed"],
+        )
 
         independent_living = CATEGORY_TYPE_DESIGNS["independent-living"]
         self.assertEqual(

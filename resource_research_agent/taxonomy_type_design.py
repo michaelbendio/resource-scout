@@ -102,7 +102,7 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
         ],
         "assignments": {
             "2683e222e5f6957b1e5bddb3292334d1": ["Furniture"],
-            "337e91d961e84d96ee124c6c891045eb": ["Baby Supplies", "Household Goods"],
+            "337e91d961e84d96ee124c6c891045eb": ["Baby Supplies"],
             "4ea93a335a4945322184f2ce0e01feb5": ["Hygiene Supplies"],
             "442b7ced0e864db023bebfb05ecc9870": ["Furniture", "Household Goods"],
             "1ed84b657420da445ac082991959b3f8": ["Baby Supplies", "Hygiene Supplies"],
@@ -120,7 +120,7 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "c399be50023b7d9bbbd54bbdea6b4b5f": ["Furniture", "Household Goods", "Hygiene Supplies"],
             "c74ea9adad61a6ff3fd9e49ae50d61d2": ["Hygiene Supplies"],
             "edacb348adc1480fe0ac0b9b6f1e8580": ["Baby Supplies", "Furniture", "Household Goods", "Hygiene Supplies"],
-            "669bd738b302f2f17f9caa6163dd35ed": ["Household Goods"],
+            "669bd738b302f2f17f9caa6163dd35ed": "no-type-needed",
             "1a240d601f09634fb93383fd76971b5c": ["Furniture", "Household Goods"],
         },
         "boundary": "Who qualifies belongs in For groups; the household goods supplied belong in Types.",
