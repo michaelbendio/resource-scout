@@ -194,9 +194,10 @@ The v0.45 blind comparison was one-time evidence. Its fixture and immutable
 report remain in source control; its tables, endpoints, UI, and tests are not
 part of the v0.46 production runtime.
 
-The Employment-only compatibility path exists solely to reproduce the
-`autoMesa.html` already sent to Stephanie. Remove it when Stephanie's feedback
-is incorporated; the production path then creates one all-category review file.
+Stephanie's Information-template feedback is now handled by the separate,
+versioned enrichment workflow documented in `scout-enrichment.md`. It preserves
+the complete prior Information block under Scout Findings instead of changing
+the original curation record.
 
 At that same feedback gate, discuss and agree on three rules before changing
 the Codex assignment: assigning a resource to every appropriate category,

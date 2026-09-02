@@ -386,20 +386,13 @@ generalization.
 
 ### Stephanie feedback
 
-Stephanie's Employment feedback is incorporated into the next appropriate
-release rather than blocking v0.44.0 research work. It may revise:
-
-- Description style;
-- the Information outline;
-- required operational detail;
-- direct-service boundaries;
-- multiple-category assignment;
-- existing For-group inference; and
-- the treatment of a warranted missing For group.
-
-Any resulting curation change receives a new curation-assignment version and
-tests. After that feedback is incorporated, remove the Employment-only review-
-file compatibility option.
+Stephanie's Information feedback was received after the v0.44.0 research work.
+Version 0.50.0 implements the approved portion as the separately versioned
+`scout-enrichment-v1-stephanie-template` workflow. It adds Services Provided,
+Eligibility Requirements, and How to Best Connect, then appends the complete
+prior Information under Scout Findings. This enrichment does not alter
+Description, direct-service curation, category assignment, or For-group
+inference; those remain separate policy decisions.
 
 ## v0.44.0 implementation plan
 

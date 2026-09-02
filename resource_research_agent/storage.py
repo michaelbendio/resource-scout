@@ -600,6 +600,91 @@ CREATE TABLE IF NOT EXISTS chatgpt_assignment_schedules (
 );
 CREATE INDEX IF NOT EXISTS chatgpt_assignment_import_status
     ON chatgpt_assignment_schedules(import_id, status, id);
+CREATE TABLE IF NOT EXISTS scout_enrichment_projects (
+    id INTEGER PRIMARY KEY,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (
+        status IN ('pending', 'in-progress', 'completed')
+    ),
+    enrichment_version TEXT NOT NULL,
+    result_schema_version TEXT NOT NULL,
+    source_path TEXT NOT NULL,
+    source_html TEXT NOT NULL,
+    source_sha256 TEXT NOT NULL CHECK (length(source_sha256) = 64),
+    source_artifact_id TEXT NOT NULL,
+    source_seed_json TEXT NOT NULL,
+    source_seed_sha256 TEXT NOT NULL CHECK (length(source_seed_sha256) = 64),
+    location_name TEXT NOT NULL,
+    office_name TEXT NOT NULL,
+    service_area TEXT NOT NULL,
+    resource_count INTEGER NOT NULL CHECK (resource_count >= 1),
+    UNIQUE (source_sha256, enrichment_version)
+);
+CREATE TABLE IF NOT EXISTS scout_enrichment_resources (
+    project_id INTEGER NOT NULL REFERENCES scout_enrichment_projects(id)
+        ON DELETE CASCADE,
+    ordinal INTEGER NOT NULL CHECK (ordinal >= 0),
+    resource_id TEXT NOT NULL,
+    resource_name TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (
+        status IN ('pending', 'assigned', 'completed', 'failed')
+    ),
+    original_resource_json TEXT NOT NULL,
+    original_resource_sha256 TEXT NOT NULL CHECK (
+        length(original_resource_sha256) = 64
+    ),
+    original_information_text TEXT NOT NULL,
+    assignment_json TEXT NOT NULL,
+    assignment_sha256 TEXT NOT NULL CHECK (length(assignment_sha256) = 64),
+    result_json TEXT,
+    result_sha256 TEXT NOT NULL DEFAULT '',
+    error TEXT NOT NULL DEFAULT '',
+    created_at TEXT NOT NULL,
+    assigned_at TEXT,
+    completed_at TEXT,
+    updated_at TEXT NOT NULL,
+    PRIMARY KEY (project_id, resource_id),
+    UNIQUE (project_id, ordinal)
+);
+CREATE INDEX IF NOT EXISTS scout_enrichment_project_status
+    ON scout_enrichment_resources(project_id, status, ordinal);
+CREATE TABLE IF NOT EXISTS scout_enrichment_audits (
+    id INTEGER PRIMARY KEY,
+    project_id INTEGER NOT NULL REFERENCES scout_enrichment_projects(id)
+        ON DELETE CASCADE,
+    resource_id TEXT NOT NULL,
+    researcher TEXT NOT NULL,
+    roster_role TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (
+        status IN (
+            'pending', 'assigned', 'completed', 'reconciling',
+            'reconciled', 'failed'
+        )
+    ),
+    risk_json TEXT NOT NULL,
+    assignment_json TEXT NOT NULL,
+    assignment_sha256 TEXT NOT NULL CHECK (length(assignment_sha256) = 64),
+    result_json TEXT,
+    result_sha256 TEXT NOT NULL DEFAULT '',
+    reconciliation_assignment_json TEXT,
+    reconciliation_assignment_sha256 TEXT NOT NULL DEFAULT '',
+    reconciliation_result_json TEXT,
+    reconciliation_result_sha256 TEXT NOT NULL DEFAULT '',
+    error TEXT NOT NULL DEFAULT '',
+    created_at TEXT NOT NULL,
+    assigned_at TEXT,
+    completed_at TEXT,
+    reconciliation_assigned_at TEXT,
+    reconciled_at TEXT,
+    updated_at TEXT NOT NULL,
+    UNIQUE (project_id, resource_id),
+    FOREIGN KEY (project_id, resource_id)
+        REFERENCES scout_enrichment_resources(project_id, resource_id)
+        ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS scout_enrichment_audit_status
+    ON scout_enrichment_audits(project_id, status, id);
 """
 
 
@@ -3126,6 +3211,404 @@ class ResearchStore:
             "unreachableCount": counts["unreachable"],
             "unresolvedCount": counts["unresolved"],
         }
+
+    def create_scout_enrichment_project(
+        self,
+        project: dict[str, Any],
+        resources: list[dict[str, Any]],
+    ) -> int:
+        if not resources:
+            raise ValueError("Scout enrichment needs at least one resource")
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            existing = connection.execute(
+                """SELECT id FROM scout_enrichment_projects
+                   WHERE source_sha256 = ? AND enrichment_version = ?""",
+                (str(project["sourceSha256"]), str(project["enrichmentVersion"])),
+            ).fetchone()
+            if existing:
+                return int(existing["id"])
+            cursor = connection.execute(
+                """INSERT INTO scout_enrichment_projects (
+                       created_at, updated_at, status, enrichment_version,
+                       result_schema_version, source_path, source_html,
+                       source_sha256, source_artifact_id, source_seed_json,
+                       source_seed_sha256, location_name, office_name,
+                       service_area, resource_count
+                   ) VALUES (?, ?, 'pending', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    now, now, str(project["enrichmentVersion"]),
+                    str(project["resultSchemaVersion"]), str(project["sourcePath"]),
+                    str(project["sourceHtml"]), str(project["sourceSha256"]),
+                    str(project["sourceArtifactId"]), _json(project["sourceSeed"]),
+                    str(project["sourceSeedSha256"]), str(project["locationName"]),
+                    str(project["officeName"]), str(project["serviceArea"]),
+                    len(resources),
+                ),
+            )
+            project_id = int(cursor.lastrowid)
+            for resource in resources:
+                connection.execute(
+                    """INSERT INTO scout_enrichment_resources (
+                           project_id, ordinal, resource_id, resource_name,
+                           status, original_resource_json,
+                           original_resource_sha256, original_information_text,
+                           assignment_json, assignment_sha256, created_at,
+                           updated_at
+                       ) VALUES (?, ?, ?, ?, 'pending', ?, ?, ?, ?, ?, ?, ?)""",
+                    (
+                        project_id, int(resource["ordinal"]),
+                        str(resource["resourceId"]), str(resource["resourceName"]),
+                        _json(resource["originalResource"]),
+                        str(resource["originalResourceSha256"]),
+                        str(resource["originalInformationText"]),
+                        _json(resource["assignment"]),
+                        str(resource["assignmentSha256"]), now, now,
+                    ),
+                )
+        return project_id
+
+    def get_scout_enrichment_project(
+        self, project_id: int, *, include_source: bool = False
+    ) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            project = connection.execute(
+                "SELECT * FROM scout_enrichment_projects WHERE id = ?",
+                (int(project_id),),
+            ).fetchone()
+            if not project:
+                return None
+            rows = connection.execute(
+                """SELECT * FROM scout_enrichment_resources
+                   WHERE project_id = ? ORDER BY ordinal""",
+                (int(project_id),),
+            ).fetchall()
+            audit_rows = connection.execute(
+                """SELECT * FROM scout_enrichment_audits
+                   WHERE project_id = ? ORDER BY id""",
+                (int(project_id),),
+            ).fetchall()
+        resources = [self._scout_enrichment_resource_dict(row) for row in rows]
+        audits = [self._scout_enrichment_audit_dict(row) for row in audit_rows]
+        audits_by_resource = {item["resourceId"]: item for item in audits}
+        for resource in resources:
+            resource["audit"] = audits_by_resource.get(resource["resourceId"])
+        counts = {
+            status: sum(item["status"] == status for item in resources)
+            for status in ("pending", "assigned", "completed", "failed")
+        }
+        value = {
+            "id": project["id"], "createdAt": project["created_at"],
+            "updatedAt": project["updated_at"], "status": project["status"],
+            "enrichmentVersion": project["enrichment_version"],
+            "resultSchemaVersion": project["result_schema_version"],
+            "sourcePath": project["source_path"],
+            "sourceSha256": project["source_sha256"],
+            "sourceArtifactId": project["source_artifact_id"],
+            "sourceSeedSha256": project["source_seed_sha256"],
+            "locationName": project["location_name"],
+            "officeName": project["office_name"],
+            "serviceArea": project["service_area"],
+            "resourceCount": project["resource_count"],
+            "progress": {
+                **counts, "total": len(resources),
+                "auditsRequired": len(audits),
+                "auditsCompleted": sum(
+                    item["status"] in {"completed", "reconciling", "reconciled"}
+                    for item in audits
+                ),
+                "reconciled": sum(item["status"] == "reconciled" for item in audits),
+            },
+            "resources": resources,
+            "audits": audits,
+        }
+        if include_source:
+            value["sourceHtml"] = project["source_html"]
+            value["sourceSeed"] = json.loads(project["source_seed_json"])
+        return value
+
+    @staticmethod
+    def _scout_enrichment_resource_dict(row: sqlite3.Row) -> dict[str, Any]:
+        return {
+            "projectId": row["project_id"], "ordinal": row["ordinal"],
+            "resourceId": row["resource_id"], "resourceName": row["resource_name"],
+            "status": row["status"],
+            "originalResource": json.loads(row["original_resource_json"]),
+            "originalResourceSha256": row["original_resource_sha256"],
+            "originalInformationText": row["original_information_text"],
+            "assignment": json.loads(row["assignment_json"]),
+            "assignmentSha256": row["assignment_sha256"],
+            "result": json.loads(row["result_json"]) if row["result_json"] else None,
+            "resultSha256": row["result_sha256"], "error": row["error"],
+            "createdAt": row["created_at"], "assignedAt": row["assigned_at"],
+            "completedAt": row["completed_at"], "updatedAt": row["updated_at"],
+        }
+
+    @staticmethod
+    def _scout_enrichment_audit_dict(row: sqlite3.Row) -> dict[str, Any]:
+        def parsed(field: str) -> Any:
+            return json.loads(row[field]) if row[field] else None
+
+        return {
+            "id": row["id"], "projectId": row["project_id"],
+            "resourceId": row["resource_id"], "researcher": row["researcher"],
+            "rosterRole": row["roster_role"], "status": row["status"],
+            "risk": parsed("risk_json"), "assignment": parsed("assignment_json"),
+            "assignmentSha256": row["assignment_sha256"],
+            "result": parsed("result_json"), "resultSha256": row["result_sha256"],
+            "reconciliationAssignment": parsed("reconciliation_assignment_json"),
+            "reconciliationAssignmentSha256": row["reconciliation_assignment_sha256"],
+            "reconciliationResult": parsed("reconciliation_result_json"),
+            "reconciliationResultSha256": row["reconciliation_result_sha256"],
+            "error": row["error"], "createdAt": row["created_at"],
+            "assignedAt": row["assigned_at"], "completedAt": row["completed_at"],
+            "reconciliationAssignedAt": row["reconciliation_assigned_at"],
+            "reconciledAt": row["reconciled_at"], "updatedAt": row["updated_at"],
+        }
+
+    @staticmethod
+    def _refresh_scout_enrichment_status(
+        connection: sqlite3.Connection, project_id: int, now: str
+    ) -> None:
+        primary_remaining = connection.execute(
+            """SELECT COUNT(*) AS count FROM scout_enrichment_resources
+               WHERE project_id = ? AND status != 'completed'""",
+            (int(project_id),),
+        ).fetchone()["count"]
+        audit_remaining = connection.execute(
+            """SELECT COUNT(*) AS count FROM scout_enrichment_audits
+               WHERE project_id = ? AND status != 'reconciled'""",
+            (int(project_id),),
+        ).fetchone()["count"]
+        status = "completed" if not primary_remaining and not audit_remaining else "in-progress"
+        connection.execute(
+            """UPDATE scout_enrichment_projects SET status = ?, updated_at = ?
+               WHERE id = ?""",
+            (status, now, int(project_id)),
+        )
+
+    def next_scout_enrichment_assignment(
+        self, project_id: int
+    ) -> dict[str, Any] | None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            project = connection.execute(
+                "SELECT status FROM scout_enrichment_projects WHERE id = ?",
+                (int(project_id),),
+            ).fetchone()
+            if not project:
+                raise ValueError("Scout enrichment project not found")
+            row = connection.execute(
+                """SELECT resource_id, assignment_json
+                   FROM scout_enrichment_resources
+                   WHERE project_id = ? AND status IN ('pending', 'assigned')
+                   ORDER BY CASE status WHEN 'assigned' THEN 0 ELSE 1 END, ordinal
+                   LIMIT 1""",
+                (int(project_id),),
+            ).fetchone()
+            if not row:
+                return None
+            connection.execute(
+                """UPDATE scout_enrichment_resources
+                   SET status = 'assigned', assigned_at = COALESCE(assigned_at, ?),
+                       updated_at = ?
+                   WHERE project_id = ? AND resource_id = ?""",
+                (now, now, int(project_id), row["resource_id"]),
+            )
+            connection.execute(
+                """UPDATE scout_enrichment_projects
+                   SET status = 'in-progress', updated_at = ? WHERE id = ?""",
+                (now, int(project_id)),
+            )
+        return json.loads(row["assignment_json"])
+
+    def save_scout_enrichment_result(
+        self, project_id: int, resource_id: str,
+        result: dict[str, Any], result_sha256: str,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT status, result_sha256 FROM scout_enrichment_resources
+                   WHERE project_id = ? AND resource_id = ?""",
+                (int(project_id), str(resource_id)),
+            ).fetchone()
+            if not row:
+                raise ValueError("Scout enrichment resource not found")
+            if row["status"] == "completed":
+                if row["result_sha256"] == result_sha256:
+                    pass
+                else:
+                    raise ValueError("A different result is already sealed for this resource")
+            else:
+                connection.execute(
+                    """UPDATE scout_enrichment_resources
+                       SET status = 'completed', result_json = ?, result_sha256 = ?,
+                           error = '', completed_at = ?, updated_at = ?
+                       WHERE project_id = ? AND resource_id = ?""",
+                    (_json(result), result_sha256, now, now,
+                     int(project_id), str(resource_id)),
+                )
+            self._refresh_scout_enrichment_status(connection, project_id, now)
+        value = self.get_scout_enrichment_project(project_id)
+        if value is None:
+            raise ValueError("Scout enrichment project not found")
+        return value
+
+    def create_scout_enrichment_audit(
+        self, project_id: int, resource_id: str, *, researcher: str,
+        roster_role: str, risk: dict[str, Any], assignment: dict[str, Any],
+        assignment_sha256: str,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            existing = connection.execute(
+                """SELECT * FROM scout_enrichment_audits
+                   WHERE project_id = ? AND resource_id = ?""",
+                (int(project_id), str(resource_id)),
+            ).fetchone()
+            if existing:
+                if existing["assignment_sha256"] != assignment_sha256:
+                    raise ValueError("A different audit assignment is already sealed")
+                return self._scout_enrichment_audit_dict(existing)
+            cursor = connection.execute(
+                """INSERT INTO scout_enrichment_audits (
+                       project_id, resource_id, researcher, roster_role, status,
+                       risk_json, assignment_json, assignment_sha256,
+                       created_at, updated_at
+                   ) VALUES (?, ?, ?, ?, 'pending', ?, ?, ?, ?, ?)""",
+                (
+                    int(project_id), str(resource_id), str(researcher),
+                    str(roster_role), _json(risk), _json(assignment),
+                    str(assignment_sha256), now, now,
+                ),
+            )
+            audit_id = int(cursor.lastrowid)
+            self._refresh_scout_enrichment_status(connection, project_id, now)
+            row = connection.execute(
+                "SELECT * FROM scout_enrichment_audits WHERE id = ?", (audit_id,)
+            ).fetchone()
+        return self._scout_enrichment_audit_dict(row)
+
+    def next_scout_enrichment_audit(
+        self, project_id: int, researcher: str | None = None
+    ) -> dict[str, Any] | None:
+        now = datetime.now(timezone.utc).isoformat()
+        parameters: list[Any] = [int(project_id)]
+        researcher_clause = ""
+        if researcher:
+            researcher_clause = " AND researcher = ?"
+            parameters.append(str(researcher))
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT * FROM scout_enrichment_audits
+                   WHERE project_id = ? AND status IN ('pending', 'assigned')"""
+                + researcher_clause
+                + """ ORDER BY CASE status WHEN 'assigned' THEN 0 ELSE 1 END, id
+                      LIMIT 1""",
+                parameters,
+            ).fetchone()
+            if not row:
+                return None
+            connection.execute(
+                """UPDATE scout_enrichment_audits
+                   SET status = 'assigned', assigned_at = COALESCE(assigned_at, ?),
+                       updated_at = ? WHERE id = ?""",
+                (now, now, int(row["id"])),
+            )
+        value = self._scout_enrichment_audit_dict(row)
+        value["status"] = "assigned"
+        return value
+
+    def save_scout_enrichment_audit_result(
+        self, audit_id: int, result: dict[str, Any], result_sha256: str,
+        reconciliation_assignment: dict[str, Any],
+        reconciliation_assignment_sha256: str,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM scout_enrichment_audits WHERE id = ?", (int(audit_id),)
+            ).fetchone()
+            if not row:
+                raise ValueError("Scout enrichment audit not found")
+            if row["status"] in {"completed", "reconciling", "reconciled"}:
+                if row["result_sha256"] != result_sha256:
+                    raise ValueError("A different audit result is already sealed")
+            else:
+                connection.execute(
+                    """UPDATE scout_enrichment_audits
+                       SET status = 'completed', result_json = ?, result_sha256 = ?,
+                           reconciliation_assignment_json = ?,
+                           reconciliation_assignment_sha256 = ?, error = '',
+                           completed_at = ?, updated_at = ? WHERE id = ?""",
+                    (
+                        _json(result), str(result_sha256),
+                        _json(reconciliation_assignment),
+                        str(reconciliation_assignment_sha256), now, now, int(audit_id),
+                    ),
+                )
+            self._refresh_scout_enrichment_status(
+                connection, int(row["project_id"]), now
+            )
+            updated = connection.execute(
+                "SELECT * FROM scout_enrichment_audits WHERE id = ?", (int(audit_id),)
+            ).fetchone()
+        return self._scout_enrichment_audit_dict(updated)
+
+    def next_scout_enrichment_reconciliation(
+        self, project_id: int
+    ) -> dict[str, Any] | None:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT * FROM scout_enrichment_audits
+                   WHERE project_id = ? AND status IN ('completed', 'reconciling')
+                   ORDER BY CASE status WHEN 'reconciling' THEN 0 ELSE 1 END, id
+                   LIMIT 1""",
+                (int(project_id),),
+            ).fetchone()
+            if not row:
+                return None
+            connection.execute(
+                """UPDATE scout_enrichment_audits
+                   SET status = 'reconciling',
+                       reconciliation_assigned_at = COALESCE(
+                           reconciliation_assigned_at, ?
+                       ), updated_at = ? WHERE id = ?""",
+                (now, now, int(row["id"])),
+            )
+        value = self._scout_enrichment_audit_dict(row)
+        return value["reconciliationAssignment"]
+
+    def save_scout_enrichment_reconciliation_result(
+        self, audit_id: int, result: dict[str, Any], result_sha256: str,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM scout_enrichment_audits WHERE id = ?", (int(audit_id),)
+            ).fetchone()
+            if not row:
+                raise ValueError("Scout enrichment audit not found")
+            if row["status"] == "reconciled":
+                if row["reconciliation_result_sha256"] != result_sha256:
+                    raise ValueError("A different reconciliation is already sealed")
+            else:
+                connection.execute(
+                    """UPDATE scout_enrichment_audits
+                       SET status = 'reconciled', reconciliation_result_json = ?,
+                           reconciliation_result_sha256 = ?, error = '',
+                           reconciled_at = ?, updated_at = ? WHERE id = ?""",
+                    (_json(result), str(result_sha256), now, now, int(audit_id)),
+                )
+            self._refresh_scout_enrichment_status(
+                connection, int(row["project_id"]), now
+            )
+            updated = connection.execute(
+                "SELECT * FROM scout_enrichment_audits WHERE id = ?", (int(audit_id),)
+            ).fetchone()
+        return self._scout_enrichment_audit_dict(updated)
 
     def create_scout_curation_job(
         self,

@@ -68,11 +68,13 @@ record. A candidate is omitted as already represented only when exact identity i
 supported by an exact website or address. Weaker relationships stay visible for
 review.
 
-## Deferred feedback gate
+## Curation enrichment
 
-The Employment-only compatibility path exists solely to reproduce the
-`autoMesa.html` already sent to Stephanie. Remove it when her feedback is
-incorporated. At that point, discuss multi-category resource assignment,
-conservative detection of existing For groups, and the treatment of warranted but
-missing groups. Scout must not silently create a For group; the proposed human note
-begins `[Human--I suggest you make a new For group for ...]`.
+Stephanie's Information feedback is implemented as a separate, versioned
+enrichment stage over an existing `auto[Location].html`. The source artifact is
+immutable. Each resource gains Services Provided, Eligibility Requirements, and
+How to Best Connect, following the exact approved guidance. Its previous
+Information is appended verbatim under Scout Findings. Resource identity,
+Description, contact fields, Categories, Types, and For groups do not change in
+this stage. The completed work builds a new `auto[Location]-enriched.html` with a
+separate artifact identity. See `scout-enrichment.md`.

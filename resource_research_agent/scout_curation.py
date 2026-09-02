@@ -586,7 +586,7 @@ class ChatGPTSchedule:
 
     @property
     def message(self) -> str:
-        clock = self.scheduled_at.astimezone().strftime("%-I:%M %p")
+        clock = self.scheduled_at.astimezone().strftime("%I:%M %p").lstrip("0")
         suffix = f" {self.reason}" if self.reason else ""
         return (
             f"I will wait {self.delay_minutes} minutes before the next ChatGPT "

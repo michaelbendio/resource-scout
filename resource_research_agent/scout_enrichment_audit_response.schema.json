@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "resourceId",
+    "researcher",
+    "assignmentSha256",
+    "verdict",
+    "issues",
+    "suggestedReplacements",
+    "evidenceSources"
+  ],
+  "properties": {
+    "resourceId": {"type": "string"},
+    "researcher": {"type": "string"},
+    "assignmentSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "verdict": {"enum": ["confirmed", "revisions-needed"]},
+    "issues": {"type": "array", "items": {"type": "string"}},
+    "suggestedReplacements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "servicesProvided",
+        "eligibilityRequirements",
+        "howToBestConnect"
+      ],
+      "properties": {
+        "servicesProvided": {"type": "string"},
+        "eligibilityRequirements": {"type": "string"},
+        "howToBestConnect": {"type": "string"}
+      }
+    },
+    "evidenceSources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "url", "supports", "accessedOn"],
+        "properties": {
+          "title": {"type": "string"},
+          "url": {"type": "string"},
+          "supports": {"type": "string"},
+          "accessedOn": {"type": "string"}
+        }
+      }
+    }
+  }
+}

@@ -5,6 +5,17 @@ from several consumer AI products. It creates a self-contained TSO Resources
 review file such as `autoMesa.html` for human vetting and package creation. It is
 designed for repeated use across TSO locations and resource categories.
 
+Version 0.50.0 adds a non-destructive curation/enrichment project for an existing
+`auto[Location].html`. Each resource receives the three Information sections
+approved from Stephanie's template—Services Provided, Eligibility Requirements,
+and How to Best Connect—while its previous Information is appended verbatim as
+Scout Findings. Codex researches every resource; deterministic risk signals send
+targeted audits across ChatGPT, Grok, Perplexity, and Claude, followed by a fresh
+Codex reconciliation. Assignments and results are durable, source-hashed, and
+resumable; the enriched HTML is a new artifact and cannot be built until every
+required audit passes validation. See
+[`docs/scout-enrichment.md`](docs/scout-enrichment.md).
+
 Version 0.49.0 lets Curators delete proposed resources and categories directly
 from generated `auto[Location].html` files. Resource deletion removes the
 proposal from that review copy. Category deletion removes the category and its
@@ -97,6 +108,9 @@ not part of this codebase.
 6. Reviewers edit ordinary resources in that file, mark vetted resources
    **Curated**, save a standard package containing the curated selection, and merge
    it into the office HTML. Successfully packaged resources are hidden locally.
+7. An existing review artifact can enter the separate enrichment workflow. Scout
+   researches the three approved Information sections per resource and carries the
+   artifact's prior Information forward under **Scout Findings**.
 
 ## Candidate packages
 
@@ -187,5 +201,5 @@ response parsing, conservative consolidation, identity decisions, contact lookup
 focused-research planning, resumability, target sealing, gap analysis, provenance,
 retrospective evaluation, Curator isolation and package creation, Tailscale
 behavior, background service configuration, Resource Scout curation durability,
-curation validation, progress and pacing, Scout-owned review-file generation, and
-Scout/review-file UI wiring.
+curation and enrichment validation, exact Scout Findings preservation, progress
+and pacing, Scout-owned review-file generation, and Scout/review-file UI wiring.

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "resourceId",
+    "assignmentSha256",
+    "servicesProvided",
+    "eligibilityRequirements",
+    "howToBestConnect",
+    "evidenceSources"
+  ],
+  "properties": {
+    "resourceId": {"type": "string"},
+    "assignmentSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "servicesProvided": {"type": "string", "minLength": 1},
+    "eligibilityRequirements": {"type": "string", "minLength": 1},
+    "howToBestConnect": {"type": "string", "minLength": 1},
+    "evidenceSources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "url", "supports", "accessedOn"],
+        "properties": {
+          "title": {"type": "string"},
+          "url": {"type": "string"},
+          "supports": {"type": "string"},
+          "accessedOn": {"type": "string"}
+        }
+      }
+    }
+  }
+}

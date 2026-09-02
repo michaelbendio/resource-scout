@@ -37,6 +37,23 @@ from .taxonomy_groups import (
 )
 from .taxonomy_compile import compile_taxonomy_study
 from .scout_review import build_scout_review_file
+from .scout_enrichment import (
+    build_scout_enriched_html,
+    default_enriched_filename,
+    ensure_scout_enrichment_audits,
+    enrichment_project_summary,
+    next_scout_enrichment_assignment,
+    next_scout_enrichment_audit,
+    next_scout_enrichment_reconciliation,
+    prepare_scout_enrichment_project,
+    save_scout_enrichment_audit_result,
+    save_scout_enrichment_reconciliation_result,
+    save_scout_enrichment_result,
+)
+from .scout_enrichment_checkpoint import (
+    export_scout_enrichment_checkpoint,
+    import_scout_enrichment_checkpoint,
+)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -165,6 +182,59 @@ def parser() -> argparse.ArgumentParser:
         "--output",
         help="Output HTML path; defaults to the generated auto[Location].html name",
     )
+    enrichment_prepare = subcommands.add_parser(
+        "enrichment-prepare",
+        help="Freeze an auto[Location].html into Stephanie-template assignments",
+    )
+    enrichment_prepare.add_argument("source_html")
+    enrichment_status = subcommands.add_parser(
+        "enrichment-status", help="Show concise enrichment project progress"
+    )
+    enrichment_status.add_argument("project_id", type=int)
+    enrichment_next = subcommands.add_parser(
+        "enrichment-next", help="Read or resume the next resource assignment"
+    )
+    enrichment_next.add_argument("project_id", type=int)
+    enrichment_submit = subcommands.add_parser(
+        "enrichment-submit", help="Validate and seal one resource result"
+    )
+    enrichment_submit.add_argument("project_id", type=int)
+    enrichment_submit.add_argument("result_file")
+    enrichment_audit_next = subcommands.add_parser(
+        "enrichment-audit-next", help="Read or resume the next targeted external audit"
+    )
+    enrichment_audit_next.add_argument("project_id", type=int)
+    enrichment_audit_next.add_argument("--researcher")
+    enrichment_audit_submit = subcommands.add_parser(
+        "enrichment-audit-submit", help="Validate and seal one external AI audit"
+    )
+    enrichment_audit_submit.add_argument("project_id", type=int)
+    enrichment_audit_submit.add_argument("result_file")
+    enrichment_reconcile_next = subcommands.add_parser(
+        "enrichment-reconcile-next", help="Read or resume the next Codex reconciliation"
+    )
+    enrichment_reconcile_next.add_argument("project_id", type=int)
+    enrichment_reconcile_submit = subcommands.add_parser(
+        "enrichment-reconcile-submit", help="Validate and seal one Codex reconciliation"
+    )
+    enrichment_reconcile_submit.add_argument("project_id", type=int)
+    enrichment_reconcile_submit.add_argument("result_file")
+    enrichment_build = subcommands.add_parser(
+        "enrichment-build", help="Build the completed non-destructive enriched HTML"
+    )
+    enrichment_build.add_argument("project_id", type=int)
+    enrichment_build.add_argument("--output")
+    enrichment_checkpoint_export = subcommands.add_parser(
+        "enrichment-checkpoint-export",
+        help="Export a verified cross-device enrichment checkpoint",
+    )
+    enrichment_checkpoint_export.add_argument("project_id", type=int)
+    enrichment_checkpoint_export.add_argument("output")
+    enrichment_checkpoint_import = subcommands.add_parser(
+        "enrichment-checkpoint-import",
+        help="Import a checkpoint into a new Scout database",
+    )
+    enrichment_checkpoint_import.add_argument("checkpoint")
     return result
 
 
@@ -188,6 +258,10 @@ def main(argv: list[str] | None = None) -> int:
         print("Keep this window open while using the app.")
         serve(args.database, "127.0.0.1", args.port, private_url=access.private_url)
         return 0
+    if args.command == "enrichment-checkpoint-import":
+        value = import_scout_enrichment_checkpoint(args.checkpoint, args.database)
+        print(json.dumps(value, ensure_ascii=False, indent=2))
+        return 0
     store = ResearchStore(args.database)
     if args.command == "import":
         package = ResourcePackageImporter(args.category).read(args.package)
@@ -204,6 +278,68 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "summary":
         print(json.dumps(store.import_summary(), ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "enrichment-prepare":
+        value = prepare_scout_enrichment_project(store, args.source_html)
+        print(json.dumps(value, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "enrichment-status":
+        value = ensure_scout_enrichment_audits(store, args.project_id)
+        print(json.dumps(enrichment_project_summary(value), ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "enrichment-next":
+        value = next_scout_enrichment_assignment(store, args.project_id)
+        print(json.dumps({"assignment": value}, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "enrichment-submit":
+        raw_text = Path(args.result_file).read_text(encoding="utf-8")
+        value = save_scout_enrichment_result(store, args.project_id, raw_text)
+        print(json.dumps(value, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "enrichment-audit-next":
+        value = next_scout_enrichment_audit(
+            store, args.project_id, researcher=args.researcher
+        )
+        print(json.dumps({"assignment": value}, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "enrichment-audit-submit":
+        raw_text = Path(args.result_file).read_text(encoding="utf-8")
+        value = save_scout_enrichment_audit_result(store, args.project_id, raw_text)
+        print(json.dumps(value, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "enrichment-reconcile-next":
+        value = next_scout_enrichment_reconciliation(store, args.project_id)
+        print(json.dumps({"assignment": value}, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "enrichment-reconcile-submit":
+        raw_text = Path(args.result_file).read_text(encoding="utf-8")
+        value = save_scout_enrichment_reconciliation_result(
+            store, args.project_id, raw_text
+        )
+        print(json.dumps(value, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "enrichment-build":
+        project = store.get_scout_enrichment_project(args.project_id)
+        if project is None:
+            raise ValueError("Scout enrichment project not found")
+        content = build_scout_enriched_html(store, args.project_id)
+        output_path = Path(
+            args.output or default_enriched_filename(project)
+        ).expanduser().resolve()
+        if output_path == Path(project["sourcePath"]).expanduser().resolve():
+            raise ValueError("Enrichment output cannot overwrite the source artifact")
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_bytes(content)
+        print(json.dumps({
+            **enrichment_project_summary(project),
+            "outputPath": str(output_path), "byteCount": len(content),
+        }, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "enrichment-checkpoint-export":
+        value = export_scout_enrichment_checkpoint(
+            store, args.project_id, args.output
+        )
+        print(json.dumps(value, ensure_ascii=False, indent=2))
         return 0
     if args.command == "replay-prepare":
         value = prepare_codex_replay_study(store, args.import_id)
