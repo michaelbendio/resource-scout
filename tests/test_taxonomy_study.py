@@ -985,6 +985,7 @@ class TaxonomyStudyTests(unittest.TestCase):
             {
                 "6b2d7fcadeec59dea6cd835e732ef55f",
                 "446d7aeaa7a45f7bab5d72f34d1b10e3",
+                "9b72f8059923e0a5e6d1dca60a9dd708",
             },
             set(terros_flag["resourceIds"]),
         )
@@ -1053,6 +1054,75 @@ class TaxonomyStudyTests(unittest.TestCase):
             availability_flag["resourceIds"],
         )
 
+        mental_health = CATEGORY_TYPE_DESIGNS["mental-health"]
+        mental_health_labels = {
+            item["label"] for item in mental_health["types"]
+        }
+        self.assertEqual(17, len(mental_health_labels))
+        self.assertIn("Intensive Outpatient", mental_health_labels)
+        self.assertIn("Partial Hospitalization", mental_health_labels)
+        self.assertIn("Post-discharge Support", mental_health_labels)
+        self.assertNotIn("Post-discharge Followup", mental_health_labels)
+        self.assertEqual(29, len(mental_health["assignments"]))
+        self.assertFalse(any(
+            value == "no-type-needed"
+            for value in mental_health["assignments"].values()
+        ))
+        self.assertEqual(
+            ["Outpatient Counseling"],
+            mental_health["assignments"]["18462adf6dd0d47ac76fba2161b70dfc"],
+        )
+        self.assertEqual(
+            ["Outpatient Counseling", "Peer Support", "Case Management"],
+            mental_health["assignments"]["815148d4fe10fdbf28f981c14050256c"],
+        )
+        self.assertEqual(
+            [
+                "Outpatient Counseling", "Psychiatry/Medication",
+                "Case Management", "Telehealth", "Care Navigation",
+            ],
+            mental_health["assignments"]["b0d2eba21896a98631e48b8982248936"],
+        )
+        self.assertNotIn(
+            "0474f03b486642977ecad2860ffac719",
+            mental_health["assignments"],
+        )
+        self.assertNotIn(
+            "df171bb522d8c9a10c10b5c20e52cc1b",
+            mental_health["assignments"],
+        )
+        self.assertNotIn(
+            "mental-health",
+            RESOURCE_TARGETS["0474f03b486642977ecad2860ffac719"],
+        )
+        self.assertNotIn(
+            "mental-health",
+            RESOURCE_TARGETS["df171bb522d8c9a10c10b5c20e52cc1b"],
+        )
+        self.assertIn("incidental or vague referral", mental_health["boundary"])
+
+        cbi_flag = next(
+            item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item.get("proposedIdentity")
+            == "Community Bridges, Inc. — Integrated Care"
+        )
+        self.assertEqual(
+            {
+                "5b415ee3078420f7b8081b605d1d087a",
+                "20cf2620b396a3fc5a0d270ade9af911",
+            },
+            set(cbi_flag["resourceIds"]),
+        )
+        banner_transfer = next(
+            item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item.get("destinationResourceId")
+            == "34dc7c352ceb97ec5831aaa7cb4d3904"
+        )
+        self.assertEqual(
+            ["0474f03b486642977ecad2860ffac719"],
+            banner_transfer["sourceResourceIds"],
+        )
+
         clothing = CATEGORY_TYPE_DESIGNS["clothing"]
         clothing_labels = {item["label"] for item in clothing["types"]}
         self.assertEqual(
@@ -1117,7 +1187,7 @@ class TaxonomyStudyTests(unittest.TestCase):
 
         mental_health = CATEGORY_TYPE_DESIGNS["mental-health"]
         self.assertIn(
-            "Post-discharge Followup",
+            "Post-discharge Support",
             mental_health["assignments"]["f6b55e24c78fb7889c9767c7527512ea"],
         )
 

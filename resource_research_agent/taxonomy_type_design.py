@@ -217,6 +217,7 @@ TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
         "resourceIds": [
             "6b2d7fcadeec59dea6cd835e732ef55f",
             "446d7aeaa7a45f7bab5d72f34d1b10e3",
+            "9b72f8059923e0a5e6d1dca60a9dd708",
         ],
         "proposedIdentity": "Terros Health — Substance Use Treatment",
         "proposedCategories": ["addiction", "mental-health"],
@@ -225,6 +226,7 @@ TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
             "Mesa-area outpatient intake and insurance-access details",
             "residential, medication, counseling, and co-occurring treatment details",
             "harm-reduction, overdose-prevention, and Spanish-accommodation details",
+            "the Adult Probation partnership and accountable reentry pathway",
         ],
         "reason": (
             "The Lifewell Behavioral Wellness / Terros card appears to duplicate or "
@@ -307,6 +309,38 @@ TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
         "requirement": (
             "Do not offer the planned Mesa clinic until its opening, current services, "
             "and intake pathway are confirmed from an official source."
+        ),
+    },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "5b415ee3078420f7b8081b605d1d087a",
+            "20cf2620b396a3fc5a0d270ade9af911",
+        ],
+        "proposedIdentity": "Community Bridges, Inc. — Integrated Care",
+        "proposedCategories": ["addiction", "mental-health"],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "CPEC, EVARC, Center for Hope, and Mesa Heritage Clinic pathways",
+            "crisis, withdrawal, residential, outpatient, peer, and case-management care",
+            "co-occurring treatment, AHCCCS, sliding-scale, and site-selection details",
+        ],
+        "reason": (
+            "The two broad CBI cards describe the same integrated provider identity; "
+            "the specialized Center for Hope reentry card remains separate."
+        ),
+    },
+    {
+        "kind": "content-transfer-required",
+        "sourceResourceIds": ["0474f03b486642977ecad2860ffac719"],
+        "destinationResourceId": "34dc7c352ceb97ec5831aaa7cb4d3904",
+        "proposedIdentity": (
+            "Banner Desert — Pregnancy, Postpartum & Infant Loss Support"
+        ),
+        "status": "apply-after-taxonomy-review",
+        "reason": (
+            "Move the maternity card's mental-health support-group details to the "
+            "dedicated support resource while keeping hospital maternity care medical."
         ),
     },
 ]
@@ -1039,6 +1073,8 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             {"label": "Crisis Line", "definition": "Immediate phone or text counseling, triage, and crisis connection."},
             {"label": "Crisis Center", "definition": "Walk-in assessment and short-term psychiatric crisis stabilization."},
             {"label": "Inpatient Psychiatry", "definition": "Hospital-based inpatient psychiatric treatment."},
+            {"label": "Intensive Outpatient", "definition": "Higher-frequency outpatient mental-health treatment; no confirmed matching program is present in the frozen Mesa corpus."},
+            {"label": "Partial Hospitalization", "definition": "Structured daytime psychiatric treatment without an overnight hospital stay; no confirmed matching program is present in the frozen Mesa corpus."},
             {"label": "Outpatient Counseling", "definition": "Individual, family, or group therapy while living in the community."},
             {"label": "Psychiatry/Medication", "definition": "Psychiatric evaluation, prescribing, and medication management."},
             {"label": "Support Groups", "definition": "Facilitated mutual support around a shared experience or loss."},
@@ -1050,21 +1086,19 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             {"label": "TMS", "definition": "Transcranial magnetic stimulation for treatment-resistant depression."},
             {"label": "Care Navigation", "definition": "Assessment, referral, and accountable connection to continuing mental-health care."},
             {"label": "Residential Treatment", "definition": "Live-in behavioral-health treatment outside an inpatient hospital."},
-            {"label": "Post-discharge Followup", "definition": "Proactive contact and support following psychiatric discharge."},
+            {"label": "Post-discharge Support", "definition": "Proactive contact and support following psychiatric discharge."},
         ],
         "assignments": {
             "d35297757ca15962989aba2961f35f7c": ["Crisis Line", "Care Navigation"],
             "a90b957439ba736a20a0eb129322891e": ["Care Navigation"],
             "9b2e1d3d132d014c286fb5c927bad782": ["Inpatient Psychiatry", "Outpatient Counseling"],
             "34dc7c352ceb97ec5831aaa7cb4d3904": ["Support Groups"],
-            "0474f03b486642977ecad2860ffac719": ["Support Groups"],
-            "18462adf6dd0d47ac76fba2161b70dfc": "no-type-needed",
-            "20cf2620b396a3fc5a0d270ade9af911": ["Crisis Center", "Residential Treatment", "Outpatient Counseling", "Case Management"],
+            "18462adf6dd0d47ac76fba2161b70dfc": ["Outpatient Counseling"],
+            "20cf2620b396a3fc5a0d270ade9af911": ["Crisis Center", "Residential Treatment", "Outpatient Counseling", "Peer Support", "Case Management"],
             "f2e69a8b2402313065411a32eaa02190": ["Residential Treatment", "Outpatient Counseling"],
             "00248a03e5cb559202ed1b50d6c982cd": ["Crisis Center"],
             "1e0e0a4f5d91fe1401e3730594313ad7": ["Outpatient Counseling", "Psychiatry/Medication", "Case Management", "Telehealth"],
             "f0e0dca057e2ec54e46f72a3bdadd85e": ["Outpatient Counseling", "Care Navigation"],
-            "df171bb522d8c9a10c10b5c20e52cc1b": "no-type-needed",
             "178f4c9a2aad9917c8c4045cf229a5f6": ["Outpatient Counseling", "Psychiatry/Medication", "TMS"],
             "f0f7981734b5bec0944a973258177571": ["School-based Counseling", "Outpatient Counseling"],
             "8f5bf98773af65b68a2a025cff1b0d59": ["Support Groups"],
@@ -1074,18 +1108,24 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "ec74c1192ef14f1debb3a31c912a1bbc": ["Care Navigation"],
             "aa9a90d7f959067cb0447b4e06a5cb13": ["Care Navigation"],
             "9630eddb85bca6d59fb0dc70da0935a8": ["Crisis Center", "Psychiatry/Medication", "Care Navigation"],
-            "815148d4fe10fdbf28f981c14050256c": ["Residential Treatment", "Peer Support"],
+            "815148d4fe10fdbf28f981c14050256c": ["Outpatient Counseling", "Peer Support", "Case Management"],
             "5065a00c9613e2e388a9dce511778b9d": ["Outpatient Counseling"],
-            "f6b55e24c78fb7889c9767c7527512ea": ["Crisis Line", "Peer Support", "Post-discharge Followup"],
+            "f6b55e24c78fb7889c9767c7527512ea": ["Crisis Line", "Peer Support", "Post-discharge Support"],
             "9b72f8059923e0a5e6d1dca60a9dd708": ["Outpatient Counseling", "Psychiatry/Medication", "Case Management", "Telehealth"],
             "2888d7f802c66d6db7f0cdfc3d5f1b36": ["Outpatient Counseling", "Peer Support", "Care Navigation"],
             "237f5067019044739acab5aab0d38cd1": ["Outpatient Counseling", "School-based Counseling", "Home/Community Therapy", "Telehealth"],
-            "2af79fdd0101ee3a198c732086f9bfc6": "no-type-needed",
-            "b0d2eba21896a98631e48b8982248936": ["Care Navigation"],
+            "2af79fdd0101ee3a198c732086f9bfc6": ["Outpatient Counseling"],
+            "b0d2eba21896a98631e48b8982248936": ["Outpatient Counseling", "Psychiatry/Medication", "Case Management", "Telehealth", "Care Navigation"],
             "ee05bdb730c5b3f705057f47a59a2df9": ["Inpatient Psychiatry", "Outpatient Counseling", "Psychiatry/Medication", "Telehealth"],
             "1d36ae0a82e6d1f6c264334db09e578c": ["Outpatient Counseling"],
         },
-        "boundary": "Types describe care setting and method; diagnosis, age, pregnancy, veteran status, justice history, and language belong in For groups or clinical details.",
+        "boundary": (
+            "Include direct mental-health treatment or an accountable assessment, "
+            "referral, and continuing-care pathway. An incidental or vague referral "
+            "does not qualify. Types describe the care setting and method; diagnosis, "
+            "age, pregnancy, veteran status, justice history, and language belong in "
+            "For groups or clinical details."
+        ),
     },
     "legal": {
         "types": [

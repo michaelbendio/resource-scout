@@ -144,9 +144,7 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "medical-dental-vision", "financial-assistance", "transportation",
     ],
     "34dc7c352ceb97ec5831aaa7cb4d3904": ["mental-health"],
-    "0474f03b486642977ecad2860ffac719": [
-        "medical-dental-vision", "mental-health",
-    ],
+    "0474f03b486642977ecad2860ffac719": ["medical-dental-vision"],
     "18462adf6dd0d47ac76fba2161b70dfc": [
         "medical-dental-vision", "mental-health", "addiction",
     ],
@@ -244,8 +242,7 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "addiction", "mental-health", "housing",
     ],
     "df171bb522d8c9a10c10b5c20e52cc1b": [
-        "employment", "clothing", "transportation", "mental-health",
-        "housing",
+        "employment", "clothing", "transportation", "housing",
     ],
     "528e3dad283cd117ea2ff80b3bec333c": [
         "parenting-child-development", "legal", "id-recovery", "food",
