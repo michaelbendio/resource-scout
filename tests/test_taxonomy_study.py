@@ -400,7 +400,7 @@ class TaxonomyStudyTests(unittest.TestCase):
             ],
         )
         self.assertEqual(
-            ["caregiving", "legal"],
+            ["caregiving", "legal", "financial-assistance"],
             assignment_by_id["b47b61d084512681adb9c7ccacf2268c"][
                 "proposedNeedCategories"
             ],
@@ -574,11 +574,21 @@ class TaxonomyStudyTests(unittest.TestCase):
             RESOURCE_CATEGORY_ADDITIONS,
         )
         self.assertEqual(
-            ["homeless-services"],
+            ["homeless-services", "financial-assistance"],
             RESOURCE_CATEGORY_ADDITIONS["e81a4666fa9fdf3874524e595834798c"],
         )
 
         financial = CATEGORY_TYPE_DESIGNS["financial-assistance"]
+        financial_labels = {item["label"] for item in financial["types"]}
+        self.assertEqual(17, len(financial_labels))
+        self.assertEqual(58, len(financial["assignments"]))
+        self.assertIn("Cash Assistance", financial_labels)
+        self.assertNotIn("Cash Benefits", financial_labels)
+        self.assertIn("Housing Subsidies", financial_labels)
+        self.assertIn("Child Care Aid", financial_labels)
+        self.assertIn("Education Aid", financial_labels)
+        self.assertIn("Medical Cost Aid", financial_labels)
+        self.assertIn("Caregiver Aid", financial_labels)
         self.assertIn(
             "Disability Income",
             financial["assignments"]["8d70eda15ed4d365bd3ffb2577c8653e"],
@@ -586,6 +596,55 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertIn(
             "Benefits Navigation",
             financial["assignments"]["c6862828db3631873bf2eb1f4ff99bea"],
+        )
+        self.assertEqual(
+            ["Child Care Aid", "Benefits Navigation"],
+            financial["assignments"]["b48b75beadedb73dd0606ffb3dcc568d"],
+        )
+        self.assertIn(
+            "Tax Preparation",
+            financial["assignments"]["106d516390d810b1989b53d59ae806c9"],
+        )
+        self.assertEqual(
+            ["Housing Subsidies", "Deposit Assistance"],
+            financial["assignments"]["51cfce1c2944ef0453c793aba1923e08"],
+        )
+        self.assertEqual(
+            ["Education Aid"],
+            financial["assignments"]["84f48c34515e9e8aa0bce9ff7796631c"],
+        )
+        self.assertEqual(
+            ["Medical Cost Aid"],
+            financial["assignments"]["4ae8876a9b82a7f0a606939254d87bb8"],
+        )
+        self.assertNotIn(
+            "193621d2449346f5eb4f3fe57535ad47",
+            financial["assignments"],
+        )
+        self.assertNotIn(
+            "financial-assistance",
+            RESOURCE_TARGETS["193621d2449346f5eb4f3fe57535ad47"],
+        )
+        self.assertNotIn(
+            "financial-assistance",
+            RESOURCE_TARGETS["33b8cbd29cf68ac3a07e0fd8d984771b"],
+        )
+        self.assertEqual(
+            ["financial-assistance"],
+            RESOURCE_CATEGORY_ADDITIONS["bd13f813cdf1a52f4297b41d93bea46b"],
+        )
+        for free_or_discounted_service_id in (
+            "9c6c63b5207dc97a65b6d8ca95c544e9",
+            "111bbc8293126891b0ecef093e94874c",
+            "4ff2225ddc559a033efe06a6b6ce3659",
+        ):
+            self.assertNotIn(
+                free_or_discounted_service_id,
+                RESOURCE_CATEGORY_ADDITIONS,
+            )
+        self.assertIn(
+            "Free or sliding-fee service",
+            financial["boundary"],
         )
 
         transportation = CATEGORY_TYPE_DESIGNS["transportation"]

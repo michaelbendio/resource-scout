@@ -131,7 +131,7 @@ PROPOSED_NEED_CATEGORIES = [
 RESOURCE_TARGETS: dict[str, list[str]] = {
     # Children/Pregnancy
     "33b8cbd29cf68ac3a07e0fd8d984771b": [
-        "medical-dental-vision", "food", "financial-assistance",
+        "medical-dental-vision", "food",
         "parenting-child-development",
     ],
     "b48b75beadedb73dd0606ffb3dcc568d": [
@@ -192,7 +192,9 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
     "5f72f3c9e07e90867dc016da33c05457": [
         "independent-living", "caregiving", "food", "financial-assistance",
     ],
-    "b21220ad00416ac580741d14ba3a1e7d": ["caregiving"],
+    "b21220ad00416ac580741d14ba3a1e7d": [
+        "caregiving", "financial-assistance",
+    ],
     "8db24b98270f7864dadcb0f97b901a53": [
         "independent-living", "employment", "medical-dental-vision",
     ],
@@ -234,7 +236,7 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "mental-health",
     ],
     "193621d2449346f5eb4f3fe57535ad47": [
-        "employment", "financial-assistance", "parenting-child-development",
+        "employment", "parenting-child-development",
     ],
     "f2e69a8b2402313065411a32eaa02190": [
         "addiction", "mental-health", "housing",
@@ -257,7 +259,7 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "addiction", "mental-health", "housing",
     ],
     "617d4be1951f67468b5ddffdb2f670f5": [
-        "addiction", "housing", "legal",
+        "addiction", "housing", "legal", "financial-assistance",
     ],
     "2888d7f802c66d6db7f0cdfc3d5f1b36": ["mental-health"],
     # Seniors (two shared records are listed under Disability above)
@@ -267,7 +269,7 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
     ],
     "ce14bd1aa42c212343ff01bdda80381e": ["legal"],
     "b47b61d084512681adb9c7ccacf2268c": [
-        "caregiving", "legal",
+        "caregiving", "legal", "financial-assistance",
     ],
     "38629d0e712141f7531b4cff4b0bfd53": [
         "caregiving", "parenting-child-development", "legal",
@@ -372,7 +374,7 @@ RESOURCE_CATEGORY_ADDITIONS: dict[str, list[str]] = {
     "ff1488daaf584a5c3e58c81b4e22bf10": ["housing"],
     "5fd29d6c772cabbc8a6abc6614f9d3bd": ["housing"],
     "fcdf7044337d12d9e7bdd3a7a732fd08": ["housing"],
-    "da4f4b5a717ae241f3363cc09eb4298a": ["housing"],
+    "da4f4b5a717ae241f3363cc09eb4298a": ["housing", "financial-assistance"],
     "08a26b747ffe8b1ea284e491a62d39e7": ["housing"],
     "3460a40faf90d00f895061b117f1d9cc": ["housing"],
     # Legal intervention that directly preserves housing
@@ -383,17 +385,50 @@ RESOURCE_CATEGORY_ADDITIONS: dict[str, list[str]] = {
     # These records were already redistributed from a retired population heading.
     "fb402105bec44e0623b4ccf8d7064802": ["housing"],
     # Practical help while someone is homeless
-    "773f0771a3cca46a7a57189d17a58a01": ["homeless-services"],
+    "773f0771a3cca46a7a57189d17a58a01": [
+        "homeless-services", "financial-assistance",
+    ],
     "8d56f8448fc9b780197d3015c051f81c": ["homeless-services"],
     "d9955a94238970f4a2e3c2e93c554835": ["homeless-services"],
     "15b833547484fe110411244b99712ca9": ["homeless-services"],
-    "d0eeddd67746f3a298eaf4969b6e9bd1": ["homeless-services"],
+    "d0eeddd67746f3a298eaf4969b6e9bd1": [
+        "homeless-services", "financial-assistance",
+    ],
     "6aa599e3a9f6ce52dd0a27bc6e625fd2": ["homeless-services"],
     "577e54a943c0cb1d97e003e0e6ba6623": ["homeless-services"],
     "5bfda48463f45755a59145fa7d226906": ["homeless-services"],
     "669bd738b302f2f17f9caa6163dd35ed": ["homeless-services"],
-    "e81a4666fa9fdf3874524e595834798c": ["homeless-services"],
+    "e81a4666fa9fdf3874524e595834798c": [
+        "homeless-services", "financial-assistance",
+    ],
     "8c7a5e3631418ce97d934b37a67fbd61": ["homeless-services"],
+    # Direct financial value or accountable application help
+    "bd13f813cdf1a52f4297b41d93bea46b": ["financial-assistance"],
+    "10c59c16ac8288d92ae7a7626edf06ab": ["financial-assistance"],
+    "2a530b4a56b21439a952af2ac753f12f": ["financial-assistance"],
+    "95aabc4180655feea072d1fcba13461c": ["financial-assistance"],
+    "9674f1a708712c74c41c9d591821a356": ["financial-assistance"],
+    "2bf6edeedd27a167fa3b1ba584d2c7c4": ["financial-assistance"],
+    "996b322aa685b24c16a5bbea4b68ed0e": ["financial-assistance"],
+    "8fbf07bdf33a69f83a1afc375c0f66d3": ["financial-assistance"],
+    "9630eddb85bca6d59fb0dc70da0935a8": ["financial-assistance"],
+    "9b72f8059923e0a5e6d1dca60a9dd708": ["financial-assistance"],
+    "e0bfbea73949f1e8965c6c1ad4eeb1ff": ["financial-assistance"],
+    "84f48c34515e9e8aa0bce9ff7796631c": ["financial-assistance"],
+    "86ea9f4c3e5c68d6ad0bcabf51e500c6": ["financial-assistance"],
+    "4ae8876a9b82a7f0a606939254d87bb8": ["financial-assistance"],
+    "6f709ac3eafa28d894f99dad814a2430": ["financial-assistance"],
+    "51cfce1c2944ef0453c793aba1923e08": ["financial-assistance"],
+    "c922c1358349b26864bc1c2f50341b2c": ["financial-assistance"],
+    "36a1aba6efe7a704aa4ca190a4f82467": ["financial-assistance"],
+    "472c5150aa06dba907ba0bdd1106599e": ["financial-assistance"],
+    "e65a5ab33ccf6b355ca9b21969c6617e": ["financial-assistance"],
+    "5b6667d5d6350f7b3c4e9c94b1b17de1": ["financial-assistance"],
+    "8b0cbd343a20dc0118ec3fa8c9a17d1f": ["financial-assistance"],
+    "7d48baeb2cd113386712a5ec693abb8c": ["financial-assistance"],
+    "726f13326a74a1f5d347c70575ea49e7": ["financial-assistance"],
+    "774e5a59b471ceacca5d0fe7cc5e787b": ["financial-assistance"],
+    "3c04b13381e97f377ba21e3c86d0b12c": ["financial-assistance"],
 }
 
 
