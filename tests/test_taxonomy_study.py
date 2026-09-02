@@ -389,7 +389,7 @@ class TaxonomyStudyTests(unittest.TestCase):
                 if item["id"] == "parenting-child-development"
             ),
         )
-        self.assertEqual(20, proposal["coverage"]["targetCategoryCounts"][
+        self.assertEqual(17, proposal["coverage"]["targetCategoryCounts"][
             "parenting-child-development"
         ])
         self.assertEqual(19, proposal["coverage"]["targetCategoryCounts"][
@@ -806,7 +806,7 @@ class TaxonomyStudyTests(unittest.TestCase):
         )
         education_labels = {item["label"] for item in education["types"]}
         self.assertEqual(15, len(education_labels))
-        self.assertEqual(34, len(education["assignments"]))
+        self.assertEqual(32, len(education["assignments"]))
         self.assertIn("Apprenticeships", education_labels)
         self.assertEqual(
             ["Education Navigation"],
@@ -832,7 +832,7 @@ class TaxonomyStudyTests(unittest.TestCase):
             "5b3220f8a547f64ec5b3171b0af3217e",
             education["assignments"],
         )
-        self.assertIn(
+        self.assertNotIn(
             "education",
             RESOURCE_TARGETS["b48b75beadedb73dd0606ffb3dcc568d"],
         )
@@ -851,15 +851,22 @@ class TaxonomyStudyTests(unittest.TestCase):
             if item["kind"] == "consolidation-candidate"
             and "education" in item.get("proposedCategories", [])
         }
+        azeip_transfer = next(
+            item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item.get("proposedIdentity")
+            == "Arizona Early Intervention Program (AzEIP)"
+        )
+        self.assertEqual("content-transfer-required", azeip_transfer["kind"])
         self.assertEqual(
             {
                 "b48b75beadedb73dd0606ffb3dcc568d",
-                "90ef7bed032bcd935b0f82e65f664917",
                 "eb94f24384f8e51a2b237d7d8c507948",
             },
-            set(education_consolidations[
-                "Arizona Early Intervention Program (AzEIP)"
-            ]["resourceIds"]),
+            set(azeip_transfer["sourceResourceIds"]),
+        )
+        self.assertEqual(
+            "90ef7bed032bcd935b0f82e65f664917",
+            azeip_transfer["destinationResourceId"],
         )
         self.assertEqual(
             {
@@ -935,6 +942,7 @@ class TaxonomyStudyTests(unittest.TestCase):
             },
             set(arouet_flag["resourceIds"]),
         )
+        self.assertEqual(["employment"], arouet_flag["proposedCategories"])
         vr_transfer = next(
             item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
             if item.get("destinationResourceId")
@@ -1186,9 +1194,44 @@ class TaxonomyStudyTests(unittest.TestCase):
         parenting_labels = {item["label"] for item in parenting["types"]}
         self.assertEqual(7, len(parenting_labels))
         self.assertNotIn("Kinship Parenting", parenting_labels)
+        self.assertEqual(17, len(parenting["assignments"]))
+        for removed_parenting_id in (
+            "33b8cbd29cf68ac3a07e0fd8d984771b",
+            "eb94f24384f8e51a2b237d7d8c507948",
+            "193621d2449346f5eb4f3fe57535ad47",
+        ):
+            self.assertNotIn(removed_parenting_id, parenting["assignments"])
+            self.assertNotIn(
+                "parenting-child-development",
+                RESOURCE_TARGETS[removed_parenting_id],
+            )
+        self.assertEqual(
+            ["Child Care"],
+            parenting["assignments"]["b48b75beadedb73dd0606ffb3dcc568d"],
+        )
+        self.assertEqual(
+            ["Early Learning"],
+            parenting["assignments"]["c44c60fb8e5cd640a4e7725286380d5c"],
+        )
+        self.assertEqual(
+            ["Parenting Education", "Home Visiting"],
+            parenting["assignments"]["220a1f02f8cd1658a7e7cd4b8e2906aa"],
+        )
         self.assertEqual(
             "no-type-needed",
             parenting["assignments"]["38629d0e712141f7531b4cff4b0bfd53"],
+        )
+        mesa_frc_flag = next(
+            item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item.get("proposedIdentity")
+            == "City of Mesa — Mesa Family Resource Center"
+        )
+        self.assertEqual(
+            {
+                "2822ad624344c1ae4686dbbb665c3700",
+                "313775a628d6ace7912cbbd7fe30a8a3",
+            },
+            set(mesa_frc_flag["resourceIds"]),
         )
 
         clothing = CATEGORY_TYPE_DESIGNS["clothing"]
@@ -1443,6 +1486,61 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertNotIn("Hispanic/Latino", [item["label"] for item in spanish])
         veteran = proposal["assignments"][1]["groups"]
         self.assertEqual("target", veteran[0]["mode"])
+
+    def test_parenting_category_removals_preserve_supported_family_groups(self) -> None:
+        resources = [
+            (
+                "33b8cbd29cf68ac3a07e0fd8d984771b",
+                "Adelante Healthcare",
+                "Pediatrics and WIC for infants and young children.",
+            ),
+            (
+                "eb94f24384f8e51a2b237d7d8c507948",
+                "Arizona Department of Economic Security",
+                "DDD and caregiver support for children with developmental disabilities and their families.",
+            ),
+            (
+                "193621d2449346f5eb4f3fe57535ad47",
+                "Arouet Foundation",
+                "Reentry support for justice-impacted women and their families.",
+            ),
+        ]
+        packet = {
+            "studyId": 1,
+            "packetSha256": "f" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [
+                    {
+                        "corpusKey": f"automesa-curated:{resource_id}",
+                        "resourceId": resource_id,
+                        "name": name,
+                        "priorCategoryIds": [],
+                        "proposedCategoryIds": [],
+                        "priorForGroups": ["Families with children"],
+                        "resource": {
+                            "name": name,
+                            "description": description,
+                            "informationText": "",
+                        },
+                    }
+                    for resource_id, name, description in resources
+                ],
+            },
+        }
+        assignments = infer_group_proposal(packet)["assignments"]
+        self.assertTrue(all(
+            assignment["reviewStatus"] == "ready"
+            for assignment in assignments
+        ))
+        self.assertTrue(all(
+            any(
+                group["label"] == "Families" and group["mode"] == "target"
+                for group in assignment["groups"]
+            )
+            for assignment in assignments
+        ))
 
     def test_specific_disability_evidence_uses_only_disabled_group(self) -> None:
         packet = {

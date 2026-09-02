@@ -132,10 +132,9 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
     # Children/Pregnancy
     "33b8cbd29cf68ac3a07e0fd8d984771b": [
         "medical-dental-vision", "food",
-        "parenting-child-development",
     ],
     "b48b75beadedb73dd0606ffb3dcc568d": [
-        "parenting-child-development", "financial-assistance", "education",
+        "parenting-child-development", "financial-assistance",
     ],
     "90ef7bed032bcd935b0f82e65f664917": [
         "parenting-child-development", "education",
@@ -202,7 +201,7 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "independent-living", "utilities-phone-internet",
     ],
     "eb94f24384f8e51a2b237d7d8c507948": [
-        "parenting-child-development", "caregiving", "education",
+        "caregiving",
     ],
     "4ac8a5df1279284d2d5e64df54b5c1dd": ["independent-living", "education"],
     "c30d34b41e5260bdd10a194738ec8df2": ["independent-living"],
@@ -236,7 +235,7 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "mental-health",
     ],
     "193621d2449346f5eb4f3fe57535ad47": [
-        "employment", "parenting-child-development",
+        "employment",
     ],
     "f2e69a8b2402313065411a32eaa02190": [
         "addiction", "mental-health", "housing",

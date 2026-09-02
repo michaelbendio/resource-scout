@@ -132,6 +132,12 @@ _EXISTING_GROUP_REVIEW: dict[tuple[str, str], tuple[str, str, str]] = {
         ("keep", "target", "Hope Closet is limited to youth involved with Juvenile Probation and their families."),
 
     # Families with children
+    ("automesa-curated:33b8cbd29cf68ac3a07e0fd8d984771b", "families-with-children"):
+        ("keep", "target", "The Mesa clinic directly provides pediatrics and WIC services for families with infants and young children."),
+    ("automesa-curated:eb94f24384f8e51a2b237d7d8c507948", "families-with-children"):
+        ("keep", "target", "The DDD and caregiver pathways directly support children with developmental disabilities and their families."),
+    ("automesa-curated:193621d2449346f5eb4f3fe57535ad47", "families-with-children"):
+        ("keep", "target", "Arouet expressly serves justice-impacted women and their families even though a direct Parenting service remains unverified."),
     ("automesa-curated:7f314bc451d77d01f553d4527407d06d", "families-with-children"):
         ("remove", "target", "The employment resource serves adult job seekers without a family-with-children pathway."),
     ("automesa-curated:302a889f3d615bd6ab350588df7c39e9", "families-with-children"):

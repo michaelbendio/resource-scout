@@ -116,12 +116,12 @@ TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
         ),
     },
     {
-        "kind": "consolidation-candidate",
-        "resourceIds": [
+        "kind": "content-transfer-required",
+        "sourceResourceIds": [
             "b48b75beadedb73dd0606ffb3dcc568d",
-            "90ef7bed032bcd935b0f82e65f664917",
             "eb94f24384f8e51a2b237d7d8c507948",
         ],
+        "destinationResourceId": "90ef7bed032bcd935b0f82e65f664917",
         "proposedIdentity": "Arizona Early Intervention Program (AzEIP)",
         "proposedCategories": [
             "education", "parenting-child-development",
@@ -132,8 +132,26 @@ TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
         "status": "apply-after-taxonomy-review",
         "preserve": [
             "the dedicated central-referral access path",
-            "Child Care Assistance content on the broader DES card",
-            "DDD, AZ ABLE, and caregiver-support content on the disability card",
+            "Child Care Assistance as the sole Parenting scope of the broader DES card",
+            "DDD, AZ ABLE, and caregiver-support scope on the disability card",
+        ],
+    },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "2822ad624344c1ae4686dbbb665c3700",
+            "313775a628d6ace7912cbbd7fe30a8a3",
+        ],
+        "proposedIdentity": "City of Mesa — Mesa Family Resource Center",
+        "proposedCategories": ["parenting-child-development"],
+        "proposedParentingTypes": [
+            "Parenting Education", "Early Learning", "Family Resource Center",
+        ],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "the downtown Mesa Main Library location",
+            "nonresident access for families with children birth to five",
+            "parent-child activities, parenting education, and rotating partner services",
         ],
     },
     {
@@ -189,9 +207,7 @@ TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
             "a9d82c588239bf51cb761861ce2ef062",
         ],
         "proposedIdentity": "Arouet Foundation — Women's Reentry and Employment Support",
-        "proposedCategories": [
-            "employment", "parenting-child-development",
-        ],
+        "proposedCategories": ["employment"],
         "status": "apply-after-taxonomy-review",
         "preserve": [
             "current pre-release and post-release intake pathways",
@@ -241,8 +257,7 @@ TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
         ],
         "proposedIdentity": "Adelante Healthcare — Mesa",
         "proposedCategories": [
-            "medical-dental-vision", "food", "parenting-child-development",
-            "financial-assistance",
+            "medical-dental-vision", "food", "financial-assistance",
         ],
         "status": "apply-after-taxonomy-review",
         "preserve": [
@@ -924,13 +939,7 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "6ce0d0fd810d670dae505e267ea6e01a": ["School Supplies"],
             "c74ea9adad61a6ff3fd9e49ae50d61d2": ["School Supplies"],
             "edacb348adc1480fe0ac0b9b6f1e8580": ["School Supplies"],
-            "b48b75beadedb73dd0606ffb3dcc568d": [
-                "Early Intervention", "Education Navigation",
-            ],
             "90ef7bed032bcd935b0f82e65f664917": [
-                "Early Intervention", "Education Navigation",
-            ],
-            "eb94f24384f8e51a2b237d7d8c507948": [
                 "Early Intervention", "Education Navigation",
             ],
             "f95aad04c5e72f66f324d9875d7caffd": [
@@ -1400,12 +1409,9 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             },
         ],
         "assignments": {
-            "33b8cbd29cf68ac3a07e0fd8d984771b": ["Parenting Education"],
-            "b48b75beadedb73dd0606ffb3dcc568d": ["Child Care", "Early Intervention"],
+            "b48b75beadedb73dd0606ffb3dcc568d": ["Child Care"],
             "90ef7bed032bcd935b0f82e65f664917": ["Early Intervention"],
-            "eb94f24384f8e51a2b237d7d8c507948": ["Early Intervention"],
             "067d28b529da7122c5d8c50ff1874faf": ["Early Intervention"],
-            "193621d2449346f5eb4f3fe57535ad47": ["Family Reunification"],
             "1ed84b657420da445ac082991959b3f8": [
                 "Parenting Education", "Early Learning", "Family Resource Center",
             ],
@@ -1430,9 +1436,9 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "ec74c1192ef14f1debb3a31c912a1bbc": [
                 "Parenting Education", "Home Visiting", "Early Intervention",
             ],
-            "c44c60fb8e5cd640a4e7725286380d5c": ["Child Care", "Early Learning"],
+            "c44c60fb8e5cd640a4e7725286380d5c": ["Early Learning"],
             "220a1f02f8cd1658a7e7cd4b8e2906aa": [
-                "Parenting Education", "Home Visiting", "Early Intervention",
+                "Parenting Education", "Home Visiting",
             ],
             "029031368b1b87b942199b97cb2ac47f": [
                 "Parenting Education", "Home Visiting",
