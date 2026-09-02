@@ -10,6 +10,23 @@ from .storage import ResearchStore
 from .taxonomy_study import TaxonomyStudyError
 
 
+TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
+    {
+        "kind": "duplicate-candidate",
+        "resourceIds": [
+            "0e36c87d7889979a6cf7f4debff3bed7",
+            "eadaaf197b67dc1d520ae55c2dc28a19",
+        ],
+        "proposedIdentity": "Family Housing Hub — operated by UMOM New Day Centers",
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "MesaCAN satellite access details",
+            "coordinated entry prioritizes need but does not guarantee shelter",
+        ],
+    },
+]
+
+
 CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
     "food": {
         "types": [
@@ -266,7 +283,7 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "79a54c3aaf0d161f9dbab859bfba7da2": ["Emergency Shelter", "Transitional Housing"],
             "e81a4666fa9fdf3874524e595834798c": ["Housing Vouchers", "Supportive Housing", "Coordinated Entry"],
             "2af79fdd0101ee3a198c732086f9bfc6": ["Transitional Housing", "Rapid Rehousing", "Supportive Housing"],
-            "15b833547484fe110411244b99712ca9": ["Emergency Shelter", "Housing Navigation"],
+            "15b833547484fe110411244b99712ca9": ["Emergency Shelter", "Rapid Rehousing", "Housing Navigation"],
             "eadaaf197b67dc1d520ae55c2dc28a19": ["Coordinated Entry"],
         },
         "boundary": "Housing Types describe the housing intervention; urgency, wait time, eligibility, and population belong in access details or For groups.",

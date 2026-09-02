@@ -30,6 +30,7 @@ from resource_research_agent.taxonomy_types import (
 )
 from resource_research_agent.taxonomy_type_design import (
     CATEGORY_TYPE_DESIGNS,
+    TAXONOMY_APPLICATION_CLEANUP_FLAGS,
     build_type_design,
 )
 from resource_research_agent.taxonomy_groups import (
@@ -546,6 +547,21 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertEqual(
             ["Emergency Shelter", "Transitional Housing", "Rental Assistance"],
             housing["assignments"]["d0eeddd67746f3a298eaf4969b6e9bd1"],
+        )
+        self.assertEqual(
+            ["Emergency Shelter", "Rapid Rehousing", "Housing Navigation"],
+            housing["assignments"]["15b833547484fe110411244b99712ca9"],
+        )
+        family_hub_flag = next(
+            item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item["proposedIdentity"].startswith("Family Housing Hub")
+        )
+        self.assertEqual(
+            {
+                "0e36c87d7889979a6cf7f4debff3bed7",
+                "eadaaf197b67dc1d520ae55c2dc28a19",
+            },
+            set(family_hub_flag["resourceIds"]),
         )
 
         education = CATEGORY_TYPE_DESIGNS["education"]
