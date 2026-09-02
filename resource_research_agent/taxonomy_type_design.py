@@ -133,7 +133,6 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             {"label": "Bus Passes", "definition": "Transit passes or fare assistance."},
             {"label": "Ride Vouchers", "definition": "Taxi, rideshare, or other trip vouchers."},
             {"label": "Bicycles", "definition": "Bicycle placement, repair, or cycling transportation."},
-            {"label": "Mobility Management", "definition": "Assessment, planning, coordination, and connection among transportation options."},
         ],
         "assignments": {
             "c98efcff0bd197bbec30e22139820e7a": ["Travel Training"],
@@ -144,7 +143,7 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "855aea5e0d3d3b07f11e7bb81212e4d2": ["Medical Rides"],
             "40894eb45a7350552e6e0df4621e8eb3": ["Volunteer Rides"],
             "b8974853db6587c88187211e9eb32960": ["Bicycles"],
-            "00cca473db91285a4a393f5ba53add8f": ["Mobility Management"],
+            "00cca473db91285a4a393f5ba53add8f": "no-type-needed",
             "60e4d8ec2611999a357a1283fd451295": ["Medical Rides"],
             "df171bb522d8c9a10c10b5c20e52cc1b": "no-type-needed",
             "2504ccabf901d68e7682a299c2151b21": ["Volunteer Rides", "Medical Rides"],
