@@ -989,6 +989,70 @@ class TaxonomyStudyTests(unittest.TestCase):
             set(terros_flag["resourceIds"]),
         )
 
+        medical = CATEGORY_TYPE_DESIGNS["medical-dental-vision"]
+        medical_labels = {item["label"] for item in medical["types"]}
+        self.assertEqual(20, len(medical_labels))
+        self.assertIn("Physical Rehabilitation", medical_labels)
+        self.assertIn("Vision Rehabilitation", medical_labels)
+        self.assertIn("Reproductive Health", medical_labels)
+        self.assertIn("Medical Equipment", medical_labels)
+        self.assertNotIn("Rehabilitation", medical_labels)
+        self.assertEqual(30, len(medical["assignments"]))
+        self.assertEqual(
+            ["Vision Care", "Vision Rehabilitation"],
+            medical["assignments"]["8db24b98270f7864dadcb0f97b901a53"],
+        )
+        self.assertEqual(
+            ["Primary Care", "Medical Respite", "Physical Rehabilitation"],
+            medical["assignments"]["69bc2e9938b04722b0c8cdc1d67dadc8"],
+        )
+        self.assertIn(
+            "Reproductive Health",
+            medical["assignments"]["1d36ae0a82e6d1f6c264334db09e578c"],
+        )
+        self.assertFalse(any(
+            "Medical Equipment" in value
+            for value in medical["assignments"].values()
+            if isinstance(value, list)
+        ))
+        self.assertIn("Pediatrics and Prenatal/Postpartum", medical["boundary"])
+
+        medical_consolidations = {
+            item["proposedIdentity"]: item
+            for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item.get("proposedIdentity") in {
+                "Adelante Healthcare — Mesa",
+                "Health-e-Arizona Plus — Benefits Enrollment Portal",
+                "Mountain Park Health Center",
+                "Valleywise Health — Mesa and Countywide Care",
+            }
+        }
+        self.assertEqual(4, len(medical_consolidations))
+        self.assertEqual(
+            {
+                "33b8cbd29cf68ac3a07e0fd8d984771b",
+                "bd13f813cdf1a52f4297b41d93bea46b",
+            },
+            set(medical_consolidations["Adelante Healthcare — Mesa"]["resourceIds"]),
+        )
+        self.assertEqual(
+            {
+                "10c59c16ac8288d92ae7a7626edf06ab",
+                "2a530b4a56b21439a952af2ac753f12f",
+            },
+            set(medical_consolidations[
+                "Health-e-Arizona Plus — Benefits Enrollment Portal"
+            ]["resourceIds"]),
+        )
+        availability_flag = next(
+            item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item.get("kind") == "availability-verification-required"
+        )
+        self.assertEqual(
+            ["363ba896bb14a4dc850081cd818533c7"],
+            availability_flag["resourceIds"],
+        )
+
         clothing = CATEGORY_TYPE_DESIGNS["clothing"]
         clothing_labels = {item["label"] for item in clothing["types"]}
         self.assertEqual(

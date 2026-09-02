@@ -231,6 +231,84 @@ TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
             "misstate the Terros identity and should be reconciled before packaging."
         ),
     },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "33b8cbd29cf68ac3a07e0fd8d984771b",
+            "bd13f813cdf1a52f4297b41d93bea46b",
+        ],
+        "proposedIdentity": "Adelante Healthcare — Mesa",
+        "proposedCategories": [
+            "medical-dental-vision", "food", "parenting-child-development",
+            "financial-assistance",
+        ],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "primary, dental, pediatric, prenatal, postpartum, and reproductive care",
+            "same-day care, pharmacy, telehealth, WIC, and behavioral-health details",
+            "sliding-fee, uninsured, enrollment, and language-access information",
+        ],
+    },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "10c59c16ac8288d92ae7a7626edf06ab",
+            "2a530b4a56b21439a952af2ac753f12f",
+        ],
+        "proposedIdentity": "Health-e-Arizona Plus — Benefits Enrollment Portal",
+        "proposedCategories": [
+            "medical-dental-vision", "financial-assistance", "food",
+        ],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "AHCCCS, KidsCare, SNAP, and TANF enrollment and renewal details",
+            "limited adult dental and vision benefit cautions",
+            "in-person enrollment-help pathways",
+        ],
+    },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "af6fce2b1b9927a1669f390313d56ae6",
+            "111bbc8293126891b0ecef093e94874c",
+        ],
+        "proposedIdentity": "Mountain Park Health Center",
+        "proposedCategories": ["medical-dental-vision"],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "primary, pediatric, prenatal, reproductive, dental, and pharmacy care",
+            "sliding-fee access for uninsured patients",
+            "location-specific service and Mesa-access cautions",
+        ],
+    },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "4ae8876a9b82a7f0a606939254d87bb8",
+            "aee416211643d092d52e82a4470df12b",
+        ],
+        "proposedIdentity": "Valleywise Health — Mesa and Countywide Care",
+        "proposedCategories": [
+            "medical-dental-vision", "parenting-child-development",
+            "financial-assistance",
+        ],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "Mesa primary, prenatal, postpartum, pediatric, and pharmacy access",
+            "hospital, specialty, dental, and reproductive-health pathways",
+            "teen maternity, sliding-fee, charity-care, and uninsured-discount details",
+        ],
+    },
+    {
+        "kind": "availability-verification-required",
+        "resourceIds": ["363ba896bb14a4dc850081cd818533c7"],
+        "proposedIdentity": "St. Vincent de Paul — East Valley Medical Clinic",
+        "status": "apply-after-taxonomy-review",
+        "requirement": (
+            "Do not offer the planned Mesa clinic until its opening, current services, "
+            "and intake pathway are confirmed from an official source."
+        ),
+    },
 ]
 
 
@@ -899,6 +977,7 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             {"label": "Vision Care", "definition": "Eye exams, treatment, low-vision care, or corrective lenses."},
             {"label": "Prenatal/Postpartum", "definition": "Medical care during pregnancy, birth, and the postpartum period."},
             {"label": "Pediatrics", "definition": "Medical care for infants, children, and adolescents."},
+            {"label": "Reproductive Health", "definition": "Family planning, gynecological, and other non-pregnancy reproductive healthcare."},
             {"label": "Same-day Care", "definition": "Walk-in or same-day care for an immediate non-emergency need."},
             {"label": "Specialty Care", "definition": "Specialist evaluation or treatment beyond primary care."},
             {"label": "Hospital Care", "definition": "Hospital-based inpatient, maternity, or advanced medical care."},
@@ -909,15 +988,17 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             {"label": "Telehealth", "definition": "Medical care designed for remote participation."},
             {"label": "Home Visiting", "definition": "Health and developmental support delivered through planned home visits."},
             {"label": "Doula Support", "definition": "Labor, delivery, and postpartum support from a doula."},
-            {"label": "Rehabilitation", "definition": "Physical, sensory, or functional rehabilitation services."},
+            {"label": "Physical Rehabilitation", "definition": "Physical therapy and rehabilitation for injury, illness, or functional recovery."},
+            {"label": "Vision Rehabilitation", "definition": "Independent-living, assistive-technology, and functional support for vision loss."},
+            {"label": "Medical Equipment", "definition": "Wheelchairs, walkers, hospital beds, oxygen, or other durable medical equipment; no matching resource is present in the frozen Mesa corpus."},
             {"label": "Pregnancy Testing", "definition": "Clinical or community pregnancy testing."},
         ],
         "assignments": {
             "215c9744b5c85f565edf132c428bb77c": ["Dental Care", "Specialty Care"],
-            "33b8cbd29cf68ac3a07e0fd8d984771b": ["Primary Care", "Dental Care", "Prenatal/Postpartum", "Pediatrics", "Health Coverage"],
-            "bd13f813cdf1a52f4297b41d93bea46b": ["Primary Care", "Dental Care", "Prenatal/Postpartum", "Pediatrics", "Same-day Care", "Pharmacy/Medication", "Telehealth", "Health Coverage"],
+            "33b8cbd29cf68ac3a07e0fd8d984771b": ["Primary Care", "Dental Care", "Prenatal/Postpartum", "Pediatrics", "Reproductive Health", "Health Coverage"],
+            "bd13f813cdf1a52f4297b41d93bea46b": ["Primary Care", "Dental Care", "Prenatal/Postpartum", "Pediatrics", "Reproductive Health", "Same-day Care", "Pharmacy/Medication", "Telehealth", "Health Coverage"],
             "debb9e4a689060f00162da9ac2f8063b": ["Adult Day Health"],
-            "8db24b98270f7864dadcb0f97b901a53": ["Vision Care", "Rehabilitation"],
+            "8db24b98270f7864dadcb0f97b901a53": ["Vision Care", "Vision Rehabilitation"],
             "a90b957439ba736a20a0eb129322891e": ["Health Coverage"],
             "855aea5e0d3d3b07f11e7bb81212e4d2": ["Health Coverage"],
             "a246f47cd18fc8d7b1bfa520a0451300": ["Health Coverage"],
@@ -925,26 +1006,33 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "0474f03b486642977ecad2860ffac719": ["Prenatal/Postpartum", "Hospital Care"],
             "18462adf6dd0d47ac76fba2161b70dfc": ["Prenatal/Postpartum", "Specialty Care"],
             "ed9cec6557722e44984887fb41637d6e": ["Pregnancy Testing"],
-            "69bc2e9938b04722b0c8cdc1d67dadc8": ["Primary Care", "Medical Respite", "Rehabilitation"],
-            "0904081bbb9ee06085267ef392cd071f": ["Vision Care", "Rehabilitation"],
+            "69bc2e9938b04722b0c8cdc1d67dadc8": ["Primary Care", "Medical Respite", "Physical Rehabilitation"],
+            "0904081bbb9ee06085267ef392cd071f": ["Vision Care", "Vision Rehabilitation"],
             "2a530b4a56b21439a952af2ac753f12f": ["Health Coverage"],
             "ec74c1192ef14f1debb3a31c912a1bbc": ["Prenatal/Postpartum", "Home Visiting", "Doula Support"],
             "9440dc735d5b0aada418ed90bf5c3ad5": ["Dental Care"],
-            "3f0d047be9ce5a319562cf127b3b4af1": ["Vision Care", "Specialty Care", "Rehabilitation"],
+            "3f0d047be9ce5a319562cf127b3b4af1": ["Vision Care", "Specialty Care", "Vision Rehabilitation"],
             "1d201eebb46032309abebb86f3d470ad": ["Primary Care", "Vision Care", "Specialty Care", "Pharmacy/Medication"],
-            "af6fce2b1b9927a1669f390313d56ae6": ["Primary Care", "Dental Care", "Prenatal/Postpartum", "Pediatrics", "Pharmacy/Medication"],
-            "111bbc8293126891b0ecef093e94874c": ["Primary Care", "Prenatal/Postpartum", "Pediatrics"],
+            "af6fce2b1b9927a1669f390313d56ae6": ["Primary Care", "Dental Care", "Prenatal/Postpartum", "Pediatrics", "Reproductive Health", "Pharmacy/Medication"],
+            "111bbc8293126891b0ecef093e94874c": ["Primary Care", "Prenatal/Postpartum", "Pediatrics", "Reproductive Health"],
             "edd25249cae3302c71dfdf01ed68fd86": ["Primary Care", "Dental Care", "Same-day Care", "Pharmacy/Medication", "Telehealth"],
             "0aa8df276d838df3292303f1e1e5fb1f": ["Vision Care"],
-            "363ba896bb14a4dc850081cd818533c7": ["Primary Care", "Specialty Care", "Rehabilitation"],
+            "363ba896bb14a4dc850081cd818533c7": ["Primary Care", "Specialty Care", "Reproductive Health", "Physical Rehabilitation"],
             "029031368b1b87b942199b97cb2ac47f": ["Prenatal/Postpartum", "Home Visiting"],
             "948dd967fb329f7e5f04c0814a113889": ["Primary Care", "Specialty Care", "Telehealth"],
-            "c7a3916ed96ea82d06f37910ddf70670": ["Primary Care", "Prenatal/Postpartum", "Pediatrics", "Pharmacy/Medication"],
-            "4ae8876a9b82a7f0a606939254d87bb8": ["Primary Care", "Dental Care", "Specialty Care", "Hospital Care", "Pharmacy/Medication"],
+            "c7a3916ed96ea82d06f37910ddf70670": ["Primary Care", "Prenatal/Postpartum", "Pediatrics", "Reproductive Health", "Pharmacy/Medication"],
+            "4ae8876a9b82a7f0a606939254d87bb8": ["Primary Care", "Dental Care", "Specialty Care", "Hospital Care", "Reproductive Health", "Pharmacy/Medication"],
             "aee416211643d092d52e82a4470df12b": ["Prenatal/Postpartum", "Pediatrics"],
-            "1d36ae0a82e6d1f6c264334db09e578c": ["Primary Care", "Prenatal/Postpartum", "Pediatrics", "Health Coverage"],
+            "1d36ae0a82e6d1f6c264334db09e578c": ["Primary Care", "Prenatal/Postpartum", "Pediatrics", "Reproductive Health", "Health Coverage"],
         },
-        "boundary": "Types describe the form of healthcare; diagnosis, age, disability, pregnancy status, insurance status, and language belong in For groups or access details even when they affect eligibility.",
+        "boundary": (
+            "Types describe a healthcare service line or a direct access pathway. "
+            "Pediatrics and Prenatal/Postpartum describe care actually delivered; Youth "
+            "and Pregnant/postpartum separately describe whom a resource targets or "
+            "accommodates. Health Coverage requires a direct application, enrollment, "
+            "or accountable eligibility-help pathway rather than a vague referral. "
+            "Other population traits remain For groups or access details."
+        ),
     },
     "mental-health": {
         "types": [
