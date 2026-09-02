@@ -514,6 +514,16 @@ class TaxonomyStudyTests(unittest.TestCase):
             {item["label"] for item in transportation["types"]},
         )
 
+        utilities = CATEGORY_TYPE_DESIGNS["utilities-phone-internet"]
+        self.assertEqual(
+            ["Heating/Cooling Repair"],
+            utilities["assignments"]["774e5a59b471ceacca5d0fe7cc5e787b"],
+        )
+        self.assertEqual(
+            ["Communication Equipment", "Relay Service"],
+            utilities["assignments"]["ee67d6c2ce1b1b7f9dbf0b2ef86ef972"],
+        )
+
         education = CATEGORY_TYPE_DESIGNS["education"]
         online_ged = education["assignments"][
             "cce4f2f7537a93ea0f58d524dc2dd818"
