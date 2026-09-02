@@ -937,6 +937,58 @@ class TaxonomyStudyTests(unittest.TestCase):
             vr_transfer["sourceResourceIds"],
         )
 
+        addiction = CATEGORY_TYPE_DESIGNS["addiction"]
+        addiction_labels = {item["label"] for item in addiction["types"]}
+        self.assertEqual(14, len(addiction_labels))
+        self.assertIn("Residential Recovery", addiction_labels)
+        self.assertIn("Support Groups", addiction_labels)
+        self.assertIn("Peer Support", addiction_labels)
+        self.assertIn("Overdose/Crisis Line", addiction_labels)
+        self.assertNotIn("Peer Recovery", addiction_labels)
+        self.assertNotIn("Crisis/Overdose Line", addiction_labels)
+        self.assertEqual(36, len(addiction["assignments"]))
+        self.assertEqual(
+            ["Detox/Withdrawal", "Intensive Outpatient", "Co-occurring Treatment"],
+            addiction["assignments"]["ea77fba8e182ba83a7f60438bece546b"],
+        )
+        self.assertEqual(
+            ["Outpatient Treatment", "Recovery Housing", "Peer Support"],
+            addiction["assignments"]["86255417090cba31f14b0d7e9334d157"],
+        )
+        self.assertEqual(
+            ["Outpatient Treatment"],
+            addiction["assignments"]["18462adf6dd0d47ac76fba2161b70dfc"],
+        )
+        for residential_recovery_id in (
+            "edc5a63f8239da2c402f528da2718669",
+            "34bce41d6bcc0b3799d9636d6e0dff8b",
+        ):
+            self.assertEqual(
+                ["Residential Recovery"],
+                addiction["assignments"][residential_recovery_id],
+            )
+        self.assertEqual(
+            "no-type-needed",
+            addiction["assignments"]["b9affc7e4a6b284ed2bdae319aaa486a"],
+        )
+        self.assertEqual(
+            "no-type-needed",
+            addiction["assignments"]["87c3e010d39aad60d9640f059b834c21"],
+        )
+        self.assertIn("are distinct", addiction["boundary"])
+
+        terros_flag = next(
+            item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item.get("proposedIdentity", "").startswith("Terros Health")
+        )
+        self.assertEqual(
+            {
+                "6b2d7fcadeec59dea6cd835e732ef55f",
+                "446d7aeaa7a45f7bab5d72f34d1b10e3",
+            },
+            set(terros_flag["resourceIds"]),
+        )
+
         clothing = CATEGORY_TYPE_DESIGNS["clothing"]
         clothing_labels = {item["label"] for item in clothing["types"]}
         self.assertEqual(

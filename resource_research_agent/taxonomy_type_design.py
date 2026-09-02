@@ -212,6 +212,25 @@ TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
             "card while preserving DES reentry-employment services on the broader card."
         ),
     },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "6b2d7fcadeec59dea6cd835e732ef55f",
+            "446d7aeaa7a45f7bab5d72f34d1b10e3",
+        ],
+        "proposedIdentity": "Terros Health — Substance Use Treatment",
+        "proposedCategories": ["addiction", "mental-health"],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "Mesa-area outpatient intake and insurance-access details",
+            "residential, medication, counseling, and co-occurring treatment details",
+            "harm-reduction, overdose-prevention, and Spanish-accommodation details",
+        ],
+        "reason": (
+            "The Lifewell Behavioral Wellness / Terros card appears to duplicate or "
+            "misstate the Terros identity and should be reconciled before packaging."
+        ),
+    },
 ]
 
 
@@ -813,26 +832,28 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
     },
     "addiction": {
         "types": [
-            {"label": "Crisis/Overdose Line", "definition": "Immediate phone triage for overdose, poisoning, withdrawal, or addiction crisis."},
+            {"label": "Overdose/Crisis Line", "definition": "Immediate phone triage for overdose, poisoning, withdrawal, or addiction crisis."},
             {"label": "Detox/Withdrawal", "definition": "Medical or clinically supervised withdrawal management and stabilization."},
             {"label": "Residential Treatment", "definition": "Live-in substance-use treatment with structured clinical programming."},
+            {"label": "Residential Recovery", "definition": "Structured live-in recovery programming that is not represented as clinical residential treatment."},
             {"label": "Outpatient Treatment", "definition": "Scheduled addiction treatment while the participant lives in the community."},
             {"label": "Intensive Outpatient", "definition": "A higher-frequency structured outpatient treatment program."},
             {"label": "Medication Treatment", "definition": "Methadone, buprenorphine, naltrexone, or other medication for addiction treatment."},
             {"label": "Recovery Housing", "definition": "Substance-free housing organized to support continuing recovery."},
             {"label": "Harm Reduction", "definition": "Naloxone, safer-use supplies, and practical overdose-risk reduction."},
-            {"label": "Peer Recovery", "definition": "Recovery mentoring, peer accountability, or recovery-oriented mutual support."},
+            {"label": "Peer Support", "definition": "Recovery mentoring, peer accountability, or other recovery support delivered by peers."},
+            {"label": "Support Groups", "definition": "Organized mutual-support groups such as AA, NA, or SMART Recovery; no matching resource is present in the frozen Mesa corpus."},
             {"label": "Co-occurring Treatment", "definition": "Integrated treatment for substance use and mental-health conditions."},
             {"label": "Treatment Court", "definition": "Court-supervised treatment and recovery planning as an alternative pathway."},
             {"label": "Counseling", "definition": "Individual or group substance-use counseling."},
         ],
         "assignments": {
-            "ea77fba8e182ba83a7f60438bece546b": ["Detox/Withdrawal", "Co-occurring Treatment"],
-            "d35297757ca15962989aba2961f35f7c": ["Crisis/Overdose Line"],
-            "86255417090cba31f14b0d7e9334d157": ["Recovery Housing", "Peer Recovery"],
+            "ea77fba8e182ba83a7f60438bece546b": ["Detox/Withdrawal", "Intensive Outpatient", "Co-occurring Treatment"],
+            "d35297757ca15962989aba2961f35f7c": ["Overdose/Crisis Line"],
+            "86255417090cba31f14b0d7e9334d157": ["Outpatient Treatment", "Recovery Housing", "Peer Support"],
             "a3f2ae86957032ff2779178a2891f1aa": ["Outpatient Treatment", "Medication Treatment"],
-            "3c1ab6d4b53e590caf1c3f0cf433a714": ["Crisis/Overdose Line"],
-            "18462adf6dd0d47ac76fba2161b70dfc": "no-type-needed",
+            "3c1ab6d4b53e590caf1c3f0cf433a714": ["Overdose/Crisis Line"],
+            "18462adf6dd0d47ac76fba2161b70dfc": ["Outpatient Treatment"],
             "f3014f72c63050649dc92f5e52e88e1b": ["Detox/Withdrawal", "Residential Treatment", "Intensive Outpatient"],
             "b9affc7e4a6b284ed2bdae319aaa486a": "no-type-needed",
             "5b415ee3078420f7b8081b605d1d087a": ["Detox/Withdrawal", "Residential Treatment", "Outpatient Treatment", "Co-occurring Treatment"],
@@ -845,14 +866,14 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "6b2d7fcadeec59dea6cd835e732ef55f": ["Outpatient Treatment", "Co-occurring Treatment"],
             "aa9a90d7f959067cb0447b4e06a5cb13": ["Treatment Court"],
             "87c3e010d39aad60d9640f059b834c21": "no-type-needed",
-            "cfddfe7aec2aa52de1a56c0d3d797d9e": ["Residential Treatment", "Intensive Outpatient", "Recovery Housing", "Peer Recovery", "Counseling"],
-            "815148d4fe10fdbf28f981c14050256c": ["Residential Treatment", "Peer Recovery", "Co-occurring Treatment"],
+            "cfddfe7aec2aa52de1a56c0d3d797d9e": ["Residential Treatment", "Intensive Outpatient", "Recovery Housing", "Peer Support", "Counseling"],
+            "815148d4fe10fdbf28f981c14050256c": ["Residential Treatment", "Peer Support", "Co-occurring Treatment"],
             "1ed078050fc55c8c0fba211d3b8e8c0e": ["Outpatient Treatment", "Medication Treatment", "Counseling", "Harm Reduction"],
             "4ad64cc79738db00fc4c12cac4481fd5": ["Detox/Withdrawal"],
-            "a21c310d2a515339bb648af71577d74d": ["Recovery Housing", "Peer Recovery"],
-            "edc5a63f8239da2c402f528da2718669": ["Residential Treatment"],
+            "a21c310d2a515339bb648af71577d74d": ["Recovery Housing", "Peer Support"],
+            "edc5a63f8239da2c402f528da2718669": ["Residential Recovery"],
             "a307aa54e93fa408dcb6fe7de0251cd2": ["Outpatient Treatment", "Intensive Outpatient"],
-            "34bce41d6bcc0b3799d9636d6e0dff8b": ["Residential Treatment", "Peer Recovery"],
+            "34bce41d6bcc0b3799d9636d6e0dff8b": ["Residential Recovery"],
             "617d4be1951f67468b5ddffdb2f670f5": ["Residential Treatment"],
             "726cf5766a37f0365d98aa314e95df52": ["Detox/Withdrawal", "Residential Treatment", "Medication Treatment", "Co-occurring Treatment"],
             "18e8c38632cddf6bfd6e57ae47b1f436": ["Outpatient Treatment", "Medication Treatment", "Counseling"],
@@ -860,11 +881,16 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "14d40b4e4bdd71c67e009326f3716119": ["Residential Treatment", "Co-occurring Treatment"],
             "56082a4920ef5e52ae645088882ab65d": ["Harm Reduction"],
             "446d7aeaa7a45f7bab5d72f34d1b10e3": ["Residential Treatment", "Outpatient Treatment", "Medication Treatment", "Harm Reduction", "Counseling", "Co-occurring Treatment"],
-            "5494e7153548657ba7384d98b5d24247": ["Residential Treatment", "Recovery Housing", "Peer Recovery"],
+            "5494e7153548657ba7384d98b5d24247": ["Residential Treatment", "Recovery Housing", "Peer Support"],
             "2af79fdd0101ee3a198c732086f9bfc6": ["Counseling"],
             "0be7372bda5d130e905a555ea663b1aa": ["Detox/Withdrawal", "Residential Treatment", "Outpatient Treatment", "Medication Treatment"],
         },
-        "boundary": "Types describe treatment and recovery methods; substance, gender, age, pregnancy, veteran status, and justice history belong in For groups or clinical access details.",
+        "boundary": (
+            "Types describe treatment and recovery methods. Clinical residential "
+            "treatment, structured nonclinical residential recovery programs, and "
+            "recovery housing are distinct. Substance, gender, age, pregnancy, veteran "
+            "status, and justice history belong in For groups or clinical access details."
+        ),
     },
     "medical-dental-vision": {
         "types": [
