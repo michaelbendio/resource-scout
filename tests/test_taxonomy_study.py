@@ -504,6 +504,16 @@ class TaxonomyStudyTests(unittest.TestCase):
             financial["assignments"]["c6862828db3631873bf2eb1f4ff99bea"],
         )
 
+        transportation = CATEGORY_TYPE_DESIGNS["transportation"]
+        self.assertEqual(
+            ["Mobility Management"],
+            transportation["assignments"]["00cca473db91285a4a393f5ba53add8f"],
+        )
+        self.assertNotIn(
+            "Mobility Services",
+            {item["label"] for item in transportation["types"]},
+        )
+
         education = CATEGORY_TYPE_DESIGNS["education"]
         online_ged = education["assignments"][
             "cce4f2f7537a93ea0f58d524dc2dd818"
