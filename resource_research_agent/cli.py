@@ -35,6 +35,8 @@ from .taxonomy_groups import (
     save_group_inference,
     taxonomy_groups_status,
 )
+from .taxonomy_compile import compile_taxonomy_study
+from .scout_review import build_scout_review_file
 
 
 def parser() -> argparse.ArgumentParser:
@@ -154,6 +156,15 @@ def parser() -> argparse.ArgumentParser:
         help="Show the latest full-corpus For-group proposal for review",
     )
     taxonomy_groups_proposal.add_argument("study_id", type=int)
+    taxonomy_compile = subcommands.add_parser(
+        "taxonomy-compile",
+        help="Compile an approved taxonomy study into auto[Location].html",
+    )
+    taxonomy_compile.add_argument("study_id", type=int)
+    taxonomy_compile.add_argument(
+        "--output",
+        help="Output HTML path; defaults to the generated auto[Location].html name",
+    )
     return result
 
 
@@ -302,6 +313,29 @@ def main(argv: list[str] | None = None) -> int:
         if not values:
             raise ValueError("For-group proposal not found")
         print(json.dumps(values[-1], ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "taxonomy-compile":
+        value = compile_taxonomy_study(store, args.study_id)
+        study = store.get_taxonomy_study(args.study_id)
+        if study is None:
+            raise ValueError("Taxonomy study not found")
+        review_file = build_scout_review_file(
+            store, int(study["curationJobId"])
+        )
+        output_path = Path(args.output or review_file.filename).expanduser().resolve()
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_bytes(review_file.content)
+        print(json.dumps({
+            "studyId": value["studyId"],
+            "status": "compiled",
+            "seedSha256": value["seedSha256"],
+            "categoryCount": value["categoryCount"],
+            "resourceCount": value["resourceCount"],
+            "forGroupCount": len(value["seed"]["forGroups"]),
+            "filename": review_file.filename,
+            "outputPath": str(output_path),
+            "byteCount": len(review_file.content),
+        }, ensure_ascii=False, indent=2))
         return 0
     return 2
 

@@ -12,6 +12,12 @@
 <meta name="scout-review-category-label" content="">
 <meta name="scout-review-curated-category-ids" content="">
 <meta name="scout-review-candidate-package-sha256" content="">
+<meta name="scout-review-taxonomy-study-id" content="">
+<meta name="scout-review-taxonomy-corpus-sha256" content="">
+<meta name="scout-review-taxonomy-category-proposal-sha256" content="">
+<meta name="scout-review-taxonomy-type-manifest-sha256" content="">
+<meta name="scout-review-taxonomy-group-proposal-sha256" content="">
+<meta name="scout-review-taxonomy-seed-sha256" content="">
 <meta name="scout-review-artifact-id" content="">
 <title>&lt;New&gt; TSO Resources</title>
 
@@ -176,6 +182,65 @@ body {
   background:#fff;
   color:var(--text-color);
 }
+.browse-mode-switch {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin:0 0 16px;
+}
+.browse-mode-option {
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:12px 14px;
+  border:1px solid #9eafbf;
+  border-radius:10px;
+  background:#fff;
+  color:#17324d;
+  font-weight:700;
+  cursor:pointer;
+}
+.browse-mode-option.selected {
+  border-color:#2f6fab;
+  background:#e9f3fc;
+  box-shadow:0 0 0 2px rgba(47,111,171,.14);
+}
+.browse-mode-option input { margin:0; }
+.group-browse-panel {
+  margin:0 0 18px;
+  padding:15px 16px;
+  border:1px solid #cbd9e7;
+  border-radius:12px;
+  background:#f7fbff;
+}
+.group-browse-heading { margin:0 0 9px; font-weight:700; }
+.group-browse-buttons { display:flex; flex-wrap:wrap; gap:8px; }
+.group-browse-summary { margin:0 0 12px; color:var(--muted-text-color); }
+.category-match-count { color:var(--muted-text-color); font-size:14px; font-weight:500; }
+.group-browse-results { display:grid; gap:20px; }
+.group-browse-category {
+  padding:14px;
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  background:#eef3f7;
+}
+.group-browse-category-heading {
+  display:flex;
+  width:100%;
+  justify-content:space-between;
+  gap:12px;
+  margin:0 0 10px;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#003366;
+  font:inherit;
+  font-size:20px;
+  font-weight:750;
+  text-align:left;
+  cursor:pointer;
+}
+.group-browse-category .resource-card { margin-top:10px; }
 .grid { display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
 .category-card, .resource-card {
   border:1px solid var(--border-color);
@@ -600,6 +665,7 @@ textarea.information-editor { min-height:320px; resize:vertical; }
 .reload-resources-wrap .button { font-size:14px; padding:7px 10px; }
 
 @media (max-width: 560px) {
+  .browse-mode-switch { grid-template-columns:1fr; }
   .landing-search-controls { flex-direction:column; }
   .landing-search-controls .button { width:100%; }
   .grid { grid-template-columns:1fr; }
@@ -2982,6 +3048,8 @@ let expandedSearchResourceId = "";
 let searchDetailResourceId = "";
 let searchResultReturnResourceId = "";
 let selectedCategoryFilters = {}; // categoryId -> transient selected category/For filters
+let categoryBrowseMode = "need";
+let selectedBrowseForGroups = [];
 let dismissedTipIds = (() => {
   try{
     const stored = JSON.parse(localStorage.getItem(DISMISSED_TIPS_STORAGE_KEY) || "[]");
@@ -4118,9 +4186,23 @@ function countSelectedCategoryFilterMatches(resource, categoryId, activeFilterKe
   return count;
 }
 
+function selectedCategoryFilterDimensions(selectedFilterKeys){
+  const values = normalizeTaxonomyLabels(selectedFilterKeys);
+  return {
+    types:new Set(values.filter(key => String(key).startsWith("filter:"))),
+    groups:new Set(values.filter(key => String(key).startsWith("for:")))
+  };
+}
+
 function resourceMatchesSelectedCategoryFilters(resource, categoryId, selectedFilterKeys){
-  const activeFilterKeys = new Set(normalizeTaxonomyLabels(selectedFilterKeys));
-  return !activeFilterKeys.size || countSelectedCategoryFilterMatches(resource, categoryId, activeFilterKeys) > 0;
+  const dimensions = selectedCategoryFilterDimensions(selectedFilterKeys);
+  const resourceTypes = getResourceCategoryFilterKeys(resource, categoryId);
+  const resourceGroups = getResourceForGroupFilterKeys(resource);
+  const typeMatch = !dimensions.types.size
+    || Array.from(dimensions.types).some(key => resourceTypes.has(key));
+  const groupMatch = !dimensions.groups.size
+    || Array.from(dimensions.groups).some(key => resourceGroups.has(key));
+  return typeMatch && groupMatch;
 }
 
 function filterResourcesBySelectedCategoryFilters(resources, categoryId, selectedFilterKeys){
@@ -4494,6 +4576,142 @@ function renderLandingSearch(){
   appView.appendChild(section);
 }
 
+function renderBrowseModeSwitch(){
+  const switcher = document.createElement("div");
+  switcher.className = "browse-mode-switch";
+  switcher.setAttribute("role", "radiogroup");
+  switcher.setAttribute("aria-label", "How to browse resources");
+  [
+    { value:"need", label:"Browse by need" },
+    { value:"for", label:"Find resources for" }
+  ].forEach(option => {
+    const label = document.createElement("label");
+    label.className = `browse-mode-option ${categoryBrowseMode === option.value ? "selected" : ""}`;
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "resource-browse-mode";
+    input.value = option.value;
+    input.checked = categoryBrowseMode === option.value;
+    input.onchange = () => {
+      categoryBrowseMode = option.value;
+      safeRender();
+    };
+    const text = document.createElement("span");
+    text.textContent = option.label;
+    label.appendChild(input);
+    label.appendChild(text);
+    switcher.appendChild(label);
+  });
+  appView.appendChild(switcher);
+}
+
+function selectedBrowseGroupKeys(){
+  return new Set(normalizeTaxonomyLabels(selectedBrowseForGroups).map(makeForGroupFilterKey));
+}
+
+function renderBrowseGroupButtons(){
+  const panel = document.createElement("section");
+  panel.className = "group-browse-panel";
+  const heading = document.createElement("p");
+  heading.className = "group-browse-heading";
+  heading.textContent = "Choose one or more groups";
+  panel.appendChild(heading);
+  const buttons = document.createElement("div");
+  buttons.className = "group-browse-buttons";
+  normalizeTaxonomyLabels(data.forGroups).forEach(group => {
+    const selected = selectedBrowseForGroups.includes(group);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = selected ? "button primary" : "button";
+    button.textContent = group;
+    button.setAttribute("aria-pressed", selected ? "true" : "false");
+    button.onclick = () => {
+      selectedBrowseForGroups = selected
+        ? selectedBrowseForGroups.filter(value => value !== group)
+        : [...selectedBrowseForGroups, group];
+      safeRender();
+    };
+    buttons.appendChild(button);
+  });
+  panel.appendChild(buttons);
+  appView.appendChild(panel);
+}
+
+function getGroupBrowseCategoryRows(){
+  const selectedKeys = selectedBrowseGroupKeys();
+  if(!selectedKeys.size) return [];
+  return getCategoryCardsForRender()
+    .filter(category => category.id !== LISTS_CATEGORY_ID)
+    .map(category => {
+      const seen = new Set();
+      const resources = getCategoryResources(category.id)
+        .filter(resource => {
+          const keys = getResourceForGroupFilterKeys(resource);
+          return Array.from(selectedKeys).some(key => keys.has(key));
+        })
+        .filter(resource => {
+          const id = String(resource && resource.id || "");
+          if(!id || seen.has(id)) return false;
+          seen.add(id);
+          return true;
+        })
+        .sort(compareResourcesByName);
+      return { ...category, resources };
+    })
+    .filter(category => category.resources.length);
+}
+
+function openCategoryFromGroupBrowse(categoryId){
+  currentCategory = categoryId;
+  expandedSearchResourceId = "";
+  setSelectedCategoryFilters(
+    currentCategory,
+    normalizeTaxonomyLabels(selectedBrowseForGroups).map(makeForGroupFilterKey)
+  );
+  view = "category";
+  safeRender();
+}
+
+function renderGroupBrowseResults(){
+  if(!selectedBrowseForGroups.length){
+    const prompt = document.createElement("p");
+    prompt.className = "group-browse-summary";
+    prompt.textContent = "Select a group to see matching resources organized by need.";
+    appView.appendChild(prompt);
+    return;
+  }
+  const rows = getGroupBrowseCategoryRows();
+  const summary = document.createElement("p");
+  summary.className = "group-browse-summary";
+  summary.textContent = rows.length
+    ? "Matching resources are organized below by the needs they address. Select a need to narrow it by Type."
+    : "No resources match the selected groups.";
+  appView.appendChild(summary);
+  if(!rows.length) return;
+  const results = document.createElement("div");
+  results.className = "group-browse-results";
+  rows.forEach(row => {
+    const section = document.createElement("section");
+    section.className = "group-browse-category";
+    const heading = document.createElement("button");
+    heading.type = "button";
+    heading.className = "group-browse-category-heading";
+    heading.setAttribute("aria-label", `Open ${row.label} and narrow by Type`);
+    const label = document.createElement("span");
+    label.textContent = row.label;
+    const count = document.createElement("span");
+    count.className = "category-match-count";
+    count.textContent = `${row.resources.length} ${row.resources.length === 1 ? "resource" : "resources"}`;
+    heading.appendChild(label);
+    heading.appendChild(count);
+    heading.onclick = () => openCategoryFromGroupBrowse(row.id);
+    section.appendChild(heading);
+    row.resources.forEach(resource => renderCategoryResourceCard(resource, section));
+    results.appendChild(section);
+  });
+  appView.appendChild(results);
+}
+
 function renderCategoriesGrid(){
   const grid = document.createElement("div");
   grid.className = "grid";
@@ -4543,9 +4761,15 @@ function renderCategoriesView(){
   // and resource-package merge entry point.
   renderCategoryTip();
   renderPendingUpdatesNotice();
-  renderCategoryReminder();
+  renderBrowseModeSwitch();
+  if(categoryBrowseMode === "need") renderCategoryReminder();
   renderLandingSearch();
-  renderCategoriesGrid();
+  if(categoryBrowseMode === "need"){
+    renderCategoriesGrid();
+  }else{
+    renderBrowseGroupButtons();
+    renderGroupBrowseResults();
+  }
   renderMergeResourcesButton();
 }
 
@@ -4645,7 +4869,10 @@ function renderCategoryFilterControls(categoryFilterOptions, activeFilters){
   appView.appendChild(filterArea);
 }
 
-function renderCategoryResourceCard(res){
+function renderCategoryResourceCard(res, container = appView){
+  const target = container && typeof container.appendChild === "function"
+    ? container
+    : appView;
   let expanded = String(res && res.id || "") === String(expandedSearchResourceId || "");
   const card = buildResourceCard(res, { expanded, showDescription:true });
   card.classList.add("resource-card-interactive");
@@ -4689,7 +4916,7 @@ function renderCategoryResourceCard(res){
     event.stopPropagation();
     toggleExpanded();
   };
-  appView.appendChild(card);
+  target.appendChild(card);
 }
 
 function renderCategoryResources(filtered, activeFilters){
@@ -4704,8 +4931,8 @@ function renderCategoryResources(filtered, activeFilters){
 }
 
 function renderCategoryView(){
-  // Public category detail screen. Category filters and For buttons are OR'd
-  // together by filterResourcesBySelectedCategoryFilters().
+  // Types are OR'd with other selected Types; For groups are OR'd with other
+  // selected groups. When both dimensions are active, their results are AND'd.
   renderCategoryBackButton();
   renderCategoryTitle();
   const categoryFilterOptions = getCategoryFilterOptions(currentCategory);

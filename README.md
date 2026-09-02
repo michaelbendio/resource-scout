@@ -5,6 +5,14 @@ from several consumer AI products. It creates a self-contained TSO Resources
 review file such as `autoMesa.html` for human vetting and package creation. It is
 designed for repeated use across TSO locations and resource categories.
 
+Version 0.47.0 compiles an approved, source-hashed taxonomy study into
+`auto[Location].html`. The compilation applies need-based Categories,
+category-specific Types, and comprehensive For groups to the frozen corpus,
+records the exact proposal hashes, and refuses unresolved or stale inputs.
+The review file lets missionaries browse by need or find resources for one or
+more For groups; Type choices are ORed, group choices are ORed, and the two
+dimensions are combined with AND.
+
 Version 0.46.0 makes Codex-first research the durable whole-office workflow.
 Every non-Miscellaneous category has a versioned focused playbook and gap pass.
 The readable researcher roster assigns Codex as primary, ChatGPT, Grok, and

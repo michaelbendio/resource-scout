@@ -55,11 +55,14 @@ def _replace_meta(document: str, name: str, value: str) -> str:
     )
 
 
-def build_scout_review_file(store: ResearchStore, job_id: int) -> ScoutReviewFile:
-    job = store.get_scout_curation_job(job_id)
-    if not job:
-        raise ScoutCurationError("Resource Scout curation job not found")
-    seed = build_scout_review_seed(store, job_id)
+def _build_scout_review_file_from_seed(
+    store: ResearchStore,
+    job: dict[str, object],
+    seed: dict[str, object],
+    *,
+    taxonomy: dict[str, object] | None = None,
+) -> ScoutReviewFile:
+    job_id = int(job["id"])
     location_name = str(job["locationName"] or "").strip()
     location_token = "".join(
         character for character in location_name if character.isalnum()
@@ -73,11 +76,15 @@ def build_scout_review_file(store: ResearchStore, job_id: int) -> ScoutReviewFil
     except FileNotFoundError as error:
         raise ScoutCurationError("Resource Scout review template is missing") from error
 
-    curated_category_ids = [
-        str(item["categoryId"])
-        for item in job["categories"]
-        if item["status"] == "completed"
-    ]
+    curated_category_ids = (
+        [str(item["id"]) for item in seed.get("categories") or []]
+        if taxonomy
+        else [
+            str(item["categoryId"])
+            for item in job["categories"]
+            if item["status"] == "completed"
+        ]
+    )
     meta_values = {
         "tso-storage-id": f"scout-review-{_slug(location_name)}",
         "tso-office-name": f"Auto{location_token}",
@@ -88,6 +95,24 @@ def build_scout_review_file(store: ResearchStore, job_id: int) -> ScoutReviewFil
         "scout-review-category-label": "",
         "scout-review-curated-category-ids": ",".join(curated_category_ids),
         "scout-review-candidate-package-sha256": job["candidatePackageSha256"],
+        "scout-review-taxonomy-study-id": (
+            str(taxonomy["studyId"]) if taxonomy else ""
+        ),
+        "scout-review-taxonomy-corpus-sha256": (
+            str(taxonomy["basedOnCorpusSha256"]) if taxonomy else ""
+        ),
+        "scout-review-taxonomy-category-proposal-sha256": (
+            str(taxonomy["categoryProposalSha256"]) if taxonomy else ""
+        ),
+        "scout-review-taxonomy-type-manifest-sha256": (
+            str(taxonomy["typeDesignManifestSha256"]) if taxonomy else ""
+        ),
+        "scout-review-taxonomy-group-proposal-sha256": (
+            str(taxonomy["groupProposalSha256"]) if taxonomy else ""
+        ),
+        "scout-review-taxonomy-seed-sha256": (
+            str(taxonomy["seedSha256"]) if taxonomy else ""
+        ),
     }
     for name, value in meta_values.items():
         document = _replace_meta(document, name, str(value))
@@ -120,13 +145,13 @@ def build_scout_review_file(store: ResearchStore, job_id: int) -> ScoutReviewFil
     release = {
         "version": __version__,
         "build": __build__,
-        "date": "2026-08-29",
-        "message": "Curate the smallest high-confidence direct-service set",
+        "date": "2026-09-01",
+        "message": "Browse reviewed resources by need or For group",
         "changes": [
             {
-                "date": "2026-08-29",
+                "date": "2026-09-01",
                 "version": __version__,
-                "message": "Keep proposals focused and category assignments direct",
+                "message": "Apply reviewed need Categories, Types, and comprehensive For groups",
             },
             {
                 "date": "2026-08-29",
@@ -146,15 +171,26 @@ def build_scout_review_file(store: ResearchStore, job_id: int) -> ScoutReviewFil
     if obsolete_name in document:
         raise ScoutCurationError("Scout review template still contains an obsolete product name")
     content = document.encode("utf-8")
+    taxonomy_suffix = (
+        f" from taxonomy study {taxonomy['studyId']}" if taxonomy else ""
+    )
     store.record_scout_curation_progress(
         job_id,
         "review-file-built",
-        f"Built {filename} with Resource Scout {__version__} build {__build__}.",
+        f"Built {filename}{taxonomy_suffix} with Resource Scout {__version__} "
+        f"build {__build__}.",
         details={
             "filename": filename,
             "scoutVersion": __version__,
             "scoutBuild": __build__,
             "byteCount": len(content),
+            **(
+                {
+                    "taxonomyStudyId": taxonomy["studyId"],
+                    "taxonomySeedSha256": taxonomy["seedSha256"],
+                }
+                if taxonomy else {}
+            ),
         },
     )
     return ScoutReviewFile(
@@ -162,4 +198,22 @@ def build_scout_review_file(store: ResearchStore, job_id: int) -> ScoutReviewFil
         content=content,
         scout_version=__version__,
         scout_build=__build__,
+    )
+
+
+def build_scout_review_file(store: ResearchStore, job_id: int) -> ScoutReviewFile:
+    job = store.get_scout_curation_job(job_id)
+    if not job:
+        raise ScoutCurationError("Resource Scout curation job not found")
+    taxonomy = store.latest_taxonomy_compilation_for_curation_job(job_id)
+    seed = (
+        taxonomy["seed"]
+        if taxonomy is not None
+        else build_scout_review_seed(store, job_id)
+    )
+    return _build_scout_review_file_from_seed(
+        store,
+        job,
+        seed,
+        taxonomy=taxonomy,
     )

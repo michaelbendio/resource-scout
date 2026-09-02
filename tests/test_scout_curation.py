@@ -476,7 +476,7 @@ class ScoutCurationTests(unittest.TestCase):
             review_file.content,
         )
         self.assertIn(
-            b"Curate the smallest high-confidence direct-service set",
+            b"Apply reviewed need Categories, Types, and comprehensive For groups",
             review_file.content,
         )
         artifact_match = re.search(

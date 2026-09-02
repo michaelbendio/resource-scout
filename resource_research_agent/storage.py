@@ -549,6 +549,28 @@ CREATE TABLE IF NOT EXISTS taxonomy_group_inference_revisions (
     PRIMARY KEY (study_id, revision),
     UNIQUE (study_id, proposal_sha256)
 );
+CREATE TABLE IF NOT EXISTS taxonomy_compilations (
+    study_id INTEGER PRIMARY KEY REFERENCES taxonomy_studies(id) ON DELETE CASCADE,
+    created_at TEXT NOT NULL,
+    based_on_corpus_sha256 TEXT NOT NULL CHECK (
+        length(based_on_corpus_sha256) = 64
+    ),
+    category_proposal_sha256 TEXT NOT NULL CHECK (
+        length(category_proposal_sha256) = 64
+    ),
+    type_design_manifest_json TEXT NOT NULL,
+    type_design_manifest_sha256 TEXT NOT NULL CHECK (
+        length(type_design_manifest_sha256) = 64
+    ),
+    group_proposal_sha256 TEXT NOT NULL CHECK (
+        length(group_proposal_sha256) = 64
+    ),
+    seed_json TEXT NOT NULL,
+    seed_sha256 TEXT NOT NULL CHECK (length(seed_sha256) = 64),
+    resource_count INTEGER NOT NULL CHECK (resource_count >= 0),
+    category_count INTEGER NOT NULL CHECK (category_count >= 0),
+    UNIQUE (seed_sha256)
+);
 CREATE TABLE IF NOT EXISTS scout_workflow_progress_events (
     id INTEGER PRIMARY KEY,
     import_id INTEGER NOT NULL REFERENCES imports(id) ON DELETE CASCADE,
@@ -4379,6 +4401,132 @@ class ResearchStore:
             }
             for row in rows
         ]
+
+    def save_taxonomy_compilation(
+        self,
+        study_id: int,
+        seed: dict[str, Any],
+        seed_sha256: str,
+        *,
+        based_on_corpus_sha256: str,
+        category_proposal_sha256: str,
+        type_design_manifest: list[dict[str, Any]],
+        type_design_manifest_sha256: str,
+        group_proposal_sha256: str,
+    ) -> dict[str, Any]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            study = connection.execute(
+                "SELECT corpus_sha256 FROM taxonomy_studies WHERE id = ?",
+                (int(study_id),),
+            ).fetchone()
+            if not study:
+                raise ValueError("Taxonomy study not found")
+            if str(study["corpus_sha256"]) != str(based_on_corpus_sha256):
+                raise ValueError("The taxonomy corpus changed; rebuild the compilation")
+            existing = connection.execute(
+                "SELECT * FROM taxonomy_compilations WHERE study_id = ?",
+                (int(study_id),),
+            ).fetchone()
+            if existing:
+                if (
+                    str(existing["seed_sha256"]) != str(seed_sha256)
+                    or str(existing["category_proposal_sha256"])
+                    != str(category_proposal_sha256)
+                    or str(existing["type_design_manifest_sha256"])
+                    != str(type_design_manifest_sha256)
+                    or str(existing["group_proposal_sha256"])
+                    != str(group_proposal_sha256)
+                ):
+                    raise ValueError(
+                        "A different taxonomy compilation already exists; create a new study"
+                    )
+            else:
+                connection.execute(
+                    """INSERT INTO taxonomy_compilations (
+                           study_id, created_at, based_on_corpus_sha256,
+                           category_proposal_sha256, type_design_manifest_json,
+                           type_design_manifest_sha256, group_proposal_sha256,
+                           seed_json, seed_sha256, resource_count, category_count
+                       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (
+                        int(study_id),
+                        now,
+                        str(based_on_corpus_sha256),
+                        str(category_proposal_sha256),
+                        _json(type_design_manifest),
+                        str(type_design_manifest_sha256),
+                        str(group_proposal_sha256),
+                        _json(seed),
+                        str(seed_sha256),
+                        len(seed.get("resources") or []),
+                        len(seed.get("categories") or []),
+                    ),
+                )
+                connection.execute(
+                    """UPDATE taxonomy_type_review_packets SET status = 'reviewed'
+                       WHERE study_id = ?""",
+                    (int(study_id),),
+                )
+                connection.execute(
+                    """UPDATE taxonomy_group_review_packets SET status = 'reviewed'
+                       WHERE study_id = ?""",
+                    (int(study_id),),
+                )
+                connection.execute(
+                    """UPDATE taxonomy_studies
+                       SET status = 'compiled', approved_at = COALESCE(approved_at, ?),
+                           compiled_at = ?, updated_at = ? WHERE id = ?""",
+                    (now, now, now, int(study_id)),
+                )
+        result = self.get_taxonomy_compilation(study_id)
+        if result is None:
+            raise RuntimeError("Saved taxonomy compilation could not be read")
+        return result
+
+    def get_taxonomy_compilation(
+        self,
+        study_id: int,
+    ) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM taxonomy_compilations WHERE study_id = ?",
+                (int(study_id),),
+            ).fetchone()
+        if not row:
+            return None
+        return {
+            "studyId": int(row["study_id"]),
+            "createdAt": row["created_at"],
+            "basedOnCorpusSha256": str(row["based_on_corpus_sha256"]),
+            "categoryProposalSha256": str(row["category_proposal_sha256"]),
+            "typeDesignManifest": json.loads(row["type_design_manifest_json"]),
+            "typeDesignManifestSha256": str(row["type_design_manifest_sha256"]),
+            "groupProposalSha256": str(row["group_proposal_sha256"]),
+            "seed": json.loads(row["seed_json"]),
+            "seedSha256": str(row["seed_sha256"]),
+            "resourceCount": int(row["resource_count"]),
+            "categoryCount": int(row["category_count"]),
+        }
+
+    def latest_taxonomy_compilation_for_curation_job(
+        self,
+        curation_job_id: int,
+    ) -> dict[str, Any] | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT taxonomy_compilations.study_id
+                   FROM taxonomy_compilations
+                   JOIN taxonomy_studies
+                     ON taxonomy_studies.id = taxonomy_compilations.study_id
+                   WHERE taxonomy_studies.curation_job_id = ?
+                   ORDER BY taxonomy_compilations.study_id DESC LIMIT 1""",
+                (int(curation_job_id),),
+            ).fetchone()
+        return (
+            self.get_taxonomy_compilation(int(row["study_id"]))
+            if row else None
+        )
 
     def get_taxonomy_study(self, study_id: int) -> dict[str, Any] | None:
         with self.connect() as connection:
