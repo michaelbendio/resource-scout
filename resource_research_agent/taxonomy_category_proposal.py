@@ -249,13 +249,13 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
     ],
     "528e3dad283cd117ea2ff80b3bec333c": [
         "parenting-child-development", "legal", "id-recovery", "food",
-        "clothing", "transportation", "employment",
+        "clothing", "transportation",
     ],
     "f5956fe09395d25458ca9fda67d737c9": [
         "employment", "transportation", "education",
     ],
     "8228b3327c959acccf53469fa50397a9": ["employment", "housing"],
-    "01a9e5b0c362df7fad3f6577a423f91a": ["education", "employment"],
+    "01a9e5b0c362df7fad3f6577a423f91a": ["education"],
     "a4e45e62c0b9cb505d5b4874340871fb": [
         "id-recovery", "housing", "employment",
     ],
@@ -417,9 +417,13 @@ RESOURCE_CATEGORY_ADDITIONS: dict[str, list[str]] = {
     "8fbf07bdf33a69f83a1afc375c0f66d3": ["financial-assistance"],
     "9630eddb85bca6d59fb0dc70da0935a8": ["financial-assistance"],
     "9b72f8059923e0a5e6d1dca60a9dd708": ["financial-assistance"],
-    "e0bfbea73949f1e8965c6c1ad4eeb1ff": ["financial-assistance"],
+    "e0bfbea73949f1e8965c6c1ad4eeb1ff": [
+        "financial-assistance", "employment",
+    ],
     "84f48c34515e9e8aa0bce9ff7796631c": ["financial-assistance"],
-    "86ea9f4c3e5c68d6ad0bcabf51e500c6": ["financial-assistance"],
+    "86ea9f4c3e5c68d6ad0bcabf51e500c6": [
+        "financial-assistance", "employment",
+    ],
     "4ae8876a9b82a7f0a606939254d87bb8": ["financial-assistance"],
     "6f709ac3eafa28d894f99dad814a2430": ["financial-assistance"],
     "51cfce1c2944ef0453c793aba1923e08": ["financial-assistance"],
@@ -439,6 +443,14 @@ RESOURCE_CATEGORY_ADDITIONS: dict[str, list[str]] = {
     "d72b099aea9d25b5ed7f4eafa274da78": ["education"],
     "31c5097bb2e3cc1075a6851e27fb88ec": ["education"],
     "61f0dba0328b11a9ae6db84f7e5e5f81": ["education"],
+    # Occupational instruction and career-readiness education also address employment
+    "c3ab0f1578b4ec24df452d8eee4c9ce6": ["employment"],
+    "9c6c63b5207dc97a65b6d8ca95c544e9": ["employment"],
+    "14ff82acb2568edc7c0375a29e9c9adc": ["employment"],
+    "61a8d9d4eafa58537df9904250187968": ["employment"],
+    "d633e161d87ac6cf94df2a2a6b877ab1": ["employment"],
+    "ac9f801d1000fcddb2531ecbf84d8b12": ["employment"],
+    "83267695e503b95086c083b44a8befde": ["employment"],
 }
 
 

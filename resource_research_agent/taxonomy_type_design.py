@@ -182,6 +182,36 @@ TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
             "ARIZONA@WORK training, apprenticeship, and Smart Justice pathways",
         ],
     },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "193621d2449346f5eb4f3fe57535ad47",
+            "a9d82c588239bf51cb761861ce2ef062",
+        ],
+        "proposedIdentity": "Arouet Foundation — Women's Reentry and Employment Support",
+        "proposedCategories": [
+            "employment", "parenting-child-development",
+        ],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "current pre-release and post-release intake pathways",
+            "the Center for Employment Opportunities partnership",
+            "job placement, coaching, family support, and transportation details",
+        ],
+    },
+    {
+        "kind": "content-transfer-required",
+        "sourceResourceIds": ["08a7877a32a11b9f8531fa95f2a64ade"],
+        "destinationResourceId": "6be73b6539fd16b3a6c84ffad77aace8",
+        "proposedIdentity": (
+            "Arizona Rehabilitation Services Administration — Vocational Rehabilitation"
+        ),
+        "status": "apply-after-taxonomy-review",
+        "reason": (
+            "Move duplicated Vocational Rehabilitation details to the dedicated RSA "
+            "card while preserving DES reentry-employment services on the broader card."
+        ),
+    },
 ]
 
 
@@ -714,11 +744,15 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "a121b7ac06dc9b9ef503e462d5cffdd8": ["Career Planning", "Job Readiness"],
             "8db24b98270f7864dadcb0f97b901a53": ["Skills Training", "Job Coaching"],
             "7de41696b045cd6fdb9bb5c25cf7c53f": ["Career Planning", "Job Readiness"],
-            "a90b957439ba736a20a0eb129322891e": ["Career Planning"],
+            "a90b957439ba736a20a0eb129322891e": [
+                "Career Planning", "Job Readiness",
+            ],
             "08a7877a32a11b9f8531fa95f2a64ade": ["Career Planning", "Skills Training", "Job Search & Placement", "Job Coaching"],
             "6be73b6539fd16b3a6c84ffad77aace8": ["Career Planning", "Skills Training", "Job Search & Placement", "Supported Employment", "Job Coaching"],
             "f95aad04c5e72f66f324d9875d7caffd": ["Career Planning", "Job Readiness", "Job Search & Placement", "Skills Training", "Apprenticeships"],
-            "193621d2449346f5eb4f3fe57535ad47": ["Career Planning", "Job Readiness"],
+            "193621d2449346f5eb4f3fe57535ad47": [
+                "Career Planning", "Job Readiness", "Job Search & Placement",
+            ],
             "a9d82c588239bf51cb761861ce2ef062": ["Job Readiness", "Job Search & Placement", "Job Coaching"],
             "70ea356cba96bcc304b79ca2a5469f9c": ["Career Planning", "Job Readiness"],
             "00cca473db91285a4a393f5ba53add8f": ["Supported Employment", "Job Coaching"],
@@ -726,7 +760,6 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "6ea1c2067f6e451532d3bd346cc56276": ["Career Planning", "Job Readiness", "Skills Training", "Credentials"],
             "df171bb522d8c9a10c10b5c20e52cc1b": ["Career Planning", "Job Readiness", "Job Coaching"],
             "ffb70295ec3f1e3256fc1955ec7ad5c0": ["Staffing/Temp Work", "Job Search & Placement"],
-            "528e3dad283cd117ea2ff80b3bec333c": "no-type-needed",
             "f5956fe09395d25458ca9fda67d737c9": ["Career Planning", "Skills Training", "Job Coaching"],
             "d72b099aea9d25b5ed7f4eafa274da78": ["Career Planning", "Job Readiness", "Skills Training", "Credentials", "Job Search & Placement"],
             "8228b3327c959acccf53469fa50397a9": ["Skills Training", "Entrepreneurship"],
@@ -734,7 +767,6 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "9dfa946fc15127053ce6832817955b2d": ["Career Planning", "Job Search & Placement", "Retention Support"],
             "133e5f492400dff139f2cafa0b8f67c2": ["Job Readiness", "Supported Employment", "Job Coaching"],
             "38458692f5f4f52d5927866563f7f622": ["Job Search & Placement", "Job Coaching"],
-            "01a9e5b0c362df7fad3f6577a423f91a": ["Skills Training", "Credentials"],
             "61f0dba0328b11a9ae6db84f7e5e5f81": ["Apprenticeships", "Credentials"],
             "a4e45e62c0b9cb505d5b4874340871fb": ["Career Planning"],
             "31c5097bb2e3cc1075a6851e27fb88ec": ["Career Planning", "Skills Training", "Apprenticeships"],
@@ -742,10 +774,42 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "9f520ac58c4f06d5efdcd58cffb47a01": ["Job Readiness", "Job Search & Placement", "Supported Employment", "Job Coaching"],
             "83d02712bba592a7bc59214e02c13b72": ["Job Readiness", "Job Search & Placement", "Transitional Work"],
             "eac51d2e41cab50d1711a49e1f926ff0": ["Job Readiness", "Job Search & Placement", "Supported Employment", "Job Coaching", "Retention Support"],
-            "2af79fdd0101ee3a198c732086f9bfc6": "no-type-needed",
+            "2af79fdd0101ee3a198c732086f9bfc6": [
+                "Career Planning", "Job Readiness", "Job Search & Placement",
+            ],
             "b8c4699661c4d07b777efdab9ccb9d68": ["Career Planning", "Job Search & Placement"],
+            "c3ab0f1578b4ec24df452d8eee4c9ce6": [
+                "Career Planning", "Job Readiness",
+            ],
+            "9c6c63b5207dc97a65b6d8ca95c544e9": [
+                "Skills Training", "Credentials",
+            ],
+            "e0bfbea73949f1e8965c6c1ad4eeb1ff": [
+                "Skills Training", "Credentials",
+            ],
+            "14ff82acb2568edc7c0375a29e9c9adc": [
+                "Skills Training", "Credentials",
+            ],
+            "61a8d9d4eafa58537df9904250187968": ["Skills Training"],
+            "d633e161d87ac6cf94df2a2a6b877ab1": ["Job Readiness"],
+            "ac9f801d1000fcddb2531ecbf84d8b12": [
+                "Job Readiness", "Skills Training",
+            ],
+            "86ea9f4c3e5c68d6ad0bcabf51e500c6": [
+                "Skills Training", "Credentials",
+            ],
+            "83267695e503b95086c083b44a8befde": [
+                "Skills Training", "Credentials",
+            ],
         },
-        "boundary": "Types describe the employment service; work clothing, transportation, education, disability, veteran status, and justice history remain other needs or For groups.",
+        "boundary": (
+            "Include an identifiable employment pathway that can be accessed as an "
+            "employment service. Incidental employment assistance bundled into shelter, "
+            "healthcare, or another program does not qualify without a named workforce "
+            "or career pathway. Occupational education can also appear in Education; "
+            "work clothing and transportation remain separate needs, while disability, "
+            "veteran status, and justice history belong in For groups."
+        ),
     },
     "addiction": {
         "types": [

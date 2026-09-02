@@ -639,8 +639,8 @@ class TaxonomyStudyTests(unittest.TestCase):
             "4ff2225ddc559a033efe06a6b6ce3659",
         ):
             self.assertNotIn(
-                free_or_discounted_service_id,
-                RESOURCE_CATEGORY_ADDITIONS,
+                "financial-assistance",
+                RESOURCE_CATEGORY_ADDITIONS.get(free_or_discounted_service_id, []),
             )
         self.assertIn(
             "Free or sliding-fee service",
@@ -869,6 +869,72 @@ class TaxonomyStudyTests(unittest.TestCase):
                 "f95aad04c5e72f66f324d9875d7caffd",
             },
             set(education_consolidations["Workforce Center @ Mesa"]["resourceIds"]),
+        )
+
+        employment = CATEGORY_TYPE_DESIGNS["employment"]
+        self.assertEqual(13, len(employment["types"]))
+        self.assertEqual(42, len(employment["assignments"]))
+        self.assertFalse(any(
+            value == "no-type-needed"
+            for value in employment["assignments"].values()
+        ))
+        self.assertEqual(
+            ["Career Planning", "Job Readiness", "Job Search & Placement"],
+            employment["assignments"]["2af79fdd0101ee3a198c732086f9bfc6"],
+        )
+        self.assertEqual(
+            ["Career Planning", "Job Readiness"],
+            employment["assignments"]["a90b957439ba736a20a0eb129322891e"],
+        )
+        self.assertEqual(
+            ["Skills Training", "Credentials"],
+            employment["assignments"]["e0bfbea73949f1e8965c6c1ad4eeb1ff"],
+        )
+        self.assertEqual(
+            ["Job Readiness", "Skills Training"],
+            employment["assignments"]["ac9f801d1000fcddb2531ecbf84d8b12"],
+        )
+        self.assertNotIn(
+            "528e3dad283cd117ea2ff80b3bec333c",
+            employment["assignments"],
+        )
+        self.assertNotIn(
+            "01a9e5b0c362df7fad3f6577a423f91a",
+            employment["assignments"],
+        )
+        self.assertNotIn(
+            "employment",
+            RESOURCE_TARGETS["528e3dad283cd117ea2ff80b3bec333c"],
+        )
+        self.assertNotIn(
+            "employment",
+            RESOURCE_TARGETS["01a9e5b0c362df7fad3f6577a423f91a"],
+        )
+        self.assertIn(
+            "employment",
+            RESOURCE_CATEGORY_ADDITIONS["e0bfbea73949f1e8965c6c1ad4eeb1ff"],
+        )
+        self.assertIn("Incidental employment assistance", employment["boundary"])
+
+        arouet_flag = next(
+            item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item.get("proposedIdentity", "").startswith("Arouet Foundation")
+        )
+        self.assertEqual(
+            {
+                "193621d2449346f5eb4f3fe57535ad47",
+                "a9d82c588239bf51cb761861ce2ef062",
+            },
+            set(arouet_flag["resourceIds"]),
+        )
+        vr_transfer = next(
+            item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item.get("destinationResourceId")
+            == "6be73b6539fd16b3a6c84ffad77aace8"
+        )
+        self.assertEqual(
+            ["08a7877a32a11b9f8531fa95f2a64ade"],
+            vr_transfer["sourceResourceIds"],
         )
 
         clothing = CATEGORY_TYPE_DESIGNS["clothing"]
