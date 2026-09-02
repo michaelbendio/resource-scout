@@ -21,8 +21,8 @@ APPROVED_CATEGORY_RULES = {
         "Independent Living."
     ),
     "parentingAndChildDevelopment": (
-        "Keep Parenting & Child Development as one need Category. Child Care, Parenting "
-        "Education, Early Intervention, Home Visiting, and similar distinctions may be Types."
+        "Use Parenting as the need Category. Child Care, Parenting Education, Early "
+        "Intervention, Home Visiting, and similar distinctions may be Types."
     ),
     "independentLiving": (
         "Keep the familiar Independent Living label and explicitly include community "

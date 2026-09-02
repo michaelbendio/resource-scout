@@ -63,7 +63,7 @@ PROPOSED_NEED_CATEGORIES = [
     },
     {
         "id": "parenting-child-development",
-        "label": "Parenting & Child Development",
+        "label": "Parenting",
         "interviewerQuestion": (
             "Does this family need help caring for, parenting, or supporting the "
             "development of a child?"
@@ -79,7 +79,7 @@ PROPOSED_NEED_CATEGORIES = [
             "in Education; material aid appears in Clothing, Household Essentials, or Food."
         ),
         "reviewQuestion": (
-            "Is this one coherent need Category, or should Child Care become a separate need?"
+            "Does Parenting clearly cover these child-care and child-development needs?"
         ),
     },
     {

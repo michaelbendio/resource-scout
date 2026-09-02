@@ -381,6 +381,14 @@ class TaxonomyStudyTests(unittest.TestCase):
             proposal["coverage"]["fullCorpusAdditionResourceCount"],
         )
         self.assertEqual(0, proposal["coverage"]["unassignedCount"])
+        self.assertEqual(
+            "Parenting",
+            next(
+                item["label"]
+                for item in proposal["proposedNeedCategories"]
+                if item["id"] == "parenting-child-development"
+            ),
+        )
         self.assertEqual(20, proposal["coverage"]["targetCategoryCounts"][
             "parenting-child-development"
         ])
