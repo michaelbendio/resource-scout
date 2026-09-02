@@ -5,6 +5,12 @@ from several consumer AI products. It creates a self-contained TSO Resources
 review file such as `autoMesa.html` for human vetting and package creation. It is
 designed for repeated use across TSO locations and resource categories.
 
+Version 0.49.0 lets Curators delete proposed resources and categories directly
+from generated `auto[Location].html` files. Resource deletion removes the
+proposal from that review copy. Category deletion removes the category and its
+assignments while leaving the affected resources available for further review.
+The office package's deletion-tag and approval workflow remains unchanged.
+
 Version 0.48.0 gives generated `auto[Location].html` files a dedicated Curated
 workflow. Every review begins with no curated resources. Reviewers curate an
 open resource, preview its unsaved edits in the missionary-facing print layout,

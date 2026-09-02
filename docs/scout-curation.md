@@ -53,6 +53,9 @@ Research, Rejected, or Packaged controls.
 - Deleting a proposal removes it from that review-file copy. Because it was
   never accepted into the office package, the exported package contains no
   deletion tombstone for it.
+- Deleting a category removes it from the review copy immediately and removes
+  that assignment and its Types from affected resources. It does not delete the
+  resources themselves. Neither direct action creates a deletion tag.
 - Editing a curated resource clears its Curated mark. The reviewer marks the
   revised resource Curated again after checking it.
 - A successful save hides its selected resources locally. Cancellation or

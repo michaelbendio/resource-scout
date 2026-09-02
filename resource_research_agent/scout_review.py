@@ -146,11 +146,16 @@ def _build_scout_review_file_from_seed(
         "version": __version__,
         "build": __build__,
         "date": "2026-09-02",
-        "message": "Curate resources and preview missionary handouts",
+        "message": "Delete proposed resources and categories directly while curating",
         "changes": [
             {
                 "date": "2026-09-02",
                 "version": __version__,
+                "message": "Delete proposed resources and categories directly from Scout review files",
+            },
+            {
+                "date": "2026-09-02",
+                "version": "0.48.0",
                 "message": "Curate resources, package the curated selection, and preview the open resource for printing",
             },
             {

@@ -1682,7 +1682,7 @@ function getAdminResourceBrowseList(){
   });
 }
 
-function buildAdminDeleteConfirmation(kind, name){
+function buildAdminDeleteConfirmation(kind, name, options = {}){
   if(kind === "resource"){
     if(isScoutReviewMode()){
       return [
@@ -1699,6 +1699,17 @@ function buildAdminDeleteConfirmation(kind, name){
     ].join("\n");
   }
   if(kind === "category"){
+    if(isScoutReviewMode()){
+      const affectedResourceCount = Number(options.affectedResourceCount) || 0;
+      return [
+        `Delete the proposed category '${name}' from this Scout review copy?`,
+        "",
+        affectedResourceCount
+          ? `It will be removed from ${formatResourceCount(affectedResourceCount)}. The resources themselves will remain.`
+          : "No resources currently use this category.",
+        "It will not be included in a saved resource package."
+      ].join("\n");
+    }
     return [
       `Tag the category '${name}' for deletion?`,
       "",
@@ -3697,17 +3708,19 @@ function showUserHelp(){
 
 function showAdminHelp(options = {}){
   const expandTraining = !!(options && options.expandTraining);
+  const scoutReview = isScoutReviewMode();
   const modal = getReferenceModal();
   const adminEntryTipHTML = expandTraining && isNewTemplateFile()
     ? `<div class="red-tip new-admin-tip">${escapeHTML(TIP_TEXT.newAdminMode)}</div>`
     : "";
-  const curateHelpHTML = isScoutReviewMode() ? `
+  const curateHelpHTML = scoutReview ? `
         <details open>
           <summary>Curate</summary>
           <div class="admin-help-section-body">
             <p>Open <strong>Resources</strong>, select a resource, and click <strong>Edit</strong> to curate its public information, Categories, Types, and For groups.</p>
             <p>Use <strong>Print</strong> beside <strong>Done</strong> to preview the resource currently open in the editor exactly as it will appear in a missionary's printed handout. The preview includes edits that have not yet been saved.</p>
             <p>When the resource is ready to be included in a resource package, click <strong>Curated</strong> beside <strong>Done</strong>. The button is a toggle. A check mark beside the resource in the Resources list means it is curated.</p>
+            <p><strong>Delete</strong> removes a selected proposed resource or category from this review copy immediately after confirmation. Deleting a category removes that category from its resources, but the resources themselves remain available for review.</p>
             <p>Click <strong>Save a package of <em>n</em> curated resources</strong> beside the Resources heading to save only the checked resources. After a successful save, those resources leave the active review list but remain in this file's saved package history.</p>
           </div>
         </details>
@@ -3767,7 +3780,9 @@ function showAdminHelp(options = {}){
               <li>Click <strong>GED</strong> to show your practice resource as a GED Type.</li>
               <li>Click <strong>Spanish speaking</strong> or <strong>Veterans</strong> or both. Your practice resource is for them.</li>
               <li>Click <strong>Admin</strong> in the blue bar again. Click <strong>Show change log</strong>. Click <strong>Save Resource Package</strong> and choose the location for the resource package. Remember where you put it.</li>
-              <li>Click <strong>Resources</strong>, select your practice resource, and click <strong>Delete</strong>. The resource remains active and is labeled <strong>tagged for deletion</strong>. Click <strong>Undo tagged resource ... for deletion</strong> so the practice resource is no longer tagged. Press <kbd>Ctrl+Alt+A</kbd> to exit admin mode.</li>
+              ${scoutReview
+                ? `<li>Click <strong>Resources</strong>, select your practice resource, and click <strong>Delete</strong>. Confirm that you want to remove it from this review copy. Press <kbd>Ctrl+Alt+A</kbd> to exit admin mode.</li>`
+                : `<li>Click <strong>Resources</strong>, select your practice resource, and click <strong>Delete</strong>. The resource remains active and is labeled <strong>tagged for deletion</strong>. Click <strong>Undo tagged resource ... for deletion</strong> so the practice resource is no longer tagged. Press <kbd>Ctrl+Alt+A</kbd> to exit admin mode.</li>`}
               <li>Under the category buttons, on the right side, click <strong>Merge Resources</strong>. Choose the resource package zip you saved.</li>
               <li>In the Education category, click the gray square on the left of your practice resource. Use the printer icon in the blue bar to print your practice resource.</li>
             </ol>
@@ -3810,7 +3825,7 @@ function showAdminHelp(options = {}){
               <li>Go to the <strong>Categories</strong> screen.</li>
               <li>Click <strong>Merge Resources</strong>.</li>
               <li>Choose the latest resource package zip.</li>
-              <li>If tagged deletions are present, review their consequences and approve or keep each one.</li>
+              ${scoutReview ? "" : `<li>If tagged deletions are present, review their consequences and approve or keep each one.</li>`}
               <li>Wait for the merge to finish before making edits.</li>
             </ol>
             <p>Packages are merged using the time each category or resource was last changed. Editing an older copy can make outdated information appear newer and prevent the correct version from replacing it.</p>
@@ -3838,7 +3853,9 @@ function showAdminHelp(options = {}){
             <p>Use <strong>Categories</strong> to manage the sections users see on the main screen.</p>
             <p><strong>New</strong> creates a blank category. Enter the category label, add any Types for that category, describe the update, and click <strong>Done</strong>.</p>
             <p><strong>Types</strong> are category-specific choices that answer: what specific type of help does this resource offer within this category?</p>
-            <p><strong>Delete</strong> tags the selected category for deletion. The category and its resources remain active until an admin reviews and approves the deletion after merging the package.</p>
+            <p>${scoutReview
+              ? `<strong>Delete</strong> removes the selected proposed category from this review copy immediately after confirmation. Resources assigned to it remain, with that category removed from their assignments.`
+              : `<strong>Delete</strong> tags the selected category for deletion. The category and its resources remain active until an admin reviews and approves the deletion after merging the package.`}</p>
             <p>Categories are shown alphabetically.</p>
             <p>The category editor also shows <strong>Resources in this category</strong>. Click a resource name there to open it in the resource editor.</p>
             <p>Category labels must be unique.</p>
@@ -3854,7 +3871,9 @@ function showAdminHelp(options = {}){
               <li>Click a resource to select it.</li>
               <li>Click <strong>Edit</strong>, double-click the resource, or press <kbd>Enter</kbd> to edit it.</li>
               <li>Click <strong>New</strong> to create a resource.</li>
-              <li>Click <strong>Delete</strong> to tag the selected resource for deletion. It remains active until an admin approves the deletion after merging the package.</li>
+              <li>${scoutReview
+                ? `Click <strong>Delete</strong> to remove the selected proposed resource from this review copy immediately after confirmation.`
+                : `Click <strong>Delete</strong> to tag the selected resource for deletion. It remains active until an admin approves the deletion after merging the package.`}</li>
               <li>Turn on <strong>Show verified dates</strong> to show and sort by verification date.</li>
             </ul>
             <p>In the resource editor:</p>
@@ -3900,7 +3919,9 @@ function showAdminHelp(options = {}){
         <details>
           <summary>Tagged deletions</summary>
           <div class="admin-help-section-body">
-            <p>Delete actions tag resources, categories, Types, and For groups for deletion without removing them. Tagged items remain active and are labeled <strong>tagged for deletion</strong>.</p>
+            <p>${scoutReview
+              ? `Resource and category deletion is immediate in this Scout review copy. Deleting Types or For groups still creates deletion tags for an office administrator to review.`
+              : `Delete actions tag resources, categories, Types, and For groups for deletion without removing them. Tagged items remain active and are labeled <strong>tagged for deletion</strong>.`}</p>
             <p>After an admin merges a package containing deletion tags, the review opens immediately. It shows affected resources and can print a working list. The admin chooses which deletions to approve and can continue editing the merged data.</p>
           </div>
         </details>
@@ -3923,7 +3944,9 @@ function showAdminHelp(options = {}){
         <details>
           <summary>Undo</summary>
           <div class="admin-help-section-body">
-            <p>Undo is available for deletion tagging and approval.</p>
+            <p>${scoutReview
+              ? `Undo applies to Type and For-group deletion tagging. Directly deleted review resources and categories are not restored by Undo.`
+              : `Undo is available for deletion tagging and approval.`}</p>
             <p>Only the most recent deletion action can be undone, and Undo expires when another change is saved so newer work cannot be discarded. Use <strong>Undo ...</strong> in Admin mode to restore the saved snapshot, or <strong>Clear undo</strong> to remove it.</p>
             <p>Normal edits are not undone this way. If you make a wrong normal edit, edit the item again and describe the correction.</p>
           </div>
@@ -3931,7 +3954,7 @@ function showAdminHelp(options = {}){
       </div>
     </div>
   `;
-  if(isScoutReviewMode()){
+  if(scoutReview){
     modal.querySelectorAll(".admin-publishing-help").forEach(section => section.remove());
   }
   const closeBtn = modal.querySelector(".reference-modal-close");
@@ -8503,6 +8526,48 @@ function completeCategoryDelete(categoryId, updateDescription){
   })], `tagged category "${cat.label}" for deletion`);
 }
 
+function deleteScoutReviewCategory(categoryId){
+  const categoryKey = String(categoryId || "");
+  const idx = data.categories.findIndex(cat => String(cat && cat.id || "") === categoryKey);
+  const cat = data.categories[idx];
+  if(!cat) return;
+
+  const categoryIds = getAlphabeticalCategoryPairs().map(({c}) => String(c && c.id || ""));
+  const selectedPos = categoryIds.indexOf(categoryKey);
+  const impact = getDeletionImpact({
+    kind:"category",
+    targetId:categoryKey,
+    label:cat.label || "(Unnamed category)"
+  });
+  const affectedResourceIds = new Set(impact.affectedResources.map(resource => String(resource && resource.id || "")));
+  const deletedAt = nowISO();
+
+  applyDeletionTombstones(data, [{
+    kind:"category",
+    targetId:categoryKey,
+    label:cat.label || "(Unnamed category)",
+    deletedAt
+  }]);
+  data.deletionRequests = (Array.isArray(data.deletionRequests) ? data.deletionRequests : [])
+    .filter(request => !(request && request.kind === "category" && String(request.targetId || "") === categoryKey));
+  newCategoryIds.delete(categoryKey);
+  delete selectedCategoryFilters[categoryKey];
+  const remainingCategoryIds = getAlphabeticalCategoryPairs().map(({c}) => String(c && c.id || ""));
+  selectedCategoryIndex = remainingCategoryIds.length
+    ? String(getCategoryIndexById(remainingCategoryIds[Math.min(Math.max(selectedPos, 0), remainingCategoryIds.length - 1)]))
+    : "";
+  editing = null;
+  editorSnapshot = "";
+  affectedResourceIds.forEach(resourceId => clearScoutReviewResourceCurated(resourceId));
+  persist();
+  const affectedText = impact.affectedResources.length
+    ? ` ${formatResourceCount(impact.affectedResources.length)} remain and no longer use it.`
+    : "";
+  showToast(`Deleted proposed category "${cat.label || "(unnamed)"}".${affectedText}`);
+  safeRender();
+  safeRenderAdmin();
+}
+
 function deleteCategory(){
   const sel = document.getElementById("catSelect");
   if(!sel) return;
@@ -8513,8 +8578,19 @@ function deleteCategory(){
   if(!cat) return;
   if(!commitPendingEditsIfChanged()) return;
 
-  const confirmDelete = confirm(buildAdminDeleteConfirmation("category", cat.label || "(unnamed)"));
+  const impact = getDeletionImpact({
+    kind:"category",
+    targetId:cat.id,
+    label:cat.label || "(Unnamed category)"
+  });
+  const confirmDelete = confirm(buildAdminDeleteConfirmation("category", cat.label || "(unnamed)", {
+    affectedResourceCount:impact.affectedResources.length
+  }));
   if(!confirmDelete) return;
+  if(isScoutReviewMode()){
+    deleteScoutReviewCategory(cat.id);
+    return;
+  }
   promptCategoryDeleteDescription(cat, description => {
     completeCategoryDelete(cat.id, description);
   });
@@ -8910,6 +8986,9 @@ function deleteResource(){
     const sortedIds = getAdminResourceBrowseList().map(resource => String(resource.id || ""));
     const selectedPos = sortedIds.indexOf(String(res.id || ""));
     clearScoutReviewResourceCurated(res.id);
+    newResourceIds.delete(String(res.id || ""));
+    data.deletionRequests = (Array.isArray(data.deletionRequests) ? data.deletionRequests : [])
+      .filter(request => !(request && request.kind === "resource" && String(request.targetId || "") === String(res.id || "")));
     data.resources.splice(idx, 1);
     const remainingIds = getAdminResourceBrowseList().map(resource => String(resource.id || ""));
     selectedResourceId = remainingIds.length
