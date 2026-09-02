@@ -18,7 +18,8 @@ class ScoutReviewPersistenceTests(unittest.TestCase):
 
     def test_review_mode_uses_artifact_scoped_compact_storage(self) -> None:
         self.assertIn('name="scout-review-artifact-id"', self.template)
-        self.assertIn("ScoutReviewV2:${SCOUT_REVIEW_ARTIFACT_ID}", self.template)
+        self.assertIn("ScoutReviewV3:${SCOUT_REVIEW_ARTIFACT_ID}", self.template)
+        self.assertIn("SCOUT_REVIEW_V2_STORAGE_KEY", self.template)
         self.assertIn("resourceOverrides", self.template)
         self.assertIn("addedResources", self.template)
         self.assertIn("deletedResourceIds", self.template)
@@ -40,7 +41,8 @@ class ScoutReviewPersistenceTests(unittest.TestCase):
         script = f"""
 const assert = require('assert');
 const SCOUT_REVIEW_ARTIFACT_ID = 'artifact-a';
-const SCOUT_REVIEW_STORAGE_KEY = 'review-v2-artifact-a';
+const SCOUT_REVIEW_STORAGE_KEY = 'review-v3-artifact-a';
+const SCOUT_REVIEW_V2_STORAGE_KEY = 'review-v2-artifact-a';
 const SCOUT_REVIEW_LEGACY_STORAGE_KEY = 'review-v1';
 const DATA_STORAGE_KEY = 'review-data';
 let scoutReviewBaseData = null;
@@ -88,7 +90,8 @@ current.resources.push({{
   forGroups:[], pdfs:[]
 }});
 const previous = normalizeScoutReviewState({{
-  readyResourceIds:['resource-0', 'reviewer-added'],
+  curatedResourceIds:['resource-0', 'reviewer-added'],
+  readyResourceIds:['resource-3'],
   packagedBatches:[{{
     id:'batch-1', savedAt:'2026-08-29T00:00:00Z', packageVersion:44,
     fileName:'provo-resource-package.zip', resourceIds:['resource-1']
@@ -106,6 +109,8 @@ assert(!compact.deletedResourceIds.includes('resource-1'));
 assert(compact.addedResources.some(resource => resource.id === 'reviewer-added'));
 assert(compact.resourceOverrides.some(resource => resource.id === 'resource-0'));
 assert(compact.resourceOverrides.some(resource => resource.id === 'resource-1'));
+assert.deepStrictEqual(compact.curatedResourceIds.sort(), ['resource-0', 'reviewer-added']);
+assert(!compact.curatedResourceIds.includes('resource-3'));
 assert.strictEqual(writeCompactScoutReviewState(compact), true);
 assert.strictEqual(values.has(DATA_STORAGE_KEY), false);
 assert.strictEqual(values.has(SCOUT_REVIEW_LEGACY_STORAGE_KEY), false);
@@ -128,6 +133,45 @@ process.stdout.write(JSON.stringify({{full:JSON.stringify(scoutReviewBaseData).l
         )
         sizes = json.loads(completed.stdout)
         self.assertGreater(sizes["full"], sizes["compact"] * 10)
+
+    def test_curated_workflow_replaces_ready_without_inheriting_ready_marks(self) -> None:
+        self.assertIn(
+            "Curate resources in Admin. Save a resource package of the curated resources.",
+            self.template,
+        )
+        self.assertIn("Save a package of ${count} curated resources", self.template)
+        self.assertIn(">Curate Resource</h3>", self.template)
+        self.assertIn('id="res_curated_btn"', self.template)
+        self.assertIn('id="res_print_btn"', self.template)
+        self.assertIn('id="res_website_link"', self.template)
+        self.assertIn("function updateResourceWebsiteLink()", self.template)
+        self.assertIn("function printCurrentResource()", self.template)
+        self.assertIn("const draft = resourceEditorDraft();", self.template)
+        self.assertIn("<summary>Curate</summary>", self.template)
+        self.assertIn("scout-review-curated-indicator", self.template)
+        self.assertIn('${scoutReview ? "" : `', self.template)
+        self.assertIn(
+            'modal.querySelectorAll(".admin-publishing-help").forEach(section => section.remove())',
+            self.template,
+        )
+        self.assertNotIn("scout-review-ready-checkbox", self.template)
+        self.assertNotIn("Ready to package", self.template)
+
+        normalize_start = self.template.index("function normalizeScoutReviewState(")
+        normalize_end = self.template.index("function loadScoutReviewState(", normalize_start)
+        normalize_source = self.template[normalize_start:normalize_end]
+        self.assertIn("source.curatedResourceIds", normalize_source)
+        self.assertNotIn("source.readyResourceIds", normalize_source)
+
+        curated_toggle_start = self.template.index(
+            "function toggleCurrentResourceCurated()"
+        )
+        curated_toggle_end = self.template.index(
+            "function cancelResourceEditor()", curated_toggle_start
+        )
+        curated_toggle_source = self.template[curated_toggle_start:curated_toggle_end]
+        self.assertIn("pendingResourceCuratedToggle = true", curated_toggle_source)
+        self.assertIn("commitPendingEditsIfChanged()", curated_toggle_source)
 
 
 if __name__ == "__main__":

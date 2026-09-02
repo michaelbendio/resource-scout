@@ -26,14 +26,19 @@ HTML file or another repository at generation time.
 5. Scout combines every completed category into `auto[Location].html`. All
    ordinary categories remain visible, while only curated resources are
    populated.
-6. Reviewers edit resources through the normal Admin editors. Each proposed
-   resource has a **Ready to package** checkbox and a green ready indicator.
-7. **Save N Ready Resources** exports one standard additions-only TSO Resources
+6. Reviewers edit resources through the normal Admin editors. Every generated
+   review starts with no curated resources. **Curated**, immediately beside
+   **Done**, toggles a check mark beside the resource in the Resources list.
+   The website field includes an **Open website** link for direct checking.
+   Office Setup and Publish to SharePoint are hidden because publishing occurs
+   later from the ordinary office HTML.
+7. **Save a package of N curated resources**, beside the Resources heading,
+   exports one standard additions-only TSO Resources
    package containing every marked resource, its category definitions,
    referenced For values, and attached PDFs. One batch may span categories.
 8. After a successful save, those resources are hidden from that browser's
    active review queue. They remain in local packaged history so work is not
-   lost. A canceled or failed save leaves them visible and ready.
+   lost. A canceled or failed save leaves them visible and curated.
 9. A reviewer merges the saved package through the normal office HTML.
    Stephanie and Sister Dewsnup may use independent review-file copies and
    coordinate different categories; their local review state does not
@@ -48,10 +53,10 @@ Research, Rejected, or Packaged controls.
 - Deleting a proposal removes it from that review-file copy. Because it was
   never accepted into the office package, the exported package contains no
   deletion tombstone for it.
-- Editing a ready resource clears its ready mark. The reviewer marks the revised
-  resource ready again after checking it.
+- Editing a curated resource clears its Curated mark. The reviewer marks the
+  revised resource Curated again after checking it.
 - A successful save hides its selected resources locally. Cancellation or
-  failure leaves them visible and ready.
+  failure leaves them visible and Curated.
 
 Review state and candidate provenance remain local to Scout's review file and
 are not exported as office administrative data. The exported file is a standard
@@ -59,7 +64,7 @@ mergeable TSO Resources package.
 
 The embedded curated resources are the immutable base for that generated
 artifact. Browser storage contains only a compact overlay: edited or added
-resources, deleted IDs, ready IDs, packaged IDs and small package-history
+resources, deleted IDs, curated IDs, packaged IDs and small package-history
 records, plus changed category or For definitions. The artifact has a stable
 identity derived from its curated contents, so repeated downloads of the same
 artifact reopen the same local review work while a newly curated artifact starts
@@ -158,7 +163,7 @@ The first production gate requires:
 
 - focused storage, curation-contract, pacing, progress, HTTP, and review-file
   generation tests;
-- browser tests for ready marking, edit invalidation, selection-scoped
+- browser tests for Curated marking, edit invalidation, selection-scoped
   packaging, PDFs and For values, cancellation, deletion isolation, local
   hiding, reload, and independent office storage;
 - a synthetic multi-category review-file test;

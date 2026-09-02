@@ -523,7 +523,7 @@ textarea.information-editor { min-height:320px; resize:vertical; }
   outline:2px solid #003366;
   outline-offset:-2px;
 }
-.resource-listbox-option.scout-review-resource-ready {
+.resource-listbox-option.scout-review-resource-curated {
   color:#145c2f;
   font-weight:650;
 }
@@ -531,25 +531,15 @@ textarea.information-editor { min-height:320px; resize:vertical; }
   display:flex;
   align-items:center;
 }
-.scout-review-ready-checkbox { flex:0 0 auto; margin:1px 3px 1px 0; }
-.scout-review-ready-indicator {
+.scout-review-curated-indicator {
   display:inline-block;
   flex:0 0 1.1em;
   color:#16813d;
   font-weight:800;
   text-align:center;
 }
-.scout-review-ready-badge {
-  display:inline-block;
-  margin:0 0 8px;
-  padding:3px 8px;
-  border:1px solid #77b78c;
-  border-radius:999px;
-  background:#edf8f0;
-  color:#145c2f;
-  font-size:13px;
-  font-weight:750;
-}
+.admin-resource-heading { display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+.admin-resource-heading .admin-panel-title { margin:0; }
 .resource-browse-actions { margin-top:8px; display:flex; gap:8px; align-items:center; width:100%; }
 .resource-browse-actions .spacer { flex:1; }
 .admin-panel-title { margin:0 0 4px; }
@@ -1236,7 +1226,7 @@ textarea.information-editor { min-height:320px; resize:vertical; }
     {
       "date": "2026-08-28",
       "version": "2.3.5",
-      "message": "Review and save ready Scout resources as standard mergeable packages"
+      "message": "Curate and save Scout resources as standard mergeable packages"
     },
     {
       "date": "2026-08-28",
@@ -2660,7 +2650,8 @@ const DELETION_REVIEW_STORAGE_KEY = getStorageKey("DeletionReview");
 const DISMISSED_TIPS_STORAGE_KEY = getStorageKey("DismissedTips");
 const SCOUT_REVIEW_ARTIFACT_ID = getMetaContent("scout-review-artifact-id") || "legacy";
 const SCOUT_REVIEW_LEGACY_STORAGE_KEY = getStorageKey("ScoutReviewV1");
-const SCOUT_REVIEW_STORAGE_KEY = getStorageKey(`ScoutReviewV2:${SCOUT_REVIEW_ARTIFACT_ID}`);
+const SCOUT_REVIEW_V2_STORAGE_KEY = getStorageKey(`ScoutReviewV2:${SCOUT_REVIEW_ARTIFACT_ID}`);
+const SCOUT_REVIEW_STORAGE_KEY = getStorageKey(`ScoutReviewV3:${SCOUT_REVIEW_ARTIFACT_ID}`);
 const NEW_ADMIN_TRAINING_PENDING_KEY = "tsoResourcesNewAdminTrainingPending";
 const STARTUP_STATE_STORAGE_KEYS = [
   UPDATE_SEEN_STORAGE_KEY,
@@ -2699,6 +2690,7 @@ function clearCurrentLocalState({ clearFavorites = false } = {}){
   localStorage.removeItem(DISMISSED_TIPS_STORAGE_KEY);
   localStorage.removeItem(NEW_ADMIN_TRAINING_PENDING_KEY);
   localStorage.removeItem(SCOUT_REVIEW_LEGACY_STORAGE_KEY);
+  localStorage.removeItem(SCOUT_REVIEW_V2_STORAGE_KEY);
   localStorage.removeItem(SCOUT_REVIEW_STORAGE_KEY);
   if(clearFavorites) localStorage.removeItem(FAVORITE_RESOURCE_IDS_STORAGE_KEY);
 }
@@ -2808,8 +2800,8 @@ function normalizeScoutReviewState(value){
   const packagedBatches = (Array.isArray(source.packagedBatches) ? source.packagedBatches : [])
     .map(normalizeScoutReviewBatch).filter(Boolean);
   const packagedResourceIds = new Set(packagedBatches.flatMap(batch => batch.resourceIds));
-  const readyResourceIds = Array.from(new Set(
-    (Array.isArray(source.readyResourceIds) ? source.readyResourceIds : [])
+  const curatedResourceIds = Array.from(new Set(
+    (Array.isArray(source.curatedResourceIds) ? source.curatedResourceIds : [])
       .map(String).filter(id => id && !packagedResourceIds.has(id))
   ));
   const resourceOverrides = (Array.isArray(source.resourceOverrides) ? source.resourceOverrides : [])
@@ -2827,9 +2819,9 @@ function normalizeScoutReviewState(value){
     ? cloneScoutReviewValue(source.topLevelOverrides)
     : {};
   return {
-    schemaVersion:2,
+    schemaVersion:3,
     artifactId:SCOUT_REVIEW_ARTIFACT_ID,
-    readyResourceIds,
+    curatedResourceIds,
     packagedBatches,
     resourceOverrides,
     addedResources,
@@ -2847,8 +2839,10 @@ function normalizeScoutReviewState(value){
 function loadScoutReviewState(){
   if(!isScoutReviewMode()) return normalizeScoutReviewState({});
   try{
+    const current = readScoutReviewStorage(SCOUT_REVIEW_STORAGE_KEY);
+    const previous = readScoutReviewStorage(SCOUT_REVIEW_V2_STORAGE_KEY);
     return normalizeScoutReviewState(
-      JSON.parse(readScoutReviewStorage(SCOUT_REVIEW_STORAGE_KEY) || "null")
+      JSON.parse(current || previous || "null")
     );
   }catch(error){
     noteScoutReviewStorageError(error);
@@ -2917,7 +2911,7 @@ function buildCompactScoutReviewState(currentData, sourceState){
 
   return normalizeScoutReviewState({
     ...previous,
-    readyResourceIds:previous.readyResourceIds.filter(id => currentResources.has(id)),
+    curatedResourceIds:previous.curatedResourceIds.filter(id => currentResources.has(id)),
     resourceOverrides,
     addedResources,
     deletedResourceIds,
@@ -2937,6 +2931,7 @@ function writeCompactScoutReviewState(state){
     localStorage.setItem(SCOUT_REVIEW_STORAGE_KEY, serialized);
     localStorage.removeItem(DATA_STORAGE_KEY);
     localStorage.removeItem(SCOUT_REVIEW_LEGACY_STORAGE_KEY);
+    localStorage.removeItem(SCOUT_REVIEW_V2_STORAGE_KEY);
     return true;
   }catch(firstError){
     // Old review builds stored a full resource snapshot under these keys. Clear
@@ -2945,6 +2940,7 @@ function writeCompactScoutReviewState(state){
       localStorage.removeItem(DATA_STORAGE_KEY);
       localStorage.removeItem(SCOUT_REVIEW_LEGACY_STORAGE_KEY);
       localStorage.setItem(SCOUT_REVIEW_STORAGE_KEY, serialized);
+      localStorage.removeItem(SCOUT_REVIEW_V2_STORAGE_KEY);
       return true;
     }catch(secondError){
       noteScoutReviewStorageError(secondError || firstError);
@@ -2958,7 +2954,9 @@ let scoutReviewBaseData = null;
 let scoutReviewState = loadScoutReviewState();
 let data = null;
 const TIP_TEXT = {
-  user: "Click a category to see its resources and click a resource for details. Use the printer button to select it for printing. Use the star to add it to or remove it from Favorites.",
+  user: isScoutReviewMode()
+    ? "Curate resources in Admin. Save a resource package of the curated resources."
+    : "Click a category to see its resources and click a resource for details. Use the printer button to select it for printing. Use the star to add it to or remove it from Favorites.",
   newAdminWelcome: "Welcome to you, new admin. Press Ctrl+Alt+A to enter admin mode",
   newAdminMode: "This Scout review file is already configured for its local office."
 };
@@ -2986,7 +2984,7 @@ if(isScoutReviewMode()){
 const activeScoutReviewResourceIds = new Set((data.resources || []).map(resource => String(resource && resource.id || "")));
 scoutReviewState = normalizeScoutReviewState({
   ...scoutReviewState,
-  readyResourceIds:scoutReviewState.readyResourceIds.filter(id => activeScoutReviewResourceIds.has(String(id)))
+  curatedResourceIds:scoutReviewState.curatedResourceIds.filter(id => activeScoutReviewResourceIds.has(String(id)))
 });
 
 function persistScoutReviewState(nextState = scoutReviewState){
@@ -2996,35 +2994,35 @@ function persistScoutReviewState(nextState = scoutReviewState){
   scoutReviewState = normalized;
 }
 
-function getScoutReviewReadyResourceIds(){
-  return new Set(scoutReviewState.readyResourceIds.map(String));
+function getScoutReviewCuratedResourceIds(){
+  return new Set(scoutReviewState.curatedResourceIds.map(String));
 }
 
-function isScoutReviewResourceReady(resourceId){
-  return getScoutReviewReadyResourceIds().has(String(resourceId || ""));
+function isScoutReviewResourceCurated(resourceId){
+  return getScoutReviewCuratedResourceIds().has(String(resourceId || ""));
 }
 
-function getScoutReviewReadyResourceCount(){
-  return scoutReviewState.readyResourceIds.length;
+function getScoutReviewCuratedResourceCount(){
+  return scoutReviewState.curatedResourceIds.length;
 }
 
-function setScoutReviewResourceReady(resourceId, ready){
+function setScoutReviewResourceCurated(resourceId, curated){
   if(!isScoutReviewMode()) return false;
   const id = String(resourceId || "");
   if(!id || !data.resources.some(resource => String(resource && resource.id || "") === id)) return false;
-  const ids = getScoutReviewReadyResourceIds();
-  if(ready) ids.add(id);
+  const ids = getScoutReviewCuratedResourceIds();
+  if(curated) ids.add(id);
   else ids.delete(id);
   persistScoutReviewState({
     ...scoutReviewState,
-    readyResourceIds:Array.from(ids)
+    curatedResourceIds:Array.from(ids)
   });
   return true;
 }
 
-function clearScoutReviewResourceReady(resourceId){
-  if(!isScoutReviewResourceReady(resourceId)) return false;
-  return setScoutReviewResourceReady(resourceId, false);
+function clearScoutReviewResourceCurated(resourceId){
+  if(!isScoutReviewResourceCurated(resourceId)) return false;
+  return setScoutReviewResourceCurated(resourceId, false);
 }
 
 let favoriteResourceIds = loadFavoriteResourceIds();
@@ -3121,6 +3119,7 @@ let adminHelpPrintRestoreState = null;
 // A new category/resource is inserted immediately so the normal editor can own
 // it. These sets mark those temporary drafts so Cancel can remove them cleanly.
 let allowBlankUpdateDescriptionOnce = false;
+let pendingResourceCuratedToggle = false;
 let newCategoryIds = new Set();
 let newResourceIds = new Set();
 
@@ -3523,7 +3522,7 @@ function createInterfaceIcon(name){
 
 function createTip(tipId){
   const tip = createRedTip(TIP_TEXT[tipId], tipId);
-  if(!tip || tipId !== "user") return tip;
+  if(!tip || tipId !== "user" || isScoutReviewMode()) return tip;
 
   const text = tip.querySelector(".red-tip-text");
   if(!text) return tip;
@@ -3702,6 +3701,17 @@ function showAdminHelp(options = {}){
   const adminEntryTipHTML = expandTraining && isNewTemplateFile()
     ? `<div class="red-tip new-admin-tip">${escapeHTML(TIP_TEXT.newAdminMode)}</div>`
     : "";
+  const curateHelpHTML = isScoutReviewMode() ? `
+        <details open>
+          <summary>Curate</summary>
+          <div class="admin-help-section-body">
+            <p>Open <strong>Resources</strong>, select a resource, and click <strong>Edit</strong> to curate its public information, Categories, Types, and For groups.</p>
+            <p>Use <strong>Print</strong> beside <strong>Done</strong> to preview the resource currently open in the editor exactly as it will appear in a missionary's printed handout. The preview includes edits that have not yet been saved.</p>
+            <p>When the resource is ready to be included in a resource package, click <strong>Curated</strong> beside <strong>Done</strong>. The button is a toggle. A check mark beside the resource in the Resources list means it is curated.</p>
+            <p>Click <strong>Save a package of <em>n</em> curated resources</strong> beside the Resources heading to save only the checked resources. After a successful save, those resources leave the active review list but remain in this file's saved package history.</p>
+          </div>
+        </details>
+  ` : "";
   modal.innerHTML = `
     <div class="reference-modal-panel" role="dialog" aria-modal="true" aria-labelledby="adminHelpTitle">
       <div class="reference-modal-header">
@@ -3714,6 +3724,8 @@ function showAdminHelp(options = {}){
       <div class="reference-modal-body admin-help-content">
         ${adminEntryTipHTML}
         <p><strong>NOTE:</strong> The <strong>Lists</strong> category is generated automatically. It is not edited in <strong>Categories</strong>. A resource appears in <strong>Lists</strong> when it has no phone, website, or hours, which usually means it is a list such as food pantries, shelters, rooms, or temp agencies.</p>
+
+        ${curateHelpHTML}
 
         <details class="admin-training-section" ${expandTraining ? "open" : ""}>
           <summary>First-Time Admin Training</summary>
@@ -3762,7 +3774,7 @@ function showAdminHelp(options = {}){
           </div>
         </details>
 
-        <details>
+        <details class="admin-publishing-help">
           <summary>Publish to SharePoint</summary>
           <div class="admin-help-section-body">
             <p>Every office-specific file shows <strong>Publish to SharePoint</strong> immediately to the left of <strong>Admin Help</strong>.</p>
@@ -3773,7 +3785,7 @@ function showAdminHelp(options = {}){
           </div>
         </details>
 
-        <details>
+        <details class="admin-publishing-help">
           <summary>Office Setup</summary>
           <div class="admin-help-section-body">
             <p><strong>Office Setup</strong> shows the office name, storage ID, expected package filename, and SharePoint package URL carried by this office HTML file.</p>
@@ -3919,6 +3931,9 @@ function showAdminHelp(options = {}){
       </div>
     </div>
   `;
+  if(isScoutReviewMode()){
+    modal.querySelectorAll(".admin-publishing-help").forEach(section => section.remove());
+  }
   const closeBtn = modal.querySelector(".reference-modal-close");
   const printBtn = document.getElementById("adminHelpPrintButton");
   const trainingPrintBtn = document.getElementById("adminTrainingPrintButton");
@@ -4886,12 +4901,6 @@ function renderCategoryResourceCard(res, container = appView){
   expandToggle.setAttribute("aria-label", `${expanded ? "Hide" : "View"} details for ${res.name}`);
   expandToggle.setAttribute("aria-expanded", expanded ? "true" : "false");
   card.appendChild(expandToggle);
-  if(isScoutReviewResourceReady(res && res.id)){
-    const readyBadge = document.createElement("span");
-    readyBadge.className = "scout-review-ready-badge";
-    readyBadge.textContent = "✓ Ready to package";
-    card.prepend(readyBadge);
-  }
   const resourceUpdates = getChangesForResource(res.id, { unseenOnly:true });
   if(resourceUpdates.length){
     const badge = document.createElement("button");
@@ -5340,10 +5349,10 @@ const PrintWorkflow = {
     this.openPreview(normalSelections);
   },
 
-  buildListFlyer(resource, shouldPageBreak){
+  buildListFlyer(resource, shouldPageBreak, { interactive = true } = {}){
     const flyer = document.createElement("section");
     flyer.className = "print-list-flyer" + (shouldPageBreak ? " print-list-flyer-page-break" : "");
-    flyer.classList.toggle("print-disabled", !isSelectedForPrinting(resource.id));
+    if(interactive) flyer.classList.toggle("print-disabled", !isSelectedForPrinting(resource.id));
 
     let html = `<div class="print-list-heading"><span class="print-list-actions-placeholder"></span><h2>${escapeHTML(resource.name || "")}</h2></div>`;
     if(resource.description) html += `<div class="print-list-field"><strong>Description:</strong> ${escapeHTML(resource.description)}</div>`;
@@ -5355,17 +5364,21 @@ const PrintWorkflow = {
     }
     flyer.innerHTML = html;
     const placeholder = flyer.querySelector(".print-list-actions-placeholder");
-    const actions = createResourceActionButtons(resource);
-    actions.classList.add("print-list-actions");
-    if(placeholder) placeholder.replaceWith(actions);
-    const toggle = flyer.querySelector(".print-selection-toggle");
-    if(toggle){
-      toggle.onclick = e => {
-        e.stopPropagation();
-        togglePrintSelection(resource.id, { rerender:false });
-        this.showStep();
-        safeRender();
-      };
+    if(interactive){
+      const actions = createResourceActionButtons(resource);
+      actions.classList.add("print-list-actions");
+      if(placeholder) placeholder.replaceWith(actions);
+      const toggle = flyer.querySelector(".print-selection-toggle");
+      if(toggle){
+        toggle.onclick = e => {
+          e.stopPropagation();
+          togglePrintSelection(resource.id, { rerender:false });
+          this.showStep();
+          safeRender();
+        };
+      }
+    }else if(placeholder){
+      placeholder.remove();
     }
     return flyer;
   },
@@ -5397,6 +5410,27 @@ const PrintWorkflow = {
       });
       return;
     }
+    this.currentIndex = 0;
+    this.showStep();
+  },
+
+  previewSingleResource(resource){
+    if(!resource) return;
+    this.queue = [{
+      label:"Resource Preview",
+      render: () => this.openPreviewContent(container => {
+        if(this.isListResource(resource)){
+          container.appendChild(this.buildListFlyer(resource, false, { interactive:false }));
+          return;
+        }
+        container.appendChild(buildResourceCard(resource, {
+          expanded:true,
+          showDescription:true,
+          showPrintToggle:false,
+          showFavoriteToggle:false
+        }));
+      })
+    }];
     this.currentIndex = 0;
     this.showStep();
   },
@@ -5433,6 +5467,25 @@ function nextPrintStep(){ PrintWorkflow.next(); }
 function closePrintPreview(){ PrintWorkflow.close(); }
 function doPrint(){ PrintWorkflow.doPrint(); }
 
+function getCurrentResourcePrintPreviewData(){
+  const idx = getResourceIndexById(selectedResourceId);
+  const resource = idx >= 0 ? data.resources[idx] : null;
+  if(!resource) return null;
+  const draft = resourceEditorDraft();
+  if(!draft) return cloneDataObject(resource);
+  const preview = cloneDataObject(resource);
+  Object.entries(draft).forEach(([key, value]) => {
+    if(key !== "updateDescription") preview[key] = cloneScoutReviewValue(value);
+  });
+  return preview;
+}
+
+function printCurrentResource(){
+  const resource = getCurrentResourcePrintPreviewData();
+  if(!resource) return;
+  PrintWorkflow.previewSingleResource(resource);
+}
+
 // Source: src/js/80-admin-shell.js
 // ============================================================
 // EVENT HANDLERS
@@ -5463,6 +5516,13 @@ function getAdminBuildInfoHTML(){
   return `<span class="admin-build-info" title="${escapeHTML(tooltip)}">Build ${escapeHTML(String(APP_BUILD))}</span>`;
 }
 
+function getScoutReviewPackageActionHTML(){
+  if(!isScoutReviewMode()) return "";
+  const count = getScoutReviewCuratedResourceCount();
+  const label = `Save a package of ${count} curated resources`;
+  return `<button class="button primary" onclick="exportPackage()" ${count === 0 ? "disabled" : ""}>${escapeHTML(label)}</button>`;
+}
+
 function renderAdmin(){
   // Admin shell plus tab routing; detailed panels render in dedicated helpers below.
   const container = document.getElementById("adminView");
@@ -5472,15 +5532,11 @@ function renderAdmin(){
   const recoveryPoints = getRecoveryPoints();
   const deletionReview = getOutstandingDeletionReview();
   const scoutReview = getScoutReviewConfig();
-  const scoutReviewReadyCount = scoutReview ? getScoutReviewReadyResourceCount() : 0;
-  const packageButtonLabel = scoutReview
-    ? `Save ${scoutReviewReadyCount} Ready ${scoutReviewReadyCount === 1 ? "Resource" : "Resources"}`
-    : "Save Resource Package";
 
   container.innerHTML = `
     <div class="admin-sticky-bar">
       <div class="admin-sticky-package-actions">
-        <button class="button primary" onclick="exportPackage()" ${scoutReview && scoutReviewReadyCount === 0 ? "disabled" : ""}>${escapeHTML(packageButtonLabel)}</button>
+        ${scoutReview ? "" : `<button class="button primary" onclick="exportPackage()">Save Resource Package</button>`}
         ${deletionReview ? `<button class="button" onclick="showDeletionReview()">Review tagged deletions</button>` : ""}
         ${recoveryPoints.length ? `<button class="button" onclick="showRecoveryPoints()">Recovery points (${recoveryPoints.length})</button>` : ""}
         ${hasChangeLog ? `
@@ -5493,8 +5549,10 @@ function renderAdmin(){
         ` : ""}
       </div>
       <div class="admin-toolbar-reference-actions admin-sticky-reference-actions">
-        <button class="button" onclick="showAdminSetup()">Office Setup</button>
-        ${getSharePointPublishingButtonHTML()}
+        ${scoutReview ? "" : `
+          <button class="button" onclick="showAdminSetup()">Office Setup</button>
+          ${getSharePointPublishingButtonHTML()}
+        `}
         <button class="button admin-toolbar-help" onclick="showAdminHelp()">Admin Help</button>
       </div>
     </div>
@@ -6243,11 +6301,11 @@ function buildResourcePackageData(sourceData){
   return packageData;
 }
 
-function buildScoutReviewSelectionPackageData(sourceData, readyResourceIds){
+function buildScoutReviewSelectionPackageData(sourceData, curatedResourceIds){
   const source = processResourcePackageData(sourceData || {}, {
     sourceName:"Current Scout review resource data"
   }).data;
-  const selectedIds = new Set(Array.from(readyResourceIds || []).map(String));
+  const selectedIds = new Set(Array.from(curatedResourceIds || []).map(String));
   const resources = source.resources
     .filter(resource => selectedIds.has(String(resource && resource.id || "")))
     .map(resource => cloneDataObject(resource));
@@ -6296,7 +6354,7 @@ function archiveScoutReviewPackagedResources(resourceIds, packageVersion, fileNa
   const savedAt = nowISO();
   const nextState = {
     ...scoutReviewState,
-    readyResourceIds:scoutReviewState.readyResourceIds.filter(id => !selectedIds.has(String(id))),
+    curatedResourceIds:scoutReviewState.curatedResourceIds.filter(id => !selectedIds.has(String(id))),
     packagedBatches:[
       ...scoutReviewState.packagedBatches,
       {
@@ -6488,11 +6546,11 @@ async function saveCurrentResourcePackage(target, options = {}){
     data.packageVersion = getNextPackageVersionValue(data.packageVersion);
     packageVersionBumped = true;
 
-    const scoutReviewReadyIds = isScoutReviewMode()
-      ? getScoutReviewReadyResourceIds()
+    const scoutReviewCuratedIds = isScoutReviewMode()
+      ? getScoutReviewCuratedResourceIds()
       : null;
     const packageData = isScoutReviewMode()
-      ? buildScoutReviewSelectionPackageData(data, scoutReviewReadyIds)
+      ? buildScoutReviewSelectionPackageData(data, scoutReviewCuratedIds)
       : buildResourcePackageData(data);
     const resourceCount = Array.isArray(packageData.resources) ? packageData.resources.length : 0;
     if(resourceCount === 0){
@@ -6521,7 +6579,7 @@ async function saveCurrentResourcePackage(target, options = {}){
     await saveResourcePackageBlob(target, blob);
     if(isScoutReviewMode()){
       archiveScoutReviewPackagedResources(
-        scoutReviewReadyIds,
+        scoutReviewCuratedIds,
         data.packageVersion,
         target && target.suggestedName
       );
@@ -7848,6 +7906,10 @@ function setAdminEditorActions(kind, visible, doneDisabled = false, cancelDisabl
     resource: `
       <button id="res_cancel_btn" class="button" type="button" onclick="cancelResourceEditor()" ${cancelDisabled ? "disabled" : ""}>Cancel</button>
       <button id="res_done_btn" class="button primary" onclick="closeResourceEditor()" ${doneDisabled ? "disabled" : ""}>Done</button>
+      ${isScoutReviewMode() ? `
+        <button id="res_curated_btn" class="button ${isScoutReviewResourceCurated(selectedResourceId) ? "primary" : ""}" type="button" aria-pressed="${isScoutReviewResourceCurated(selectedResourceId) ? "true" : "false"}" onclick="toggleCurrentResourceCurated()" ${doneDisabled ? "disabled" : ""}>Curated</button>
+        <button id="res_print_btn" class="button" type="button" onclick="printCurrentResource()">Print</button>
+      ` : ""}
     `,
     forGroups: `
       <button class="button" type="button" id="forGroupCancelBtn" onclick="cancelForGroupsEditor()">Cancel</button>
@@ -8010,7 +8072,7 @@ function applyResourceDraft(idx, draft){
   // objects so package export stays predictable.
   const res = data.resources[idx];
   if(!res) return;
-  clearScoutReviewResourceReady(res.id);
+  clearScoutReviewResourceCurated(res.id);
   res.name = draft.name || res.name;
   res.phone = draft.phone;
   res.address = draft.address;
@@ -8069,6 +8131,7 @@ function promptBlankUpdateDescription(){
   const describeBtn = document.getElementById("blankUpdateDescribeBtn");
   const saveAnywayBtn = document.getElementById("blankUpdateSaveAnywayBtn");
   const describe = () => {
+    pendingResourceCuratedToggle = false;
     closeBlankUpdateDescriptionPrompt();
     focusUpdateDescriptionField();
   };
@@ -8077,7 +8140,8 @@ function promptBlankUpdateDescription(){
     closeBlankUpdateDescriptionPrompt();
     allowBlankUpdateDescriptionOnce = true;
     if(kind === "category") closeCategoryEditor();
-    if(kind === "resource") closeResourceEditor();
+    if(kind === "resource" && pendingResourceCuratedToggle) toggleCurrentResourceCurated();
+    else if(kind === "resource") closeResourceEditor();
   };
   if(describeBtn) describeBtn.onclick = describe;
   if(saveAnywayBtn) saveAnywayBtn.onclick = saveAnyway;
@@ -8603,7 +8667,10 @@ function renderAdminResources(container){
     container.innerHTML += `
       <div class="admin-panel">
         <div class="admin-box">
-          <h3 class="admin-panel-title">Resources</h3>
+          <div class="admin-resource-heading">
+            <h3 class="admin-panel-title">Resources</h3>
+            ${getScoutReviewPackageActionHTML()}
+          </div>
       <div class="resource-browse-wrap">
         <label class="admin-option-row" style="display:block;">
           <input type="checkbox" id="resSortShowVerified">
@@ -8669,7 +8736,7 @@ function renderAdminResources(container){
   container.innerHTML += `
     <div class="admin-panel">
       <div class="admin-box">
-        <h3 style="margin:0;">Edit Resource</h3>
+        <h3 style="margin:0;">Curate Resource</h3>
         <div id="resEditor" style="margin-top:12px;"></div>
       </div>
     </div>
@@ -8701,26 +8768,15 @@ function populateResourceBrowseOptions(sel, preferredResourceId){
       : baseLabel;
     if(isScoutReviewMode()){
       btn.classList.add("scout-review-resource-option");
-      const ready = isScoutReviewResourceReady(r.id);
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.className = "scout-review-ready-checkbox";
-      checkbox.checked = ready;
-      checkbox.setAttribute("aria-label", `Ready to package: ${r.name || "Unnamed resource"}`);
-      checkbox.addEventListener("click", event => event.stopPropagation());
-      checkbox.addEventListener("change", () => {
-        selectedResourceId = String(r.id || "");
-        setScoutReviewResourceReady(r.id, checkbox.checked);
-        safeRenderAdmin();
-      });
+      const curated = isScoutReviewResourceCurated(r.id);
       const indicator = document.createElement("span");
-      indicator.className = "scout-review-ready-indicator";
-      indicator.textContent = ready ? "✓" : "";
+      indicator.className = "scout-review-curated-indicator";
+      indicator.textContent = curated ? "✓" : "";
       indicator.setAttribute("aria-hidden", "true");
       const label = document.createElement("span");
       label.textContent = displayLabel;
-      btn.classList.toggle("scout-review-resource-ready", ready);
-      btn.append(checkbox, indicator, label);
+      btn.classList.toggle("scout-review-resource-curated", curated);
+      btn.append(indicator, label);
     }else{
       btn.textContent = displayLabel;
     }
@@ -8853,7 +8909,7 @@ function deleteResource(){
   if(isScoutReviewMode()){
     const sortedIds = getAdminResourceBrowseList().map(resource => String(resource.id || ""));
     const selectedPos = sortedIds.indexOf(String(res.id || ""));
-    clearScoutReviewResourceReady(res.id);
+    clearScoutReviewResourceCurated(res.id);
     data.resources.splice(idx, 1);
     const remainingIds = getAdminResourceBrowseList().map(resource => String(resource.id || ""));
     selectedResourceId = remainingIds.length
@@ -8897,6 +8953,29 @@ function closeResourceEditor(){
   editing = null;
   editorSnapshot = "";
   safeRenderAdmin();
+}
+
+function refreshCurrentResourceCuratedButton(){
+  const button = document.getElementById("res_curated_btn");
+  if(!button) return;
+  const curated = isScoutReviewResourceCurated(selectedResourceId);
+  button.classList.toggle("primary", curated);
+  button.setAttribute("aria-pressed", curated ? "true" : "false");
+}
+
+function toggleCurrentResourceCurated(){
+  if(!isScoutReviewMode() || !selectedResourceId) return;
+  pendingResourceCuratedToggle = true;
+  if(!commitPendingEditsIfChanged()){
+    if(!document.getElementById("blankUpdateDescriptionPrompt")) pendingResourceCuratedToggle = false;
+    return;
+  }
+  pendingResourceCuratedToggle = false;
+  setScoutReviewResourceCurated(
+    selectedResourceId,
+    !isScoutReviewResourceCurated(selectedResourceId)
+  );
+  refreshCurrentResourceCuratedButton();
 }
 
 function cancelResourceEditor(){
@@ -8953,6 +9032,7 @@ function renderResourceCategoryChecks(res){
 }
 
 function renderResourceBasicsSection(res, verifiedDisplay){
+  const websiteURL = normalizeWebsiteURL(res.website || "");
   return `
     <div>
       <label>Name<br>
@@ -8968,9 +9048,13 @@ function renderResourceBasicsSection(res, verifiedDisplay){
           <input id="res_address" value="${escapeHTML(res.address || "")}">
         </label>
 
-        <label>Website<br>
-          <input id="res_website" type="url" value="${escapeHTML(res.website || "")}">
-        </label>
+        <div>
+          <label for="res_website">Website</label><br>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <input id="res_website" type="url" value="${escapeHTML(res.website || "")}" style="flex:1; min-width:0;">
+            <a id="res_website_link" class="button" href="${escapeHTML(websiteURL)}" target="_blank" rel="noopener noreferrer" style="white-space:nowrap;${websiteURL ? "" : " display:none;"}">Open website</a>
+          </div>
+        </div>
         <label>Hours<br>
           <input id="res_hours" value="${escapeHTML(res.hours || "")}">
         </label>
@@ -9215,6 +9299,22 @@ function setupResourceVerifiedControls(elements, validateEditorState){
   elements.verifiedInput.addEventListener("input", () => updateResourceVerifiedDisplayAndWarning(elements));
 }
 
+function updateResourceWebsiteLink(){
+  const field = document.getElementById("res_website");
+  const link = document.getElementById("res_website_link");
+  if(!field || !link) return;
+  const websiteURL = normalizeWebsiteURL(field.value);
+  if(websiteURL){
+    link.href = websiteURL;
+    link.style.display = "";
+    link.setAttribute("aria-label", `Open ${field.value.trim()} in a new tab`);
+  }else{
+    link.removeAttribute("href");
+    link.style.display = "none";
+    link.removeAttribute("aria-label");
+  }
+}
+
 function setupResourceEditorValidation(editor, elements, validateEditorState){
   ["res_name", "res_phone", "res_address", "res_website", "res_hours", "res_description"].forEach(id => {
     const field = document.getElementById(id);
@@ -9225,6 +9325,9 @@ function setupResourceEditorValidation(editor, elements, validateEditorState){
   });
   if(elements.updateInput) elements.updateInput.addEventListener("input", validateEditorState);
   if(elements.verifiedInput) elements.verifiedInput.addEventListener("input", validateEditorState);
+  const websiteField = document.getElementById("res_website");
+  if(websiteField) websiteField.addEventListener("input", updateResourceWebsiteLink);
+  updateResourceWebsiteLink();
 }
 
 function setupResourcePDFControls(idx){
@@ -9246,7 +9349,7 @@ function setupResourcePDFControls(idx){
         await savePDF(key, file);
         current.pdfs.push({ id, name:file.name || "PDF", path:key });
       }
-      clearScoutReviewResourceReady(current.id);
+      clearScoutReviewResourceCurated(current.id);
       current.lastModified = nowISO();
       persist();
       editResource(idx);
@@ -9264,7 +9367,7 @@ function setupResourcePDFControls(idx){
       const removed = removePDFAttachmentFromResource(current, pdfId);
       if(!removed) return;
       try{
-        clearScoutReviewResourceReady(current.id);
+        clearScoutReviewResourceCurated(current.id);
         current.lastModified = nowISO();
         persist();
         if(!isPDFPathReferenced(removed.path)){

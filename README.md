@@ -5,6 +5,14 @@ from several consumer AI products. It creates a self-contained TSO Resources
 review file such as `autoMesa.html` for human vetting and package creation. It is
 designed for repeated use across TSO locations and resource categories.
 
+Version 0.48.0 gives generated `auto[Location].html` files a dedicated Curated
+workflow. Every review begins with no curated resources. Reviewers curate an
+open resource, preview its unsaved edits in the missionary-facing print layout,
+open its website directly from the editor, toggle Curated beside Done, and save
+only the checked resources from the Resources work area. Scout review files hide
+Office Setup and Publish to SharePoint because their job ends with a mergeable
+resource package.
+
 Version 0.47.0 compiles an approved, source-hashed taxonomy study into
 `auto[Location].html`. The compilation applies need-based Categories,
 category-specific Types, and comprehensive For groups to the frozen corpus,
@@ -54,7 +62,7 @@ the same program directly serves it. Indirect barrier removal and downstream
 outcomes no longer justify category assignment.
 
 Version 0.42.1 keeps each generated review file's embedded curated resources as
-an immutable base and saves only the reviewer's compact changes, ready marks,
+an immutable base and saves only the reviewer's compact changes, selection marks,
 deletions, and packaged-resource IDs. This avoids duplicating a large curation
 result in browser storage and keeps the review file usable under Safari's
 smaller local-file storage allowance. Review state is scoped to the exact
@@ -80,8 +88,8 @@ not part of this codebase.
    durable Codex-controlled assignments.
 5. Scout creates a transient `auto[Location].html` for human review and displays
    a ready message and download control.
-6. Reviewers edit ordinary resources in that file, mark vetted resources **Ready
-   to package**, save a standard package spanning any ready categories, and merge
+6. Reviewers edit ordinary resources in that file, mark vetted resources
+   **Curated**, save a standard package containing the curated selection, and merge
    it into the office HTML. Successfully packaged resources are hidden locally.
 
 ## Candidate packages
@@ -106,7 +114,7 @@ can be classified under more than one category.
 
 When every category except Miscellaneous is curated, Scout creates a versioned,
 self-contained `auto[Location].html`. Reviewers mark any vetted resources
-**Ready to package** in that normal TSO Resources file. Each successful save
+**Curated** in that normal TSO Resources file. Each successful save
 exports one standard additions-only package and removes the saved resources from
 that browser's active review queue. See
 [`docs/scout-curation.md`](docs/scout-curation.md) for the full contract and pacing

@@ -145,12 +145,17 @@ def _build_scout_review_file_from_seed(
     release = {
         "version": __version__,
         "build": __build__,
-        "date": "2026-09-01",
-        "message": "Browse reviewed resources by need or For group",
+        "date": "2026-09-02",
+        "message": "Curate resources and preview missionary handouts",
         "changes": [
             {
-                "date": "2026-09-01",
+                "date": "2026-09-02",
                 "version": __version__,
+                "message": "Curate resources, package the curated selection, and preview the open resource for printing",
+            },
+            {
+                "date": "2026-09-01",
+                "version": "0.47.0",
                 "message": "Apply reviewed need Categories, Types, and comprehensive For groups",
             },
             {
