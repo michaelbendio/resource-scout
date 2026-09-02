@@ -395,7 +395,7 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertEqual(20, proposal["coverage"]["targetCategoryCounts"][
             "independent-living"
         ])
-        self.assertEqual(11, proposal["coverage"]["targetCategoryCounts"][
+        self.assertEqual(8, proposal["coverage"]["targetCategoryCounts"][
             "caregiving"
         ])
         assignment_by_id = {
@@ -1862,6 +1862,33 @@ class TaxonomyStudyTests(unittest.TestCase):
             ],
         )
 
+        caregiving = CATEGORY_TYPE_DESIGNS["caregiving"]
+        self.assertEqual({
+            "Respite", "In-home Respite", "Adult Day", "Caregiver Support",
+            "Caregiver Education", "Care Coordination",
+        }, {item["label"] for item in caregiving["types"]})
+        type_counts = {
+            label: sum(
+                label in assigned
+                for assigned in caregiving["assignments"].values()
+                if isinstance(assigned, list)
+            )
+            for label in {item["label"] for item in caregiving["types"]}
+        }
+        self.assertTrue(all(count >= 2 for count in type_counts.values()))
+        self.assertNotIn(
+            "1bd2fb5b4587feef40252e0630c6c94c",
+            caregiving["assignments"],
+        )
+        self.assertNotIn(
+            "133e5f492400dff139f2cafa0b8f67c2",
+            caregiving["assignments"],
+        )
+        self.assertNotIn(
+            "df1db0951c8ad7dd0bcc0ec05a41b169",
+            caregiving["assignments"],
+        )
+
         packet = {
             "studyId": 1,
             "packetSha256": "d" * 64,
@@ -1888,6 +1915,41 @@ class TaxonomyStudyTests(unittest.TestCase):
             for item in infer_group_proposal(packet)["assignments"][0]["groups"]
         }
         self.assertEqual({"Families"}, labels)
+
+        coalition_packet = {
+            "studyId": 1,
+            "packetSha256": "c" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [{
+                    "corpusKey": (
+                        "automesa-curated:"
+                        "b21220ad00416ac580741d14ba3a1e7d"
+                    ),
+                    "resourceId": "b21220ad00416ac580741d14ba3a1e7d",
+                    "name": "Arizona Caregiver Coalition",
+                    "priorCategoryIds": ["disability"],
+                    "proposedCategoryIds": ["caregiving"],
+                    "priorForGroups": ["Seniors"],
+                    "resource": {
+                        "name": "Arizona Caregiver Coalition",
+                        "description": (
+                            "Respite for family caregivers across disability and age "
+                            "groups, including people with physical disabilities."
+                        ),
+                        "informationText": "",
+                    },
+                }],
+            },
+        }
+        coalition_groups = infer_group_proposal(coalition_packet)["assignments"][0][
+            "groups"
+        ]
+        self.assertTrue(any(
+            item["label"] == "Disabled" and item["mode"] == "target"
+            for item in coalition_groups
+        ))
 
     def test_need_category_supplies_population_evidence(self) -> None:
         packet = {

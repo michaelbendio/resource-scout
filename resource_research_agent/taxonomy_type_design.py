@@ -1547,54 +1547,54 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
                 "definition": "Temporary relief or substitute care for an unpaid caregiver.",
             },
             {
-                "label": "Support Groups",
-                "definition": "Peer or facilitated emotional and practical caregiver support.",
-            },
-            {
-                "label": "Caregiver Training",
-                "definition": "Education and skills specifically for caregivers.",
-            },
-            {
-                "label": "Care Coordination",
-                "definition": "Assessment and arrangement of services supporting caregiver and recipient.",
+                "label": "In-home Respite",
+                "definition": "Temporary relief delivered in the care recipient's home.",
             },
             {
                 "label": "Adult Day",
                 "definition": "Daytime programs that also provide caregiver relief.",
             },
             {
-                "label": "In-home Support",
-                "definition": "Care delivered in the home that reduces caregiver burden.",
+                "label": "Caregiver Support",
+                "definition": "Peer, facilitated, or counseling support for unpaid caregivers.",
+            },
+            {
+                "label": "Caregiver Education",
+                "definition": "Education and skills specifically for caregivers.",
+            },
+            {
+                "label": "Care Coordination",
+                "definition": "Assessment and arrangement of services supporting caregiver and recipient.",
             },
         ],
         "assignments": {
             "debb9e4a689060f00162da9ac2f8063b": ["Adult Day", "Respite"],
             "5f72f3c9e07e90867dc016da33c05457": [
-                "Respite", "Adult Day", "In-home Support", "Care Coordination",
+                "Respite", "In-home Respite", "Adult Day", "Caregiver Support",
+                "Caregiver Education", "Care Coordination",
             ],
-            "b21220ad00416ac580741d14ba3a1e7d": ["Respite"],
+            "b21220ad00416ac580741d14ba3a1e7d": [
+                "Respite", "In-home Respite", "Adult Day",
+            ],
             "eb94f24384f8e51a2b237d7d8c507948": [
                 "Respite", "Care Coordination",
             ],
-            "b47b61d084512681adb9c7ccacf2268c": ["Respite", "Support Groups"],
+            "b47b61d084512681adb9c7ccacf2268c": [
+                "Respite", "Caregiver Support",
+            ],
             "38629d0e712141f7531b4cff4b0bfd53": [
-                "Respite", "Support Groups", "Care Coordination",
-            ],
-            "1bd2fb5b4587feef40252e0630c6c94c": [
-                "In-home Support", "Care Coordination",
-            ],
-            "133e5f492400dff139f2cafa0b8f67c2": ["Adult Day", "In-home Support"],
-            "df1db0951c8ad7dd0bcc0ec05a41b169": [
-                "Adult Day", "In-home Support", "Care Coordination",
+                "Respite", "Caregiver Support", "Caregiver Education",
+                "Care Coordination",
             ],
             "b41ef2cfadba3f4bedf490af52f17362": ["Adult Day", "Respite"],
             "948dd967fb329f7e5f04c0814a113889": [
-                "Respite", "Support Groups", "Caregiver Training", "Care Coordination",
+                "Respite", "Caregiver Support", "Caregiver Education",
+                "Care Coordination",
             ],
         },
         "boundary": (
-            "The care recipient may also appear in Independent Living or Medical; this "
-            "Category describes the unpaid caregiver's distinct need."
+            "The care recipient may also appear in Independent Living or Medical; include "
+            "a resource here only when it directly addresses the unpaid caregiver's need."
         ),
     },
 }

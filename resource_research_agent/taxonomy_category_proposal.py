@@ -220,9 +220,9 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "independent-living", "education", "medical-dental-vision",
     ],
     "133e5f492400dff139f2cafa0b8f67c2": [
-        "independent-living", "caregiving", "employment",
+        "independent-living", "employment",
     ],
-    "df1db0951c8ad7dd0bcc0ec05a41b169": ["independent-living", "caregiving"],
+    "df1db0951c8ad7dd0bcc0ec05a41b169": ["independent-living"],
     "1a4c80c30adcb0f1df1846f7f84c3489": ["independent-living"],
     "eac51d2e41cab50d1711a49e1f926ff0": ["employment"],
     "b8c4699661c4d07b777efdab9ccb9d68": ["independent-living", "employment"],
@@ -276,7 +276,7 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "financial-assistance",
     ],
     "1bd2fb5b4587feef40252e0630c6c94c": [
-        "independent-living", "caregiving", "housing",
+        "independent-living", "housing",
     ],
     "b41ef2cfadba3f4bedf490af52f17362": ["independent-living", "caregiving"],
     # Veterans

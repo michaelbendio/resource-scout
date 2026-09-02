@@ -254,6 +254,8 @@ _EXISTING_GROUP_REVIEW: dict[tuple[str, str], tuple[str, str, str]] = {
 # Focused second-pass decisions for misleading text matches and for concrete
 # accommodations whose mode cannot be expressed safely by a broad regex.
 _INFERRED_GROUP_REVIEW: dict[tuple[str, str], tuple[str, str, str]] = {
+    ("automesa-curated:b21220ad00416ac580741d14ba3a1e7d", "people-with-disabilities"):
+        ("keep", "target", "The respite program expressly serves caregivers of people with physical disabilities across age groups."),
     ("automesa-curated:debb9e4a689060f00162da9ac2f8063b", "people-with-disabilities"):
         ("keep", "target", "The adult-day program expressly serves younger adults with disabilities as well as older adults."),
     ("automesa-curated:df1db0951c8ad7dd0bcc0ec05a41b169", "people-with-disabilities"):
