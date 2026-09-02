@@ -1398,10 +1398,6 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
                 "label": "Family Reunification",
                 "definition": "Support for restoring or strengthening parent-child relationships.",
             },
-            {
-                "label": "Kinship Parenting",
-                "definition": "Support for relatives raising children whose parents cannot provide daily care.",
-            },
         ],
         "assignments": {
             "33b8cbd29cf68ac3a07e0fd8d984771b": ["Parenting Education"],
@@ -1420,7 +1416,7 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "313775a628d6ace7912cbbd7fe30a8a3": [
                 "Parenting Education", "Early Learning", "Family Resource Center",
             ],
-            "38629d0e712141f7531b4cff4b0bfd53": ["Kinship Parenting"],
+            "38629d0e712141f7531b4cff4b0bfd53": "no-type-needed",
             "528e3dad283cd117ea2ff80b3bec333c": [
                 "Parenting Education", "Family Reunification",
             ],

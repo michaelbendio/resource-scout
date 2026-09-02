@@ -1184,10 +1184,10 @@ class TaxonomyStudyTests(unittest.TestCase):
 
         parenting = CATEGORY_TYPE_DESIGNS["parenting-child-development"]
         parenting_labels = {item["label"] for item in parenting["types"]}
-        self.assertEqual(8, len(parenting_labels))
-        self.assertIn("Kinship Parenting", parenting_labels)
+        self.assertEqual(7, len(parenting_labels))
+        self.assertNotIn("Kinship Parenting", parenting_labels)
         self.assertEqual(
-            ["Kinship Parenting"],
+            "no-type-needed",
             parenting["assignments"]["38629d0e712141f7531b4cff4b0bfd53"],
         )
 
