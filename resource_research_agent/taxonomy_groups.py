@@ -285,7 +285,13 @@ _INFERRED_GROUP_REVIEW: dict[tuple[str, str], tuple[str, str, str]] = {
     ("automesa-curated:8b0cbd343a20dc0118ec3fa8c9a17d1f", "medically-vulnerable"):
         ("keep", "accommodate", "The general utility provides a specialized medical-equipment and medical-vulnerability access pathway."),
     ("automesa-curated:f76b64043d73b489d7067d9f9d856b42", "lgbtq"):
-        ("keep", "accommodate", "The broader domestic-violence program expressly serves LGBTQ+ survivors but is not LGBTQ+-specific."),
+        ("remove", "accommodate", "LGBTQ+ appears only in a verify-before-referral question; the frozen record does not establish a current LGBTQ+ access path."),
+    ("automesa-curated:f76b64043d73b489d7067d9f9d856b42", "men"):
+        ("remove", "target", "Men appear only in a verify-before-referral question; the frozen record does not establish a current men's access path."),
+    ("automesa-curated:b666b49c655c08750bdf54de800e82af", "women"):
+        ("remove", "target", "Chrysalis documents service for women, children, and men rather than a women-specific pathway."),
+    ("automesa-curated:b666b49c655c08750bdf54de800e82af", "families-with-children"):
+        ("keep", "target", "Chrysalis documents family shelter and child services as a direct service pathway."),
     ("automesa-curated:7edc59ef2bb7bef8e25a7d32fd382159", "native-american"):
         ("keep", "accommodate", "The broader mobile-advocacy program expressly extends service into rural and tribal communities."),
     ("automesa-curated:5add8558737e9cfc392878fce4cca308", "native-american"):

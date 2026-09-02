@@ -1296,6 +1296,31 @@ class TaxonomyStudyTests(unittest.TestCase):
         )
 
         domestic_violence = CATEGORY_TYPE_DESIGNS["domestic-violence"]
+        domestic_labels = {item["label"] for item in domestic_violence["types"]}
+        self.assertEqual(16, len(domestic_labels))
+        self.assertIn("Victim Advocacy", domestic_labels)
+        self.assertNotIn("Protective Services", domestic_labels)
+        self.assertTrue({
+            "Crisis Hotline", "Protective Orders", "Court Advocacy",
+            "Victim Advocacy",
+        }.issubset(
+            domestic_violence["assignments"][
+                "db2e8f3b8772791cf254fb9cc04b9838"
+            ]
+        ))
+        self.assertEqual(
+            ["Victim Advocacy"],
+            domestic_violence["assignments"][
+                "141b0ffaf944535bcc958d1d62ff4adc"
+            ],
+        )
+        self.assertTrue({
+            "Emergency Shelter", "Transitional Housing", "Court Advocacy",
+        }.issubset(
+            domestic_violence["assignments"][
+                "626aab0a5b4c6dcd7811605470690fc3"
+            ]
+        ))
         self.assertEqual(
             domestic_violence["assignments"]["85a5b070658ea4afa6c89b604340e53e"],
             ["Address Confidentiality"],
@@ -1307,6 +1332,27 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertNotIn(
             "b47b61d084512681adb9c7ccacf2268c",
             domestic_violence["assignments"],
+        )
+        domestic_flags = {
+            item.get("proposedIdentity"): item
+            for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+        }
+        self.assertEqual(
+            "availability-verification-required",
+            domestic_flags[
+                "Arizona Coalition to End Sexual and Domestic Violence — "
+                "Survivor Emergency Relief Fund"
+            ]["kind"],
+        )
+        self.assertEqual(
+            {
+                "962a15177e75cb7770115e0b18c9cfa8",
+                "0f7c45b87848334794e5e2f98a15f2fc",
+            },
+            set(domestic_flags[
+                "Maricopa County Southeast Regional Protective Order Center "
+                "and Domestic Violence Advocates"
+            ]["resourceIds"]),
         )
 
     def test_type_design_requires_coverage_but_allows_no_type_needed(self) -> None:
@@ -1452,6 +1498,39 @@ class TaxonomyStudyTests(unittest.TestCase):
                 item for item in assignment["groups"] if item["label"] == "Spanish"
             )
             self.assertEqual("target", spanish["mode"])
+
+    def test_chrysalis_uses_family_pathway_not_women_group(self) -> None:
+        packet = {
+            "studyId": 1,
+            "packetSha256": "5" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [{
+                    "corpusKey": "automesa-curated:b666b49c655c08750bdf54de800e82af",
+                    "resourceId": "chrysalis",
+                    "name": "Chrysalis",
+                    "priorCategoryIds": ["domestic-violence"],
+                    "proposedCategoryIds": ["domestic-violence"],
+                    "priorForGroups": ["Women"],
+                    "resource": {
+                        "name": "Chrysalis",
+                        "description": (
+                            "Family shelter and child services documented for women, "
+                            "children, and men."
+                        ),
+                        "informationText": "",
+                    },
+                }],
+            },
+        }
+        groups = {
+            item["label"]: item
+            for item in infer_group_proposal(packet)["assignments"][0]["groups"]
+        }
+        self.assertEqual("target", groups["Families"]["mode"])
+        self.assertEqual("target", groups["Domestic violence survivors"]["mode"])
+        self.assertNotIn("Women", groups)
 
     def test_reviewed_domestic_violence_assignments_remove_unsupported_and_accommodate_furniture_bank(self) -> None:
         packet = {
@@ -1757,7 +1836,7 @@ class TaxonomyStudyTests(unittest.TestCase):
                         "priorForGroups": [],
                         "resource": {
                             "name": "De Colores",
-                            "description": "Domestic-violence services expressly serving LGBTQ+ survivors.",
+                            "description": "Verify services for men and LGBTQ+ survivors.",
                             "informationText": "",
                         },
                     },
@@ -1789,10 +1868,11 @@ class TaxonomyStudyTests(unittest.TestCase):
         )
         srp_groups = {item["label"]: item for item in assignments[3]["groups"]}
         self.assertEqual("accommodate", srp_groups["Medically vulnerable"]["mode"])
-        de_colores_groups = {
-            item["label"]: item for item in assignments[4]["groups"]
+        de_colores_labels = {
+            item["label"] for item in assignments[4]["groups"]
         }
-        self.assertEqual("accommodate", de_colores_groups["LGBTQ+"]["mode"])
+        self.assertNotIn("LGBTQ+", de_colores_labels)
+        self.assertNotIn("Men", de_colores_labels)
 
     def test_type_and_group_filtering_ors_within_and_ands_across(self) -> None:
         selected_types = {"Online Education", "GED/HSE"}

@@ -393,6 +393,63 @@ TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
             "location, and case scope before consolidating them."
         ),
     },
+    {
+        "kind": "availability-verification-required",
+        "resourceIds": ["302a889f3d615bd6ab350588df7c39e9"],
+        "proposedIdentity": (
+            "Arizona Coalition to End Sexual and Domestic Violence — "
+            "Survivor Emergency Relief Fund"
+        ),
+        "status": "apply-after-taxonomy-review",
+        "requirement": (
+            "Do not offer the fund as currently available while the frozen record "
+            "states that funding is paused; confirm replenishment before referral."
+        ),
+    },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "962a15177e75cb7770115e0b18c9cfa8",
+            "0f7c45b87848334794e5e2f98a15f2fc",
+        ],
+        "proposedIdentity": (
+            "Maricopa County Southeast Regional Protective Order Center "
+            "and Domestic Violence Advocates"
+        ),
+        "proposedCategories": ["domestic-violence", "legal"],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "AZPOINT petition and filing instructions",
+            "remote and in-person hearing access",
+            "court accompaniment and non-attorney advocate limitations",
+            "the possible 911 emergency-phone pathway",
+        ],
+        "reason": (
+            "The two cards describe the same Mesa court location, protective-order "
+            "process, and advocate pathway. Verify current staffing and access details "
+            "before consolidating them."
+        ),
+    },
+    {
+        "kind": "confidential-location-verification-required",
+        "resourceIds": ["db2e8f3b8772791cf254fb9cc04b9838"],
+        "proposedIdentity": "A New Leaf — Domestic Violence Services",
+        "status": "apply-after-taxonomy-review",
+        "requirement": (
+            "Do not publish a shelter street address until A New Leaf confirms which "
+            "location details are safe and intended for public referral."
+        ),
+    },
+    {
+        "kind": "location-verification-required",
+        "resourceIds": ["426b0bcb1722f916832484d3cbb141fd"],
+        "proposedIdentity": "Mesa Family Advocacy Center",
+        "status": "apply-after-taxonomy-review",
+        "requirement": (
+            "Resolve the conflicting 130 N. Robson and 225 E. 1st Street listings "
+            "before sending a survivor to the center."
+        ),
+    },
 ]
 
 
@@ -1282,17 +1339,17 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             {"label": "Relocation Assistance", "definition": "Help moving or establishing safety in another location."},
             {"label": "Case Management", "definition": "Ongoing coordination of safety, housing, health, and practical services."},
             {"label": "Peer Support", "definition": "Survivor-led or lived-experience support."},
-            {"label": "Protective Services", "definition": "Investigation and protective response to abuse, neglect, or exploitation."},
+            {"label": "Victim Advocacy", "definition": "Non-legal survivor advocacy, education, navigation, and referrals."},
         ],
         "assignments": {
-            "db2e8f3b8772791cf254fb9cc04b9838": ["Emergency Shelter", "Transitional Housing", "Safety Planning", "Legal Advocacy", "Counseling & Support", "Case Management"],
-            "b60a98183555e1d70e0381cd56c8e16c": ["Crisis Hotline", "Safety Planning"],
-            "177117c4ee2b5824559a13d70c603148": ["Crisis Hotline", "Transitional Housing", "Legal Advocacy", "Counseling & Support", "Case Management"],
+            "db2e8f3b8772791cf254fb9cc04b9838": ["Crisis Hotline", "Emergency Shelter", "Transitional Housing", "Victim Advocacy", "Safety Planning", "Protective Orders", "Legal Advocacy", "Court Advocacy", "Counseling & Support", "Case Management"],
+            "b60a98183555e1d70e0381cd56c8e16c": ["Crisis Hotline", "Victim Advocacy", "Safety Planning"],
+            "177117c4ee2b5824559a13d70c603148": ["Crisis Hotline", "Emergency Shelter", "Transitional Housing", "Mobile Advocacy", "Victim Advocacy", "Legal Advocacy", "Counseling & Support", "Case Management"],
             "302a889f3d615bd6ab350588df7c39e9": ["Emergency Financial Aid", "Relocation Assistance"],
             "1f4670d227a649fee7dd6451e9624fe2": ["Protective Orders"],
             "18b310b424be337cab93090af8d2d5fd": ["Protective Orders", "Legal Advocacy"],
             "85a5b070658ea4afa6c89b604340e53e": ["Address Confidentiality"],
-            "bd8d70a1ed5b94634c74d90a66d1ea64": ["Emergency Shelter", "Mobile Advocacy", "Safety Planning"],
+            "bd8d70a1ed5b94634c74d90a66d1ea64": ["Emergency Shelter", "Mobile Advocacy", "Victim Advocacy", "Safety Planning", "Counseling & Support"],
             "b666b49c655c08750bdf54de800e82af": ["Emergency Shelter", "Transitional Housing", "Legal Advocacy", "Counseling & Support", "Case Management"],
             "c8f5de50d9d41ce30ec0b8b6ef45b249": ["Protective Orders", "Legal Advocacy"],
             "f76b64043d73b489d7067d9f9d856b42": ["Emergency Shelter"],
@@ -1301,12 +1358,12 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "9b5f0efdd5d35daa147a150ce13c5f6d": ["Mobile Advocacy", "Safety Planning", "Protective Orders", "Court Advocacy", "Counseling & Support", "Case Management"],
             "962a15177e75cb7770115e0b18c9cfa8": ["Safety Planning", "Protective Orders", "Court Advocacy"],
             "0f7c45b87848334794e5e2f98a15f2fc": ["Safety Planning", "Protective Orders", "Court Advocacy"],
-            "426b0bcb1722f916832484d3cbb141fd": ["Safety Planning", "Protective Orders", "Legal Advocacy", "Counseling & Support", "Forensic Exams", "Case Management"],
-            "ea694e1df9c5ce31796e579520312da9": ["Emergency Shelter"],
+            "426b0bcb1722f916832484d3cbb141fd": ["Victim Advocacy", "Safety Planning", "Protective Orders", "Legal Advocacy", "Counseling & Support", "Forensic Exams", "Case Management"],
+            "ea694e1df9c5ce31796e579520312da9": ["Emergency Shelter", "Victim Advocacy"],
             "36fd485bb7ad2ff81df256dbae24025d": ["Crisis Hotline", "Safety Planning"],
-            "141b0ffaf944535bcc958d1d62ff4adc": ["Safety Planning", "Legal Advocacy"],
-            "ed0745322850d01341f8baf07c69f0a0": ["Emergency Shelter"],
-            "626aab0a5b4c6dcd7811605470690fc3": ["Mobile Advocacy", "Safety Planning", "Legal Advocacy", "Counseling & Support"],
+            "141b0ffaf944535bcc958d1d62ff4adc": ["Victim Advocacy"],
+            "ed0745322850d01341f8baf07c69f0a0": ["Emergency Shelter", "Mobile Advocacy", "Victim Advocacy", "Safety Planning", "Legal Advocacy"],
+            "626aab0a5b4c6dcd7811605470690fc3": ["Emergency Shelter", "Transitional Housing", "Mobile Advocacy", "Safety Planning", "Legal Advocacy", "Court Advocacy", "Counseling & Support"],
             "5c4f74d54fc3bf4246ee0eec1edc078a": ["Crisis Hotline", "Safety Planning", "Peer Support"],
         },
         "boundary": "Types describe survivor interventions; gender, age, disability, language, culture, and relationship identity belong in For groups when targeted or accommodated.",
