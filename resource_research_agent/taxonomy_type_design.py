@@ -262,7 +262,7 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "815148d4fe10fdbf28f981c14050256c": ["Treatment Housing"],
             "b8ca7f8d2eab81113b10c1a8835f0817": ["Affordable Housing"],
             "617d4be1951f67468b5ddffdb2f670f5": ["Treatment Housing", "Housing Vouchers"],
-            "d0eeddd67746f3a298eaf4969b6e9bd1": ["Emergency Shelter", "Rental Assistance", "Deposit Assistance"],
+            "d0eeddd67746f3a298eaf4969b6e9bd1": ["Emergency Shelter", "Transitional Housing", "Rental Assistance"],
             "79a54c3aaf0d161f9dbab859bfba7da2": ["Emergency Shelter", "Transitional Housing"],
             "e81a4666fa9fdf3874524e595834798c": ["Housing Vouchers", "Supportive Housing", "Coordinated Entry"],
             "2af79fdd0101ee3a198c732086f9bfc6": ["Transitional Housing", "Rapid Rehousing", "Supportive Housing"],

@@ -542,6 +542,12 @@ class TaxonomyStudyTests(unittest.TestCase):
             id_recovery["assignments"]["fb14c6d3b942c86033ad23bf8b60fb48"],
         )
 
+        housing = CATEGORY_TYPE_DESIGNS["housing"]
+        self.assertEqual(
+            ["Emergency Shelter", "Transitional Housing", "Rental Assistance"],
+            housing["assignments"]["d0eeddd67746f3a298eaf4969b6e9bd1"],
+        )
+
         education = CATEGORY_TYPE_DESIGNS["education"]
         online_ged = education["assignments"][
             "cce4f2f7537a93ea0f58d524dc2dd818"
