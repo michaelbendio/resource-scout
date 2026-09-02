@@ -168,7 +168,7 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
     ],
     "ce0a9cdfa73bbb3fdafb2603d8099f40": ["mental-health"],
     "0df6bb236d8c7bf168ce4867dc83360e": [
-        "housing", "homeless-services", "parenting-child-development",
+        "housing", "parenting-child-development",
         "household-essentials",
     ],
     "ec74c1192ef14f1debb3a31c912a1bbc": [
@@ -290,7 +290,7 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
     ],
     "c24a862cda664d0144ec0ae39b3e8f1f": ["id-recovery"],
     "a3782d71fb0f13f124d33c95dadd779c": [
-        "housing", "homeless-services", "financial-assistance",
+        "housing", "financial-assistance",
     ],
     "63094d56f92faa642ec6143be4d44d60": ["legal"],
     "2af79fdd0101ee3a198c732086f9bfc6": [
@@ -382,7 +382,18 @@ RESOURCE_CATEGORY_ADDITIONS: dict[str, list[str]] = {
     "6d4803e545580ed7abc3cd8bb87b1314": ["housing"],
     # These records were already redistributed from a retired population heading.
     "fb402105bec44e0623b4ccf8d7064802": ["housing"],
-    "948dd967fb329f7e5f04c0814a113889": ["housing"],
+    # Practical help while someone is homeless
+    "773f0771a3cca46a7a57189d17a58a01": ["homeless-services"],
+    "8d56f8448fc9b780197d3015c051f81c": ["homeless-services"],
+    "d9955a94238970f4a2e3c2e93c554835": ["homeless-services"],
+    "15b833547484fe110411244b99712ca9": ["homeless-services"],
+    "d0eeddd67746f3a298eaf4969b6e9bd1": ["homeless-services"],
+    "6aa599e3a9f6ce52dd0a27bc6e625fd2": ["homeless-services"],
+    "577e54a943c0cb1d97e003e0e6ba6623": ["homeless-services"],
+    "5bfda48463f45755a59145fa7d226906": ["homeless-services"],
+    "669bd738b302f2f17f9caa6163dd35ed": ["homeless-services"],
+    "e81a4666fa9fdf3874524e595834798c": ["homeless-services"],
+    "8c7a5e3631418ce97d934b37a67fbd61": ["homeless-services"],
 }
 
 

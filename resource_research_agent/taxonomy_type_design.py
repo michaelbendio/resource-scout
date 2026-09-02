@@ -63,6 +63,58 @@ TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
             "or placement."
         ),
     },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "c9a6d961fc20217b2875637b5fef2cb6",
+            "3460a40faf90d00f895061b117f1d9cc",
+            "8c7a5e3631418ce97d934b37a67fbd61",
+        ],
+        "proposedIdentity": "Keys to Change — Key Campus Welcome Center",
+        "proposedCategories": ["homeless-services", "housing"],
+        "proposedHomelessTypes": [
+            "Day Center", "Street Outreach", "Showers & Laundry",
+            "Mail & Storage", "ID & Documents", "Homeless Navigation",
+        ],
+        "proposedHousingTypes": ["Coordinated Entry", "Housing Navigation"],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "practical day-center services and street outreach",
+            "Welcome Center and Lodestar access details",
+            "coordinated-entry assessment and housing navigation",
+        ],
+    },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "577e54a943c0cb1d97e003e0e6ba6623",
+            "5bfda48463f45755a59145fa7d226906",
+        ],
+        "proposedIdentity": "La Mesa Ministries — Resource Center",
+        "proposedCategories": [
+            "transportation", "id-recovery", "homeless-services",
+        ],
+        "proposedHomelessTypes": [
+            "Meals & Basic Needs", "ID & Documents", "Mail & Storage",
+        ],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "bus-pass access details",
+            "document assistance",
+            "mail, storage, and basic-needs services",
+        ],
+    },
+    {
+        "kind": "content-transfer-required",
+        "sourceResourceIds": ["948dd967fb329f7e5f04c0814a113889"],
+        "destinationResourceId": "e81a4666fa9fdf3874524e595834798c",
+        "proposedIdentity": "VA Community Resource and Referral Center / HUD-VASH",
+        "status": "apply-after-taxonomy-review",
+        "reason": (
+            "The broad VA card repeats CRRC housing content; keep that card in Medical "
+            "and Caregiving and preserve the useful CRRC details on the dedicated card."
+        ),
+    },
 ]
 
 
@@ -364,7 +416,6 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "a75559d019132060ea10e3390d9106ab": ["Eviction Legal Help"],
             "6d4803e545580ed7abc3cd8bb87b1314": ["Eviction Legal Help"],
             "fb402105bec44e0623b4ccf8d7064802": ["Rental Assistance", "Community Living"],
-            "948dd967fb329f7e5f04c0814a113889": ["Housing Navigation"],
         },
         "boundary": "Housing Types describe the housing intervention; urgency, wait time, eligibility, and population belong in access details or For groups.",
     },
@@ -380,21 +431,30 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             {"label": "Overnight Lodging", "definition": "Temporary overnight accommodation offered as part of homeless services."},
         ],
         "assignments": {
-            "78410d1265bcc4f89c056a7d624434f8": ["Mail & Storage", "Meals & Basic Needs", "Homeless Navigation"],
+            "78410d1265bcc4f89c056a7d624434f8": ["Mail & Storage", "Meals & Basic Needs", "Homeless Navigation", "Overnight Lodging"],
             "d54d48c6356e5e983f4bd33e02469bc3": ["Showers & Laundry", "Meals & Basic Needs"],
             "c39b7edce7fd22875fba8558aa17172c": ["Showers & Laundry", "Meals & Basic Needs"],
             "e21ae1b4b21564628d99c417487754a1": ["Day Center", "Showers & Laundry", "Meals & Basic Needs", "Homeless Navigation"],
             "4a4a619b7b63a00120d7f6c7391caabd": ["ID & Documents", "Mail & Storage"],
             "da4f4b5a717ae241f3363cc09eb4298a": ["Day Center", "Showers & Laundry", "ID & Documents", "Meals & Basic Needs", "Homeless Navigation"],
-            "c9a6d961fc20217b2875637b5fef2cb6": ["Day Center", "Showers & Laundry", "Mail & Storage", "Homeless Navigation"],
+            "c9a6d961fc20217b2875637b5fef2cb6": ["Day Center", "Street Outreach", "Showers & Laundry", "Mail & Storage", "Homeless Navigation"],
             "3460a40faf90d00f895061b117f1d9cc": ["Day Center", "Showers & Laundry", "Mail & Storage", "ID & Documents", "Homeless Navigation"],
-            "0df6bb236d8c7bf168ce4867dc83360e": "no-type-needed",
             "096327d7591511a067b7e9dd29f900b6": ["Overnight Lodging", "Showers & Laundry", "Meals & Basic Needs", "Homeless Navigation"],
-            "a3782d71fb0f13f124d33c95dadd779c": ["Homeless Navigation"],
             "08a26b747ffe8b1ea284e491a62d39e7": ["Day Center", "Showers & Laundry", "Mail & Storage", "ID & Documents", "Meals & Basic Needs", "Homeless Navigation"],
             "91d5cdd19b42853fb4bbe8e57f325be0": ["Street Outreach", "Meals & Basic Needs", "Homeless Navigation"],
             "19a8af5b80be03028603cfa5e8bebb6e": ["Day Center", "Showers & Laundry", "Homeless Navigation", "Overnight Lodging"],
             "2af79fdd0101ee3a198c732086f9bfc6": ["Street Outreach", "Homeless Navigation"],
+            "773f0771a3cca46a7a57189d17a58a01": ["Overnight Lodging", "Homeless Navigation"],
+            "8d56f8448fc9b780197d3015c051f81c": ["Overnight Lodging", "Homeless Navigation"],
+            "d9955a94238970f4a2e3c2e93c554835": ["Overnight Lodging", "Homeless Navigation"],
+            "15b833547484fe110411244b99712ca9": ["Overnight Lodging", "Homeless Navigation"],
+            "d0eeddd67746f3a298eaf4969b6e9bd1": ["Overnight Lodging", "Homeless Navigation"],
+            "6aa599e3a9f6ce52dd0a27bc6e625fd2": ["Street Outreach", "Homeless Navigation"],
+            "577e54a943c0cb1d97e003e0e6ba6623": ["Meals & Basic Needs"],
+            "5bfda48463f45755a59145fa7d226906": ["ID & Documents", "Mail & Storage"],
+            "669bd738b302f2f17f9caa6163dd35ed": ["Meals & Basic Needs"],
+            "e81a4666fa9fdf3874524e595834798c": ["Homeless Navigation"],
+            "8c7a5e3631418ce97d934b37a67fbd61": ["Homeless Navigation"],
         },
         "boundary": "These Types describe practical help while someone is homeless; shelter and permanent housing interventions remain visible under Housing too.",
     },

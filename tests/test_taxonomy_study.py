@@ -533,13 +533,49 @@ class TaxonomyStudyTests(unittest.TestCase):
         self.assertNotIn("Seniors", housing_labels)
 
         homeless = CATEGORY_TYPE_DESIGNS["homeless-services"]
-        self.assertEqual(
-            homeless["assignments"]["0df6bb236d8c7bf168ce4867dc83360e"],
-            "no-type-needed",
+        self.assertNotIn(
+            "homeless-services",
+            RESOURCE_TARGETS["0df6bb236d8c7bf168ce4867dc83360e"],
+        )
+        self.assertNotIn(
+            "homeless-services",
+            RESOURCE_TARGETS["a3782d71fb0f13f124d33c95dadd779c"],
         )
         self.assertIn(
             "Street Outreach",
             homeless["assignments"]["91d5cdd19b42853fb4bbe8e57f325be0"],
+        )
+        self.assertIn(
+            "Overnight Lodging",
+            homeless["assignments"]["78410d1265bcc4f89c056a7d624434f8"],
+        )
+        self.assertEqual(
+            ["Overnight Lodging", "Homeless Navigation"],
+            homeless["assignments"]["773f0771a3cca46a7a57189d17a58a01"],
+        )
+        self.assertEqual(
+            ["Street Outreach", "Homeless Navigation"],
+            homeless["assignments"]["6aa599e3a9f6ce52dd0a27bc6e625fd2"],
+        )
+        self.assertEqual(
+            ["ID & Documents", "Mail & Storage"],
+            homeless["assignments"]["5bfda48463f45755a59145fa7d226906"],
+        )
+        self.assertEqual(
+            ["Homeless Navigation"],
+            homeless["assignments"]["e81a4666fa9fdf3874524e595834798c"],
+        )
+        self.assertNotIn(
+            "948dd967fb329f7e5f04c0814a113889",
+            housing["assignments"],
+        )
+        self.assertNotIn(
+            "948dd967fb329f7e5f04c0814a113889",
+            RESOURCE_CATEGORY_ADDITIONS,
+        )
+        self.assertEqual(
+            ["homeless-services"],
+            RESOURCE_CATEGORY_ADDITIONS["e81a4666fa9fdf3874524e595834798c"],
         )
 
         financial = CATEGORY_TYPE_DESIGNS["financial-assistance"]
@@ -657,6 +693,38 @@ class TaxonomyStudyTests(unittest.TestCase):
             separate_resources["The Mesa House — Sober and Transitional Housing"][
                 "proposedTypes"
             ],
+        )
+        consolidation_flags = {
+            item["proposedIdentity"]: item
+            for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item["kind"] == "consolidation-candidate"
+        }
+        self.assertEqual(
+            {
+                "c9a6d961fc20217b2875637b5fef2cb6",
+                "3460a40faf90d00f895061b117f1d9cc",
+                "8c7a5e3631418ce97d934b37a67fbd61",
+            },
+            set(consolidation_flags[
+                "Keys to Change — Key Campus Welcome Center"
+            ]["resourceIds"]),
+        )
+        self.assertEqual(
+            {
+                "577e54a943c0cb1d97e003e0e6ba6623",
+                "5bfda48463f45755a59145fa7d226906",
+            },
+            set(consolidation_flags[
+                "La Mesa Ministries — Resource Center"
+            ]["resourceIds"]),
+        )
+        va_transfer = next(
+            item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item["kind"] == "content-transfer-required"
+        )
+        self.assertEqual(
+            "e81a4666fa9fdf3874524e595834798c",
+            va_transfer["destinationResourceId"],
         )
 
         education = CATEGORY_TYPE_DESIGNS["education"]
