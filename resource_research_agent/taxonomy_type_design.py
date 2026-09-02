@@ -371,6 +371,28 @@ TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
             "current Maricopa County intake or statewide mobile-clinic pathway is confirmed."
         ),
     },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "511ba569ec22349728cb875494668f20",
+            "89b9bdda24c8a5abd783f15e99dba056",
+        ],
+        "proposedIdentity": (
+            "Catholic Charities Community Services — Immigration Legal Services"
+        ),
+        "proposedCategories": ["immigration"],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "the distinct case types documented by each card",
+            "the conflicting Phoenix addresses and shared intake phone",
+            "the uncertainty about the current Familias Unidas name and intake location",
+        ],
+        "reason": (
+            "The two cards appear to describe the same Catholic Charities immigration "
+            "program at different addresses. Verify the current official identity, "
+            "location, and case scope before consolidating them."
+        ),
+    },
 ]
 
 
@@ -1211,30 +1233,34 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
         "types": [
             {"label": "Citizenship", "definition": "Naturalization applications and citizenship-related filings."},
             {"label": "Family Petitions", "definition": "Petitions and consular processes for qualifying relatives."},
-            {"label": "Green Card/Adjustment", "definition": "Permanent-residence applications, adjustment of status, and card renewal."},
-            {"label": "Work Authorization", "definition": "Employment authorization applications and renewals."},
+            {"label": "Green Cards", "definition": "Permanent-residence applications, adjustment of status, and card renewal."},
+            {"label": "Work Permits", "definition": "Employment authorization applications and renewals."},
             {"label": "DACA", "definition": "Deferred Action for Childhood Arrivals renewals and related filings."},
-            {"label": "Humanitarian Relief", "definition": "U visas, T visas, VAWA, SIJS, TPS, and related protections."},
+            {"label": "Humanitarian Relief", "definition": "U visas, T visas, VAWA, SIJS, and related protections for survivors and youth."},
+            {"label": "Temporary Protection", "definition": "TPS, DED, parole, and related temporary humanitarian protections."},
             {"label": "Asylum", "definition": "Affirmative or defensive asylum applications."},
             {"label": "Removal Defense", "definition": "Representation in deportation or removal proceedings."},
-            {"label": "Detention Representation", "definition": "Legal representation for people held in immigration detention."},
+            {"label": "Immigration Detention", "definition": "Legal help for people held in immigration detention."},
             {"label": "Document Replacement", "definition": "Replacement of immigration documents and status records."},
-            {"label": "Refugee/Asylee Filings", "definition": "Status, family, and integration filings for refugees and asylees."},
+            {"label": "Refugee/Asylee Status", "definition": "Status, family, and integration filings for refugees and asylees."},
             {"label": "Appeals", "definition": "Administrative or court appeals in immigration matters."},
             {"label": "Case Status/Biometrics", "definition": "Official case-status, appointment, interview, and biometrics services."},
+            {"label": "Travel Documents", "definition": "Refugee travel documents, advance parole, and related travel filings."},
+            {"label": "Immigration Records", "definition": "FOIA, FBI, and other requests for immigration or background records."},
+            {"label": "Waivers", "definition": "Applications to waive inadmissibility or other immigration barriers."},
         ],
         "assignments": {
-            "ac64a1ee6e7d4f2563ae162bd0a12e9d": ["Citizenship", "Family Petitions", "Green Card/Adjustment", "Humanitarian Relief", "Document Replacement", "Refugee/Asylee Filings"],
-            "4b42cc9c9bed01788a1fdbfe29248adf": ["Citizenship", "Green Card/Adjustment", "Work Authorization", "Humanitarian Relief"],
-            "511ba569ec22349728cb875494668f20": ["Citizenship", "Family Petitions", "Work Authorization", "DACA", "Refugee/Asylee Filings"],
-            "89b9bdda24c8a5abd783f15e99dba056": ["Family Petitions", "Green Card/Adjustment", "Work Authorization", "DACA", "Humanitarian Relief", "Asylum", "Removal Defense"],
-            "3695184e8d514e52029ab65c18e53728": ["Citizenship", "Family Petitions", "Green Card/Adjustment", "DACA", "Humanitarian Relief"],
-            "370e7f0a4f6a63fedd476ff9cc1bfb32": ["Removal Defense", "Detention Representation", "Humanitarian Relief"],
-            "4465e68f2478923dfe880de0556150f0": ["Citizenship", "Family Petitions", "Green Card/Adjustment", "DACA", "Humanitarian Relief"],
-            "b9950394defba173a07461ac5fa19e67": ["Citizenship", "Family Petitions", "Green Card/Adjustment", "Work Authorization", "Humanitarian Relief"],
-            "34603fb44974ece7329a1a2d8ca51f35": ["Citizenship", "Family Petitions", "Document Replacement", "Refugee/Asylee Filings"],
-            "8b325c40eea9d85f2dd5afccb96f5993": ["Family Petitions", "Green Card/Adjustment", "Work Authorization", "Refugee/Asylee Filings"],
-            "212ecd27650ff9a74102bc122a331934": ["Green Card/Adjustment", "Asylum", "Removal Defense", "Appeals"],
+            "ac64a1ee6e7d4f2563ae162bd0a12e9d": ["Citizenship", "Family Petitions", "Green Cards", "Work Permits", "Temporary Protection", "Document Replacement", "Refugee/Asylee Status"],
+            "4b42cc9c9bed01788a1fdbfe29248adf": ["Citizenship", "Green Cards", "Work Permits", "Humanitarian Relief"],
+            "511ba569ec22349728cb875494668f20": ["Citizenship", "Family Petitions", "Work Permits", "DACA", "Refugee/Asylee Status", "Travel Documents"],
+            "89b9bdda24c8a5abd783f15e99dba056": ["Family Petitions", "Green Cards", "Work Permits", "DACA", "Humanitarian Relief", "Asylum", "Removal Defense"],
+            "3695184e8d514e52029ab65c18e53728": ["Citizenship", "Family Petitions", "Green Cards", "Work Permits", "DACA", "Humanitarian Relief"],
+            "370e7f0a4f6a63fedd476ff9cc1bfb32": ["Humanitarian Relief", "Asylum", "Removal Defense", "Immigration Detention"],
+            "4465e68f2478923dfe880de0556150f0": ["Citizenship", "Family Petitions", "Green Cards", "DACA", "Humanitarian Relief"],
+            "b9950394defba173a07461ac5fa19e67": ["Citizenship", "Family Petitions", "Green Cards", "Work Permits", "DACA", "Humanitarian Relief", "Temporary Protection", "Asylum", "Travel Documents", "Immigration Records", "Waivers"],
+            "34603fb44974ece7329a1a2d8ca51f35": ["Citizenship", "Family Petitions", "Green Cards", "DACA", "Document Replacement", "Refugee/Asylee Status"],
+            "8b325c40eea9d85f2dd5afccb96f5993": ["Citizenship", "Family Petitions", "Green Cards", "Document Replacement", "Refugee/Asylee Status", "Travel Documents"],
+            "212ecd27650ff9a74102bc122a331934": ["Green Cards", "Humanitarian Relief", "Temporary Protection", "Asylum", "Removal Defense", "Appeals"],
             "dca1d74f147af392005268006630b3ce": ["Case Status/Biometrics"],
         },
         "boundary": "Types identify the immigration matter; language, nationality, culture, refugee identity, age, and survivor status remain For groups when the resource targets or accommodates them.",

@@ -293,7 +293,23 @@ _INFERRED_GROUP_REVIEW: dict[tuple[str, str], tuple[str, str, str]] = {
     ("automesa-curated:d633e161d87ac6cf94df2a2a6b877ab1", "exiting-corrections"):
         ("keep", "accommodate", "The adult-education program is reentry-aware and probation-connected but expressly open to both probationers and the general public."),
     ("automesa-curated:212ecd27650ff9a74102bc122a331934", "experiencing-homelessness"):
-        ("keep", "accommodate", "The general immigration legal service gives explicit priority to people experiencing homelessness."),
+        ("keep", "target", "The immigration legal service explicitly prioritizes people experiencing homelessness as part of its vulnerable-client focus."),
+    ("automesa-curated:34603fb44974ece7329a1a2d8ca51f35", "low-income"):
+        ("remove", "target", "The low-income wording says the IRC is not a general low-income court-defense clinic; it does not establish low-income eligibility or a dedicated pathway."),
+    ("automesa-curated:4b42cc9c9bed01788a1fdbfe29248adf", "domestic-violence-survivors"):
+        ("keep", "target", "The dedicated humanitarian docket expressly includes VAWA relief for survivors of domestic abuse."),
+    ("automesa-curated:89b9bdda24c8a5abd783f15e99dba056", "domestic-violence-survivors"):
+        ("keep", "target", "The immigration legal program expressly offers VAWA relief for survivors of domestic abuse."),
+    ("automesa-curated:3695184e8d514e52029ab65c18e53728", "domestic-violence-survivors"):
+        ("keep", "target", "The immigration program expressly offers VAWA help for survivors of domestic abuse."),
+    ("automesa-curated:4465e68f2478923dfe880de0556150f0", "domestic-violence-survivors"):
+        ("keep", "target", "The Mesa immigration clinic expressly offers VAWA help for survivors of domestic abuse."),
+    ("automesa-curated:b9950394defba173a07461ac5fa19e67", "domestic-violence-survivors"):
+        ("keep", "target", "The immigration program expressly offers VAWA help for survivors of domestic abuse."),
+    ("automesa-curated:212ecd27650ff9a74102bc122a331934", "domestic-violence-survivors"):
+        ("keep", "target", "The immigration representation program expressly includes VAWA matters for survivors of domestic abuse."),
+    ("automesa-curated:370e7f0a4f6a63fedd476ff9cc1bfb32", "youth-young-adults"):
+        ("keep", "target", "The dedicated Children's Program serves unaccompanied immigrant children in detention and qualifying children released into Arizona communities."),
     ("automesa-curated:15507c56e359f505d8f574491c7962ac", "experiencing-homelessness"):
         ("remove", "target", "The pantry record confirms service for seniors and veterans but expressly leaves homeless eligibility uncertain."),
     ("automesa-curated:617d4be1951f67468b5ddffdb2f670f5", "experiencing-homelessness"):

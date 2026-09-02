@@ -1249,9 +1249,50 @@ class TaxonomyStudyTests(unittest.TestCase):
         )
 
         immigration = CATEGORY_TYPE_DESIGNS["immigration"]
+        immigration_labels = {item["label"] for item in immigration["types"]}
+        self.assertEqual(17, len(immigration_labels))
+        self.assertTrue({
+            "Green Cards", "Work Permits", "Temporary Protection",
+            "Immigration Detention", "Refugee/Asylee Status",
+            "Travel Documents", "Immigration Records", "Waivers",
+        }.issubset(immigration_labels))
+        self.assertFalse({
+            "Green Card/Adjustment", "Work Authorization",
+            "Detention Representation", "Refugee/Asylee Filings",
+        } & immigration_labels)
+        self.assertIn(
+            "Work Permits",
+            immigration["assignments"]["3695184e8d514e52029ab65c18e53728"],
+        )
+        self.assertEqual(
+            [
+                "Citizenship", "Family Petitions", "Green Cards",
+                "Document Replacement", "Refugee/Asylee Status",
+                "Travel Documents",
+            ],
+            immigration["assignments"]["8b325c40eea9d85f2dd5afccb96f5993"],
+        )
+        self.assertTrue({
+            "DACA", "Asylum", "Temporary Protection", "Travel Documents",
+            "Immigration Records", "Waivers",
+        }.issubset(
+            immigration["assignments"]["b9950394defba173a07461ac5fa19e67"]
+        ))
         self.assertEqual(
             immigration["assignments"]["dca1d74f147af392005268006630b3ce"],
             ["Case Status/Biometrics"],
+        )
+        catholic_immigration = next(
+            item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item.get("proposedIdentity")
+            == "Catholic Charities Community Services — Immigration Legal Services"
+        )
+        self.assertEqual(
+            {
+                "511ba569ec22349728cb875494668f20",
+                "89b9bdda24c8a5abd783f15e99dba056",
+            },
+            set(catholic_immigration["resourceIds"]),
         )
 
         domestic_violence = CATEGORY_TYPE_DESIGNS["domestic-violence"]
@@ -1924,11 +1965,74 @@ class TaxonomyStudyTests(unittest.TestCase):
         }
         assignments = infer_group_proposal(packet)["assignments"]
         plan_groups = {item["label"]: item for item in assignments[0]["groups"]}
-        self.assertEqual("accommodate", plan_groups["Homeless"]["mode"])
+        self.assertEqual("target", plan_groups["Homeless"]["mode"])
         self.assertNotIn(
             "Homeless",
             {item["label"] for item in assignments[1]["groups"]},
         )
+
+    def test_immigration_group_review_corrects_population_evidence(self) -> None:
+        packet = {
+            "studyId": 1,
+            "packetSha256": "6" * 64,
+            "packet": {
+                "rules": GROUP_REVIEW_RULES,
+                "catalog": GROUP_CATALOG,
+                "resources": [
+                    {
+                        "corpusKey": "automesa-curated:4b42cc9c9bed01788a1fdbfe29248adf",
+                        "resourceId": "always",
+                        "name": "ALWAYS",
+                        "priorCategoryIds": ["immigration"],
+                        "proposedCategoryIds": ["immigration"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "ALWAYS",
+                            "description": "VAWA services and humanitarian representation for youth.",
+                            "informationText": "",
+                        },
+                    },
+                    {
+                        "corpusKey": "automesa-curated:370e7f0a4f6a63fedd476ff9cc1bfb32",
+                        "resourceId": "florence",
+                        "name": "Florence Project",
+                        "priorCategoryIds": ["immigration"],
+                        "proposedCategoryIds": ["immigration"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "Florence Project",
+                            "description": "Dedicated Children's Program for unaccompanied immigrant children.",
+                            "informationText": "",
+                        },
+                    },
+                    {
+                        "corpusKey": "automesa-curated:34603fb44974ece7329a1a2d8ca51f35",
+                        "resourceId": "irc",
+                        "name": "International Rescue Committee",
+                        "priorCategoryIds": ["immigration"],
+                        "proposedCategoryIds": ["immigration"],
+                        "priorForGroups": [],
+                        "resource": {
+                            "name": "International Rescue Committee",
+                            "description": "Not a general low-income court-defense clinic.",
+                            "informationText": "",
+                        },
+                    },
+                ],
+            },
+        }
+        assignments = {
+            item["resourceId"]: {
+                group["label"]: group for group in item["groups"]
+            }
+            for item in infer_group_proposal(packet)["assignments"]
+        }
+        self.assertEqual(
+            "target", assignments["always"]["Domestic violence survivors"]["mode"]
+        )
+        self.assertEqual("target", assignments["always"]["Youth"]["mode"])
+        self.assertEqual("target", assignments["florence"]["Youth"]["mode"])
+        self.assertNotIn("Low-income households", assignments["irc"])
 
     def test_senior_review_distinguishes_pathways_from_division_names(self) -> None:
         packet = {
