@@ -796,6 +796,80 @@ class TaxonomyStudyTests(unittest.TestCase):
             ["School Supplies"],
             education["assignments"]["ebac95249761b88323fc73b4e26259fd"],
         )
+        education_labels = {item["label"] for item in education["types"]}
+        self.assertEqual(15, len(education_labels))
+        self.assertEqual(34, len(education["assignments"]))
+        self.assertIn("Apprenticeships", education_labels)
+        self.assertEqual(
+            ["Education Navigation"],
+            education["assignments"]["70ea356cba96bcc304b79ca2a5469f9c"],
+        )
+        self.assertEqual(
+            ["Early Learning"],
+            education["assignments"]["1ed84b657420da445ac082991959b3f8"],
+        )
+        self.assertEqual(
+            ["Early Intervention", "Education Navigation"],
+            education["assignments"]["90ef7bed032bcd935b0f82e65f664917"],
+        )
+        self.assertEqual(
+            ["Career Training", "Apprenticeships", "Education Navigation"],
+            education["assignments"]["f95aad04c5e72f66f324d9875d7caffd"],
+        )
+        self.assertEqual(
+            ["Digital Literacy", "Career Training"],
+            education["assignments"]["d72b099aea9d25b5ed7f4eafa274da78"],
+        )
+        self.assertNotIn(
+            "5b3220f8a547f64ec5b3171b0af3217e",
+            education["assignments"],
+        )
+        self.assertIn(
+            "education",
+            RESOURCE_TARGETS["b48b75beadedb73dd0606ffb3dcc568d"],
+        )
+        self.assertIn(
+            "education",
+            RESOURCE_TARGETS["f5956fe09395d25458ca9fda67d737c9"],
+        )
+        self.assertEqual(
+            ["education"],
+            RESOURCE_CATEGORY_ADDITIONS["31c5097bb2e3cc1075a6851e27fb88ec"],
+        )
+
+        education_consolidations = {
+            item["proposedIdentity"]: item
+            for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item["kind"] == "consolidation-candidate"
+            and "education" in item.get("proposedCategories", [])
+        }
+        self.assertEqual(
+            {
+                "b48b75beadedb73dd0606ffb3dcc568d",
+                "90ef7bed032bcd935b0f82e65f664917",
+                "eb94f24384f8e51a2b237d7d8c507948",
+            },
+            set(education_consolidations[
+                "Arizona Early Intervention Program (AzEIP)"
+            ]["resourceIds"]),
+        )
+        self.assertEqual(
+            {
+                "61a8d9d4eafa58537df9904250187968",
+                "d633e161d87ac6cf94df2a2a6b877ab1",
+            },
+            set(education_consolidations[
+                "Frank X. Gordon Adult Education Center"
+            ]["resourceIds"]),
+        )
+        self.assertEqual(
+            {
+                "7f314bc451d77d01f553d4527407d06d",
+                "c3ab0f1578b4ec24df452d8eee4c9ce6",
+                "f95aad04c5e72f66f324d9875d7caffd",
+            },
+            set(education_consolidations["Workforce Center @ Mesa"]["resourceIds"]),
+        )
 
         clothing = CATEGORY_TYPE_DESIGNS["clothing"]
         clothing_labels = {item["label"] for item in clothing["types"]}

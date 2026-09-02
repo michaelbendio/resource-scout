@@ -115,6 +115,73 @@ TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
             "and Caregiving and preserve the useful CRRC details on the dedicated card."
         ),
     },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "b48b75beadedb73dd0606ffb3dcc568d",
+            "90ef7bed032bcd935b0f82e65f664917",
+            "eb94f24384f8e51a2b237d7d8c507948",
+        ],
+        "proposedIdentity": "Arizona Early Intervention Program (AzEIP)",
+        "proposedCategories": [
+            "education", "parenting-child-development",
+        ],
+        "proposedEducationTypes": [
+            "Early Intervention", "Education Navigation",
+        ],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "the dedicated central-referral access path",
+            "Child Care Assistance content on the broader DES card",
+            "DDD, AZ ABLE, and caregiver-support content on the disability card",
+        ],
+    },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "61a8d9d4eafa58537df9904250187968",
+            "d633e161d87ac6cf94df2a2a6b877ab1",
+        ],
+        "proposedIdentity": "Frank X. Gordon Adult Education Center",
+        "proposedCategories": ["education"],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "public community access and Mesa location details",
+            "reentry-aware Adult Probation partnership details",
+            "virtual, digital-literacy, ABE, GED, and ESOL pathways",
+        ],
+    },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "9c6c63b5207dc97a65b6d8ca95c544e9",
+            "e0bfbea73949f1e8965c6c1ad4eeb1ff",
+        ],
+        "proposedIdentity": "East Valley Institute of Technology (EVIT)",
+        "proposedCategories": ["education", "financial-assistance"],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "adult basic education and GED/HSE access",
+            "postsecondary career programs and concurrent enrollment",
+            "financial-aid, scholarship, VA-benefit, and advising details",
+        ],
+    },
+    {
+        "kind": "consolidation-candidate",
+        "resourceIds": [
+            "7f314bc451d77d01f553d4527407d06d",
+            "c3ab0f1578b4ec24df452d8eee4c9ce6",
+            "f95aad04c5e72f66f324d9875d7caffd",
+        ],
+        "proposedIdentity": "Workforce Center @ Mesa",
+        "proposedCategories": ["employment", "education"],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "the City of Mesa education-class and financial-literacy details",
+            "A New Leaf walk-in and professional-clothing access details",
+            "ARIZONA@WORK training, apprenticeship, and Smart Justice pathways",
+        ],
+    },
 ]
 
 
@@ -555,6 +622,7 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             {"label": "English Learning", "definition": "English-language learning for adult speakers of other languages."},
             {"label": "Digital Literacy", "definition": "Foundational computer, internet, and digital participation skills."},
             {"label": "Career Training", "definition": "Occupational, trade, or integrated education and training."},
+            {"label": "Apprenticeships", "definition": "Paid learn-and-work pathways combining instruction with supervised employment."},
             {"label": "Postsecondary Education", "definition": "College-level study, advising, scholarships, or transition into college credit."},
             {"label": "High School Education", "definition": "Instruction leading to a standard high-school diploma."},
             {"label": "Online Education", "definition": "A program designed for remote, virtual, or hybrid participation."},
@@ -566,8 +634,8 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
         "assignments": {
             "067d28b529da7122c5d8c50ff1874faf": ["Early Learning", "Early Intervention"],
             "4ac8a5df1279284d2d5e64df54b5c1dd": ["Assistive Technology"],
-            "70ea356cba96bcc304b79ca2a5469f9c": ["Career Training", "Education Navigation"],
-            "1ed84b657420da445ac082991959b3f8": ["Early Learning", "Early Intervention"],
+            "70ea356cba96bcc304b79ca2a5469f9c": ["Education Navigation"],
+            "1ed84b657420da445ac082991959b3f8": ["Early Learning"],
             "c3ab0f1578b4ec24df452d8eee4c9ce6": ["GED/HSE", "English Learning", "Financial Literacy", "Education Navigation"],
             "9c6c63b5207dc97a65b6d8ca95c544e9": ["Adult Basic Education", "GED/HSE", "Career Training"],
             "e0bfbea73949f1e8965c6c1ad4eeb1ff": ["GED/HSE", "Career Training", "Postsecondary Education", "Education Navigation"],
@@ -588,8 +656,41 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "6ce0d0fd810d670dae505e267ea6e01a": ["School Supplies"],
             "c74ea9adad61a6ff3fd9e49ae50d61d2": ["School Supplies"],
             "edacb348adc1480fe0ac0b9b6f1e8580": ["School Supplies"],
+            "b48b75beadedb73dd0606ffb3dcc568d": [
+                "Early Intervention", "Education Navigation",
+            ],
+            "90ef7bed032bcd935b0f82e65f664917": [
+                "Early Intervention", "Education Navigation",
+            ],
+            "eb94f24384f8e51a2b237d7d8c507948": [
+                "Early Intervention", "Education Navigation",
+            ],
+            "f95aad04c5e72f66f324d9875d7caffd": [
+                "Career Training", "Apprenticeships", "Education Navigation",
+            ],
+            "7f314bc451d77d01f553d4527407d06d": ["Education Navigation"],
+            "6ea1c2067f6e451532d3bd346cc56276": [
+                "Career Training", "Postsecondary Education", "Education Navigation",
+            ],
+            "d72b099aea9d25b5ed7f4eafa274da78": [
+                "Digital Literacy", "Career Training",
+            ],
+            "31c5097bb2e3cc1075a6851e27fb88ec": [
+                "Career Training", "Apprenticeships", "Education Navigation",
+            ],
+            "61f0dba0328b11a9ae6db84f7e5e5f81": [
+                "Career Training", "Apprenticeships", "Education Navigation",
+            ],
+            "f5956fe09395d25458ca9fda67d737c9": ["Career Training"],
         },
-        "boundary": "Types describe the learning pathway or delivery method; disability, language community, justice history, age, and parent status belong in For groups except when they name the instruction itself.",
+        "boundary": (
+            "Include actual academic, literacy, credential, career-training, early-"
+            "learning, or early-intervention pathways and hands-on help entering them. "
+            "Job coaching, ordinary referrals, parenting classes, health education, "
+            "and recovery education remain with the need they primarily address. "
+            "Disability, language community, justice history, age, and parent status "
+            "belong in For groups except when they name the instruction itself."
+        ),
     },
     "employment": {
         "types": [

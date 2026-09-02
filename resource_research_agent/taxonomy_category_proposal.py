@@ -135,9 +135,11 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "parenting-child-development",
     ],
     "b48b75beadedb73dd0606ffb3dcc568d": [
-        "parenting-child-development", "financial-assistance",
+        "parenting-child-development", "financial-assistance", "education",
     ],
-    "90ef7bed032bcd935b0f82e65f664917": ["parenting-child-development"],
+    "90ef7bed032bcd935b0f82e65f664917": [
+        "parenting-child-development", "education",
+    ],
     "855aea5e0d3d3b07f11e7bb81212e4d2": [
         "medical-dental-vision", "financial-assistance", "transportation",
     ],
@@ -202,7 +204,7 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "independent-living", "utilities-phone-internet",
     ],
     "eb94f24384f8e51a2b237d7d8c507948": [
-        "parenting-child-development", "caregiving",
+        "parenting-child-development", "caregiving", "education",
     ],
     "4ac8a5df1279284d2d5e64df54b5c1dd": ["independent-living", "education"],
     "c30d34b41e5260bdd10a194738ec8df2": ["independent-living"],
@@ -229,7 +231,7 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
     "b8c4699661c4d07b777efdab9ccb9d68": ["independent-living", "employment"],
     # Reentry Support
     "08a7877a32a11b9f8531fa95f2a64ade": ["employment"],
-    "f95aad04c5e72f66f324d9875d7caffd": ["employment"],
+    "f95aad04c5e72f66f324d9875d7caffd": ["employment", "education"],
     "7de41696b045cd6fdb9bb5c25cf7c53f": ["employment"],
     "a90b957439ba736a20a0eb129322891e": [
         "id-recovery", "housing", "employment", "medical-dental-vision",
@@ -249,7 +251,9 @@ RESOURCE_TARGETS: dict[str, list[str]] = {
         "parenting-child-development", "legal", "id-recovery", "food",
         "clothing", "transportation", "employment",
     ],
-    "f5956fe09395d25458ca9fda67d737c9": ["employment", "transportation"],
+    "f5956fe09395d25458ca9fda67d737c9": [
+        "employment", "transportation", "education",
+    ],
     "8228b3327c959acccf53469fa50397a9": ["employment", "housing"],
     "01a9e5b0c362df7fad3f6577a423f91a": ["education", "employment"],
     "a4e45e62c0b9cb505d5b4874340871fb": [
@@ -429,6 +433,12 @@ RESOURCE_CATEGORY_ADDITIONS: dict[str, list[str]] = {
     "726f13326a74a1f5d347c70575ea49e7": ["financial-assistance"],
     "774e5a59b471ceacca5d0fe7cc5e787b": ["financial-assistance"],
     "3c04b13381e97f377ba21e3c86d0b12c": ["financial-assistance"],
+    # Direct instruction, credentials, apprenticeships, or accountable education entry
+    "7f314bc451d77d01f553d4527407d06d": ["education"],
+    "6ea1c2067f6e451532d3bd346cc56276": ["education"],
+    "d72b099aea9d25b5ed7f4eafa274da78": ["education"],
+    "31c5097bb2e3cc1075a6851e27fb88ec": ["education"],
+    "61f0dba0328b11a9ae6db84f7e5e5f81": ["education"],
 }
 
 
