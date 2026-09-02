@@ -343,6 +343,34 @@ TAXONOMY_APPLICATION_CLEANUP_FLAGS = [
             "dedicated support resource while keeping hospital maternity care medical."
         ),
     },
+    {
+        "kind": "identity-correction-required",
+        "resourceIds": ["1191caa6a627cab7f478d5fe36466e0a"],
+        "proposedIdentity": "Maricopa County Court Self-Service Center",
+        "proposedCategories": ["legal"],
+        "status": "apply-after-taxonomy-review",
+        "preserve": [
+            "set-aside, record-sealing, marijuana-expungement, and rights-restoration help",
+            "family and civil forms, workshops, clinics, and brief form review",
+            "the distinction between legal information and legal advice",
+        ],
+        "reason": (
+            "The current record-relief name is narrower than the documented family, "
+            "civil, and criminal-record self-help pathways."
+        ),
+    },
+    {
+        "kind": "service-area-verification-required",
+        "resourceIds": ["1c01cd6b13aaf41619e7cdc09b4c6725"],
+        "proposedIdentity": (
+            "University of Arizona Veterans' Advocacy Law Clinic"
+        ),
+        "status": "apply-after-taxonomy-review",
+        "requirement": (
+            "Do not offer this Tucson-centered clinic as a Mesa referral until a "
+            "current Maricopa County intake or statewide mobile-clinic pathway is confirmed."
+        ),
+    },
 ]
 
 
@@ -1129,15 +1157,21 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
     },
     "legal": {
         "types": [
-            {"label": "General Civil Legal Aid", "definition": "Advice or representation across civil legal problems."},
+            {"label": "General Civil Legal Help", "definition": "Free or affordable advice or representation across civil legal problems."},
             {"label": "Protective Orders", "definition": "Orders of protection and injunctions against harassment."},
             {"label": "Family Law", "definition": "Divorce, custody, parenting time, child support, and related family matters."},
+            {"label": "Guardianship", "definition": "Help establishing or changing legal guardianship, including kinship-care situations."},
             {"label": "Housing/Eviction Law", "definition": "Tenant, eviction, rental, and housing-related legal help."},
             {"label": "Immigration Law", "definition": "Legal help with immigration filings, status, or humanitarian relief."},
             {"label": "Criminal Record Relief", "definition": "Set-asides, sealing, expungement, and restoration of rights."},
+            {"label": "Criminal Defense", "definition": "Advice or representation for criminal charges, including misdemeanors."},
             {"label": "Disability Rights", "definition": "Advocacy involving disability access, discrimination, education, or institutional rights."},
             {"label": "Consumer/Fraud", "definition": "Consumer protection, scams, fraud, and financial exploitation."},
+            {"label": "Debt/Bankruptcy", "definition": "Debt collection, bankruptcy, and related financial legal help; no matching resource is present in the frozen Mesa corpus."},
+            {"label": "Benefits Appeals", "definition": "Legal help challenging denial or termination of public benefits; no matching resource is present in the frozen Mesa corpus."},
+            {"label": "Employment Law", "definition": "Wage, workplace-rights, and employment-discrimination help; no matching resource is present in the frozen Mesa corpus."},
             {"label": "Abuse/Exploitation", "definition": "Protective or legal action involving abuse, neglect, or exploitation."},
+            {"label": "Wills/Probate", "definition": "Wills, trusts, probate, and related estate-planning matters."},
             {"label": "Veteran Claims/Appeals", "definition": "VA benefit claims, administrative appeals, and related veteran matters."},
             {"label": "Discharge Upgrades", "definition": "Legal representation or advocacy to change military discharge status."},
             {"label": "Court Self-help", "definition": "Court forms, legal information, workshops, and brief form review."},
@@ -1148,11 +1182,11 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "ce14bd1aa42c212343ff01bdda80381e": ["Consumer/Fraud", "Abuse/Exploitation"],
             "b47b61d084512681adb9c7ccacf2268c": ["Abuse/Exploitation"],
             "fb402105bec44e0623b4ccf8d7064802": ["Veteran Claims/Appeals", "Discharge Upgrades"],
-            "138a8c6f2c950488f75f8766e2ef6252": ["General Civil Legal Aid"],
+            "138a8c6f2c950488f75f8766e2ef6252": ["General Civil Legal Help"],
             "ace0c97e80c85b18e515be9d6b44dd3e": ["Family Law", "Immigration Law", "Criminal Record Relief"],
-            "c8f5de50d9d41ce30ec0b8b6ef45b249": ["Protective Orders", "Family Law", "Immigration Law"],
+            "c8f5de50d9d41ce30ec0b8b6ef45b249": ["Protective Orders", "Family Law"],
             "59a9c46dfd4d1314edea363898ada9bc": ["Disability Rights"],
-            "38629d0e712141f7531b4cff4b0bfd53": ["Family Law"],
+            "38629d0e712141f7531b4cff4b0bfd53": ["Family Law", "Guardianship"],
             "528e3dad283cd117ea2ff80b3bec333c": ["Family Law"],
             "4465e68f2478923dfe880de0556150f0": ["Immigration Law"],
             "f6dcb4c45715df15ef11f764c6a40e50": ["Protective Orders", "Family Law", "Document Preparation"],
@@ -1161,11 +1195,17 @@ CATEGORY_TYPE_DESIGNS: dict[str, dict[str, Any]] = {
             "1191caa6a627cab7f478d5fe36466e0a": ["Family Law", "Criminal Record Relief", "Court Self-help"],
             "617d4be1951f67468b5ddffdb2f670f5": ["Criminal Record Relief"],
             "697d063e4304130741aed2b8ab5fc48f": ["Protective Orders", "Family Law", "Document Preparation"],
-            "6d4803e545580ed7abc3cd8bb87b1314": ["General Civil Legal Aid", "Family Law", "Housing/Eviction Law", "Immigration Law", "Consumer/Fraud"],
+            "6d4803e545580ed7abc3cd8bb87b1314": ["General Civil Legal Help", "Family Law", "Housing/Eviction Law", "Immigration Law", "Criminal Defense", "Consumer/Fraud", "Wills/Probate"],
             "63094d56f92faa642ec6143be4d44d60": ["Discharge Upgrades"],
             "1c01cd6b13aaf41619e7cdc09b4c6725": ["Veteran Claims/Appeals", "Discharge Upgrades", "Problem-solving Court"],
         },
-        "boundary": "Types identify the legal matter or concrete legal pathway; age, disability, survivor status, veteran status, and justice history belong in For groups.",
+        "boundary": (
+            "Types identify the legal matter or a concrete legal pathway. A resource "
+            "must provide legal information, document help, advocacy, representation, "
+            "or an accountable protective process; population eligibility alone does "
+            "not establish a legal service. Age, disability, survivor status, veteran "
+            "status, and justice history belong in For groups."
+        ),
     },
     "immigration": {
         "types": [

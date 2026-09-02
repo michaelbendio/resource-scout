@@ -1123,6 +1123,57 @@ class TaxonomyStudyTests(unittest.TestCase):
             banner_transfer["sourceResourceIds"],
         )
 
+        legal = CATEGORY_TYPE_DESIGNS["legal"]
+        legal_labels = {item["label"] for item in legal["types"]}
+        self.assertEqual(20, len(legal_labels))
+        self.assertIn("General Civil Legal Help", legal_labels)
+        self.assertNotIn("General Civil Legal Aid", legal_labels)
+        for expected_gap in (
+            "Debt/Bankruptcy", "Benefits Appeals", "Employment Law",
+        ):
+            self.assertIn(expected_gap, legal_labels)
+            self.assertFalse(any(
+                expected_gap in value
+                for value in legal["assignments"].values()
+                if isinstance(value, list)
+            ))
+        self.assertEqual(19, len(legal["assignments"]))
+        self.assertEqual(
+            ["Family Law", "Guardianship"],
+            legal["assignments"]["38629d0e712141f7531b4cff4b0bfd53"],
+        )
+        self.assertEqual(
+            ["Protective Orders", "Family Law"],
+            legal["assignments"]["c8f5de50d9d41ce30ec0b8b6ef45b249"],
+        )
+        self.assertIn(
+            "Wills/Probate",
+            legal["assignments"]["6d4803e545580ed7abc3cd8bb87b1314"],
+        )
+        self.assertIn(
+            "Criminal Defense",
+            legal["assignments"]["6d4803e545580ed7abc3cd8bb87b1314"],
+        )
+        self.assertIn("population eligibility alone", legal["boundary"])
+
+        court_identity_flag = next(
+            item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item.get("proposedIdentity")
+            == "Maricopa County Court Self-Service Center"
+        )
+        self.assertEqual(
+            ["1191caa6a627cab7f478d5fe36466e0a"],
+            court_identity_flag["resourceIds"],
+        )
+        veterans_clinic_flag = next(
+            item for item in TAXONOMY_APPLICATION_CLEANUP_FLAGS
+            if item.get("kind") == "service-area-verification-required"
+        )
+        self.assertEqual(
+            ["1c01cd6b13aaf41619e7cdc09b4c6725"],
+            veterans_clinic_flag["resourceIds"],
+        )
+
         clothing = CATEGORY_TYPE_DESIGNS["clothing"]
         clothing_labels = {item["label"] for item in clothing["types"]}
         self.assertEqual(
