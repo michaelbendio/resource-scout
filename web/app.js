@@ -1,89 +1,17 @@
 const state = {
-  runs: [], discoveries: [], lessons: [], agent: null, latestImport: null,
+  runs: [], discoveries: [], latestImport: null,
   currentCandidate: null, pollTimer: null, researchMode: 'package',
+  activeManualRun: null, manualContributions: [], manualConsolidation: null,
+  manualIdentityDecisionPending: false,
+  manualAssignmentRequest: 0, customManualSources: 0,
   candidateRunId: null, candidateRunSelectionInitialized: false,
+  runActionMessages: {}, expandedRunIds: new Set(),
   assignmentDrafts: { package: '', 'standalone-location': '' }, standaloneAutoAssignment: '',
   categories: [], forGroups: [], activeCategoryId: 'housing', categoryAssignmentDrafts: {},
+  workflowProgress: null, codexFirstProgress: null, progressPollTimer: null,
 };
 
-const PACKAGE_DEFAULT_ASSIGNMENT = 'Discover realistic ways a person without adequate housing in Utah County could obtain safe temporary or permanent housing. Follow useful relationships rather than stopping at a directory listing: voucher providers to participating motels, organizations to specific programs, and temporary options to longer-term pathways. Investigate practical access and lived experience as well as official claims.';
-
-function setupResearchPaneResizer() {
-  const container = document.querySelector('#research-results');
-  const divider = document.querySelector('#research-divider');
-  if (!container || !divider) return;
-  const storageKey = 'resource-research-agent:runs-pane-ratio';
-  const minimumRuns = 280;
-  const minimumCandidates = 360;
-  let ratio = Number.parseFloat(localStorage.getItem(storageKey) || '0.4');
-  if (!Number.isFinite(ratio)) ratio = 0.4;
-
-  function setRunsWidth(requestedWidth, save = false) {
-    const total = container.getBoundingClientRect().width;
-    if (!total) return;
-    const dividerWidth = divider.getBoundingClientRect().width || 16;
-    const maximumRuns = Math.max(minimumRuns, total - dividerWidth - minimumCandidates);
-    const width = Math.min(maximumRuns, Math.max(minimumRuns, requestedWidth));
-    ratio = width / total;
-    container.style.setProperty('--runs-pane-width', `${width}px`);
-    divider.setAttribute('aria-valuenow', String(Math.round(ratio * 100)));
-    if (save) localStorage.setItem(storageKey, String(ratio));
-  }
-
-  function setFromPointer(event, save = false) {
-    const bounds = container.getBoundingClientRect();
-    setRunsWidth(event.clientX - bounds.left, save);
-  }
-
-  divider.addEventListener('pointerdown', event => {
-    if (event.button !== 0) return;
-    divider.setPointerCapture(event.pointerId);
-    divider.classList.add('dragging');
-    document.body.classList.add('resizing-research-panes');
-    setFromPointer(event);
-  });
-  divider.addEventListener('pointermove', event => {
-    if (!divider.hasPointerCapture(event.pointerId)) return;
-    setFromPointer(event);
-  });
-  divider.addEventListener('pointerup', event => {
-    if (divider.hasPointerCapture(event.pointerId)) divider.releasePointerCapture(event.pointerId);
-    divider.classList.remove('dragging');
-    document.body.classList.remove('resizing-research-panes');
-    setFromPointer(event, true);
-  });
-  divider.addEventListener('pointercancel', () => {
-    divider.classList.remove('dragging');
-    document.body.classList.remove('resizing-research-panes');
-  });
-  divider.addEventListener('keydown', event => {
-    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-    event.preventDefault();
-    const total = container.getBoundingClientRect().width;
-    if (event.key === 'Home') setRunsWidth(total * .25, true);
-    else if (event.key === 'End') setRunsWidth(total * .7, true);
-    else setRunsWidth((total * ratio) + (event.key === 'ArrowRight' ? 32 : -32), true);
-  });
-  window.addEventListener('resize', () => setRunsWidth(container.getBoundingClientRect().width * ratio));
-  setRunsWidth(container.getBoundingClientRect().width * ratio);
-}
-
-function agentName(agent = state.agent) {
-  if (agent?.displayName) return agent.displayName;
-  const key = agent?.adapter || agent?.settings?.adapter || document.querySelector('#agent-adapter')?.value;
-  return key === 'dsh' ? 'DSH' : key === 'demo' ? 'Built-in demo' : 'Hermes';
-}
-
-function updateAdapterFields() {
-  const adapter = document.querySelector('#agent-adapter').value;
-  const dshConfiguration = document.querySelector('#dsh-configuration').value;
-  document.querySelectorAll('[data-adapter-only]').forEach(field => {
-    const adapterMatches = field.dataset.adapterOnly.split(',').includes(adapter);
-    const configurationMatches = !field.dataset.dshConfigurationOnly
-      || field.dataset.dshConfigurationOnly === dshConfiguration;
-    field.hidden = !(adapterMatches && configurationMatches);
-  });
-}
+const PACKAGE_DEFAULT_ASSIGNMENT = 'Choose a category and location to prepare a focused resource-discovery assignment.';
 
 async function request(url, options = {}) {
   const response = await fetch(url, options);
@@ -98,7 +26,7 @@ function showImport(summary) {
   state.latestImport = summary;
   document.querySelector('#package-status-name').textContent = summary.sourceName;
   document.querySelector('#package-status').hidden = false;
-  document.querySelector('#file-label').textContent = 'Choose a different package…';
+  document.querySelector('#file-label').textContent = 'Choose a different package';
   document.querySelector('#package-details').hidden = false;
   document.querySelector('#package-details-copy').textContent = [
     summary.officeName,
@@ -115,26 +43,10 @@ function showImport(summary) {
   if (importChanged) {
     state.categoryAssignmentDrafts = {};
     state.assignmentDrafts.package = '';
+    state.candidateRunId = null;
+    state.candidateRunSelectionInitialized = false;
   }
-  const supported = state.categories.filter(category => category.supported);
-  if (!supported.some(category => category.id === state.activeCategoryId)) {
-    state.activeCategoryId = supported.find(category => category.id.toLowerCase() === 'housing')?.id
-      || supported[0]?.id || 'housing';
-  }
-  document.querySelector('#category-panel').hidden = false;
-  document.querySelector('#research-panel').hidden = false;
   document.querySelector('#research-results').hidden = false;
-  document.querySelector('#package-mode-detail').textContent = 'Default · existing resources provide research context and automatic duplicate checking.';
-  if (selectedResearchMode() === 'package') {
-    document.querySelector('#research-context-note').textContent = 'Existing resources in the connected package are used as context and will not be returned as new discoveries.';
-  }
-  renderCategoryChooser();
-  updateCategoryCopy();
-  if (importChanged && selectedResearchMode() === 'package') {
-    document.querySelector('#research-assignment').value = packageDefaultAssignment();
-    state.assignmentDrafts.package = packageDefaultAssignment();
-  }
-  updateStartResearchState();
 }
 
 function activeCategory() {
@@ -149,11 +61,13 @@ function packageDefaultAssignment() {
 
 function updateCategoryCopy() {
   const category = activeCategory();
-  document.querySelector('#research-heading-title').textContent = `Send a research agent on a ${category.label} assignment`;
-  document.querySelector('#category-lesson-option').textContent = `${category.label} lesson`;
-  const types = category.types?.length ? category.types.join(', ') : 'None defined in this package';
+  document.querySelector('#research-heading-title').textContent = `Collect ${category.label} leads from your chats`;
+  const standalone = selectedResearchMode() === 'standalone-location';
+  document.querySelector('#category-guidance').textContent = standalone
+    ? 'Choose a category to focus discovery for this location. Scout provides category-aware guidance without using a resource package.'
+    : 'Choose a category to focus the discovery. Scout uses existing resources, Types, For groups, and category-aware guidance from the connected package.';
   const forGroups = state.forGroups.length ? state.forGroups.join(', ') : 'None defined in this package';
-  document.querySelector('#category-taxonomy-note').textContent = `Types: ${types} · For: ${forGroups}`;
+  document.querySelector('#category-taxonomy-note').textContent = standalone ? '' : `For: ${forGroups}`;
 }
 
 function renderCategoryChooser() {
@@ -161,25 +75,33 @@ function renderCategoryChooser() {
   const supportedCount = state.categories.filter(category => category.supported).length;
   document.querySelector('#category-supported-count').textContent = `${supportedCount} categories`;
   target.replaceChildren(...state.categories.map(category => {
+    const row = document.createElement('div');
+    row.className = `category-row${category.supported ? '' : ' disabled'}`;
     const label = document.createElement('label');
-    label.className = `category-choice${category.supported ? '' : ' disabled'}`;
+    label.className = 'category-select';
     const input = document.createElement('input');
     input.type = 'radio'; input.name = 'research-category'; input.value = category.id;
     input.checked = category.id === state.activeCategoryId;
     input.disabled = !category.supported;
-    const copy = document.createElement('span');
+    input.setAttribute('aria-label', `Select ${category.label}`);
+    label.append(input);
+    const types = document.createElement('details');
+    types.className = 'category-types';
+    const typesSummary = document.createElement('summary');
     const title = document.createElement('strong'); title.textContent = category.label;
-    const detail = document.createElement('small');
-    detail.textContent = category.supported
-      ? `${category.resourceCount} existing · ${category.types?.length || 0} Type${category.types?.length === 1 ? '' : 's'}`
-      : 'Unavailable';
-    copy.append(title, detail); label.append(input, copy);
+    typesSummary.append(title);
+    const typesCopy = document.createElement('p');
+    typesCopy.textContent = category.types?.length
+      ? category.types.join(', ')
+      : 'No types defined in this package.';
+    types.append(typesSummary, typesCopy);
+    row.append(label, types);
     if (category.supported) input.addEventListener('change', () => {
       selectCategory(category.id).catch(error => {
         document.querySelector('#research-message').textContent = error.message;
       });
     });
-    return label;
+    return row;
   }));
 }
 
@@ -197,6 +119,7 @@ async function selectCategory(categoryId) {
       || packageDefaultAssignment();
   }
   updateStartResearchState();
+  refreshManualAssignment();
 }
 
 function showAccess(access) {
@@ -208,54 +131,256 @@ function showAccess(access) {
   const link = document.querySelector('#private-access-url');
   link.href = url;
   link.textContent = url;
-  const requester = access.requester;
-  const connectedRemotely = Boolean(requester?.name || requester?.login);
-  document.querySelector('#private-access-title').textContent = connectedRemotely
-    ? 'Connected privately through Tailscale'
-    : 'Private access is ready';
-  document.querySelector('#private-access-detail').textContent = connectedRemotely
-    ? `Signed in as ${requester.name || requester.login}.`
-    : 'Open this address on an iPad connected to your Tailscale network.';
-  link.hidden = connectedRemotely;
-  const copyButton = document.querySelector('#copy-private-url');
-  copyButton.hidden = connectedRemotely;
-  copyButton.dataset.url = url;
 }
 
-function showAgent(agent) {
-  state.agent = agent;
-  const card = document.querySelector('#agent-state');
-  const name = agentName(agent);
-  card.classList.toggle('ready', Boolean(agent?.ready));
-  card.classList.toggle('attention', Boolean(agent?.installed && !agent?.ready));
-  document.querySelector('#agent-state-title').textContent = agent?.ready ? `${name} ready` : agent?.installed ? `${name} needs setup` : `${name} not installed`;
-  document.querySelector('#agent-state-detail').textContent = agent?.message || agent?.version || '';
-  document.querySelector('#agent-setup').hidden = Boolean(agent?.ready || agent?.adapter === 'demo');
-  document.querySelector('#agent-setup-title').textContent = agent?.installed ? `Finish ${name} setup` : `Install ${name}`;
-  document.querySelector('#agent-setup-detail').textContent = agent?.message || 'Complete the connection setup, then refresh this page.';
-  document.querySelector('#copy-setup').dataset.command = agent?.setupCommand || 'hermes setup';
-  const settings = agent?.settings || {};
-  document.querySelector('#agent-adapter').value = settings.adapter || 'dsh';
-  document.querySelector('#hermes-profile').value = settings.hermesProfile || settings.profile || '';
-  document.querySelector('#hermes-provider').value = settings.hermesProvider || settings.provider || '';
-  document.querySelector('#hermes-model').value = settings.hermesModel || settings.model || '';
-  document.querySelector('#hermes-command').value = settings.hermesCommand || settings.command || '';
-  document.querySelector('#dsh-configuration option[value="trace-qwen"]').hidden = settings.dshConfiguration !== 'trace-qwen';
-  document.querySelector('#dsh-configuration').value = settings.dshConfiguration || 'local-qwen';
-  document.querySelector('#dsh-model').value = settings.dshModel || '';
-  document.querySelector('#dsh-command').value = settings.dshCommand || '';
-  document.querySelector('#agent-timeout').value = settings.timeoutSeconds || 900;
-  updateAdapterFields();
-  updateStartResearchState();
+function friendlyProgressPhase(value) {
+  const labels = {
+    research: 'Research',
+    'ready-for-curation': 'Ready for curation',
+    'curation-start': 'Curation',
+    'category-assigned': 'Curation',
+    'category-completed': 'Curation',
+    'curation-heartbeat': 'Curation',
+    'curation-completed': 'Curation complete',
+    curation: 'Curation',
+    'review-file': 'Review file',
+    'review-file-built': 'Review file created',
+    'waiting-for-feedback': 'Waiting for feedback',
+    'focused-research': 'Focused research',
+    'focused-research-complete': 'Focused research complete',
+    'codex-first-research': 'Codex-first research',
+    'codex-first-research-complete': 'Research complete',
+  };
+  return labels[value] || String(value || 'Scout progress').replaceAll('-', ' ');
+}
+
+function researchStatusLabel(value) {
+  const labels = {
+    pending: 'Pending',
+    assigned: 'Assigned',
+    'in-progress': 'In progress',
+    completed: 'Completed',
+    failed: 'Needs attention',
+  };
+  return labels[value] || String(value || 'pending').replaceAll('-', ' ');
+}
+
+function appendProgressFact(target, label, value) {
+  const item = document.createElement('div');
+  const name = document.createElement('span');
+  const count = document.createElement('strong');
+  name.textContent = label;
+  count.textContent = value;
+  item.append(name, count);
+  target.append(item);
+}
+
+function researcherStatus(category, name) {
+  return category.researchers.find(item => item.name === name)?.status || 'pending';
+}
+
+function renderCodexFirstDetail(view) {
+  state.codexFirstProgress = view;
+  const detail = document.querySelector('#codex-progress-detail');
+  detail.hidden = !view?.categories?.length;
+  if (detail.hidden) return;
+
+  document.querySelector('#codex-progress-summary').textContent = `${view.completedCategories} of ${view.totalCategories} complete`;
+  const active = view.activeCategory;
+  const activePanel = document.querySelector('#codex-active-progress');
+  activePanel.hidden = !active;
+  if (active) {
+    document.querySelector('#codex-active-category').textContent = active.categoryLabel;
+    const primaryComplete = Number(active.primary.completed) === Number(active.primary.total);
+    const challengerComplete = active.researchers.filter(item => item.role === 'challenger' && item.status === 'completed').length;
+    document.querySelector('#codex-active-status').textContent = !primaryComplete
+      ? 'Codex research'
+      : challengerComplete < 3
+        ? 'Challenger research'
+        : 'Consolidation and verification';
+
+    const funnel = document.querySelector('#codex-active-funnel');
+    funnel.replaceChildren();
+    appendProgressFact(funnel, 'Submitted leads', String(active.funnel.submittedLeads));
+    appendProgressFact(funnel, 'Consolidated identities', String(active.funnel.consolidatedIdentities));
+    appendProgressFact(funnel, 'Candidates', String(active.funnel.candidateIdentities));
+    appendProgressFact(funnel, 'Verified contacts', String(active.funnel.verifiedContacts));
+
+    const passList = document.querySelector('#codex-pass-list');
+    passList.replaceChildren();
+    for (const researchPass of active.primary.passes) {
+      const item = document.createElement('li');
+      const description = document.createElement('div');
+      const title = document.createElement('strong');
+      const kind = document.createElement('small');
+      const result = document.createElement('small');
+      title.textContent = researchPass.focusLabel;
+      kind.textContent = researchPass.passKind === 'gap' ? 'Deterministic gap pass' : 'Fixed focused pass';
+      result.textContent = researchPass.status === 'completed'
+        ? `${researchPass.leadCount} lead${researchPass.leadCount === 1 ? '' : 's'}`
+        : researchStatusLabel(researchPass.status);
+      description.append(title, kind);
+      item.append(description, result);
+      passList.append(item);
+    }
+
+    const researcherList = document.querySelector('#codex-researcher-list');
+    researcherList.replaceChildren();
+    for (const researcher of active.researchers) {
+      const item = document.createElement('div');
+      const identity = document.createElement('div');
+      const name = document.createElement('strong');
+      const role = document.createElement('small');
+      const status = document.createElement('span');
+      item.className = 'codex-researcher';
+      name.textContent = researcher.name;
+      role.textContent = `${researcher.role}${researcher.leadCount ? ` · ${researcher.leadCount} leads` : ''}`;
+      status.className = 'codex-status';
+      status.dataset.status = researcher.status;
+      status.textContent = researchStatusLabel(researcher.status);
+      identity.append(name, role);
+      item.append(identity, status);
+      researcherList.append(item);
+    }
+  }
+
+  const categoryList = document.querySelector('#codex-category-list');
+  categoryList.replaceChildren();
+  for (const category of view.categories) {
+    const row = document.createElement('div');
+    const identity = document.createElement('div');
+    const name = document.createElement('strong');
+    const sequence = document.createElement('small');
+    const primary = document.createElement('div');
+    const primaryTitle = document.createElement('strong');
+    const primaryDetail = document.createElement('small');
+    const external = document.createElement('div');
+    const externalTitle = document.createElement('strong');
+    const externalDetail = document.createElement('small');
+    const status = document.createElement('span');
+    const challengerCompleted = category.researchers.filter(item => item.role === 'challenger' && item.status === 'completed').length;
+    row.className = 'codex-category-row';
+    row.dataset.status = category.status;
+    name.textContent = category.categoryLabel;
+    sequence.textContent = `Category ${view.categories.indexOf(category) + 1} of ${view.totalCategories}`;
+    primaryTitle.textContent = `${category.primary.completed} of ${category.primary.total} Codex passes`;
+    primaryDetail.textContent = `${category.primary.leadCount} Codex leads · ${category.funnel.consolidatedIdentities} consolidated identities`;
+    externalTitle.textContent = `${challengerCompleted} of 3 challengers complete`;
+    externalDetail.textContent = `Claude shadow: ${researchStatusLabel(researcherStatus(category, 'Claude')).toLowerCase()}`;
+    status.className = 'codex-status';
+    status.dataset.status = category.status;
+    status.textContent = researchStatusLabel(category.status);
+    identity.append(name, sequence);
+    primary.append(primaryTitle, primaryDetail);
+    external.append(externalTitle, externalDetail);
+    row.append(identity, primary, external, status);
+    categoryList.append(row);
+  }
+}
+
+function renderScoutProgress(progress) {
+  state.workflowProgress = progress;
+  const phaseLabel = friendlyProgressPhase(progress.phase);
+  const reviewFilename = progress.reviewFile?.filename || progress.targetReviewFilename || 'office review file';
+  document.querySelector('#scout-progress-title').textContent = progress.reviewFile
+    ? `${reviewFilename} is ready`
+    : `Creating ${reviewFilename}`;
+  document.querySelector('#scout-progress-phase').textContent = phaseLabel;
+  document.querySelector('#scout-progress-message').textContent = progress.message;
+  const metrics = document.querySelector('#scout-progress-metrics');
+  metrics.hidden = false;
+  document.querySelector('#scout-research-progress').textContent = `${progress.research.completed} of ${progress.research.total} categories`;
+  const curationFailures = Number(progress.curation.failed || 0);
+  document.querySelector('#scout-curation-progress').textContent = `${progress.curation.completed} of ${progress.curation.total} categories${curationFailures ? ` · ${curationFailures} need attention` : ''}`;
+  const focused = progress.focusedResearch;
+  const focusedMetric = document.querySelector('#scout-focused-research-metric');
+  focusedMetric.hidden = !focused;
+  if (focused) {
+    const active = focused.activeFocus ? ` · ${focused.activeFocus}` : '';
+    document.querySelector('#scout-focused-research-progress').textContent = `${focused.completed} of ${focused.total} passes · ${focused.leadCount} leads${active}`;
+  }
+  const codexFirst = progress.codexFirstResearch;
+  const codexFirstMetric = document.querySelector('#scout-codex-first-metric');
+  codexFirstMetric.hidden = !codexFirst;
+  if (codexFirst) {
+    const active = codexFirst.activeCategory ? ` · ${codexFirst.activeCategory}` : '';
+    document.querySelector('#scout-codex-first-progress').textContent = `${codexFirst.completedCategories} of ${codexFirst.totalCategories} categories · ${codexFirst.completedPasses} of ${codexFirst.totalPasses} Codex passes · ${codexFirst.leadCount} leads${active}`;
+  }
+
+  const next = progress.chatgptAssignment || progress.nextChatgpt;
+  const nextPanel = document.querySelector('#next-chatgpt');
+  nextPanel.hidden = !next;
+  if (next) {
+    const category = next.categoryLabel || next.categoryId || 'Next category';
+    const status = String(next.status || 'scheduled');
+    const statusLabels = {
+      scheduled: 'Scheduled',
+      due: 'Due now',
+      sent: 'Sent',
+      'cooling-down': 'Cooling down',
+    };
+    nextPanel.dataset.status = status;
+    document.querySelector('#next-chatgpt-category').textContent = `ChatGPT research: ${category}`;
+    document.querySelector('#next-chatgpt-status').textContent = statusLabels[status] || status;
+    document.querySelector('#next-chatgpt-delay').textContent = `${next.delayMinutes} minute${Number(next.delayMinutes) === 1 ? '' : 's'}`;
+    const actionTime = status === 'cooling-down'
+      ? next.cooldownUntil
+      : status === 'sent'
+        ? next.sentAt
+        : next.scheduledAt;
+    document.querySelector('#next-chatgpt-time-label').textContent = status === 'cooling-down'
+      ? 'Retry'
+      : status === 'sent'
+        ? 'Sent'
+        : 'Scheduled assignment';
+    document.querySelector('#next-chatgpt-time').textContent = formatWhen(actionTime);
+    const reason = document.querySelector('#next-chatgpt-reason');
+    reason.textContent = next.statusNote || next.reason || '';
+    reason.hidden = !reason.textContent;
+  } else {
+    delete nextPanel.dataset.status;
+  }
+
+  const updated = document.querySelector('#scout-progress-updated');
+  updated.hidden = !progress.updatedAt;
+  updated.textContent = progress.updatedAt ? `Latest update: ${formatWhen(progress.updatedAt)}` : '';
+
+  const review = progress.reviewFile;
+  const reviewPanel = document.querySelector('#review-file-ready');
+  reviewPanel.hidden = !review;
+  if (review) {
+    document.querySelector('#review-file-title').textContent = review.status === 'created'
+      ? `${review.filename} created`
+      : `${review.filename} is ready`;
+    const created = review.createdAt ? ` · created ${formatWhen(review.createdAt)}` : '';
+    document.querySelector('#review-file-detail').textContent = `${review.categoryCount} curated categories · ${review.resourceCount} proposed resources${created}`;
+    const download = document.querySelector('#review-file-download');
+    download.href = review.downloadUrl;
+    download.download = review.filename;
+    download.textContent = `Download ${review.filename}`;
+  }
+}
+
+async function loadScoutProgress() {
+  if (!state.latestImport) return;
+  const [progress, codexFirst] = await Promise.all([
+    request(`/api/scout-progress?importId=${state.latestImport.id}`),
+    request(`/api/codex-first-research?importId=${state.latestImport.id}`),
+  ]);
+  renderScoutProgress(progress);
+  renderCodexFirstDetail(codexFirst);
 }
 
 function selectedResearchMode() {
-  return document.querySelector('input[name="research-mode"]:checked')?.value || 'package';
+  return document.querySelector('#standalone-mode')?.checked
+    ? 'standalone-location'
+    : 'package';
 }
 
 function standaloneDefaultAssignment(location) {
   const place = location.trim() || 'the selected location';
-  return `Discover realistic ways a person without adequate housing in ${place} could obtain safe temporary or permanent housing. Follow useful relationships rather than stopping at a directory listing: voucher providers to participating motels, organizations to specific programs, and temporary options to longer-term pathways. Investigate practical access and lived experience as well as official claims.`;
+  const category = activeCategory();
+  return `Discover credible ${category.label} resource leads that a Resource Specialist should investigate for ${place}. Prioritize distinct providers, named programs, and actionable access points. Prefer an official website and state uncertainty rather than inventing missing facts.`;
 }
 
 function updateStartResearchState() {
@@ -264,7 +389,38 @@ function updateStartResearchState() {
     ? Boolean(state.latestImport && activeCategory().supported)
     : Boolean(document.querySelector('#target-location')?.value.trim());
   const button = document.querySelector('#start-research');
-  if (button) button.disabled = !state.agent?.ready || !contextReady;
+  if (button) button.disabled = !contextReady;
+}
+
+function manualAssignmentPayload() {
+  const mode = selectedResearchMode();
+  return {
+    researchMode: mode,
+    sourceImportId: mode === 'package' ? state.latestImport?.id : null,
+    categoryId: state.activeCategoryId,
+    categoryLabel: activeCategory().label,
+    targetLocation: mode === 'standalone-location' ? document.querySelector('#target-location').value.trim() : '',
+    regionalScope: mode === 'standalone-location' ? document.querySelector('#regional-scope').value.trim() : '',
+  };
+}
+
+async function refreshManualAssignment() {
+  const payload = manualAssignmentPayload();
+  if ((payload.researchMode === 'package' && !payload.sourceImportId)
+      || (payload.researchMode === 'standalone-location' && !payload.targetLocation)) return;
+  const requestNumber = ++state.manualAssignmentRequest;
+  const message = document.querySelector('#research-message');
+  message.textContent = 'Preparing the copyable discovery assignment…';
+  try {
+    const result = await request('/api/manual-discovery-assignment', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
+    });
+    if (requestNumber !== state.manualAssignmentRequest) return;
+    document.querySelector('#research-assignment').value = result.assignment;
+    message.textContent = `${result.context.knownResources.length} existing ${result.context.categoryLabel} resource${result.context.knownResources.length === 1 ? '' : 's'} included as the do-not-repeat list.`;
+  } catch (error) {
+    if (requestNumber === state.manualAssignmentRequest) message.textContent = error.message;
+  }
 }
 
 function updateStandaloneAutoAssignment() {
@@ -277,6 +433,7 @@ function updateStandaloneAutoAssignment() {
   state.standaloneAutoAssignment = next;
   state.assignmentDrafts['standalone-location'] = assignment.value;
   updateStartResearchState();
+  refreshManualAssignment();
 }
 
 function switchResearchMode() {
@@ -285,18 +442,21 @@ function switchResearchMode() {
   state.assignmentDrafts[state.researchMode] = assignment.value;
   state.researchMode = nextMode;
   document.querySelector('#standalone-research-fields').hidden = nextMode !== 'standalone-location';
+  const locationButton = document.querySelector('#research-location-mode');
+  locationButton.textContent = nextMode === 'standalone-location'
+    ? 'Use a resource package'
+    : 'Research a location';
+  locationButton.setAttribute('aria-pressed', String(nextMode === 'standalone-location'));
   if (nextMode === 'package') {
     assignment.value = state.categoryAssignmentDrafts[state.activeCategoryId]
       || state.assignmentDrafts.package || packageDefaultAssignment();
-    document.querySelector('#research-context-note').textContent = state.latestImport
-      ? 'Existing resources in the connected package are used as context and will not be returned as new discoveries.'
-      : 'Package-backed research is the default. Import a resource package above before starting.';
   } else {
     state.standaloneAutoAssignment = standaloneDefaultAssignment(document.querySelector('#target-location').value);
     assignment.value = state.assignmentDrafts['standalone-location'] || state.standaloneAutoAssignment;
-    document.querySelector('#research-context-note').textContent = 'This exploratory run will not compare candidates with a connected package or claim to be an official TSO Resources inventory.';
   }
+  updateCategoryCopy();
   updateStartResearchState();
+  refreshManualAssignment();
 }
 
 function asText(value) {
@@ -383,135 +543,85 @@ function emptyState(text) {
 
 function researchRunTitle(run) {
   const category = run.targetCategoryLabel || 'Housing';
-  const research = run.seedResourceId
-      ? `${category} research from ${run.prompt?.selectedSeed?.name || run.seedResourceId}`
-      : `${category} research`;
-  return `${research} · ${runPlace(run)}`;
+  return `${category} discovery · ${runPlace(run)}`;
 }
 
 function candidateCountForRun(runId) {
-  return state.discoveries.filter(discovery => discovery.runId === runId).length;
+  return state.discoveries.filter(
+    discovery => discovery.runId === runId && !['unavailable', 'unreachable'].includes(discovery.status),
+  ).length;
+}
+
+function effectiveRunPackageContentSha256(run) {
+  return run.reconciliation?.targetPackage?.contentSha256 || run.sourcePackageContentSha256 || '';
+}
+
+function hasNewPackageForRun(run) {
+  return Boolean(
+    run.status === 'completed'
+    && run.researchMode === 'package'
+    && state.latestImport?.contentSha256
+    && state.latestImport.contentSha256 !== effectiveRunPackageContentSha256(run),
+  );
+}
+
+function missingWebsiteCandidatesForRun(runId) {
+  return state.discoveries.filter(discovery => {
+    if (discovery.runId !== runId || ['unavailable', 'unreachable'].includes(discovery.status)) return false;
+    const candidate = discovery.candidate || {};
+    return !asText(candidate.website || candidate.url) && !candidate.contactLookup;
+  });
+}
+
+function excludedLeadsForRun(runId) {
+  return state.discoveries.filter(
+    discovery => discovery.runId === runId && ['unavailable', 'unreachable'].includes(discovery.status),
+  );
+}
+
+function renderExcludedLeads(runId) {
+  const excluded = excludedLeadsForRun(runId);
+  if (!excluded.length) return null;
+  const details = document.createElement('details');
+  details.className = 'excluded-leads';
+  const summary = document.createElement('summary');
+  summary.textContent = `${excluded.length} excluded lead${excluded.length === 1 ? '' : 's'} retained in Scout`;
+  const list = document.createElement('ul');
+  excluded.forEach(discovery => {
+    const item = document.createElement('li');
+    const name = document.createElement('strong');
+    name.textContent = discovery.candidate?.presentationName || discovery.name;
+    const lookup = discovery.candidate?.contactLookup || {};
+    const note = document.createElement('span');
+    const outcome = discovery.status === 'unreachable' ? 'Unreachable' : 'Confirmed closed or ended';
+    note.textContent = `${outcome}: ${lookup.note || 'Documented during website lookup.'}`;
+    item.append(name, note);
+    const href = safeHref(asText(lookup.sourceUrl));
+    if (href) {
+      const link = document.createElement('a');
+      link.href = href; link.target = '_blank'; link.rel = 'noopener noreferrer';
+      link.textContent = 'View source';
+      item.append(link);
+    }
+    list.append(item);
+  });
+  details.append(summary, list);
+  return details;
+}
+
+function manualRunActionLabel(run) {
+  return run.manualProgress?.contributionCount
+    ? 'Review responses and leads'
+    : 'Collect responses';
 }
 
 function selectCandidateRun(runId, { scroll = false } = {}) {
   state.candidateRunId = runId;
   state.candidateRunSelectionInitialized = true;
-  renderRuns();
   renderCandidates();
   if (scroll) {
     document.querySelector('.candidates-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
-}
-
-function appendLabeledSummaryText(target, text) {
-  const match = String(text || '').match(/^([^:]{2,40}):\s*(.*)$/s);
-  if (!match || !/^(key findings?|major caution|caution|typical first step|first step|gap identified|strongest gap found)$/i.test(match[1].replace(/^the\s+/i, ''))) {
-    target.textContent = text;
-    return;
-  }
-  const label = document.createElement('strong');
-  label.textContent = `${match[1]}: `;
-  target.append(label, document.createTextNode(match[2]));
-}
-
-function renderLegacySummary(text) {
-  const content = document.createElement('div');
-  content.className = 'stage-summary-content';
-  const normalized = String(text || '')
-    .replace(/\s+The typical first step is(?: to)?\s+([a-z])/gi, (_, firstLetter) => `\n\nTypical first step: ${firstLetter.toUpperCase()}`)
-    .replace(/\s+(?=(?:Key findings?|Major caution|Caution|(?:The\s+)?Typical first step|Gap identified|The strongest gap found):)/gi, '\n\n')
-    .replace(/\s+\((\d+)\)\s+/g, '\n\n($1) ')
-    .replace(/\s+(?=(?:Most |Known resources|Prior-stage candidates|Also surfaced a lead|None of these|Phones are left blank))/g, '\n\n');
-  const blocks = normalized.split(/\n{2,}/).map(value => value.trim()).filter(Boolean);
-  let list = null;
-  blocks.forEach(block => {
-    const numbered = block.match(/^\((\d+)\)\s+([\s\S]+)$/);
-    if (numbered) {
-      if (!list) {
-        list = document.createElement('ol');
-        content.append(list);
-      }
-      const item = document.createElement('li');
-      item.textContent = numbered[2];
-      list.append(item);
-      return;
-    }
-    list = null;
-    const paragraph = document.createElement('p');
-    appendLabeledSummaryText(paragraph, block);
-    content.append(paragraph);
-  });
-  return content;
-}
-
-function appendSummarySection(target, title, items, className, { ordered = false } = {}) {
-  if (!Array.isArray(items) || !items.length) return;
-  const section = document.createElement('section');
-  section.className = `summary-section ${className}`;
-  const heading = document.createElement('h5');
-  heading.textContent = title;
-  const list = document.createElement(ordered ? 'ol' : 'ul');
-  items.forEach(value => {
-    const item = document.createElement('li');
-    item.textContent = value;
-    list.append(item);
-  });
-  section.append(heading, list);
-  target.append(section);
-}
-
-function renderStageSummary(stage) {
-  const card = document.createElement('section');
-  card.className = 'stage-summary-card';
-  const heading = document.createElement('h4');
-  heading.textContent = stage.title || 'Research stage';
-  card.append(heading);
-  const sections = stage.summarySections;
-  const hasStructuredSummary = sections && typeof sections === 'object' && (
-    sections.overview
-    || sections.keyFindings?.length
-    || sections.cautions?.length
-    || sections.accessSteps?.length
-    || sections.gaps?.length
-  );
-  if (!hasStructuredSummary) {
-    card.append(renderLegacySummary(stage.summary));
-    return card;
-  }
-  if (sections.overview) {
-    const overview = document.createElement('p');
-    overview.className = 'stage-overview';
-    overview.textContent = sections.overview;
-    card.append(overview);
-  }
-  appendSummarySection(card, 'Key findings', sections.keyFindings, 'key-findings', { ordered: true });
-  appendSummarySection(card, 'Cautions', sections.cautions, 'cautions');
-  appendSummarySection(card, 'Practical access', sections.accessSteps, 'access-steps');
-  appendSummarySection(card, 'Gaps and unanswered questions', sections.gaps, 'gaps');
-  return card;
-}
-
-function renderRunFindings(run) {
-  const summaries = Array.isArray(run.result?.stageSummaries) ? run.result.stageSummaries : [];
-  const details = document.createElement('details');
-  details.className = 'run-findings';
-  const toggle = document.createElement('summary');
-  toggle.textContent = summaries.length
-    ? `Show full findings (${summaries.length} stage${summaries.length === 1 ? '' : 's'})`
-    : 'Show full findings';
-  const content = document.createElement('div');
-  content.className = 'run-findings-content';
-  if (summaries.length) {
-    summaries.forEach((stage, index) => {
-      const card = renderStageSummary(stage);
-      card.querySelector('h4').textContent = `${index + 1}. ${card.querySelector('h4').textContent}`;
-      content.append(card);
-    });
-  } else {
-    content.append(renderLegacySummary(run.result?.summary));
-  }
-  details.append(toggle, content);
-  return details;
 }
 
 function renderRuns() {
@@ -521,112 +631,586 @@ function renderRuns() {
     return;
   }
   target.replaceChildren(...state.runs.map(run => {
-    const item = document.createElement('div');
+    const item = document.createElement('details');
     item.className = 'run';
-    const head = document.createElement('div');
-    head.className = 'run-head';
+    item.open = run.status === 'running' || state.expandedRunIds.has(run.id);
+    item.addEventListener('toggle', () => {
+      if (item.open) state.expandedRunIds.add(run.id);
+      else state.expandedRunIds.delete(run.id);
+    });
+    const summary = document.createElement('summary');
+    summary.className = 'run-summary';
     const title = document.createElement('strong');
-    title.textContent = researchRunTitle(run);
+    title.textContent = run.targetCategoryLabel || 'Resource';
+    const separator = document.createElement('span');
+    separator.className = 'run-summary-separator';
+    separator.textContent = '·';
+    separator.setAttribute('aria-hidden', 'true');
     const status = document.createElement('span');
-    status.className = `run-status ${run.status}`;
+    status.className = `run-summary-status ${run.status}`;
     status.textContent = friendlyStatus(run.status);
-    head.append(title, status);
+    summary.append(title, separator, status);
+    const body = document.createElement('div');
+    body.className = 'run-body';
     const time = document.createElement('small');
     const duration = formatDuration(run);
-    time.textContent = `${formatWhen(run.createdAt)}${duration ? ` · Duration ${duration}` : ''} · ${run.adapter} · ${run.researchMode === 'standalone-location' ? 'standalone location' : 'package-backed'}`;
-    item.append(head, time);
-    if (run.progress?.total) {
-      const progress = document.createElement('div');
-      progress.className = 'run-progress';
-      progress.textContent = `${run.progress.completed} of ${run.progress.total} research stages completed`;
-      item.append(progress);
-      const stages = document.createElement('details');
-      stages.className = 'run-stages';
-      const summary = document.createElement('summary');
-      summary.textContent = 'View stage progress';
-      const list = document.createElement('ol');
-      (run.stages || []).forEach(stage => {
-        const entry = document.createElement('li');
-        const stageTitle = document.createElement('span');
-        stageTitle.textContent = stage.title;
-        const stageStatus = document.createElement('small');
-        stageStatus.className = `stage-status ${stage.status}`;
-        stageStatus.textContent = friendlyStatus(stage.status);
-        entry.append(stageTitle, stageStatus);
-        if (stage.error) {
-          const error = document.createElement('div');
-          error.className = 'stage-error';
-          error.textContent = stage.error;
-          entry.append(error);
-        }
-        list.append(entry);
-      });
-      stages.append(summary, list);
-      item.append(stages);
+    time.textContent = `${formatWhen(run.createdAt)}${duration ? ` · Duration ${duration}` : ''} · chat sources · ${run.researchMode === 'standalone-location' ? 'standalone location' : 'package-backed'}`;
+    body.append(time);
+    const progress = document.createElement('div');
+    progress.className = 'run-progress';
+    const received = run.manualProgress?.contributionCount || 0;
+    const leads = run.manualProgress?.leadCount || 0;
+    const errors = run.manualProgress?.errorContributionCount || 0;
+    progress.textContent = `${received} response${received === 1 ? '' : 's'} received · ${leads} parsed lead${leads === 1 ? '' : 's'}${errors ? ` · ${errors} needs correction` : ''}`;
+    body.append(progress);
+    if (run.reconciliation) {
+      const reconciliation = document.createElement('div');
+      reconciliation.className = 'run-reconciliation';
+      const result = run.reconciliation.result;
+      reconciliation.textContent = `Compared with ${run.reconciliation.targetPackage.sourceName}: ${result.knownCategoryResourceCount} existing ${run.targetCategoryLabel || 'category'} resource${result.knownCategoryResourceCount === 1 ? '' : 's'} · ${result.alreadyKnownCount} likely already included · ${result.possibleRelationshipCount} possible relationship${result.possibleRelationshipCount === 1 ? '' : 's'}.`;
+      body.append(reconciliation);
     }
     const actions = document.createElement('div');
     actions.className = 'run-actions';
-    const viewCandidates = document.createElement('button');
-    viewCandidates.type = 'button';
-    viewCandidates.className = 'secondary view-candidates';
-    viewCandidates.setAttribute('aria-pressed', String(state.candidateRunId === run.id));
-    viewCandidates.textContent = `View candidates (${candidateCountForRun(run.id)})`;
-    viewCandidates.addEventListener('click', () => selectCandidateRun(run.id, { scroll: true }));
-    actions.append(viewCandidates);
-    if (['completed', 'partial'].includes(run.status)) {
-      const exportLink = document.createElement('a');
-      exportLink.className = 'review-export';
-      exportLink.href = `/api/research-runs/${run.id}/review-copy`;
-      exportLink.download = '';
-      exportLink.textContent = 'Export Resource Curator';
-      const detail = document.createElement('small');
-      detail.textContent = 'This run only · portable vetting and package workspace';
-      actions.append(exportLink, detail);
-      if (run.status === 'partial') {
-        const resume = document.createElement('button');
-        resume.type = 'button';
-        resume.className = 'secondary resume-run';
-        resume.textContent = 'Resume research';
-        resume.addEventListener('click', () => resumeResearchRun(run, resume));
-        actions.append(resume);
+    const actionStatus = document.createElement('span');
+    actionStatus.className = 'run-action-status';
+    actionStatus.setAttribute('aria-live', 'polite');
+    const savedActionMessage = state.runActionMessages[run.id];
+    if (savedActionMessage) {
+      actionStatus.textContent = savedActionMessage.text;
+      actionStatus.classList.toggle('error', savedActionMessage.kind === 'error');
+    }
+    const showActionMessage = (text, kind = '') => {
+      state.runActionMessages[run.id] = { text, kind };
+      actionStatus.textContent = text;
+      actionStatus.classList.toggle('error', kind === 'error');
+    };
+    if (run.status === 'running') {
+      const openManual = document.createElement('button');
+      openManual.type = 'button';
+      openManual.className = 'secondary view-manual-run';
+      openManual.textContent = manualRunActionLabel(run);
+      openManual.addEventListener('click', () => openManualDiscoveryRun(run.id));
+      actions.append(openManual);
+    }
+    if (run.status === 'completed') {
+        const missingWebsites = missingWebsiteCandidatesForRun(run.id);
+        const viewCandidates = document.createElement('button');
+        viewCandidates.type = 'button';
+        viewCandidates.className = 'secondary view-candidates';
+        viewCandidates.setAttribute('aria-pressed', String(state.candidateRunId === run.id));
+        viewCandidates.textContent = `View candidates (${candidateCountForRun(run.id)})`;
+        viewCandidates.addEventListener('click', () => selectCandidateRun(run.id, { scroll: true }));
+        const exportLink = document.createElement('a');
+        exportLink.className = 'review-export';
+        exportLink.href = `/api/research-runs/${run.id}/review-copy`;
+        exportLink.download = '';
+        exportLink.textContent = 'Export Resource Curator';
+        actions.append(viewCandidates);
+        const hasNewPackage = hasNewPackageForRun(run);
+        if (hasNewPackage && missingWebsites.length && !savedActionMessage) {
+          actionStatus.textContent = `${missingWebsites.length} candidate${missingWebsites.length === 1 ? '' : 's'} need website lookup before Scout compares this discovery with the newly connected package.`;
+        }
+        if (missingWebsites.length) {
+          const lookupLink = document.createElement('a');
+          lookupLink.className = 'review-export';
+          lookupLink.href = `/api/research-runs/${run.id}/contact-lookup`;
+          lookupLink.download = '';
+          lookupLink.textContent = `Export website lookup (${missingWebsites.length})`;
+          actions.append(lookupLink);
+          const importLookup = document.createElement('button');
+          importLookup.type = 'button';
+          importLookup.className = 'secondary';
+          importLookup.textContent = 'Import website results';
+          const importFile = document.createElement('input');
+          importFile.type = 'file';
+          importFile.accept = '.json,application/json';
+          importFile.hidden = true;
+          importLookup.addEventListener('click', () => importFile.click());
+          importFile.addEventListener('change', async () => {
+            const file = importFile.files?.[0];
+            if (!file) return;
+            importLookup.disabled = true;
+            importLookup.textContent = 'Importing…';
+            showActionMessage(`Checking ${file.name}…`);
+            try {
+              const payload = JSON.parse(await file.text());
+              const result = await request(`/api/research-runs/${run.id}/contact-lookup`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+              });
+              showActionMessage(`${file.name} applied: ${result.verifiedContactCount} updated, ${result.unavailableCount} closed or ended, ${result.unreachableCount} unreachable, ${result.unresolvedCount} unresolved.`);
+              await loadResearchData();
+            } catch (error) {
+              showActionMessage(`${file.name} was not imported: ${error.message}`, 'error');
+              importLookup.disabled = false;
+              importLookup.textContent = 'Import website results';
+            } finally {
+              importFile.value = '';
+            }
+          });
+          actions.append(importLookup, importFile);
+        }
+        if (hasNewPackage && !missingWebsites.length) {
+          const reconcile = document.createElement('button');
+          reconcile.type = 'button';
+          reconcile.className = 'secondary';
+          reconcile.textContent = 'Reconcile with current package';
+          reconcile.addEventListener('click', async () => {
+            reconcile.disabled = true;
+            reconcile.textContent = 'Reconciling…';
+            showActionMessage(`Comparing candidates with ${state.latestImport.sourceName}…`);
+            try {
+              const result = await request(`/api/research-runs/${run.id}/reconcile`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ importId: state.latestImport.id }),
+              });
+              showActionMessage(`Compared ${result.candidateCount} candidates: ${result.alreadyKnownCount} likely already included, ${result.possibleRelationshipCount} possible relationships, ${result.unmatchedCount} unmatched. Export a new Resource Curator.`);
+              await loadResearchData();
+            } catch (error) {
+              showActionMessage(`Reconciliation failed: ${error.message}`, 'error');
+              reconcile.disabled = false;
+              reconcile.textContent = 'Reconcile with current package';
+            }
+          });
+          actions.append(reconcile);
+        }
+        actions.append(exportLink);
+    }
+    body.append(actions, actionStatus);
+    const excluded = renderExcludedLeads(run.id);
+    if (excluded) body.append(excluded);
+    item.append(summary, body);
+    return item;
+  }));
+}
+
+async function copyText(text, button, originalLabel) {
+  try {
+    await navigator.clipboard.writeText(text);
+    button.textContent = 'Copied';
+    setTimeout(() => { button.textContent = originalLabel; }, 1500);
+    return true;
+  } catch {
+    button.textContent = 'Select and copy the text';
+    setTimeout(() => { button.textContent = originalLabel; }, 2200);
+    return false;
+  }
+}
+
+function manualContributionSummary(contribution) {
+  const box = document.createElement('div');
+  box.className = `manual-validation ${contribution.parseStatus}`;
+  if (contribution.parseStatus === 'error') {
+    const error = document.createElement('strong');
+    error.textContent = `Needs correction: ${contribution.error}`;
+    box.append(error);
+    return box;
+  }
+  const counts = new Map();
+  let blankWebsites = 0;
+  let warningCount = contribution.warnings.length;
+  contribution.leads.forEach(lead => {
+    counts.set(lead.leadType || 'unclassified', (counts.get(lead.leadType || 'unclassified') || 0) + 1);
+    if (!lead.website) blankWebsites += 1;
+    warningCount += lead.warnings.length;
+  });
+  const summary = document.createElement('strong');
+  const types = [...counts].map(([type, count]) => `${count} ${friendlyStatus(type)}`).join(', ');
+  summary.textContent = `${contribution.leads.length} lead${contribution.leads.length === 1 ? '' : 's'} parsed${types ? ` · ${types}` : ''}`;
+  const details = document.createElement('small');
+  details.textContent = `${blankWebsites} blank website${blankWebsites === 1 ? '' : 's'} · ${warningCount} parser warning${warningCount === 1 ? '' : 's'}${contribution.trailingText.trim() ? ' · trailing source text preserved' : ''}`;
+  box.append(summary, details);
+  return box;
+}
+
+function createManualSourceCard(label, contribution = null, custom = false) {
+  const run = state.activeManualRun;
+  const locked = run.status !== 'running';
+  const card = document.createElement('article');
+  card.className = 'manual-source-card';
+  if (contribution) card.dataset.contributionId = String(contribution.id);
+  const heading = document.createElement('div');
+  heading.className = 'manual-source-heading';
+  const sourceLabel = document.createElement('input');
+  sourceLabel.className = 'manual-source-label';
+  sourceLabel.value = contribution?.sourceLabel || label;
+  sourceLabel.readOnly = !custom || locked;
+  sourceLabel.setAttribute('aria-label', 'Chat source label');
+  const stateLabel = document.createElement('span');
+  stateLabel.className = contribution ? `manual-source-state ${contribution.parseStatus}` : 'manual-source-state';
+  stateLabel.textContent = contribution ? (contribution.parseStatus === 'parsed' ? 'Saved' : 'Check response') : 'Waiting';
+  heading.append(sourceLabel, stateLabel);
+  const textarea = document.createElement('textarea');
+  textarea.rows = 10;
+  textarea.placeholder = `Paste ${label || 'this source'}'s complete response here…`;
+  textarea.value = contribution?.rawText || '';
+  textarea.disabled = locked;
+  const uploadRow = document.createElement('div');
+  uploadRow.className = 'manual-upload-row';
+  const uploadLabel = document.createElement('label');
+  uploadLabel.className = 'manual-file-button';
+  uploadLabel.textContent = 'Choose text or JSON file';
+  const upload = document.createElement('input');
+  upload.type = 'file';
+  upload.accept = '.txt,.json,text/plain,application/json';
+  upload.disabled = locked;
+  uploadLabel.append(upload);
+  const filename = document.createElement('span');
+  filename.className = 'muted';
+  filename.textContent = contribution?.filename || 'No file selected';
+  uploadRow.append(uploadLabel, filename);
+  const feedback = document.createElement('div');
+  feedback.className = 'manual-card-feedback';
+  if (contribution) feedback.append(manualContributionSummary(contribution));
+  const actions = document.createElement('div');
+  actions.className = 'manual-card-actions';
+  const save = document.createElement('button');
+  save.type = 'button';
+  save.textContent = contribution ? 'Replace saved response' : 'Validate and save';
+  save.disabled = locked;
+  const remove = document.createElement('button');
+  remove.type = 'button';
+  remove.className = 'secondary';
+  remove.textContent = 'Delete';
+  remove.hidden = locked || (!contribution && !custom);
+  actions.append(save, remove);
+  upload.addEventListener('change', async () => {
+    const file = upload.files[0];
+    if (!file) return;
+    try {
+      textarea.value = await file.text();
+      textarea.dataset.filename = file.name;
+      filename.textContent = file.name;
+      feedback.textContent = 'File loaded. Choose Validate and save.';
+    } catch {
+      feedback.textContent = 'Scout could not read that file.';
+    }
+  });
+  save.addEventListener('click', async () => {
+    const source = sourceLabel.value.trim();
+    if (!source || !textarea.value.trim()) {
+      feedback.textContent = 'Enter a source label and paste or choose a response.';
+      return;
+    }
+    save.disabled = true;
+    feedback.textContent = 'Validating and preserving the response…';
+    try {
+      const response = {
+        sourceLabel: source,
+        rawText: textarea.value,
+        filename: textarea.dataset.filename || contribution?.filename || '',
+      };
+      if (run.id) {
+        await request(`/api/manual-discovery-runs/${run.id}/contributions`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(response),
+        });
+        await openManualDiscoveryRun(run.id);
+      } else {
+        const result = await request('/api/manual-discovery-runs/initial-contribution', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...run.setupPayload, initialContribution: response }),
+        });
+        await loadResearchData();
+        await openManualDiscoveryRun(result.run.id);
       }
+      document.querySelector('#manual-discovery-message').textContent = `${source} response saved with its original text and source label.`;
+    } catch (error) {
+      feedback.textContent = error.message;
+      save.disabled = false;
     }
-    if (run.status === 'failed') {
-      const resume = document.createElement('button');
-      resume.type = 'button';
-      resume.className = 'secondary resume-run';
-      resume.textContent = run.progress?.total ? 'Retry failed stage' : 'Retry as staged research';
-      resume.addEventListener('click', () => resumeResearchRun(run, resume));
-      actions.append(resume);
+  });
+  remove.addEventListener('click', async () => {
+    if (!contribution) {
+      card.remove();
+      return;
     }
-    item.append(actions);
-    if (run.result?.summary || run.result?.stageSummaries?.length) item.append(renderRunFindings(run));
-    if (run.error) {
-      const error = document.createElement('div');
-      error.className = 'run-error';
-      error.textContent = run.error;
-      item.append(error);
+    if (!window.confirm(`Delete the saved ${contribution.sourceLabel} response from this unfinished run?`)) return;
+    try {
+      await request(`/api/manual-discovery-runs/${run.id}/contributions/${contribution.id}`, { method: 'DELETE' });
+      await openManualDiscoveryRun(run.id);
+      document.querySelector('#manual-discovery-message').textContent = `${contribution.sourceLabel} response deleted.`;
+    } catch (error) {
+      feedback.textContent = error.message;
+    }
+  });
+  const raw = document.createElement('details');
+  raw.className = 'manual-raw-response';
+  const rawSummary = document.createElement('summary');
+  rawSummary.textContent = contribution ? 'View preserved response and source notes' : 'Response details';
+  const rawText = document.createElement('pre');
+  rawText.textContent = contribution?.rawText || 'The exact response will be preserved after saving.';
+  raw.append(rawSummary, rawText);
+  if (contribution?.trailingText.trim()) {
+    const trailingTitle = document.createElement('strong');
+    trailingTitle.textContent = 'Preserved trailing source text';
+    const trailing = document.createElement('pre');
+    trailing.textContent = contribution.trailingText;
+    raw.append(trailingTitle, trailing);
+  }
+  card.append(heading, textarea, uploadRow, feedback, actions, raw);
+  return card;
+}
+
+function renderManualConsolidation() {
+  const section = document.querySelector('#manual-consolidation');
+  const consolidation = state.manualConsolidation;
+  section.hidden = !consolidation;
+  if (!consolidation) return;
+  const funnel = consolidation.funnel;
+  const funnelItems = [
+    ['Submitted rows', funnel.submittedRows],
+    ['Parsed leads', funnel.parsedLeads],
+    ['Repeated rows collapsed', funnel.exactDuplicateRows],
+    ['Consolidated identities', funnel.consolidatedIdentities],
+    ['Provider/program candidates', funnel.providerProgramIdentities],
+    ['Access-point candidates', funnel.accessPointIdentities],
+    ['Routing sources/directories', funnel.routingDirectoryIdentities],
+    ['Limited initiatives', funnel.outreachInitiatives],
+    ['Unresolved roles', funnel.unresolvedIdentities],
+    ['Possible package duplicates', funnel.possiblePackageDuplicates],
+  ];
+  document.querySelector('#manual-funnel').replaceChildren(...funnelItems.map(([label, value]) => {
+    const item = document.createElement('div');
+    const count = document.createElement('strong');
+    count.textContent = value;
+    const name = document.createElement('span');
+    name.textContent = label;
+    item.append(count, name);
+    return item;
+  }));
+  const suggestionsTarget = document.querySelector('#manual-identity-suggestions');
+  if (!consolidation.suggestions.length) {
+    suggestionsTarget.replaceChildren(emptyState('No ambiguous identity pairs need review.'));
+  } else {
+    const locked = state.activeManualRun.status !== 'running';
+    const pendingSuggestions = consolidation.suggestions.filter(item => item.status === 'pending');
+    const reviewedSuggestions = consolidation.suggestions.filter(item => item.status !== 'pending');
+    const heading = document.createElement('div');
+    heading.className = 'manual-suggestion-intro';
+    const title = document.createElement('h4');
+    title.textContent = locked
+      ? `Possible relationships retained · ${pendingSuggestions.length}`
+      : `Identity review · ${pendingSuggestions.length} pending`;
+    const copy = document.createElement('p');
+    copy.textContent = locked
+      ? 'Scout kept these leads separate and included the possible relationships in Curator. No further action is required here.'
+      : 'Optional: merge a pair only when the submitted identity is clear. Unreviewed pairs stay separate and travel to Curator as possible-related context.';
+    heading.append(title, copy);
+    if (!locked && pendingSuggestions.length > 1) {
+      const leaveAll = document.createElement('button');
+      leaveAll.type = 'button';
+      leaveAll.className = 'secondary';
+      leaveAll.textContent = `Leave all ${pendingSuggestions.length} pending pairs unresolved`;
+      leaveAll.disabled = state.activeManualRun.status !== 'running' || state.manualIdentityDecisionPending;
+      leaveAll.addEventListener('click', async () => {
+        if (state.manualIdentityDecisionPending) return;
+        if (!window.confirm('Keep every pending pair separate and mark the identity relationship unresolved? You can still revise individual decisions before finishing discovery.')) return;
+        state.manualIdentityDecisionPending = true;
+        suggestionsTarget.querySelectorAll('button').forEach(item => { item.disabled = true; });
+        leaveAll.textContent = 'Saving unresolved choices…';
+        document.querySelector('#manual-discovery-message').textContent = 'Saving unresolved identity choices…';
+        try {
+          state.manualConsolidation = await request(`/api/manual-discovery-runs/${state.activeManualRun.id}/leave-pending-unresolved`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+          });
+          state.manualIdentityDecisionPending = false;
+          renderManualDiscoveryWorkspace();
+          document.querySelector('#manual-discovery-message').textContent = 'All remaining identity pairs were saved as unresolved.';
+        } catch (error) {
+          state.manualIdentityDecisionPending = false;
+          document.querySelector('#manual-discovery-message').textContent = error.message;
+          renderManualDiscoveryWorkspace();
+        }
+      });
+      heading.append(leaveAll);
+    }
+    const renderSuggestion = suggestion => {
+      const card = document.createElement('article');
+      card.className = `manual-identity-suggestion ${suggestion.status}`;
+      const pair = document.createElement('div');
+      pair.className = 'manual-identity-pair';
+      for (const side of [suggestion.left, suggestion.right]) {
+        const identity = document.createElement('div');
+        const name = document.createElement('strong');
+        name.textContent = side.displayName || 'Unnamed identity';
+        const detail = document.createElement('small');
+        detail.textContent = `${side.organization || 'Organization not supplied'}${side.program ? ` · ${side.program}` : ''} · ${side.sources.join(', ')}`;
+        identity.append(name, detail);
+        pair.append(identity);
+      }
+      const reason = document.createElement('p');
+      reason.textContent = suggestion.reason;
+      const actions = document.createElement('div');
+      actions.className = 'manual-identity-actions';
+      if (!locked) {
+        for (const [decision, label] of [['same', 'Same identity'], ['separate', 'Keep separate'], ['unresolved', 'Leave unresolved']]) {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'secondary';
+          button.textContent = label;
+          button.setAttribute('aria-pressed', String(suggestion.status === decision));
+          button.disabled = state.manualIdentityDecisionPending;
+          button.addEventListener('click', async () => {
+          if (state.manualIdentityDecisionPending) return;
+          state.manualIdentityDecisionPending = true;
+          suggestionsTarget.querySelectorAll('button').forEach(item => { item.disabled = true; });
+          actions.querySelectorAll('button').forEach(item => {
+            item.setAttribute('aria-pressed', String(item === button));
+          });
+          const saving = document.createElement('span');
+          saving.className = 'manual-choice-status';
+          saving.setAttribute('role', 'status');
+          saving.textContent = `Saving “${label}”…`;
+          actions.append(saving);
+          document.querySelector('#manual-discovery-message').textContent = 'Saving identity choice…';
+          try {
+            state.manualConsolidation = await request(`/api/manual-discovery-runs/${state.activeManualRun.id}/identity-decision`, {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                leftKey: suggestion.leftKey,
+                rightKey: suggestion.rightKey,
+                decision,
+              }),
+            });
+            state.manualIdentityDecisionPending = false;
+            renderManualDiscoveryWorkspace();
+            const remaining = state.manualConsolidation.funnel.pendingIdentityDecisions;
+            document.querySelector('#manual-discovery-message').textContent = `Choice saved. ${remaining} identity pair${remaining === 1 ? '' : 's'} remain.`;
+          } catch (error) {
+            state.manualIdentityDecisionPending = false;
+            document.querySelector('#manual-discovery-message').textContent = error.message;
+            renderManualDiscoveryWorkspace();
+          }
+          });
+          actions.append(button);
+        }
+      }
+      card.append(pair, reason);
+      if (!locked) card.append(actions);
+      return card;
+    };
+    const pendingCards = pendingSuggestions.map(renderSuggestion);
+    const children = [heading];
+    if (!pendingCards.length) children.push(emptyState('No identity pairs are waiting for a decision.'));
+    if (locked && pendingCards.length) {
+      const retained = document.createElement('details');
+      retained.className = 'manual-reviewed-identities';
+      const summary = document.createElement('summary');
+      summary.textContent = `Inspect ${pendingCards.length} possible relationship${pendingCards.length === 1 ? '' : 's'}`;
+      retained.append(summary, ...pendingCards);
+      children.push(retained);
+    } else {
+      children.push(...pendingCards);
+    }
+    if (reviewedSuggestions.length) {
+      const reviewed = document.createElement('details');
+      reviewed.className = 'manual-reviewed-identities';
+      const summary = document.createElement('summary');
+      summary.textContent = locked
+        ? `Inspect ${reviewedSuggestions.length} recorded identity decision${reviewedSuggestions.length === 1 ? '' : 's'}`
+        : `Review or change ${reviewedSuggestions.length} recorded identity decision${reviewedSuggestions.length === 1 ? '' : 's'}`;
+      reviewed.append(summary, ...reviewedSuggestions.map(renderSuggestion));
+      children.push(reviewed);
+    }
+    suggestionsTarget.replaceChildren(...children);
+  }
+  document.querySelector('#manual-group-summary').textContent = `Inspect ${consolidation.groups.length} consolidated identity group${consolidation.groups.length === 1 ? '' : 's'}`;
+  document.querySelector('#manual-group-list').replaceChildren(...consolidation.groups.map(group => {
+    const item = document.createElement('article');
+    item.className = 'manual-group';
+    const head = document.createElement('div');
+    const name = document.createElement('strong');
+    name.textContent = group.displayName;
+    const role = document.createElement('span');
+    role.textContent = friendlyStatus(group.routedRole);
+    head.append(name, role);
+    const sources = document.createElement('small');
+    sources.textContent = `${group.members.length} submitted row${group.members.length === 1 ? '' : 's'} · ${[...new Set(group.members.map(member => member.sourceLabel))].join(', ')}`;
+    item.append(head, sources);
+    if (group.duplicateMatches.length) {
+      const duplicate = document.createElement('p');
+      duplicate.textContent = `Possible package relationship: ${group.duplicateMatches[0].name} (${group.duplicateMatches[0].classification})`;
+      item.append(duplicate);
     }
     return item;
   }));
 }
 
-async function resumeResearchRun(run, button) {
-  const message = document.querySelector('#research-message');
-  button.disabled = true;
-  state.candidateRunId = run.id;
-  state.candidateRunSelectionInitialized = true;
-  message.textContent = `Resuming ${run.targetLocation ? `${run.targetLocation} ` : ''}research from the first unfinished stage…`;
-  try {
-    await request(`/api/research-runs/${run.id}/resume`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
-    });
-    message.textContent = `Research run ${run.id} resumed. Completed stages will not be repeated.`;
-    await loadResearchData();
-  } catch (error) {
-    message.textContent = error.message;
-    button.disabled = false;
+function renderManualDiscoveryWorkspace() {
+  const run = state.activeManualRun;
+  if (!run) return;
+  const locked = run.status !== 'running';
+  document.querySelector('#manual-discovery-title').textContent = `${run.targetCategoryLabel} · ${locked ? 'Finished responses' : 'Collect chat responses'}`;
+  document.querySelector('#manual-discovery-context').textContent = `${runPlace(run)} · ${locked ? 'This snapshot is locked.' : 'A run may finish with fewer than four responses.'}`;
+  document.querySelector('#manual-assignment-text').textContent = run.assignment;
+  const progress = run.manualProgress || {};
+  document.querySelector('#manual-progress').textContent = `${progress.contributionCount || 0} response${progress.contributionCount === 1 ? '' : 's'} received · ${progress.leadCount || 0} parsed lead${progress.leadCount === 1 ? '' : 's'}${progress.errorContributionCount ? ` · ${progress.errorContributionCount} response needs correction` : ''}`;
+  const nextStep = document.querySelector('#manual-next-step');
+  if (locked) {
+    nextStep.textContent = 'Discovery is finished. Close this view, then export its Resource Curator from Recent runs.';
+  } else if (progress.errorContributionCount) {
+    nextStep.textContent = 'Next: Correct or remove the response marked as needing attention.';
+  } else if (state.manualConsolidation) {
+    nextStep.textContent = 'Next: Optionally review the possible relationships, then select Finish discovery.';
+  } else if ((progress.contributionCount || 0) >= 4) {
+    nextStep.textContent = 'Next: Select Consolidate leads. Scout will combine repeated leads and flag possible relationships.';
+  } else if (progress.contributionCount) {
+    nextStep.textContent = 'Next: Add another response, or select Consolidate leads if you have enough sources.';
+  } else {
+    nextStep.textContent = 'Next: Paste a chat response into a source card and select Validate and save.';
   }
+  renderManualConsolidation();
+  const byLabel = new Map(state.manualContributions.map(item => [item.sourceLabel.toLowerCase(), item]));
+  const defaults = ['ChatGPT', 'Grok', 'Claude', 'Perplexity'];
+  const cards = defaults.map(label => createManualSourceCard(label, byLabel.get(label.toLowerCase()) || null));
+  const defaultKeys = new Set(defaults.map(label => label.toLowerCase()));
+  state.manualContributions
+    .filter(item => !defaultKeys.has(item.sourceLabel.toLowerCase()))
+    .forEach(item => cards.push(createManualSourceCard(item.sourceLabel, item, true)));
+  document.querySelector('#manual-source-list').replaceChildren(...cards);
+  document.querySelector('#add-manual-source').hidden = locked;
+  const consolidate = document.querySelector('#consolidate-manual-discovery');
+  consolidate.hidden = locked;
+  consolidate.disabled = !progress.contributionCount || Boolean(progress.errorContributionCount);
+  consolidate.textContent = state.manualConsolidation ? 'Re-consolidate leads' : 'Consolidate leads';
+  const finish = document.querySelector('#finish-manual-discovery');
+  finish.hidden = locked;
+  finish.disabled = !state.manualConsolidation || Boolean(progress.errorContributionCount);
+}
+
+async function openManualDiscoveryRun(runId) {
+  const result = await request(`/api/manual-discovery-runs/${runId}/contributions`);
+  state.activeManualRun = result.run;
+  state.manualContributions = result.contributions;
+  state.manualConsolidation = result.consolidation;
+  renderManualDiscoveryWorkspace();
+  const dialog = document.querySelector('#manual-discovery-dialog');
+  if (!dialog.open) dialog.showModal();
+  if (result.consolidation) {
+    requestAnimationFrame(() => document.querySelector('#manual-consolidation').scrollIntoView({ block: 'start' }));
+  }
+}
+
+function openManualDiscoverySetup(payload) {
+  state.activeManualRun = {
+    id: null,
+    status: 'running',
+    assignment: payload.assignment,
+    researchMode: payload.researchMode,
+    targetLocation: payload.targetLocation,
+    sourceOfficeName: state.latestImport?.officeName || '',
+    sourceServiceArea: state.latestImport?.serviceArea || '',
+    targetCategoryId: payload.categoryId,
+    targetCategoryLabel: payload.categoryLabel,
+    manualProgress: { contributionCount: 0, leadCount: 0, errorContributionCount: 0 },
+    setupPayload: payload,
+  };
+  state.manualContributions = [];
+  state.manualConsolidation = null;
+  renderManualDiscoveryWorkspace();
+  document.querySelector('#manual-discovery-dialog').showModal();
 }
 
 function candidateDescription(discovery) {
@@ -645,7 +1229,10 @@ function renderCandidates() {
   const filter = document.querySelector('#candidate-run-filter');
   const all = document.createElement('option');
   all.value = '';
-  all.textContent = `All candidates (${state.discoveries.length})`;
+  const activeDiscoveries = state.discoveries.filter(
+    discovery => !['unavailable', 'unreachable'].includes(discovery.status),
+  );
+  all.textContent = `All resource candidates (${activeDiscoveries.length})`;
   const options = state.runs.map(run => {
     const option = document.createElement('option');
     option.value = String(run.id);
@@ -657,19 +1244,19 @@ function renderCandidates() {
 
   const selectedRun = state.runs.find(run => run.id === state.candidateRunId);
   const discoveries = selectedRun
-    ? state.discoveries.filter(discovery => discovery.runId === selectedRun.id)
-    : state.discoveries;
+    ? activeDiscoveries.filter(discovery => discovery.runId === selectedRun.id)
+    : activeDiscoveries;
   document.querySelector('#candidate-count').textContent = discoveries.length;
   document.querySelector('#candidate-inbox-title').textContent = selectedRun
-    ? `Research candidates · ${researchRunTitle(selectedRun)}`
-    : 'Research candidates · All runs';
+    ? `Resource candidates · ${researchRunTitle(selectedRun)}`
+    : `Resource candidates · ${state.latestImport?.officeName || 'current package'}`;
   document.querySelector('#candidate-inbox-context').textContent = selectedRun
-    ? `Showing only candidates associated with research run ${selectedRun.id}. Use its run card to export a Resource Curator for human vetting, optional outcomes, resource editing, and package preparation.`
-    : 'Showing candidates from every research run. Choose one run to inspect or export its Resource Curator.';
+    ? `Showing resource candidates from ${researchRunTitle(selectedRun)}.`
+    : `Showing resource candidates from every research run for ${state.latestImport?.sourceName || 'the current package'}.`;
   if (!discoveries.length) {
     target.replaceChildren(emptyState(selectedRun
-      ? 'No candidates have been saved for this research run yet.'
-      : 'Research candidates will appear here after an agent run.'));
+      ? 'No resource candidates have been saved for this research run yet.'
+      : 'Resource candidates will appear here after Scout finishes a category.'));
     return;
   }
   target.replaceChildren(...discoveries.map(discovery => {
@@ -679,10 +1266,10 @@ function renderCandidates() {
     const head = document.createElement('div');
     head.className = 'candidate-head';
     const name = document.createElement('strong');
-    name.textContent = discovery.name;
+    name.textContent = discovery.candidate?.presentationName || discovery.name;
     const status = document.createElement('span');
     status.className = 'candidate-status';
-    status.textContent = 'Candidate';
+    status.textContent = 'Resource candidate';
     head.append(name, status);
     const description = document.createElement('p');
     description.textContent = candidateDescription(discovery);
@@ -800,6 +1387,13 @@ function renderCandidateProfile(discovery) {
     : experience);
   addCandidateSection(profile, 'Unknowns to pursue', candidate.unknowns);
   addCandidateSection(profile, 'Follow-up branches', candidate.followUpBranches);
+  if (candidate.contactLookup?.status === 'unresolved') {
+    addCandidateSection(
+      profile,
+      'Contact lookup remains unresolved',
+      [candidate.contactLookup.note, ...(candidate.contactLookup.suggestedNextSteps || [])],
+    );
+  }
 
   const evidence = Array.isArray(candidate.evidence) ? candidate.evidence : [];
   if (evidence.length) {
@@ -834,76 +1428,28 @@ function renderCandidateProfile(discovery) {
 
 function openCandidate(discovery) {
   state.currentCandidate = discovery;
-  document.querySelector('#candidate-dialog-name').textContent = discovery.name;
+  document.querySelector('#candidate-dialog-name').textContent = discovery.candidate?.presentationName || discovery.name;
   const status = document.querySelector('#candidate-dialog-status');
   status.className = 'candidate-status';
-  status.textContent = 'Research candidate';
+  status.textContent = 'Resource candidate';
   document.querySelector('#candidate-profile').replaceChildren(renderCandidateProfile(discovery));
   document.querySelector('#candidate-json').textContent = JSON.stringify(discovery.candidate, null, 2);
   document.querySelector('#candidate-dialog').showModal();
 }
 
-function renderLessons() {
-  const target = document.querySelector('#lesson-list');
-  if (!state.lessons.length) {
-    target.replaceChildren(emptyState('No research lessons yet. Add one, or teach the agent while reviewing a candidate.'));
+async function loadResearchData() {
+  if (!state.latestImport) {
+    state.runs = [];
+    state.discoveries = [];
+    renderCandidates();
     return;
   }
-  target.replaceChildren(...state.lessons.map(lesson => {
-    const item = document.createElement('div');
-    item.className = 'lesson';
-    const head = document.createElement('div');
-    head.className = 'lesson-head';
-    const info = document.createElement('div');
-    const label = document.createElement('small');
-    const context = lesson.researchMode === 'standalone-location'
-      ? lesson.targetLocation
-      : 'Package-backed';
-    label.textContent = `${context} · ${lesson.scope === 'general' ? 'General' : (lesson.targetCategoryLabel || 'Housing')} · ${lesson.source}`;
-    const status = document.createElement('span');
-    status.className = `lesson-status ${lesson.status}`;
-    status.textContent = lesson.status;
-    info.append(label);
-    head.append(info, status);
-    const text = document.createElement('p');
-    text.textContent = lesson.text;
-    item.append(head, text);
-    if (lesson.rationale) {
-      const rationale = document.createElement('small');
-      rationale.textContent = lesson.rationale;
-      item.append(rationale);
-    }
-    const actions = document.createElement('div');
-    actions.className = 'lesson-actions';
-    if (lesson.status === 'proposed') actions.append(lessonActionButton(lesson, 'active', 'Approve'));
-    if (lesson.status !== 'retired') actions.append(lessonActionButton(lesson, 'retired', 'Retire'));
-    if (lesson.status === 'retired') actions.append(lessonActionButton(lesson, 'active', 'Restore'));
-    item.append(actions);
-    return item;
-  }));
-}
-
-function lessonActionButton(lesson, status, label) {
-  const button = document.createElement('button');
-  button.type = 'button';
-  button.className = 'secondary';
-  button.textContent = label;
-  button.addEventListener('click', async () => {
-    await request(`/api/lessons/${lesson.id}/status`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }),
-    });
-    await loadResearchData();
-  });
-  return button;
-}
-
-async function loadResearchData() {
-  const [runs, discoveries, lessons] = await Promise.all([
-    request('/api/research-runs'), request('/api/discoveries'), request('/api/lessons'),
+  const scope = `?importId=${state.latestImport.id}`;
+  const [runs, discoveries] = await Promise.all([
+    request(`/api/research-runs${scope}`), request(`/api/discoveries${scope}`),
   ]);
   state.runs = runs.runs;
   state.discoveries = discoveries.discoveries;
-  state.lessons = lessons.lessons;
   if (!state.candidateRunSelectionInitialized) {
     const latestWithCandidates = state.runs.find(run => candidateCountForRun(run.id) > 0);
     state.candidateRunId = latestWithCandidates?.id ?? null;
@@ -911,28 +1457,19 @@ async function loadResearchData() {
   } else if (state.candidateRunId != null && !state.runs.some(run => run.id === state.candidateRunId)) {
     state.candidateRunId = null;
   }
-  renderRuns(); renderCandidates(); renderLessons();
-  const active = state.runs.some(run => ['queued', 'running'].includes(run.status));
-  if (active && !state.pollTimer) {
-    state.pollTimer = setTimeout(async () => {
-      state.pollTimer = null;
-      try { await loadResearchData(); } catch { /* next manual refresh will retry */ }
-    }, 2000);
-  }
+  renderCandidates();
 }
 
 async function refresh() {
   const status = await request('/api/status');
   if (status.version) document.querySelector('#app-version').textContent = `v${status.version}`;
   showAccess(status.access);
-  showAgent(status.agent);
   if (status.latestImport) {
     showImport(status.latestImport);
   } else {
     state.latestImport = null;
-    updateStartResearchState();
   }
-  await loadResearchData();
+  await Promise.all([loadResearchData(), loadScoutProgress()]);
 }
 
 async function importSelectedPackage() {
@@ -948,13 +1485,13 @@ async function importSelectedPackage() {
   try {
     const result = await request('/api/import', { method: 'POST', body: new FormData(form) });
     showImport(result.import);
-    switchResearchMode();
-    message.textContent = `${result.import.sourceName} connected. The source ZIP was not changed.`;
+    await Promise.all([loadResearchData(), loadScoutProgress()]);
+    message.textContent = `${result.import.sourceName} connected. Scout read a private copy and did not change your ZIP.`;
   } catch (error) {
     message.className = 'message error';
     message.textContent = error.message;
     document.querySelector('#file-label').textContent = state.latestImport
-      ? 'Choose a different package…' : 'Choose resource package…';
+      ? 'Choose a different package' : 'Choose resource package';
   } finally {
     chooser.classList.remove('busy');
     input.value = '';
@@ -967,132 +1504,80 @@ document.querySelector('#package-input').addEventListener('change', () => {
 
 document.querySelector('#import-form').addEventListener('submit', event => event.preventDefault());
 
-document.querySelectorAll('input[name="research-mode"]').forEach(input => input.addEventListener('change', switchResearchMode));
-document.querySelector('#target-location').addEventListener('input', updateStandaloneAutoAssignment);
 document.querySelector('#close-candidate').addEventListener('click', () => document.querySelector('#candidate-dialog').close());
-
-document.querySelector('#copy-setup').addEventListener('click', async event => {
-  const command = event.currentTarget.dataset.command || 'hermes setup';
-  try {
-    await navigator.clipboard.writeText(command);
-    event.currentTarget.textContent = 'Copied';
-    setTimeout(() => { event.currentTarget.textContent = 'Copy setup command'; }, 1500);
-  } catch {
-    document.querySelector('#research-message').textContent = `Run in Terminal: ${command}`;
+document.querySelector('#close-manual-discovery').addEventListener('click', () => {
+  document.querySelector('#manual-discovery-dialog').close();
+  if (!state.activeManualRun?.id) {
+    state.activeManualRun = null;
+    state.manualContributions = [];
+    state.manualConsolidation = null;
+    document.querySelector('#scout-progress-message').textContent = 'Discovery setup closed. No discovery was started.';
   }
 });
 
-document.querySelector('#copy-private-url').addEventListener('click', async event => {
-  const button = event.currentTarget;
-  const url = button.dataset.url || '';
-  try {
-    await navigator.clipboard.writeText(url);
-    button.textContent = 'Address copied';
-    setTimeout(() => { button.textContent = 'Copy private address'; }, 1500);
-  } catch {
-    button.textContent = 'Press and hold the address to copy';
-  }
+document.querySelector('#copy-manual-assignment').addEventListener('click', event => {
+  copyText(state.activeManualRun?.assignment || '', event.currentTarget, 'Copy assignment');
 });
 
-document.querySelector('#agent-adapter').addEventListener('change', updateAdapterFields);
-document.querySelector('#dsh-configuration').addEventListener('change', updateAdapterFields);
+document.querySelector('#add-manual-source').addEventListener('click', () => {
+  state.customManualSources += 1;
+  const card = createManualSourceCard(`Other source ${state.customManualSources}`, null, true);
+  document.querySelector('#manual-source-list').append(card);
+  card.querySelector('.manual-source-label').focus();
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
 
-document.querySelector('#settings-form').addEventListener('submit', async event => {
-  event.preventDefault();
-  const button = event.currentTarget.querySelector('button');
-  button.disabled = true;
+document.querySelector('#consolidate-manual-discovery').addEventListener('click', async event => {
+  const run = state.activeManualRun;
+  if (!run) return;
+  event.currentTarget.disabled = true;
+  const message = document.querySelector('#manual-discovery-message');
+  message.textContent = 'Collapsing exact repeats and routing lead roles…';
   try {
-    const payload = { settings: {
-      adapter: document.querySelector('#agent-adapter').value,
-      hermesProfile: document.querySelector('#hermes-profile').value.trim(),
-      hermesProvider: document.querySelector('#hermes-provider').value.trim(),
-      hermesModel: document.querySelector('#hermes-model').value.trim(),
-      hermesCommand: document.querySelector('#hermes-command').value.trim(),
-      dshConfiguration: document.querySelector('#dsh-configuration').value,
-      dshModel: document.querySelector('#dsh-model').value.trim(),
-      dshCommand: document.querySelector('#dsh-command').value.trim(),
-      timeoutSeconds: Number(document.querySelector('#agent-timeout').value || 900),
-    } };
-    const result = await request('/api/agent/settings', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
+    state.manualConsolidation = await request(`/api/manual-discovery-runs/${run.id}/consolidate`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
     });
-    showAgent({ ...result.agent, settings: result.settings });
-    document.querySelector('#research-message').textContent = 'Connection settings saved.';
+    renderManualDiscoveryWorkspace();
+    message.textContent = state.manualConsolidation.funnel.pendingIdentityDecisions
+      ? `Consolidation ready. ${state.manualConsolidation.funnel.pendingIdentityDecisions} possible relationship${state.manualConsolidation.funnel.pendingIdentityDecisions === 1 ? '' : 's'} will remain separate and travel to Curator unless you optionally review them.`
+      : 'Consolidation ready. No ambiguous identity pairs remain.';
   } catch (error) {
-    document.querySelector('#research-message').textContent = error.message;
-  } finally { button.disabled = false; }
+    message.textContent = error.message;
+    event.currentTarget.disabled = false;
+  }
 });
 
-document.querySelector('#research-form').addEventListener('submit', async event => {
-  event.preventDefault();
-  const button = document.querySelector('#start-research');
-  const message = document.querySelector('#research-message');
-  button.disabled = true;
-  const name = agentName();
-  const researchMode = selectedResearchMode();
-  const targetLocation = document.querySelector('#target-location').value.trim();
-  message.textContent = `Giving ${name} the assignment and research context…`;
+document.querySelector('#finish-manual-discovery').addEventListener('click', async event => {
+  const run = state.activeManualRun;
+  if (!run) return;
+  event.currentTarget.disabled = true;
+  const message = document.querySelector('#manual-discovery-message');
+  message.textContent = 'Finishing the immutable response snapshot…';
   try {
-    const run = await request('/api/research-runs', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        assignment: document.querySelector('#research-assignment').value,
-        researchMode,
-        seedResourceId: '',
-        categoryId: researchMode === 'package' ? state.activeCategoryId : 'housing',
-        targetLocation: researchMode === 'standalone-location' ? targetLocation : '',
-        regionalScope: researchMode === 'standalone-location' ? document.querySelector('#regional-scope').value.trim() : '',
-      }),
+    await request(`/api/manual-discovery-runs/${run.id}/finish`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
     });
     state.candidateRunId = run.id;
     state.candidateRunSelectionInitialized = true;
-    message.textContent = researchMode === 'standalone-location'
-      ? `Research run ${run.id} started for ${targetLocation}. Candidates will appear as each stage finishes and remain separate from the imported package.`
-      : `Research run ${run.id} started. Candidates will appear as each stage finishes while ${name} works.`;
     await loadResearchData();
+    document.querySelector('#manual-discovery-dialog').close();
+    state.activeManualRun = null;
+    state.manualContributions = [];
+    state.manualConsolidation = null;
+    document.querySelector('#scout-progress-message').textContent = 'Discovery finished. Its resource candidates are available in section 03.';
   } catch (error) {
     message.textContent = error.message;
-  } finally { updateStartResearchState(); }
+    event.currentTarget.disabled = false;
+  }
 });
-
-document.querySelector('#refresh-research').addEventListener('click', () => loadResearchData().catch(error => {
-  document.querySelector('#research-message').textContent = error.message;
-}));
 
 document.querySelector('#candidate-run-filter').addEventListener('change', event => {
   selectCandidateRun(event.target.value ? Number(event.target.value) : null);
 });
 
-document.querySelector('#lesson-form').addEventListener('submit', async event => {
-  event.preventDefault();
-  const text = document.querySelector('#lesson-text').value.trim();
-  if (!text) return;
-  const researchMode = selectedResearchMode();
-  const targetLocation = document.querySelector('#target-location').value.trim();
-  if (researchMode === 'standalone-location' && !targetLocation) {
-    document.querySelector('#research-message').textContent = 'Enter the standalone research location before adding a location-specific lesson.';
-    return;
-  }
-  try {
-    await request('/api/lessons', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        text,
-        scope: document.querySelector('#lesson-scope').value,
-        researchMode,
-        targetLocation: researchMode === 'standalone-location' ? targetLocation : '',
-        categoryId: researchMode === 'package' ? state.activeCategoryId : 'housing',
-        categoryLabel: researchMode === 'package' ? activeCategory().label : 'Housing',
-      }),
-    });
-    document.querySelector('#lesson-text').value = '';
-    await loadResearchData();
-  } catch (error) {
-    document.querySelector('#research-message').textContent = error.message;
-  }
-});
-
-state.assignmentDrafts.package = document.querySelector('#research-assignment').value;
-setupResearchPaneResizer();
-switchResearchMode();
 refresh().catch(error => { document.querySelector('#import-message').textContent = error.message; });
+state.progressPollTimer = window.setInterval(() => {
+  loadScoutProgress().catch(error => {
+    document.querySelector('#scout-progress-message').textContent = error.message;
+  });
+}, 15000);

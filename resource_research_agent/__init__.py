@@ -1,3 +1,4 @@
-"""Standalone Resource Research Agent package."""
+"""Resource Scout package."""
 
-__version__ = "0.30.7"
+__version__ = "0.47.0"
+__build__ = 14

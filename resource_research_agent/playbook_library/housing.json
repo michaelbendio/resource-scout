@@ -15,20 +15,60 @@
     "Housing directories that do not identify a currently reachable program or provider",
     "Programs whose geography, population, or referral requirements exclude people in the service area"
   ],
-  "verificationQuestions": [
-    "Can a person enter now, and what exact first step is required?",
-    "What eligibility, documentation, sobriety, family-composition, safety, or referral rules apply?",
-    "What costs, deposits, waitlists, time limits, transportation issues, and pet restrictions apply?",
-    "What longer-term path follows a temporary placement?"
-  ],
-  "additionalOutputFields": {
-    "petPolicy": "Pets, service animals, emotional-support animals, fees, or unknown"
-  },
-  "additionalSupplementaryFields": ["petPolicy"],
-  "stages": [
-    {"key": "urgent-access", "title": "Immediate safety and emergency access", "instruction": "Investigate options that can help tonight or within days: emergency and seasonal shelter, domestic-violence and family or youth shelter, safe temporary lodging, motel vouchers, coordinated entry, crisis access, transportation, pet barriers, and the real intake path."},
-    {"key": "stabilization", "title": "Homelessness prevention and stabilization", "instruction": "Investigate eviction prevention, rent and deposit help, utility help, diversion, rapid rehousing, flexible funds, case management, benefits, and practical pathways that can prevent or shorten homelessness."},
-    {"key": "specialized-housing", "title": "Transitional and specialized housing", "instruction": "Investigate transitional, supportive, recovery, reentry, treatment-linked, medically appropriate, veteran, family, youth, disability, and other population-specific housing that realistically serves the area."},
-    {"key": "long-term-and-gaps", "title": "Permanent pathways and gap review", "instruction": "Investigate affordable and subsidized housing, housing authorities, waitlists, permanent supportive housing, landlord or rental pathways, and important gaps. Cross-check earlier findings and pursue missing relationships or access details needed for a useful review."}
-  ]
+  "focusedResearch": {
+    "version": "housing-focused-v1",
+    "alternativeVocabulary": [
+      "coordinated entry", "diversion", "rapid rehousing", "bridge housing",
+      "permanent supportive housing", "tenant-based rental assistance",
+      "master leasing", "housing navigation", "motel voucher"
+    ],
+    "sourceChannels": [
+      "official city, county, housing-authority, and continuum-of-care pages",
+      "operating nonprofit and faith-community program pages",
+      "official referral, eligibility, and coordinated-entry documents",
+      "current funding awards and provider contracts that identify operating programs"
+    ],
+    "focuses": [
+      {
+        "key": "crisis-shelter",
+        "label": "Crisis shelter and immediate lodging",
+        "direction": "Find specific year-round, seasonal, family, youth, domestic-violence-safe, and medically appropriate places a person can enter now or through a defined referral.",
+        "coverage": ["emergency shelter", "safe temporary lodging", "overflow and seasonal beds", "after-hours access"],
+        "vocabulary": ["bed availability", "shelter intake", "navigation center", "emergency lodging"],
+        "sourceChannels": ["official shelter operators", "current coordinated-entry and crisis-response pages"]
+      },
+      {
+        "key": "vouchers-rapid-rehousing",
+        "label": "Vouchers, diversion, and rapid rehousing",
+        "direction": "Trace administering organizations to the named assistance program and practical application or referral path; do not stop at a general funding description.",
+        "coverage": ["motel vouchers", "rapid rehousing", "deposit and short-term rent", "homelessness diversion"],
+        "vocabulary": ["emergency hotel", "flex funds", "housing stabilization", "rental assistance for homelessness"],
+        "sourceChannels": ["government contracts and awards", "named provider program pages", "coordinated-entry partners"]
+      },
+      {
+        "key": "supportive-population",
+        "label": "Supportive and population-specific housing",
+        "direction": "Find directly operated transitional or permanent housing tied to disability, behavioral health, reentry, recovery, youth, veterans, families, or medical vulnerability.",
+        "coverage": ["supportive housing", "transitional housing", "reentry and recovery housing", "population-specific eligibility"],
+        "vocabulary": ["scattered site", "bridge program", "supportive residence", "housing first"],
+        "sourceChannels": ["official provider programs", "VA and behavioral-health housing pages", "reentry and recovery operators"]
+      },
+      {
+        "key": "affordable-subsidized",
+        "label": "Affordable and subsidized housing pathways",
+        "direction": "Find currently actionable subsidized properties, voucher pathways, and nonprofit affordable-housing programs with a real waitlist, application, or eligibility route.",
+        "coverage": ["public housing", "Housing Choice Vouchers", "project-based subsidy", "income-restricted nonprofit housing"],
+        "vocabulary": ["open waitlist", "project based voucher", "tax credit property", "affordable communities"],
+        "sourceChannels": ["housing authorities", "official property owners and managers", "government affordable-housing inventories"]
+      },
+      {
+        "key": "community-embedded",
+        "label": "Non-obvious community housing programs",
+        "direction": "Look inside broader community, refugee, disability, family, faith, and anti-poverty organizations for named housing programs that ordinary housing searches miss.",
+        "coverage": ["community-embedded housing navigation", "faith-community lodging", "family stabilization", "pet-related housing barriers"],
+        "vocabulary": ["housing case management", "emergency assistance", "host homes", "pet safekeeping"],
+        "sourceChannels": ["broader community-service organizations", "faith coalitions", "family and disability service providers"]
+      }
+    ]
+  }
 }

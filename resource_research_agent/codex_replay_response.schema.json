@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["leads"],
+  "properties": {
+    "leads": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "organization",
+          "program",
+          "website",
+          "phone",
+          "address",
+          "leadType",
+          "locationOrServiceArea",
+          "whyRelevant",
+          "uncertainty"
+        ],
+        "properties": {
+          "organization": {"type": "string"},
+          "program": {"type": "string"},
+          "website": {"type": "string"},
+          "phone": {"type": "string"},
+          "address": {"type": "string"},
+          "leadType": {
+            "type": "string",
+            "enum": [
+              "program",
+              "provider-organization",
+              "access-point",
+              "routing-source",
+              "directory"
+            ]
+          },
+          "locationOrServiceArea": {"type": "string"},
+          "whyRelevant": {"type": "string"},
+          "uncertainty": {"type": "string"}
+        }
+      }
+    }
+  }
+}

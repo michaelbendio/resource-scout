@@ -25,12 +25,9 @@
     .lede { max-width:720px; color:#c9dbd3; font-size:1.05rem; }
     main { width:min(1120px,94vw); margin:.8rem auto 4rem; }
     .panel { margin-bottom:.8rem; padding:clamp(1.1rem,2.2vw,1.65rem); border:1px solid var(--line); border-radius:16px; background:var(--panel); box-shadow:var(--shadow); }
-    .run-heading { display:flex; flex-wrap:wrap; gap:.4rem .75rem; align-items:baseline; } .run-compact { color:var(--muted); font-size:.86rem; }
     .metric { padding:.9rem 1rem; border-radius:12px; background:#edf3ef; } .metric span { display:block; color:var(--muted); font-size:.72rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; }
     .metric strong { display:block; margin-top:.18rem; overflow-wrap:anywhere; }
-    .summary { display:grid; gap:.85rem; max-width:90ch; color:#34433e; font-size:.96rem; } .stage-finding h3 { font:700 .92rem/1.3 ui-sans-serif,system-ui,sans-serif; } .stage-finding p { margin:.25rem 0 0; }
     details { margin-top:1rem; } summary { color:var(--forest); font-weight:780; cursor:pointer; }
-    .assignment { max-width:86ch; padding:.9rem 1rem; border-left:3px solid #92b4a4; background:#f2f6f3; white-space:pre-line; }
     .review-controls { display:grid; grid-template-columns:minmax(220px,.55fr) minmax(0,1fr); gap:1rem 1.4rem; align-items:end; margin-top:1.2rem; }
     .reviewer-field { display:grid; gap:.35rem; font-weight:750; } .reviewer-field small,.muted,#save-state,#action-message { color:var(--muted); font-weight:400; }
     .action-buttons { display:flex; flex-wrap:wrap; gap:.6rem; }
@@ -40,6 +37,9 @@
     .toolbar { display:grid; grid-template-columns:minmax(0,1fr) minmax(190px,.35fr); gap:.7rem; margin-top:1.2rem; }
     .candidate-count { margin-top:.65rem; color:var(--muted); font-size:.85rem; }
     .candidate-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.75rem; margin-top:1rem; }
+    .organization-group { grid-column:1/-1; margin:0; padding:.8rem; border:1px solid var(--line); border-radius:12px; background:#f4f7f4; }
+    .organization-group > summary { padding:.2rem; font-size:1rem; }
+    .organization-candidates { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.75rem; margin-top:.8rem; }
     .candidate { display:grid; align-content:start; gap:.5rem; width:100%; min-height:180px; padding:1rem; border:1px solid var(--line); border-radius:12px; color:var(--ink); background:white; text-align:left; font-weight:400; }
     .candidate:hover { border-color:#739384; background:#f6faf7; }
     .candidate-head { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.7rem; align-items:start; } .candidate-description { margin:0; color:#4d5e57; font-size:.88rem; }
@@ -48,7 +48,6 @@
     .status.rejected,.status.wrong-category { color:var(--red); background:#f6e3e0; } .status.duplicate,.status.research-further { color:#5e4b1a; background:#f5eacb; }
     .signal-summary { margin:.15rem 0 0; padding-top:.45rem; color:#9a641e; font-size:.8rem; font-weight:750; }
     .empty { padding:1rem; border:1px dashed #c6ccc8; border-radius:10px; color:var(--muted); text-align:center; }
-    .lesson-list { display:grid; gap:.65rem; margin-top:1rem; } .lesson { padding:.9rem 1rem; border:1px solid var(--line); border-radius:10px; background:white; }
     dialog { width:min(1000px,94vw); max-height:92vh; overflow:auto; border:1px solid var(--line); border-radius:18px; padding:clamp(1.35rem,4vw,2.6rem); color:var(--ink); background:var(--panel); box-shadow:0 30px 90px rgba(0,0,0,.25); }
     dialog::backdrop { background:rgba(10,27,21,.68); }
     .close { position:sticky; z-index:2; top:0; float:right; width:2.2rem; height:2.2rem; padding:0; margin:-.5rem -.5rem 0 1rem; border-radius:50%; font-size:1.45rem; }
@@ -56,7 +55,6 @@
     .review-decision-actions { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:.4rem 0 1rem; }
     .ready-toggle { width:fit-content; margin:0; padding:.65rem .85rem; border:1px solid #8daf9f; border-radius:10px; color:var(--forest); background:#edf6f1; font-weight:800; }
     .review-decision-actions .resource-print-button { padding:.65rem .85rem; }
-    .optional-outcome { display:grid; gap:.35rem; max-width:360px; margin:0 0 1rem; font-weight:750; } .optional-outcome small { font-size:.78rem; }
     .field { display:grid; gap:.35rem; margin-top:.75rem; font-weight:750; } .choice-check { display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0; font-weight:600; }
     .choice-check input { width:auto; margin:.28rem 0 0; }
     .match-card { margin:1rem 0; padding:.9rem 1rem; border:1px solid #e3c28d; border-radius:11px; background:var(--amber-bg); }
@@ -82,12 +80,9 @@
     .pdf-editor,.information-editor { margin-top:1.2rem; padding-top:1rem; border-top:1px solid var(--line); } .pdf-list { display:grid; gap:.45rem; margin:.6rem 0; } .pdf-row { display:flex; justify-content:space-between; gap:.7rem; align-items:center; padding:.55rem .7rem; border:1px solid var(--line); border-radius:8px; background:white; }
     .information-editor textarea { min-height:10rem; max-height:32rem; overflow-y:auto; font-weight:400; line-height:1.45; }
     .standalone-note { padding:.8rem; border-radius:9px; background:var(--amber-bg); color:#704b19; }
-    .candidate-summary { padding:1rem; border-radius:10px; background:#edf4f0; white-space:pre-line; }
-    .candidate-facts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; margin-top:1rem; }
-    .candidate-fact { padding:.85rem .95rem; border:1px solid var(--line); border-radius:9px; background:white; overflow-wrap:anywhere; white-space:pre-line; }
-    .candidate-fact strong { display:block; margin-bottom:.2rem; color:var(--muted); font-size:.72rem; letter-spacing:.07em; text-transform:uppercase; }
-    .candidate-section { margin-top:1rem; padding-top:1rem; border-top:1px solid var(--line); } .candidate-section h3 { margin-bottom:.6rem; } .candidate-section p { margin-top:0; white-space:pre-line; }
-    .evidence-card { padding:.8rem .9rem; border-left:3px solid #7ea38f; background:#f4f7f5; } .evidence-card+.evidence-card { margin-top:.55rem; }
+    .source-only-row { margin-top:.55rem; padding:.75rem .85rem; border:1px solid var(--line); border-radius:8px; background:white; }
+    .source-only-row strong,.source-only-row small { display:block; } .source-only-row small { margin-top:.2rem; color:var(--muted); }
+    #source-only-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.6rem; margin-top:1rem; }
     .curator-workspace { width:98vw; max-width:none; height:96vh; max-height:none; padding:0; overflow:hidden; border-radius:12px; background:#e9eeeb; }
     .workspace-toolbar { position:absolute; z-index:50; inset:0 0 auto; display:grid; grid-template-columns:auto auto minmax(0,1fr) auto auto auto; gap:.55rem; align-items:center; height:66px; padding:.7rem .85rem; color:white; background:var(--forest); }
     .workspace-toolbar .close { position:static; float:none; width:auto; height:auto; margin:0; border:1px solid #92b4a4; border-radius:8px; padding:.55rem .75rem; color:white; background:transparent; font-size:1rem; }
@@ -98,9 +93,8 @@
     .workspace-actions { display:flex; gap:.4rem; align-items:center; } #reset-window-layout { padding:.5rem .65rem; color:white; border:1px solid #92b4a4; background:transparent; } #workspace-save-work,#workspace-download-package { padding:.55rem .7rem; color:var(--forest); background:#b7e2cf; } .workspace-version { margin-left:.15rem; color:#a8d9c3; font-size:.78rem; font-weight:750; white-space:nowrap; } #workspace-save-state { font-size:.78rem; white-space:nowrap; }
     .workspace-canvas { position:absolute; inset:66px 0 0; overflow:hidden; }
     .work-window { position:absolute; display:grid; grid-template-rows:auto minmax(0,1fr); min-width:300px; min-height:60px; overflow:hidden; border:1px solid #8fa198; border-radius:12px; background:var(--panel); box-shadow:0 15px 45px rgba(14,35,28,.22); }
-    #research-window { z-index:2; left:1.5%; top:2%; width:48%; height:65%; }
-    #editor-window { z-index:3; right:1.5%; top:5%; width:48%; height:76%; }
-    #notes-window { z-index:4; left:8%; bottom:2%; width:55%; height:38%; }
+    #editor-window { z-index:3; left:1.25%; top:2%; width:48%; height:96%; }
+    #notes-window { z-index:4; right:1.25%; top:2%; width:48%; height:96%; }
     .window-titlebar { display:flex; justify-content:space-between; gap:1rem; align-items:center; padding:.65rem .8rem; color:white; background:#315d50; cursor:move; user-select:none; touch-action:none; }
     .window-titlebar h3 { color:white; font:750 1rem/1.2 ui-sans-serif,system-ui,sans-serif; }
     .window-resize-handle { position:absolute; z-index:5; touch-action:none; }
@@ -113,7 +107,7 @@
     .window-resize-handle[data-resize="se"] { right:0; bottom:0; cursor:nwse-resize; } .window-resize-handle[data-resize="sw"] { left:0; bottom:0; cursor:nesw-resize; }
     .window-resize-handle[data-resize="se"]::after { content:""; position:absolute; right:4px; bottom:4px; width:10px; height:10px; border-right:2px solid #527467; border-bottom:2px solid #527467; }
     .window-body { overflow:auto; padding:1rem; }
-    .window-body .candidate-details,.window-body .review-editor,.window-body .resource-editor { margin:0; padding:0; border:0; background:transparent; }
+    .window-body .review-editor,.window-body .resource-editor { margin:0; padding:0; border:0; background:transparent; }
     .notes-toolbar { display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; margin-bottom:.7rem; } .notes-toolbar button { flex:0 0 auto; padding:.45rem .75rem; color:var(--forest); border:1px solid #94aa9f; background:white; }
     .notes-toolbar button.selected { color:white; background:var(--forest); }
     .notes-format-help { flex:1 1 260px; color:var(--muted); font-size:.78rem; }
@@ -125,8 +119,8 @@
     footer { margin-top:2rem; color:var(--muted); font-size:.8rem; text-align:center; }
     .resource-print-sheet { display:none; }
     .guidance-dialog { width:min(620px,92vw); padding:1.3rem; } .guidance-dialog h2 { font-family:ui-sans-serif,system-ui,sans-serif; } .guidance-dialog ul { padding-left:1.25rem; } .guidance-dialog li+li { margin-top:.55rem; } .guidance-actions { display:flex; justify-content:flex-end; gap:.55rem; margin-top:1rem; } .guidance-actions .secondary { color:var(--forest); background:white; }
-    @media(max-width:760px) { .candidate-list,.candidate-facts,.resource-fields,.review-controls { grid-template-columns:1fr; } .toolbar { grid-template-columns:1fr; } .resource-fields .field:nth-last-child(-n+2) { grid-column:auto; } }
-    @media(max-width:520px) { .candidate-list,.candidate-facts,.taxonomy-add-row { grid-template-columns:1fr; } }
+    @media(max-width:760px) { .candidate-list,.organization-candidates,.resource-fields,.review-controls,#source-only-list { grid-template-columns:1fr; } .toolbar { grid-template-columns:1fr; } .resource-fields .field:nth-last-child(-n+2) { grid-column:auto; } }
+    @media(max-width:520px) { .candidate-list,.taxonomy-add-row { grid-template-columns:1fr; } }
     @media print {
       body{background:white} header{padding:1.4rem 0;color:var(--ink);background:white;border-bottom:2px solid var(--forest)} header .lede{color:var(--muted)} main{width:100%;margin:1rem 0}.panel{box-shadow:none;break-inside:avoid}.toolbar,.close,.review-actions{display:none}.candidate-list{grid-template-columns:1fr}.candidate{min-height:0;break-inside:avoid}
       body.printing-resource > *:not(#resource-print-sheet){display:none!important}
@@ -136,7 +130,7 @@
   </style>
 </head>
 <body>
-  <header><div><div class="header-title-row"><h1>Resource Curator</h1><span class="header-list-name" id="candidate-list-name"></span></div><p class="lede">Investigate candidates, keep interview notes and checklists, and prepare resources without reconnecting to Scout.</p></div><span class="header-version">v0.30.7</span></header>
+  <header><div><div class="header-title-row"><h1>Resource Curator</h1><span class="header-list-name" id="candidate-list-name"></span></div><p class="lede">Investigate candidates, keep interview notes and checklists, and prepare resources without reconnecting to Scout.</p></div><span class="header-version">v0.47.0</span></header>
   <main>
     <section class="panel review-actions">
       <p class="section-label">Review progress</p><h2>Save, resume, and download</h2>
@@ -146,20 +140,18 @@
         <p id="save-state"></p><p id="action-message" aria-live="polite"></p>
       </div>
     </section>
-    <section class="panel"><p class="section-label">Research trail</p><div class="run-heading"><h2>Research run</h2><span class="run-compact" id="run-compact"></span></div><details><summary id="findings-summary">Research findings</summary><div class="summary" id="summary"></div></details><details><summary>View the research assignment</summary><p class="assignment" id="assignment"></p></details></section>
-    <section class="panel"><p class="section-label">Human review</p><h2>Research candidates</h2><div class="toolbar"><input id="search" type="search" placeholder="Search candidates" aria-label="Search candidates"><select id="status-filter" aria-label="Filter candidates by curation outcome"><option value="">All candidates</option><option value="ready">Ready for package</option><option value="pending">Pending</option><option value="other-outcome">Optional outcome recorded</option></select></div><p class="candidate-count" id="candidate-count"></p><div class="candidate-list" id="candidate-list"></div></section>
-    <section class="panel" id="lessons-panel" hidden><p class="section-label">Research guidance</p><details><summary><strong>Lessons proposed by this run</strong></summary><div class="lesson-list" id="lesson-list"></div></details></section>
+    <section class="panel" id="source-only-panel" hidden><p class="section-label">Preserved discovery leads</p><h2>Routing and source-only records</h2><p class="muted">These records remain available as referral or follow-up leads, but they are not counted as provider candidates.</p><details id="source-only-details"><summary id="source-only-summary">Show preserved records</summary><div id="source-only-list"></div></details></section>
+    <section class="panel"><p class="section-label">Human review</p><h2>Research candidates</h2><p class="muted" id="reconciliation-note" hidden></p><div class="toolbar"><input id="search" type="search" placeholder="Search candidates" aria-label="Search candidates"><select id="status-filter" aria-label="Filter candidates by package readiness"><option value="">All candidates</option><option value="ready">Ready for package</option><option value="pending">Pending</option></select></div><p class="candidate-count" id="candidate-count"></p><div class="candidate-list" id="candidate-list"></div></section>
     <footer id="footer"></footer>
   </main>
   <dialog id="candidate-dialog" class="curator-workspace">
-    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="reset-window-layout">Reset layout</button><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span class="workspace-version">v0.30.7</span><span id="workspace-save-state" aria-live="polite"></span></div></div>
+    <div class="workspace-toolbar"><button type="button" class="close" id="close-dialog">Candidate list</button><button type="button" class="workspace-nav" id="previous-candidate">Previous</button><div class="workspace-heading"><p class="section-label">Resource Curator</p><h2 id="candidate-name"></h2></div><span class="status" id="candidate-status"></span><button type="button" id="next-candidate">Next</button><div class="workspace-actions"><button type="button" id="reset-window-layout">Reset layout</button><button type="button" id="workspace-save-work">Save work</button><button type="button" id="workspace-download-package">Save a resource package</button><span class="workspace-version">v0.47.0</span><span id="workspace-save-state" aria-live="polite"></span></div></div>
     <div class="workspace-canvas" id="workspace-canvas">
-      <section class="work-window" id="research-window"><div class="window-titlebar"><h3>Candidate Research</h3></div><div class="window-body" id="candidate-research"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
       <section class="work-window" id="editor-window"><div class="window-titlebar"><h3>Editors</h3></div><div class="window-body" id="candidate-editor"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
       <section class="work-window" id="notes-window"><div class="window-titlebar"><h3 id="notes-window-title">Notes</h3></div><div class="window-body" id="candidate-notes"></div><div class="window-resize-handles" aria-hidden="true"></div></section>
     </div>
   </dialog>
-  <dialog id="save-work-dialog" class="guidance-dialog"><h2>Save work</h2><ul><li>The Curator saves automatically in this browser when browser storage is available. Choose <strong>Save work</strong> regularly to download a portable JSON work file containing every outcome, note, checklist item, resource edit, package record, and PDF you add.</li><li>Keep the JSON with this Curator HTML. To continue in another browser or on another device, open the HTML and choose <strong>Open saved work</strong>. When your review is finished, send the JSON back to the person who provided the Curator. The HTML does not update itself.</li></ul><div class="guidance-actions"><button type="button" class="secondary" id="cancel-save-work">Cancel</button><button type="button" id="continue-save-work">Continue</button></div></dialog>
+  <dialog id="save-work-dialog" class="guidance-dialog"><h2>Save work</h2><ul><li>The Curator saves automatically in this browser when browser storage is available. Choose <strong>Save work</strong> regularly to download a portable JSON work file containing every note, checklist item, resource edit, package record, and PDF you add.</li><li>Keep the JSON with this Curator HTML. To continue in another browser or on another device, open the HTML and choose <strong>Open saved work</strong>. When your review is finished, send the JSON back to the person who provided the Curator. The HTML does not update itself.</li></ul><div class="guidance-actions"><button type="button" class="secondary" id="cancel-save-work">Cancel</button><button type="button" id="continue-save-work">Continue</button></div></dialog>
   <dialog id="save-package-dialog" class="guidance-dialog"><h2>Save a resource package</h2><p>This creates a ZIP containing only resources marked <strong>Ready for package</strong>, then archives those candidates from the active queue while preserving their work and package history. Save work separately for a portable backup of all curation.</p><div class="guidance-actions"><button type="button" class="secondary" id="cancel-save-package">Cancel</button><button type="button" id="continue-save-package">Continue</button></div></dialog>
   <section id="resource-print-sheet" class="resource-print-sheet" aria-hidden="true"></section>
   <script id="review-data" type="application/json">__REVIEW_COPY_DATA__</script>

@@ -1,7 +1,9 @@
 {
   "categoryId": "addiction",
   "label": "Addiction",
-  "aliases": ["substance use"],
+  "aliases": [
+    "substance use"
+  ],
   "assignment": "Discover realistic substance-use recovery resources for people in {service_area}, from immediate withdrawal and overdose safety through outpatient, residential, medication, peer, and long-term recovery support. Verify clinical level of care, payment, eligibility, current openings, referral requirements, and the real admission path.",
   "include": [
     "Withdrawal management, overdose prevention, medication treatment, and urgent clinical assessment",
@@ -14,17 +16,5 @@
     "General mental-health care with no confirmed substance-use service",
     "Treatment marketing or referral brokers that do not identify the actual provider and costs",
     "Recovery residences whose rules, oversight, fees, or current availability cannot be established"
-  ],
-  "verificationQuestions": [
-    "What level of care is offered and who performs the assessment?",
-    "Is medication treatment available, and which medications or prescribers are supported?",
-    "What insurance, Medicaid, self-pay, or public-funding options and costs apply?",
-    "Are beds or appointments currently available and how does admission begin?"
-  ],
-  "stages": [
-    {"key": "addiction-urgent", "title": "Urgent safety and assessment", "instruction": "Investigate overdose prevention, naloxone, crisis response, withdrawal management, urgent assessments, medication access, and immediate admission pathways. Distinguish medical emergency care from routine treatment entry."},
-    {"key": "addiction-treatment", "title": "Treatment levels and payment", "instruction": "Investigate outpatient, intensive outpatient, residential, and inpatient programs; clinical services; payment and public funding; waitlists; transportation; and the actual assessment and admission sequence."},
-    {"key": "addiction-recovery", "title": "Recovery and specialized support", "instruction": "Investigate peer and family support, recovery coaching, sober living, youth and pregnancy services, reentry pathways, culturally and linguistically appropriate care, and support for co-occurring conditions."},
-    {"key": "addiction-gaps", "title": "Continuity and gap review", "instruction": "Check transitions between detoxification, treatment, medication, housing, and ongoing recovery. Verify current capacity, avoid treatment brokers, and identify population, payment, geographic, and after-hours gaps."}
   ]
 }

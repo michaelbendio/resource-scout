@@ -1,7 +1,9 @@
 {
   "categoryId": "children-pregnancy",
   "label": "Children/Pregnancy",
-  "aliases": ["children and pregnancy"],
+  "aliases": [
+    "children and pregnancy"
+  ],
   "assignment": "Discover realistic pregnancy, infant, child, and parenting resources for families in {service_area}. Follow relationships from coordinating agencies and clinics to the specific prenatal care, material support, home visiting, childcare, developmental, and family programs people can actually use. Verify age or pregnancy stage, costs, coverage, schedules, service area, and enrollment.",
   "include": [
     "Pregnancy testing, prenatal and postpartum care, childbirth education, and maternal health support",
@@ -14,17 +16,5 @@
     "Ordinary child retailers or paid activities without a hardship-access program",
     "Pregnancy-service marketing that obscures medical scope, credentials, cost, or service limitations",
     "Programs outside the child's age or pregnancy stage unless a realistic referral pathway exists"
-  ],
-  "verificationQuestions": [
-    "Which ages, pregnancy stages, household situations, or risk factors qualify?",
-    "Is the service medical, educational, material, or referral-only?",
-    "What insurance, Medicaid, income, residency, custody, or documentation rules apply?",
-    "How soon can the family be seen and what is needed to enroll?"
-  ],
-  "stages": [
-    {"key": "pregnancy-maternal", "title": "Pregnancy and maternal care", "instruction": "Investigate pregnancy confirmation, prenatal and postpartum care, childbirth education, high-risk care, lactation, pregnancy-loss support, Medicaid enrollment, and the real route into timely care."},
-    {"key": "infant-material", "title": "Infant and material support", "instruction": "Investigate diapers, infant supplies, car seats, nutrition and feeding support, home visiting, safe-sleep education, transportation, and recurring rather than merely one-time help."},
-    {"key": "child-development", "title": "Child development and family support", "instruction": "Investigate early intervention, developmental screening, parenting education, childcare and respite, school readiness, and services for disability, teen parents, kinship caregivers, and language access."},
-    {"key": "children-gaps", "title": "Continuity and gap review", "instruction": "Cross-check age limits, enrollment windows, medical scope, costs, and handoffs between pregnancy, infancy, early childhood, school, and family-support systems. Identify waiting-list and geographic gaps."}
   ]
 }

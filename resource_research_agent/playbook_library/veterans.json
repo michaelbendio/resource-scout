@@ -1,7 +1,9 @@
 {
   "categoryId": "veterans",
   "label": "Veterans",
-  "aliases": ["veteran services"],
+  "aliases": [
+    "veteran services"
+  ],
   "assignment": "Discover realistic resources for veterans, service members, and eligible family or survivor households in {service_area}. Follow VA, state, county, and community organizations to specific benefits, health, housing, employment, legal, transportation, financial, and peer-support programs. Verify discharge and service criteria, enrollment, documentation, geography, family eligibility, appointments, and warm-handoff paths.",
   "include": [
     "VA and state benefit enrollment, disability claims, pensions, appeals, and accredited representation",
@@ -14,17 +16,5 @@
     "General patriotic or membership organizations without a confirmed practical service",
     "Unaccredited claims businesses or fee arrangements that may exploit benefit applicants",
     "Programs whose veteran, discharge, era, disability, geography, or family criteria do not fit the stated population"
-  ],
-  "verificationQuestions": [
-    "Which service, discharge, era, disability, income, enrollment, or family status qualifies?",
-    "Is the representative accredited and are any fees charged?",
-    "What records are required and can the program help recover them?",
-    "Does the service provide a warm handoff, appointment, direct benefit, or only general information?"
-  ],
-  "stages": [
-    {"key": "veteran-benefits", "title": "Benefits and accredited navigation", "instruction": "Investigate VA and state enrollment, disability claims, pensions, appeals, records, accredited service officers, survivor benefits, and the exact document and appointment process."},
-    {"key": "veteran-health", "title": "Health and crisis support", "instruction": "Investigate medical, mental-health, suicide-prevention, substance-use, dental, vision, caregiver, transport, and community-care routes, including enrollment and urgent access."},
-    {"key": "veteran-stability", "title": "Housing, work, and family stability", "instruction": "Investigate veteran housing and homelessness prevention, employment, education, legal, transport, emergency finance, peer support, and services for women, disabled and rural veterans, families, caregivers, and survivors."},
-    {"key": "veteran-gaps", "title": "Eligibility and handoff review", "instruction": "Cross-check discharge and enrollment rules, accreditation, fees, records, appointment availability, geographic reach, community-to-VA handoffs, and family eligibility. Identify populations falling between VA and community systems."}
   ]
 }

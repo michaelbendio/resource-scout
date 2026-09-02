@@ -1,7 +1,9 @@
 {
   "categoryId": "clothing-household",
   "label": "Clothing/Household",
-  "aliases": ["clothing and household"],
+  "aliases": [
+    "clothing and household"
+  ],
   "assignment": "Discover realistic clothing and household-goods resources for people in {service_area} who cannot meet basic needs through ordinary retail. Follow relationships from coordinating organizations to the specific clothing closets, vouchers, furniture banks, household-goods programs, emergency replacement services, and work or school clothing people can actually access. Verify what is provided, eligibility, cost, schedules, inventory, service area, and pickup or delivery.",
   "include": [
     "Free clothing closets, vouchers, seasonal clothing, shoes, and coats",
@@ -15,16 +17,59 @@
     "Donation drop-off locations that do not distribute goods to people in need",
     "Online marketplaces or giveaways without a dependable program, safety boundary, and access process"
   ],
-  "verificationQuestions": [
-    "What exact goods are distributed, in what condition, and with what inventory limits?",
-    "Is a referral, voucher, appointment, identification, address, or proof of need required?",
-    "How often may someone receive help and are sizes or household composition considered?",
-    "Must items be picked up, or are transportation and delivery available?"
-  ],
-  "stages": [
-    {"key": "clothing-access", "title": "Clothing and footwear access", "instruction": "Investigate free clothing closets, vouchers, shoes, coats, seasonal items, and purpose-specific work, interview, school, maternity, and infant clothing. Verify distribution hours, referral rules, sizing, frequency, and inventory."},
-    {"key": "household-goods", "title": "Furniture and household essentials", "instruction": "Investigate furniture banks, beds, linens, kitchenware, appliances, moving-in kits, and basic household goods. Verify eligibility, fees, pickup, delivery, waitlists, and what is actually available."},
-    {"key": "replacement-specialized", "title": "Emergency and specialized replacement", "instruction": "Investigate rapid help after homelessness, fire, disaster, domestic violence, foster or reentry transitions, and services for children, workers, disabled people, and other populations with distinct needs."},
-    {"key": "clothing-household-gaps", "title": "Inventory and access gap review", "instruction": "Exclude ordinary retailers and donation-only sites, cross-check changing inventory and schedules, and identify gaps involving large sizes, children's needs, furniture delivery, rural access, language, disability, and urgent replacement."}
-  ]
+  "focusedResearch": {
+    "version": "clothing-household-focused-v1",
+    "alternativeVocabulary": [
+      "clothing closet", "community closet", "career clothing", "furniture bank",
+      "household setup", "basic needs pantry", "beds for children", "material assistance"
+    ],
+    "sourceChannels": [
+      "official nonprofit and faith-community program pages",
+      "school district, refugee, reentry, and domestic-violence providers",
+      "furniture-bank and household-goods networks",
+      "current local service guides only when they identify an operating provider"
+    ],
+    "focuses": [
+      {
+        "key": "general-clothing",
+        "label": "General clothing closets",
+        "direction": "Find dependable programs that distribute free clothing, shoes, coats, or vouchers and verify schedule, referral, frequency, and service area.",
+        "coverage": ["free clothing closets", "shoes and coats", "clothing vouchers", "seasonal distributions"],
+        "vocabulary": ["clothes closet", "community wardrobe", "material assistance", "free store"],
+        "sourceChannels": ["faith and neighborhood programs", "community action", "basic-needs nonprofits"]
+      },
+      {
+        "key": "purpose-specific-clothing",
+        "label": "Purpose-specific clothing",
+        "direction": "Find direct programs for work, interviews, school, maternity, infants, veterans, refugees, or other needs where ordinary general closets may not suffice.",
+        "coverage": ["career and interview clothing", "school clothing", "maternity and infant goods", "population-specific clothing"],
+        "vocabulary": ["career closet", "dress for success", "back to school clothing", "baby boutique"],
+        "sourceChannels": ["workforce programs", "schools", "pregnancy centers", "refugee and veteran providers"]
+      },
+      {
+        "key": "furniture-household",
+        "label": "Furniture and household setup",
+        "direction": "Find programs that place beds, furniture, linens, kitchenware, appliances, or complete household setups with clients; exclude donation-only operations.",
+        "coverage": ["furniture banks", "beds and linens", "kitchen and household goods", "appliances and delivery"],
+        "vocabulary": ["home starter kit", "household establishment", "furniture ministry", "beds for kids"],
+        "sourceChannels": ["furniture banks", "housing programs", "refugee resettlement", "faith furniture ministries"]
+      },
+      {
+        "key": "crisis-replacement",
+        "label": "Crisis and emergency replacement",
+        "direction": "Find direct material help after homelessness, fire, disaster, domestic violence, foster placement, or sudden relocation.",
+        "coverage": ["fire and disaster replacement", "domestic-violence relocation", "homeless-to-housed setup", "emergency vouchers"],
+        "vocabulary": ["disaster casework", "move-in assistance", "rapid rehousing furniture", "emergency household goods"],
+        "sourceChannels": ["disaster responders", "domestic-violence programs", "housing stabilization providers", "family crisis agencies"]
+      },
+      {
+        "key": "community-embedded",
+        "label": "Non-obvious embedded material assistance",
+        "direction": "Look inside broader anti-poverty, disability, senior, immigrant, reentry, and family organizations for named clothing or household programs.",
+        "coverage": ["embedded clothing help", "population-specific household goods", "referral partnerships", "delivery and accessibility"],
+        "vocabulary": ["basic needs assistance", "client closet", "material support", "household stabilization"],
+        "sourceChannels": ["broader community-service organizations", "case-management providers", "mutual-aid programs with dependable intake"]
+      }
+    ]
+  }
 }

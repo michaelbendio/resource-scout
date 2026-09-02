@@ -14,7 +14,6 @@ from resource_research_agent.resource_package import (
     GeneratedResourceError,
     candidate_to_resource,
 )
-from resource_research_agent.review_export import build_review_copy
 from resource_research_agent.server import ResearchHTTPServer
 from resource_research_agent.storage import ResearchStore
 
@@ -50,12 +49,12 @@ class ResourceDraftAndRemovedScoutPathTests(unittest.TestCase):
         self.import_id = self.store.save_import(
             ResourcePackageImporter().read(package_path)
         )
-        self.run_id = self.store.create_research_run(
-            "hermes",
+        self.run_id = self.store.create_manual_discovery_run(
             "Find Housing resources",
-            {"selectedSeed": None},
+            {"researchContext": {"mode": "package"}},
             self.import_id,
-            None,
+            target_category_id="housing",
+            target_category_label="Housing",
         )
 
     def tearDown(self) -> None:
@@ -89,7 +88,7 @@ class ResourceDraftAndRemovedScoutPathTests(unittest.TestCase):
             ],
         }
 
-    def test_curator_drafts_are_category_neutral_and_playbook_driven(self) -> None:
+    def test_curator_drafts_are_category_neutral(self) -> None:
         candidate = self.candidate()
         housing = candidate_to_resource(
             candidate,
@@ -102,7 +101,7 @@ class ResourceDraftAndRemovedScoutPathTests(unittest.TestCase):
         self.assertEqual(["housing"], housing["categories"])
         self.assertEqual({"housing": ["Shelter"]}, housing["categoryFilters"])
         self.assertEqual(["Veterans"], housing["forGroups"])
-        self.assertIn("**Pet Policy**", housing["informationText"])
+        self.assertNotIn("Pet Policy", housing["informationText"])
         self.assertIn("**Verify before referral**", housing["informationText"])
 
         food = candidate_to_resource(
@@ -117,56 +116,8 @@ class ResourceDraftAndRemovedScoutPathTests(unittest.TestCase):
         with self.assertRaisesRegex(GeneratedResourceError, "needs a name"):
             candidate_to_resource({}, "food")
 
-    def test_historical_generated_draft_remains_readable_in_curator_export(self) -> None:
-        saved = self.store.save_discovery(
-            self.candidate("Legacy edited draft"), run_id=self.run_id
-        )
-        legacy_resource = candidate_to_resource(
-            self.candidate("Legacy edited draft"),
-            "housing",
-            resource_id="legacy-generated-id",
-        )
-        legacy_resource["phone"] = "801-555-0199"
-        with self.store.connect() as connection:
-            connection.execute(
-                """INSERT INTO generated_resources (
-                       discovery_id, run_id, source_import_id, resource_id,
-                       created_at, updated_at, resource_json
-                   ) VALUES (?, ?, ?, ?, 'legacy', 'legacy', ?)""",
-                (
-                    saved["id"],
-                    self.run_id,
-                    self.import_id,
-                    legacy_resource["id"],
-                    json.dumps(legacy_resource),
-                ),
-            )
-        self.store.mark_run_running(self.run_id)
-        self.store.complete_run(
-            self.run_id,
-            "raw",
-            {"summary": "Complete", "candidates": [self.candidate()]},
-            None,
-        )
-        review = build_review_copy(self.store, self.run_id)
-        self.assertEqual(
-            "legacy-generated-id", review.data["candidates"][0]["resourceDraft"]["id"]
-        )
-        self.assertEqual(
-            "801-555-0199", review.data["candidates"][0]["resourceDraft"]["phone"]
-        )
-
-    def test_migration_recovers_source_package_for_older_package_backed_run(self) -> None:
-        with self.store.connect() as connection:
-            connection.execute(
-                "UPDATE research_runs SET source_import_id = NULL WHERE id = ?",
-                (self.run_id,),
-            )
-        reopened = ResearchStore(self.store.path)
-        self.assertEqual(self.import_id, reopened.get_run(self.run_id)["sourceImportId"])
-
     def test_scout_http_does_not_expose_human_curation_or_package_routes(self) -> None:
-        saved = self.store.save_discovery(self.candidate(), run_id=self.run_id)
+        candidate_id = 999
         web_dir = Path(__file__).resolve().parent.parent / "web"
         server = ResearchHTTPServer(("127.0.0.1", 0), self.store, web_dir)
         thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -175,17 +126,17 @@ class ResourceDraftAndRemovedScoutPathTests(unittest.TestCase):
             base = f"http://127.0.0.1:{server.server_address[1]}"
             for path, method, payload in (
                 (
-                    f"/api/discoveries/{saved['id']}/review",
+                    f"/api/discoveries/{candidate_id}/review",
                     "POST",
                     {"status": "accepted"},
                 ),
                 (
-                    f"/api/discoveries/{saved['id']}/generated-resource",
+                    f"/api/discoveries/{candidate_id}/generated-resource",
                     "POST",
                     {"resource": {"name": "Edited"}},
                 ),
                 (
-                    f"/api/discoveries/{saved['id']}/match-assessment",
+                    f"/api/discoveries/{candidate_id}/match-assessment",
                     "POST",
                     {"assessment": "same-resource"},
                 ),

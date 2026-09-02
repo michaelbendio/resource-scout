@@ -10,40 +10,32 @@
   <header>
     <div>
       <h1>Resource Scout</h1>
-      <p class="lede">Import what is already known. Use it to research more deeply. Keep discoveries separate for Curator and human vetting.</p>
+      <p class="lede">Research, consolidate, and curate resources for human review.</p>
     </div>
-    <span class="header-version" id="app-version">v0.30.7</span>
+    <span class="header-version" id="app-version">v0.47.0</span>
   </header>
 
   <main>
-    <section class="private-access" id="private-access" hidden>
-      <div class="private-access-icon" aria-hidden="true">✓</div>
-      <div class="private-access-copy">
-        <p class="step">Private iPad access</p>
-        <h2 id="private-access-title">Private access is ready</h2>
-        <p id="private-access-detail">Open this address on an iPad connected to your Tailscale network.</p>
-        <a id="private-access-url" href=""></a>
-        <p class="private-access-note">Private to your Tailscale network. This app does not use public Funnel.</p>
-      </div>
-      <button type="button" class="secondary" id="copy-private-url">Copy private address</button>
+    <section class="ipad-access" id="private-access" hidden>
+      <strong>iPad access:</strong>
+      <a id="private-access-url" href=""></a>
     </section>
 
     <section class="panel import-panel">
-      <div>
-        <p class="step">01 · Package intake</p>
-        <h2>Connect a resource package</h2>
-        <p>Select a resource-package ZIP to load its categories, existing resources, Types, and For groups.</p>
-      </div>
+      <p class="step">01 · Package intake</p>
       <form id="import-form">
-        <div class="package-status" id="package-status" hidden>
-          <span class="package-status-icon" aria-hidden="true">✓</span>
-          <div><strong id="package-status-name"></strong><small>Connected</small></div>
+        <div class="package-intake-controls">
+          <div class="package-status" id="package-status" hidden>
+            <span class="package-status-icon" aria-hidden="true">✓</span>
+            <div><strong id="package-status-name"></strong><small>Connected</small></div>
+          </div>
+          <div class="package-actions">
+            <label class="package-button" for="package-input">
+              <span id="file-label">Choose resource package</span>
+              <input id="package-input" name="package" type="file" accept=".zip,application/zip" required>
+            </label>
+          </div>
         </div>
-        <label class="package-button" for="package-input">
-          <span id="file-label">Choose resource package…</span>
-          <input id="package-input" name="package" type="file" accept=".zip,application/zip" required>
-        </label>
-        <p class="package-safety">The source ZIP is read only. The app records a separate research snapshot and never changes the original file.</p>
         <details id="package-details" hidden>
           <summary>Package details</summary>
           <p id="package-details-copy"></p>
@@ -52,139 +44,131 @@
       <p class="message" id="import-message" aria-live="polite"></p>
     </section>
 
-    <section class="panel category-panel" id="category-panel" hidden>
+    <section class="panel scout-progress-panel" id="scout-progress-panel">
       <div class="section-head">
         <div>
-          <p class="step">02 · Research category</p>
-          <h2>Choose one category for this research run</h2>
+          <p class="step">02 · Scout progress</p>
+          <h2 id="scout-progress-title">Waiting for a resource package</h2>
         </div>
-        <span class="count-badge" id="category-supported-count"></span>
+        <span class="progress-phase" id="scout-progress-phase">Waiting</span>
       </div>
-      <p class="muted">Choose a category to focus the research. The agent uses existing resources, Types, For groups, and category-aware research guidance from the connected package.</p>
-      <div class="category-grid" id="category-grid"></div>
-      <p class="taxonomy-note" id="category-taxonomy-note"></p>
-    </section>
-
-    <section class="panel research-panel" id="research-panel">
-      <div class="section-head research-heading">
-        <div>
-          <p class="step">03 · Agent research</p>
-          <h2 id="research-heading-title">Send a research agent on a Housing assignment</h2>
-          <p class="muted">Your selected agent researches the public web in bounded stages. Candidates are saved after each stage finishes, while the app retains the assignment, evidence, duplicate signals, and your teaching.</p>
-        </div>
-        <div class="agent-state" id="agent-state">
-          <span class="agent-dot"></span>
-          <div><strong id="agent-state-title">Checking the research agent…</strong><small id="agent-state-detail"></small></div>
-        </div>
+      <p class="scout-progress-message" id="scout-progress-message" aria-live="polite">Connect a package to see research and curation progress.</p>
+      <div class="scout-progress-metrics" id="scout-progress-metrics" hidden>
+        <div><span>Research</span><strong id="scout-research-progress">0 of 0 categories</strong></div>
+        <div><span>Curation</span><strong id="scout-curation-progress">0 of 0 categories</strong></div>
+        <div id="scout-focused-research-metric" hidden><span>Focused research</span><strong id="scout-focused-research-progress">0 of 0 passes</strong></div>
+        <div id="scout-codex-first-metric" hidden><span>Codex-first research</span><strong id="scout-codex-first-progress">0 of 0 categories</strong></div>
       </div>
-
-      <div class="setup-callout" id="agent-setup" hidden>
-        <div>
-          <strong id="agent-setup-title">Connection setup remains</strong>
-          <p id="agent-setup-detail">API keys are never stored in this app.</p>
-        </div>
-        <button type="button" class="secondary" id="copy-setup">Copy setup command</button>
+      <div class="next-chatgpt" id="next-chatgpt" hidden>
+        <strong id="next-chatgpt-category"></strong>
+        <dl>
+          <div><dt>Status</dt><dd id="next-chatgpt-status"></dd></div>
+          <div><dt>Delay</dt><dd id="next-chatgpt-delay"></dd></div>
+          <div><dt id="next-chatgpt-time-label">Scheduled assignment</dt><dd id="next-chatgpt-time"></dd></div>
+        </dl>
+        <p id="next-chatgpt-reason" hidden></p>
       </div>
-
-      <form id="research-form" class="research-form">
-        <fieldset class="research-context-options">
-          <legend>Research context</legend>
-          <label>
-            <input type="radio" name="research-mode" value="package" checked>
-            <span><strong>Use the imported resource package</strong><small id="package-mode-detail">Default · import a package above to provide existing-resource context.</small></span>
-          </label>
-          <label>
-            <input type="radio" name="research-mode" value="standalone-location">
-            <span><strong>Research a location without a package</strong><small>Exploratory research kept separate from any imported office package.</small></span>
-          </label>
-        </fieldset>
-        <div class="standalone-fields" id="standalone-research-fields" hidden>
-          <label>Research location
-            <input id="target-location" placeholder="Mesa, Arizona" autocomplete="off">
-          </label>
-          <label>Nearby areas to consider <span class="optional">Optional</span>
-            <input id="regional-scope" placeholder="Maricopa County and nearby programs serving Mesa" autocomplete="off">
-          </label>
-        </div>
-        <p class="research-context-note" id="research-context-note">Existing resources in the connected package are used as context and will not be returned as new discoveries.</p>
-        <label>Assignment
-          <textarea id="research-assignment" rows="6">Discover realistic ways a person without adequate housing in Utah County could obtain safe temporary or permanent housing. Follow useful relationships rather than stopping at a directory listing: voucher providers to participating motels, organizations to specific programs, and temporary options to longer-term pathways. Investigate practical access and lived experience as well as official claims.</textarea>
-        </label>
-        <div class="form-actions">
-          <button type="submit" id="start-research">Start research</button>
-          <span class="muted" id="research-message" aria-live="polite"></span>
-        </div>
-      </form>
-
-      <details class="agent-settings">
-        <summary>Research agent connection</summary>
-        <form id="settings-form">
-          <div class="settings-grid">
-            <label>Adapter
-              <select id="agent-adapter"><option value="hermes">Hermes</option><option value="dsh">DSH (experimental)</option><option value="demo">Built-in demo</option></select>
-            </label>
-            <label data-adapter-only="hermes">Hermes profile <input id="hermes-profile" placeholder="Optional"></label>
-            <label data-adapter-only="hermes">Hermes provider override <input id="hermes-provider" placeholder="Use Hermes default"></label>
-            <label data-adapter-only="hermes">Hermes model override <input id="hermes-model" placeholder="Use Hermes default"></label>
-            <label data-adapter-only="hermes">Hermes command override <input id="hermes-command" placeholder="Find Hermes automatically"></label>
-            <label data-adapter-only="dsh">DSH configuration
-              <select id="dsh-configuration"><option value="local-qwen">Local Qwen — no metered services</option><option value="trace-qwen" hidden>Traced Local Qwen — temporary, no metered services</option><option value="deepseek">DeepSeek — metered</option></select>
-            </label>
-            <label data-adapter-only="dsh" data-dsh-configuration-only="deepseek">DeepSeek model override <input id="dsh-model" placeholder="deepseek-v4-flash"></label>
-            <label data-adapter-only="dsh">DSH command override <input id="dsh-command" placeholder="Use the pinned DSH runtime"></label>
-            <label>Time limit per stage in seconds <input id="agent-timeout" type="number" min="30" max="7200" value="900"></label>
+      <details class="codex-progress-detail" id="codex-progress-detail" open hidden>
+        <summary>
+          <span>Detailed research progress</span>
+          <small id="codex-progress-summary"></small>
+        </summary>
+        <section class="codex-active-progress" id="codex-active-progress" hidden>
+          <div class="codex-detail-heading">
+            <div>
+              <span>Active category</span>
+              <h3 id="codex-active-category"></h3>
+            </div>
+            <strong id="codex-active-status"></strong>
           </div>
-          <button type="submit" class="secondary">Save connection settings</button>
-        </form>
+          <div class="codex-funnel" id="codex-active-funnel"></div>
+          <div class="codex-detail-columns">
+            <div>
+              <h4>Codex passes</h4>
+              <ol class="codex-pass-list" id="codex-pass-list"></ol>
+            </div>
+            <div>
+              <h4>Research team</h4>
+              <div class="codex-researcher-list" id="codex-researcher-list"></div>
+            </div>
+          </div>
+        </section>
+        <div class="codex-category-heading">
+          <h3>All research categories</h3>
+          <small>Miscellaneous is excluded.</small>
+        </div>
+        <div class="codex-category-list" id="codex-category-list"></div>
       </details>
+      <p class="progress-updated" id="scout-progress-updated" hidden></p>
+      <div class="review-file-ready" id="review-file-ready" hidden>
+        <div>
+          <strong id="review-file-title"></strong>
+          <p id="review-file-detail"></p>
+        </div>
+        <a class="review-export" id="review-file-download">Download review file</a>
+      </div>
     </section>
 
     <section class="research-results" id="research-results">
-      <article class="panel runs-panel">
-        <div class="section-head">
-          <div><p class="step">04 · Research trail</p><h2>Recent runs</h2></div>
-          <button type="button" class="text-button" id="refresh-research">Refresh</button>
-        </div>
-        <div id="run-list" class="run-list"></div>
-      </article>
-
-      <div class="research-divider" id="research-divider" role="separator" aria-label="Resize Recent runs and Research candidates" aria-orientation="vertical" aria-valuemin="25" aria-valuemax="70" aria-valuenow="40" tabindex="0"><span aria-hidden="true"></span></div>
-
-      <article class="panel candidates-panel">
-        <div class="section-head">
-          <div><p class="step">05 · Research records</p><h2 id="candidate-inbox-title">Research candidates</h2></div>
+      <details class="panel candidates-panel" id="resource-candidates-panel">
+        <summary class="section-head candidate-panel-summary">
+          <div><p class="step">03 · Resource candidates</p><h2 id="candidate-inbox-title">Resource candidates</h2></div>
           <span class="count-badge" id="candidate-count">0</span>
-        </div>
+        </summary>
         <div class="candidate-inbox-controls">
-          <label for="candidate-run-filter">Research run</label>
+          <label for="candidate-run-filter">Category research run</label>
           <select id="candidate-run-filter"></select>
         </div>
-        <p class="muted" id="candidate-inbox-context">Candidates appear after each research stage finishes. Human vetting, outcomes, resource editing, and package preparation happen in the exported Resource Curator.</p>
+        <p class="muted" id="candidate-inbox-context">Resource candidates appear after Scout finishes researching a category.</p>
         <div id="candidate-list" class="candidate-list"></div>
-      </article>
+      </details>
 
-      <article class="panel lessons-panel">
-        <div class="section-head"><div><p class="step">06 · Teaching loop</p><h2>Research lessons</h2></div></div>
-        <p class="muted">Active lessons are included only in future assignments with the same package-backed or standalone-location context. Agent suggestions require your approval.</p>
-        <form id="lesson-form" class="lesson-form">
-          <textarea id="lesson-text" rows="3" placeholder="What should the researcher learn?"></textarea>
-          <div class="inline-form"><select id="lesson-scope"><option value="category" id="category-lesson-option">Housing lesson</option><option value="general">General lesson</option></select><button type="submit">Add lesson</button></div>
-        </form>
-        <div id="lesson-list" class="lesson-list"></div>
-      </article>
     </section>
   </main>
 
   <dialog id="candidate-dialog">
     <button class="close" id="close-candidate" aria-label="Close">×</button>
     <div class="record-heading">
-      <p class="step">Research candidate</p>
+      <p class="step">Resource candidate</p>
       <h2 id="candidate-dialog-name"></h2>
       <p class="candidate-status" id="candidate-dialog-status"></p>
     </div>
     <div id="candidate-profile"></div>
-    <section class="curator-handoff"><h3>Continue in Resource Curator</h3><p>Use this run’s <strong>Export Resource Curator</strong> link for human vetting, optional outcomes, resource editing, printing, and package preparation.</p></section>
+    <section class="curator-handoff"><h3>Scout curation</h3><p>Codex-controlled curation evaluates these candidates before Scout creates the office review file.</p></section>
     <details class="raw-record"><summary>View candidate JSON</summary><pre id="candidate-json"></pre></details>
+  </dialog>
+
+  <dialog id="manual-discovery-dialog" class="manual-discovery-dialog">
+    <button class="close" id="close-manual-discovery" aria-label="Close">×</button>
+    <div class="record-heading">
+      <p class="step">Discovery</p>
+      <h2 id="manual-discovery-title">Collect chat responses</h2>
+      <p class="muted" id="manual-discovery-context"></p>
+    </div>
+    <section class="manual-assignment-copy">
+      <div class="manual-assignment-heading">
+        <details class="manual-assignment-details">
+          <summary>Assignment sent to every chat</summary>
+          <pre id="manual-assignment-text"></pre>
+        </details>
+        <button type="button" class="secondary" id="copy-manual-assignment">Copy assignment</button>
+      </div>
+    </section>
+    <div class="manual-progress" id="manual-progress" aria-live="polite"></div>
+    <p class="manual-next-step" id="manual-next-step" aria-live="polite"></p>
+    <section class="manual-consolidation" id="manual-consolidation" hidden>
+      <div class="section-head"><div><p class="step">Lead funnel</p><h3>Lead and identity presentation</h3></div></div>
+      <div class="manual-funnel" id="manual-funnel"></div>
+      <div class="manual-identity-suggestions" id="manual-identity-suggestions"></div>
+      <details class="manual-group-details"><summary id="manual-group-summary">View consolidated identity groups</summary><div id="manual-group-list"></div></details>
+    </section>
+    <div class="manual-source-list" id="manual-source-list"></div>
+    <div class="manual-workspace-actions">
+      <button type="button" class="secondary" id="add-manual-source">Add another source</button>
+      <button type="button" class="secondary" id="consolidate-manual-discovery">Consolidate leads</button>
+      <button type="button" id="finish-manual-discovery">Finish discovery</button>
+      <span class="muted" id="manual-discovery-message" aria-live="polite"></span>
+    </div>
   </dialog>
 
   <script src="/app.js"></script>

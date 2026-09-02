@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import unittest
 from pathlib import Path
 
@@ -14,27 +15,31 @@ class ScoutLayoutTests(unittest.TestCase):
         cls.css = (web / "app.css").read_text(encoding="utf-8")
         cls.javascript = (web / "app.js").read_text(encoding="utf-8")
 
-    def test_recent_runs_and_candidate_inbox_have_an_accessible_divider(self) -> None:
-        self.assertIn('id="research-divider"', self.html)
-        self.assertIn('role="separator"', self.html)
-        self.assertIn('aria-orientation="vertical"', self.html)
-        self.assertLess(self.html.index('class="panel runs-panel"'), self.html.index('id="research-divider"'))
-        self.assertLess(self.html.index('id="research-divider"'), self.html.index('class="panel candidates-panel"'))
+    def test_progress_precedes_resource_candidates_and_recent_runs_are_removed(self) -> None:
+        self.assertLess(
+            self.html.index('id="scout-progress-panel"'),
+            self.html.index('class="panel candidates-panel" id="resource-candidates-panel"'),
+        )
+        self.assertNotIn('class="panel runs-panel"', self.html)
+        self.assertNotIn('id="run-list"', self.html)
+        self.assertNotIn("Recent runs", self.html)
 
     def test_top_bar_uses_resource_scout_name(self) -> None:
         self.assertIn("<title>Resource Scout</title>", self.html)
         self.assertIn("<h1>Resource Scout</h1>", self.html)
-
-    def test_dsh_offers_explicit_local_and_metered_configurations(self) -> None:
-        self.assertIn('id="dsh-configuration"', self.html)
-        self.assertIn("Local Qwen — no metered services", self.html)
-        self.assertIn("DeepSeek — metered", self.html)
-        self.assertNotIn("DeepSeek Harness (experimental)", self.html)
         self.assertIn(
-            "dshConfiguration: document.querySelector('#dsh-configuration').value",
-            self.javascript,
+            "Research, consolidate, and curate resources for human review.",
+            self.html,
         )
-        self.assertIn('data-dsh-configuration-only="deepseek"', self.html)
+
+    def test_codex_shepherded_research_removes_manual_setup_ui(self) -> None:
+        self.assertNotIn('class="panel category-panel"', self.html)
+        self.assertNotIn('class="panel research-panel"', self.html)
+        self.assertNotIn('id="standalone-mode"', self.html)
+        self.assertNotIn('id="research-location-mode"', self.html)
+        self.assertNotIn(">Research a location</button>", self.html)
+        self.assertNotIn(">Set up discovery</button>", self.html)
+        self.assertIn('id="scout-progress-panel"', self.html)
 
     def test_version_is_in_the_green_header(self) -> None:
         header = self.html[self.html.index("<header>"):self.html.index("</header>")]
@@ -43,45 +48,102 @@ class ScoutLayoutTests(unittest.TestCase):
         self.assertNotIn('class="app-footer"', self.html)
         self.assertIn(".header-version { position: absolute;", self.css)
 
-    def test_divider_supports_pointer_keyboard_and_responsive_layouts(self) -> None:
-        self.assertIn("divider.addEventListener('pointerdown'", self.javascript)
-        self.assertIn("divider.addEventListener('pointermove'", self.javascript)
-        self.assertIn("divider.addEventListener('keydown'", self.javascript)
-        self.assertIn("setupResearchPaneResizer();", self.javascript)
-        self.assertIn("grid-template-columns: minmax(280px, var(--runs-pane-width)) 16px minmax(360px, 1fr)", self.css)
-        self.assertIn(".research-divider { display: none; }", self.css)
+    def test_candidate_package_export_is_not_in_the_visible_ui(self) -> None:
+        self.assertNotIn("Save Candidate Package", self.html)
+        self.assertNotIn('id="candidate-package-export"', self.html)
 
-    def test_run_findings_render_as_expandable_stage_sections_and_lists(self) -> None:
-        self.assertIn("function renderRunFindings(run)", self.javascript)
-        self.assertIn("function renderStageSummary(stage)", self.javascript)
-        self.assertIn("document.createElement('ol')", self.javascript)
-        self.assertIn("Show full findings", self.javascript)
-        self.assertIn("stage-summary-card", self.css)
-        self.assertNotIn("summary.textContent = run.result.summary", self.javascript)
+    def test_progress_shows_counts_chatgpt_delay_and_review_file(self) -> None:
+        for element_id in (
+            "scout-research-progress",
+            "scout-curation-progress",
+            "scout-codex-first-progress",
+            "codex-progress-detail",
+            "codex-pass-list",
+            "codex-researcher-list",
+            "codex-category-list",
+            "next-chatgpt-delay",
+            "next-chatgpt-status",
+            "next-chatgpt-time",
+            "review-file-ready",
+            "review-file-download",
+        ):
+            self.assertIn(f'id="{element_id}"', self.html)
+        self.assertIn("Scheduled assignment", self.html)
+        self.assertIn("/api/scout-progress?importId=", self.javascript)
+        self.assertIn("next.delayMinutes", self.javascript)
+        self.assertIn("progress.chatgptAssignment || progress.nextChatgpt", self.javascript)
+        self.assertIn("'cooling-down': 'Cooling down'", self.javascript)
+        self.assertIn('data-status="due"', self.css)
+        self.assertIn('data-status="sent"', self.css)
+        self.assertIn("curationFailures", self.javascript)
+        self.assertIn("progress.codexFirstResearch", self.javascript)
+        self.assertIn("/api/codex-first-research?importId=", self.javascript)
+        self.assertIn("renderCodexFirstDetail", self.javascript)
+        self.assertIn("Detailed research progress", self.html)
+        self.assertIn(".codex-category-row", self.css)
+        self.assertIn("Codex-first research", self.html)
+        self.assertIn("need attention", self.javascript)
+        self.assertIn("review.downloadUrl", self.javascript)
+        self.assertIn("`Creating ${reviewFilename}`", self.javascript)
+        self.assertIn("`${reviewFilename} is ready`", self.javascript)
+        self.assertIn("}, 15000);", self.javascript)
 
-    def test_runs_show_place_duration_and_candidate_context(self) -> None:
-        self.assertIn("function formatDuration(run)", self.javascript)
-        self.assertIn("function runPlace(run)", self.javascript)
-        self.assertIn("` · Duration ${duration}`", self.javascript)
-        self.assertIn("run.sourceOfficeName || run.sourceServiceArea", self.javascript)
-        self.assertIn("const importChanged = state.latestImport?.id !== summary.id", self.javascript)
-        self.assertIn("summary.serviceArea", self.javascript)
+    def test_resource_candidates_are_section_three_and_package_scoped(self) -> None:
+        self.assertIn("03 · Resource candidates", self.html)
+        self.assertIn('id="candidate-run-filter"', self.html)
+        self.assertIn('id="candidate-list"', self.html)
+        self.assertIn("Category research run", self.html)
+        self.assertIn("?importId=${state.latestImport.id}", self.javascript)
+        self.assertIn("request(`/api/research-runs${scope}`)", self.javascript)
+        self.assertIn("request(`/api/discoveries${scope}`)", self.javascript)
+        self.assertNotIn("05 · Research records", self.html)
+        self.assertNotIn("Research candidates", self.html)
+        self.assertIn("Scout curation", self.html)
+        self.assertIn("Codex-controlled curation", self.html)
+        self.assertNotIn("Resource Curator", self.html)
 
-    def test_human_curation_is_exported_instead_of_performed_in_scout(self) -> None:
-        self.assertIn("05 · Research records", self.html)
-        self.assertIn("Continue in Resource Curator", self.html)
-        self.assertIn("duplicate signals", self.html)
-        self.assertIn("Curator and human vetting", self.html)
-        self.assertNotIn("duplicate decisions", self.html)
-        self.assertIn("human vetting, optional outcomes, resource editing, printing, and package preparation", self.html)
-        self.assertIn("portable vetting and package workspace", self.javascript)
-        self.assertNotIn('id="review-actions"', self.html)
-        self.assertNotIn('id="generated-resource-form"', self.html)
-        self.assertNotIn('id="save-match-assessment"', self.html)
-        self.assertNotIn("/api/discoveries/${state.currentCandidate.id}/review", self.javascript)
-        self.assertNotIn("/api/discoveries/${state.currentCandidate.id}/generated-resource", self.javascript)
-        self.assertNotIn("/api/discoveries/${state.currentCandidate.id}/match-assessment", self.javascript)
-        self.assertNotIn("Export resource package", self.javascript)
+    def test_resource_candidates_start_collapsed(self) -> None:
+        start = self.html.index('<details class="panel candidates-panel"')
+        end = self.html.index(">", start)
+        opening_tag = self.html[start:end]
+        self.assertNotIn(" open", opening_tag)
+        self.assertIn('class="section-head candidate-panel-summary"', self.html)
+        self.assertIn(".candidates-panel[open]", self.css)
+
+    def test_ipad_access_is_one_compact_clickable_line(self) -> None:
+        start = self.html.index('<section class="ipad-access"')
+        end = self.html.index("</section>", start)
+        access = self.html[start:end]
+        self.assertIn("<strong>iPad access:</strong>", access)
+        self.assertIn('id="private-access-url"', access)
+        self.assertNotIn("button", access)
+        self.assertNotIn("PRIVATE IPAD ACCESS", access)
+
+    def test_package_import_refreshes_records_and_progress(self) -> None:
+        import_start = self.javascript.index("async function importSelectedPackage()")
+        import_end = self.javascript.index(
+            "document.querySelector('#package-input').addEventListener", import_start
+        )
+        import_javascript = self.javascript[import_start:import_end]
+        self.assertIn(
+            "await Promise.all([loadResearchData(), loadScoutProgress()]);",
+            import_javascript,
+        )
+        self.assertIn("state.candidateRunSelectionInitialized = false", self.javascript)
+        self.assertIn(
+            "Scout read a private copy and did not change your ZIP",
+            import_javascript,
+        )
+
+    def test_every_direct_event_listener_targets_an_existing_element(self) -> None:
+        ids = re.findall(
+            r"document\.querySelector\('#([^']+)'\)\.addEventListener",
+            self.javascript,
+        )
+        self.assertTrue(ids)
+        for element_id in ids:
+            with self.subTest(element_id=element_id):
+                self.assertIn(f'id="{element_id}"', self.html)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,33 @@
+{
+  "fixtureSchemaVersion": 1,
+  "sourceOrder": ["ChatGPT", "Grok", "Claude", "Perplexity"],
+  "files": {
+    "ChatGPT": "chatgpt.txt",
+    "Grok": "grok.txt",
+    "Claude": "claude.txt",
+    "Perplexity": "perplexity.txt"
+  },
+  "sha256": {
+    "ChatGPT": "85e134c378297f1c082e41012939bbbaf2278729b9deb1b2b12da24ab7993f79",
+    "Grok": "3360e009527864eb783674981c3aaf988136798c75a2fb31c228b9ea38af6073",
+    "Claude": "fc8c98305cda2d769011ead7807b7841024b00ac533dee626c47c47209daff36",
+    "Perplexity": "edb26c70bfcb764049a8fe874b21223e6581bf43da94dc892d3f577eacc68ebc"
+  },
+  "submittedRows": 14,
+  "declaredLeadTypes": {
+    "program": 6,
+    "provider-organization": 5,
+    "routing-source": 2,
+    "directory": 1
+  },
+  "blankWebsites": 2,
+  "markdownWebsites": 3,
+  "sourcesWithTrailingText": ["Perplexity"],
+  "exactNormalizedIdentityGroups": 11,
+  "notes": [
+    "Source agreement is overlap, not verification.",
+    "Calvary's parent organization and named inpatient program remain separate before review.",
+    "The Community Bridges organization-only row may support a named program but does not erase program boundaries.",
+    "Directories and routing sources are preserved but do not count as provider candidates."
+  ]
+}

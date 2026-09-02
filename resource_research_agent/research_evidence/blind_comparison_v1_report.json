@@ -1,0 +1,354 @@
+{
+  "aggregateComparison": {
+    "codexCuratedCount": 45,
+    "codexOnlyCuratedCount": 17,
+    "curatedUnionCount": 86,
+    "duplicateAdjustedUnionCount": 130,
+    "fourAiCuratedCount": 69,
+    "fourAiOnlyCuratedCount": 41,
+    "needsResearchCount": 13,
+    "sharedCuratedCount": 28
+  },
+  "aggregateSourceMetrics": {
+    "ChatGPT": {
+      "curatedIdentityCount": 34,
+      "curationSurvivalRate": 0.7391,
+      "duplicateAdjustedIdentityCount": 46,
+      "marginalCuratedIdentityCount": 4,
+      "submittedLeadCount": 51
+    },
+    "Claude": {
+      "curatedIdentityCount": 27,
+      "curationSurvivalRate": 0.6585,
+      "duplicateAdjustedIdentityCount": 41,
+      "marginalCuratedIdentityCount": 2,
+      "submittedLeadCount": 43
+    },
+    "Codex": {
+      "curatedIdentityCount": 45,
+      "curationSurvivalRate": 0.8824,
+      "duplicateAdjustedIdentityCount": 51,
+      "marginalCuratedIdentityCount": 17,
+      "submittedLeadCount": 54
+    },
+    "Grok": {
+      "curatedIdentityCount": 37,
+      "curationSurvivalRate": 0.6727,
+      "duplicateAdjustedIdentityCount": 55,
+      "marginalCuratedIdentityCount": 12,
+      "submittedLeadCount": 56
+    },
+    "Perplexity": {
+      "curatedIdentityCount": 31,
+      "curationSurvivalRate": 0.7561,
+      "duplicateAdjustedIdentityCount": 41,
+      "marginalCuratedIdentityCount": 9,
+      "submittedLeadCount": 47
+    }
+  },
+  "categories": [
+    {
+      "categoryId": "housing",
+      "categoryLabel": "Housing",
+      "comparison": {
+        "codexCuratedCount": 12,
+        "codexOnlyCuratedCount": 6,
+        "curatedUnionCount": 25,
+        "duplicateAdjustedUnionCount": 36,
+        "fourAiCuratedCount": 19,
+        "fourAiOnlyCuratedCount": 13,
+        "needsResearchCount": 4,
+        "sharedCuratedCount": 6
+      },
+      "observedResearchTime": {
+        "CodexSeconds": 1518,
+        "fourAiCollectionSeconds": 23,
+        "note": "Historical four-AI time includes collection and pacing and is not a controlled per-model latency measure."
+      },
+      "researchCharacteristic": "relationship tracing across crisis, voucher, supportive, and long-term pathways",
+      "reviewerEffort": {
+        "adjudicationCount": 11,
+        "decisionCount": 43,
+        "durationSeconds": 480,
+        "editCount": 43
+      },
+      "sourceMetrics": {
+        "ChatGPT": {
+          "curatedIdentityCount": 10,
+          "curationSurvivalRate": 0.7692,
+          "duplicateAdjustedIdentityCount": 13,
+          "marginalCuratedIdentityCount": 2,
+          "submittedLeadCount": 13
+        },
+        "Claude": {
+          "curatedIdentityCount": 5,
+          "curationSurvivalRate": 0.625,
+          "duplicateAdjustedIdentityCount": 8,
+          "marginalCuratedIdentityCount": 1,
+          "submittedLeadCount": 8
+        },
+        "Codex": {
+          "curatedIdentityCount": 12,
+          "curationSurvivalRate": 0.8571,
+          "duplicateAdjustedIdentityCount": 14,
+          "marginalCuratedIdentityCount": 6,
+          "submittedLeadCount": 14
+        },
+        "Grok": {
+          "curatedIdentityCount": 8,
+          "curationSurvivalRate": 0.6667,
+          "duplicateAdjustedIdentityCount": 12,
+          "marginalCuratedIdentityCount": 1,
+          "submittedLeadCount": 12
+        },
+        "Perplexity": {
+          "curatedIdentityCount": 9,
+          "curationSurvivalRate": 0.75,
+          "duplicateAdjustedIdentityCount": 12,
+          "marginalCuratedIdentityCount": 2,
+          "submittedLeadCount": 13
+        }
+      }
+    },
+    {
+      "categoryId": "medical-dental-vision",
+      "categoryLabel": "Medical, Dental, Vision",
+      "comparison": {
+        "codexCuratedCount": 12,
+        "codexOnlyCuratedCount": 4,
+        "curatedUnionCount": 28,
+        "duplicateAdjustedUnionCount": 35,
+        "fourAiCuratedCount": 24,
+        "fourAiOnlyCuratedCount": 16,
+        "needsResearchCount": 1,
+        "sharedCuratedCount": 8
+      },
+      "observedResearchTime": {
+        "CodexSeconds": 1519,
+        "fourAiCollectionSeconds": 4,
+        "note": "Historical four-AI time includes collection and pacing and is not a controlled per-model latency measure."
+      },
+      "researchCharacteristic": "clinical scope, payer, charity-care, referral, and population-access verification",
+      "reviewerEffort": {
+        "adjudicationCount": 5,
+        "decisionCount": 39,
+        "durationSeconds": 360,
+        "editCount": 39
+      },
+      "sourceMetrics": {
+        "ChatGPT": {
+          "curatedIdentityCount": 10,
+          "curationSurvivalRate": 0.7692,
+          "duplicateAdjustedIdentityCount": 13,
+          "marginalCuratedIdentityCount": 1,
+          "submittedLeadCount": 13
+        },
+        "Claude": {
+          "curatedIdentityCount": 10,
+          "curationSurvivalRate": 0.9091,
+          "duplicateAdjustedIdentityCount": 11,
+          "marginalCuratedIdentityCount": 1,
+          "submittedLeadCount": 12
+        },
+        "Codex": {
+          "curatedIdentityCount": 12,
+          "curationSurvivalRate": 0.9231,
+          "duplicateAdjustedIdentityCount": 13,
+          "marginalCuratedIdentityCount": 4,
+          "submittedLeadCount": 15
+        },
+        "Grok": {
+          "curatedIdentityCount": 11,
+          "curationSurvivalRate": 0.7857,
+          "duplicateAdjustedIdentityCount": 14,
+          "marginalCuratedIdentityCount": 4,
+          "submittedLeadCount": 15
+        },
+        "Perplexity": {
+          "curatedIdentityCount": 12,
+          "curationSurvivalRate": 1.0,
+          "duplicateAdjustedIdentityCount": 12,
+          "marginalCuratedIdentityCount": 6,
+          "submittedLeadCount": 15
+        }
+      }
+    },
+    {
+      "categoryId": "clothing-household",
+      "categoryLabel": "Clothing/Household",
+      "comparison": {
+        "codexCuratedCount": 11,
+        "codexOnlyCuratedCount": 6,
+        "curatedUnionCount": 18,
+        "duplicateAdjustedUnionCount": 31,
+        "fourAiCuratedCount": 12,
+        "fourAiOnlyCuratedCount": 7,
+        "needsResearchCount": 5,
+        "sharedCuratedCount": 5
+      },
+      "observedResearchTime": {
+        "CodexSeconds": 1519,
+        "fourAiCollectionSeconds": 15,
+        "note": "Historical four-AI time includes collection and pacing and is not a controlled per-model latency measure."
+      },
+      "researchCharacteristic": "small community and faith programs hidden inside broader basic-needs services",
+      "reviewerEffort": {
+        "adjudicationCount": 8,
+        "decisionCount": 34,
+        "durationSeconds": 360,
+        "editCount": 34
+      },
+      "sourceMetrics": {
+        "ChatGPT": {
+          "curatedIdentityCount": 6,
+          "curationSurvivalRate": 0.6,
+          "duplicateAdjustedIdentityCount": 10,
+          "marginalCuratedIdentityCount": 0,
+          "submittedLeadCount": 12
+        },
+        "Claude": {
+          "curatedIdentityCount": 4,
+          "curationSurvivalRate": 0.4,
+          "duplicateAdjustedIdentityCount": 10,
+          "marginalCuratedIdentityCount": 0,
+          "submittedLeadCount": 11
+        },
+        "Codex": {
+          "curatedIdentityCount": 11,
+          "curationSurvivalRate": 0.8462,
+          "duplicateAdjustedIdentityCount": 13,
+          "marginalCuratedIdentityCount": 6,
+          "submittedLeadCount": 14
+        },
+        "Grok": {
+          "curatedIdentityCount": 8,
+          "curationSurvivalRate": 0.5714,
+          "duplicateAdjustedIdentityCount": 14,
+          "marginalCuratedIdentityCount": 3,
+          "submittedLeadCount": 14
+        },
+        "Perplexity": {
+          "curatedIdentityCount": 6,
+          "curationSurvivalRate": 0.6667,
+          "duplicateAdjustedIdentityCount": 9,
+          "marginalCuratedIdentityCount": 1,
+          "submittedLeadCount": 10
+        }
+      }
+    },
+    {
+      "categoryId": "transportation",
+      "categoryLabel": "Transportation",
+      "comparison": {
+        "codexCuratedCount": 10,
+        "codexOnlyCuratedCount": 1,
+        "curatedUnionCount": 15,
+        "duplicateAdjustedUnionCount": 28,
+        "fourAiCuratedCount": 14,
+        "fourAiOnlyCuratedCount": 5,
+        "needsResearchCount": 3,
+        "sharedCuratedCount": 9
+      },
+      "observedResearchTime": {
+        "CodexSeconds": 1519,
+        "fourAiCollectionSeconds": 23,
+        "note": "Historical four-AI time includes collection and pacing and is not a controlled per-model latency measure."
+      },
+      "researchCharacteristic": "route, eligibility, reservation, trip-purpose, and vehicle-access logistics",
+      "reviewerEffort": {
+        "adjudicationCount": 5,
+        "decisionCount": 30,
+        "durationSeconds": 360,
+        "editCount": 30
+      },
+      "sourceMetrics": {
+        "ChatGPT": {
+          "curatedIdentityCount": 8,
+          "curationSurvivalRate": 0.8,
+          "duplicateAdjustedIdentityCount": 10,
+          "marginalCuratedIdentityCount": 1,
+          "submittedLeadCount": 13
+        },
+        "Claude": {
+          "curatedIdentityCount": 8,
+          "curationSurvivalRate": 0.6667,
+          "duplicateAdjustedIdentityCount": 12,
+          "marginalCuratedIdentityCount": 0,
+          "submittedLeadCount": 12
+        },
+        "Codex": {
+          "curatedIdentityCount": 10,
+          "curationSurvivalRate": 0.9091,
+          "duplicateAdjustedIdentityCount": 11,
+          "marginalCuratedIdentityCount": 1,
+          "submittedLeadCount": 11
+        },
+        "Grok": {
+          "curatedIdentityCount": 10,
+          "curationSurvivalRate": 0.6667,
+          "duplicateAdjustedIdentityCount": 15,
+          "marginalCuratedIdentityCount": 4,
+          "submittedLeadCount": 15
+        },
+        "Perplexity": {
+          "curatedIdentityCount": 4,
+          "curationSurvivalRate": 0.5,
+          "duplicateAdjustedIdentityCount": 8,
+          "marginalCuratedIdentityCount": 0,
+          "submittedLeadCount": 9
+        }
+      }
+    }
+  ],
+  "curationAssignmentVersion": "codex-curation-v2-direct-service",
+  "experimentMode": "blind-comparison-v1",
+  "fixtureSha256": "6fc04d9e66315002c896f1fcfbe85486a9a3949d2c4405d6ce45d9030e3a29dd",
+  "heldOutCategoryCount": 4,
+  "interpretationBoundary": "This one-location, four-category blind comparison is evidence for the subscription decision, not automatic authority to disable a researcher.",
+  "location": {
+    "contentSha256": "64e37f5dee232b721116b6fded519ee9ed1bc5f1342bf91363e55b2a5f16f40c",
+    "importId": 3,
+    "officeName": "Provo TSO",
+    "serviceArea": "Utah County, Utah",
+    "sourceName": "provo-resource-package.zip",
+    "sourceSha256": "486788adbc854ff27a698fbf5e2fcaa254db155e4fcc582f8a72d8fe5ed968fd"
+  },
+  "reviewerEffort": {
+    "adjudicationCount": 29,
+    "decisionCount": 146,
+    "durationSeconds": 1560,
+    "editCount": 146
+  },
+  "schemaVersion": 1,
+  "status": "complete",
+  "subscriptionEvidence": {
+    "ChatGPT": {
+      "curatedIdentityCount": 34,
+      "decisionRole": "primary Codex environment",
+      "marginalCuratedIdentityCount": 4,
+      "monthlyUsd": 200,
+      "monthlyUsdPerMarginalCuratedIdentity": 50.0
+    },
+    "Claude": {
+      "curatedIdentityCount": 27,
+      "decisionRole": "renewal under evaluation",
+      "marginalCuratedIdentityCount": 2,
+      "monthlyUsd": 20,
+      "monthlyUsdPerMarginalCuratedIdentity": 10.0
+    },
+    "Grok": {
+      "curatedIdentityCount": 37,
+      "decisionRole": "sunk cost through April 2027",
+      "marginalCuratedIdentityCount": 12,
+      "monthlyUsd": 300,
+      "monthlyUsdPerMarginalCuratedIdentity": 25.0
+    },
+    "Perplexity": {
+      "curatedIdentityCount": 31,
+      "decisionRole": "renewal under evaluation",
+      "marginalCuratedIdentityCount": 9,
+      "monthlyUsd": 20,
+      "monthlyUsdPerMarginalCuratedIdentity": 2.22
+    }
+  }
+}

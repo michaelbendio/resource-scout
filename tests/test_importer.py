@@ -128,7 +128,7 @@ class ImporterTests(unittest.TestCase):
         with self.assertRaisesRegex(PackageImportError, "Unsafe ZIP member"):
             ResourcePackageImporter().read(path)
 
-    def test_full_records_seeds_and_discoveries_are_separate(self) -> None:
+    def test_full_records_and_known_resource_index_are_preserved(self) -> None:
         full = {
             "id": "known", "name": "Known Housing", "categories": ["housing", "food"],
             "aliases": ["Known Home"], "website": "https://known.example/program",
@@ -145,21 +145,14 @@ class ImporterTests(unittest.TestCase):
         self.assertEqual(seeds[0]["fullRecord"], full)
         self.assertFalse(seeds[0]["seedContext"]["isNewDiscovery"])
         self.assertEqual(seeds[0]["categories"][1], {"id": "food", "label": "Food Assistance"})
-        self.assertTrue(seeds[0]["attachments"][0]["available"])
-        asset = store.seed_asset(import_id, "known", "pdfs/known/guide.pdf")
-        self.assertEqual(asset["name"], "Housing guide.pdf")
-        self.assertEqual(asset["mediaType"], "application/pdf")
-        self.assertEqual(asset["content"], b"%PDF-1.4 test attachment")
+        self.assertNotIn("attachments", seeds[0])
         self.assertEqual(store.list_discoveries(), [])
 
         match = DuplicateIndex(store).match({"name": "Known Home", "website": "known.example/other"})[0]
         self.assertEqual(match["resourceId"], "known")
         self.assertEqual(match["classification"], "already-known")
-        saved = store.save_discovery({"name": "Known Home"}, match)
-        self.assertFalse(saved["isNewDiscovery"])
-        self.assertEqual(saved["status"], "already-known")
         self.assertEqual(len(store.list_seeds()), 1)
-        self.assertEqual(len(store.list_discoveries()), 1)
+        self.assertEqual(store.list_discoveries(), [])
 
     def test_index_covers_all_resources_not_only_housing(self) -> None:
         path = self.package({

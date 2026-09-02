@@ -36,7 +36,6 @@ RELATION_KEYS = (
     "service",
     "services",
 )
-ATTACHMENT_KEYS = ("pdf", "pdfs", "document", "documents", "attachment", "attachments")
 
 # Resource packages do not yet carry an office/service-area contract. Recognize
 # explicit metadata when it appears, and keep today's office fallback in one
@@ -180,29 +179,43 @@ def resource_id(record: dict[str, Any]) -> str:
     return "generated-" + hashlib.sha256(stable.encode("utf-8")).hexdigest()[:20]
 
 
-def resource_attachments(record: dict[str, Any]) -> list[dict[str, str]]:
-    """Return referenced package assets without changing the source record."""
-    attachments: list[dict[str, str]] = []
-    seen: set[str] = set()
-    for key in ATTACHMENT_KEYS:
-        if key not in record:
-            continue
-        raw = record[key]
-        items = raw if isinstance(raw, list) else [raw]
-        for item in items:
-            if isinstance(item, str):
-                asset_path = item.strip()
-                name = Path(asset_path).name
-            elif isinstance(item, dict):
-                asset_path = _first_string(item, ("path", "file", "url", "href"))
-                name = _first_string(item, ("name", "title", "label")) or Path(asset_path).name
-            else:
-                continue
-            if not asset_path or asset_path in seen:
-                continue
-            seen.add(asset_path)
-            attachments.append({"name": name or Path(asset_path).name, "path": asset_path})
-    return attachments
+def package_content_sha256(
+    resources: list[dict[str, Any]],
+    categories: list[dict[str, Any]],
+    for_groups: list[Any],
+    office_name: str,
+    service_area: str,
+) -> str:
+    payload = {
+        "officeName": office_name,
+        "serviceArea": service_area,
+        "categories": sorted(
+            (
+                {
+                    "id": str(item.get("id") or ""),
+                    "label": str(item.get("label") or ""),
+                    "raw": item.get("raw"),
+                }
+                for item in categories
+            ),
+            key=lambda item: (item["id"].casefold(), item["label"].casefold()),
+        ),
+        "forGroups": for_groups,
+        "resources": sorted(
+            resources,
+            key=lambda item: (
+                resource_id(item).casefold(),
+                json.dumps(item, ensure_ascii=False, sort_keys=True),
+            ),
+        ),
+    }
+    encoded = json.dumps(
+        payload,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
 
 
 def _walk_collections(value: Any, path: tuple[str, ...] = (), depth: int = 0) -> Iterator[tuple[tuple[str, ...], list[Any]]]:
@@ -279,7 +292,6 @@ class ImportedPackage:
     manifest: list[dict[str, Any]]
     root_metadata: dict[str, Any] = field(default_factory=dict)
     for_groups: list[Any] = field(default_factory=list)
-    seed_assets: dict[str, bytes] = field(default_factory=dict, repr=False)
 
     @property
     def identity(self) -> dict[str, str]:
@@ -293,9 +305,15 @@ class ImportedPackage:
         }
 
     @property
-    def target_assets(self) -> dict[str, bytes]:
-        """Compatibility name retained for older callers and tests."""
-        return self.seed_assets
+    def content_sha256(self) -> str:
+        identity = self.identity
+        return package_content_sha256(
+            self.resources,
+            self.categories,
+            self.for_groups,
+            identity["officeName"],
+            identity["serviceArea"],
+        )
 
     @property
     def multicategory_target_count(self) -> int:
@@ -305,6 +323,7 @@ class ImportedPackage:
         return {
             "sourceName": self.source_name,
             "sourceSha256": self.sha256,
+            "contentSha256": self.content_sha256,
             **self.identity,
             "schema": self.schema.as_dict(),
             "category": {"id": self.target_category_id, "label": self.target_category_label},
@@ -384,19 +403,6 @@ class ResourcePackageImporter:
                 for item in resources
                 if target_norm in {_normalized_label(category) for category in resource_category_ids(item)}
             ]
-            members_by_name = {info.filename: info for info in infos if not info.is_dir()}
-            seed_resources = resources
-            seed_asset_paths = {
-                attachment["path"]
-                for resource in seed_resources
-                for attachment in resource_attachments(resource)
-            }
-            seed_assets = {
-                asset_path: archive.read(members_by_name[asset_path])
-                for asset_path in seed_asset_paths
-                if asset_path in members_by_name
-            }
-
             schema_version = root.get("resourcePackageSchemaVersion", root.get("schemaVersion"))
             package_version = root.get("packageVersion", root.get("version"))
             metadata = {key: value for key, value in root.items() if not isinstance(value, (list, dict))}
@@ -413,7 +419,6 @@ class ResourcePackageImporter:
                 manifest=manifest,
                 root_metadata=metadata,
                 for_groups=list(root.get("forGroups") or []) if isinstance(root.get("forGroups"), list) else [],
-                seed_assets=seed_assets,
             )
 
         after = self._hash(path)

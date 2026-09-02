@@ -1,7 +1,10 @@
 {
   "categoryId": "medical-dental-vision",
   "label": "Medical, Dental, Vision",
-  "aliases": ["medical dental vision", "health care"],
+  "aliases": [
+    "medical dental vision",
+    "health care"
+  ],
   "assignment": "Discover realistic medical, dental, and vision resources for uninsured, underinsured, or otherwise underserved people in {service_area}. Follow health systems and referral networks to specific clinics, specialty services, labs, prescriptions, dental care, eye care, coverage programs, and transportation. Verify clinical scope, urgency, cost, insurance, eligibility, appointments, and referral requirements.",
   "include": [
     "Primary, preventive, urgent, specialty, reproductive, and chronic-condition care",
@@ -15,16 +18,60 @@
     "Commercial discount advertising without a defined low-cost or charity program",
     "Clinics whose stated specialty, payer, referral, or residency rules make access unrealistic"
   ],
-  "verificationQuestions": [
-    "What clinical services are actually performed, and what is referred elsewhere?",
-    "What insurance, Medicaid, sliding-scale, charity-care, residency, or documentation rules apply?",
-    "What will the visit, procedure, lab, prescription, equipment, or glasses cost?",
-    "How soon is the next appointment and is a referral required?"
-  ],
-  "stages": [
-    {"key": "medical-access", "title": "Medical and prescription access", "instruction": "Investigate primary, preventive, urgent, reproductive, specialty, chronic-care, lab, imaging, prescription, and equipment pathways. Verify clinical scope, cost, payer rules, appointments, and referrals."},
-    {"key": "dental-access", "title": "Dental access", "instruction": "Investigate preventive, urgent pain and infection care, extraction, restoration, dentures, pediatric and specialty dental services, including complete costs, waitlists, and referral routes."},
-    {"key": "vision-coverage", "title": "Vision, coverage, and barrier support", "instruction": "Investigate exams, glasses, low-vision and ophthalmology services, insurance and charity enrollment, mobile care, interpreters, disability access, telehealth, and transportation."},
-    {"key": "health-gaps", "title": "Clinical continuity and gap review", "instruction": "Cross-check appointment availability, full cost, payer acceptance, referral completion, language and disability access, follow-up care, and geographic reach. Identify services that stop at screening without treatment."}
-  ]
+  "focusedResearch": {
+    "version": "medical-dental-vision-focused-v1",
+    "alternativeVocabulary": [
+      "sliding fee", "charity care", "financial assistance", "safety net clinic",
+      "federally qualified health center", "free clinic", "vision voucher",
+      "dental access", "prescription assistance", "care navigation"
+    ],
+    "sourceChannels": [
+      "official clinic, health-system, and public-health pages",
+      "federal and state provider directories that link to operating providers",
+      "official charity-care and financial-assistance policies",
+      "medical-school, dental-school, and professional-association clinics"
+    ],
+    "focuses": [
+      {
+        "key": "primary-urgent",
+        "label": "Primary, preventive, and urgent care",
+        "direction": "Find concrete clinics for uninsured or underinsured patients and verify sliding fees, appointments, walk-ins, age limits, and service scope.",
+        "coverage": ["primary care", "preventive care", "urgent care alternatives", "reproductive and chronic care"],
+        "vocabulary": ["same day clinic", "uninsured patients", "community health center", "medical home"],
+        "sourceChannels": ["FQHC operators", "county health", "free and charitable clinics"]
+      },
+      {
+        "key": "dental",
+        "label": "Dental access",
+        "direction": "Find named dental clinics and programs spanning prevention, pain and infection, extraction, restoration, dentures, and specialty referrals.",
+        "coverage": ["low-cost dental clinic", "urgent dental pain", "restorative care", "dentures and specialty referral"],
+        "vocabulary": ["dental sliding scale", "reduced fee dentistry", "dental school clinic", "oral health program"],
+        "sourceChannels": ["dental schools", "community health centers", "charitable dental operators", "state dental associations"]
+      },
+      {
+        "key": "vision",
+        "label": "Vision and eye-care access",
+        "direction": "Find practical pathways for exams, glasses, low-vision services, and medically necessary ophthalmology for people facing cost barriers.",
+        "coverage": ["eye exams", "glasses", "low vision", "ophthalmology referrals"],
+        "vocabulary": ["vision assistance", "eyeglass voucher", "low vision rehabilitation", "charitable eye care"],
+        "sourceChannels": ["official vision charities", "community clinics", "ophthalmology programs", "Lions and local operating partners"]
+      },
+      {
+        "key": "specialty-support",
+        "label": "Specialty, diagnostics, prescriptions, and coverage",
+        "direction": "Trace primary care or health systems to named specialty, lab, imaging, prescription, equipment, insurance-enrollment, and charity-care pathways.",
+        "coverage": ["specialty referral", "labs and imaging", "prescription help", "coverage and hospital financial assistance"],
+        "vocabulary": ["patient assistance", "financial assistance policy", "specialty access", "diagnostic services"],
+        "sourceChannels": ["health systems", "hospital charity-care offices", "pharmacy assistance programs", "coverage navigators"]
+      },
+      {
+        "key": "population-mobile",
+        "label": "Population-specific, mobile, and accessible care",
+        "direction": "Find direct care designed for people experiencing homelessness, immigrants, children, older adults, disabilities, or transportation barriers.",
+        "coverage": ["mobile care", "homeless health", "immigrant and language access", "disability-accessible and transportation-supported care"],
+        "vocabulary": ["mobile clinic", "street medicine", "refugee health", "accessible health care"],
+        "sourceChannels": ["mobile providers", "school and homeless-health programs", "refugee organizations", "disability service networks"]
+      }
+    ]
+  }
 }

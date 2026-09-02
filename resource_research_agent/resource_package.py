@@ -5,9 +5,6 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Iterable
 
-from .playbooks import playbook_for
-
-
 RESOURCE_PACKAGE_SCHEMA_VERSION = 3
 class GeneratedResourceError(ValueError):
     """Raised when a candidate cannot become a Curator resource draft."""
@@ -185,7 +182,6 @@ def candidate_to_resource(
     recommended_for = [
         value for value in _items(candidate.get("recommendedFor")) if value in for_labels
     ]
-    playbook = playbook_for(category_id)
     return {
         "id": resource_id or uuid.uuid4().hex,
         "name": name,
@@ -194,9 +190,7 @@ def candidate_to_resource(
         "website": _inline(candidate.get("website") or candidate.get("url")),
         "hours": _inline(candidate.get("hours")),
         "description": candidate_description(candidate),
-        "informationText": candidate_information(
-            candidate, playbook.additional_output_fields
-        ),
+        "informationText": candidate_information(candidate),
         "verifiedOn": None,
         "categories": [category_id],
         "categoryFilters": {category_id: recommended_types} if recommended_types else {},

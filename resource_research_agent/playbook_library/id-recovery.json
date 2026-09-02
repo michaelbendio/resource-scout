@@ -1,7 +1,9 @@
 {
   "categoryId": "id-recovery",
   "label": "ID Recovery",
-  "aliases": ["identification recovery"],
+  "aliases": [
+    "identification recovery"
+  ],
   "assignment": "Discover realistic ways people in {service_area} can obtain or replace the identity and civil documents needed for housing, work, benefits, travel, banking, and health care. Trace the full sequence for birth certificates, state identification, driver licenses, Social Security cards, immigration documents, and supporting records. Verify identity proofs, fees or waivers, addresses, appointments, transportation, and help for people missing prerequisite documents.",
   "include": [
     "State identification cards, driver licenses, and homeless or hardship fee waivers",
@@ -14,17 +16,5 @@
     "General government pages that do not resolve the missing-document sequence",
     "Commercial document-retrieval services when a safer direct or assisted path exists",
     "Instructions that assume the applicant already possesses the document they are trying to recover"
-  ],
-  "verificationQuestions": [
-    "Which exact identity and residency proofs are accepted for this document?",
-    "What alternative path exists when prerequisite documents, address, or family help are unavailable?",
-    "What fees, waivers, appointments, photos, notarization, and mailing requirements apply?",
-    "Can an advocate pay, transport, certify, receive mail, or accompany the applicant?"
-  ],
-  "stages": [
-    {"key": "id-state", "title": "State identification and licenses", "instruction": "Investigate state ID and driver-license issuance or replacement, accepted proofs, address alternatives, appointments, fees and waivers, photos, transportation, and advocate assistance."},
-    {"key": "id-foundation", "title": "Vital and federal documents", "instruction": "Investigate birth and other vital records, Social Security cards, immigration and tribal documents, including interstate requests, certified copies, identity proofs, cost, mail, and processing time."},
-    {"key": "id-complex", "title": "Complex recovery pathways", "instruction": "Investigate help for people missing every prerequisite, experiencing homelessness, leaving custody, fleeing abuse, recovering from theft or disaster, or facing name, parentage, citizenship, or record discrepancies."},
-    {"key": "id-gaps", "title": "Sequence and barrier gap review", "instruction": "Map circular requirements between documents, recheck accepted alternatives and waivers, and identify gaps involving address, fees, transport, mail, technology, records in other jurisdictions, and lack of supporting witnesses."}
   ]
 }

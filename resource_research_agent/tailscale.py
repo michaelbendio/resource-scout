@@ -95,7 +95,7 @@ class TailscaleServeManager:
             probe.bind(("127.0.0.1", port))
         except OSError as error:
             raise TailscaleAccessError(
-                f"Port {port} is already in use. Stop the currently running Research Agent "
+                f"Port {port} is already in use. Stop the currently running Resource Scout "
                 "with Control-C, then run this launcher again."
             ) from error
         finally:

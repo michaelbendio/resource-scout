@@ -15,16 +15,60 @@
     "Transit information that does not establish whether the needed origin, destination, and time are served",
     "Vehicle donation pages that solicit vehicles but do not place transportation with clients"
   ],
-  "verificationQuestions": [
-    "Which trip purposes, origins, destinations, days, and hours are covered?",
-    "What eligibility certification, reservation notice, fare, and cancellation policy applies?",
-    "Are wheelchairs, mobility devices, attendants, children, and language needs accommodated?",
-    "How reliable is pickup, and what option exists for urgent or recurring trips?"
-  ],
-  "stages": [
-    {"key": "transit-public", "title": "Public transit and reduced fares", "instruction": "Investigate fixed routes, on-demand zones, reduced fares and passes, route planning, first-mile and last-mile connections, service hours, and practical links to essential destinations."},
-    {"key": "transit-specialized", "title": "Paratransit and essential trips", "instruction": "Investigate ADA paratransit, senior and disability rides, Medicaid and medical transport, treatment and veteran transportation, certification, reservations, fares, attendants, and mobility-device access."},
-    {"key": "transit-alternatives", "title": "Vouchers and transportation stability", "instruction": "Investigate ride vouchers, volunteer drivers, employment transport, vehicle repair or placement, bicycles, driver licensing, fuel help, and safe alternatives when public transit does not fit."},
-    {"key": "transit-gaps", "title": "Coverage and reliability review", "instruction": "Test origins, destinations, early and late hours, weekends, rural areas, reservation windows, accessibility, child travel, urgent trips, and recurring needs. Exclude unsubsidized commercial rides and donation-only programs."}
-  ]
+  "focusedResearch": {
+    "version": "transportation-focused-v1",
+    "alternativeVocabulary": [
+      "mobility management", "reduced fare", "paratransit", "dial-a-ride",
+      "non-emergency medical transportation", "ride voucher", "volunteer driver",
+      "vehicle repair assistance", "bike program"
+    ],
+    "sourceChannels": [
+      "official transit, city, county, and Medicaid transportation pages",
+      "operating nonprofit and senior-service program pages",
+      "hospital, treatment, workforce, and disability transportation programs",
+      "vehicle-placement, repair, and bicycle programs with client eligibility"
+    ],
+    "focuses": [
+      {
+        "key": "transit-fares",
+        "label": "Fixed-route transit and fare access",
+        "direction": "Find practical fixed-route, reduced-fare, pass, route-planning, and first-mile or last-mile help for people with limited income.",
+        "coverage": ["bus and rail", "reduced fares", "passes", "route planning and connections"],
+        "vocabulary": ["fare assistance", "reduced fare card", "travel training", "microtransit"],
+        "sourceChannels": ["transit agencies", "city mobility programs", "social-service pass distributors"]
+      },
+      {
+        "key": "paratransit-senior",
+        "label": "Paratransit, senior, and disability rides",
+        "direction": "Find ADA paratransit and other door-to-door services, verifying certification, geography, reservations, fares, companions, and mobility-device rules.",
+        "coverage": ["ADA paratransit", "senior rides", "disability transportation", "door-to-door service"],
+        "vocabulary": ["dial a ride", "curb to curb", "demand response", "mobility management"],
+        "sourceChannels": ["transit paratransit offices", "aging agencies", "disability organizations", "municipal senior programs"]
+      },
+      {
+        "key": "medical-transport",
+        "label": "Medical and treatment transportation",
+        "direction": "Find Medicaid and non-Medicaid rides to medical, dental, behavioral-health, dialysis, cancer, and recovery services with real scheduling instructions.",
+        "coverage": ["Medicaid NEMT", "hospital transportation", "treatment rides", "volunteer medical drivers"],
+        "vocabulary": ["non emergency medical transport", "health plan rides", "treatment transportation", "medical escort"],
+        "sourceChannels": ["Medicaid agencies and plans", "health systems", "treatment providers", "medical ride nonprofits"]
+      },
+      {
+        "key": "employment-emergency",
+        "label": "Employment, essential-trip, and emergency rides",
+        "direction": "Find direct ride vouchers or programs for work, education, benefits, food, crisis relocation, or other essential trips not covered by medical transportation.",
+        "coverage": ["employment rides", "ride vouchers", "emergency transportation", "rural and essential-trip coverage"],
+        "vocabulary": ["work transportation", "gas voucher", "emergency ride", "transportation assistance"],
+        "sourceChannels": ["workforce programs", "community action", "crisis and family agencies", "rural mobility providers"]
+      },
+      {
+        "key": "vehicle-bike-repair",
+        "label": "Vehicles, repairs, bicycles, and licensing",
+        "direction": "Find programs that directly place reliable vehicles or bicycles, subsidize repairs, or resolve licensing barriers; exclude donation solicitation without client placement.",
+        "coverage": ["donated vehicles", "repair assistance", "bicycles", "licenses and driver support"],
+        "vocabulary": ["car ownership program", "vehicle repair grant", "earn a bike", "driver license assistance"],
+        "sourceChannels": ["vehicle-placement nonprofits", "community action", "bike collectives", "workforce and reentry providers"]
+      }
+    ]
+  }
 }

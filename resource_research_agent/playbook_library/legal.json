@@ -1,7 +1,9 @@
 {
   "categoryId": "legal",
   "label": "Legal",
-  "aliases": ["legal assistance"],
+  "aliases": [
+    "legal assistance"
+  ],
   "assignment": "Discover realistic civil legal help for people in {service_area} who cannot easily retain an attorney. Follow courts, bar organizations, and broad legal-aid directories to specific intake units, clinics, representation programs, self-help services, and issue-specific advocates. Verify legal issue, income and status rules, conflicts, deadlines, representation level, language access, and the real intake path.",
   "include": [
     "Legal advice, limited-scope help, clinics, representation, and court self-help",
@@ -14,17 +16,5 @@
     "Private attorney directories without free, reduced-fee, or referral support",
     "General legal information presented as individualized advice or representation",
     "Programs outside their stated legal issue, county, court, income, immigration, or conflict rules"
-  ],
-  "verificationQuestions": [
-    "Which legal issues and jurisdictions are accepted, and what is excluded?",
-    "Does the service provide information, advice, document help, limited representation, or full representation?",
-    "What income, residency, status, conflict, and documentation screens apply?",
-    "What deadline or hearing makes the matter urgent, and how quickly can intake respond?"
-  ],
-  "stages": [
-    {"key": "legal-urgent", "title": "Urgent rights and court access", "instruction": "Investigate protective orders, eviction and housing deadlines, benefits cutoffs, family safety, immigration urgency, court self-help, and services that can respond before a hearing or filing deadline."},
-    {"key": "legal-civil", "title": "Civil legal aid and representation", "instruction": "Investigate issue-specific legal aid, clinics, advice lines, limited-scope and full representation, eligibility screens, conflicts, counties and courts served, and intake schedules."},
-    {"key": "legal-specialized", "title": "Specialized and barrier-aware help", "instruction": "Investigate immigration, disability, elder, consumer, employment, reentry, expungement, identity, victim, language-access, and accommodation pathways, including reputable referrals when direct representation is unavailable."},
-    {"key": "legal-gaps", "title": "Representation and deadline gap review", "instruction": "Cross-check issue scope, jurisdiction, income rules, conflicts, deadlines, language, disability access, and level of service. Identify matters for which only information, not advice or representation, is available."}
   ]
 }
