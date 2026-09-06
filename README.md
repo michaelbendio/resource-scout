@@ -13,10 +13,14 @@ does not rewrite earlier jobs. The source version remains 0.50.0/build 17 until
 a release is designated; `v2.0` is the development branch, not a published release.
 See the [implementation and pilot report](docs/scout-increment-1-results.md).
 Michael accepted the writing pilot; increment 1 is complete. Increment 2's
-existing-resource update workflow is implemented and software-tested; its real
-Provo research/review pilot awaits a confirmed current package. See
+existing-resource update workflow is implemented and software-tested. Michael
+accepted the authorized historical Provo pilot's writing and reconciliation. See
 [increment 2 status and usage](docs/scout-increment-2-results.md).
-Classification, maintenance, and adaptive research remain later increments.
+Increment 3A adds reviewed categories, Types, and groups with office-defined
+guidance and safe existing-resource exports. Its six-resource Provo pilot is
+prepared and awaits definition review before real classification research. See
+[increment 3A status and usage](docs/scout-increment-3-results.md). Group migrations,
+location navigation, maintenance, and adaptive research remain later work.
 
 The following version notes describe the established Scout line, retained on
 `main` in the separate `resource-scout` checkout.

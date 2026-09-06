@@ -21,9 +21,11 @@ real four-AI pilot and accepted its writing and reconciliation decisions.
 Provider questions and production package review remain open.
 See [increment 2 status](scout-increment-2-results.md).
 
-Increment 3 planning: see the proposed [implementation and test plan](scout-increment-3-plan.md).
-It starts with a bounded classification pilot, followed by group/migration
-review and location-app navigation. These slices are not implemented yet.
+Increment 3 update: slice 3A is implemented and software-tested. The six-resource
+historical Provo pilot awaits office definition review before real classification
+research. Group/migration review and location navigation remain planned. See the
+[implementation status](scout-increment-3-results.md) and
+[implementation and test plan](scout-increment-3-plan.md).
 
 V2.0 development uses branch `v2.0` in `/Users/michaelbendio/resource-scout-v2`.
 The existing checkout stays on `main` so the established Scout line remains

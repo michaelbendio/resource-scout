@@ -61,6 +61,31 @@ def _notes(value, label):
 
 
 class ImprovementWorkflow:
+    kind = 'writing'
+    editable_fields = EDITABLE_FIELDS
+    result_schema_key = 'scoutImprovementResultSchemaVersion'
+    change_description = 'Reviewed Description and Information improvements'
+    compare_fields = staticmethod(compare_fields)
+    materialize = staticmethod(materialize)
+
+    def _assignment(self, state, rid, assignment):
+        return assignment
+
+    def _connected(self, state, latest):
+        pass
+
+    def _ready(self, state, rid, base, latest, selected=None):
+        pass
+
+    def _proposal(self, state, result, assignment):
+        nonempty(result['description'], 'Description')
+        information = compose_information(result['informationSections'], state['writingGuidance'])
+        _notes(result['preservationNotes'], 'preservationNotes')
+        _notes(result['reviewNotes'], 'reviewNotes')
+        return {'description': result['description'], 'informationText': information,
+                'informationSections': deepcopy(result['informationSections']),
+                'humanEdited': False, 'sourceResultSha256': digest(result)}
+
     def __init__(self, store: ResearchStore):
         self.store = store
         with store.connect() as connection:
@@ -71,6 +96,8 @@ class ImprovementWorkflow:
         if row is None:
             raise ImprovementError('Improvement project not found')
         state = json.loads(row['state_json'])
+        if state.get('kind', 'writing') != self.kind:
+            raise ImprovementError('Project belongs to a different workflow')
         state.update(id=row['id'], revision=row['revision'])
         return state
 
@@ -103,6 +130,9 @@ class ImprovementWorkflow:
             raise ImprovementError('Package office does not match the selected office')
 
     def prepare(self, payload: bytes, office: str, resource_ids: list[str], *, source_name='resource-package.zip', historical=False):
+        return self._prepare(payload, office, resource_ids, source_name=source_name, historical=historical)
+
+    def _prepare(self, payload, office, resource_ids, *, source_name, historical, configuration=None):
         office = nonempty(office, 'Office identity')
         package = read_package(payload)
         self._office(package, office)
@@ -110,23 +140,27 @@ class ImprovementWorkflow:
                 or any(not isinstance(rid, str) or rid not in package['resources'] for rid in resource_ids)
                 or len(resource_ids) != len(set(resource_ids))):
             raise ImprovementError('Select unique existing resource IDs from the package')
-        guidance = load_writing_guidance()
+        configuration = configuration or {}
+        guidance = configuration.get('writingGuidance', {}) if configuration else load_writing_guidance()
         roster = load_researcher_roster()
-        policy = json.loads(POLICY_PATH.read_text(encoding='utf-8'))
+        policy = configuration.get('policy') or json.loads(POLICY_PATH.read_text(encoding='utf-8'))
         if policy.get('schemaVersion') != 1 or any(not policy.get(k) for k in ('primary', 'audit', 'reconcile')):
             raise ImprovementError('Invalid existing-resource policy')
         for rid in resource_ids:
             if message := resource_blocked(package, rid):
                 raise ImprovementError(message)
-        key = digest({'office': office, 'source': package['sha256'], 'ids': resource_ids,
-                      'guidance': guidance, 'roster': roster, 'policy': policy, 'historical': bool(historical)})
+        identity = {'office': office, 'source': package['sha256'], 'ids': resource_ids,
+                    'guidance': guidance, 'roster': roster, 'policy': policy, 'historical': bool(historical)}
+        if self.kind != 'writing':
+            identity.update(kind=self.kind, configuration=configuration)
+        key = digest(identity)
         with self.store.connect() as connection:
             connection.execute('BEGIN IMMEDIATE')
             old = connection.execute('SELECT id FROM scout_improvement_projects WHERE project_key=?', (key,)).fetchone()
             if old:
                 project_id = old['id']
             else:
-                state = {'office': office, 'createdAt': utcnow(), 'baseSha256': package['sha256'],
+                state = {**deepcopy(configuration), 'kind': self.kind, 'office': office, 'createdAt': utcnow(), 'baseSha256': package['sha256'],
                          'sourceName': source_name, 'historical': bool(historical), 'latestSha256': None,
                          'writingGuidance': guidance, 'researcherRoster': roster, 'policy': policy,
                          'resources': {rid: {'assignments': {}, 'results': {}, 'proposal': None,
@@ -142,7 +176,8 @@ class ImprovementWorkflow:
     def list_projects(self):
         with self.store.connect() as connection:
             return [{'id': row['id'], 'office': json.loads(row['state_json'])['office']}
-                    for row in connection.execute('SELECT id,state_json FROM scout_improvement_projects ORDER BY id DESC')]
+                    for row in connection.execute('SELECT id,state_json FROM scout_improvement_projects ORDER BY id DESC')
+                    if json.loads(row['state_json']).get('kind', 'writing') == self.kind]
 
     @staticmethod
     def _stages(state):
@@ -181,7 +216,7 @@ class ImprovementWorkflow:
                     if kind == 'audit':
                         result_contract.update(findings=[{'id': 'finding-1', 'field': 'informationText', 'severity': 'material', 'summary': 'Issue and useful correction'}], researchNotes='What was independently checked')
                     else:
-                        result_contract.update(description='Proposed Description', informationSections={s['key']: 'Section body' for s in state['writingGuidance']['sections']}, preservationNotes=['Consequential details retained or qualified'], reviewNotes=[])
+                        result_contract.update(description='Proposed Description', informationSections={s['key']: 'Section body' for s in state['writingGuidance'].get('sections', [])}, preservationNotes=['Consequential details retained or qualified'], reviewNotes=[])
                         if kind == 'reconcile':
                             result_contract['resolutions'] = [{'findingId': 'researcher:finding-1', 'status': 'resolved', 'reason': 'How it was addressed'}]
                     original = deepcopy(base['resources'][rid])
@@ -196,6 +231,7 @@ class ImprovementWorkflow:
                         assignment['primaryResult'] = deepcopy(item['results']['primary'])
                     if kind == 'reconcile':
                         assignment['audits'] = {s.split(':', 1)[1]: deepcopy(item['results'][s]) for s, _ in stages if s.startswith('audit:')}
+                    assignment = self._assignment(state, rid, assignment)
                     assignment['assignmentSha256'] = digest(assignment)
                     item['assignments'][stage] = assignment
                     self._save(connection, state, 'assigned', {'resourceId': rid, 'stage': stage, 'assignment': assignment})
@@ -214,8 +250,8 @@ class ImprovementWorkflow:
             if item is None or stage not in item['assignments']:
                 raise ImprovementError('Assign this research stage before submitting its result')
             assignment = item['assignments'][stage]
-            if (type(result.get('scoutImprovementResultSchemaVersion')) is not int
-                    or result['scoutImprovementResultSchemaVersion'] != 1
+            if (type(result.get(self.result_schema_key)) is not int
+                    or result[self.result_schema_key] != 1
                     or result.get('assignmentSha256') != assignment['assignmentSha256']):
                 raise ImprovementError('Result does not match its sealed assignment')
             if stage in item['results']:
@@ -236,14 +272,11 @@ class ImprovementWorkflow:
                         raise ImprovementError('Malformed audit finding')
                     fid = nonempty(finding['id'], 'Finding ID')
                     nonempty(finding['summary'], 'Finding summary')
-                    if fid in seen or finding['field'] not in EDITABLE_FIELDS or finding['severity'] not in ('material', 'editorial'):
+                    if fid in seen or finding['field'] not in self.editable_fields or finding['severity'] not in ('material', 'editorial'):
                         raise ImprovementError('Invalid or duplicate audit finding')
                     seen.add(fid)
             else:
-                nonempty(result['description'], 'Description')
-                information = compose_information(result['informationSections'], state['writingGuidance'])
-                _notes(result['preservationNotes'], 'preservationNotes')
-                _notes(result['reviewNotes'], 'reviewNotes')
+                proposal = self._proposal(state, result, assignment)
                 if stage == 'reconcile':
                     findings = self._findings(item)
                     resolutions = result['resolutions']
@@ -258,9 +291,7 @@ class ImprovementWorkflow:
                             raise ImprovementError('Invalid or duplicate finding resolution')
                         nonempty(resolution['reason'], 'Resolution reason')
                         seen.add(fid)
-                    item['proposal'] = {'description': result['description'], 'informationText': information,
-                                        'informationSections': deepcopy(result['informationSections']),
-                                        'humanEdited': False, 'sourceResultSha256': digest(result)}
+                    item['proposal'] = proposal
             item['results'][stage] = deepcopy(result)
             self._save(connection, state, 'result-sealed', {'resourceId': rid, 'stage': stage, 'result': result})
             return self._view(connection, state)
@@ -285,6 +316,7 @@ class ImprovementWorkflow:
             if state['latestSha256'] == latest['sha256'] and not state.get('requiresReconnection'):
                 return self._view(connection, state)
             connection.execute('INSERT OR IGNORE INTO scout_improvement_packages VALUES(?,?)', (latest['sha256'], payload))
+            self._connected(state, latest)
             state['latestSha256'] = latest['sha256']
             state['requiresReconnection'] = False
             state['latestSourceName'] = source_name
@@ -334,10 +366,11 @@ class ImprovementWorkflow:
                 if message := resource_blocked(latest, rid):
                     raise ImprovementError(message)
                 base = self._package(connection, state['baseSha256'])
-                comparison = compare_fields(base['resources'][rid], latest['resources'][rid], item['proposal'])
-                selected = materialize(base['resources'][rid], latest['resources'][rid], item['proposal'], choices)
+                comparison = self.compare_fields(base['resources'][rid], latest['resources'][rid], item['proposal'])
+                selected = self.materialize(base['resources'][rid], latest['resources'][rid], item['proposal'], choices)
+                self._ready(state, rid, base, latest, selected)
                 if selected == latest['resources'][rid]:
-                    raise ImprovementError('No writing changes selected. Decline changes or clear the mark instead.')
+                    raise ImprovementError('No changes selected. Decline changes or clear the mark instead.')
                 if any(f['conflict'] for f in comparison.values()) and not note.strip():
                     raise ImprovementError('Explain your choice for the conflicting office edits')
                 findings = self._findings(item)
@@ -358,7 +391,7 @@ class ImprovementWorkflow:
         result = {k: deepcopy(state[k]) for k in ('id', 'revision', 'office', 'createdAt', 'baseSha256', 'latestSha256', 'sourceName', 'historical')}
         result.update(baseVersion=base['data']['packageVersion'], latestVersion=latest['data']['packageVersion'] if latest else None,
                       requiresReconnection=bool(state.get('requiresReconnection')),
-                      sections=deepcopy(state['writingGuidance']['sections']), resources=[])
+                      sections=deepcopy(state['writingGuidance'].get('sections', [])), resources=[])
         stages = self._stages(state)
         for rid, item in state['resources'].items():
             current = (latest or base)['resources'].get(rid)
@@ -367,7 +400,11 @@ class ImprovementWorkflow:
                    'research': [{'stage': s, 'researcher': n, 'completed': s in item['results'], 'assigned': s in item['assignments']} for s, n in stages],
                    'findings': self._findings(item), 'evidence': deepcopy(item['results']),
                    'blocked': resource_blocked(latest, rid) if latest and not state.get('requiresReconnection') else 'Reconnect the current office package before curating or exporting updates.'}
-            row['fields'] = compare_fields(base['resources'][rid], current, item['proposal']) if current and item['proposal'] else {}
+            row['fields'] = self.compare_fields(base['resources'][rid], current, item['proposal']) if current and item['proposal'] else {}
+            try:
+                self._ready(state, rid, base, latest or base)
+            except ImprovementError as error:
+                row['blocked'] = str(error)
             result['resources'].append(row)
         return result
 
@@ -396,7 +433,8 @@ class ImprovementWorkflow:
                 if message := resource_blocked(latest, rid):
                     raise ImprovementError(message)
                 current = latest['resources'][rid]
-                updated = materialize(base['resources'][rid], current, item['proposal'], review['choices'])
+                updated = self.materialize(base['resources'][rid], current, item['proposal'], review['choices'])
+                self._ready(state, rid, base, latest, updated)
                 if updated == current:
                     continue
                 resources.append(updated)
@@ -420,9 +458,9 @@ class ImprovementWorkflow:
             for resource in resources:
                 rid = resource['id']
                 resource['lastModified'] = timestamp
-                changes.append({'id': f'scout-improvement:{project_id}:{rid}:{export_key[:16]}', 'type': 'resource',
+                changes.append({'id': f'scout-{"improvement" if self.kind == "writing" else self.kind}:{project_id}:{rid}:{export_key[:16]}', 'type': 'resource',
                                 'action': 'updated', 'targetId': rid, 'targetName': resource.get('name', ''),
-                                'description': 'Reviewed Description and Information improvements', 'timestamp': timestamp,
+                                'description': self.change_description, 'timestamp': timestamp,
                                 'categoryIds': deepcopy(resource.get('categories', []))})
                 for pdf in resource.get('pdfs', []):
                     assets[pdf['path']] = latest['assets'][pdf['path']]
@@ -439,6 +477,7 @@ class ImprovementWorkflow:
 
     def export_bytes(self, project_id, export_id):
         with self.store.connect() as connection:
+            self._load(connection, project_id)
             row = connection.execute('SELECT payload FROM scout_improvement_exports WHERE id=? AND project_id=?', (export_id, project_id)).fetchone()
             if not row:
                 raise ImprovementError('Export not found')

@@ -62,6 +62,7 @@ from .playbooks import PLAYBOOKS, playbook_for
 from .review_export import build_review_copy
 from .storage import ResearchStore
 from .scout_improvement import ImprovementWorkflow
+from .scout_classification import ClassificationWorkflow
 from .improvement_http import handle_improvement
 
 
@@ -82,6 +83,7 @@ class ResearchHTTPServer(ThreadingHTTPServer):
         self.web_dir = web_dir
         self.private_url = private_url
         self.improvement = ImprovementWorkflow(store)
+        self.classification = ClassificationWorkflow(store)
 
 
 class ResearchHandler(BaseHTTPRequestHandler):

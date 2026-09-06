@@ -10,7 +10,14 @@ from .scout_review import TEMPLATE_PATH
 
 def handle_improvement(handler, parsed, *, post=False):
     path = parsed.path
-    workflow = handler.server.improvement
+    classification = path == '/classifications' or path.startswith('/classifications.') or path.startswith('/api/classifications')
+    workflow = handler.server.classification if classification else handler.server.improvement
+    if not post and path in ('/classifications', '/classifications.js'):
+        name = 'classifications.html' if path == '/classifications' else 'classifications.js'
+        handler._file(handler.server.web_dir / name, ('text/html' if name.endswith('.html') else 'text/javascript') + '; charset=utf-8')
+        return True
+    if classification:
+        path = path.replace('/api/classifications', '/api/improvements', 1)
     query = parse_qs(parsed.query)
     if not post and path in ('/improvements', '/improvements.js', '/improvements.css'):
         name = 'improvements.html' if path == '/improvements' else path[1:]
@@ -67,9 +74,13 @@ def handle_improvement(handler, parsed, *, post=False):
         return True
     body = handler._read_json()
     if action == 'next':
-        value = {'assignment': workflow.next_assignment(project_id, researcher=body.get('researcher'))}
+        value = {'assignment': workflow.next_assignment(project_id, researcher=body.get('researcher'), resource_id=body.get('resourceId'))}
     elif action == 'submit':
         value = workflow.submit(project_id, body.get('stage'), body.get('result'))
+    elif action == 'guidance' and classification:
+        value = workflow.save_guidance(project_id, body.get('revision'), body.get('guidance'), body.get('reviewer'), body.get('approvedKeys'))
+    elif action == 'edit' and classification:
+        value = workflow.edit(project_id, body.get('revision'), body.get('resourceId'), body.get('proposal'), body.get('reviewer'))
     elif action == 'edit':
         value = workflow.edit(project_id, body.get('revision'), body.get('resourceId'), body.get('description'),
                               body.get('informationSections'), body.get('reviewer'))

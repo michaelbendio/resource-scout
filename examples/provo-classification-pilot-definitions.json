@@ -1,0 +1,678 @@
+{
+  "schemaVersion": 1,
+  "office": "Provo TSO",
+  "version": 1,
+  "catalogSha256": "49a91b6ef986b43e483daa1a4e6ff56cfc8fbeb6701d4c2568b74fd2e8f33190",
+  "terms": [
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "addiction",
+      "label": "Addiction",
+      "definition": "Treatment, recovery support, or sober housing directly addressing substance use.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "addiction",
+      "value": "In-patient",
+      "label": "In-patient",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "addiction",
+      "value": "Out-patient",
+      "label": "Out-patient",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "addiction",
+      "value": "Sober Living",
+      "label": "Sober Living",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "children-pregnancy",
+      "label": "Children/Pregnancy",
+      "definition": "Direct pregnancy, child care, parenting, or child-development services. Serving a family alone is insufficient.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "children-pregnancy",
+      "value": "Obstetric care",
+      "label": "Obstetric care",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "children-pregnancy",
+      "value": "Pregnancy Education",
+      "label": "Pregnancy Education",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "clothing-household",
+      "label": "Clothing/Household",
+      "definition": "Direct help obtaining clothing or essential household goods.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "disability",
+      "label": "Disability",
+      "definition": "Disability-related services that support daily living, access, independence, or participation. General availability to disabled people is insufficient.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "domestic-violence",
+      "label": "Domestic Violence",
+      "definition": "Direct safety planning, shelter, advocacy, or recovery support for domestic violence.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "education",
+      "label": "Education",
+      "definition": "Instruction, literacy, educational credentials, or direct help accessing education. Financial literacy classes can qualify.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "education",
+      "value": "GED",
+      "label": "GED",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "education",
+      "value": "Literacy & Languages",
+      "label": "Literacy & Languages",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "education",
+      "value": "Career",
+      "label": "Career",
+      "definition": "Instruction or education planning aimed at preparing for an occupation. Job placement alone belongs in Employment.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "education",
+      "value": "Scholarships",
+      "label": "Scholarships",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "education",
+      "value": "Trades",
+      "label": "Trades",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "education",
+      "value": "Evening classes",
+      "label": "Evening classes",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "employment",
+      "label": "Employment",
+      "definition": "Direct help finding, obtaining, or keeping work, including placement and employment preparation.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "employment",
+      "value": "Temp Agencies",
+      "label": "Temp Agencies",
+      "definition": "A staffing agency directly placing applicants in temporary or contract jobs; it may also offer permanent placements.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "financial-assistance",
+      "label": "Financial Assistance",
+      "definition": "Direct financial aid, benefits enrollment, or an accountable pathway to a named assistance program. Financial education alone belongs in Education.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "financial-assistance",
+      "value": "Rent Assistance",
+      "label": "Rent Assistance",
+      "definition": "Financial help paying rent or arrears through a named program.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "financial-assistance",
+      "value": "Utilities assistance",
+      "label": "Utilities assistance",
+      "definition": "Financial help paying household utility bills through a named program.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "reentry-support",
+      "label": "Reentry Support",
+      "definition": "Direct help with the practical transition from incarceration to community life. General availability to people with convictions is insufficient.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "food",
+      "label": "Food",
+      "definition": "Direct meals, groceries, food benefits, or enrollment in a named food program.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "food",
+      "value": "Meals",
+      "label": "Meals",
+      "definition": "Prepared meals provided directly to people who need food.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "food",
+      "value": "Pantries",
+      "label": "Pantries",
+      "definition": "Groceries or food boxes distributed for use at home. Specific program eligibility remains in the resource information.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "medical-dental-vision",
+      "label": "Medical, Dental, Vision",
+      "definition": "Direct medical, dental, or vision care or a named, accountable pathway to that care.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "medical-dental-vision",
+      "value": "No Insurance",
+      "label": "No Insurance",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "medical-dental-vision",
+      "value": "Lab",
+      "label": "Lab",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "homeless-services",
+      "label": "Homeless Services",
+      "definition": "Direct assistance with shelter or essential daily needs while homeless, or an accountable housing-entry service. General referrals alone are insufficient.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "homeless-services",
+      "value": "Shelters",
+      "label": "Shelters",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "homeless-services",
+      "value": "Showers",
+      "label": "Showers",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "homeless-services",
+      "value": "Laundry",
+      "label": "Laundry",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "homeless-services",
+      "value": "Haircuts",
+      "label": "Haircuts",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "homeless-services",
+      "value": "Meals",
+      "label": "Meals",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "homeless-services",
+      "value": "Mailing address",
+      "label": "Mailing address",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "homeless-services",
+      "value": "Storage",
+      "label": "Storage",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "homeless-services",
+      "value": "Computers",
+      "label": "Computers",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "homeless-services",
+      "value": "Phones",
+      "label": "Phones",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "homeless-services",
+      "value": "Hygiene kits",
+      "label": "Hygiene kits",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "homeless-services",
+      "value": "Clothing",
+      "label": "Clothing",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "homeless-services",
+      "value": "Benefit enrollment",
+      "label": "Benefit enrollment",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "homeless-services",
+      "value": "Medical",
+      "label": "Medical",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "homeless-services",
+      "value": "Dental",
+      "label": "Dental",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "homeless-services",
+      "value": "Vision",
+      "label": "Vision",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "housing",
+      "label": "Housing",
+      "definition": "Direct help obtaining or keeping housing, including housing provision, subsidy, tenancy support, or enrollment in a named housing program.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "id-recovery",
+      "label": "ID Recovery",
+      "definition": "Direct help obtaining or replacing identification or vital documents.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "legal",
+      "label": "Legal",
+      "definition": "Legal advice, representation, or a named legal-assistance intake pathway.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "legal",
+      "value": "Pro bono",
+      "label": "Pro bono",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "legal",
+      "value": "Immigration",
+      "label": "Immigration",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "mental-health",
+      "label": "Mental Health",
+      "definition": "Direct mental-health assessment, treatment, crisis response, or structured support.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "mental-health",
+      "value": "Crisis & Support",
+      "label": "Crisis & Support",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "seniors",
+      "label": "Seniors",
+      "definition": "Legacy population category for older adults. Retain existing memberships until a complete reviewed migration maps each resource to service categories and supported groups.",
+      "aliases": [],
+      "populationCategory": true,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "transportation",
+      "label": "Transportation",
+      "definition": "Direct rides, transportation assistance, or enrollment in a named transportation service. Merely being near transit is insufficient.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "utilities-phone-internet",
+      "label": "Utilities, Phone, Internet",
+      "definition": "Direct help obtaining or keeping electricity, heating, water, phone, or internet service.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "utilities-phone-internet",
+      "value": "Low-cost phones",
+      "label": "Low-cost phones",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "utilities-phone-internet",
+      "value": "Low-cost internet",
+      "label": "Low-cost internet",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categories",
+      "categoryId": "",
+      "value": "veterans",
+      "label": "Veterans",
+      "definition": "Legacy population category for veterans. Retain existing memberships until a complete reviewed migration maps each resource to service categories and supported groups.",
+      "aliases": [],
+      "populationCategory": true,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "veterans",
+      "value": "Government benefits",
+      "label": "Government benefits",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "categoryFilters",
+      "categoryId": "veterans",
+      "value": "Coaching",
+      "label": "Coaching",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "forGroups",
+      "categoryId": "",
+      "value": "Exiting corrections",
+      "label": "Exiting corrections",
+      "definition": "People preparing to leave incarceration or returning to community life, supported by a dedicated service or a concrete accommodation. General eligibility is insufficient.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "forGroups",
+      "categoryId": "",
+      "value": "Families with children",
+      "label": "Families with children",
+      "definition": "Households with children explicitly targeted by a service or meaningfully accommodated through a specific program. Serving adults who might be parents is insufficient.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "forGroups",
+      "categoryId": "",
+      "value": "Medically vulnerable",
+      "label": "Medically vulnerable",
+      "definition": "",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "forGroups",
+      "categoryId": "",
+      "value": "Seniors",
+      "label": "Seniors",
+      "definition": "Older adults explicitly targeted or meaningfully accommodated by a program. Record the actual program age threshold; do not impose one age on every resource.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "forGroups",
+      "categoryId": "",
+      "value": "Spanish speaking",
+      "label": "Spanish speaking",
+      "definition": "People who can use a documented Spanish-language service or access arrangement. Website translation alone does not establish service in Spanish; language does not imply ethnicity.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "forGroups",
+      "categoryId": "",
+      "value": "Veterans",
+      "label": "Veterans",
+      "definition": "Veterans explicitly targeted or meaningfully accommodated by a program. Include military family members or active-duty service members only when the specific program expressly includes them.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    },
+    {
+      "field": "forGroups",
+      "categoryId": "",
+      "value": "Women",
+      "label": "Women",
+      "definition": "Women explicitly targeted or meaningfully accommodated by a specific service. General availability is insufficient.",
+      "aliases": [],
+      "populationCategory": false,
+      "approvedBy": null
+    }
+  ]
+}

@@ -1,7 +1,9 @@
 # Increment 3: categories, Types, and groups
 
-Status: proposed implementation plan for discussion, September 5, 2026.
-No increment 3 runtime changes are implemented by this document.
+Status: implementation authorized by Michael. Slice 3A is implemented and
+software-tested; its historical Provo pilot awaits definition review and real
+classification research. Slices 3B and 3C remain planned. See
+[implementation status and remaining work](scout-increment-3-results.md).
 
 Michael accepted the increment 2 pilot's writing and Scout's reconciliation of
 the other AIs' findings. Build on that evidence without repeating the writing

@@ -62,6 +62,7 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--database", default="data/research-agent.sqlite3", help="Separate research database path")
     subcommands = result.add_subparsers(dest="command", required=True)
     add_improvement_commands(subcommands)
+    add_improvement_commands(subcommands, classification=True)
     import_command = subcommands.add_parser("import", help="Read a resource-package.zip into an immutable snapshot")
     import_command.add_argument("package")
     import_command.add_argument("--category", default="Housing")
@@ -265,7 +266,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(value, ensure_ascii=False, indent=2))
         return 0
     store = ResearchStore(args.database)
-    if args.command == 'improve':
+    if args.command in ('improve', 'classify'):
         print(json.dumps(run_improvement_command(store, args), ensure_ascii=False, indent=2))
         return 0
     if args.command == "import":

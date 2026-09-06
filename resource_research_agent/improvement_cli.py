@@ -3,16 +3,25 @@ import json
 from pathlib import Path
 
 from .scout_improvement import ImprovementWorkflow
+from .scout_classification import ClassificationWorkflow
 
 
-def add_improvement_commands(subcommands):
-    group = subcommands.add_parser('improve', help='Research and review writing updates to existing resources')
+def add_improvement_commands(subcommands, *, classification=False):
+    group = subcommands.add_parser('classify' if classification else 'improve', help='Review classifications' if classification else 'Research and review writing updates to existing resources')
     actions = group.add_subparsers(dest='improvement_action', required=True)
     prepare = actions.add_parser('prepare')
     prepare.add_argument('package')
     prepare.add_argument('--office', required=True)
     prepare.add_argument('--resource-id', action='append', required=True)
     prepare.add_argument('--historical', action='store_true')
+    if classification:
+        prepare.add_argument('--guidance')
+        review = actions.add_parser('guidance')
+        review.add_argument('project_id', type=int)
+        review.add_argument('guidance_file')
+        review.add_argument('--revision', type=int, required=True)
+        review.add_argument('--reviewer', required=True)
+        review.add_argument('--approved-key', action='append', default=[])
     for action in ('status', 'next', 'submit', 'connect', 'events', 'export'):
         command = actions.add_parser(action)
         command.add_argument('project_id', type=int)
@@ -32,12 +41,16 @@ def add_improvement_commands(subcommands):
 
 
 def run_improvement_command(store, args):
-    workflow = ImprovementWorkflow(store)
+    classification = args.command == 'classify'
+    workflow = ClassificationWorkflow(store) if classification else ImprovementWorkflow(store)
     action = args.improvement_action
+    if action == 'guidance' and classification:
+        return workflow.save_guidance(args.project_id, args.revision, json.loads(Path(args.guidance_file).read_text()), args.reviewer, args.approved_key)
     if action == 'prepare':
         path = Path(args.package).expanduser()
         return workflow.prepare(path.read_bytes(), args.office, args.resource_id,
-                                source_name=path.name, historical=args.historical)
+                                source_name=path.name, historical=args.historical,
+                                **({'guidance': json.loads(Path(args.guidance).read_text()) if args.guidance else None} if classification else {}))
     if action == 'status':
         return workflow.view(args.project_id)
     if action == 'next':
