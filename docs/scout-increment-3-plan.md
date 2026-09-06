@@ -131,14 +131,18 @@ This is required work within increment 3, not a deferred optional enhancement.
 Implement in `resource-assistant` modular sources with a development preview
 before its ordinary release process. Scout 1.0 remains usable on `main`.
 
-Offer office-selected prominent groups and an accessible All groups list.
-Show relevant groups in category context, retaining access to every approved
-group. Use OR within each dimension and AND between Type and group selections.
-Show matching counts for the current context and distinguish office totals.
-A selected group with zero matches stays visible with a clear explanation and
-a way to clear it; never silently broaden the search or hide the selection.
-Office-wide prominence preferences must travel with the office configuration
-through a tested compatible representation, not exist only in Scout's database.
+After trying the first navigation preview, Michael found All groups and prominence
+controls confusing and unhelpful. He authorized simplifying this part of the plan:
+show all matching groups directly in the current category, remove All groups,
+office-wide totals, and Show prominently. Existing saved prominence choices must
+not hide matching groups. A small group needs no special visibility policy.
+
+Use OR within each dimension and AND between Type and group selections. Show
+matching counts for the current context. With Types selected, hide groups that
+have no matches unless already selected. A selected zero-match group stays visible
+with an explanation and Clear filters; never silently broaden the search or hide
+the selection. Group visibility is derived from memberships, without new office
+configuration or package preference fields.
 
 Verify ordinary resource view, Admin, iPad navigation, and print output together.
 Classification explanations belong in review tools; clients receive the approved
@@ -164,7 +168,7 @@ Implement meaningful tests with each slice:
 | 3A definitions and decisions | Two offices with different catalogs; no Mesa IDs/rules leaking into Provo; missing definitions stay pending; Types belong to their categories; no invented terms; explicit accommodation versus generic availability, language versus ethnicity, direct service versus referral, and unknown versus disproven prior membership. |
 | 3A durable review and export | Restart, assignment binding, complete independent audit roster, stale evidence/definition/review invalidation, later independent human changes, opposing changes, category/Type conflicts, deleted resources, exact PDFs and untouched-field preservation, save cancellation, and normal office-reader merge. Existing writing-project tests remain unchanged and pass. |
 | 3B group and migration review | Unique counts across categories, provider concentration, partial coverage, a useful single-member group, and zero-member uncertainty. Include an unselected affected resource to prove partial pilots cannot retire categories; test stale migration plans and complete mappings with zero orphaned references. |
-| 3C actual navigation | Rare groups reachable through All groups; OR/AND combinations; correct contextual counts; selected zero-match visibility; clear filter; keyboard and iPad use; unchanged resource/print content; package round-trip of office preferences. |
+| 3C actual navigation | Every matching group directly reachable; OR/AND combinations; correct contextual counts; hide unselected zero-match groups and retain selected ones; clear filter; keyboard and iPad use; unchanged resource/print content; old prominence settings ignored. |
 
 Use deterministic fixtures for software correctness and the named real services
 for the research pilot. Run focused tests, the Scout suite, and relevant browser
