@@ -859,6 +859,11 @@ authorize combining the enrichment checkout's unfinished code or restarting runs
   separate coverage and resumable progress for each workstream. Accepted,
   retired, and previously declined identities are matched before proposing an
   apparent new resource.
+- Maintenance reports retain the full introduction, questions, AI commentary,
+  auditor findings, and Scout decisions on screen. Michael prefers making office
+  changes with a printed reference rather than editing within the report. Print
+  offers a short overview or one resource's working copy, with that resource's
+  full audit details optional. Never default to a large all-resource audit printout.
 - A broken URL with a replacement site produces an update proposal; a broken
   URL without corroborating closure evidence produces an unresolved check, not
   a deletion. Repeated failures do not change that evidence standard.

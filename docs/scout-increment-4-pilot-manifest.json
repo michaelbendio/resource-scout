@@ -76,7 +76,7 @@
     "Perplexity-raw.json": "904d0670dc304ba1f69cdbd652a0e9a508ea6988d891ff84b8f4afef4ab8dc1b",
     "discovery-food-reconcile-assignment.json": "4e7bd522fa959e408a287b174e6e75c05c0da98aabc3100501b3778b0745ac54",
     "discovery-food-primary-assignment.json": "04a00c2944f2758b6aa6d4db331006a4295996c4e43b7306d2f778b908e7a83e",
-    "autoProvoMaintenancePilot.html": "6811a52b0dea0130b858aefb341b30c5fb41e66144f7fdce53e05f6773393864",
+    "autoProvoMaintenancePilot.html": "29835beecaa503e2be31ca4afa3c5c62fd2f3c5bfd50cae39d97c2e7aed21458",
     "recheck-casfb-reconcile-result.json": "cf1d0ac4eac75cf9d6db371e69c3ebcc8eb1b3c0dffdca29029dab27fd7d93b2",
     "ChatGPT-raw.txt": "f813e1f7326a022cea8fff3fe31ef768e4576dfd79e763ed89da490049fe3830",
     "recheck-facc-reconcile-assignment.json": "c8504ed77db0d50c60a46056bd7d413c462a7b70969d736fbe7eeec0dc96f379",
@@ -87,7 +87,7 @@
   "reviewCopy": {
     "filename": "autoProvoMaintenancePilot.html",
     "iCloudPath": "/Users/michaelbendio/Library/Mobile Documents/com~apple~CloudDocs/Documents/TSO/autoProvoMaintenancePilot.html",
-    "sha256": "6811a52b0dea0130b858aefb341b30c5fb41e66144f7fdce53e05f6773393864",
+    "sha256": "29835beecaa503e2be31ca4afa3c5c62fd2f3c5bfd50cae39d97c2e7aed21458",
     "copiedBytesVerified": true
   },
   "validation": {
@@ -876,5 +876,54 @@
     "verify_pilot.py": "dfe477721e63b7f26a0d63f8f508d913e5aa1c43c67d0e3d3ca850f3c86a8bd4",
     "build_review.py": "ba4c13ed787dde28ed6d62edab64d58bae85ad07205cae02e6a98078e021b9a9",
     "reconcile.py": "455685c031936f1e5d1179c6cf73c6d2191084895be99969d7ecaa0e1a1b88bc"
+  },
+  "previousReviewSha256": "6811a52b0dea0130b858aefb341b30c5fb41e66144f7fdce53e05f6773393864",
+  "printValidation": {
+    "handouts": [
+      {
+        "handout": "overview",
+        "audit": false,
+        "pages": 1
+      },
+      {
+        "handout": "casfb",
+        "audit": false,
+        "pages": 1
+      },
+      {
+        "handout": "facc",
+        "audit": false,
+        "pages": 1
+      },
+      {
+        "handout": "pantry-to-porch-utah-county",
+        "audit": false,
+        "pages": 2
+      },
+      {
+        "handout": "casfb",
+        "audit": true,
+        "pages": 4
+      },
+      {
+        "handout": "facc",
+        "audit": true,
+        "pages": 4
+      },
+      {
+        "handout": "pantry-to-porch-utah-county",
+        "audit": true,
+        "pages": 5
+      }
+    ],
+    "fullReportUnchanged": true,
+    "cancelAndEscapeCloseDialog": true,
+    "noScreenOverflow": true,
+    "pageErrors": [],
+    "renderedProofsVisuallyInspected": true,
+    "implementationSha256": {
+      "scripts/provo_maintenance_pilot_review.py": "1cd83802291f7f1b3e445cd4e4e2ece132f21cce25824cf7507d2048dae358c2",
+      "scripts/provo_maintenance_print_qa.py": "80f573bf382519356ac52c2f680c8c19006272671654ba25c2257402754926ed"
+    }
   }
 }

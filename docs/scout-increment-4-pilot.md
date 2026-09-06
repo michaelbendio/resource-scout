@@ -112,7 +112,29 @@ real-data and browser checks.
 See [the research manifest](scout-increment-4-pilot-manifest.json) for source and
 artifact hashes, actual service threads, final proposals, and preserved audits.
 The resumable SQLite database, sealed assignments, raw responses, snapshots,
-verification results, and builder remain in the pilot output directory.
+verification results remain in the pilot output directory. The report builder is
+now versioned at `scripts/provo_maintenance_pilot_review.py`.
+
+## Printing feedback and implementation
+
+Michael liked What Scout checked, Questions to settle, the AI introductions, and
+the Auditor finding/Scout decision presentation. He prefers a printable reference
+while making changes in the office app over editing directly in this report.
+He rejected a large full-report printout and requested that the complete screen
+report remain available while Print offers manageable handouts.
+
+The Print report button now opens a choice of the overview or one resource.
+A resource working copy contains current/proposed wording, Scout's explanation,
+and all its questions. A checkbox optionally adds that resource's AI introductions,
+sources, findings, and decisions. Existing local notes remain on screen. No
+research findings are removed or altered, and no office-editing controls are added.
+Browser-menu printing uses the selected handout, initially the overview.
+
+`scripts/provo_maintenance_print_qa.py` exercises the actual report: print and
+cancel controls, Escape/focus behavior, optional audit inclusion, all questions,
+screen-state preservation, and narrow-screen layout. It generates PDF proofs and
+checks their text and page counts. The rendered proofs were inspected for layout.
+No full-report PDF is distributed; iCloud receives the updated selectable HTML.
 
 ## Grand plan and next discussion
 
