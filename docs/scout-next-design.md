@@ -664,6 +664,14 @@ clothing while flagging unestablished furniture/household-item access. This is
 an approved policy refinement and a focused Codex application of it, not proof
 of reliable autonomous judgment or a completed independent-audit cycle.
 
+The subsequent curator boundary is implemented in `plain-language-v4` and
+`maintenance-v4`: Scout chooses one short title for straightforward cases;
+significant identity, service, access, or overlap questions go to the curator.
+An unrelated question does not block a clear title. Existing review/export
+protections remain in force. The [increment 5 evidence plan](scout-increment-5-evidence-plan.md)
+sets out the next implementation: attributable review/package observations before
+method inference, including title-only approvals that do not imply service vetting.
+
 Store proposed lessons separately from operational facts. A lesson records its
 supporting events, office/category scope, relevant research configuration,
 proposed change, review decision, and policy version. Keep office-specific

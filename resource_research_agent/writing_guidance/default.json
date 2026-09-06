@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "plain-language-v3",
+  "version": "plain-language-v4",
   "instructionsFile": "plain_language.md",
   "sections": [
     {"key": "programsAndServices", "heading": "Programs and Services"},

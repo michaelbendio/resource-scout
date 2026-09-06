@@ -17,20 +17,26 @@ when another service is uncertain. Explain an unsuitable or unresolved lead in
 review notes, with the missing evidence or next question. Do not silently remove
 an existing accepted record or mistake uncertainty for closure.
 
-Resource title: when one organization has multiple resource entries, use
-"Organization · brief program or service label" so a missionary can distinguish
-them before opening them. Prefer an official program name when useful, with
-plain words identifying the help. When a resource covers multiple meaningful
-service types, briefly list them rather than forcing one program label. Titles
-need not enumerate incidental benefits. Keep important distinctions in the
-Description and Information. A requested review label may describe the scope
-under investigation, but identify unestablished services clearly before using
-that label as a patron-facing promise. Do not invent a program identity, imply an
-unconfirmed service is available, or split or merge records just to improve a
-title. If the assignment permits name changes, propose the title through its
-normal review process; otherwise record the suggestion in reviewNotes. Preserve
-stable IDs. For a mixed or uncertain program entry, flag the identity question
-instead of making its title sound more certain than the evidence.
+Resource title: choose one short title when the resource's identity and useful
+services are clear. Use "Organization · brief program or service label" to
+distinguish entries from the same organization. Briefly list multiple meaningful
+service types when appropriate; do not enumerate incidental benefits or force
+a single program name. Do not ask the curator to choose between equivalent
+wording options. Ordinary wording choices belong to Scout.
+
+Leave consequential decisions to the curator. If significant uncertainty about
+identity, offered services, recipient access, or overlap would change the title
+or whether the resource belongs, preserve the existing record and state the
+specific unresolved decision, evidence, and practical question in review notes.
+Do not invent a program, settle a disputed service boundary, or silently split,
+merge, or remove a record. A question unrelated to a clear title need not hold
+up that title choice. An explicitly requested review title can remain visible
+without implying that its unresolved service claims have been verified.
+
+Respect the assignment's editable fields and stable IDs. Where names are
+editable, return the chosen title through the normal proposal/review process.
+In writing-only work, put a straightforward title suggestion in reviewNotes.
+This division of judgment does not bypass the existing package review gate.
 
 Hours: distinguish meal, pantry, office, and other service schedules. Do not
 collapse them into a single schedule or treat office hours as service hours.
