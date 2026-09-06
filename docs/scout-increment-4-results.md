@@ -128,11 +128,14 @@ It does not expose an office package save action.
 
 ## Discuss before the next increment
 
-Review whether the statuses and proposed actions are clear, the before/after
-comparison provides enough detail, and uncertain checks remain manageable.
-Then choose a small real maintenance pilot and inspect its actual research,
-identity decisions, evidence, review effort, and resulting package before calling
-increment 4 accepted.
+Michael accepted the software demonstration and authorized the real maintenance
+pilot on September 6, 2026. The [Provo Food pilot](scout-increment-4-pilot.md)
+completed two Food-focused rechecks and one bounded addition search against the
+previously authorized historical v41 package. All nine independent audits and
+31 finding dispositions are recorded. Two updates and one addition await review;
+no current production package was connected and no changes were exported.
+Discuss the actual research, identity decisions, uncertainty, and review effort
+before calling the real office workflow accepted.
 
 The grand plan continues with increment 5: proposed method lessons from
 attributable, human-vetted outcomes, kept inactive until its readiness/approval

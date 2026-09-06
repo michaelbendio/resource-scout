@@ -27,8 +27,11 @@ implements group navigation and schema 4 compatibility in an isolated location-a
 checkout, with a historical Provo development preview. Michael accepted the
 simplified navigation; its location-app release is pending. [Increment 4 maintenance](docs/scout-increment-4-results.md) is implemented
 and software-tested: independently resumable rechecks and addition searches,
-evidence review, identity safeguards, and safe package delivery. Its real office
-pilot and acceptance remain pending. Learning and adaptive research remain later work.
+evidence review, identity safeguards, and safe package delivery. Michael accepted
+the software demonstration. The [historical Provo Food maintenance pilot](docs/scout-increment-4-pilot.md)
+now has real Codex research, nine ChatGPT/Grok/Perplexity audits, and reconciled
+proposals awaiting human review. No office changes were exported. Learning and
+adaptive research remain later work.
 
 The following version notes describe the established Scout line, retained on
 `main` in the separate `resource-scout` checkout.

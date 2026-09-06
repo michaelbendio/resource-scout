@@ -1,0 +1,880 @@
+{
+  "sourcePackage": "source.zip",
+  "sourceSha256": "dc883d19eff7a30e78d33df580ea8408a50788eade33647c40ec6a23f0201a49",
+  "historicalDevelopmentOnly": true,
+  "office": "Provo",
+  "resourceIds": [
+    "casfb",
+    "facc"
+  ],
+  "categoryIds": [
+    "food"
+  ],
+  "researchDate": "2026-09-06",
+  "primaryResearcher": "Codex",
+  "independentAuditors": [
+    "ChatGPT",
+    "Grok",
+    "Perplexity"
+  ],
+  "humanReviewDecisions": 0,
+  "exports": 0,
+  "scopeNote": "Food-focused check of two multi-service records, plus one bounded category addition search; not a complete office or multi-service audit.",
+  "externalAudits": {
+    "Grok": {
+      "url": "https://grok.com/c/db8e1595-dfcd-4648-89e1-9309c18c767f",
+      "rawFile": "Grok-raw.json",
+      "submittedResults": 3
+    },
+    "ChatGPT": {
+      "url": "https://chatgpt.com/c/6a9d9391-44dc-83e8-9867-dcffbde975ba",
+      "rawFile": "ChatGPT-raw.txt",
+      "submittedResults": 3
+    },
+    "Perplexity": {
+      "url": "https://www.perplexity.ai/search/0d4359b0-0dcd-4b58-b7ee-e84f1aa7f623",
+      "rawFile": "Perplexity-raw.json",
+      "correctionFile": "Perplexity-corrected-food-raw.json",
+      "correction": "Service corrected one mistyped assignment-hash character; all research content unchanged.",
+      "submittedResults": 3
+    }
+  },
+  "coverage": {
+    "officeResources": 183,
+    "officeCategories": 20,
+    "recheck": {
+      "selected": 2,
+      "completed": 2
+    },
+    "discovery": {
+      "selected": 1,
+      "completed": 1
+    }
+  },
+  "findings": 31,
+  "findingsNeedingReview": 13,
+  "proposedUpdates": 2,
+  "proposedAdditions": 1,
+  "referencedPdfsPreserved": 93,
+  "artifactSha256": {
+    "Grok-audit-packet.json": "7a17fe927983709d0723486e19d0d4dd3cf171d07b9a9ed1f91b8b15cca5381e",
+    "initial-state.json": "3272d448ee7cef3b2a36b488ffc7516666a8eb7d32aeb57b384030c6fd2a5395",
+    "Perplexity-corrected-food-raw.json": "268f5f56042974ce961fc0575527b446ab750f8b865dec1033f72cb3e378cc6a",
+    "ChatGPT-raw.json": "fd6ca905930cfea93207981a3004c6e82a8506a2d67e878180ae1349ba84151b",
+    "review-snapshot.json": "9761e13103bedf3ac0b6629765040b9303a7002d54ed561226cc8cae8a1c2ec9",
+    "discovery-food-reconcile-result.json": "4fe098e786a04fda299869131c9f4a043f401fd909c0da18ed7d8d02f34dd8df",
+    "recheck-casfb-primary-result.json": "2fc558e57a7ed108d64644511c27c0a7f0d957d8ddc29b0699fc65f75c125869",
+    "discovery-food-primary-result.json": "98c25d684e056629bb140494296d33aa01d06f8e7f3fb821d4e33c4c0f1369e1",
+    "recheck-facc-primary-result.json": "1789e6347bfd39d76bdc6690876409687b61986b20328f25f03bb888ab2d9409",
+    "browser-verification.json": "c5ef611a5adfe26ad88e25fff2e29885597ca4490350816b69774d37d2cdd787",
+    "Perplexity-audit-packet.json": "1600e15be61fbc36966b99e896879cd670a34d0bd2901989d097b2fa5155fec4",
+    "Perplexity-audit-packet.txt": "1600e15be61fbc36966b99e896879cd670a34d0bd2901989d097b2fa5155fec4",
+    "Grok-audit-packet.txt": "7a17fe927983709d0723486e19d0d4dd3cf171d07b9a9ed1f91b8b15cca5381e",
+    "Grok-raw.json": "cf399fb4c18fc507b3e034e0a6328c51d80df522e13325649ad7968f7d1ee7e1",
+    "ChatGPT-audit-packet.json": "1db13ff615377654e00dbb733af9b19a629526076ce4c30386cc69511551c16d",
+    "recheck-casfb-primary-assignment.json": "38bc1a676fbd56cf399370303845c84338977b09398be0f75566961b429bcbb7",
+    "Perplexity-raw.json": "904d0670dc304ba1f69cdbd652a0e9a508ea6988d891ff84b8f4afef4ab8dc1b",
+    "discovery-food-reconcile-assignment.json": "4e7bd522fa959e408a287b174e6e75c05c0da98aabc3100501b3778b0745ac54",
+    "discovery-food-primary-assignment.json": "04a00c2944f2758b6aa6d4db331006a4295996c4e43b7306d2f778b908e7a83e",
+    "autoProvoMaintenancePilot.html": "6811a52b0dea0130b858aefb341b30c5fb41e66144f7fdce53e05f6773393864",
+    "recheck-casfb-reconcile-result.json": "cf1d0ac4eac75cf9d6db371e69c3ebcc8eb1b3c0dffdca29029dab27fd7d93b2",
+    "ChatGPT-raw.txt": "f813e1f7326a022cea8fff3fe31ef768e4576dfd79e763ed89da490049fe3830",
+    "recheck-facc-reconcile-assignment.json": "c8504ed77db0d50c60a46056bd7d413c462a7b70969d736fbe7eeec0dc96f379",
+    "recheck-facc-primary-assignment.json": "fc6732be4cb4494e056bf9d2dea2f86ac076ad0760edebc7acbbd3a379593a2d",
+    "recheck-casfb-reconcile-assignment.json": "eb526863a200ae47ddfa4c662f3855af5901e98ea1b53b4f2fc5e2dc43ba192c",
+    "recheck-facc-reconcile-result.json": "5a774d5a5539abf0d2873cf74e252f791927befe3d64e620fe010ca05ae2b0d8"
+  },
+  "reviewCopy": {
+    "filename": "autoProvoMaintenancePilot.html",
+    "iCloudPath": "/Users/michaelbendio/Library/Mobile Documents/com~apple~CloudDocs/Documents/TSO/autoProvoMaintenancePilot.html",
+    "sha256": "6811a52b0dea0130b858aefb341b30c5fb41e66144f7fdce53e05f6773393864",
+    "copiedBytesVerified": true
+  },
+  "validation": {
+    "sourceBytesUnchanged": true,
+    "allRequiredStagesComplete": true,
+    "allFindingsAddressed": true,
+    "humanReviews": 0,
+    "exports": 0,
+    "pdfsPreserved": 93,
+    "exportGate": "Reconnect the current office package before export"
+  },
+  "browserValidation": [
+    {
+      "viewport": [
+        1024,
+        768
+      ],
+      "allDetailsOpened": true,
+      "auditFindings": 31,
+      "horizontalOverflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": [
+        768,
+        1024
+      ],
+      "allDetailsOpened": true,
+      "auditFindings": 31,
+      "horizontalOverflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "allDetailsOpened": true,
+      "auditFindings": 31,
+      "horizontalOverflow": false,
+      "pageErrors": []
+    }
+  ],
+  "finalResearch": [
+    {
+      "schemaVersion": 1,
+      "taskId": "discovery:food",
+      "assignmentSha256": "e04e5e5f40699b747cb8dbe6c38e9cfcc8f57ad61a2bfb02976ecf9a3dbd7c82",
+      "items": [
+        {
+          "id": "pantry-to-porch-utah-county",
+          "program": "Pantry to Porch — Utah County food delivery and pickup",
+          "status": "new",
+          "fields": {
+            "name": "Pantry to Porch — Utah County food delivery and pickup",
+            "description": "Free food delivery and arranged pickup through local pantries in Utah County. Delivery helps people who cannot pick up groceries themselves.",
+            "phone": "801-801-7712",
+            "website": "https://www.pantrytoporch.org/assistance",
+            "address": "",
+            "hours": "Arrange delivery or pickup through the program.",
+            "categories": [
+              "food"
+            ],
+            "categoryFilters": {},
+            "forGroups": [],
+            "informationSections": {
+              "programsAndServices": "Arranges home delivery and pickup of food from partner pantries.",
+              "eligibilityRequirements": "Delivery is for people unable to pick up food themselves. For a Commodity Supplemental Food Program (CSFP) box, you must already be registered with Utah Food Bank and live in Utah County. Ask what other pantry requirements apply.",
+              "howToBestConnect": "Choose Request Food on the website. The form allows requests for yourself, a client, or a friend or family member. If approved, the team contacts you by text. It also asks whether you can receive texts. Call or email info@pantrytoporch.org with questions; phone-only applications are not confirmed.",
+              "access": "Serves Utah County and Salt Lake County. Delivery and pickup require arrangements; this organization is not a walk-in pantry.",
+              "importantInformationToKnow": "The service is free. Home delivery is limited to once per calendar month; arranged pickup is offered twice per calendar month. A request does not guarantee food or a delivery date. Ask where to pick up food and what options apply if you cannot receive texts."
+            }
+          },
+          "summary": "Propose Pantry to Porch as a separate Food delivery and pickup resource. All three auditors supported its historical-package identity gap and caught the omitted pickup option. Intake and availability still need practical confirmation; no addition has been approved.",
+          "questions": [
+            "Can a person apply entirely by phone, and how is approval communicated to someone who cannot receive text messages?",
+            "How is twice-monthly pickup arranged, where is pickup, and which pantry eligibility or document rules apply?",
+            "Is there capacity for this household, and what delivery date or pickup arrangement can be offered?"
+          ],
+          "evidence": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "closureEvidence": [],
+          "nextCheckOn": "2026-09-13",
+          "lastEvidenceOfOperationOn": ""
+        }
+      ],
+      "evidenceSources": [
+        {
+          "url": "https://www.pantrytoporch.org/",
+          "accessedOn": "2026-09-06",
+          "excerpt": "Partners with food pantries for free home delivery across the Wasatch Front. Contact 801-801-7712 and info@pantrytoporch.org; lists Salt Lake and Utah counties. Paraphrased observation."
+        },
+        {
+          "url": "https://www.pantrytoporch.org/assistance",
+          "accessedOn": "2026-09-06",
+          "excerpt": "Free home delivery once per calendar month in all of Utah and Salt Lake counties; the organization is not a food pantry and partners with pantries for people unable to collect food. Paraphrased observation."
+        },
+        {
+          "url": "https://health.utahcounty.gov/community-assistance-programs-3/",
+          "accessedOn": "2026-09-06",
+          "excerpt": "The county food-assistance directory lists Pantry to Porch for home delivery, alongside existing office resources including Community Action, Food and Care, Tabitha’s Way and Elevate Utah. Paraphrased observation."
+        },
+        {
+          "url": "https://www.pantrytoporch.org/client-signup",
+          "accessedOn": "2026-09-06",
+          "excerpt": "The signup form supports self-pickup, food pantry boxes and CSFP boxes; CSFP requires prior Utah Food Bank registration and Utah County residence. It permits requests for self, client, or friend/family, asks about text access, and says approved requests receive a text. The parsed page also includes a capacity notice; its current display state was not verified, so no claim of today’s capacity is made. (Paraphrased observation.)"
+        },
+        {
+          "url": "https://mtec.edu/mtech-pantry/",
+          "accessedOn": "2026-09-06",
+          "excerpt": "MTECH pantry is for current students, faculty and staff; campuses include Provo. Pantry email is pantry@mtec.edu. Multiple timetable blocks and campus instructions require care; this is an existing college identity needing a separate program/classification review. (Paraphrased observation.)"
+        },
+        {
+          "url": "https://lasagnalove.org/request/",
+          "accessedOn": "2026-09-06",
+          "excerpt": "The request route matches households with volunteer cooks and coordinates delivery. It links to a service-area check; current Provo volunteer availability was not established. (Paraphrased observation.)"
+        }
+      ],
+      "researchNotes": "All three independent audits reconciled. Added arranged pickup and its frequency; corrected unsupported phone-intake implication. Codex read the linked signup form without entering data or submitting, adding conditional CSFP eligibility, third-party request options and approval/text follow-up. The form’s parsed capacity notice may be conditional UI text; do not call the service paused or promise availability. No matching historical name, phone, domain or embedded mention; known partner pantries and the separately listed CSFP benefit are not the delivery intermediary. No new Type/group. Follow-up triage after audits: UVU already has Food; MTECH pantry supports an existing-college review rather than a duplicate; MAG already includes meals on wheels under Seniors; Lasagna Love local availability remains unconfirmed. No additional candidate was silently dropped from the primary list. Bounded search complete, not exhaustive category research. Leave broader taxonomy and program-boundary choices for human review. No provider contact or human verification.",
+      "resolutions": [
+        {
+          "findingId": "Grok:food-ptp-valid-candidate",
+          "status": "resolved",
+          "reason": "Retained distinct delivery/pickup candidate in Food with no forced Type. No new group inferred."
+        },
+        {
+          "findingId": "Grok:food-ptp-fields-incomplete",
+          "status": "resolved",
+          "reason": "Included advertised twice-monthly self-pickup and request-based arrangements. Removed the overbroad nothing-to-visit implication."
+        },
+        {
+          "findingId": "Grok:food-missed-followons",
+          "status": "needs-review",
+          "reason": "MTECH needs an existing-resource/program-boundary review; MAG already records meals on wheels in Seniors; UVU already has Food. Lasagna Love local capacity remains unconfirmed. Preserve these as separate follow-up tasks, not duplicates."
+        },
+        {
+          "findingId": "ChatGPT:auditor:pantry-to-porch-supported-addition",
+          "status": "resolved",
+          "reason": "Retained as a candidate new to the historical package only. Addition and current-package identity check still require human review."
+        },
+        {
+          "findingId": "ChatGPT:auditor:pantry-to-porch-phone-intake-unsupported",
+          "status": "resolved",
+          "reason": "Removed implied phone application help. Direct readers to Request Food; phone/email are for asking questions, with offline intake explicitly unconfirmed. Read the signup form without submitting it."
+        },
+        {
+          "findingId": "ChatGPT:auditor:pantry-to-porch-pickup-omitted",
+          "status": "resolved",
+          "reason": "Added twice-monthly arranged pickup and removed categorical wording that only delivery is available. Do not invent a walk-in address; use the request route for arrangements."
+        },
+        {
+          "findingId": "ChatGPT:auditor:food-search-followup-gaps",
+          "status": "needs-review",
+          "reason": "Completed bounded follow-up triage: UVU is already a Food resource; MTECH pantry is supported by its provider but the college already exists and needs a separate classification/program-boundary review; MAG meals on wheels is embedded in an existing Seniors record. Lasagna Love is a real request route but current Provo volunteer availability remains unconfirmed. These are recorded follow-ups, not additional complete resource checks. One bounded Food search is finished, not exhaustive Food coverage."
+        },
+        {
+          "findingId": "Perplexity:food-discovery-pantry-to-porch-distinct-addition",
+          "status": "resolved",
+          "reason": "Retained supported delivery/pickup service, with monthly delivery and twice-monthly pickup limits."
+        },
+        {
+          "findingId": "Perplexity:food-discovery-pantry-to-porch-not-duplicate",
+          "status": "resolved",
+          "reason": "Checked all historical resource text, not just the Food category. Partner pantries and the CSFP program already exist but do not duplicate this delivery intermediary. Today’s package must still be connected before any addition."
+        },
+        {
+          "findingId": "Perplexity:food-discovery-primary-proposal-self-pickup-omission",
+          "status": "resolved",
+          "reason": "Expanded Description and Information to include arranged pickup; limited inability-to-pick-up condition to delivery."
+        },
+        {
+          "findingId": "Perplexity:food-discovery-classification-limit",
+          "status": "resolved",
+          "reason": "Food category only. Neither prepared meals nor a standalone pantry has been established; no Type or group invented."
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "taskId": "recheck:casfb",
+      "assignmentSha256": "d7dfd2e02ea3d6a65c03b6dd270c51c9f114f943220ce00409fa33dead79d9c6",
+      "items": [
+        {
+          "id": "casfb",
+          "program": "Community Action Services And Food Bank - Provo",
+          "status": "changed",
+          "fields": {
+            "address": "815 S Freedom Blvd, Suite 100, Provo, UT 84601"
+          },
+          "summary": "Add Suite 100 and ZIP to the address. The provider publishes conflicting pantry hours, and appointment rules remain unclear. Keep the existing local Information while staff clarify access; this is not a move or closure finding.",
+          "questions": [
+            "Which Provo pantry hours are correct: Monday/Friday 8 AM–5 PM and Wednesday noon–7 PM, or Monday/Friday 9 AM–3 PM and Wednesday 9 AM–7 PM?",
+            "Are pantry appointments required, optional, or only for certain services? Can someone without internet arrange intake by phone?",
+            "Does the every-three-days food allowance for unhoused people still apply? The general website states every two weeks.",
+            "Are the Springville and Orem locations in the office notes still active? Their absence from the current location list is not closure evidence.",
+            "Do the July 2026 case-management appointment rule and housing-funding limits in the local notes still apply?",
+            "What is the current food-bank email? The locally recorded address appears misspelled; do not guess a replacement."
+          ],
+          "evidence": [
+            0,
+            1,
+            2
+          ],
+          "closureEvidence": [],
+          "nextCheckOn": "2026-09-13",
+          "lastEvidenceOfOperationOn": ""
+        }
+      ],
+      "evidenceSources": [
+        {
+          "url": "https://communityactionprovo.org/",
+          "accessedOn": "2026-09-06",
+          "excerpt": "815 S Freedom Blvd Ste 100, Provo, UT 84601"
+        },
+        {
+          "url": "https://communityactionprovo.org/get-help/food-and-nutrition/food-pantries.html",
+          "accessedOn": "2026-09-06",
+          "excerpt": "Pantry hours: Monday/Friday 8–5; Wednesday noon–7. The page offers appointment booking and describes lobby intake, a family ID, possible identification checking, and shopping every two weeks. This is a paraphrased observation, not a verbatim quotation."
+        },
+        {
+          "url": "https://communityactionprovo.org/get-to-know-us/locations.html",
+          "accessedOn": "2026-09-06",
+          "excerpt": "Main Provo listing gives Monday/Friday 9–3 and Wednesday 9–7, while the same page footer gives Monday/Friday 8–5 and Wednesday noon–7. Main listing calls case management appointment-only. (Paraphrased observation.)"
+        }
+      ],
+      "researchNotes": "All three independent audits reconciled. Corrected primary overconfidence about hours. Perplexity attributed a different timetable to Food Pantries and denied its booking link; direct Codex reads instead show an internal provider conflict and a booking link, so neither replacement timetable nor absence of booking was adopted. Address is the only proposed field change. Existing multi-service Information, categories, PDFs and verifiedOn remain intact. Food-focused research does not confirm housing funds, all partner locations, or all service eligibility. No attachment-content review or provider contact. Website observations do not establish a service-delivery date.",
+      "resolutions": [
+        {
+          "findingId": "Grok:casfb-address-suite",
+          "status": "resolved",
+          "reason": "Retained only the supported suite and ZIP enrichment. This is not a move."
+        },
+        {
+          "findingId": "Grok:casfb-hours-conflict",
+          "status": "needs-review",
+          "reason": "Verified contradictory provider schedules, including on one Locations page. Preserve local hours pending staff confirmation."
+        },
+        {
+          "findingId": "Grok:casfb-satellite-sites",
+          "status": "needs-review",
+          "reason": "Keep the Springville/Orem notes. They are unconfirmed, not established stale or closed. A location-list omission and directory listing do not settle operation."
+        },
+        {
+          "findingId": "Grok:casfb-email-typo",
+          "status": "needs-review",
+          "reason": "The apparent misspelling does not establish a working replacement mailbox. Preserve the recorded text for review, flag it for confirmation, and use the known phone when seeking help."
+        },
+        {
+          "findingId": "ChatGPT:auditor:casfb-conflicting-pantry-hours",
+          "status": "needs-review",
+          "reason": "Confirmed conflicting schedules on the provider Locations page itself: main content says Mon/Fri 9–3, Wed 9–7; footer and Food Pantries page say Mon/Fri 8–5, Wed noon–7. Removed primary claim that hours were independently confirmed. No hours change proposed; ask staff which schedule applies."
+        },
+        {
+          "findingId": "ChatGPT:auditor:casfb-appointment-ambiguity",
+          "status": "needs-review",
+          "reason": "Preserve local intake rules. Food Pantries page both offers booking and describes lobby intake; appointment necessity requires staff confirmation."
+        },
+        {
+          "findingId": "ChatGPT:auditor:casfb-frequency-uncertain",
+          "status": "needs-review",
+          "reason": "No evidence settles the locally recorded unhoused exception. Keep it and ask whether the three-day versus two-week distinction remains valid."
+        },
+        {
+          "findingId": "Perplexity:casfb-primary-hours-conflict",
+          "status": "needs-review",
+          "reason": "Accept the substantive warning about inconsistent hours, but not the asserted definitive replacement schedule. Codex directly observed 8–5/noon–7 on Food Pantries and 9–3/9–7 on Locations. Ask staff; no schedule overwrite."
+        },
+        {
+          "findingId": "Perplexity:casfb-primary-access-overstatement",
+          "status": "needs-review",
+          "reason": "Do not accept the audit claim that booking is absent: Codex observed a booking link on Food Pantries. Neither the link nor walk-in instructions prove required versus optional appointments. Preserve the ambiguity for human follow-up."
+        },
+        {
+          "findingId": "Perplexity:casfb-address-enrichment-supported",
+          "status": "resolved",
+          "reason": "Retained suite and ZIP; existing street and identity unchanged."
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "taskId": "recheck:facc",
+      "assignmentSha256": "bea2400a591968ad13a2cfc82082c884f57c299c2ba4f16de8ab2c9c649fd868",
+      "items": [
+        {
+          "id": "facc",
+          "program": "Food and Care Coalition",
+          "status": "changed",
+          "fields": {
+            "hours": "Meals: Monday–Saturday breakfast 8:30–9:30 AM, lunch noon–1 PM, dinner 4:30–5:30 PM. Sundays and holidays: lunch noon–1 PM. Day services: Monday–Friday 8:30 AM–5:30 PM; showers and laundry by appointment.",
+            "description": "Prepared hot meals in Provo for anyone who needs a meal. Staff refer grocery-box requests to other pantries. Also offers showers, laundry, haircuts, dental care, case management, housing support and onsite health partners for people experiencing homelessness; conditions vary by service."
+          },
+          "summary": "Clarify meal and day-service hours, including Sunday/holiday lunch. Update the description so people know meals are open to anyone and grocery boxes require a pantry referral. Keep detailed local service limits pending confirmation.",
+          "questions": [
+            "Have hygiene distribution days changed to Monday, Wednesday and Friday, and does the monthly household limit still apply?",
+            "Can day patrons now obtain case management? The current website includes them, while local notes restrict Coalition case management to transitional housing participants.",
+            "Do the local limits on rental aid, housing waitlists and partner-clinic eligibility still apply?"
+          ],
+          "evidence": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "closureEvidence": [],
+          "nextCheckOn": "2026-09-13",
+          "lastEvidenceOfOperationOn": ""
+        }
+      ],
+      "evidenceSources": [
+        {
+          "url": "https://www.foodandcare.org/services/food",
+          "accessedOn": "2026-09-06",
+          "excerpt": "Meals Mon–Sat: breakfast 8:30–9:30, lunch noon–1, dinner 4:30–5:30. Sunday/holiday lunch noon–1. Open to anyone; no forms or appointments. Staff refer grocery requests to other pantries. Paraphrased observation."
+        },
+        {
+          "url": "https://www.foodandcare.org/services/day-services",
+          "accessedOn": "2026-09-06",
+          "excerpt": "Day services operate weekdays 8:30–5:30. Hygiene kits Monday, Wednesday, Friday; showers and laundry by advance appointment. Accessible facility. Paraphrased observation."
+        },
+        {
+          "url": "https://www.foodandcare.org/services/case-management",
+          "accessedOn": "2026-09-06",
+          "excerpt": "The page describes case management for day patrons and housing residents. Paraphrased observation."
+        },
+        {
+          "url": "https://www.foodandcare.org/contact",
+          "accessedOn": "2026-09-06",
+          "excerpt": "Business hours list weekdays 8:30–5:30, Saturday meal periods, and Sunday closed. This general schedule differs in scope from the Food page Sunday lunch. (Paraphrased observation.)"
+        }
+      ],
+      "researchNotes": "All three independent audits reconciled. ChatGPT identified the overly narrow meal population; Perplexity highlighted meals versus grocery boxes. Description changes reflect those supported Food distinctions while preserving the existing broader-service description in substance. General Sunday-closed business hours do not override the detailed Food schedule corroborated by local notes. No rewrite of Information because hygiene limits, housing availability, Coalition versus partner case-management eligibility and clinic conditions remain unresolved. No taxonomy changes or provider contact; verifiedOn unchanged.",
+      "resolutions": [
+        {
+          "findingId": "Grok:facc-hours-field",
+          "status": "resolved",
+          "reason": "Kept supported service-specific hours, avoiding a blanket all-services schedule."
+        },
+        {
+          "findingId": "Grok:facc-sunday-conflict",
+          "status": "resolved",
+          "reason": "The Contact page labels business hours Sunday closed; the detailed Food page and local notes agree on Sunday lunch. Keep the program-specific exception; do not infer meal closure."
+        },
+        {
+          "findingId": "Grok:facc-case-mgmt-scope",
+          "status": "needs-review",
+          "reason": "Carry forward the case-management eligibility question without erasing local restrictions."
+        },
+        {
+          "findingId": "ChatGPT:auditor:facc-hours-correction-supported",
+          "status": "resolved",
+          "reason": "Retained separate meal timetable and weekday day services. Sunday/holiday lunch remains explicit."
+        },
+        {
+          "findingId": "ChatGPT:auditor:facc-meal-population-too-narrow",
+          "status": "resolved",
+          "reason": "Revised Description to state that meals are open to anyone needing one, while keeping separate homeless-support services and their program-specific conditions."
+        },
+        {
+          "findingId": "ChatGPT:auditor:facc-hygiene-schedule-conflict",
+          "status": "needs-review",
+          "reason": "Keep existing Information pending staff confirmation of distribution days and the monthly household limit; report the conflicting current provider wording."
+        },
+        {
+          "findingId": "ChatGPT:auditor:facc-case-management-conflict",
+          "status": "needs-review",
+          "reason": "Preserve locally recorded transitional-housing restriction pending staff confirmation. Ask whether the current day-patron language concerns Coalition case management or a separate intake/referral or partner service."
+        },
+        {
+          "findingId": "Perplexity:facc-primary-hours-clarification-supported",
+          "status": "resolved",
+          "reason": "Retained separate meal and day-service schedules."
+        },
+        {
+          "findingId": "Perplexity:facc-primary-grocery-ambiguity",
+          "status": "resolved",
+          "reason": "Description now distinguishes prepared meals from grocery boxes, which staff refer to other pantries."
+        },
+        {
+          "findingId": "Perplexity:facc-day-services-separate-from-meals",
+          "status": "resolved",
+          "reason": "Hours explicitly restrict day services to weekdays and keep shower/laundry appointment requirement."
+        }
+      ]
+    }
+  ],
+  "auditResults": {
+    "ChatGPT": [
+      {
+        "schemaVersion": 1,
+        "taskId": "recheck:casfb",
+        "assignmentSha256": "b4753f2e45bbb977c5c78ff625a15b9caf57df0919fdf6ac646d768e77ed3968",
+        "evidenceSources": [
+          {
+            "url": "https://communityactionprovo.org/get-help/food-and-nutrition/food-pantries.html",
+            "accessedOn": "2026-09-06",
+            "excerpt": "The provider lists the Provo pantry at Suite 100, with Monday and Friday hours of 8:00 AM–5:00 PM and Wednesday hours of noon–7:00 PM. It also links to appointment booking."
+          },
+          {
+            "url": "https://communityactionprovo.org/get-to-know-us/locations.html",
+            "accessedOn": "2026-09-06",
+            "excerpt": "The provider's locations page separately lists Monday and Friday pantry hours as 9:00 AM–3:00 PM and Wednesday as 9:00 AM–7:00 PM, creating an unresolved internal conflict."
+          }
+        ],
+        "researchNotes": "Independent Food-focused review of the historical multi-service record. The Suite 100 and ZIP enrichment is supported. Current provider pages conflict about pantry hours, so the locally recorded schedule should not be described as independently confirmed without resolving that conflict. The food page supports lobby intake, a family ID, possible ID checking and a two-week shopping interval. It does not confirm the locally reported three-day interval for unhoused patrons. The website's appointment link does not clearly establish whether appointments are required, optional or limited to particular circumstances. The historical Orem and Springville notes, July 2026 case-management rule, housing funding limits and other non-Food services were not disproved and should be preserved as local knowledge with dates and uncertainty. No provider contact or attachment-content review was performed.",
+        "findings": [
+          {
+            "id": "auditor:casfb-conflicting-pantry-hours",
+            "summary": "The primary says the pantry hours remain consistent, but two current official pages give materially different Provo schedules. Retain the local schedule cautiously and flag the hours for human confirmation rather than presenting them as verified.",
+            "severity": "material"
+          },
+          {
+            "id": "auditor:casfb-appointment-ambiguity",
+            "summary": "The primary correctly notices both appointment booking and lobby intake, but the evidence does not establish whether a pantry appointment is required. No access-rule change should be inferred.",
+            "severity": "material"
+          },
+          {
+            "id": "auditor:casfb-frequency-uncertain",
+            "summary": "The official food page supports shopping every two weeks but does not address the local three-day allowance for unhoused patrons. Preserve that local distinction as unconfirmed rather than deleting it.",
+            "severity": "material"
+          }
+        ],
+        "closureChecks": []
+      },
+      {
+        "schemaVersion": 1,
+        "taskId": "recheck:facc",
+        "assignmentSha256": "c296fa699d40a1cb22a81a32b22ff6f1d29fa32107e52ad853700edbb2327cf5",
+        "evidenceSources": [
+          {
+            "url": "https://www.foodandcare.org/services/food",
+            "accessedOn": "2026-09-06",
+            "excerpt": "The provider lists breakfast, lunch and dinner Monday–Saturday and lunch on Sundays and holidays. Meals are open to anyone, without forms, appointments or eligibility requirements."
+          },
+          {
+            "url": "https://www.foodandcare.org/services/day-services",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Day services run Monday–Friday, 8:30 AM–5:30 PM. Hygiene kits are distributed Monday, Wednesday and Friday; laundry and showers require advance appointments."
+          },
+          {
+            "url": "https://www.foodandcare.org/services/case-management",
+            "accessedOn": "2026-09-06",
+            "excerpt": "The provider describes case-management help for both day patrons seeking next steps and housing residents, while leaving several intake questions unanswered on the page."
+          }
+        ],
+        "researchNotes": "Independent review confirms that the proposed hours field is materially more useful than the existing broad Monday–Saturday entry because Sunday and holiday lunch remain available while weekday day services have different hours. Current provider pages also conflict with historical local notes about hygiene distribution and access to Coalition case management. These apparent changes should be presented for confirmation without erasing dated office knowledge. The official meal page establishes that meals are available to anyone, not only people experiencing homelessness. Rental aid availability, transitional-housing waitlists, partner schedules and partner-clinic eligibility were not independently resolved. No provider contact was made.",
+        "findings": [
+          {
+            "id": "auditor:facc-hours-correction-supported",
+            "summary": "The proposed hours clarification is supported and corrects a practical omission: Sunday and holiday lunch is available even though general day services operate only on weekdays.",
+            "severity": "material"
+          },
+          {
+            "id": "auditor:facc-meal-population-too-narrow",
+            "summary": "The historical description frames the organization around people who are homeless, but the official Food page says meals are open to anyone without eligibility requirements. The primary missed this important Food access correction.",
+            "severity": "material"
+          },
+          {
+            "id": "auditor:facc-hygiene-schedule-conflict",
+            "summary": "The current provider page specifies hygiene-kit distribution on Monday, Wednesday and Friday, conflicting with the historical Monday–Friday note. The monthly household limit is not resolved by the current page, so preserve it as dated local knowledge pending confirmation.",
+            "severity": "material"
+          },
+          {
+            "id": "auditor:facc-case-management-conflict",
+            "summary": "The current provider page describes case management for day patrons as well as housing residents, materially conflicting with the local restriction to transitional-housing participants. The primary appropriately raises the conflict but should not treat either account as conclusively superseded without confirmation.",
+            "severity": "material"
+          }
+        ],
+        "closureChecks": []
+      },
+      {
+        "schemaVersion": 1,
+        "taskId": "discovery:food",
+        "assignmentSha256": "d4685b53b8496413daf4d4feba25fc9e7cff883be92916f83f17cbd4735ce8fa",
+        "evidenceSources": [
+          {
+            "url": "https://www.pantrytoporch.org/",
+            "accessedOn": "2026-09-06",
+            "excerpt": "The provider partners with pantries to deliver food without charge across Utah and Salt Lake counties and lists 801-801-7712 and info@pantrytoporch.org."
+          },
+          {
+            "url": "https://www.pantrytoporch.org/assistance",
+            "accessedOn": "2026-09-06",
+            "excerpt": "The provider currently offers free home delivery once per calendar month and self-pickup twice per month. Delivery is intended for people unable to pick up pantry food."
+          },
+          {
+            "url": "https://health.utahcounty.gov/community-assistance-programs-3/",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Utah County lists Pantry to Porch for doorstep food delivery and separately identifies UVU and Mountainland Technical College student pantries and Lasagna Love."
+          },
+          {
+            "url": "https://lasagnalove.org/request/",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Lasagna Love allows a household or nominee to check local availability, request one home-cooked meal, match with a volunteer and coordinate delivery."
+          }
+        ],
+        "researchNotes": "Independent bounded discovery supports Pantry to Porch as a credible historical-package gap and distinct delivery resource. Its official pages establish county coverage, contact information, monthly delivery frequency and twice-monthly self-pickup. They do not establish that staff will complete an application by phone, exact pantry documentation, delivery timing or current capacity. The historical package already contains Mountainland Technical College as an education/employment resource, so its Lehi student pantry may call for a Food classification update rather than a duplicate record, but eligibility and current operating details remain unverified. The county also identifies a UVU student pantry and Lasagna Love; both require further qualification because the former is student-specific and the latter depends on local volunteer availability. This was not an exhaustive search, and no request forms were submitted.",
+        "findings": [
+          {
+            "id": "auditor:pantry-to-porch-supported-addition",
+            "summary": "Pantry to Porch is a credible distinct Food addition for Provo and Utah County because it addresses inability to reach a pantry through free home delivery. The proposed phone, website, county coverage and once-monthly delivery limit are supported.",
+            "severity": "material"
+          },
+          {
+            "id": "auditor:pantry-to-porch-phone-intake-unsupported",
+            "summary": "The proposal says a person needing help can call to make a request, but the public pages only provide contact details and an online request route. Phone-assisted or fully offline intake remains unconfirmed.",
+            "severity": "material"
+          },
+          {
+            "id": "auditor:pantry-to-porch-pickup-omitted",
+            "summary": "The provider also advertises self-pickup twice per calendar month. The proposal omits this actual service while stating only that pickup should be arranged with a local pantry; clarify how Pantry to Porch pickup works before final writing.",
+            "severity": "material"
+          },
+          {
+            "id": "auditor:food-search-followup-gaps",
+            "summary": "The primary stopped with known follow-on leads even though the official county directory identifies the UVU student pantry, Mountainland Technical College pantry and Lasagna Love. These are not yet approved additions, but they require bounded eligibility, access and duplication research before the Food search can be considered complete.",
+            "severity": "material"
+          }
+        ],
+        "closureChecks": []
+      }
+    ],
+    "Grok": [
+      {
+        "schemaVersion": 1,
+        "taskId": "recheck:casfb",
+        "assignmentSha256": "d86f0045104cb36f1fbc3012f29da7430913737798a79f3a5d34687fcda88eab",
+        "evidenceSources": [
+          {
+            "url": "https://communityactionprovo.org/get-help/food-and-nutrition/food-pantries.html",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Provo pantry 815 S Freedom Blvd Ste 100. Hours Mon/Fri 8 AM–5 PM, Wed noon–7 PM; Tue closed; Thu closed to public. Four pantries listed; no Springville or Orem."
+          },
+          {
+            "url": "https://communityactionprovo.org/get-to-know-us/locations.html",
+            "accessedOn": "2026-09-06",
+            "excerpt": "HQ Provo pantry hours listed Mon/Fri 9am–3pm and Wed 9am–7pm; case management by appointment only. Satellite pantries Oakley, Coalville, Heber."
+          },
+          {
+            "url": "https://www.findhelp.org/community-action-services-and-food-bank--provo-ut-food-pantry/5542970827472896?postal=84601",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Directory last reviewed 08/28/2026 still lists a Springville site at 105 South 400 East with different hours; not an official CAS statement."
+          }
+        ],
+        "researchNotes": "Independent recheck of CASFB as a multi-service record with a food focus. Official site confirms the Provo building and phone. Two official pages disagree on Provo pantry hours. Official location list no longer names the Orem or Springville pantries stored in local Information; that absence is not a closure notice. Primary proposal to add Suite 100 and ZIP is supported and is editorial. Dated June/July 2026 housing-fund and case-management notes were not independently confirmed. No provider contact. Website availability is not same-day proof of service delivery.",
+        "findings": [
+          {
+            "id": "casfb-address-suite",
+            "summary": "Primary address enrichment to 815 S Freedom Blvd, Suite 100, Provo, UT 84601 matches current official pages; editorial only, not a move.",
+            "severity": "editorial"
+          },
+          {
+            "id": "casfb-hours-conflict",
+            "summary": "Official pantry page still matches local Mon/Fri 8–5 and Wed noon–7 hours; the Locations page lists different Provo pantry hours. Do not replace local hours from one page.",
+            "severity": "material"
+          },
+          {
+            "id": "casfb-satellite-sites",
+            "summary": "Local Information still lists Orem and Springville pantries. Official site now lists Oakley, Coalville, and Heber instead. Absence is not closure; local satellite list is stale pending human check.",
+            "severity": "material"
+          },
+          {
+            "id": "casfb-email-typo",
+            "summary": "Information lists foodbank@comunityactionuc.org (missing m). Treat as editorial transcription error, not a verified mailbox.",
+            "severity": "editorial"
+          }
+        ],
+        "closureChecks": []
+      },
+      {
+        "schemaVersion": 1,
+        "taskId": "recheck:facc",
+        "assignmentSha256": "07d8622a225fcaa553f43e54903aa8c7f2a0d0d96122193315e835e5fe7fddf7",
+        "evidenceSources": [
+          {
+            "url": "https://foodandcare.org/services/food",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Mon–Sat breakfast 8:30–9:30, lunch noon–1, dinner 4:30–5:30. Sun and holidays lunch only noon–1. Walk-in meals; no forms."
+          },
+          {
+            "url": "https://foodandcare.org/services",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Day services described as weekday drop-in; case management described for day patrons and housing residents."
+          },
+          {
+            "url": "https://foodandcare.org/contact",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Business hours Mon–Fri 8:30 AM–5:30 PM; Sat meal windows only; Sun listed Closed, which conflicts with Sunday lunch on the food page."
+          }
+        ],
+        "researchNotes": "Food-focused recheck of Food and Care Coalition. Meal timetable on the food page matches local Information and supports splitting the hours field. Homepage and contact page oversimplify hours and imply Sunday closure. Website now markets case management to day patrons; local notes restrict Coalition case management to transitional housing. Hygiene-day and rental-aid limits were not independently settled. No official closure. Preserve partner-clinic and waitlist notes until staff confirm.",
+        "findings": [
+          {
+            "id": "facc-hours-field",
+            "summary": "Primary hours rewrite that separates meal times from weekday day services is supported by the food page and is safer than M–Sa 8:30–5:30.",
+            "severity": "editorial"
+          },
+          {
+            "id": "facc-sunday-conflict",
+            "summary": "Official contact page lists Sunday Closed while the food page still serves Sunday/holiday lunch noon–1. Keep the meal exception visible.",
+            "severity": "material"
+          },
+          {
+            "id": "facc-case-mgmt-scope",
+            "summary": "Current site says case management is available to day patrons and housing residents; local Information limits Coalition case management to transitional housing. Do not overwrite local rule from marketing copy.",
+            "severity": "material"
+          }
+        ],
+        "closureChecks": []
+      },
+      {
+        "schemaVersion": 1,
+        "taskId": "discovery:food",
+        "assignmentSha256": "7e07200bb6ebabbc2d38b8141eabb03b34e2d1235f858b739a164468671f0960",
+        "evidenceSources": [
+          {
+            "url": "https://www.pantrytoporch.org/assistance",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Free home delivery once monthly and self-pickup twice monthly in all of Utah County and Salt Lake County. Not a food pantry; partners with pantries."
+          },
+          {
+            "url": "https://www.pantrytoporch.org/",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Wasatch Front pantry-partner delivery; contact 801-801-7712. Also known in senior directories as Utah Crisis Food Response."
+          },
+          {
+            "url": "https://www.utahgives.org/organization/pantrytoporch",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Partners include Community Action Services and Tabitha’s Way Pleasant Grove, Saratoga Springs, and Spanish Fork."
+          },
+          {
+            "url": "https://magutah.org/guide/e/837/",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Lists Utah Crisis Food Response / pantrytoporch.org for free pantry-box home delivery in Utah County, separate from MAG weekday senior meals."
+          }
+        ],
+        "researchNotes": "Bounded Food addition search against the historical package. Pantry to Porch is a real operating last-mile delivery program not stored as its own identity; treating it as a new food candidate is reasonable. Primary draft understates the site’s self-pickup option and should not invent phone-only intake. Mountainland Technical College student pantry and Lasagna Love remain unresearched follow-ons, not confirmed additions. MAG home-delivered senior meals are a different program from pantry delivery. Tabitha’s Way, CAS, Food and Care, UVU, Elevate Utah, and county mobile pantries are already represented. Search was not exhaustive. No program closure.",
+        "findings": [
+          {
+            "id": "food-ptp-valid-candidate",
+            "summary": "Pantry to Porch is a distinct Utah County delivery partner not matched by name, phone, or domain in the historical identities; keep as a new-food candidate, not as a pantry or Meals filter.",
+            "severity": "material"
+          },
+          {
+            "id": "food-ptp-fields-incomplete",
+            "summary": "Assistance page now offers monthly delivery and twice-monthly self-pickup. Primary text that there is nothing to visit and only delivery once a month is incomplete.",
+            "severity": "editorial"
+          },
+          {
+            "id": "food-missed-followons",
+            "summary": "Discovery notes left MTech pantry and Lasagna Love as unresearched leads; MAG senior home-delivered meals are a separate food channel. Record as coverage gaps, not as added records.",
+            "severity": "editorial"
+          }
+        ],
+        "closureChecks": []
+      }
+    ],
+    "Perplexity": [
+      {
+        "schemaVersion": 1,
+        "taskId": "recheck:casfb",
+        "assignmentSha256": "a551c2e50c743a41528084c77d57f691ea64d595bb43e1f8a14758d666b53d05",
+        "evidenceSources": [
+          {
+            "url": "https://communityactionprovo.org/get-help/food-and-nutrition/food-pantries.html",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Provo Pantry: 815 S Freedom Blvd Ste 100, Provo, UT 84601. Food Pantry Monday and Friday 9am-3pm; Wednesday 9am-7pm."
+          }
+        ],
+        "researchNotes": "Independent web audit completed without contacting providers or making human review decisions. The provider's current pantry page conflicts materially with the primary proposal and with some historical local-hour notes: it lists Provo pantry service Monday and Friday 9 AM-3 PM and Wednesday 9 AM-7 PM, rather than a generic Monday-Friday schedule. The same source says new clients complete lobby intake, receive a family ID, may be asked for identification, and may shop every two weeks. The web review was limited to publicly accessible pages and cannot establish real-time capacity, temporary closures, telephone access, or whether all historical ancillary-service and funding notes remain current. No closure evidence was found.",
+        "findings": [
+          {
+            "id": "casfb-primary-hours-conflict",
+            "summary": "Challenge the primary proposal's statement that pantry hours remain consistent with the office notes. The current provider pantry page lists Provo food-pantry hours as Monday and Friday 9 AM-3 PM and Wednesday 9 AM-7 PM; retain distinct pantry and other-service hours rather than substituting a broad schedule.",
+            "severity": "material"
+          },
+          {
+            "id": "casfb-primary-access-overstatement",
+            "summary": "Do not characterize the provider page as requiring or offering appointment booking for pantry intake. The current pantry instructions direct new clients to come to a pantry, complete intake at a lobby kiosk, obtain a family ID, and shop every two weeks; case-management services are separately marked by appointment only.",
+            "severity": "material"
+          },
+          {
+            "id": "casfb-address-enrichment-supported",
+            "summary": "The proposed address enrichment is supported: add Suite 100 and ZIP 84601. This is an address normalization, not evidence of a move.",
+            "severity": "editorial"
+          }
+        ],
+        "closureChecks": []
+      },
+      {
+        "schemaVersion": 1,
+        "taskId": "recheck:facc",
+        "assignmentSha256": "5b945767e73114f39699be301777d9f219c9276423a01ee9f019922287259637",
+        "evidenceSources": [
+          {
+            "url": "https://foodandcare.org/services/food",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Meal hours: Mon-Sat breakfast 8:30-9:30 AM, lunch noon-1 PM, dinner 4:30-5:30 PM. Sun and holidays: lunch noon-1 PM. No forms or appointments; anyone may walk in."
+          },
+          {
+            "url": "https://foodandcare.org/services/day-services",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Day services are open Monday through Friday from 8:30 AM to 5:30 PM and include hygiene supplies, clothing, computer access, laundry, showers, and one-on-one support."
+          }
+        ],
+        "researchNotes": "Independent web audit completed without contacting providers or making human review decisions. The current Food Program page verifies the detailed historical meal timetable and says meals are open to anyone without proof of need, forms, appointments, or prior registration. It also explicitly says Food & Care does not stock food boxes and refers people seeking groceries to Community Action and Tabitha's Way. Public-page review cannot verify real-time meal availability, partner-clinic conditions, housing vacancies, case-management eligibility, hygiene distribution limits, or whether all historical local rules remain current. No closure evidence was found.",
+        "findings": [
+          {
+            "id": "facc-primary-hours-clarification-supported",
+            "summary": "The primary proposal's separated meal schedule is supported: breakfast, lunch, and dinner operate Monday-Saturday; Sunday and holiday service is lunch only. The hours field should distinguish these meal periods from weekday day-service availability.",
+            "severity": "editorial"
+          },
+          {
+            "id": "facc-primary-grocery-ambiguity",
+            "summary": "Clarify that Food & Care provides prepared hot meals, not food boxes. Its current Food Program page states that staff refer patrons seeking food boxes or additional grocery assistance to Community Action and Tabitha's Way.",
+            "severity": "material"
+          },
+          {
+            "id": "facc-day-services-separate-from-meals",
+            "summary": "Do not infer that all day services are available during meal periods or on Sundays and holidays. The provider lists day services separately as Monday-Friday, 8:30 AM-5:30 PM.",
+            "severity": "material"
+          }
+        ],
+        "closureChecks": []
+      },
+      {
+        "schemaVersion": 1,
+        "taskId": "discovery:food",
+        "assignmentSha256": "7cff6fce3535f671d0f705da0604d449339a5beea5d58e7a3ed4144e5221b383",
+        "evidenceSources": [
+          {
+            "url": "https://www.pantrytoporch.org/assistance",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Free home delivery is available once per calendar month and self-pickup twice per calendar month in all of Utah County and Salt Lake County. Pantry to Porch is not a food pantry and partners with food pantries."
+          },
+          {
+            "url": "https://www.pantrytoporch.org/",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Pantry to Porch partners with food pantries across the Wasatch Front to provide free home delivery of food pantry items."
+          },
+          {
+            "url": "https://foodandcare.org/services/food",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Food & Care directs patrons seeking food boxes and additional grocery assistance to Community Action and Tabitha's Way."
+          },
+          {
+            "url": "https://communityactionprovo.org/get-help/food-and-nutrition/food-pantries.html",
+            "accessedOn": "2026-09-06",
+            "excerpt": "Community Action describes four pantries and explains that new clients complete intake, receive a family ID, and can shop every two weeks."
+          }
+        ],
+        "researchNotes": "Bounded independent Food-category search completed using publicly accessible provider pages and cross-checking against the historical package's existing Community Action, Food & Care, Tabitha's Way, combined pantry-list, and mobile-pantry coverage. Pantry to Porch is a distinct delivery/pickup intermediary rather than a pantry, so it is not a duplicate of the existing pantry or prepared-meal records. Its current public assistance page supports Utah County availability, delivery once per calendar month, and self-pickup twice per calendar month, but does not expose intake criteria, capacity, a physical address, or a phone-only request process. Search limitations: the review was not exhaustive, does not verify real-time availability, and cannot determine whether unreviewed nonprofit, faith-based, school, campus, or informal food programs meet the package's inclusion standards. No provider was contacted and no human review decision was made.",
+        "findings": [
+          {
+            "id": "food-discovery-pantry-to-porch-distinct-addition",
+            "summary": "Pantry to Porch is a supported potential Food addition for Utah County: it provides free home delivery once per calendar month and self-pickup twice per calendar month through pantry partnerships. It is a delivery/pickup service, not a food pantry.",
+            "severity": "material"
+          },
+          {
+            "id": "food-discovery-pantry-to-porch-not-duplicate",
+            "summary": "No duplicate was established against the historical package's Community Action, Food & Care, Tabitha's Way, or combined pantry-list coverage. Those records concern pantry groceries or prepared meals; Pantry to Porch fills a separate transportation and access function.",
+            "severity": "material"
+          },
+          {
+            "id": "food-discovery-primary-proposal-self-pickup-omission",
+            "summary": "Challenge the primary proposed description if it says Pantry to Porch only serves people unable to pick up food. The current assistance page also offers self-pickup twice per calendar month in Utah County and Salt Lake County.",
+            "severity": "material"
+          },
+          {
+            "id": "food-discovery-classification-limit",
+            "summary": "Do not assign the Meals or Pantries filter merely because the service is food-related. The provider explicitly says it is not a food pantry, and no prepared-meal service is described; Food is the supported category.",
+            "severity": "editorial"
+          }
+        ],
+        "closureChecks": []
+      }
+    ]
+  },
+  "replayFilesSha256": {
+    "browser_qa.py": "8c767a12607ce63321e111901349c61c4391363a833221b49751d2e2b61adb85",
+    "prepare_primary.py": "523639c5eb8d9d54e1d66c0c6ad42d02542f52bbbabdeb0348ad785bb60049ae",
+    "verify_pilot.py": "dfe477721e63b7f26a0d63f8f508d913e5aa1c43c67d0e3d3ca850f3c86a8bd4",
+    "build_review.py": "ba4c13ed787dde28ed6d62edab64d58bae85ad07205cae02e6a98078e021b9a9",
+    "reconcile.py": "455685c031936f1e5d1179c6cf73c6d2191084895be99969d7ecaa0e1a1b88bc"
+  }
+}
