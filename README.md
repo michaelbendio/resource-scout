@@ -18,9 +18,12 @@ accepted the authorized historical Provo pilot's writing and reconciliation. See
 [increment 2 status and usage](docs/scout-increment-2-results.md).
 Increment 3A adds reviewed categories, Types, and groups with office-defined
 guidance and safe existing-resource exports. Its six-resource Provo pilot is
-prepared and awaits definition review before real classification research. See
-[increment 3A status and usage](docs/scout-increment-3-results.md). Group migrations,
-location navigation, maintenance, and adaptive research remain later work.
+accepted after real classification research and reconciliation. See
+[increment 3A status and usage](docs/scout-increment-3-results.md). Increment 3B adds
+[office group review and complete migration planning](docs/scout-increment-3b-results.md).
+Provo retirement remains pending full research/review and a location-reader
+compatibility fix; unsafe alias migrations cannot export. Location navigation,
+maintenance, and adaptive research remain later work.
 
 The following version notes describe the established Scout line, retained on
 `main` in the separate `resource-scout` checkout.

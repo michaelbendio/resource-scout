@@ -4,7 +4,10 @@ Status: implementation authorized by Michael. Slice 3A is implemented and
 software-tested; its historical Provo pilot has completed definition review,
 real classification research, all 18 external audits, and Codex reconciliation.
 Michael has approved the six-resource pilot and reconciliation. Slice 3A is
-accepted; 3B and 3C remain planned for discussion before implementation. See
+accepted. The subsequent “go ahead” authorized 3B; its review tools are now
+implemented, with Provo migration completion pending full research/review and a
+reader compatibility fix. See [3B results](scout-increment-3b-results.md).
+3C remains for discussion before implementation. See
 [implementation status and remaining work](scout-increment-3-results.md).
 
 Michael accepted the increment 2 pilot's writing and Scout's reconciliation of

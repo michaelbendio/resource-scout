@@ -63,6 +63,7 @@ from .review_export import build_review_copy
 from .storage import ResearchStore
 from .scout_improvement import ImprovementWorkflow
 from .scout_classification import ClassificationWorkflow
+from .taxonomy_review import TaxonomyReview
 from .improvement_http import handle_improvement
 
 
@@ -84,6 +85,7 @@ class ResearchHTTPServer(ThreadingHTTPServer):
         self.private_url = private_url
         self.improvement = ImprovementWorkflow(store)
         self.classification = ClassificationWorkflow(store)
+        self.taxonomy_review = TaxonomyReview(self.classification)
 
 
 class ResearchHandler(BaseHTTPRequestHandler):
