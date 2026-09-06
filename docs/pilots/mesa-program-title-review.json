@@ -1,0 +1,606 @@
+{
+  "schemaVersion": 1,
+  "title": "Mesa program-title pilot",
+  "researchDate": "2026-09-06",
+  "researcher": "Codex",
+  "independentAudits": [],
+  "humanReviewDecisions": 0,
+  "exports": 0,
+  "scope": "Focused title and program-boundary review of five saved HTML entries; not a completed four-AI maintenance run or a full factual rewrite.",
+  "source": {
+    "filename": "autoMesa-enriched.html",
+    "sha256": "65f26f690534927c7c359b0c082b25e950fe996eec0b64b79a632edad89f2831",
+    "resourceCount": 333,
+    "officeName": "AutoMesa",
+    "packageVersion": 3
+  },
+  "guidanceSnapshot": {
+    "writing": {
+      "schemaVersion": 1,
+      "version": "plain-language-v2",
+      "instructionsFile": "plain_language.md",
+      "sections": [
+        {
+          "key": "programsAndServices",
+          "heading": "Programs and Services"
+        },
+        {
+          "key": "eligibilityRequirements",
+          "heading": "Eligibility Requirements"
+        },
+        {
+          "key": "howToBestConnect",
+          "heading": "How to Best Connect"
+        },
+        {
+          "key": "access",
+          "heading": "Access"
+        },
+        {
+          "key": "importantInformationToKnow",
+          "heading": "Important Information to Know"
+        }
+      ],
+      "retiredHeadings": [
+        "Services Provided",
+        "Scout Findings",
+        "Verify before Referral"
+      ],
+      "instructionsText": "# Writing resources for counseling and printed handouts\n\nWrite respectfully for adults seeking practical help. A service missionary must\nbe able to scan the resource quickly. The person taking the printout home may\nneed support with reading, remembering steps, or using a computer. Use everyday\nwords, short sentences, and brief paragraphs or simple bullets. Explain an\nunavoidable acronym. Avoid agency jargon, promotional language, and research\nprocess commentary. Do not judge the person's ability or circumstances.\n\nResource title: when one organization has multiple resource entries, use\n\"Organization · brief program or service label\" so a missionary can distinguish\nthem before opening them. Prefer an official program name when useful, with\nplain words identifying the help. Do not invent a program identity, imply an\nunconfirmed service is available, or split or merge records just to improve a\ntitle. If the assignment permits name changes, propose the title through its\nnormal review process; otherwise record the suggestion in reviewNotes. Preserve\nstable IDs. For a mixed or uncertain program entry, flag the identity question\ninstead of making its title sound more certain than the evidence.\n\nHours: distinguish meal, pantry, office, and other service schedules. Do not\ncollapse them into a single schedule or treat office hours as service hours.\nFlag conflicting published schedules and say which service needs confirmation.\nWhen hours are outside the assignment's editable fields, record the discrepancy\nin reviewNotes rather than changing protected fields.\n\nDescription: briefly say what help is offered and where it is available. Identify\nlocation and service area accurately; an office address does not establish an\neligibility boundary. Preserve meaningful geographic limits and uncertainty.\n\nPrograms and Services: explain specific help, combining overlapping accounts.\nPrefer useful service distinctions over a long organizational history or list\nof incidental benefits. Do not repeat the same explanation in another section.\n\nEligibility Requirements: state the relevant qualifications and required\nreferrals or documents. Preserve material age, income, location, and other\nconditions. Requirements may vary by program; never substitute an invented\nrule for missing information.\n\nHow to Best Connect: give a supported starting route and practical next steps.\nExamine service and application pages or forms, not just the home page, to\nestablish appointment or walk-in requirements, pickup options, delivery\narrangements, and useful application instructions. Reading a form is research;\ndo not submit it or enter personal information. Distinguish what the form offers\nfrom assumptions about eligibility or guaranteed access.\nWhen known, explain what happens after applying without promising placement,\nfunding, eligibility, or response times. Keep phone, address, website, and hours\nin their ordinary fields; avoid duplicating those fields in Information. There\nis no dedicated email field: include a useful email address in this section.\nDo not assume a computer or internet access. Include an offline alternative only\nwhen supported. Do not invent documents, contacts, language help, or a preferred\nintake route.\n\nAccess: describe the area served and relevant access arrangements. Distinguish\nservice area from the physical office or individual job/service locations.\n\nImportant Information to Know: give material costs, limitations, availability,\nand specific questions the person should check. Distinguish applying from\nreceiving help. Keep unknown details brief and relevant; do not add generic\nwarnings to every resource or repeat them under several headings.\n\nReturn section bodies only; Scout supplies the exact headings and their order.\nUse plain paragraphs and optional lines starting with '- ' for bullets. Do not\nreturn HTML, Markdown links, tables, or extra headings. Use full URLs when a\nlink is needed on paper. Keep necessary conditions even when shortening text;\nthere is no mandatory word count. Never append original Scout Findings to the\npublic Information. Original research stays in the assignment history.\n\nEvery claim must be supported by the provided evidence or recorded additional\nresearch. Return writingEvidence with candidateIds (contributing candidate IDs\nas strings) and sources (an array). Each newly consulted source must contain\nexactly url (full HTTP/HTTPS URL), accessedOn (YYYY-MM-DD), and excerpt (relevant\nsource text). Use an empty sources array if only the supplied evidence was used.\nEvidence storage is not human verification: leave verifiedOn null. If a material\ndetail cannot be established, say what is unknown or what to ask. Do not copy\nknown providers, contacts, or eligibility facts from a writing example.\n",
+      "sha256": "24e3f9107bdc290b0eb9ab854c548c70e30fb9c6cff47aa5a31ab2fac4dafbb1"
+    },
+    "maintenance": {
+      "schemaVersion": 1,
+      "version": "maintenance-v2",
+      "primary": [
+        "Recheck the named program, not just the parent organization. Investigate operation, intake, address, service area, eligibility, cost, services, and accommodations. Compare services, populations, and intake routes before treating shared names or addresses as duplicate programs.",
+        "Search category assignments for additions. Compare discoveries against the whole package across categories and alternate names, including current, retired, and previously declined identities, before calling something new. A shared provider can operate distinct programs.",
+        "A failed URL, unanswered call, old listing, or search omission alone is inconclusive. Look for replacement contact routes. A closure proposal needs an explicit official notice naming the affected program.",
+        "Preserve useful local knowledge. A locally recorded detail absent from public sources becomes a focused verification question, not a deletion justified by website silence. Propose only evidence-supported changes. Use the frozen writing guidance, including program labels and service-specific hours. A clearer title is a field-level proposal for the existing stable ID, not a new resource or proof of a provider rename. Do not change verifiedOn.",
+        "Return dated sources, focused follow-up questions, operational evidence dates, and a suggested next check date. Unknown stays unknown. Flag classification consequences for human review.",
+        "Use priorChecks as dated history, not current fact. Repeated inability to verify should focus follow-up and independent checks, never become closure proof."
+      ],
+      "audit": [
+        "Independently verify the named program, proposed title, service-specific hours, changes, and actual access process against the sealed writing guidance. Look for conflated programs, unsupported availability, conflicting schedules, and lost local details. Check closure claims against an explicit provider or government statement.",
+        "Audit category search coverage and missed additions. Compare against the whole package across categories and alternate names, including existing, retired, and previously declined matches. Record material issues and useful corrections, including classification consequences."
+      ],
+      "reconcile": [
+        "Reconcile the primary research with every independent audit. Resolve every finding explicitly; leave unsupported facts uncertain.",
+        "Keep closure separate from temporary pause, moves, renamed programs, changed coverage, and failed contact. Preserve local information and exact existing identities.",
+        "Return the full reconciled item list; additions omitted after an audit need an explanation in researchNotes. No evidence or human verification may be invented."
+      ]
+    },
+    "gitRevision": "484937e703151b1f1bc86287da6e089a4050e85d"
+  },
+  "sources": [
+    {
+      "id": "autumn",
+      "title": "Autumn House program page",
+      "url": "https://turnanewleaf.org/services/sexual-and-domestic-violence-services/autumn-house/",
+      "accessedOn": "2026-09-06",
+      "observation": "The provider describes confidential domestic-violence transitional housing for survivors of any gender and directs service requests to its hotlines. This supports a housing label, without guaranteeing placement.",
+      "observationType": "Paraphrased research observation"
+    },
+    {
+      "id": "workforce",
+      "title": "City of Mesa: Workforce Center @ Mesa",
+      "url": "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa",
+      "accessedOn": "2026-09-06",
+      "observation": "The City lists job-search support and an interview-clothing boutique, identifies A New Leaf among its partners, and posts Monday, Tuesday, Thursday and Friday 8:30 AM–2:30 PM; Wednesday by appointment. Its linked interest form is for employers.",
+      "observationType": "Paraphrased research observation"
+    },
+    {
+      "id": "mesacan",
+      "title": "MesaCAN program page",
+      "url": "https://turnanewleaf.org/services/financial-empowerment/mesacan/",
+      "accessedOn": "2026-09-06",
+      "observation": "MesaCAN lists public workforce self-service Monday, Tuesday, Thursday and Friday 8:30 AM–1:30 PM, separately from office hours Monday–Friday 8:00 AM–4:30 PM. These are published schedules, not confirmed availability.",
+      "observationType": "Paraphrased research observation"
+    },
+    {
+      "id": "bills",
+      "title": "MesaCAN rent and utility assistance",
+      "url": "https://turnanewleaf.org/services/financial-empowerment/mesacan/mesacan-rent-and-utility-assistance/",
+      "accessedOn": "2026-09-06",
+      "observation": "The provider lists rent and mortgage appointment calls on the first Thursday, 2–3 PM or until filled, requiring a live answer. Utility orientation is scheduled separately, Monday–Wednesday from 8 AM; people 60 or older are excused. Funding is limited.",
+      "observationType": "Paraphrased research observation"
+    },
+    {
+      "id": "evmc",
+      "title": "East Valley Men’s Center program page",
+      "url": "https://turnanewleaf.org/services/housing-and-shelter/east-valley-mens-center/",
+      "accessedOn": "2026-09-06",
+      "observation": "The provider describes shelter and resident support for men. It directs applicants to an online prescreen and says phone intakes are not being taken. The linked form could not be read by the research tool; its current questions were not verified.",
+      "observationType": "Paraphrased research observation"
+    },
+    {
+      "id": "donations",
+      "title": "A New Leaf: Donate Items",
+      "url": "https://turnanewleaf.org/get-involved/donate-items/",
+      "accessedOn": "2026-09-06",
+      "observation": "This is donor guidance: it requests new goods and describes support for program participants. Donation acceptance does not establish a public route for receiving clothing or furniture.",
+      "observationType": "Paraphrased research observation"
+    },
+    {
+      "id": "used-donations",
+      "title": "Used Donation Partners List (historical)",
+      "url": "https://turnanewleaf.org/wp-content/uploads/2023/09/Used-Donation-Partners-List.pdf",
+      "accessedOn": "2026-09-06",
+      "observation": "Search-index text dated July 16, 2023 lists Workforce Services accepting work attire and Rapid Rehousing accepting furniture. This historical donation evidence does not confirm present recipient eligibility or availability. The PDF was not visually reviewed in this pilot.",
+      "observationType": "Paraphrased research observation"
+    },
+    {
+      "id": "rehousing",
+      "title": "Rapid Rehousing program page",
+      "url": "https://turnanewleaf.org/services/housing-and-shelter/rapid-rehousing/",
+      "accessedOn": "2026-09-06",
+      "observation": "The provider describes rental subsidy and case management through coordinated entry. The reviewed page does not establish a stand-alone public furniture service.",
+      "observationType": "Paraphrased research observation"
+    }
+  ],
+  "items": [
+    {
+      "label": "Clothing and household items",
+      "status": "Hold title — resolve program",
+      "proposedName": null,
+      "reason": "The entry combines donation intake, workforce clothing, Rapid Rehousing furniture, and Autumn House. Its website points to Autumn House, while its categories are clothing and household essentials. A single confident program label would conceal that mismatch.",
+      "questions": [
+        "Which recipient-facing program is this record intended to describe: interview clothing, furniture for rehousing clients, or goods for shelter residents?",
+        "Can someone who is not already enrolled obtain the items, and what intake route should the missionary use?",
+        "Does the interview-clothing portion belong with the existing Workforce Center entry? Preserve any unique furniture or shelter-client knowledge before considering a merge or split."
+      ],
+      "observations": [
+        "The City currently advertises an interview-clothing boutique; the blanket uncertainty in the mixed entry needs refinement. That does not confirm a public furniture service.",
+        "Keep the original record and its uncertainties. No rename, merge, split, deletion, or new resource is proposed for this entry."
+      ],
+      "sources": [
+        "workforce",
+        "donations",
+        "used-donations",
+        "rehousing"
+      ],
+      "related": [
+        "7f314bc451d77d01f553d4527407d06d",
+        "c3ab0f1578b4ec24df452d8eee4c9ce6",
+        "db2e8f3b8772791cf254fb9cc04b9838"
+      ],
+      "id": "2683e222e5f6957b1e5bddb3292334d1",
+      "current": {
+        "address": "Mesa, AZ",
+        "candidateIds": [
+          "309",
+          "310",
+          "312"
+        ],
+        "categories": [
+          "clothing",
+          "household-essentials"
+        ],
+        "categoryFilters": {
+          "clothing": [
+            "Work Clothing"
+          ],
+          "household-essentials": [
+            "Furniture"
+          ]
+        },
+        "description": "Partner lists show MesaCAN accepting work attire, shoes, and accessories for employment clients, and Rapid Rehousing accepting furniture for families exiting homelessness. Area served: Mesa / East Valley clients of A New Leaf programs.",
+        "forGroups": [
+          "Domestic violence survivors"
+        ],
+        "hours": "",
+        "id": "2683e222e5f6957b1e5bddb3292334d1",
+        "informationText": "**Programs and Services**\nA New Leaf operates Autumn House, a confidential 22-bed domestic-violence shelter/transitional-housing program for survivors fleeing abuse. Official materials describe round-the-clock staff, safety planning, case management, goal setting, referrals, empowerment and financial-literacy classes, legal or court advocacy, employment assistance, transportation help, counseling connections, apartment-style units, and follow-up connections after departure. Cats and dogs may accompany residents, subject to program limits. A New Leaf also provides broader domestic-violence services including emergency shelter, basic needs, financial coaching, children’s services, court advocacy, and referrals. MesaCAN serves low-income Mesa households with financial, employment, educational, weatherization, utility-discount, and other assistance. A New Leaf’s public materials do not confirm a public clothing closet, work-attire distribution program, furniture distribution program, or voucher process for community walk-ins. Donations of clothing or furniture to A New Leaf do not establish that a referred client can obtain those items directly; availability and the applicable enrolled-program route must be confirmed before referral.\n\n* Employment work-attire donations / rapid rehousing furniture intake: Partner lists show MesaCAN accepting work attire, shoes, and accessories for employment clients, and Rapid Rehousing accepting furniture for families exiting homelessness.\n* Autumn House Domestic Violence Shelter: Mesa-based domestic violence shelter under A New Leaf; DV shelters of this type typically provide emergency clothing/household item replacement to residents fleeing abuse.\n* Sexual and Domestic Violence Services: Established Mesa-area domestic- and sexual-violence provider that may connect survivors leaving unsafe situations to shelter, advocacy, and replacement clothing or household goods through its broader service network.\n\n**Eligibility Requirements**\nAutumn House serves people fleeing domestic violence regardless of gender. All prospective clients are screened before placement, and admission depends on the safety assessment, individual needs, and available space. A New Leaf’s official fact sheet says clients placed at Autumn House must not be local residents for security reasons; local residents may receive temporary shelter and then be transferred to another location. The 2-1-1 Arizona listing describes eligibility as individuals fleeing abusive relationships, lists all Arizona ZIP codes as the service area, charges no fee, and says no documents are required to apply by phone. Those statewide access details do not guarantee placement specifically at Autumn House. MesaCAN rent and utility assistance is for low-income City of Mesa residents who meet current program criteria; funding and appointments are limited, assistance is first-come, first-served, and approval is not guaranteed. MesaCAN workforce self-service is open to the general public during posted hours. Eligibility for work clothing, furniture, or other material-goods distribution could not be confirmed from current public sources.\n\n**How to Best Connect**\nFor domestic-violence shelter or safety help, call A New Leaf’s 24-hour hotline at 480-890-3039 or 1-844-SAFEDVS. Hotline staff assess danger and needs, develop a safety plan, and arrange an appropriate shelter placement or transfer when available. Do not contact listed program staff directly or travel to the published administrative address seeking admission; Autumn House’s residential location is confidential. In immediate danger, call 911. For sexual-violence support, call 480-733-3028. For MesaCAN, call 480-833-9200 or email mesacanclient@turnanewleaf.org; its public office is at 635 E Broadway Road, Mesa, and posted office hours are Monday-Friday, 8:00 AM-4:30 PM. Workforce self-service hours are Monday, Tuesday, Thursday, and Friday, 8:30 AM-1:30 PM. For MesaCAN rental or mortgage assistance, Mesa residents should call 480-750-9228 on the first Thursday of the month between 2:00 and 3:00 PM, or until appointments fill, and must reach a live person. Utility-assistance intake has separate application and orientation requirements, so call MesaCAN for the current process. Before referring someone specifically for work attire, shoes, accessories, furniture, or vouchers, call MesaCAN and ask whether the item is currently available, which program supplies it, and whether enrollment is required; public access to those goods could not be confirmed.\n\n**Access**\n* Area served: Mesa / East Valley clients of A New Leaf programs; Mesa, AZ; Mesa, East Valley, and Maricopa County\n\n**Important Information to Know**\n* These are program-client pipelines, not public closets. Confirm current donation-to-client matching process.\n* Specific clothing/household goods program details not confirmed independently; verify current services, intake, and whether donation/voucher access exists beyond sheltered residents.\n* Material goods are not clearly specified on the primary program page. Verify survivor intake, confidentiality safeguards, emergency replacement goods, furniture connections, and whether self-referrals are accepted.",
+        "lastModified": "2026-09-04T20:18:19.229676+00:00",
+        "name": "A New Leaf",
+        "pdfs": [],
+        "phone": "480-835-5555",
+        "verifiedOn": "2026-08-26",
+        "website": "https://turnanewleaf.org/services/sexual-and-domestic-violence-services/autumn-house/"
+      }
+    },
+    {
+      "label": "Autumn House",
+      "status": "Title proposed",
+      "proposedName": "A New Leaf · Autumn House domestic violence housing",
+      "reason": "The description and opening Information identify Autumn House. “Housing” reflects the provider’s current transitional-housing wording. Keep the official program name and explain whom it helps.",
+      "questions": [
+        "Should this entry focus on Autumn House, with the separately mentioned hotline, court advocacy, and overflow services treated as related access information?",
+        "The original Information also lists East Valley Men’s Center, which has its own resource. Is there locally confirmed domestic-violence-specific access there, or should that reference be reviewed?"
+      ],
+      "observations": [
+        "Keep the confidentiality and hotline-intake instructions. This title does not establish the availability or length of a placement.",
+        "The title proposal does not rewrite or validate every related program mentioned in the original Information."
+      ],
+      "sources": [
+        "autumn"
+      ],
+      "related": [
+        "78410d1265bcc4f89c056a7d624434f8"
+      ],
+      "id": "db2e8f3b8772791cf254fb9cc04b9838",
+      "current": {
+        "address": "868 E University Dr, Mesa, AZ 85203",
+        "candidateIds": [
+          "455",
+          "456",
+          "457",
+          "458",
+          "460",
+          "461",
+          "544",
+          "545",
+          "546",
+          "547",
+          "548",
+          "549",
+          "550",
+          "551",
+          "552",
+          "613",
+          "614",
+          "615",
+          "617"
+        ],
+        "categories": [
+          "domestic-violence",
+          "housing"
+        ],
+        "categoryFilters": {
+          "domestic-violence": [
+            "Crisis Hotline",
+            "Emergency Shelter",
+            "Transitional Housing",
+            "Victim Advocacy",
+            "Safety Planning",
+            "Protective Orders",
+            "Legal Advocacy",
+            "Court Advocacy",
+            "Counseling & Support",
+            "Case Management"
+          ],
+          "housing": [
+            "Emergency Shelter",
+            "Transitional Housing"
+          ]
+        },
+        "description": "Secure transitional housing for survivors of any gender, with counseling, court advocacy, transportation, workforce assistance, housing transition support, and pet-friendly accommodations. Area served: East Valley / Mesa service area.",
+        "forGroups": [
+          "Domestic violence survivors",
+          "Men",
+          "Pet owners",
+          "Spanish"
+        ],
+        "hours": "",
+        "id": "db2e8f3b8772791cf254fb9cc04b9838",
+        "informationText": "**Programs and Services**\nAutumn House is A New Leaf’s confidential East Valley transitional-housing program for domestic-violence survivors. It has 22 survivor beds, flexible housing options based on need, pet-friendly accommodations, and staff working around the clock. Residents are assigned staff support and can receive help establishing routines, finding employment through a workforce center, securing transportation, beginning counseling, obtaining court advocacy and legal protections, and transitioning to independent housing. Optional services and program connections may continue for up to six months after exit. A New Leaf’s related services include hotline-based shelter placement, DVSTOP temporary refuge for survivors at high risk when shelters are full, English- and Spanish-language court advocacy for protective orders and safety planning, a weekly confidential virtual support group for adults affected by domestic violence, and a 24-hour Sexual Violence Services Helpline at 480-733-3028.\n\n* Autumn House (East Valley emergency/transitional DV housing): Secure transitional housing for survivors of any gender, with counseling, court advocacy, transportation, workforce assistance, housing transition support, and pet-friendly accommodations.\n* Domestic Violence Court Advocacy: English- and Spanish-language advocates help survivors with safety planning, Orders of Protection, Injunctions Against Harassment, and understanding the civil-court process.\n* DVSTOP — Domestic Violence Safe Temporary Overflow Program: Short-term confidential refuge for high-danger survivors when regular domestic-violence shelters are full, with expedited connection to shelter and community resources.\n* East Valley Men's Center: Mesa-based single men's shelter, a materially distinct population-specific access point for male DV survivors.\n* Maricopa County Domestic Violence Shelter Hotline / Placement Line: Countywide crisis line and coordinated entry point for domestic-violence shelter, safety planning, and overflow placement.\n* Sexual and Domestic Violence Services (East Valley base, Maricopa/Pinal): Largest East Valley DV provider: safety planning, shelter placement navigation, community advocacy, sexual-violence helpline 480-733-3028, support groups, employment/basic-needs connections.\n\n**Eligibility Requirements**\nAutumn House serves people experiencing domestic violence regardless of gender. Its official page describes the program as serving survivors fleeing abuse in the East Valley, but it does not state that East Valley residency is required. Shelter placement is coordinated through the Maricopa County Domestic Violence Hotline. Court advocacy is available to survivors of domestic violence, sexual assault, or stalking, including members of the public and families staying in A New Leaf or other shelters; services focus on Maricopa County and are available in English and Spanish. The reviewed official sources do not confirm income limits, required documents, immigration or citizenship requirements, age restrictions, or a requirement for an outside professional referral. Confirm any household-specific eligibility and current placement criteria with the hotline.\n\n**How to Best Connect**\nFor Autumn House or another domestic-violence shelter placement, call 480-890-3039 or 1-844-SAFEDVS (1-844-723-3387). A New Leaf directs people seeking services to these hotlines and says not to contact program staff directly. Ask the hotline to screen for the safest available placement and confirm current availability, intake requirements, whether the placement is emergency or transitional, and the anticipated length of stay. Autumn House operates at a confidential location: do not send a survivor to the publicly listed 868 E. University Drive address for shelter intake unless the hotline specifically directs them there. For court advocacy, walk-ins are welcome weekdays from 9:00 a.m. to 5:00 p.m. at the listed court locations; the official page provides current contacts for Northeast Regional Court and Gilbert Municipal Court. For sexual-violence services, call the 24-hour helpline at 480-733-3028.\n\n**Access**\n* Area served: East Valley / Mesa service area; confidential site; East Valley and Maricopa County; located confidentially in Mesa; Mesa / East Valley; serves Maricopa County\n\n**Important Information to Know**\n* Official sources differ between calling it emergency shelter and transitional housing; confirm the present intake and length-of-stay model.\n* Some public listings show a street address; confirm whether current shelter location is treated as confidential before including publicly.\n* Public lists still pair Autumn House with 480-890-3039. After May 2026, ask A New Leaf which live number screens East Valley shelter.",
+        "lastModified": "2026-09-04T20:18:19.229676+00:00",
+        "name": "A New Leaf",
+        "pdfs": [],
+        "phone": "480-890-3039",
+        "verifiedOn": null,
+        "website": "https://turnanewleaf.org/services/sexual-and-domestic-violence-services/"
+      }
+    },
+    {
+      "label": "Workforce Center @ Mesa",
+      "status": "Conditional title — review overlap",
+      "proposedName": "A New Leaf · Workforce Center @ Mesa",
+      "reason": "The source record points to the City’s shared Workforce Center, where A New Leaf is a partner. A City of Mesa resource already describes this same center. Use this title only if review establishes why a separate A New Leaf entry is useful.",
+      "questions": [
+        "Does A New Leaf provide a distinct service or intake at this center that justifies its own resource, or are these two records describing the same service?",
+        "Does workforce self-service end at 1:30 PM or 2:30 PM on Monday, Tuesday, Thursday and Friday? Are these different service schedules?",
+        "What are the boutique’s current appointment, eligibility, and inventory rules?"
+      ],
+      "observations": [
+        "The City and MesaCAN publish different closing times. Keep the discrepancy visible; office hours do not settle it.",
+        "The City’s linked interest form is for employers. Do not route a job seeker to it merely because it is on the service page."
+      ],
+      "sources": [
+        "workforce",
+        "mesacan"
+      ],
+      "related": [
+        "c3ab0f1578b4ec24df452d8eee4c9ce6",
+        "f95aad04c5e72f66f324d9875d7caffd"
+      ],
+      "id": "7f314bc451d77d01f553d4527407d06d",
+      "current": {
+        "address": "635 E. Broadway Rd., Mesa, AZ 85204",
+        "candidateIds": [
+          "675",
+          "693",
+          "694",
+          "695"
+        ],
+        "categories": [
+          "employment",
+          "education"
+        ],
+        "categoryFilters": {
+          "education": [
+            "Education Navigation"
+          ],
+          "employment": [
+            "Career Planning",
+            "Job Readiness",
+            "Job Search & Placement"
+          ]
+        },
+        "description": "Assists adult job seekers—including people with recent incarceration or justice involvement—with career planning, résumés, learning opportunities, interviews, hiring events, and employer connections. Published self-service hours offer a concrete public access path. Area served: Mesa and additional Maricopa County locations.",
+        "forGroups": [
+          "Re-entry",
+          "Veterans"
+        ],
+        "hours": "",
+        "id": "7f314bc451d77d01f553d4527407d06d",
+        "informationText": "**Programs and Services**\nA New Leaf is a partner at the Workforce Center @ Mesa, a no-cost employment and workforce center at 635 E. Broadway Rd. Services confirmed for job seekers include resume development and updates, posting resumes to AZ Job Connection, career guidance and assessments, O*NET interest profiler, customized job search, job-seeker workshops, interview workshops, virtual Employment Academy workshops, occupational skills training and apprenticeship referrals, financial wellness coaching/workshops, Job Club hiring events, specialized services for veterans and people with disabilities, Smart Justice services for re-entry after incarceration, referrals for people receiving disability benefits, help finding social/support services, and a professional clothing boutique for interview/work attire. MesaCAN/A New Leaf also lists employment assistance, educational assistance, financial coaching, rent and utility assistance, matched savings for education or small business through Assets to Opportunity, health assistance, weatherization, and utility discount program referrals at the same Broadway Road location, but some of those are MesaCAN services rather than the Workforce Center job-search program.\n\n* Workforce Services: Assists adult job seekers—including people with recent incarceration or justice involvement—with career planning, résumés, learning opportunities, interviews, hiring events, and employer connections. Published self-service hours offer a concrete public access path.\n* Workforce Center @ Mesa: Local one-stop for job search, resumes, AZ Job Connection posting, workshops, apprenticeships/training referrals, Job Club hiring events, veterans and disability services, Smart Justice reentry, clothing boutique, and wraparound referrals (childcare/rent/utilities mentioned in county materials). Staffed by City of Mesa, A New Leaf, and Maricopa County.\n* Professional Clothing Boutique at Workforce Center @ Mesa: Purpose-specific employment-support lead for professional clothing associated with the Mesa Workforce Center, relevant for job interviews and early employment.\n* Workforce Center @ Mesa: Strong first-stop lead offering customized job searches, résumé and interview help, workshops, hiring events, occupational training and apprenticeship referrals, disability and reentry services, social-service referrals, and a professional clothing boutique. Services are free; walk-in hours and an email-based workshop registration path are published.\n\n**Eligibility Requirements**\nThe City of Mesa page says Workforce Center @ Mesa serves community members seeking job-search support and that a person does not need to be a Mesa resident to use Workforce Center services. Confirmed groups served include adults age 18 or older, U.S. citizens or non-citizens authorized to work in the U.S., veterans with priority of service, people with re-entry or justice involvement, people experiencing housing insecurity, people with disabilities, and local businesses/nonprofits. No income limit, proof-of-income requirement, or referral requirement for Workforce Center employment services could be confirmed from the official pages. Separate MesaCAN rent/utility assistance does require Mesa residency and other criteria, so do not assume those financial-assistance rules apply to Workforce Center employment services.\n\n**How to Best Connect**\nFor the Workforce Center @ Mesa, use 480-769-7417 or go to 635 E. Broadway Rd., Mesa, AZ 85204; ARIZONA@WORK lists it on the 2nd floor and notes TTY/TDD access through 7-1-1. Current City of Mesa hours are Monday, Tuesday, Thursday, and Friday 8:30 AM-2:30 PM; Wednesday is by appointment only. Mesa Public Library lists walk-in job-search/resume/computer access Monday, Tuesday, Thursday, and Friday 8:30 AM-1:30 PM, so for a referral where timing matters, call before sending someone near the end of the day. For workshops, the City says to email HSDTrainingTeam@Maricopa.gov for information or to reserve a spot. For A New Leaf/MesaCAN services at the same address, the published general contact is 480-833-9200 or mesacanclient@turnanewleaf.org, Monday-Friday 8:00 AM-4:30 PM; verify which program the client needs before referral because Workforce Center and MesaCAN services have different access rules.\n\n**Access**\n* Area served: Mesa and additional Maricopa County locations; Mesa / East Valley; partnership site listed by ARIZONA@WORK Maricopa County; Mesa\n\n**Important Information to Know**\n* A New Leaf also operates the Workforce Center @ Mesa, so investigate which services are distinct and which are the same partnership under another location or name.\n* Public pages disagree on walk-in vs appointment-only hours and whether veterans currently have walk-in priority. Confirm current intake before sending clients.\n* This is reported in the Workforce Center’s opening information and may be limited, appointment-based, referral-based, or inventory-dependent. Verify whether the boutique remains active and current client-access rules.",
+        "lastModified": "2026-09-04T20:18:19.229676+00:00",
+        "name": "A New Leaf",
+        "pdfs": [],
+        "phone": "480-769-7417",
+        "verifiedOn": null,
+        "website": "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa"
+      }
+    },
+    {
+      "label": "MesaCAN rent and utility assistance",
+      "status": "Title proposed",
+      "proposedName": "A New Leaf · MesaCAN rent and utility assistance",
+      "reason": "The description and service URL identify this assistance program. The short title follows its published name; the existing description retains mortgage assistance and the separate intake processes.",
+      "questions": [
+        "Should the VITA tax-preparation material be reviewed separately from this rent-and-utility entry? The package already contains an Azura tax-help resource; the two operators should not be conflated.",
+        "Which current utility packet and submission sequence should applicants use? The program page offers a packet and an orientation; this focused title review did not recheck the packet."
+      ],
+      "observations": [
+        "Rent/mortgage calls, utility orientations, and general office opening hours describe different activities. Keep those distinctions.",
+        "The separate MesaCAN food-box entry stays separate pending any future service-boundary review. Shared offices alone do not prove duplication."
+      ],
+      "sources": [
+        "bills"
+      ],
+      "related": [
+        "343c5cdfd5f0ec79247f90e12f1088d6",
+        "b818a3a3b765d76ab42f0c78b169eef9"
+      ],
+      "id": "106d516390d810b1989b53d59ae806c9",
+      "current": {
+        "address": "635 E Broadway Rd, Mesa, AZ 85204",
+        "candidateIds": [
+          "729",
+          "733",
+          "771",
+          "1276",
+          "1277"
+        ],
+        "categories": [
+          "financial-assistance",
+          "utilities-phone-internet",
+          "housing"
+        ],
+        "categoryFilters": {
+          "financial-assistance": [
+            "Rent/Mortgage Aid",
+            "Utility Aid",
+            "Tax Preparation"
+          ],
+          "housing": [
+            "Rental Assistance",
+            "Eviction Prevention"
+          ],
+          "utilities-phone-internet": [
+            "Bill Assistance"
+          ]
+        },
+        "description": "Emergency rent, mortgage, and utility assistance. Rental or mortgage appointments are released on the first Thursday of each month, generally 2:00-3:00 p.m. or until filled. Utility applicants schedule an orientation and submit the application packet with supporting documents. Area served: City of Mesa residents.",
+        "forGroups": [],
+        "hours": "",
+        "id": "106d516390d810b1989b53d59ae806c9",
+        "informationText": "**Programs and Services**\nA New Leaf’s Mesa Community Action Network (MesaCAN) offers emergency financial assistance to low-income City of Mesa households with past-due rent and utility bills; its appointment line also handles mortgage-assistance requests. Utility funding is provided through the City of Mesa, SRP, and Southwest Gas, and the application covers electric, gas, and water bills. Funding and appointments are limited, first-come, first-served, and assistance is not guaranteed. Arizona households may separately apply through the state’s combined LIHEAP/Power AZ application for help with energy-related utility costs. A New Leaf also operates a separate, seasonal VITA program offering free tax preparation; it is not part of MesaCAN’s rent-and-utility intake, and its published 2026 service dates have ended.\n\n* MesaCAN Rent, Mortgage, and Utility Assistance: Emergency rent, mortgage, and utility assistance. Rental or mortgage appointments are released on the first Thursday of each month, generally 2:00-3:00 p.m. or until filled. Utility applicants schedule an orientation and submit the application packet with supporting documents.\n* Volunteer Income Tax Assistance (VITA) Program: Free tax prep and refundable-credit (EITC) access point distinct from A New Leaf's housing/utility programs; IRS-certified volunteers.\n* Volunteer Income Tax Assistance (VITA), with Azura and Mesa Community College sites: Distinct VITA administrator/network from A New Leaf's, with dedicated Mesa campus sites; strong refundable-credit (EITC) access point.\n* MesaCAN rent and utility assistance and weatherization: Mesa Community Action Network is the key local utility-assistance access point for Mesa residents. A New Leaf currently publishes a MesaCAN utility-assistance application and the City of Mesa directs residents needing utility help to MesaCAN.\n* MesaCAN (Mesa Community Action Network) - Rent and Utility Assistance: Primary local Community Action Program office for Mesa; provides utility arrears/shutoff-prevention assistance funded by City of Mesa, SRP, and Southwest Gas, plus orientation-based intake and a client-facing application.\n\n**Eligibility Requirements**\nMesaCAN rent and utility assistance is limited to low-income City of Mesa residents who meet the program’s application criteria. The provider does not publish a specific MesaCAN income cutoff on its current program page, so confirm the applicable limit during intake. For MesaCAN utility assistance, the FY26 packet requires picture identification for every household member age 18 or older; proof of citizenship or eligible immigration status for the applicant or an eligible household member; Social Security cards or another accepted document showing each household member’s name and Social Security number; proof of all household income for the previous 30 days, including a zero-income statement for each adult without income; the most recent utility bill, disconnection notice, deposit letter, or M-POWER receipt; and a current lease or mortgage statement. Bank statements are not accepted as proof of income. Prior rent, mortgage, or utility assistance within the last 12 months may mean available funds have been exhausted. Current documentation requirements for MesaCAN rent or mortgage assistance are not published; the live appointment-line representative provides those instructions. State LIHEAP applicants must need help with energy-related utilities, meet citizenship or immigration requirements, and fall within the program’s income guidelines; current DES Cash Assistance or Nutrition Assistance recipients are categorically income-eligible. The combined state application also screens households for Power AZ, which has a higher income threshold. A New Leaf’s separate VITA program serves households earning $69,000 or less and focuses on people with disabilities, older adults, veterans, Native Americans, people experiencing homelessness, and taxpayers with limited English proficiency.\n\n**How to Best Connect**\nFor rent or mortgage assistance, call (480) 750-9228 on the first Thursday of the month between 2:00 and 3:00 p.m., or until appointments are filled. The caller must reach a live person to receive application instructions; voicemail does not secure an appointment. Call as early as possible because monthly funding can be exhausted quickly. For MesaCAN utility assistance, call (480) 833-9200 or email mesacanclient@turnanewleaf.org to schedule an orientation. The official page lists orientations Monday through Wednesday mornings beginning at 8:00 a.m.; applicants age 60 or older are excused from orientation. Complete the FY26 packet and assemble every required document before intake. The packet says to sign every form without dating it, use blue or black ink, and submit the complete packet by drop-off, email, fax, or mail to MesaCAN, 635 E Broadway Rd, Mesa, AZ 85204; fax (480) 833-9292. Because the program page also instructs clients to bring the packet to orientation, confirm the preferred submission timing when scheduling. Allow up to 10 business days for review. The office’s general hours are Monday through Friday, 8:00 a.m.–4:30 p.m. For statewide LIHEAP/Power AZ assistance, apply through the A-to-Z Arizona Portal linked from the DES page; applicants who cannot apply online may use a paper application. DES lists 1-866-494-1981 for application help, Monday through Friday, 8:00 a.m.–5:00 p.m. A New Leaf’s VITA intake uses separate seasonal walk-in sites; check its VITA page for the next filing season rather than referring clients to the MesaCAN office for tax preparation.\n\n**Access**\n* Area served: City of Mesa residents; City of Mesa residents only; Mesa residents\n\n**Important Information to Know**\n* Funding and appointments are limited, first-come first-served, and can be exhausted each month. Assistance is not guaranteed. Confirm current documentation and whether payment goes directly to the landlord or utility.\n* Funding described as limited and exhausted monthly; confirm current-month availability, appointment schedule (first Thursday), and whether ERAP successor funds are still flowing through this program.\n* Funding is first-come and not guaranteed; utility criteria and appointment windows change. Confirm current Thursday call hours before referring.",
+        "lastModified": "2026-09-04T20:18:19.229676+00:00",
+        "name": "A New Leaf",
+        "pdfs": [],
+        "phone": "(480) 833-9200; rental/mortgage appointment line: (480) 750-9228",
+        "verifiedOn": null,
+        "website": "https://turnanewleaf.org/services/financial-empowerment/mesacan/mesacan-rent-and-utility-assistance/"
+      }
+    },
+    {
+      "label": "East Valley Men’s Center",
+      "status": "Title proposed",
+      "proposedName": "A New Leaf · East Valley Men’s Center shelter",
+      "reason": "The description and Information identify a shelter with support for its residents. The title retains the official program name and avoids suggesting a general walk-in day center.",
+      "questions": [
+        "What help is available for someone who cannot complete the online prescreen? The live page says phone intakes are unavailable, while the original notes cite conflicting phone guidance.",
+        "Are any support services available to nonresidents? Keep this unresolved rather than presenting resident services as general public access."
+      ],
+      "observations": [
+        "The online prescreen link was found, but its form contents could not be read. No form was submitted and no phone contact was made.",
+        "Preserve the existing intake uncertainty. A clearer title does not confirm beds, intake hours, or admission."
+      ],
+      "sources": [
+        "evmc"
+      ],
+      "related": [
+        "db2e8f3b8772791cf254fb9cc04b9838"
+      ],
+      "id": "78410d1265bcc4f89c056a7d624434f8",
+      "current": {
+        "address": "868 E University Dr, Mesa, AZ 85203",
+        "candidateIds": [
+          "906",
+          "907"
+        ],
+        "categories": [
+          "homeless-services",
+          "housing"
+        ],
+        "categoryFilters": {
+          "homeless-services": [
+            "Mail & Storage",
+            "Meals & Basic Needs",
+            "Homeless Navigation",
+            "Overnight Lodging"
+          ],
+          "housing": [
+            "Emergency Shelter",
+            "Rapid Rehousing",
+            "Affordable Housing",
+            "Housing Navigation"
+          ]
+        },
+        "description": "Although centered on emergency shelter, EVMC has a distinct package of practical homeless services: individualized case management and housing-stability planning, personal-property storage for residents, employment assistance, transportation assistance, behavioral-health and substance-use referrals, healthcare/dental referrals, veteran resources and basic needs. Area served: Mesa.",
+        "forGroups": [
+          "Homeless",
+          "Men",
+          "Veterans"
+        ],
+        "hours": "",
+        "id": "78410d1265bcc4f89c056a7d624434f8",
+        "informationText": "**Programs and Services**\nA New Leaf’s East Valley Men’s Center (EVMC) is an emergency shelter for men experiencing homelessness, not a general walk-in day-service center. Residents receive a bed, secure storage for personal belongings, case management, and an individualized plan for obtaining permanent housing. Confirmed supports include meals and other basic needs, employment assistance such as résumé and interview preparation, transportation assistance, financial coaching, healthcare referrals, veteran resources, mental-health service connections, and substance-use support-group referrals. These services are described for shelter residents; access for nonresidents could not be confirmed. A New Leaf operates affordable housing, rental-assistance, and other housing programs separately, with their own eligibility and referral processes, so those services should not be assumed to be available through an EVMC placement.\n\n* East Valley Men's Center: Although centered on emergency shelter, EVMC has a distinct package of practical homeless services: individualized case management and housing-stability planning, personal-property storage for residents, employment assistance, transportation assistance, behavioral-health and substance-use referrals, healthcare/dental referrals, veteran resources and basic needs.\n* Homelessness and housing-stability services: Mesa-based A New Leaf is a major local provider serving people facing homelessness and housing instability. Its published materials describe emergency shelter, rapid rehousing, affordable housing, and diversion-related services; the organization is worth investigating for current case-management, family/individual navigation, benefits linkage, domestic-violence-safe access, and Mesa-area referral pathways.\n\n**Eligibility Requirements**\nEVMC serves men age 18 or older who are experiencing homelessness and prepared to work toward stability; the official 2026 fact sheet says residents may stay for up to 120 days. Children under 18 are not allowed onsite. The current 2-1-1 Arizona listing further describes eligibility as men committed to gaining employment and becoming self-sufficient and says sex offenders may be considered following parole-officer input and review of an investigation report. A prescreen is required, ordinary drop-ins are not accepted, no documents are required for the prescreen, and photo identification is required at intake according to 2-1-1 Arizona. Bed availability and final admission depend on the current intake process. No income limit or complete list of screening criteria could be confirmed publicly.\n\n**How to Best Connect**\nDo not send someone directly to the shelter without prescreening. Start with the official online prescreen at https://turnanewleaf.org/PrescreenEVMC. A New Leaf’s current EVMC webpage says telephone intakes are not being taken, while its official 2026 fact sheet says phone prescreening is available at 480-610-6722 Monday-Friday, 8:00 AM-3:00 PM; 2-1-1 Arizona instead lists phone prescreen hours as Monday-Friday, 9:00 AM-4:00 PM. Because these instructions conflict, use the online form first and call the individual shelter-placement line at 877-211-8661 the same day to confirm the current procedure. After prescreening, 2-1-1 Arizona instructs applicants to call Monday-Friday between 7:00 AM and 8:30 AM to check for an available bed; confirm which number to use through the prescreen response or the placement line. The correct EVMC location is 2345 N. Country Club Drive, Mesa, AZ 85201. The listed 868 E. University Drive address is A New Leaf’s organizational office, not the EVMC shelter location.\n\n**Access**\n* Area served: Mesa; homeless adult men; Mesa; men 18+ experiencing homelessness (East Valley / county CE); Mesa and broader Maricopa County service areas\n\n**Important Information to Know**\n* Include as a secondary lead rather than a general day-service center. Current intake is prescreen-based and the program does not accept ordinary drop-ins. Determine which services, if any, are available to nonresidents and confirm current bed/queue procedure separately.\n* Phone intake rules have changed over time; current walk-up vs. prescreen-only status should be verified the same day.\n* This is intentionally a provider-level lead rather than a claim that a specific walk-in day-service program is available. A New Leaf’s public guidance says shelter placement is commonly managed through 211, so verify each current program’s population, intake channel, practical-services availability, and whether there is a non-shelter access point.",
+        "lastModified": "2026-09-04T20:18:19.229676+00:00",
+        "name": "A New Leaf",
+        "pdfs": [],
+        "phone": "480-969-4024",
+        "verifiedOn": null,
+        "website": "https://turnanewleaf.org/"
+      }
+    }
+  ],
+  "relatedResources": [
+    {
+      "address": "635 E. Broadway Rd., Mesa, AZ 85204",
+      "candidateIds": [
+        "632"
+      ],
+      "categories": [
+        "education",
+        "employment"
+      ],
+      "categoryFilters": {
+        "education": [
+          "GED/HSE",
+          "English Learning",
+          "Financial Literacy",
+          "Education Navigation"
+        ],
+        "employment": [
+          "Career Planning",
+          "Job Readiness"
+        ]
+      },
+      "description": "Local routing hub for career workshops plus on-site/partner GED, ESL, and financial-literacy classes (LSS-SW). Also the City landing page that points to Mesa College Promise, FAFSA help, and GED class lists. Area served: City of Mesa.",
+      "forGroups": [],
+      "hours": "",
+      "id": "c3ab0f1578b4ec24df452d8eee4c9ce6",
+      "informationText": "**Programs and Services**\nWorkforce Center @ Mesa provides workforce support for job seekers and employers. Job-seeker services include resume development and updates, resume posting to the statewide job database, career guidance and assessment, the O*NET Interest Profiler, customized employment searches, job-seeker and interview workshops, Employment Academy virtual workshops, occupational-skills training and apprenticeship programs, financial-wellness coaching and workshops, Job Club hiring events, specialized services for veterans and people with disabilities, Smart Justice re-entry services, referrals for people receiving disability benefits, connections to social and support services, and a professional-clothing boutique. Employer services include hiring-event support, access to AZ Job Connection, candidate matching, recruitment assistance, and interview space. The broader City workforce and education pages link residents to GED information, FAFSA help, Mesa College Promise, and Job Connect Mesa. It could not be confirmed that GED or ESL classes are held at the Broadway Road center itself.\n\n* Workforce Center @ Mesa: Local routing hub for career workshops plus on-site/partner GED, ESL, and financial-literacy classes (LSS-SW). Also the City landing page that points to Mesa College Promise, FAFSA help, and GED class lists.\n\n**Eligibility Requirements**\nThe City says community members may use the Workforce Center for job-search support, and Mesa residency is not required. Listed populations served include adults age 18 or older; U.S. citizens and non-citizens authorized to work in the United States; veterans, who receive priority of service; people re-entering the community or otherwise involved with the justice system; people experiencing housing insecurity; people with disabilities; and local businesses and nonprofit organizations. No income limit, fee, required referral, or required documents were confirmed on the official City page. Occupational training, apprenticeships, GED, ESL, Mesa College Promise, and other partner programs may have separate eligibility or documentation rules; confirm requirements with the specific program before referral.\n\n**How to Best Connect**\nCall before referring someone: Lorraine Alvarez at 480-594-2501, LaTonya Eaton at 480-572-1429, or the ARIZONA@WORK Mesa Workforce Center at 480-769-7417. The center is at 635 E. Broadway Rd., 2nd Floor, Mesa, AZ 85204. The current official City notice says that, until further notice, walk-ins are accepted Monday, Wednesday, and Friday from 8:00 a.m. to 5:00 p.m.; Tuesday and Thursday are closed to walk-ins and services are by appointment only. An earlier version of the City page listed a substantially different schedule, so confirm hours by phone before travel. For workshop information or reservations, email HSDTrainingTeam@Maricopa.gov. Employers can submit the Workforce Development Interest Form on the City page. Do not refer someone here to apply for unemployment-insurance benefits: the City says the center cannot assist with those applications and directs inquiries to Arizona DES at 877-600-2722 or the DES website.\n\n**Access**\n* Area served: City of Mesa\n\n**Important Information to Know**\n* Hours listed as appointment-only Tue/Thu in one City block; workshop calendar is separate.",
+      "lastModified": "2026-09-04T20:18:19.229676+00:00",
+      "name": "City of Mesa Education & Workforce · Workforce Center @ Mesa",
+      "pdfs": [],
+      "phone": "480-572-1429 (listed contact); City Education & Workforce 480-644-3830",
+      "verifiedOn": null,
+      "website": "https://www.mesaaz.gov/Education-Workforce/Workforce-Center-Mesa"
+    },
+    {
+      "address": "East Valley Career Center, 1001 W Southern Ave., Suite 101, Mesa, AZ 85210",
+      "candidateIds": [
+        "683",
+        "684",
+        "685",
+        "687",
+        "688",
+        "689",
+        "826",
+        "827"
+      ],
+      "categories": [
+        "employment",
+        "education"
+      ],
+      "categoryFilters": {
+        "education": [
+          "Career Training",
+          "Apprenticeships",
+          "Education Navigation"
+        ],
+        "employment": [
+          "Career Planning",
+          "Job Readiness",
+          "Job Search & Placement",
+          "Skills Training",
+          "Apprenticeships"
+        ]
+      },
+      "description": "Comprehensive one-stop center offering career counseling, skills workshops, job matching, apprenticeship referral, and specialized services (VR, reentry, youth); also hosts the Smart Justice reentry team. Area served: Mesa / East Valley, Maricopa County.",
+      "forGroups": [
+        "Re-entry",
+        "Youth"
+      ],
+      "hours": "",
+      "id": "f95aad04c5e72f66f324d9875d7caffd",
+      "informationText": "**Programs and Services**\nARIZONA@WORK Maricopa County's East Valley Career Center in Mesa provides no-cost workforce services for job seekers, including career guidance, job matching, job and hiring fairs, resume distribution through Arizona Job Connection, referrals to community resources, customized training/education/skills development, paid work experiences, and apprenticeships. The Adult & Dislocated Worker flyer also lists occupational skills training, resume assistance, interview techniques, job leads, career exploration, and computer access. Youth Workforce Services for ages 14-24 can include adult mentoring, alternative secondary school services, counseling, entrepreneurial and financial literacy training, high-school-equivalency instruction, leadership development, occupational skills training, paid work experiences, and apprenticeships. The Smart Justice program serves justice-involved job seekers with workforce readiness coaching, computer access, resume help, interview/background-disclosure coaching, job leads, community resources, occupational skills training, one-on-one career guidance, paid work experience, apprenticeships, and workshops. The East Valley and West Valley centers are also the locations where DES Employment Service, RESEA, and DES Veterans Services are available.\n\n* East Valley Career Center: Comprehensive one-stop center offering career counseling, skills workshops, job matching, apprenticeship referral, and specialized services (VR, reentry, youth); also hosts the Smart Justice reentry team.\n* Workforce Center @ Mesa: No-cost, co-located (with A New Leaf/MesaCAN) one-stop offering job search assistance, resume/interview help, hiring events, and referrals; direct in-Mesa entry point for immediate placement.\n* East Valley Career Center — Adult & Dislocated Worker services: Primary WIOA Title I adult/dislocated-worker one-stop: career coaching, job matching, hiring events, occupational skills training, paid work experience/apprenticeships, computer lab, workshops. Enrollment via Client Portal (maricopa.gov/HSDPortal) plus AZ Job Connection account; priority of service applies.\n* Smart Justice (justice-involved / reentry workforce): Named reentry pathway collaborating with Adult Probation, MCSO, DES, and ADC. Career services for justice-involved adults, including in-custody readiness and post-release job placement.\n* Smart Justice Program (reentry employment services): Justice-involved job seekers get career counseling, resume/interview prep, background-disclosure coaching, bus passes, and interview clothing at no cost; pairs with employers running Second Chance hiring events.\n* Youth Workforce Services (ages 14–24): No-cost, year-round services for qualifying youth include mentoring, high-school-equivalency help, occupational training, paid work experiences, apprenticeships, counseling, and financial-literacy education. The official page gives an eligibility checklist and a multi-step enrollment path.\n\n**Eligibility Requirements**\nFor general Maricopa County job-seeker services, the official page says services are for adult and youth job seekers in Maricopa County. For WIOA Adult individualized or training services, applicants must be at least 18, eligible to work in the United States, registered with Selective Service if applicable, and an Arizona resident; priority for adult individualized/training services is given to public-assistance recipients, low-income individuals, basic-skills-deficient individuals, veterans, eligible spouses, and people with barriers to employment. The Adult/Dislocated Worker flyer lists typical documents: photo ID with date of birth, Social Security card, DD214 for veterans, proof of family income from the last 6 months, and Selective Service registration for males 18 and older. Dislocated Worker applicants must be authorized to work, registered with Selective Service if applicable, Arizona residents, and meet a qualifying dislocation category such as layoff/termination through no fault of their own, facility closure/substantial layoff, qualifying self-employment loss, displaced homemaker status, or qualifying military-spouse circumstances. Youth eligibility is more specific: in-school youth must be ages 14-21, low income, and have at least one listed barrier such as justice involvement, homelessness, foster care/current or former, parenting/pregnancy, disability, or English learner status; out-of-school youth must be ages 16-24 and have at least one listed barrier such as dropout without GED/diploma, justice involvement, homelessness, foster care/current or former, parenting/pregnancy, or disability. Youth applicants are told to bring photo ID with date of birth, Social Security card, Selective Service registration for males 18-24, and documentation of the eligibility factor. Smart Justice eligibility requires age 18 or older, legal authorization to work in the United States, a felony conviction, and being actively on probation/parole or released from incarceration within the last 12 months; additional documentation is required for individualized services.\n\n**How to Best Connect**\nBest first step is to create an Arizona Job Connection job-seeker account, then use the Maricopa County Client Portal to indicate interest; official youth and Smart Justice pages say staff will reach out to help schedule an appointment. For the East Valley Career Center, use 1001 W. Southern Ave., Suite 101, Mesa, AZ 85210, phone 602-372-9700, TTY/TDD 7-1-1. Published office hours are Monday-Thursday 8 AM-7 PM, Friday 8 AM-5 PM, Saturday-Sunday closed. For Adult/Dislocated Worker services, the flyer gives the Client Portal as Maricopa.gov/HSDPortal and says to contact the local office or email HSDContactUs@maricopa.gov for more information and registration. For Smart Justice-specific referrals, call 602-372-1839 or email WDDSmartJustice@maricopa.gov; contact the Smart Justice team for the community-site calendar. Bring eligibility documents to the one-on-one appointment. Walk-in access for basic help appears possible because ARIZONA@WORK says to call or visit the comprehensive one-stop location and training workshops can be arranged by calling, stopping in, or emailing, but appointment requirements for individualized/enrollment services should be confirmed before sending someone in person.\n\n**Access**\n* Area served: Mesa / East Valley, Maricopa County; Mesa and Maricopa County; Maricopa County residents outside City of Phoenix; Mesa is the East Valley comprehensive center\n\n**Important Information to Know**\n* None significant; confirm current hours/TTY line before referral.\n* Confirm whether this location’s services differ materially from the Mesa Workforce Center, current in-person hours, eligibility for training grants, and language or disability accommodations.\n* Hours and current on-site partner programs (A New Leaf, City of Mesa) should be reconfirmed; older press coverage cites 2022 placement figures.",
+      "lastModified": "2026-09-04T20:18:19.229676+00:00",
+      "name": "ARIZONA@WORK Maricopa County",
+      "pdfs": [],
+      "phone": "602-372-1839",
+      "verifiedOn": null,
+      "website": "https://arizonaatwork.com/locations/maricopa-county/job-seeker-resources"
+    },
+    {
+      "address": "137 E University Dr, Mesa, AZ 85201",
+      "candidateIds": [
+        "753"
+      ],
+      "categories": [
+        "financial-assistance"
+      ],
+      "categoryFilters": {
+        "financial-assistance": [
+          "Tax Preparation"
+        ]
+      },
+      "description": "Current free tax-preparation access point intended to help eligible households file accurately and claim refundable credits such as the EITC. The published summer session runs June 2 through September 29, 2026, with Tuesday and Thursday walk-in periods. Clients should bring Social Security cards, photo ID, bank information, and tax documents. Area served: Mesa-area taxpayers generally earning under $89,000.",
+      "forGroups": [],
+      "hours": "",
+      "id": "343c5cdfd5f0ec79247f90e12f1088d6",
+      "informationText": "**Programs and Services**\nFree Volunteer Income Tax Assistance (VITA) tax preparation at the AZURA Office in Mesa for the Summer Session 2026, running June 2 through September 29, 2026. IRS-trained/certified VITA volunteers prepare basic federal and state tax returns and primarily e-file returns. The program is intended to help low- and moderate-income taxpayers file accurately and claim eligible tax benefits, including credits such as the Earned Income Tax Credit. Azura's FAQ says volunteers can prepare most basic federal and state returns, Schedules A, B, C, and D, some amended returns, and Married Filing Separately in limited circumstances; they cannot complete returns involving rental income, cryptocurrency, solar, or business taxes outside Schedule C. Azura also states it may help with IRS letters by email and may help with prior-year returns at specific sites only, but those services should be confirmed for this summer walk-in site.\n\n* Volunteer Income Tax Assistance Summer Session 2026: Current free tax-preparation access point intended to help eligible households file accurately and claim refundable credits such as the EITC. The published summer session runs June 2 through September 29, 2026, with Tuesday and Thursday walk-in periods. Clients should bring Social Security cards, photo ID, bank information, and tax documents.\n\n**Eligibility Requirements**\nThe site-specific Summer Session 2026 page says the service is for taxpayers who make less than $89,000. Azura's general FAQ also describes VITA as targeted to people who cannot afford paid tax preparation and says families and individuals making $69,000 or less are targeted, with possible flexibility for job loss or other hardship; because these income figures differ, refer clients near the income cutoff to call or email before going. Clients must bring original or physical-copy documents, including photo ID for taxpayer and spouse, Social Security cards or ITIN cards/letters for taxpayer, spouse, and all dependents, bank routing and account numbers for direct deposit, intake forms, and all relevant tax documents. Examples include W-2s, 1099s, self-employment 1099-NEC/1099-K and expense records, education and child care credit documents, charitable contribution records, Form 1095-A if marketplace insurance was used, last year's tax return, and IRS or state tax letters. No specific Mesa residency requirement was confirmed for this summer session; 211 Arizona lists the broader Mesa United Way VITA service area as all ZIP Codes in Arizona and notes multiple East Valley locations.\n\n**How to Best Connect**\nUse the summer walk-in schedule at AZURA Office, 137 E University Dr, Mesa, AZ 85201. The official site states no appointments are available for this Summer Session 2026. Walk-in hours are Tuesdays 1:00 PM-5:00 PM and Thursdays 9:00 AM-1:00 PM through September 29, 2026. Best referral practice: have the client arrive early in the walk-in window, bring every required original/physical document, and call 480-834-2122 or email VITA@AzuraCares.org before traveling if the return is complex, income is near the cutoff, documents are missing, or they need prior-year/amended-return help. The FAQ says a typical VITA return averages about two hours, but timing varies by complexity and preparer availability.\n\n**Access**\n* Area served: Mesa-area taxpayers generally earning under $89,000\n\n**Important Information to Know**\n* No appointments are offered during the summer session. Confirm return-complexity limits and remaining walk-in capacity before travel.",
+      "lastModified": "2026-09-04T20:18:19.229676+00:00",
+      "name": "Azura and Mesa United Way · Volunteer Income Tax Assistance Summer Session 2026",
+      "pdfs": [],
+      "phone": "480-834-2122",
+      "verifiedOn": null,
+      "website": "https://www.prepareandempower.org/sites"
+    },
+    {
+      "address": "635 E. Broadway Rd., Mesa, AZ 85204",
+      "candidateIds": [
+        "160"
+      ],
+      "categories": [
+        "food"
+      ],
+      "categoryFilters": {
+        "food": [
+          "Food Pantry"
+        ]
+      },
+      "description": "Mesa-focused community action program that distributes food boxes (partnered with United Food Bank and others) alongside rental/utility assistance and other supports. Area served: City of Mesa.",
+      "forGroups": [],
+      "hours": "",
+      "id": "b818a3a3b765d76ab42f0c78b169eef9",
+      "informationText": "**Programs and Services**\nA New Leaf's Mesa Community Action Network (MesaCAN) is a one-stop community action site for low-income households in Mesa. Confirmed services include basic-needs distribution such as food boxes, snack bags, hygiene bags, and diapers; rent and utility assistance for households facing eviction or utility shutoff; financial coaching/budgeting; employment assistance; matched savings/financial literacy through Assets to Opportunity; weatherization help; utility discount program information; and referrals to other A New Leaf programs. Over-Flo Missions states it partners with A New Leaf/MesaCAN to provide emergency food boxes on site.\n\n* Food boxes and basic-needs support: Mesa-focused community action program that distributes food boxes (partnered with United Food Bank and others) alongside rental/utility assistance and other supports.\n\n**Eligibility Requirements**\nMesaCAN's official materials say it serves low-income households across the City of Mesa. 2-1-1 Arizona lists eligibility as Mesa residents in need. Rent and utility assistance is limited to Mesa residents and requires meeting program criteria; exact income limits, documentation requirements for food boxes/basic-needs distribution, and whether ID/proof of address is required for food boxes could not be confirmed from current public sources.\n\n**How to Best Connect**\nFor MesaCAN services, contact A New Leaf at (480) 833-9200 or mesacanclient@turnanewleaf.org, or go to 635 E. Broadway Rd., Mesa, AZ 85204. The MesaCAN page lists hours as Monday-Friday 8:00 AM-4:30 PM, while the 2026 fact sheet lists Monday-Friday 8:00 AM-5:00 PM; call before referring to confirm current hours. For emergency food boxes, Over-Flo Missions lists distribution every Thursday at A New Leaf in Mesa/MesaCAN from 1:00-3:00 PM and gives Over-Flo's question line as (480) 606-2049. Appointment requirements for food boxes could not be confirmed. For rent/utility assistance, 2-1-1 says the intake process is separate and time-sensitive; callers should contact the program and confirm current openings and required documents before sending someone.\n\n**Access**\n* Area served: City of Mesa\n\n**Important Information to Know**\n* Food distribution is one component of broader services; confirm current box availability and intake process.",
+      "lastModified": "2026-09-04T20:18:19.229676+00:00",
+      "name": "A New Leaf / Mesa Community Action Network (MesaCAN) · Food boxes and basic-needs support",
+      "pdfs": [],
+      "phone": "(480) 833-9200",
+      "verifiedOn": null,
+      "website": "https://www.turnanewleaf.org/"
+    }
+  ],
+  "limitations": [
+    "Source is the saved HTML’s embedded data, not unsaved browser edits or a newly connected office package.",
+    "Other AI services were not queried: the browser connector reported Chrome unavailable. No independent audit findings are invented.",
+    "No providers were contacted, applications submitted, resource records edited, or human-verification dates advanced.",
+    "The prescreen could not be read; utility application contents were not rechecked."
+  ]
+}

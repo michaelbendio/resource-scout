@@ -1,0 +1,95 @@
+{
+  "sourceHtmlSha256": "65f26f690534927c7c359b0c082b25e950fe996eec0b64b79a632edad89f2831",
+  "sourceUnchanged": true,
+  "reviewCopy": "/Users/michaelbendio/Library/Mobile Documents/com~apple~CloudDocs/Documents/TSO/autoMesaProgramTitlePilot.html",
+  "reviewSha256": "183112598f086de55a3c694baaa94fbc114efa11d0b6a78bf2b14eadfde1fa05",
+  "copiedBytesVerified": true,
+  "artifactSha256": {
+    "docs/pilots/mesa-program-title-review.json": "fa396466e71de1145a66f17a1dc484fed768b2695a7a5a93fa67b3427e8dcb94",
+    "scripts/build_program_title_review.py": "1e6650c21e6666ee5873ceb0ae329eaf26967fc785536c47579f2661a4ce3934",
+    "scripts/check_program_title_review.py": "307b53b81601737aa18dcfec4f84384ab086244ea2295647dd298e2912e565db"
+  },
+  "validation": {
+    "sourceUnchanged": true,
+    "originalRecordsExact": true,
+    "screenUnchangedAfterPrint": true,
+    "narrowScreenChecks": [
+      390,
+      768
+    ],
+    "cancelAndEscape": true,
+    "pageErrors": [],
+    "handouts": [
+      {
+        "id": "overview",
+        "notes": false,
+        "pages": 1,
+        "proof": "0-working.pdf"
+      },
+      {
+        "id": "2683e222e5f6957b1e5bddb3292334d1",
+        "notes": false,
+        "pages": 1,
+        "proof": "1-working.pdf"
+      },
+      {
+        "id": "2683e222e5f6957b1e5bddb3292334d1",
+        "notes": true,
+        "pages": 2,
+        "proof": "1-research.pdf"
+      },
+      {
+        "id": "db2e8f3b8772791cf254fb9cc04b9838",
+        "notes": false,
+        "pages": 1,
+        "proof": "2-working.pdf"
+      },
+      {
+        "id": "db2e8f3b8772791cf254fb9cc04b9838",
+        "notes": true,
+        "pages": 1,
+        "proof": "2-research.pdf"
+      },
+      {
+        "id": "7f314bc451d77d01f553d4527407d06d",
+        "notes": false,
+        "pages": 1,
+        "proof": "3-working.pdf"
+      },
+      {
+        "id": "7f314bc451d77d01f553d4527407d06d",
+        "notes": true,
+        "pages": 2,
+        "proof": "3-research.pdf"
+      },
+      {
+        "id": "106d516390d810b1989b53d59ae806c9",
+        "notes": false,
+        "pages": 1,
+        "proof": "4-working.pdf"
+      },
+      {
+        "id": "106d516390d810b1989b53d59ae806c9",
+        "notes": true,
+        "pages": 1,
+        "proof": "4-research.pdf"
+      },
+      {
+        "id": "78410d1265bcc4f89c056a7d624434f8",
+        "notes": false,
+        "pages": 1,
+        "proof": "5-working.pdf"
+      },
+      {
+        "id": "78410d1265bcc4f89c056a7d624434f8",
+        "notes": true,
+        "pages": 1,
+        "proof": "5-research.pdf"
+      }
+    ]
+  },
+  "renderedPrintProofsInspected": true,
+  "independentAudits": 0,
+  "humanReviewDecisions": 0,
+  "exports": 0
+}

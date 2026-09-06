@@ -647,6 +647,11 @@ access steps, and preservation questions before further guidance refinement.
 Automatic lesson inference and adaptive run planning remain later increments,
 subject to their evidence/readiness review.
 
+The [Mesa program-title pilot](scout-program-title-pilot.md) now provides the
+first focused review of these refinements: three title proposals, one conditional
+on resolving an existing-record overlap, and one held for program clarification.
+This Codex-only review awaits Michael's decisions; no Mesa resource was changed.
+
 Store proposed lessons separately from operational facts. A lesson records its
 supporting events, office/category scope, relevant research configuration,
 proposed change, review decision, and policy version. Keep office-specific
