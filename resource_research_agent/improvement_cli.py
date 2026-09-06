@@ -38,6 +38,7 @@ def add_improvement_commands(subcommands, *, classification=False):
             command.add_argument('--revision', type=int, required=True)
         if action == 'export':
             command.add_argument('--output', required=True)
+            command.add_argument('--questions-only', action='store_true', help='Hand off questions without accepting proposed service changes')
 
 
 def run_improvement_command(store, args):
@@ -66,7 +67,7 @@ def run_improvement_command(store, args):
         output = Path(args.output).expanduser()
         if output.exists():
             raise ValueError('Choose a new output filename; an existing package will not be overwritten')
-        exported = workflow.prepare_export(args.project_id, args.revision)
+        exported = (workflow.prepare_question_export if getattr(args, 'questions_only', False) else workflow.prepare_export)(args.project_id, args.revision)
         payload = workflow.export_bytes(args.project_id, exported['exportId'])
         with output.open('xb') as destination:
             destination.write(payload)

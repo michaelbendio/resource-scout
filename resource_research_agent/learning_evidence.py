@@ -331,8 +331,8 @@ class EvidenceLedger:
         with self._connect() as c:
             comp = self._get(c, comparison_id, 'comparison')
             event = next((e for e in comp['events'] if e['eventId'] == event_id), None)
-            if not event or event['change'] != 'field-change' or not event['afterPresent'] or event['field'] == 'verifiedOn':
-                raise ImprovementError('Verification must identify a particular present resource field')
+            if not event or event['change'] != 'field-change' or not event['afterPresent'] or event['field'] in ('verifiedOn', 'openQuestions'):
+                raise ImprovementError('Verification must identify a particular present service field, not administrative questions or a verification date')
             if supersedes:
                 previous = self._get(c, supersedes, 'verification')
                 if previous['collectionId'] != comp['collectionId'] or previous['eventId'] != event_id:

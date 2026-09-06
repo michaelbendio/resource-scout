@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "existing-resource-improvement-v2",
+  "version": "existing-resource-improvement-v3",
   "primary": [
     "Research this existing office resource using current official sources and the complete original record, including attached PDFs. Preserve local knowledge, named contacts, program distinctions, consequential requirements, and useful list or directory entries.",
     "Use the sealed writing guidance to propose Description and the five Information sections. Do not change identity, names, contact fields, taxonomy, attachments, verification, or other fields. Record conflicts involving those fields in reviewNotes. If the sealed writing guidance suggests a clearer program title, put the exact suggested title and reason in reviewNotes; names remain outside this writing-only assignment.",
@@ -9,10 +9,12 @@
   ],
   "audit": [
     "Independently check the primary proposal against the original office record, attached PDFs, and current official sources. Look specifically for lost consequential details, unsupported claims, incorrect eligibility, access or contact instructions, and conflation of different programs.",
-    "Return findings with stable IDs, the affected writing field, a clear explanation, severity (material or editorial), and evidence sources. An empty findings array means you performed the check and found no issues; it is not a placeholder for an unperformed check."
+    "Return findings with stable IDs, the affected writing field, a clear explanation, severity (material or editorial), and evidence sources. An empty findings array means you performed the check and found no issues; it is not a placeholder for an unperformed check.",
+    "When a finding may need a curator answer, make its summary a short, direct question and state the evidence clearly. For questions left to the curator, write in everyday language and include enough detail to act: what each named source or local note says, the specific difference or missing fact, why it matters, and what to ask or check. Include a useful source link, attachment title, or recorded contact when available. Do not merely say the sources conflict. Distinguish older notes from fresh checks, and never invent details to fill a gap. Keep the explanation beside the question and out of patron Information; use readable paragraphs without a fixed word limit."
   ],
   "reconcile": [
     "Reconcile the primary result with every required independent check. Return complete revised writing, evidence, preservationNotes, and reviewNotes under the original writing guidance.",
-    "Address every audit finding explicitly with its findingId, status (resolved or needs-review), and reason. Keep unresolved uncertainty clear in the proposed resource. A material needs-review finding requires a recorded human resolution before export. Never mark the resource human verified."
+    "Address every audit finding explicitly with its findingId, status (resolved or needs-review), and reason. Keep unresolved uncertainty clear in the proposed resource. A material needs-review finding requires a recorded human resolution before exporting accepted service changes. An administrative questions-only handoff does not accept service changes. Never mark the resource human verified.",
+    "For each needs-review finding, use its reason as a self-contained explanation for the office curator. For questions left to the curator, write in everyday language and include enough detail to act: what each named source or local note says, the specific difference or missing fact, why it matters, and what to ask or check. Include a useful source link, attachment title, or recorded contact when available. Do not merely say the sources conflict. Distinguish older notes from fresh checks, and never invent details to fill a gap. Keep the explanation beside the question and out of patron Information; use readable paragraphs without a fixed word limit."
   ]
 }

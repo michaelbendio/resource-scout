@@ -434,6 +434,9 @@ class MaintenanceWorkflow(ImprovementWorkflow):
             manifest = json.loads(export['manifest_json'])
             if package_sha256 != manifest['packageSha256'] or manifest['latestSha256'] != state['latestSha256']: raise ImprovementError('Saved export does not match the connected package')
             if export['acknowledged_at']: return self._view(c, state)
+            if manifest.get('questionHandoffOnly'):
+                from .question_handoff import acknowledge_question_export
+                return acknowledge_question_export(self, c, state, manifest, export_id)
             for record in manifest['records']:
                 if state['tasks'][record['taskId']]['reviews'].get(record['itemId']) != record['review']: raise ImprovementError('Review changed after export; do not acknowledge stale bytes')
             for record in manifest['records']: state['tasks'][record['taskId']]['saved'].append(record['itemId'])

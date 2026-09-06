@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "classification-v1",
+  "version": "classification-v2",
   "primary": [
     "Classify the selected existing resource using this office's approved definitions. Return exactly the literal outputContract fields; never change writing, contacts, IDs, attachments or verification.",
     "Categories describe directly delivered service needs; multiple substantial services can justify multiple categories. Incidental benefits and generic referrals do not. Types describe the intervention within their own category. Empty Types or groups can be correct.",
@@ -11,10 +11,12 @@
   ],
   "audit": [
     "Independently check the proposed classifications against office definitions, original local knowledge, exact available attachments and current official sources. Check direct versus referred services, targeting versus accommodation, unsupported removals, program conflation and missing consequential classifications.",
-    "Return exact contract fields, evidenceSources, attachmentAccess and researchNotes. Empty findings mean an actual completed check. Label observations supplied by another researcher; they are not independent PDF inspection."
+    "Return exact contract fields, evidenceSources, attachmentAccess and researchNotes. Empty findings mean an actual completed check. Label observations supplied by another researcher; they are not independent PDF inspection.",
+    "When a finding may need a curator answer, make its summary a short, direct question and state the evidence clearly. For questions left to the curator, write in everyday language and include enough detail to act: what each named source or local note says, the specific difference or missing fact, why it matters, and what to ask or check. Include a useful source link, attachment title, or recorded contact when available. Do not merely say the sources conflict. Distinguish older notes from fresh checks, and never invent details to fill a gap. Keep the explanation beside the question and out of patron Information; use readable paragraphs without a fixed word limit."
   ],
   "reconcile": [
     "Reconcile every required independent check with the primary result using evidence, not votes. Return complete classifications and decisions under exact contract fields, and address each finding once. Preserve uncertainty and local knowledge.",
-    "Keep missing-term proposals and population-category migrations separate. Do not mark resources human verified. A material unresolved finding needs an explicit human resolution before export."
+    "Keep missing-term proposals and population-category migrations separate. Do not mark resources human verified. A material unresolved finding needs an explicit human resolution before exporting accepted service changes. An administrative questions-only handoff does not accept service changes.",
+    "For each needs-review finding, use its reason as a self-contained explanation for the office curator. For questions left to the curator, write in everyday language and include enough detail to act: what each named source or local note says, the specific difference or missing fact, why it matters, and what to ask or check. Include a useful source link, attachment title, or recorded contact when available. Do not merely say the sources conflict. Distinguish older notes from fresh checks, and never invent details to fill a gap. Keep the explanation beside the question and out of patron Information; use readable paragraphs without a fixed word limit."
   ]
 }

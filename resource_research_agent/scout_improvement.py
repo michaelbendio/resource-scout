@@ -433,6 +433,10 @@ class ImprovementWorkflow:
         with self.store.connect() as connection:
             return self._view(connection, self._load(connection, project_id))
 
+    def prepare_question_export(self, project_id, revision):
+        from .question_handoff import prepare_question_export
+        return prepare_question_export(self, project_id, revision)
+
     def prepare_export(self, project_id, revision):
         with self.store.connect() as connection:
             state = self._checked(connection, project_id, revision)
@@ -530,6 +534,9 @@ class ImprovementWorkflow:
                 raise ImprovementError('Saved export does not match the connected package')
             if row['acknowledged_at']:
                 return self._view(connection, state)
+            if manifest.get('questionHandoffOnly'):
+                from .question_handoff import acknowledge_question_export
+                return acknowledge_question_export(self, connection, state, manifest, export_id)
             for rid, record in manifest['resources'].items():
                 item = state['resources'][rid]
                 if item['review'] != record['review'] or item['proposal'] != record['proposal']:

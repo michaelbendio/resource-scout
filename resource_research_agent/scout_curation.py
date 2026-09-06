@@ -342,6 +342,8 @@ def _completed_resources(job: dict[str, Any]) -> list[dict[str, Any]]:
             next_resource["candidateIds"] = _unique_text(
                 (previous.get("candidateIds") or []) + (resource.get("candidateIds") or [])
             )
+            from .open_questions import attach_questions
+            attach_questions(next_resource, previous.get("openQuestions", []))
             merged[resource_id] = next_resource
     return [merged[resource_id] for resource_id in order]
 

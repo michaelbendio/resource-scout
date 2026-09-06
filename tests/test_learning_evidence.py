@@ -143,6 +143,16 @@ class EvidenceTests(unittest.TestCase):
         self.assertTrue(all(e['level']=='observed-change' for e in result['events']))
         with self.assertRaises(ImprovementError):self.compare(self.base,after,identity_links=[link,link])
 
+    def test_administrative_question_resolution_is_not_provider_verification(self):
+        from resource_research_agent.open_questions import make_questions
+        questions=make_questions([{'question':'Which office?', 'explanation':'Pages conflict'}],{})
+        questions[0].update(status='resolved',resolution='Synthetic editorial decision')
+        comp=self.compare(self.base,self.imp(self.changed(openQuestions=questions)))
+        event=next(e for e in comp['events'] if e['field']=='openQuestions')
+        with self.assertRaisesRegex(ImprovementError,'administrative questions'):
+            self.ledger.attest(comp['id'],event['eventId'],reviewer='QA',method='phone',note='QA',source='QA')
+        self.assertEqual(0,self.ledger.report(comp['id'])['summary']['explicitFieldVerifications'])
+
     def test_explicit_field_verification_supersession_and_ambiguity(self):
         after=self.imp(self.changed(name='New',phone='555-0199'))
         comp=self.compare(self.base,after);phone=next(e for e in comp['events'] if e['field']=='phone')

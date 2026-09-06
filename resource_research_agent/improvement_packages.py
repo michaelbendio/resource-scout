@@ -75,6 +75,9 @@ def read_package(payload: bytes, *, evidence_legacy_version: bool = False) -> di
                 rid = nonempty(resource.get('id'), 'Resource ID')
                 if rid != resource['id'] or rid in resources:
                     raise ImprovementError('Duplicate or unnormalized resource ID')
+                if 'openQuestions' in resource:
+                    from .open_questions import validate_questions
+                    validate_questions(resource['openQuestions'])
                 resources[rid] = resource
                 for field in EDITABLE_FIELDS:
                     if field in resource and not isinstance(resource[field], str):

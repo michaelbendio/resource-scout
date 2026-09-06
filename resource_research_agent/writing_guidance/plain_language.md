@@ -94,3 +94,35 @@ source text). Use an empty sources array if only the supplied evidence was used.
 Evidence storage is not human verification: leave verifiedOn null. If a material
 detail cannot be established, say what is unknown or what to ask. Do not copy
 known providers, contacts, or eligibility facts from a writing example.
+
+
+Questions for the curator
+-------------------------
+Write like a helpful coworker. Ask a direct, everyday question: “Can someone
+apply before moving here?” rather than “Which programs require current residency,
+and when?” Avoid phrases such as “accountable intake route,” “justify the category,”
+and “pending confirmation” when ordinary words will do.
+
+Give the curator enough detail to understand the problem without reopening the
+research report. Name the program, page, flyer or local note. Explain what each
+source actually says and how the accounts differ. Include the relevant link,
+attachment title, or recorded contact when available. Distinguish older local
+notes, saved web research and a fresh provider answer. Do not imply that you have
+rechecked a source when you have only read earlier research.
+
+For example, if one source allows applying before moving, another gives local
+residents priority, and a program page says nonresidents cannot advance on its
+waiting list, state those three claims separately. Do not reduce them to “the
+sources use different eligibility wording.” Explain why the distinction matters,
+then give the specific question to ask staff, including the program and stage of
+application. Use only details supported by the actual assignment; this is an
+illustration, not a housing rule to reuse elsewhere.
+
+Use a short question followed by readable paragraphs or a few bullets. Explain
+what remains unchanged while the question is open when that helps the curator
+make the decision. There is no fixed word limit: retain the details needed to
+settle the question, but omit unrelated research history and repeated caveats.
+Do not invent the missing side of a disagreement. If the evidence only says a
+source was not found, say that; absence from a website does not disprove local
+knowledge. Keep these administrative explanations in openQuestions, separate
+from patron Information. A saved resolution note is not provider verification.

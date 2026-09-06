@@ -3,36 +3,41 @@
   "questions": {
     "provo-city-housing-authority": [
       {
-        "question": "Which housing programs require current Provo residency, and when?",
-        "explanation": "The earlier research found different wording about eligibility, waiting-list advancement and priority. Ask staff to distinguish the rules by housing program before changing the existing Information."
+        "question": "Can someone apply before moving to Provo, or do they already have to live there?",
+        "explanation": "Our local notes say a person can join the waiting lists before living in Provo, as long as they agree to live there when they receive help.\n\nThe saved September 5 research found two different descriptions on the housing authority’s website:\n• The application page describes priority for people who live or work in Provo: https://provohousing.org/apply/\n• The Housing Choice Voucher (Section 8) page says nonresidents cannot advance on its waiting list. It also asks for proof of current Provo residency when applicants reach the top: https://provohousing.org/programs/vouchers/\n\nGetting priority is different from having to live in Provo to move up the list. Call the housing authority and ask separately about Public Housing and Section 8: Can someone apply while living elsewhere? When must they be living in Provo—when applying, while moving up the list, or before receiving help? Does working in Provo count? Keep the existing notes until staff clear this up."
       },
       {
-        "question": "Does the partner program provide addiction recovery services that justify the Addiction category?",
-        "explanation": "Housing for people who may have a substance-use disability does not by itself establish recovery services. The existing category is retained pending a curator decision."
+        "question": "Does this program offer addiction recovery help, or housing with other support?",
+        "explanation": "Our local notes describe Shelter Plus Care vouchers for people experiencing homelessness who have a disability, which can include ongoing substance use. They also say a partner such as Wasatch Mental Health provides case management.\n\nThat tells us who may qualify for housing, but it does not tell us whether this program provides addiction treatment, recovery support, or sober housing. Ask the housing authority or its partner what help is actually included and how someone gets it. That answer will help the curator decide whether this resource belongs under Addiction. We have left its existing category in place for now."
       }
     ],
     "4e2aee885b2126ae255d187c8496758b": [
       {
-        "question": "Are Spanish-language classes and childcare available for the current Financial Learning sessions?",
-        "explanation": "Local notes describe these arrangements, but their current availability was not independently confirmed. Proposed group additions were deferred."
+        "question": "Are Spanish classes and childcare still offered for the Provo sessions?",
+        "explanation": "Our local notes say the classes are offered in English and Spanish, with childcare and refreshments. The saved research also found an official description of one-on-one counseling in Spanish, but that does not tell us whether the next group class will be taught in Spanish. The research did not confirm childcare for the next Provo sessions either.\n\nCall the class registration number in our notes, 801-691-5241, or email financial.learning@casfb.org. Ask which sessions are in Spanish, whether childcare is offered for those sessions, and whether families need to reserve it. Keep the local information while checking; an arrangement missing from the website does not mean it has ended. Scout has not added the proposed Spanish speaking and Families with children groups yet."
       },
       {
-        "question": "Should the dedicated Website field be replaced with the program link?",
-        "explanation": "The accepted Information includes a Financial Learning program link; the separate Website field still contains the older address. Check its destination before changing it."
+        "question": "Which website should we give people for Financial Learning?",
+        "explanation": "The Website field still says www.communityactionuc.org. The Information section uses this program page: https://communityactionprovo.org/get-help/education-and-support/financial-learning.html\n\nOpen both and check where they lead. Does the old address still reach the organization? Does the program link still explain Financial Learning and how to sign up? Use the working link that best helps someone find this service. The saved research reported a missing-page error at an older program address, so do not assume every Financial Learning link works."
       }
     ],
     "be263f34ffef82d605bccabb5a29bec3": [
       {
-        "question": "Does this DWS office provide an accountable intake route to the county housing program?",
-        "explanation": "The housing flyer names a county program and county contact. A DWS logo alone does not establish local DWS intake. The existing Housing category is retained pending confirmation."
+        "question": "Can someone start getting housing help through this DWS office?",
+        "explanation": "The attached “DWS - Housing Assistance.pdf” describes a county Housing Stability Program and gives a county contact. It has a DWS logo, but the saved research did not establish that someone can apply for that housing help at the Provo DWS office.\n\nAsk DWS whether its staff take housing applications, help people apply, or connect them to a named county worker. If people need to contact the county themselves, record that starting point. We have left Housing on this resource for now; the curator can decide whether it belongs once the actual help from DWS is clear."
       }
     ],
     "ddd37652117d3f75952de587aa414ffd": [
       {
-        "question": "What is the current Provo handoff for veterans leaving incarceration?",
-        "explanation": "The older flyer describes outreach, but the current local intake and the boundary between DWS and VA services remain unclear. The proposed reentry classifications have not been applied."
+        "question": "Who should a veteran leaving jail or prison contact in Provo?",
+        "explanation": "The attached “DWS - Veterans Services.pdf” lists Incarcerated Veteran Outreach and Veteran Justice Outreach. The saved research also found statewide employment-help information for some recently incarcerated veterans. It did not establish who handles the Provo referral now, or whether the Veteran Justice Outreach service is provided by Veterans Affairs (VA) rather than this DWS office.\n\nAsk the DWS veterans contact who a person should call first, what help DWS itself provides, and how any referral to VA works. Record a name or office, a working phone number, and the next step the person should take. Scout has not added Reentry Support or the Exiting corrections group while this is unclear."
       }
     ]
   },
-  "scope": "Curator handoff only; no new research or provider answers."
+  "scope": "Curator handoff only; plain-language explanations expanded from the saved September 5–6 research and original local package. No new provider research or answers.",
+  "evidenceFiles": [
+    "output/provo-improvement-pilot/reconcile-2.assignment.json",
+    "output/provo-classification-pilot/review-snapshot.json",
+    "output/provo-migration-research/review-snapshot.json"
+  ]
 }

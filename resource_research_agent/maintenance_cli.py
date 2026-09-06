@@ -16,7 +16,9 @@ def add_maintenance_commands(subcommands):
         if name in ('connect', 'review', 'export'): p.add_argument('--revision', type=int, required=True)
         if name == 'connect': p.add_argument('package'); p.add_argument('--office', required=True)
         if name == 'review': p.add_argument('review_file')
-        if name == 'export': p.add_argument('output')
+        if name == 'export':
+            p.add_argument('output')
+            p.add_argument('--questions-only', action='store_true', help='Hand off questions on existing resources without accepting service changes')
 
 
 def run_maintenance_command(store, args):
@@ -33,7 +35,7 @@ def run_maintenance_command(store, args):
     if action == 'export':
         path = Path(args.output)
         if path.exists(): raise ValueError('Choose a new export filename')
-        export = flow.prepare_export(args.project_id, args.revision)
+        export = (flow.prepare_question_export if getattr(args, 'questions_only', False) else flow.prepare_export)(args.project_id, args.revision)
         payload = flow.export_bytes(args.project_id, export['exportId'])
         with path.open('xb') as target: target.write(payload)
         if path.read_bytes() != payload: raise ValueError('Saved file verification failed')
