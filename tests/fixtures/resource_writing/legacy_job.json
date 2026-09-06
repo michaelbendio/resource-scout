@@ -1,0 +1,950 @@
+{
+  "baselineCommit": "a3cb004",
+  "job": {
+    "id": 1,
+    "importId": 1,
+    "createdAt": "2026-09-06T00:34:58.182530+00:00",
+    "updatedAt": "2026-09-06T00:34:58.182530+00:00",
+    "status": "pending",
+    "assignmentVersion": "codex-curation-v2-direct-service",
+    "candidatePackageSha256": "e409dcffb2369311d426bbcddde3b3b877bd2f2d691c96aa4df2de330114be04",
+    "locationName": "Mesa",
+    "officeName": "Mesa TSO",
+    "serviceArea": "Mesa and Maricopa County, Arizona",
+    "sourcePackageSha256": "a88e5e0f7d60f318a2398f2a3290933b15766677bba77925e3dfd7d9e9505f88",
+    "sourcePackageContentSha256": "105a04e7d98458f0c20d39c2973fc54d9159ac046eff14ee2d21f3012f8cddbb",
+    "sourcePackageVersion": "8",
+    "progress": {
+      "completed": 0,
+      "failed": 0,
+      "total": 2
+    },
+    "categories": [
+      {
+        "jobId": 1,
+        "categoryId": "employment",
+        "categoryLabel": "Employment",
+        "status": "pending",
+        "canonicalRunId": 2,
+        "candidateCount": 2,
+        "assignment": {
+          "assignmentSchemaVersion": 1,
+          "assignmentSha256": "86d667a7722b5ab583b1ba81e13fe4e0a5d62f0ca98873c52ac96a75643e877b",
+          "assignmentVersion": "codex-curation-v2-direct-service",
+          "availableCategories": [
+            {
+              "active": true,
+              "defaultAssignment": "Discover realistic employment resources for people in Mesa and Maricopa County, Arizona who need work, better work, training, or help overcoming barriers to employment. Follow useful relationships from workforce organizations to specific placement programs, employers, training, credentials, apprenticeships, and supported-employment services. Verify costs, eligibility, schedules, and the practical enrollment path.",
+              "id": "employment",
+              "label": "Employment",
+              "multiCategoryResourceCount": 0,
+              "playbookSource": "employment.json",
+              "playbookVersion": "codex-first-v1",
+              "resourceCount": 0,
+              "specializedPlaybook": true,
+              "supported": true,
+              "types": []
+            },
+            {
+              "active": true,
+              "defaultAssignment": "Discover realistic ways a person facing food insecurity in Mesa and Maricopa County, Arizona can obtain meals and groceries. Follow useful relationships from coordinating organizations to the specific meal sites, pantries, benefit programs, delivery services, and specialized providers people can actually access. Verify schedules, boundaries, eligibility, and the practical intake path.",
+              "id": "food",
+              "label": "Food",
+              "multiCategoryResourceCount": 0,
+              "playbookSource": "food.json",
+              "playbookVersion": "codex-first-v1",
+              "resourceCount": 0,
+              "specializedPlaybook": true,
+              "supported": true,
+              "types": []
+            }
+          ],
+          "availableForGroups": [
+            "Veterans"
+          ],
+          "candidatePackageSha256": "e409dcffb2369311d426bbcddde3b3b877bd2f2d691c96aa4df2de330114be04",
+          "candidates": [
+            {
+              "candidate": {
+                "additionalAddresses": [],
+                "additionalPhoneNumbers": [],
+                "address": "21 Main Street, Mesa, AZ",
+                "geography": "Mesa",
+                "manualDiscoveryChecks": {
+                  "categoryRelevance": {
+                    "note": "At least one chat response connects this resource with Employment.",
+                    "sources": [
+                      {
+                        "leadId": 2,
+                        "sourceLabel": "ChatGPT"
+                      }
+                    ],
+                    "state": "present"
+                  },
+                  "currentSignal": {
+                    "note": "A chat response supplied a website or said the service is currently available.",
+                    "sources": [
+                      {
+                        "leadId": 2,
+                        "sourceLabel": "ChatGPT"
+                      }
+                    ],
+                    "state": "present"
+                  },
+                  "geography": {
+                    "note": "At least one chat response says this resource may serve the area.",
+                    "sources": [
+                      {
+                        "leadId": 2,
+                        "sourceLabel": "ChatGPT"
+                      }
+                    ],
+                    "state": "present"
+                  },
+                  "identity": {
+                    "note": "At least one chat response supplied an organization or program name.",
+                    "sources": [
+                      {
+                        "leadId": 2,
+                        "sourceLabel": "ChatGPT"
+                      }
+                    ],
+                    "state": "present"
+                  },
+                  "publicAccess": {
+                    "note": "A chat response supplied a website or a possible way to contact or apply.",
+                    "sources": [
+                      {
+                        "leadId": 2,
+                        "sourceLabel": "ChatGPT"
+                      }
+                    ],
+                    "state": "present"
+                  }
+                },
+                "manualDiscoveryProvenance": {
+                  "checks": {
+                    "categoryRelevance": {
+                      "note": "At least one chat response connects this resource with Employment.",
+                      "sources": [
+                        {
+                          "leadId": 2,
+                          "sourceLabel": "ChatGPT"
+                        }
+                      ],
+                      "state": "present"
+                    },
+                    "currentSignal": {
+                      "note": "A chat response supplied a website or said the service is currently available.",
+                      "sources": [
+                        {
+                          "leadId": 2,
+                          "sourceLabel": "ChatGPT"
+                        }
+                      ],
+                      "state": "present"
+                    },
+                    "geography": {
+                      "note": "At least one chat response says this resource may serve the area.",
+                      "sources": [
+                        {
+                          "leadId": 2,
+                          "sourceLabel": "ChatGPT"
+                        }
+                      ],
+                      "state": "present"
+                    },
+                    "identity": {
+                      "note": "At least one chat response supplied an organization or program name.",
+                      "sources": [
+                        {
+                          "leadId": 2,
+                          "sourceLabel": "ChatGPT"
+                        }
+                      ],
+                      "state": "present"
+                    },
+                    "publicAccess": {
+                      "note": "A chat response supplied a website or a possible way to contact or apply.",
+                      "sources": [
+                        {
+                          "leadId": 2,
+                          "sourceLabel": "ChatGPT"
+                        }
+                      ],
+                      "state": "present"
+                    }
+                  },
+                  "consolidationState": "exact",
+                  "duplicateMatches": [],
+                  "groupKey": "identity-a41d16453271927c091e",
+                  "members": [
+                    {
+                      "declaredLeadType": "program",
+                      "deterministicSignal": "service|organization-program|employment provider 2 1|employment program 2 1",
+                      "leadId": 2,
+                      "locationOrServiceArea": "Mesa",
+                      "membershipReason": "exact normalized organization and program with compatible role",
+                      "researchFocusKey": "",
+                      "researchFocusLabel": "",
+                      "researchPassKind": "",
+                      "sourceLabel": "ChatGPT",
+                      "sourceOrdinal": 1,
+                      "submittedAddress": "21 Main Street, Mesa, AZ",
+                      "submittedOrganization": "Employment Provider 2-1",
+                      "submittedPhone": "480-555-0201",
+                      "submittedProgram": "Employment Program 2-1",
+                      "submittedWebsite": "https://example.org/employment/2/1",
+                      "uncertainty": "Confirm hours.",
+                      "whyRelevant": "Provides employment help."
+                    }
+                  ],
+                  "possibleRelatedSubmissions": [],
+                  "relevanceAlternatives": [
+                    {
+                      "sourceLabel": "ChatGPT",
+                      "value": "Provides employment help."
+                    }
+                  ],
+                  "routedRole": "program",
+                  "sourceCount": 1,
+                  "uncertaintyAlternatives": [
+                    {
+                      "sourceLabel": "ChatGPT",
+                      "value": "Confirm hours."
+                    }
+                  ]
+                },
+                "name": "Employment Program 2-1",
+                "organizationGroupName": "Employment Provider 2-1",
+                "organizationName": "Employment Provider 2-1",
+                "phone": "480-555-0201",
+                "possibleRelatedSubmissions": [],
+                "presentationName": "Employment Provider 2-1 · Employment Program 2-1",
+                "programName": "Employment Program 2-1",
+                "resourceType": "program",
+                "serviceNeed": "Provides employment help.",
+                "sources": [
+                  {
+                    "note": "Provides employment help.",
+                    "source": "ChatGPT",
+                    "url": "https://example.org/employment/2/1"
+                  }
+                ],
+                "uncertainties": [
+                  "Confirm hours."
+                ],
+                "unknowns": [],
+                "website": "https://example.org/employment/2/1"
+              },
+              "createdAt": "2026-09-06T00:34:58.151267+00:00",
+              "id": 2,
+              "knownResourceMatch": null,
+              "matchAssessment": "",
+              "name": "Employment Provider 2-1 · Employment Program 2-1",
+              "notes": "",
+              "origin": "manual-chat-discovery",
+              "resourceDraft": {
+                "address": "21 Main Street, Mesa, AZ",
+                "categories": [
+                  "employment"
+                ],
+                "categoryFilters": {},
+                "description": "Provides employment help.",
+                "forGroups": [],
+                "hours": "",
+                "id": "e9bb4427ea8354b4968a76bee159a9c6",
+                "informationText": "**Resource details**\n* Resource type: program\n* Area served: Mesa",
+                "name": "Employment Program 2-1",
+                "pdfs": [],
+                "phone": "480-555-0201",
+                "verifiedOn": null,
+                "website": "https://example.org/employment/2/1"
+              },
+              "updatedAt": "2026-09-06T00:34:58.151267+00:00"
+            },
+            {
+              "candidate": {
+                "additionalAddresses": [],
+                "additionalPhoneNumbers": [],
+                "address": "22 Main Street, Mesa, AZ",
+                "geography": "Mesa",
+                "manualDiscoveryChecks": {
+                  "categoryRelevance": {
+                    "note": "At least one chat response connects this resource with Employment.",
+                    "sources": [
+                      {
+                        "leadId": 3,
+                        "sourceLabel": "Claude"
+                      }
+                    ],
+                    "state": "present"
+                  },
+                  "currentSignal": {
+                    "note": "A chat response supplied a website or said the service is currently available.",
+                    "sources": [
+                      {
+                        "leadId": 3,
+                        "sourceLabel": "Claude"
+                      }
+                    ],
+                    "state": "present"
+                  },
+                  "geography": {
+                    "note": "At least one chat response says this resource may serve the area.",
+                    "sources": [
+                      {
+                        "leadId": 3,
+                        "sourceLabel": "Claude"
+                      }
+                    ],
+                    "state": "present"
+                  },
+                  "identity": {
+                    "note": "At least one chat response supplied an organization or program name.",
+                    "sources": [
+                      {
+                        "leadId": 3,
+                        "sourceLabel": "Claude"
+                      }
+                    ],
+                    "state": "present"
+                  },
+                  "publicAccess": {
+                    "note": "A chat response supplied a website or a possible way to contact or apply.",
+                    "sources": [
+                      {
+                        "leadId": 3,
+                        "sourceLabel": "Claude"
+                      }
+                    ],
+                    "state": "present"
+                  }
+                },
+                "manualDiscoveryProvenance": {
+                  "checks": {
+                    "categoryRelevance": {
+                      "note": "At least one chat response connects this resource with Employment.",
+                      "sources": [
+                        {
+                          "leadId": 3,
+                          "sourceLabel": "Claude"
+                        }
+                      ],
+                      "state": "present"
+                    },
+                    "currentSignal": {
+                      "note": "A chat response supplied a website or said the service is currently available.",
+                      "sources": [
+                        {
+                          "leadId": 3,
+                          "sourceLabel": "Claude"
+                        }
+                      ],
+                      "state": "present"
+                    },
+                    "geography": {
+                      "note": "At least one chat response says this resource may serve the area.",
+                      "sources": [
+                        {
+                          "leadId": 3,
+                          "sourceLabel": "Claude"
+                        }
+                      ],
+                      "state": "present"
+                    },
+                    "identity": {
+                      "note": "At least one chat response supplied an organization or program name.",
+                      "sources": [
+                        {
+                          "leadId": 3,
+                          "sourceLabel": "Claude"
+                        }
+                      ],
+                      "state": "present"
+                    },
+                    "publicAccess": {
+                      "note": "A chat response supplied a website or a possible way to contact or apply.",
+                      "sources": [
+                        {
+                          "leadId": 3,
+                          "sourceLabel": "Claude"
+                        }
+                      ],
+                      "state": "present"
+                    }
+                  },
+                  "consolidationState": "exact",
+                  "duplicateMatches": [],
+                  "groupKey": "identity-756f34d1bb9a45ae4ba6",
+                  "members": [
+                    {
+                      "declaredLeadType": "program",
+                      "deterministicSignal": "service|organization-program|employment provider 2 2|employment program 2 2",
+                      "leadId": 3,
+                      "locationOrServiceArea": "Mesa",
+                      "membershipReason": "exact normalized organization and program with compatible role",
+                      "researchFocusKey": "",
+                      "researchFocusLabel": "",
+                      "researchPassKind": "",
+                      "sourceLabel": "Claude",
+                      "sourceOrdinal": 1,
+                      "submittedAddress": "22 Main Street, Mesa, AZ",
+                      "submittedOrganization": "Employment Provider 2-2",
+                      "submittedPhone": "480-555-0202",
+                      "submittedProgram": "Employment Program 2-2",
+                      "submittedWebsite": "https://example.org/employment/2/2",
+                      "uncertainty": "Confirm hours.",
+                      "whyRelevant": "Provides employment help."
+                    }
+                  ],
+                  "possibleRelatedSubmissions": [],
+                  "relevanceAlternatives": [
+                    {
+                      "sourceLabel": "Claude",
+                      "value": "Provides employment help."
+                    }
+                  ],
+                  "routedRole": "program",
+                  "sourceCount": 1,
+                  "uncertaintyAlternatives": [
+                    {
+                      "sourceLabel": "Claude",
+                      "value": "Confirm hours."
+                    }
+                  ]
+                },
+                "name": "Employment Program 2-2",
+                "organizationGroupName": "Employment Provider 2-2",
+                "organizationName": "Employment Provider 2-2",
+                "phone": "480-555-0202",
+                "possibleRelatedSubmissions": [],
+                "presentationName": "Employment Provider 2-2 · Employment Program 2-2",
+                "programName": "Employment Program 2-2",
+                "resourceType": "program",
+                "serviceNeed": "Provides employment help.",
+                "sources": [
+                  {
+                    "note": "Provides employment help.",
+                    "source": "Claude",
+                    "url": "https://example.org/employment/2/2"
+                  }
+                ],
+                "uncertainties": [
+                  "Confirm hours."
+                ],
+                "unknowns": [],
+                "website": "https://example.org/employment/2/2"
+              },
+              "createdAt": "2026-09-06T00:34:58.151267+00:00",
+              "id": 3,
+              "knownResourceMatch": null,
+              "matchAssessment": "",
+              "name": "Employment Provider 2-2 · Employment Program 2-2",
+              "notes": "",
+              "origin": "manual-chat-discovery",
+              "resourceDraft": {
+                "address": "22 Main Street, Mesa, AZ",
+                "categories": [
+                  "employment"
+                ],
+                "categoryFilters": {},
+                "description": "Provides employment help.",
+                "forGroups": [],
+                "hours": "",
+                "id": "1076a6e7c17a5afe8aefd612ece13ec1",
+                "informationText": "**Resource details**\n* Resource type: program\n* Area served: Mesa",
+                "name": "Employment Program 2-2",
+                "pdfs": [],
+                "phone": "480-555-0202",
+                "verifiedOn": null,
+                "website": "https://example.org/employment/2/2"
+              },
+              "updatedAt": "2026-09-06T00:34:58.151267+00:00"
+            }
+          ],
+          "category": {
+            "canonicalRunId": 2,
+            "definition": {
+              "active": true,
+              "defaultAssignment": "Discover realistic employment resources for people in Mesa and Maricopa County, Arizona who need work, better work, training, or help overcoming barriers to employment. Follow useful relationships from workforce organizations to specific placement programs, employers, training, credentials, apprenticeships, and supported-employment services. Verify costs, eligibility, schedules, and the practical enrollment path.",
+              "id": "employment",
+              "label": "Employment",
+              "multiCategoryResourceCount": 0,
+              "playbookSource": "employment.json",
+              "playbookVersion": "codex-first-v1",
+              "resourceCount": 0,
+              "specializedPlaybook": true,
+              "supported": true,
+              "types": []
+            },
+            "id": "employment",
+            "label": "Employment"
+          },
+          "curationPolicy": {
+            "crossCategoryTest": "Add another category only when the same named program independently passes that category's direct-service test. Do not add a category merely because the service removes a barrier, supports a later outcome, supplies a referral, or serves people who may also need that category.",
+            "directServiceTest": "Keep a proposal in a category only when the named program itself directly provides a substantial service that a person would reasonably seek under that category.",
+            "forGroupPolicy": "Apply only an existing For group when current evidence clearly identifies that population. Never create or suggest a missing For group in this pass.",
+            "objective": "Build the smallest high-confidence set of distinct, currently actionable resources that directly serve this category. Completeness is candidate disposition coverage, not proposal volume.",
+            "portfolioGuidance": "Prefer fewer strong additions over broad coverage. Do not keep a marginal candidate to meet a quota."
+          },
+          "excludedCandidates": [],
+          "instructions": [
+            "Curate every candidate or explicitly omit it with a reason.",
+            "Treat candidate coverage as an audit requirement, not an instruction to propose every candidate.",
+            "Propose only distinct, current, actionable programs or providers that directly deliver the current category's service.",
+            "Omit generic employer career pages, general school catalogs, broad directories, referral-only pages, and programs whose connection to the category is only an indirect barrier or downstream outcome.",
+            "Prefer one actionable program or provider per resource; consolidate aliases and duplicate program descriptions, and do not split ordinary locations.",
+            "Preserve uncertainty in plain language and do not invent facts.",
+            "A broken page alone does not prove closure; use current official or primary evidence before omitting a candidate as closed or inaccessible.",
+            "Reuse and extend a previously curated resource when it is the same program.",
+            "Every new resource must include the current category and contributing candidate IDs.",
+            "Assign another category only when the same named program directly and independently provides a substantial service in that category; barrier removal, referrals, and likely client overlap are not enough.",
+            "Apply only clearly evidenced existing For groups. Do not create or suggest a missing For group.",
+            "Prefer the smallest high-confidence proposal set; there is no target count or coverage quota.",
+            "Return only one JSON object matching outputContract."
+          ],
+          "location": {
+            "name": "Mesa",
+            "officeName": "Mesa TSO",
+            "serviceArea": "Mesa and Maricopa County, Arizona"
+          },
+          "outputContract": {
+            "assignmentSha256": "Copy from this assignment's assignmentSha256 field.",
+            "candidateDispositions": [
+              {
+                "candidateId": "candidate ID",
+                "disposition": "curated | merged | omitted",
+                "reason": "Required when omitted",
+                "resourceIds": [
+                  "generated resource ID"
+                ]
+              }
+            ],
+            "categoryId": "employment",
+            "resources": [
+              {
+                "address": "",
+                "candidateIds": [
+                  "candidate ID"
+                ],
+                "categories": [
+                  "employment"
+                ],
+                "categoryFilters": {},
+                "description": "",
+                "forGroups": [],
+                "hours": "",
+                "id": "stable generated resource ID",
+                "informationText": "",
+                "name": "",
+                "pdfs": [],
+                "phone": "",
+                "verifiedOn": null,
+                "website": ""
+              }
+            ],
+            "scoutCurationResultSchemaVersion": 1
+          },
+          "previouslyCuratedResources": [],
+          "role": "Codex-controlled Resource Scout curation",
+          "sourceOnlyRecords": [],
+          "sourcePackage": {
+            "contentSha256": "105a04e7d98458f0c20d39c2973fc54d9159ac046eff14ee2d21f3012f8cddbb",
+            "importId": 1,
+            "packageVersion": "8",
+            "schemaVersion": "3",
+            "sourceName": "mesa-resource-package.zip",
+            "sourceSha256": "a88e5e0f7d60f318a2398f2a3290933b15766677bba77925e3dfd7d9e9505f88"
+          },
+          "sourceResponses": [
+            {
+              "leadCount": 1,
+              "parseStatus": "parsed",
+              "rawSha256": "e9071e02b535902874bec32761c4c598404d00f22ed14adbf05c0bab621098bc",
+              "rawText": "{\"leads\": [{\"organization\": \"Employment Provider 2-1\", \"program\": \"Employment Program 2-1\", \"website\": \"https://example.org/employment/2/1\", \"phone\": \"480-555-0201\", \"address\": \"21 Main Street, Mesa, AZ\", \"leadType\": \"program\", \"locationOrServiceArea\": \"Mesa\", \"whyRelevant\": \"Provides employment help.\", \"uncertainty\": \"Confirm hours.\"}]}",
+              "sourceLabel": "ChatGPT",
+              "sourcePosition": 1
+            },
+            {
+              "leadCount": 1,
+              "parseStatus": "parsed",
+              "rawSha256": "e5ebb11988e2cd6d83bfb17f7a18d71dbe8c68eedaed56443ca9cd350436aae8",
+              "rawText": "{\"leads\": [{\"organization\": \"Employment Provider 2-2\", \"program\": \"Employment Program 2-2\", \"website\": \"https://example.org/employment/2/2\", \"phone\": \"480-555-0202\", \"address\": \"22 Main Street, Mesa, AZ\", \"leadType\": \"program\", \"locationOrServiceArea\": \"Mesa\", \"whyRelevant\": \"Provides employment help.\", \"uncertainty\": \"Confirm hours.\"}]}",
+              "sourceLabel": "Claude",
+              "sourcePosition": 2
+            }
+          ]
+        },
+        "assignmentSha256": "86d667a7722b5ab583b1ba81e13fe4e0a5d62f0ca98873c52ac96a75643e877b",
+        "result": null,
+        "resultSha256": "",
+        "resourceCount": 0,
+        "createdAt": "2026-09-06T00:34:58.182530+00:00",
+        "assignedAt": null,
+        "completedAt": null,
+        "updatedAt": "2026-09-06T00:34:58.182530+00:00",
+        "error": ""
+      },
+      {
+        "jobId": 1,
+        "categoryId": "food",
+        "categoryLabel": "Food",
+        "status": "pending",
+        "canonicalRunId": 3,
+        "candidateCount": 1,
+        "assignment": {
+          "assignmentSchemaVersion": 1,
+          "assignmentSha256": "d1807147bb6364d64eaf6d1777992729be2578877007cecb66b570e2024a8680",
+          "assignmentVersion": "codex-curation-v2-direct-service",
+          "availableCategories": [
+            {
+              "active": true,
+              "defaultAssignment": "Discover realistic employment resources for people in Mesa and Maricopa County, Arizona who need work, better work, training, or help overcoming barriers to employment. Follow useful relationships from workforce organizations to specific placement programs, employers, training, credentials, apprenticeships, and supported-employment services. Verify costs, eligibility, schedules, and the practical enrollment path.",
+              "id": "employment",
+              "label": "Employment",
+              "multiCategoryResourceCount": 0,
+              "playbookSource": "employment.json",
+              "playbookVersion": "codex-first-v1",
+              "resourceCount": 0,
+              "specializedPlaybook": true,
+              "supported": true,
+              "types": []
+            },
+            {
+              "active": true,
+              "defaultAssignment": "Discover realistic ways a person facing food insecurity in Mesa and Maricopa County, Arizona can obtain meals and groceries. Follow useful relationships from coordinating organizations to the specific meal sites, pantries, benefit programs, delivery services, and specialized providers people can actually access. Verify schedules, boundaries, eligibility, and the practical intake path.",
+              "id": "food",
+              "label": "Food",
+              "multiCategoryResourceCount": 0,
+              "playbookSource": "food.json",
+              "playbookVersion": "codex-first-v1",
+              "resourceCount": 0,
+              "specializedPlaybook": true,
+              "supported": true,
+              "types": []
+            }
+          ],
+          "availableForGroups": [
+            "Veterans"
+          ],
+          "candidatePackageSha256": "e409dcffb2369311d426bbcddde3b3b877bd2f2d691c96aa4df2de330114be04",
+          "candidates": [
+            {
+              "candidate": {
+                "additionalAddresses": [],
+                "additionalPhoneNumbers": [],
+                "address": "31 Main Street, Mesa, AZ",
+                "geography": "Mesa",
+                "manualDiscoveryChecks": {
+                  "categoryRelevance": {
+                    "note": "At least one chat response connects this resource with Food.",
+                    "sources": [
+                      {
+                        "leadId": 4,
+                        "sourceLabel": "Grok"
+                      }
+                    ],
+                    "state": "present"
+                  },
+                  "currentSignal": {
+                    "note": "A chat response supplied a website or said the service is currently available.",
+                    "sources": [
+                      {
+                        "leadId": 4,
+                        "sourceLabel": "Grok"
+                      }
+                    ],
+                    "state": "present"
+                  },
+                  "geography": {
+                    "note": "At least one chat response says this resource may serve the area.",
+                    "sources": [
+                      {
+                        "leadId": 4,
+                        "sourceLabel": "Grok"
+                      }
+                    ],
+                    "state": "present"
+                  },
+                  "identity": {
+                    "note": "At least one chat response supplied an organization or program name.",
+                    "sources": [
+                      {
+                        "leadId": 4,
+                        "sourceLabel": "Grok"
+                      }
+                    ],
+                    "state": "present"
+                  },
+                  "publicAccess": {
+                    "note": "A chat response supplied a website or a possible way to contact or apply.",
+                    "sources": [
+                      {
+                        "leadId": 4,
+                        "sourceLabel": "Grok"
+                      }
+                    ],
+                    "state": "present"
+                  }
+                },
+                "manualDiscoveryProvenance": {
+                  "checks": {
+                    "categoryRelevance": {
+                      "note": "At least one chat response connects this resource with Food.",
+                      "sources": [
+                        {
+                          "leadId": 4,
+                          "sourceLabel": "Grok"
+                        }
+                      ],
+                      "state": "present"
+                    },
+                    "currentSignal": {
+                      "note": "A chat response supplied a website or said the service is currently available.",
+                      "sources": [
+                        {
+                          "leadId": 4,
+                          "sourceLabel": "Grok"
+                        }
+                      ],
+                      "state": "present"
+                    },
+                    "geography": {
+                      "note": "At least one chat response says this resource may serve the area.",
+                      "sources": [
+                        {
+                          "leadId": 4,
+                          "sourceLabel": "Grok"
+                        }
+                      ],
+                      "state": "present"
+                    },
+                    "identity": {
+                      "note": "At least one chat response supplied an organization or program name.",
+                      "sources": [
+                        {
+                          "leadId": 4,
+                          "sourceLabel": "Grok"
+                        }
+                      ],
+                      "state": "present"
+                    },
+                    "publicAccess": {
+                      "note": "A chat response supplied a website or a possible way to contact or apply.",
+                      "sources": [
+                        {
+                          "leadId": 4,
+                          "sourceLabel": "Grok"
+                        }
+                      ],
+                      "state": "present"
+                    }
+                  },
+                  "consolidationState": "exact",
+                  "duplicateMatches": [],
+                  "groupKey": "identity-db3a68aff3a13b72f5fa",
+                  "members": [
+                    {
+                      "declaredLeadType": "program",
+                      "deterministicSignal": "service|organization-program|food provider 3 1|food program 3 1",
+                      "leadId": 4,
+                      "locationOrServiceArea": "Mesa",
+                      "membershipReason": "exact normalized organization and program with compatible role",
+                      "researchFocusKey": "",
+                      "researchFocusLabel": "",
+                      "researchPassKind": "",
+                      "sourceLabel": "Grok",
+                      "sourceOrdinal": 1,
+                      "submittedAddress": "31 Main Street, Mesa, AZ",
+                      "submittedOrganization": "Food Provider 3-1",
+                      "submittedPhone": "480-555-0301",
+                      "submittedProgram": "Food Program 3-1",
+                      "submittedWebsite": "https://example.org/food/3/1",
+                      "uncertainty": "Confirm hours.",
+                      "whyRelevant": "Provides food help."
+                    }
+                  ],
+                  "possibleRelatedSubmissions": [],
+                  "relevanceAlternatives": [
+                    {
+                      "sourceLabel": "Grok",
+                      "value": "Provides food help."
+                    }
+                  ],
+                  "routedRole": "program",
+                  "sourceCount": 1,
+                  "uncertaintyAlternatives": [
+                    {
+                      "sourceLabel": "Grok",
+                      "value": "Confirm hours."
+                    }
+                  ]
+                },
+                "name": "Food Program 3-1",
+                "organizationGroupName": "Food Provider 3-1",
+                "organizationName": "Food Provider 3-1",
+                "phone": "480-555-0301",
+                "possibleRelatedSubmissions": [],
+                "presentationName": "Food Provider 3-1 · Food Program 3-1",
+                "programName": "Food Program 3-1",
+                "resourceType": "program",
+                "serviceNeed": "Provides food help.",
+                "sources": [
+                  {
+                    "note": "Provides food help.",
+                    "source": "Grok",
+                    "url": "https://example.org/food/3/1"
+                  }
+                ],
+                "uncertainties": [
+                  "Confirm hours."
+                ],
+                "unknowns": [],
+                "website": "https://example.org/food/3/1"
+              },
+              "createdAt": "2026-09-06T00:34:58.158761+00:00",
+              "id": 4,
+              "knownResourceMatch": null,
+              "matchAssessment": "",
+              "name": "Food Provider 3-1 · Food Program 3-1",
+              "notes": "",
+              "origin": "manual-chat-discovery",
+              "resourceDraft": {
+                "address": "31 Main Street, Mesa, AZ",
+                "categories": [
+                  "food"
+                ],
+                "categoryFilters": {},
+                "description": "Provides food help.",
+                "forGroups": [],
+                "hours": "",
+                "id": "16333f242cf4554d99a08e8def80e782",
+                "informationText": "**Resource details**\n* Resource type: program\n* Area served: Mesa",
+                "name": "Food Program 3-1",
+                "pdfs": [],
+                "phone": "480-555-0301",
+                "verifiedOn": null,
+                "website": "https://example.org/food/3/1"
+              },
+              "updatedAt": "2026-09-06T00:34:58.158761+00:00"
+            }
+          ],
+          "category": {
+            "canonicalRunId": 3,
+            "definition": {
+              "active": true,
+              "defaultAssignment": "Discover realistic ways a person facing food insecurity in Mesa and Maricopa County, Arizona can obtain meals and groceries. Follow useful relationships from coordinating organizations to the specific meal sites, pantries, benefit programs, delivery services, and specialized providers people can actually access. Verify schedules, boundaries, eligibility, and the practical intake path.",
+              "id": "food",
+              "label": "Food",
+              "multiCategoryResourceCount": 0,
+              "playbookSource": "food.json",
+              "playbookVersion": "codex-first-v1",
+              "resourceCount": 0,
+              "specializedPlaybook": true,
+              "supported": true,
+              "types": []
+            },
+            "id": "food",
+            "label": "Food"
+          },
+          "curationPolicy": {
+            "crossCategoryTest": "Add another category only when the same named program independently passes that category's direct-service test. Do not add a category merely because the service removes a barrier, supports a later outcome, supplies a referral, or serves people who may also need that category.",
+            "directServiceTest": "Keep a proposal in a category only when the named program itself directly provides a substantial service that a person would reasonably seek under that category.",
+            "forGroupPolicy": "Apply only an existing For group when current evidence clearly identifies that population. Never create or suggest a missing For group in this pass.",
+            "objective": "Build the smallest high-confidence set of distinct, currently actionable resources that directly serve this category. Completeness is candidate disposition coverage, not proposal volume.",
+            "portfolioGuidance": "Prefer fewer strong additions over broad coverage. Do not keep a marginal candidate to meet a quota."
+          },
+          "excludedCandidates": [],
+          "instructions": [
+            "Curate every candidate or explicitly omit it with a reason.",
+            "Treat candidate coverage as an audit requirement, not an instruction to propose every candidate.",
+            "Propose only distinct, current, actionable programs or providers that directly deliver the current category's service.",
+            "Omit generic employer career pages, general school catalogs, broad directories, referral-only pages, and programs whose connection to the category is only an indirect barrier or downstream outcome.",
+            "Prefer one actionable program or provider per resource; consolidate aliases and duplicate program descriptions, and do not split ordinary locations.",
+            "Preserve uncertainty in plain language and do not invent facts.",
+            "A broken page alone does not prove closure; use current official or primary evidence before omitting a candidate as closed or inaccessible.",
+            "Reuse and extend a previously curated resource when it is the same program.",
+            "Every new resource must include the current category and contributing candidate IDs.",
+            "Assign another category only when the same named program directly and independently provides a substantial service in that category; barrier removal, referrals, and likely client overlap are not enough.",
+            "Apply only clearly evidenced existing For groups. Do not create or suggest a missing For group.",
+            "Prefer the smallest high-confidence proposal set; there is no target count or coverage quota.",
+            "Return only one JSON object matching outputContract."
+          ],
+          "location": {
+            "name": "Mesa",
+            "officeName": "Mesa TSO",
+            "serviceArea": "Mesa and Maricopa County, Arizona"
+          },
+          "outputContract": {
+            "assignmentSha256": "Copy from this assignment's assignmentSha256 field.",
+            "candidateDispositions": [
+              {
+                "candidateId": "candidate ID",
+                "disposition": "curated | merged | omitted",
+                "reason": "Required when omitted",
+                "resourceIds": [
+                  "generated resource ID"
+                ]
+              }
+            ],
+            "categoryId": "food",
+            "resources": [
+              {
+                "address": "",
+                "candidateIds": [
+                  "candidate ID"
+                ],
+                "categories": [
+                  "food"
+                ],
+                "categoryFilters": {},
+                "description": "",
+                "forGroups": [],
+                "hours": "",
+                "id": "stable generated resource ID",
+                "informationText": "",
+                "name": "",
+                "pdfs": [],
+                "phone": "",
+                "verifiedOn": null,
+                "website": ""
+              }
+            ],
+            "scoutCurationResultSchemaVersion": 1
+          },
+          "previouslyCuratedResources": [],
+          "role": "Codex-controlled Resource Scout curation",
+          "sourceOnlyRecords": [],
+          "sourcePackage": {
+            "contentSha256": "105a04e7d98458f0c20d39c2973fc54d9159ac046eff14ee2d21f3012f8cddbb",
+            "importId": 1,
+            "packageVersion": "8",
+            "schemaVersion": "3",
+            "sourceName": "mesa-resource-package.zip",
+            "sourceSha256": "a88e5e0f7d60f318a2398f2a3290933b15766677bba77925e3dfd7d9e9505f88"
+          },
+          "sourceResponses": [
+            {
+              "leadCount": 1,
+              "parseStatus": "parsed",
+              "rawSha256": "b60752747097e6ef5a4352de602a016aa92e43b6e8b5f3a58a58aa41a1f19778",
+              "rawText": "{\"leads\": [{\"organization\": \"Food Provider 3-1\", \"program\": \"Food Program 3-1\", \"website\": \"https://example.org/food/3/1\", \"phone\": \"480-555-0301\", \"address\": \"31 Main Street, Mesa, AZ\", \"leadType\": \"program\", \"locationOrServiceArea\": \"Mesa\", \"whyRelevant\": \"Provides food help.\", \"uncertainty\": \"Confirm hours.\"}]}",
+              "sourceLabel": "Grok",
+              "sourcePosition": 1
+            }
+          ]
+        },
+        "assignmentSha256": "d1807147bb6364d64eaf6d1777992729be2578877007cecb66b570e2024a8680",
+        "result": null,
+        "resultSha256": "",
+        "resourceCount": 0,
+        "createdAt": "2026-09-06T00:34:58.182530+00:00",
+        "assignedAt": null,
+        "completedAt": null,
+        "updatedAt": "2026-09-06T00:34:58.182530+00:00",
+        "error": ""
+      }
+    ]
+  }
+}

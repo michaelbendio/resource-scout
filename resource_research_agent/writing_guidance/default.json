@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "version": "plain-language-v1",
+  "instructionsFile": "plain_language.md",
+  "sections": [
+    {"key": "programsAndServices", "heading": "Programs and Services"},
+    {"key": "eligibilityRequirements", "heading": "Eligibility Requirements"},
+    {"key": "howToBestConnect", "heading": "How to Best Connect"},
+    {"key": "access", "heading": "Access"},
+    {"key": "importantInformationToKnow", "heading": "Important Information to Know"}
+  ],
+  "retiredHeadings": ["Services Provided", "Scout Findings", "Verify before Referral"]
+}

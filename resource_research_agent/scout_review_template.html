@@ -1102,6 +1102,11 @@ textarea.information-editor { min-height:320px; resize:vertical; }
     padding-left: 14pt;
   }
 
+  .information-heading {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
   .print-resource-separator {
     border: 0;
     border-top: 1px solid #999;
@@ -1898,7 +1903,8 @@ function renderInformationMarkupHTML(text){
       out.push('<div class="information-line information-blank">&nbsp;</div>');
       return;
     }
-    out.push(`<div class="information-line">${renderInformationInlineHTML(line)}</div>`);
+    const headingClass = /^\*\*[^*]+\*\*$/.test(trimmed) ? " information-heading" : "";
+    out.push(`<div class="information-line${headingClass}">${renderInformationInlineHTML(line)}</div>`);
   });
 
   flushList();

@@ -1,5 +1,12 @@
 # Resource Scout product design
 
+This document describes the existing workflow. The
+[next Scout design](scout-next-design.md) specifies the proposed integrated
+discovery, Information, existing-resource classification, and group-review
+workflow. On `v2.0`, its first writing increment is implemented; see
+[results](scout-increment-1-results.md). Later increments remain future work.
+The historical enrichment contract below does not define new v2 first-pass output.
+
 ## Product boundary
 
 Resource Scout owns the path from office-package intake through multi-model

@@ -5,6 +5,19 @@ from several consumer AI products. It creates a self-contained TSO Resources
 review file such as `autoMesa.html` for human vetting and package creation. It is
 designed for repeated use across TSO locations and resource categories.
 
+The `v2.0` development branch implements increment 1 of the
+[next Scout design](docs/scout-next-design.md): plain-language writing guidance
+and the five approved Information sections in normal first-pass curation.
+Guidance lives in versioned JSON/Markdown, is frozen into each assignment, and
+does not rewrite earlier jobs. The source version remains 0.50.0/build 17 until
+a release is designated; `v2.0` is the development branch, not a published release.
+See the [implementation and pilot report](docs/scout-increment-1-results.md).
+Human pilot review is pending. Existing-resource improvements, classification,
+maintenance, and adaptive research remain later increments.
+
+The following version notes describe the established Scout line, retained on
+`main` in the separate `resource-scout` checkout.
+
 Version 0.50.0 adds a non-destructive curation/enrichment project for an existing
 `auto[Location].html`. Each resource receives the three Information sections
 approved from Stephanie's template—Services Provided, Eligibility Requirements,
@@ -108,9 +121,10 @@ not part of this codebase.
 6. Reviewers edit ordinary resources in that file, mark vetted resources
    **Curated**, save a standard package containing the curated selection, and merge
    it into the office HTML. Successfully packaged resources are hidden locally.
-7. An existing review artifact can enter the separate enrichment workflow. Scout
-   researches the three approved Information sections per resource and carries the
-   artifact's prior Information forward under **Scout Findings**.
+7. Earlier review artifacts can still use the legacy enrichment workflow. Its
+   three-section-plus-Scout-Findings contract remains unchanged. New v2 curation
+   already produces Programs and Services, Eligibility Requirements, How to Best
+   Connect, Access, and Important Information to Know.
 
 ## Candidate packages
 

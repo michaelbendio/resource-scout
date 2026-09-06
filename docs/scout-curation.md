@@ -76,6 +76,34 @@ base and any saved edits rather than duplicated in package history.
 
 ## Curation contract
 
+On `v2.0`, new assignments use `codex-curation-v3-writing` plus the SHA-256 of
+their complete writing guidance. Result schema 2 replaces free-form
+`informationText` input with five nonempty `informationSections` bodies:
+`programsAndServices`, `eligibilityRequirements`, `howToBestConnect`, `access`,
+and `importantInformationToKnow`. Scout composes their exact headings and order.
+Description remains a concise ordinary field. See
+[`writing_guidance/plain_language.md`](../resource_research_agent/writing_guidance/plain_language.md).
+
+The JSON definition and referenced Markdown are resolved once at job creation
+and copied into every category assignment. Their full content hash participates
+in job reuse, even if the readable version label is unchanged. Resuming a saved
+job uses its stored instructions, including categories not yet assigned.
+
+Each written resource supplies `writingEvidence` with contributing candidate ID
+strings and any newly consulted sources (`url`, ISO-date `accessedOn`, and
+`excerpt`). These references and section bodies remain in the durable result;
+original research remains in the assignment. They are excluded from exported
+resource fields. New AI responses cannot set a human `verifiedOn` date.
+
+Validation rejects missing/extra/blank sections, embedded reserved headings,
+competing free-form Information, and responses for another assignment/schema.
+It enforces structure and provenance references, not the truth of each claim or
+the quality of the prose. Human source comparison and pilot review remain required.
+
+Legacy jobs continue using their own schema 1 contract. Preparing a job under
+new guidance creates a separate job; it does not rewrite earlier assignments,
+resources, source packages, or enrichment projects.
+
 Scout creates one durable curation job for each researched,
 non-`Miscellaneous` category. A job records:
 
@@ -194,10 +222,10 @@ The v0.45 blind comparison was one-time evidence. Its fixture and immutable
 report remain in source control; its tables, endpoints, UI, and tests are not
 part of the v0.46 production runtime.
 
-Stephanie's Information-template feedback is now handled by the separate,
-versioned enrichment workflow documented in `scout-enrichment.md`. It preserves
-the complete prior Information block under Scout Findings instead of changing
-the original curation record.
+The earlier version of Stephanie's Information-template feedback is handled by
+the legacy enrichment workflow documented in `scout-enrichment.md`. It retains
+the prior Information under Scout Findings. New v2 curation uses the five-section
+writing contract above and does not append Scout Findings to the public text.
 
 At that same feedback gate, discuss and agree on three rules before changing
 the Codex assignment: assigning a resource to every appropriate category,

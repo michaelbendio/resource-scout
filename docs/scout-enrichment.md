@@ -1,5 +1,10 @@
 # Resource Scout curation and enrichment
 
+This is the implemented retrofit contract for earlier review files. The
+[next Scout design](scout-next-design.md) incorporates Stephanie's later
+Information feedback into normal curation and adds evidence-based classification
+and group review. It does not change completed enrichment projects retroactively.
+
 Resource Scout can freeze an existing `auto[Location].html` into a durable,
 resource-by-resource enrichment project. This stage does not rerun discovery,
 change the taxonomy, or overwrite the source artifact.

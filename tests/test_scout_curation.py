@@ -6,6 +6,9 @@ import re
 import tempfile
 import threading
 import unittest
+import shutil
+from copy import deepcopy
+from unittest.mock import patch
 import urllib.request
 import zipfile
 from datetime import datetime, timedelta, timezone
@@ -127,14 +130,18 @@ class ScoutCurationTests(unittest.TestCase):
         current_ids = [str(item["id"]) for item in assignment["candidates"]]
         all_candidate_ids = candidate_ids or current_ids
         return {
-            "scoutCurationResultSchemaVersion": 1,
+            "scoutCurationResultSchemaVersion": assignment["outputContract"]["scoutCurationResultSchemaVersion"],
             "assignmentSha256": assignment["assignmentSha256"],
             "categoryId": assignment["category"]["id"],
             "resources": [{
                 "id": resource_id,
                 "name": "Mesa Community Assistance",
                 "description": "Connects Mesa residents with practical help.",
-                "informationText": "Call or visit the website to confirm eligibility.",
+                "informationSections": {
+                    section["key"]: "Call or visit the website to confirm eligibility."
+                    for section in assignment["writingGuidance"]["sections"]
+                },
+                "writingEvidence": {"candidateIds": all_candidate_ids, "sources": []},
                 "categories": categories or [assignment["category"]["id"]],
                 "categoryFilters": {},
                 "forGroups": ["Veterans"],
@@ -181,7 +188,7 @@ class ScoutCurationTests(unittest.TestCase):
         )
         assignment = job["categories"][0]["assignment"]
         self.assertEqual(
-            "codex-curation-v2-direct-service",
+            "codex-curation-v3-writing:" + assignment["writingGuidance"]["sha256"],
             assignment["assignmentVersion"],
         )
         self.assertIn(
@@ -311,6 +318,109 @@ class ScoutCurationTests(unittest.TestCase):
             save_scout_curation_result(
                 self.store, job["id"], "employment", result
             )
+
+    def test_writing_revision_identity_and_resume_without_guidance_files(self) -> None:
+        from resource_research_agent.resource_writing import DEFAULT_GUIDANCE_PATH
+        guidance_dir = self.root / "guidance"
+        shutil.copytree(DEFAULT_GUIDANCE_PATH.parent, guidance_dir)
+        guidance_path = str(guidance_dir / "default.json")
+        first = prepare_scout_curation_job(self.store, self.import_id, writing_guidance_path=guidance_path)
+        repeated = prepare_scout_curation_job(self.store, self.import_id, writing_guidance_path=guidance_path)
+        self.assertEqual(first["id"], repeated["id"])
+        document = guidance_dir / "plain_language.md"
+        document.write_text(document.read_text() + "\nA newly approved wording rule.\n")
+        second = prepare_scout_curation_job(self.store, self.import_id, writing_guidance_path=guidance_path)
+        self.assertNotEqual(first["id"], second["id"])
+        self.assertEqual(first["candidatePackageSha256"], second["candidatePackageSha256"])
+        document.unlink()
+        with patch("resource_research_agent.scout_curation.load_writing_guidance", side_effect=AssertionError("Must use sealed guidance")):
+            assignment = next_scout_curation_assignment(self.store, first["id"])
+            again = next_scout_curation_assignment(ResearchStore(self.store.path), first["id"])
+            self.assertEqual(assignment, again)
+            self.assertNotIn("newly approved", assignment["writingGuidance"]["instructionsText"])
+            result = self.result_for(assignment, resource_id="first")
+            save_scout_curation_result(self.store, first["id"], "employment", result)
+            pending = next_scout_curation_assignment(self.store, first["id"])
+            self.assertEqual(assignment["writingGuidance"], pending["writingGuidance"])
+            save_scout_curation_result(self.store, first["id"], "food", self.result_for(pending, resource_id="second"))
+            build_scout_review_file(self.store, first["id"])
+
+    def test_failed_writing_keeps_assignment_and_legacy_schema_is_not_a_bypass(self) -> None:
+        job = prepare_scout_curation_job(self.store, self.import_id)
+        assignment = next_scout_curation_assignment(self.store, job["id"])
+        result = self.result_for(assignment, resource_id="test")
+        for bad in ("blank", "legacy", "unverified", "wrong-revision"):
+            changed = deepcopy(result)
+            if bad == "blank":
+                changed["resources"][0]["informationSections"]["access"] = ""
+            elif bad == "legacy":
+                changed["scoutCurationResultSchemaVersion"] = 1
+            elif bad == "unverified":
+                changed["resources"][0]["verifiedOn"] = "2026-09-05"
+            else:
+                changed["assignmentSha256"] = "f" * 64
+            with self.subTest(bad=bad), self.assertRaises(ScoutCurationError):
+                save_scout_curation_result(self.store, job["id"], "employment", changed)
+            current = self.store.get_scout_curation_job(job["id"])
+            self.assertEqual("assigned", current["categories"][0]["status"])
+            self.assertIsNone(current["categories"][0]["result"])
+            self.assertEqual(assignment, next_scout_curation_assignment(self.store, job["id"]))
+        save_scout_curation_result(self.store, job["id"], "employment", result)
+
+    def test_writing_evidence_and_fields_survive_but_do_not_leak_into_handout(self) -> None:
+        original_import = deepcopy(self.store.import_summary(self.import_id))
+        job = prepare_scout_curation_job(self.store, self.import_id)
+        for resource_id in ("written-employment", "written-food"):
+            assignment = next_scout_curation_assignment(self.store, job["id"])
+            before = deepcopy(assignment)
+            response = self.result_for(assignment, resource_id=resource_id)
+            resource = response["resources"][0]
+            resource.update(phone="480-555-0123", address="Test address", website="https://example.org/apply", hours="Weekdays", pdfs=[{"name": "Guide", "path": "assets/guide.pdf"}])
+            resource["informationSections"]["howToBestConnect"] = "Email help@example.org to apply."
+            resource["writingEvidence"]["sources"] = [{"url": "https://example.org/source", "accessedOn": "2026-09-05", "excerpt": "Internal evidence excerpt."}]
+            save_scout_curation_result(self.store, job["id"], assignment["category"]["id"], response)
+            current = self.store.get_scout_curation_job(job["id"])
+            category = next(c for c in current["categories"] if c["categoryId"] == assignment["category"]["id"])
+            self.assertEqual(before, category["assignment"])
+            self.assertEqual(resource["writingEvidence"], category["result"]["writing"][resource_id]["evidence"])
+        seed = build_scout_review_seed(self.store, job["id"])
+        self.assertEqual(original_import, self.store.import_summary(self.import_id))
+        for resource in seed["resources"]:
+            self.assertEqual("480-555-0123", resource["phone"])
+            self.assertEqual("assets/guide.pdf", resource["pdfs"][0]["path"])
+            self.assertIn("help@example.org", resource["informationText"])
+            for key in ("writing", "writingEvidence", "informationSections", "candidateIds"):
+                self.assertNotIn(key, resource)
+        html = build_scout_review_file(self.store, job["id"]).content.decode()
+        self.assertIn("help@example.org", html)
+        self.assertNotIn("Internal evidence excerpt.", html)
+        self.assertNotIn("writingGuidance", html)
+
+    def test_legacy_jobs_resume_and_build_without_rewriting(self) -> None:
+        fixture = json.loads((Path(__file__).parent / "fixtures/resource_writing/legacy_job.json").read_text())
+        legacy = fixture["job"]
+        legacy["importId"] = self.import_id
+        job_id = self.store.create_scout_curation_job(legacy, legacy["categories"])
+        with patch("resource_research_agent.scout_curation.load_writing_guidance", side_effect=AssertionError("Legacy cannot load new guidance")):
+            for name in ("legacy-employment", "legacy-food"):
+                assignment = next_scout_curation_assignment(self.store, job_id)
+                self.assertEqual("codex-curation-v2-direct-service", assignment["assignmentVersion"])
+                candidate_ids = [c["id"] for c in assignment["candidates"]]
+                response = {
+                    "scoutCurationResultSchemaVersion": 1,
+                    "assignmentSha256": assignment["assignmentSha256"],
+                    "categoryId": assignment["category"]["id"],
+                    "resources": [{"id": name, "name": name, "informationText": "Legacy free text\nScout Findings", "categories": [assignment["category"]["id"]], "candidateIds": candidate_ids}],
+                    "candidateDispositions": [{"candidateId": c, "disposition": "curated", "resourceIds": [name], "reason": ""} for c in candidate_ids],
+                }
+                save_scout_curation_result(self.store, job_id, response["categoryId"], response)
+            before = build_scout_review_seed(self.store, job_id)
+            self.assertTrue(all(r["informationText"] == "Legacy free text\nScout Findings" for r in before["resources"]))
+            build_scout_review_file(self.store, job_id)
+        new_job = prepare_scout_curation_job(self.store, self.import_id)
+        self.assertNotEqual(job_id, new_job["id"])
+        after = build_scout_review_seed(self.store, job_id)
+        self.assertEqual(before["resources"], after["resources"])
 
     def test_chatgpt_schedule_and_progress_reporting_policy(self) -> None:
         completed_at = datetime(2026, 8, 28, 18, 0, tzinfo=timezone.utc)
