@@ -2,8 +2,8 @@
 
 Status: implemented and software-tested on `v2.0`. The six-resource historical
 Provo pilot has completed Codex primary research, all 18 actual ChatGPT/Grok/
-Perplexity audits, and Codex reconciliation. Its classifications await human
-review. This is not completion of increment 3.
+Perplexity audits, and Codex reconciliation. Michael has approved the pilot
+classifications and reconciliation. Slice 3A is accepted; 3B and 3C remain planned.
 No office package has been exported from the real pilot, and no learning policy
 has been activated.
 
@@ -19,6 +19,24 @@ work provides evidence tracking, preservation of later office edits, and safe
 export. That implementation acceptance did not approve resource classifications
 or complete the migration/navigation slices. Michael's subsequent “go ahead”
 authorized the proposed definitions and the actual six-resource research pilot.
+
+## Michael's pilot acceptance
+
+After reviewing `autoProvoClassificationPilot.html` on his device, Michael said:
+
+> I found it and reviewed it. I approve. V2.0 will be a significant improvement.
+
+This accepts the six-resource historical pilot and Scout's reconciliation,
+including its explicit treatment of uncertain evidence. The exact feedback,
+source package hash, guidance hash, reviewed HTML hash, and all six reconciled
+proposal hashes are recorded in
+`output/provo-classification-pilot/pilot-acceptance.json`.
+The reviewed HTML remains unchanged as the acceptance artifact.
+
+Approval does not establish new provider facts: the four underlying operational
+questions remain recorded. Production packaging still requires the current office
+package and the normal review/export workflow; no office package was changed.
+The next discussion is 3B: group usefulness and complete category migrations.
 
 ## What is usable
 
@@ -127,7 +145,8 @@ is a readable definition-review artifact, not a completed classification review.
 The 32 definitions were approved for the pilot as guidance version 2. The real
 research is now complete; `autoProvoClassificationPilot.html` is the new portable,
 read-only review artifact. The earlier definitions and accepted writing artifacts
-remain separate. No Curated decisions or production exports have been recorded.
+remain separate. Pilot acceptance is now recorded separately. No production Curated decisions or
+exports have been recorded.
 
 ### Actual research results
 
