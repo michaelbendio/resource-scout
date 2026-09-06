@@ -84,6 +84,20 @@ class ScoutImprovementTests(unittest.TestCase):
                                 kwargs.pop('choices', {'description': 'proposed', 'informationText': 'proposed'}),
                                 'QA reviewer; not human approval', **kwargs)
 
+    def test_dispatch_selected_resource_without_bypassing_research_gates(self):
+        self.assertIsNone(self.flow.next_assignment(self.pid, researcher='ChatGPT', resource_id='r2'))
+        primary = self.flow.next_assignment(self.pid, researcher='Codex', resource_id='r2')
+        self.assertEqual('r2', primary['resourceId'])
+        self.flow.submit(self.pid, 'primary', result_for(primary))
+        audit = self.flow.next_assignment(self.pid, researcher='ChatGPT', resource_id='r2')
+        self.assertEqual('audit:ChatGPT', audit['stage'])
+        restarted = ImprovementWorkflow(ResearchStore(self.path))
+        self.assertEqual(audit, restarted.next_assignment(self.pid, researcher='ChatGPT', resource_id='r2'))
+        self.assertIsNone(self.flow.next_assignment(self.pid, researcher='Codex', resource_id='r2'))
+        self.assertEqual('r1', self.flow.next_assignment(self.pid)['resourceId'])
+        with self.assertRaisesRegex(ImprovementError, 'not selected'):
+            self.flow.next_assignment(self.pid, resource_id='missing')
+
     def test_frozen_inputs_restart_and_idempotent_assignments(self):
         again = self.flow.prepare(self.payload, 'Test TSO', ['r1', 'r2'], historical=True)
         self.assertEqual(self.pid, again['id'])

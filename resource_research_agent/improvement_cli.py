@@ -18,6 +18,7 @@ def add_improvement_commands(subcommands):
         command.add_argument('project_id', type=int)
         if action == 'next':
             command.add_argument('--researcher')
+            command.add_argument('--resource-id')
         if action == 'submit':
             command.add_argument('stage')
             command.add_argument('result_file')
@@ -40,7 +41,7 @@ def run_improvement_command(store, args):
     if action == 'status':
         return workflow.view(args.project_id)
     if action == 'next':
-        return workflow.next_assignment(args.project_id, researcher=args.researcher)
+        return workflow.next_assignment(args.project_id, researcher=args.researcher, resource_id=args.resource_id)
     if action == 'submit':
         return workflow.submit(args.project_id, args.stage, json.loads(Path(args.result_file).read_text(encoding='utf-8')))
     if action == 'connect':

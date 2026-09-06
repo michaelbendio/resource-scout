@@ -2,8 +2,10 @@
 
 Implementation authorized September 5, 2026. Work stays on `v2.0` with isolated
 databases. Increment 1 is accepted; this increment is not yet complete.
-The software workflow and validation are now implemented; see
-[status, evidence, and pending pilot](scout-increment-2-results.md).
+The software workflow and validation are implemented, and the authorized
+historical Provo pilot has completed real research and reconciliation. Human
+review is pending; see [status and evidence](scout-increment-2-results.md) and
+the [three-resource pilot report](scout-increment-2-pilot.md).
 
 ## Scope and decisions
 

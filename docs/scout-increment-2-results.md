@@ -1,10 +1,12 @@
 # Increment 2 status and usage
 
 September 5, 2026. The existing-resource update workflow is implemented on
-`v2.0` and has passed software and browser checks. **Increment 2 is not yet
-complete:** a current Provo package must be identified, then a real four-AI
-research pilot and Michael's review must take place. No real Provo resource
-research, independent AI checks, or human acceptance is claimed by the tests.
+`v2.0` and has passed software and browser checks. Michael explicitly authorized
+the historical August 12 Provo package for a useful pilot. **The real four-AI
+pilot is now researched and reconciled; Michael's review remains pending.**
+Three Codex primary results, nine independent consumer-service audits, and three
+Codex reconciliations are saved. No human acceptance or provider phone
+verification is claimed. See [pilot results](scout-increment-2-pilot.md).
 
 ## What is implemented
 
@@ -114,6 +116,7 @@ The `improve` CLI provides `prepare`, `status`, `next`, `submit`, `connect`,
 ```sh
 python3 -m resource_research_agent --database data/scout-v2.sqlite3 improve next 1
 python3 -m resource_research_agent --database data/scout-v2.sqlite3 improve next 1 --researcher ChatGPT
+python3 -m resource_research_agent --database data/scout-v2.sqlite3 improve next 1 --researcher ChatGPT --resource-id RESOURCE_ID
 python3 -m resource_research_agent --database data/scout-v2.sqlite3 improve submit 1 audit:ChatGPT result.json
 ```
 
@@ -122,6 +125,13 @@ identity and selected existing resource IDs. `connect` and `export` require the
 current project revision shown by `status`; stale requests are rejected. Human
 review occurs in the page. CLI export writes a new file, verifies its exact bytes,
 then acknowledges success; it refuses to overwrite an existing output file.
+
+The optional `next --resource-id` allows an operator to prepare several sealed
+assignments for one consumer-service packet while an earlier assignment remains
+pending. It cannot bypass primary/audit/reconciliation dependencies or expand
+the project's selected resource scope. The pilot exposed this dispatch need;
+14 focused improvement tests now pass, including out-of-order dispatch,
+restart/idempotence and preservation of those gates.
 
 To reproduce browser QA with Playwright installed in an isolated environment:
 
@@ -134,15 +144,21 @@ Use a fresh output directory. The checker starts and stops its own local server
 and uses a fresh browser context. Its synthetic responses are not independent
 AI research and its reviewer name is not Michael's approval.
 
-## Pending input and next checkpoint
+## Pilot baseline and next checkpoint
 
 The newest nonempty Provo ZIP located locally is
 `Downloads/provo-resource-package-4.zip`, version 41, created August 12, 2026,
 SHA-256 `dc883d19eff7a30e78d33df580ea8408a50788eade33647c40ec6a23f0201a49`.
 The other found packages are older versions 21/22 or an empty package. Michael
-has been asked whether to use this package or a newer current office export.
-Do not launch a real Provo pilot or call this increment complete until that
-input is settled and its actual research/review experience has been discussed.
+said, "It's not current but use it anyway. It will still be useful." That
+authorization settled the pilot input. Its project remains historical, including
+when the same historical ZIP is reconnected for comparison. This does not
+establish that it is the current Provo office collection.
+
+The local read-only review is `output/provo-improvement-pilot/autoProvoPilot.html`.
+The durable project uses `output/provo-improvement-pilot/pilot.sqlite3`, project 1.
+All resources remain unmarked; no office update package was exported. A current
+office package and human decisions remain necessary before a production merge.
 
 The grand plan remains writing, safe existing-resource improvements,
 classification, maintenance, proposed research lessons, and adaptive research

@@ -150,13 +150,17 @@ class ImprovementWorkflow:
         primary = next(r['name'] for r in roster if r['role'] == 'primary')
         return [('primary', primary)] + [('audit:' + r['name'], r['name']) for r in roster if r['role'] == 'challenger'] + [('reconcile', primary)]
 
-    def next_assignment(self, project_id, *, researcher=None):
+    def next_assignment(self, project_id, *, researcher=None, resource_id=None):
         with self.store.connect() as connection:
             connection.execute('BEGIN IMMEDIATE')
             state = self._load(connection, project_id)
             base = self._package(connection, state['baseSha256'])
             stages = self._stages(state)
+            if resource_id is not None and resource_id not in state['resources']:
+                raise ImprovementError('Resource is not selected for this project')
             for rid, item in state['resources'].items():
+                if resource_id is not None and rid != resource_id:
+                    continue
                 for stage, name in stages:
                     if stage in item['results']:
                         continue
