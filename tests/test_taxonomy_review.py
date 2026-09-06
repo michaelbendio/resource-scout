@@ -186,6 +186,23 @@ class TaxonomyTests(unittest.TestCase):
         with self.assertRaisesRegex(ImprovementError,'Location reader update required'):self.approve(p)
         with self.assertRaisesRegex(ImprovementError,'complete current'):self.export(p)
 
+    def test_schema4_reader_allows_reviewed_alias_retirement_and_preserves_preferences(self):
+        self.data['resourcePackageSchemaVersion'] = 4
+        self.data['forGroupPreferences'] = {'prominent': [], 'lastModified': '2026-09-06T00:00:00Z', 'extension': 'keep'}
+        self.data['categoryMigrations'] = [{'fromId': 'older', 'toId': 'seniors'}]
+        self.connect()
+        self.select_all(); self.finish(); p = self.plan()
+        with self.assertRaises(ImprovementError): self.approve(p)
+        for rid in p['affectedIds']: self.mapping(p, rid)
+        self.approve(p)
+        export = self.export(p)
+        out = read_package(self.review.export_bytes(self.pid, export['exportId']))
+        self.assertEqual(4, out['data']['resourcePackageSchemaVersion'])
+        self.assertEqual(self.data['forGroupPreferences'], out['data']['forGroupPreferences'])
+        self.assertEqual(self.assets, out['assets'])
+        self.assertEqual({'older', 'seniors'}, {m['fromId'] for m in out['data']['categoryMigrations']})
+        self.assertFalse(any(m.get('toId') for m in out['data']['categoryMigrations']))
+
     def test_definition_change_invalidates_mapping_and_preserves_prior_research(self):
         p=self.ready();self.approve(p);v=self.flow.view(self.pid);g=deepcopy(v['guidance']);g['version']+=1
         self.flow.save_guidance(self.pid,v['revision'],g,'QA revised definitions',[term_key((t['field'],t['categoryId'],t['value'])) for t in g['terms']])

@@ -84,6 +84,18 @@ class ScoutImprovementTests(unittest.TestCase):
                                 kwargs.pop('choices', {'description': 'proposed', 'informationText': 'proposed'}),
                                 'QA reviewer; not human approval', **kwargs)
 
+    def test_supported_package_schemas_preserve_office_preferences_and_assets(self):
+        for schema in (3, 4):
+            package = deepcopy(self.data)
+            package['resourcePackageSchemaVersion'] = schema
+            package['forGroupPreferences'] = {'prominent': [], 'lastModified': '2026-09-06T00:00:00Z'}
+            out = read_package(write_package(package, self.assets))
+            self.assertEqual(package, out['data'])
+            self.assertEqual(self.assets, out['assets'])
+        package['resourcePackageSchemaVersion'] = 5
+        with self.assertRaisesRegex(ImprovementError, 'schema 3 or 4'):
+            read_package(write_package(package, self.assets))
+
     def test_dispatch_selected_resource_without_bypassing_research_gates(self):
         self.assertIsNone(self.flow.next_assignment(self.pid, researcher='ChatGPT', resource_id='r2'))
         primary = self.flow.next_assignment(self.pid, researcher='Codex', resource_id='r2')

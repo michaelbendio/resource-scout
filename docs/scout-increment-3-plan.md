@@ -10,7 +10,9 @@ all 25 affected resources now researched. Migration completion still requires
 human review of uncertain memberships and mappings, and a reader compatibility
 fix. See [3B research proposals](scout-increment-3b-research.md) and
 [3B results](scout-increment-3b-results.md).
-3C remains for discussion before implementation. See
+Michael authorized 3C after reviewing the 3B research report. It is implemented
+and tested in an isolated location-app checkout; preview review and release remain
+pending. See [3C results](scout-increment-3c-results.md) and
 [implementation status and remaining work](scout-increment-3-results.md).
 
 Michael accepted the increment 2 pilot's writing and Scout's reconciliation of

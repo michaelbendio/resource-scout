@@ -4,7 +4,8 @@ Status: implemented and software-tested on `v2.0`. The six-resource historical
 Provo pilot has completed Codex primary research, all 18 actual ChatGPT/Grok/
 Perplexity audits, and Codex reconciliation. Michael has approved the pilot
 classifications and reconciliation. Slice 3A is accepted. [3B review tools](scout-increment-3b-results.md) are now
-implemented; complete Provo retirement and 3C remain pending.
+implemented; complete Provo retirement remains pending. [3C navigation and reader
+compatibility](scout-increment-3c-results.md) are implemented for development review.
 No office package has been exported from the real pilot, and no learning policy
 has been activated.
 

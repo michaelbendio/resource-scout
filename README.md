@@ -21,9 +21,11 @@ guidance and safe existing-resource exports. Its six-resource Provo pilot is
 accepted after real classification research and reconciliation. See
 [increment 3A status and usage](docs/scout-increment-3-results.md). Increment 3B adds
 [office group review and complete migration planning](docs/scout-increment-3b-results.md).
-Provo retirement remains pending full research/review and a location-reader
-compatibility fix; unsafe alias migrations cannot export. Location navigation,
-maintenance, and adaptive research remain later work.
+All 25 affected Provo resources are researched; retirement still requires human
+mapping review and a package from the updated reader. [Increment 3C](docs/scout-increment-3c-results.md)
+implements group navigation and schema 4 compatibility in an isolated location-app
+checkout, with a historical Provo development preview. Its review and release are
+pending. Maintenance and adaptive research remain later work.
 
 The following version notes describe the established Scout line, retained on
 `main` in the separate `resource-scout` checkout.

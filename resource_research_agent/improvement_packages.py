@@ -53,8 +53,8 @@ def read_package(payload: bytes) -> dict:
             if archive.getinfo('tso-resources.json').file_size > MAX_JSON_BYTES:
                 raise ImprovementError('Resource JSON exceeds size limit')
             data = json.loads(archive.read('tso-resources.json').decode('utf-8-sig'))
-            if not isinstance(data, dict) or type(data.get('resourcePackageSchemaVersion')) is not int or data['resourcePackageSchemaVersion'] != 3:
-                raise ImprovementError('Existing-resource updates require standard package schema 3')
+            if not isinstance(data, dict) or type(data.get('resourcePackageSchemaVersion')) is not int or data['resourcePackageSchemaVersion'] not in (3, 4):
+                raise ImprovementError('Existing-resource updates require standard package schema 3 or 4')
             if type(data.get('packageVersion')) is not int or data['packageVersion'] < 0:
                 raise ImprovementError('Package needs a nonnegative integer version')
             for field in ('resources', 'categories', 'forGroups'):

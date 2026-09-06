@@ -274,8 +274,8 @@ class TaxonomyReview:
         package,fingerprint=self._inputs(c,state);view=deepcopy(plan);blockers=[]
         proposed_records=self._records(package,state)
         compatibility=[]
-        if plan['legacyCategoryIds']:
-            compatibility.append('Location reader update required: an older package can restore a redirect to a retired category. Migration export remains blocked until that merge behavior is fixed and verified.')
+        if plan['legacyCategoryIds'] and package['data'].get('resourcePackageSchemaVersion', 3) < 4:
+            compatibility.append('Location reader update required: an older package can restore a redirect to a retired category. Reconnect a schema 4 package saved by the updated location reader before exporting this migration.')
             blockers.extend(compatibility)
         view['stale']=plan['inputSha256']!=fingerprint
         if view['stale']:blockers.append('Source package, definitions, or classification evidence/review changed. Create a new plan.')
