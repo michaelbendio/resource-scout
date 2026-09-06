@@ -23,7 +23,8 @@ assert len(d['items'])==5
 assert len({r['id'] for r in d['items']})==5
 assert sum(r['status']=='Title proposed' for r in d['items'])==3
 assert sum(r['status'].startswith('Conditional') for r in d['items'])==1
-assert sum(r['proposedName'] is None for r in d['items'])==1
+assert d['items'][0]['proposedName']=='A New Leaf · Clothing, furniture and household essentials'
+assert [s['type'] for s in d['items'][0]['serviceAssessment']]==['Clothing','Furniture','Household essentials']
 for row in d['items']:assert row['current']==originals[row['id']]
 for row in d['relatedResources']:assert row==originals[row['id']]
 assert d['independentAudits']==[] and d['humanReviewDecisions']==d['exports']==0
@@ -59,8 +60,10 @@ with sync_playwright() as pw:
    assert text.count('Questions to settle')==int(selected!='overview')
    if selected!='overview':
     row=next(r for r in d['items'] if r['id']==selected)
-    flattened=' '.join(text.split())
+    flattened=' '.join(re.sub(r'(?<=-)\s*\n\s*', '', text).split())
     for q in row['questions']:assert ' '.join(q.split()) in flattened,q
+    for service in row.get('serviceAssessment',[]):
+     for key in ('type','status','help','access'):assert ' '.join(service[key].split()) in flattened,service[key]
    assert page.locator('main').inner_html()==main
    results.append({'id':selected,'notes':notes,'pages':len(pages),'proof':pdf.name})
  for width,height in [(390,844),(768,1024)]:

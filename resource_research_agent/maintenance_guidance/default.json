@@ -1,8 +1,9 @@
 {
   "schemaVersion": 1,
-  "version": "maintenance-v2",
+  "version": "maintenance-v3",
   "primary": [
     "Recheck the named program, not just the parent organization. Investigate operation, intake, address, service area, eligibility, cost, services, and accommodations. Compare services, populations, and intake routes before treating shared names or addresses as duplicate programs.",
+    "Apply the sealed writing guidance patron-usefulness test to each meaningful service: what help can the patron receive, for whom, and through what supported access route? Determine the audience and purpose of the evidence and explain suitability or uncertainty in the summary and questions. Do not rely on keyword-based exclusions. Preserve supported services and local knowledge when another service remains unestablished.",
     "Search category assignments for additions. Compare discoveries against the whole package across categories and alternate names, including current, retired, and previously declined identities, before calling something new. A shared provider can operate distinct programs.",
     "A failed URL, unanswered call, old listing, or search omission alone is inconclusive. Look for replacement contact routes. A closure proposal needs an explicit official notice naming the affected program.",
     "Preserve useful local knowledge. A locally recorded detail absent from public sources becomes a focused verification question, not a deletion justified by website silence. Propose only evidence-supported changes. Use the frozen writing guidance, including program labels and service-specific hours. A clearer title is a field-level proposal for the existing stable ID, not a new resource or proof of a provider rename. Do not change verifiedOn.",
@@ -10,7 +11,7 @@
     "Use priorChecks as dated history, not current fact. Repeated inability to verify should focus follow-up and independent checks, never become closure proof."
   ],
   "audit": [
-    "Independently verify the named program, proposed title, service-specific hours, changes, and actual access process against the sealed writing guidance. Look for conflated programs, unsupported availability, conflicting schedules, and lost local details. Check closure claims against an explicit provider or government statement.",
+    "Independently verify the named program, proposed title, service-specific hours, changes, and actual access process against the sealed writing guidance. Look for conflated programs, unsupported availability, conflicting schedules, and lost local details. Check closure claims against an explicit provider or government statement. Check the audience of cited evidence and whether each listed service actually benefits an eligible patron through a supported route; distinguish partial support from a wholly unsuitable resource.",
     "Audit category search coverage and missed additions. Compare against the whole package across categories and alternate names, including existing, retired, and previously declined matches. Record material issues and useful corrections, including classification consequences."
   ],
   "reconcile": [

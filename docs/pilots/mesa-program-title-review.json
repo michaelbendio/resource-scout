@@ -86,7 +86,7 @@
       "title": "City of Mesa: Workforce Center @ Mesa",
       "url": "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa",
       "accessedOn": "2026-09-06",
-      "observation": "The City lists job-search support and an interview-clothing boutique, identifies A New Leaf among its partners, and posts Monday, Tuesday, Thursday and Friday 8:30 AM–2:30 PM; Wednesday by appointment. Its linked interest form is for employers.",
+      "observation": "The City advertises job-search services and a professional clothing boutique. It publishes center contact 480-594-2501. Boutique availability and appointment rules are not specified. Center hours are Monday, Tuesday, Thursday and Friday 8:30 AM–2:30 PM; Wednesday by appointment. The interest form is for employers.",
       "observationType": "Paraphrased research observation"
     },
     {
@@ -140,18 +140,18 @@
   ],
   "items": [
     {
-      "label": "Clothing and household items",
-      "status": "Hold title — resolve program",
-      "proposedName": null,
-      "reason": "The entry combines donation intake, workforce clothing, Rapid Rehousing furniture, and Autumn House. Its website points to Autumn House, while its categories are clothing and household essentials. A single confident program label would conceal that mismatch.",
+      "label": "Clothing, furniture and household essentials",
+      "status": "Requested title — access partly unestablished",
+      "proposedName": "A New Leaf · Clothing, furniture and household essentials",
+      "reason": "Use Michael’s complete service-type label for this review. The entry is not established as a general source of all three kinds of help. Preserve the supported interview-clothing lead; furniture and household essentials still lack a confirmed recipient route. An invitation to give goods is not a route to receive them. No blanket rejection of A New Leaf, automatic deletion, or merge is justified.",
       "questions": [
-        "Which recipient-facing program is this record intended to describe: interview clothing, furniture for rehousing clients, or goods for shelter residents?",
-        "Can someone who is not already enrolled obtain the items, and what intake route should the missionary use?",
-        "Does the interview-clothing portion belong with the existing Workforce Center entry? Preserve any unique furniture or shelter-client knowledge before considering a merge or split."
+        "Does the existing Workforce Center record adequately cover interview clothing, or is a separate clothing entry useful? Confirm boutique appointments and availability with the center.",
+        "Can a patron obtain furniture or household essentials through a named program, who qualifies, and how do they request the items? Keep existing local leads until this is settled."
       ],
       "observations": [
-        "The City currently advertises an interview-clothing boutique; the blanket uncertainty in the mixed entry needs refinement. That does not confirm a public furniture service.",
-        "Keep the original record and its uncertainties. No rename, merge, split, deletion, or new resource is proposed for this entry."
+        "Do not send a patron to the donation scheduling form to request goods. The form’s stated purpose is arranging a donation.",
+        "Do not treat the entire record as inappropriate: the City explicitly describes interview clothing for job seekers. Preserve that assistance while separating unresolved services.",
+        "The complete requested title is shown as a review label. Before presenting all three services to patrons, establish access or clearly qualify which help remains unconfirmed."
       ],
       "sources": [
         "workforce",
@@ -162,7 +162,8 @@
       "related": [
         "7f314bc451d77d01f553d4527407d06d",
         "c3ab0f1578b4ec24df452d8eee4c9ce6",
-        "db2e8f3b8772791cf254fb9cc04b9838"
+        "db2e8f3b8772791cf254fb9cc04b9838",
+        "b818a3a3b765d76ab42f0c78b169eef9"
       ],
       "id": "2683e222e5f6957b1e5bddb3292334d1",
       "current": {
@@ -197,7 +198,37 @@
         "phone": "480-835-5555",
         "verifiedOn": "2026-08-26",
         "website": "https://turnanewleaf.org/services/sexual-and-domestic-violence-services/autumn-house/"
-      }
+      },
+      "serviceAssessment": [
+        {
+          "type": "Clothing",
+          "status": "Supported lead — interview clothing",
+          "help": "The City advertises a professional clothing boutique for job seekers.",
+          "access": "Ask the Workforce Center at 480-594-2501 about an interview outfit, availability, and appointments. This is a published center contact, not a verified boutique intake line.",
+          "sources": [
+            "workforce"
+          ]
+        },
+        {
+          "type": "Furniture",
+          "status": "Recipient access unestablished",
+          "help": "The retained historical lead concerns furniture donated to Rapid Rehousing. Current rehousing information establishes housing assistance, not a public furniture pickup service.",
+          "access": "Ask whether enrolled clients can receive furniture and which staff arrange it. Do not direct patrons to a donor drop-off or infer public eligibility.",
+          "sources": [
+            "used-donations",
+            "rehousing"
+          ]
+        },
+        {
+          "type": "Household essentials",
+          "status": "Recipient access unestablished",
+          "help": "Another MesaCAN record in this file mentions hygiene goods and diapers; preserve that local lead. Current donor material alone does not establish how a patron can request household items.",
+          "access": "Ask MesaCAN which essentials it supplies, who qualifies, and how to request them. Preserve the shelter-client leads too; do not replace those local details with an assumption based on a donor page.",
+          "sources": [
+            "donations"
+          ]
+        }
+      ]
     },
     {
       "label": "Autumn House",
@@ -602,5 +633,82 @@
     "Other AI services were not queried: the browser connector reported Chrome unavailable. No independent audit findings are invented.",
     "No providers were contacted, applications submitted, resource records edited, or human-verification dates advanced.",
     "The prescreen could not be read; utility application contents were not rechecked."
-  ]
+  ],
+  "revisionHistory": [
+    {
+      "revision": 1,
+      "gitRevision": "ce59413c35455f86e7cb0bfc344589b0742b92d7",
+      "note": "Initial five-title review; original evidence and decisions retained in Git."
+    }
+  ],
+  "revision": 2,
+  "followupGuidanceSnapshot": {
+    "writing": {
+      "schemaVersion": 1,
+      "version": "plain-language-v3",
+      "instructionsFile": "plain_language.md",
+      "sections": [
+        {
+          "key": "programsAndServices",
+          "heading": "Programs and Services"
+        },
+        {
+          "key": "eligibilityRequirements",
+          "heading": "Eligibility Requirements"
+        },
+        {
+          "key": "howToBestConnect",
+          "heading": "How to Best Connect"
+        },
+        {
+          "key": "access",
+          "heading": "Access"
+        },
+        {
+          "key": "importantInformationToKnow",
+          "heading": "Important Information to Know"
+        }
+      ],
+      "retiredHeadings": [
+        "Services Provided",
+        "Scout Findings",
+        "Verify before Referral"
+      ],
+      "instructionsText": "# Writing resources for counseling and printed handouts\n\nWrite respectfully for adults seeking practical help. A service missionary must\nbe able to scan the resource quickly. The person taking the printout home may\nneed support with reading, remembering steps, or using a computer. Use everyday\nwords, short sentences, and brief paragraphs or simple bullets. Explain an\nunavoidable acronym. Avoid agency jargon, promotional language, and research\nprocess commentary. Do not judge the person's ability or circumstances.\n\nPatron usefulness: identify what help a TSO patron can receive, who can receive\nit, and a supported way to begin obtaining it. Determine the audience and purpose\nof each source and contact route; a page about an organization does not by\nitself establish assistance for the person seeking help. Reason from the\nevidence rather than matching keywords or assuming every mentioned activity is\na service. Assess each meaningful service separately. Preserve supported help\nwhen another service is uncertain. Explain an unsuitable or unresolved lead in\nreview notes, with the missing evidence or next question. Do not silently remove\nan existing accepted record or mistake uncertainty for closure.\n\nResource title: when one organization has multiple resource entries, use\n\"Organization · brief program or service label\" so a missionary can distinguish\nthem before opening them. Prefer an official program name when useful, with\nplain words identifying the help. When a resource covers multiple meaningful\nservice types, briefly list them rather than forcing one program label. Titles\nneed not enumerate incidental benefits. Keep important distinctions in the\nDescription and Information. A requested review label may describe the scope\nunder investigation, but identify unestablished services clearly before using\nthat label as a patron-facing promise. Do not invent a program identity, imply an\nunconfirmed service is available, or split or merge records just to improve a\ntitle. If the assignment permits name changes, propose the title through its\nnormal review process; otherwise record the suggestion in reviewNotes. Preserve\nstable IDs. For a mixed or uncertain program entry, flag the identity question\ninstead of making its title sound more certain than the evidence.\n\nHours: distinguish meal, pantry, office, and other service schedules. Do not\ncollapse them into a single schedule or treat office hours as service hours.\nFlag conflicting published schedules and say which service needs confirmation.\nWhen hours are outside the assignment's editable fields, record the discrepancy\nin reviewNotes rather than changing protected fields.\n\nDescription: briefly say what help is offered and where it is available. Identify\nlocation and service area accurately; an office address does not establish an\neligibility boundary. Preserve meaningful geographic limits and uncertainty.\n\nPrograms and Services: explain specific help, combining overlapping accounts.\nPrefer useful service distinctions over a long organizational history or list\nof incidental benefits. Do not repeat the same explanation in another section.\n\nEligibility Requirements: state the relevant qualifications and required\nreferrals or documents. Preserve material age, income, location, and other\nconditions. Requirements may vary by program; never substitute an invented\nrule for missing information.\n\nHow to Best Connect: give a supported starting route and practical next steps.\nExamine service and application pages or forms, not just the home page, to\nestablish appointment or walk-in requirements, pickup options, delivery\narrangements, and useful application instructions. Reading a form is research;\ndo not submit it or enter personal information. Distinguish what the form offers\nfrom assumptions about eligibility or guaranteed access.\nWhen known, explain what happens after applying without promising placement,\nfunding, eligibility, or response times. Keep phone, address, website, and hours\nin their ordinary fields; avoid duplicating those fields in Information. There\nis no dedicated email field: include a useful email address in this section.\nDo not assume a computer or internet access. Include an offline alternative only\nwhen supported. Do not invent documents, contacts, language help, or a preferred\nintake route.\n\nAccess: describe the area served and relevant access arrangements. Distinguish\nservice area from the physical office or individual job/service locations.\n\nImportant Information to Know: give material costs, limitations, availability,\nand specific questions the person should check. Distinguish applying from\nreceiving help. Keep unknown details brief and relevant; do not add generic\nwarnings to every resource or repeat them under several headings.\n\nReturn section bodies only; Scout supplies the exact headings and their order.\nUse plain paragraphs and optional lines starting with '- ' for bullets. Do not\nreturn HTML, Markdown links, tables, or extra headings. Use full URLs when a\nlink is needed on paper. Keep necessary conditions even when shortening text;\nthere is no mandatory word count. Never append original Scout Findings to the\npublic Information. Original research stays in the assignment history.\n\nEvery claim must be supported by the provided evidence or recorded additional\nresearch. Return writingEvidence with candidateIds (contributing candidate IDs\nas strings) and sources (an array). Each newly consulted source must contain\nexactly url (full HTTP/HTTPS URL), accessedOn (YYYY-MM-DD), and excerpt (relevant\nsource text). Use an empty sources array if only the supplied evidence was used.\nEvidence storage is not human verification: leave verifiedOn null. If a material\ndetail cannot be established, say what is unknown or what to ask. Do not copy\nknown providers, contacts, or eligibility facts from a writing example.\n",
+      "sha256": "77c44c55afd891be48f6e8ce8f14edfabb3221c521831ce12c54c72065ecdbbc"
+    },
+    "maintenance": {
+      "schemaVersion": 1,
+      "version": "maintenance-v3",
+      "primary": [
+        "Recheck the named program, not just the parent organization. Investigate operation, intake, address, service area, eligibility, cost, services, and accommodations. Compare services, populations, and intake routes before treating shared names or addresses as duplicate programs.",
+        "Apply the sealed writing guidance patron-usefulness test to each meaningful service: what help can the patron receive, for whom, and through what supported access route? Determine the audience and purpose of the evidence and explain suitability or uncertainty in the summary and questions. Do not rely on keyword-based exclusions. Preserve supported services and local knowledge when another service remains unestablished.",
+        "Search category assignments for additions. Compare discoveries against the whole package across categories and alternate names, including current, retired, and previously declined identities, before calling something new. A shared provider can operate distinct programs.",
+        "A failed URL, unanswered call, old listing, or search omission alone is inconclusive. Look for replacement contact routes. A closure proposal needs an explicit official notice naming the affected program.",
+        "Preserve useful local knowledge. A locally recorded detail absent from public sources becomes a focused verification question, not a deletion justified by website silence. Propose only evidence-supported changes. Use the frozen writing guidance, including program labels and service-specific hours. A clearer title is a field-level proposal for the existing stable ID, not a new resource or proof of a provider rename. Do not change verifiedOn.",
+        "Return dated sources, focused follow-up questions, operational evidence dates, and a suggested next check date. Unknown stays unknown. Flag classification consequences for human review.",
+        "Use priorChecks as dated history, not current fact. Repeated inability to verify should focus follow-up and independent checks, never become closure proof."
+      ],
+      "audit": [
+        "Independently verify the named program, proposed title, service-specific hours, changes, and actual access process against the sealed writing guidance. Look for conflated programs, unsupported availability, conflicting schedules, and lost local details. Check closure claims against an explicit provider or government statement. Check the audience of cited evidence and whether each listed service actually benefits an eligible patron through a supported route; distinguish partial support from a wholly unsuitable resource.",
+        "Audit category search coverage and missed additions. Compare against the whole package across categories and alternate names, including existing, retired, and previously declined matches. Record material issues and useful corrections, including classification consequences."
+      ],
+      "reconcile": [
+        "Reconcile the primary research with every independent audit. Resolve every finding explicitly; leave unsupported facts uncertain.",
+        "Keep closure separate from temporary pause, moves, renamed programs, changed coverage, and failed contact. Preserve local information and exact existing identities.",
+        "Return the full reconciled item list; additions omitted after an audit need an explanation in researchNotes. No evidence or human verification may be invented."
+      ]
+    }
+  },
+  "userDesignDecision": "Briefly list multiple meaningful resource types. Assess usefulness from the patron’s side without a donation-specific exclusion rule.",
+  "followupResearch": {
+    "date": "2026-09-06",
+    "sourcesRechecked": [
+      "workforce",
+      "donations",
+      "rehousing",
+      "mesacan"
+    ],
+    "scope": "Recipient usefulness of the mixed record; four other title decisions retained from the first review. No provider contact or independent audit."
+  }
 }

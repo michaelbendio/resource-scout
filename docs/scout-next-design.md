@@ -649,8 +649,20 @@ subject to their evidence/readiness review.
 
 The [Mesa program-title pilot](scout-program-title-pilot.md) now provides the
 first focused review of these refinements: three title proposals, one conditional
-on resolving an existing-record overlap, and one held for program clarification.
+on resolving an existing-record overlap, and Michael’s requested clothing,
+furniture and household essentials title with service-by-service access findings.
 This Codex-only review awaits Michael's decisions; no Mesa resource was changed.
+
+Michael's next approved refinement is now in `plain-language-v3` and
+`maintenance-v3`: briefly list multiple meaningful service types, and assess
+usefulness from the patron's perspective (help, eligible recipient, and supported
+access route). Determine the purpose and audience of source material rather
+than adding keyword exclusions or a donation-specific rule. Evaluate partial
+support service by service, preserving useful help and local knowledge. The
+revised Mesa review shows the requested full title and preserves interview
+clothing while flagging unestablished furniture/household-item access. This is
+an approved policy refinement and a focused Codex application of it, not proof
+of reliable autonomous judgment or a completed independent-audit cycle.
 
 Store proposed lessons separately from operational facts. A lesson records its
 supporting events, office/category scope, relevant research configuration,

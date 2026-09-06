@@ -7,10 +7,25 @@ words, short sentences, and brief paragraphs or simple bullets. Explain an
 unavoidable acronym. Avoid agency jargon, promotional language, and research
 process commentary. Do not judge the person's ability or circumstances.
 
+Patron usefulness: identify what help a TSO patron can receive, who can receive
+it, and a supported way to begin obtaining it. Determine the audience and purpose
+of each source and contact route; a page about an organization does not by
+itself establish assistance for the person seeking help. Reason from the
+evidence rather than matching keywords or assuming every mentioned activity is
+a service. Assess each meaningful service separately. Preserve supported help
+when another service is uncertain. Explain an unsuitable or unresolved lead in
+review notes, with the missing evidence or next question. Do not silently remove
+an existing accepted record or mistake uncertainty for closure.
+
 Resource title: when one organization has multiple resource entries, use
 "Organization · brief program or service label" so a missionary can distinguish
 them before opening them. Prefer an official program name when useful, with
-plain words identifying the help. Do not invent a program identity, imply an
+plain words identifying the help. When a resource covers multiple meaningful
+service types, briefly list them rather than forcing one program label. Titles
+need not enumerate incidental benefits. Keep important distinctions in the
+Description and Information. A requested review label may describe the scope
+under investigation, but identify unestablished services clearly before using
+that label as a patron-facing promise. Do not invent a program identity, imply an
 unconfirmed service is available, or split or merge records just to improve a
 title. If the assignment permits name changes, propose the title through its
 normal review process; otherwise record the suggestion in reviewNotes. Preserve

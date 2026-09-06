@@ -2,12 +2,15 @@
   "sourceHtmlSha256": "65f26f690534927c7c359b0c082b25e950fe996eec0b64b79a632edad89f2831",
   "sourceUnchanged": true,
   "reviewCopy": "/Users/michaelbendio/Library/Mobile Documents/com~apple~CloudDocs/Documents/TSO/autoMesaProgramTitlePilot.html",
-  "reviewSha256": "183112598f086de55a3c694baaa94fbc114efa11d0b6a78bf2b14eadfde1fa05",
+  "reviewSha256": "7d753b5aa2051ac06f0ab1e90e4884edeef0e6d90a78b8fc0fc256a47202b631",
   "copiedBytesVerified": true,
   "artifactSha256": {
-    "docs/pilots/mesa-program-title-review.json": "fa396466e71de1145a66f17a1dc484fed768b2695a7a5a93fa67b3427e8dcb94",
-    "scripts/build_program_title_review.py": "1e6650c21e6666ee5873ceb0ae329eaf26967fc785536c47579f2661a4ce3934",
-    "scripts/check_program_title_review.py": "307b53b81601737aa18dcfec4f84384ab086244ea2295647dd298e2912e565db"
+    "docs/pilots/mesa-program-title-review.json": "c70ed66278b2cf2737f2041721dc47367fec161b670ca9848c88acf7145c80a9",
+    "scripts/build_program_title_review.py": "e962044dd4f8c7a5929ced5c2314d2d5fc895157737cae4fc4578210fcfd9fca",
+    "scripts/check_program_title_review.py": "f7d89c2ea7d129958d55c50c3404d85e27fd27279c4e89a74dead4e1387d20fa",
+    "resource_research_agent/writing_guidance/default.json": "7dc305d6f0f247479c62bb697a14950179281624d55b7a01b5e01177b8517110",
+    "resource_research_agent/writing_guidance/plain_language.md": "97a7c2cffae1ef23534f5c417ca880a1526b81093cc744f69ccf6b16b06ffcfd",
+    "resource_research_agent/maintenance_guidance/default.json": "2150ca44ed425c1ef150a25c181358a4c5d0b5c8846f68f684b15c08ff82f35e"
   },
   "validation": {
     "sourceUnchanged": true,
@@ -91,5 +94,11 @@
   "renderedPrintProofsInspected": true,
   "independentAudits": 0,
   "humanReviewDecisions": 0,
-  "exports": 0
+  "exports": 0,
+  "previousReviewSha256": "183112598f086de55a3c694baaa94fbc114efa11d0b6a78bf2b14eadfde1fa05",
+  "reviewRevision": 2,
+  "softwareTests": {
+    "passed": 63,
+    "scope": "writing, curation, improvement, maintenance and rendering"
+  }
 }

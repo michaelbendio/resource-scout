@@ -12,10 +12,12 @@ its AutoMesa office name and package version 3.
 - One conditional title: Workforce Center @ Mesa. The City of Mesa entry already
   describes that center; review whether the A New Leaf record is a distinct
   service before making duplicate entries appear intentionally distinct.
-- One held title: clothing/household items. The record mixes donation intake,
-  workforce clothing, rehousing furniture, and shelter services. No rename,
-  split, merge, deletion, or replacement is proposed until the intended program
-  and recipient access are resolved.
+- Michael's requested title: A New Leaf · Clothing, furniture and household
+  essentials. The revised review assesses each service separately: interview
+  clothing is a supported lead; furniture and household-item recipient routes
+  remain unestablished. Preserve the other MesaCAN record's hygiene/diaper
+  details as local leads. No automatic deletion or merge follows from partial
+  uncertainty, and the original resource remains unchanged.
 
 The City's workforce page advertises a clothing boutique and lists a 2:30 PM
 closing time; MesaCAN lists workforce self-service ending at 1:30 PM. The
@@ -72,3 +74,26 @@ approved guidance. Research-method learning and adaptive category run planning
 remain later increments with their established evidence/readiness review;
 this focused Codex review does not manufacture independent or phone-vetted
 outcomes toward that gate.
+
+## Patron-usefulness follow-up
+
+Michael requested briefly listing all meaningful resource types, and reasoning
+from usefulness to TSO patrons without a special donation rule. The follow-up
+uses `plain-language-v3` and `maintenance-v3`; initial guidance and decisions
+remain traceable through the original snapshot and Git revision history. Four
+other title decisions are unchanged. No independent audits were performed.
+
+Codex rechecked the City workforce, donor, Rapid Rehousing, and MesaCAN pages.
+The requested title is shown in full. A new What a patron can receive section
+separates the three services and their access evidence. The published center
+contact is identified as a general contact, not a confirmed boutique intake
+line. The other MesaCAN record's hygiene/diaper details remain local knowledge
+to investigate. A donor form is not presented as a patron request route.
+
+The 63 targeted writing/curation/improvement/maintenance tests passed. All 11
+browser print choices passed, including checks that every per-service finding
+survives printing. Working copies remain one page each; optional source notes
+remain at most two pages. These tests check guidance integration and artifact
+integrity; model judgment is assessed through this real review, not simulated
+by a keyword rule or a fabricated model response. Discuss the result with
+Michael before advancing to research-method learning and adaptive assignments.
