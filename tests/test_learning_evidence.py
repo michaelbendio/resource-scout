@@ -32,6 +32,24 @@ class EvidenceTests(unittest.TestCase):
             artifact={'path':str(artifact),'sha256':artifact_sha,'deliveredAt':'2026-09-06T12:00:00Z'},
             configuration={'policy':config,'researcher':'Synthetic QA'})
 
+    def test_legacy_version_is_evidence_only_and_original_bytes_survive(self):
+        data=deepcopy(self.data);data['packageVersion']='2'
+        payload=write_package(data,self.assets)
+        with self.assertRaises(ImprovementError):read_package(payload)
+        evidence=self.ledger.import_package('legacy','Test TSO',payload,scope='full',historical=True)
+        self.assertEqual('2',evidence['packageVersion'])
+        self.assertTrue(evidence['intakeWarnings'])
+        with self.store.connect() as c:
+            saved=c.execute('SELECT payload FROM scout_evidence_artifacts WHERE id=?',(evidence['sha256'],)).fetchone()[0]
+            self.assertEqual(payload,saved)
+            self.assertEqual('2',self.ledger._package(c,evidence['sha256'])['data']['packageVersion'])
+        later=deepcopy(data);later['packageVersion']=3;later['resources'][0]['name']='Changed'
+        after=self.ledger.import_package('legacy','Test TSO',write_package(later,self.assets),scope='full',historical=True)
+        self.assertEqual(1,len(self.compare(evidence,after)['events']))
+        for invalid in ('-1','2.0','02',' 2','٢',True,None):
+            data['packageVersion']=invalid
+            with self.assertRaises(ImprovementError):self.imp(data)
+
     def test_exact_fields_idempotency_and_editorial_adoption_not_vetting(self):
         title='Example · Clothing, furniture and household essentials'
         proposal=self.manual({'name':title});after=self.imp(self.changed(name=title))

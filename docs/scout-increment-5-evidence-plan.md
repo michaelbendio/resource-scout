@@ -103,3 +103,5 @@ misrepresented as statistically learned patterns.
 Increment 6 later adapts category-specific goals, run counts, and stopping
 criteria. Neither automatic inference nor adaptive runs are authorized by
 collecting an evidence ledger alone.
+
+Real-package follow-through: the historical Mesa comparison is complete; see the [evidence guide](scout-increment-5-evidence.md#real-mesa-package-comparison-september-6). It produces observations only, not vetted research outcomes.

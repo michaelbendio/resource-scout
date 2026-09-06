@@ -125,3 +125,51 @@ and evaluate readiness for method interpretation. The agreed 25-outcome,
 three-category, 15-accepted-candidate, 90%-provenance review remains in force.
 JSON/Markdown lesson proposals, evaluation/activation, and adaptive category run
 planning remain later work.
+
+## Real Mesa package comparison (September 6)
+
+After approval of the synthetic demonstration, the evidence reader was exercised
+with the two saved AutoMesa packages surrounding the Stephanie revisions.
+`docs/pilots/mesa-package-evidence-manifest.json` records exact source hashes,
+package evidence IDs, dates, intake warnings and the comparison summary.
+
+Both contain the same 333 resource IDs. The ledger observed 333 Description and
+333 Information changes, with no additions, absences or other compared changes.
+A sampled Description adds service geography; its Information changes the first
+heading to Programs and Services and incorporates program entries. This is
+consistent with the documented Stephanie revisions, but is not independent proof
+of an editing/export chain or individual curator acceptance.
+
+No attributable proposal receipts or provider confirmations accompany this pair.
+All 666 changes remain observations: zero linked adoptions, zero explicit field
+verifications, zero inferred resource-vetting outcomes, zero activated lessons.
+Completeness is recorded as unknown and the collection is historical. Directly
+authorized writing guidance is not counted as repeated successful research.
+
+The older schema-3 package has a string packageVersion (`"2"`). Evidence intake
+now accepts a canonical ASCII nonnegative integer string while retaining its type,
+raw JSON and exact ZIP bytes, and records an intake warning. Normal package reads,
+updates and exports still require an integer. No schema-2 compatibility was added.
+
+Reproduce (from the repository root, with PYTHONPATH=.):
+
+```sh
+python3 scripts/build_package_evidence_review.py BEFORE.zip AFTER.zip OUTPUT \
+  --office AutoMesa --collection mesa-stephanie-historical \
+  --lineage-note 'Describe the basis and limits of this selected sequence.'
+```
+
+The script is deliberately a historical observation review, not a live-vetting
+importer. It writes the evidence database, complete JSON report and
+`autoMesaEvidencePilot.html`. Resource details expand on screen. Print includes
+only the overview. The published review is in the TSO folder; source ZIPs were
+not changed.
+
+Validation: regression coverage checks original bytes/type, comparison across
+legacy and integer versions, malformed values, and continued strict normal
+intake. Responsive browser checks cover 390/768/1200 pixels and print visibility.
+
+Next discussion: routine intake should capture packages and available decision
+receipts together. Missing attribution must remain visible. Actual phone-vetted
+final packages are still needed before the research-learning readiness audit;
+adaptive category assignments remain later in the grand plan.

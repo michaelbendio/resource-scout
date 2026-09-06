@@ -85,7 +85,7 @@ class EvidenceLedger:
 
     @staticmethod
     def _artifact(c, payload):
-        package = read_package(payload)
+        package = read_package(payload, evidence_legacy_version=True)
         c.execute('INSERT OR IGNORE INTO scout_evidence_artifacts VALUES(?,?)', (package['sha256'], payload))
         return package
 
@@ -94,13 +94,13 @@ class EvidenceLedger:
         row = c.execute('SELECT payload FROM scout_evidence_artifacts WHERE id=?', (sha,)).fetchone()
         if not row:
             raise ImprovementError('Evidence package bytes are missing')
-        return read_package(row[0])
+        return read_package(row[0], evidence_legacy_version=True)
 
     def import_package(self, collection, office, payload, *, scope, historical=False):
         collection, office = nonempty(collection, 'Collection'), nonempty(office, 'Office')
         if scope not in ('full', 'partial', 'unknown') or type(historical) is not bool:
             raise ImprovementError('Declare package scope and development status')
-        package = read_package(payload)
+        package = read_package(payload, evidence_legacy_version=True)
         if package['data'].get('officeName', '').casefold() != office.casefold():
             raise ImprovementError('Package office does not match collection office')
         with self.store.connect() as c:
@@ -113,7 +113,9 @@ class EvidenceLedger:
             self._artifact(c, payload)
             ident = self._save(c, collection, 'package', {'sha256': package['sha256'],
                 'semanticSha256': digest(semantic(package)), 'scope': scope,
-                'packageVersion': package['data'].get('packageVersion'), 'historical': historical})
+                'packageVersion': package['data'].get('packageVersion'), 'historical': historical,
+                'intakeWarnings': (['Legacy packageVersion is text; original value and ZIP bytes retained.']
+                                   if isinstance(package['data'].get('packageVersion'), str) else [])})
             return self._get(c, ident)
 
     def capture_project(self, collection, project_id):

@@ -34,7 +34,7 @@ def nonempty(value: Any, label: str) -> str:
     return value.strip()
 
 
-def read_package(payload: bytes) -> dict:
+def read_package(payload: bytes, *, evidence_legacy_version: bool = False) -> dict:
     """Read bytes without extracting files or rewriting unknown package fields."""
     try:
         with zipfile.ZipFile(io.BytesIO(payload)) as archive:
@@ -55,8 +55,12 @@ def read_package(payload: bytes) -> dict:
             data = json.loads(archive.read('tso-resources.json').decode('utf-8-sig'))
             if not isinstance(data, dict) or type(data.get('resourcePackageSchemaVersion')) is not int or data['resourcePackageSchemaVersion'] not in (3, 4):
                 raise ImprovementError('Existing-resource updates require standard package schema 3 or 4')
-            if type(data.get('packageVersion')) is not int or data['packageVersion'] < 0:
-                raise ImprovementError('Package needs a nonnegative integer version')
+            version = data.get('packageVersion')
+            legacy_version = (isinstance(version, str) and version.isascii()
+                              and version.isdecimal() and (version == '0' or not version.startswith('0')))
+            if not (type(version) is int and version >= 0):
+                if not (evidence_legacy_version and legacy_version):
+                    raise ImprovementError('Package needs a nonnegative integer version')
             for field in ('resources', 'categories', 'forGroups'):
                 if not isinstance(data.get(field), list):
                     raise ImprovementError(f'Package needs {field} array')
