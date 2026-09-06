@@ -2,8 +2,8 @@
 
 Michael authorized implementation after reading `scout-increment-3b-research.md`.
 Implemented on Scout `v2.0` and location-app branch `scout-3c`, in
-`/Users/michaelbendio/resource-assistant-scout-3c`. Development review and the
-location-app release remain pending. Scout 1.0 is unchanged.
+`/Users/michaelbendio/resource-assistant-scout-3c`. Michael accepted the simplified navigation after device review; the
+location-app release remains pending. Scout 1.0 is unchanged.
 
 ## Reader behavior
 
@@ -48,7 +48,7 @@ Try Education in the revised preview: Families with children (1), Spanish speaki
 (3), and Veterans (1) appear directly. Seniors has no Education matches and is not
 offered. A previous choice to hide Families with children no longer hides it.
 Select a Type and a group, then clear the filters. The updated banner says
-“Scout 3C simplified navigation preview.” Review of this revision remains pending.
+“Scout 3C simplified navigation preview.” Michael described this revision as straightforward and moved on to increment 4.
 
 The location checkout provides `make-scout-navigation-preview` to regenerate
 this artifact from the original ZIP. It embeds PDFs only in the review artifact;

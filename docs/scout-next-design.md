@@ -802,7 +802,9 @@ authorize combining the enrichment checkout's unfinished code or restarting runs
   frozen Mesa decisions as historical evidence. Include consistency checks,
   audit-driven reclassification, reviewed population-category migrations, and
   group usefulness review. Attach required location-app navigation work to this
-  increment explicitly, including prominence, All groups, and matching counts.
+  increment explicitly. Michael's device review simplified it to matching groups
+  shown directly, Type/group filtering, contextual counts, and Clear filters;
+  prominence settings and All groups were removed.
 - Increment 4 reuses the safe update workflow and tests moved, renamed, paused,
   closed, reopened, and inconclusive cases alongside discovery of additions.
 - Increments 5 and 6 depend on the learning-readiness review and sufficient
@@ -838,9 +840,9 @@ authorize combining the enrichment checkout's unfinished code or restarting runs
 - A resource appearing in multiple categories counts once per group. Program
   and provider concentration are visible; potential duplicates are flagged
   without being merged solely to adjust counts.
-- A rare useful accommodation remains accessible through All groups. A
-  selected zero-match group remains visible. Group counts agree with displayed
-  results and clearly distinguish contextual counts from office totals.
+- Every group with matches in the current category is directly accessible,
+  regardless of size. A selected zero-match group remains visible; unselected
+  zero-match groups are hidden. Counts reflect the current Type/group context.
 - A partial classification run exposes its coverage and cannot retire groups
   or categories on the assumption that unreviewed resources are nonmembers.
 - A Veterans/Seniors category migration preserves traceable service assignments

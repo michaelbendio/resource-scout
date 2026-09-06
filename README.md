@@ -24,8 +24,11 @@ accepted after real classification research and reconciliation. See
 All 25 affected Provo resources are researched; retirement still requires human
 mapping review and a package from the updated reader. [Increment 3C](docs/scout-increment-3c-results.md)
 implements group navigation and schema 4 compatibility in an isolated location-app
-checkout, with a historical Provo development preview. Its review and release are
-pending. Maintenance and adaptive research remain later work.
+checkout, with a historical Provo development preview. Michael accepted the
+simplified navigation; its location-app release is pending. [Increment 4 maintenance](docs/scout-increment-4-results.md) is implemented
+and software-tested: independently resumable rechecks and addition searches,
+evidence review, identity safeguards, and safe package delivery. Its real office
+pilot and acceptance remain pending. Learning and adaptive research remain later work.
 
 The following version notes describe the established Scout line, retained on
 `main` in the separate `resource-scout` checkout.

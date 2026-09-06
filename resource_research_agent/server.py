@@ -62,6 +62,8 @@ from .playbooks import PLAYBOOKS, playbook_for
 from .review_export import build_review_copy
 from .storage import ResearchStore
 from .scout_improvement import ImprovementWorkflow
+from .scout_maintenance import MaintenanceWorkflow
+from .maintenance_http import handle_maintenance
 from .scout_classification import ClassificationWorkflow
 from .taxonomy_review import TaxonomyReview
 from .improvement_http import handle_improvement
@@ -84,6 +86,7 @@ class ResearchHTTPServer(ThreadingHTTPServer):
         self.web_dir = web_dir
         self.private_url = private_url
         self.improvement = ImprovementWorkflow(store)
+        self.maintenance = MaintenanceWorkflow(store)
         self.classification = ClassificationWorkflow(store)
         self.taxonomy_review = TaxonomyReview(self.classification)
 
@@ -97,6 +100,8 @@ class ResearchHandler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:
         parsed = urlsplit(self.path)
         try:
+            if handle_maintenance(self, parsed):
+                return
             if handle_improvement(self, parsed):
                 return
             if parsed.path == "/api/status":
@@ -314,6 +319,8 @@ class ResearchHandler(BaseHTTPRequestHandler):
     def do_POST(self) -> None:
         parsed = urlsplit(self.path)
         try:
+            if handle_maintenance(self, parsed, post=True):
+                return
             if handle_improvement(self, parsed, post=True):
                 return
             if parsed.path == "/api/import":

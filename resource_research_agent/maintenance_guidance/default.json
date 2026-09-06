@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "version": "maintenance-v1",
+  "primary": [
+    "Recheck the named program, not just the parent organization. Investigate operation, intake, address, service area, eligibility, cost, services, and accommodations.",
+    "Search category assignments for additions. Match current, retired, and previously declined identities before calling something new. A shared provider can operate distinct programs.",
+    "A failed URL, unanswered call, old listing, or search omission alone is inconclusive. Look for replacement contact routes. A closure proposal needs an explicit official notice naming the affected program.",
+    "Preserve useful local knowledge. Propose only evidence-supported changes. Use the frozen writing guidance for Description and all five Information sections. Do not change verifiedOn.",
+    "Return dated sources, focused follow-up questions, operational evidence dates, and a suggested next check date. Unknown stays unknown. Flag classification consequences for human review.",
+    "Use priorChecks as dated history, not current fact. Repeated inability to verify should focus follow-up and independent checks, never become closure proof."
+  ],
+  "audit": [
+    "Independently verify the named program, changes, access conditions, and identity. Check closure claims against an explicit provider or government statement.",
+    "Audit category search coverage and missed additions. Check existing, retired, and previously declined matches. Record material issues and useful corrections, including classification consequences."
+  ],
+  "reconcile": [
+    "Reconcile the primary research with every independent audit. Resolve every finding explicitly; leave unsupported facts uncertain.",
+    "Keep closure separate from temporary pause, moves, renamed programs, changed coverage, and failed contact. Preserve local information and exact existing identities.",
+    "Return the full reconciled item list; additions omitted after an audit need an explanation in researchNotes. No evidence or human verification may be invented."
+  ]
+}
