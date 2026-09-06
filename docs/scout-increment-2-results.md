@@ -3,10 +3,12 @@
 September 5, 2026. The existing-resource update workflow is implemented on
 `v2.0` and has passed software and browser checks. Michael explicitly authorized
 the historical August 12 Provo package for a useful pilot. **The real four-AI
-pilot is now researched and reconciled; Michael's review remains pending.**
+pilot is researched and reconciled; Michael has approved its writing and
+Scout's decisions about the other AIs' findings.**
 Three Codex primary results, nine independent consumer-service audits, and three
-Codex reconciliations are saved. No human acceptance or provider phone
-verification is claimed. See [pilot results](scout-increment-2-pilot.md).
+Codex reconciliations are saved. This is pilot acceptance of the text and
+reconciliation, with provider questions and production package review still
+open. See [pilot results and acceptance](scout-increment-2-pilot.md).
 
 ## What is implemented
 
@@ -162,5 +164,6 @@ office package and human decisions remain necessary before a production merge.
 
 The grand plan remains writing, safe existing-resource improvements,
 classification, maintenance, proposed research lessons, and adaptive research
-runs. Finish the increment 2 pilot and discuss its review effort and preservation
-of important details before starting increment 3's categories, Types, and groups.
+runs. The pilot writing and reconciliation are accepted. Discuss any remaining
+review-workflow refinements before implementing increment 3's categories,
+Types, and groups; keep unresolved provider questions with their resources.

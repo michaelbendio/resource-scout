@@ -12,6 +12,25 @@ it anyway. It will still be useful." The original ZIP remains unchanged:
 - Explicit office identity: Provo TSO; `historical=True`
 - Isolated database: `output/provo-improvement-pilot/pilot.sqlite3`, project 1
 
+## Michael's pilot acceptance
+
+After reviewing the pilot, Michael said:
+
+> The text changes were good. And I agreed with Scout's decisions of what to keep from the other AIs.
+
+This accepts the three writing proposals and Scout's reconciliation choices,
+including its decisions to preserve local knowledge, reject unsupported audit
+suggestions and leave genuine conflicts visible. It supplies positive human
+feedback on the pilot's writing and research judgment. No rewriting or repeat
+research is needed solely to obtain that approval again.
+
+It does not establish answers to the provider questions Scout left unresolved,
+confirm corrected contact fields or attachments, or identify a current office
+package for a production merge. Per-resource Curated decisions and export gates
+remain in place. The historical review HTML remains a snapshot of what Michael
+reviewed; a separate local `pilot-acceptance.json` binds his feedback to the
+review-copy and proposal hashes. No research lesson is automatically activated.
+
 ## Scope and actual research
 
 | Existing resource | Stable ID | Audit findings |
@@ -148,14 +167,21 @@ assignments or expanding project scope. Fourteen focused workflow tests pass,
 including this dispatch behavior. Earlier full-suite/browser package-merge QA
 remains described in the increment results; no production merge was performed.
 
-## Next discussion
+## Next discussion after acceptance
 
-Discuss whether the proposals retain the details missionaries need, the effort
-required to resolve genuine conflicts, and how to handle contact/attachment
-corrections adjacent to the writing workflow. Independent attachment access and
-strict consumer result formatting also deserve a small operational refinement.
+Michael approved the writing and reconciliation choices. The useful lesson is
+that other AIs can contribute missing details and expose conflicts, while Scout
+still needs to judge their evidence; accepting every suggestion would have
+removed a supported coaching service. Preserve this evidence-based approach for
+classification as well.
+
+Remaining operational discussion concerns the effort required to resolve genuine
+conflicts and how to handle contact/attachment corrections adjacent to writing.
+Independent attachment access and strict consumer result formatting also deserve
+a small operational refinement. These are distinct from the accepted text.
 
 The grand plan remains better writing, safe existing-resource improvements,
 classification, maintenance, proposed research lessons and adaptive research
-runs. After accepting increment 2, the next planned increment is categories,
-category-specific Types and groups. Do not begin it before discussing this pilot.
+runs. The next planned increment is categories, category-specific Types and
+groups. Plan it from the accepted pilot experience; discuss that implementation
+before beginning it.

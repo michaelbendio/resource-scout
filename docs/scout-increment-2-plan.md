@@ -1,10 +1,11 @@
 # Increment 2: improve existing resources safely
 
 Implementation authorized September 5, 2026. Work stays on `v2.0` with isolated
-databases. Increment 1 is accepted; this increment is not yet complete.
+databases. Increment 1 is accepted. Increment 2's pilot writing and
+reconciliation decisions are now accepted; production package review is separate.
 The software workflow and validation are implemented, and the authorized
-historical Provo pilot has completed real research and reconciliation. Human
-review is pending; see [status and evidence](scout-increment-2-results.md) and
+historical Provo pilot has completed real research and reconciliation. Michael
+approved the text and Scout's decisions; see [status and evidence](scout-increment-2-results.md) and
 the [three-resource pilot report](scout-increment-2-pilot.md).
 
 ## Scope and decisions
