@@ -1,11 +1,26 @@
 # Increment 3B: group review and complete migration planning
 
 Status: review tools implemented on `v2.0` following Michael's “go ahead” after
-accepting the 3A pilot. The historical office inventory is ready for discussion.
+accepting the 3A pilot. Michael has reviewed `autoProvoGroupReview` and approved Scout’s work.
+The implemented review tools and historical inventory are accepted.
 **Provo retirement is not complete:** 21 of 25 affected resources still need
 classification research, all 25 need migration review, and an existing location
 reader compatibility problem must be fixed before export. No production office
 package, group label, or location application was changed.
+
+## Michael's acceptance
+
+Michael reviewed the portable group-review page and said:
+
+> I've reviewed autoProvoGroupReview. I approve Scout's work.
+
+Acceptance is recorded in `output/provo-group-review/review-acceptance.json`,
+bound to reviewed HTML SHA-256
+`0955361959d40844d5d7ff05fd02f274ca5744f0f7efdaf20941aaa7d92429ba`.
+The reviewed page is preserved unchanged. This accepts the work presented;
+the remaining research, explicit per-resource migration reviews, and reader
+compatibility fix remain necessary before Provo retirement. No group outcomes
+or resource mapping decisions have been invented from this overall approval.
 
 ## What is usable
 
