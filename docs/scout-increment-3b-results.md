@@ -3,10 +3,18 @@
 Status: review tools implemented on `v2.0` following Michael's “go ahead” after
 accepting the 3A pilot. Michael has reviewed `autoProvoGroupReview` and approved Scout’s work.
 The implemented review tools and historical inventory are accepted.
-**Provo retirement is not complete:** 21 of 25 affected resources still need
-classification research, all 25 need migration review, and an existing location
+**Provo retirement is not complete:** all 25 affected resources now have completed
+classification research, but all 25 still need migration review, and an existing location
 reader compatibility problem must be fixed before export. No production office
 package, group label, or location application was changed.
+
+The September 6 continuation completed the remaining 21 primary records, 63
+actual ChatGPT/Grok/Perplexity audits, and Codex reconciliation of 126 findings.
+See [the complete 25-resource proposal and review attention](scout-increment-3b-research.md)
+and [the evidence manifest](scout-increment-3b-research-manifest.json).
+The six accepted records remain exactly preserved. Research completion does not
+resolve human membership questions or approve retirement. The historical HTML
+was not regenerated, following Michael's instruction.
 
 ## Michael's acceptance
 
@@ -17,9 +25,10 @@ Michael reviewed the portable group-review page and said:
 Acceptance is recorded in `output/provo-group-review/review-acceptance.json`,
 bound to reviewed HTML SHA-256
 `0955361959d40844d5d7ff05fd02f274ca5744f0f7efdaf20941aaa7d92429ba`.
-The reviewed page is preserved unchanged. This accepts the work presented;
-the remaining research, explicit per-resource migration reviews, and reader
-compatibility fix remain necessary before Provo retirement. No group outcomes
+The reviewed page is preserved unchanged. This accepts the work presented.
+At that point, further research, per-resource migration reviews and the reader
+compatibility fix were still required. Research is now complete; human review
+and compatibility work remain. No group outcomes
 or resource mapping decisions have been invented from this overall approval.
 
 ## Readability follow-up
@@ -173,9 +182,9 @@ independent AI research or Michael's approval.
 
 ## Next discussion and the grand plan
 
-Discuss whether the group cards make usefulness and coverage understandable,
-and how much review effort the complete migration requires. Complete the
-remaining actual research and human mappings before any Provo retirement.
+Discuss the researched proposals, reference-material treatment and remaining
+membership/program questions in the September 6 research report. Complete the
+human mappings before any Provo retirement.
 The next coding slice is 3C: fix the reader compatibility issue, then implement
 prominent/All groups, contextual counts, and OR within each dimension / AND
 between Types and groups. A development preview and normal location-app release

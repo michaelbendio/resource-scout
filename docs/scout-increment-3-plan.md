@@ -6,8 +6,10 @@ real classification research, all 18 external audits, and Codex reconciliation.
 Michael has approved the six-resource pilot and reconciliation. Slice 3A is
 accepted. The subsequent “go ahead” authorized 3B; its review tools are now
 implemented and Michael has approved the historical group-review work, with
-Provo migration completion pending full research/review and a
-reader compatibility fix. See [3B results](scout-increment-3b-results.md).
+all 25 affected resources now researched. Migration completion still requires
+human review of uncertain memberships and mappings, and a reader compatibility
+fix. See [3B research proposals](scout-increment-3b-research.md) and
+[3B results](scout-increment-3b-results.md).
 3C remains for discussion before implementation. See
 [implementation status and remaining work](scout-increment-3-results.md).
 
