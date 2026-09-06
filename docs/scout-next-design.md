@@ -16,8 +16,14 @@ see [results](scout-increment-1-results.md). The remaining design below continue
 to describe future work.
 
 Increment 2 update: its safe existing-resource writing workflow is implemented
-and software-tested. A confirmed current Provo package and the real research/
-human-review pilot remain pending. See [increment 2 status](scout-increment-2-results.md).
+and software-tested. Michael authorized the historical Provo package for the
+real four-AI pilot and accepted its writing and reconciliation decisions.
+Provider questions and production package review remain open.
+See [increment 2 status](scout-increment-2-results.md).
+
+Increment 3 planning: see the proposed [implementation and test plan](scout-increment-3-plan.md).
+It starts with a bounded classification pilot, followed by group/migration
+review and location-app navigation. These slices are not implemented yet.
 
 V2.0 development uses branch `v2.0` in `/Users/michaelbendio/resource-scout-v2`.
 The existing checkout stays on `main` so the established Scout line remains
@@ -756,8 +762,9 @@ be adjusted or divided into smaller slices through that discussion.
 | 6. Adapt the research runs | Scout uses approved guidance and accumulated experience to choose run goals, sequence, and stopping points for each category assignment | Does it find useful resources with less wasted research? What does it still miss? |
 
 The full Provo improvement requires increments 2 and 3 together. Completing
-writing changes alone does not fulfill the Provo objective. Select and inspect
-the current Provo package before its existing-resource pilot.
+writing changes alone does not fulfill the Provo objective. Michael authorized
+the historical Provo package for development pilots; select and inspect the
+current package before a production merge.
 
 Increment 1 starts with a small, varied sample using the approved Express
 Employment Professionals example as the writing reference. Include different
