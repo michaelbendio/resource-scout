@@ -16,6 +16,7 @@ from .codex_replay import (
 from .importer import ResourcePackageImporter
 from .server import serve
 from .storage import ResearchStore
+from .evidence_cli import add_evidence_commands, run_evidence_command
 from .maintenance_cli import add_maintenance_commands, run_maintenance_command
 from .improvement_cli import add_improvement_commands, run_improvement_command
 from .tailscale import TailscaleAccessError, TailscaleServeManager
@@ -62,6 +63,7 @@ def parser() -> argparse.ArgumentParser:
     result = argparse.ArgumentParser(prog="resource-scout")
     result.add_argument("--database", default="data/research-agent.sqlite3", help="Separate research database path")
     subcommands = result.add_subparsers(dest="command", required=True)
+    add_evidence_commands(subcommands)
     add_maintenance_commands(subcommands)
     add_improvement_commands(subcommands)
     add_improvement_commands(subcommands, classification=True)
@@ -268,6 +270,9 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(value, ensure_ascii=False, indent=2))
         return 0
     store = ResearchStore(args.database)
+    if args.command == 'evidence':
+        print(json.dumps(run_evidence_command(store, args), ensure_ascii=False, indent=2))
+        return 0
     if args.command == 'maintain':
         print(json.dumps(run_maintenance_command(store, args), ensure_ascii=False, indent=2))
         return 0

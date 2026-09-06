@@ -235,3 +235,9 @@ retrospective evaluation, Curator isolation and package creation, Tailscale
 behavior, background service configuration, Resource Scout curation durability,
 curation and enrichment validation, exact Scout Findings preservation, progress
 and pacing, Scout-owned review-file generation, and Scout/review-file UI wiring.
+
+## Curator and package evidence
+
+See [the increment 5A operator guide](docs/scout-increment-5-evidence.md) for the
+`evidence` CLI, field-level provenance, and the synthetic review pilot. This
+collects evidence without activating lessons or changing office packages.

@@ -1,6 +1,7 @@
 # Increment 5: evidence from curator decisions
 
-Status: design for discussion; evidence capture is the next implementation step.
+Status: the bounded evidence-capture step is implemented. See
+[implementation and operator guide](scout-increment-5-evidence.md).
 Automatic lesson inference and activation are not implemented by this plan.
 
 ## Division of judgment

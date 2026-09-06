@@ -672,6 +672,13 @@ protections remain in force. The [increment 5 evidence plan](scout-increment-5-e
 sets out the next implementation: attributable review/package observations before
 method inference, including title-only approvals that do not imply service vetting.
 
+The bounded [increment 5A evidence ledger](scout-increment-5-evidence.md) is now
+implemented through explicit operator commands. It preserves packages and review
+history, distinguishes adoption from explicit field verification, and leaves
+readiness unevaluated rather than counting editorial choices as vetted resources.
+A five-case synthetic demonstration is ready for discussion before a real
+attributable office sequence or automatic method interpretation.
+
 Store proposed lessons separately from operational facts. A lesson records its
 supporting events, office/category scope, relevant research configuration,
 proposed change, review decision, and policy version. Keep office-specific
