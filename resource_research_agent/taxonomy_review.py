@@ -130,7 +130,7 @@ class TaxonomyReview:
             'officeResourceCount':len(live),'excludedDeletedResources':len(package['resources'])-len(live),
             'researchedResourceCount':sum(bool(state['resources'].get(rid,{}).get('proposal')) for rid in live),
             'coverageNote':'Counts include the entire connected package. Proposed counts overlay only completed research; unresearched records keep their current assignments.',
-            'groups':cards,'populationCategories':population,
+            'categoryLabels':names,'groups':cards,'populationCategories':population,
             'plans':[self._plan_view(c,state,plan) for plan in state.get('taxonomyPlans',[])]}
 
     def view(self, project_id):

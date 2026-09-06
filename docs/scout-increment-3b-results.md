@@ -22,6 +22,20 @@ the remaining research, explicit per-resource migration reviews, and reader
 compatibility fix remain necessary before Provo retirement. No group outcomes
 or resource mapping decisions have been invented from this overall approval.
 
+## Readability follow-up
+
+Michael identified Care Patrol's repeated current classifications under a
+research-proposal heading as confusing. The reviewer now shows readable category
+labels, Types, and groups. An incomplete record says “Research not yet completed”
+and explains what remains; only completed research shows a proposal comparison.
+“None assigned” describes the current record without implying that no group applies.
+
+The updated portable copy is in `output/provo-group-review-readable/` and replaces
+`autoProvoGroupReview.html` in iCloud Documents/TSO. The original approved artifact
+and its acceptance remain unchanged in `output/provo-group-review/`. Browser
+checks verified Care Patrol, all four completed proposal comparisons, and narrow
+screens; the 18 focused taxonomy tests pass.
+
 ## What is usable
 
 Open `/taxonomy-review` from the classification page and choose a project.
