@@ -1,8 +1,15 @@
 # Increment 1 implementation and pilot results
 
-September 5, 2026. Implemented and automatically validated on branch `v2.0`;
-Michael's editorial/print pilot review is pending. This is development work,
-not an office release or a declaration that the whole increment is accepted.
+September 5, 2026. Increment 1 is complete on branch `v2.0`: implemented,
+automatically validated, and accepted by Michael after reviewing the writing
+pilot. This is development work, not an office release or provider verification.
+
+Michael's acceptance: “It looks good. It is much better than what Scout was
+previously producing.” He also emphasized that conciseness must not lose
+important details. The guidance has no fixed word count or one-page target;
+eligibility, application steps, costs, geographic limits, and other consequential
+conditions must survive shortening. Continued real use can still reveal needed
+writing or printing improvements.
 
 ## Implemented behavior
 
@@ -71,7 +78,7 @@ Observations for our discussion:
 - Express is readable on one Letter page. Several complex programs need more
   space. The packet lets CASS continue before the pantry starts; RSA occupies
   two pages. We have not shrunk text or removed meaningful requirements to meet
-  a page-count target. Michael should assess these page breaks in practice.
+  a page-count target. Continued use should assess these page breaks in practice.
 - Distinctions matter: enrolling a newborn before 90 days is different from
   support continuing through age five; pantry street boundaries may be strict
   in one program and flexible in another. Those distinctions remain explicit.
@@ -120,8 +127,8 @@ and `output/pdf/scout-writing-six-samples.pdf`.
 
 ## Next checkpoint
 
-Discuss these samples and any needed guidance revisions with Michael before
-calling increment 1 complete. The grand plan remains: better writing, safe
+Michael accepted the samples, completing the first writing checkpoint. The
+grand plan remains: better writing, safe
 existing-resource improvements, classification, maintenance, proposed research
 lessons, and adaptive research runs. Increment 2 should add reviewed improvements
 to existing packages while preserving trusted text, identities, and evidence.

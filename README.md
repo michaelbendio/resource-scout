@@ -12,7 +12,7 @@ Guidance lives in versioned JSON/Markdown, is frozen into each assignment, and
 does not rewrite earlier jobs. The source version remains 0.50.0/build 17 until
 a release is designated; `v2.0` is the development branch, not a published release.
 See the [implementation and pilot report](docs/scout-increment-1-results.md).
-Human pilot review is pending. Existing-resource improvements, classification,
+Michael accepted the writing pilot; increment 1 is complete. Existing-resource improvements, classification,
 maintenance, and adaptive research remain later increments.
 
 The following version notes describe the established Scout line, retained on

@@ -1,6 +1,6 @@
 # Increment 1 implementation plan: better resource writing
 
-Status: implemented on `v2.0`, September 5, 2026; human pilot review pending.
+Status: complete on `v2.0`, September 5, 2026; Michael accepted the writing pilot.
 The six-increment roadmap and Express writing example are approved. This is the
 approved implementation plan, with baseline observations retained below.
 See the [implementation and validation results](scout-increment-1-results.md).

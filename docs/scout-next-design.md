@@ -11,7 +11,7 @@ sequence below. Other open design details remain subject to discussion. Roadmap
 approval does not mark any increment implemented or complete.
 
 Implementation update: increment 1's writing guidance and curation integration
-are implemented on `v2.0`. Its editorial/print pilot awaits Michael's review;
+are implemented on `v2.0`. Michael accepted the writing pilot, completing increment 1;
 see [results](scout-increment-1-results.md). The remaining design below continues
 to describe future work.
 
