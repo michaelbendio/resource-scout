@@ -1,8 +1,9 @@
 # Increment 3A: classification workflow
 
 Status: implemented and software-tested on `v2.0`. The six-resource historical
-Provo pilot is prepared; office definition review is pending, so its real
-classification research has not started. This is not completion of increment 3.
+Provo pilot has completed Codex primary research, all 18 actual ChatGPT/Grok/
+Perplexity audits, and Codex reconciliation. Its classifications await human
+review. This is not completion of increment 3.
 No office package has been exported from the real pilot, and no learning policy
 has been activated.
 
@@ -15,8 +16,9 @@ After implementation commit `2a5ea9c`, Michael said:
 This records acceptance of the implemented classification workflow. The visible
 changes are the classification review and office-definition controls; much of the
 work provides evidence tracking, preservation of later office edits, and safe
-export. Implementation acceptance does not supply results from the still-unrun
-six-resource classification pilot or complete the migration/navigation slices.
+export. That implementation acceptance did not approve resource classifications
+or complete the migration/navigation slices. Michael's subsequent “go ahead”
+authorized the proposed definitions and the actual six-resource research pilot.
 
 ## What is usable
 
@@ -115,18 +117,94 @@ results are linked with their exact result hashes and acceptance record, preserv
 scope of that approval and unresolved provider questions. Original source writing
 is unchanged. Linked writing acceptance is not classification approval.
 
-The [proposed definitions](scout-increment-3-definitions.md) cover 20 categories,
+The [pilot definitions](scout-increment-3-definitions.md) cover 20 categories,
 six groups, and six Types. **Medically vulnerable** and the other 34 Types remain
 pending. The exact catalog and draft definitions are saved in
 [`examples/provo-classification-pilot-definitions.json`](../examples/provo-classification-pilot-definitions.json).
 The standalone `autoProvoClassificationDefinitions.html` in the pilot directory
 is a readable definition-review artifact, not a completed classification review.
 
-Michael has been asked whether to use these definitions for the historical pilot.
-After that decision, record the approved definition keys, perform the real
-six-resource classification/audit/reconciliation runs, and present their results.
-Do not substitute synthetic QA results or claim this pilot is complete while
-that research remains pending.
+The 32 definitions were approved for the pilot as guidance version 2. The real
+research is now complete; `autoProvoClassificationPilot.html` is the new portable,
+read-only review artifact. The earlier definitions and accepted writing artifacts
+remain separate. No Curated decisions or production exports have been recorded.
+
+### Actual research results
+
+Across six records, Scout proposes **15 category additions, five Type additions,
+and 11 group additions**, with no removal of existing memberships. Two original
+memberships are retained explicitly as unconfirmed: PCHA Addiction and DWS
+Overview Housing. Seniors and Veterans population categories remain in place
+until a complete migration review.
+
+| Resource | Main proposed additions |
+| --- | --- |
+| CSFP | Pantries; Seniors and Spanish speaking groups |
+| Provo City Housing Authority | Employment, Education, Financial Assistance, Homeless Services; Rent Assistance; Seniors group |
+| Financial Literacy Classes | Spanish speaking and Families with children, based on documented local class accommodations |
+| DWS Veteran Services | Employment, Education, Reentry Support, Financial Assistance; Career; Veterans and Exiting corrections groups |
+| DWS Overview | Food and Medical, Dental, Vision enrollment pathways; Career; Veterans, Spanish speaking, Families with children |
+| Food and Care Coalition | Homeless Services, Education, Employment, Reentry Support, Addiction through the identified onsite partner; Career; Exiting corrections |
+
+The 18 audits returned 25 findings. Codex addressed 16 and left nine findings
+requiring human review, overlapping four underlying questions: PCHA's Addiction
+association, current financial-class accommodations, the current veteran reentry
+handoff, and DWS's role in the county housing program. Local evidence remains
+attributed as local; “supported” does not mean independently confirmed current
+availability. These proposals are not instructions to make an immediate referral.
+
+Actual service threads:
+
+- [ChatGPT audit](https://chatgpt.com/c/6a9cfd41-baa0-83e8-ab07-5099eceb82f9)
+- [Grok audit](https://grok.com/c/bdbe4d84-0b5d-44c8-b2bd-d46b484493c9)
+- [Perplexity audit](https://www.perplexity.ai/search/4fa27584-a820-4393-92d8-916d6145185d)
+
+Codex rendered and visually inspected all 19 pages of the 12 original PDFs.
+External auditors received labeled observations, not PDF bytes; their access
+records say `supplied-observation`. Accepted writing research for the first three
+resources was reused as sealed context, not counted as a new classification audit.
+Raw outputs, submitted outputs, exact assignments, reconciliation, and events are
+retained in the pilot directory/database. Perplexity's 16 finding field paths
+needed transport-only normalization to the permitted field names; IDs, severities,
+summaries, assignment hashes, and attachment hashes were preserved.
+
+### Experience to discuss before the next slice
+
+- Catalog labels and approved definitions are different. ChatGPT and Grok
+  recommended several existing but undefined Homeless Services Types; Grok also
+  recommended GED. Scout kept these pending instead of inventing meanings.
+- Absence from a website does not invalidate locally gathered evidence. Spanish
+  classes, childcare, interpreter access, and work bus passes need honest source
+  attribution and operational confirmation, not automatic deletion.
+- Audits are evidence to assess, not votes. One audit missed the explicit JTP
+  location on its cited page; another confused its own lack of PDF access with
+  Codex's actual visual inspection. These disagreements are preserved with the
+  reconciliation reasons.
+- Grok found the [live official staff page](https://jobs.utah.gov/veteran/employstaff.html)
+  confirming Anfred Morillo. Codex checked
+  it and did not replace the local contact using an older staff PDF. A search
+  result for the [WIOA plan](https://jobs.utah.gov/wioa/wioastateplan.pdf)
+  also exposed older text than the live 2026 PDF; a
+  freshly returned search result is not necessarily freshly verified content.
+- Program-specific evidence matters: childcare can accommodate parents without
+  making financial classes a Children/Pregnancy service; an onsite jail-transition
+  program supports Reentry Support while a general apprenticeship flyer welcoming
+  applicants with convictions does not.
+
+These are observations for discussion, not activated research lessons or changes
+to the approved definitions. The current pilot is too small to judge whole-office
+group usefulness or retire a population category.
+
+### Pilot validation
+
+All 22 classification tests passed. Independent checks of the completed pilot
+verified six complete five-stage research chains, exact original resource records
+and PDF bytes, sealed reconciliation hashes, no Curated decisions, and no exports.
+Browser checks covered all six resources at 834px and 390px widths, compared every
+displayed addition and unconfirmed label with the research data, exercised details,
+found no horizontal overflow or JavaScript errors, and confirmed printing selects
+only the displayed resource. The iPad and phone renderings were visually checked.
+Evidence is saved in `output/provo-classification-pilot/review-checks.json`.
 
 Discuss classification usefulness, uncertainty, and review effort before the
 next slice: **3B, group usefulness and complete category migrations**, followed

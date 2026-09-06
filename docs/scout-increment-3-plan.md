@@ -1,8 +1,9 @@
 # Increment 3: categories, Types, and groups
 
 Status: implementation authorized by Michael. Slice 3A is implemented and
-software-tested; its historical Provo pilot awaits definition review and real
-classification research. Slices 3B and 3C remain planned. See
+software-tested; its historical Provo pilot has completed definition review,
+real classification research, all 18 external audits, and Codex reconciliation.
+The six proposals await human review. Slices 3B and 3C remain planned. See
 [implementation status and remaining work](scout-increment-3-results.md).
 
 Michael accepted the increment 2 pilot's writing and Scout's reconciliation of

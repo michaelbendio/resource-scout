@@ -1,6 +1,6 @@
-# Provo classification pilot: proposed definitions
+# Provo classification pilot: approved definition scope
 
-These are proposed definitions for the authorized historical Provo package, not approved office changes. No labels will be renamed or added. Existing unsupported assignments remain visible as unconfirmed.
+Michael's subsequent “go ahead” authorized these 32 definitions for the historical six-resource pilot. Approval is recorded in the pilot database as guidance version 2, with the exact approved term keys in `output/provo-classification-pilot/definition-approval.json`. This is not approval of resource classifications or production office changes. No labels are renamed or added. Existing unsupported assignments remain visible as unconfirmed.
 
 ## Categories
 
@@ -46,4 +46,4 @@ These are proposed definitions for the authorized historical Provo package, not 
 
 Other existing Types stay pending. Scout can preserve earlier assignments as unconfirmed and suggest a missing Type separately, but cannot invent or apply new Types.
 
-The immediate review decision is whether to use these definitions for this pilot, leaving **Medically vulnerable** and the other Types pending. This does not approve resource classifications, production exports, taxonomy migrations, or learning activation.
+**Medically vulnerable** and the other 34 Types remain pending. The importable example JSON remains an unapproved draft; approval is a separate recorded workflow action. See the [pilot results](scout-increment-3-results.md) for the actual research and the next discussion checkpoint.
