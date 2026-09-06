@@ -12,8 +12,11 @@ Guidance lives in versioned JSON/Markdown, is frozen into each assignment, and
 does not rewrite earlier jobs. The source version remains 0.50.0/build 17 until
 a release is designated; `v2.0` is the development branch, not a published release.
 See the [implementation and pilot report](docs/scout-increment-1-results.md).
-Michael accepted the writing pilot; increment 1 is complete. Existing-resource improvements, classification,
-maintenance, and adaptive research remain later increments.
+Michael accepted the writing pilot; increment 1 is complete. Increment 2's
+existing-resource update workflow is implemented and software-tested; its real
+Provo research/review pilot awaits a confirmed current package. See
+[increment 2 status and usage](docs/scout-increment-2-results.md).
+Classification, maintenance, and adaptive research remain later increments.
 
 The following version notes describe the established Scout line, retained on
 `main` in the separate `resource-scout` checkout.

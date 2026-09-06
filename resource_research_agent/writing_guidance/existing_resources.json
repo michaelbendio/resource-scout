@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "version": "existing-resource-improvement-v1",
+  "primary": [
+    "Research this existing office resource using current official sources and the complete original record, including attached PDFs. Preserve local knowledge, named contacts, program distinctions, consequential requirements, and useful list or directory entries.",
+    "Use the sealed writing guidance to propose Description and the five Information sections. Do not change identity, names, contact fields, taxonomy, attachments, verification, or other fields. Record conflicts involving those fields in reviewNotes.",
+    "Do not silently replace human knowledge with generic website wording. Explain material omissions, rephrasings, qualifications, and conflicting evidence in preservationNotes. Record new source text with URL and access date.",
+    "These are proposals for existing records, not new discoveries. Do not split, merge, delete, or exclude an accepted resource because it is a list or has missing dedicated contacts."
+  ],
+  "audit": [
+    "Independently check the primary proposal against the original office record, attached PDFs, and current official sources. Look specifically for lost consequential details, unsupported claims, incorrect eligibility, access or contact instructions, and conflation of different programs.",
+    "Return findings with stable IDs, the affected writing field, a clear explanation, severity (material or editorial), and evidence sources. An empty findings array means you performed the check and found no issues; it is not a placeholder for an unperformed check."
+  ],
+  "reconcile": [
+    "Reconcile the primary result with every required independent check. Return complete revised writing, evidence, preservationNotes, and reviewNotes under the original writing guidance.",
+    "Address every audit finding explicitly with its findingId, status (resolved or needs-review), and reason. Keep unresolved uncertainty clear in the proposed resource. A material needs-review finding requires a recorded human resolution before export. Never mark the resource human verified."
+  ]
+}

@@ -61,6 +61,8 @@ from .reconciliation import reconcile_completed_run
 from .playbooks import PLAYBOOKS, playbook_for
 from .review_export import build_review_copy
 from .storage import ResearchStore
+from .scout_improvement import ImprovementWorkflow
+from .improvement_http import handle_improvement
 
 
 MAX_UPLOAD_BYTES = 256 * 1024 * 1024
@@ -79,6 +81,7 @@ class ResearchHTTPServer(ThreadingHTTPServer):
         self.duplicate_index = DuplicateIndex(store)
         self.web_dir = web_dir
         self.private_url = private_url
+        self.improvement = ImprovementWorkflow(store)
 
 
 class ResearchHandler(BaseHTTPRequestHandler):
@@ -90,6 +93,8 @@ class ResearchHandler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:
         parsed = urlsplit(self.path)
         try:
+            if handle_improvement(self, parsed):
+                return
             if parsed.path == "/api/status":
                 self._json({
                     "ok": True,
@@ -305,6 +310,8 @@ class ResearchHandler(BaseHTTPRequestHandler):
     def do_POST(self) -> None:
         parsed = urlsplit(self.path)
         try:
+            if handle_improvement(self, parsed, post=True):
+                return
             if parsed.path == "/api/import":
                 self._import_upload()
             elif parsed.path == "/api/manual-discovery-assignment":

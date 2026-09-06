@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Improve existing resources · Scout</title><link rel="stylesheet" href="/improvements.css"></head>
+<body><header><a href="/">Resource Scout</a><h1>Improve existing resources</h1>
+<p>Review clearer writing while preserving your office's resource records.</p></header>
+<main><p id="message" role="status" aria-live="polite"></p>
+<section><h2>Open a project</h2><label>Project <select id="projects"><option value="">Choose a project</option></select></label>
+<button id="refresh">Refresh</button></section>
+<details id="new-project"><summary>Start from a resource package</summary>
+<p>Choose the office's exported ZIP package. The application HTML does not contain its current saved resources.</p>
+<label>Resource package <input type="file" id="source" accept=".zip"></label>
+<label>Office name <input id="office" placeholder="For example, Provo TSO"></label>
+<label><input type="checkbox" id="historical"> Historical package for development only</label>
+<p id="source-summary"></p><div id="resource-selection"></div><button id="prepare" disabled>Create project for selected resources</button></details>
+<section id="project" hidden><h2 id="project-title"></h2><p id="project-summary"></p><p id="historical-banner" hidden>Development sample — historical package. This is not current office data.</p>
+<div class="controls"><label>Your name <input id="reviewer" autocomplete="name"></label>
+<label>Reconnect current office package <input id="latest" type="file" accept=".zip"></label>
+<button id="export">Save curated updates</button></div>
+<p>Reconnecting a changed package clears Curated marks so you can review against the latest office edits.</p>
+<div id="save-confirmation" hidden><p>The package download has started. Confirm it was saved before hiding these resources.</p>
+<button id="confirm-saved">Package saved successfully</button><button id="keep-review">Keep resources in review</button></div>
+<details><summary>Research assignments</summary><p>Assignments are delivered through the usual researcher workflow. They do not run automatically from this page.</p>
+<button id="next-assignment">Get next assignment</button><pre id="assignment"></pre>
+<label>Completed result JSON <textarea id="result" rows="6"></textarea></label><button id="submit-result">Save completed research result</button></details>
+<div id="resources"></div></section></main><div id="print-content"></div>
+<script src="/improvements-renderer.js"></script><script src="/improvements.js"></script></body></html>

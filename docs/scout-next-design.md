@@ -15,6 +15,10 @@ are implemented on `v2.0`. Michael accepted the writing pilot, completing increm
 see [results](scout-increment-1-results.md). The remaining design below continues
 to describe future work.
 
+Increment 2 update: its safe existing-resource writing workflow is implemented
+and software-tested. A confirmed current Provo package and the real research/
+human-review pilot remain pending. See [increment 2 status](scout-increment-2-results.md).
+
 V2.0 development uses branch `v2.0` in `/Users/michaelbendio/resource-scout-v2`.
 The existing checkout stays on `main` so the established Scout line remains
 usable. See the [increment 1 implementation and test plan](scout-increment-1-plan.md).

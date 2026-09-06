@@ -16,6 +16,7 @@ from .codex_replay import (
 from .importer import ResourcePackageImporter
 from .server import serve
 from .storage import ResearchStore
+from .improvement_cli import add_improvement_commands, run_improvement_command
 from .tailscale import TailscaleAccessError, TailscaleServeManager
 from .taxonomy_category_proposal import (
     save_mesa_category_redistribution_proposal,
@@ -60,6 +61,7 @@ def parser() -> argparse.ArgumentParser:
     result = argparse.ArgumentParser(prog="resource-scout")
     result.add_argument("--database", default="data/research-agent.sqlite3", help="Separate research database path")
     subcommands = result.add_subparsers(dest="command", required=True)
+    add_improvement_commands(subcommands)
     import_command = subcommands.add_parser("import", help="Read a resource-package.zip into an immutable snapshot")
     import_command.add_argument("package")
     import_command.add_argument("--category", default="Housing")
@@ -263,6 +265,9 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(value, ensure_ascii=False, indent=2))
         return 0
     store = ResearchStore(args.database)
+    if args.command == 'improve':
+        print(json.dumps(run_improvement_command(store, args), ensure_ascii=False, indent=2))
+        return 0
     if args.command == "import":
         package = ResourcePackageImporter(args.category).read(args.package)
         import_id = store.save_import(package)
