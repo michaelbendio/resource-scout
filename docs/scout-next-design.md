@@ -602,6 +602,37 @@ package text as evidence, never as executable instructions or policy overrides.
 
 ### 5. Review and apply versioned guidance
 
+Michael approved the following design guidance after reviewing the maintenance
+pilot and the indistinguishable A New Leaf titles in the Mesa enrichment report.
+This is direct human instruction, not a claim that the pilot's resource facts
+have been phone-vetted or that inferred learning has passed its readiness gate.
+
+- **Make program distinctions visible:** use `Organization · brief program or
+  service label` when an organization has multiple resource entries. Prefer an
+  official program name when useful, with plain words explaining the help.
+  Do not invent a program identity or imply an unconfirmed service is available.
+- **Check hours by service:** distinguish meal, pantry, office, and other service
+  schedules. Flag conflicting published hours instead of collapsing them into
+  one apparently certain schedule.
+- **Research the actual access process:** examine application forms, appointment
+  requirements, pickup options, and delivery arrangements, not just home pages.
+- **Distinguish programs within an organization:** shared names or addresses do
+  not establish duplication; compare the service, population, and intake route.
+- **Compare discoveries against the whole package:** check other categories and
+  names before proposing an addition, including retired and declined identities.
+- **Preserve unresolved local knowledge:** turn a locally recorded detail absent
+  from public sources into a focused verification question rather than deleting
+  it merely because it was not found online.
+
+Overlap check: `maintenance_guidance/default.json` already covers named-program
+research, identity matching, intake, and preserving local knowledge.
+`writing_guidance/plain_language.md` already covers supported access steps and
+service distinctions. The approved refinements make service-specific hours,
+whole-package comparison, and visible program labels explicit. Integrate them
+into versioned guidance without duplicating existing instructions. This design
+record does not yet change runtime guidance or rename existing Mesa resources;
+the mixed clothing/household entry still needs program-boundary review.
+
 Store proposed lessons separately from operational facts. A lesson records its
 supporting events, office/category scope, relevant research configuration,
 proposed change, review decision, and policy version. Keep office-specific
