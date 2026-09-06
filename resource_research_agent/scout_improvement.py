@@ -458,6 +458,8 @@ class ImprovementWorkflow:
                 self._ready(state, rid, base, latest, updated)
                 if updated == current:
                     continue
+                from .open_questions import attach_questions, improvement_questions
+                attach_questions(updated, improvement_questions(item, {"kind":self.kind, "projectId":project_id, "resourceId":rid}))
                 resources.append(updated)
                 manifest['resources'][rid] = {'baseResourceSha256': digest(base['resources'][rid]),
                                              'latestResourceSha256': digest(current), 'proposal': deepcopy(item['proposal']),

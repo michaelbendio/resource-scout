@@ -190,7 +190,7 @@ class EvidenceTests(unittest.TestCase):
         self.assertEqual({'name':'proposed'},event['proposalLinks'][0]['review']['choices'])
         self.assertEqual(0,self.ledger.report(comparison['id'])['summary']['explicitFieldVerifications'])
         connected=flow.connect_latest(pid,flow.view(pid)['revision'],flow.export_bytes(pid,export['exportId']),'Test TSO')
-        self.assertEqual(1,connected['intakeEvidence']['linkedAdoptions'])
+        self.assertEqual(2,connected['intakeEvidence']['linkedAdoptions'])  # Title and administrative question handoff.
         self.assertEqual(0,connected['intakeEvidence']['explicitFieldVerifications'])
         automatic=self.ledger.report(connected['intakeEvidence']['comparisonId'])
         self.assertEqual({'name':'proposed'},automatic['events'][0]['proposalLinks'][0]['review']['choices'])

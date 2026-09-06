@@ -410,6 +410,10 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                     if any(r['id'] == rid for r in exported['resources']): raise ImprovementError('Duplicate new identity in this export')
                     target = {'id': rid, 'categories': [], 'categoryFilters': {}, 'forGroups': [], 'pdfs': [], **validate_fields(row['fields'], exported, state['writingGuidance'], new=True), 'lastModified': stamp}
                     exported['resources'].append(target); action = 'added'
+                if review['decision'] != 'retire':
+                    from .open_questions import attach_questions, make_questions
+                    attach_questions(target, make_questions([{'question':q, 'explanation':row['summary']} for q in row['questions']],
+                        {'kind':'maintenance', 'projectId':project_id, 'taskId':row['taskId'], 'itemId':row['id']}))
                 exported.setdefault('changes', []).append({'id': f'maintenance:{project_id}:{rid}:{key[:16]}', 'type': 'resource', 'action': action, 'targetId': rid,
                     'targetName': row['program'], 'timestamp': stamp, 'description': ('Maintenance retirement request for office review. ' if review['decision'] == 'retire' else 'Reviewed maintenance change. ') + review['note']})
                 records.append({'taskId': row['taskId'], 'itemId': row['id'], 'review': review})

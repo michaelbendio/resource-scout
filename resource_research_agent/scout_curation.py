@@ -157,6 +157,7 @@ def _assignment(
             "Prefer the smallest high-confidence proposal set; there is no target count or coverage quota.",
             "Follow writingGuidance.instructionsText and return section bodies using its assigned keys. Scout composes the headings.",
             "Record supporting candidate IDs and newly consulted source material in writingEvidence; never set a human verifiedOn date.",
+            "Use openQuestions for specific unresolved curator questions, each with question and explanation. Use an empty array when none remain. This does not replace full curation or put administrative questions in patron Information. Never resolve a curator question yourself.",
             "Return only one JSON object matching outputContract.",
         ],
         "outputContract": {
@@ -172,6 +173,7 @@ def _assignment(
                 "hours": "",
                 "description": "",
                 "informationSections": {section["key"]: "" for section in writing_guidance["sections"]},
+                "openQuestions": [],
                 "writingEvidence": {
                     "candidateIds": ["contributing candidate ID"],
                     "sources": [],
@@ -428,6 +430,7 @@ def _normalize_resource(
         "categoryFilters": normalized_filters,
         "forGroups": _unique_text(resource.get("forGroups")),
         "pdfs": deepcopy(resource.get("pdfs") if isinstance(resource.get("pdfs"), list) else []),
+        **({"openQuestions": deepcopy(resource["openQuestions"])} if "openQuestions" in resource else {}),
         "candidateIds": candidate_ids,
         "lastModified": _text(resource.get("lastModified")) or now,
     }

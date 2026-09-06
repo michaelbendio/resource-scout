@@ -988,3 +988,7 @@ authorize combining the enrichment checkout's unfinished code or restarting runs
 - [Research learning and maintenance design](codex-research-learning-design.md).
 - [Group inference implementation](../resource_research_agent/taxonomy_groups.py)
   and [Type design implementation](../resource_research_agent/taxonomy_type_design.py).
+
+## Current operational priority (September 6)
+
+Michael prioritizes the v2.0 autoMesa run ahead of Provo expansion. The [open-question handoff](scout-open-question-handoff.md) carries specific unresolved questions to office curators, while Michael supplies design guidance. Every generated resource still requires full curation.

@@ -1,0 +1,38 @@
+{
+  "sourceSha256": "fc3350159bde41ef6213022ac1bf05ff4b1c2ac179be9cb9c393f0053b3d7a0c",
+  "questions": {
+    "provo-city-housing-authority": [
+      {
+        "question": "Which housing programs require current Provo residency, and when?",
+        "explanation": "The earlier research found different wording about eligibility, waiting-list advancement and priority. Ask staff to distinguish the rules by housing program before changing the existing Information."
+      },
+      {
+        "question": "Does the partner program provide addiction recovery services that justify the Addiction category?",
+        "explanation": "Housing for people who may have a substance-use disability does not by itself establish recovery services. The existing category is retained pending a curator decision."
+      }
+    ],
+    "4e2aee885b2126ae255d187c8496758b": [
+      {
+        "question": "Are Spanish-language classes and childcare available for the current Financial Learning sessions?",
+        "explanation": "Local notes describe these arrangements, but their current availability was not independently confirmed. Proposed group additions were deferred."
+      },
+      {
+        "question": "Should the dedicated Website field be replaced with the program link?",
+        "explanation": "The accepted Information includes a Financial Learning program link; the separate Website field still contains the older address. Check its destination before changing it."
+      }
+    ],
+    "be263f34ffef82d605bccabb5a29bec3": [
+      {
+        "question": "Does this DWS office provide an accountable intake route to the county housing program?",
+        "explanation": "The housing flyer names a county program and county contact. A DWS logo alone does not establish local DWS intake. The existing Housing category is retained pending confirmation."
+      }
+    ],
+    "ddd37652117d3f75952de587aa414ffd": [
+      {
+        "question": "What is the current Provo handoff for veterans leaving incarceration?",
+        "explanation": "The older flyer describes outreach, but the current local intake and the boundary between DWS and VA services remain unclear. The proposed reentry classifications have not been applied."
+      }
+    ]
+  },
+  "scope": "Curator handoff only; no new research or provider answers."
+}

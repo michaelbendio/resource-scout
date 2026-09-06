@@ -146,5 +146,12 @@ def normalize_written_resource(resource: Any, bundle: dict[str, Any]) -> tuple[d
     normalized.pop('informationSections')
     normalized.pop('writingEvidence')
     normalized['informationText'] = text
+    from .open_questions import make_questions
+    from .improvement_packages import ImprovementError
+    if 'openQuestions' in resource:
+        try:
+            normalized['openQuestions'] = make_questions(resource['openQuestions'], {'kind':'scout-curation', 'resourceId':resource.get('id')})
+        except ImprovementError as error:
+            raise ResourceWritingError(str(error)) from error
     normalized['verifiedOn'] = None
     return normalized, metadata

@@ -26,6 +26,16 @@ class ResourceWritingTests(unittest.TestCase):
             'writingEvidence': {'candidateIds': ['c1'], 'sources': []},
         }
 
+    def test_new_resource_questions_survive_curation_without_entering_information(self):
+        from resource_research_agent.scout_curation import _normalize_resource
+        self.resource['openQuestions']=[{'question':'Which intake office?', 'explanation':'The provider lists two different contacts.'}]
+        written,_=normalize_written_resource(self.resource,self.bundle)
+        normalized=_normalize_resource(written,category_id='employment',valid_category_ids={'employment'},now='2026-09-06T00:00:00Z')
+        self.assertEqual('open',normalized['openQuestions'][0]['status'])
+        self.assertNotIn('Which intake office?',normalized['informationText'])
+        self.resource['openQuestions'][0]['status']='resolved'
+        with self.assertRaises(ResourceWritingError):normalize_written_resource(self.resource,self.bundle)
+
     def test_bundle_failures_and_hash_changes(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
