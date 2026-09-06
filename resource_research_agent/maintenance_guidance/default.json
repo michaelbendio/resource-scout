@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "version": "maintenance-v1",
+  "version": "maintenance-v2",
   "primary": [
-    "Recheck the named program, not just the parent organization. Investigate operation, intake, address, service area, eligibility, cost, services, and accommodations.",
-    "Search category assignments for additions. Match current, retired, and previously declined identities before calling something new. A shared provider can operate distinct programs.",
+    "Recheck the named program, not just the parent organization. Investigate operation, intake, address, service area, eligibility, cost, services, and accommodations. Compare services, populations, and intake routes before treating shared names or addresses as duplicate programs.",
+    "Search category assignments for additions. Compare discoveries against the whole package across categories and alternate names, including current, retired, and previously declined identities, before calling something new. A shared provider can operate distinct programs.",
     "A failed URL, unanswered call, old listing, or search omission alone is inconclusive. Look for replacement contact routes. A closure proposal needs an explicit official notice naming the affected program.",
-    "Preserve useful local knowledge. Propose only evidence-supported changes. Use the frozen writing guidance for Description and all five Information sections. Do not change verifiedOn.",
+    "Preserve useful local knowledge. A locally recorded detail absent from public sources becomes a focused verification question, not a deletion justified by website silence. Propose only evidence-supported changes. Use the frozen writing guidance, including program labels and service-specific hours. A clearer title is a field-level proposal for the existing stable ID, not a new resource or proof of a provider rename. Do not change verifiedOn.",
     "Return dated sources, focused follow-up questions, operational evidence dates, and a suggested next check date. Unknown stays unknown. Flag classification consequences for human review.",
     "Use priorChecks as dated history, not current fact. Repeated inability to verify should focus follow-up and independent checks, never become closure proof."
   ],
   "audit": [
-    "Independently verify the named program, changes, access conditions, and identity. Check closure claims against an explicit provider or government statement.",
-    "Audit category search coverage and missed additions. Check existing, retired, and previously declined matches. Record material issues and useful corrections, including classification consequences."
+    "Independently verify the named program, proposed title, service-specific hours, changes, and actual access process against the sealed writing guidance. Look for conflated programs, unsupported availability, conflicting schedules, and lost local details. Check closure claims against an explicit provider or government statement.",
+    "Audit category search coverage and missed additions. Compare against the whole package across categories and alternate names, including existing, retired, and previously declined matches. Record material issues and useful corrections, including classification consequences."
   ],
   "reconcile": [
     "Reconcile the primary research with every independent audit. Resolve every finding explicitly; leave unsupported facts uncertain.",

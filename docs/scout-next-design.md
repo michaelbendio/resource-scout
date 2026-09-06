@@ -628,10 +628,24 @@ Overlap check: `maintenance_guidance/default.json` already covers named-program
 research, identity matching, intake, and preserving local knowledge.
 `writing_guidance/plain_language.md` already covers supported access steps and
 service distinctions. The approved refinements make service-specific hours,
-whole-package comparison, and visible program labels explicit. Integrate them
-into versioned guidance without duplicating existing instructions. This design
-record does not yet change runtime guidance or rename existing Mesa resources;
-the mixed clothing/household entry still needs program-boundary review.
+whole-package comparison, and visible program labels explicit. They are now
+integrated into `plain-language-v2`, `maintenance-v2`, and
+`existing-resource-improvement-v2`. Newly prepared jobs seal these revisions;
+existing jobs retain their original guidance. Writing-only assignments record
+title suggestions in reviewNotes; maintenance can propose a title change for
+the existing stable ID through normal human review. Existing Mesa resources are
+not renamed by this change; the mixed clothing/household entry still needs
+program-boundary review.
+
+Validation: 63 targeted writing, curation, improvement, rendering, and
+maintenance tests passed. Added integration coverage checks new policy revisions
+versus resumed assignments, whole-package identity context for discovery, and
+review-gated title export preserving IDs and unrelated fields. These synthetic
+checks establish workflow behavior, not the quality of future AI research.
+The next reviewed research run should assess title clarity, service schedules,
+access steps, and preservation questions before further guidance refinement.
+Automatic lesson inference and adaptive run planning remain later increments,
+subject to their evidence/readiness review.
 
 Store proposed lessons separately from operational facts. A lesson records its
 supporting events, office/category scope, relevant research configuration,

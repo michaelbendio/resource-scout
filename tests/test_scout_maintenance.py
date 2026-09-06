@@ -4,6 +4,7 @@ import tempfile
 import unittest
 from copy import deepcopy
 from pathlib import Path
+from unittest.mock import patch
 
 from resource_research_agent.improvement_packages import ImprovementError, read_package, write_package
 from resource_research_agent.scout_maintenance import MaintenanceWorkflow
@@ -68,6 +69,51 @@ class MaintenanceTests(unittest.TestCase):
         self.assertEqual({'selected':1,'completed':0},self.view()['coverage']['discovery'])
         self.assertEqual(2,self.view()['coverage']['officeResources'])
         self.assertEqual(self.view(),MaintenanceWorkflow(self.store).view(self.pid))
+
+    def test_guidance_revision_applies_to_new_projects_only(self):
+        from resource_research_agent.scout_maintenance import POLICY
+        from resource_research_agent.resource_writing import load_writing_guidance
+        first = self.flow.next_assignment(self.pid)
+        policy = json.loads(POLICY.read_text())
+        policy['version'] = 'synthetic-next-policy'
+        policy['audit'].append('Synthetic next-policy audit instruction.')
+        changed = Path(self.temp.name) / 'policy.json'
+        changed.write_text(json.dumps(policy))
+        with patch('resource_research_agent.scout_maintenance.POLICY', changed):
+            new_id = self.flow.prepare(self.payload, 'Test TSO', ['r1'], ['food'],
+                run_name='Synthetic QA', historical=True)['id']
+            self.assertNotEqual(self.pid, new_id)
+            self.assertEqual(first, self.flow.next_assignment(self.pid))
+            self.flow.submit(self.pid, 'primary', result_for(first))
+            old_audit = self.flow.next_assignment(self.pid)
+            new_primary = self.flow.next_assignment(new_id)
+            self.flow.submit(new_id, 'primary', result_for(new_primary))
+            new_audit = self.flow.next_assignment(new_id)
+        self.assertNotIn('Synthetic next-policy audit instruction.', old_audit['instructions'])
+        self.assertIn('Synthetic next-policy audit instruction.', new_audit['instructions'])
+        self.assertEqual(load_writing_guidance(), new_primary['writingGuidance'])
+        self.assertEqual(first['writingGuidance'], old_audit['writingGuidance'])
+        discovery = self.flow.next_assignment(new_id, task_id='discovery:food')
+        self.assertEqual(set(r['id'] for r in self.data['resources']),
+                         set(r['id'] for r in discovery['knownIdentities']))
+
+    def test_program_title_proposal_preserves_identity_until_reviewed_export(self):
+        def propose_title(a, r):
+            if not a['stage'].startswith('audit:'):
+                r['items'][0]['fields'] = {'name': 'Example organization · Food pantry'}
+                r['items'][0]['summary'] = 'Synthetic clearer title, not a provider rename.'
+        self.finish(status='changed', task='recheck:r1', transform=propose_title)
+        self.assertEqual(self.payload, write_package(self.data, self.assets))
+        self.connect()
+        with self.assertRaises(ImprovementError):
+            self.export()
+        self.review()
+        out = self.package(self.export())
+        self.assertEqual('Example organization · Food pantry', out['resources']['r1']['name'])
+        self.assertEqual(set(r['id'] for r in self.data['resources']), set(out['resources']))
+        for key, value in self.data['resources'][0].items():
+            if key not in ('name', 'lastModified'):
+                self.assertEqual(value, out['resources']['r1'][key], key)
 
     def test_moved_update_preserves_ids_pdfs_local_notes_human_verification_and_other_resource(self):
         self.finish(task='recheck:r1'); self.connect(); self.review(); e=self.export(); out=self.package(e)

@@ -7,6 +7,22 @@ words, short sentences, and brief paragraphs or simple bullets. Explain an
 unavoidable acronym. Avoid agency jargon, promotional language, and research
 process commentary. Do not judge the person's ability or circumstances.
 
+Resource title: when one organization has multiple resource entries, use
+"Organization · brief program or service label" so a missionary can distinguish
+them before opening them. Prefer an official program name when useful, with
+plain words identifying the help. Do not invent a program identity, imply an
+unconfirmed service is available, or split or merge records just to improve a
+title. If the assignment permits name changes, propose the title through its
+normal review process; otherwise record the suggestion in reviewNotes. Preserve
+stable IDs. For a mixed or uncertain program entry, flag the identity question
+instead of making its title sound more certain than the evidence.
+
+Hours: distinguish meal, pantry, office, and other service schedules. Do not
+collapse them into a single schedule or treat office hours as service hours.
+Flag conflicting published schedules and say which service needs confirmation.
+When hours are outside the assignment's editable fields, record the discrepancy
+in reviewNotes rather than changing protected fields.
+
 Description: briefly say what help is offered and where it is available. Identify
 location and service area accurately; an office address does not establish an
 eligibility boundary. Preserve meaningful geographic limits and uncertainty.
@@ -21,7 +37,11 @@ conditions. Requirements may vary by program; never substitute an invented
 rule for missing information.
 
 How to Best Connect: give a supported starting route and practical next steps.
-Include appointment or walk-in requirements and useful application instructions.
+Examine service and application pages or forms, not just the home page, to
+establish appointment or walk-in requirements, pickup options, delivery
+arrangements, and useful application instructions. Reading a form is research;
+do not submit it or enter personal information. Distinguish what the form offers
+from assumptions about eligibility or guaranteed access.
 When known, explain what happens after applying without promising placement,
 funding, eligibility, or response times. Keep phone, address, website, and hours
 in their ordinary fields; avoid duplicating those fields in Information. There

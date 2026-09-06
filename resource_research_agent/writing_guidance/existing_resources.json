@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "version": "existing-resource-improvement-v1",
+  "version": "existing-resource-improvement-v2",
   "primary": [
     "Research this existing office resource using current official sources and the complete original record, including attached PDFs. Preserve local knowledge, named contacts, program distinctions, consequential requirements, and useful list or directory entries.",
-    "Use the sealed writing guidance to propose Description and the five Information sections. Do not change identity, names, contact fields, taxonomy, attachments, verification, or other fields. Record conflicts involving those fields in reviewNotes.",
+    "Use the sealed writing guidance to propose Description and the five Information sections. Do not change identity, names, contact fields, taxonomy, attachments, verification, or other fields. Record conflicts involving those fields in reviewNotes. If the sealed writing guidance suggests a clearer program title, put the exact suggested title and reason in reviewNotes; names remain outside this writing-only assignment.",
     "Do not silently replace human knowledge with generic website wording. Explain material omissions, rephrasings, qualifications, and conflicting evidence in preservationNotes. Record new source text with URL and access date.",
     "These are proposals for existing records, not new discoveries. Do not split, merge, delete, or exclude an accepted resource because it is a list or has missing dedicated contacts."
   ],
