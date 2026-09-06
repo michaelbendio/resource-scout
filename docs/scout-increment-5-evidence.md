@@ -217,3 +217,5 @@ Next discussion: routine intake should capture packages and available decision
 receipts together. Missing attribution must remain visible. Actual phone-vetted
 final packages are still needed before the research-learning readiness audit;
 adaptive category assignments remain later in the grand plan.
+
+The first practical [Provo working batch](scout-provo-working-batch.md) is now prepared from the user-selected August 12 baseline. It applies accepted fields to five resources, preserves all 183 resources and 93 PDFs, and records working-copy adoption without treating it as final office vetting.
