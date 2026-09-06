@@ -6,6 +6,18 @@ classification research has not started. This is not completion of increment 3.
 No office package has been exported from the real pilot, and no learning policy
 has been activated.
 
+## Michael's implementation acceptance
+
+After implementation commit `2a5ea9c`, Michael said:
+
+> I approve the changes in this implementation. There weren't many.
+
+This records acceptance of the implemented classification workflow. The visible
+changes are the classification review and office-definition controls; much of the
+work provides evidence tracking, preservation of later office edits, and safe
+export. Implementation acceptance does not supply results from the still-unrun
+six-resource classification pilot or complete the migration/navigation slices.
+
 ## What is usable
 
 Scout's home page links to **Review categories, Types and groups** at

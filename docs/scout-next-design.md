@@ -21,7 +21,8 @@ real four-AI pilot and accepted its writing and reconciliation decisions.
 Provider questions and production package review remain open.
 See [increment 2 status](scout-increment-2-results.md).
 
-Increment 3 update: slice 3A is implemented and software-tested. The six-resource
+Increment 3 update: slice 3A is implemented and software-tested, and Michael
+accepted its implementation changes. The six-resource
 historical Provo pilot awaits office definition review before real classification
 research. Group/migration review and location navigation remain planned. See the
 [implementation status](scout-increment-3-results.md) and
