@@ -20,7 +20,7 @@ for r in v['items']:
  block=f'<section id="{esc(r["id"])}"><h2>{esc(name)}</h2><p class="status">'+('Proposed update' if r['current'] else 'Proposed addition')+' · awaiting your review</p><p>'+esc(r['summary'])+'</p>'
  if r['current']:
   for k,c in r['comparison'].items():
-   block+='<h3>'+esc(labels.get(k,k))+'</h3><div class="comparison"><div><h4>In historical office package</h4>'+value(c['current'])+'</div><div><h4>Scout proposes</h4>'+value(c['proposed'])+'</div></div>'
+   block+='<h3>'+esc(labels.get(k,k))+'</h3><div class="comparison"><div><h4>In historical office package</h4>'+'<div data-diff-before>'+value(c['current'])+'</div>'+'</div><div><h4>Scout proposes</h4>'+'<div data-diff-after>'+value(c['proposed'])+'</div>'+'</div></div>'
   block+='<details class="original-notes"><summary>Existing Information stays intact</summary><p>These are the original local notes, including dated limits that still need confirmation. This pilot does not rewrite them or claim they are all current.</p>'+value(r['current'].get('informationText'))+'<p>Last human verification: '+esc(r['current'].get('verifiedOn'))+'. Preserved; no new human verification.</p></details>'
  else:
   block+='<div class="new-resource">'
@@ -120,5 +120,8 @@ print_script = """<script>
 options='<option value="overview">Overview — What Scout checked</option>'+''.join('<option value="'+esc(r['id'])+'">'+esc(r['current']['name'] if r['current'] else r['fields']['name'])+'</option>' for r in v['items'])
 dialog='<dialog id="print-options" aria-labelledby="print-title"><h2 id="print-title">What would you like to print?</h2><p>Make a manageable handout to use while updating the office app.</p><label for="print-choice">Choose a handout</label><select id="print-choice">'+options+'</select><p id="chosen-resource"></p><div id="audit-option" hidden><label class="audit-option"><input type="checkbox" id="include-audit"><span>Include this resource’s full audit details<br><small>AI introductions, sources, Auditor findings, and Scout decisions. Adds several pages.</small></span></label></div><p id="print-description">A short overview and a list of proposed changes.</p><div class="dialog-actions"><button type="button" id="cancel-print">Cancel</button><button type="button" id="confirm-print" class="primary">Print handout</button></div></dialog><div id="print-copy" aria-hidden="true"></div>'
 body=body.replace('</body>',dialog+print_script+'</body>')
+highlighter=(Path(__file__).resolve().parents[1]/'web/comparison.js').read_text()
+body=body.replace('</body>', '<script>'+highlighter+"\nfor(const pair of document.querySelectorAll('.comparison')){const a=pair.querySelector('[data-diff-before]'),b=pair.querySelector('[data-diff-after]');if(a&&b){const d=highlightComparison(a.innerHTML,b.innerHTML);a.innerHTML=d.before;b.innerHTML=d.after;}}"+'</script></body>')
+body=body.replace('Review the proposed wording below.', 'Changes below are bold; removed wording is crossed out in the historical version.')
 (p/'autoProvoMaintenancePilot.html').write_text(body)
 print(p/'autoProvoMaintenancePilot.html')

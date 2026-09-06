@@ -1,6 +1,6 @@
 # Increment 5: evidence from curator decisions
 
-Status: the bounded evidence-capture step is implemented. See
+Status: evidence capture and routine project package-connection integration are implemented. See
 [implementation and operator guide](scout-increment-5-evidence.md).
 Automatic lesson inference and activation are not implemented by this plan.
 

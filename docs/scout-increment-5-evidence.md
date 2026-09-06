@@ -4,7 +4,51 @@ Implemented on `v2.0`. Scout now has a separate SQLite evidence ledger and
 operator CLI. It observes packages, curator history, and delivery receipts;
 it does not edit office resources, activate lessons, or infer human verification.
 
-## Normal use
+## Routine project intake (implemented September 6)
+
+Connecting a current package in writing improvement, classification or maintenance
+now captures evidence automatically. The existing project connection supplies the
+explicit relationship; Scout never guesses a predecessor from a filename or date.
+Before resetting reviews, it preserves the previous connected package (or original
+baseline), incoming bytes, current project history and export receipts. It compares
+these packages and saves a short summary on the project. No separate curator task
+or full comparison report is created.
+
+All writes share the package-connection transaction: a failure rolls back both the
+connection and evidence. Reconnecting an unchanged package is a no-op. Collection
+identity is project-scoped; historical status is inherited and completeness stays
+unknown. Older packages without an embedded office name retain their exact bytes
+and record the office explicitly confirmed in the project. A conflicting embedded
+office remains an error. Cross-project/manual proposal attribution still uses the
+explicit operator tools below; the generic discovery upload does not guess lineage.
+
+Only matching delivered export proposals support linked adoption. No review choice
+or changed text establishes provider verification. Manual edits remain observations
+unless supporting evidence is explicitly linked. The project shows the change and
+adoption counts without a new review requirement.
+
+Comparisons in the three workflow pages bold additions/replacements and bold and
+cross out removed wording on the current side. Existing links and text are
+preserved. Future Mesa evidence and Provo maintenance report builds use the same
+highlighter, including print copies; previously accepted reports are not regenerated.
+For exceptionally large edits the highlighter bounds its memory and marks the
+changed middle passage more broadly, retaining all original text.
+
+Validation: 293 tests passed, one skipped. Regression cases cover all three workflow
+connections, missing office identity, exact bytes, retry behavior, rollback and
+adoption after an acknowledged export. Maintenance browser QA and comparison
+browser QA passed, including safe escaping, links, multiple edits and print styling.
+
+Michael approved the prior evidence distinctions and spot-checked the real Mesa
+comparison. His feedback: full-package comparison reviews are too burdensome.
+Future review summaries should show a few representative examples and consequential
+questions, with changed words bold. Detailed evidence remains available on demand.
+
+Next: select the current working office package and perform a useful office run.
+Lesson generation remains pending attributable vetting outcomes and the readiness
+review; adaptive research is increment 6. No additional evidence pilot is required.
+
+## Explicit operator use
 
 Use one explicit collection for a related set of office packages. Declare each
 package's scope; neither a filename nor a higher version establishes lineage.

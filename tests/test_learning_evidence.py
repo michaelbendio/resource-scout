@@ -32,6 +32,43 @@ class EvidenceTests(unittest.TestCase):
             artifact={'path':str(artifact),'sha256':artifact_sha,'deliveredAt':'2026-09-06T12:00:00Z'},
             configuration={'policy':config,'researcher':'Synthetic QA'})
 
+    def test_routine_connection_captures_unknown_scope_and_missing_office_without_rewriting(self):
+        from resource_research_agent.scout_improvement import ImprovementWorkflow
+        from resource_research_agent.scout_classification import ClassificationWorkflow
+        data=deepcopy(self.data);data.pop('officeName',None)
+        baseline=write_package(data,self.assets)
+        for flow in (ImprovementWorkflow(self.store), ClassificationWorkflow(self.store), MaintenanceWorkflow(self.store)):
+            if isinstance(flow,MaintenanceWorkflow):
+                project=flow.prepare(baseline,'Test TSO',['r1'],[],run_name='Intake test',historical=True)
+            else:project=flow.prepare(baseline,'Test TSO',['r1'],historical=True)
+            changed=deepcopy(data);changed['resources'][0]['name']='Human-edited title'
+            payload=write_package(changed,self.assets)
+            connected=flow.connect_latest(project['id'],project['revision'],payload,'Test TSO')
+            evidence=connected['intakeEvidence']
+            self.assertEqual(1,evidence['observedChanges']);self.assertEqual(0,evidence['linkedAdoptions'])
+            report=self.ledger.report(evidence['comparisonId'])
+            self.assertTrue(report['historical']);self.assertEqual('unknown',report['afterScope'])
+            self.assertEqual('observed-change',report['events'][0]['level'])
+            with self.store.connect() as c:
+                record=self.ledger._get(c,report['afterId'])
+                self.assertIn('explicitly selected',record['officeIdentitySource'])
+                self.assertEqual(payload,c.execute('SELECT payload FROM scout_evidence_artifacts WHERE id=?',(record['sha256'],)).fetchone()[0])
+            again=flow.connect_latest(project['id'],connected['revision'],payload,'Test TSO')
+            self.assertEqual(connected,again)
+
+    def test_intake_failure_rolls_back_package_connection_and_evidence(self):
+        from unittest.mock import patch
+        from resource_research_agent.scout_improvement import ImprovementWorkflow
+        flow=ImprovementWorkflow(self.store)
+        project=flow.prepare(write_package(self.data,self.assets),'Test TSO',['r1'],historical=True)
+        payload=write_package(self.changed(name='Changed'),self.assets)
+        with patch.object(EvidenceLedger,'compare',side_effect=ImprovementError('Injected failure')):
+            with self.assertRaises(ImprovementError):flow.connect_latest(project['id'],project['revision'],payload,'Test TSO')
+        self.assertEqual(project,flow.view(project['id']))
+        with self.store.connect() as c:
+            self.assertEqual(0,c.execute("SELECT count(*) FROM scout_evidence_collections WHERE id LIKE 'project-intake:%'").fetchone()[0])
+            self.assertEqual(0,c.execute('SELECT count(*) FROM scout_improvement_packages WHERE sha256=?',(hashlib.sha256(payload).hexdigest(),)).fetchone()[0])
+
     def test_legacy_version_is_evidence_only_and_original_bytes_survive(self):
         data=deepcopy(self.data);data['packageVersion']='2'
         payload=write_package(data,self.assets)
@@ -152,6 +189,11 @@ class EvidenceTests(unittest.TestCase):
         self.assertEqual('linked-adoption',event['level']);self.assertEqual('name',event['field'])
         self.assertEqual({'name':'proposed'},event['proposalLinks'][0]['review']['choices'])
         self.assertEqual(0,self.ledger.report(comparison['id'])['summary']['explicitFieldVerifications'])
+        connected=flow.connect_latest(pid,flow.view(pid)['revision'],flow.export_bytes(pid,export['exportId']),'Test TSO')
+        self.assertEqual(1,connected['intakeEvidence']['linkedAdoptions'])
+        self.assertEqual(0,connected['intakeEvidence']['explicitFieldVerifications'])
+        automatic=self.ledger.report(connected['intakeEvidence']['comparisonId'])
+        self.assertEqual({'name':'proposed'},automatic['events'][0]['proposalLinks'][0]['review']['choices'])
         self.assertFalse(capture_before['exports'])
         with self.assertRaises(ImprovementError):self.compare(self.base,after,captures=[prepared['id'],saved['id']])
         self.imp(self.data,collection='live',historical=False)

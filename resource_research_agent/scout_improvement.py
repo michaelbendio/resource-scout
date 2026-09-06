@@ -302,6 +302,25 @@ class ImprovementWorkflow:
                 for stage, result in item['results'].items() if stage.startswith('audit:')
                 for finding in result['findings']}
 
+    def _capture_intake(self, connection, state, payload):
+        """Record the user's project connection atomically, before reviews reset."""
+        from .learning_evidence import EvidenceLedger
+        ledger = EvidenceLedger(self.store, connection=connection)
+        collection = 'project-intake:' + str(state['id'])
+        previous_sha = state['latestSha256'] or state['baseSha256']
+        previous = connection.execute('SELECT payload FROM scout_improvement_packages WHERE sha256=?',
+                                      (previous_sha,)).fetchone()[0]
+        kwargs = dict(scope='unknown', historical=bool(state['historical']),
+                      office_confirmation='Office explicitly selected and confirmed in project ' + str(state['id']))
+        before = ledger.import_package(collection, state['office'], previous, **kwargs)
+        after = ledger.import_package(collection, state['office'], payload, **kwargs)
+        capture = ledger.capture_project(collection, state['id'])
+        comparison = ledger.compare(before['id'], after['id'], reviewer='Project package connection',
+            lineage_note='User connected this package to this project. Previous connected package, or project baseline, supplies the comparison. Completeness and provider verification are not inferred.',
+            captures=[capture['id']])
+        report = ledger.report(comparison['id'])
+        state['intakeEvidence'] = {'comparisonId': comparison['id'], **report['summary']}
+
     def connect_latest(self, project_id, revision, payload, office, *, source_name='current-package.zip'):
         latest = read_package(payload)
         office = nonempty(office, 'Confirmed office')
@@ -316,6 +335,7 @@ class ImprovementWorkflow:
             if state['latestSha256'] == latest['sha256'] and not state.get('requiresReconnection'):
                 return self._view(connection, state)
             connection.execute('INSERT OR IGNORE INTO scout_improvement_packages VALUES(?,?)', (latest['sha256'], payload))
+            self._capture_intake(connection, state, payload)
             self._connected(state, latest)
             state['latestSha256'] = latest['sha256']
             state['requiresReconnection'] = False
@@ -389,6 +409,7 @@ class ImprovementWorkflow:
         base = self._package(connection, state['baseSha256'])
         latest = self._package(connection, state['latestSha256']) if state['latestSha256'] else None
         result = {k: deepcopy(state[k]) for k in ('id', 'revision', 'office', 'createdAt', 'baseSha256', 'latestSha256', 'sourceName', 'historical')}
+        result['intakeEvidence'] = deepcopy(state.get('intakeEvidence'))
         result.update(baseVersion=base['data']['packageVersion'], latestVersion=latest['data']['packageVersion'] if latest else None,
                       requiresReconnection=bool(state.get('requiresReconnection')),
                       sections=deepcopy(state['writingGuidance'].get('sections', [])), resources=[])

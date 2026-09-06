@@ -68,7 +68,9 @@ def main():
     page += '<section><h2>Sources and limits</h2><ul>' + source_html + '</ul><p>' + esc(args.lineage_note) + '</p>' + warnings
     page += '<p>Original ZIP bytes and hashes are retained in the ledger. Package completeness is unconfirmed. Dates, names and matching IDs support this selected comparison; they do not prove a complete editing history.</p></section>'
     page += '<section><h2>Questions to settle</h2><p>For future final packages, can we retain the delivered Scout proposal and the curator’s decision alongside the changed field? When a provider confirms a fact, which field was checked, by whom, when and how?</p><p>Stephanie’s approved writing instructions are direct guidance. Repeating an editorial change across many resources does not turn it into many independent examples of successful research.</p><p>Next in the grand plan: connect evidence capture to routine package intake, preserving these distinctions. Research-method lessons and adaptive category assignments follow attributable vetting outcomes and a readiness review.</p></section>'
-    page += '<div class="screen-only"><h2>Inspect the exact changes</h2><p>Open a resource to compare its fields. Printing includes the overview only.</p></div>' + ''.join(cards) + '</main></html>'
+    page += '<div class="screen-only"><h2>Inspect the exact changes</h2><p>Changes are bold; removed text is crossed out in Before. Open a resource to compare its fields. Printing includes the overview only.</p></div>' + ''.join(cards) + '</main></html>'
+    highlighter = (Path(__file__).resolve().parents[1] / 'web/comparison.js').read_text()
+    page += '<script>' + highlighter + "\nfor(const pair of document.querySelectorAll('.pair')){const [a,b]=pair.querySelectorAll('pre');const d=highlightComparison(a.innerHTML,b.innerHTML);a.innerHTML=d.before;b.innerHTML=d.after;}" + '</script>'
     target = args.output / 'autoMesaEvidencePilot.html'
     target.write_text(page)
     print(json.dumps({'output': str(target), 'fieldCounts': dict(counts), 'summary': report['summary']}, indent=2))

@@ -673,11 +673,14 @@ sets out the next implementation: attributable review/package observations befor
 method inference, including title-only approvals that do not imply service vetting.
 
 The bounded [increment 5A evidence ledger](scout-increment-5-evidence.md) is now
-implemented through explicit operator commands. It preserves packages and review
-history, distinguishes adoption from explicit field verification, and leaves
-readiness unevaluated rather than counting editorial choices as vetted resources.
-A five-case synthetic demonstration is ready for discussion before a real
-attributable office sequence or automatic method interpretation.
+implemented through operator commands and routine project package connections.
+It preserves packages and review history, distinguishes adoption from explicit
+field verification, and leaves readiness unevaluated rather than counting
+editorial choices as vetted resources. Michael approved the synthetic distinctions
+and spot-checked the historical Mesa comparison. Package connections now capture
+comparisons and available receipts automatically, without another full review.
+Comparisons bold changed wording and identify removals. The next practical step
+is a current office run; method inference and adaptive runs remain later work.
 
 Store proposed lessons separately from operational facts. A lesson records its
 supporting events, office/category scope, relevant research configuration,

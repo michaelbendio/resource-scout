@@ -6,6 +6,7 @@ import hashlib
 from pathlib import Path
 from copy import deepcopy
 from datetime import datetime
+from contextlib import contextmanager
 
 from .improvement_packages import ImprovementError, digest, nonempty, read_package, utcnow
 from .scout_improvement import ImprovementWorkflow
@@ -55,11 +56,27 @@ def semantic(package):
 
 
 class EvidenceLedger:
-    def __init__(self, store):
+    def __init__(self, store, *, connection=None):
         self.store = store
-        ImprovementWorkflow(store)  # Reuse existing storage, never its mutation methods.
-        with store.connect() as c:
-            c.executescript(SCHEMA)
+        self.connection = connection
+        if connection is None:
+            ImprovementWorkflow(store)
+            with store.connect() as c:
+                c.executescript(SCHEMA)
+        else:
+            # Do not use executescript: it would commit the caller's transaction.
+            for statement in SCHEMA.split(';'):
+                if statement.strip():
+                    connection.execute(statement)
+
+    @contextmanager
+    def _connect(self):
+        if self.connection is not None:
+            yield self.connection
+        else:
+            with self.store.connect() as c:
+                c.execute('BEGIN IMMEDIATE')
+                yield c
 
     @staticmethod
     def _collection(c, ident):
@@ -96,15 +113,20 @@ class EvidenceLedger:
             raise ImprovementError('Evidence package bytes are missing')
         return read_package(row[0], evidence_legacy_version=True)
 
-    def import_package(self, collection, office, payload, *, scope, historical=False):
+    def import_package(self, collection, office, payload, *, scope, historical=False, office_confirmation=None):
         collection, office = nonempty(collection, 'Collection'), nonempty(office, 'Office')
         if scope not in ('full', 'partial', 'unknown') or type(historical) is not bool:
             raise ImprovementError('Declare package scope and development status')
         package = read_package(payload, evidence_legacy_version=True)
-        if package['data'].get('officeName', '').casefold() != office.casefold():
+        embedded_office = package['data'].get('officeName')
+        if embedded_office:
+            if not isinstance(embedded_office, str) or embedded_office.casefold() != office.casefold():
+                raise ImprovementError('Package office does not match collection office')
+        elif office_confirmation is None:
             raise ImprovementError('Package office does not match collection office')
-        with self.store.connect() as c:
-            c.execute('BEGIN IMMEDIATE')
+        else:
+            nonempty(office_confirmation, 'Explicit office confirmation')
+        with self._connect() as c:
             c.execute('INSERT OR IGNORE INTO scout_evidence_collections VALUES(?,?,?)',
                       (collection, office.casefold(), historical))
             config = self._collection(c, collection)
@@ -113,6 +135,7 @@ class EvidenceLedger:
             self._artifact(c, payload)
             ident = self._save(c, collection, 'package', {'sha256': package['sha256'],
                 'semanticSha256': digest(semantic(package)), 'scope': scope,
+                'officeIdentitySource': 'embedded' if embedded_office else office_confirmation,
                 'packageVersion': package['data'].get('packageVersion'), 'historical': historical,
                 'intakeWarnings': (['Legacy packageVersion is text; original value and ZIP bytes retained.']
                                    if isinstance(package['data'].get('packageVersion'), str) else [])})
@@ -120,8 +143,7 @@ class EvidenceLedger:
 
     def capture_project(self, collection, project_id):
         """Copy raw history and receipts, retaining policy versions and source bytes."""
-        with self.store.connect() as c:
-            c.execute('BEGIN IMMEDIATE')
+        with self._connect() as c:
             config = self._collection(c, collection)
             row = c.execute('SELECT * FROM scout_improvement_projects WHERE id=?', (project_id,)).fetchone()
             if not row:
@@ -165,8 +187,7 @@ class EvidenceLedger:
         artifact_bytes = Path(artifact['path']).read_bytes()
         if hashlib.sha256(artifact_bytes).hexdigest() != artifact['sha256']:
             raise ImprovementError('Delivered report bytes do not match the recorded hash')
-        with self.store.connect() as c:
-            c.execute('BEGIN IMMEDIATE')
+        with self._connect() as c:
             base = self._get(c, baseline_id, 'package')
             if base['collectionId'] != collection:
                 raise ImprovementError('Proposal baseline belongs to another collection')
@@ -217,8 +238,7 @@ class EvidenceLedger:
 
     def compare(self, before_id, after_id, *, reviewer, lineage_note, captures=(), identity_links=()):
         reviewer, lineage_note = nonempty(reviewer, 'Lineage reviewer'), nonempty(lineage_note, 'Lineage explanation')
-        with self.store.connect() as c:
-            c.execute('BEGIN IMMEDIATE')
+        with self._connect() as c:
             before, after = self._get(c, before_id, 'package'), self._get(c, after_id, 'package')
             if before['collectionId'] != after['collectionId']:
                 raise ImprovementError('Compare packages in the same collection')
@@ -308,8 +328,7 @@ class EvidenceLedger:
             nonempty(value, key)
         if method not in ('phone', 'in-person', 'provider-written-confirmation'):
             raise ImprovementError('Record an explicit verification method, not editorial acceptance')
-        with self.store.connect() as c:
-            c.execute('BEGIN IMMEDIATE')
+        with self._connect() as c:
             comp = self._get(c, comparison_id, 'comparison')
             event = next((e for e in comp['events'] if e['eventId'] == event_id), None)
             if not event or event['change'] != 'field-change' or not event['afterPresent'] or event['field'] == 'verifiedOn':
@@ -325,7 +344,7 @@ class EvidenceLedger:
             return self._get(c, ident)
 
     def report(self, comparison_id):
-        with self.store.connect() as c:
+        with self._connect() as c:
             comp = self._get(c, comparison_id, 'comparison')
             rows = [self._get(c, r[0]) for r in c.execute(
                 "SELECT id FROM scout_evidence_records WHERE collection_id=? AND kind='verification'", (comp['collectionId'],))]

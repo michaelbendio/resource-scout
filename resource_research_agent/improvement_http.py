@@ -19,7 +19,7 @@ def handle_improvement(handler, parsed, *, post=False):
     if classification:
         path = path.replace('/api/classifications', '/api/improvements', 1)
     query = parse_qs(parsed.query)
-    if not post and path in ('/improvements', '/improvements.js', '/improvements.css'):
+    if not post and path in ('/improvements', '/improvements.js', '/improvements.css', '/comparison.js'):
         name = 'improvements.html' if path == '/improvements' else path[1:]
         mime = 'text/html' if name.endswith('.html') else ('text/css' if name.endswith('.css') else 'text/javascript')
         handler._file(handler.server.web_dir / name, mime + '; charset=utf-8')

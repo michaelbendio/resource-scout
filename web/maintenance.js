@@ -22,6 +22,7 @@ function render(){
   const c=state.coverage;
   $('coverage').textContent=`Known resources: ${c.recheck.completed} completed, ${c.recheck.selected} selected, ${c.officeResources} in office. Searches: ${c.discovery.completed} completed, ${c.discovery.selected} selected, ${c.officeCategories} office categories. Unselected or unfinished work has not been checked.`;
   $('historical-banner').textContent=(state.historical?'Historical development sample. ':'')+(!state.latestSha256 || state.requiresReconnection?'Reconnect the current package before accepting or saving changes.':'Current package connected.');
+  let evidence=document.getElementById('intake-evidence');if(!evidence){evidence=document.createElement('p');evidence.id='intake-evidence';$('historical-banner').after(evidence);}evidence.textContent=intakeEvidenceMessage(state.intakeEvidence);
   $('task-choice').innerHTML='<option value="">Next available task</option>'+state.tasks.map(t=>`<option value="${esc(t.id)}">${esc(t.id)}</option>`).join('');
   $('tasks').innerHTML=state.tasks.map(t=>`<p><strong>${esc(t.id)}</strong>: ${t.research.map(s=>esc(s.researcher+' '+s.stage)+(s.complete?' ✓':' pending')).join(' · ')}</p>`).join('');
   $('items').innerHTML=state.items.length?'':'<p>No reconciled findings yet. Research progress is shown above.</p>';
@@ -37,7 +38,8 @@ function render(){
     <label>Decision <select class="decision"><option value="keep">Keep as an observation / follow-up</option><option value="accept">Accept selected update or addition</option><option value="retire">Request office retirement review</option><option value="decline">Decline this proposal</option><option value="unmarked">Clear review mark</option></select></label><button class="save">Save review</button>`;
     const fields=card.querySelector('.fields');
     if(r.current){for(const [key,values] of Object.entries(r.comparison)){
-      const field=document.createElement('div');field.innerHTML=`<h4>${esc(fieldLabel(key))}${values.conflict?' · Later office edit — choose carefully':''}</h4><p>Current: ${esc(show(values.current,key))}</p><p>Proposed: ${esc(show(values.proposed,key))}</p><label>Use <select data-field="${esc(key)}"><option value="current">Current office value</option><option value="proposed">Proposed value</option></select></label>`;fields.append(field);
+      const diff=highlightComparison(esc(show(values.current,key)),esc(show(values.proposed,key)));
+      const field=document.createElement('div');field.innerHTML=`<h4>${esc(fieldLabel(key))}${values.conflict?' · Later office edit — choose carefully':''}</h4><p>Changes are bold; removed text is crossed out.</p><p>Current: ${diff.before}</p><p>Proposed: ${diff.after}</p><label>Use <select data-field="${esc(key)}"><option value="current">Current office value</option><option value="proposed">Proposed value</option></select></label>`;fields.append(field);
     }}else{fields.innerHTML=`<h4>Proposed addition</h4>`+Object.entries(r.fields).map(([key,value])=>`<h4>${esc(fieldLabel(key))}</h4><p style="white-space:pre-wrap">${esc(show(value,key))}</p>`).join('');}
     for(const resolution of r.resolutions){if(resolution.status==='needs-review' && r.findings[resolution.findingId].severity==='material'){
       const label=document.createElement('label');label.textContent='Human resolution: '+r.findings[resolution.findingId].summary;

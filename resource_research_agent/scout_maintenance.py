@@ -302,6 +302,7 @@ class MaintenanceWorkflow(ImprovementWorkflow):
             if package['data']['packageVersion'] < previous['data']['packageVersion']: raise ImprovementError('Package is older than the connected baseline')
             if state['latestSha256'] == package['sha256'] and not state['requiresReconnection']: return self._view(c, state)
             c.execute('INSERT OR IGNORE INTO scout_improvement_packages VALUES(?,?)', (package['sha256'], payload))
+            self._capture_intake(c, state, payload)
             state.update(latestSha256=package['sha256'], requiresReconnection=False)
             for task in state['tasks'].values():
                 task['reviews'] = {k: v for k, v in task['reviews'].items() if v['decision'] in ('decline', 'keep') or k in task['saved']}
@@ -340,7 +341,7 @@ class MaintenanceWorkflow(ImprovementWorkflow):
     def _view(self, c, state):
         package = self._package(c, state['latestSha256'] or state['baseSha256'])
         tasks = [{'id': tid, 'kind': t['kind'], 'targetId': t['targetId'], 'research': [{'stage': s, 'researcher': n, 'complete': s in t['results']} for s, n in self._stages(state)]} for tid, t in state['tasks'].items()]
-        return {**{k: state[k] for k in ('id', 'revision', 'office', 'runName', 'historical', 'createdAt', 'baseSha256', 'latestSha256', 'requiresReconnection')},
+        return {'intakeEvidence': deepcopy(state.get('intakeEvidence')), **{k: state[k] for k in ('id', 'revision', 'office', 'runName', 'historical', 'createdAt', 'baseSha256', 'latestSha256', 'requiresReconnection')},
                 'coverage': {'officeResources': len(package['resources']), 'officeCategories': len(package['data']['categories']),
                              **{kind: {'selected': sum(t['kind'] == kind for t in tasks), 'completed': sum(t['kind'] == kind and all(s['complete'] for s in t['research']) for t in tasks)} for kind in ('recheck', 'discovery')}},
                 'catalog': {'categories': package['data']['categories'], 'forGroups': package['data']['forGroups']},
