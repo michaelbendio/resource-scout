@@ -4,7 +4,12 @@ Working name approved by Michael: **autoMesaV2**, with review file
 `autoMesaV2.html`. Preserve the existing autoMesa files.
 
 Status: all four services passed live attachment and source checks at
-2026-09-07 05:27 UTC (September 6, 11:27 PM MDT); no Mesa research started yet. Michael's September 6 instruction
+2026-09-07 05:27 UTC (September 6, 11:27 PM MDT). Research began at 05:45 UTC.
+Caregiving completed at approximately 07:07 UTC: eight existing-resource rechecks,
+six proposed additions, all 27 challenger task results and all nine Claude task
+results, with 95 explicit final finding dispositions. No curator approvals or
+production publication occurred. Addiction has six of 27 primary rechecks saved;
+21 rechecks plus discovery remain before its challengers. Michael's September 6 instruction
 requires ChatGPT, Grok, Claude and Perplexity to be online and available. All four
 are mandatory participants alongside Codex. Claude remains an independent blind
 comparison, not a fourth challenger. Its participation is required.
@@ -99,6 +104,20 @@ Fresh check evidence is archived in the ignored run folder
 ChatGPT used GPT-5.6 Sol / High; Grok used Expert; Perplexity used Search /
 Sonar 2; Claude used Opus 5 / High. All four read the unique attachment
 nonce and returned a current National Park Service source citation.
+
+The Caregiving Claude turn hit a tool-use limit and was continued in the same
+blind conversation. Its incomplete first response was archived and not accepted.
+The corrected response completed all nine tasks. A documented import adapter
+preserved a narrow FCRP application-closure notice in research notes rather than
+encoding closure of the aggregate DES resource. Original returned files remain
+unchanged. The current run checkpoint is `output/autoMesaV2/progress.md`.
+
+After Caregiving, Claude warned that 90% of its session allowance was used but
+had not blocked further work. Keep later Claude transport packets smaller while
+preserving the whole-category freeze and independent original-only context.
+Provider batching observations are saved in this run's JSON; they are not
+activated as global research lessons. The first provisional remaining-work
+estimate is 30–50 active hours plus provider waits, to be revised after Addiction.
 
 
 ## Start-check status
