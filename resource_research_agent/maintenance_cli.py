@@ -9,6 +9,7 @@ def add_maintenance_commands(subcommands):
     actions = group.add_subparsers(dest='maintenance_action', required=True)
     p = actions.add_parser('prepare'); p.add_argument('package'); p.add_argument('--office', required=True); p.add_argument('--run-name', required=True)
     p.add_argument('--resource-id', action='append', default=[]); p.add_argument('--category-id', action='append', default=[]); p.add_argument('--historical', action='store_true')
+    p.add_argument('--blind-comparison', action='store_true', help='Require a batch freeze and independent Claude research before final reconciliation')
     for name in ('status', 'events', 'next', 'submit', 'connect', 'review', 'export'):
         p = actions.add_parser(name); p.add_argument('project_id', type=int)
         if name == 'next': p.add_argument('--researcher'); p.add_argument('--task-id')
@@ -23,7 +24,7 @@ def add_maintenance_commands(subcommands):
 
 def run_maintenance_command(store, args):
     flow = MaintenanceWorkflow(store); action = args.maintenance_action
-    if action == 'prepare': return flow.prepare(Path(args.package).read_bytes(), args.office, args.resource_id, args.category_id, run_name=args.run_name, historical=args.historical)
+    if action == 'prepare': return flow.prepare(Path(args.package).read_bytes(), args.office, args.resource_id, args.category_id, run_name=args.run_name, historical=args.historical, blind_comparison=getattr(args, 'blind_comparison', False))
     if action == 'status': return flow.view(args.project_id)
     if action == 'events': return flow.events(args.project_id)
     if action == 'next': return flow.next_assignment(args.project_id, researcher=args.researcher, task_id=args.task_id)

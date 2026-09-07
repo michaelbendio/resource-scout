@@ -20,7 +20,7 @@ def handle_maintenance(handler, parsed, *, post=False):
             value = {'office': package['data'].get('officeName', ''), 'packageVersion': package['data']['packageVersion'],
                      'resources': [{'id': r['id'], 'name': r.get('name', ''), 'verifiedOn': r.get('verifiedOn', '')} for r in package['resources'].values()], 'categories': package['data']['categories']}
         else:
-            value = flow.prepare(payload, query.get('office', [''])[0], query.get('resourceId', []), query.get('categoryId', []), run_name=query.get('runName', [''])[0], historical=query.get('historical', ['0'])[0] == '1')
+            value = flow.prepare(payload, query.get('office', [''])[0], query.get('resourceId', []), query.get('categoryId', []), run_name=query.get('runName', [''])[0], historical=query.get('historical', ['0'])[0] == '1', blind_comparison=query.get('blindComparison', ['0'])[0] == '1')
         handler._json(value); return True
     match = re.fullmatch(r'/api/maintenance/(\d+)(?:/([a-z-]+)(?:/(\d+))?)?', path)
     if not match: raise ImprovementError('Unknown maintenance endpoint')

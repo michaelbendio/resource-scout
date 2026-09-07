@@ -33,6 +33,12 @@ now has real Codex research, nine ChatGPT/Grok/Perplexity audits, and reconciled
 proposals awaiting human review. No office changes were exported. Learning and
 adaptive research remain later work.
 
+The [autoMesaV2 run](docs/autoMesa-v2-run-plan.md) adds an opt-in required blind
+comparison to maintenance: `maintain prepare ... --blind-comparison`. Codex and
+all three challengers complete and freeze the category batch before Claude
+receives neutral assignments. Final completion requires Claude's response and
+an explicit comparison. Older shadow runs retain their original semantics.
+
 The following version notes describe the established Scout line, retained on
 `main` in the separate `resource-scout` checkout.
 

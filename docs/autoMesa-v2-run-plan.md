@@ -3,7 +3,8 @@
 Working name approved by Michael: **autoMesaV2**, with review file
 `autoMesaV2.html`. Preserve the existing autoMesa files.
 
-Status: planned; no new Mesa research started. Michael's September 6 instruction
+Status: all four services passed live attachment and source checks at
+2026-09-07 05:27 UTC (September 6, 11:27 PM MDT); no Mesa research started yet. Michael's September 6 instruction
 requires ChatGPT, Grok, Claude and Perplexity to be online and available. All four
 are mandatory participants alongside Codex. Claude remains an independent blind
 comparison, not a fourth challenger. Its participation is required.
@@ -32,7 +33,9 @@ area and neutral task scope but no Codex/challenger findings or new draft text.
 Keep its response out of Codex's context until the primary plus challenger result
 is saved with its source evidence and hash. Only then reveal and compare Claude's
 results. Record the comparison before incorporating supported additional findings.
-Do not claim this gate is already implemented. Preserve old frozen projects.
+The opt-in maintenance workflow now implements this gate. Use one project per
+category batch so every selected resource and the category discovery result are
+frozen before any Claude assignment is exposed. Preserve old frozen projects.
 
 ## Proposed scope
 
@@ -91,16 +94,41 @@ review and merge workflow. Archive source evidence, all actual AI responses,
 reconciliation decisions and before/after data for later learning. Research
 acceptance and question resolution do not establish phone-vetted outcomes.
 
-No actual AI availability check has yet satisfied the start gate. Visible
-historical sessions establish access to prior work only. Recheck all four with
-fresh responses immediately before dispatching Mesa research.
+Fresh check evidence is archived in the ignored run folder
+`output/autoMesaV2/preflight/status.json`, with packet and response hashes.
+ChatGPT used GPT-5.6 Sol / High; Grok used Expert; Perplexity used Search /
+Sonar 2; Claude used Opus 5 / High. All four read the unique attachment
+nonce and returned a current National Park Service source citation.
 
 
 ## Start-check status
 
-September 6: source inventory inspected; no Mesa research dispatched. The native
-surface inventory shows running AI apps and historical chats, but both browser
-connection APIs list no available browser. A dedicated Chrome tab could not be
-created through the browser connector. AppleScript enumeration of Chrome windows
-also timed out (-1712). These are access failures, not evidence that the AI
-services themselves are down. None has yet passed the fresh-response gate.
+Chrome browser-connector access still reports unavailable, but AppleScript
+control now works, including file attachment, DOM interactions and source-result
+capture. VNC Viewer is not part of this working connection. The earlier
+AppleScript timeout and Automation denial were resolved before the live checks.
+
+## Required blind workflow
+
+Create each category batch with `maintain prepare ... --blind-comparison` (or
+HTTP prepare query `blindComparison=1`). Keep the office name `AutoMesa` for
+source identity and use `autoMesaV2` in the run name and deliverable filenames.
+The required stages are Codex primary, three challengers, Codex freeze, Claude
+blind research, then Codex final reconciliation. Every task must freeze before
+Claude can receive any assignment in that batch. The immutable manifest hashes
+the source package, assignments and pre-blind results. Each Claude result item
+requires a disposition, and Claude must check explicit closure evidence before
+a final closure proposal is allowed. Empty discovery results still require a
+completed Claude response and final coverage explanation.
+
+Blind assignments contain original package data and taxonomy only; they omit
+new proposals, other researchers' findings and previous run outcomes. Dispatch
+Claude in a fresh conversation after the freeze. Final review rows preserve the
+frozen result, comparison hash, Claude evidence and dispositions. Legacy shadow
+runs keep their original semantics and cannot be used for this blind protocol.
+
+Validation: 312 Python tests passed (one existing skip), including six synthetic
+blind-protocol tests and the HTTP opt-in check; JavaScript syntax passed. A
+synthetic iPad-size browser check confirmed Claude's evidence and comparison
+appear and Claude is selectable, with no page errors. No synthetic result is
+Mesa research or provider evidence.

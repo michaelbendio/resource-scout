@@ -31,12 +31,14 @@ def load_researcher_roster(path: Path = ROSTER_PATH) -> dict[str, Any]:
 
 
 def validate_researcher_roster(value: dict[str, Any]) -> dict[str, Any]:
-    if not isinstance(value, dict) or value.get("schemaVersion") != 1:
-        raise RuntimeError("Researcher roster must use schema version 1")
+    if not isinstance(value, dict) or type(value.get("schemaVersion")) is not int or value["schemaVersion"] not in (1, 2):
+        raise RuntimeError("Researcher roster must use schema version 1 or 2")
     researchers = value.get("researchers")
     if not isinstance(researchers, list) or not researchers:
         raise RuntimeError("Researcher roster must list researchers")
     allowed = {"primary", "challenger", "shadow", "disabled"}
+    if value["schemaVersion"] == 2:
+        allowed.add("blind")
     names: set[str] = set()
     primary = 0
     normalized: list[dict[str, str]] = []
@@ -53,7 +55,7 @@ def validate_researcher_roster(value: dict[str, Any]) -> dict[str, Any]:
     if primary != 1:
         raise RuntimeError("Researcher roster must have exactly one primary")
     return {
-        "schemaVersion": 1,
+        "schemaVersion": value["schemaVersion"],
         "version": str(value.get("version") or "").strip(),
         "researchers": normalized,
     }
@@ -83,6 +85,8 @@ def prepare_codex_first_plan(
     if not selected:
         raise ValueError("Connect a resource package before Codex-first research")
     roster_value = validate_researcher_roster(roster) if roster is not None else load_researcher_roster()
+    if any(item['role'] == 'blind' for item in roster_value['researchers']):
+        raise ValueError('Required blind research uses the v2 maintenance workflow; the legacy Codex-first shadow workflow is not blind')
     enabled = [
         item for item in roster_value["researchers"] if item["role"] != "disabled"
     ]

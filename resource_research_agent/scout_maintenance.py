@@ -15,6 +15,8 @@ from .scout_classification import catalog, memberships
 from .scout_improvement import ImprovementWorkflow, _notes, _sources
 
 POLICY = Path(__file__).with_name('maintenance_guidance') / 'default.json'
+BLIND_POLICY = POLICY.with_name('blind_comparison.json')
+BLIND_ROSTER = Path(__file__).with_name('researcher_roster_v2.json')
 STATUSES = ('current', 'changed', 'moved', 'renamed', 'paused', 'possibly-closed', 'reopened', 'inconclusive', 'identity', 'new')
 FIELDS = ('name', 'description', 'informationText', 'phone', 'website', 'address', 'hours', 'categories', 'categoryFilters', 'forGroups')
 
@@ -74,7 +76,7 @@ def validate_fields(fields, data, guidance, *, new=False):
 class MaintenanceWorkflow(ImprovementWorkflow):
     kind = 'maintenance'
 
-    def prepare(self, payload, office, resource_ids, category_ids, *, run_name, historical=False, source_name='resource-package.zip'):
+    def prepare(self, payload, office, resource_ids, category_ids, *, run_name, historical=False, source_name='resource-package.zip', blind_comparison=False):
         package = read_package(payload)
         office, run_name = nonempty(office, 'Office'), nonempty(run_name, 'Run name')
         self._office(package, office)
@@ -92,6 +94,11 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                          'resourceIds': sorted(resource_ids), 'categoryIds': sorted(category_ids), 'historical': bool(historical),
                          'policy': json.loads(POLICY.read_text()), 'writingGuidance': load_writing_guidance(),
                          'researcherRoster': load_researcher_roster()}
+        if blind_comparison:
+            configuration['researcherRoster'] = load_researcher_roster(BLIND_ROSTER)
+            configuration['blindComparisonPolicy'] = json.loads(BLIND_POLICY.read_text())
+            if not any(r['role'] == 'blind' for r in configuration['researcherRoster']['researchers']):
+                raise ImprovementError('Blind comparison requires a blind researcher')
         key = digest({'kind': self.kind, **configuration})
         with self.store.connect() as c:
             c.execute('BEGIN IMMEDIATE')
@@ -108,6 +115,54 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                 state.update(id=pid, revision=0)
                 self._save(c, state, 'maintenance-created', {'scope': {'resourceIds': resource_ids, 'categoryIds': category_ids}, 'baseSha256': package['sha256']})
         return self.view(pid)
+
+    @staticmethod
+    def _stages(state):
+        stages = ImprovementWorkflow._stages(state)
+        if not state.get('blindComparisonPolicy'):
+            return stages
+        primary = stages[0][1]
+        blind = [('blind:' + r['name'], r['name']) for r in state['researcherRoster']['researchers'] if r['role'] == 'blind']
+        return stages[:-1] + [('freeze', primary)] + blind + [('reconcile', primary)]
+
+    @classmethod
+    def _freeze_manifest(cls, state):
+        stages = [s for s, _ in cls._stages(state) if s in ('primary', 'freeze') or s.startswith('audit:')]
+        return {'baseSha256': state['baseSha256'], 'tasks': {
+            tid: {s: {'assignmentSha256': task['assignments'][s]['assignmentSha256'],
+                      'resultSha256': digest(task['results'][s])} for s in stages}
+            for tid, task in state['tasks'].items()}}
+
+    @classmethod
+    def _stage_ready(cls, state, task, stage):
+        if stage == 'primary':
+            return True
+        if 'primary' not in task['results']:
+            return False
+        if stage.startswith('audit:'):
+            return True
+        if stage == 'freeze':
+            return all(s in task['results'] for s, _ in cls._stages(state) if s.startswith('audit:'))
+        if stage.startswith('blind:') or (stage == 'reconcile' and state.get('blindComparisonPolicy')):
+            frozen = state.get('blindFreeze')
+            if not frozen:
+                return False
+            manifest = cls._freeze_manifest(state)
+            if frozen['manifest'] != manifest or frozen['manifestSha256'] != digest(manifest):
+                raise ImprovementError('The frozen pre-blind research has changed')
+        if stage.startswith('blind:'):
+            return True
+        return all(s in task['results'] for s, _ in cls._stages(state) if s != 'reconcile')
+
+    @staticmethod
+    def _findings(task):
+        findings = ImprovementWorkflow._findings(task)
+        for stage, result in task['results'].items():
+            if stage.startswith('blind:'):
+                for item in result['items']:
+                    fid = stage.split(':', 1)[1] + ':' + item['id']
+                    findings[fid] = {'id': item['id'], 'summary': item['summary'], 'severity': 'material'}
+        return findings
 
     def _identities(self, c, state, package):
         records = [{**r, 'identityStatus': 'current'} for r in package['resources'].values()]
@@ -167,9 +222,7 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                 for stage, name in self._stages(state):
                     if stage in task['results'] or (researcher and researcher != name):
                         continue
-                    if stage != 'primary' and 'primary' not in task['results']:
-                        continue
-                    if stage == 'reconcile' and any(s not in task['results'] for s, _ in self._stages(state)[:-1]):
+                    if not self._stage_ready(state, task, stage):
                         continue
                     if stage in task['assignments']:
                         return deepcopy(task['assignments'][stage])
@@ -179,7 +232,7 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                         contract.update(findings=[], closureChecks=[])
                     else:
                         contract['items'] = []
-                        if stage == 'reconcile':
+                        if stage in ('freeze', 'reconcile'):
                             contract['resolutions'] = []
                     a = {'projectId': project_id, 'taskId': tid, 'stage': stage, 'researcher': name,
                          'scope': task['kind'], 'office': state['office'], 'runName': state['runName'],
@@ -188,8 +241,8 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                          'attachmentHashes': package['assetHashes'] if task['kind'] == 'recheck' else {},
                          'catalog': {'categories': package['data']['categories'], 'forGroups': package['data']['forGroups']},
                          'knownIdentities': self._identities(c, state, package), 'priorChecks': self._prior_checks(c, state, task),
-                         'priorEvidenceWarning': 'Prior observations are history, not current facts. The current package remains the trusted baseline.', 'writingGuidance': state['writingGuidance'],
-                         'instructions': state['policy'][stage.split(':')[0]], 'editableFields': [f for f in FIELDS if f != 'informationText']+['informationSections'], 'outputContract': contract,
+                         'priorEvidenceWarning': 'Prior observations and the original package are source history, not proof of current facts or human verification.', 'writingGuidance': state['writingGuidance'],
+                         'instructions': state['policy'].get(stage.split(':')[0], []), 'editableFields': [f for f in FIELDS if f != 'informationText']+['informationSections'], 'outputContract': contract,
                          'itemContract': {'id': task['targetId'] if task['kind'] == 'recheck' else 'stable-lead-id', 'status': 'one of: '+', '.join(STATUSES),
                            'program': 'Exact named program', 'summary': 'What changed or remains uncertain', 'fields': {},
                            'evidence': [0], 'closureEvidence': [], 'questions': [], 'nextCheckOn': '', 'lastEvidenceOfOperationOn': ''},
@@ -197,10 +250,23 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                          'closureNoticeContract': {'sourceIndex': 0, 'kind': 'official-program-closure', 'program': 'Exact named program', 'statement': 'Exact closure words from the cited excerpt'},
                          'closureCheckContract': {'itemId': 'closed-item-id', 'notice': {'sourceIndex': 0, 'kind': 'official-program-closure', 'program': 'Exact named program', 'statement': 'Exact closure words from the cited excerpt'}},
                          'resolutionContract': {'findingId': 'researcher:finding-id', 'status': 'resolved or needs-review', 'reason': 'Disposition'}}
-                    if stage != 'primary':
+                    if state.get('blindComparisonPolicy'):
+                        policy_stage = stage.split(':')[0]
+                        a['instructions'] = list(a['instructions']) + state['blindComparisonPolicy'].get(policy_stage, [])
+                        if stage == 'freeze':
+                            a['instructions'] = state['policy']['reconcile'] + a['instructions']
+                    if stage != 'primary' and not stage.startswith('blind:'):
                         a['primaryResult'] = task['results']['primary']
-                    if stage == 'reconcile':
+                    if stage in ('freeze', 'reconcile'):
                         a['audits'] = {s.split(':')[1]: r for s, r in task['results'].items() if s.startswith('audit:')}
+                    if stage.startswith('blind:'):
+                        # Only the original package is shared, never this run's proposals or history.
+                        a.pop('priorChecks')
+                        a['knownIdentities'] = [deepcopy(r) for r in package['resources'].values()]
+                    if stage == 'reconcile' and state.get('blindComparisonPolicy'):
+                        a['frozenResult'] = deepcopy(task['results']['freeze'])
+                        a['blindFreeze'] = deepcopy(state['blindFreeze'])
+                        a['blindResults'] = {s.split(':', 1)[1]: deepcopy(r) for s, r in task['results'].items() if s.startswith('blind:')}
                     a['assignmentSha256'] = digest(a)
                     task['assignments'][stage] = a
                     self._save(c, state, 'maintenance-assigned', {'taskId': tid, 'stage': stage, 'assignment': a})
@@ -227,6 +293,8 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                 if task['results'][stage] != result:
                     raise ImprovementError('Completed research cannot be overwritten')
                 return self._view(c, state)
+            if not self._stage_ready(state, task, stage):
+                raise ImprovementError('Complete the required preceding research stages first')
             if set(result) != set(assignment['outputContract']):
                 raise ImprovementError('Return exactly the assigned result fields')
             sources = _sources(result['evidenceSources'])
@@ -274,7 +342,7 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                     if task['kind'] == 'discovery' and task['targetId'] not in item['fields'].get('categories', []): raise ImprovementError('Addition must belong to the searched category')
                     if task['kind'] == 'discovery' and item['status'] not in ('new', 'reopened'): raise ImprovementError('Discovery returns new or reopened leads; recheck existing resources separately')
                 if task['kind'] == 'recheck' and ids != {task['targetId']}: raise ImprovementError('Recheck must report exactly its assigned resource')
-                if stage == 'reconcile':
+                if stage in ('freeze', 'reconcile'):
                     findings = self._findings(task)
                     resolutions = result['resolutions']
                     if not isinstance(resolutions, list) or len(resolutions) != len(findings): raise ImprovementError('Address every audit finding exactly once')
@@ -287,8 +355,15 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                     for item in result['items']:
                         if item['status'] == 'possibly-closed' and any(item['id'] not in {v['itemId'] for v in task['results'][s]['closureChecks'] if v['notice']['program'] == item['program']} for s, _ in self._stages(state) if s.startswith('audit:')):
                             raise ImprovementError('Closure requires every independent audit to check the named program evidence')
+                        if stage == 'reconcile' and item['status'] == 'possibly-closed':
+                            for s, _ in self._stages(state):
+                                if s.startswith('blind:') and not any(b['id'] == item['id'] and b['program'] == item['program'] and b['closureEvidence'] for b in task['results'][s]['items']):
+                                    raise ImprovementError('Closure also requires the blind researcher to check the named program evidence')
             task['lastAttemptedOn'] = utcnow()
             task['results'][stage] = deepcopy(result)
+            if stage == 'freeze' and all('freeze' in t['results'] for t in state['tasks'].values()):
+                state['blindFreeze'] = {'manifest': self._freeze_manifest(state),
+                                       'manifestSha256': digest(self._freeze_manifest(state)), 'frozenAt': utcnow()}
             self._save(c, state, 'maintenance-result', {'taskId': tid, 'stage': stage, 'result': result})
             return self._view(c, state)
 
@@ -326,6 +401,10 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                        'review': task['reviews'].get(item['id']), 'audits': {s.split(':',1)[1]: deepcopy(r) for s,r in task['results'].items() if s.startswith('audit:')}, 'sources': task['results']['reconcile']['evidenceSources'],
                        'findings': self._findings(task), 'resolutions': task['results']['reconcile']['resolutions'],
                        'matches': [], 'comparison': {}, 'blocked': ''}
+                if state.get('blindComparisonPolicy'):
+                    row['blindResults'] = {s.split(':', 1)[1]: deepcopy(r) for s, r in task['results'].items() if s.startswith('blind:')}
+                    row['frozenResult'] = deepcopy(task['results']['freeze'])
+                    row['blindFreezeSha256'] = state['blindFreeze']['manifestSha256']
                 if task['kind'] == 'recheck':
                     row['blocked'] = resource_blocked(package, item['id'])
                     if current: row['comparison'] = self._comparison(base['resources'][item['id']], current, item, state['writingGuidance'], base['data'])
@@ -345,7 +424,8 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                 'coverage': {'officeResources': len(package['resources']), 'officeCategories': len(package['data']['categories']),
                              **{kind: {'selected': sum(t['kind'] == kind for t in tasks), 'completed': sum(t['kind'] == kind and all(s['complete'] for s in t['research']) for t in tasks)} for kind in ('recheck', 'discovery')}},
                 'catalog': {'categories': package['data']['categories'], 'forGroups': package['data']['forGroups']},
-                'tasks': tasks, 'items': self._rows(c, state, package)}
+                'tasks': tasks, 'items': self._rows(c, state, package),
+                **({'blindFreeze': deepcopy(state.get('blindFreeze')), 'blindComparisonPolicy': deepcopy(state['blindComparisonPolicy'])} if state.get('blindComparisonPolicy') else {})}
 
     def review(self, project_id, revision, task_id, item_id, decision, choices, reviewer, note, *, identity_decision='', finding_notes=None):
         reviewer, note = nonempty(reviewer, 'Reviewer'), nonempty(note, 'Review rationale and classification consequences')
