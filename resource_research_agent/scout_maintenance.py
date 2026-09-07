@@ -117,13 +117,30 @@ class MaintenanceWorkflow(ImprovementWorkflow):
         return self.view(pid)
 
     @staticmethod
-    def _stages(state):
+    def _stages(state, *, include_stopped=False):
         stages = ImprovementWorkflow._stages(state)
         if not state.get('blindComparisonPolicy'):
             return stages
         primary = stages[0][1]
-        blind = [('blind:' + r['name'], r['name']) for r in state['researcherRoster']['researchers'] if r['role'] == 'blind']
+        blind = [('blind:' + r['name'], r['name']) for r in state['researcherRoster']['researchers']
+                 if r['role'] == 'blind' and (include_stopped or r['name'] not in state.get('stoppedBlindResearch', {}))]
         return stages[:-1] + [('freeze', primary)] + blind + [('reconcile', primary)]
+
+    def stop_blind_research(self, project_id, revision, researcher, operator, reason):
+        """Record an explicit protocol change without inventing or deleting research."""
+        operator, reason = nonempty(operator, 'Operator'), nonempty(reason, 'Reason for stopping blind research')
+        with self.store.connect() as c:
+            state = self._checked(c, project_id, revision)
+            if not state.get('blindComparisonPolicy') or researcher not in {
+                r['name'] for r in state['researcherRoster']['researchers'] if r['role'] == 'blind'
+            }:
+                raise ImprovementError('Only a configured blind researcher can be stopped')
+            stopped = state.setdefault('stoppedBlindResearch', {})
+            if researcher in stopped:
+                return self._view(c, state)
+            stopped[researcher] = {'operator': operator, 'reason': reason, 'stoppedAt': utcnow()}
+            self._save(c, state, 'maintenance-blind-research-stopped', {'researcher': researcher, **stopped[researcher]})
+            return self._view(c, state)
 
     @classmethod
     def _freeze_manifest(cls, state):
@@ -135,6 +152,8 @@ class MaintenanceWorkflow(ImprovementWorkflow):
 
     @classmethod
     def _stage_ready(cls, state, task, stage):
+        if stage not in {s for s, _ in cls._stages(state)}:
+            return False
         if stage == 'primary':
             return True
         if 'primary' not in task['results']:
@@ -267,6 +286,9 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                         a['frozenResult'] = deepcopy(task['results']['freeze'])
                         a['blindFreeze'] = deepcopy(state['blindFreeze'])
                         a['blindResults'] = {s.split(':', 1)[1]: deepcopy(r) for s, r in task['results'].items() if s.startswith('blind:')}
+                    if stage in ('freeze', 'reconcile') and state.get('stoppedBlindResearch'):
+                        a['stoppedBlindResearch'] = deepcopy(state['stoppedBlindResearch'])
+                        a['instructions'].append('The recorded protocol change stops further assignments to the named blind researchers. Do not wait for or invent their missing results. Resolve every challenger finding and every blind result already received. State the missing blind coverage explicitly; stopping research is not a completed check or curator approval.')
                     a['assignmentSha256'] = digest(a)
                     task['assignments'][stage] = a
                     self._save(c, state, 'maintenance-assigned', {'taskId': tid, 'stage': stage, 'assignment': a})
@@ -405,6 +427,8 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                     row['blindResults'] = {s.split(':', 1)[1]: deepcopy(r) for s, r in task['results'].items() if s.startswith('blind:')}
                     row['frozenResult'] = deepcopy(task['results']['freeze'])
                     row['blindFreezeSha256'] = state['blindFreeze']['manifestSha256']
+                if state.get('stoppedBlindResearch'):
+                    row['stoppedBlindResearch'] = deepcopy(state['stoppedBlindResearch'])
                 if task['kind'] == 'recheck':
                     row['blocked'] = resource_blocked(package, item['id'])
                     if current: row['comparison'] = self._comparison(base['resources'][item['id']], current, item, state['writingGuidance'], base['data'])
@@ -419,12 +443,16 @@ class MaintenanceWorkflow(ImprovementWorkflow):
 
     def _view(self, c, state):
         package = self._package(c, state['latestSha256'] or state['baseSha256'])
-        tasks = [{'id': tid, 'kind': t['kind'], 'targetId': t['targetId'], 'research': [{'stage': s, 'researcher': n, 'complete': s in t['results']} for s, n in self._stages(state)]} for tid, t in state['tasks'].items()]
+        tasks = [{'id': tid, 'kind': t['kind'], 'targetId': t['targetId'], 'research': [
+            {'stage': s, 'researcher': n, 'complete': s in t['results'],
+             'required': not (s.startswith('blind:') and n in state.get('stoppedBlindResearch', {}))}
+            for s, n in self._stages(state, include_stopped=True)]} for tid, t in state['tasks'].items()]
         return {'intakeEvidence': deepcopy(state.get('intakeEvidence')), **{k: state[k] for k in ('id', 'revision', 'office', 'runName', 'historical', 'createdAt', 'baseSha256', 'latestSha256', 'requiresReconnection')},
                 'coverage': {'officeResources': len(package['resources']), 'officeCategories': len(package['data']['categories']),
-                             **{kind: {'selected': sum(t['kind'] == kind for t in tasks), 'completed': sum(t['kind'] == kind and all(s['complete'] for s in t['research']) for t in tasks)} for kind in ('recheck', 'discovery')}},
+                             **{kind: {'selected': sum(t['kind'] == kind for t in tasks), 'completed': sum(t['kind'] == kind and all(s['complete'] or not s['required'] for s in t['research']) for t in tasks)} for kind in ('recheck', 'discovery')}},
                 'catalog': {'categories': package['data']['categories'], 'forGroups': package['data']['forGroups']},
                 'tasks': tasks, 'items': self._rows(c, state, package),
+                **({'stoppedBlindResearch': deepcopy(state['stoppedBlindResearch'])} if state.get('stoppedBlindResearch') else {}),
                 **({'blindFreeze': deepcopy(state.get('blindFreeze')), 'blindComparisonPolicy': deepcopy(state['blindComparisonPolicy'])} if state.get('blindComparisonPolicy') else {})}
 
     def review(self, project_id, revision, task_id, item_id, decision, choices, reviewer, note, *, identity_decision='', finding_notes=None):

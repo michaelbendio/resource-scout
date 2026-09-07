@@ -1,5 +1,33 @@
 # autoMesaV2 run
 
+## Current protocol — September 7, 2026
+
+After two Claude usage-limit holds, Michael instructed: "I don't want to use
+Claud then." Continue with **Codex researching and ChatGPT, Grok and Perplexity
+challenging the results**. Those three outside services remain required. Do not
+send further assignments to Claude or wait for its availability. This explicitly
+supersedes the four-service requirement in the original plan below.
+
+Keep actual Claude results already received, their finding dispositions and
+immutable category freezes. Missing Claude checks are stopped, not completed
+blind reviews. The current checkpoint is `output/autoMesaV2/run.json`.
+
+New category projects use standard maintenance without `--blind-comparison`.
+For unfinished projects created under the original protocol, use
+`maintain stop-blind PROJECT --revision REVISION --researcher Claude --operator Michael --reason REASON`.
+This records who changed the protocol and why, preserves sealed work, and keeps
+the existing category freeze and all three challengers ahead of reconciliation.
+Every received Claude finding still needs a disposition. No new Claude
+assignment or result is accepted, and an unperformed stopped check is shown
+separately from a completed one. The command cannot stop primary or challenger
+research and never grants curator approval. Completed categories retain their
+original protocol and results. Re-estimate time using the new workflow's pace.
+
+## Original plan and historical start checks
+
+The following records the original September 6 plan and early checkpoints;
+Claude requirements and initial timing estimates are superseded above.
+
 Working name approved by Michael: **autoMesaV2**, with review file
 `autoMesaV2.html`. Preserve the existing autoMesa files.
 

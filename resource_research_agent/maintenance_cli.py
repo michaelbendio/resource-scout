@@ -10,6 +10,9 @@ def add_maintenance_commands(subcommands):
     p = actions.add_parser('prepare'); p.add_argument('package'); p.add_argument('--office', required=True); p.add_argument('--run-name', required=True)
     p.add_argument('--resource-id', action='append', default=[]); p.add_argument('--category-id', action='append', default=[]); p.add_argument('--historical', action='store_true')
     p.add_argument('--blind-comparison', action='store_true', help='Require a batch freeze and independent Claude research before final reconciliation')
+    p = actions.add_parser('stop-blind', help='Record an explicit decision to stop further blind research in an existing run')
+    p.add_argument('project_id', type=int); p.add_argument('--revision', type=int, required=True)
+    p.add_argument('--researcher', required=True); p.add_argument('--operator', required=True); p.add_argument('--reason', required=True)
     for name in ('status', 'events', 'next', 'submit', 'connect', 'review', 'export'):
         p = actions.add_parser(name); p.add_argument('project_id', type=int)
         if name == 'next': p.add_argument('--researcher'); p.add_argument('--task-id')
@@ -27,6 +30,7 @@ def run_maintenance_command(store, args):
     if action == 'prepare': return flow.prepare(Path(args.package).read_bytes(), args.office, args.resource_id, args.category_id, run_name=args.run_name, historical=args.historical, blind_comparison=getattr(args, 'blind_comparison', False))
     if action == 'status': return flow.view(args.project_id)
     if action == 'events': return flow.events(args.project_id)
+    if action == 'stop-blind': return flow.stop_blind_research(args.project_id, args.revision, args.researcher, args.operator, args.reason)
     if action == 'next': return flow.next_assignment(args.project_id, researcher=args.researcher, task_id=args.task_id)
     if action == 'submit': return flow.submit(args.project_id, args.stage, json.loads(Path(args.result_file).read_text()))
     if action == 'connect': return flow.connect_latest(args.project_id, args.revision, Path(args.package).read_bytes(), args.office)

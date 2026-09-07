@@ -24,7 +24,7 @@ function render(){
   $('historical-banner').textContent=(state.historical?'Historical development sample. ':'')+(!state.latestSha256 || state.requiresReconnection?'Reconnect the current package before accepting or saving changes.':'Current package connected.');
   let evidence=document.getElementById('intake-evidence');if(!evidence){evidence=document.createElement('p');evidence.id='intake-evidence';$('historical-banner').after(evidence);}evidence.textContent=intakeEvidenceMessage(state.intakeEvidence);
   $('task-choice').innerHTML='<option value="">Next available task</option>'+state.tasks.map(t=>`<option value="${esc(t.id)}">${esc(t.id)}</option>`).join('');
-  $('tasks').innerHTML=state.tasks.map(t=>`<p><strong>${esc(t.id)}</strong>: ${t.research.map(s=>esc(s.researcher+' '+s.stage)+(s.complete?' ✓':' pending')).join(' · ')}</p>`).join('');
+  $('tasks').innerHTML=Object.entries(state.stoppedBlindResearch || {}).map(([name,change])=>`<p><strong>${esc(name)}: further blind research stopped.</strong> ${esc(change.reason)} (${esc(change.operator)} · ${esc(change.stoppedAt)}) Existing results remain available.</p>`).join('')+state.tasks.map(t=>`<p><strong>${esc(t.id)}</strong>: ${t.research.map(s=>esc(s.researcher+' '+s.stage)+(s.complete?' ✓':s.required===false?' — stopped, not completed':' pending')).join(' · ')}</p>`).join('');
   $('items').innerHTML=state.items.length?'':'<p>No reconciled findings yet. Research progress is shown above.</p>';
   state.items.forEach((r,index)=>{
     const card=document.createElement('section');card.dataset.itemId=r.id;
