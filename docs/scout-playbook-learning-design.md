@@ -20,10 +20,11 @@ goals, methods, sequence and number of passes. They do not change Astra's model
 weights, certify resource facts, or constitute a list of remembered answers.
 An Astra-only ordinary run can coexist with occasional independent evaluation.
 
-The initial proposal is to use Claude for a blind comparison on Employment and
-on a random third of subsequent eligible category assignments. Targeted checks
-can supplement that sample. This frequency is a trial setting for Michael to
-review, not an established optimum or active configuration.
+Use Claude for a blind comparison on Employment and on a random third of
+subsequent eligible category assignments. Michael accepted the one-third starting
+frequency during design review. Targeted checks can supplement that sample. It
+remains a trial setting, not an established optimum or active configuration;
+the remainder of the learning design is still under review.
 
 ## Existing work to reuse
 
@@ -151,6 +152,11 @@ API, additional credits or billing change is part of this design. Measure actual
 use in the sampled role before recommending more capacity. Selected comparisons
 must be completed before their research output is labeled ready for curation;
 human review/export remains a separate stage for all categories.
+
+Michael will upgrade his Claude subscription if its limits halt progress. Report
+the actual limiting condition promptly so he can act; do not purchase an upgrade
+or change billing automatically. Preserve the pending comparison and allow
+independent work to continue while its availability is resolved.
 
 ## Learning: observation to tested guidance
 
@@ -310,8 +316,8 @@ or research restart has occurred.
 
 The recommended first implementation is the fixed enhanced Employment playbook,
 a frozen Astra result, an independent Claude comparison, and a small set of
-reviewable lesson proposals. The random-third rate is a provisional starting
-setting for later categories. Research-method experiments before the human-outcome
+reviewable lesson proposals. The random-third rate is an accepted starting
+setting for later categories, subject to evaluation. Research-method experiments before the human-outcome
 gate are an explicit proposed amendment. Fully learned pass scheduling follows
 measured experience rather than arriving as an untested first release.
 
