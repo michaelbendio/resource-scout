@@ -62,6 +62,16 @@ merge into a disposable office copy preserve IDs, history, unrelated resources a
 PDFs. Inspect actual screen and print output. Reuse existing checks where they
 already cover behavior; add focused regressions for changed paths.
 
+Explicitly test resolved-question persistence across two isolated application
+instances: resolve and export a selected resource in autoMesaV2, merge into a
+disposable mesa.html built from the updated common code, save/reload, export the
+office package, and import it into Scout. Assert exact question IDs, answers,
+statuses, sources and dated histories at every step, including repeat imports.
+An older open question and a newer resource edit without question fields must
+not erase the answer; concurrent conflicting answers must retain both for review.
+The current iCloud mesa.html lacks this merge support, so deploying the compatible
+office application is a delivery requirement, not an assumption about old files.
+
 **Feedback checkpoint:** Michael reviews the design/output. Arrange normal curator
 print/call feedback through the established workflow when available; do not contact
 anyone automatically or invent a completed vetting trial. Broader research may

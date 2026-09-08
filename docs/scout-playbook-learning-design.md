@@ -253,6 +253,25 @@ office-package merge compatibility. Export the exact approved revision; edits
 invalidate its prior Curated state according to the existing workflow. Isolate
 browser storage/artifact identities and databases as well as Git branches.
 
+Resolved curator questions are durable package data, not temporary review-page
+notes. Preserve each question's ID, text, explanation, source, resolution status,
+answer and dated decision history through autoMesaV2 selected export, mesa.html
+merge, office save/reload and later office-package export to Scout. Merge question
+history independently of other resource edits: an older unanswered question or a
+newer contact edit without questions must not erase a resolution. Conflicting
+decisions retain both answers and require curator review. Keep these fields out
+of patron handouts. Both applications must use the updated common application
+code before this workflow is considered ready; the current iCloud mesa.html was
+checked on September 7 and does not yet contain the question-aware merge code.
+
+Initial discovery establishes a new office's resources; periodic maintenance is
+expected to provide the main ongoing learning opportunities. On receiving a
+package, Scout identifies previously unseen question decisions alongside resource
+edits, without requiring a separate curator submission or fixed maintenance
+schedule. Resolutions are potential learning evidence, not automatically active
+lessons or blanket provider verification. Retain resource-specific answers and
+evaluate reusable method hypotheses through the bounded experiment process.
+
 Continue the five approved Information sections and concise, respectful writing
 without a fixed word cap. Description includes a useful coverage/location cue.
 Keep detailed research and call-preparation evidence outside handouts; curator
