@@ -1,5 +1,10 @@
 # Resource Scout
 
+Discussion draft: [Astra-led Scout and playbook learning](docs/scout-playbook-learning-design.md),
+with a [staged implementation and test plan](docs/scout-playbook-learning-plan.md).
+It proposes sampled independent Claude comparisons and evaluated guidance changes;
+it does not activate a new protocol or resume the paused autoMesaV2 run.
+
 Resource Scout researches, consolidates, and curates resource candidates gathered
 from several consumer AI products. It creates a self-contained TSO Resources
 review file such as `autoMesa.html` for human vetting and package creation. It is
