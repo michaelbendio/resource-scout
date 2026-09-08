@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "version": "astra-protocol-guidance-v1",
+  "receipt": [
+    "Return complete=true only for the whole assignment, never a partial transport packet.",
+    "Record the actual model when known, otherwise null. Record actual active and waiting minutes.",
+    "Record context identity and whether it was fresh and isolated. These are operator attestations, not automatic proof.",
+    "Explain coverage and remaining gaps. A budget stop is not complete coverage. Never invent a provider call."
+  ],
+  "pass": [
+    "Record findings and unresolved gaps for this focus. The primary synthesis later combines all passes into complete resource proposals."
+  ],
+  "freeze": [
+    "Self-review the primary result as a whole and return its complete final primary-only version before any outside feedback.",
+    "This is Astra self-review, not independent verification. No external findings exist at this stage; resolutions must be empty."
+  ],
+  "blind": [
+    "Independently research this original resource or category using authoritative sources in a fresh, isolated conversation.",
+    "Do not seek Scout playbooks, other research sessions, prior research outputs or newly proposed resources.",
+    "Use the original package identities, office taxonomy, category scope and common writing guidance. Discover useful additions or recheck the exact program as assigned.",
+    "Document access, eligibility, services, costs and uncertainties. A broken page does not prove closure. Do not contact providers.",
+    "Report the complete independent result with dated sources. Agreement is not proof."
+  ],
+  "audit": [
+    "Investigate the recorded challengeReason using source evidence. This is a targeted check, not independent blind research."
+  ],
+  "reconcile": [
+    "Reconcile the frozen Astra-only result with the outside checks actually supplied. Do not invent an absent audit.",
+    "Resolve every challenger finding and every blind-result item. Retain the complete final item list, explaining exclusions and source-checked contributions.",
+    "Primary-only and assisted results remain separate. No final result is human curated merely because research finished."
+  ]
+}

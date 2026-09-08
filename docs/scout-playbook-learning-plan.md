@@ -1,11 +1,18 @@
 # Implementation plan: learning-guided Astra research
 
-**Status: proposed for discussion; not authorization to restart autoMesaV2.**
+**Status: approved for staged implementation on September 7, 2026.**
 Implements the [design](scout-playbook-learning-design.md) in small, reviewable
 steps on the existing `v2.0` branch. Each completed increment gets a short report
 of what changed, what we learned and the next part of the grand plan.
+Preserve the old autoMesaV2 execution as an archive and use a separate execution
+for the new protocol. The first checkpoint is implementation and synthetic
+verification of the research foundation, before the live Employment pilot.
 
 ## 1. Versioned execution and sampled comparisons
+
+**Implementation:** [research foundation and operator notes](scout-astra-foundation.md).
+The new protocol is opt-in and verified with synthetic trials; no new live
+provider research is represented by those trials.
 
 Extend the current guidance loader and maintenance workflow with explicit
 Astra-only, targeted-challenger and independent-comparison roles. Use the actual

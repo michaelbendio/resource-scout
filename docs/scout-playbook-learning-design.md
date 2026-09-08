@@ -1,8 +1,9 @@
 # Astra-led Scout: playbooks, independent checks, and learning
 
-**Status: discussion draft. No new research protocol or playbook is activated.**
+**Status: approved for staged implementation on September 7, 2026.**
 This defines the next part of the existing v2.0 work, using Michael's discussion
-and the GPT handoff. autoMesaV2 remains paused until review. Implementation is
+and the GPT handoff. The old autoMesaV2 execution is retained as historical
+evidence; the new protocol starts a fresh execution. Implementation is
 specified separately in the [staged plan](scout-playbook-learning-plan.md).
 
 ## The proposal in brief
@@ -23,8 +24,9 @@ An Astra-only ordinary run can coexist with occasional independent evaluation.
 Use Claude for a blind comparison on Employment and on a random third of
 subsequent eligible category assignments. Michael accepted the one-third starting
 frequency during design review. Targeted checks can supplement that sample. It
-remains a trial setting, not an established optimum or active configuration;
-the remainder of the learning design is still under review.
+remains a trial setting, not an established optimum. Michael approved the
+researcher roles, bounded experiments, reviewed activation and package-based
+curator feedback, followed by the staged implementation plan.
 
 ## Existing work to reuse
 
@@ -37,11 +39,12 @@ starting playbook, not something to invent again.
 
 The missing connection is a repeatable route from observed misses to evaluated
 playbook revisions, and from those revisions to category-specific execution.
-Maintenance currently seals a roster whose challenger stages are required; it
-does not implement the proposed sampling policy. Its current assignments do not
-resolve the focused playbook into a reusable maintenance pass plan. Evidence
-capture is implemented; automated lesson activation and adaptive scheduling are
-not. Old pilots and the current run are evidence, not proof these features exist.
+At the design baseline, maintenance sealed a roster whose challenger stages were
+all required and did not resolve focused playbooks into its pass plan. The new
+opt-in [research foundation](scout-astra-foundation.md) now implements versioned
+plans and sampled comparisons while retaining those legacy jobs. Evidence capture
+is implemented; automated lesson activation and adaptive scheduling are not.
+Old pilots and the archived run are evidence, not proof these features work live.
 
 ## Assignment, pass, and playbook
 
@@ -174,7 +177,7 @@ answer when the existing instruction was already adequate.
 | Explicit telephone/local confirmation | Evidence for the identified resource facts and practical-access lessons, with date and scope |
 | Michael's or Stephanie's explicit design instruction | A directly authorized guidance change, not a statistical inference |
 
-**Proposed refinement to the earlier learning gate:** research-method hypotheses
+**Approved refinement to the earlier learning gate:** research-method hypotheses
 may be proposed and tested in isolated experiments before the human-vetting
 threshold is met. Activation still requires explicit review and evaluation.
 The existing 25 ordinary-vetting outcomes / three categories / 15 accepted
@@ -187,6 +190,29 @@ counterexamples, exact proposed instruction change and evaluation plan. Lifecycl
 observed → proposed → approved-for-experiment → evaluated → approved-active or
 rejected; active versions can later be superseded or retired. A single strong
 example can justify an experiment; it cannot establish a universal rule.
+
+Bounded research-method experiments may run without separate per-experiment
+approval within an explicitly configured per-experiment and per-run allowance.
+Their record specifies the exact instruction change, category/location scope,
+time allowance, useful-result measures and costs. Stop at the allowance; do not
+expand it or activate the lesson automatically. Experiment allowances will be
+configured before the experimental runner is enabled, not inferred from the
+illustrative 15-minute discussion example. Experiments cannot weaken evidence
+requirements, change eligibility assumptions or curator authority, or directly
+change operational resource packages.
+
+Choose unfamiliar service areas deliberately for the transfer question; do not
+launch complete new-office research merely to test one method. Distinguish
+same-budget improvements from extra effort whose benefit justifies its cost.
+Keep detailed provider examples in evidence records. Prefer correcting execution,
+clarifying, consolidating, replacing or retiring existing guidance to appending
+another specific instruction. Generalized wording must itself be tested for
+usefulness, not assumed better because it is shorter.
+
+Bring Michael a small recommendation bundle: exact instruction change, verified
+benefits, time and curator costs, counterexamples, uncertainties, and adopt,
+revise/retest or reject/defer recommendation. Michael reviews research methods;
+office curators settle resource facts. Active versions remain reversible.
 
 Example from Education: several initial drafts left usable enrollment details
 unresolved until deeper program pages were read. A proposed instruction is:
@@ -272,6 +298,15 @@ schedule. Resolutions are potential learning evidence, not automatically active
 lessons or blanket provider verification. Retain resource-specific answers and
 evaluate reusable method hypotheses through the bounded experiment process.
 
+The agreed editor direction replaces "Resolution note" with "What did you find
+out?", asks how the curator checked and when a provider was contacted, and reminds
+them to update resource text or classifications where needed. Saving a note does
+not edit those fields automatically. Unchecked Resolved permits progress notes;
+resolved entries can collapse under "Resolved questions". Normal package export
+is the feedback route, with no separate Send to Scout action or receipt claim
+before Scout actually imports the package. These UI changes belong to the common
+application sources and remain part of the upcoming curator-loop increment.
+
 Continue the five approved Information sections and concise, respectful writing
 without a fixed word cap. Description includes a useful coverage/location cue.
 Keep detailed research and call-preparation evidence outside handouts; curator
@@ -328,7 +363,7 @@ execution with sampled Claude comparisons instead of universal challengers.
 Not adopted as defaults: a numeric handout word cap, treating lead counts as
 coverage, a universal taxonomy, automatic lesson activation, or changing shared
 renderer ownership. Historical artifact counts are reference observations, not
-current office state. Claude's return is proposed here; no subscription upgrade
+current office state. Claude's return is approved for the new protocol; no subscription upgrade
 or research restart has occurred.
 
 ## Review decisions
@@ -337,7 +372,7 @@ The recommended first implementation is the fixed enhanced Employment playbook,
 a frozen Astra result, an independent Claude comparison, and a small set of
 reviewable lesson proposals. The random-third rate is an accepted starting
 setting for later categories, subject to evaluation. Research-method experiments before the human-outcome
-gate are an explicit proposed amendment. Fully learned pass scheduling follows
+gate are an approved amendment. Fully learned pass scheduling follows
 measured experience rather than arriving as an untested first release.
 
 These changes complete the missing part of grand-plan increment 5 and introduce

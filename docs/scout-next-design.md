@@ -1,9 +1,10 @@
 # Scout: discovery, resource improvement, and classification
 
-New discussion draft: [Astra-led research and playbook learning](scout-playbook-learning-design.md)
+Approved extension: [Astra-led research and playbook learning](scout-playbook-learning-design.md)
 and its [implementation plan](scout-playbook-learning-plan.md) develop the unfinished
-learning/adaptation work below. Proposed changes to sampling and research-method
-experiment gates remain for Michael's review; this link changes no active policy.
+learning/adaptation work below. The [research foundation](scout-astra-foundation.md)
+adds an opt-in protocol; the old autoMesaV2 execution remains historical evidence.
+Learning experiments and active lesson adoption are later increments.
 
 Status: design proposal, September 5, 2026. This document specifies future
 behavior; it does not mean that behavior is implemented. The existing runtime

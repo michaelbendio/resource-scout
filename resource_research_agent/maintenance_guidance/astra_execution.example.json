@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "protocol": "astra-sampled-v1",
+  "version": "astra-trial-v1",
+  "serviceArea": "Mesa, Arizona",
+  "sampling": {"seed": "REPLACE-ONCE-WITH-A-RANDOM-SEED-BEFORE-PREPARING-THE-RUN", "numerator": 1, "denominator": 3},
+  "deliberateCategoryIds": ["employment"],
+  "modelIdentities": {"Codex": null, "Claude": null, "ChatGPT": null, "Grok": null, "Perplexity": null}
+}

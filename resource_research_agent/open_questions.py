@@ -78,6 +78,9 @@ def improvement_questions(item, source):
     findings = {stage.split(':', 1)[1] + ':' + finding['id']: finding
                 for stage, result in item['results'].items() if stage.startswith('audit:')
                 for finding in result['findings']}
+    findings.update({stage.split(':', 1)[1] + ':' + finding['id']: finding
+                     for stage, result in item['results'].items() if stage.startswith('blind:')
+                     for finding in result['items']})
     for resolution in item['results'].get('reconcile', {}).get('resolutions', []):
         if resolution['status'] == 'needs-review':
             finding = findings[resolution['findingId']]
