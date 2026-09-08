@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from .project_state import decode_project_state, encode_project_state
 from copy import deepcopy
 from datetime import date
 from pathlib import Path
@@ -95,7 +96,7 @@ class ImprovementWorkflow:
         row = connection.execute('SELECT * FROM scout_improvement_projects WHERE id=?', (project_id,)).fetchone()
         if row is None:
             raise ImprovementError('Improvement project not found')
-        state = json.loads(row['state_json'])
+        state = decode_project_state(row['state_json'])
         if state.get('kind', 'writing') != self.kind:
             raise ImprovementError('Project belongs to a different workflow')
         state.update(id=row['id'], revision=row['revision'])
@@ -111,7 +112,7 @@ class ImprovementWorkflow:
         revision = state.pop('revision')
         project_id = state.pop('id')
         connection.execute('UPDATE scout_improvement_projects SET revision=?, state_json=? WHERE id=?',
-                           (revision + 1, json.dumps(state, ensure_ascii=False), project_id))
+                           (revision + 1, encode_project_state(state), project_id))
         connection.execute('INSERT INTO scout_improvement_events(project_id,created_at,action,detail_json) VALUES(?,?,?,?)',
                            (project_id, utcnow(), action, json.dumps(details, ensure_ascii=False)))
         state.update(id=project_id, revision=revision + 1)
@@ -167,7 +168,7 @@ class ImprovementWorkflow:
                                             'review': None, 'packaged': False} for rid in resource_ids}}
                 connection.execute('INSERT OR IGNORE INTO scout_improvement_packages VALUES(?,?)', (package['sha256'], payload))
                 cursor = connection.execute('INSERT INTO scout_improvement_projects(project_key, revision, state_json) VALUES(?,0,?)',
-                                            (key, json.dumps(state, ensure_ascii=False)))
+                                            (key, encode_project_state(state)))
                 project_id = cursor.lastrowid
                 connection.execute('INSERT INTO scout_improvement_events(project_id,created_at,action,detail_json) VALUES(?,?,?,?)',
                                    (project_id, utcnow(), 'created', json.dumps({'baseSha256': package['sha256'], 'resourceIds': resource_ids, 'historical': bool(historical)})))
@@ -175,9 +176,12 @@ class ImprovementWorkflow:
 
     def list_projects(self):
         with self.store.connect() as connection:
-            return [{'id': row['id'], 'office': json.loads(row['state_json'])['office']}
-                    for row in connection.execute('SELECT id,state_json FROM scout_improvement_projects ORDER BY id DESC')
-                    if json.loads(row['state_json']).get('kind', 'writing') == self.kind]
+            projects = []
+            for row in connection.execute('SELECT id,state_json FROM scout_improvement_projects ORDER BY id DESC'):
+                state = decode_project_state(row['state_json'])
+                if state.get('kind', 'writing') == self.kind:
+                    projects.append({'id': row['id'], 'office': state['office']})
+            return projects
 
     @staticmethod
     def _stages(state):

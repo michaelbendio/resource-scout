@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from .project_state import decode_project_state, encode_project_state
 import re
 from copy import deepcopy
 from datetime import date
@@ -139,7 +140,7 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                 state = {**configuration, 'kind': self.kind, 'sourceName': source_name, 'createdAt': utcnow(),
                          'latestSha256': None, 'requiresReconnection': False, 'tasks': tasks}
                 c.execute('INSERT OR IGNORE INTO scout_improvement_packages VALUES(?,?)', (package['sha256'], payload))
-                pid = c.execute('INSERT INTO scout_improvement_projects(project_key,revision,state_json) VALUES(?,0,?)', (key, json.dumps(state))).lastrowid
+                pid = c.execute('INSERT INTO scout_improvement_projects(project_key,revision,state_json) VALUES(?,0,?)', (key, encode_project_state(state))).lastrowid
                 state.update(id=pid, revision=0)
                 self._save(c, state, 'maintenance-created', {'scope': {'resourceIds': resource_ids, 'categoryIds': category_ids}, 'baseSha256': package['sha256']})
         return self.view(pid)
@@ -260,7 +261,7 @@ class MaintenanceWorkflow(ImprovementWorkflow):
         records += [{'id': d.get('targetId'), 'name': d.get('label', ''), 'identityStatus': 'retired'}
                     for d in package['data'].get('deletions', []) if d.get('kind') == 'resource']
         for row in c.execute('SELECT id,state_json FROM scout_improvement_projects ORDER BY id'):
-            prior = json.loads(row['state_json'])
+            prior = decode_project_state(row['state_json'])
             if prior.get('kind') != self.kind or prior['office'].casefold() != state['office'].casefold():
                 continue
             # Development outcomes must never become production identity evidence.
@@ -280,7 +281,7 @@ class MaintenanceWorkflow(ImprovementWorkflow):
     def _prior_checks(self, c, state, task):
         observations = []
         for row in c.execute('SELECT id,state_json FROM scout_improvement_projects WHERE id<>? ORDER BY id DESC', (state['id'],)):
-            prior = json.loads(row['state_json'])
+            prior = decode_project_state(row['state_json'])
             if prior.get('kind') != self.kind or prior['office'].casefold() != state['office'].casefold() or prior['historical'] != state['historical']:
                 continue
             for old in prior['tasks'].values():

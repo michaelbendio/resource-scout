@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from .project_state import decode_project_state, encode_project_state
 import hashlib
 from pathlib import Path
 from copy import deepcopy
@@ -91,13 +92,13 @@ class EvidenceLedger:
         if not row or (kind and row['kind'] != kind):
             raise ImprovementError('Evidence record not found or wrong kind')
         return {'id': row['id'], 'collectionId': row['collection_id'], 'kind': row['kind'], 'recordedAt': row['created_at'],
-                **json.loads(row['document'])}
+                **decode_project_state(row['document'])}
 
     @staticmethod
     def _save(c, collection, kind, document):
         key = digest({'collection': collection, 'kind': kind, 'document': document})
         c.execute('INSERT OR IGNORE INTO scout_evidence_records VALUES(?,?,?,?,?)',
-                  (key, collection, kind, utcnow(), json.dumps(document, ensure_ascii=False)))
+                  (key, collection, kind, utcnow(), encode_project_state(document)))
         return key
 
     @staticmethod
@@ -148,7 +149,7 @@ class EvidenceLedger:
             row = c.execute('SELECT * FROM scout_improvement_projects WHERE id=?', (project_id,)).fetchone()
             if not row:
                 raise ImprovementError('Research project not found')
-            state = json.loads(row['state_json'])
+            state = decode_project_state(row['state_json'])
             if state['office'].casefold() != config['office'] or bool(state['historical']) != bool(config['historical']):
                 raise ImprovementError('Project office/development status does not match collection')
             events = [dict(r) for r in c.execute('SELECT * FROM scout_improvement_events WHERE project_id=? ORDER BY id', (project_id,))]
