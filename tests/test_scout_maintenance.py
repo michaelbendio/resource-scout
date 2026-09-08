@@ -103,7 +103,11 @@ class MaintenanceTests(unittest.TestCase):
                 r['items'][0]['fields'] = {'name': 'Example organization · Food pantry'}
                 r['items'][0]['summary'] = 'Synthetic clearer title, not a provider rename.'
         self.finish(status='changed', task='recheck:r1', transform=propose_title)
-        self.assertEqual(self.payload, write_package(self.data, self.assets))
+        # ZIP headers contain a wall-clock timestamp; compare the original
+        # snapshot's content and assets rather than two separately timed ZIPs.
+        original = read_package(self.payload)
+        self.assertEqual(original['data'], self.data)
+        self.assertEqual(original['assets'], self.assets)
         self.connect()
         with self.assertRaises(ImprovementError):
             self.export()

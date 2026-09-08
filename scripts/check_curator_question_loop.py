@@ -50,8 +50,11 @@ def main():
             page.goto(path.resolve().as_uri())
             page.evaluate('async()=>await window.scoutPreviewAssetsReady')
         resource=lambda page:page.evaluate('id=>structuredClone(data.resources.find(r=>r.id===id))',args.resource_id)
-        baseline=base64.b64decode(review.evaluate(EXPORT))
+        baseline=base64.b64decode(office.evaluate(EXPORT))
+        scout_mode=review.evaluate('typeof isScoutReviewMode === "function" && isScoutReviewMode()')
         before=resource(review);qid=before['openQuestions'][0]['id']
+        if scout_mode:
+            review.evaluate('id=>setScoutReviewResourceCurated(id,true)',args.resource_id)
         review.evaluate("()=>{setAdminVisibility(true);adminTab='resources';setView('admin');}")
         review.locator('[data-resource-id="'+args.resource_id+'"]').click()
         review.get_by_role('button',name='Edit',exact=True).click()
@@ -62,12 +65,24 @@ def main():
         review.locator('#res_update_description').fill('Synthetic QA resolution')
         review.locator('#res_done_btn').click()
         resolved=resource(review);expected=resolved['openQuestions']
+        if scout_mode:
+            assert not review.evaluate('id=>isScoutReviewResourceCurated(id)',args.resource_id)
         assert expected[0]['status']=='resolved' and expected[0]['resolution']==answer
         for key in ('question','explanation','source','id'):
             assert expected[0][key]==before['openQuestions'][0][key]
         assert expected[0]['history'][-1]['changedAt']
+        review.reload();review.wait_for_function('typeof data === "object"')
+        assert resource(review)['openQuestions']==expected
+        if scout_mode:
+            review.evaluate("()=>{setAdminVisibility(true);adminTab='resources';setView('admin');}")
+            review.locator('[data-resource-id="'+args.resource_id+'"]').click()
+            review.get_by_role('button',name='Edit',exact=True).click()
+            assert review.locator('[data-resolved-questions]').get_attribute('open') is None
+            review.locator('#res_curated_btn').click()
+            assert review.evaluate('id=>isScoutReviewResourceCurated(id)',args.resource_id)
         exported=base64.b64decode(review.evaluate(EXPORT))
         assert read_package(exported)['resources'][args.resource_id]['openQuestions']==expected
+        if scout_mode:assert set(read_package(exported)['resources'])=={args.resource_id}
         assert resource(office)['openQuestions']==before['openQuestions']
         for payload in [exported,exported,baseline]:
             assert not office.evaluate(IMPORT,base64.b64encode(payload).decode())
@@ -86,15 +101,18 @@ def main():
         final=read_package(office_payload)
         assert final['resources'][args.resource_id]['openQuestions']==expected
         assert final['assetHashes']==read_package(baseline)['assetHashes']
+        for rid,original in read_package(baseline)['resources'].items():
+            if rid!=args.resource_id:assert final['resources'][rid]==original
         assert not errors,errors
         browser.close()
     for name,payload in [('baseline.zip',baseline),('review-export.zip',exported),('office-export.zip',office_payload)]:
         (args.output/name).write_bytes(payload)
     ledger=EvidenceLedger(ResearchStore(args.output/'synthetic-evidence.sqlite3'))
     identity={'scope':'full','historical':True,'office_confirmation':'Explicit synthetic QA copies; no real office import.'}
-    first=ledger.import_package('question-loop-qa','Synthetic QA',baseline,**identity)
-    last=ledger.import_package('question-loop-qa','Synthetic QA',office_payload,**identity)
-    repeated=ledger.import_package('question-loop-qa','Synthetic QA',office_payload,**identity)
+    office_name=read_package(baseline)['data'].get('officeName') or 'Synthetic QA'
+    first=ledger.import_package('question-loop-qa',office_name,baseline,**identity)
+    last=ledger.import_package('question-loop-qa',office_name,office_payload,**identity)
+    repeated=ledger.import_package('question-loop-qa',office_name,office_payload,**identity)
     assert repeated['id']==last['id']
     comp=ledger.compare(first['id'],last['id'],reviewer='Synthetic QA',lineage_note='Isolated application ZIP roundtrip')
     report=ledger.report(comp['id'])
@@ -104,7 +122,9 @@ def main():
     assert report['summary']['activeLessons']==0
     (args.output/'scout-evidence.json').write_text(json.dumps(report,indent=2)+'\n')
     (args.output/'verification.json').write_text(json.dumps({
-        'isolatedInstances':True,'ordinaryZipExportImport':True,'questionAndHistoryPreserved':True,
+        'isolatedInstances':True,'scoutCurationMode':scout_mode,'ordinaryZipExportImport':True,
+        'curatedInvalidatedByQuestionEdit':scout_mode,'exactCuratedSelectionExported':scout_mode,
+        'reviewReloadPreserved':True,'questionAndHistoryPreserved':True,'unrelatedResourcesPreserved':True,
         'repeatImportPreserved':True,'olderOpenQuestionPreserved':True,'newerLegacyEditPreserved':True,
         'officeReloadPreserved':True,'pdfHashesPreserved':True,'scoutObservedDecision':True,
         'noAutomaticVerificationOrActiveLesson':True,'pageErrors':errors},indent=2)+'\n')

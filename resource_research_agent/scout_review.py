@@ -55,15 +55,16 @@ def _replace_meta(document: str, name: str, value: str) -> str:
     )
 
 
-def _build_scout_review_file_from_seed(
-    store: ResearchStore,
-    job: dict[str, object],
+def render_scout_review_seed(
     seed: dict[str, object],
     *,
+    location_name: str,
+    source_sha256: str,
+    category_ids: list[str],
     taxonomy: dict[str, object] | None = None,
 ) -> ScoutReviewFile:
-    job_id = int(job["id"])
-    location_name = str(job["locationName"] or "").strip()
+    """Render review data without recording a human or AI curation completion."""
+    location_name = str(location_name or "").strip()
     location_token = "".join(
         character for character in location_name if character.isalnum()
     )
@@ -79,11 +80,7 @@ def _build_scout_review_file_from_seed(
     curated_category_ids = (
         [str(item["id"]) for item in seed.get("categories") or []]
         if taxonomy
-        else [
-            str(item["categoryId"])
-            for item in job["categories"]
-            if item["status"] == "completed"
-        ]
+        else category_ids
     )
     meta_values = {
         "tso-storage-id": f"scout-review-{_slug(location_name)}",
@@ -94,7 +91,7 @@ def _build_scout_review_file_from_seed(
         "scout-review-category-id": "",
         "scout-review-category-label": "",
         "scout-review-curated-category-ids": ",".join(curated_category_ids),
-        "scout-review-candidate-package-sha256": job["candidatePackageSha256"],
+        "scout-review-candidate-package-sha256": source_sha256,
         "scout-review-taxonomy-study-id": (
             str(taxonomy["studyId"]) if taxonomy else ""
         ),
@@ -145,9 +142,14 @@ def _build_scout_review_file_from_seed(
     release = {
         "version": __version__,
         "build": __build__,
-        "date": "2026-09-02",
-        "message": "Delete proposed resources and categories directly while curating",
+        "date": "2026-09-07",
+        "message": "Keep curator answers through Scout and office package transfers",
         "changes": [
+            {
+                "date": "2026-09-07",
+                "version": __version__,
+                "message": "Answer Scout questions while curating and preserve answers when merging office packages",
+            },
             {
                 "date": "2026-09-02",
                 "version": __version__,
@@ -181,6 +183,29 @@ def _build_scout_review_file_from_seed(
     if obsolete_name in document:
         raise ScoutCurationError("Scout review template still contains an obsolete product name")
     content = document.encode("utf-8")
+    return ScoutReviewFile(
+        filename=filename,
+        content=content,
+        scout_version=__version__,
+        scout_build=__build__,
+    )
+
+
+def _build_scout_review_file_from_seed(
+    store: ResearchStore,
+    job: dict[str, object],
+    seed: dict[str, object],
+    *,
+    taxonomy: dict[str, object] | None = None,
+) -> ScoutReviewFile:
+    result = render_scout_review_seed(
+        seed, location_name=str(job["locationName"]),
+        source_sha256=str(job["candidatePackageSha256"]),
+        category_ids=[str(item["categoryId"]) for item in job["categories"]
+                      if item["status"] == "completed"], taxonomy=taxonomy,
+    )
+    job_id = int(job["id"])
+    filename, content = result.filename, result.content
     taxonomy_suffix = (
         f" from taxonomy study {taxonomy['studyId']}" if taxonomy else ""
     )
@@ -203,12 +228,7 @@ def _build_scout_review_file_from_seed(
             ),
         },
     )
-    return ScoutReviewFile(
-        filename=filename,
-        content=content,
-        scout_version=__version__,
-        scout_build=__build__,
-    )
+    return result
 
 
 def build_scout_review_file(store: ResearchStore, job_id: int) -> ScoutReviewFile:

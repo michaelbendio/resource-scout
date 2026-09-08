@@ -192,6 +192,18 @@ def augment_assignment(a, state, task, package):
     a['protocol'] = PROTOCOL
     a['serviceArea'] = m['settings']['serviceArea']
     a['configuredModel'] = m['settings']['modelIdentities'][a['researcher']]
+    a['fieldFormats'] = {
+        'categories': {'type': 'array of category IDs', 'values': 'Use catalog.categories IDs.'},
+        'categoryFilters': {'type': 'object',
+            'example': {'category-id': ['Exact Type label']},
+            'rule': 'Keys are category IDs in this resource; each value is an array of that category’s exact catalog filters. Never return a flat array.'},
+        'forGroups': {'type': 'array of strings', 'values': 'Use exact catalog.forGroups labels.'},
+        'informationSections': {section['key']: 'text' for section in a['writingGuidance']['sections']},
+        'otherEditableFields': 'Text strings; omit fields you are not proposing to change.'}
+    a['statusFieldRules'] = {
+        'current, inconclusive, identity, possibly-closed': 'fields must be the empty object {}.',
+        'changed': 'Use for updates to an existing resource; fields contains the proposed replacements.',
+        'new, reopened': 'Discovery additions require name, description, all five informationSections and categories including the assigned category.'}
     a['outputContract']['executionReceipt'] = {
         'complete': True, 'model': None, 'contextId': '', 'freshContext': False,
         'isolatedInputs': False, 'activeMinutes': 0, 'waitingMinutes': 0,

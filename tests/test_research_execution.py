@@ -65,6 +65,24 @@ class ExecutionTests(unittest.TestCase):
         return self.flow.record_provider(pid, self.flow.view(pid)['revision'], name, 'available',
                                         'Synthetic operator', 'Synthetic availability, no live service', 'synthetic-' + name)
 
+    def test_output_format_guidance_explains_live_pilot_contract_failures(self):
+        pid=self.prepare();a=self.flow.next_assignment(pid)
+        self.assertEqual('object',a['fieldFormats']['categoryFilters']['type'])
+        self.assertIsInstance(next(iter(a['fieldFormats']['categoryFilters']['example'].values())),list)
+        self.assertIn('empty object {}',a['statusFieldRules']['current, inconclusive, identity, possibly-closed'])
+        # Reproduce both real transport errors; explanation does not relax validation.
+        bad=response(a);bad['items'][0]['fields']['categoryFilters']=[]
+        with self.assertRaisesRegex(ImprovementError,'categoryFilters must be an object'):
+            self.flow.submit(pid,a['stage'],bad)
+        bad=response(a);bad['items'][0]['status']='current'
+        with self.assertRaisesRegex(ImprovementError,'must not silently change resource fields'):
+            self.flow.submit(pid,a['stage'],bad)
+        self.flow.submit(pid,a['stage'],response(a))
+        # A sealed assignment remains exact, including its original format guidance.
+        with self.store.connect() as c:
+            saved=self.flow._load(c,pid)['tasks'][a['taskId']]['assignments'][a['stage']]
+        self.assertEqual(a,saved)
+
     def until(self, pid, stage=None, task_id=None):
         while a := self.flow.next_assignment(pid, task_id=task_id):
             if a['stage'] == stage:
