@@ -1,0 +1,17 @@
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.21230249991640449, "recordedAt": "2026-09-09T19:55:39.759213+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.4763147500343621, "recordedAt": "2026-09-09T19:55:40.235775+00:00", "counters": {"characters": 812799240}}
+{"schemaVersion": 1, "phase": "checkpoint.decompress", "status": "ok", "seconds": 2.1582222919678316, "recordedAt": "2026-09-09T19:55:42.394087+00:00", "counters": {"outputBytes": 1816249104}}
+{"schemaVersion": 1, "phase": "checkpoint.inner_json_decode", "status": "ok", "seconds": 3.543938708025962, "recordedAt": "2026-09-09T19:55:45.938128+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 6.04391729098279, "recordedAt": "2026-09-09T19:55:51.982156+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 6.232802042039111, "recordedAt": "2026-09-09T19:55:58.948802+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.1145464169094339, "recordedAt": "2026-09-09T19:55:59.063412+00:00", "counters": {"characters": 39145779}}
+{"schemaVersion": 1, "phase": "checkpoint.compress", "status": "ok", "seconds": 0.15515125007368624, "recordedAt": "2026-09-09T19:55:59.218634+00:00", "counters": {"inputBytes": 39188509, "outputBytes": 8671900}}
+{"schemaVersion": 1, "phase": "checkpoint.envelope_encode", "status": "ok", "seconds": 0.02207987499423325, "recordedAt": "2026-09-09T19:55:59.240756+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.11137558298651129, "recordedAt": "2026-09-09T19:55:59.356141+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.006270000012591481, "recordedAt": "2026-09-09T19:55:59.362460+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "benchmark.save_total", "status": "ok", "seconds": 6.64648212492466, "recordedAt": "2026-09-09T19:55:59.362479+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.007203749963082373, "recordedAt": "2026-09-09T19:55:59.377808+00:00", "counters": {"characters": 11562611}}
+{"schemaVersion": 1, "phase": "checkpoint.decompress", "status": "ok", "seconds": 0.03079129196703434, "recordedAt": "2026-09-09T19:55:59.408638+00:00", "counters": {"outputBytes": 39188509}}
+{"schemaVersion": 1, "phase": "checkpoint.inner_json_decode", "status": "ok", "seconds": 0.11464904202148318, "recordedAt": "2026-09-09T19:55:59.523347+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.expand_shared_context", "status": "ok", "seconds": 4.107078499975614, "recordedAt": "2026-09-09T19:56:03.630527+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "benchmark.roundtrip_verify", "status": "ok", "seconds": 4.664523792103864, "recordedAt": "2026-09-09T19:56:04.035150+00:00", "counters": {}}

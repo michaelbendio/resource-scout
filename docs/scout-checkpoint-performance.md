@@ -1,5 +1,7 @@
 # Checkpoint save performance
 
+Historical September 8 measurement. September 9 adds a new lossless shared-context storage format; see [current results](scout-learning-editor-results.md) and [compatibility/rollback instructions](scout-learning-editor-operations.md). The old-reader compatibility statements below describe the earlier zlib-level-only change, not the new v2 shared format.
+
 Large research projects use the existing `scout-project-json-zlib-v1` envelope
 with zlib level 1 instead of the default level 6. Each assignment and accepted
 result rewrites the project checkpoint, so faster compression reduces repeated

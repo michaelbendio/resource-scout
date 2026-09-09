@@ -15,6 +15,7 @@ from .improvement_packages import (
 )
 from .resource_writing import compose_information, load_writing_guidance
 from .storage import ResearchStore
+from .performance import measured
 
 POLICY_PATH = Path(__file__).with_name('writing_guidance') / 'existing_resources.json'
 SCHEMA = """
@@ -93,7 +94,8 @@ class ImprovementWorkflow:
             connection.executescript(SCHEMA)
 
     def _load(self, connection, project_id):
-        row = connection.execute('SELECT * FROM scout_improvement_projects WHERE id=?', (project_id,)).fetchone()
+        with measured('checkpoint.database_read'):
+            row = connection.execute('SELECT * FROM scout_improvement_projects WHERE id=?', (project_id,)).fetchone()
         if row is None:
             raise ImprovementError('Improvement project not found')
         state = decode_project_state(row['state_json'])
@@ -111,8 +113,11 @@ class ImprovementWorkflow:
     def _save(self, connection, state, action, details):
         revision = state.pop('revision')
         project_id = state.pop('id')
-        connection.execute('UPDATE scout_improvement_projects SET revision=?, state_json=? WHERE id=?',
-                           (revision + 1, encode_project_state(state), project_id))
+        encoded = encode_project_state(state)
+        with measured('checkpoint.database_write') as metrics:
+            connection.execute('UPDATE scout_improvement_projects SET revision=?, state_json=? WHERE id=?',
+                               (revision + 1, encoded, project_id))
+            metrics['characters'] = len(encoded)
         connection.execute('INSERT INTO scout_improvement_events(project_id,created_at,action,detail_json) VALUES(?,?,?,?)',
                            (project_id, utcnow(), action, json.dumps(details, ensure_ascii=False)))
         state.update(id=project_id, revision=revision + 1)

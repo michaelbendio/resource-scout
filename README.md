@@ -3,8 +3,9 @@
 For trials with frontier-level editors, use the [editor handover](docs/frontier-editor-handover.md),
 [common outcome report](docs/frontier-editor-report-template.md), and
 [portable decision format](docs/frontier-editor-decision-format.md). These describe
-editorial preparation for human curators; they do not implement an autonomous
-editor or the pending learning loop.
+editorial preparation for human curators. The new [learning/editor operator guide](docs/scout-learning-editor-operations.md)
+connects bounded experiments and opt-in early/final frontier editing to Scout.
+See the [live saved-case test and measured speed improvement](docs/scout-learning-editor-results.md).
 Michael's [handover checklist](docs/michael-editor-handover-checklist.md) explains
 what to send and how to choose a package or complete Scout HTML. The
 [September 9 Mesa trial packets](handoffs/mesa-editorial-20260909/README.md)
@@ -15,7 +16,9 @@ with a [staged implementation and test plan](docs/scout-playbook-learning-plan.m
 The [research foundation](docs/scout-astra-foundation.md) implements an opt-in
 Astra-led protocol with sampled independent Claude comparisons and targeted
 ChatGPT, Grok and Perplexity checks. Old executions retain their original stages.
-Live pilot research and evaluated playbook activation are separate next steps.
+The [September 9 design and implementation plan](docs/scout-learning-editor-plan.md)
+adds attributable learning experiments, measured checkpoint optimization and the editor workflow.
+Evaluated guidance remains inactive pending review; a real new-discovery editor pilot is still due.
 
 Resource Scout researches, consolidates, and curates resource candidates gathered
 from several consumer AI products. It creates a self-contained TSO Resources

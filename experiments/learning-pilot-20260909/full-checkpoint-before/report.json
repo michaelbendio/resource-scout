@@ -1,0 +1,74 @@
+{
+  "source": "/Users/michaelbendio/resource-scout-v2/output/autoMesaV2-astra/research.sqlite3",
+  "sourceProject": 2,
+  "sourceRevision": 2681,
+  "sourceReadOnly": true,
+  "writeCodec": "legacy",
+  "inputStoredCharacters": 812799240,
+  "outputStoredCharacters": 812799240,
+  "repetitions": 1,
+  "roundtripEqual": true,
+  "phases": {
+    "checkpoint.database_read": {
+      "count": 1,
+      "seconds": 0.20967899996321648,
+      "errors": 0
+    },
+    "checkpoint.json_decode": {
+      "count": 2,
+      "seconds": 1.0580259158741683,
+      "errors": 0
+    },
+    "checkpoint.decompress": {
+      "count": 2,
+      "seconds": 4.000822291942313,
+      "errors": 0
+    },
+    "checkpoint.inner_json_decode": {
+      "count": 2,
+      "seconds": 9.249875333043747,
+      "errors": 0
+    },
+    "research.execution_validation": {
+      "count": 1,
+      "seconds": 5.938744749990292,
+      "errors": 0
+    },
+    "checkpoint.json_encode": {
+      "count": 1,
+      "seconds": 4.954521958017722,
+      "errors": 0
+    },
+    "checkpoint.compress": {
+      "count": 1,
+      "seconds": 10.096713833045214,
+      "errors": 0
+    },
+    "checkpoint.envelope_encode": {
+      "count": 1,
+      "seconds": 1.5796754169277847,
+      "errors": 0
+    },
+    "checkpoint.database_write": {
+      "count": 1,
+      "seconds": 0.1971561670070514,
+      "errors": 0
+    },
+    "database.commit": {
+      "count": 1,
+      "seconds": 1.8749968148767948e-05,
+      "errors": 0
+    },
+    "benchmark.save_total": {
+      "count": 1,
+      "seconds": 16.82844795798883,
+      "errors": 0
+    },
+    "benchmark.roundtrip_verify": {
+      "count": 1,
+      "seconds": 9.183991833007894,
+      "errors": 0
+    }
+  },
+  "note": "Phases can be nested; do not add their durations as total wall time. No provider time or cost is inferred."
+}

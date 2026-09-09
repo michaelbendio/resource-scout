@@ -4,6 +4,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
+from .performance import measured, timing_session, summarize_timings
 
 from .duplicates import DuplicateIndex
 from .codex_replay import (
@@ -16,6 +17,8 @@ from .codex_replay import (
 from .importer import ResourcePackageImporter
 from .server import serve
 from .storage import ResearchStore
+from .editor_cli import add_editor_commands, run_editor_command
+from .learning_cli import add_learning_commands, run_learning_command
 from .evidence_cli import add_evidence_commands, run_evidence_command
 from .maintenance_cli import add_maintenance_commands, run_maintenance_command
 from .improvement_cli import add_improvement_commands, run_improvement_command
@@ -62,7 +65,15 @@ from .scout_enrichment_checkpoint import (
 def parser() -> argparse.ArgumentParser:
     result = argparse.ArgumentParser(prog="resource-scout")
     result.add_argument("--database", default="data/research-agent.sqlite3", help="Separate research database path")
+    result.add_argument('--timings', help='Append content-free operational timing JSONL to this file')
     subcommands = result.add_subparsers(dest="command", required=True)
+    timing = subcommands.add_parser('timings', help='Summarize an operational timing JSONL file')
+    timing.add_argument('path')
+    copy = subcommands.add_parser('checkpoint-copy', help='Create a verified copy using compact or legacy checkpoint storage')
+    copy.add_argument('source'); copy.add_argument('destination')
+    copy.add_argument('--codec', choices=['compact', 'legacy'], required=True)
+    add_editor_commands(subcommands)
+    add_learning_commands(subcommands)
     add_evidence_commands(subcommands)
     add_maintenance_commands(subcommands)
     add_improvement_commands(subcommands)
@@ -247,6 +258,18 @@ def parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
+    with timing_session(args.timings), measured('command.' + args.command):
+        return _dispatch(args)
+
+
+def _dispatch(args) -> int:
+    if args.command == 'checkpoint-copy':
+        from .checkpoint_copy import copy_checkpoints
+        print(json.dumps(copy_checkpoints(args.source, args.destination, compact=args.codec == 'compact'), indent=2))
+        return 0
+    if args.command == 'timings':
+        print(json.dumps(summarize_timings(args.path), indent=2))
+        return 0
     if args.command == "serve":
         serve(args.database, args.host, args.port)
         return 0
@@ -270,6 +293,12 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(value, ensure_ascii=False, indent=2))
         return 0
     store = ResearchStore(args.database)
+    if args.command == 'editor':
+        print(json.dumps(run_editor_command(store, args), ensure_ascii=False, indent=2))
+        return 0
+    if args.command == 'learning':
+        print(json.dumps(run_learning_command(store, args), ensure_ascii=False, indent=2))
+        return 0
     if args.command == 'evidence':
         print(json.dumps(run_evidence_command(store, args), ensure_ascii=False, indent=2))
         return 0

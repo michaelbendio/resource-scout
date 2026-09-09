@@ -1,6 +1,6 @@
 # Detailed editorial decisions: portable format
 
-Use a UTF-8 JSON document named `editorial-decisions.json`. This is a proposed interchange format for editorial trials, **not an existing Scout import API**. Its job is to make each editor's judgments comparable and preserve evidence for later implementation.
+Use a UTF-8 JSON document named `editorial-decisions.json`. This is the portable interchange format for editorial trials. `learning import-editorial` now imports format 1 as evidence when all original identities are accounted for and no new/split output identities are present. The opt-in `editor` workflow uses its own sealed assignment/result contract; follow that packet for operational submissions. See the [operator guide](scout-learning-editor-operations.md). Its job is to make each editor's judgments comparable and preserve evidence for later implementation.
 
 ## Document fields
 

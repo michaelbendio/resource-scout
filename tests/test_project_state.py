@@ -132,3 +132,72 @@ class ProjectStateTests(unittest.TestCase):
             self.assertTrue(followup['priorChecks'])
             self.assertEqual(followup['priorChecks'][0]['result'],
                              before['tasks']['recheck:r1']['results']['reconcile'])
+
+
+class SharedCheckpointTests(unittest.TestCase):
+    def state(self):
+        shared=[{'id':str(i),'name':'Mésa · 🏠','notes':'Useful detail '*200} for i in range(250)]
+        return {'tasks':{str(i):{'knownIdentities':shared,'writingGuidance':{'text':'Keep every condition'},
+                                 'resource':{'_scoutShared':0,'untouched':None}} for i in range(5)},
+                'unusual':{'shared':None,'replacements':[[['literal'],0]]}}
+
+    def test_compact_exact_roundtrip_no_aliasing_and_legacy_rollback(self):
+        state=self.state()
+        compact=encode_project_state(state)
+        self.assertIn('scout-project-shared-json-zlib-v2',compact)
+        restored=decode_project_state(compact)
+        self.assertEqual(state,restored);self.assertEqual(digest(state),digest(restored))
+        restored['tasks']['0']['knownIdentities'][0]['name']='Changed only here'
+        self.assertNotEqual(restored['tasks']['0']['knownIdentities'],restored['tasks']['1']['knownIdentities'])
+        self.assertEqual('Mésa · 🏠',state['tasks']['0']['knownIdentities'][0]['name'])
+        legacy=encode_project_state(decode_project_state(compact),compact=False)
+        self.assertEqual(state,decode_project_state(legacy))
+        self.assertNotIn('scout-project-shared-json-zlib-v2',legacy)
+
+    def test_shared_format_corrupt_references_rejected(self):
+        from resource_research_agent.checkpoint_compaction import expand_state
+        for reference in ([[['missing'],0]],[[['slot'],-1]],[[['slot'],True]],[[['slot'],2]],
+                          [[['slot'],0],[['slot'],0]],[[['slot'],0],[['slot','nested'],0]]):
+            with self.assertRaises(ValueError):
+                expand_state({'state':{'slot':None},'shared':[{'nested':None}],'replacements':reference})
+        with self.assertRaises(ValueError):expand_state({'state':{},'shared':[],'replacements':[],'unexpected':1})
+
+    def test_actual_workflow_resume_with_compact_context(self):
+        # The existing workflow, evidence capture and hash checks must all read v2.
+        with tempfile.TemporaryDirectory() as folder:
+            store=ResearchStore(Path(folder)/'qa.db');flow=MaintenanceWorkflow(store)
+            payload=write_package(fixture_package(),{'pdfs/guide.pdf':b'%PDF original'})
+            pid=flow.prepare(payload,'Test TSO',['r1'],[],run_name='Compact restart',historical=True)['id']
+            a=flow.next_assignment(pid)
+            with store.connect() as c:
+                original=flow._load(c,pid);revision=original.pop('revision');original.pop('id')
+                original['largeTestContext']=self.state()
+                c.execute('UPDATE scout_improvement_projects SET state_json=? WHERE id=?',(encode_project_state(original),pid))
+            resumed=MaintenanceWorkflow(ResearchStore(store.path))
+            self.assertEqual(a,resumed.next_assignment(pid))
+            resumed.submit(pid,a['stage'],result_for(a))
+            with store.connect() as c:
+                after=resumed._load(c,pid)
+                self.assertEqual(original['largeTestContext'],after['largeTestContext'])
+                self.assertEqual(payload,c.execute('SELECT payload FROM scout_improvement_packages WHERE sha256=?',(after['baseSha256'],)).fetchone()[0])
+
+    def test_copy_conversion_is_no_clobber_and_failure_preserves_source(self):
+        from resource_research_agent.checkpoint_copy import copy_checkpoints
+        import sqlite3
+        with tempfile.TemporaryDirectory() as folder:
+            src=Path(folder)/'source.db';dest=Path(folder)/'compact.db';rollback=Path(folder)/'legacy.db'
+            with sqlite3.connect(src) as c:
+                c.execute('CREATE TABLE scout_improvement_projects(id INTEGER PRIMARY KEY,state_json TEXT)')
+                c.execute('INSERT INTO scout_improvement_projects VALUES(1,?)',(encode_project_state(self.state(),compact=False),))
+                c.execute('CREATE TABLE untouched(bytes BLOB)');c.execute('INSERT INTO untouched VALUES(?)',(b'PDF bytes',))
+            original=src.read_bytes();report=copy_checkpoints(src,dest,compact=True)
+            self.assertTrue(report['verified']);self.assertEqual(original,src.read_bytes())
+            with self.assertRaises(ValueError):copy_checkpoints(src,dest,compact=True)
+            copy_checkpoints(dest,rollback,compact=False)
+            with sqlite3.connect(rollback) as c:
+                self.assertEqual(self.state(),decode_project_state(c.execute('SELECT state_json FROM scout_improvement_projects').fetchone()[0]))
+                self.assertEqual(b'PDF bytes',c.execute('SELECT bytes FROM untouched').fetchone()[0])
+            failed=Path(folder)/'failed.db'
+            with patch('resource_research_agent.checkpoint_copy.encode_project_state',side_effect=RuntimeError('Injected')):
+                with self.assertRaises(RuntimeError):copy_checkpoints(src,failed,compact=True)
+            self.assertFalse(failed.exists());self.assertEqual(original,src.read_bytes())

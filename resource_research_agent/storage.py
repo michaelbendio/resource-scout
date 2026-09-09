@@ -7,6 +7,7 @@ from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterator
+from .performance import measured
 
 from .importer import (
     ImportedPackage,
@@ -1026,9 +1027,11 @@ class ResearchStore:
         connection.execute("PRAGMA foreign_keys = ON")
         try:
             yield connection
-            connection.commit()
+            with measured('database.commit'):
+                connection.commit()
         except Exception:
-            connection.rollback()
+            with measured('database.rollback'):
+                connection.rollback()
             raise
         finally:
             connection.close()

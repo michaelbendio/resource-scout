@@ -1,0 +1,16 @@
+{
+  "contextId": "claude-desktop-mesa-20260909-candidate",
+  "fresh": true,
+  "modelConfig": {
+    "provider": "Claude desktop",
+    "model": "Opus 5",
+    "settings": {
+      "effort": "High",
+      "tools": "none requested",
+      "context": "fresh chat per arm; account-level personalization not controlled"
+    }
+  },
+  "incrementalCostUSD": null,
+  "interventions": 0,
+  "notes": "Separate new Claude desktop chat at https://claude.ai/chat/fffcf944-6d1f-42c4-9127-23461580cdbb. UI showed Opus 5 High. No follow-up or research tools requested; no tool invocation observed. Raw code copied through a local text field in exact chunks. UI paste timeout and capture retries occurred but no model rerun. Operational elapsed time includes preparation, other coding work and UI capture; not a provider-speed measurement. Account-level personalization was not disabled or audited. This is an operator attestation of separate threads, not proof of blind service memory."
+}

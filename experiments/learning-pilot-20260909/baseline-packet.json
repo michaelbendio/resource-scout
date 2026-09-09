@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "trialId": "ce961a802f35ecb08d62a1160cc829e3b55ceaf21c386af2c18b307848eb7c15",
+  "arm": "baseline",
+  "contextId": "claude-desktop-mesa-20260909-baseline",
+  "modelConfig": {
+    "provider": "Claude desktop",
+    "model": "Opus 5",
+    "settings": {
+      "effort": "High",
+      "tools": "none requested",
+      "context": "fresh chat per arm; account-level personalization not controlled"
+    }
+  },
+  "instructions": "Assess each supplied resource for practical TSO usefulness using the supplied guidance. Use only these saved facts; do not browse, use tools, contact anyone or read other chats. Return JSON only with assignmentSha256, complete (boolean), and cases. Each case needs caseId, decision (retain/reserve/exclude/needs-check), reason, criticalDetails (array of strings), and openQuestions (array of strings). Account for every case. Preserve usable named referrals and consequential eligibility, cost and timing details. Do not invent provider facts or human approval.",
+  "guidance": "{\n  \"categoryId\": \"clothing-household\",\n  \"label\": \"Clothing/Household\",\n  \"aliases\": [\n    \"clothing and household\"\n  ],\n  \"assignment\": \"Discover realistic clothing and household-goods resources for people in {service_area} who cannot meet basic needs through ordinary retail. Follow relationships from coordinating organizations to the specific clothing closets, vouchers, furniture banks, household-goods programs, emergency replacement services, and work or school clothing people can actually access. Verify what is provided, eligibility, cost, schedules, inventory, service area, and pickup or delivery.\",\n  \"include\": [\n    \"Free clothing closets, vouchers, seasonal clothing, shoes, and coats\",\n    \"Work, interview, school, maternity, infant, and other purpose-specific clothing\",\n    \"Furniture banks, beds, linens, kitchenware, appliances, and basic household goods\",\n    \"Emergency replacement after homelessness, fire, domestic violence, disaster, or relocation\",\n    \"Pickup, delivery, referral, appointment, sizing, frequency, and current-inventory realities\"\n  ],\n  \"exclude\": [\n    \"Ordinary clothing, thrift, furniture, appliance, or department stores without a hardship-access program\",\n    \"Donation drop-off locations that do not distribute goods to people in need\",\n    \"Online marketplaces or giveaways without a dependable program, safety boundary, and access process\"\n  ],\n  \"focusedResearch\": {\n    \"version\": \"clothing-household-focused-v1\",\n    \"alternativeVocabulary\": [\n      \"clothing closet\", \"community closet\", \"career clothing\", \"furniture bank\",\n      \"household setup\", \"basic needs pantry\", \"beds for children\", \"material assistance\"\n    ],\n    \"sourceChannels\": [\n      \"official nonprofit and faith-community program pages\",\n      \"school district, refugee, reentry, and domestic-violence providers\",\n      \"furniture-bank and household-goods networks\",\n      \"current local service guides only when they identify an operating provider\"\n    ],\n    \"focuses\": [\n      {\n        \"key\": \"general-clothing\",\n        \"label\": \"General clothing closets\",\n        \"direction\": \"Find dependable programs that distribute free clothing, shoes, coats, or vouchers and verify schedule, referral, frequency, and service area.\",\n        \"coverage\": [\"free clothing closets\", \"shoes and coats\", \"clothing vouchers\", \"seasonal distributions\"],\n        \"vocabulary\": [\"clothes closet\", \"community wardrobe\", \"material assistance\", \"free store\"],\n        \"sourceChannels\": [\"faith and neighborhood programs\", \"community action\", \"basic-needs nonprofits\"]\n      },\n      {\n        \"key\": \"purpose-specific-clothing\",\n        \"label\": \"Purpose-specific clothing\",\n        \"direction\": \"Find direct programs for work, interviews, school, maternity, infants, veterans, refugees, or other needs where ordinary general closets may not suffice.\",\n        \"coverage\": [\"career and interview clothing\", \"school clothing\", \"maternity and infant goods\", \"population-specific clothing\"],\n        \"vocabulary\": [\"career closet\", \"dress for success\", \"back to school clothing\", \"baby boutique\"],\n        \"sourceChannels\": [\"workforce programs\", \"schools\", \"pregnancy centers\", \"refugee and veteran providers\"]\n      },\n      {\n        \"key\": \"furniture-household\",\n        \"label\": \"Furniture and household setup\",\n        \"direction\": \"Find programs that place beds, furniture, linens, kitchenware, appliances, or complete household setups with clients; exclude donation-only operations.\",\n        \"coverage\": [\"furniture banks\", \"beds and linens\", \"kitchen and household goods\", \"appliances and delivery\"],\n        \"vocabulary\": [\"home starter kit\", \"household establishment\", \"furniture ministry\", \"beds for kids\"],\n        \"sourceChannels\": [\"furniture banks\", \"housing programs\", \"refugee resettlement\", \"faith furniture ministries\"]\n      },\n      {\n        \"key\": \"crisis-replacement\",\n        \"label\": \"Crisis and emergency replacement\",\n        \"direction\": \"Find direct material help after homelessness, fire, disaster, domestic violence, foster placement, or sudden relocation.\",\n        \"coverage\": [\"fire and disaster replacement\", \"domestic-violence relocation\", \"homeless-to-housed setup\", \"emergency vouchers\"],\n        \"vocabulary\": [\"disaster casework\", \"move-in assistance\", \"rapid rehousing furniture\", \"emergency household goods\"],\n        \"sourceChannels\": [\"disaster responders\", \"domestic-violence programs\", \"housing stabilization providers\", \"family crisis agencies\"]\n      },\n      {\n        \"key\": \"community-embedded\",\n        \"label\": \"Non-obvious embedded material assistance\",\n        \"direction\": \"Look inside broader anti-poverty, disability, senior, immigrant, reentry, and family organizations for named clothing or household programs.\",\n        \"coverage\": [\"embedded clothing help\", \"population-specific household goods\", \"referral partnerships\", \"delivery and accessibility\"],\n        \"vocabulary\": [\"basic needs assistance\", \"client closet\", \"material support\", \"household stabilization\"],\n        \"sourceChannels\": [\"broader community-service organizations\", \"case-management providers\", \"mutual-aid programs with dependable intake\"]\n      }\n    ]\n  }\n}\n",
+  "cases": [
+    {
+      "caseId": "case-1",
+      "resourceId": "mesa-clothing-asa-now",
+      "resource": {
+        "name": "ASA Now · Foster-Youth Clothing, Hygiene and Baby Supplies",
+        "description": "Request essentials for a new foster placement or a young adult who has aged out of care.",
+        "informationText": "**Programs and Services**\nRequest socks, underwear, hygiene products, diapers, a backpack and a food box through the Immediate Needs form. Available items depend on the request and supplies.\n\n**Eligibility Requirements**\nFor new placements from birth through age 18 with child-welfare involvement, and youth who have aged out of care through age 21. Provide a Notice to Provider, tribal child-welfare documentation or proof of previous involvement for an aged-out youth. The form’s income question does not determine eligibility.\n\n**How to Best Connect**\nOpen Assistance on the website and choose Immediate Needs. Complete one request per child and upload the required proof. Staff say they will text within 24 hours to confirm pickup. Call or text 480-415-4481 if you need help.\n\n**Access**\nPickup is in Mesa on Tuesday or Thursday, 9 a.m.–6 p.m. Call or text after submitting if you need another day, an evening or a weekend appointment.\n\n**Important Information to Know**\nBeds and car seats generally require a referral to another agency. Kinship caregivers needing a car seat should call after submitting. The separate food-request form currently directs people to call or text; the Immediate Needs form also includes a food-box request.",
+        "phone": "480-415-4481",
+        "address": "7830 E. University Drive, Mesa, AZ 85207",
+        "website": "https://asanow.org/assistance",
+        "hours": "Confirmed pickup: Tuesday and Thursday, 9 a.m.–6 p.m.; other times by arrangement."
+      }
+    },
+    {
+      "caseId": "case-2",
+      "resourceId": "73dfadc219f93cdde3c2e07d3e1045b4",
+      "resource": {
+        "name": "Clothes Cabin · Clothing, Workwear, Linens and Hygiene",
+        "description": "Free clothes, shoes and linens in Gilbert. No appointment or referral; bring photo ID or ask about a temporary ID accommodation.",
+        "informationText": "**Programs and Services**\nOne Small Step’s Clothes Cabin gives free clothing, shoes, household linens and hygiene items. Back to Work helps with required workwear and a pair of work shoes for a new job. Unsheltered clients can also use showers, weekly laundry, lockers and mailboxes.\n\n**Eligibility Requirements**\nFor anyone who cannot afford the items needed. Clothing visits are once every three months, for yourself, your partner and your children under 18. Bring current photo ID of any kind; ask about a temporary accommodation if you are obtaining ID. Work items require new-hire papers, an employer letter or the Back to Work request form. Staff may ask for guardianship information when you collect clothing for children.\n\n**How to Best Connect**\nVisit during client hours; no appointment or referral is needed. For a new job, bring its clothing requirements and employment evidence. For help, call 480-285-4111 or email info@onesmallstepaz.org.\n\n**Access**\nThe building is at the back of the business park. Children cannot enter the shopping area; if they come, they must stay in the small playroom or lobby. Arrive at least one hour before closing for showers and two hours before closing for laundry.\n\n**Important Information to Know**\nQuantities depend on stock. The FAQ usually allows 4–7 clothing items plus socks and underwear, and one set of sheets, one blanket or one set of towels per visit; ask about that day’s limits. Clothes Cabin closes for holidays, the day before Thanksgiving, the Christmas–New Year week and the last week of January. Donation and paid resale-shop hours differ from free client hours.",
+        "phone": "480-285-4111",
+        "address": "710 N. Cooper Road, Gilbert, AZ 85233; back of Cottonwood Professional Plaza",
+        "website": "https://www.onesmallstepaz.org/pages/faq",
+        "hours": "Tuesday–Wednesday 9 a.m.–3 p.m.; Thursday 4–7 p.m."
+      }
+    },
+    {
+      "caseId": "case-3",
+      "resourceId": "5359125c3611d817c5b9511c96a017fa",
+      "resource": {
+        "name": "House of Refuge · Resident Clothing, Furniture and Household Goods",
+        "description": "Free household items for families enrolled in House of Refuge housing. Public food-bank access is a separate service.",
+        "informationText": "**Programs and Services**\nHouse of Refuge families can shop for clothing, furniture and household essentials at no cost. Items remain theirs when they leave the housing program. A toy closet offers birthday gifts for residents’ children.\n\n**Eligibility Requirements**\nThis non-food shopping is for House of Refuge program families. General-public access to clothing and furniture is not established. Housing has a separate application, eligibility screening, rent and move-in costs; free goods do not mean housing is free.\n\n**How to Best Connect**\nResidents should arrange shopping with their caseworker or call Helping Hands at 480-988-9395. Email donationcenter@houseofrefuge.org. For housing intake, call 480-988-9242 or use the provider’s Need Housing page.\n\n**Access**\nThe center is at 6858 E. Ursula Avenue, separate from the administrative office. Its August–September notice lists Monday and Friday, 10 AM–4 PM, and weekend closure, but leaves the other weekdays unclear. Confirm resident-shopping times with staff.\n\n**Important Information to Know**\nDo not send someone to collect furniture simply because the center accepts donations. The separate public food bank accepts people without an appointment or ID; its availability does not establish public access to clothing, toys or furniture.",
+        "phone": "Helping Hands: 480-988-9395; housing office: 480-988-9242",
+        "address": "Helping Hands House: 6858 E. Ursula Avenue, Mesa, AZ 85212",
+        "website": "https://houseofrefuge.org/donation-center/",
+        "hours": "Residents: arrange shopping with staff; confirm current center hours"
+      }
+    },
+    {
+      "caseId": "case-4",
+      "resourceId": "4ea93a335a4945322184f2ce0e01feb5",
+      "resource": {
+        "name": "Valley Bloom · School Clothing, Shoes and Essentials",
+        "description": "School-arranged clothing, shoes and basic supplies for students in need. Start with the child’s school nurse or counselor.",
+        "informationText": "**Programs and Services**\nFormerly Assistance League of East Valley. Valley Bloom provides school clothing, uniforms, shoes and hygiene kits. Students experiencing homelessness in grades 6–12 may also receive bedding, transit passes and snacks. Graduating seniors can ask about its scholarships.\n\n**Eligibility Requirements**\nSchools identify students with the greatest need. Clothing events focus on kindergarten–grade 6; homeless-teen support covers grades 6–12. Partners include Mesa, Chandler, Gilbert, Kyrene and Tempe Elementary school districts.\n\n**How to Best Connect**\nAsk the school nurse, counselor or family-support worker about Valley Bloom clothing help. School staff arrange the referral. For program questions, call 480-792-1600 or email info@valleybloom.org.\n\n**Access**\nHelp is coordinated with schools; it is not a confirmed walk-in giveaway at the Chandler thrift shop. Ask the school about the next clothing event or help available between events.\n\n**Important Information to Know**\nTell school staff about urgent shoes, uniforms or hygiene needs. What is provided depends on the program and school arrangements. Scholarship help has separate selection rules; it is not automatic for every student.",
+        "phone": "480-792-1600",
+        "address": "Through participating schools; office/thrift shop: 2326 N. Alma School Road, Chandler",
+        "website": "https://www.valleybloom.org/valley-bloom-students",
+        "hours": "School-arranged services; thrift shop hours are separate"
+      }
+    },
+    {
+      "caseId": "case-5",
+      "resourceId": "mesa-household-careportal",
+      "resource": {
+        "name": "CarePortal · Furniture, Clothing and Household Essentials by Referral",
+        "description": "A participating caseworker can request needed household items to help keep children safe and families together.",
+        "informationText": "**Programs and Services**\nParticipating agencies ask local churches and community partners for items such as beds, furniture, clothing, diapers and household necessities. Help depends on someone being able to meet the request.\n\n**Eligibility Requirements**\nFor children and families facing a crisis, including child-welfare, foster, adoption and aging-out situations. Religious membership is not required.\n\n**How to Best Connect**\nAsk your DCS worker, school support worker or other child-serving caseworker whether their agency uses CarePortal. Explain the item needed and how it will help the child. A participating worker must approve and submit the request; families cannot submit their own.\n\n**Access**\nDiscuss pickup or delivery with the worker when a partner offers help. CarePortal operates locally, including through a Mesa church partner; agency participation varies.\n\n**Important Information to Know**\nGive the worker permission before your need is shared. Public requests should describe the need without your name, address or other identifying details. If no partner responds, ask the worker about another route.",
+        "phone": "",
+        "address": "Start with your participating child-serving agency or caseworker.",
+        "website": "https://careportal.zendesk.com/hc/en-us/articles/360037974393--Agency-FAQs",
+        "hours": "Arrange through the referring worker."
+      }
+    },
+    {
+      "caseId": "case-6",
+      "resourceId": "mesa-employment-pejatc",
+      "resource": {
+        "name": "Phoenix Electrical JATC · Paid Electrician Apprenticeship",
+        "description": "Train as an electrician while working for a contractor. Admission is competitive, and both application and training fees apply.",
+        "informationText": "**Programs and Services**\nA four-year program combines paid work with classroom training. Selected apprentices are assigned to a participating contractor.\n\n**Eligibility Requirements**\nYou must be 18 by the start and meet education and algebra requirements or approved alternatives. Identification and school records are needed. Some military service or documented electrical experience can qualify for exceptions. You must be able to reach regional work sites. Work can involve ladders, confined spaces and regular lifting of 50 pounds; ask the program about its essential job requirements and accommodations.\n\n**How to Best Connect**\nUse How to Apply on the program website. Email webservices@pejatc.org for application help or to arrange use of a training-center computer.\n\n**Access**\nTraining centers are in Phoenix; work sites vary across the program area. Classes accompany full-time work. Check the current application deadline before paying.\n\n**Important Information to Know**\nPublished charges are a $40 nonrefundable application fee and $187 monthly during training. Confirm current costs. Applying does not guarantee selection.",
+        "phone": "",
+        "address": "Phoenix training centers; regional job sites",
+        "website": "https://pejatc.org/how-to-apply/",
+        "hours": ""
+      }
+    }
+  ],
+  "assignmentSha256": "c999cd34456d756db99317e3dc32a9f669fc1111b415ac3af2cb0d4147712e19"
+}

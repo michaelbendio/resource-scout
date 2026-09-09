@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 from .project_state import decode_project_state, encode_project_state
+from .performance import measured
 import re
 from copy import deepcopy
 from datetime import date
@@ -82,7 +83,8 @@ class MaintenanceWorkflow(ImprovementWorkflow):
 
     def _load(self, connection, project_id):
         state = super()._load(connection, project_id)
-        validate_execution(state)
+        with measured('research.execution_validation'):
+            validate_execution(state)
         return state
 
     def prepare(self, payload, office, resource_ids, category_ids, *, run_name, historical=False, source_name='resource-package.zip', blind_comparison=False, execution_config=None, supersedes=None, operator='', change_reason=''):
