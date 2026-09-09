@@ -24,6 +24,7 @@ Replace bracketed prompts. Lead with a short summary; keep the full decision led
 
 - Editor/product/model/version: [Record only identities actually known.]
 - Source: [Filename, SHA-256, office, source date, package version, full/partial/unknown scope.]
+- Intake: [Package / embedded HTML snapshot / reconciled pair; authority, actual resource count, attachments and question histories, and whether later browser edits are included.]
 - Trial: [Independent editorial comparison / informed revision; previous answers seen, supplied guidance and any contamination.]
 - Coverage: [Which fields were read, records examined and any sampling or omissions.]
 - Research: [Saved evidence only, or exact additional checks/tools and their scope. Distinguish outside researcher, challenger and editorial roles.]

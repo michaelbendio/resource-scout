@@ -5,6 +5,10 @@ For trials with frontier-level editors, use the [editor handover](docs/frontier-
 [portable decision format](docs/frontier-editor-decision-format.md). These describe
 editorial preparation for human curators; they do not implement an autonomous
 editor or the pending learning loop.
+Michael's [handover checklist](docs/michael-editor-handover-checklist.md) explains
+what to send and how to choose a package or complete Scout HTML. The
+[September 9 Mesa trial packets](handoffs/mesa-editorial-20260909/README.md)
+preserve the original research and Astra's separate comparison result.
 
 Approved design: [Astra-led Scout and playbook learning](docs/scout-playbook-learning-design.md),
 with a [staged implementation and test plan](docs/scout-playbook-learning-plan.md).

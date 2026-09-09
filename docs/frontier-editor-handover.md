@@ -32,6 +32,18 @@ For example, a missionary helping a parent seek work and suitable clothing can i
 
 A resource package is a ZIP containing resource data and any packaged attachments. The office merges curated packages into its `[location].html` application. Multiple curators can divide the work and contribute packages. Preserve stable resource and question IDs, histories, attachments and provenance so their work can be reconciled. Agree on work allocation to reduce conflicting edits; do not invent assignments to particular people.
 
+### Accepted editorial inputs: package or complete HTML
+
+An editor must be able to work from either a resource-package ZIP or a complete `auto[Location].html`, subject to the tools available in its session. Prefer a current package for structured data and packaged attachments; use the HTML to inspect the actual resource presentation and navigation. The supplied Mesa trial packet includes both, prepared from the same original research snapshot.
+
+For a package, read `tso-resources.json` and inventory attachments; preserve the package metadata, complete taxonomy and unknown extension fields. For a Scout HTML file, extract the embedded JSON in the `seed-data` script, then inventory any embedded or externally referenced attachments. Rendering the page alone is not a complete data import. Existing Scout code exposes `extract_scout_seed` in `scout_enrichment.py`; that reads embedded data only. It does not capture a user's browser-local changes or automatically collect all attachments.
+
+At intake, report the actual unique resource count, office, categories/groups, question/history presence and attachment status. Record the file hash and whether scope is full, partial or unknown. If both formats are supplied, compare their identities and consequential data; use the explicitly designated authority or resolve a material mismatch before editing. Do not infer the baseline from filenames alone.
+
+HTML may contain an earlier embedded snapshot while later edits live in browser storage. Scout supports complete research-draft packages; its review editor's curated-resource export is a separate selected-only path. A generated full-draft download may also predate subsequent browser edits. Obtain and verify the full current draft needed for the assignment; never mark resources Curated simply to extract them. If only the original HTML is available, state that you are editing its embedded snapshot. If your tools cannot read the archive or extract the HTML data, disclose the limitation and request an extracted data copy rather than reviewing only visible snippets.
+
+These intake instructions define the editorial handover contract. They do not claim that arbitrary external models are already integrated into Scout's software or that a new universal import adapter has been implemented.
+
 Omitting a record from an editorial draft does **not** instruct a populated office to delete it. Existing-resource retirement uses the office's separate deletion/merge workflow. Check the receiving application's version before relying on newer question/history behavior; do not assume every existing office file already has the latest common code.
 
 ## The human curators are partners
