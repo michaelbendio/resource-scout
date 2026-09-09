@@ -1,5 +1,11 @@
 # Resource Scout
 
+For trials with frontier-level editors, use the [editor handover](docs/frontier-editor-handover.md),
+[common outcome report](docs/frontier-editor-report-template.md), and
+[portable decision format](docs/frontier-editor-decision-format.md). These describe
+editorial preparation for human curators; they do not implement an autonomous
+editor or the pending learning loop.
+
 Approved design: [Astra-led Scout and playbook learning](docs/scout-playbook-learning-design.md),
 with a [staged implementation and test plan](docs/scout-playbook-learning-plan.md).
 The [research foundation](docs/scout-astra-foundation.md) implements an opt-in
