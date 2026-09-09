@@ -1,0 +1,109 @@
+{
+  "assignmentSha256": "657650b094d1b12839920fafe9c3682de2bb00128985ee126f97ecc04c4d20cd",
+  "complete": true,
+  "cases": [
+    {
+      "caseId": "workoptions",
+      "decision": "retain",
+      "reason": "Strong Denver referral for free culinary training, individualized employment assistance, and help addressing practical barriers. A recurring in-person intake route is published.",
+      "criticalDetails": [
+        "Training is free and typically takes 4–6 weeks. The provider advertises employment in as few as 20 days; this is a possibility, not a placement guarantee. [Training and intake](https://workoptions.org/job-training/)",
+        "Information sessions run Thursdays at 10 a.m. at 1895 Quebec Street, Denver. Call 720-799-3854; apply at the session or through the linked application. Starting instructions follow a recruiter conversation, potentially allowing a Monday start. Published upcoming session cancellations include October 15, November 26, December 24, and January 1, 2027. [Training and intake](https://workoptions.org/job-training/)",
+        "Training includes commercial-kitchen practice, ServSafe Food Handler and Restaurant Ready credentials, resume/interview help, and individualized job matching. Support can address identification, transportation, childcare solutions, and housing referrals. [Program services](https://workoptions.org/programs/)",
+        "Selected graduates can apply for paid line-cook apprenticeships with employer partners. Graduates receive first-year check-ins and access to continuing support. Apprenticeship admission is separate from basic training. [Program services](https://workoptions.org/programs/)"
+      ],
+      "openQuestions": [
+        "What minimum age, work authorization, language, documentation, and physical participation requirements apply? These were not established on the reviewed pages.",
+        "What are daily training hours, current seat availability, and any assistance with meals, uniforms, or tools?",
+        "The online application returned no readable content during research; the published information session remains the practical intake route.",
+        "Current placement rates, apprenticeship openings, wages, and completion rates were not verified."
+      ]
+    },
+    {
+      "caseId": "micasa",
+      "decision": "retain",
+      "reason": "Useful combination of free individual career coaching and short occupational training with published costs, enrollment sessions, and upcoming classes.",
+      "criticalDetails": [
+        "Mi Casa advertises free, one-on-one resume, cover-letter, interview, and job-search coaching open to all backgrounds and experience levels. Career/education inquiries: 303-539-5698 or pathways@micasaresourcecenter.org. [Coaching and credentials](https://micasaresourcecenter.org/stackable-credentials/)",
+        "The upcoming online Healthcare Administration course is September 21–November 4, 2026, Mondays and Wednesdays, 5:30–7 p.m., costing $75. It includes two coaching sessions, resume review, mock interviews, and employer-network access; up to four college credits may be available. [Upcoming course](https://micasaresourcecenter.org/calendar/healthcare-administration-training-online/)",
+        "The healthcare course page lists a diploma/GED, work authorization or permit, and independent use of online platforms as requirements. Enrollment sessions are Tuesdays 4–6 p.m. and Thursdays 11 a.m.–1 p.m. at 345 S. Grove Street, Denver. Its displayed April course dates are past; use the September event listing for the upcoming cohort. [Course requirements](https://micasaresourcecenter.org/healthcareadmin/)",
+        "The September calendar also lists online Human Resources training beginning September 21 for $75 and a free hiring event September 17, 2–4:30 p.m. These are dated opportunities within an ongoing career program. [Calendar](https://micasaresourcecenter.org/calendar/)"
+      ],
+      "openQuestions": [
+        "Are seats still available for September classes, and are fee waivers available?",
+        "Confirm the healthcare cohort's online format, total weekly workload, and credit-redemption conditions; the general course page and event listing differ in scheduling details.",
+        "Which classes and coaching appointments are available in Spanish, and what equipment or internet support is available?",
+        "Employer connections are documented, but verified placement rates and guaranteed employment were not established."
+      ]
+    },
+    {
+      "caseId": "activate",
+      "decision": "retain",
+      "reason": "Concrete tuition-free technology pathway with credentials, career coaching, and future application deadlines. Best suited to applicants able to sustain full-time study and a competitive admissions process.",
+      "criticalDetails": [
+        "General eligibility includes age 18+, a diploma/GED or progress toward one, U.S. work authorization, English proficiency, commuting distance to Denver, full-time attendance, and readiness for full-time employment afterward. [Eligibility and admissions](https://activatework.org/learn/tuition-free-tech-training/)",
+        "Apply through the linked Per Scholas eligibility screening. Admissions include an overview, assessments, questionnaire, pre-work, interview, background check, and eligibility documents. Seats are limited; acceptance is competitive and conditional. [Eligibility and admissions](https://activatework.org/learn/tuition-free-tech-training/)",
+        "AI-Enabled IT Support lasts 16 weeks, Monday–Friday, 9 a.m.–4 p.m., mostly online with one in-person career-development day weekly at 1777 S. Harrison Street, Denver. The next start is October 23, 2026; applications are due October 12. Training and listed certification testing, including CompTIA A+, are free. [IT Support course](https://activatework.org/learn/programs/ai-enabled-it-support/)",
+        "Business Intelligence starts November 23, 2026, with applications due November 9. Cybersecurity applications are closed for 2026; a future-cohort interest route is available. [Current programs](https://activatework.org/learn/programs/)",
+        "Career support includes resumes, interviews, job-search guidance, and employer-network access. Living-expense assistance is advertised as an optional interest-free loan. [Course support](https://activatework.org/learn/programs/ai-enabled-it-support/)"
+      ],
+      "openQuestions": [
+        "What background-check findings affect admission, and how are individual circumstances reviewed?",
+        "Are laptops, internet, transportation, childcare assistance, or accommodations available?",
+        "What are the living-expense loan's eligibility and repayment terms?",
+        "Current cohort placement rates, time to employment, and starting wages were not verified; training admission does not establish a job offer."
+      ]
+    },
+    {
+      "caseId": "indian",
+      "decision": "retain",
+      "reason": "Relevant specialized referral for Native adults needing individualized employment and education assistance. Refer for an eligibility appointment before promising funded services.",
+      "criticalDetails": [
+        "The Native Workforce Program is an adult initiative funded through a U.S. Department of Labor WIOA grant. Services include career assessments, counseling, resume and workplace-skills workshops, GED assistance, internships, and personalized referrals to local employers. [Native Workforce Program](https://www.denverindiancenter.org/nwp)",
+        "Participation is strictly by appointment and first-come, first-served. Request an appointment at NWP@denverindiancenter.org or through 303-936-2688. The center is at 4407 Morrison Road, Denver. [Program and contact](https://www.denverindiancenter.org/nwp)",
+        "Denver Public Library independently lists this program as an employment resource for Indigenous jobseekers. [Library referral guide](https://www.denverlibrary.org/job-guide/equitable-employment-resources)"
+      ],
+      "openQuestions": [
+        "The current provider page does not specify exact age, tribal affiliation or descent documentation, residence boundaries, income thresholds, or unemployment requirements.",
+        "Participant fees, available training funding, and coverage of transportation, work clothing, or tools were not established.",
+        "What is the appointment wait, and which internships or training opportunities are currently available? Are internships paid?",
+        "No current placement or completion outcomes were verified."
+      ]
+    },
+    {
+      "caseId": "secondchance",
+      "decision": "retain",
+      "reason": "Strong employment and barrier-removal referral for formerly incarcerated people, with a Denver location, ongoing workshops, and a concrete construction pre-apprenticeship pathway.",
+      "criticalDetails": [
+        "SCC describes its services for formerly incarcerated people as free. Employment and career pathways operate alongside care management and other reentry support. [Services](https://scccolorado.org/services-all/)",
+        "Construction Apprenticeship Readiness includes hands-on training, OSHA-10 preparation/certification, and connections to registered apprenticeships and union jobs. The provider also identifies work gear and transportation assistance. These are provider-described pathways, not guaranteed placements. [Construction pathway](https://scccolorado.org/services-all/)",
+        "Denver intake inquiries can go to 303-537-5838 or info@scccolorado.org. The Denver office is 1391 Delaware Street; published hours are Monday–Thursday 8:30 a.m.–4:30 p.m. and Saturday 8:30 a.m.–12:30 p.m., closed Friday and Sunday. [Contact and locations](https://scccolorado.org/contact-us/)",
+        "The September 2026 calendar lists recurring resume workshops, computer-basics sessions requiring appointments, and Employment Opportunity Lab open hours on Saturdays, 8:30 a.m.–12:30 p.m. Confirm each activity's location. [Employment calendar](https://scccolorado.org/calendar/category/programming-events/)"
+      ],
+      "openQuestions": [
+        "Can a new participant self-refer directly to employment services, or must care-management intake occur first?",
+        "What age, justice-involvement, release-date, residence, or supervision restrictions apply?",
+        "When does the next construction cohort start, where does it meet, and are training time or internships paid?",
+        "Which apprenticeship sponsors are accepting graduates, and what are current placement outcomes?"
+      ]
+    },
+    {
+      "caseId": "employmentfirst",
+      "decision": "retain",
+      "reason": "High-value public employment and training support for Denver SNAP households. Denver calls the program SNAP to Success; its linked interest form is broken, so referral should use the published phone or email route.",
+      "criticalDetails": [
+        "Denver identifies SNAP to Success as formerly Employment First. It serves adult Denver County SNAP recipients and applicants with pending applications, offering individual career guidance, employer connections, resumes, interviews, and access to GED, technical, and college training. [Denver program](https://www.denvergov.org/Government/Agencies-Departments-Offices/Denver-Human-Services/Be-Supported/SNAP-to-Success-Job-Training)",
+        "Potential supports include vehicle repairs, transportation, licensing/background-check fees, work clothing, tools, course registration, GED testing, and English classes. Training-only participants can receive assistance. Funding amounts and approval conditions are not published here. [Denver services](https://www.denvergov.org/Government/Agencies-Departments-Offices/Denver-Human-Services/Be-Supported/SNAP-to-Success-Job-Training)",
+        "The public county directory lists 720-944-1449 and SNAPtoSuccess@Denvergov.org for Denver. These contacts are also published by Rocky Mountain Human Services. [County directory](https://docs.google.com/spreadsheets/d/1wLzO2z1A_xFPO1OWzg9NZjad9LNQ-POIyQbOYwaa7us/edit), [Community referral directory](https://www.rmhumanservices.org/resources/community-resources/)",
+        "The interest form linked from Denver's program page returned a form-unavailable error during research. [Linked intake form](https://us.openforms.com/Form/a639bd61-39cf-4db2-8be5-68946a663e3b)",
+        "CDHS distinguishes SNAP Employment First from the similarly named disability-focused Colorado Office of Employment First. The supplied state URL was inaccessible; state program content was readable on a CDHS development subdomain. [State program content](https://cdhs.nxt-dev.colorado.gov/colorado-employment-first)"
+      ],
+      "openQuestions": [
+        "What is the current intake turnaround, and is there a replacement interest form?",
+        "Which training and supportive expenses are currently funded, what limits apply, and must approval precede spending?",
+        "The reviewed pages do not explicitly state participant fees; confirm any uncovered training costs.",
+        "Denver explicitly includes pending SNAP applicants, while the state overview describes recipients. Confirm the individual's local eligibility and any benefit-related participation requirements with program staff."
+      ]
+    }
+  ]
+}

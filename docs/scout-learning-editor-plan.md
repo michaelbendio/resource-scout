@@ -4,6 +4,12 @@ Authorized September 9, 2026. Work on v2.0 and preserve main, the completed rese
 
 September 9 delivery: Increments 1–3 are implemented and tested. The follow-up real Welfare Square Employment pilot exercised early editing, seven limited scans, blind research, reconciliation and final HTML/package export. Five of six researched resources were retained; scope and gaps now travel with exports. Neither paired learning test justifies activation. Follow-up: Increment 4 now implements the feedback queue, attributed editor distillation, reviewed scoped activation/rollback and sealed assignment integration. The fresh primary-research trial is evaluated/inactive with mixed results. Adaptive research remains Increment 5. See [Increment 4 results](scout-learning-increment-4-results.md). See the [initial results](scout-learning-editor-results.md) and [real discovery pilot](scout-discovery-pilot-results.md).
 
+## Remaining work after Increment 4
+
+Michael confirmed the order: measured results first. Complete a bounded learning demonstration before starting adaptive research implementation. The immediate candidate is a final check of proposed curator questions against sources already reviewed; preserve consequential unanswered questions and essential resource details. Confirm a promising result on another small set before reviewing activation. A test may legitimately show that an added instruction is unnecessary.
+
+**Increment 5 is the only remaining numbered increment in this learning/editor plan.** The learning demonstration is follow-through on Increment 4, not a new major increment. Later expansion of editorial authority is a separate review and may lead to separately agreed work. Broader operational validation and routine fixes remain possible; this is not a claim that all future Scout development ends with Increment 5.
+
 ## Increment 1 — a real, limited learning experiment and timing foundation
 
 Build a small durable learning workbench beside the existing evidence ledger. Import the Mesa editorial decisions with exact source hashes and individual observations; also accept references to existing package-comparison observations. Do not label them human verification. Propose a lesson with its supporting IDs, counterexample, scope and exact baseline guidance snapshot.

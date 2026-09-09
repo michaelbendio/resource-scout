@@ -1,0 +1,373 @@
+{
+  "reviewedOn": "2026-09-09",
+  "reviewer": "Codex coordinator, unblinded",
+  "unit": "Distinct answerable issue within an original question entry. Optional outcomes notes, retrieval failures and partially answered compounds are not interchangeable with answered issues.",
+  "primaryFinding": {
+    "baselineConfirmedFullyAnswerableIssues": 0,
+    "baselinePartiallyAnswerableIssues": 1,
+    "candidateConfirmedFullyAnswerableIssues": 0,
+    "candidatePartiallyAnswerableIssues": 0,
+    "casesWithPossibleDecrease": [
+      "workoptions"
+    ],
+    "requiredDecrease": 2,
+    "requiredCases": 2,
+    "thresholdMet": false,
+    "interpretation": "Even crediting the single partial meal-support issue as one reduction, the predeclared two-case threshold is not met. Removal without preserving its supported answer is not a demonstrated successful application of the lesson. Unknown pages are not scored as clean."
+  },
+  "sourceChecks": "Coordinator inspected Work Options training/program pages, Mi Casa course event/general training material, ActivateWork local course and Per Scholas FAQ, Denver Indian Center Native Workforce, and SCC services. Original responses and CLI traces retain respondent source provenance. Some production state/Denver and Mi Casa pages could not be re-fetched; associated uncertainty is explicit. This is a comparison of question handling, not a phone-vetted resource audit.",
+  "additionalCoordinatorSource": "https://micasaresourcecenter.org/career-trainings/",
+  "cases": [
+    {
+      "caseId": "workoptions",
+      "comparison": "At most one partially answered meal-support issue improves numerically, but the candidate drops that subject rather than carrying the published partial answer into the resource. Older application retrieval adds useful cautions. No two-case primary benefit.",
+      "baseline": {
+        "citedUrls": [
+          "https://workoptions.org/job-training/",
+          "https://workoptions.org/programs/"
+        ],
+        "questions": [
+          {
+            "entry": 1,
+            "text": "What minimum age, work authorization, language, documentation, and physical participation requirements apply? These were not established on the reviewed pages.",
+            "judgment": "Eligibility subjects remain unestablished on cited current pages. The older application was found only by the candidate; that is retrieval variation."
+          },
+          {
+            "entry": 2,
+            "text": "What are daily training hours, current seat availability, and any assistance with meals, uniforms, or tools?",
+            "judgment": "Hours and seats remain unresolved. Meal assistance is partly answered: the cited programs page reports meals included with culinary training for food-insecure students, but does not establish current individual entitlement. Uniforms and tools remain unresolved. Count one partially answerable issue, not the whole compound question."
+          },
+          {
+            "entry": 3,
+            "text": "The online application returned no readable content during research; the published information session remains the practical intake route.",
+            "judgment": "Research-access note, not a provider question; the usable in-person route is already given."
+          },
+          {
+            "entry": 4,
+            "text": "Current placement rates, apprenticeship openings, wages, and completion rates were not verified.",
+            "judgment": "Placement rates, wages and completion rates are optional outcome research. Current apprenticeship openings can matter and remain unresolved; candidate keeps places available as a question."
+          }
+        ]
+      },
+      "candidate": {
+        "citedUrls": [
+          "https://workoptions.neonccm.com/index.php?action=application_new&section=clients_application",
+          "https://workoptions.org/job-training/",
+          "https://workoptions.org/programs/",
+          "https://workoptions.org/wp-content/uploads/2024/01/WO-Student-Application-Updated-JAN-2024.pdf"
+        ],
+        "questions": [
+          {
+            "entry": 1,
+            "text": "Which requirements and daily training hours from the January 2024 application remain current, and what accommodations are available for applicants with mobility or lifting limitations?",
+            "judgment": "Current validity and accommodations remain consequential gaps in a January 2024 application; retaining them is appropriate."
+          },
+          {
+            "entry": 2,
+            "text": "What documents, language proficiency, or residency qualifications are currently required, and can applicants begin while staff help replace missing identification?",
+            "judgment": "Documents, language and residency remain gaps. Published help obtaining ID does not establish permission to begin without it."
+          },
+          {
+            "entry": 3,
+            "text": "What is the next available start, and are any stipends or paid apprenticeship places currently available?",
+            "judgment": "Current start and paid places remain gaps. Published existence of paid apprenticeships does not establish availability. Stipends remain unspecified."
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "micasa",
+      "comparison": "Arms chose different upcoming courses and different pages. Candidate removes a generic outcome note but leaves admission/technology questions answered on an uncited general page. No demonstrated same-source improvement.",
+      "baseline": {
+        "citedUrls": [
+          "https://micasaresourcecenter.org/calendar/",
+          "https://micasaresourcecenter.org/calendar/healthcare-administration-training-online/",
+          "https://micasaresourcecenter.org/healthcareadmin/",
+          "https://micasaresourcecenter.org/stackable-credentials/"
+        ],
+        "questions": [
+          {
+            "entry": 1,
+            "text": "Are seats still available for September classes, and are fee waivers available?",
+            "judgment": "Seats and waivers remain unanswered; a published price is not a waiver policy."
+          },
+          {
+            "entry": 2,
+            "text": "Confirm the healthcare cohort's online format, total weekly workload, and credit-redemption conditions; the general course page and event listing differ in scheduling details.",
+            "judgment": "The respondent reports conflicting schedules. Online title and venue coexist in event listings; total workload and credit conditions are not settled by class meeting hours. Do not count the entire question as answered."
+          },
+          {
+            "entry": 3,
+            "text": "Which classes and coaching appointments are available in Spanish, and what equipment or internet support is available?",
+            "judgment": "Spanish availability and equipment/internet assistance remain gaps; ability to request a language is not proof a course is taught in it."
+          },
+          {
+            "entry": 4,
+            "text": "Employer connections are documented, but verified placement rates and guaranteed employment were not established.",
+            "judgment": "Optional outcome/guarantee note, not a confirmed answerable provider question."
+          }
+        ]
+      },
+      "candidate": {
+        "citedUrls": [
+          "https://micasaresourcecenter.org/calendar/human-resources-online/",
+          "https://micasaresourcecenter.org/stackable-credentials/",
+          "https://micasaresourcecenter.tfaforms.net/5061059"
+        ],
+        "questions": [
+          {
+            "entry": 1,
+            "text": "Are September HR seats still available, and what age, education, work-authorization, or other admission requirements apply?",
+            "judgment": "Seats remain open. General career-trainings page publishes education and authorization requirements, but this arm did not cite it. Record a retrieval gap, not an already-reviewed-source failure."
+          },
+          {
+            "entry": 2,
+            "text": "Are $75 fee waivers available, and are there additional charges for receiving the college credits?",
+            "judgment": "Waivers and additional credit charges remain unanswered."
+          },
+          {
+            "entry": 3,
+            "text": "Is the HR course entirely online despite the physical venue listing, what technology is required, and is instruction available in Spanish?",
+            "judgment": "Online title and physical venue both appear on cited HR event page. Technology requirements appear on a different general page not cited by this arm. Spanish teaching remains unestablished."
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "activate",
+      "comparison": "Candidate retrieves partner FAQ/application, retains a GED conflict and explains loan versus grant. Those are useful observations, but new retrieval cannot prove that baseline ignored an already reviewed answer.",
+      "baseline": {
+        "citedUrls": [
+          "https://activatework.org/learn/programs/",
+          "https://activatework.org/learn/programs/ai-enabled-it-support/",
+          "https://activatework.org/learn/tuition-free-tech-training/"
+        ],
+        "questions": [
+          {
+            "entry": 1,
+            "text": "What background-check findings affect admission, and how are individual circumstances reviewed?",
+            "judgment": "A background-check step is published, but disqualifying findings and individual review are not supplied on cited pages."
+          },
+          {
+            "entry": 2,
+            "text": "Are laptops, internet, transportation, childcare assistance, or accommodations available?",
+            "judgment": "The cited local course page does not specify laptop, internet, transportation, childcare or accommodation provision. Additional support pages found elsewhere are retrieval differences."
+          },
+          {
+            "entry": 3,
+            "text": "What are the living-expense loan's eligibility and repayment terms?",
+            "judgment": "The cited page establishes an interest-free living-expense loan, not full eligibility and repayment terms."
+          },
+          {
+            "entry": 4,
+            "text": "Current cohort placement rates, time to employment, and starting wages were not verified; training admission does not establish a job offer.",
+            "judgment": "Optional outcome research and no-job-guarantee note, not an already-answered question."
+          }
+        ]
+      },
+      "candidate": {
+        "citedUrls": [
+          "https://activatework.org/learn/programs/",
+          "https://activatework.org/learn/programs/ai-enabled-it-support/",
+          "https://activatework.org/learn/tuition-free-tech-training/",
+          "https://perscholas.org/about-per-scholas/unlock-your-potential/",
+          "https://perscholas.org/eligibility/",
+          "https://perscholas.org/faqs/",
+          "https://perscholas.org/pre-training-income-policy/"
+        ],
+        "questions": [
+          {
+            "entry": 1,
+            "text": "Can Denver applicants still completing a diploma or GED enroll, despite the application requiring completion?",
+            "judgment": "The respondent identifies a consequential conflict between local eligibility wording and the partner application/FAQ. Keep it visible."
+          },
+          {
+            "entry": 2,
+            "text": "What background-check findings prevent admission, and what review or reconsideration process exists?",
+            "judgment": "Background-check consequences remain unresolved."
+          },
+          {
+            "entry": 3,
+            "text": "For the upcoming Denver cohorts, what loaner equipment, internet assistance, or limited stipends are available, and what living-expense loan terms apply?",
+            "judgment": "Equipment assessed individually and general support descriptions do not establish upcoming local availability. Loan terms are not fully established. Keep these narrower uncertainties."
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "indian",
+      "comparison": "Both preserve appointment access and unspecified eligibility/costs. Candidate removes an optional outcomes note. No primary-measure improvement.",
+      "baseline": {
+        "citedUrls": [
+          "https://www.denverindiancenter.org/nwp",
+          "https://www.denverlibrary.org/job-guide/equitable-employment-resources"
+        ],
+        "questions": [
+          {
+            "entry": 1,
+            "text": "The current provider page does not specify exact age, tribal affiliation or descent documentation, residence boundaries, income thresholds, or unemployment requirements.",
+            "judgment": "The cited Native Workforce page says Native adults, but does not provide exact age, documentation, geography, income or work-status rules."
+          },
+          {
+            "entry": 2,
+            "text": "Participant fees, available training funding, and coverage of transportation, work clothing, or tools were not established.",
+            "judgment": "Grant funding does not establish individual costs or coverage; all subjects remain gaps."
+          },
+          {
+            "entry": 3,
+            "text": "What is the appointment wait, and which internships or training opportunities are currently available? Are internships paid?",
+            "judgment": "Appointment-only and first-come service do not establish wait, available training, internships or pay."
+          },
+          {
+            "entry": 4,
+            "text": "No current placement or completion outcomes were verified.",
+            "judgment": "Optional outcome research; not an already-answered question."
+          }
+        ]
+      },
+      "candidate": {
+        "citedUrls": [
+          "https://www.denverindiancenter.org/",
+          "https://www.denverindiancenter.org/nwp"
+        ],
+        "questions": [
+          {
+            "entry": 1,
+            "text": "What Native affiliation or descent documentation, minimum age, residency, income, and employment-status requirements currently determine eligibility?",
+            "judgment": "Exact eligibility and documentation remain gaps on the cited page."
+          },
+          {
+            "entry": 2,
+            "text": "Which services and training expenses are fully funded, and are internships paid?",
+            "judgment": "Funding coverage and internship pay remain gaps."
+          },
+          {
+            "entry": 3,
+            "text": "What is the next intake appointment, what documents should applicants bring, and what transportation or other employment supports are available?",
+            "judgment": "Next appointment, documents and particular supports remain gaps."
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "secondchance",
+      "comparison": "Candidate removes some outcome research but leaves construction credentials/connections less complete after citing fewer program details. No demonstrated same-source improvement; no claim of a comprehensive fact audit.",
+      "baseline": {
+        "citedUrls": [
+          "https://scccolorado.org/calendar/category/programming-events/",
+          "https://scccolorado.org/contact-us/",
+          "https://scccolorado.org/services-all/"
+        ],
+        "questions": [
+          {
+            "entry": 1,
+            "text": "Can a new participant self-refer directly to employment services, or must care-management intake occur first?",
+            "judgment": "Published contact route does not establish self-referral versus prior care-management intake."
+          },
+          {
+            "entry": 2,
+            "text": "What age, justice-involvement, release-date, residence, or supervision restrictions apply?",
+            "judgment": "Formerly incarcerated is a broad audience, not exact intake or supervision rules."
+          },
+          {
+            "entry": 3,
+            "text": "When does the next construction cohort start, where does it meet, and are training time or internships paid?",
+            "judgment": "Published construction training does not settle next cohort, venue or compensation. Paid urban forestry experience on the same services page is a different program."
+          },
+          {
+            "entry": 4,
+            "text": "Which apprenticeship sponsors are accepting graduates, and what are current placement outcomes?",
+            "judgment": "Current accepting sponsors remain unresolved; placement outcomes are optional outcome research."
+          }
+        ]
+      },
+      "candidate": {
+        "citedUrls": [
+          "https://scccolorado.org/",
+          "https://scccolorado.org/calendar/category/programming-events/",
+          "https://scccolorado.org/contact-us/"
+        ],
+        "questions": [
+          {
+            "entry": 1,
+            "text": "Can formerly incarcerated Denver residents self-refer, and what appointment, identification, release-status, or other intake requirements apply?",
+            "judgment": "Self-referral, appointment and documentation/release rules remain gaps."
+          },
+          {
+            "entry": 2,
+            "text": "Which upcoming employment workshops and lab sessions take place at the Denver office, and how does a new client register?",
+            "judgment": "Denver office hours do not establish the venue or registration rules for every calendar activity."
+          },
+          {
+            "entry": 3,
+            "text": "Is Apprenticeship Readiness currently enrolling, and what schedule, credentials, employer connections, and participant compensation does it offer?",
+            "judgment": "Current enrollment, schedule and pay remain gaps. Credentials and connections appear on services-all, cited only by baseline. Candidate failed to carry these useful details, but retained the program and explicit questions. This is a retrieval/completeness difference, not demonstrated suppression by the lesson."
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "employmentfirst",
+      "comparison": "Source access differs materially. Candidate conservatively retains an actionable lead for checking. Neither a failed URL nor a development page establishes closure or current eligibility. Local unresolved facts cannot be fully graded from accessible evidence.",
+      "baseline": {
+        "citedUrls": [
+          "https://cdhs.nxt-dev.colorado.gov/colorado-employment-first",
+          "https://docs.google.com/spreadsheets/d/1wLzO2z1A_xFPO1OWzg9NZjad9LNQ-POIyQbOYwaa7us/edit",
+          "https://us.openforms.com/Form/a639bd61-39cf-4db2-8be5-68946a663e3b",
+          "https://www.denvergov.org/Government/Agencies-Departments-Offices/Denver-Human-Services/Be-Supported/SNAP-to-Success-Job-Training",
+          "https://www.rmhumanservices.org/resources/community-resources/"
+        ],
+        "questions": [
+          {
+            "entry": 1,
+            "text": "What is the current intake turnaround, and is there a replacement interest form?",
+            "judgment": "Reported broken intake form leaves replacement and turnaround unresolved."
+          },
+          {
+            "entry": 2,
+            "text": "Which training and supportive expenses are currently funded, what limits apply, and must approval precede spending?",
+            "judgment": "Published support types do not establish current funding, individual limits or preapproval."
+          },
+          {
+            "entry": 3,
+            "text": "The reviewed pages do not explicitly state participant fees; confirm any uncovered training costs.",
+            "judgment": "Uncovered costs remain unestablished; no inference that grant funding means universally free."
+          },
+          {
+            "entry": 4,
+            "text": "Denver explicitly includes pending SNAP applicants, while the state overview describes recipients. Confirm the individual's local eligibility and any benefit-related participation requirements with program staff.",
+            "judgment": "Local pending-applicant wording and state recipient wording are already stated. Individual access and benefit requirements remain unresolved; do not count a stated discrepancy as a redundant question."
+          }
+        ]
+      },
+      "candidate": {
+        "citedUrls": [
+          "https://cdhs.nxt-dev.colorado.gov/colorado-employment-first",
+          "https://docs.google.com/spreadsheets/d/1wLzO2z1A_xFPO1OWzg9NZjad9LNQ-POIyQbOYwaa7us/edit",
+          "https://www.denvergov.org/SNAPtoSuccess",
+          "https://www.denvergov.org/files/assets/public/v/3/denver-human-services/documents/strategic-roadmap/dhs-strategic-roadmap-2025-2027.pdf"
+        ],
+        "questions": [
+          {
+            "entry": 1,
+            "text": "Is 720-944-1449 and SNAPtoSuccess@Denvergov.org still the correct Denver intake route, and what orientation schedule and documents apply?",
+            "judgment": "Respondent could not retrieve production pages and could not date/establish ownership of the directory. Checking current contact and intake is appropriate."
+          },
+          {
+            "entry": 2,
+            "text": "Which training and supportive payments are currently available in Denver, with what funding limits, participant costs, and application procedures?",
+            "judgment": "State general provisions and a local case example do not establish current Denver benefits, costs or procedures."
+          },
+          {
+            "entry": 3,
+            "text": "Can people awaiting SNAP approval receive any services or supportive payments, and which activities satisfy an individual participant's current SNAP work requirements?",
+            "judgment": "Preapproval service/payment eligibility and individual work requirements remain uncertain. Relevant lead is needs-check, not excluded or described as closed."
+          }
+        ]
+      }
+    }
+  ],
+  "conclusion": "no-clear-benefit",
+  "confirmationRun": "Not triggered by predeclared rule; do not repeat until positive.",
+  "activation": "None. Candidate remains evaluated and inactive."
+}

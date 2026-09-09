@@ -1,0 +1,16 @@
+{
+  "contextId": "qreview-session-23bd",
+  "fresh": true,
+  "modelConfig": {
+    "provider": "OpenAI Codex CLI",
+    "model": "gpt-6-astra",
+    "settings": {
+      "reasoningEffort": "high",
+      "webSearch": "live",
+      "ephemeral": true
+    }
+  },
+  "incrementalCostUSD": null,
+  "interventions": 0,
+  "notes": "Actual ephemeral CLI response; requested Astra high with no fallback. Neutral archived delivery omits only routing metadata. Exact raw response, delivery hash, prompt hash, event trace and event timing retained. No human verification. CLI does not independently expose backend model identity or all batched page counts."
+}

@@ -1,0 +1,46 @@
+{
+  "baseline": {
+    "processSeconds": 177.17076086997986,
+    "webCalls": 12,
+    "observedWebCallSeconds": 13.027568340301514,
+    "timedWebCalls": 12,
+    "sourcePages": null,
+    "unexpectedCompletedItemTypes": [],
+    "cliUsage": {
+      "input_tokens": 812551,
+      "cached_input_tokens": 705792,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 4641,
+      "reasoning_output_tokens": 807
+    },
+    "uncachedInputTokens": 106759,
+    "questionEntries": 24,
+    "responseWords": 1397,
+    "incrementalCostUSD": null,
+    "complete": true,
+    "late": false,
+    "deliverySha256": "1b5703090b855fdf2bdd9bbbd417bdeb46831e7a7e423f79cf83be9d7e81cb1b"
+  },
+  "candidate": {
+    "processSeconds": 191.34665489196777,
+    "webCalls": 11,
+    "observedWebCallSeconds": 11.730061054229736,
+    "timedWebCalls": 11,
+    "sourcePages": null,
+    "unexpectedCompletedItemTypes": [],
+    "cliUsage": {
+      "input_tokens": 761757,
+      "cached_input_tokens": 649344,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 5243,
+      "reasoning_output_tokens": 673
+    },
+    "uncachedInputTokens": 112413,
+    "questionEntries": 18,
+    "responseWords": 1720,
+    "incrementalCostUSD": null,
+    "complete": true,
+    "late": false,
+    "deliverySha256": "b953039e59744368a58d8aa666c77b3a4c53017625b7dab4b2a9959bc5837a4a"
+  }
+}
