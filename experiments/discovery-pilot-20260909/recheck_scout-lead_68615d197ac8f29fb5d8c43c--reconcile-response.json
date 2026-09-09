@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "taskId": "recheck:scout-lead:68615d197ac8f29fb5d8c43c",
+  "assignmentSha256": "9906a62ee780a097240454831707efc974c043440c5cbe856a11cff52208178e",
+  "evidenceSources": [
+    {
+      "url": "https://jobs.utah.gov/jobseeker/index.html",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Get free help polishing a resume"
+    },
+    {
+      "url": "https://jobs.utah.gov/jobseeker/career/apply.html",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Submit an application online or in-person"
+    },
+    {
+      "url": "https://jobs.utah.gov/ui/employer/public/UINoticePosterSpanish.aspx",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Salt Lake Metro"
+    },
+    {
+      "url": "https://uteta.org/programs/careers-inside-wire/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Earn While You Learn"
+    },
+    {
+      "url": "https://uteta.org/programs/apply-now/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Interviews take place on an as-needed basis"
+    },
+    {
+      "url": "https://uteta.org/contact/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Phone: 801-975-1945"
+    },
+    {
+      "url": "https://local.churchofjesuschrist.org/en/employment-services/us/ut/salt-lake-city/724-e-2100-s",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Appointments are encouraged, but not necessary."
+    },
+    {
+      "url": "https://locations.peopleready.com/us/ut/salt-lake-city",
+      "accessedOn": "2026-09-09",
+      "excerpt": "1081 S 300 W"
+    },
+    {
+      "url": "https://www.peopleready.com/cities/staffing-agencies-salt-lake-city-ut/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "short-term, long-term and permanent employees"
+    },
+    {
+      "url": "https://jobs.utah.gov/usor/vr/services/order.html",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Currently, the Significant Disability (SD) and Disability (D) priority categories are closed."
+    },
+    {
+      "url": "https://www.rescue.org/united-states/salt-lake-city-ut",
+      "accessedOn": "2026-09-09",
+      "excerpt": "adults become self-reliant through employment"
+    },
+    {
+      "url": "https://jobs.utah.gov/usor/vr/partners/crpapproved.pdf",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Updated September 2026"
+    },
+    {
+      "url": "https://jobs.utah.gov/usor/vr/apply.html",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Contact your local VR office"
+    },
+    {
+      "url": "https://utahca.org/workforce-development/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "All income levels are accepted."
+    },
+    {
+      "url": "https://uteta.org/programs-overview/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "1,000 hours of classroom education"
+    },
+    {
+      "url": "https://uteta.org/programs/faqs/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "ID cards will not be accepted."
+    },
+    {
+      "url": "https://www.yearup.org/locations/salt-lake-city-ut",
+      "accessedOn": "2026-09-09",
+      "excerpt": "young adults aged 18-29"
+    }
+  ],
+  "researchNotes": "Actual operator reconciliation after frozen primary research and Claude blind completion. Checked the suggested official pages independently. Claude supplied a compact second reply after the operator stopped oversized generation; the original partial capture and transport notes are preserved. No provider calls or new human approval. Zero timing fields below mean unallocated shared operator time; not zero effort.",
+  "items": [
+    {
+      "id": "scout-lead:68615d197ac8f29fb5d8c43c",
+      "status": "changed",
+      "program": "Utah Electrical Training Alliance · Paid Electrician Apprenticeship",
+      "summary": "Source-checked draft with consequential access details and explicitly identified uncertainty.",
+      "fields": {
+        "name": "Utah Electrical Training Alliance · Paid Electrician Apprenticeship",
+        "description": "Apply for paid electrical work with classroom training. Selection, fees and statewide travel make this a longer-term option.",
+        "phone": "801-975-1945",
+        "address": "7466 South Redwood Road, West Jordan, UT 84084",
+        "website": "https://uteta.org/programs/apply-now/",
+        "hours": "Monday–Friday, 8 AM–5 PM",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {
+          "employment": [
+            "Apprenticeships"
+          ]
+        },
+        "forGroups": [],
+        "informationSections": {
+          "programsAndServices": "Paid electrical work combined with classroom training. Apprentices pay for books, tuition and required tools.",
+          "eligibilityRequirements": "Age 18 or older; diploma or GED; passing algebra or an accepted alternative. A valid driver’s license is required; Utah residents need a Utah license. Provide birth and school records; foreign transcripts need professional translation and notarization.",
+          "howToBestConnect": "Start at Apply Now on the website. Upload required records within 30 days. Call 801-975-1945 or email apply@uteta.org for help before paying.",
+          "access": "Training center in West Jordan. Work can be assigned anywhere in Utah, requiring reliable travel.",
+          "importantInformationToKnow": "The current Apply Now page lists a $75 application fee; confirm the amount and other starting costs. Selection includes testing and an interview, with no confirmed start date. Applying does not guarantee paid work."
+        }
+      },
+      "evidence": [
+        3,
+        4,
+        5,
+        14,
+        15
+      ],
+      "closureEvidence": [],
+      "questions": [
+        "What will an applicant need to pay before paid work starts? The current Apply Now and Inside Wireman pages I read list $75. Claude reported $30 from search snippets and the application portal, but I could not reproduce that portal amount. Ask the office to confirm the application charge, books, tuition and tools before someone spends money."
+      ],
+      "nextCheckOn": "",
+      "lastEvidenceOfOperationOn": ""
+    }
+  ],
+  "resolutions": [
+    {
+      "findingId": "Claude:scout-lead:68615d197ac8f29fb5d8c43c",
+      "status": "resolved",
+      "reason": "Accepted the license clarification after reading the FAQ. Independently confirmed the 720-versus-1,000 classroom-hour discrepancy, so omitted that nonessential figure. Did not repeat Claude’s claim that the current program page says $30: my current read says $75. Portal amount remains unverified and is explained in the question. Preserve this as a researched option for the final editor, not a promise of immediate work."
+    }
+  ],
+  "executionReceipt": {
+    "complete": true,
+    "model": null,
+    "contextId": "codex-discovery-pilot-20260909",
+    "freshContext": false,
+    "isolatedInputs": false,
+    "activeMinutes": 0,
+    "waitingMinutes": 0,
+    "coverageNotes": "Actual source-checked reconciliation. Shared operator timing is unallocated; zero values are not measured zero effort.",
+    "remainingGaps": [
+      "No provider phone verification. The pilot is not exhaustive Employment coverage.",
+      "Local DWS in-person routing and apprenticeship initial costs remain questions."
+    ]
+  }
+}

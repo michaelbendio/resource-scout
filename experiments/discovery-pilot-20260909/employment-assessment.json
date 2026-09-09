@@ -1,0 +1,116 @@
+{
+  "reviewer": "Astra / Codex operator; not an office curator",
+  "method": "Compare both complete replies against the six Employment-only saved records and criteria prepared before dispatch. Read each whole reply, including questions; do not score disagreement with an old editorial label as error.",
+  "caseJudgments": [
+    {
+      "caseId": "employment-1",
+      "evidence": "Exact saved source fields and preregistered criteria: Paid work during four-year training is distinct from waiting four years for work. $40 application fee, $187 monthly training cost, selection uncertainty, qualification and regional travel requirements.",
+      "baseline": {
+        "criticalError": false,
+        "missedUsefulResource": false,
+        "lostCriticalDetail": false,
+        "unsupportedPromise": false,
+        "reason": "Both answers preserve the required practical restrictions and useful route. Same selection decision; no demonstrated gain."
+      },
+      "candidate": {
+        "criticalError": false,
+        "missedUsefulResource": false,
+        "lostCriticalDetail": false,
+        "unsupportedPromise": false,
+        "reason": "Both answers preserve the required practical restrictions and useful route. Same selection decision; no demonstrated gain."
+      }
+    },
+    {
+      "caseId": "employment-2",
+      "evidence": "Exact saved source fields and preregistered criteria: Paid temporary training for unemployed low-income adults 55+, eligibility review and roughly 20 hours weekly. Named grantee entry route, limited places or waitlists, not a permanent job guarantee.",
+      "baseline": {
+        "criticalError": false,
+        "missedUsefulResource": false,
+        "lostCriticalDetail": false,
+        "unsupportedPromise": false,
+        "reason": "Both answers preserve the required practical restrictions and useful route. Same selection decision; no demonstrated gain."
+      },
+      "candidate": {
+        "criticalError": false,
+        "missedUsefulResource": false,
+        "lostCriticalDetail": false,
+        "unsupportedPromise": false,
+        "reason": "Both answers preserve the required practical restrictions and useful route. Same selection decision; no demonstrated gain."
+      }
+    },
+    {
+      "caseId": "employment-3",
+      "evidence": "Exact saved source fields and preregistered criteria: Free job placement, variable openings and job requirements. Phone/in-person help; account alone is not a submitted Mesa application. Benefits and training are conditional, not guaranteed on applying.",
+      "baseline": {
+        "criticalError": false,
+        "missedUsefulResource": false,
+        "lostCriticalDetail": false,
+        "unsupportedPromise": true,
+        "reason": "Correct referral and conditions, but calling the address verified overstates a saved-case interpretation test. No verification occurred."
+      },
+      "candidate": {
+        "criticalError": false,
+        "missedUsefulResource": false,
+        "lostCriticalDetail": false,
+        "unsupportedPromise": true,
+        "reason": "Same correct referral and conditions; the address is also called verified without new verification."
+      }
+    },
+    {
+      "caseId": "employment-4",
+      "evidence": "Exact saved source fields and preregistered criteria: Disability service with named direct contact and caseworker/VR/DDD referral possibilities. Funding and possible cost must be confirmed; business payments do not prove participant wages.",
+      "baseline": {
+        "criticalError": false,
+        "missedUsefulResource": false,
+        "lostCriticalDetail": false,
+        "unsupportedPromise": false,
+        "reason": "Both answers preserve the required practical restrictions and useful route. Same selection decision; no demonstrated gain."
+      },
+      "candidate": {
+        "criticalError": false,
+        "missedUsefulResource": false,
+        "lostCriticalDetail": false,
+        "unsupportedPromise": true,
+        "reason": "Preserves the useful referral and funding/wage uncertainty, but calls the phone number working. Saved contact details do not establish a successful call."
+      }
+    },
+    {
+      "caseId": "employment-5",
+      "evidence": "Exact saved source fields and preregistered criteria: Free nine-week weekday training, daily Phoenix travel, not guaranteed employment. Age/work eligibility, screening and living-arrangement restrictions; housing not included.",
+      "baseline": {
+        "criticalError": false,
+        "missedUsefulResource": false,
+        "lostCriticalDetail": false,
+        "unsupportedPromise": false,
+        "reason": "Both answers preserve the required practical restrictions and useful route. Same selection decision; no demonstrated gain."
+      },
+      "candidate": {
+        "criticalError": false,
+        "missedUsefulResource": false,
+        "lostCriticalDetail": false,
+        "unsupportedPromise": false,
+        "reason": "Both answers preserve the required practical restrictions and useful route. Same selection decision; no demonstrated gain."
+      }
+    },
+    {
+      "caseId": "employment-6",
+      "evidence": "Exact saved source fields and preregistered criteria: Paid crew jobs restricted to specified housing residents. Separate nonresident job help remains unconfirmed. Housing contribution rules conflict; do not promise a free public job route.",
+      "baseline": {
+        "criticalError": false,
+        "missedUsefulResource": false,
+        "lostCriticalDetail": false,
+        "unsupportedPromise": false,
+        "reason": "Both answers preserve the required practical restrictions and useful route. Same selection decision; no demonstrated gain."
+      },
+      "candidate": {
+        "criticalError": false,
+        "missedUsefulResource": false,
+        "lostCriticalDetail": false,
+        "unsupportedPromise": false,
+        "reason": "Both answers preserve the required practical restrictions and useful route. Same selection decision; no demonstrated gain."
+      }
+    }
+  ],
+  "conclusion": "worse",
+  "limitations": "One exploratory pair, one model, saved records only. Same six selection decisions and no demonstrated critical-error reduction. Candidate adds one unsupported assertion that a listed phone is working; both call an address verified. These are wording regressions, not proof of generally worse reasoning. Candidate has 38 follow-up questions versus 24 and 1689 words versus 1371 under the same instructions. No provider calls; token cost unknown. New guidance stays inactive. Question count is potential work, not measured human curation time."
+}

@@ -1,0 +1,267 @@
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0002697919262573123, "recordedAt": "2026-09-09T22:05:12.927036+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.00011841708328574896, "recordedAt": "2026-09-09T22:05:12.927342+00:00", "counters": {"characters": 47632}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.00015533389523625374, "recordedAt": "2026-09-09T22:05:12.927527+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 9.883299935609102e-05, "recordedAt": "2026-09-09T22:05:12.928339+00:00", "counters": {"characters": 47632}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0002858750522136688, "recordedAt": "2026-09-09T22:05:12.928849+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0002746250247582793, "recordedAt": "2026-09-09T22:05:12.929138+00:00", "counters": {"characters": 83791}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00018683297093957663, "recordedAt": "2026-09-09T22:05:12.929337+00:00", "counters": {"characters": 83791}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.00033304200042039156, "recordedAt": "2026-09-09T22:05:12.929999+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0003335409564897418, "recordedAt": "2026-09-09T22:05:12.930836+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.00019520800560712814, "recordedAt": "2026-09-09T22:05:12.931044+00:00", "counters": {"characters": 83791}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.00030820805113762617, "recordedAt": "2026-09-09T22:05:12.931365+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.000288125011138618, "recordedAt": "2026-09-09T22:05:12.932182+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.00023925001733005047, "recordedAt": "2026-09-09T22:05:12.932434+00:00", "counters": {"characters": 88283}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.0001235000090673566, "recordedAt": "2026-09-09T22:05:12.932566+00:00", "counters": {"characters": 88283}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.00019129097927361727, "recordedAt": "2026-09-09T22:05:12.933137+00:00", "counters": {"characters": 88283}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.00026762508787214756, "recordedAt": "2026-09-09T22:05:12.933508+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.00030049995984882116, "recordedAt": "2026-09-09T22:05:12.933940+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0001753749093040824, "recordedAt": "2026-09-09T22:05:12.934126+00:00", "counters": {"characters": 88283}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0002633749973028898, "recordedAt": "2026-09-09T22:05:12.934400+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0001735000405460596, "recordedAt": "2026-09-09T22:05:12.934758+00:00", "counters": {"characters": 88283}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.00042766600381582975, "recordedAt": "2026-09-09T22:05:12.935403+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0003442909801378846, "recordedAt": "2026-09-09T22:05:12.935756+00:00", "counters": {"characters": 127272}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00013337505515664816, "recordedAt": "2026-09-09T22:05:12.935898+00:00", "counters": {"characters": 127272}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.000315292039886117, "recordedAt": "2026-09-09T22:05:12.936535+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0003477499121800065, "recordedAt": "2026-09-09T22:05:12.937454+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0002956670941784978, "recordedAt": "2026-09-09T22:05:12.937767+00:00", "counters": {"characters": 127272}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.00044595799408853054, "recordedAt": "2026-09-09T22:05:12.938227+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0004604170098900795, "recordedAt": "2026-09-09T22:05:12.939069+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.00038120802491903305, "recordedAt": "2026-09-09T22:05:12.939461+00:00", "counters": {"characters": 132220}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00016799999866634607, "recordedAt": "2026-09-09T22:05:12.939639+00:00", "counters": {"characters": 132220}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0003838340053334832, "recordedAt": "2026-09-09T22:05:12.940395+00:00", "counters": {"characters": 132220}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.00035029195714741945, "recordedAt": "2026-09-09T22:05:12.940849+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.00028858298901468515, "recordedAt": "2026-09-09T22:05:12.941287+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0002686659572646022, "recordedAt": "2026-09-09T22:05:12.941565+00:00", "counters": {"characters": 132220}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0004646249581128359, "recordedAt": "2026-09-09T22:05:12.942039+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0002636250574141741, "recordedAt": "2026-09-09T22:05:12.942492+00:00", "counters": {"characters": 132220}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0005614169640466571, "recordedAt": "2026-09-09T22:05:12.943256+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0004470410058274865, "recordedAt": "2026-09-09T22:05:12.943711+00:00", "counters": {"characters": 168296}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00015858293045312166, "recordedAt": "2026-09-09T22:05:12.943877+00:00", "counters": {"characters": 168296}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.000404000049456954, "recordedAt": "2026-09-09T22:05:12.944609+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.00028429192025214434, "recordedAt": "2026-09-09T22:05:12.945379+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.00035099999513477087, "recordedAt": "2026-09-09T22:05:12.945742+00:00", "counters": {"characters": 168296}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0006339160026982427, "recordedAt": "2026-09-09T22:05:12.946388+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0006442080484703183, "recordedAt": "2026-09-09T22:05:12.947301+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0005267079686746001, "recordedAt": "2026-09-09T22:05:12.947839+00:00", "counters": {"characters": 172573}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00020150002092123032, "recordedAt": "2026-09-09T22:05:12.948057+00:00", "counters": {"characters": 172573}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0003939160378649831, "recordedAt": "2026-09-09T22:05:12.948864+00:00", "counters": {"characters": 172573}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.00040420808363705873, "recordedAt": "2026-09-09T22:05:12.949384+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0003481250023469329, "recordedAt": "2026-09-09T22:05:12.949921+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0003683330724015832, "recordedAt": "2026-09-09T22:05:12.950300+00:00", "counters": {"characters": 172573}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0006244169780984521, "recordedAt": "2026-09-09T22:05:12.950935+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0003504590131342411, "recordedAt": "2026-09-09T22:05:12.951487+00:00", "counters": {"characters": 172573}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0007207919843494892, "recordedAt": "2026-09-09T22:05:12.952435+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0005872499896213412, "recordedAt": "2026-09-09T22:05:12.953034+00:00", "counters": {"characters": 211264}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00018262502271682024, "recordedAt": "2026-09-09T22:05:12.953227+00:00", "counters": {"characters": 211264}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0003664580872282386, "recordedAt": "2026-09-09T22:05:12.953903+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.00030395796056836843, "recordedAt": "2026-09-09T22:05:12.954645+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.00043062493205070496, "recordedAt": "2026-09-09T22:05:12.955085+00:00", "counters": {"characters": 211264}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0007842499762773514, "recordedAt": "2026-09-09T22:05:12.955878+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0007611659821122885, "recordedAt": "2026-09-09T22:05:12.956932+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0006037079729139805, "recordedAt": "2026-09-09T22:05:12.957545+00:00", "counters": {"characters": 215997}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00017679098527878523, "recordedAt": "2026-09-09T22:05:12.957729+00:00", "counters": {"characters": 215997}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0006588329561054707, "recordedAt": "2026-09-09T22:05:12.958742+00:00", "counters": {"characters": 215997}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.00045295897871255875, "recordedAt": "2026-09-09T22:05:12.959313+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.00030695798341184855, "recordedAt": "2026-09-09T22:05:12.959776+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.00047395797446370125, "recordedAt": "2026-09-09T22:05:12.960258+00:00", "counters": {"characters": 215997}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0008604580070823431, "recordedAt": "2026-09-09T22:05:12.961129+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.00045262498315423727, "recordedAt": "2026-09-09T22:05:12.961794+00:00", "counters": {"characters": 215997}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0008819999638944864, "recordedAt": "2026-09-09T22:05:12.962925+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0007648750906810164, "recordedAt": "2026-09-09T22:05:12.963698+00:00", "counters": {"characters": 255016}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00022775004617869854, "recordedAt": "2026-09-09T22:05:12.963934+00:00", "counters": {"characters": 255016}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.00040787493344396353, "recordedAt": "2026-09-09T22:05:12.964681+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0003367500612512231, "recordedAt": "2026-09-09T22:05:12.965521+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0005244159838184714, "recordedAt": "2026-09-09T22:05:12.966060+00:00", "counters": {"characters": 255016}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0009814170189201832, "recordedAt": "2026-09-09T22:05:12.967050+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0009019579738378525, "recordedAt": "2026-09-09T22:05:12.968004+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0007277909899130464, "recordedAt": "2026-09-09T22:05:12.968740+00:00", "counters": {"characters": 258012}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00020754197612404823, "recordedAt": "2026-09-09T22:05:12.968959+00:00", "counters": {"characters": 258012}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0006928329821676016, "recordedAt": "2026-09-09T22:05:12.970010+00:00", "counters": {"characters": 258012}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0004183329874649644, "recordedAt": "2026-09-09T22:05:12.970549+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0003225830150768161, "recordedAt": "2026-09-09T22:05:12.971028+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0005397079512476921, "recordedAt": "2026-09-09T22:05:12.971576+00:00", "counters": {"characters": 258012}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0009629169944673777, "recordedAt": "2026-09-09T22:05:12.972548+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0006259159417822957, "recordedAt": "2026-09-09T22:05:12.973389+00:00", "counters": {"characters": 258012}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0010633750353008509, "recordedAt": "2026-09-09T22:05:12.974762+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.000837916973978281, "recordedAt": "2026-09-09T22:05:12.975609+00:00", "counters": {"characters": 299704}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.0002582909073680639, "recordedAt": "2026-09-09T22:05:12.975877+00:00", "counters": {"characters": 299704}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0004080419894307852, "recordedAt": "2026-09-09T22:05:12.976610+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0003290420863777399, "recordedAt": "2026-09-09T22:05:12.977389+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0006652079755440354, "recordedAt": "2026-09-09T22:05:12.978065+00:00", "counters": {"characters": 299704}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0011389169376343489, "recordedAt": "2026-09-09T22:05:12.979215+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0010914999293163419, "recordedAt": "2026-09-09T22:05:12.980353+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0008518749382346869, "recordedAt": "2026-09-09T22:05:12.981216+00:00", "counters": {"characters": 302695}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00020950008183717728, "recordedAt": "2026-09-09T22:05:12.981433+00:00", "counters": {"characters": 302695}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.000770708080381155, "recordedAt": "2026-09-09T22:05:12.982593+00:00", "counters": {"characters": 302695}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.00048041599802672863, "recordedAt": "2026-09-09T22:05:12.983213+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.00034312508068978786, "recordedAt": "2026-09-09T22:05:12.983740+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0006174580194056034, "recordedAt": "2026-09-09T22:05:12.984367+00:00", "counters": {"characters": 302695}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0010897499741986394, "recordedAt": "2026-09-09T22:05:12.985467+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0008004590636119246, "recordedAt": "2026-09-09T22:05:12.986506+00:00", "counters": {"characters": 302695}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0012366659939289093, "recordedAt": "2026-09-09T22:05:12.988046+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0009459169814363122, "recordedAt": "2026-09-09T22:05:12.989000+00:00", "counters": {"characters": 347533}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.0002369170542806387, "recordedAt": "2026-09-09T22:05:12.989245+00:00", "counters": {"characters": 347533}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0005455409409478307, "recordedAt": "2026-09-09T22:05:12.990132+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.00038691703230142593, "recordedAt": "2026-09-09T22:05:12.991118+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0007598750526085496, "recordedAt": "2026-09-09T22:05:12.991893+00:00", "counters": {"characters": 347533}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0013026659144088626, "recordedAt": "2026-09-09T22:05:12.993209+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0013107920531183481, "recordedAt": "2026-09-09T22:05:12.994582+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0009522499749436975, "recordedAt": "2026-09-09T22:05:12.995546+00:00", "counters": {"characters": 350566}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.0002550829667598009, "recordedAt": "2026-09-09T22:05:12.995810+00:00", "counters": {"characters": 350566}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0008032919140532613, "recordedAt": "2026-09-09T22:05:12.997053+00:00", "counters": {"characters": 350566}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0005513340001925826, "recordedAt": "2026-09-09T22:05:12.997751+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.00036345794796943665, "recordedAt": "2026-09-09T22:05:12.998306+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.000722832977771759, "recordedAt": "2026-09-09T22:05:12.999038+00:00", "counters": {"characters": 350566}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0012849160702899098, "recordedAt": "2026-09-09T22:05:13.000336+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0008732499554753304, "recordedAt": "2026-09-09T22:05:13.001450+00:00", "counters": {"characters": 350566}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0014073749771341681, "recordedAt": "2026-09-09T22:05:13.003213+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0011219159932807088, "recordedAt": "2026-09-09T22:05:13.004345+00:00", "counters": {"characters": 398327}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00024370790924876928, "recordedAt": "2026-09-09T22:05:13.004597+00:00", "counters": {"characters": 398327}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.000543624977581203, "recordedAt": "2026-09-09T22:05:13.005517+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.00036154198460280895, "recordedAt": "2026-09-09T22:05:13.006408+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0008707090746611357, "recordedAt": "2026-09-09T22:05:13.007288+00:00", "counters": {"characters": 398327}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0014576249523088336, "recordedAt": "2026-09-09T22:05:13.008757+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0015435829991474748, "recordedAt": "2026-09-09T22:05:13.010350+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0011171669466421008, "recordedAt": "2026-09-09T22:05:13.011476+00:00", "counters": {"characters": 401348}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.0002804589457809925, "recordedAt": "2026-09-09T22:05:13.011765+00:00", "counters": {"characters": 401348}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0009055000264197588, "recordedAt": "2026-09-09T22:05:13.013073+00:00", "counters": {"characters": 401348}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0006680409424006939, "recordedAt": "2026-09-09T22:05:13.013893+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0003559580072760582, "recordedAt": "2026-09-09T22:05:13.014448+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0008236250141635537, "recordedAt": "2026-09-09T22:05:13.015281+00:00", "counters": {"characters": 401348}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0014183749444782734, "recordedAt": "2026-09-09T22:05:13.016710+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0009527499787509441, "recordedAt": "2026-09-09T22:05:13.017899+00:00", "counters": {"characters": 401348}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0015598330646753311, "recordedAt": "2026-09-09T22:05:13.019814+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0012642500223591924, "recordedAt": "2026-09-09T22:05:13.021088+00:00", "counters": {"characters": 452355}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00029841705691069365, "recordedAt": "2026-09-09T22:05:13.021397+00:00", "counters": {"characters": 452355}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0005761659704148769, "recordedAt": "2026-09-09T22:05:13.022371+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.00037216697819530964, "recordedAt": "2026-09-09T22:05:13.023291+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0009263750398531556, "recordedAt": "2026-09-09T22:05:13.024228+00:00", "counters": {"characters": 452355}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0016669160686433315, "recordedAt": "2026-09-09T22:05:13.025905+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.00186775007750839, "recordedAt": "2026-09-09T22:05:13.027826+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0012576670851558447, "recordedAt": "2026-09-09T22:05:13.029093+00:00", "counters": {"characters": 455464}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00031754199881106615, "recordedAt": "2026-09-09T22:05:13.029419+00:00", "counters": {"characters": 455464}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0010802081087604165, "recordedAt": "2026-09-09T22:05:13.030941+00:00", "counters": {"characters": 455464}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0006619999185204506, "recordedAt": "2026-09-09T22:05:13.031752+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0003837919794023037, "recordedAt": "2026-09-09T22:05:13.032349+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0009278750512748957, "recordedAt": "2026-09-09T22:05:13.033286+00:00", "counters": {"characters": 455464}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0015968329971656203, "recordedAt": "2026-09-09T22:05:13.034893+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0010117499623447657, "recordedAt": "2026-09-09T22:05:13.036224+00:00", "counters": {"characters": 455464}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0017122500576078892, "recordedAt": "2026-09-09T22:05:13.038323+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0013582080136984587, "recordedAt": "2026-09-09T22:05:13.039691+00:00", "counters": {"characters": 509583}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.0003162079956382513, "recordedAt": "2026-09-09T22:05:13.040017+00:00", "counters": {"characters": 509583}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0006565840449184179, "recordedAt": "2026-09-09T22:05:13.041099+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0004294590326026082, "recordedAt": "2026-09-09T22:05:13.042120+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0012070420198142529, "recordedAt": "2026-09-09T22:05:13.043337+00:00", "counters": {"characters": 509583}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0019321669824421406, "recordedAt": "2026-09-09T22:05:13.045279+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.001767583074979484, "recordedAt": "2026-09-09T22:05:13.047109+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.001396792009472847, "recordedAt": "2026-09-09T22:05:13.048532+00:00", "counters": {"characters": 512553}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00039549998473376036, "recordedAt": "2026-09-09T22:05:13.048937+00:00", "counters": {"characters": 512553}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.001241917023435235, "recordedAt": "2026-09-09T22:05:13.050642+00:00", "counters": {"characters": 512553}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0008240409661084414, "recordedAt": "2026-09-09T22:05:13.051641+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.00038804206997156143, "recordedAt": "2026-09-09T22:05:13.052237+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0011812499724328518, "recordedAt": "2026-09-09T22:05:13.053429+00:00", "counters": {"characters": 512553}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0018793749623000622, "recordedAt": "2026-09-09T22:05:13.055321+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0011415000772103667, "recordedAt": "2026-09-09T22:05:13.056725+00:00", "counters": {"characters": 512553}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0019605410052463412, "recordedAt": "2026-09-09T22:05:13.059097+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0015838328981772065, "recordedAt": "2026-09-09T22:05:13.060690+00:00", "counters": {"characters": 569596}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.0003613330191001296, "recordedAt": "2026-09-09T22:05:13.061061+00:00", "counters": {"characters": 569596}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0006394590018317103, "recordedAt": "2026-09-09T22:05:13.062148+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.00039662502240389585, "recordedAt": "2026-09-09T22:05:13.063140+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.001378374989144504, "recordedAt": "2026-09-09T22:05:13.064530+00:00", "counters": {"characters": 569596}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0021662500221282244, "recordedAt": "2026-09-09T22:05:13.066705+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0019852500408887863, "recordedAt": "2026-09-09T22:05:13.068751+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0016126250848174095, "recordedAt": "2026-09-09T22:05:13.070375+00:00", "counters": {"characters": 572730}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00034729205071926117, "recordedAt": "2026-09-09T22:05:13.070730+00:00", "counters": {"characters": 572730}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0013812079560011625, "recordedAt": "2026-09-09T22:05:13.072542+00:00", "counters": {"characters": 572730}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0007840419420972466, "recordedAt": "2026-09-09T22:05:13.073498+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.00039133301470428705, "recordedAt": "2026-09-09T22:05:13.074089+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0013417919399216771, "recordedAt": "2026-09-09T22:05:13.075442+00:00", "counters": {"characters": 572730}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.002172333071939647, "recordedAt": "2026-09-09T22:05:13.077628+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0013689169427379966, "recordedAt": "2026-09-09T22:05:13.079278+00:00", "counters": {"characters": 572730}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0022311670472845435, "recordedAt": "2026-09-09T22:05:13.081956+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0018158330349251628, "recordedAt": "2026-09-09T22:05:13.083784+00:00", "counters": {"characters": 631513}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.00037958298344165087, "recordedAt": "2026-09-09T22:05:13.084174+00:00", "counters": {"characters": 631513}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.000654917093925178, "recordedAt": "2026-09-09T22:05:13.085322+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.00043733406346291304, "recordedAt": "2026-09-09T22:05:13.086362+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0016020420007407665, "recordedAt": "2026-09-09T22:05:13.087973+00:00", "counters": {"characters": 631513}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.00239008292555809, "recordedAt": "2026-09-09T22:05:13.090373+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0022439169697463512, "recordedAt": "2026-09-09T22:05:13.092966+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0018209590343758464, "recordedAt": "2026-09-09T22:05:13.094796+00:00", "counters": {"characters": 637003}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.000392083078622818, "recordedAt": "2026-09-09T22:05:13.095197+00:00", "counters": {"characters": 637003}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.001584417070262134, "recordedAt": "2026-09-09T22:05:13.097260+00:00", "counters": {"characters": 637003}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0008525410667061806, "recordedAt": "2026-09-09T22:05:13.098296+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0004071249859407544, "recordedAt": "2026-09-09T22:05:13.098949+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0015167919918894768, "recordedAt": "2026-09-09T22:05:13.100475+00:00", "counters": {"characters": 637003}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0023893750039860606, "recordedAt": "2026-09-09T22:05:13.102877+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0015151659026741982, "recordedAt": "2026-09-09T22:05:13.104696+00:00", "counters": {"characters": 637003}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0024615000002086163, "recordedAt": "2026-09-09T22:05:13.107480+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0019345000619068742, "recordedAt": "2026-09-09T22:05:13.109426+00:00", "counters": {"characters": 678460}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.000432583037763834, "recordedAt": "2026-09-09T22:05:13.109868+00:00", "counters": {"characters": 678460}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0008194999536499381, "recordedAt": "2026-09-09T22:05:13.111036+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0004778750007972121, "recordedAt": "2026-09-09T22:05:13.112146+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0016003749333322048, "recordedAt": "2026-09-09T22:05:13.113759+00:00", "counters": {"characters": 678460}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0023894580081105232, "recordedAt": "2026-09-09T22:05:13.116159+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0022886249935254455, "recordedAt": "2026-09-09T22:05:13.118930+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.001873374916613102, "recordedAt": "2026-09-09T22:05:13.120814+00:00", "counters": {"characters": 685869}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.0004305840702727437, "recordedAt": "2026-09-09T22:05:13.121259+00:00", "counters": {"characters": 685869}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0016282500000670552, "recordedAt": "2026-09-09T22:05:13.123344+00:00", "counters": {"characters": 685869}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0009084580233320594, "recordedAt": "2026-09-09T22:05:13.124429+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0004396250005811453, "recordedAt": "2026-09-09T22:05:13.125128+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0016162500251084566, "recordedAt": "2026-09-09T22:05:13.126756+00:00", "counters": {"characters": 685869}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.002563707996159792, "recordedAt": "2026-09-09T22:05:13.129335+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 4.333909600973129e-06, "recordedAt": "2026-09-09T22:05:13.129504+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0005633339751511812, "recordedAt": "2026-09-09T22:21:13.579013+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.001840959070250392, "recordedAt": "2026-09-09T22:21:13.581035+00:00", "counters": {"characters": 756358}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0029048339929431677, "recordedAt": "2026-09-09T22:21:13.583965+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.00179537502117455, "recordedAt": "2026-09-09T22:21:13.586550+00:00", "counters": {"characters": 756358}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.002731667016632855, "recordedAt": "2026-09-09T22:21:13.589677+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0022194170160219073, "recordedAt": "2026-09-09T22:21:13.591910+00:00", "counters": {"characters": 806981}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.0006877909181639552, "recordedAt": "2026-09-09T22:21:13.592609+00:00", "counters": {"characters": 806981}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0017011669697239995, "recordedAt": "2026-09-09T22:21:13.594711+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0004867080133408308, "recordedAt": "2026-09-09T22:21:13.595887+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0019491250859573483, "recordedAt": "2026-09-09T22:21:13.597854+00:00", "counters": {"characters": 806981}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0029907500138506293, "recordedAt": "2026-09-09T22:21:13.600861+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0027548749931156635, "recordedAt": "2026-09-09T22:21:13.604190+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0022359590511769056, "recordedAt": "2026-09-09T22:21:13.606441+00:00", "counters": {"characters": 813260}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.0005344999954104424, "recordedAt": "2026-09-09T22:21:13.606986+00:00", "counters": {"characters": 813260}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0019696250092238188, "recordedAt": "2026-09-09T22:21:13.609491+00:00", "counters": {"characters": 813260}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0008692080155014992, "recordedAt": "2026-09-09T22:21:13.610782+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.00042933307122439146, "recordedAt": "2026-09-09T22:21:13.611485+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.001836583949625492, "recordedAt": "2026-09-09T22:21:13.613335+00:00", "counters": {"characters": 813260}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0030445409938693047, "recordedAt": "2026-09-09T22:21:13.616392+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0019382500322535634, "recordedAt": "2026-09-09T22:21:13.618764+00:00", "counters": {"characters": 813260}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0030337920179590583, "recordedAt": "2026-09-09T22:21:13.622217+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.002410791930742562, "recordedAt": "2026-09-09T22:21:13.624639+00:00", "counters": {"characters": 864249}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.0006241248920559883, "recordedAt": "2026-09-09T22:21:13.625275+00:00", "counters": {"characters": 864249}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0016051660059019923, "recordedAt": "2026-09-09T22:21:13.627294+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0004994580522179604, "recordedAt": "2026-09-09T22:21:13.628496+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.002005834016017616, "recordedAt": "2026-09-09T22:21:13.630517+00:00", "counters": {"characters": 864249}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0031603749375790358, "recordedAt": "2026-09-09T22:21:13.633692+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0029422909719869494, "recordedAt": "2026-09-09T22:21:13.636957+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0024274170864373446, "recordedAt": "2026-09-09T22:21:13.639400+00:00", "counters": {"characters": 870358}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.0006017909618094563, "recordedAt": "2026-09-09T22:21:13.640013+00:00", "counters": {"characters": 870358}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0020526250591501594, "recordedAt": "2026-09-09T22:21:13.642606+00:00", "counters": {"characters": 870358}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0007537920027971268, "recordedAt": "2026-09-09T22:21:13.643912+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.000471667037345469, "recordedAt": "2026-09-09T22:21:13.644664+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.002018249942921102, "recordedAt": "2026-09-09T22:21:13.646693+00:00", "counters": {"characters": 870358}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.003250250010751188, "recordedAt": "2026-09-09T22:21:13.649957+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.002120458986610174, "recordedAt": "2026-09-09T22:21:13.652512+00:00", "counters": {"characters": 870358}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0039236670127138495, "recordedAt": "2026-09-09T22:21:13.656955+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.0026208749040961266, "recordedAt": "2026-09-09T22:21:13.659594+00:00", "counters": {"characters": 930837}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.0006480000447481871, "recordedAt": "2026-09-09T22:21:13.660254+00:00", "counters": {"characters": 930837}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0011970410123467445, "recordedAt": "2026-09-09T22:21:13.661929+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.000533584039658308, "recordedAt": "2026-09-09T22:21:13.663226+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0022125840187072754, "recordedAt": "2026-09-09T22:21:13.665449+00:00", "counters": {"characters": 930837}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0034704579738900065, "recordedAt": "2026-09-09T22:21:13.668931+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.share_repeated_context", "status": "ok", "seconds": 0.0035085410345345736, "recordedAt": "2026-09-09T22:21:13.672971+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 0.00265195791143924, "recordedAt": "2026-09-09T22:21:13.675636+00:00", "counters": {"characters": 941996}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.0006575000006705523, "recordedAt": "2026-09-09T22:21:13.676305+00:00", "counters": {"characters": 941996}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.0022690839832648635, "recordedAt": "2026-09-09T22:21:13.679150+00:00", "counters": {"characters": 941996}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0009847909677773714, "recordedAt": "2026-09-09T22:21:13.681257+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.0005039999959990382, "recordedAt": "2026-09-09T22:21:13.682071+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.002192875021137297, "recordedAt": "2026-09-09T22:21:13.684276+00:00", "counters": {"characters": 941996}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 0.0034294999204576015, "recordedAt": "2026-09-09T22:21:13.687718+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 6.041023880243301e-06, "recordedAt": "2026-09-09T22:21:13.687899+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.00041870796121656895, "recordedAt": "2026-09-09T22:21:51.318996+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 0.0003341248957440257, "recordedAt": "2026-09-09T22:21:51.322508+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 2.919696271419525e-07, "recordedAt": "2026-09-09T22:21:51.323023+00:00", "counters": {}}

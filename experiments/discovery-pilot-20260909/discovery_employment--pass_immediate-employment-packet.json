@@ -1,0 +1,923 @@
+{
+  "projectId": 1,
+  "taskId": "discovery:employment",
+  "stage": "pass:immediate-employment",
+  "researcher": "Codex",
+  "scope": "discovery",
+  "office": "Welfare Square Employment Pilot",
+  "runName": "Frontier discovery a62dc235e86ee475",
+  "historicalDevelopmentOnly": false,
+  "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+  "target": {
+    "id": "employment",
+    "label": "Employment",
+    "filters": [
+      "Job Search",
+      "Staffing",
+      "Apprenticeships"
+    ]
+  },
+  "attachmentHashes": {},
+  "catalog": {
+    "categories": [
+      {
+        "id": "employment",
+        "label": "Employment",
+        "filters": [
+          "Job Search",
+          "Staffing",
+          "Apprenticeships"
+        ]
+      }
+    ],
+    "forGroups": []
+  },
+  "knownIdentities": [
+    {
+      "id": "scout-lead:a89109a8e8a5631794da3e55",
+      "name": "Utah Department of Workforce Services · Salt Lake Metro Employment Center",
+      "description": "Public job-search help and a local route to employment services.",
+      "informationText": "Research lead; eligibility and entry route still need investigation.",
+      "phone": "",
+      "address": "",
+      "website": "https://jobs.utah.gov/jobseeker/index.html",
+      "hours": "",
+      "categories": [
+        "employment"
+      ],
+      "categoryFilters": {},
+      "forGroups": [],
+      "pdfs": [],
+      "scoutLeadEvidence": {
+        "sourceSha256": "f42bd5f2496a9c9eed94f09271afeba28e4a28729aded70f3a251019987cca79",
+        "baselineSha256": "7f54656429e868fe5c1387b76d988765cf107177177a7edc220ba497f0d49299",
+        "lead": {
+          "ordinal": 1,
+          "raw": {
+            "organization": "Utah Department of Workforce Services",
+            "program": "Salt Lake Metro Employment Center",
+            "website": "https://jobs.utah.gov/jobseeker/index.html",
+            "leadType": "access-point",
+            "locationOrServiceArea": "Salt Lake City, Utah",
+            "whyRelevant": "Public job-search help and a local route to employment services.",
+            "uncertainty": "Confirm current local contact and distinguish general job help from eligibility-screened training."
+          },
+          "organization": "Utah Department of Workforce Services",
+          "program": "Salt Lake Metro Employment Center",
+          "websiteRaw": "https://jobs.utah.gov/jobseeker/index.html",
+          "website": "https://jobs.utah.gov/jobseeker/index.html",
+          "phone": "",
+          "address": "",
+          "leadType": "access-point",
+          "locationOrServiceArea": "Salt Lake City, Utah",
+          "whyRelevant": "Public job-search help and a local route to employment services.",
+          "uncertainty": "Confirm current local contact and distinguish general job help from eligibility-screened training.",
+          "normalizedOrganization": "utah department of workforce services",
+          "normalizedProgram": "salt lake metro employment center",
+          "warnings": []
+        },
+        "providerVerificationInferred": false
+      },
+      "scoutEditorHistory": [
+        {
+          "projectId": "a62dc235e86ee47558aaf4e4a90539160a43c3f9cf9aff0e5104c564a74f2c8d",
+          "stage": "early",
+          "sourceSha256": "9f4afc640c8d5fe9c3b502582482ae4ff68e2d85294106edb5587322a53d1176",
+          "originalRecord": {
+            "id": "scout-lead:a89109a8e8a5631794da3e55",
+            "name": "Utah Department of Workforce Services · Salt Lake Metro Employment Center",
+            "description": "Public job-search help and a local route to employment services.",
+            "informationText": "Research lead; eligibility and entry route still need investigation.",
+            "phone": "",
+            "address": "",
+            "website": "https://jobs.utah.gov/jobseeker/index.html",
+            "hours": "",
+            "categories": [
+              "employment"
+            ],
+            "categoryFilters": {},
+            "forGroups": [],
+            "pdfs": [],
+            "scoutLeadEvidence": {
+              "sourceSha256": "f42bd5f2496a9c9eed94f09271afeba28e4a28729aded70f3a251019987cca79",
+              "baselineSha256": "7f54656429e868fe5c1387b76d988765cf107177177a7edc220ba497f0d49299",
+              "lead": {
+                "ordinal": 1,
+                "raw": {
+                  "organization": "Utah Department of Workforce Services",
+                  "program": "Salt Lake Metro Employment Center",
+                  "website": "https://jobs.utah.gov/jobseeker/index.html",
+                  "leadType": "access-point",
+                  "locationOrServiceArea": "Salt Lake City, Utah",
+                  "whyRelevant": "Public job-search help and a local route to employment services.",
+                  "uncertainty": "Confirm current local contact and distinguish general job help from eligibility-screened training."
+                },
+                "organization": "Utah Department of Workforce Services",
+                "program": "Salt Lake Metro Employment Center",
+                "websiteRaw": "https://jobs.utah.gov/jobseeker/index.html",
+                "website": "https://jobs.utah.gov/jobseeker/index.html",
+                "phone": "",
+                "address": "",
+                "leadType": "access-point",
+                "locationOrServiceArea": "Salt Lake City, Utah",
+                "whyRelevant": "Public job-search help and a local route to employment services.",
+                "uncertainty": "Confirm current local contact and distinguish general job help from eligibility-screened training.",
+                "normalizedOrganization": "utah department of workforce services",
+                "normalizedProgram": "salt lake metro employment center",
+                "warnings": []
+              },
+              "providerVerificationInferred": false
+            }
+          },
+          "decision": {
+            "resourceId": "scout-lead:a89109a8e8a5631794da3e55",
+            "disposition": "retain",
+            "targetResourceIds": [
+              "scout-lead:a89109a8e8a5631794da3e55"
+            ],
+            "reason": "Retain for research: a general public starting point near Welfare Square. Verify local contact and avoid implying that everyone qualifies for funded training.",
+            "evidence": [
+              "https://jobs.utah.gov/jobseeker/index.html",
+              "Initial lead, not confirmed access."
+            ],
+            "fields": {},
+            "questions": []
+          },
+          "providerVerificationInferred": false
+        }
+      ],
+      "lastModified": "2026-09-09T22:02:50.056+00:00",
+      "identityStatus": "current"
+    },
+    {
+      "id": "scout-lead:68615d197ac8f29fb5d8c43c",
+      "name": "Utah Electrical Training Alliance · Inside Wireman apprenticeship",
+      "description": "Paid work combined with electrical training may offer a career path.",
+      "informationText": "Research lead; eligibility and entry route still need investigation.",
+      "phone": "",
+      "address": "",
+      "website": "https://uteta.org/programs/careers-inside-wire/",
+      "hours": "",
+      "categories": [
+        "employment"
+      ],
+      "categoryFilters": {},
+      "forGroups": [],
+      "pdfs": [],
+      "scoutLeadEvidence": {
+        "sourceSha256": "f42bd5f2496a9c9eed94f09271afeba28e4a28729aded70f3a251019987cca79",
+        "baselineSha256": "7f54656429e868fe5c1387b76d988765cf107177177a7edc220ba497f0d49299",
+        "lead": {
+          "ordinal": 2,
+          "raw": {
+            "organization": "Utah Electrical Training Alliance",
+            "program": "Inside Wireman apprenticeship",
+            "website": "https://uteta.org/programs/careers-inside-wire/",
+            "leadType": "program",
+            "locationOrServiceArea": "West Jordan training center; employers throughout Utah",
+            "whyRelevant": "Paid work combined with electrical training may offer a career path.",
+            "uncertainty": "Check entry costs, qualifications, waiting before paid work and travel requirements."
+          },
+          "organization": "Utah Electrical Training Alliance",
+          "program": "Inside Wireman apprenticeship",
+          "websiteRaw": "https://uteta.org/programs/careers-inside-wire/",
+          "website": "https://uteta.org/programs/careers-inside-wire/",
+          "phone": "",
+          "address": "",
+          "leadType": "program",
+          "locationOrServiceArea": "West Jordan training center; employers throughout Utah",
+          "whyRelevant": "Paid work combined with electrical training may offer a career path.",
+          "uncertainty": "Check entry costs, qualifications, waiting before paid work and travel requirements.",
+          "normalizedOrganization": "utah electrical training alliance",
+          "normalizedProgram": "inside wireman apprenticeship",
+          "warnings": []
+        },
+        "providerVerificationInferred": false
+      },
+      "scoutEditorHistory": [
+        {
+          "projectId": "a62dc235e86ee47558aaf4e4a90539160a43c3f9cf9aff0e5104c564a74f2c8d",
+          "stage": "early",
+          "sourceSha256": "9f4afc640c8d5fe9c3b502582482ae4ff68e2d85294106edb5587322a53d1176",
+          "originalRecord": {
+            "id": "scout-lead:68615d197ac8f29fb5d8c43c",
+            "name": "Utah Electrical Training Alliance · Inside Wireman apprenticeship",
+            "description": "Paid work combined with electrical training may offer a career path.",
+            "informationText": "Research lead; eligibility and entry route still need investigation.",
+            "phone": "",
+            "address": "",
+            "website": "https://uteta.org/programs/careers-inside-wire/",
+            "hours": "",
+            "categories": [
+              "employment"
+            ],
+            "categoryFilters": {},
+            "forGroups": [],
+            "pdfs": [],
+            "scoutLeadEvidence": {
+              "sourceSha256": "f42bd5f2496a9c9eed94f09271afeba28e4a28729aded70f3a251019987cca79",
+              "baselineSha256": "7f54656429e868fe5c1387b76d988765cf107177177a7edc220ba497f0d49299",
+              "lead": {
+                "ordinal": 2,
+                "raw": {
+                  "organization": "Utah Electrical Training Alliance",
+                  "program": "Inside Wireman apprenticeship",
+                  "website": "https://uteta.org/programs/careers-inside-wire/",
+                  "leadType": "program",
+                  "locationOrServiceArea": "West Jordan training center; employers throughout Utah",
+                  "whyRelevant": "Paid work combined with electrical training may offer a career path.",
+                  "uncertainty": "Check entry costs, qualifications, waiting before paid work and travel requirements."
+                },
+                "organization": "Utah Electrical Training Alliance",
+                "program": "Inside Wireman apprenticeship",
+                "websiteRaw": "https://uteta.org/programs/careers-inside-wire/",
+                "website": "https://uteta.org/programs/careers-inside-wire/",
+                "phone": "",
+                "address": "",
+                "leadType": "program",
+                "locationOrServiceArea": "West Jordan training center; employers throughout Utah",
+                "whyRelevant": "Paid work combined with electrical training may offer a career path.",
+                "uncertainty": "Check entry costs, qualifications, waiting before paid work and travel requirements.",
+                "normalizedOrganization": "utah electrical training alliance",
+                "normalizedProgram": "inside wireman apprenticeship",
+                "warnings": []
+              },
+              "providerVerificationInferred": false
+            }
+          },
+          "decision": {
+            "resourceId": "scout-lead:68615d197ac8f29fb5d8c43c",
+            "disposition": "retain",
+            "targetResourceIds": [
+              "scout-lead:68615d197ac8f29fb5d8c43c"
+            ],
+            "reason": "Retain for research: paid apprenticeship is a distinct option. Its length alone is not disqualifying; entry fees, selection delays and statewide travel may limit practical fit.",
+            "evidence": [
+              "https://uteta.org/programs/careers-inside-wire/",
+              "Initial lead, not confirmed access."
+            ],
+            "fields": {},
+            "questions": []
+          },
+          "providerVerificationInferred": false
+        }
+      ],
+      "lastModified": "2026-09-09T22:02:50.056+00:00",
+      "identityStatus": "current"
+    }
+  ],
+  "priorChecks": [],
+  "priorEvidenceWarning": "The original package and dated observations are history, not proof of current facts.",
+  "writingGuidance": {
+    "schemaVersion": 1,
+    "version": "plain-language-v5",
+    "instructionsFile": "plain_language.md",
+    "sections": [
+      {
+        "key": "programsAndServices",
+        "heading": "Programs and Services"
+      },
+      {
+        "key": "eligibilityRequirements",
+        "heading": "Eligibility Requirements"
+      },
+      {
+        "key": "howToBestConnect",
+        "heading": "How to Best Connect"
+      },
+      {
+        "key": "access",
+        "heading": "Access"
+      },
+      {
+        "key": "importantInformationToKnow",
+        "heading": "Important Information to Know"
+      }
+    ],
+    "retiredHeadings": [
+      "Services Provided",
+      "Scout Findings",
+      "Verify before Referral"
+    ],
+    "instructionsText": "# Writing resources for counseling and printed handouts\n\nWrite respectfully for adults seeking practical help. A service missionary must\nbe able to scan the resource quickly. The person taking the printout home may\nneed support with reading, remembering steps, or using a computer. Use everyday\nwords, short sentences, and brief paragraphs or simple bullets. Explain an\nunavoidable acronym. Avoid agency jargon, promotional language, and research\nprocess commentary. Do not judge the person's ability or circumstances.\n\nPatron usefulness: identify what help a TSO patron can receive, who can receive\nit, and a supported way to begin obtaining it. Determine the audience and purpose\nof each source and contact route; a page about an organization does not by\nitself establish assistance for the person seeking help. Reason from the\nevidence rather than matching keywords or assuming every mentioned activity is\na service. Assess each meaningful service separately. Preserve supported help\nwhen another service is uncertain. Explain an unsuitable or unresolved lead in\nreview notes, with the missing evidence or next question. Do not silently remove\nan existing accepted record or mistake uncertainty for closure.\n\nResource title: choose one short title when the resource's identity and useful\nservices are clear. Use \"Organization · brief program or service label\" to\ndistinguish entries from the same organization. Briefly list multiple meaningful\nservice types when appropriate; do not enumerate incidental benefits or force\na single program name. Do not ask the curator to choose between equivalent\nwording options. Ordinary wording choices belong to Scout.\n\nLeave consequential decisions to the curator. If significant uncertainty about\nidentity, offered services, recipient access, or overlap would change the title\nor whether the resource belongs, preserve the existing record and state the\nspecific unresolved decision, evidence, and practical question in review notes.\nDo not invent a program, settle a disputed service boundary, or silently split,\nmerge, or remove a record. A question unrelated to a clear title need not hold\nup that title choice. An explicitly requested review title can remain visible\nwithout implying that its unresolved service claims have been verified.\n\nRespect the assignment's editable fields and stable IDs. Where names are\neditable, return the chosen title through the normal proposal/review process.\nIn writing-only work, put a straightforward title suggestion in reviewNotes.\nThis division of judgment does not bypass the existing package review gate.\n\nHours: distinguish meal, pantry, office, and other service schedules. Do not\ncollapse them into a single schedule or treat office hours as service hours.\nFlag conflicting published schedules and say which service needs confirmation.\nWhen hours are outside the assignment's editable fields, record the discrepancy\nin reviewNotes rather than changing protected fields.\n\nDescription: briefly say what help is offered and where it is available. Identify\nlocation and service area accurately; an office address does not establish an\neligibility boundary. Preserve meaningful geographic limits and uncertainty.\n\nPrograms and Services: explain specific help, combining overlapping accounts.\nPrefer useful service distinctions over a long organizational history or list\nof incidental benefits. Do not repeat the same explanation in another section.\n\nEligibility Requirements: state the relevant qualifications and required\nreferrals or documents. Preserve material age, income, location, and other\nconditions. Requirements may vary by program; never substitute an invented\nrule for missing information.\n\nHow to Best Connect: give a supported starting route and practical next steps.\nExamine service and application pages or forms, not just the home page, to\nestablish appointment or walk-in requirements, pickup options, delivery\narrangements, and useful application instructions. Reading a form is research;\ndo not submit it or enter personal information. Distinguish what the form offers\nfrom assumptions about eligibility or guaranteed access.\nWhen known, explain what happens after applying without promising placement,\nfunding, eligibility, or response times. Keep phone, address, website, and hours\nin their ordinary fields; avoid duplicating those fields in Information. There\nis no dedicated email field: include a useful email address in this section.\nDo not assume a computer or internet access. Include an offline alternative only\nwhen supported. Do not invent documents, contacts, language help, or a preferred\nintake route.\n\nAccess: describe the area served and relevant access arrangements. Distinguish\nservice area from the physical office or individual job/service locations.\n\nImportant Information to Know: give material costs, limitations, availability,\nand specific questions the person should check. Distinguish applying from\nreceiving help. Keep unknown details brief and relevant; do not add generic\nwarnings to every resource or repeat them under several headings.\n\nReturn section bodies only; Scout supplies the exact headings and their order.\nUse plain paragraphs and optional lines starting with '- ' for bullets. Do not\nreturn HTML, Markdown links, tables, or extra headings. Use full URLs when a\nlink is needed on paper. Keep necessary conditions even when shortening text;\nthere is no mandatory word count. Never append original Scout Findings to the\npublic Information. Original research stays in the assignment history.\n\nEvery claim must be supported by the provided evidence or recorded additional\nresearch. Return writingEvidence with candidateIds (contributing candidate IDs\nas strings) and sources (an array). Each newly consulted source must contain\nexactly url (full HTTP/HTTPS URL), accessedOn (YYYY-MM-DD), and excerpt (relevant\nsource text). Use an empty sources array if only the supplied evidence was used.\nEvidence storage is not human verification: leave verifiedOn null. If a material\ndetail cannot be established, say what is unknown or what to ask. Do not copy\nknown providers, contacts, or eligibility facts from a writing example.\n\n\nQuestions for the curator\n-------------------------\nWrite like a helpful coworker. Ask a direct, everyday question: “Can someone\napply before moving here?” rather than “Which programs require current residency,\nand when?” Avoid phrases such as “accountable intake route,” “justify the category,”\nand “pending confirmation” when ordinary words will do.\n\nGive the curator enough detail to understand the problem without reopening the\nresearch report. Name the program, page, flyer or local note. Explain what each\nsource actually says and how the accounts differ. Include the relevant link,\nattachment title, or recorded contact when available. Distinguish older local\nnotes, saved web research and a fresh provider answer. Do not imply that you have\nrechecked a source when you have only read earlier research.\n\nFor example, if one source allows applying before moving, another gives local\nresidents priority, and a program page says nonresidents cannot advance on its\nwaiting list, state those three claims separately. Do not reduce them to “the\nsources use different eligibility wording.” Explain why the distinction matters,\nthen give the specific question to ask staff, including the program and stage of\napplication. Use only details supported by the actual assignment; this is an\nillustration, not a housing rule to reuse elsewhere.\n\nUse a short question followed by readable paragraphs or a few bullets. Explain\nwhat remains unchanged while the question is open when that helps the curator\nmake the decision. There is no fixed word limit: retain the details needed to\nsettle the question, but omit unrelated research history and repeated caveats.\nDo not invent the missing side of a disagreement. If the evidence only says a\nsource was not found, say that; absence from a website does not disprove local\nknowledge. Keep these administrative explanations in openQuestions, separate\nfrom patron Information. A saved resolution note is not provider verification.\n",
+    "sha256": "370ce4fc05351c61cca9a03c733cb1eee0caa6c80021e3d7f9e678977f1040aa"
+  },
+  "instructions": [
+    "Recheck the named program, not just the parent organization. Investigate operation, intake, address, service area, eligibility, cost, services, and accommodations. Compare services, populations, and intake routes before treating shared names or addresses as duplicate programs.",
+    "Apply the sealed writing guidance patron-usefulness test to each meaningful service: what help can the patron receive, for whom, and through what supported access route? Determine the audience and purpose of the evidence and explain suitability or uncertainty in the summary and questions. Do not rely on keyword-based exclusions. Preserve supported services and local knowledge when another service remains unestablished.",
+    "Search category assignments for additions. Compare discoveries against the whole package across categories and alternate names, including current, retired, and previously declined identities, before calling something new. A shared provider can operate distinct programs.",
+    "A failed URL, unanswered call, old listing, or search omission alone is inconclusive. Look for replacement contact routes. A closure proposal needs an explicit official notice naming the affected program.",
+    "Preserve useful local knowledge. A locally recorded detail absent from public sources becomes a focused verification question, not a deletion justified by website silence. Propose only evidence-supported changes. Use the frozen writing guidance, including program labels and service-specific hours. A clearer title is a field-level proposal for the existing stable ID, not a new resource or proof of a provider rename. Do not change verifiedOn.",
+    "Return dated sources, focused follow-up questions, operational evidence dates, and a suggested next check date. Unknown stays unknown. Flag classification consequences for human review.",
+    "Use priorChecks as dated history, not current fact. Repeated inability to verify should focus follow-up and independent checks, never become closure proof.",
+    "Choose a short title for straightforward cases using the sealed writing guidance. Leave significant identity, service, access, and overlap decisions to the curator with focused evidence and questions. Do not burden the curator with equivalent wording options, and do not let an unrelated question block a clear title. Preserve the record while consequential decisions remain unresolved.",
+    "Write follow-up questions as short, direct questions. Use the summary to give the details the curator needs to understand and answer them. For questions left to the curator, write in everyday language and include enough detail to act: what each named source or local note says, the specific difference or missing fact, why it matters, and what to ask or check. Include a useful source link, attachment title, or recorded contact when available. Do not merely say the sources conflict. Distinguish older notes from fresh checks, and never invent details to fill a gap. Keep the explanation beside the question and out of patron Information; use readable paragraphs without a fixed word limit.",
+    "Find credible local staffing, temporary, shift-work, day-labor, temp-to-hire, and unusually accessible direct hiring pathways with a durable public intake route.",
+    "Record findings and unresolved gaps for this focus. The primary synthesis later combines all passes into complete resource proposals."
+  ],
+  "editableFields": [
+    "name",
+    "description",
+    "phone",
+    "website",
+    "address",
+    "hours",
+    "categories",
+    "categoryFilters",
+    "forGroups",
+    "informationSections"
+  ],
+  "outputContract": {
+    "schemaVersion": 1,
+    "taskId": "discovery:employment",
+    "assignmentSha256": "copy from assignment",
+    "evidenceSources": [],
+    "researchNotes": "",
+    "executionReceipt": {
+      "complete": true,
+      "model": null,
+      "contextId": "",
+      "freshContext": false,
+      "isolatedInputs": false,
+      "activeMinutes": 0,
+      "waitingMinutes": 0,
+      "coverageNotes": "",
+      "remainingGaps": []
+    },
+    "observations": []
+  },
+  "itemContract": {
+    "id": "stable-lead-id",
+    "status": "one of: current, changed, moved, renamed, paused, possibly-closed, reopened, inconclusive, identity, new",
+    "program": "Exact named program",
+    "summary": "What changed or remains uncertain",
+    "fields": {},
+    "evidence": [
+      0
+    ],
+    "closureEvidence": [],
+    "questions": [],
+    "nextCheckOn": "",
+    "lastEvidenceOfOperationOn": ""
+  },
+  "auditFindingContract": {
+    "id": "finding-id",
+    "summary": "Issue or useful correction",
+    "severity": "material"
+  },
+  "closureNoticeContract": {
+    "sourceIndex": 0,
+    "kind": "official-program-closure",
+    "program": "Exact named program",
+    "statement": "Exact closure words from the cited excerpt"
+  },
+  "closureCheckContract": {
+    "itemId": "closed-item-id",
+    "notice": {
+      "sourceIndex": 0,
+      "kind": "official-program-closure",
+      "program": "Exact named program",
+      "statement": "Exact closure words from the cited excerpt"
+    }
+  },
+  "resolutionContract": {
+    "findingId": "researcher:finding-id",
+    "status": "resolved or needs-review",
+    "reason": "Disposition"
+  },
+  "protocol": "astra-sampled-v1",
+  "serviceArea": "Welfare Square TSO context: Salt Lake City and reachable Salt Lake Valley services, Utah",
+  "configuredModel": null,
+  "fieldFormats": {
+    "categories": {
+      "type": "array of category IDs",
+      "values": "Use catalog.categories IDs."
+    },
+    "categoryFilters": {
+      "type": "object",
+      "example": {
+        "category-id": [
+          "Exact Type label"
+        ]
+      },
+      "rule": "Keys are category IDs in this resource; each value is an array of that category’s exact catalog filters. Never return a flat array."
+    },
+    "forGroups": {
+      "type": "array of strings",
+      "values": "Use exact catalog.forGroups labels."
+    },
+    "informationSections": {
+      "programsAndServices": "text",
+      "eligibilityRequirements": "text",
+      "howToBestConnect": "text",
+      "access": "text",
+      "importantInformationToKnow": "text"
+    },
+    "otherEditableFields": "Text strings; omit fields you are not proposing to change."
+  },
+  "statusFieldRules": {
+    "current, inconclusive, identity, possibly-closed": "fields must be the empty object {}.",
+    "changed": "Use for updates to an existing resource; fields contains the proposed replacements.",
+    "new, reopened": "Discovery additions require name, description, all five informationSections and categories including the assigned category."
+  },
+  "receiptInstructions": [
+    "Return complete=true only for the whole assignment, never a partial transport packet.",
+    "Record the actual model when known, otherwise null. Record actual active and waiting minutes.",
+    "Record context identity and whether it was fresh and isolated. These are operator attestations, not automatic proof.",
+    "Explain coverage and remaining gaps. A budget stop is not complete coverage. Never invent a provider call."
+  ],
+  "playbooks": {
+    "employment": {
+      "category_id": "employment",
+      "label": "Employment",
+      "default_assignment": "Discover realistic employment resources for people in Welfare Square TSO context: Salt Lake City and reachable Salt Lake Valley services, Utah who need work, better work, training, or help overcoming barriers to employment. Follow useful relationships from workforce organizations to specific placement programs, employers, training, credentials, apprenticeships, and supported-employment services. Verify costs, eligibility, schedules, and the practical enrollment path.",
+      "scope": [
+        "Immediate job search, placement, staffing, and hiring pathways",
+        "Training, credentials, apprenticeships, education, and career advancement",
+        "Supported employment and help with disability, reentry, language, transportation, or documentation barriers",
+        "Work clothing, tools, childcare, transportation, and other employment supports",
+        "The actual enrollment path, costs, schedules, placement claims, and availability"
+      ],
+      "exclusions": [
+        "Generic job boards without a local support, placement, or verified hiring pathway",
+        "Commercial training whose cost or outcomes cannot be established",
+        "Stale job openings presented as durable resources"
+      ],
+      "aliases": [],
+      "library_version": "codex-first-v1",
+      "source": "employment.json",
+      "focused_research": {
+        "version": "employment-focused-v2",
+        "alternative_vocabulary": [
+          "economic empowerment",
+          "workforce readiness",
+          "career pathways",
+          "self-sufficiency",
+          "reentry stabilization",
+          "vocational development",
+          "job retention",
+          "family economic mobility"
+        ],
+        "source_channels": [
+          "Official provider and named-program pages",
+          "State, county, city, and workforce-board pages",
+          "Registered apprenticeship and credential registries",
+          "College continuing-education and technical-training catalogs",
+          "Government contracts, grants, partner lists, and public announcements",
+          "Current community referral documents and primary-source PDFs"
+        ],
+        "focuses": [
+          {
+            "key": "public-workforce",
+            "label": "Public workforce infrastructure",
+            "direction": "Find public workforce centers and named government programs that provide placement, counseling, benefits-linked employment, vocational rehabilitation, veterans services, bonding, employer incentives, or apprenticeship access.",
+            "coverage": [
+              "Public workforce centers",
+              "Vocational rehabilitation",
+              "Veterans employment",
+              "Benefits-linked employment",
+              "Apprenticeship access"
+            ],
+            "vocabulary": [
+              "one-stop workforce",
+              "vocational rehabilitation",
+              "federal bonding",
+              "work opportunity tax credit"
+            ],
+            "source_channels": [
+              "Government program pages",
+              "Workforce board pages",
+              "Public program registries"
+            ]
+          },
+          {
+            "key": "immediate-employment",
+            "label": "Immediate employment and staffing",
+            "direction": "Find credible local staffing, temporary, shift-work, day-labor, temp-to-hire, and unusually accessible direct hiring pathways with a durable public intake route.",
+            "coverage": [
+              "Staffing offices",
+              "Temporary and shift work",
+              "Temp-to-hire",
+              "Accessible direct hiring"
+            ],
+            "vocabulary": [
+              "daily pay",
+              "same day work",
+              "job seeker intake",
+              "temp to hire"
+            ],
+            "source_channels": [
+              "Official local office pages",
+              "Employer hiring program pages"
+            ]
+          },
+          {
+            "key": "training-advancement",
+            "label": "Training, credentials, apprenticeships, and advancement",
+            "direction": "Find concrete career training, registered apprenticeships, credentials, returnships, technical-college programs, and short university or employer training with a practical enrollment path.",
+            "coverage": [
+              "Registered apprenticeships",
+              "Technical training",
+              "Credentials",
+              "Career return programs",
+              "Continuing education"
+            ],
+            "vocabulary": [
+              "earn and learn",
+              "returnship",
+              "career training",
+              "industry credential"
+            ],
+            "source_channels": [
+              "Apprenticeship registries",
+              "College catalogs",
+              "Official training-program pages"
+            ]
+          },
+          {
+            "key": "supported-employment",
+            "label": "Disability and supported employment",
+            "direction": "Find disability-specific supported employment, job development, placement, coaching, and workplace skill-acquisition programs that credibly serve the area.",
+            "coverage": [
+              "Supported employment",
+              "Job coaching",
+              "Disability job development",
+              "Work-site skill acquisition"
+            ],
+            "vocabulary": [
+              "supported employment",
+              "job development",
+              "employment coaching",
+              "vocational services"
+            ],
+            "source_channels": [
+              "Official disability-provider pages",
+              "State vocational-rehabilitation provider information"
+            ]
+          },
+          {
+            "key": "population-specific",
+            "label": "Population-specific employment pathways",
+            "direction": "Find employment programs designed for refugees, immigrants, people returning from incarceration, women returning to work, youth, seniors, veterans, single parents, or other populations facing defined barriers.",
+            "coverage": [
+              "Refugee employment",
+              "Reentry employment",
+              "Women returning to work",
+              "Youth and senior employment",
+              "Veteran pathways"
+            ],
+            "vocabulary": [
+              "workforce re-entry",
+              "refugee employment",
+              "economic mobility",
+              "reentry employment",
+              "career return"
+            ],
+            "source_channels": [
+              "Official resettlement-provider pages",
+              "Corrections and reentry partner lists",
+              "Population-specific nonprofit pages"
+            ]
+          },
+          {
+            "key": "community-embedded",
+            "label": "Employment inside broader community services",
+            "direction": "Find substantial named employment, transitional-work, or workforce-readiness programs embedded in shelters, food providers, community-action agencies, family services, reentry organizations, and faith-based organizations.",
+            "coverage": [
+              "Transitional work",
+              "Workforce readiness",
+              "Employment inside basic-needs organizations",
+              "Barrier-removal tied directly to work"
+            ],
+            "vocabulary": [
+              "transitional work",
+              "workforce readiness",
+              "job opportunities",
+              "economic empowerment"
+            ],
+            "source_channels": [
+              "Official program pages",
+              "Community service program reports",
+              "Provider annual reports"
+            ]
+          },
+          {
+            "key": "non-obvious-sources",
+            "label": "Non-obvious source channels",
+            "direction": "Search current contracts, grants, public partner lists, board materials, catalogs, registries, and primary-source PDFs for named employment providers or programs not readily visible through general service searches.",
+            "coverage": [
+              "Contracted providers",
+              "Grant-funded named programs",
+              "Partner programs",
+              "Registry-listed services"
+            ],
+            "vocabulary": [
+              "contracted provider",
+              "workforce grant",
+              "employment partner",
+              "program catalog"
+            ],
+            "source_channels": [
+              "Government contracts and grants",
+              "Partner announcements",
+              "Public meeting materials",
+              "Primary-source PDFs"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "passPlan": [
+    {
+      "key": "public-workforce",
+      "reason": "Find public workforce centers and named government programs that provide placement, counseling, benefits-linked employment, vocational rehabilitation, veterans services, bonding, employer incentives, or apprenticeship access.",
+      "label": "Public workforce infrastructure",
+      "direction": "Find public workforce centers and named government programs that provide placement, counseling, benefits-linked employment, vocational rehabilitation, veterans services, bonding, employer incentives, or apprenticeship access.",
+      "coverage": [
+        "Public workforce centers",
+        "Vocational rehabilitation",
+        "Veterans employment",
+        "Benefits-linked employment",
+        "Apprenticeship access"
+      ],
+      "vocabulary": [
+        "one-stop workforce",
+        "vocational rehabilitation",
+        "federal bonding",
+        "work opportunity tax credit"
+      ],
+      "source_channels": [
+        "Government program pages",
+        "Workforce board pages",
+        "Public program registries"
+      ]
+    },
+    {
+      "key": "immediate-employment",
+      "reason": "Find credible local staffing, temporary, shift-work, day-labor, temp-to-hire, and unusually accessible direct hiring pathways with a durable public intake route.",
+      "label": "Immediate employment and staffing",
+      "direction": "Find credible local staffing, temporary, shift-work, day-labor, temp-to-hire, and unusually accessible direct hiring pathways with a durable public intake route.",
+      "coverage": [
+        "Staffing offices",
+        "Temporary and shift work",
+        "Temp-to-hire",
+        "Accessible direct hiring"
+      ],
+      "vocabulary": [
+        "daily pay",
+        "same day work",
+        "job seeker intake",
+        "temp to hire"
+      ],
+      "source_channels": [
+        "Official local office pages",
+        "Employer hiring program pages"
+      ]
+    },
+    {
+      "key": "training-advancement",
+      "reason": "Find concrete career training, registered apprenticeships, credentials, returnships, technical-college programs, and short university or employer training with a practical enrollment path.",
+      "label": "Training, credentials, apprenticeships, and advancement",
+      "direction": "Find concrete career training, registered apprenticeships, credentials, returnships, technical-college programs, and short university or employer training with a practical enrollment path.",
+      "coverage": [
+        "Registered apprenticeships",
+        "Technical training",
+        "Credentials",
+        "Career return programs",
+        "Continuing education"
+      ],
+      "vocabulary": [
+        "earn and learn",
+        "returnship",
+        "career training",
+        "industry credential"
+      ],
+      "source_channels": [
+        "Apprenticeship registries",
+        "College catalogs",
+        "Official training-program pages"
+      ]
+    },
+    {
+      "key": "supported-employment",
+      "reason": "Find disability-specific supported employment, job development, placement, coaching, and workplace skill-acquisition programs that credibly serve the area.",
+      "label": "Disability and supported employment",
+      "direction": "Find disability-specific supported employment, job development, placement, coaching, and workplace skill-acquisition programs that credibly serve the area.",
+      "coverage": [
+        "Supported employment",
+        "Job coaching",
+        "Disability job development",
+        "Work-site skill acquisition"
+      ],
+      "vocabulary": [
+        "supported employment",
+        "job development",
+        "employment coaching",
+        "vocational services"
+      ],
+      "source_channels": [
+        "Official disability-provider pages",
+        "State vocational-rehabilitation provider information"
+      ]
+    },
+    {
+      "key": "population-specific",
+      "reason": "Find employment programs designed for refugees, immigrants, people returning from incarceration, women returning to work, youth, seniors, veterans, single parents, or other populations facing defined barriers.",
+      "label": "Population-specific employment pathways",
+      "direction": "Find employment programs designed for refugees, immigrants, people returning from incarceration, women returning to work, youth, seniors, veterans, single parents, or other populations facing defined barriers.",
+      "coverage": [
+        "Refugee employment",
+        "Reentry employment",
+        "Women returning to work",
+        "Youth and senior employment",
+        "Veteran pathways"
+      ],
+      "vocabulary": [
+        "workforce re-entry",
+        "refugee employment",
+        "economic mobility",
+        "reentry employment",
+        "career return"
+      ],
+      "source_channels": [
+        "Official resettlement-provider pages",
+        "Corrections and reentry partner lists",
+        "Population-specific nonprofit pages"
+      ]
+    },
+    {
+      "key": "community-embedded",
+      "reason": "Find substantial named employment, transitional-work, or workforce-readiness programs embedded in shelters, food providers, community-action agencies, family services, reentry organizations, and faith-based organizations.",
+      "label": "Employment inside broader community services",
+      "direction": "Find substantial named employment, transitional-work, or workforce-readiness programs embedded in shelters, food providers, community-action agencies, family services, reentry organizations, and faith-based organizations.",
+      "coverage": [
+        "Transitional work",
+        "Workforce readiness",
+        "Employment inside basic-needs organizations",
+        "Barrier-removal tied directly to work"
+      ],
+      "vocabulary": [
+        "transitional work",
+        "workforce readiness",
+        "job opportunities",
+        "economic empowerment"
+      ],
+      "source_channels": [
+        "Official program pages",
+        "Community service program reports",
+        "Provider annual reports"
+      ]
+    },
+    {
+      "key": "non-obvious-sources",
+      "reason": "Search current contracts, grants, public partner lists, board materials, catalogs, registries, and primary-source PDFs for named employment providers or programs not readily visible through general service searches.",
+      "label": "Non-obvious source channels",
+      "direction": "Search current contracts, grants, public partner lists, board materials, catalogs, registries, and primary-source PDFs for named employment providers or programs not readily visible through general service searches.",
+      "coverage": [
+        "Contracted providers",
+        "Grant-funded named programs",
+        "Partner programs",
+        "Registry-listed services"
+      ],
+      "vocabulary": [
+        "contracted provider",
+        "workforce grant",
+        "employment partner",
+        "program catalog"
+      ],
+      "source_channels": [
+        "Government contracts and grants",
+        "Partner announcements",
+        "Public meeting materials",
+        "Primary-source PDFs"
+      ]
+    }
+  ],
+  "focus": {
+    "key": "immediate-employment",
+    "reason": "Find credible local staffing, temporary, shift-work, day-labor, temp-to-hire, and unusually accessible direct hiring pathways with a durable public intake route.",
+    "label": "Immediate employment and staffing",
+    "direction": "Find credible local staffing, temporary, shift-work, day-labor, temp-to-hire, and unusually accessible direct hiring pathways with a durable public intake route.",
+    "coverage": [
+      "Staffing offices",
+      "Temporary and shift work",
+      "Temp-to-hire",
+      "Accessible direct hiring"
+    ],
+    "vocabulary": [
+      "daily pay",
+      "same day work",
+      "job seeker intake",
+      "temp to hire"
+    ],
+    "source_channels": [
+      "Official local office pages",
+      "Employer hiring program pages"
+    ]
+  },
+  "observationContract": {
+    "summary": "Supported finding or specific gap",
+    "evidence": [
+      0
+    ],
+    "questions": []
+  },
+  "passResults": {
+    "pass:public-workforce": {
+      "schemaVersion": 1,
+      "taskId": "discovery:employment",
+      "assignmentSha256": "46a29e67308c094b017d249eabfdca19e8f9cea714a36ed1a0c4ef08b047cd86",
+      "evidenceSources": [
+        {
+          "url": "https://jobs.utah.gov/jobseeker/index.html",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Get free help polishing a resume"
+        },
+        {
+          "url": "https://jobs.utah.gov/jobseeker/career/apply.html",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Submit an application online or in-person"
+        },
+        {
+          "url": "https://jobs.utah.gov/ui/employer/public/UINoticePosterSpanish.aspx",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Salt Lake Metro"
+        },
+        {
+          "url": "https://uteta.org/programs/careers-inside-wire/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Earn While You Learn"
+        },
+        {
+          "url": "https://uteta.org/programs/apply-now/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Interviews take place on an as-needed basis"
+        },
+        {
+          "url": "https://uteta.org/contact/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Phone: 801-975-1945"
+        },
+        {
+          "url": "https://local.churchofjesuschrist.org/en/employment-services/us/ut/salt-lake-city/724-e-2100-s",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Appointments are encouraged, but not necessary."
+        },
+        {
+          "url": "https://locations.peopleready.com/us/ut/salt-lake-city",
+          "accessedOn": "2026-09-09",
+          "excerpt": "1081 S 300 W"
+        },
+        {
+          "url": "https://www.peopleready.com/cities/staffing-agencies-salt-lake-city-ut/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "short-term, long-term and permanent employees"
+        },
+        {
+          "url": "https://jobs.utah.gov/usor/vr/services/order.html",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Currently, the Significant Disability (SD) and Disability (D) priority categories are closed."
+        },
+        {
+          "url": "https://www.rescue.org/united-states/salt-lake-city-ut",
+          "accessedOn": "2026-09-09",
+          "excerpt": "adults become self-reliant through employment"
+        },
+        {
+          "url": "https://jobs.utah.gov/usor/vr/partners/crpapproved.pdf",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Updated September 2026"
+        }
+      ],
+      "researchNotes": "Actual September 9 official-web research by current Codex operator. Bounded pilot; no provider calls. Shared research time is not measured per task; activeMinutes=0 is unallocated, not a claim of zero effort. See pilot timing report.",
+      "executionReceipt": {
+        "complete": true,
+        "model": null,
+        "contextId": "codex-discovery-pilot-20260909",
+        "freshContext": false,
+        "isolatedInputs": false,
+        "activeMinutes": 0,
+        "waitingMinutes": 0,
+        "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+        "remainingGaps": [
+          "Which additional public pathways add distinct help beyond the Metro center?"
+        ]
+      },
+      "observations": [
+        {
+          "summary": "DWS offers general job-search help and eligibility-screened training via local centers. Detailed veterans and benefits-linked subprograms were not researched in this pilot.",
+          "evidence": [
+            0,
+            1,
+            2
+          ],
+          "questions": [
+            "Which additional public pathways add distinct help beyond the Metro center?"
+          ]
+        }
+      ]
+    }
+  },
+  "assignmentSha256": "22aa47d65cf8ab18ddc930cc701aade6ba6f95c6efe2926c4bd56efdbbbbabf2"
+}

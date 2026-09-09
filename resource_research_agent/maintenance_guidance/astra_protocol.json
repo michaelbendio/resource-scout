@@ -1,11 +1,12 @@
 {
   "schemaVersion": 1,
-  "version": "astra-protocol-guidance-v1",
+  "version": "astra-protocol-guidance-v2",
   "receipt": [
     "Return complete=true only for the whole assignment, never a partial transport packet.",
     "Record the actual model when known, otherwise null. Record actual active and waiting minutes.",
     "Record context identity and whether it was fresh and isolated. These are operator attestations, not automatic proof.",
-    "Explain coverage and remaining gaps. A budget stop is not complete coverage. Never invent a provider call."
+    "Explain coverage and remaining gaps. A budget stop is not complete coverage. Never invent a provider call.",
+    "Use short supporting excerpts in evidenceSources, not full-page copies. Keep resource prose concise while preserving consequential eligibility, fees, delays, travel and uncertainty. Return the assigned JSON without extra narrative; do not repeat the same explanation in every field. There is no fixed resource-text length limit: preserve details needed for a safe, useful referral."
   ],
   "pass": [
     "Record findings and unresolved gaps for this focus. The primary synthesis later combines all passes into complete resource proposals."

@@ -77,7 +77,7 @@ The packet is the authoritative response contract: assignment hash plus a decisi
 
 Initial integration supports retain/combine/reserve/exclude, one destination per combination, existing taxonomy and newly opened questions. Original records, donor PDFs and exact curator answers/history survive. Conflicting question histories block combination instead of discarding one answer. Significant additions/splits, new taxonomy definitions and unresolved research holds require their existing explicit review paths; this integration does not invent a way around them. Final output prunes unused Types/groups, retains category definitions for future gap research, and creates no deletion request or human approval. All accepted editorial decisions enter the learning evidence store.
 
-This path has synthetic end-to-end and browser/package tests. A limited real new-office discovery pilot remains necessary before broad use; the real Claude experiment in this delivery evaluated saved-case guidance, not new discovery.
+This path now also has a real bounded Welfare Square Employment pilot with five retained resources; see [pilot results](scout-discovery-pilot-results.md). This does not establish complete office coverage or broad autonomous release. New final exports preserve scope and per-assignment gaps in `scoutDiscoveryCoverage` and the export manifest. Earlier sealed exports are not rewritten. Explain these limits in a companion overview.
 
 ## Timing, optimization and rollback
 

@@ -254,9 +254,26 @@ class FrontierEditorWorkflow:
         # No partial or held findings are silently labelled ready for final editing.
         if edition.manifest['pendingTasks'] or edition.manifest['heldProposals']:
             raise ImprovementError('Research has held findings; settle them explicitly before the final editorial stage')
+        # A completed assignment can still report bounded coverage and gaps.
+        # Seal those qualifications with the exact research revision; exports
+        # must not turn transport completion into a claim of exhaustive search.
+        package=read_package(edition.package)
+        coverage={'sourceScope':project['configuration']['sourceScope'],
+                  'researchProjectId':state['id'],'researchRevision':state['revision'],
+                  'categoryIds':deepcopy(project['configuration']['categoryIds']),
+                  'meaning':'Selected assignments completed; remaining gaps are not demonstrated coverage.',
+                  'assignments':[]}
+        for task_id,task in state['tasks'].items():
+            for stage,researcher in flow._task_stages(state,task):
+                receipt=task['results'][stage].get('executionReceipt',{})
+                coverage['assignments'].append({'taskId':task_id,'stage':stage,'researcher':researcher,
+                    'coverageNotes':receipt.get('coverageNotes',''),
+                    'remainingGaps':deepcopy(receipt.get('remainingGaps',[]))})
+        package['data']['scoutDiscoveryCoverage']=coverage
+        final_payload=write_package(package['data'],package['assets'])
         with self.store.connect() as c:
             c.execute('BEGIN IMMEDIATE')
-            source=self.learning._artifact(c,'resource-package',edition.package)
+            source=self.learning._artifact(c,'resource-package',final_payload)
             c.execute('UPDATE scout_editor_projects SET final_source=?,final_created_at=? WHERE id=? AND final_source IS NULL',(source,stamp,ident))
             return self._packet(c,ident,'final')
 
@@ -275,4 +292,6 @@ class FrontierEditorWorkflow:
         script='''<script>window.scoutPreviewAssetsReady=(async()=>{for(const [path,encoded] of Object.entries(ASSETS)){if(!await getPDF(path))await savePDF(path,new Blob([Uint8Array.from(atob(encoded),c=>c.charCodeAt(0))],{type:'application/pdf'}));}})();window.scoutPreviewAssetsReady.catch(e=>showAppError('Resource attachments',e.message));</script>'''.replace('ASSETS',assets)
         return {'package':payload,'html':document.replace('</body>',script+'</body>',1).encode(),'filename':rendered.filename,
                 'manifest':{'projectId':ident,'stage':stage,'sourceSha256':saved['sourceSha256'],'outputSha256':saved['outputSha256'],
+                            'sourceScope':project['configuration']['sourceScope'],
+                            'researchCoverage':deepcopy(package['data'].get('scoutDiscoveryCoverage')),
                             'humanApprovalsCreated':0,'resources':len(package['resources'])}}

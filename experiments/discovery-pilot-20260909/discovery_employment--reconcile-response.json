@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 1,
+  "taskId": "discovery:employment",
+  "assignmentSha256": "8776aa759334cb9de38eaed9bca94530df07dc2fb5bdea6610858a320c61f44d",
+  "evidenceSources": [
+    {
+      "url": "https://jobs.utah.gov/jobseeker/index.html",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Get free help polishing a resume"
+    },
+    {
+      "url": "https://jobs.utah.gov/jobseeker/career/apply.html",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Submit an application online or in-person"
+    },
+    {
+      "url": "https://jobs.utah.gov/ui/employer/public/UINoticePosterSpanish.aspx",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Salt Lake Metro"
+    },
+    {
+      "url": "https://uteta.org/programs/careers-inside-wire/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Earn While You Learn"
+    },
+    {
+      "url": "https://uteta.org/programs/apply-now/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Interviews take place on an as-needed basis"
+    },
+    {
+      "url": "https://uteta.org/contact/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Phone: 801-975-1945"
+    },
+    {
+      "url": "https://local.churchofjesuschrist.org/en/employment-services/us/ut/salt-lake-city/724-e-2100-s",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Appointments are encouraged, but not necessary."
+    },
+    {
+      "url": "https://locations.peopleready.com/us/ut/salt-lake-city",
+      "accessedOn": "2026-09-09",
+      "excerpt": "1081 S 300 W"
+    },
+    {
+      "url": "https://www.peopleready.com/cities/staffing-agencies-salt-lake-city-ut/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "short-term, long-term and permanent employees"
+    },
+    {
+      "url": "https://jobs.utah.gov/usor/vr/services/order.html",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Currently, the Significant Disability (SD) and Disability (D) priority categories are closed."
+    },
+    {
+      "url": "https://www.rescue.org/united-states/salt-lake-city-ut",
+      "accessedOn": "2026-09-09",
+      "excerpt": "adults become self-reliant through employment"
+    },
+    {
+      "url": "https://jobs.utah.gov/usor/vr/partners/crpapproved.pdf",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Updated September 2026"
+    },
+    {
+      "url": "https://jobs.utah.gov/usor/vr/apply.html",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Contact your local VR office"
+    },
+    {
+      "url": "https://utahca.org/workforce-development/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "All income levels are accepted."
+    },
+    {
+      "url": "https://uteta.org/programs-overview/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "1,000 hours of classroom education"
+    },
+    {
+      "url": "https://uteta.org/programs/faqs/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "ID cards will not be accepted."
+    },
+    {
+      "url": "https://www.yearup.org/locations/salt-lake-city-ut",
+      "accessedOn": "2026-09-09",
+      "excerpt": "young adults aged 18-29"
+    }
+  ],
+  "researchNotes": "Actual operator reconciliation after frozen primary research and Claude blind completion. Checked the suggested official pages independently. Claude supplied a compact second reply after the operator stopped oversized generation; the original partial capture and transport notes are preserved. No provider calls or new human approval. Zero timing fields below mean unallocated shared operator time; not zero effort. Year Up remains an unexpanded lead: the location page supports 18–29 training but this limited scan did not establish full enrollment conditions, schedule or support. Do not describe it as rejected or completed research. Primary Sugarhouse coaching and PeopleReady staffing remain distinct practical options alongside Claude’s two additions.",
+  "items": [
+    {
+      "id": "welfare-employment-sugarhouse",
+      "status": "new",
+      "program": "Employment Services · Sugarhouse Job-Search Help",
+      "summary": "Official sources support this proposed referral; practical restrictions are retained.",
+      "fields": {
+        "name": "Employment Services · Sugarhouse Job-Search Help",
+        "description": "Work with an adviser on resumes, job leads and interviews. Phone or video coaching is also available.",
+        "phone": "801-467-6443",
+        "address": "724 E 2100 S, Suite A, Salt Lake City, UT 84106",
+        "website": "https://local.churchofjesuschrist.org/en/employment-services/us/ut/salt-lake-city/724-e-2100-s",
+        "hours": "",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {
+          "employment": [
+            "Job Search"
+          ]
+        },
+        "forGroups": [],
+        "informationSections": {
+          "programsAndServices": "Individual job-search coaching, resume help, interview practice and networking. Computers and printers are available.",
+          "eligibilityRequirements": "Everyone is welcome; Church membership is not required.",
+          "howToBestConnect": "Call the center to check current hours. Walk-ins are welcome; an appointment is encouraged. Request Assistance on the website also connects you with an adviser.",
+          "access": "Sugarhouse in Salt Lake City. Phone or video coaching is available if you cannot visit.",
+          "importantInformationToKnow": "Bring a resume or job description if you have one. You can still get help without either."
+        }
+      },
+      "evidence": [
+        6
+      ],
+      "closureEvidence": [],
+      "questions": [],
+      "nextCheckOn": "",
+      "lastEvidenceOfOperationOn": ""
+    },
+    {
+      "id": "welfare-employment-peopleready",
+      "status": "new",
+      "program": "PeopleReady · Salt Lake City Staffing",
+      "summary": "Official sources support this proposed referral; practical restrictions are retained.",
+      "fields": {
+        "name": "PeopleReady · Salt Lake City Staffing",
+        "description": "Apply for temporary and other local work. Job availability and requirements vary.",
+        "phone": "801-521-0480",
+        "address": "1081 S 300 W, Salt Lake City, UT 84115",
+        "website": "https://locations.peopleready.com/us/ut/salt-lake-city",
+        "hours": "",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {
+          "employment": [
+            "Staffing"
+          ]
+        },
+        "forGroups": [],
+        "informationSections": {
+          "programsAndServices": "Staffing for short-term, longer-term and permanent jobs in several industries.",
+          "eligibilityRequirements": "Requirements depend on the job. Ask the branch what identification, skills and work authorization documents are needed.",
+          "howToBestConnect": "Call the Salt Lake City branch for application help or use JobStack to look for assignments.",
+          "access": "Salt Lake City branch; check the actual work site and transportation before accepting a job.",
+          "importantInformationToKnow": "An application does not guarantee a shift. Confirm pay, schedule, equipment needs and any costs before accepting."
+        }
+      },
+      "evidence": [
+        7,
+        8
+      ],
+      "closureEvidence": [],
+      "questions": [],
+      "nextCheckOn": "",
+      "lastEvidenceOfOperationOn": ""
+    },
+    {
+      "id": "scout-lead:disc-usor-vr-20260909",
+      "status": "new",
+      "program": "Vocational Rehabilitation",
+      "summary": "Distinct disability employment route, independently confirmed; waiting restrictions preserved.",
+      "fields": {
+        "name": "Utah Vocational Rehabilitation · Disability Job Support",
+        "description": "Help getting and keeping a job for people whose disability makes working difficult. Offices around Utah including the Salt Lake area; part of the Utah Department of Workforce Services.",
+        "phone": "1-866-454-8397",
+        "website": "https://jobs.utah.gov/usor/vr/apply.html",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {
+          "employment": [
+            "Job Search"
+          ]
+        },
+        "informationSections": {
+          "programsAndServices": "Work with a counselor on a plan to get or keep a job. Services depend on your needs, eligibility and available funding.",
+          "eligibilityRequirements": "A disability must substantially affect work, and you must need and benefit from rehabilitation services. A counselor decides eligibility, usually within 60 days of your appointment; some cases take longer.",
+          "howToBestConnect": "Call 866-454-8397 for your local VR office. Obtain an application and arrange a counselor appointment. Bring identification, your Social Security card and any disability records; staff can arrange an evaluation if records are missing.",
+          "access": "Salt Lake area and statewide. Spanish and large-print applications are available. You may bring someone to your appointment.",
+          "importantInformationToKnow": "Some newly eligible applicants must wait for training or job placement; existing employment plans continue. People waiting receive information and referrals. Ask about current availability and any costs before making plans."
+        }
+      },
+      "evidence": [
+        9,
+        12
+      ],
+      "closureEvidence": [],
+      "questions": [],
+      "nextCheckOn": "2026-12-09",
+      "lastEvidenceOfOperationOn": "2026-09-09"
+    },
+    {
+      "id": "scout-lead:disc-uca-workforce-20260909",
+      "status": "new",
+      "program": "Workforce Development",
+      "summary": "Confirmed free local adult support with direct intake; language, course time and referral limits retained.",
+      "fields": {
+        "name": "Utah Community Action · Job Help, GED and Career Training",
+        "description": "Free classes and one-to-one help for adults who want to find work, earn more, or finish their education. For adults living in Salt Lake or Tooele counties; office on 900 West in Salt Lake City.",
+        "phone": "801-359-2444",
+        "address": "1307 S 900 W, Salt Lake City, UT",
+        "website": "https://utahca.org/workforce-development/",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {
+          "employment": [
+            "Job Search"
+          ]
+        },
+        "informationSections": {
+          "programsAndServices": "Free job-readiness and money-management help, GED preparation and a child-care credential. Staff also refer people to English classes and other training.",
+          "eligibilityRequirements": "Age 18 or older and living in Salt Lake or Tooele County. All income levels are welcome. The child-care credential has additional qualifications.",
+          "howToBestConnect": "Call 801-359-2444 and ask for Workforce Development, or complete the website’s English or Spanish form. Staff follow up to finish the application by phone.",
+          "access": "The listed office is at 1307 S 900 W. Ask where your classes or appointments will take place before traveling.",
+          "importantInformationToKnow": "GED preparation is currently in English and includes exam fees. The child-care credential requires 120 class hours plus 480 preschool hours. Services reached through referrals may have different costs and requirements."
+        }
+      },
+      "evidence": [
+        13
+      ],
+      "closureEvidence": [],
+      "questions": [],
+      "nextCheckOn": "2027-03-09",
+      "lastEvidenceOfOperationOn": "2026-09-09"
+    }
+  ],
+  "resolutions": [
+    {
+      "findingId": "Claude:scout-lead:disc-usor-vr-20260909",
+      "status": "resolved",
+      "reason": "Confirmed the application phone, eligibility process and order-of-selection exceptions on official pages. Retain as a separate route; no curator decision is needed about ordinary organizational overlap. Preserve waiting restrictions without claiming every applicant must wait or every service is free."
+    },
+    {
+      "findingId": "Claude:scout-lead:disc-uca-workforce-20260909",
+      "status": "resolved",
+      "reason": "Independently confirmed the provider page. Retain the described programs. No need to burden the curator with deciding whether an undescribed form option merits its own listing; leave culinary expansion for future research. Confirm class location by phone before travel."
+    }
+  ],
+  "executionReceipt": {
+    "complete": true,
+    "model": null,
+    "contextId": "codex-discovery-pilot-20260909",
+    "freshContext": false,
+    "isolatedInputs": false,
+    "activeMinutes": 0,
+    "waitingMinutes": 0,
+    "coverageNotes": "Actual source-checked reconciliation. Shared operator timing is unallocated; zero values are not measured zero effort.",
+    "remainingGaps": [
+      "No provider phone verification. The pilot is not exhaustive Employment coverage.",
+      "Local DWS in-person routing and apprenticeship initial costs remain questions."
+    ]
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "assignmentSha256": "cd94c9e6b727e006d93aac1a6de6ea4afaa03722e83cc98dd98ce5642dadd663",
+  "complete": true,
+  "cases": [
+    {
+      "caseId": "employment-1",
+      "decision": "retain",
+      "reason": "Named registered-style earn-and-learn electrician apprenticeship with a concrete public application route, stated eligibility, and published costs; matches the training-advancement focus and serves regional work sites reachable from the Mesa service area.",
+      "criticalDetails": [
+        "Four-year paid apprenticeship: work for a participating contractor plus classroom training; classes accompany full-time work.",
+        "Published costs: $40 nonrefundable application fee plus $187 monthly during training; costs should be confirmed as current before paying.",
+        "Eligibility: 18 by program start, education and algebra requirements or approved alternatives, ID and school records; military service or documented electrical experience may qualify as an exception.",
+        "Physical demands noted: ladders, confined spaces, regular 50-pound lifting; applicants are directed to ask about essential job requirements and accommodations.",
+        "Apply via 'How to Apply' at https://pejatc.org/how-to-apply/; webservices@pejatc.org for application help or to arrange use of a training-center computer.",
+        "Training centers in Phoenix; job sites vary across the program area — applicant must be able to reach regional work sites.",
+        "Admission is competitive; applying does not guarantee selection."
+      ],
+      "openQuestions": [
+        "What is the current application deadline or open application window?",
+        "Are the $40 application fee and $187 monthly charge still the current published amounts?",
+        "Is there a phone number for applicants who cannot use email or the website?",
+        "What accommodations are available for the stated essential job requirements?"
+      ]
+    },
+    {
+      "caseId": "employment-2",
+      "decision": "retain",
+      "reason": "Named public workforce program (SCSEP) with paid training, defined federal/state eligibility, and DES-listed grantee contacts covering Maricopa County including Mesa; fits both the public-workforce and population-specific focuses.",
+      "criticalDetails": [
+        "Part-time paid community-service training, typically about 20 hours weekly, paid at the highest applicable minimum wage.",
+        "Eligibility: Arizona resident 55 or older, unemployed, authorized to work, income at or below 125% of the federal poverty level, and facing a job barrier (e.g., limited English, disability, poor job prospects).",
+        "Arizona Job Connection registration is required and staff verify eligibility.",
+        "Contacts listed by DES: 602-841-0403 (Maricopa AARP/Easterseals route), AARP 928-395-2261, NICOA 505-292-2001 for Maricopa County.",
+        "Temporary training with limited places and possible waiting lists; participation limits apply.",
+        "Wages may affect other benefits — applicants are advised to ask before enrolling.",
+        "Program page: https://des.az.gov/services/older-adults/senior-community-service-employment-program"
+      ],
+      "openQuestions": [
+        "Which grantee currently handles Mesa intake, and is there a Mesa-area office or is intake by phone only?",
+        "Are places currently open or is there an active waiting list?",
+        "What is the maximum participation duration under current rules?",
+        "Where are host-agency training sites located relative to Mesa, and is travel support available?"
+      ]
+    },
+    {
+      "caseId": "employment-3",
+      "decision": "retain",
+      "reason": "In-area staffing office with a durable public intake route, verified address, hours, phone, and email, free placement, and multiple work types including temp-to-hire; squarely matches the immediate-employment focus and is not a generic job board.",
+      "criticalDetails": [
+        "Free job placement — no fee to job seekers; weekly pay.",
+        "Office: 849 N. Dobson Rd., Suite 107, Mesa, AZ 85201; Monday–Thursday 8 AM–5 PM, Friday 8 AM–3 PM; call before visiting to arrange application help.",
+        "Contact: 480-820-3700 or jobs.mesaaz@expresspros.com; online applications must be submitted to the Mesa office — saving an account alone does not send the application.",
+        "Work types: warehouse and manufacturing, skilled trades, office and customer service, professional roles; temporary, evaluation-hire and direct-hire depending on openings.",
+        "Bring work and education history, references, contact details; work-eligibility documents needed at interview.",
+        "Some roles require a skills assessment or a specific license; placement depends on a suitable opening.",
+        "Benefits (health, dental, vision, life, disability, retirement, confidential counseling) apply to workers employed by Express and may require minimum hours or weeks; ExpressLearn courses are for Express-employed workers only.",
+        "After an assignment ends, the worker must contact the office to be considered for another."
+      ],
+      "openQuestions": [
+        "Which work-eligibility documents are required at interview?",
+        "Are there any costs to the worker for required testing, equipment, or uniforms?",
+        "What hours or weeks thresholds unlock each benefit, and what would the worker pay?",
+        "What job types are actually open currently in the Mesa area?"
+      ]
+    },
+    {
+      "caseId": "employment-4",
+      "decision": "retain",
+      "reason": "Named disability supported-employment provider with Mesa sites and an explicit referral and funding path; matches the supported-employment focus, with the caveat that entry generally runs through a referral source.",
+      "criticalDetails": [
+        "Services: career planning, work preparation, computer skills, job development, supported employment, community work experience, and ongoing support.",
+        "Entry and funding depend on program and referral; listed funding routes are VR, DDD, behavioral-health plans, and private pay.",
+        "Contact: 480-969-3800 (Copa main office) and ask for Employment Related Services; referrals sent to referrals@copahealth.org.",
+        "People with a case manager, DDD support coordinator, or VR counselor should ask that person about a referral.",
+        "Main office 924 N. Country Club Dr., Mesa; employment services listed at two Mesa sites plus other Valley locations — call for the correct employment site before traveling.",
+        "Transportation is offered to community group work sites; getting to intake or training must be asked about separately.",
+        "The provider's description of what businesses pay Copa does not establish a participant wage; facility training, group work experience, and competitive job support are different services.",
+        "Program page: https://copahealth.org/copa-employment-related-services/"
+      ],
+      "openQuestions": [
+        "Can someone without an existing case manager or VR counselor self-refer, and what is that path?",
+        "Which of the two Mesa sites handles employment intake, and what are its hours?",
+        "What, if anything, would the participant pay under each funding route?",
+        "For each service tier, is the work placement paid to the participant and at what rate?"
+      ]
+    },
+    {
+      "caseId": "employment-5",
+      "decision": "retain",
+      "reason": "Free, named nine-week vocational training with published screening rules, a clear application path, and forklift/culinary skill outcomes; usable from Mesa but requires a daily commute to west Phoenix and full weekday availability, which should be surfaced up front.",
+      "criticalDetails": [
+        "Two tracks: Community Kitchen (culinary) and LIFT (logistics, inventory, forklift); training is free.",
+        "Schedule: Monday–Friday, 7 AM–3 PM for nine weeks at 3003 W. Thomas Rd., Phoenix, AZ 85017 — a substantial daily trip from Mesa.",
+        "Eligibility: 18+, authorized to work, facing employment barriers, ready for steady work, consistent attendance required.",
+        "Housing requirement: must live in a shelter, own or rented home, or a halfway house; other arrangements require asking staff.",
+        "Background and drug screening apply, including random drug tests; arson and registered-sex-offender exclusions are published.",
+        "Apply by calling 602-343-3183, applying online, dropping off an application, or faxing to 480-780-3799; staff arrange an interview and issue an accepted, waitlisted, or declined decision.",
+        "Housing is not included and employment is not guaranteed.",
+        "Program page: https://www.firstfoodbank.org/learn/programs/community-kitchen/"
+      ],
+      "openQuestions": [
+        "Is any transportation assistance or bus pass provided for the Mesa-to-Phoenix commute?",
+        "What are the current cohort start dates and is there a waitlist?",
+        "Does completion include a forklift certification or other portable credential, and at whose cost?",
+        "Are people living with family or doubled up eligible under the living-arrangement rule?"
+      ]
+    },
+    {
+      "caseId": "employment-6",
+      "decision": "needs-check",
+      "reason": "The employment components that are concrete — paid Neighborhood Brigade crew work and Rosalie's Place workforce housing — are tied to specific Phoenix housing programs, not to Mesa; whether standalone job help is actually delivered at the Mesa Dining Room is unconfirmed, and the provider's own materials conflict on the housing cost terms, so the practical local pathway cannot be established from the saved facts.",
+      "criticalDetails": [
+        "Neighborhood Brigade paid cleanup work is restricted to residents of Ozanam Manor and the Washington Street housing programs.",
+        "Rosalie's Place offers workforce housing with employment and money-management support for adults working or seeking work; staff screen applicants.",
+        "Unresolved cost conflict: the Rosalie's workforce page describes free housing with 60% of net income saved, while the general intake page states residents with income pay 30% — the applicable rule must be confirmed before agreeing.",
+        "Housing screening: 602-850-6900, 8 AM–3 PM; phone screening followed by an in-person interview. Rosalie's Place questions: 602-261-6870, Monday–Friday 8 AM–3 PM.",
+        "Washington Street shelter requires a partner referral and does not accept walk-ups.",
+        "Locations: Rosalie's Place and Ozanam Manor at 320 W. Watkins Rd., Phoenix, AZ 85003; Washington Street shelter at 2739 E. Washington St., Phoenix, AZ 85034.",
+        "Mesa Dining Room, 49 W. Broadway Rd., is listed among work-readiness locations, and 602-619-9411 is given — but whether job help is actually offered there, and on what schedule, is unverified.",
+        "Beds and paid crew openings are limited.",
+        "Program page: https://www.stvincentdepaul.net/our-work/workforce-readiness-and-job-opportunities"
+      ],
+      "openQuestions": [
+        "Does the Mesa Dining Room at 49 W. Broadway Rd. actually provide job-readiness services, and on what days and hours?",
+        "Are resume, job-search, and case-management services available to someone who is not entering an SVdP housing program?",
+        "Which cost rule governs Rosalie's Place — free housing with 60% savings, or 30% of income?",
+        "What are current bed availability and screening wait times, and which partners can make a Washington Street referral?"
+      ]
+    }
+  ]
+}

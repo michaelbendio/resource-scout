@@ -121,3 +121,24 @@ class FrontierEditorTests(unittest.TestCase):
         self.assertTrue(resource['id'].startswith('scout-lead:'));self.assertNotIn('verifiedOn',resource)
         self.assertEqual('Eligibility and hours unknown',resource['scoutLeadEvidence']['lead']['uncertainty'])
         self.assertIsNone(a['researchProjectId'])
+
+    def test_finished_bounded_research_keeps_coverage_gaps_in_export(self):
+        self.flow.submit(self.project,'early',json.dumps(self.result('early')),self.receipt)
+        pid=self.flow.start_research(self.project,settings())['researchProjectId']
+        m=MaintenanceWorkflow(self.store)
+        while a:=m.next_assignment(pid):
+            r=response(a)
+            r['executionReceipt']['coverageNotes']='One limited source scan; not exhaustive.'
+            r['executionReceipt']['remainingGaps']=['Other local providers have not been searched.']
+            m.submit(pid,a['stage'],r)
+        packet=self.flow.finish_research(self.project)
+        coverage=packet['package']['scoutDiscoveryCoverage']
+        self.assertEqual(pid,coverage['researchProjectId'])
+        self.assertTrue(coverage['assignments'])
+        self.assertTrue(all(x['remainingGaps'] for x in coverage['assignments']))
+        self.flow.submit(self.project,'final',json.dumps(self.result('final')),self.receipt)
+        self.flow=FrontierEditorWorkflow(ResearchStore(self.store.path))
+        exported=self.flow.export(self.project)
+        self.assertEqual(coverage,exported['manifest']['researchCoverage'])
+        self.assertEqual(coverage,read_package(exported['package'])['data']['scoutDiscoveryCoverage'])
+        self.assertEqual(packet,self.flow.finish_research(self.project))

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "protocol": "astra-sampled-v1",
+  "version": "welfare-square-pilot-20260909",
+  "serviceArea": "Welfare Square TSO context: Salt Lake City and reachable Salt Lake Valley services, Utah",
+  "sampling": {
+    "seed": "d28f9d7e-welfare-square-20260909",
+    "numerator": 1,
+    "denominator": 3
+  },
+  "deliberateCategoryIds": [],
+  "modelIdentities": {
+    "Codex": null,
+    "Claude": "Opus 5",
+    "ChatGPT": null,
+    "Grok": null,
+    "Perplexity": null
+  }
+}

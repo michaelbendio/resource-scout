@@ -1,0 +1,202 @@
+{"results":[
+{
+"schemaVersion":1,
+"taskId":"recheck:scout-lead:68615d197ac8f29fb5d8c43c",
+"assignmentSha256":"6a3d019cd4c059d34b6e3802d78c3756a408388ceddd8a440581f89f8e731767",
+"evidenceSources":[
+{"url":"https://uteta.org/programs/apply-now/","accessedOn":"2026-09-09","excerpt":"Applications accepted year-round. The application processing fee is $75.00. Submit required documents within 30 days. Aptitude test, then interview."},
+{"url":"https://uteta.org/contact/","accessedOn":"2026-09-09","excerpt":"Office Hours: Monday - Friday 8:00 am - 5:00 pm. Address: 7466 South Redwood Road West Jordan Utah 84084."},
+{"url":"https://uteta.org/programs/faqs/","accessedOn":"2026-09-09","excerpt":"Do I need a driver's license? YES. ID cards will not be accepted. Utah residents need a Utah license."}
+],
+"researchNotes":"The operator stopped an oversized first response; this is a compact completion drawn only from research already done in this chat, with no new searching. Program is operating; identity unchanged. Contact details that were blank in the record are now published (West Jordan, not the older Salt Lake City address in third-party directories). Two conflicts between the provider's own pages remain unresolved: application fee $75 on Apply Now versus $30 on the Inside Wireman page and application portal; classroom hours 720 versus 1,000. A direct fetch of the assigned Inside Wireman URL returned unreadable binary, so its text came from search-index excerpts only; that is a page-delivery quirk, not closure. Semester tuition, book and tool costs are real but unpublished. No provider was contacted and no application-to-start timing was estimated.",
+"items":[{
+"id":"scout-lead:68615d197ac8f29fb5d8c43c",
+"status":"changed",
+"program":"Inside Wireman Apprenticeship",
+"summary":"Operating and unchanged in substance. Phone, address and office hours now available and were blank. Application fee conflicts between official pages ($75 vs $30); classroom hours conflict (720 vs 1,000). Driver's licence requirement, 30-day document deadline and statewide work assignment are material.",
+"fields":{
+"description":"Paid apprenticeship training you to become a licensed electrician. Training center in West Jordan; apprentices can be assigned to work anywhere in Utah.",
+"phone":"801-975-1945",
+"address":"7466 South Redwood Road, West Jordan, UT 84084",
+"hours":"Office: Monday to Friday, 8:00 am to 5:00 pm",
+"website":"https://uteta.org/programs/careers-inside-wire/",
+"categories":["employment"],
+"categoryFilters":{"employment":["Apprenticeships"]},
+"informationSections":{
+"programsAndServices":"You are hired and paid by a union electrical contractor while you train, completing 8,000 hours of on-the-job training plus classroom weeks, with set pay raises as you progress. Finishing and passing the state test gives you a Utah journeyman electrician licence.",
+"eligibilityRequirements":"You must be 18 or older, have a high school diploma or GED, and have passed one year of algebra or an equivalent; if not, the Alliance says you can take a college algebra course or its Online Tech Math. You must provide a valid driver's licence (ID cards are not accepted), pass a timed aptitude test and an interview, and be willing to work anywhere in Utah from Logan to St. George.",
+"howToBestConnect":"Apply online through https://uteta.org/programs/apply-now/, then send your birth certificate, high school transcript, proof of graduation or GED, and proof of algebra within 30 days or the application closes and you must start over. If you need help, call 801-975-1945 or email apply@uteta.org; transcripts can be mailed to Application Processing at the West Jordan address.",
+"access":"Classes, testing and interviews happen at the West Jordan training center, reachable from Salt Lake City. Work assignments are separate: apprentices are dispatched through the IBEW hall and can be sent anywhere in Utah, so a licence and reliable transport are needed.",
+"importantInformationToKnow":"The application fee is disputed on the Alliance's own pages, $75.00 on one and $30.00 on two others, so call 801-975-1945 before paying; apprentices also pay for their own books, modules and semester tuition, and buy their own tools, with a full toolbox required by year two. Applying is not acceptance, applicants are ranked, and the Alliance says it receives a high volume of applications each month."
+}},
+"evidence":[0,1,2],
+"closureEvidence":[],
+"questions":[
+"Is the application fee $75 or $30? The Apply Now page says $75.00; the Inside Wireman page and the TradeSchool application portal both say $30.00 (all read 9 September 2026). These are all the provider's own pages, so one is stale. It matters because someone may be budgeting to the dollar. Ask the office at 801-975-1945 what is currently charged. I did not contact them.",
+"Should the handout say 720 or 1,000 classroom hours? The Inside Wireman page says 720; the Programs Overview page says 1,000. Both are current uteta.org pages and both agree on 8,000 on-the-job hours, so only the classroom figure is in doubt. I left the number out rather than pick one."
+],
+"nextCheckOn":"2027-03-09",
+"lastEvidenceOfOperationOn":"2026-09-09"
+}],
+"executionReceipt":{
+"complete":true,
+"model":"Opus 5",
+"contextId":"claude-welfare-square-blind-20260909",
+"freshContext":true,
+"isolatedInputs":true,
+"activeMinutes":4,
+"waitingMinutes":1,
+"coverageNotes":"Read Apply Now, Contact and FAQs pages directly; read the Inside Wireman, Programs Overview, apprentice info and portal pages via search excerpts only after a failed direct fetch. Confirmed operation and new contact details. No provider contacted. Minutes are my estimate, not measured. Compact rewrite after operator stopped an oversized response; no new research.",
+"remainingGaps":[
+"Application fee conflict ($75 vs $30) unresolved.",
+"Classroom hours conflict (720 vs 1,000) unresolved.",
+"Semester tuition, book and tool costs not published anywhere; no figure established.",
+"No published timeline from application to test, interview or start date; none estimated.",
+"Inside Wireman page never read as rendered HTML; recent edits may be missed.",
+"Telecommunications and Construction Wireman routes not researched.",
+"Unclear whether the DWS apprenticeship grant is open to applicants or only enrolled apprentices."
+]}},
+
+{
+"schemaVersion":1,
+"taskId":"recheck:scout-lead:a89109a8e8a5631794da3e55",
+"assignmentSha256":"4918bd57fc63e0f32c0360026514a79e6dbb55539cd9d5b907d8677ee7a374fd",
+"evidenceSources":[
+{"url":"https://jobs.utah.gov/jobseeker/career/apply.html","accessedOn":"2026-09-09","excerpt":"Submit application online or in-person at a local Employment Center. Counselor contacts you within three business days. Documentation within 45 days."},
+{"url":"https://jobs.utah.gov/jobseeker/index.html","accessedOn":"2026-09-09","excerpt":"Free help polishing a resume, applying for a job, nailing an interview or connecting to training. Find an Employment Center."},
+{"url":"https://jobs.utah.gov/ui/employer/public/handbook/DWS_EClisting.aspx","accessedOn":"2026-09-09","excerpt":"Direct fetch redirected to a JavaScript office-search page serving no office addresses; cached snippet showed Salt Lake Metro, 720 S 200 E."}
+],
+"researchNotes":"The operator stopped an oversized first response; this is a compact completion from research already done here, with no new searching. The agency and assigned website are operating. The gain is a supported intake route the record entirely lacked: apply online or in person, counselor contact within three business days, all verifications within 45 days, then an eligibility decision and an employment plan. Four qualifying situations for the Career and Education strand are now documented, distinguishing open job-search help from help you must apply for. I could not confirm the specific Salt Lake Metro office: the old static listing URL redirects to a JavaScript office finder that serves no addresses, and a cached snippet showing 720 S 200 E is not live confirmation, so address, phone and hours were left blank rather than filled with unverified values. Third-party hours were not accepted. No contact was made and no form submitted.",
+"items":[{
+"id":"scout-lead:a89109a8e8a5631794da3e55",
+"status":"changed",
+"program":"Utah Department of Workforce Services job seeker services, including Career and Education Assistance",
+"summary":"Operating. Recheck establishes an intake route, eligibility conditions and deadlines the record lacked. The record names the Salt Lake Metro employment center, but that office's address, phone and hours could not be confirmed from a live official page, so they remain blank.",
+"fields":{
+"description":"Free state help with looking for work: resumes, applications, interviews, workshops and hiring events, plus career counseling and possible funding toward training or a GED. Online and at employment centers across Salt Lake County and Utah.",
+"website":"https://jobs.utah.gov/jobseeker/index.html",
+"categories":["employment"],
+"categoryFilters":{"employment":["Job Search"]},
+"informationSections":{
+"programsAndServices":"Open to any job seeker: resume and application help, interview practice, the state job listings and phone app, workshops, and hiring events. Separate from that, you can apply for career counseling and money toward training, a diploma or GED, a licence or certificate, an apprenticeship, a college degree or paid work experience.",
+"eligibilityRequirements":"Job search tools, workshops and hiring events are open to job seekers generally, with nothing to qualify for. The training money is different: you apply and a counselor decides, and Workforce Services lists being laid off, a qualifying household income, being 14 to 24 and out of school and struggling, or having been in foster care and aged 16 to 26.",
+"howToBestConnect":"Apply online at https://jobs.utah.gov/jobseeker/career/apply.html, or hand in the same application in person at an employment center; the office finder is at https://jobs.utah.gov/jsp/officesearch/#/map and staff at any center can tell you which office covers you. A counselor should contact you within three business days, tells you what verifications you need, and you must supply them within 45 days before an eligibility decision and an employment plan meeting.",
+"access":"Workforce Services is statewide with several employment centers in Salt Lake County, and services are also available online and through a free phone app. There is more than one center in the valley, so the right one depends on where you live; an office location is not an eligibility boundary.",
+"importantInformationToKnow":"Services are free, but applying for training money is not the same as receiving it, and the 45-day document deadline is firm enough to ask about if you cannot get a paper in time. Ask which center covers you and whether you need an appointment, and if you are applying to an apprenticeship elsewhere, ask whether Workforce Services can help pay for it."
+}},
+"evidence":[0,1,2],
+"closureEvidence":[],
+"questions":[
+"Should this record stay named after the Salt Lake Metro Employment Center, or be renamed to the statewide job seeker service? The website on the record is the statewide job seeker page, not a page about that office, and the record has no address. The old static office listing now redirects to a JavaScript map serving no addresses; a cached snippet still shows Salt Lake Metro at 720 S 200 E with (801) 536-7000, but I did not read that on a live page today. This matters for a printed handout: 720 S 200 E is a very different walk from Welfare Square than Salt Lake Downtown at 158 S 200 W. Either confirm the Metro address by phone, or rename the record and let the office finder direct each person.",
+"Do you want office hours confirmed before printing? No official page gives hours. Third-party listings show Monday to Friday, 8:00 am to 5:00 pm, which I did not accept into the hours field. Worth asking in the same call as the address.",
+"Is the new Vocational Rehabilitation record too much overlap with this one? It sits inside Workforce Services, but has its own application, eligibility test, phone number and waiting list. Your call whether they are one entry or two; nothing about this record changes either way."
+],
+"nextCheckOn":"2027-03-09",
+"lastEvidenceOfOperationOn":"2026-09-09"
+}],
+"executionReceipt":{
+"complete":true,
+"model":"Opus 5",
+"contextId":"claude-welfare-square-blind-20260909",
+"freshContext":true,
+"isolatedInputs":true,
+"activeMinutes":3,
+"waitingMinutes":1,
+"coverageNotes":"Read the job seeker landing page and Apply for Services page directly. The employment center directory could not be read; it is now a JavaScript tool serving no addresses. Established intake route, eligibility and deadlines. No contact made, no form submitted. Minutes are my estimate. Compact rewrite after operator stopped an oversized response; no new research.",
+"remainingGaps":[
+"Salt Lake Metro address, phone and hours unconfirmed; directory unreadable and cached snippet not treated as evidence.",
+"No official source for employment center opening hours.",
+"Unknown whether walk-ins are seen same day at Salt Lake Valley centers.",
+"Refugee, veteran, youth and disability strands not researched in depth.",
+"No published figure for what counts as a qualifying household income.",
+"Current workshop availability in the Salt Lake Valley not checked.",
+"Whether this record should be one named office or the statewide service is unresolved."
+]}},
+
+{
+"schemaVersion":1,
+"taskId":"discovery:employment",
+"assignmentSha256":"0eb05411b43e7775e6f1f39ccde75c9411169dfb50c20c6459c6456ea46b2144",
+"evidenceSources":[
+{"url":"https://jobs.utah.gov/usor/vr/apply.html","accessedOn":"2026-09-09","excerpt":"Contact your local VR office or call 1-866-454-8397. Counselor has up to 60 days to determine eligibility."},
+{"url":"https://jobs.utah.gov/usor/vr/services/order.html","accessedOn":"2026-09-09","excerpt":"Significant Disability and Disability priority categories are closed. Placed on a list; USOR cannot provide training or job placement."},
+{"url":"https://utahca.org/workforce-development/","accessedOn":"2026-09-09","excerpt":"Classes, certifications and services at no cost. Adults 18 and over. All income levels accepted. Salt Lake or Tooele Counties."}
+],
+"researchNotes":"The operator stopped an oversized first response; this is a compact completion from research already done here, with no new searching. This was a limited scan, not a survey. I return two additions rather than three. The known pair leaves nothing for a person whose disability is the obstacle and nothing free and local for an adult needing a GED, job readiness or English, so each addition answers one of those. Vocational Rehabilitation sits inside Workforce Services, a known identity, but has its own application, eligibility test and toll-free number; its Order of Selection currently closes two of three priority categories, which materially limits what a missionary can promise. Utah Community Action is the strongest general fit: free, no income test, adults 18+ in Salt Lake or Tooele counties, and close to Welfare Square. I had a third candidate, Year Up United in Salt Lake City, and dropped it: its location page states only an age range of 18 to 29, with income, education, work authorisation and any stipend unstated, and I did not read its national application pages, so I recorded it as a gap rather than write an entry on assumptions. No provider was contacted and no form submitted.",
+"items":[
+{
+"id":"scout-lead:disc-usor-vr-20260909",
+"status":"new",
+"program":"Vocational Rehabilitation",
+"summary":"New addition filling the disability-barrier gap: counseling, training support, job placement and supported employment. Currently under an Order of Selection with two of three priority categories closed, so newly eligible people in those categories wait and receive referrals only.",
+"fields":{
+"name":"Utah State Office of Rehabilitation · Vocational Rehabilitation",
+"description":"Help getting and keeping a job for people whose disability makes working difficult. Offices around Utah including the Salt Lake area; part of the Utah Department of Workforce Services.",
+"phone":"1-866-454-8397",
+"website":"https://jobs.utah.gov/usor/vr/apply.html",
+"categories":["employment"],
+"categoryFilters":{"employment":["Job Search"]},
+"informationSections":{
+"programsAndServices":"You and a counselor build a written employment plan together, which can include counseling, support with training or education, help finding a job, supported employment, and assistive technology. Once you start work your case stays open at least 90 days so the counselor can keep helping.",
+"eligibilityRequirements":"You must have a significant physical or mental impairment that is a substantial obstacle to working, need these services to get or keep a job, and be expected to be able to work as a result. Only a counselor can decide, and they have up to 60 days from your appointment; bring any medical, psychological or school records, and if you have none the counselor will arrange an evaluation.",
+"howToBestConnect":"Call 1-866-454-8397 to find the office nearest you, attend a welcome session in person or online, and get an application from the office or at https://jobs.utah.gov/usor/vr/apply.html, which also links Spanish and large-print versions. Then make an appointment and bring your completed application, identification, your Social Security card and any records; you may bring someone with you.",
+"access":"Offices serve the whole state, including the Salt Lake area, and the toll-free number will tell you which one covers you. Applications come in Spanish and large print and the welcome session can be watched online, so say if getting to an office is difficult.",
+"importantInformationToKnow":"There is a waiting list right now: two of the three priority groups are closed, so if you are found eligible in a closed group without an existing plan you will receive information and referrals but not training or job placement until your group reopens. Places are filled by group first and then by application date, so applying sooner affects your position; free help disputing your group is available from the Disability Law Center on 1-800-662-9080."
+}},
+"evidence":[0,1],
+"closureEvidence":[],
+"questions":[
+"Do you want this as its own record given it sits inside Workforce Services? I split it because a patron cannot reach it through the ordinary DWS route: separate application, separate four-part eligibility test, own number 1-866-454-8397, and a waiting list that does not apply to ordinary job search help. Folding it in risks a missionary sending someone with a disability to an employment center, which is not the right route.",
+"Should the waiting list status be rechecked before printing? The Order of Selection page (read 9 September 2026) says the Significant Disability and Disability categories are closed. That can change with a budget cycle and is the single most important thing on the handout. I wrote the text to describe how the system works rather than promise the current status holds; if the handout will sit for months, consider a line telling the reader to ask whether their category is open."
+],
+"nextCheckOn":"2026-12-09",
+"lastEvidenceOfOperationOn":"2026-09-09"
+},
+{
+"id":"scout-lead:disc-uca-workforce-20260909",
+"status":"new",
+"program":"Workforce Development",
+"summary":"New addition. Free classes and one-to-one case management for adults in Salt Lake and Tooele counties: job readiness, financial literacy, GED preparation with exam fees covered, a child care credential, and referrals for English and further education. No income test; office close to Welfare Square.",
+"fields":{
+"name":"Utah Community Action · Workforce Development classes and job readiness",
+"description":"Free classes and one-to-one help for adults who want to find work, earn more, or finish their education. For adults living in Salt Lake or Tooele counties; office on 900 West in Salt Lake City.",
+"phone":"801-359-2444",
+"address":"1307 S 900 W, Salt Lake City, UT",
+"website":"https://utahca.org/workforce-development/",
+"categories":["employment"],
+"categoryFilters":{"employment":["Job Search"]},
+"informationSections":{
+"programsAndServices":"A case manager works with you one to one on job readiness topics, including resumes and interviewing, and on financial topics; you can do one topic or all six. They also offer GED preparation with study resources, a math tutor and practice tests, a Child Development Associate credential, and referrals to English classes and further training.",
+"eligibilityRequirements":"You must be 18 or over and live in Salt Lake County or Tooele County. All skill and learning levels are accepted, people who are not native English speakers are welcome, and all income levels are accepted; the child care credential is described as being for qualified applicants, so ask about that separately.",
+"howToBestConnect":"Call the intake team on 801-359-2444 and say you are interested in Workforce Development, or fill in the interest form at https://utahca.org/workforce-development/, which links English and Spanish versions. Staff contact you within a few days and finish the application with you over the phone, so you do not have to complete everything online; you can also email info@utahca.org.",
+"access":"The program serves adults living in Salt Lake or Tooele counties, and the office at 1307 S 900 W is on the west side of Salt Lake City near Welfare Square. Where classes actually happen is a separate question, since GED support involves partner classes elsewhere and the child care credential needs 480 hours in a preschool classroom.",
+"importantInformationToKnow":"Classes and services are at no cost and all GED fees including the exam fee are covered, which removes a real expense. The child care credential is a long commitment of 120 class hours plus 480 classroom hours on a school-year schedule, the GED course is currently English only with Spanish speakers referred to Granite Peaks, and English classes and further training are referrals to other organisations, so ask about their cost and wait."
+}},
+"evidence":[2],
+"closureEvidence":[],
+"questions":[
+"Are the culinary training and named financial literacy course actually running? Both appear as options in the enquiry form on https://utahca.org/workforce-development/ (read 9 September 2026) but neither is described anywhere in the body of that page. A culinary course would be genuinely useful for a Welfare Square patron as a route into food service work, but a form dropdown is not a described program and could be a leftover. I left both out of the patron text. Ask staff on 801-359-2444 whether the culinary training is currently offered, who can take it and what it leads to. I did not contact them.",
+"Should the record show hours? No opening hours for this program or the 900 West office appear anywhere on the page, so I left the field empty. Worth asking in the same call, particularly whether someone can walk in or whether everything goes through phone intake first."
+],
+"nextCheckOn":"2027-03-09",
+"lastEvidenceOfOperationOn":"2026-09-09"
+}],
+"executionReceipt":{
+"complete":true,
+"model":"Opus 5",
+"contextId":"claude-welfare-square-blind-20260909",
+"freshContext":true,
+"isolatedInputs":true,
+"activeMinutes":5,
+"waitingMinutes":1,
+"coverageNotes":"Limited scan, not exhaustive coverage of Salt Lake Valley employment services. Read the VR application and Order of Selection pages and the Utah Community Action Workforce Development page directly. Returned two additions rather than three; a third candidate was dropped for insufficient eligibility evidence rather than written on assumptions. No provider contacted, no form submitted. Minutes are my estimate. Compact rewrite after operator stopped an oversized response; no new research.",
+"remainingGaps":[
+"Year Up United Salt Lake City was dropped: its location page gives only an age range of 18 to 29, with income, education, work authorisation and any stipend unstated, and its national application pages were not read.",
+"Whether Vocational Rehabilitation should be separate from the existing DWS record is unresolved.",
+"VR waiting list status can change and no cost to the client is stated on the pages read.",
+"Utah Community Action opening hours and walk-in availability unknown.",
+"Two options on Utah Community Action's own enquiry form are undescribed and were not written into the record.",
+"Refugee, reentry, veteran and community college training routes were not scanned at all.",
+"Wait times to start classes or see a case manager are not published and were not estimated."
+]}}
+]}

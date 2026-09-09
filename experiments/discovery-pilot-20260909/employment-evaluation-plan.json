@@ -1,0 +1,57 @@
+{
+  "preparedBeforeDispatch": true,
+  "method": "Evaluate against saved public facts, not the previous editor’s label. Different defensible reserve/retain decisions are not accuracy gains. Count an omission as critical only if the response as a whole loses a consequential condition.",
+  "criteria": [
+    {
+      "caseId": "employment-1",
+      "mustPreserve": [
+        "Paid work during four-year training is distinct from waiting four years for work.",
+        "$40 application fee, $187 monthly training cost, selection uncertainty, qualification and regional travel requirements."
+      ],
+      "notRequired": "Automatically retain despite all practical barriers."
+    },
+    {
+      "caseId": "employment-2",
+      "mustPreserve": [
+        "Paid temporary training for unemployed low-income adults 55+, eligibility review and roughly 20 hours weekly.",
+        "Named grantee entry route, limited places or waitlists, not a permanent job guarantee."
+      ],
+      "notRequired": "Reject age-specific service or demand immediate placement."
+    },
+    {
+      "caseId": "employment-3",
+      "mustPreserve": [
+        "Free job placement, variable openings and job requirements.",
+        "Phone/in-person help; account alone is not a submitted Mesa application.",
+        "Benefits and training are conditional, not guaranteed on applying."
+      ],
+      "notRequired": "Enumerate every optional benefit."
+    },
+    {
+      "caseId": "employment-4",
+      "mustPreserve": [
+        "Disability service with named direct contact and caseworker/VR/DDD referral possibilities.",
+        "Funding and possible cost must be confirmed; business payments do not prove participant wages."
+      ],
+      "notRequired": "Treat every referral as unusable."
+    },
+    {
+      "caseId": "employment-5",
+      "mustPreserve": [
+        "Free nine-week weekday training, daily Phoenix travel, not guaranteed employment.",
+        "Age/work eligibility, screening and living-arrangement restrictions; housing not included."
+      ],
+      "notRequired": "Treat nine weeks of training as nine weeks of no useful help."
+    },
+    {
+      "caseId": "employment-6",
+      "mustPreserve": [
+        "Paid crew jobs restricted to specified housing residents.",
+        "Separate nonresident job help remains unconfirmed.",
+        "Housing contribution rules conflict; do not promise a free public job route."
+      ],
+      "notRequired": "Exclude all useful housing support because this is an Employment test."
+    }
+  ],
+  "decisionRule": "No clear benefit unless at least one consequential error is corrected without an offsetting regression. Even a positive result remains inactive."
+}

@@ -2,7 +2,7 @@
 
 Authorized September 9, 2026. Work on v2.0 and preserve main, the completed research and office packages. No new whole-office run. Each increment gets verification, a short experience review and the next-step reminder. Michael subsequently authorized proceeding with available work and explicitly requested measurement-driven optimization after the limited test.
 
-September 9 delivery: Increment 1 is implemented and exercised with a real six-case Claude comparison; the result is no clear accuracy gain, with no activation. Increment 2 follows measured evidence with a smaller lossless repeated-context format rather than a full task-store migration. Increment 3 is integrated and tested synthetically through research, HTML/package output and answer/PDF preservation; its real discovery pilot is still due. Collection of ordinary comparison evidence is implemented; automatic distillation, activation/rollback of learned guidance and adaptive research policy remain future increments. See [results](scout-learning-editor-results.md).
+September 9 delivery: Increments 1–3 are implemented and tested. The follow-up real Welfare Square Employment pilot exercised early editing, seven limited scans, blind research, reconciliation and final HTML/package export. Five of six researched resources were retained; scope and gaps now travel with exports. Neither paired learning test justifies activation. Automatic distillation, reviewed activation/rollback and adaptive research remain future increments. See the [initial results](scout-learning-editor-results.md) and [real discovery pilot](scout-discovery-pilot-results.md).
 
 ## Increment 1 — a real, limited learning experiment and timing foundation
 

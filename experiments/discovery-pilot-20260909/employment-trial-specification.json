@@ -1,0 +1,44 @@
+{
+  "name": "Employment practical-entry paired test 2026-09-09",
+  "operator": "Astra / Codex operator",
+  "reason": "Authorized limited follow-up to the inconclusive mixed-category test. All six cases now use Employment guidance. Support comes from prior editorial evidence, not these cases.",
+  "modelConfig": {
+    "provider": "Claude web",
+    "model": "Opus 5",
+    "settings": {
+      "effort": "High",
+      "tools": "none requested",
+      "context": "separate incognito chat per arm; service isolation not independently audited"
+    }
+  },
+  "sourceSha256": "e62e012837d0fc909775e26cc21c831b30c3035c357f2ee02b1ec4171073eea0",
+  "cases": [
+    {
+      "caseId": "employment-1",
+      "resourceId": "mesa-employment-pejatc"
+    },
+    {
+      "caseId": "employment-2",
+      "resourceId": "mesa-employment-scsep"
+    },
+    {
+      "caseId": "employment-3",
+      "resourceId": "ffb70295ec3f1e3256fc1955ec7ad5c0"
+    },
+    {
+      "caseId": "employment-4",
+      "resourceId": "mesa-employment-copa-ers"
+    },
+    {
+      "caseId": "employment-5",
+      "resourceId": "mesa-employment-st-mary-skills"
+    },
+    {
+      "caseId": "employment-6",
+      "resourceId": "83d02712bba592a7bc59214e02c13b72"
+    }
+  ],
+  "maxAssignments": 2,
+  "maxSeconds": 3600,
+  "evaluationBasis": "Prepared criteria are held outside respondent packets. Score factual interpretation, preserved useful options, consequential details and unsupported promises. Reasoned reserve versus retain is not automatically an error. These are saved facts, not current phone verification. One trial is exploratory and cannot activate guidance."
+}

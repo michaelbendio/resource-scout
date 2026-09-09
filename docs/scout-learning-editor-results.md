@@ -1,5 +1,7 @@
 # September 9: learning test, editor integration and speed results
 
+Follow-up: the [real Welfare Square Employment pilot](scout-discovery-pilot-results.md) is now complete, including a second paired learning test. The original measurements below remain historical.
+
 Scout now has a working evidence → proposal → paired experiment → assessment path, plus an opt-in early/final frontier editor connected to its existing research engine. A measured checkpoint optimization is implemented. Production playbooks and the completed Mesa delivery were not changed.
 
 ## What the real learning test found
@@ -49,10 +51,10 @@ Remaining measured costs include approximately six seconds of sealed-assignment 
 - Supported field and five-section validation, no invented curation, source/destination accounting, unused Type/group cleanup, exact original/donor records, PDF preservation and refusal to silently combine conflicting curator answers.
 - Restart/immutability, invalid identity/hash/receipt handling, malformed response preservation, transactional rollback, legacy/compact checkpoint round trips, no-clobber database copying, timing-output failures and synthetic browser/editor/export/merge checks.
 
-The final verification receipt beside the experiment records the exact test count and result. The external-model test is real; the new-discovery end-to-end test is synthetic. A real new-office/category editor pilot is still required before broad operation.
+The final verification receipt beside the experiment records the exact test count and result. In this initial delivery, the external-model test was real and the new-discovery end-to-end test was synthetic. The later [real discovery pilot](scout-discovery-pilot-results.md) supplies the next evidence; neither pilot establishes full office coverage.
 
 ## Where we are in the grand plan
 
 We have moved beyond merely saving observations: Scout can now preserve an experiment and its actual outcome, including an unconvincing result. Frontier editing is connected to research and delivery as an opt-in operator workflow, with machine-checked accounting and preserved evidence. The first measured storage improvement is complete.
 
-The next increment should be a small real discovery pilot through these editorial stages, paired with a better-scoped learning test. After reviewing that experience, add reviewed guidance activation/rollback and ordinary feedback distillation, then adaptive research passes/model choices. No bulk lesson activation, new whole-office Mesa run or production publication occurred in this delivery.
+The next increment identified at this initial delivery was a small real discovery pilot through these editorial stages, paired with a better-scoped learning test. That follow-up is now complete; see the report linked above. After reviewing that experience, add reviewed guidance activation/rollback and ordinary feedback distillation, then adaptive research passes/model choices. No bulk lesson activation, new whole-office Mesa run or production publication occurred in this delivery.

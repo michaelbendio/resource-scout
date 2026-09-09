@@ -1,0 +1,212 @@
+{
+  "projectId": "a62dc235e86ee47558aaf4e4a90539160a43c3f9cf9aff0e5104c564a74f2c8d",
+  "stage": "final",
+  "sourceSha256": "36bace024634a1e1bada1185a8692e105acedc65a86c5ef1c22a795d73d7708e",
+  "outputSha256": "d846108e10c307c4e81cd30b74491095239532da49588c063bc4cec017d7cb58",
+  "sourceScope": "partial",
+  "researchCoverage": {
+    "sourceScope": "partial",
+    "researchProjectId": 1,
+    "researchRevision": 40,
+    "categoryIds": [
+      "employment"
+    ],
+    "meaning": "Selected assignments completed; remaining gaps are not demonstrated coverage.",
+    "assignments": [
+      {
+        "taskId": "recheck:scout-lead:68615d197ac8f29fb5d8c43c",
+        "stage": "primary",
+        "researcher": "Codex",
+        "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+        "remainingGaps": [
+          "This small pilot does not establish complete Employment coverage."
+        ]
+      },
+      {
+        "taskId": "recheck:scout-lead:68615d197ac8f29fb5d8c43c",
+        "stage": "freeze",
+        "researcher": "Codex",
+        "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+        "remainingGaps": [
+          "This small pilot does not establish complete Employment coverage."
+        ]
+      },
+      {
+        "taskId": "recheck:scout-lead:68615d197ac8f29fb5d8c43c",
+        "stage": "blind:Claude",
+        "researcher": "Claude",
+        "coverageNotes": "Read Apply Now, Contact and FAQs pages directly; read the Inside Wireman, Programs Overview, apprentice info and portal pages via search excerpts only after a failed direct fetch. Confirmed operation and new contact details. No provider contacted. Minutes are my estimate, not measured. Compact rewrite after operator stopped an oversized response; no new research.",
+        "remainingGaps": [
+          "Application fee conflict ($75 vs $30) unresolved.",
+          "Classroom hours conflict (720 vs 1,000) unresolved.",
+          "Semester tuition, book and tool costs not published anywhere; no figure established.",
+          "No published timeline from application to test, interview or start date; none estimated.",
+          "Inside Wireman page never read as rendered HTML; recent edits may be missed.",
+          "Telecommunications and Construction Wireman routes not researched.",
+          "Unclear whether the DWS apprenticeship grant is open to applicants or only enrolled apprentices."
+        ]
+      },
+      {
+        "taskId": "recheck:scout-lead:68615d197ac8f29fb5d8c43c",
+        "stage": "reconcile",
+        "researcher": "Codex",
+        "coverageNotes": "Actual source-checked reconciliation. Shared operator timing is unallocated; zero values are not measured zero effort.",
+        "remainingGaps": [
+          "No provider phone verification. The pilot is not exhaustive Employment coverage.",
+          "Local DWS in-person routing and apprenticeship initial costs remain questions."
+        ]
+      },
+      {
+        "taskId": "recheck:scout-lead:a89109a8e8a5631794da3e55",
+        "stage": "primary",
+        "researcher": "Codex",
+        "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+        "remainingGaps": [
+          "This small pilot does not establish complete Employment coverage."
+        ]
+      },
+      {
+        "taskId": "recheck:scout-lead:a89109a8e8a5631794da3e55",
+        "stage": "freeze",
+        "researcher": "Codex",
+        "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+        "remainingGaps": [
+          "This small pilot does not establish complete Employment coverage."
+        ]
+      },
+      {
+        "taskId": "recheck:scout-lead:a89109a8e8a5631794da3e55",
+        "stage": "blind:Claude",
+        "researcher": "Claude",
+        "coverageNotes": "Read the job seeker landing page and Apply for Services page directly. The employment center directory could not be read; it is now a JavaScript tool serving no addresses. Established intake route, eligibility and deadlines. No contact made, no form submitted. Minutes are my estimate. Compact rewrite after operator stopped an oversized response; no new research.",
+        "remainingGaps": [
+          "Salt Lake Metro address, phone and hours unconfirmed; directory unreadable and cached snippet not treated as evidence.",
+          "No official source for employment center opening hours.",
+          "Unknown whether walk-ins are seen same day at Salt Lake Valley centers.",
+          "Refugee, veteran, youth and disability strands not researched in depth.",
+          "No published figure for what counts as a qualifying household income.",
+          "Current workshop availability in the Salt Lake Valley not checked.",
+          "Whether this record should be one named office or the statewide service is unresolved."
+        ]
+      },
+      {
+        "taskId": "recheck:scout-lead:a89109a8e8a5631794da3e55",
+        "stage": "reconcile",
+        "researcher": "Codex",
+        "coverageNotes": "Actual source-checked reconciliation. Shared operator timing is unallocated; zero values are not measured zero effort.",
+        "remainingGaps": [
+          "No provider phone verification. The pilot is not exhaustive Employment coverage.",
+          "Local DWS in-person routing and apprenticeship initial costs remain questions."
+        ]
+      },
+      {
+        "taskId": "discovery:employment",
+        "stage": "pass:public-workforce",
+        "researcher": "Codex",
+        "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+        "remainingGaps": [
+          "Which additional public pathways add distinct help beyond the Metro center?"
+        ]
+      },
+      {
+        "taskId": "discovery:employment",
+        "stage": "pass:immediate-employment",
+        "researcher": "Codex",
+        "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+        "remainingGaps": [
+          "Confirm current branch intake hours and identification requirements. Other staffing agencies were not compared."
+        ]
+      },
+      {
+        "taskId": "discovery:employment",
+        "stage": "pass:training-advancement",
+        "researcher": "Codex",
+        "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+        "remainingGaps": [
+          "What is the current selection delay and total initial expense? College and other trade programs remain outside this limited scan."
+        ]
+      },
+      {
+        "taskId": "discovery:employment",
+        "stage": "pass:supported-employment",
+        "researcher": "Codex",
+        "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+        "remainingGaps": [
+          "Confirm local application route and current priority status before drafting a patron referral."
+        ]
+      },
+      {
+        "taskId": "discovery:employment",
+        "stage": "pass:population-specific",
+        "researcher": "Codex",
+        "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+        "remainingGaps": [
+          "Can a refugee who is not already an IRC client enroll in employment help? Reentry, youth, senior and other pathways remain unsearched."
+        ]
+      },
+      {
+        "taskId": "discovery:employment",
+        "stage": "pass:community-embedded",
+        "researcher": "Codex",
+        "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+        "remainingGaps": [
+          "Confirm current center hours. Shelter and other community programs remain unsearched."
+        ]
+      },
+      {
+        "taskId": "discovery:employment",
+        "stage": "pass:non-obvious-sources",
+        "researcher": "Codex",
+        "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+        "remainingGaps": [
+          "Which registered providers offer a reachable intake route for the intended patron? Further contracts and grants were not searched."
+        ]
+      },
+      {
+        "taskId": "discovery:employment",
+        "stage": "primary",
+        "researcher": "Codex",
+        "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+        "remainingGaps": [
+          "This small pilot does not establish complete Employment coverage."
+        ]
+      },
+      {
+        "taskId": "discovery:employment",
+        "stage": "freeze",
+        "researcher": "Codex",
+        "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+        "remainingGaps": [
+          "This small pilot does not establish complete Employment coverage."
+        ]
+      },
+      {
+        "taskId": "discovery:employment",
+        "stage": "blind:Claude",
+        "researcher": "Claude",
+        "coverageNotes": "Limited scan, not exhaustive coverage of Salt Lake Valley employment services. Read the VR application and Order of Selection pages and the Utah Community Action Workforce Development page directly. Returned two additions rather than three; a third candidate was dropped for insufficient eligibility evidence rather than written on assumptions. No provider contacted, no form submitted. Minutes are my estimate. Compact rewrite after operator stopped an oversized response; no new research.",
+        "remainingGaps": [
+          "Year Up United Salt Lake City was dropped: its location page gives only an age range of 18 to 29, with income, education, work authorisation and any stipend unstated, and its national application pages were not read.",
+          "Whether Vocational Rehabilitation should be separate from the existing DWS record is unresolved.",
+          "VR waiting list status can change and no cost to the client is stated on the pages read.",
+          "Utah Community Action opening hours and walk-in availability unknown.",
+          "Two options on Utah Community Action's own enquiry form are undescribed and were not written into the record.",
+          "Refugee, reentry, veteran and community college training routes were not scanned at all.",
+          "Wait times to start classes or see a case manager are not published and were not estimated."
+        ]
+      },
+      {
+        "taskId": "discovery:employment",
+        "stage": "reconcile",
+        "researcher": "Codex",
+        "coverageNotes": "Actual source-checked reconciliation. Shared operator timing is unallocated; zero values are not measured zero effort.",
+        "remainingGaps": [
+          "No provider phone verification. The pilot is not exhaustive Employment coverage.",
+          "Local DWS in-person routing and apprenticeship initial costs remain questions."
+        ]
+      }
+    ]
+  },
+  "humanApprovalsCreated": 0,
+  "resources": 5
+}

@@ -1,0 +1,46 @@
+{
+  "phases": {
+    "checkpoint.database_read": {
+      "count": 34,
+      "sumSeconds": 0.013194335158914328,
+      "maxSeconds": 0.0005633339751511812
+    },
+    "checkpoint.json_decode": {
+      "count": 66,
+      "sumSeconds": 0.06904583529103547,
+      "maxSeconds": 0.0022690839832648635
+    },
+    "research.execution_validation": {
+      "count": 34,
+      "sumSeconds": 0.05757432954851538,
+      "maxSeconds": 0.0034704579738900065
+    },
+    "checkpoint.share_repeated_context": {
+      "count": 32,
+      "sumSeconds": 0.05256016436032951,
+      "maxSeconds": 0.0039236670127138495
+    },
+    "checkpoint.json_encode": {
+      "count": 32,
+      "sumSeconds": 0.041208248934708536,
+      "maxSeconds": 0.00265195791143924
+    },
+    "checkpoint.database_write": {
+      "count": 32,
+      "sumSeconds": 0.010675288969650865,
+      "maxSeconds": 0.0006877909181639552
+    },
+    "database.commit": {
+      "count": 37,
+      "sumSeconds": 0.022169455769471824,
+      "maxSeconds": 0.0017011669697239995
+    }
+  },
+  "meaning": "Nested local operation timings; sums are not wall-clock duration. External research and UI are excluded. Primary active/waiting zeros are unallocated timing, not measured zero effort. Claude minute values are model estimates. No defensible per-provider speed or cost comparison.",
+  "externalInterventions": 1,
+  "interventionReason": "Stopped oversized streamed research response and requested compact completion using existing research only.",
+  "partialResponseCharacters": 56489,
+  "partialResponseSha256": "90ce0cfbc3e7b098c09195153ccdab125c10494bd03d48a936530eaa85e3a8b6",
+  "completeResearchReplyCharacters": 24795,
+  "incrementalCostUSD": null
+}
