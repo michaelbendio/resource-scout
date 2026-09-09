@@ -78,6 +78,43 @@ class MeetingEditionTests(unittest.TestCase):
         self.assertEqual(self.data.get('deletionRequests',[]),data.get('deletionRequests',[]))
         self.assertEqual('possibly-closed',edition.manifest['heldProposals'][0]['status'])
 
+    def test_curator_details_are_readable_and_existing_resolutions_survive(self):
+        details = 'The provider lists 9 a.m.; its directory lists 10 a.m. Ask which applies before arranging a ride.'
+        while a := self.flow.next_assignment(self.pid,task_id='recheck:r1'):
+            result = result_for(a)
+            if a['stage'] == 'reconcile':
+                result['items'][0]['questions'] = ['When does pickup start? ' + details]
+                result['items'][0]['summary'] = 'Updated contact.\n\nBlind reconciliation: Internal task IDs and rejected drafts.'
+            self.flow.submit(self.pid,a['stage'],result)
+        before = deepcopy(self.flow.view(self.pid))
+        edition = self.build()
+        resource = next(r for r in read_package(edition.package)['data']['resources'] if r['id']=='r1')
+        self.assertEqual(self.data['resources'][0]['openQuestions'][0],resource['openQuestions'][0])
+        question = resource['openQuestions'][1]
+        self.assertEqual('When does pickup start?',question['question'])
+        self.assertTrue(question['explanation'].startswith(details))
+        self.assertIn('Sources checked:',question['explanation'])
+        self.assertNotIn('Internal task IDs',question['explanation'])
+        self.assertEqual('open',question['status'])
+        self.assertEqual('',question['resolution'])
+        self.assertEqual(before,self.flow.view(self.pid))
+        self.assertNotIn('Internal task IDs',render_meeting_overview(edition,self.data))
+
+    def test_short_held_question_keeps_evidence_without_internal_reconciliation(self):
+        while a := self.flow.next_assignment(self.pid,task_id='recheck:r1'):
+            result = result_for(a,status='possibly-closed')
+            if a['stage'] == 'reconcile':
+                result['items'][0]['questions'] = ['Did this program close?']
+                result['items'][0]['summary'] = 'The provider notice names this program, but the current directory still lists appointments.\n\nBlind reconciliation: Internal classification mechanics.'
+            self.flow.submit(self.pid,a['stage'],result)
+        edition = self.build()
+        resource = next(r for r in read_package(edition.package)['data']['resources'] if r['id']=='r1')
+        question = resource['openQuestions'][1]
+        self.assertEqual('Did this program close?',question['question'])
+        self.assertIn('current directory still lists appointments',question['explanation'])
+        self.assertNotIn('Internal classification',question['explanation'])
+        self.assertEqual(self.data['resources'][0]['name'],resource['name'])
+
     def test_pilot_and_continuation_combine_only_matching_exact_snapshots(self):
         self.finish()
         other=self.flow.prepare(self.payload,'Test TSO',['r2'],[],run_name='Synthetic continuation')['id']

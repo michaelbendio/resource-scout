@@ -50,6 +50,22 @@ class _ReadOnlyStore:
             connection.close()
 
 
+def _curator_question(text, summary, urls):
+    """Separate a curator's question from its explanation, not research mechanics."""
+    title, mark, details = text.partition('?')
+    if mark and details.strip():
+        question = title.strip() + '?'
+        explanation = details.strip()
+    else:
+        question = text
+        # The complete reconciliation remains in the research record. It often
+        # discusses task IDs, taxonomy and rejected drafts, not the open issue.
+        explanation = summary.split('\n\nBlind reconciliation:', 1)[0].strip()
+    if urls:
+        explanation += '\n\nSources checked:\n' + '\n'.join(urls)
+    return {'question': question, 'explanation': explanation}
+
+
 def build_meeting_edition(workflow, projects, *, location_name, created_at):
     """Read exact (project ID, revision) snapshots without modifying the run.
 
@@ -131,9 +147,8 @@ def build_meeting_edition(workflow, projects, *, location_name, created_at):
                         'identity':'Which program should this resource describe?',
                     }.get(row['status'],'Is this program currently available, and where should someone start?')]
                     urls = manifest['heldProposals'][-1]['sources']
-                    explanation = row['summary'] + ('\n\nSources checked:\n' + '\n'.join(urls) if urls else '')
                     attach_questions(resource, make_questions([
-                        {'question': q, 'explanation': explanation} for q in questions], provenance))
+                        _curator_question(q, row['summary'], urls) for q in questions], provenance))
                     resource['lastModified'] = created_at
                     resource['scoutResearch'] = {**provenance, 'curationRequired': True,
                         'reviewStatus': 'held', 'sources': urls}
@@ -150,9 +165,8 @@ def build_meeting_edition(workflow, projects, *, location_name, created_at):
                     raise ImprovementError('Delivery timestamp must follow the resource timestamp')
             resource['lastModified'] = created_at
             urls = list(dict.fromkeys(row['sources'][i]['url'] for i in row['evidence']))
-            explanation = row['summary'] + ('\n\nSources checked:\n' + '\n'.join(urls) if urls else '')
             attach_questions(resource, make_questions([
-                {'question': q, 'explanation': explanation} for q in row['questions']], provenance))
+                _curator_question(q, row['summary'], urls) for q in row['questions']], provenance))
             resource['scoutResearch'] = {**provenance, 'curationRequired': True, 'sources': urls}
             resources[rid] = resource
             manifest['appliedProposals'].append({**provenance, 'name': row['program'],
