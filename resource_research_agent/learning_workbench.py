@@ -1,9 +1,10 @@
-"""Attributable lesson proposals and bounded paired trials. No activation side effects.
+"""Attributable lesson proposals and bounded paired trials.
 
 Exact source artifacts and records are immutable. Task receipts are small rows;
 the existing research project's growing checkpoint is never rewritten here.
 """
 from copy import deepcopy
+from contextlib import nullcontext
 import hashlib
 import json
 import math
@@ -12,6 +13,7 @@ import time
 from .improvement_packages import ImprovementError, digest, nonempty, read_package, utcnow
 from .learning_evidence import EvidenceLedger
 from .performance import measured
+from .learning_activation import ActivationMixin
 
 SCHEMA = '''
 CREATE TABLE IF NOT EXISTS scout_learning_artifacts (
@@ -53,12 +55,13 @@ def texts(value, label, *, empty=False):
     return result
 
 
-class LearningWorkbench:
+class LearningWorkbench(ActivationMixin):
     def __init__(self, store, *, clock=None):
         self.store = store
         self.clock = clock or time.time
         with store.connect() as c:
             c.executescript(SCHEMA)
+        self._init_activation()
 
     @staticmethod
     def _record(c, kind, document):
@@ -165,7 +168,7 @@ class LearningWorkbench:
                 ids.append(self._record(c, 'observation', obs))
         return {'observationIds': ids, 'count': len(ids), 'activeLessons': 0}
 
-    def propose(self, document):
+    def propose(self, document, *, _connection=None):
         exact(document, ('title', 'supportIds', 'scope', 'hypothesis', 'alternativeExplanation',
                          'counterexample', 'baseline', 'addition', 'evaluationQuestion'), 'Lesson proposal')
         proposal = deepcopy(document)
@@ -182,16 +185,24 @@ class LearningWorkbench:
         nonempty(proposal['baseline']['text'], 'Guidance text')
         if hashlib.sha256(proposal['baseline']['text'].encode()).hexdigest() != proposal['baseline']['sha256']:
             raise ImprovementError('Baseline guidance hash mismatch')
-        with self.store.connect() as c:
-            c.execute('BEGIN IMMEDIATE')
+        with (nullcontext(_connection) if _connection is not None else self.store.connect()) as c:
+            if _connection is None:
+                c.execute('BEGIN IMMEDIATE')
             for support in proposal['supportIds']:
                 self._get(c, support, 'observation')
             ident = self._record(c, 'lesson', proposal)
         return {'lessonId': ident, 'status': 'proposed', 'active': False}
 
     def prepare_trial(self, lesson_id, specification):
+        protocol = specification.get('researchProtocol')
+        if protocol is not None:
+            exact(protocol, ('version', 'maxSourcePages', 'maxWebCalls'), 'Research protocol')
+            if type(protocol['version']) is not int or protocol['version'] != 2 or any(type(protocol[k]) is not int or not 1 <= protocol[k] <= 80
+                                              for k in ('maxSourcePages', 'maxWebCalls')):
+                raise ImprovementError('Research protocol 2 needs bounded source and web allowances')
         exact(specification, ('name', 'operator', 'reason', 'modelConfig', 'sourceSha256',
-                              'cases', 'maxAssignments', 'maxSeconds', 'evaluationBasis'), 'Trial specification')
+                              'cases', 'maxAssignments', 'maxSeconds', 'evaluationBasis',
+                              *(('researchProtocol',) if protocol is not None else ())), 'Trial specification')
         spec = deepcopy(specification)
         for k in ('name', 'operator', 'reason', 'evaluationBasis'):
             nonempty(spec[k], k)
@@ -210,10 +221,17 @@ class LearningWorkbench:
         with self.store.connect() as c:
             c.execute('BEGIN IMMEDIATE')
             lesson = self._get(c, lesson_id, 'lesson')
+            if protocol and lesson['scope']['stage'] != 'research':
+                raise ImprovementError('Live research trials require a research-stage proposal')
             package = read_package(self._bytes(c, spec['sourceSha256'], 'resource-package'))
             training = set()
             for support in lesson['supportIds']:
                 training.update(self._get(c, support, 'observation')['resourceIds'])
+            for row in c.execute("SELECT id FROM scout_learning_records WHERE kind='distillation'"):
+                distillation = self._get(c, row[0], 'distillation')
+                if distillation['lessonId'] == lesson_id:
+                    for counter in distillation['counterevidenceIds']:
+                        training.update(self._get(c, counter, 'observation')['resourceIds'])
             seen, resources, cases = set(), set(), []
             for case in spec['cases']:
                 exact(case, ('caseId', 'resourceId'), 'Trial case')
@@ -228,10 +246,26 @@ class LearningWorkbench:
                 cases.append({'caseId': cid, 'resourceId': rid, 'resource': {
                     k: deepcopy(original.get(k, '')) for k in
                     ('name', 'description', 'informationText', 'phone', 'address', 'website', 'hours')}})
+                if protocol:
+                    cases[-1]['resource'] = {k: deepcopy(original.get(k, '')) for k in ('name', 'website')}
             trial = {'lessonId': lesson_id, 'specification': spec, 'cases': cases,
                      'baselineGuidance': lesson['baseline']['text'],
                      'candidateGuidance': lesson['baseline']['text'] + '\n\n' + lesson['addition'],
                      'purpose': 'Saved-case interpretation experiment; not new discovery or human verification.'}
+            head, active = self._head(c)
+            scope = {k: v.casefold() for k, v in lesson['scope'].items()}
+            current = [(ident, self._get(c, ident, 'lesson')) for ident in active['entries']]
+            current = [(ident, item) for ident, item in current
+                       if {k: v.casefold() for k, v in item['scope'].items()} == scope]
+            if current:
+                for _, item in current:
+                    self._check_baseline(item)
+                    if item['baseline']['sha256'] != lesson['baseline']['sha256']:
+                        raise ImprovementError('Trial baseline differs from the active guidance baseline')
+                trial['baselineGuidance'] += '\n\n' + '\n\n'.join(item['addition'] for _, item in current)
+                trial['guidanceContext'] = {'manifestId': head, 'baselineLessonIds': [ident for ident, _ in current]}
+            if protocol:
+                trial['purpose'] = 'Bounded primary research from fresh leads; not human verification.'
             ident = self._record(c, 'trial', trial)
             c.execute('INSERT OR IGNORE INTO scout_learning_trials VALUES(?,NULL)', (ident,))
         return {'trialId': ident, 'status': 'approved-for-experiment', 'active': False,
@@ -266,6 +300,20 @@ class LearningWorkbench:
                       'and openQuestions (array of strings). Account for every case. Preserve usable named referrals '
                       'and consequential eligibility, cost and timing details. Do not invent provider facts or human approval.',
                       'guidance': trial[arm + 'Guidance'], 'cases': trial['cases']}
+            if trial['specification'].get('researchProtocol'):
+                packet['schemaVersion'] = 2
+                packet['researchProtocol'] = trial['specification']['researchProtocol']
+                packet['scope'] = self._get(c, trial['lessonId'], 'lesson')['scope']
+                packet['instructions'] = (
+                    'Research each lead for practical TSO usefulness using the supplied guidance and public primary sources. '
+                    'TSO service missionaries help people in need find practical services. '
+                    'Use fresh source evidence; do not read other chats, local project files, or prior assessments. '
+                    'Do not contact providers. Respect the supplied source-page and web-call ceilings across this assignment. '
+                    'Return JSON only with assignmentSha256, complete (boolean), and cases. Each case needs caseId, '
+                    'decision (retain/reserve/exclude/needs-check), reason, criticalDetails (array of strings), '
+                    'and openQuestions (array of strings). Include supporting source URLs with the factual details. '
+                    'Account for every case. Distinguish source facts from uncertainty; do not invent facts or human approval. '
+                    'If evidence or time runs out, explain gaps in the affected cases.')
             packet['assignmentSha256'] = digest(packet)
             c.execute('INSERT INTO scout_learning_runs VALUES(?,?,?,?,?,NULL)',
                       (trial_id, arm, context_id, now, json.dumps(packet, ensure_ascii=False)))
@@ -392,13 +440,15 @@ class LearningWorkbench:
             dispatches = c.execute('SELECT count(*) FROM scout_learning_runs WHERE trial_id=?', (trial_id,)).fetchone()[0]
         result = {'trialId': trial_id, 'lessonId': trial['lessonId'], 'name': trial['specification']['name'],
                   'status': 'evaluated' if assessment else 'awaiting-assessment' if len(responses) == 2 and all(x['result']['complete'] for x in responses.values()) else 'incomplete',
-                  'active': False, 'caseCount': len(trial['cases']), 'dispatches': dispatches,
+                  'active': self.lesson_status(trial['lessonId']) == 'active',
+                  'lessonStatus': self.lesson_status(trial['lessonId']),
+                  'caseCount': len(trial['cases']), 'dispatches': dispatches,
                   'modelConfig': trial['specification']['modelConfig'],
                   'responses': {arm: {'complete': r['result']['complete'], 'elapsedSeconds': r['elapsedSeconds'],
                                      'late': r['late'], 'incrementalCostUSD': r['receipt']['incrementalCostUSD'],
                                      'interventions': r['receipt']['interventions']} for arm, r in responses.items()},
                   'assessment': assessment, 'quality': {},
-                  'limits': 'Small saved-case test. Timing includes operator handoff. No production guidance activation or provider verification.'}
+                  'limits': trial['purpose'] + ' Timing includes operator handoff. Evaluation alone does not activate guidance.'}
         if assessment:
             cases = assessment['assessment']['caseJudgments']
             result['quality'] = {arm: {**{key: sum(case[arm][key] for case in cases) for key in METRICS},
@@ -419,13 +469,16 @@ class LearningWorkbench:
             self.import_comparison(ident)
         with self.store.connect() as c:
             after=c.execute("SELECT count(*) FROM scout_learning_records WHERE kind='observation'").fetchone()[0]
-        return {'comparisonsExamined':len(ids),'newObservationVersions':after-before,'activeLessons':0,
+        return {'comparisonsExamined':len(ids),'newObservationVersions':after-before,'activeLessons':len(self.manifest()['entries']),
                 'note':'Versions of the same event are not independent confirmations. No automatic lesson inference.'}
 
     def inbox(self):
+        feedback = self.feedback_queue()
         with self.store.connect() as c:
             counts={row[0]:row[1] for row in c.execute('SELECT kind,count(*) FROM scout_learning_records GROUP BY kind')}
-            lessons=[{'lessonId':row[0], 'title':self._get(c,row[0],'lesson')['title'], 'active':False}
+            lessons=[{'lessonId':row[0], 'title':self._get(c,row[0],'lesson')['title'],
+                      'status': self.lesson_status(row[0]), 'active':self.lesson_status(row[0]) == 'active'}
                      for row in c.execute("SELECT id FROM scout_learning_records WHERE kind='lesson' ORDER BY created_at,id")]
-        return {'recordCounts':counts,'lessons':lessons,'activeLessons':0,
+        return {'recordCounts':counts,'lessons':lessons,'activeLessons':sum(x['active'] for x in lessons),
+                'feedbackGroups': len(feedback['groups']),
                 'note':'Observations are candidates for intelligent review, not verified facts or independent outcome counts.'}

@@ -1,0 +1,17 @@
+{
+  "registeredBeforeDispatch": true,
+  "purpose": "One paired primary-research trial, then confirmation on a different set only if promising. No repeat-until-positive.",
+  "selection": "Eight purposive Denver Employment leads, not previously edited Mesa/Welfare Square resources. Includes potentially public help, training, referrals and program-internal support. Not a representative office sample.",
+  "sharedInstructions": "Procedural only; production Employment baseline unchanged. Respondents see names and primary URLs, no prior edited descriptions, answers, or rubric.",
+  "quality": [
+    "Score against official sources after both results are sealed. A disagreement alone is not an error.",
+    "First usable step and actual entry route established or uncertainty explicit.",
+    "Useful alternatives preserved, including consequential narrow eligibility.",
+    "No unsupported availability, income, referral, public access or cost promises.",
+    "Important eligibility, timing, cost and location details preserved."
+  ],
+  "curatorWork": "Classify questions as consequential unresolved, source-answerable/redundant, or optional. Raw question count alone does not decide quality.",
+  "decisionRule": "Promising requires a source-supported consequential benefit and no offsetting critical harm. Parity is no-clear-benefit. Incomplete research, protocol violations or unreliable evidence may be inconclusive. Do not activate from this trial alone.",
+  "timing": "Same gpt-6-astra high config; fresh ephemeral CLI sessions; 24 web calls and 24 source pages each, 1200 seconds each. Stop processes at elapsed ceiling; no retry of a completed arm. Record actual elapsed and emitted token usage; dollars unknown under subscription.",
+  "limits": "Same-model blind spots remain. Live retrieval can vary. Parent selects and scores cases; no independent blind assessor. Measures bounded lead research, not full category discovery."
+}

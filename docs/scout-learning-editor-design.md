@@ -30,7 +30,7 @@ Store exact source artifacts once, by content hash. Small observation records re
 
 A lesson records supporting observation IDs, its apparent cause, alternative explanation, counterexample, scope, exact baseline guidance/hash, proposed instruction and evaluation question. Existing guidance that was ignored may need better execution rather than another paragraph. Prefer a small general principle with scoped examples to a growing provider-specific rule list.
 
-Lifecycle: observed → proposed → approved for bounded experiment → evaluated → explicitly approved active or rejected. Keep evaluated/rejected versions, supersession and rollback history. A favorable experiment does not activate anything by itself. Activation must change an atomic scoped manifest; assignments already sealed keep their old resolved instructions. The initial delivery implements the proposal/experiment/evaluation portion; production activation is a later explicit checkpoint.
+Lifecycle: observed → proposed → approved for bounded experiment → evaluated → explicitly approved active or rejected. Keep evaluated/rejected versions, supersession and rollback history. A favorable experiment does not activate anything by itself. Activation must change an atomic scoped manifest; assignments already sealed keep their old resolved instructions. The initial delivery implemented proposal/experiment/evaluation. Increment 4 now provides a separate explicit activation checkpoint and rollback; no production lesson was activated during its delivery.
 
 ## Bounded experiments
 

@@ -122,6 +122,13 @@ class MaintenanceWorkflow(ImprovementWorkflow):
         if execution_config is not None:
             if blind_comparison:
                 raise ImprovementError('Choose the sampled execution protocol or legacy blind comparison, not both')
+            from .learning_workbench import LearningWorkbench
+            learning_categories = set(category_ids)
+            for rid in resource_ids:
+                learning_categories.update(package['resources'][rid].get('categories', []))
+            learned = LearningWorkbench(self.store).resolve_guidance(office, learning_categories, 'research')
+            if learned['lessons']:
+                configuration['learnedGuidance'] = learned
             configuration['execution'] = build_execution(configuration, package, execution_config, predecessor)
             configuration['researcherRoster'] = {'schemaVersion': 2, 'version': 'astra-sampled-v1',
                 'researchers': [{'name': name, 'role': role} for name, role in ROLES.items()]}

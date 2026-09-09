@@ -1,0 +1,17 @@
+{
+  "baseline": {
+    "consequentialUnresolved": 19,
+    "mixedPartlySourceAnswerable": 1,
+    "sourceAnswerableOrScopeAlreadyStated": 1,
+    "optionalLowPriority": 1,
+    "notes": "Optional: reconciling two employment success percentages adds little to a referral. New Heights already requires CDOC transitional participation. CAREERS outside-college question is partly answered."
+  },
+  "candidate": {
+    "consequentialUnresolved": 18,
+    "mixedPartlySourceAnswerable": 2,
+    "sourceAnswerableOrScopeAlreadyStated": 0,
+    "optionalLowPriority": 1,
+    "notes": "Step fee/bed question mixes published fees and current availability. CAREERS outside-college question is partly answered. Nonresident Step investigation is optional once reserving that provider for recovery only."
+  },
+  "unit": "One question entry; compound questions classified mixed. Coordinator judgment, not a human-scored outcome. Fewer questions alone is not improvement."
+}

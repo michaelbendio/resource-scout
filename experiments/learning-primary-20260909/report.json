@@ -1,0 +1,214 @@
+{
+  "trialId": "5561d487a0abe20487d9cf80b734fe340285a9bc8c8243b2a54f7bb02930e97f",
+  "lessonId": "ef53ac2c131074e4daa681f77a184080dd6600475410fd01c1f3d19465844479",
+  "name": "Fresh Denver Employment primary research",
+  "status": "evaluated",
+  "active": false,
+  "lessonStatus": "evaluated",
+  "caseCount": 8,
+  "dispatches": 2,
+  "modelConfig": {
+    "provider": "OpenAI Codex CLI",
+    "model": "gpt-6-astra",
+    "settings": {
+      "reasoningEffort": "high",
+      "webSearch": "live",
+      "ephemeral": true
+    }
+  },
+  "responses": {
+    "baseline": {
+      "complete": true,
+      "elapsedSeconds": 495.7749092578888,
+      "late": false,
+      "incrementalCostUSD": null,
+      "interventions": 0
+    },
+    "candidate": {
+      "complete": true,
+      "elapsedSeconds": 495.7764210700989,
+      "late": false,
+      "incrementalCostUSD": null,
+      "interventions": 0
+    }
+  },
+  "assessment": {
+    "trialId": "5561d487a0abe20487d9cf80b734fe340285a9bc8c8243b2a54f7bb02930e97f",
+    "assessment": {
+      "reviewer": "Astra coordinator, source-checked AI assessment; not human curation",
+      "method": "Predeclared rubric, eight fresh leads, both outputs sealed before review. Check case-level usefulness and essential details independently of question count. Selection disagreement is not itself an error. The Step omission flag concerns the recovery alternative still offered, not a requirement to publish a rejected employment entry.",
+      "caseJudgments": [
+        {
+          "caseId": "djatc",
+          "evidence": "Coordinator checked official source on 2026-09-09: https://djeatc68.com/apply/",
+          "baseline": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "Both preserve the application sequence, paid training, application fee and selection uncertainty. Neither rejects a four-year program merely for its duration."
+          },
+          "candidate": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "Same useful option. More explicit separation of course duration and first paid assignment, without a demonstrated changed outcome."
+          }
+        },
+        {
+          "caseId": "step",
+          "evidence": "Coordinator checked official source on 2026-09-09: https://stepdenver.org/apply/ ; https://stepdenver.org/our-4-pillars/work/",
+          "baseline": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "Retains an integrated recovery/employment option and clearly states residency and full-time work conditions. This is not a false promise of public drop-in coaching. Includes published fees and the restriction on outside financial support."
+          },
+          "candidate": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": true,
+            "unsupportedPromise": false,
+            "reason": "Clearer exclusion from stand-alone public Employment, while preserving a possible integrated recovery referral. However that fallback omits the published fee amounts and restriction on outside money/benefits. The added fee question is partly answerable from the application page already cited. Completeness concern applies to the fallback, not proof that its exclusion was wrong."
+          }
+        },
+        {
+          "caseId": "egcareer",
+          "evidence": "Coordinator checked official source on 2026-09-09: https://www.emilygriffith.edu/career-services-for-job-seekers/",
+          "baseline": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "Correctly limits coaching to the stated student/alumni audience, reserves public-access uncertainty and preserves the separate apprenticeship contact."
+          },
+          "candidate": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "Same practical route and uncertainty; no decisive gain."
+          }
+        },
+        {
+          "caseId": "dayworks",
+          "evidence": "Coordinator checked official source on 2026-09-09: https://denver.legistar.com/LegislationDetail.aspx?G=928A1C29-26D7-4A5D-8DD4-947A533B1CC6&GUID=C2549384-7B0D-4074-8F30-B120C114EBEE&ID=7974114&Options=&Search=",
+          "baseline": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "Current city resolution confirms funding under ServiceSource; exact current intake remains unresolved. Correctly avoids treating the former website as closure. Has a local general contact."
+          },
+          "candidate": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "Same needs-check outcome. Finds historical intake and week-one support, labels their age, but supplies a national general contact. Neither establishes a current program-specific start."
+          }
+        },
+        {
+          "caseId": "ceo",
+          "evidence": "Coordinator checked official source on 2026-09-09: https://www.ceoworks.org/participants",
+          "baseline": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "Retains a usable parole/probation referral with orientation steps and documents. Does not promise a work slot."
+          },
+          "candidate": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "Same retained route. More explicitly says CEO can help obtain the referral, consistent with the official intake page; no selection gain."
+          }
+        },
+        {
+          "caseId": "newheights",
+          "evidence": "Coordinator checked official source on 2026-09-09: https://www.flydenver.com/business-and-community/ceea/career-pathways/new-heights-pilot-program/",
+          "baseline": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": true,
+            "unsupportedPromise": false,
+            "reason": "Preserves targeted eligibility and referral contacts but reserves the resource and omits career-finding services available while waitlisted. That omitted intermediate help matters to the earliest-useful-help question."
+          },
+          "candidate": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "Retains the targeted CDOC route and includes career-finding help while waitlisted. Explicitly keeps the unresolved operator, capacity, pay and timing questions. Useful improvement; not proof of current available places."
+          }
+        },
+        {
+          "caseId": "egcareers",
+          "evidence": "Coordinator checked official source on 2026-09-09: https://www.emilygriffith.edu/careers-for-refugees-and-immigrants/",
+          "baseline": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "Retains long-term navigation with English, work authorization and financial-stability restrictions. Does not imply immediate placement. The FAQ already permits training outside this college, though exact eligibility screening may still need clarification."
+          },
+          "candidate": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "Same useful alternative and principal restrictions. Shares a partly source-answerable question about study outside the college; not an extra independent failure caused by the addition."
+          }
+        },
+        {
+          "caseId": "dvr",
+          "evidence": "Coordinator checked official source on 2026-09-09: https://content.govdelivery.com/accounts/CODLE/bulletins/4065f78",
+          "baseline": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "Preserves disability services and the dated waitlist limitation. Does not extrapolate April counts to September. General contact supplied."
+          },
+          "candidate": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "Preserves the same limitations and notes interim referrals. A more specific Denver contact is supplied, but the coordinator could not independently fetch the office directory, so no factual credit or error is assigned to that difference."
+          }
+        }
+      ],
+      "conclusion": "no-clear-benefit",
+      "limitations": "Mixed signal: better targeted selection and waitlist-help discovery, offset by omitted details in a fallback and shared avoidable questions. Small purposive sample, one pair, same-model blind spots and unblinded coordinator. Some current contact/source pages could not be independently fetched. Live sources can vary. CLI confirms 13 web calls each but does not expose complete batched source-page counts; compliance with the 24-page ceiling is respondent-reported. Requested model is gpt-6-astra high; backend identity is not separately exposed. No claim of statistically reliable superiority, provider verification or full-category discovery. No confirmation trial or activation because the predeclared no-offsetting-harm condition was not met."
+    },
+    "responseIds": {
+      "baseline": "b2b53da3bc0a7445d6a2097440ba447754507e588db5b07d94054405f334849b",
+      "candidate": "744f9cf93e7f9c02259c7fa697fe0d85a624c5b89dc5de42bcf5aac8ee3fcce8"
+    },
+    "status": "evaluated",
+    "active": false,
+    "providerVerificationInferred": false
+  },
+  "quality": {
+    "baseline": {
+      "criticalError": 0,
+      "missedUsefulResource": 0,
+      "lostCriticalDetail": 1,
+      "unsupportedPromise": 0,
+      "casesWithAnyFlag": 1
+    },
+    "candidate": {
+      "criticalError": 0,
+      "missedUsefulResource": 0,
+      "lostCriticalDetail": 1,
+      "unsupportedPromise": 0,
+      "casesWithAnyFlag": 1
+    }
+  },
+  "limits": "Bounded primary research from fresh leads; not human verification. Timing includes operator handoff. Evaluation alone does not activate guidance."
+}

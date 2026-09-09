@@ -1,0 +1,25 @@
+{
+  "fullSuite": {
+    "testsRun": 394,
+    "skipped": 1,
+    "failures": 0,
+    "seconds": 30.974
+  },
+  "focusedIntegration": {
+    "testsRun": 52,
+    "failures": 0
+  },
+  "offlineReplays": [
+    "learning-pilot-20260909",
+    "discovery-pilot-20260909",
+    "learning-primary-20260909"
+  ],
+  "reportBrowserCheck": {
+    "engine": "installed Chrome via Playwright",
+    "viewportWidth": 820,
+    "horizontalOverflow": false,
+    "comparisonRows": 4
+  },
+  "productionGuidanceActivated": false,
+  "officePackagesChanged": false
+}

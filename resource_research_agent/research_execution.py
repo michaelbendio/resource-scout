@@ -113,6 +113,8 @@ def build_execution(configuration, package, settings, predecessor=None):
         for instruction in guidance[stage]:
             nonempty(instruction, 'Protocol instruction')
     manifest['protocolGuidance'] = guidance
+    if configuration.get('learnedGuidance'):
+        manifest['learnedGuidance'] = deepcopy(configuration['learnedGuidance'])
     # JSON normalization means tuples from dataclasses cannot drift after resume.
     manifest = json.loads(json.dumps(manifest))
     return {'manifest': manifest, 'manifestSha256': digest(manifest)}
@@ -224,6 +226,11 @@ def augment_assignment(a, state, task, package):
         a['instructions'] = deepcopy(guidance['blind'])
     else:
         a['playbooks'] = {cid: deepcopy(m['playbooks'][cid]) for cid in plan['categoryIds']}
+        if m.get('learnedGuidance'):
+            learned = m['learnedGuidance']
+            selected = [deepcopy(x) for x in learned['lessons'] if x['scope']['category'] in plan['categoryIds']]
+            if selected:
+                a['learnedGuidance'] = {'manifestId': learned['manifestId'], 'lessons': selected}
         a['passPlan'] = deepcopy(plan['passes'])
         if stage.startswith('pass:'):
             focus = next(p for p in plan['passes'] if stage == 'pass:' + p['key'])
@@ -245,6 +252,8 @@ def augment_assignment(a, state, task, package):
             a['primaryFreeze'] = deepcopy(task['primaryFreeze'])
             a['blindResults'] = {s.split(':', 1)[1]: deepcopy(r) for s, r in task['results'].items() if s.startswith('blind:')}
             a['instructions'] += guidance['reconcile']
+    if a.get('learnedGuidance'):
+        a['instructions'] = [*a['instructions'], 'Apply the sealed learnedGuidance methods within their declared scope. They are method instructions, not evidence of provider facts.']
     if a['researcher'] != 'Codex':
         availability = state['providerAvailability'][a['researcher']]
         # Operator availability notes can mention draft-derived issues; keep

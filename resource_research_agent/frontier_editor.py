@@ -39,11 +39,14 @@ class FrontierEditorWorkflow:
         token=''.join(c for c in office if c.isalnum())
         if package['data'].get('officeName') not in (None,'',office,'Auto'+token):raise ImprovementError('Source office mismatch')
         if not set(categories)<={x['id'] for x in package['data']['categories']}:raise ImprovementError('Unknown research category')
+        learned = self.learning.resolve_guidance(office, categories, 'editorial')
         with self.store.connect() as c:
             c.execute('BEGIN IMMEDIATE')
             source=self.learning._artifact(c,'resource-package',payload)
             project={'sourceSha256':source,'office':office,'configuration':deepcopy(configuration),
                      'instructions':json.loads(GUIDANCE_PATH.read_text())['instructions'],'writingGuidance':load_writing_guidance()}
+            if learned['lessons']:
+                project['learnedGuidance'] = learned
             ident=self.learning._record(c,'editor-project',project)
             c.execute('INSERT OR IGNORE INTO scout_editor_projects(id) VALUES(?)',(ident,))
         return self.status(ident)
@@ -110,6 +113,9 @@ class FrontierEditorWorkflow:
                     'targetResourceIds':['retained ID'], 'reason':'specific practical judgment',
                     'evidence':['saved field or checked source supporting this decision'],
                     'fields':{},'questions':[]} ]}}
+        if project.get('learnedGuidance'):
+            packet['learnedGuidance'] = deepcopy(project['learnedGuidance'])
+            packet['instructions'] = [*packet['instructions'], 'Apply the sealed learnedGuidance methods only within their declared scope; they do not verify provider facts.']
         packet['assignmentSha256']=digest(packet)
         return packet
 

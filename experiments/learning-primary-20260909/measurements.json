@@ -1,0 +1,34 @@
+{
+  "baseline": {
+    "processSeconds": 217.58572506904602,
+    "webCalls": 13,
+    "sourcePages": null,
+    "sourcePageCeilingIndependentlyVerified": false,
+    "cliUsage": {
+      "input_tokens": 987086,
+      "cached_input_tokens": 858240,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 5686,
+      "reasoning_output_tokens": 780
+    },
+    "uncachedInputTokens": 128846,
+    "openQuestions": 22,
+    "incrementalCostUSD": null
+  },
+  "candidate": {
+    "processSeconds": 242.35530400276184,
+    "webCalls": 13,
+    "sourcePages": null,
+    "sourcePageCeilingIndependentlyVerified": false,
+    "cliUsage": {
+      "input_tokens": 1011561,
+      "cached_input_tokens": 893440,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 6552,
+      "reasoning_output_tokens": 1447
+    },
+    "uncachedInputTokens": 118121,
+    "openQuestions": 21,
+    "incrementalCostUSD": null
+  }
+}

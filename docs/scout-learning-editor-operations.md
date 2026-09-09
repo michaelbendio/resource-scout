@@ -1,5 +1,7 @@
 # Learning and frontier editing: operator guide
 
+September 9 follow-up: [Increment 4 operations](scout-learning-increment-4-operations.md) adds the ordinary feedback queue, reviewed activation and rollback. Earlier experimental receipts remain historical and inactive.
+
 Implemented on `v2.0`, September 9, 2026. See the [design](scout-learning-editor-design.md), [plan](scout-learning-editor-plan.md) and [measured pilot results](scout-learning-editor-results.md).
 
 These are operator commands for an AI-assisted workflow. Curators continue using the existing Resource Editor. There is no automatic model purchasing, unattended browser dispatcher, lesson activation, or office publication.

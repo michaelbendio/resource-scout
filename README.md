@@ -18,7 +18,7 @@ Astra-led protocol with sampled independent Claude comparisons and targeted
 ChatGPT, Grok and Perplexity checks. Old executions retain their original stages.
 The [September 9 design and implementation plan](docs/scout-learning-editor-plan.md)
 adds attributable learning experiments, measured checkpoint optimization and the editor workflow.
-Evaluated guidance remains inactive. The [real Welfare Square Employment pilot](docs/scout-discovery-pilot-results.md) is complete: five retained resources and a second paired learning test. Reviewed activation/rollback and ordinary feedback distillation are next.
+The [real Welfare Square Employment pilot](docs/scout-discovery-pilot-results.md) is complete. [Increment 4](docs/scout-learning-increment-4-results.md) adds ordinary feedback, editor-authored method proposals, reviewed scoped activation and rollback. A fresh eight-lead Astra experiment showed mixed results; its lesson remains evaluated/inactive. See the [activation operator guide](docs/scout-learning-increment-4-operations.md). Adaptive passes and model policies are next.
 
 Resource Scout researches, consolidates, and curates resource candidates gathered
 from several consumer AI products. It creates a self-contained TSO Resources
