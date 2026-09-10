@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-09-10T00:14:36.515273+00:00",
+  "office": "Mesa",
+  "sample": [
+    "73dfadc219f93cdde3c2e07d3e1045b4",
+    "fbd7ac5640a1ad45864261484e2bcbf0",
+    "7e66c8c912ad9889aa3627405af218f3",
+    "6ea1c2067f6e451532d3bd346cc56276",
+    "ffb70295ec3f1e3256fc1955ec7ad5c0",
+    "f95aad04c5e72f66f324d9875d7caffd",
+    "d72b099aea9d25b5ed7f4eafa274da78",
+    "08497e5f8c33c372d57430bc722bb639",
+    "51cfce1c2944ef0453c793aba1923e08",
+    "987a8b8eb5e82e8c0216ef7bb436693f",
+    "0e36c87d7889979a6cf7f4debff3bed7",
+    "mesa-housing-house-of-refuge-family"
+  ],
+  "selection": "Four focal resources each in Clothing, Employment and Housing, purposively including specialized eligibility, reachable entry routes and possible overlapping housing help. Cross-category membership retained; not representative sampling.",
+  "sourceSha256": "a2f4bb514c7a9e9edb414a97513d602b3cae59a52bfa09e9a3af6ef0abf41f93",
+  "sourceKind": "Earlier AI editorial draft; no subsequent human-confirmed package identified in checked saved Mesa ZIPs. Browser-local edits are not asserted captured.",
+  "sequence": [
+    "Primary source recheck, up to 2 official pages per resource; freeze findings.",
+    "Targeted second pass for consequential unresolved issues or suspected overlap, at most 8 additional official pages; freeze incremental findings.",
+    "Frontier editorial decisions, exact field changes, practical curator questions and partial draft package.",
+    "Import editorial and package-comparison evidence; propose a method only for at least 3 independently supported recurring mistakes, retaining counterexamples.",
+    "If a method is justified, separately seal a bounded fixed-source test on fresh cases before dispatch; otherwise stop with evidence and no activation."
+  ],
+  "limits": {
+    "resources": 12,
+    "primarySourcePages": 24,
+    "targetedSourcePages": 8,
+    "wholeOfficeRun": false,
+    "outsideModels": false,
+    "providerContact": false,
+    "productionChanges": false
+  },
+  "measurements": [
+    "Tool call wall time and phase elapsed time (coordinator time separate from model-service time).",
+    "Unique material factual corrections, actionable intake clarifications and consequential unresolved gaps, counted by resource/field.",
+    "Second-pass supported findings retained by editor versus duplicates and unresolved attempts.",
+    "Retain/combine/reserve decisions, with eligibility and differing program access preserved.",
+    "No inferred dollar cost, curation-time saving, model comparison or phone verification."
+  ],
+  "stopRule": "One 12-resource batch and one targeted follow-up pass. No positive lesson required; no automatic activation or adaptive scheduling change.",
+  "evaluator": "Current Codex coordinator, same context and aware of earlier editorial decisions; not blinded."
+}

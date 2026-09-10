@@ -10,6 +10,8 @@ Michael confirmed the order: measured results first. Complete a bounded learning
 
 **Increment 5 is the only remaining numbered increment in this learning/editor plan.** The learning demonstration is follow-through on Increment 4, not a new major increment. Later expansion of editorial authority is a separate review and may lead to separately agreed work. Broader operational validation and routine fixes remain possible; this is not a claim that all future Scout development ends with Increment 5.
 
+The follow-up [Mesa maintenance/editor pilot](scout-mesa-maintenance-editor-results.md) completed one operator-led twelve-resource cycle with frozen primary findings and a bounded targeted pass. It retained twelve resources, updated three and imported editorial/package feedback. No new human resolutions were available, no method met the predeclared support threshold, and no further lesson trial or activation was triggered. Continue gathering measured, useful work; do not require a positive lesson result from every batch or use this small same-context pilot to justify adaptive model scheduling.
+
 ## Increment 1 — a real, limited learning experiment and timing foundation
 
 Build a small durable learning workbench beside the existing evidence ledger. Import the Mesa editorial decisions with exact source hashes and individual observations; also accept references to existing package-comparison observations. Do not label them human verification. Propose a lesson with its supporting IDs, counterexample, scope and exact baseline guidance snapshot.
