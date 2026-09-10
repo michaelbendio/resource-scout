@@ -29,6 +29,17 @@ class FrontierEditorWorkflow:
         with store.connect() as c:c.executescript(SCHEMA)
 
     def prepare(self, payload, office, configuration):
+        return self._prepare(payload, office, configuration, final_only=False)
+
+    def prepare_final(self, payload, office, configuration):
+        """Edit an existing draft without inventing early review or rerunning research.
+
+        This imports the operator's chosen snapshot; it does not attest that a
+        research scheduler finished or that the package has complete coverage.
+        """
+        return self._prepare(payload, office, configuration, final_only=True)
+
+    def _prepare(self, payload, office, configuration, *, final_only):
         exact(configuration,('name','editor','model','settings','sourceScope','categoryIds','authorityNote'),'Editor configuration')
         for k in ('name','editor','authorityNote'):nonempty(configuration[k],k)
         if configuration['model'] is not None:nonempty(configuration['model'],'Model')
@@ -45,10 +56,15 @@ class FrontierEditorWorkflow:
             source=self.learning._artifact(c,'resource-package',payload)
             project={'sourceSha256':source,'office':office,'configuration':deepcopy(configuration),
                      'instructions':json.loads(GUIDANCE_PATH.read_text())['instructions'],'writingGuidance':load_writing_guidance()}
+            if final_only:
+                project['entryPoint']='finished-package'
             if learned['lessons']:
                 project['learnedGuidance'] = learned
             ident=self.learning._record(c,'editor-project',project)
             c.execute('INSERT OR IGNORE INTO scout_editor_projects(id) VALUES(?)',(ident,))
+            if final_only:
+                c.execute('UPDATE scout_editor_projects SET final_source=?,final_created_at=? WHERE id=? AND final_source IS NULL',
+                          (source,utcnow(),ident))
         return self.status(ident)
 
     def prepare_leads(self, baseline, raw, office, category_id, configuration):
@@ -102,6 +118,8 @@ class FrontierEditorWorkflow:
     def _packet(self,c,ident,stage):
         if stage not in ('early','final'):raise ImprovementError('Select early or final editor')
         row,project=self._row(c,ident)
+        if stage=='early' and project.get('entryPoint')=='finished-package':
+            raise ImprovementError('This package starts at final editing; no early review was requested')
         if stage=='final' and not row['final_source']:raise ImprovementError('Finish the selected research before final editing')
         source=project['sourceSha256'] if stage=='early' else row['final_source']
         package=read_package(self.learning._bytes(c,source,'resource-package'))
@@ -216,6 +234,8 @@ class FrontierEditorWorkflow:
         with self.store.connect() as c:
             c.execute('BEGIN IMMEDIATE')
             row,project=self._row(c,ident)
+            if project.get('entryPoint')=='finished-package':
+                raise ImprovementError('This project edits an existing package; prepare a separate research workflow if needed')
             if not row['early_reply']:raise ImprovementError('Complete early editorial selection first')
             if execution_config is None:
                 if row['research_source']:

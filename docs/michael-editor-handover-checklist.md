@@ -2,6 +2,9 @@
 
 Use this when asking another frontier-level AI to prepare resources for human curators. You do not need to assemble the entire Scout database or reproduce the long design conversation.
 
+To start the actual research-and-editor workflow, or editing of an already finished
+Scout draft, use [Start Scout with an editor](start-scout-with-editor.md).
+
 **Your cue: “Prepare for an editor handover.”** On that request, the assistant should review this checklist for you, inspect the available files, and summarize what is ready, what is missing and any decision needed. Confirm the office, task, authoritative input, full/partial scope, latest edits, expected outputs and whether to withhold earlier editorial decisions. Do not silently launch another editor or a new research run.
 
 ## What to send

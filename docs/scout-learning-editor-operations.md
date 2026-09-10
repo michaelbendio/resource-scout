@@ -35,6 +35,11 @@ No command activates a lesson. Changing production guidance, adaptive pass count
 
 ## New-discovery frontier workflow
 
+For the conversational start/resume instructions and the direct `editor prepare-final`
+entry for research already finished, see [Start Scout with an editor](start-scout-with-editor.md).
+The direct entry accepts a standard resource-package ZIP and reuses final submission,
+validation, learning evidence and export without requiring early selection or another research run.
+
 Start from a standard resource package containing prospective leads, or bridge the existing manual-discovery JSON contract into a baseline package:
 
 ```sh

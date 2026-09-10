@@ -1,6 +1,6 @@
 # Resource Scout: handover for a frontier-level editor
 
-Prepared September 9, 2026. This is a working brief for any capable frontier model, including the current editor, Astra. It describes the present workflow and recommendations; it does not implement a new automated editorial stage.
+Prepared September 9, 2026. This is a working brief for any capable frontier model, including the current editor, Astra. Scout now has an operator-driven editorial integration; see [Start Scout with an editor](start-scout-with-editor.md). This brief supplies the editorial context.
 
 ## Start with the people
 
@@ -12,7 +12,7 @@ The aim is a manageable collection of useful paths to help, with enough alternat
 
 ## How the pieces fit together
 
-**Scout research → frontier editorial preparation → human curation → office resource package → missionary use → later maintenance and potential learning.** The editorial stage has been demonstrated manually. Its future integration and expanding authority remain to be designed.
+**Scout research → frontier editorial preparation → human curation → office resource package → missionary use → later maintenance and potential learning.** Scout supports saved early/final editor assignments, validated decisions, learning evidence and draft export. An assistant or operator carries out the model assignments. Expanding editorial authority remains a separate decision.
 
 Scout has two intended continuing roles: initial discovery for a new TSO, and periodic maintenance of an existing office's resources. Maintenance should check for changes, useful additions and possible closures. Its frequency is not yet established.
 

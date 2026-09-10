@@ -32,6 +32,72 @@ class FrontierEditorTests(unittest.TestCase):
              'reason':'Synthetic useful route','evidence':['Saved fixture fields'],'fields':{},'questions':[]}
             for r in packet['package']['resources']]}
 
+    def test_finished_package_enters_final_editing_and_survives_restart(self):
+        early_project=self.project
+        self.project=self.flow.prepare_final(self.original,'Test TSO',self.config)['id']
+        self.assertNotEqual(early_project,self.project)
+        self.assertEqual('early-editor',self.flow.status(early_project)['stage'])
+        self.flow=FrontierEditorWorkflow(ResearchStore(self.store.path))
+        status=self.flow.prepare_final(self.original,'Test TSO',self.config)
+        self.assertEqual(self.project,status['id'])
+        self.assertEqual('final-editor',status['stage'])
+        self.assertIsNone(status['researchProjectId'])
+        packet=self.flow.packet(self.project,'final')
+        with self.store.connect() as c:
+            self.assertEqual(self.original,self.flow.learning._bytes(c,packet['sourceSha256'],'resource-package'))
+            row,_=self.flow._row(c,self.project)
+            self.assertIsNone(row['early_reply'])
+        with self.assertRaisesRegex(ImprovementError,'no early review'):
+            self.flow.packet(self.project,'early')
+        with self.assertRaisesRegex(ImprovementError,'separate research'):
+            self.flow.start_research(self.project,settings())
+        with self.assertRaises(ImprovementError):self.flow.export(self.project)
+        result=self.result('final')
+        result['decisions'][0]['fields']={'name':'Useful combined program'}
+        result['decisions'][1].update(disposition='combine',targetResourceIds=['r1'])
+        self.flow.submit(self.project,'final',json.dumps(result),self.receipt)
+        exported=self.flow.export(self.project)
+        p=read_package(exported['package'])
+        self.assertEqual(['r1'],list(p['resources']))
+        self.assertEqual('Useful combined program',p['resources']['r1']['name'])
+        self.assertEqual('Original exact answer',p['resources']['r1']['openQuestions'][0]['resolution'])
+        self.assertEqual(b'%PDF original bytes',p['assets']['pdfs/guide.pdf'])
+        self.assertEqual([],p['data']['deletions'])
+        self.assertEqual(0,exported['manifest']['humanApprovalsCreated'])
+        self.assertIsNone(exported['manifest']['researchCoverage'])
+        self.assertEqual('complete',self.flow.prepare_final(self.original,'Test TSO',self.config)['stage'])
+        self.assertEqual(packet,self.flow.packet(self.project,'final'))
+        with self.store.connect() as c:
+            self.assertEqual(2,c.execute("SELECT count(*) FROM scout_learning_records WHERE kind='observation'").fetchone()[0])
+
+    def test_finished_package_keeps_declared_partial_coverage(self):
+        data=read_package(self.original)['data']
+        coverage={'sourceScope':'partial','remainingGaps':['Only one category was checked']}
+        data['scoutDiscoveryCoverage']=coverage
+        source=write_package(data,{'pdfs/guide.pdf':b'%PDF original bytes'})
+        self.project=self.flow.prepare_final(source,'Test TSO',{**self.config,'sourceScope':'partial'})['id']
+        self.flow.submit(self.project,'final',json.dumps(self.result('final')),self.receipt)
+        exported=self.flow.export(self.project)
+        self.assertEqual('partial',exported['manifest']['sourceScope'])
+        self.assertEqual(coverage,exported['manifest']['researchCoverage'])
+        self.assertEqual(coverage,read_package(exported['package'])['data']['scoutDiscoveryCoverage'])
+
+    def test_finished_package_rejects_wrong_office_and_unknown_categories(self):
+        with self.assertRaisesRegex(ImprovementError,'office mismatch'):
+            self.flow.prepare_final(self.original,'Another TSO',self.config)
+        with self.assertRaisesRegex(ImprovementError,'Unknown research category'):
+            self.flow.prepare_final(self.original,'Test TSO',{**self.config,'categoryIds':['unknown']})
+
+    def test_cli_starts_finished_package_at_final_stage(self):
+        from resource_research_agent.cli import parser
+        from resource_research_agent.editor_cli import run_editor_command
+        package=Path(self.tmp.name)/'draft.zip';package.write_bytes(self.original)
+        config=Path(self.tmp.name)/'editor.json';config.write_text(json.dumps(self.config))
+        args=parser().parse_args(['editor','prepare-final',str(package),str(config),'--office','Test TSO'])
+        status=run_editor_command(self.store,args)
+        self.assertEqual('final-editor',status['stage'])
+        self.assertIsNone(status['researchProjectId'])
+
     def test_full_sequence_reuses_research_and_preserves_answers_assets(self):
         with self.assertRaises(ImprovementError):self.flow.start_research(self.project)
         early=self.result('early');early['decisions'][1].update(disposition='combine',targetResourceIds=['r1'])

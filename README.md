@@ -1,5 +1,8 @@
 # Resource Scout
 
+To request research followed by frontier editing, or send a finished Scout draft
+straight to an editor, use [Start Scout with an editor](docs/start-scout-with-editor.md).
+
 For trials with frontier-level editors, use the [editor handover](docs/frontier-editor-handover.md),
 [common outcome report](docs/frontier-editor-report-template.md), and
 [portable decision format](docs/frontier-editor-decision-format.md). These describe

@@ -8,6 +8,7 @@ def add_editor_commands(subcommands):
     group=subcommands.add_parser('editor',help='Opt-in early selection, research and final frontier editing')
     actions=group.add_subparsers(dest='editor_action',required=True)
     p=actions.add_parser('prepare');p.add_argument('package');p.add_argument('configuration');p.add_argument('--office',required=True)
+    p=actions.add_parser('prepare-final',help='Start final editing from an existing Scout draft package');p.add_argument('package');p.add_argument('configuration');p.add_argument('--office',required=True)
     p=actions.add_parser('prepare-leads');p.add_argument('package');p.add_argument('leads');p.add_argument('configuration');p.add_argument('--office',required=True);p.add_argument('--category',required=True)
     p=actions.add_parser('status');p.add_argument('project_id')
     p=actions.add_parser('packet');p.add_argument('project_id');p.add_argument('stage',choices=['early','final'])
@@ -20,6 +21,7 @@ def add_editor_commands(subcommands):
 def run_editor_command(store,args):
     flow=FrontierEditorWorkflow(store);load=lambda p:json.loads(Path(p).read_text())
     if args.editor_action=='prepare':return flow.prepare(Path(args.package).read_bytes(),args.office,load(args.configuration))
+    if args.editor_action=='prepare-final':return flow.prepare_final(Path(args.package).read_bytes(),args.office,load(args.configuration))
     if args.editor_action=='prepare-leads':return flow.prepare_leads(Path(args.package).read_bytes(),Path(args.leads).read_text(),args.office,args.category,load(args.configuration))
     if args.editor_action=='status':return flow.status(args.project_id)
     if args.editor_action=='packet':return flow.packet(args.project_id,args.stage)
