@@ -21,6 +21,17 @@ ALGORITHM = 'sha256-rank-v1'
 PROTOCOL_GUIDANCE = Path(__file__).with_name('maintenance_guidance') / 'astra_protocol.json'
 
 
+def configured_roles(settings):
+    """Schema 1 keeps its original roles; schema 2 explicitly selects the checker."""
+    if settings['schemaVersion'] == 1:
+        return deepcopy(ROLES)
+    checker = settings['blindResearcher']
+    if not isinstance(checker, str) or checker not in ROLES or checker == 'Codex':
+        raise ImprovementError('Choose Claude, ChatGPT, Grok or Perplexity as the independent blind researcher')
+    return {name: 'primary' if name == 'Codex' else 'blind' if name == checker else 'challenger'
+            for name in ROLES}
+
+
 def sample_categories(ids, seed, numerator, denominator):
     """Stable sampling without replacement; callers preserve the seed and scope."""
     if (type(numerator) is not int or type(denominator) is not int
@@ -36,10 +47,13 @@ def build_execution(configuration, package, settings, predecessor=None):
     settings = deepcopy(settings)
     required = {'schemaVersion', 'protocol', 'version', 'serviceArea', 'sampling',
                 'deliberateCategoryIds', 'modelIdentities'}
+    if isinstance(settings, dict) and settings.get('schemaVersion') == 2:
+        required.add('blindResearcher')
     if not isinstance(settings, dict) or set(settings) != required:
         raise ImprovementError('Use the exact versioned execution configuration fields')
-    if type(settings['schemaVersion']) is not int or settings['schemaVersion'] != 1 or settings['protocol'] != PROTOCOL:
+    if type(settings['schemaVersion']) is not int or settings['schemaVersion'] not in (1, 2) or settings['protocol'] != PROTOCOL:
         raise ImprovementError('Unsupported research execution protocol')
+    roles = configured_roles(settings)
     nonempty(settings['version'], 'Execution settings version')
     nonempty(settings['serviceArea'], 'Service area')
     sampling = settings['sampling']
@@ -93,7 +107,7 @@ def build_execution(configuration, package, settings, predecessor=None):
         plans[tid] = {'categoryIds': ids, 'passes': passes,
                       'comparisonReasons': {cid: ('deliberate' if cid in deliberate else 'random')
                                             for cid in ids if cid in deliberate or cid in sample}}
-    manifest = {'protocol': PROTOCOL, 'settings': settings, 'roles': ROLES,
+    manifest = {'protocol': PROTOCOL, 'settings': settings, 'roles': roles,
                 'baseSha256': configuration['baseSha256'], 'office': configuration['office'],
                 'runName': configuration['runName'], 'historical': configuration['historical'],
                 'resourceIds': configuration['resourceIds'], 'categoryIds': configuration['categoryIds'],
@@ -132,6 +146,12 @@ def validate_execution(state):
     m = execution['manifest']
     if digest(m) != execution['manifestSha256']:
         raise ImprovementError('Execution guidance or sampling manifest has changed')
+    if m['settings']['schemaVersion'] == 2:
+        if m['roles'] != configured_roles(m['settings']):
+            raise ImprovementError('Researcher roles differ from the configured blind researcher')
+        roster = state['researcherRoster']['researchers']
+        if len(roster) != len(m['roles']) or {r['name']: r['role'] for r in roster} != m['roles']:
+            raise ImprovementError('Researcher roster no longer matches the sealed roles')
     for key in ('baseSha256', 'office', 'runName', 'historical', 'policy', 'writingGuidance', 'resourceIds', 'categoryIds'):
         if state[key] != m[key]:
             raise ImprovementError('Execution configuration no longer matches the sealed manifest')
@@ -163,11 +183,12 @@ def task_plan(state, task):
 
 def execution_stages(state, task):
     plan = task_plan(state, task)
+    checker = next(name for name, role in state['execution']['manifest']['roles'].items() if role == 'blind')
     skipped = task.get('stoppingDecision', {}).get('basis', {}).get('skippedStages', [])
     return ([(f'pass:{p["key"]}', 'Codex') for p in plan['passes'] if 'pass:' + p['key'] not in skipped]
             + [('primary', 'Codex'), ('freeze', 'Codex')]
             + [('audit:' + name, name) for name in sorted(task.get('targetedChecks', {}))]
-            + ([('blind:Claude', 'Claude')] if plan['comparisonReasons'] else [])
+            + ([('blind:' + checker, checker)] if plan['comparisonReasons'] else [])
             + [('reconcile', 'Codex')])
 
 
@@ -210,7 +231,7 @@ def augment_assignment(a, state, task, package):
     a['protocol'] = PROTOCOL
     a['serviceArea'] = m['settings']['serviceArea']
     a['configuredModel'] = plan.get('models', m['settings']['modelIdentities'])[a['researcher']]
-    if plan.get('operatingPolicyIds') and a['configuredModel'] is not None:
+    if (plan.get('operatingPolicyIds') or m['settings']['schemaVersion'] == 2) and a['configuredModel'] is not None:
         a['modelIdentityRequired'] = True
     a['fieldFormats'] = {
         'categories': {'type': 'array of category IDs', 'values': 'Use catalog.categories IDs.'},

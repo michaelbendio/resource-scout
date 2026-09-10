@@ -22,6 +22,10 @@ def apply_policies(manifest, snapshot):
         models = [p['policy']['models'] for p in chosen]
         if any(m != models[0] for m in models):
             raise ImprovementError('Conflicting model profiles on an overlapping resource; settle scope explicitly')
+        if manifest['settings']['schemaVersion'] == 2:
+            requested = manifest['settings']['modelIdentities']
+            if any(model is not None and models[0][name] != model for name, model in requested.items()):
+                raise ImprovementError('Operating policy conflicts with an explicitly requested model; review the policy or execution configuration')
         plan['models'] = deepcopy(models[0])
         plan['operatingPolicyIds'] = [p['proposalId'] for p in chosen]
         for entry in chosen:

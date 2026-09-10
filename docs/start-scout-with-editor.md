@@ -18,6 +18,11 @@ For an interrupted workflow:
 
 If no editor is named, use the current frontier assistant and record its actual identity. Another product's availability and any necessary spending authorization must be established before assigning it work. Do not substitute a different editor silently.
 
+An assistant may propose the complete assignment for Michael to review. His
+“go” starts that proposal with the subsequently agreed changes; he need not
+repeat its scope, model choices or limits. The [independent research checker](configurable-independent-checker.md)
+is configurable separately from the final editor.
+
 “Prepare for an editor handover” still means review the [handover checklist](michael-editor-handover-checklist.md); it does not start editing. “Start the editor workflow” authorizes the editing work.
 
 ## What the assistant does

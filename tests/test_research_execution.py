@@ -65,6 +65,90 @@ class ExecutionTests(unittest.TestCase):
         return self.flow.record_provider(pid, self.flow.view(pid)['revision'], name, 'available',
                                         'Synthetic operator', 'Synthetic availability, no live service', 'synthetic-' + name)
 
+    def test_each_outside_provider_can_be_the_blind_checker(self):
+        for checker in ('Grok', 'ChatGPT', 'Perplexity', 'Claude'):
+            with self.subTest(checker=checker):
+                config={**settings(deliberate=['food']), 'schemaVersion':2, 'blindResearcher':checker}
+                config['modelIdentities'][checker]='Synthetic checker model'
+                pid=self.prepare(config,name='Configurable '+checker)
+                v=self.flow.view(pid)
+                self.assertEqual('blind',v['execution']['manifest']['roles'][checker])
+                self.assertEqual(['primary','freeze','blind:'+checker,'reconcile'],
+                                 [s['stage'] for s in v['tasks'][0]['research']])
+                a=self.flow.next_assignment(pid);r=response(a);r['researchNotes']='PRIMARY-PRIVATE-FINDING'
+                self.flow.submit(pid,a['stage'],r)
+                self.until(pid)
+                self.assertEqual(0,self.flow.view(pid)['coverage']['recheck']['completed'])
+                self.flow.record_provider(pid,self.flow.view(pid)['revision'],checker,'unavailable',
+                                          'Synthetic operator','Synthetic outage')
+                self.assertIsNone(self.flow.next_assignment(pid, researcher=checker))
+                self.available(pid,checker)
+                a=self.flow.next_assignment(pid,researcher=checker)
+                self.assertEqual('blind:'+checker,a['stage'])
+                self.assertEqual('Synthetic checker model',a['configuredModel'])
+                for key in ('primaryResult','playbooks','passPlan','priorChecks'):
+                    self.assertNotIn(key,a)
+                self.assertNotIn('PRIMARY-PRIVATE-FINDING',json.dumps(a))
+                r=response(a)
+                with self.assertRaisesRegex(ImprovementError,'model identity'):
+                    self.flow.submit(pid,a['stage'],r)
+                r['executionReceipt']['model']=a['configuredModel']
+                bad=deepcopy(r);bad['executionReceipt']['freshContext']=False
+                with self.assertRaisesRegex(ImprovementError,'fresh isolated'):
+                    self.flow.submit(pid,a['stage'],bad)
+                bad=deepcopy(r);bad['executionReceipt']['contextId']='different-provider-context'
+                with self.assertRaisesRegex(ImprovementError,'provider dispatch'):
+                    self.flow.submit(pid,a['stage'],bad)
+                self.flow=MaintenanceWorkflow(ResearchStore(self.store.path))
+                self.assertEqual(a,self.flow.next_assignment(pid,researcher=checker))
+                self.flow.submit(pid,a['stage'],r)
+                reconcile=self.flow.next_assignment(pid)
+                self.assertEqual({checker},set(reconcile['blindResults']))
+                self.flow.submit(pid,'reconcile',response(reconcile))
+                v=self.flow.view(pid)
+                self.assertEqual(1,v['coverage']['recheck']['completed'])
+                self.assertEqual({checker},set(v['items'][0]['blindResults']))
+
+    def test_checker_cannot_also_receive_targeted_primary_findings(self):
+        config={**settings(deliberate=['food']),'schemaVersion':2,'blindResearcher':'Grok'}
+        pid=self.prepare(config)
+        with self.assertRaisesRegex(ImprovementError,'configured challenger'):
+            self.flow.request_challenge(pid,self.flow.view(pid)['revision'],'recheck:r1','Grok','Synthetic','Would contaminate blind research')
+        self.flow.request_challenge(pid,self.flow.view(pid)['revision'],'recheck:r1','Claude','Synthetic','Independent targeted concern')
+        self.available(pid,'Claude');self.available(pid,'Grok')
+        self.until(pid)
+        v=self.flow.view(pid)
+        self.assertEqual({'Claude'},set(v['items'][0]['audits']))
+        self.assertEqual({'Grok'},set(v['items'][0]['blindResults']))
+
+    def test_new_checker_does_not_rewrite_legacy_execution(self):
+        old=self.prepare(settings(deliberate=['food']))
+        a=self.flow.next_assignment(old)
+        before=deepcopy(self.flow.view(old)['execution'])
+        config={**settings(deliberate=['food']),'schemaVersion':2,'blindResearcher':'Grok'}
+        new=self.prepare(config)
+        self.assertNotEqual(old,new)
+        self.flow=MaintenanceWorkflow(ResearchStore(self.store.path))
+        self.assertEqual(before,self.flow.view(old)['execution'])
+        self.assertEqual(a,self.flow.next_assignment(old))
+        self.available(old,'Claude');self.available(new,'Grok')
+        self.until(old);self.until(new)
+        self.assertEqual({'Claude'},set(self.flow.view(old)['items'][0]['blindResults']))
+        self.assertEqual({'Grok'},set(self.flow.view(new)['items'][0]['blindResults']))
+
+    def test_invalid_or_implicit_new_checker_configuration_is_rejected(self):
+        for checker in ('Codex','Unknown','',None,[]):
+            with self.subTest(checker=checker),self.assertRaises(ImprovementError):
+                self.prepare({**settings(),'schemaVersion':2,'blindResearcher':checker})
+        with self.assertRaises(ImprovementError):self.prepare({**settings(),'schemaVersion':2})
+        with self.assertRaises(ImprovementError):self.prepare({**settings(),'blindResearcher':'Grok'})
+
+    def test_roster_cannot_diverge_from_sealed_checker(self):
+        pid=self.prepare({**settings(),'schemaVersion':2,'blindResearcher':'Grok'})
+        self.mutate(pid,lambda s:s['researcherRoster']['researchers'][0].update(role='blind'))
+        with self.assertRaisesRegex(ImprovementError,'roster'):
+            self.flow.view(pid)
+
     def test_output_format_guidance_explains_live_pilot_contract_failures(self):
         pid=self.prepare();a=self.flow.next_assignment(pid)
         self.assertEqual('object',a['fieldFormats']['categoryFilters']['type'])

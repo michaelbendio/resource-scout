@@ -149,7 +149,7 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                 configuration['operatingPolicies'] = operating
             configuration['execution'] = build_execution(configuration, package, execution_config, predecessor)
             configuration['researcherRoster'] = {'schemaVersion': 2, 'version': 'astra-sampled-v1',
-                'researchers': [{'name': name, 'role': role} for name, role in ROLES.items()]}
+                'researchers': [{'name': name, 'role': role} for name, role in configuration['execution']['manifest']['roles'].items()]}
         if blind_comparison:
             configuration['researcherRoster'] = load_researcher_roster(BLIND_ROSTER)
             configuration['blindComparisonPolicy'] = json.loads(BLIND_POLICY.read_text())
@@ -196,13 +196,13 @@ class MaintenanceWorkflow(ImprovementWorkflow):
 
     def request_challenge(self, project_id, revision, task_id, researcher, operator, reason):
         operator, reason = nonempty(operator, 'Operator'), nonempty(reason, 'Challenge reason')
-        if ROLES.get(researcher) != 'challenger':
-            raise ImprovementError('Targeted challenges use ChatGPT, Grok or Perplexity')
         with self.store.connect() as c:
             state = self._checked(c, project_id, revision)
             task = state['tasks'].get(task_id)
             if not state.get('execution') or not task:
                 raise ImprovementError('Select an existing sampled execution task')
+            if state['execution']['manifest']['roles'].get(researcher) != 'challenger':
+                raise ImprovementError('Targeted challenges require a configured challenger, not the primary or blind researcher')
             if researcher in task.get('targetedChecks', {}):
                 if task['targetedChecks'][researcher]['reason'] != reason:
                     raise ImprovementError('An existing challenge cannot silently change its purpose')

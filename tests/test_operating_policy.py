@@ -320,6 +320,19 @@ class OperatingPolicyTests(unittest.TestCase):
         self.assertEqual({tid:set(p['comparisonReasons']) for tid,p in before.items()},
                          {tid:set(p['comparisonReasons']) for tid,p in m['taskPlans'].items()})
 
+    def test_policy_cannot_silently_override_explicit_configurable_model(self):
+        from resource_research_agent.operating_runtime import apply_policies
+        m=deepcopy(self.state(self.pid)['execution']['manifest'])
+        m['settings'].update(schemaVersion=2,blindResearcher='Grok')
+        m['settings']['modelIdentities']['Grok']='Requested synthetic model'
+        entry={'proposalId':'synthetic','policy':deepcopy(self.baseline),
+               'guidanceSha256':digest({'playbook':m['playbooks']['employment'],'learnedGuidance':m.get('learnedGuidance')})}
+        with self.assertRaisesRegex(ImprovementError,'explicitly requested model'):
+            apply_policies(m,{'manifestId':'synthetic','policies':[entry]})
+        entry['policy']['models']['Grok']='Requested synthetic model'
+        apply_policies(m,{'manifestId':'synthetic','policies':[entry]})
+        self.assertEqual('Requested synthetic model',m['taskPlans']['discovery:employment']['models']['Grok'])
+
     def test_unused_model_change_cannot_be_approved(self):
         candidate=deepcopy(self.baseline);candidate['models']['Claude']='Synthetic new Claude'
         trial=self.complete(self.trial(self.proposal(candidate),axis='models',mode='live'))

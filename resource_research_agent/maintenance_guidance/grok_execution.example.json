@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 2,
+  "protocol": "astra-sampled-v1",
+  "version": "astra-grok-checker-v1",
+  "serviceArea": "Mesa, Arizona",
+  "blindResearcher": "Grok",
+  "sampling": {"seed": "REPLACE-ONCE-WITH-A-RANDOM-SEED-BEFORE-PREPARING-THE-RUN", "numerator": 0, "denominator": 1},
+  "deliberateCategoryIds": ["clothing"],
+  "modelIdentities": {"Codex": null, "Claude": null, "ChatGPT": null, "Grok": "Grok 4.6", "Perplexity": null}
+}
