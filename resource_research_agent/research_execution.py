@@ -115,6 +115,11 @@ def build_execution(configuration, package, settings, predecessor=None):
     manifest['protocolGuidance'] = guidance
     if configuration.get('learnedGuidance'):
         manifest['learnedGuidance'] = deepcopy(configuration['learnedGuidance'])
+    if configuration.get('operatingPolicies'):
+        from .operating_runtime import apply_policies
+        apply_policies(manifest, configuration['operatingPolicies'])
+    if configuration.get('operatingTrialPacketId'):
+        manifest['operatingTrialPacketId']=configuration['operatingTrialPacketId']
     # JSON normalization means tuples from dataclasses cannot drift after resume.
     manifest = json.loads(json.dumps(manifest))
     return {'manifest': manifest, 'manifestSha256': digest(manifest)}
@@ -132,11 +137,18 @@ def validate_execution(state):
             raise ImprovementError('Execution configuration no longer matches the sealed manifest')
     if state.get('protocolChange') != m.get('protocolChange'):
         raise ImprovementError('Execution protocol-change record has changed')
+    if state.get('operatingPolicies') != m.get('operatingPolicies'):
+        raise ImprovementError('Operating policy snapshot has changed')
+    if state.get('operatingTrialPacketId') != m.get('operatingTrialPacketId'):
+        raise ImprovementError('Experimental policy packet has changed')
     if set(state['tasks']) != set(m['taskPlans']):
         raise ImprovementError('Scope changes require a new execution, not an in-place sampling reroll')
     for tid, task in state['tasks'].items():
         if tid != task['kind'] + ':' + task['targetId']:
             raise ImprovementError('Execution task identity has changed')
+        if task.get('passEvaluations') or task.get('stoppingDecision'):
+            from .operating_runtime import validate_stopping
+            validate_stopping(m['taskPlans'][tid], task)
         for stage, a in task['assignments'].items():
             if a['assignmentSha256'] != digest({k: v for k, v in a.items() if k != 'assignmentSha256'}):
                 raise ImprovementError('Sealed execution assignment has changed')
@@ -151,7 +163,8 @@ def task_plan(state, task):
 
 def execution_stages(state, task):
     plan = task_plan(state, task)
-    return ([(f'pass:{p["key"]}', 'Codex') for p in plan['passes']]
+    skipped = task.get('stoppingDecision', {}).get('basis', {}).get('skippedStages', [])
+    return ([(f'pass:{p["key"]}', 'Codex') for p in plan['passes'] if 'pass:' + p['key'] not in skipped]
             + [('primary', 'Codex'), ('freeze', 'Codex')]
             + [('audit:' + name, name) for name in sorted(task.get('targetedChecks', {}))]
             + ([('blind:Claude', 'Claude')] if plan['comparisonReasons'] else [])
@@ -160,9 +173,12 @@ def execution_stages(state, task):
 
 def freeze_receipt(state, task):
     stages = [s for s, _ in execution_stages(state, task) if s.startswith('pass:') or s in ('primary', 'freeze')]
-    return {'manifestSha256': state['execution']['manifestSha256'],
+    receipt = {'manifestSha256': state['execution']['manifestSha256'],
             'research': {s: {'assignmentSha256': task['assignments'][s]['assignmentSha256'],
                              'resultSha256': digest(task['results'][s])} for s in stages}}
+    if task.get('stoppingDecision'):
+        receipt['stoppingDecisionSha256'] = digest(task['stoppingDecision'])
+    return receipt
 
 
 def execution_ready(state, task, stage):
@@ -193,7 +209,9 @@ def augment_assignment(a, state, task, package):
     plan = task_plan(state, task)
     a['protocol'] = PROTOCOL
     a['serviceArea'] = m['settings']['serviceArea']
-    a['configuredModel'] = m['settings']['modelIdentities'][a['researcher']]
+    a['configuredModel'] = plan.get('models', m['settings']['modelIdentities'])[a['researcher']]
+    if plan.get('operatingPolicyIds') and a['configuredModel'] is not None:
+        a['modelIdentityRequired'] = True
     a['fieldFormats'] = {
         'categories': {'type': 'array of category IDs', 'values': 'Use catalog.categories IDs.'},
         'categoryFilters': {'type': 'object',
@@ -232,6 +250,10 @@ def augment_assignment(a, state, task, package):
             if selected:
                 a['learnedGuidance'] = {'manifestId': learned['manifestId'], 'lessons': selected}
         a['passPlan'] = deepcopy(plan['passes'])
+        if task.get('stoppingDecision'):
+            a['stoppingDecision'] = deepcopy(task['stoppingDecision'])
+        if plan.get('operatingPolicyIds'):
+            a['operatingPolicyIds'] = deepcopy(plan['operatingPolicyIds'])
         if stage.startswith('pass:'):
             focus = next(p for p in plan['passes'] if stage == 'pass:' + p['key'])
             a['focus'] = deepcopy(focus)
@@ -269,6 +291,8 @@ def validate_receipt(result, assignment):
         raise ImprovementError('Incomplete transport packets cannot complete an assignment')
     if r['model'] is not None:
         nonempty(r['model'], 'Actual model')
+    if assignment.get('modelIdentityRequired') and r['model'] != assignment['configuredModel']:
+        raise ImprovementError('Actual model identity differs from the reviewed profile; replan explicitly')
     nonempty(r['contextId'], 'Research context')
     nonempty(r['coverageNotes'], 'Coverage notes')
     if not isinstance(r['remainingGaps'], list) or any(not isinstance(g, str) or not g.strip() for g in r['remainingGaps']):
@@ -286,9 +310,20 @@ def validate_receipt(result, assignment):
 
 def execution_summary(state):
     pending = []
+    outside = []
+    stopped = []
     timings = {name: {'activeMinutes': 0, 'waitingMinutes': 0, 'completedAssignments': 0} for name in ROLES}
     for tid, task in state['tasks'].items():
+        plan = task_plan(state, task)
+        if task.get('stoppingDecision'):
+            stopped.append({'taskId': tid, **deepcopy(task['stoppingDecision'])})
         for stage, name in execution_stages(state, task):
+            if name != 'Codex':
+                outside.append({'taskId': tid, 'stage': stage, 'researcher': name,
+                                'categoryIds': plan['categoryIds'], 'complete': stage in task['results'],
+                                'reasons': deepcopy(plan['comparisonReasons']) if stage.startswith('blind:') else
+                                           {'targeted': task['targetedChecks'][name]['reason']},
+                                'configuredModel': plan.get('models', state['execution']['manifest']['settings']['modelIdentities'])[name]})
             if stage in task['results']:
                 receipt = task['results'][stage]['executionReceipt']
                 for key in ('activeMinutes', 'waitingMinutes'):
@@ -300,4 +335,7 @@ def execution_summary(state):
                                 'availability': availability.get('status', 'not-checked'),
                                 'reason': availability.get('reason', 'Provider access has not been checked.')})
     return {'pendingOutsideChecks': pending, 'researcherTiming': timings,
+            'outsideWorkload': {'assignments': outside, 'uniqueAssignments': len(outside),
+                                'categoryMemberships': sum(len(x['categoryIds']) for x in outside)},
+            'intentionallyOmittedPasses': stopped,
             'timingMeaning': 'Reported effort and waiting per assignment; sums are not elapsed run time when work overlaps.'}

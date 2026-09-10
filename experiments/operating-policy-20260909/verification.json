@@ -1,0 +1,19 @@
+{
+  "fullSuite": {
+    "command": "python3 -m unittest discover -s tests -q",
+    "testsRun": 421,
+    "skipped": 1,
+    "passed": 420,
+    "seconds": 36.419,
+    "skipReason": "Optional live Provo package environment variable not set",
+    "warnings": "SQLite ResourceWarning messages; no failed tests"
+  },
+  "newPolicyTests": 27,
+  "acceptance": "Synthetic actual scheduler replay; no outside calls or production activation",
+  "artifacts": {
+    "acceptance.json": "03e1928fa9076d06b4f8afa4421b6887c4150d889b760e93bda904a2fb9b43ca",
+    "replay.py": "d48660fee15e9c4e5b47efdf1338a7093351d54fb890d797d050048a99833c9c"
+  },
+  "cliHelp": true,
+  "diffCheck": true
+}

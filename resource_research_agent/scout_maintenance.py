@@ -87,7 +87,7 @@ class MaintenanceWorkflow(ImprovementWorkflow):
             validate_execution(state)
         return state
 
-    def prepare(self, payload, office, resource_ids, category_ids, *, run_name, historical=False, source_name='resource-package.zip', blind_comparison=False, execution_config=None, supersedes=None, operator='', change_reason=''):
+    def prepare(self, payload, office, resource_ids, category_ids, *, run_name, historical=False, source_name='resource-package.zip', blind_comparison=False, execution_config=None, supersedes=None, operator='', change_reason='', operating_trial_packet_id=None):
         package = read_package(payload)
         office, run_name = nonempty(office, 'Office'), nonempty(run_name, 'Run name')
         self._office(package, office)
@@ -105,6 +105,8 @@ class MaintenanceWorkflow(ImprovementWorkflow):
                          'resourceIds': sorted(resource_ids), 'categoryIds': sorted(category_ids), 'historical': bool(historical),
                          'policy': json.loads(POLICY.read_text()), 'writingGuidance': load_writing_guidance(),
                          'researcherRoster': load_researcher_roster()}
+        if operating_trial_packet_id and (execution_config is None or supersedes is not None):
+            raise ImprovementError('Experimental policy needs a new sampled execution, not an in-place replan')
         predecessor = None
         if supersedes is not None:
             if execution_config is None or type(supersedes) is not int:
@@ -129,6 +131,22 @@ class MaintenanceWorkflow(ImprovementWorkflow):
             learned = LearningWorkbench(self.store).resolve_guidance(office, learning_categories, 'research')
             if learned['lessons']:
                 configuration['learnedGuidance'] = learned
+            from .operating_policy import OperatingPolicyWorkbench
+            scopes = {(cid, 'discovery') for cid in category_ids}
+            scopes.update((cid, 'recheck') for rid in resource_ids for cid in package['resources'][rid].get('categories', []))
+            policies=OperatingPolicyWorkbench(self.store)
+            if operating_trial_packet_id:
+                task_ids=['discovery:'+cid for cid in category_ids]+['recheck:'+rid for rid in resource_ids]
+                operating=policies.trial_policy_snapshot(operating_trial_packet_id,package['sha256'],office,task_ids,
+                    {**{'discovery:'+cid:{(cid,'discovery')} for cid in category_ids},
+                     **{'recheck:'+rid:{(cid,'recheck') for cid in package['resources'][rid].get('categories',[])} for rid in resource_ids}})
+                configuration['operatingTrialPacketId']=operating_trial_packet_id
+            else:
+                operating = policies.resolve_policies(office, scopes)
+            if not historical and any(p.get('historicalOnly') for p in operating['policies']):
+                raise ImprovementError('Synthetic or historical comparisons cannot govern operational research')
+            if operating['policies']:
+                configuration['operatingPolicies'] = operating
             configuration['execution'] = build_execution(configuration, package, execution_config, predecessor)
             configuration['researcherRoster'] = {'schemaVersion': 2, 'version': 'astra-sampled-v1',
                 'researchers': [{'name': name, 'role': role} for name, role in ROLES.items()]}
@@ -194,6 +212,35 @@ class MaintenanceWorkflow(ImprovementWorkflow):
             request = {'operator': operator, 'reason': reason, 'requestedAt': utcnow()}
             task.setdefault('targetedChecks', {})[researcher] = request
             self._save(c, state, 'execution-targeted-check-requested', {'taskId': task_id, 'researcher': researcher, **request})
+            return self._view(c, state)
+
+    def assess_pass(self, project_id, revision, task_id, stage, document):
+        from .operating_runtime import validate_pass_evaluation
+        with self.store.connect() as c:
+            state = self._checked(c, project_id, revision)
+            task = state['tasks'].get(task_id)
+            if not state.get('execution') or task is None: raise ImprovementError('Select a sampled execution task')
+            validate_pass_evaluation(task, stage, document)
+            prior = task.get('passEvaluations', {}).get(stage)
+            if prior is not None:
+                if prior != document: raise ImprovementError('Pass evaluation is immutable')
+                return self._view(c, state)
+            if task.get('stoppingDecision'): raise ImprovementError('Stopping decision is already sealed')
+            task.setdefault('passEvaluations', {})[stage] = deepcopy(document)
+            self._save(c, state, 'execution-pass-assessed', {'taskId': task_id, 'stage': stage, 'evaluationSha256': digest(document)})
+            return self._view(c, state)
+
+    def stop_optional_passes(self, project_id, revision, task_id, reviewer, reason):
+        from .operating_runtime import stopping_basis
+        nonempty(reviewer, 'Stopping reviewer'); nonempty(reason, 'Stopping reason')
+        with self.store.connect() as c:
+            state = self._checked(c, project_id, revision)
+            task = state['tasks'].get(task_id)
+            if not state.get('execution') or task is None: raise ImprovementError('Select a sampled execution task')
+            if task.get('stoppingDecision'): return self._view(c, state)
+            basis = stopping_basis(task_plan(state, task), task)
+            task['stoppingDecision'] = {'reviewer': reviewer, 'reason': reason, 'basis': basis}
+            self._save(c, state, 'execution-optional-passes-stopped', {'taskId': task_id, **task['stoppingDecision']})
             return self._view(c, state)
 
     @staticmethod

@@ -7,10 +7,13 @@ from .scout_maintenance import MaintenanceWorkflow
 def add_maintenance_commands(subcommands):
     group = subcommands.add_parser('maintain', help='Recheck resources and search for additions')
     actions = group.add_subparsers(dest='maintenance_action', required=True)
+    p = actions.add_parser('assess-pass'); p.add_argument('project_id', type=int); p.add_argument('task_id'); p.add_argument('stage'); p.add_argument('document'); p.add_argument('--revision', type=int, required=True)
+    p = actions.add_parser('stop-optional-passes'); p.add_argument('project_id', type=int); p.add_argument('task_id'); p.add_argument('--revision', type=int, required=True); p.add_argument('--reviewer', required=True); p.add_argument('--reason', required=True)
     p = actions.add_parser('prepare'); p.add_argument('package'); p.add_argument('--office', required=True); p.add_argument('--run-name', required=True)
     p.add_argument('--resource-id', action='append', default=[]); p.add_argument('--category-id', action='append', default=[]); p.add_argument('--historical', action='store_true')
     p.add_argument('--blind-comparison', action='store_true', help='Require a batch freeze and independent Claude research before final reconciliation')
     p.add_argument('--execution-config', help='Opt into the versioned Astra-led protocol using a JSON configuration')
+    p.add_argument('--operating-trial-packet', help='Run one sealed experimental policy arm without activation')
     p.add_argument('--supersedes', type=int, help='Create a separate execution with an explicit protocol/scope-change record')
     p.add_argument('--operator', default=''); p.add_argument('--change-reason', default='')
     p = actions.add_parser('provider', help='Record an actual outside-provider availability check')
@@ -38,7 +41,9 @@ def add_maintenance_commands(subcommands):
 
 def run_maintenance_command(store, args):
     flow = MaintenanceWorkflow(store); action = args.maintenance_action
-    if action == 'prepare': return flow.prepare(Path(args.package).read_bytes(), args.office, args.resource_id, args.category_id, run_name=args.run_name, historical=args.historical, blind_comparison=getattr(args, 'blind_comparison', False), execution_config=json.loads(Path(args.execution_config).read_text()) if getattr(args, 'execution_config', None) else None, supersedes=getattr(args, 'supersedes', None), operator=getattr(args, 'operator', ''), change_reason=getattr(args, 'change_reason', ''))
+    if action == 'assess-pass': return flow.assess_pass(args.project_id, args.revision, args.task_id, args.stage, json.loads(Path(args.document).read_text()))
+    if action == 'stop-optional-passes': return flow.stop_optional_passes(args.project_id, args.revision, args.task_id, args.reviewer, args.reason)
+    if action == 'prepare': return flow.prepare(Path(args.package).read_bytes(), args.office, args.resource_id, args.category_id, run_name=args.run_name, historical=args.historical, blind_comparison=getattr(args, 'blind_comparison', False), execution_config=json.loads(Path(args.execution_config).read_text()) if getattr(args, 'execution_config', None) else None, supersedes=getattr(args, 'supersedes', None), operator=getattr(args, 'operator', ''), change_reason=getattr(args, 'change_reason', ''), operating_trial_packet_id=getattr(args, 'operating_trial_packet', None))
     if action == 'provider': return flow.record_provider(args.project_id, args.revision, args.researcher, args.status, args.operator, args.reason, args.context_id)
     if action == 'challenge': return flow.request_challenge(args.project_id, args.revision, args.task_id, args.researcher, args.operator, args.reason)
     if action == 'status': return flow.view(args.project_id)

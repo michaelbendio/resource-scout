@@ -19,6 +19,7 @@ from .server import serve
 from .storage import ResearchStore
 from .editor_cli import add_editor_commands, run_editor_command
 from .learning_cli import add_learning_commands, run_learning_command
+from .policy_cli import add_policy_commands, run_policy_command
 from .evidence_cli import add_evidence_commands, run_evidence_command
 from .maintenance_cli import add_maintenance_commands, run_maintenance_command
 from .improvement_cli import add_improvement_commands, run_improvement_command
@@ -74,6 +75,7 @@ def parser() -> argparse.ArgumentParser:
     copy.add_argument('--codec', choices=['compact', 'legacy'], required=True)
     add_editor_commands(subcommands)
     add_learning_commands(subcommands)
+    add_policy_commands(subcommands)
     add_evidence_commands(subcommands)
     add_maintenance_commands(subcommands)
     add_improvement_commands(subcommands)
@@ -295,6 +297,9 @@ def _dispatch(args) -> int:
     store = ResearchStore(args.database)
     if args.command == 'editor':
         print(json.dumps(run_editor_command(store, args), ensure_ascii=False, indent=2))
+        return 0
+    if args.command == 'policy':
+        print(json.dumps(run_policy_command(store, args), ensure_ascii=False, indent=2))
         return 0
     if args.command == 'learning':
         print(json.dumps(run_learning_command(store, args), ensure_ascii=False, indent=2))

@@ -2,9 +2,13 @@
 
 Authorized September 9, 2026. Work on v2.0 and preserve main, the completed research and office packages. No new whole-office run. Each increment gets verification, a short experience review and the next-step reminder. Michael subsequently authorized proceeding with available work and explicitly requested measurement-driven optimization after the limited test.
 
-September 9 delivery: Increments 1–3 are implemented and tested. The follow-up real Welfare Square Employment pilot exercised early editing, seven limited scans, blind research, reconciliation and final HTML/package export. Five of six researched resources were retained; scope and gaps now travel with exports. Neither paired learning test justifies activation. Follow-up: Increment 4 now implements the feedback queue, attributed editor distillation, reviewed scoped activation/rollback and sealed assignment integration. The fresh primary-research trial is evaluated/inactive with mixed results. Adaptive research remains Increment 5. See [Increment 4 results](scout-learning-increment-4-results.md). See the [initial results](scout-learning-editor-results.md) and [real discovery pilot](scout-discovery-pilot-results.md).
+September 9 delivery: Increments 1–3 are implemented and tested. The follow-up real Welfare Square Employment pilot exercised early editing, seven limited scans, blind research, reconciliation and final HTML/package export. Five of six researched resources were retained; scope and gaps now travel with exports. Neither paired learning test justifies activation. Follow-up: Increment 4 now implements the feedback queue, attributed editor distillation, reviewed scoped activation/rollback and sealed assignment integration. The fresh primary-research trial is evaluated/inactive with mixed results. Adaptive research was reserved for Increment 5, now delivered below. See [Increment 4 results](scout-learning-increment-4-results.md). See the [initial results](scout-learning-editor-results.md) and [real discovery pilot](scout-discovery-pilot-results.md).
 
-## Remaining work after Increment 4
+## Current delivery and follow-through
+
+Increment 5 is now implemented: exact-scope operating policies, paired scheduler trials, reviewed stopping, model profiles, sampling/workload accounting, explicit activation and rollback. See the [Increment 5 results](scout-learning-increment-5-results.md) and [operator guide](scout-learning-increment-5-operations.md). All five numbered implementation increments are complete. No real operating policy was activated; the next step is a supervised, bounded comparison when ordinary maintenance evidence supports a hypothesis. The synthetic acceptance exercises machinery, not research efficacy.
+
+## Sequence agreed after Increment 4 (historical)
 
 Michael confirmed the order: measured results first. Complete a bounded learning demonstration before starting adaptive research implementation. The immediate candidate is a final check of proposed curator questions against sources already reviewed; preserve consequential unanswered questions and essential resource details. Confirm a promising result on another small set before reviewing activation. A test may legitimately show that an added instruction is unnecessary.
 
@@ -60,4 +64,4 @@ Tests: incomplete budgets cannot satisfy coverage, duplicate findings do not inf
 
 ## Later authority review
 
-Use curator outcomes and several editorial trials to consider separately expanding selection, consolidation, prose, classification, factual correction or delivery authority. This plan grants no automatic office publication or model purchases. The next policy/activation increment is selected after discussing this delivery’s evidence, as Michael requested. No active guidance changed during implementation.
+Use curator outcomes and several editorial trials to consider separately expanding selection, consolidation, prose, classification, factual correction or delivery authority. This plan grants no automatic office publication or model purchases. The next supervised experiment or separately agreed extension is selected after discussing this delivery’s evidence, as Michael requested. No active guidance changed during implementation.
