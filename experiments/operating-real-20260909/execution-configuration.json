@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "protocol": "astra-sampled-v1",
+  "version": "bounded-clothing-goals-20260909",
+  "serviceArea": "Mesa, Arizona and practical nearby East Valley access. Bounded new-discovery comparison; at most three fully written leads. Exclude these prior-pilot example providers: One Small Step / Clothes Cabin / PINCH; Helen's Hope Chest; Friends at First; Dress for Success Phoenix / EducateHER; Express Employment Professionals; Goodwill; Smart Justice; The Worker; Mesa Housing Authority / deposit assistance; Family Housing Hub; House of Refuge",
+  "sampling": {
+    "seed": "4164f8adb6d9aa002dda201ea94c7690",
+    "numerator": 0,
+    "denominator": 3
+  },
+  "deliberateCategoryIds": [],
+  "modelIdentities": {
+    "Codex": "gpt-6-astra",
+    "Claude": null,
+    "ChatGPT": null,
+    "Grok": null,
+    "Perplexity": null
+  }
+}

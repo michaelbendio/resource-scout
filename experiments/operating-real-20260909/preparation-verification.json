@@ -1,0 +1,25 @@
+{
+  "status": "prepared-not-dispatched",
+  "tests": {
+    "command": "python3 -m unittest tests.test_operating_policy tests.test_research_execution -q",
+    "run": 50,
+    "passed": 50
+  },
+  "diffCheck": true,
+  "modelCalls": 0,
+  "productionPoliciesActivated": 0,
+  "inputHashes": {
+    "controller.py": "844ed80699f5bec21b5473950969c0135ca0658c9027dda5f4601f4442c5f492",
+    "source.json": "1260827326ad0e7f5bfeda9982f504b3ef5c8836a4c3de766a8cd95d0c4f611f",
+    "prepared.json": "133687168719b76bc31678eebea5b25f646f16112e31af06f20538e7671407be",
+    "measurement.json": "ad7344a944e3dca5e5e691f1d096c6291b494f01237bbb719232d5b8e767057c",
+    "source-package.zip": "072afc6dfa33c04710f1ae361c91bac1d0e87a53a496f9f54ed05385dbfe88db",
+    "baseline-policy.json": "514816b20a64f221fc05de916b273cb5569b348d50d61a77134161e27ee61f01",
+    "proposal.json": "f920635757a0ca4eb3f95b9944aaadb0183deb311dc78929358620ae2cd4a0fa",
+    "common-research-instructions.json": "6a0b29b038324c0d0a00bd73bbb0abb417750623d4d8037466cfdaef75d693d3",
+    "execution-configuration.json": "d051dad64364e0a65ad1c9e2f6500f69a4449698231390a7f99a15d31cd69d7c",
+    "design.json": "5369d1b13f8f9e9c9bc42846fed01c33470690bbf71f63af8b5a5bdf9232f2f5",
+    "prepare.py": "35cce737b25acc36d38905ab933712cd0d8ff320d07800a5dc108b4bd787171a",
+    "candidate-policy.json": "f5893ce0a4a89c6fc6f1156e2ca85c4f1fdad8db955248de822c840e86a5db99"
+  }
+}

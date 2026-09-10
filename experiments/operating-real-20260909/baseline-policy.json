@@ -1,0 +1,124 @@
+{
+  "scope": {
+    "office": "Mesa",
+    "category": "clothing",
+    "kind": "discovery"
+  },
+  "passes": [
+    {
+      "key": "direct-service-landscape",
+      "label": "Direct-service landscape",
+      "direction": "Find distinct, currently operating clothing providers and named programs with a practical way to begin receiving help.",
+      "coverage": [
+        "Direct and practical clothing help",
+        "Public, nonprofit, and credible private clothing programs",
+        "Programs that credibly serve the selected area"
+      ],
+      "vocabulary": [
+        "apply",
+        "enroll",
+        "appointment",
+        "walk-in",
+        "intake"
+      ],
+      "sourceChannels": [
+        "Official provider pages",
+        "Named-program pages"
+      ]
+    },
+    {
+      "key": "public-system-pathways",
+      "label": "Public-system pathways",
+      "direction": "Search government agencies, contracted providers, public benefits, and publicly funded clothing pathways that credibly serve the selected area.",
+      "coverage": [
+        "Public programs",
+        "Contracted providers",
+        "Benefits and eligibility pathways"
+      ],
+      "vocabulary": [
+        "program eligibility",
+        "contracted provider",
+        "public benefit",
+        "service area"
+      ],
+      "sourceChannels": [
+        "Government program pages",
+        "Contracts and provider registries"
+      ]
+    },
+    {
+      "key": "community-population-pathways",
+      "label": "Community and population-specific pathways",
+      "direction": "Find substantial clothing programs embedded in community organizations and programs designed for populations facing defined access barriers.",
+      "coverage": [
+        "Community-embedded programs",
+        "Population-specific services",
+        "Barrier-aware access"
+      ],
+      "vocabulary": [
+        "community program",
+        "specialized services",
+        "culturally responsive",
+        "accessible services"
+      ],
+      "sourceChannels": [
+        "Community organization program pages",
+        "Population-specific provider pages"
+      ]
+    },
+    {
+      "key": "non-obvious-primary-sources",
+      "label": "Non-obvious primary sources",
+      "direction": "Search grants, contracts, board materials, partner announcements, registries, catalogs, and current primary-source PDFs for named clothing programs missed by ordinary web searches.",
+      "coverage": [
+        "Grant-funded programs",
+        "Registry-listed services",
+        "Partner programs",
+        "Programs documented in primary-source PDFs"
+      ],
+      "vocabulary": [
+        "grant award",
+        "service contract",
+        "provider list",
+        "program catalog",
+        "partner program"
+      ],
+      "sourceChannels": [
+        "Government contracts and grants",
+        "Public meeting materials",
+        "Provider registries",
+        "Primary-source PDFs"
+      ]
+    }
+  ],
+  "requiredNeeds": [
+    "Barrier-aware access",
+    "Benefits and eligibility pathways",
+    "Community-embedded programs",
+    "Contracted providers",
+    "Direct and practical clothing help",
+    "Grant-funded programs",
+    "Partner programs",
+    "Population-specific services",
+    "Programs documented in primary-source PDFs",
+    "Programs that credibly serve the selected area",
+    "Public programs",
+    "Public, nonprofit, and credible private clothing programs",
+    "Registry-listed services"
+  ],
+  "stopping": {
+    "minPasses": 4,
+    "consecutiveNoGain": 4
+  },
+  "models": {
+    "Codex": "gpt-6-astra",
+    "Claude": null,
+    "ChatGPT": null,
+    "Grok": null,
+    "Perplexity": null
+  },
+  "sampling": {
+    "numerator": 0,
+    "denominator": 3
+  }
+}

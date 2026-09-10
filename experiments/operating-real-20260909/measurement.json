@@ -1,0 +1,17 @@
+{
+  "originalSource": "experiments/mesa-maintenance-editor-20260909/targeted-findings.json",
+  "sourceSha256": "b15537ac79a2cd6f49a81ffe77bec8ef522e918e07d2edfff5bbc4bf9653c912",
+  "originalMode": "manual Mesa maintenance/editor pilot",
+  "originalFinding": {
+    "id": "pinch",
+    "resourceId": "73dfadc219f93cdde3c2e07d3e1045b4",
+    "outcome": "assisted-entry-confirmed",
+    "retained": true,
+    "finding": "Local service providers can request small emergency orders for clients unable to visit and collect under agency information. Add a conditional assisted route; ask whether TSO qualifies before promising missionary pickup. Work shoes still require a new job.",
+    "sources": [
+      "https://www.onesmallstepaz.org/pages/pinch"
+    ]
+  },
+  "applicability": "Hypothesis for a new Mesa Clothing discovery run, not a demonstrated discovery-policy improvement.",
+  "limitations": "One clothing resource, same-context manual follow-up; no independent causal evidence. Previously reviewed example providers excluded from test."
+}

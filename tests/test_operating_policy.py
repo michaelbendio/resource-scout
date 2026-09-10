@@ -334,3 +334,18 @@ class OperatingPolicyTests(unittest.TestCase):
             pid=self.finish_execution(p,config)
             self.w.submit_policy_result(p['packetId'],json.dumps(self.result(p,executionProjectId=pid)))
         with self.assertRaisesRegex(ImprovementError,'settings'):self.evaluate(trial)
+
+    def test_experimental_arms_do_not_receive_each_others_prior_results(self):
+        trial=self.trial(mode='live')
+        baseline=self.w.policy_packet(trial,'baseline','isolated-baseline')
+        baseline_pid=self.finish_execution(baseline)
+        candidate=self.w.policy_packet(trial,'candidate','isolated-candidate')
+        pid=self.flow.prepare(self.payload,'Test TSO',[],['employment'],run_name='Isolated candidate',historical=True,
+            execution_config=settings(),operating_trial_packet_id=candidate['packetId'])['id']
+        a=self.flow.next_assignment(pid)
+        self.assertEqual([],a['priorChecks'])
+        original=next(iter(self.state(baseline_pid)['tasks']['discovery:employment']['assignments'].values()))
+        self.assertEqual(original['knownIdentities'],a['knownIdentities'])
+        self.assertFalse(any('priorRunId' in r for r in a['knownIdentities']))
+        ordinary=self.prepare('Ordinary after experiment')
+        self.assertEqual([],self.flow.next_assignment(ordinary)['priorChecks'])

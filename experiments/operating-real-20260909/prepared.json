@@ -1,0 +1,14 @@
+{
+  "referenceProjectId": 1,
+  "evidenceId": "ded7bb1a543c1a73d5292e204f685bcf09011620a07532b91857b8903fce5aae",
+  "proposalId": "67072748ae1135605caf847035e5030dffa516a9808a69af47b36dc3e05a6a64",
+  "trialId": "2063ebce87abd3716421232a66235c91ddb2c24466f29ec9f3668dd157e864d3",
+  "initialManifest": {
+    "manifestId": "a50bef4a7f16c2a5575ab20efc15b6d0a5c126edc266e7236a59d9a96657ac05",
+    "parent": null,
+    "entries": [],
+    "reviewId": null
+  },
+  "modelCalls": 0,
+  "status": "prepared; awaiting separately authorized isolated respondents"
+}

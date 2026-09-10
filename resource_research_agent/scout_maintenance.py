@@ -316,8 +316,12 @@ class MaintenanceWorkflow(ImprovementWorkflow):
         records = [{**r, 'identityStatus': 'current'} for r in package['resources'].values()]
         records += [{'id': d.get('targetId'), 'name': d.get('label', ''), 'identityStatus': 'retired'}
                     for d in package['data'].get('deletions', []) if d.get('kind') == 'resource']
+        if state.get('operatingTrialPacketId'):
+            return records
         for row in c.execute('SELECT id,state_json FROM scout_improvement_projects ORDER BY id'):
             prior = decode_project_state(row['state_json'])
+            if prior.get('operatingTrialPacketId'):
+                continue
             if prior.get('kind') != self.kind or prior['office'].casefold() != state['office'].casefold():
                 continue
             # Development outcomes must never become production identity evidence.
@@ -336,8 +340,12 @@ class MaintenanceWorkflow(ImprovementWorkflow):
 
     def _prior_checks(self, c, state, task):
         observations = []
+        if state.get('operatingTrialPacketId'):
+            return observations
         for row in c.execute('SELECT id,state_json FROM scout_improvement_projects WHERE id<>? ORDER BY id DESC', (state['id'],)):
             prior = decode_project_state(row['state_json'])
+            if prior.get('operatingTrialPacketId'):
+                continue
             if prior.get('kind') != self.kind or prior['office'].casefold() != state['office'].casefold() or prior['historical'] != state['historical']:
                 continue
             for old in prior['tasks'].values():
