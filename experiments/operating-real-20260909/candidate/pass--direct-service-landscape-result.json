@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "taskId": "discovery:clothing",
+  "assignmentSha256": "e8c3afdacfe07025a6556212b325cf4882b8be29132b38780ff5757b58a78d30",
+  "evidenceSources": [
+    {
+      "url": "https://www.cityhopeaz.org/centers",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Our Mesa Center provides food only."
+    },
+    {
+      "url": "https://pazdecristo.org/what-we-do/get-help-original/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Clothing Vouchers: Service is temporarily unavailable"
+    },
+    {
+      "url": "https://pazdecristo.org/what-we-do/clothe/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Clothing vouchers for Deseret Industries are available by appointment only."
+    },
+    {
+      "url": "https://www.cityhopeaz.org/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Food and clothing items—free of charge—to all our guests."
+    }
+  ],
+  "researchNotes": "Bounded direct-service search examined local nonprofit programs. Followed City Hope's dedicated receiving-help page and Paz de Cristo's linked Clothe page. City Hope overview's all-guests clothing statement conflicts with Mesa-specific food-only notice; Gilbert remains a practical nearby lead. Paz direct adult closet remains supported separately from contradictory voucher availability. Other searched leads (Casa de Amor, La Mesa) remain unexpanded notes. No excluded providers investigated. 3 web calls, 1 search query, 3 explicit opens/clicks. Stage elapsed approximately 3 minutes; active estimate 3 minutes includes reading/writing/tool orchestration, waiting 0.02 minutes rounded from web latency. Not exhaustive.",
+  "executionReceipt": {
+    "complete": true,
+    "model": "gpt-6-astra",
+    "contextId": "astra-clothing-20260909-candidate",
+    "freshContext": true,
+    "isolatedInputs": true,
+    "activeMinutes": 3,
+    "waitingMinutes": 0.02,
+    "coverageNotes": "Examined Direct and practical clothing help; Public, nonprofit, and credible private clothing programs; Programs that credibly serve the selected area. Bounded examination, not full discovery.",
+    "remainingGaps": [
+      "City Hope Mesa clothing contradiction needs provider clarification; do not refer there for clothes.",
+      "Paz de Cristo voucher service conflicting active/unavailable notices.",
+      "Clothing documentation, frequency limits and accommodations at Paz remain unknown."
+    ]
+  },
+  "observations": [
+    {
+      "summary": "City Hope: Gilbert center offers no-cost clothing. Walk in with driver license or government ID; one visit per center per calendar month; arrive at least 15 minutes before close. Gilbert address 1120 S Gilbert Rd Suite 101, Gilbert AZ 85296; phone 480-900-5422; Mon/Wed/Sat 9–11:30am; distribution can close at 80 guests. Mesa center specifically says food only despite broad homepage clothing statement.",
+      "evidence": [
+        0,
+        3
+      ],
+      "questions": [
+        "Does the Mesa center currently provide any clothing? The homepage says clothing for all guests, but Centers explicitly says Mesa is food only."
+      ]
+    },
+    {
+      "summary": "Paz de Cristo Clothing Closet at 424 W Broadway Rd, Mesa AZ 85210 serves adults, not children, Mondays/Fridays 1–2pm. Visit campus; front desk 480-464-2370. Clothing includes casual and interview attire, sizes and seasonal gear depend on donations. Wednesday showers 9am–1pm include clothing/hygiene. Deseret Industries vouchers are described as appointment-only on Clothe and at top of Get Help, but Get Help's service list says temporarily unavailable; preserve direct clothing help without promising vouchers.",
+      "evidence": [
+        1,
+        2
+      ],
+      "questions": [
+        "Are Deseret Industries clothing vouchers available now? The Get Help service list says temporarily unavailable while Clothe and the overview say appointment only.",
+        "What documents, repeat-visit limits and accessibility arrangements apply to the adult Clothing Closet?"
+      ]
+    }
+  ]
+}

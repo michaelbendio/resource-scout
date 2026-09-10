@@ -1,0 +1,357 @@
+{
+  "arm": "baseline",
+  "model": "gpt-6-astra",
+  "contextId": "astra-clothing-20260909-baseline",
+  "freshContext": true,
+  "isolatedInputs": true,
+  "isolation": "Read common instructions and own assignments, policy/project and arm files only. No other arm, memories, history, database or application source inspection.",
+  "startedAtUnix": 1789007110.0268018,
+  "deadlineUnix": 1789008910.0268018,
+  "accountingAtUnix": 1789007592.2817652,
+  "elapsedSeconds": 482.25496339797974,
+  "webToolSeconds": 16.039,
+  "originalAcceptedReceiptSum": {
+    "activeMinutes": 5.0600000000000005,
+    "waitingMinutes": 0.26
+  },
+  "correctedEstimate": {
+    "activeMinutes": 7.77,
+    "waitingMinutes": 0.267,
+    "method": "Estimated active time is elapsed wall time minus measured web-call latency; includes local transport, reading, writing and validation overhead, not a metered thinking-time measure."
+  },
+  "perStageOriginal": [
+    {
+      "responsePath": "response-01-direct-service.json",
+      "receipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-baseline",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 1.01,
+        "waitingMinutes": 0.06,
+        "coverageNotes": "Examined Direct and practical clothing help; Public, nonprofit, and credible private clothing programs; Programs that credibly serve the selected area. Three web calls, one search query, four page opens. Bounded sample only.",
+        "remainingGaps": [
+          "Other direct-service providers were not investigated beyond search leads.",
+          "Paz clothing voucher availability conflicts within the official site.",
+          "City Hope clothing stock and accommodations are not established."
+        ]
+      },
+      "responseMtimeUnix": 1789007174.1132405
+    },
+    {
+      "responsePath": "response-02-public-system.json",
+      "receipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-baseline",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 0.66,
+        "waitingMinutes": 0.05,
+        "coverageNotes": "Examined Public programs; Contracted providers; Benefits and eligibility pathways through government school and county workforce sources. Three web calls, two queries, three opens including one failure. Contract instruments and broad benefit programs not exhaustively examined.",
+        "remainingGaps": [
+          "Current operation and clothing-specific intake at Workforce Center @ Mesa boutique unresolved.",
+          "School clothing pathway not established in this limited search.",
+          "Other public benefits and contract instruments remain unexamined."
+        ]
+      },
+      "responseMtimeUnix": 1789007233.3236814
+    },
+    {
+      "responsePath": "response-03-community.json",
+      "receipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-baseline",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 0.62,
+        "waitingMinutes": 0.05,
+        "coverageNotes": "Examined Community-embedded programs; Population-specific services; Barrier-aware access for family-placement documentation. Bounded two-provider sample; no exhaustive disability/language or all population search.",
+        "remainingGaps": [
+          "Jose recipient appointment rule and informal kinship access unknown.",
+          "Jose explicit page opens failed; available official search text used.",
+          "Casa clothing-specific documents, cost and limits unresolved.",
+          "Disability and language accommodations not established for these providers."
+        ]
+      },
+      "responseMtimeUnix": 1789007290.8413365
+    },
+    {
+      "responsePath": "response-04-nonobvious.json",
+      "receipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-baseline",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 0.88,
+        "waitingMinutes": 0.08,
+        "coverageNotes": "Examined Grant-funded programs; Registry-listed services (foundation provider list, not exhaustive official registry); Partner programs; Programs documented in primary-source PDFs. Three web calls, two queries, three opens. No exhaustive grant/board/archive search.",
+        "remainingGaps": [
+          "Red Mountain closet and upcoming swap intake unestablished.",
+          "AFFCF application eligibility and upfront-cost alternative unexamined.",
+          "Other grants, board materials and registries remain unexamined."
+        ]
+      },
+      "responseMtimeUnix": 1789007363.182398
+    },
+    {
+      "responsePath": "response-05-primary-contract-corrected.json",
+      "receipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-baseline",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 1.09,
+        "waitingMinutes": 0.02,
+        "coverageNotes": "Synthesized all four actual passes into three proposals. Eight-query ceiling reached by targeted primary follow-up. No claim that all clothing needs or providers were found.",
+        "remainingGaps": [
+          "Jose first-visit appointment, informal kinship documentation and membership fee unresolved.",
+          "Paz vouchers conflict; fee/document rules not clearly specified.",
+          "City Hope no-ID alternative unknown.",
+          "Other leads and language/disability/travel arrangements remain unverified."
+        ]
+      },
+      "responseMtimeUnix": 1789007457.0541935
+    },
+    {
+      "responsePath": "response-06-freeze.json",
+      "receipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-baseline",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 0.39,
+        "waitingMinutes": 0,
+        "coverageNotes": "Self-review of complete primary-only result and evidence; no new research, no independent verification.",
+        "remainingGaps": [
+          "Jose first-visit appointment, informal kinship documentation and membership fee unresolved.",
+          "Paz vouchers conflict; fee/document rules not clearly specified.",
+          "City Hope no-ID alternative unknown.",
+          "Other leads and language/disability/travel arrangements remain unverified."
+        ]
+      },
+      "responseMtimeUnix": 1789007480.3817296
+    },
+    {
+      "responsePath": "response-07-reconcile.json",
+      "receipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-baseline",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 0.41,
+        "waitingMinutes": 0,
+        "coverageNotes": "All supplied outside-check containers examined; none contain findings. Final result equals self-reviewed frozen content, not human-curated acceptance.",
+        "remainingGaps": [
+          "Jose first-visit appointment, informal kinship documentation and membership fee unresolved.",
+          "Paz vouchers conflict; fee/document rules not clearly specified.",
+          "City Hope no-ID alternative unknown.",
+          "Other leads and language/disability/travel arrangements remain unverified."
+        ]
+      },
+      "responseMtimeUnix": 1789007505.4725971
+    }
+  ],
+  "transportTimestamps": [
+    {
+      "path": "freeze-666b1a117f8a-delivery.json",
+      "mtimeUnix": 1789007480.4888434,
+      "meaning": "Actual filesystem modification timestamp; controller dispatch time when assignment first written, delivery time when delivery written. Not an independent tool-start timestamp."
+    },
+    {
+      "path": "freeze-assignment.json",
+      "mtimeUnix": 1789007457.2764995,
+      "meaning": "Actual filesystem modification timestamp; controller dispatch time when assignment first written, delivery time when delivery written. Not an independent tool-start timestamp."
+    },
+    {
+      "path": "pass--community-population-pathways-671ca220e2b6-delivery.json",
+      "mtimeUnix": 1789007290.9450705,
+      "meaning": "Actual filesystem modification timestamp; controller dispatch time when assignment first written, delivery time when delivery written. Not an independent tool-start timestamp."
+    },
+    {
+      "path": "pass--community-population-pathways-assignment.json",
+      "mtimeUnix": 1789007233.5407166,
+      "meaning": "Actual filesystem modification timestamp; controller dispatch time when assignment first written, delivery time when delivery written. Not an independent tool-start timestamp."
+    },
+    {
+      "path": "pass--direct-service-landscape-assignment.json",
+      "mtimeUnix": 1789007114.2794185,
+      "meaning": "Actual filesystem modification timestamp; controller dispatch time when assignment first written, delivery time when delivery written. Not an independent tool-start timestamp."
+    },
+    {
+      "path": "pass--direct-service-landscape-fa8ad072f5ba-delivery.json",
+      "mtimeUnix": 1789007174.219991,
+      "meaning": "Actual filesystem modification timestamp; controller dispatch time when assignment first written, delivery time when delivery written. Not an independent tool-start timestamp."
+    },
+    {
+      "path": "pass--non-obvious-primary-sources-4bfac9a7b598-delivery.json",
+      "mtimeUnix": 1789007363.2865198,
+      "meaning": "Actual filesystem modification timestamp; controller dispatch time when assignment first written, delivery time when delivery written. Not an independent tool-start timestamp."
+    },
+    {
+      "path": "pass--non-obvious-primary-sources-assignment.json",
+      "mtimeUnix": 1789007291.059957,
+      "meaning": "Actual filesystem modification timestamp; controller dispatch time when assignment first written, delivery time when delivery written. Not an independent tool-start timestamp."
+    },
+    {
+      "path": "pass--public-system-pathways-assignment.json",
+      "mtimeUnix": 1789007174.3327715,
+      "meaning": "Actual filesystem modification timestamp; controller dispatch time when assignment first written, delivery time when delivery written. Not an independent tool-start timestamp."
+    },
+    {
+      "path": "pass--public-system-pathways-e1171246db73-delivery.json",
+      "mtimeUnix": 1789007233.4283373,
+      "meaning": "Actual filesystem modification timestamp; controller dispatch time when assignment first written, delivery time when delivery written. Not an independent tool-start timestamp."
+    },
+    {
+      "path": "primary-429fdd8df647-delivery.json",
+      "mtimeUnix": 1789007441.8354893,
+      "meaning": "Actual filesystem modification timestamp; controller dispatch time when assignment first written, delivery time when delivery written. Not an independent tool-start timestamp."
+    },
+    {
+      "path": "primary-assignment.json",
+      "mtimeUnix": 1789007441.9463768,
+      "meaning": "Actual filesystem modification timestamp; controller dispatch time when assignment first written, delivery time when delivery written. Not an independent tool-start timestamp."
+    },
+    {
+      "path": "primary-c3a803b9e095-delivery.json",
+      "mtimeUnix": 1789007457.1599677,
+      "meaning": "Actual filesystem modification timestamp; controller dispatch time when assignment first written, delivery time when delivery written. Not an independent tool-start timestamp."
+    },
+    {
+      "path": "reconcile-2cd2b72957a3-delivery.json",
+      "mtimeUnix": 1789007505.5777073,
+      "meaning": "Actual filesystem modification timestamp; controller dispatch time when assignment first written, delivery time when delivery written. Not an independent tool-start timestamp."
+    },
+    {
+      "path": "reconcile-assignment.json",
+      "mtimeUnix": 1789007480.6072497,
+      "meaning": "Actual filesystem modification timestamp; controller dispatch time when assignment first written, delivery time when delivery written. Not an independent tool-start timestamp."
+    }
+  ],
+  "webCalls": [
+    {
+      "logPath": "web-01.json",
+      "recordedElapsedSeconds": 1.078,
+      "logWrittenAtUnix": 1789007128.1017237,
+      "queries": 1,
+      "opens": 0
+    },
+    {
+      "logPath": "web-02.json",
+      "recordedElapsedSeconds": 1.754,
+      "logWrittenAtUnix": 1789007137.7823217,
+      "queries": 0,
+      "opens": 2
+    },
+    {
+      "logPath": "web-03.json",
+      "recordedElapsedSeconds": 0.874,
+      "logWrittenAtUnix": 1789007146.1513615,
+      "queries": 0,
+      "opens": 2
+    },
+    {
+      "logPath": "web-04.json",
+      "recordedElapsedSeconds": 1.1,
+      "logWrittenAtUnix": 1789007191.9915416,
+      "queries": 2,
+      "opens": 0
+    },
+    {
+      "logPath": "web-05.json",
+      "recordedElapsedSeconds": 0.84,
+      "logWrittenAtUnix": 1789007200.3961728,
+      "queries": 0,
+      "opens": 2
+    },
+    {
+      "logPath": "web-06.json",
+      "recordedElapsedSeconds": 1.492,
+      "logWrittenAtUnix": 1789007208.6763396,
+      "queries": 0,
+      "opens": 1
+    },
+    {
+      "logPath": "web-07.json",
+      "recordedElapsedSeconds": 1.965,
+      "logWrittenAtUnix": 1789007252.6045296,
+      "queries": 2,
+      "opens": 1
+    },
+    {
+      "logPath": "web-08.json",
+      "recordedElapsedSeconds": 0.991,
+      "logWrittenAtUnix": 1789007261.9674568,
+      "queries": 0,
+      "opens": 3
+    },
+    {
+      "logPath": "web-09.json",
+      "recordedElapsedSeconds": 3.168,
+      "logWrittenAtUnix": 1789007309.1407192,
+      "queries": 2,
+      "opens": 0
+    },
+    {
+      "logPath": "web-10.json",
+      "recordedElapsedSeconds": 0.944,
+      "logWrittenAtUnix": 1789007318.8876646,
+      "queries": 0,
+      "opens": 2
+    },
+    {
+      "logPath": "web-11.json",
+      "recordedElapsedSeconds": 0.693,
+      "logWrittenAtUnix": 1789007330.598026,
+      "queries": 0,
+      "opens": 1
+    },
+    {
+      "logPath": "web-12.json",
+      "recordedElapsedSeconds": 1.14,
+      "logWrittenAtUnix": 1789007387.2750916,
+      "queries": 1,
+      "opens": 0
+    }
+  ],
+  "toolUsage": {
+    "webCalls": 12,
+    "searchQueries": 8,
+    "pageOpens": 14,
+    "failedPageOpens": 3
+  },
+  "budget": {
+    "seconds": 1800,
+    "webCalls": 16,
+    "queries": 8,
+    "opens": 16,
+    "writtenLeads": 3,
+    "elapsedWithinLimit": true
+  },
+  "incrementalCostUSD": null,
+  "validationErrors": [
+    {
+      "stage": "primary",
+      "error": "Use the exact item contract",
+      "cause": "Extra writingEvidence item key from prose guidance",
+      "resolution": "Removed extra keys; preserved evidence source/index links. Accepted corrected response."
+    }
+  ],
+  "limitations": [
+    "Bounded discovery sample, not exhaustive clothing-category or population coverage.",
+    "No provider contact, phone verification, human curation, independent audit, outside paid model, publication or policy activation.",
+    "Search-results text supported Jose; both explicit page opens failed. A third failed open was City of Mesa workforce URL.",
+    "Accepted primary initially rejected only for extra writingEvidence keys; corrected response accepted. Original response and corrected file preserved.",
+    "Source evidence excerpts are deliberately short; actual complete returned tool outputs are in web-01.json through web-12.json.",
+    "Covered needs mean examined in this sample; contracted-provider search did not establish a clothing contract, and registry coverage was limited to a foundation provider list.",
+    "Estimated active time is elapsed wall time minus measured web-call latency; includes local transport, reading, writing and validation overhead, not a metered thinking-time measure.",
+    "All prior accepted receipt estimates remain immutable; corrected total is separately reported."
+  ]
+}

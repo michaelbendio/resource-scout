@@ -1,0 +1,10 @@
+{
+  "projectId": 2,
+  "packetId": "5f812d550e000864df92d8ba70394d96d8df4df9ef5ec2ede89e5f0d615b002c",
+  "contextId": "astra-clothing-20260909-baseline",
+  "startedAtUnix": 1789007110.0268018,
+  "deadlineUnix": 1789008910.0268018,
+  "arm": "baseline",
+  "historical": false,
+  "model": "gpt-6-astra"
+}

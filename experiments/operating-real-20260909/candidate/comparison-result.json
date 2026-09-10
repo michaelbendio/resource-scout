@@ -1,0 +1,107 @@
+{
+  "assignmentSha256": "1f71ada466ef6a578505ed5d6cb13d88158baa39e01ae312f0867e57ddd5e0bc",
+  "contextId": "astra-clothing-20260909-candidate",
+  "fresh": true,
+  "models": {
+    "Codex": "gpt-6-astra",
+    "Claude": null,
+    "ChatGPT": null,
+    "Grok": null,
+    "Perplexity": null
+  },
+  "complete": true,
+  "limitHit": true,
+  "coveredNeeds": [
+    "Direct and practical clothing help",
+    "Public, nonprofit, and credible private clothing programs",
+    "Programs that credibly serve the selected area",
+    "Public programs",
+    "Contracted providers",
+    "Benefits and eligibility pathways",
+    "Community-embedded programs",
+    "Population-specific services",
+    "Barrier-aware access",
+    "Grant-funded programs",
+    "Registry-listed services",
+    "Partner programs",
+    "Programs documented in primary-source PDFs"
+  ],
+  "remainingGaps": [
+    "City Hope Mesa clothing contradiction.",
+    "Paz vouchers conflicting; clothing costs/documents/repeat limits unestablished.",
+    "Jose recipient appointment and informal kinship document exception unknown.",
+    "Workforce boutique intake, documents, cost and hours; linked fact sheet failed.",
+    "Mobile Loaves meeting route and La Mesa embedded intake contents unresolved.",
+    "DES clothing pathway, funded-provider award details, registry entries and primary PDFs unestablished.",
+    "Language and physical accommodations not established."
+  ],
+  "findings": [
+    {
+      "key": "city.location",
+      "caseId": "discovery:clothing",
+      "evidence": "Use Gilbert for clothing; the location-specific page excludes clothing at Mesa. Sources: https://www.cityhopeaz.org/centers",
+      "retained": true
+    },
+    {
+      "key": "city.intake",
+      "caseId": "discovery:clothing",
+      "evidence": "No-cost walk-in route with ID, monthly visit limit and early-arrival/capacity cautions. Sources: https://www.cityhopeaz.org/centers",
+      "retained": true
+    },
+    {
+      "key": "city.contact",
+      "caseId": "discovery:clothing",
+      "evidence": "Both drafts preserve the Gilbert address, phone and distribution schedule. Sources: https://www.cityhopeaz.org/centers",
+      "retained": true
+    },
+    {
+      "key": "paz.audience",
+      "caseId": "discovery:clothing",
+      "evidence": "Adult everyday/interview clothing; no children's clothing. Availability depends on inventory. Sources: https://pazdecristo.org/what-we-do/clothe/",
+      "retained": true
+    },
+    {
+      "key": "paz.intake",
+      "caseId": "discovery:clothing",
+      "evidence": "Both drafts preserve the campus starting point, contact and separate closet/shower schedules. Sources: https://pazdecristo.org/what-we-do/clothe/; https://pazdecristo.org/what-we-do/get-help-original/",
+      "retained": true
+    },
+    {
+      "key": "paz.vouchers",
+      "caseId": "discovery:clothing",
+      "evidence": "Conflicting voucher availability remains a question; direct closet help is retained separately. Sources: https://pazdecristo.org/what-we-do/clothe/; https://pazdecristo.org/what-we-do/get-help-original/",
+      "retained": true
+    },
+    {
+      "key": "jose.audience",
+      "caseId": "discovery:clothing",
+      "evidence": "Both drafts preserve the defined foster/kinship/adoptive audience and household age scope. Sources: https://www.azafap.org/joses-closet/",
+      "retained": true
+    },
+    {
+      "key": "jose.intake",
+      "caseId": "discovery:clothing",
+      "evidence": "Both preserve first-visit membership paperwork, document requirements and renewal, without confusing donor walk-ins with recipient access. Sources: https://www.azafap.org/joses-closet/",
+      "retained": true
+    },
+    {
+      "key": "jose.clothing",
+      "caseId": "discovery:clothing",
+      "evidence": "Both preserve monthly clothing allowance. Current provider text describes clothing at no charge. Sources: https://www.azafap.org/joses-closet/",
+      "retained": true
+    },
+    {
+      "key": "jose.contact",
+      "caseId": "discovery:clothing",
+      "evidence": "Both preserve the current Mesa location, phone and hours. Sources: https://www.azafap.org/joses-closet/",
+      "retained": true
+    }
+  ],
+  "caseIds": [
+    "discovery:clothing"
+  ],
+  "activeMinutes": 9.84,
+  "waitingMinutes": 0.2308,
+  "costUSD": null,
+  "executionProjectId": 3
+}

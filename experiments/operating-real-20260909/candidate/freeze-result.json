@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "taskId": "discovery:clothing",
+  "assignmentSha256": "28accada7cefdd5d7e07eb61a40a36f19186c11e2eff9de764d6d4011b7daf4f",
+  "evidenceSources": [
+    {
+      "url": "https://www.cityhopeaz.org/centers",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Our Mesa Center provides food only."
+    },
+    {
+      "url": "https://pazdecristo.org/what-we-do/get-help-original/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Clothing Vouchers: Service is temporarily unavailable"
+    },
+    {
+      "url": "https://pazdecristo.org/what-we-do/clothe/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Clothing vouchers for Deseret Industries are available by appointment only."
+    },
+    {
+      "url": "https://www.cityhopeaz.org/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Food and clothing items—free of charge—to all our guests."
+    },
+    {
+      "url": "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa?OC_EA_EmergencyAnnouncementList_Dismiss=be8b6523-3ca8-4bcf-8cb7-189157fd8ca8",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Professional clothing boutique"
+    },
+    {
+      "url": "https://des.az.gov/node/24106",
+      "accessedOn": "2026-09-09",
+      "excerpt": "When an application for Nutrition Assistance and Cash Assistance is received DES sends a notice to the household to complete the mandatory interview."
+    },
+    {
+      "url": "https://des.az.gov/services/child-and-family/cash-assistance/cash-assistance-ca-income-eligibility-guidelines",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Cash Assistance (CA) benefits may only be provided for an assistance unit that resides in a needy family."
+    },
+    {
+      "url": "https://www.azafap.org/joses-closet/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "You will complete a membership application packet at your first visit, and update it each year to keep your membership current."
+    },
+    {
+      "url": "https://lamesaministries.org/services/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "We give away clothing and hygiene items between 4:30 and 6:00"
+    },
+    {
+      "url": "https://lamesaministries.org/mobile-loaves-help/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Serve With Us"
+    },
+    {
+      "url": "https://www.mesaaz.gov/Government/Grants/Community-Development-Grants",
+      "accessedOn": "2026-09-09",
+      "excerpt": "The Mesa City Council approved the FY 2026/2027 Funding Allocations"
+    },
+    {
+      "url": "https://www.mesaaz.gov/Environment-Sustainability/Living-Green/Mesa-Youth-Climate-Action-Fund?OC_EA_EmergencyAnnouncementList_Dismiss=be8b6523-3ca8-4bcf-8cb7-189157fd8ca8",
+      "accessedOn": "2026-09-09",
+      "excerpt": "The Girl Up team at Red Mountain HS organized “Rewear Revolution”"
+    }
+  ],
+  "researchNotes": "Synthesis of all four actual passes, limited to three written leads. La Mesa gatherings and Workforce professional boutique remain useful notes in pass history, not additional fully written proposals. Attempted linked MesaCAN fact sheet during synthesis: 404. Followed La Mesa Need Help: embedded form not exposed; no recipient intake inferred. Total 13 web calls, 7 queries, 16 opens/clicks including failures; page ceiling reached. Benefits, grant/registry/PDF and accommodations gaps retained. Fresh web observations are not provider verification. Initial first-two-pass minute estimates were too high; immutable receipts preserved; final transport accounting separately corrects using timestamps. No verifiedOn mutation. Self-review freeze: checked all three identities, evidence indexes, adult-only versus household-child eligibility, intake audience, and conflicting voucher/location statements. Added cost/document uncertainty to Paz patron information. Kept all three items and empty resolutions; no outside review or new research.",
+  "items": [
+    {
+      "id": "city-hope-gilbert-clothing",
+      "status": "new",
+      "program": "City Hope · Gilbert Center",
+      "summary": "Gilbert clothing supported. Homepage broadly promises clothing, but Centers explicitly limits Mesa to food; do not treat Mesa as clothing location. No known identities in sealed package.",
+      "fields": {
+        "name": "City Hope · Gilbert clothing",
+        "description": "Free clothing in Gilbert.",
+        "phone": "480-900-5422",
+        "website": "https://www.cityhopeaz.org/centers",
+        "address": "1120 S Gilbert Rd, Suite 101, Gilbert, AZ 85296",
+        "hours": "Monday, Wednesday and Saturday: 9–11:30am",
+        "categories": [
+          "clothing"
+        ],
+        "categoryFilters": {},
+        "forGroups": [],
+        "informationSections": {
+          "programsAndServices": "Choose clothing at no cost.",
+          "eligibilityRequirements": "Bring a driver license or government-issued ID each time.",
+          "howToBestConnect": "Visit without an appointment. Arrive at least 15 minutes before closing.",
+          "access": "This clothing location is in Gilbert. The provider’s Mesa location is listed as food only.",
+          "importantInformationToKnow": "One visit to each center per calendar month. Distribution may close early when 80 guests have been reached."
+        }
+      },
+      "evidence": [
+        0,
+        3
+      ],
+      "closureEvidence": [],
+      "questions": [
+        "Does Mesa offer clothing? https://www.cityhopeaz.org/ says clothing for all guests, but https://www.cityhopeaz.org/centers says Mesa provides food only. Gilbert remains the supported nearby clothing location."
+      ],
+      "nextCheckOn": "2026-10-09",
+      "lastEvidenceOfOperationOn": "2026-09-09"
+    },
+    {
+      "id": "paz-de-cristo-clothing-closet",
+      "status": "new",
+      "program": "Paz de Cristo · Clothing Closet",
+      "summary": "Direct adult closet supported independently of vouchers. Get Help service list says vouchers temporarily unavailable; Clothe says appointment only. Both accounts preserved. The reviewed pages do not state clothing costs, required documents or repeat limits; ask the front desk. No closure inferred.",
+      "fields": {
+        "name": "Paz de Cristo · Clothing Closet",
+        "description": "Adult everyday and interview clothing in Mesa.",
+        "phone": "480-464-2370",
+        "website": "https://pazdecristo.org/what-we-do/clothe/",
+        "address": "424 W Broadway Rd, Mesa, AZ 85210",
+        "hours": "Clothing Closet: Monday and Friday, 1–2pm. Showers: Wednesday, 9am–1pm.",
+        "categories": [
+          "clothing"
+        ],
+        "categoryFilters": {},
+        "forGroups": [],
+        "informationSections": {
+          "programsAndServices": "Ask for everyday or interview clothes. Shower guests also receive fresh clothing and hygiene items.",
+          "eligibilityRequirements": "The closet serves adults and has no children’s clothing.",
+          "howToBestConnect": "Visit the campus during closet hours. Ask staff for the sizes and items you need.",
+          "access": "Clothing is distributed at the Mesa campus.",
+          "importantInformationToKnow": "Available sizes and seasonal items depend on donations. Ask about any cost or required documents. Call before seeking a Deseret Industries voucher; published availability is unclear."
+        }
+      },
+      "evidence": [
+        1,
+        2
+      ],
+      "closureEvidence": [],
+      "questions": [
+        "Are Deseret Industries vouchers currently available? https://pazdecristo.org/what-we-do/get-help-original/ lists them as temporarily unavailable, while its overview and https://pazdecristo.org/what-we-do/clothe/ say appointment only. Keep the supported adult closet entry while this is checked.",
+        "What documents or repeat-visit limits apply, and is clothing free? The reviewed clothing pages do not state these rules."
+      ],
+      "nextCheckOn": "2026-10-09",
+      "lastEvidenceOfOperationOn": "2026-09-09"
+    },
+    {
+      "id": "joses-closet",
+      "status": "new",
+      "program": "Jose’s Closet",
+      "summary": "The AZAFAP Jose’s Closet membership section lists first-visit documents and annual renewal, but does not say whether recipients need an appointment or whether informal kinship families without placement/guardianship papers qualify. Its no-appointment wording concerns donors. Call Jose’s Closet about those two recipient questions.",
+      "fields": {
+        "name": "Jose’s Closet",
+        "description": "Free children’s clothing for foster, kinship and adoptive households in Mesa.",
+        "phone": "480-309-1743",
+        "website": "https://www.azafap.org/joses-closet/",
+        "address": "6515 E Main St, Suite 120, Mesa, AZ 85205",
+        "hours": "Tuesday–Saturday: 11am–3pm",
+        "categories": [
+          "clothing"
+        ],
+        "categoryFilters": {},
+        "forGroups": [],
+        "informationSections": {
+          "programsAndServices": "Monthly shopping provides a week of clothing and seasonal essentials per child.",
+          "eligibilityRequirements": "For foster, kinship and adoptive families, and youth in extended foster care. Membership includes household children up to age 21.",
+          "howToBestConnect": "Bring caregiver photo ID; placement or guardianship documents; adoption papers if applicable; and birth certificates for biological children. Complete membership paperwork at the first visit and renew yearly. Call or email info@josescloset.org about a first visit.",
+          "access": "The boutique is in Mesa and supports Arizona families.",
+          "importantInformationToKnow": "Clothing is free. First-visit appointment requirements are not stated."
+        }
+      },
+      "evidence": [
+        7
+      ],
+      "closureEvidence": [],
+      "questions": [
+        "Is an appointment needed for the first shopping visit? https://www.azafap.org/joses-closet/ explains membership documents, but its no-appointment statement concerns donation drop-off.",
+        "Can kinship caregivers without placement or guardianship papers receive help? The membership section asks for those records."
+      ],
+      "nextCheckOn": "2026-10-09",
+      "lastEvidenceOfOperationOn": "2026-09-09"
+    }
+  ],
+  "executionReceipt": {
+    "complete": true,
+    "model": "gpt-6-astra",
+    "contextId": "astra-clothing-20260909-candidate",
+    "freshContext": true,
+    "isolatedInputs": true,
+    "activeMinutes": 0.59,
+    "waitingMinutes": 0,
+    "coverageNotes": "Complete self-review of three primary proposals using existing own-arm evidence; no independent verification.",
+    "remainingGaps": [
+      "City Hope Mesa clothing contradiction.",
+      "Paz vouchers conflicting; clothing costs/documents/repeat limits unestablished.",
+      "Jose recipient appointment and informal kinship document exception unknown.",
+      "Workforce boutique intake, documents, cost and hours; linked fact sheet failed.",
+      "Mobile Loaves meeting route and La Mesa embedded intake contents unresolved.",
+      "DES clothing pathway, funded-provider award details, registry entries and primary PDFs unestablished.",
+      "Language and physical accommodations not established."
+    ]
+  },
+  "resolutions": []
+}

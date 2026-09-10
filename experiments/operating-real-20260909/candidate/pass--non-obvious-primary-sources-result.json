@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "taskId": "discovery:clothing",
+  "assignmentSha256": "40b6daf61b394fe930eddf8731b5a6f1335d7b2c125d39823fd08c6ce9d3749b",
+  "evidenceSources": [
+    {
+      "url": "https://www.mesaaz.gov/Government/Grants/Community-Development-Grants",
+      "accessedOn": "2026-09-09",
+      "excerpt": "The Mesa City Council approved the FY 2026/2027 Funding Allocations"
+    },
+    {
+      "url": "https://www.mesaaz.gov/Environment-Sustainability/Living-Green/Mesa-Youth-Climate-Action-Fund?OC_EA_EmergencyAnnouncementList_Dismiss=be8b6523-3ca8-4bcf-8cb7-189157fd8ca8",
+      "accessedOn": "2026-09-09",
+      "excerpt": "The Girl Up team at Red Mountain HS organized “Rewear Revolution”"
+    }
+  ],
+  "researchNotes": "Searched grants, registry/partner materials and primary PDFs, but no additional referral-ready program established. City grant overview search supplies funding context; explicit opening failed 403. FY26/27 HUD action plan and May 4 council materials PDFs failed 410. Followed City Hope linked Clothing & Basic Needs PDF as a partner/resource list: tool blocked redirect as unsafe. Did not bypass tool block. Search result mentions past Rewear Revolution swaps; no current event/intake route found and not proposed as ongoing aid. This pass hit 3 web-call/4-open ceiling, 2 queries. No grant award, registry entry or PDF contents silently marked verified.",
+  "executionReceipt": {
+    "complete": true,
+    "model": "gpt-6-astra",
+    "contextId": "astra-clothing-20260909-candidate",
+    "freshContext": true,
+    "isolatedInputs": true,
+    "activeMinutes": 0.99,
+    "waitingMinutes": 0.03,
+    "coverageNotes": "Examined search pathways for Grant-funded programs; Registry-listed services; Partner programs; Programs documented in primary-source PDFs. Source access failed for grant/PDF follow-through, so examination is not successful coverage or exhaustive discovery.",
+    "remainingGaps": [
+      "Award recipient list and clothing-specific grant program not established.",
+      "Registry-listed clothing service not substantiated.",
+      "Primary-source PDFs inaccessible: city plan/council materials 410; City Hope partner list blocked redirect.",
+      "Rewear Revolution current event, access and hardship usefulness not established."
+    ]
+  },
+  "observations": [
+    {
+      "summary": "City funding overview describes food/clothing support under local/federal community development funding and says FY2026/27 allocations approved May 4, 2026. Actual award/program documents could not be opened; no new clothing provider or patron application inferred from agency grant applications.",
+      "evidence": [
+        0
+      ],
+      "questions": [
+        "Which FY2026/27 funded agencies provide clothing to Mesa patrons, and what are their recipient intake steps?"
+      ]
+    },
+    {
+      "summary": "City Youth Climate Action Fund page names past Red Mountain HS Girl Up Rewear Revolution clothing swaps. Current page concerns applications for youth project grants; this does not establish an upcoming clothing distribution or a patron clothing assistance application. Keep as an unqualified note.",
+      "evidence": [
+        1
+      ],
+      "questions": [
+        "Is another Rewear Revolution clothing swap scheduled, and can someone participate without clothes to exchange?"
+      ]
+    }
+  ]
+}

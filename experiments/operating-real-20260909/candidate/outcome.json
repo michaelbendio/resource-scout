@@ -1,0 +1,247 @@
+{
+  "arm": "candidate",
+  "projectId": 3,
+  "complete": true,
+  "resultSummary": "Seven actual scheduler stages accepted. Three complete written proposals retained through self-review and no-audit reconciliation. Additional eligible program notes retained; failed-source and access gaps remain explicit.",
+  "supportedCandidates": [
+    {
+      "id": "city-hope-gilbert-clothing",
+      "program": "City Hope \u00b7 Gilbert Center",
+      "url": "https://www.cityhopeaz.org/centers"
+    },
+    {
+      "id": "paz-de-cristo-clothing-closet",
+      "program": "Paz de Cristo \u00b7 Clothing Closet",
+      "url": "https://pazdecristo.org/what-we-do/clothe/"
+    },
+    {
+      "id": "joses-closet",
+      "program": "Jose\u2019s Closet",
+      "url": "https://www.azafap.org/joses-closet/"
+    }
+  ],
+  "additionalProgramNotes": [
+    {
+      "program": "Workforce Center @ Mesa \u00b7 Professional clothing boutique",
+      "url": "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa?OC_EA_EmergencyAnnouncementList_Dismiss=be8b6523-3ca8-4bcf-8cb7-189157fd8ca8",
+      "qualification": "Clothing service named and contact route available; program-specific rules unresolved."
+    },
+    {
+      "program": "La Mesa Ministries \u00b7 Gathering clothing distribution",
+      "url": "https://lamesaministries.org/services/",
+      "qualification": "Distribution schedule and locations supported; not fully written under three-lead ceiling."
+    }
+  ],
+  "materialFindings": [
+    {
+      "key": "cityhope.gilbert.clothing-access",
+      "finding": "Gilbert no-cost clothing: walk in with government ID; one monthly visit per center; capacity may close distribution at 80 guests; arrive 15 minutes before close.",
+      "evidence": [
+        {
+          "url": "https://www.cityhopeaz.org/centers",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Our Mesa Center provides food only."
+        }
+      ]
+    },
+    {
+      "key": "cityhope.mesa.location-conflict",
+      "finding": "Generic all-guests clothing statement conflicts with dedicated Mesa food-only notice. Gilbert is the supported nearby clothing location; Mesa not promoted for clothes.",
+      "evidence": [
+        {
+          "url": "https://www.cityhopeaz.org/centers",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Our Mesa Center provides food only."
+        },
+        {
+          "url": "https://www.cityhopeaz.org/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Food and clothing items\u2014free of charge\u2014to all our guests."
+        }
+      ]
+    },
+    {
+      "key": "paz.closet.adult-access",
+      "finding": "Adult Clothing Closet at Mesa campus Mondays/Fridays 1\u20132pm; no children clothing. Visit campus; front desk contact published.",
+      "evidence": [
+        {
+          "url": "https://pazdecristo.org/what-we-do/get-help-original/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Clothing Vouchers: Service is temporarily unavailable"
+        },
+        {
+          "url": "https://pazdecristo.org/what-we-do/clothe/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Clothing vouchers for Deseret Industries are available by appointment only."
+        }
+      ]
+    },
+    {
+      "key": "paz.clothing.inventory",
+      "finding": "Everyday/interview and seasonal clothing supported; sizes and seasonal items depend on donations.",
+      "evidence": [
+        {
+          "url": "https://pazdecristo.org/what-we-do/clothe/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Clothing vouchers for Deseret Industries are available by appointment only."
+        }
+      ]
+    },
+    {
+      "key": "paz.shower.clothing",
+      "finding": "Wednesday shower service 9am\u20131pm includes fresh clothing and hygiene items.",
+      "evidence": [
+        {
+          "url": "https://pazdecristo.org/what-we-do/get-help-original/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Clothing Vouchers: Service is temporarily unavailable"
+        },
+        {
+          "url": "https://pazdecristo.org/what-we-do/clothe/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Clothing vouchers for Deseret Industries are available by appointment only."
+        }
+      ]
+    },
+    {
+      "key": "paz.vouchers.conflict",
+      "finding": "Deseret Industries voucher appointment wording conflicts with temporarily unavailable service-list notice. Direct closet retained; voucher availability unresolved.",
+      "evidence": [
+        {
+          "url": "https://pazdecristo.org/what-we-do/get-help-original/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Clothing Vouchers: Service is temporarily unavailable"
+        },
+        {
+          "url": "https://pazdecristo.org/what-we-do/clothe/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Clothing vouchers for Deseret Industries are available by appointment only."
+        }
+      ]
+    },
+    {
+      "key": "jose.membership.eligibility",
+      "finding": "Foster/kinship/adoptive families and extended foster youth supported; membership includes household children up to age 21.",
+      "evidence": [
+        {
+          "url": "https://www.azafap.org/joses-closet/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "You will complete a membership application packet at your first visit, and update it each year to keep your membership current."
+        }
+      ]
+    },
+    {
+      "key": "jose.membership.documents",
+      "finding": "First-visit membership requires caregiver photo ID, placement/guardianship documentation, applicable adoption paperwork and biological-child birth certificates; yearly renewal.",
+      "evidence": [
+        {
+          "url": "https://www.azafap.org/joses-closet/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "You will complete a membership application packet at your first visit, and update it each year to keep your membership current."
+        }
+      ]
+    },
+    {
+      "key": "jose.shopping.frequency",
+      "finding": "Free monthly shopping for one week of clothing per child, in Mesa. Donor no-appointment statement does not establish recipient walk-in access.",
+      "evidence": [
+        {
+          "url": "https://www.azafap.org/joses-closet/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "You will complete a membership application packet at your first visit, and update it each year to keep your membership current."
+        }
+      ]
+    },
+    {
+      "key": "workforce.boutique.pathway",
+      "finding": "City Workforce Center names professional clothing boutique for job seekers, no Mesa-residency requirement, center contacts and hours. Boutique conditions remain unresolved. Employer form not recipient intake.",
+      "evidence": [
+        {
+          "url": "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa?OC_EA_EmergencyAnnouncementList_Dismiss=be8b6523-3ca8-4bcf-8cb7-189157fd8ca8",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Professional clothing boutique"
+        }
+      ]
+    },
+    {
+      "key": "lamesa.gatherings.distribution",
+      "finding": "Tuesday Mesa/Thursday Tempe clothing distribution 4:30\u20136pm, before meals and worship; distinct from resource-center office hours.",
+      "evidence": [
+        {
+          "url": "https://lamesaministries.org/services/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "We give away clothing and hygiene items between 4:30 and 6:00"
+        }
+      ]
+    },
+    {
+      "key": "lamesa.mobile.access-gap",
+      "finding": "Mobile Loaves delivers clothing in Mesa/Tempe; linked Help page recruits volunteers and does not establish recipient stops.",
+      "evidence": [
+        {
+          "url": "https://lamesaministries.org/services/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "We give away clothing and hygiene items between 4:30 and 6:00"
+        },
+        {
+          "url": "https://lamesaministries.org/mobile-loaves-help/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Serve With Us"
+        }
+      ]
+    }
+  ],
+  "coveredNeeds": [
+    "Direct and practical clothing help",
+    "Public, nonprofit, and credible private clothing programs",
+    "Programs that credibly serve the selected area",
+    "Public programs",
+    "Contracted providers",
+    "Benefits and eligibility pathways",
+    "Community-embedded programs",
+    "Population-specific services",
+    "Barrier-aware access",
+    "Grant-funded programs",
+    "Registry-listed services",
+    "Partner programs",
+    "Programs documented in primary-source PDFs"
+  ],
+  "coverageMeaning": "Exact need strings represent bounded examination, including search attempts. They do not certify exhaustive discovery or successful evidence collection. Registry/contract award and primary-PDF contents remain gaps despite attempted channels.",
+  "remainingGaps": [
+    "City Hope Mesa clothing contradiction.",
+    "Paz vouchers conflicting; clothing costs/documents/repeat limits unestablished.",
+    "Jose recipient appointment and informal kinship document exception unknown.",
+    "Workforce boutique intake, documents, cost and hours; linked fact sheet failed.",
+    "Mobile Loaves meeting route and La Mesa embedded intake contents unresolved.",
+    "DES clothing pathway, funded-provider award details, registry entries and primary PDFs unestablished.",
+    "Language and physical accommodations not established."
+  ],
+  "limitHit": [
+    "pageOpensPerArm:16",
+    "writtenLeadsPerArm:3",
+    "all focused passes reached webCallsPerFocusedPass:3; public and non-obvious reached four-open pass ceiling"
+  ],
+  "estimatedActiveMinutes": 7.9518,
+  "estimatedWaitingMinutes": 0.2308,
+  "originalReceiptTotals": {
+    "activeMinutes": 9.84,
+    "waitingMinutes": 0.16
+  },
+  "toolUsageCounts": {
+    "webCalls": 13,
+    "searchQueries": 7,
+    "pageOpens": 16
+  },
+  "incrementalCostUSD": null,
+  "limitations": [
+    "No phone verification, contacts, logins, publication or human curation.",
+    "No outside audits supplied; reconciliation is not independent verification.",
+    "Transport failures preserved including 403/404/410 and blocked redirect; none treated as closure.",
+    "No current clothing-specific DES entitlement, grant recipient, registry service or usable primary PDF established.",
+    "Source dates are access dates, not guarantees of operation or stock.",
+    "Earlier first-two-stage timing overestimates are preserved separately from corrected timestamp estimates.",
+    "No measured incremental monetary cost available."
+  ],
+  "finalResponsePath": "output/operating-real-20260909/candidate/response-07-reconcile.json",
+  "transportMeasurementsPath": "output/operating-real-20260909/candidate/transport-measurements.json"
+}

@@ -1,0 +1,555 @@
+{
+  "projectId": 2,
+  "taskId": "discovery:clothing",
+  "stage": "pass:community-population-pathways",
+  "researcher": "Codex",
+  "scope": "discovery",
+  "office": "Mesa",
+  "runName": "Real Clothing comparison baseline",
+  "historicalDevelopmentOnly": false,
+  "baseSha256": "072afc6dfa33c04710f1ae361c91bac1d0e87a53a496f9f54ed05385dbfe88db",
+  "target": {
+    "id": "clothing",
+    "label": "Clothing",
+    "filters": []
+  },
+  "attachmentHashes": {},
+  "catalog": {
+    "categories": [
+      {
+        "id": "clothing",
+        "label": "Clothing",
+        "filters": []
+      }
+    ],
+    "forGroups": []
+  },
+  "knownIdentities": [],
+  "priorChecks": [],
+  "priorEvidenceWarning": "The original package and dated observations are history, not proof of current facts.",
+  "writingGuidance": {
+    "schemaVersion": 1,
+    "version": "plain-language-v5",
+    "instructionsFile": "plain_language.md",
+    "sections": [
+      {
+        "key": "programsAndServices",
+        "heading": "Programs and Services"
+      },
+      {
+        "key": "eligibilityRequirements",
+        "heading": "Eligibility Requirements"
+      },
+      {
+        "key": "howToBestConnect",
+        "heading": "How to Best Connect"
+      },
+      {
+        "key": "access",
+        "heading": "Access"
+      },
+      {
+        "key": "importantInformationToKnow",
+        "heading": "Important Information to Know"
+      }
+    ],
+    "retiredHeadings": [
+      "Services Provided",
+      "Scout Findings",
+      "Verify before Referral"
+    ],
+    "instructionsText": "# Writing resources for counseling and printed handouts\n\nWrite respectfully for adults seeking practical help. A service missionary must\nbe able to scan the resource quickly. The person taking the printout home may\nneed support with reading, remembering steps, or using a computer. Use everyday\nwords, short sentences, and brief paragraphs or simple bullets. Explain an\nunavoidable acronym. Avoid agency jargon, promotional language, and research\nprocess commentary. Do not judge the person's ability or circumstances.\n\nPatron usefulness: identify what help a TSO patron can receive, who can receive\nit, and a supported way to begin obtaining it. Determine the audience and purpose\nof each source and contact route; a page about an organization does not by\nitself establish assistance for the person seeking help. Reason from the\nevidence rather than matching keywords or assuming every mentioned activity is\na service. Assess each meaningful service separately. Preserve supported help\nwhen another service is uncertain. Explain an unsuitable or unresolved lead in\nreview notes, with the missing evidence or next question. Do not silently remove\nan existing accepted record or mistake uncertainty for closure.\n\nResource title: choose one short title when the resource's identity and useful\nservices are clear. Use \"Organization · brief program or service label\" to\ndistinguish entries from the same organization. Briefly list multiple meaningful\nservice types when appropriate; do not enumerate incidental benefits or force\na single program name. Do not ask the curator to choose between equivalent\nwording options. Ordinary wording choices belong to Scout.\n\nLeave consequential decisions to the curator. If significant uncertainty about\nidentity, offered services, recipient access, or overlap would change the title\nor whether the resource belongs, preserve the existing record and state the\nspecific unresolved decision, evidence, and practical question in review notes.\nDo not invent a program, settle a disputed service boundary, or silently split,\nmerge, or remove a record. A question unrelated to a clear title need not hold\nup that title choice. An explicitly requested review title can remain visible\nwithout implying that its unresolved service claims have been verified.\n\nRespect the assignment's editable fields and stable IDs. Where names are\neditable, return the chosen title through the normal proposal/review process.\nIn writing-only work, put a straightforward title suggestion in reviewNotes.\nThis division of judgment does not bypass the existing package review gate.\n\nHours: distinguish meal, pantry, office, and other service schedules. Do not\ncollapse them into a single schedule or treat office hours as service hours.\nFlag conflicting published schedules and say which service needs confirmation.\nWhen hours are outside the assignment's editable fields, record the discrepancy\nin reviewNotes rather than changing protected fields.\n\nDescription: briefly say what help is offered and where it is available. Identify\nlocation and service area accurately; an office address does not establish an\neligibility boundary. Preserve meaningful geographic limits and uncertainty.\n\nPrograms and Services: explain specific help, combining overlapping accounts.\nPrefer useful service distinctions over a long organizational history or list\nof incidental benefits. Do not repeat the same explanation in another section.\n\nEligibility Requirements: state the relevant qualifications and required\nreferrals or documents. Preserve material age, income, location, and other\nconditions. Requirements may vary by program; never substitute an invented\nrule for missing information.\n\nHow to Best Connect: give a supported starting route and practical next steps.\nExamine service and application pages or forms, not just the home page, to\nestablish appointment or walk-in requirements, pickup options, delivery\narrangements, and useful application instructions. Reading a form is research;\ndo not submit it or enter personal information. Distinguish what the form offers\nfrom assumptions about eligibility or guaranteed access.\nWhen known, explain what happens after applying without promising placement,\nfunding, eligibility, or response times. Keep phone, address, website, and hours\nin their ordinary fields; avoid duplicating those fields in Information. There\nis no dedicated email field: include a useful email address in this section.\nDo not assume a computer or internet access. Include an offline alternative only\nwhen supported. Do not invent documents, contacts, language help, or a preferred\nintake route.\n\nAccess: describe the area served and relevant access arrangements. Distinguish\nservice area from the physical office or individual job/service locations.\n\nImportant Information to Know: give material costs, limitations, availability,\nand specific questions the person should check. Distinguish applying from\nreceiving help. Keep unknown details brief and relevant; do not add generic\nwarnings to every resource or repeat them under several headings.\n\nReturn section bodies only; Scout supplies the exact headings and their order.\nUse plain paragraphs and optional lines starting with '- ' for bullets. Do not\nreturn HTML, Markdown links, tables, or extra headings. Use full URLs when a\nlink is needed on paper. Keep necessary conditions even when shortening text;\nthere is no mandatory word count. Never append original Scout Findings to the\npublic Information. Original research stays in the assignment history.\n\nEvery claim must be supported by the provided evidence or recorded additional\nresearch. Return writingEvidence with candidateIds (contributing candidate IDs\nas strings) and sources (an array). Each newly consulted source must contain\nexactly url (full HTTP/HTTPS URL), accessedOn (YYYY-MM-DD), and excerpt (relevant\nsource text). Use an empty sources array if only the supplied evidence was used.\nEvidence storage is not human verification: leave verifiedOn null. If a material\ndetail cannot be established, say what is unknown or what to ask. Do not copy\nknown providers, contacts, or eligibility facts from a writing example.\n\n\nQuestions for the curator\n-------------------------\nWrite like a helpful coworker. Ask a direct, everyday question: “Can someone\napply before moving here?” rather than “Which programs require current residency,\nand when?” Avoid phrases such as “accountable intake route,” “justify the category,”\nand “pending confirmation” when ordinary words will do.\n\nGive the curator enough detail to understand the problem without reopening the\nresearch report. Name the program, page, flyer or local note. Explain what each\nsource actually says and how the accounts differ. Include the relevant link,\nattachment title, or recorded contact when available. Distinguish older local\nnotes, saved web research and a fresh provider answer. Do not imply that you have\nrechecked a source when you have only read earlier research.\n\nFor example, if one source allows applying before moving, another gives local\nresidents priority, and a program page says nonresidents cannot advance on its\nwaiting list, state those three claims separately. Do not reduce them to “the\nsources use different eligibility wording.” Explain why the distinction matters,\nthen give the specific question to ask staff, including the program and stage of\napplication. Use only details supported by the actual assignment; this is an\nillustration, not a housing rule to reuse elsewhere.\n\nUse a short question followed by readable paragraphs or a few bullets. Explain\nwhat remains unchanged while the question is open when that helps the curator\nmake the decision. There is no fixed word limit: retain the details needed to\nsettle the question, but omit unrelated research history and repeated caveats.\nDo not invent the missing side of a disagreement. If the evidence only says a\nsource was not found, say that; absence from a website does not disprove local\nknowledge. Keep these administrative explanations in openQuestions, separate\nfrom patron Information. A saved resolution note is not provider verification.\n",
+    "sha256": "370ce4fc05351c61cca9a03c733cb1eee0caa6c80021e3d7f9e678977f1040aa"
+  },
+  "instructions": [
+    "Recheck the named program, not just the parent organization. Investigate operation, intake, address, service area, eligibility, cost, services, and accommodations. Compare services, populations, and intake routes before treating shared names or addresses as duplicate programs.",
+    "Apply the sealed writing guidance patron-usefulness test to each meaningful service: what help can the patron receive, for whom, and through what supported access route? Determine the audience and purpose of the evidence and explain suitability or uncertainty in the summary and questions. Do not rely on keyword-based exclusions. Preserve supported services and local knowledge when another service remains unestablished.",
+    "Search category assignments for additions. Compare discoveries against the whole package across categories and alternate names, including current, retired, and previously declined identities, before calling something new. A shared provider can operate distinct programs.",
+    "A failed URL, unanswered call, old listing, or search omission alone is inconclusive. Look for replacement contact routes. A closure proposal needs an explicit official notice naming the affected program.",
+    "Preserve useful local knowledge. A locally recorded detail absent from public sources becomes a focused verification question, not a deletion justified by website silence. Propose only evidence-supported changes. Use the frozen writing guidance, including program labels and service-specific hours. A clearer title is a field-level proposal for the existing stable ID, not a new resource or proof of a provider rename. Do not change verifiedOn.",
+    "Return dated sources, focused follow-up questions, operational evidence dates, and a suggested next check date. Unknown stays unknown. Flag classification consequences for human review.",
+    "Use priorChecks as dated history, not current fact. Repeated inability to verify should focus follow-up and independent checks, never become closure proof.",
+    "Choose a short title for straightforward cases using the sealed writing guidance. Leave significant identity, service, access, and overlap decisions to the curator with focused evidence and questions. Do not burden the curator with equivalent wording options, and do not let an unrelated question block a clear title. Preserve the record while consequential decisions remain unresolved.",
+    "Write follow-up questions as short, direct questions. Use the summary to give the details the curator needs to understand and answer them. For questions left to the curator, write in everyday language and include enough detail to act: what each named source or local note says, the specific difference or missing fact, why it matters, and what to ask or check. Include a useful source link, attachment title, or recorded contact when available. Do not merely say the sources conflict. Distinguish older notes from fresh checks, and never invent details to fill a gap. Keep the explanation beside the question and out of patron Information; use readable paragraphs without a fixed word limit.",
+    "Find substantial clothing programs embedded in community organizations and programs designed for populations facing defined access barriers.",
+    "Record findings and unresolved gaps for this focus. The primary synthesis later combines all passes into complete resource proposals."
+  ],
+  "editableFields": [
+    "name",
+    "description",
+    "phone",
+    "website",
+    "address",
+    "hours",
+    "categories",
+    "categoryFilters",
+    "forGroups",
+    "informationSections"
+  ],
+  "outputContract": {
+    "schemaVersion": 1,
+    "taskId": "discovery:clothing",
+    "assignmentSha256": "copy from assignment",
+    "evidenceSources": [],
+    "researchNotes": "",
+    "executionReceipt": {
+      "complete": true,
+      "model": null,
+      "contextId": "",
+      "freshContext": false,
+      "isolatedInputs": false,
+      "activeMinutes": 0,
+      "waitingMinutes": 0,
+      "coverageNotes": "",
+      "remainingGaps": []
+    },
+    "observations": []
+  },
+  "itemContract": {
+    "id": "stable-lead-id",
+    "status": "one of: current, changed, moved, renamed, paused, possibly-closed, reopened, inconclusive, identity, new",
+    "program": "Exact named program",
+    "summary": "What changed or remains uncertain",
+    "fields": {},
+    "evidence": [
+      0
+    ],
+    "closureEvidence": [],
+    "questions": [],
+    "nextCheckOn": "",
+    "lastEvidenceOfOperationOn": ""
+  },
+  "auditFindingContract": {
+    "id": "finding-id",
+    "summary": "Issue or useful correction",
+    "severity": "material"
+  },
+  "closureNoticeContract": {
+    "sourceIndex": 0,
+    "kind": "official-program-closure",
+    "program": "Exact named program",
+    "statement": "Exact closure words from the cited excerpt"
+  },
+  "closureCheckContract": {
+    "itemId": "closed-item-id",
+    "notice": {
+      "sourceIndex": 0,
+      "kind": "official-program-closure",
+      "program": "Exact named program",
+      "statement": "Exact closure words from the cited excerpt"
+    }
+  },
+  "resolutionContract": {
+    "findingId": "researcher:finding-id",
+    "status": "resolved or needs-review",
+    "reason": "Disposition"
+  },
+  "protocol": "astra-sampled-v1",
+  "serviceArea": "Mesa, Arizona and practical nearby East Valley access. Bounded new-discovery comparison; at most three fully written leads. Exclude these prior-pilot example providers: One Small Step / Clothes Cabin / PINCH; Helen's Hope Chest; Friends at First; Dress for Success Phoenix / EducateHER; Express Employment Professionals; Goodwill; Smart Justice; The Worker; Mesa Housing Authority / deposit assistance; Family Housing Hub; House of Refuge",
+  "configuredModel": "gpt-6-astra",
+  "modelIdentityRequired": true,
+  "fieldFormats": {
+    "categories": {
+      "type": "array of category IDs",
+      "values": "Use catalog.categories IDs."
+    },
+    "categoryFilters": {
+      "type": "object",
+      "example": {
+        "category-id": [
+          "Exact Type label"
+        ]
+      },
+      "rule": "Keys are category IDs in this resource; each value is an array of that category’s exact catalog filters. Never return a flat array."
+    },
+    "forGroups": {
+      "type": "array of strings",
+      "values": "Use exact catalog.forGroups labels."
+    },
+    "informationSections": {
+      "programsAndServices": "text",
+      "eligibilityRequirements": "text",
+      "howToBestConnect": "text",
+      "access": "text",
+      "importantInformationToKnow": "text"
+    },
+    "otherEditableFields": "Text strings; omit fields you are not proposing to change."
+  },
+  "statusFieldRules": {
+    "current, inconclusive, identity, possibly-closed": "fields must be the empty object {}.",
+    "changed": "Use for updates to an existing resource; fields contains the proposed replacements.",
+    "new, reopened": "Discovery additions require name, description, all five informationSections and categories including the assigned category."
+  },
+  "receiptInstructions": [
+    "Return complete=true only for the whole assignment, never a partial transport packet.",
+    "Record the actual model when known, otherwise null. Record actual active and waiting minutes.",
+    "Record context identity and whether it was fresh and isolated. These are operator attestations, not automatic proof.",
+    "Explain coverage and remaining gaps. A budget stop is not complete coverage. Never invent a provider call.",
+    "Use short supporting excerpts in evidenceSources, not full-page copies. Keep resource prose concise while preserving consequential eligibility, fees, delays, travel and uncertainty. Return the assigned JSON without extra narrative; do not repeat the same explanation in every field. There is no fixed resource-text length limit: preserve details needed for a safe, useful referral."
+  ],
+  "playbooks": {
+    "clothing": {
+      "category_id": "clothing",
+      "label": "Clothing",
+      "default_assignment": "Discover credible clothing resource leads for people in Mesa, Arizona and practical nearby East Valley access. Bounded new-discovery comparison; at most three fully written leads. Exclude these prior-pilot example providers: One Small Step / Clothes Cabin / PINCH; Helen's Hope Chest; Friends at First; Dress for Success Phoenix / EducateHER; Express Employment Professionals; Goodwill; Smart Justice; The Worker; Mesa Housing Authority / deposit assistance; Family Housing Hub; House of Refuge. Prioritize distinct providers, named programs, and practical ways to begin receiving help.",
+      "scope": [
+        "Direct and practical clothing help",
+        "Public, nonprofit, and credible private clothing programs",
+        "Programs that credibly serve the selected area"
+      ],
+      "exclusions": [
+        "Directories with no specific useful provider or program behind the listing",
+        "Organizations with no credible indication that the relevant service is available",
+        "Ordinary commercial options that do not materially improve access for people facing hardship"
+      ],
+      "aliases": [],
+      "library_version": "codex-first-v1",
+      "source": "generated fallback",
+      "focused_research": {
+        "version": "category-focused-v1",
+        "alternative_vocabulary": [
+          "assistance",
+          "support",
+          "access",
+          "stabilization",
+          "navigation",
+          "eligibility",
+          "intake",
+          "direct service"
+        ],
+        "source_channels": [
+          "Official provider and named-program pages",
+          "State, county, city, and special-district pages",
+          "Current government contracts, grants, registries, and partner lists",
+          "Current primary-source PDFs and referral materials"
+        ],
+        "focuses": [
+          {
+            "key": "direct-service-landscape",
+            "label": "Direct-service landscape",
+            "direction": "Find distinct, currently operating clothing providers and named programs with a practical way to begin receiving help.",
+            "coverage": [
+              "Direct and practical clothing help",
+              "Public, nonprofit, and credible private clothing programs",
+              "Programs that credibly serve the selected area"
+            ],
+            "vocabulary": [
+              "apply",
+              "enroll",
+              "appointment",
+              "walk-in",
+              "intake"
+            ],
+            "source_channels": [
+              "Official provider pages",
+              "Named-program pages"
+            ]
+          },
+          {
+            "key": "public-system-pathways",
+            "label": "Public-system pathways",
+            "direction": "Search government agencies, contracted providers, public benefits, and publicly funded clothing pathways that credibly serve the selected area.",
+            "coverage": [
+              "Public programs",
+              "Contracted providers",
+              "Benefits and eligibility pathways"
+            ],
+            "vocabulary": [
+              "program eligibility",
+              "contracted provider",
+              "public benefit",
+              "service area"
+            ],
+            "source_channels": [
+              "Government program pages",
+              "Contracts and provider registries"
+            ]
+          },
+          {
+            "key": "community-population-pathways",
+            "label": "Community and population-specific pathways",
+            "direction": "Find substantial clothing programs embedded in community organizations and programs designed for populations facing defined access barriers.",
+            "coverage": [
+              "Community-embedded programs",
+              "Population-specific services",
+              "Barrier-aware access"
+            ],
+            "vocabulary": [
+              "community program",
+              "specialized services",
+              "culturally responsive",
+              "accessible services"
+            ],
+            "source_channels": [
+              "Community organization program pages",
+              "Population-specific provider pages"
+            ]
+          },
+          {
+            "key": "non-obvious-primary-sources",
+            "label": "Non-obvious primary sources",
+            "direction": "Search grants, contracts, board materials, partner announcements, registries, catalogs, and current primary-source PDFs for named clothing programs missed by ordinary web searches.",
+            "coverage": [
+              "Grant-funded programs",
+              "Registry-listed services",
+              "Partner programs",
+              "Programs documented in primary-source PDFs"
+            ],
+            "vocabulary": [
+              "grant award",
+              "service contract",
+              "provider list",
+              "program catalog",
+              "partner program"
+            ],
+            "source_channels": [
+              "Government contracts and grants",
+              "Public meeting materials",
+              "Provider registries",
+              "Primary-source PDFs"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "passPlan": [
+    {
+      "key": "direct-service-landscape",
+      "label": "Direct-service landscape",
+      "direction": "Find distinct, currently operating clothing providers and named programs with a practical way to begin receiving help.",
+      "coverage": [
+        "Direct and practical clothing help",
+        "Public, nonprofit, and credible private clothing programs",
+        "Programs that credibly serve the selected area"
+      ],
+      "vocabulary": [
+        "apply",
+        "enroll",
+        "appointment",
+        "walk-in",
+        "intake"
+      ],
+      "sourceChannels": [
+        "Official provider pages",
+        "Named-program pages"
+      ],
+      "reason": "Find distinct, currently operating clothing providers and named programs with a practical way to begin receiving help."
+    },
+    {
+      "key": "public-system-pathways",
+      "label": "Public-system pathways",
+      "direction": "Search government agencies, contracted providers, public benefits, and publicly funded clothing pathways that credibly serve the selected area.",
+      "coverage": [
+        "Public programs",
+        "Contracted providers",
+        "Benefits and eligibility pathways"
+      ],
+      "vocabulary": [
+        "program eligibility",
+        "contracted provider",
+        "public benefit",
+        "service area"
+      ],
+      "sourceChannels": [
+        "Government program pages",
+        "Contracts and provider registries"
+      ],
+      "reason": "Search government agencies, contracted providers, public benefits, and publicly funded clothing pathways that credibly serve the selected area."
+    },
+    {
+      "key": "community-population-pathways",
+      "label": "Community and population-specific pathways",
+      "direction": "Find substantial clothing programs embedded in community organizations and programs designed for populations facing defined access barriers.",
+      "coverage": [
+        "Community-embedded programs",
+        "Population-specific services",
+        "Barrier-aware access"
+      ],
+      "vocabulary": [
+        "community program",
+        "specialized services",
+        "culturally responsive",
+        "accessible services"
+      ],
+      "sourceChannels": [
+        "Community organization program pages",
+        "Population-specific provider pages"
+      ],
+      "reason": "Find substantial clothing programs embedded in community organizations and programs designed for populations facing defined access barriers."
+    },
+    {
+      "key": "non-obvious-primary-sources",
+      "label": "Non-obvious primary sources",
+      "direction": "Search grants, contracts, board materials, partner announcements, registries, catalogs, and current primary-source PDFs for named clothing programs missed by ordinary web searches.",
+      "coverage": [
+        "Grant-funded programs",
+        "Registry-listed services",
+        "Partner programs",
+        "Programs documented in primary-source PDFs"
+      ],
+      "vocabulary": [
+        "grant award",
+        "service contract",
+        "provider list",
+        "program catalog",
+        "partner program"
+      ],
+      "sourceChannels": [
+        "Government contracts and grants",
+        "Public meeting materials",
+        "Provider registries",
+        "Primary-source PDFs"
+      ],
+      "reason": "Search grants, contracts, board materials, partner announcements, registries, catalogs, and current primary-source PDFs for named clothing programs missed by ordinary web searches."
+    }
+  ],
+  "operatingPolicyIds": [
+    "67072748ae1135605caf847035e5030dffa516a9808a69af47b36dc3e05a6a64"
+  ],
+  "focus": {
+    "key": "community-population-pathways",
+    "label": "Community and population-specific pathways",
+    "direction": "Find substantial clothing programs embedded in community organizations and programs designed for populations facing defined access barriers.",
+    "coverage": [
+      "Community-embedded programs",
+      "Population-specific services",
+      "Barrier-aware access"
+    ],
+    "vocabulary": [
+      "community program",
+      "specialized services",
+      "culturally responsive",
+      "accessible services"
+    ],
+    "sourceChannels": [
+      "Community organization program pages",
+      "Population-specific provider pages"
+    ],
+    "reason": "Find substantial clothing programs embedded in community organizations and programs designed for populations facing defined access barriers."
+  },
+  "observationContract": {
+    "summary": "Supported finding or specific gap",
+    "evidence": [
+      0
+    ],
+    "questions": []
+  },
+  "passResults": {
+    "pass:direct-service-landscape": {
+      "schemaVersion": 1,
+      "taskId": "discovery:clothing",
+      "assignmentSha256": "dbb813ae383e20c4c8a3bba426dfd58b2171ec3e783550db8a67b4907d97d25d",
+      "evidenceSources": [
+        {
+          "url": "https://www.cityhopeaz.org/centers",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Our Mesa Center provides food only."
+        },
+        {
+          "url": "https://pazdecristo.org/what-we-do/get-help-original/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Clothing Vouchers: Service is temporarily unavailable"
+        },
+        {
+          "url": "https://pazdecristo.org/what-we-do/clothe/",
+          "accessedOn": "2026-09-09",
+          "excerpt": "Our Clothing Closet is geared toward adults, and we do not have children’s clothing available."
+        }
+      ],
+      "researchNotes": "Bounded direct-service pass. Official program pages examined; search snippets alone would have incorrectly suggested City Hope Mesa clothing and missed a voucher suspension. No provider contact. Elapsed time estimated from controller start to response; tool latency counted as waiting, remainder active.",
+      "executionReceipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-baseline",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 1.01,
+        "waitingMinutes": 0.06,
+        "coverageNotes": "Examined Direct and practical clothing help; Public, nonprofit, and credible private clothing programs; Programs that credibly serve the selected area. Three web calls, one search query, four page opens. Bounded sample only.",
+        "remainingGaps": [
+          "Other direct-service providers were not investigated beyond search leads.",
+          "Paz clothing voucher availability conflicts within the official site.",
+          "City Hope clothing stock and accommodations are not established."
+        ]
+      },
+      "observations": [
+        {
+          "summary": "City Hope Gilbert offers free clothing at 1120 S Gilbert Rd Suite 101, Gilbert 85296, Monday/Wednesday/Saturday 9–11:30 am; 480-900-5422. Walk in with government ID, once per center per calendar month; arrive fifteen minutes before closing and service can close at eighty guests. The Mesa site expressly provides food only; use Gilbert for a clothing proposal. No income or residence rule published on this page.",
+          "evidence": [
+            0
+          ],
+          "questions": [
+            "Can guests without government ID receive clothing at Gilbert?"
+          ]
+        },
+        {
+          "summary": "Paz de Cristo Clothing Closet at 424 W Broadway Rd, Mesa 85210 supports adults with casual and interview clothing, Mondays and Fridays 1–2 pm. Visit the campus; phone 480-464-2370. Children’s clothing is excluded. Wednesday shower service 9 am–1 pm includes clothes and hygiene items. Sizes and seasonal items depend on donated stock. The official Get Help page simultaneously offers appointment-only Deseret Industries vouchers and labels them temporarily unavailable; do not promise vouchers.",
+          "evidence": [
+            1,
+            2
+          ],
+          "questions": [
+            "Are Deseret Industries clothing vouchers currently available? The Get Help list says temporarily unavailable while the Clothe page says appointment only.",
+            "Does the Clothing Closet require ID, residency proof or other documents?"
+          ]
+        }
+      ]
+    },
+    "pass:public-system-pathways": {
+      "schemaVersion": 1,
+      "taskId": "discovery:clothing",
+      "assignmentSha256": "dfe45fc4eea94a7d5d8f6b2c3affeb376ce7bfbb4a912766afd7ba6ba0c3ecc9",
+      "evidenceSources": [
+        {
+          "url": "https://www.esd.maricopa.gov/m/newsflash/home/detail/2631",
+          "accessedOn": "2026-09-09",
+          "excerpt": "a professional clothing boutique where career seekers can go to select from gently used professional attire"
+        },
+        {
+          "url": "https://www.maricopa.gov/5226/Adult-Workforce-Services-Ages-18",
+          "accessedOn": "2026-09-09",
+          "excerpt": "MesaCAN, 635 E. Broadway Rd., Mesa, AZ 85204"
+        }
+      ],
+      "researchNotes": "Government school and workforce searches examined public programs and benefits routes. School results did not establish a clothing pathway. One City of Mesa URL failed; county alternative was read. No closure inferred. Current workforce eligibility cannot automatically be applied to an independently operated clothing boutique.",
+      "executionReceipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-baseline",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 0.66,
+        "waitingMinutes": 0.05,
+        "coverageNotes": "Examined Public programs; Contracted providers; Benefits and eligibility pathways through government school and county workforce sources. Three web calls, two queries, three opens including one failure. Contract instruments and broad benefit programs not exhaustively examined.",
+        "remainingGaps": [
+          "Current operation and clothing-specific intake at Workforce Center @ Mesa boutique unresolved.",
+          "School clothing pathway not established in this limited search.",
+          "Other public benefits and contract instruments remain unexamined."
+        ]
+      },
+      "observations": [
+        {
+          "summary": "Workforce Center @ Mesa professional clothing boutique is supported by a December 8, 2022 county announcement at 635 E Broadway Rd. Current county Adult Workforce Services still lists MesaCAN there as a partner career center, but does not expressly reaffirm the boutique. Keep as research note until present operation, appointment rules, hours and whether job-service enrollment is required are checked.",
+          "evidence": [
+            0,
+            1
+          ],
+          "questions": [
+            "Is the professional clothing boutique at 635 E Broadway still available, and can a job seeker use it without enrolling in workforce services?"
+          ]
+        },
+        {
+          "summary": "County career-service pathway is free for eligible adults 18+ legally able to work; individualized services require more documentation. Arizona Job Connection account may be created at a center; portal staff schedule an appointment. Driver’s license requested; disability aids available on request. This establishes workforce access only, not clothing eligibility.",
+          "evidence": [
+            1
+          ],
+          "questions": [
+            "Which clothing-specific eligibility and document rules apply at the Mesa boutique?"
+          ]
+        }
+      ]
+    }
+  },
+  "assignmentSha256": "e242d5ec610c8f18a72054408be6e18208bb87d58830b3a228e38d603b7074f0"
+}

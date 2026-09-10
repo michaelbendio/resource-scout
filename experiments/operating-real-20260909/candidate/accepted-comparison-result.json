@@ -1,0 +1,173 @@
+{
+  "resultId": "b99d70ebed4e05087dcd012b5ee10c797646019389d2c06e95882f342ad80126",
+  "packetId": "881d6e4b583ff6a20837956ef093ec4c0061d68228d8ea2ab6829370e7ad446f",
+  "result": {
+    "assignmentSha256": "1f71ada466ef6a578505ed5d6cb13d88158baa39e01ae312f0867e57ddd5e0bc",
+    "contextId": "astra-clothing-20260909-candidate",
+    "fresh": true,
+    "models": {
+      "Codex": "gpt-6-astra",
+      "Claude": null,
+      "ChatGPT": null,
+      "Grok": null,
+      "Perplexity": null
+    },
+    "complete": true,
+    "limitHit": true,
+    "coveredNeeds": [
+      "Direct and practical clothing help",
+      "Public, nonprofit, and credible private clothing programs",
+      "Programs that credibly serve the selected area",
+      "Public programs",
+      "Contracted providers",
+      "Benefits and eligibility pathways",
+      "Community-embedded programs",
+      "Population-specific services",
+      "Barrier-aware access",
+      "Grant-funded programs",
+      "Registry-listed services",
+      "Partner programs",
+      "Programs documented in primary-source PDFs"
+    ],
+    "remainingGaps": [
+      "City Hope Mesa clothing contradiction.",
+      "Paz vouchers conflicting; clothing costs/documents/repeat limits unestablished.",
+      "Jose recipient appointment and informal kinship document exception unknown.",
+      "Workforce boutique intake, documents, cost and hours; linked fact sheet failed.",
+      "Mobile Loaves meeting route and La Mesa embedded intake contents unresolved.",
+      "DES clothing pathway, funded-provider award details, registry entries and primary PDFs unestablished.",
+      "Language and physical accommodations not established."
+    ],
+    "findings": [
+      {
+        "key": "city.location",
+        "caseId": "discovery:clothing",
+        "evidence": "Use Gilbert for clothing; the location-specific page excludes clothing at Mesa. Sources: https://www.cityhopeaz.org/centers",
+        "retained": true
+      },
+      {
+        "key": "city.intake",
+        "caseId": "discovery:clothing",
+        "evidence": "No-cost walk-in route with ID, monthly visit limit and early-arrival/capacity cautions. Sources: https://www.cityhopeaz.org/centers",
+        "retained": true
+      },
+      {
+        "key": "city.contact",
+        "caseId": "discovery:clothing",
+        "evidence": "Both drafts preserve the Gilbert address, phone and distribution schedule. Sources: https://www.cityhopeaz.org/centers",
+        "retained": true
+      },
+      {
+        "key": "paz.audience",
+        "caseId": "discovery:clothing",
+        "evidence": "Adult everyday/interview clothing; no children's clothing. Availability depends on inventory. Sources: https://pazdecristo.org/what-we-do/clothe/",
+        "retained": true
+      },
+      {
+        "key": "paz.intake",
+        "caseId": "discovery:clothing",
+        "evidence": "Both drafts preserve the campus starting point, contact and separate closet/shower schedules. Sources: https://pazdecristo.org/what-we-do/clothe/; https://pazdecristo.org/what-we-do/get-help-original/",
+        "retained": true
+      },
+      {
+        "key": "paz.vouchers",
+        "caseId": "discovery:clothing",
+        "evidence": "Conflicting voucher availability remains a question; direct closet help is retained separately. Sources: https://pazdecristo.org/what-we-do/clothe/; https://pazdecristo.org/what-we-do/get-help-original/",
+        "retained": true
+      },
+      {
+        "key": "jose.audience",
+        "caseId": "discovery:clothing",
+        "evidence": "Both drafts preserve the defined foster/kinship/adoptive audience and household age scope. Sources: https://www.azafap.org/joses-closet/",
+        "retained": true
+      },
+      {
+        "key": "jose.intake",
+        "caseId": "discovery:clothing",
+        "evidence": "Both preserve first-visit membership paperwork, document requirements and renewal, without confusing donor walk-ins with recipient access. Sources: https://www.azafap.org/joses-closet/",
+        "retained": true
+      },
+      {
+        "key": "jose.clothing",
+        "caseId": "discovery:clothing",
+        "evidence": "Both preserve monthly clothing allowance. Current provider text describes clothing at no charge. Sources: https://www.azafap.org/joses-closet/",
+        "retained": true
+      },
+      {
+        "key": "jose.contact",
+        "caseId": "discovery:clothing",
+        "evidence": "Both preserve the current Mesa location, phone and hours. Sources: https://www.azafap.org/joses-closet/",
+        "retained": true
+      }
+    ],
+    "caseIds": [
+      "discovery:clothing"
+    ],
+    "activeMinutes": 9.84,
+    "waitingMinutes": 0.2308,
+    "costUSD": null,
+    "executionProjectId": 3
+  },
+  "elapsedSeconds": 677.9014530181885,
+  "late": false,
+  "rawSha256": "586ab3f07198daa4c18fa28339e92f32f8dd41cac937838b45ecf53ca7ce287c",
+  "executionEvidence": {
+    "projectId": 3,
+    "revision": 15,
+    "manifestSha256": "2f5d7ad2f80fe3c393491afd4abc8e80fb5d012307f726da2c75854084205b04",
+    "stateSha256": "4e9b173c291f0404db56dda1763d4a8a94bf14dc784d274fba9cd57f3432488d",
+    "incomplete": [],
+    "remainingGaps": [
+      "Award recipient list and clothing-specific grant program not established.",
+      "City Hope Mesa clothing contradiction needs provider clarification; do not refer there for clothes.",
+      "City Hope Mesa clothing contradiction.",
+      "Clothing documentation, frequency limits and accommodations at Paz remain unknown.",
+      "DES cash assistance clothing connection and complete application route remain unresolved.",
+      "DES clothing pathway, funded-provider award details, registry entries and primary PDFs unestablished.",
+      "Jose appointment need and undocumented informal kinship access unknown.",
+      "Jose recipient appointment and informal kinship document exception unknown.",
+      "Language and physical accessibility not established.",
+      "Language and physical accommodations not established.",
+      "Mobile Loaves meeting route and La Mesa embedded intake contents unresolved.",
+      "Mobile Loaves recipient meeting locations and times unresolved after volunteer-oriented linked page.",
+      "Paz de Cristo voucher service conflicting active/unavailable notices.",
+      "Paz vouchers conflicting; clothing costs/documents/repeat limits unestablished.",
+      "Primary-source PDFs inaccessible: city plan/council materials 410; City Hope partner list blocked redirect.",
+      "Public service contracts not examined.",
+      "Registry-listed clothing service not substantiated.",
+      "Rewear Revolution current event, access and hardship usefulness not established.",
+      "Workforce boutique intake, documents, cost and hours; linked fact sheet failed.",
+      "Workforce boutique-specific appointment, referral, documents and clothing costs not established; linked fact sheet remains to examine."
+    ],
+    "contextIds": [
+      "astra-clothing-20260909-candidate"
+    ],
+    "researchers": [
+      "Codex"
+    ],
+    "reportedActiveMinutes": 9.84,
+    "reportedWaitingMinutes": 0.16,
+    "settings": {
+      "schemaVersion": 1,
+      "protocol": "astra-sampled-v1",
+      "version": "bounded-clothing-goals-20260909",
+      "serviceArea": "Mesa, Arizona and practical nearby East Valley access. Bounded new-discovery comparison; at most three fully written leads. Exclude these prior-pilot example providers: One Small Step / Clothes Cabin / PINCH; Helen's Hope Chest; Friends at First; Dress for Success Phoenix / EducateHER; Express Employment Professionals; Goodwill; Smart Justice; The Worker; Mesa Housing Authority / deposit assistance; Family Housing Hub; House of Refuge",
+      "sampling": {
+        "seed": "4164f8adb6d9aa002dda201ea94c7690",
+        "numerator": 0,
+        "denominator": 3
+      },
+      "deliberateCategoryIds": [],
+      "modelIdentities": {
+        "Codex": "gpt-6-astra",
+        "Claude": null,
+        "ChatGPT": null,
+        "Grok": null,
+        "Perplexity": null
+      }
+    },
+    "researchContextSha256": "04bd8c7c2a2a9e5afe381cab9b82416d781dd13035389290975e80d785af0ff5",
+    "historical": false,
+    "note": "Live execution means the actual scheduler path; historical fixtures remain explicitly synthetic. Operator receipts attest model/context identity."
+  }
+}

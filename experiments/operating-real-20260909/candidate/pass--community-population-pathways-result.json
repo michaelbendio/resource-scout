@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "taskId": "discovery:clothing",
+  "assignmentSha256": "57f8af7d8f7345c163edecd50f9ecdc8470ccc02de5000b5fba52b4a18f98727",
+  "evidenceSources": [
+    {
+      "url": "https://www.azafap.org/joses-closet/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "You will complete a membership application packet at your first visit, and update it each year to keep your membership current."
+    },
+    {
+      "url": "https://lamesaministries.org/services/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "We give away clothing and hygiene items between 4:30 and 6:00"
+    },
+    {
+      "url": "https://lamesaministries.org/mobile-loaves-help/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Serve With Us"
+    }
+  ],
+  "researchNotes": "Examined foster/kinship/adoptive families and homeless mobile-outreach barriers as well as embedded church distributions. Jose dedicated named-program membership section supplies concrete intake. Its no-appointment wording applies to donations only. Followed Mobile Loaves Help linked page: it is volunteer recruitment, not recipient intake; mobile meeting points remain unknown. Two queries, three calls, three opens/clicks. Active estimate is assignment-file creation to response preparation minus measured web wait, rounded; not stopwatch labor.",
+  "executionReceipt": {
+    "complete": true,
+    "model": "gpt-6-astra",
+    "contextId": "astra-clothing-20260909-candidate",
+    "freshContext": true,
+    "isolatedInputs": true,
+    "activeMinutes": 0.89,
+    "waitingMinutes": 0.03,
+    "coverageNotes": "Examined Community-embedded programs; Population-specific services; Barrier-aware access. Bounded sample, not exhaustive.",
+    "remainingGaps": [
+      "Jose appointment need and undocumented informal kinship access unknown.",
+      "Mobile Loaves recipient meeting locations and times unresolved after volunteer-oriented linked page.",
+      "Language and physical accessibility not established."
+    ]
+  },
+  "observations": [
+    {
+      "summary": "Jose’s Closet, now under AZAFAP oversight since 2025, offers free clothing to foster, kinship and adoptive families and youth in extended foster care. Membership covers all household children up to age 21. Bring caregiver photo ID, DCS placement or guardianship records, applicable adoption records, and biological children birth certificates; complete packet on first visit and renew annually. Monthly visits provide a week of clothing per child. Located 6515 E Main St Suite 120 Mesa AZ 85205; Tue–Sat 11am–3pm; 480-309-1743; info@josescloset.org. September 8 closure notice says next scheduled hours reopen. No-appointment donor statement is not recipient access evidence.",
+      "evidence": [
+        0
+      ],
+      "questions": [
+        "Do families need an appointment for their first shopping visit?",
+        "Can informal kinship caregivers receive help without placement or guardianship paperwork?"
+      ]
+    },
+    {
+      "summary": "La Mesa Ministries gives clothing at Tuesday Mesa and Thursday Tempe gatherings 4:30–6pm before meal/worship. Mesa site First Christian Church 805 N Country Club Mesa AZ 85201; Tempe site Beautiful Savior Lutheran 1337 W 11th St Tempe AZ 85281. Phone 480-590-4622. Separate Mobile Loaves outreach brings clothing to homeless neighbors in Mesa/Tempe Mondays/Fridays; specific recipient stops not found. Its Help page is for volunteers, so not a supported clothing request form.",
+      "evidence": [
+        1,
+        2
+      ],
+      "questions": [
+        "Where and when can someone meet Mobile Loaves for clothing? The Services page lists Mondays and Fridays but the linked Help page recruits volunteers.",
+        "Are there any clothing eligibility or worship-attendance conditions at the gatherings?"
+      ]
+    }
+  ]
+}

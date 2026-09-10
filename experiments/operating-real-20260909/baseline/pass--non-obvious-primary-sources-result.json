@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "taskId": "discovery:clothing",
+  "assignmentSha256": "bff7f780c6783d15d5737a6dfe80e9a2d0bffb3ac899021908595b2d94e98e0b",
+  "evidenceSources": [
+    {
+      "url": "https://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/list-of-funded-agencies-25-26.pdf",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Funded Agencies for 2025/2026"
+    },
+    {
+      "url": "https://www.mesaaz.gov/Environment-Sustainability/Living-Green/Mesa-Youth-Climate-Action-Fund?lang_update=639168908320441190",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Clothing left after the swaps was donated to schools, community closets, Red Mountain Care Closet, and the Prom Pop-Up Shop."
+    },
+    {
+      "url": "https://www.affcf.org/what-we-fund/supplemental-clothing/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "We can process one reimbursement"
+    },
+    {
+      "url": "https://sites.google.com/mesacc.edu/tbirdtimes/home",
+      "accessedOn": "2026-09-09",
+      "excerpt": "All donated clothing will be available for FREE in the Saguaro Lobby from April 20-23."
+    }
+  ],
+  "researchNotes": "Searched grant awards and college announcements; opened city funded-agency PDF, current city grant project report and foundation clothing funding/provider list. Archived event dates retained. No direct clothing entitlement inferred from shelter grant awards or donor pages. Third-party provider list leads were not promoted to verified program facts.",
+  "executionReceipt": {
+    "complete": true,
+    "model": "gpt-6-astra",
+    "contextId": "astra-clothing-20260909-baseline",
+    "freshContext": true,
+    "isolatedInputs": true,
+    "activeMinutes": 0.88,
+    "waitingMinutes": 0.08,
+    "coverageNotes": "Examined Grant-funded programs; Registry-listed services (foundation provider list, not exhaustive official registry); Partner programs; Programs documented in primary-source PDFs. Three web calls, two queries, three opens. No exhaustive grant/board/archive search.",
+    "remainingGaps": [
+      "Red Mountain closet and upcoming swap intake unestablished.",
+      "AFFCF application eligibility and upfront-cost alternative unexamined.",
+      "Other grants, board materials and registries remain unexamined."
+    ]
+  },
+  "observations": [
+    {
+      "summary": "City MYCAF project report records Red Mountain High School Rewear Revolution clothing swaps and donated leftovers to Red Mountain Care Closet and Prom Pop-Up Shop. Useful named school pathways, but no future recipient event or school closet intake established. MCC college bulletin similarly announced a free April 20–23, 2026 swap, now past. Keep event/closet leads as notes, not current referral promises.",
+      "evidence": [
+        1,
+        3
+      ],
+      "questions": [
+        "Is another Rewear Revolution or MCC swap scheduled, and who can receive clothing from Red Mountain Care Closet?"
+      ]
+    },
+    {
+      "summary": "FY2025/2026 Mesa funded-agency PDF examined. It funds several shelter/youth programs but does not itself establish a currently accessible clothing service; no new clothing proposal from a grant name alone.",
+      "evidence": [
+        0
+      ],
+      "questions": []
+    },
+    {
+      "summary": "AFFCF supplemental clothing/shoes funding page specifies annual assistance of $200 ages 0–13 or $250 ages 14+, approval before buying, one reimbursement batch, receipts within sixty days and by December 15. Requires further application/eligibility review before a written lead. Its provider list also identifies Jose’s Closet in Mesa and A Mighty Change of Heart delivery as additional research routes; those list entries alone do not establish current intake.",
+      "evidence": [
+        2
+      ],
+      "questions": [
+        "Who is eligible for AFFCF supplemental clothing, and is there a route for a caregiver who cannot pay before reimbursement?"
+      ]
+    }
+  ]
+}

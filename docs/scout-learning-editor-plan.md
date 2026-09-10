@@ -6,7 +6,7 @@ September 9 delivery: Increments 1–3 are implemented and tested. The follow-up
 
 ## Current delivery and follow-through
 
-Increment 5 is now implemented: exact-scope operating policies, paired scheduler trials, reviewed stopping, model profiles, sampling/workload accounting, explicit activation and rollback. See the [Increment 5 results](scout-learning-increment-5-results.md) and [operator guide](scout-learning-increment-5-operations.md). All five numbered implementation increments are complete. No real operating policy was activated; the next step is a supervised, bounded comparison when ordinary maintenance evidence supports a hypothesis. The synthetic acceptance exercises machinery, not research efficacy.
+Increment 5 is now implemented: exact-scope operating policies, paired scheduler trials, reviewed stopping, model profiles, sampling/workload accounting, explicit activation and rollback. See the [Increment 5 results](scout-learning-increment-5-results.md) and [operator guide](scout-learning-increment-5-operations.md). All five numbered implementation increments are complete. No real operating policy was activated; the next step is a supervised, bounded comparison when ordinary maintenance evidence supports a hypothesis. The synthetic acceptance exercises machinery, not research efficacy. The [subsequent real Clothing comparison](scout-operating-real-comparison-results.md) completed two isolated Astra scheduler runs; it found no clear benefit from the added intake-page instruction and left policy unchanged.
 
 ## Sequence agreed after Increment 4 (historical)
 

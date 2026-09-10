@@ -1,0 +1,249 @@
+{
+  "arm": "candidate",
+  "model": "gpt-6-astra",
+  "contextId": "astra-clothing-20260909-candidate",
+  "freshContext": true,
+  "isolatedInputs": true,
+  "isolationAttestation": "Only common instructions, own controller assignments/results and current web evidence used. No memory, other arm, history, database or external-model results consulted; no delegation.",
+  "controllerStartedAtUnix": 1789007139.245475,
+  "controllerCompletedAtUnix": 1789007560.034382,
+  "accountingPreparedAtUnix": 1789007630.200743,
+  "deadlineUnix": 1789008939.245475,
+  "elapsedMinutesToControllerCompletion": 7.0131,
+  "elapsedMinutesIncludingAccounting": 8.1826,
+  "originalReceiptSum": {
+    "activeMinutes": 9.84,
+    "waitingMinutes": 0.16
+  },
+  "correctedEstimatedActiveMinutes": 7.9518,
+  "measuredWebWaitingMinutes": 0.2308,
+  "estimationExplanation": "Initial first-two-pass receipts used rough 3-minute estimates and overstated actual elapsed effort. Accepted receipts remain immutable. Corrected stage estimates use actual assignment/response file timestamps minus measured web-tool latency; overall estimate includes controller, reading, writing and final-accounting overhead. Waiting records web latency only; no deliberate waits or outside-provider work. This is wall-time estimation, not a measured CPU or human-labor stopwatch.",
+  "stages": [
+    {
+      "stage": "direct-service-landscape",
+      "assignmentFileTimestampUnix": 1789007143.7939746,
+      "responseFileTimestampUnix": 1789007202.893777,
+      "originalReceipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-candidate",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 3,
+        "waitingMinutes": 0.02,
+        "coverageNotes": "Examined Direct and practical clothing help; Public, nonprofit, and credible private clothing programs; Programs that credibly serve the selected area. Bounded examination, not full discovery.",
+        "remainingGaps": [
+          "City Hope Mesa clothing contradiction needs provider clarification; do not refer there for clothes.",
+          "Paz de Cristo voucher service conflicting active/unavailable notices.",
+          "Clothing documentation, frequency limits and accommodations at Paz remain unknown."
+        ]
+      },
+      "correctedEstimatedActiveMinutes": 0.9425,
+      "measuredWebWaitingMinutes": 0.0425,
+      "webCalls": 3,
+      "searchQueries": 1,
+      "pageOpens": 3
+    },
+    {
+      "stage": "public-system-pathways",
+      "assignmentFileTimestampUnix": 1789007211.5296912,
+      "responseFileTimestampUnix": 1789007279.8317406,
+      "originalReceipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-candidate",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 3,
+        "waitingMinutes": 0.04,
+        "coverageNotes": "Examined Public programs; Contracted providers; Benefits and eligibility pathways through city partnership and DES eligibility materials, not exhaustive. Contract itself remains unexamined.",
+        "remainingGaps": [
+          "Workforce boutique-specific appointment, referral, documents and clothing costs not established; linked fact sheet remains to examine.",
+          "DES cash assistance clothing connection and complete application route remain unresolved.",
+          "Public service contracts not examined."
+        ]
+      },
+      "correctedEstimatedActiveMinutes": 1.0847,
+      "measuredWebWaitingMinutes": 0.0537,
+      "webCalls": 3,
+      "searchQueries": 2,
+      "pageOpens": 4
+    },
+    {
+      "stage": "community-population-pathways",
+      "assignmentFileTimestampUnix": 1789007292.6288102,
+      "responseFileTimestampUnix": 1789007347.8919508,
+      "originalReceipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-candidate",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 0.89,
+        "waitingMinutes": 0.03,
+        "coverageNotes": "Examined Community-embedded programs; Population-specific services; Barrier-aware access. Bounded sample, not exhaustive.",
+        "remainingGaps": [
+          "Jose appointment need and undocumented informal kinship access unknown.",
+          "Mobile Loaves recipient meeting locations and times unresolved after volunteer-oriented linked page.",
+          "Language and physical accessibility not established."
+        ]
+      },
+      "correctedEstimatedActiveMinutes": 0.8809,
+      "measuredWebWaitingMinutes": 0.0402,
+      "webCalls": 3,
+      "searchQueries": 2,
+      "pageOpens": 3
+    },
+    {
+      "stage": "non-obvious-primary-sources",
+      "assignmentFileTimestampUnix": 1789007362.7034912,
+      "responseFileTimestampUnix": 1789007423.8235724,
+      "originalReceipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-candidate",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 0.99,
+        "waitingMinutes": 0.03,
+        "coverageNotes": "Examined search pathways for Grant-funded programs; Registry-listed services; Partner programs; Programs documented in primary-source PDFs. Source access failed for grant/PDF follow-through, so examination is not successful coverage or exhaustive discovery.",
+        "remainingGaps": [
+          "Award recipient list and clothing-specific grant program not established.",
+          "Registry-listed clothing service not substantiated.",
+          "Primary-source PDFs inaccessible: city plan/council materials 410; City Hope partner list blocked redirect.",
+          "Rewear Revolution current event, access and hardship usefulness not established."
+        ]
+      },
+      "correctedEstimatedActiveMinutes": 0.9653,
+      "measuredWebWaitingMinutes": 0.0534,
+      "webCalls": 3,
+      "searchQueries": 2,
+      "pageOpens": 4
+    },
+    {
+      "stage": "primary",
+      "assignmentFileTimestampUnix": 1789007435.432917,
+      "responseFileTimestampUnix": 1789007498.876161,
+      "originalReceipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-candidate",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 1.02,
+        "waitingMinutes": 0.04,
+        "coverageNotes": "Combined bounded examinations from all assigned passes. Three proposals; no claim of exhaustive category coverage.",
+        "remainingGaps": [
+          "City Hope Mesa clothing contradiction.",
+          "Paz vouchers conflicting; clothing costs/documents/repeat limits unestablished.",
+          "Jose recipient appointment and informal kinship document exception unknown.",
+          "Workforce boutique intake, documents, cost and hours; linked fact sheet failed.",
+          "Mobile Loaves meeting route and La Mesa embedded intake contents unresolved.",
+          "DES clothing pathway, funded-provider award details, registry entries and primary PDFs unestablished.",
+          "Language and physical accommodations not established."
+        ]
+      },
+      "correctedEstimatedActiveMinutes": 1.0163,
+      "measuredWebWaitingMinutes": 0.0411,
+      "webCalls": 1,
+      "searchQueries": 0,
+      "pageOpens": 2
+    },
+    {
+      "stage": "freeze",
+      "assignmentFileTimestampUnix": 1789007503.3598597,
+      "responseFileTimestampUnix": 1789007538.621677,
+      "originalReceipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-candidate",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 0.59,
+        "waitingMinutes": 0,
+        "coverageNotes": "Complete self-review of three primary proposals using existing own-arm evidence; no independent verification.",
+        "remainingGaps": [
+          "City Hope Mesa clothing contradiction.",
+          "Paz vouchers conflicting; clothing costs/documents/repeat limits unestablished.",
+          "Jose recipient appointment and informal kinship document exception unknown.",
+          "Workforce boutique intake, documents, cost and hours; linked fact sheet failed.",
+          "Mobile Loaves meeting route and La Mesa embedded intake contents unresolved.",
+          "DES clothing pathway, funded-provider award details, registry entries and primary PDFs unestablished.",
+          "Language and physical accommodations not established."
+        ]
+      },
+      "correctedEstimatedActiveMinutes": 0.5877,
+      "measuredWebWaitingMinutes": 0.0,
+      "webCalls": 0,
+      "searchQueries": 0,
+      "pageOpens": 0
+    },
+    {
+      "stage": "reconcile",
+      "assignmentFileTimestampUnix": 1789007538.8487265,
+      "responseFileTimestampUnix": 1789007559.9228737,
+      "originalReceipt": {
+        "complete": true,
+        "model": "gpt-6-astra",
+        "contextId": "astra-clothing-20260909-candidate",
+        "freshContext": true,
+        "isolatedInputs": true,
+        "activeMinutes": 0.35,
+        "waitingMinutes": 0,
+        "coverageNotes": "Reviewed actual reconciliation assignment: no outside audits supplied. Retained complete frozen primary result and all gaps.",
+        "remainingGaps": [
+          "City Hope Mesa clothing contradiction.",
+          "Paz vouchers conflicting; clothing costs/documents/repeat limits unestablished.",
+          "Jose recipient appointment and informal kinship document exception unknown.",
+          "Workforce boutique intake, documents, cost and hours; linked fact sheet failed.",
+          "Mobile Loaves meeting route and La Mesa embedded intake contents unresolved.",
+          "DES clothing pathway, funded-provider award details, registry entries and primary PDFs unestablished.",
+          "Language and physical accommodations not established."
+        ]
+      },
+      "correctedEstimatedActiveMinutes": 0.3512,
+      "measuredWebWaitingMinutes": 0.0,
+      "webCalls": 0,
+      "searchQueries": 0,
+      "pageOpens": 0
+    }
+  ],
+  "budgets": {
+    "webCalls": {
+      "used": 13,
+      "limit": 16
+    },
+    "searchQueries": {
+      "used": 7,
+      "limit": 8
+    },
+    "pageOpens": {
+      "used": 16,
+      "limit": 16
+    },
+    "writtenLeads": {
+      "used": 3,
+      "limit": 3
+    },
+    "elapsedSeconds": {
+      "used": 490.96,
+      "limit": 1800
+    }
+  },
+  "incrementalCostUSD": null,
+  "webLogs": [
+    "web-01.json",
+    "web-02.json",
+    "web-03.json",
+    "web-04.json",
+    "web-05.json",
+    "web-06.json",
+    "web-07.json",
+    "web-08.json",
+    "web-09.json",
+    "web-10.json",
+    "web-11.json",
+    "web-12.json",
+    "web-13.json"
+  ]
+}
