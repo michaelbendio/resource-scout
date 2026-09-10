@@ -13,6 +13,12 @@ categories. It requests Grok 4.6, but does not establish that the account or
 interface offers that model. Verify availability and record the actual identity
 before starting. Unknown identities remain null, never an invented model label.
 
+The [verified Grok Build transport](grok-build-research-transport.md) uses
+Michael's grok.com OAuth login. Its CLI selection is `grok-4.6`; the observed
+receipt identity is `grok-4.6-build`. The Mesa Clothing live pilot completed
+19 rechecks and one blind discovery response with that transport; see the
+[pilot outcome](../experiments/mesa-clothing-editor-20260909/README.md).
+
 Pass this file to `maintain prepare --execution-config FILE` or
 `editor start-research PROJECT --execution-config FILE`. In schema 2, a non-null
 model identity must match the returned receipt. An operating policy conflicting

@@ -1,0 +1,31 @@
+{
+  "projectId": "f0e2faa218625af84dd8004276c1e86ae2ba3ad99aa31632d275d101667fa1aa",
+  "stage": "final",
+  "sourceSha256": "4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+  "outputSha256": "929c8893cd53333dac751436a8244f77c57e0ed71ce434131840c46d4eb58ea2",
+  "sourceScope": "partial",
+  "researchCoverage": {
+    "sourceScope": "partial",
+    "categoryIds": [
+      "clothing"
+    ],
+    "researchProjectId": 1,
+    "researchRevision": 170,
+    "sourcePackageSha256": "8822b2efe409698838861d35cbb49f10112800ba25ba309eb14529b4ee7147cc",
+    "selectedExistingResources": 19,
+    "retainedUnselectedResourcesInFullSource": 249,
+    "newCandidatesAfterIdentityReconciliation": 2,
+    "primary": "gpt-6-astra",
+    "blindResearcher": "grok-4.6-build",
+    "blindCoverage": "19 rechecks and one bounded discovery response; Grok independently found Jose’s Closet, not City Hope Gilbert. Grok read part of the full identity catalog; Astra reconciled against all 268 original identities.",
+    "remainingGaps": [
+      "No provider calls or human curation.",
+      "Discovery is bounded, not exhaustive.",
+      "Other-category text generally retained; targeted housing correction at The Worker was checked after Grok flagged it.",
+      "Stock, current waits, individual eligibility and original unresolved questions still require local/provider confirmation."
+    ],
+    "omissionsAreOfficeDeletions": false
+  },
+  "humanApprovalsCreated": 0,
+  "resources": 21
+}

@@ -1,0 +1,203 @@
+[
+  {
+    "taskId": "recheck:08497e5f8c33c372d57430bc722bb639",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "changed"
+    ],
+    "decision": "Accept the substantive housing correction after Astra independently opened the current get-housing page. It describes a shared one-bedroom apartment, 2–3 month wait, 30–45 days on the job or two pay stubs, saving 80% of net pay toward a $5,000 goal, and one year of follow-up. Preserve the original, more detailed employment/clothing rules and contact route instead of replacing the whole resource with Grok’s shorter draft. This is a targeted correction to a shared entry, not a Housing-category review. Existing cost/openings question remains open."
+  },
+  {
+    "taskId": "recheck:08a26b747ffe8b1ea284e491a62d39e7",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "changed"
+    ],
+    "decision": "Grok confirms the voucher inconsistency, but the original text and two original question IDs already record it. Preserve those IDs and wording; do not add another duplicate question or accept a broad rewrite that merely repeats existing qualifications. Direct adult clothing remains available separately."
+  },
+  {
+    "taskId": "recheck:2bf6edeedd27a167fa3b1ba584d2c7c4",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Agreement on the Mesa site and 9–11 food/clothing hours. Current program page is stronger for that schedule than older noon listings. Keep Phoenix/Mesa distinctions and existing service-area/program-boundary questions."
+  },
+  {
+    "taskId": "recheck:48635b5d3545aa10e94ee5ef9259b840",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Astra checked the cited September 7, 2025 bulletin. Its 9–11 appointment block explicitly describes food assistance, while the current parish program page lists the conference 7–12 and includes clothing. Do not relabel the old food schedule as a current clothing schedule. Keep the existing call-and-arrange-clothing instruction; no new duplicate/general schedule question is necessary."
+  },
+  {
+    "taskId": "recheck:4ea93a335a4945322184f2ce0e01feb5",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Both researchers support the named school pathway. Retain this useful route and grade-specific scope; a known school contact is materially different from an unidentified approved-nonprofit chain."
+  },
+  {
+    "taskId": "recheck:5bfda48463f45755a59145fa7d226906",
+    "primaryStatuses": [
+      "changed"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Grok confirms services and schedules. Keep Astra’s small clarification explicitly naming clothing alongside hygiene and bus-pass distribution at the gatherings; weekday Resource Center hours are separate."
+  },
+  {
+    "taskId": "recheck:6ea1c2067f6e451532d3bd346cc56276",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "changed"
+    ],
+    "decision": "Reject the inferred new appointment requirement and proposed walk-in question. Astra opened the provider’s About/FAQ page, which explicitly welcomes walk-ins and says no referral is required. An appointment link on another page does not cancel that statement. Keep the original advice to arrange a visit when possible and the distinct program routes."
+  },
+  {
+    "taskId": "recheck:73dfadc219f93cdde3c2e07d3e1045b4",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Agreement on open access, photo-ID accommodation, household rules, three-month visits and service-specific hours. Keep the already useful text, including the workwear requirements and children’s waiting arrangements."
+  },
+  {
+    "taskId": "recheck:7e66c8c912ad9889aa3627405af218f3",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Agreement on adult clothing and separate seasonal family relief. Current summer adult weekday hours remain uncertain and already have a saved question; do not silently use winter hours year-round."
+  },
+  {
+    "taskId": "recheck:89a928c6f5bbdc65de87c3fecbbcae79",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Preserve the provider’s clothing cutoff of 11:30, which is already in the saved text; there is no basis to describe the existing clothing cutoff as later. Grok’s August 21, 2026 Findhelp listing adds a potentially important once-every-90-days clothing limit. Astra could not retrieve that listing directly and the provider page does not state a clothing repeat interval. Add one focused curator question about that interval; do not turn the directory-only claim into confirmed eligibility."
+  },
+  {
+    "taskId": "recheck:aeed9f6c57cf87a109315fe1590a12d2",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Agreement on current clothing and other basic-needs schedules. Preserve the existing qualifications on directory-derived ID and return rules rather than erase them because a provider page is less detailed."
+  },
+  {
+    "taskId": "recheck:c39b7edce7fd22875fba8558aa17172c",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Agreement on first/third Saturday service and practical contact route. The guest/van-time question is already saved; do not substitute office or worship hours."
+  },
+  {
+    "taskId": "recheck:c3ab0f1578b4ec24df452d8eee4c9ce6",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Agreement on the professional clothing boutique and general workforce entry. Existing questions distinguish staffed/self-service hours and boutique arrangements; no extra question is needed."
+  },
+  {
+    "taskId": "recheck:c74ea9adad61a6ff3fd9e49ae50d61d2",
+    "primaryStatuses": [
+      "changed"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Retain the practical call-first route and the existing question about nonresident access and pickup. Do not treat the donor-facing page as guaranteed walk-in access or as proof that only program residents qualify. Keep Astra’s removal of the unnecessary instruction to declare residency in every clothing call; sizes and actual pickup arrangements matter."
+  },
+  {
+    "taskId": "recheck:da047755bc1b7958186bd4dbcea9c8cb",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Agreement: the student clothing service is at Southern/Dobson; public We Care Wednesday food access does not confer clothing eligibility. Preserve the clear distinction."
+  },
+  {
+    "taskId": "recheck:de5e0aa4a6c2164fb8b4a9fcfdcdac9b",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Agreement on Friday 8–9 clothing distribution. Retain the short window and separate church office hours."
+  },
+  {
+    "taskId": "recheck:ed9cec6557722e44984887fb41637d6e",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Agreement on the direct LifePath/earned Baby Bucks route and Mesa contact. Existing emergency-supply question remains; do not guarantee supplies before classes or delete the practical class pathway because it has participation requirements."
+  },
+  {
+    "taskId": "recheck:f05e5c2c63d27e8c03ce7ed46003ae31",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Retain the $5 clothing-fee qualification. Astra opened the 2025 program flyer still linked on the current services page; it lists that fee. A general directory no-fee statement does not override the service-specific flyer. The fee-waiver and household-ID questions already exist; do not add duplicates."
+  },
+  {
+    "taskId": "recheck:fbd7ac5640a1ad45864261484e2bcbf0",
+    "primaryStatuses": [
+      "current"
+    ],
+    "blindStatuses": [
+      "current"
+    ],
+    "decision": "Agreement on appointment-based foster/kinship help and documented entry. Preserve the existing over-18 eligibility question and broader kinship paperwork routes."
+  },
+  {
+    "taskId": "discovery:clothing",
+    "primaryStatuses": [
+      "new",
+      "new"
+    ],
+    "blindStatuses": [
+      "new"
+    ],
+    "decision": "Grok independently found Jose’s Closet. Map its joses-closet-mesa lead to Astra’s mesa-clothing-joses-closet identity; it is one addition, not two. Retain the primary five-section text, which includes the official weekly food access. Do not add unsupported School Clothing/Hygiene types or conflate Jose’s first-visit membership packet with a separate AZAFAP Premier membership. City Hope Gilbert remains a second Astra-supported addition: its official page clearly offers free clothing there and food only at Mesa. Grok’s omission of Gilbert is a blind-search coverage difference, not contrary evidence. Two unique new programs were investigated; no target quota. Grok reported reading only part of the whole identity catalog; Astra checked the full 268-record package."
+  }
+]

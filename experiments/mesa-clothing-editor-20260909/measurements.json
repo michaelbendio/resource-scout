@@ -1,0 +1,88 @@
+{
+  "startedAtUtc": "2026-09-10T03:32:52+00:00",
+  "deliveryPreparedAtUtc": "2026-09-10T04:32:15.053147+00:00",
+  "elapsedMinutesThroughPreparation": 59.38,
+  "successfulGrokPassSeconds": 409.05840396881104,
+  "calls": [
+    {
+      "file": "grok-attempt1-stdout.jsonl",
+      "stopReason": "interrupted-no-completion-receipt",
+      "usage": null,
+      "modelUsage": null,
+      "reportedCostUSD": null,
+      "costIsConfirmedAccountCharge": false
+    },
+    {
+      "file": "grok-attempt2-stdout.jsonl",
+      "stopReason": "Cancelled",
+      "usage": {
+        "input_tokens": 56284,
+        "cache_read_input_tokens": 363520,
+        "output_tokens": 2418,
+        "reasoning_tokens": 2089,
+        "total_tokens": 422222
+      },
+      "modelUsage": {
+        "grok-4.6-build": {
+          "inputTokens": 56284,
+          "outputTokens": 2418,
+          "cacheReadInputTokens": 363520,
+          "modelCalls": 15,
+          "costUSD": 0.06250212
+        }
+      },
+      "reportedCostUSD": 0.06250212,
+      "costIsConfirmedAccountCharge": false
+    },
+    {
+      "file": "grok-attempt3-stdout.jsonl",
+      "stopReason": "Cancelled",
+      "usage": {
+        "input_tokens": 100278,
+        "cache_read_input_tokens": 81792,
+        "output_tokens": 2466,
+        "reasoning_tokens": 1456,
+        "total_tokens": 184536
+      },
+      "modelUsage": {
+        "grok-4.6-build": {
+          "inputTokens": 100278,
+          "outputTokens": 2466,
+          "cacheReadInputTokens": 81792,
+          "modelCalls": 4,
+          "costUSD": 0.04356216
+        }
+      },
+      "reportedCostUSD": 0.04356216,
+      "costIsConfirmedAccountCharge": false
+    },
+    {
+      "file": "grok-stdout.jsonl",
+      "stopReason": "EndTurn",
+      "usage": {
+        "input_tokens": 169807,
+        "cache_read_input_tokens": 936064,
+        "output_tokens": 23758,
+        "reasoning_tokens": 9124,
+        "total_tokens": 1129629
+      },
+      "modelUsage": {
+        "grok-4.6-build": {
+          "inputTokens": 169807,
+          "outputTokens": 23758,
+          "cacheReadInputTokens": 936064,
+          "modelCalls": 9,
+          "costUSD": 0.25790134
+        }
+      },
+      "reportedCostUSD": 0.25790134,
+      "costIsConfirmedAccountCharge": false
+    }
+  ],
+  "perTaskActiveMinutes": "Not measured; zero in assignment receipts means unallocated, explained in each receipt.",
+  "primaryFreezeAndReconciliation": "All 20 task primary freezes precede blind dispatch; all 20 blind results precede reconciliation.",
+  "normalizations": 3,
+  "normalizationSemanticChanges": false,
+  "runtimeSource": "Grok CLI completion receipts and operator wall timestamps",
+  "comparisonLimit": "No matched Claude run; no speed or quality superiority claim."
+}

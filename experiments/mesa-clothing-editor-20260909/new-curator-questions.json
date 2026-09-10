@@ -1,0 +1,22 @@
+[
+  {
+    "resourceId": "89a928c6f5bbdc65de87c3fecbbcae79",
+    "name": "New Hope · Food, Clothing, Bus Passes, Bill & Job Help",
+    "question": {
+      "id": "scout-question:f67856726c8fa4d6079d7a9c",
+      "question": "How often can a household get clothing from New Hope?",
+      "explanation": "Grok found a Findhelp listing reviewed August 21, 2026 that says clothing is available once every 90 days. New Hope’s own page gives clothing hours and an 11:30 a.m. cutoff, but does not state how often someone may return for clothing. Ask 480-807-1668 whether the 90-day limit still applies and whether urgent needs have exceptions. The separate food-return question is already recorded. Directory: https://www.findhelp.org/broadway-christian-church--mesa-az--new-hope-community-center/5746510185889792?postal=85201\n\nSources checked:\nhttps://bccmesa.com/missions-outreach/nhcc/\nhttps://search.211arizona.org/search/c89ca2ed-dfb1-5910-9552-4c3a1d7dc953\nhttps://www.findhelp.org/broadway-christian-church--mesa-az--new-hope-community-center/5746510185889792?postal=85201",
+      "status": "open",
+      "resolution": "",
+      "source": {
+        "kind": "maintenance",
+        "projectId": 1,
+        "taskId": "recheck:89a928c6f5bbdc65de87c3fecbbcae79",
+        "itemId": "89a928c6f5bbdc65de87c3fecbbcae79",
+        "baseSha256": "8822b2efe409698838861d35cbb49f10112800ba25ba309eb14529b4ee7147cc",
+        "researchRevision": 170,
+        "resultSha256": "72579a4c99a741bf9058a0a44bd2615b8172caa4c7431bc75ca28715dfb3a051"
+      }
+    }
+  }
+]
