@@ -3751,7 +3751,7 @@ function showAdminHelp(options = {}){
             <p>Use <strong>Print</strong> beside <strong>Done</strong> to preview the resource currently open in the editor exactly as it will appear in a missionary's printed handout. The preview includes edits that have not yet been saved.</p>
             <p>When the resource is ready to be included in a resource package, click <strong>Curated</strong> beside <strong>Done</strong>. The button is a toggle. A check mark beside the resource in the Resources list means it is curated.</p>
             <p><strong>Delete</strong> removes a selected proposed resource or category from this review copy immediately after confirmation. Deleting a category removes that category from its resources, but the resources themselves remain available for review.</p>
-            <p>Click <strong>Save a package of <em>n</em> curated resources</strong> beside the Resources heading to save only the checked resources. After a successful save, those resources leave the active review list but remain in this file's saved package history.</p>
+            <p>Click <strong>Save a package of <em>n</em> curated resources</strong> beside the Resources heading to save only the checked resources, their office information, and attachments. Scout questions, answers, and research records stay in this workbench. After a successful save, those resources leave the active review list but remain in this file's saved package history.</p>
           </div>
         </details>
   ` : "";
@@ -6360,6 +6360,18 @@ function buildResourcePackageData(sourceData){
   return packageData;
 }
 
+// The curated ZIP is an office handoff, not a workbench checkpoint. Use an
+// allowlist at every record boundary so future Scout metadata stays here too.
+function pickOfficePackageFields(record, fields){
+  const result = {};
+  fields.forEach(field => {
+    if(Object.prototype.hasOwnProperty.call(record, field) && record[field] !== undefined){
+      result[field] = JSON.parse(JSON.stringify(record[field]));
+    }
+  });
+  return result;
+}
+
 function buildScoutReviewSelectionPackageData(sourceData, curatedResourceIds){
   const source = processResourcePackageData(sourceData || {}, {
     sourceName:"Current Scout review resource data"
@@ -6367,29 +6379,45 @@ function buildScoutReviewSelectionPackageData(sourceData, curatedResourceIds){
   const selectedIds = new Set(Array.from(curatedResourceIds || []).map(String));
   const resources = source.resources
     .filter(resource => selectedIds.has(String(resource && resource.id || "")))
-    .map(resource => cloneDataObject(resource));
+    .map(resource => {
+      const result = pickOfficePackageFields(resource, [
+        "id", "name", "phone", "address", "website", "hours", "description",
+        "informationText", "verifiedOn", "categories", "categoryFilters",
+        "forGroups", "lastModified"
+      ]);
+      result.pdfs = (resource.pdfs || []).map(pdf =>
+        pickOfficePackageFields(pdf, ["id", "name", "path"]));
+      return result;
+    });
   const resourceIds = new Set(resources.map(resource => String(resource.id || "")));
-  const referencedCategoryIds = new Set(resources.flatMap(resource =>
-    Array.isArray(resource.categories) ? resource.categories.map(String) : []
-  ));
-  const referencedForGroups = new Set(resources.flatMap(resource =>
-    Array.isArray(resource.forGroups) ? resource.forGroups.map(String) : []
-  ));
+  const referencedCategoryIds = new Set(resources.flatMap(resource => resource.categories || []));
+  const referencedForGroups = new Set(resources.flatMap(resource => resource.forGroups || []));
   const scopedData = {
-    ...source,
-    categories:source.categories.filter(category => referencedCategoryIds.has(String(category && category.id || ""))),
+    resourcePackageSchemaVersion: RESOURCE_PACKAGE_SCHEMA_VERSION,
+    packageVersion: source.packageVersion,
+    lastModified: source.lastModified,
+    categories:source.categories
+      .filter(category => referencedCategoryIds.has(String(category && category.id || "")))
+      .map(category => pickOfficePackageFields(category, ["id", "label", "active", "filters", "lastModified"])),
     categoryMigrations:[],
     forGroups:source.forGroups.filter(label => referencedForGroups.has(String(label))),
     resources,
-    changes:source.changes.filter(entry => {
-      if(resourceIds.has(String(entry && entry.targetId || ""))) return true;
-      return Array.isArray(entry && entry.resourceIds)
-        && entry.resourceIds.some(id => resourceIds.has(String(id)));
-    }),
+    changes:source.changes
+      .filter(entry => resourceIds.has(String(entry && entry.targetId || "")))
+      .map(entry => pickOfficePackageFields(entry, [
+        "id", "type", "action", "targetId", "targetName", "description", "timestamp", "categoryIds"
+      ])),
     deletionRequests:[],
     deletions:[]
   };
-  return buildResourcePackageData(scopedData);
+  const packageData = buildResourcePackageData(scopedData);
+  // buildResourcePackageData also serves full workbench drafts. Its Scout app
+  // changelog and any future top-level fields do not belong in the office ZIP.
+  return pickOfficePackageFields(packageData, [
+    "resourcePackageSchemaVersion", "packageVersion", "packageCreatedAt", "lastModified",
+    "categories", "categoryMigrations", "forGroups", "resources", "changes",
+    "deletionRequests", "deletions"
+  ]);
 }
 
 function buildScoutReviewCategoryPackageData(sourceData, config = getScoutReviewConfig()){

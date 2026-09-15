@@ -233,3 +233,32 @@ conservatively detecting existing For groups, and handling a warranted For
 group absent from the taxonomy. Scout must not silently create a missing group.
 The proposed behavior is to add an Information note beginning
 `[Human--I suggest you make a new For group for ...]` for human review.
+
+## Curated office-package boundary
+
+The generated `auto[Location].html` owns curation. Its curated-selection ZIP
+contains only office resource fields (including the curator's public wording,
+verification date, classifications, stable IDs and modification timestamps),
+referenced categories and For groups, ordinary resource change descriptions,
+PDF attachments, and the package schema/version/timestamps and empty deletion
+and migration containers. The exporter uses explicit field lists at package,
+resource, category, change-record, and PDF-descriptor boundaries.
+
+Questions, answers, decision history, source evidence, editorial reviews and
+other internal or unknown fields remain in the workbench. Scout's application
+changelog is also excluded. No public wording or ordinary update descriptions
+are automatically rewritten. The workbench's stored records and full research
+drafts retain their metadata. Resource Assistant needs no Scout-specific UI,
+validation, or question-merging protocol to use the curated export.
+
+This supersedes the earlier office-question round-trip design. Previously saved
+HTML files contain their old exporter until explicitly updated or regenerated;
+changing the generator does not replace them or overwrite browser-local edits.
+
+Regression verification: `python3 -m unittest discover -s tests -p
+"test_curated_office_export.py" -v` requires Playwright and Chrome/Chromium. It
+generates disposable workbenches and checks real ZIP bytes, curated-only
+selection, metadata exclusion, retained public fields, archived workbench edits
+after reload, full-draft preservation, and failed-save recovery. The historical
+`check_curator_question_loop.py` checks the superseded office-answer protocol
+and should only be used with archived builds, not as the current export gate.

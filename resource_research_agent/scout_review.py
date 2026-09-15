@@ -142,13 +142,13 @@ def render_scout_review_seed(
     release = {
         "version": __version__,
         "build": __build__,
-        "date": "2026-09-07",
-        "message": "Keep curator answers through Scout and office package transfers",
+        "date": "2026-09-14",
+        "message": "Keep Scout records out of curated office packages",
         "changes": [
             {
-                "date": "2026-09-07",
+                "date": "2026-09-14",
                 "version": __version__,
-                "message": "Answer Scout questions while curating and preserve answers when merging office packages",
+                "message": "Save curated office packages without Scout questions, answers, or research metadata; keep those records in the workbench",
             },
             {
                 "date": "2026-09-02",

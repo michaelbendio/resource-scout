@@ -1,5 +1,9 @@
 # Resource Scout
 
+Generated curation workbenches now export curated office packages through an
+explicit field boundary: research questions, answers, editorial records, and
+Scout metadata stay in the workbench. See [the curated-package contract](docs/scout-curation.md#curated-office-package-boundary).
+
 To request research followed by frontier editing, or send a finished Scout draft
 straight to an editor, use [Start Scout with an editor](docs/start-scout-with-editor.md).
 New runs can [choose their independent checker](docs/configurable-independent-checker.md),
