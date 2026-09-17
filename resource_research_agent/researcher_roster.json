@@ -1,26 +1,11 @@
 {
   "schemaVersion": 1,
-  "version": "pairwise-codex-grok-v1",
+  "version": "researcher-roster-v1",
   "researchers": [
-    {
-      "name": "Codex",
-      "role": "primary"
-    },
-    {
-      "name": "Grok",
-      "role": "challenger"
-    },
-    {
-      "name": "ChatGPT",
-      "role": "disabled"
-    },
-    {
-      "name": "Perplexity",
-      "role": "disabled"
-    },
-    {
-      "name": "Claude",
-      "role": "disabled"
-    }
+    {"name": "Codex", "role": "primary"},
+    {"name": "ChatGPT", "role": "challenger"},
+    {"name": "Grok", "role": "challenger"},
+    {"name": "Perplexity", "role": "challenger"},
+    {"name": "Claude", "role": "shadow"}
   ]
 }
