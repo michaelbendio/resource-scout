@@ -24,10 +24,23 @@ from .storage import ResearchStore
 
 
 ROSTER_PATH = Path(__file__).with_name("researcher_roster.json")
+PAIR_PROFILES_PATH = Path(__file__).with_name("researcher_pair_profiles.json")
 
 
 def load_researcher_roster(path: Path = ROSTER_PATH) -> dict[str, Any]:
     return validate_researcher_roster(json.loads(path.read_text(encoding="utf-8")))
+
+
+def load_researcher_profile(name: str, path: Path = PAIR_PROFILES_PATH) -> dict[str, Any]:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    profiles = value.get("profiles") if isinstance(value, dict) else None
+    if not isinstance(profiles, dict):
+        raise RuntimeError("Researcher pair profiles must contain a profiles object")
+    key = str(name or "").strip()
+    profile = profiles.get(key)
+    if not isinstance(profile, dict):
+        raise ValueError(f"Unknown researcher profile: {key}")
+    return validate_researcher_roster(profile)
 
 
 def validate_researcher_roster(value: dict[str, Any]) -> dict[str, Any]:
@@ -59,6 +72,14 @@ def validate_researcher_roster(value: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _primary_researcher_name(roster: dict[str, Any]) -> str:
+    return next(
+        str(item["name"])
+        for item in roster.get("researchers") or []
+        if item.get("role") == "primary"
+    )
+
+
 def _codex_jobs(store: ResearchStore, import_id: int) -> list[dict[str, Any]]:
     by_category = {
         str(job["categoryId"]): job
@@ -86,8 +107,8 @@ def prepare_codex_first_plan(
     enabled = [
         item for item in roster_value["researchers"] if item["role"] != "disabled"
     ]
-    if not any(item["role"] == "primary" and item["name"] == "Codex" for item in enabled):
-        raise ValueError("The first Codex-first release requires Codex as primary")
+    if not any(item["role"] == "primary" for item in enabled):
+        raise ValueError("Research plan requires an enabled primary researcher")
     categories = [
         category for category in store.list_import_categories(selected)
         if str(category.get("id") or "").casefold() != "miscellaneous"
@@ -131,12 +152,13 @@ def _build_challenger_assignment(
         for item in candidates
     ] or ["- None."]
     plan = job["plan"]
+    primary_name = _primary_researcher_name(plan.get("researcherRoster") or {})
     return "\n".join([
         f"Resource Scout adversarial challenger assignment for {researcher}.",
         f"Category: {job['categoryLabel']}",
         f"Service area: {job['serviceArea']}",
         "",
-        "Codex has completed the category playbook and a coverage-gap pass.",
+        f"{primary_name} has completed the category playbook and a coverage-gap pass.",
         "Find credible, direct-service candidates it still missed. Do not repeat the identities below.",
         "Search different vocabulary, provider ecosystems, referral pathways, public records, grants, contracts, registries, and primary-source PDFs.",
         "Return only candidates that credibly serve the stated area. A broken page alone does not prove closure.",
@@ -285,7 +307,9 @@ def next_codex_first_assignment(
     if not jobs:
         raise ValueError("Prepare Codex-first research before requesting assignments")
     wanted = str(researcher or "").strip()
-    if wanted == "Codex":
+    roster = (jobs[0].get("plan") or {}).get("researcherRoster") or {}
+    primary_name = _primary_researcher_name(roster)
+    if wanted == primary_name:
         for job in jobs:
             if job["status"] == "completed":
                 continue
@@ -362,14 +386,14 @@ def codex_first_view(store: ResearchStore, import_id: int) -> dict[str, Any]:
                     "name": item["name"],
                     "role": item["role"],
                     "status": (
-                        "completed" if item["name"] == "Codex" and job["status"] == "completed"
-                        else "in-progress" if item["name"] == "Codex" and job["status"] == "in-progress"
-                        else "pending" if item["name"] == "Codex"
+                        "completed" if item["role"] == "primary" and job["status"] == "completed"
+                        else "in-progress" if item["role"] == "primary" and job["status"] == "in-progress"
+                        else "pending" if item["role"] == "primary"
                         else (assignments_by_researcher.get(item["name"]) or {}).get("status", "pending")
                     ),
                     "leadCount": int(
                         (assignments_by_researcher.get(item["name"]) or {}).get("leadCount") or 0
-                    ) if item["name"] != "Codex" else int(job["progress"]["leadCount"]),
+                    ) if item["role"] != "primary" else int(job["progress"]["leadCount"]),
                 }
                 for item in (job["plan"].get("researcherRoster") or {}).get("researchers") or []
                 if item["role"] != "disabled"
