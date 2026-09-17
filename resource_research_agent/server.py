@@ -17,6 +17,7 @@ from urllib.parse import parse_qs, urlsplit
 from . import __version__
 from .codex_first_research import (
     codex_first_view,
+    load_researcher_profile,
     next_codex_first_assignment,
     prepare_codex_first_plan,
     save_codex_first_external_result,
@@ -345,8 +346,13 @@ class ResearchHandler(BaseHTTPRequestHandler):
             elif parsed.path == "/api/codex-first-research":
                 payload = self._read_json()
                 roster = payload.get("roster")
+                profile = str(payload.get("profile") or "").strip()
                 if roster is not None and not isinstance(roster, dict):
                     raise ValueError("Researcher roster must be an object")
+                if roster is not None and profile:
+                    raise ValueError("Specify either researcher roster or profile, not both")
+                if profile:
+                    roster = load_researcher_profile(profile)
                 self._json(prepare_codex_first_plan(
                     self.server.store,
                     int(payload["importId"]) if payload.get("importId") else None,
