@@ -398,7 +398,16 @@ def save_focused_research_result(
         raise ValueError("Completed focused research pass is immutable")
     if research_pass["status"] != "assigned":
         raise ValueError("Read the focused research assignment before submitting a result")
-    source_label = f"Codex · {research_pass['focusLabel']}"
+    roster = (job.get("plan") or {}).get("researcherRoster") or {}
+    primary_name = next(
+        (
+            str(item.get("name") or "").strip()
+            for item in roster.get("researchers") or []
+            if item.get("role") == "primary"
+        ),
+        "Codex",
+    )
+    source_label = f"{primary_name} · {research_pass['focusLabel']}"
     contribution = store.save_manual_contribution(
         int(job["runId"]), source_label, raw_text
     )
