@@ -305,6 +305,8 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     self._error(HTTPStatus.NOT_FOUND, "Research run not found")
             elif parsed.path in ("/", "/index.html"):
                 self._file(self.server.web_dir / "index.html", "text/html; charset=utf-8")
+            elif parsed.path == "/workflows.css":
+                self._file(self.server.web_dir / "workflows.css", "text/css; charset=utf-8")
             elif parsed.path == "/app.css":
                 self._file(self.server.web_dir / "app.css", "text/css; charset=utf-8")
             elif parsed.path == "/app.js":

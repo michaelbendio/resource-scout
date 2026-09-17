@@ -1,9 +1,19 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Improve existing resources · Scout</title><link rel="stylesheet" href="/improvements.css"></head>
-<body><header><a href="/">Resource Scout</a><h1>Improve existing resources</h1>
-<p>Review clearer writing while preserving your office's resource records.</p></header>
-<main><p id="message" role="status" aria-live="polite"></p>
+<title>Improve existing resources · Scout</title><link rel="stylesheet" href="/improvements.css"><link rel="stylesheet" href="/workflows.css"></head>
+<body class="scout-workflows"><header><div><h1>Resource Scout</h1><p class="lede">Research, consolidate, and curate resources for human review.</p></div></header>
+<main>
+<nav class="workflow-nav" aria-labelledby="workflow-heading">
+<h2 id="workflow-heading">What would you like to do?</h2>
+<div class="workflow-grid">
+<a class="workflow-card" href="/"><span class="workflow-card-title">Find new resources</span><span class="workflow-card-description">Research additions and create an office review file.</span><span class="workflow-card-action">Open workflow <span aria-hidden="true">→</span></span></a>
+<a class="workflow-card" href="/improvements" aria-current="page"><span class="workflow-card-title">Improve existing resources</span><span class="workflow-card-description">Update descriptions and Information while preserving local knowledge.</span><span class="workflow-card-action">Selected</span></a>
+<a class="workflow-card" href="/classifications"><span class="workflow-card-title">Review classification</span><span class="workflow-card-description">Review categories, Types, and groups.</span><span class="workflow-card-action">Open workflow <span aria-hidden="true">→</span></span></a>
+<a class="workflow-card" href="/maintenance"><span class="workflow-card-title">Maintain the collection</span><span class="workflow-card-description">Recheck existing resources and find additions.</span><span class="workflow-card-action">Open workflow <span aria-hidden="true">→</span></span></a>
+</div>
+</nav>
+<h2 class="workflow-workspace-title">Improve existing resources</h2>
+<p id="message" role="status" aria-live="polite"></p>
 <section><h2>Open a project</h2><label>Project <select id="projects"><option value="">Choose a project</option></select></label>
 <button id="refresh">Refresh</button></section>
 <details id="new-project"><summary>Start from a resource package</summary>
