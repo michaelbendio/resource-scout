@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "version": "pairwise-research-profiles-v1",
+  "profiles": {
+    "codex-grok": {
+      "schemaVersion": 1,
+      "version": "pairwise-codex-grok-v1",
+      "researchers": [
+        {
+          "name": "Codex",
+          "role": "primary"
+        },
+        {
+          "name": "Grok",
+          "role": "challenger"
+        },
+        {
+          "name": "ChatGPT",
+          "role": "disabled"
+        },
+        {
+          "name": "Perplexity",
+          "role": "disabled"
+        },
+        {
+          "name": "Claude",
+          "role": "disabled"
+        }
+      ]
+    },
+    "codex-claude": {
+      "schemaVersion": 1,
+      "version": "pairwise-codex-claude-v1",
+      "researchers": [
+        {
+          "name": "Codex",
+          "role": "primary"
+        },
+        {
+          "name": "Claude",
+          "role": "challenger"
+        },
+        {
+          "name": "ChatGPT",
+          "role": "disabled"
+        },
+        {
+          "name": "Perplexity",
+          "role": "disabled"
+        },
+        {
+          "name": "Grok",
+          "role": "disabled"
+        }
+      ]
+    },
+    "claude-grok": {
+      "schemaVersion": 1,
+      "version": "pairwise-claude-grok-v1",
+      "researchers": [
+        {
+          "name": "Claude",
+          "role": "primary"
+        },
+        {
+          "name": "Grok",
+          "role": "challenger"
+        },
+        {
+          "name": "ChatGPT",
+          "role": "disabled"
+        },
+        {
+          "name": "Perplexity",
+          "role": "disabled"
+        },
+        {
+          "name": "Codex",
+          "role": "disabled"
+        }
+      ]
+    }
+  }
+}
