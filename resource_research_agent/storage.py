@@ -313,6 +313,31 @@ CREATE TABLE IF NOT EXISTS codex_first_research_assignments (
 );
 CREATE INDEX IF NOT EXISTS codex_first_assignment_status
     ON codex_first_research_assignments(job_id, role, status, id);
+CREATE TABLE IF NOT EXISTS research_worker_telemetry (
+    id INTEGER PRIMARY KEY,
+    import_id INTEGER NOT NULL REFERENCES imports(id) ON DELETE CASCADE,
+    job_id INTEGER REFERENCES focused_research_jobs(id) ON DELETE CASCADE,
+    research_pass_id INTEGER REFERENCES focused_research_passes(id) ON DELETE CASCADE,
+    external_assignment_id INTEGER REFERENCES codex_first_research_assignments(id) ON DELETE CASCADE,
+    profile TEXT NOT NULL,
+    provider TEXT NOT NULL,
+    role TEXT NOT NULL CHECK (role IN ('primary', 'challenger', 'shadow')),
+    category_id TEXT NOT NULL,
+    category_label TEXT NOT NULL,
+    focus_key TEXT NOT NULL DEFAULT '',
+    attempt INTEGER NOT NULL CHECK (attempt > 0),
+    model TEXT NOT NULL DEFAULT '',
+    outcome TEXT NOT NULL CHECK (outcome IN ('completed', 'failed')),
+    started_at TEXT NOT NULL,
+    completed_at TEXT NOT NULL,
+    elapsed_ms INTEGER NOT NULL CHECK (elapsed_ms >= 0),
+    lead_count INTEGER CHECK (lead_count IS NULL OR lead_count >= 0),
+    response_bytes INTEGER CHECK (response_bytes IS NULL OR response_bytes >= 0),
+    usage_json TEXT NOT NULL DEFAULT '{}',
+    error TEXT NOT NULL DEFAULT ''
+);
+CREATE INDEX IF NOT EXISTS research_worker_telemetry_import
+    ON research_worker_telemetry(import_id, provider, category_id, id);
 CREATE TABLE IF NOT EXISTS codex_replay_studies (
     id INTEGER PRIMARY KEY,
     import_id INTEGER NOT NULL REFERENCES imports(id),
@@ -1359,6 +1384,132 @@ class ResearchStore:
             }
             for row in rows
         ]
+
+    def record_worker_telemetry(
+        self,
+        *,
+        import_id: int,
+        profile: str,
+        provider: str,
+        role: str,
+        category_id: str,
+        category_label: str,
+        attempt: int,
+        model: str,
+        outcome: str,
+        started_at: str,
+        completed_at: str,
+        elapsed_ms: int,
+        job_id: int | None = None,
+        research_pass_id: int | None = None,
+        external_assignment_id: int | None = None,
+        focus_key: str = "",
+        lead_count: int | None = None,
+        response_bytes: int | None = None,
+        usage: dict[str, Any] | None = None,
+        error: str = "",
+    ) -> int:
+        if role not in {"primary", "challenger", "shadow"}:
+            raise ValueError(f"Unsupported telemetry role: {role}")
+        if outcome not in {"completed", "failed"}:
+            raise ValueError(f"Unsupported telemetry outcome: {outcome}")
+        with self.connect() as connection:
+            cursor = connection.execute(
+                """INSERT INTO research_worker_telemetry (
+                       import_id, job_id, research_pass_id, external_assignment_id,
+                       profile, provider, role, category_id, category_label,
+                       focus_key, attempt, model, outcome, started_at, completed_at,
+                       elapsed_ms, lead_count, response_bytes, usage_json, error
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    int(import_id),
+                    job_id,
+                    research_pass_id,
+                    external_assignment_id,
+                    str(profile),
+                    str(provider),
+                    str(role),
+                    str(category_id),
+                    str(category_label),
+                    str(focus_key or ""),
+                    int(attempt),
+                    str(model or ""),
+                    str(outcome),
+                    str(started_at),
+                    str(completed_at),
+                    max(0, int(elapsed_ms)),
+                    lead_count,
+                    response_bytes,
+                    _json(usage or {}),
+                    str(error or ""),
+                ),
+            )
+        return int(cursor.lastrowid)
+
+    def worker_telemetry(self, import_id: int) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT * FROM research_worker_telemetry
+                   WHERE import_id = ? ORDER BY id""",
+                (int(import_id),),
+            ).fetchall()
+        return [
+            {
+                "id": int(row["id"]),
+                "importId": int(row["import_id"]),
+                "jobId": row["job_id"],
+                "researchPassId": row["research_pass_id"],
+                "externalAssignmentId": row["external_assignment_id"],
+                "profile": str(row["profile"]),
+                "provider": str(row["provider"]),
+                "role": str(row["role"]),
+                "categoryId": str(row["category_id"]),
+                "categoryLabel": str(row["category_label"]),
+                "focusKey": str(row["focus_key"]),
+                "attempt": int(row["attempt"]),
+                "model": str(row["model"]),
+                "outcome": str(row["outcome"]),
+                "startedAt": str(row["started_at"]),
+                "completedAt": str(row["completed_at"]),
+                "elapsedMs": int(row["elapsed_ms"]),
+                "leadCount": row["lead_count"],
+                "responseBytes": row["response_bytes"],
+                "usage": json.loads(row["usage_json"] or "{}"),
+                "error": str(row["error"]),
+            }
+            for row in rows
+        ]
+
+    def worker_telemetry_summary(self, import_id: int) -> dict[str, Any]:
+        rows = self.worker_telemetry(import_id)
+        providers: dict[str, dict[str, Any]] = {}
+        for row in rows:
+            item = providers.setdefault(row["provider"], {
+                "provider": row["provider"],
+                "attempts": 0,
+                "completedAttempts": 0,
+                "failedAttempts": 0,
+                "elapsedMs": 0,
+                "leadCount": 0,
+                "responseBytes": 0,
+                "claudeTurns": 0,
+                "webSearchRequests": 0,
+            })
+            item["attempts"] += 1
+            item["completedAttempts"] += row["outcome"] == "completed"
+            item["failedAttempts"] += row["outcome"] == "failed"
+            item["elapsedMs"] += int(row["elapsedMs"])
+            item["leadCount"] += int(row["leadCount"] or 0)
+            item["responseBytes"] += int(row["responseBytes"] or 0)
+            usage = row.get("usage") or {}
+            item["claudeTurns"] += int(usage.get("numTurns") or 0)
+            item["webSearchRequests"] += int(usage.get("webSearchRequests") or 0)
+        return {
+            "attemptCount": len(rows),
+            "providers": [
+                providers[name] for name in sorted(providers)
+            ],
+        }
 
     def create_manual_discovery_run(
         self,
