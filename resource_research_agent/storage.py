@@ -1415,7 +1415,14 @@ class ResearchStore:
     ) -> list[dict[str, Any]]:
         now = datetime.now(timezone.utc).isoformat()
         with self.connect() as connection:
-            for ordinal, partition in enumerate(partitions, start=1):
+            row = connection.execute(
+                """SELECT COALESCE(MAX(ordinal), 0) AS max_ordinal
+                   FROM research_challenger_partitions
+                   WHERE external_assignment_id = ?""",
+                (int(external_assignment_id),),
+            ).fetchone()
+            next_ordinal = int(row["max_ordinal"] or 0) + 1
+            for partition in partitions:
                 assignment = str(partition["assignment"])
                 digest = hashlib.sha256(assignment.encode("utf-8")).hexdigest()
                 key = str(partition["key"])
@@ -1439,7 +1446,7 @@ class ResearchStore:
                        ) VALUES (?, ?, ?, ?, ?, ?, 'pending', ?, ?)""",
                     (
                         int(external_assignment_id),
-                        ordinal,
+                        next_ordinal,
                         key,
                         label,
                         assignment,
@@ -1448,6 +1455,7 @@ class ResearchStore:
                         now,
                     ),
                 )
+                next_ordinal += 1
         return self.list_challenger_partitions(external_assignment_id)
 
     def list_challenger_partitions(
@@ -1461,7 +1469,7 @@ class ResearchStore:
                    ORDER BY ordinal""",
                 (int(external_assignment_id),),
             ).fetchall()
-        return [
+        values = [
             {
                 "id": int(row["id"]),
                 "externalAssignmentId": int(row["external_assignment_id"]),
@@ -1481,6 +1489,14 @@ class ResearchStore:
             }
             for row in rows
         ]
+        keys = [str(item["key"]) for item in values]
+        for item in values:
+            prefix = str(item["key"]) + "::"
+            item["isSplit"] = any(
+                other != item["key"] and other.startswith(prefix)
+                for other in keys
+            )
+        return values
 
     def complete_challenger_partition(
         self,
