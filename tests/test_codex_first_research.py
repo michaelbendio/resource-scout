@@ -11,6 +11,7 @@ from pathlib import Path
 
 from resource_research_agent.codex_first_research import (
     codex_first_view,
+    load_researcher_profile,
     next_codex_first_assignment,
     prepare_codex_first_plan,
     save_codex_first_external_result,
@@ -198,6 +199,51 @@ class CodexFirstResearchTests(unittest.TestCase):
             index + 2,
             self.store.manual_discovery_progress(job["runId"])["leadCount"],
         )
+
+    def test_pair_profile_can_use_claude_as_primary_and_grok_as_challenger(self) -> None:
+        roster = load_researcher_profile("claude-grok")
+        plan = prepare_codex_first_plan(self.store, self.import_id, roster=roster)
+        job_id = plan["categories"][0]["jobId"]
+
+        index = 0
+        while True:
+            assignment = next_codex_first_assignment(
+                self.store, self.import_id, "Claude",
+                random_source=FixedRandom(5),
+            )
+            if assignment is None:
+                break
+            research_pass = assignment["researchPass"]
+            save_codex_first_primary_result(
+                self.store,
+                job_id,
+                research_pass["focusKey"],
+                response(f"Claude Food {index}"),
+            )
+            index += 1
+
+        grok = next_codex_first_assignment(
+            self.store, self.import_id, "Grok",
+            random_source=FixedRandom(5),
+        )
+        self.assertIsNotNone(grok)
+        self.assertEqual("challenger", grok["kind"])
+        self.assertIn(
+            "Claude has completed the category playbook and a coverage-gap pass.",
+            grok["externalAssignment"]["assignment"],
+        )
+        save_codex_first_external_result(
+            self.store,
+            grok["externalAssignment"]["id"],
+            response("Grok Food"),
+        )
+        completed = codex_first_view(self.store, self.import_id)
+        self.assertEqual("completed", completed["status"])
+        researchers = {
+            item["name"]: item for item in completed["categories"][0]["researchers"]
+        }
+        self.assertEqual("completed", researchers["Claude"]["status"])
+        self.assertEqual("completed", researchers["Grok"]["status"])
 
     def test_codex_primary_work_skips_a_provider_gated_category(self) -> None:
         root = Path(self.temporary.name)
