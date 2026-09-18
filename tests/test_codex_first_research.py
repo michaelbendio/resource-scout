@@ -21,6 +21,7 @@ from resource_research_agent.importer import ResourcePackageImporter
 from resource_research_agent.scout_curation import ScoutCurationError, prepare_scout_curation_job
 from resource_research_agent.storage import ResearchStore
 from resource_research_agent.playbooks import PLAYBOOKS
+from resource_research_agent.pairwise_challenge import next_challenge, submit_challenge
 from resource_research_agent.scout_progress import build_scout_progress
 from resource_research_agent.server import ResearchHTTPServer
 
@@ -308,6 +309,48 @@ class CodexFirstResearchTests(unittest.TestCase):
         )
         self.assertIsNotNone(next_category)
         self.assertEqual(second_job_id, next_category["job"]["id"])
+
+    def test_pairwise_challenge_helper_reads_and_submits_grok_result(self) -> None:
+        roster = load_researcher_profile("codex-grok")
+        plan = prepare_codex_first_plan(self.store, self.import_id, roster=roster)
+        job_id = plan["categories"][0]["jobId"]
+
+        index = 0
+        while True:
+            assignment = next_codex_first_assignment(
+                self.store, self.import_id, "Codex", random_source=FixedRandom(5)
+            )
+            if assignment is None:
+                break
+            research_pass = assignment["researchPass"]
+            save_codex_first_primary_result(
+                self.store,
+                job_id,
+                research_pass["focusKey"],
+                response(f"Helper Codex Food {index}"),
+            )
+            index += 1
+
+        challenge = next_challenge(
+            self.store,
+            self.import_id,
+            "Grok",
+            copy=False,
+            open_app=False,
+        )
+        self.assertIsNotNone(challenge)
+        self.assertEqual("Grok", challenge["researcher"])
+        self.assertIn("adversarial challenger assignment for Grok", challenge["assignment"])
+
+        result_file = Path(self.temporary.name) / "grok-result.json"
+        result_file.write_text(response("Helper Grok Food"), encoding="utf-8")
+        saved = submit_challenge(
+            self.store,
+            int(challenge["assignmentId"]),
+            result_file,
+        )
+        self.assertEqual("completed", saved["status"])
+        self.assertEqual(1, saved["leadCount"])
 
     def test_codex_primary_work_skips_a_provider_gated_category(self) -> None:
         root = Path(self.temporary.name)
