@@ -236,3 +236,22 @@ A timestamped directory under `data/pairwise-overnight-*/` contains:
 
 The supervisor staggers condition starts slightly and each worker uses
 retry/backoff handling to reduce the impact of transient provider rate limits.
+
+
+## Browser monitoring
+
+The three-way launcher now starts one Scout monitor server per condition and opens
+all three pages automatically:
+
+- http://127.0.0.1:8766 — Codex + Grok
+- http://127.0.0.1:8767 — Codex + Claude
+- http://127.0.0.1:8768 — Claude + Grok
+
+Each page reads only its condition's SQLite database. The monitor servers are
+separate from the research worker processes, so refreshing or leaving the tabs
+open does not alter the experimental condition.
+
+The supervisor refuses to start if any monitor port is already occupied. Monitor
+PIDs, URLs, and server log paths are saved in the experiment `manifest.json`.
+The monitor servers are intentionally left running after the experiment finishes
+so the final state remains inspectable in the browser the next morning.
