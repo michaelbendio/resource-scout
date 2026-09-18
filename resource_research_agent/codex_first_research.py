@@ -403,6 +403,39 @@ def codex_first_view(store: ResearchStore, import_id: int) -> dict[str, Any]:
                     "leadCount": int(
                         (assignments_by_researcher.get(item["name"]) or {}).get("leadCount") or 0
                     ) if item["role"] != "primary" else int(job["progress"]["leadCount"]),
+                    "partitions": (
+                        (
+                            lambda values: {
+                                "completed": sum(
+                                    partition["status"] == "completed"
+                                    for partition in values
+                                ),
+                                "total": len(values),
+                                "leadCount": sum(
+                                    int(partition["leadCount"]) for partition in values
+                                ),
+                                "active": next(
+                                    (
+                                        {
+                                            "key": partition["key"],
+                                            "label": partition["label"],
+                                            "ordinal": partition["ordinal"],
+                                        }
+                                        for partition in values
+                                        if partition["status"] != "completed"
+                                    ),
+                                    None,
+                                ),
+                            }
+                        )(
+                            store.list_challenger_partitions(
+                                int(assignments_by_researcher[item["name"]]["id"])
+                            )
+                        )
+                        if item["role"] != "primary"
+                        and assignments_by_researcher.get(item["name"])
+                        else {"completed": 0, "total": 0, "leadCount": 0, "active": None}
+                    ),
                 }
                 for item in (job["plan"].get("researcherRoster") or {}).get("researchers") or []
                 if item["role"] != "disabled"
