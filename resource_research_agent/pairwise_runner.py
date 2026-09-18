@@ -10,6 +10,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
+from urllib.parse import urlsplit
 
 from .codex_first_research import (
     codex_first_view,
@@ -19,11 +20,225 @@ from .codex_first_research import (
     save_codex_first_external_result,
     save_codex_first_primary_result,
 )
+from .focused_research import build_candidate_manifest
+from .manual_discovery import normalize_manual_identity, parse_manual_contribution
 from .storage import ResearchStore
 
 
 SCHEMA_PATH = Path(__file__).with_name("codex_replay_response.schema.json")
 DEFAULT_CODEX_MODEL = "gpt-5.5"
+DEFAULT_CHALLENGER_PARTITION_CANDIDATE_THRESHOLD = 36
+DEFAULT_CHALLENGER_PARTITION_CHAR_THRESHOLD = 18000
+DEFAULT_CHALLENGER_PARTITION_TIMEOUT_SECONDS = 900
+
+
+class AdaptivePartitionRequired(RuntimeError):
+    pass
+
+
+def _identity_key(
+    organization: str,
+    program: str,
+    website: str,
+) -> tuple[str, str, str]:
+    host = (urlsplit(str(website or "")).hostname or "").casefold().removeprefix("www.")
+    return (
+        normalize_manual_identity(organization),
+        normalize_manual_identity(program),
+        host,
+    )
+
+
+def _compact_candidate_lines(candidates: list[dict[str, str]]) -> list[str]:
+    if not candidates:
+        return ["- None."]
+    lines: list[str] = []
+    for item in candidates:
+        label = " · ".join(
+            value for value in (
+                str(item.get("organization") or "").strip(),
+                str(item.get("program") or "").strip(),
+            )
+            if value
+        ) or str(item.get("website") or "").strip()
+        host = (
+            urlsplit(str(item.get("website") or "")).hostname or ""
+        ).casefold().removeprefix("www.")
+        suffix = f" [{host}]" if host else ""
+        lines.append(f"- {label}{suffix}")
+    return lines
+
+
+def _challenger_partition_reasons(
+    assignment_text: str,
+    candidate_count: int,
+    *,
+    candidate_threshold: int,
+    char_threshold: int,
+) -> list[str]:
+    reasons: list[str] = []
+    if candidate_threshold > 0 and candidate_count >= candidate_threshold:
+        reasons.append(
+            f"candidate-count:{candidate_count}>={candidate_threshold}"
+        )
+    char_count = len(assignment_text)
+    if char_threshold > 0 and char_count >= char_threshold:
+        reasons.append(f"assignment-chars:{char_count}>={char_threshold}")
+    return reasons
+
+
+def _challenger_partition_specs(
+    job: dict[str, Any],
+    researcher: str,
+    candidates: list[dict[str, str]],
+) -> list[dict[str, str]]:
+    fixed = [
+        item for item in job.get("passes") or []
+        if str(item.get("passKind") or "") == "focus"
+    ]
+    plan = job.get("plan") or {}
+    if len(fixed) < 2:
+        focuses = list(plan.get("focuses") or [])
+        fixed = [
+            {
+                "focusKey": str(item.get("key") or f"focus-{index}"),
+                "focusLabel": str(item.get("label") or f"Focus {index}"),
+                "definition": item,
+            }
+            for index, item in enumerate(focuses, start=1)
+        ]
+    if len(fixed) < 2:
+        include = list(plan.get("include") or [])
+        midpoint = max(1, (len(include) + 1) // 2)
+        groups = [include[:midpoint], include[midpoint:]]
+        fixed = [
+            {
+                "focusKey": f"scope-{index}",
+                "focusLabel": f"Scope {index}",
+                "definition": {
+                    "direction": "Search only this bounded portion of the category scope.",
+                    "coverage": group,
+                    "vocabulary": [],
+                    "sourceChannels": [],
+                },
+            }
+            for index, group in enumerate(groups, start=1)
+            if group
+        ]
+    if not fixed:
+        fixed = [{
+            "focusKey": "bounded",
+            "focusLabel": "Bounded challenger search",
+            "definition": {
+                "direction": "Search for credible direct-service candidates missed by the primary researcher.",
+                "coverage": list(plan.get("include") or []),
+                "vocabulary": [],
+                "sourceChannels": [],
+            },
+        }]
+
+    roster = plan.get("researcherRoster") or {}
+    primary_name = next(
+        (
+            str(item.get("name") or "").strip()
+            for item in roster.get("researchers") or []
+            if item.get("role") == "primary"
+        ),
+        "Primary researcher",
+    )
+    candidate_lines = _compact_candidate_lines(candidates)
+    total = len(fixed)
+    result: list[dict[str, str]] = []
+    for ordinal, research_pass in enumerate(fixed, start=1):
+        definition = research_pass.get("definition") or {}
+        key = str(
+            research_pass.get("focusKey")
+            or definition.get("key")
+            or f"partition-{ordinal}"
+        )
+        label = str(
+            research_pass.get("focusLabel")
+            or definition.get("label")
+            or key
+        )
+        assignment = "\n".join([
+            f"Resource Scout partitioned adversarial challenger assignment for {researcher}.",
+            f"Category: {job['categoryLabel']}",
+            f"Service area: {job['serviceArea']}",
+            f"Partition {ordinal} of {total}: {label}",
+            "",
+            f"{primary_name} has completed the category playbook and coverage-gap pass.",
+            "Search only this bounded partition for credible direct-service candidates the primary researcher missed.",
+            "Do not broaden into a whole-category search. Finish and return JSON when this partition has strong coverage.",
+            "",
+            "Partition direction:",
+            str(definition.get("direction") or "Search this focus area adversarially."),
+            "",
+            "Coverage to seek:",
+            *[f"- {item}" for item in definition.get("coverage") or []],
+            "",
+            "Alternative vocabulary:",
+            *[f"- {item}" for item in definition.get("vocabulary") or []],
+            "",
+            "Source channels:",
+            *[f"- {item}" for item in definition.get("sourceChannels") or []],
+            "",
+            "Global exclusions:",
+            *[f"- {item}" for item in plan.get("exclude") or []],
+            "",
+            "Compact identity exclusion index; do not repeat obvious aliases:",
+            *candidate_lines,
+            "",
+            "Return one JSON object with a leads array. Each lead must contain organization, program, website, phone, address, leadType, locationOrServiceArea, whyRelevant, and uncertainty as text fields.",
+        ])
+        result.append({"key": key, "label": label, "assignment": assignment})
+    return result
+
+
+def _merge_partition_results(
+    partitions: list[dict[str, Any]],
+    candidates: list[dict[str, str]],
+) -> str:
+    excluded = {
+        _identity_key(
+            str(item.get("organization") or ""),
+            str(item.get("program") or ""),
+            str(item.get("website") or ""),
+        )
+        for item in candidates
+    }
+    seen: set[tuple[str, str, str]] = set()
+    leads: list[dict[str, str]] = []
+    for partition in partitions:
+        parsed = parse_manual_contribution(str(partition.get("rawText") or ""))
+        if parsed["status"] != "parsed":
+            raise ValueError(
+                f"Stored challenger partition {partition.get('key')} is not parseable"
+            )
+        for lead in parsed["leads"]:
+            key = (
+                str(lead.get("normalizedOrganization") or ""),
+                str(lead.get("normalizedProgram") or ""),
+                (
+                    urlsplit(str(lead.get("website") or "")).hostname or ""
+                ).casefold().removeprefix("www."),
+            )
+            if key in excluded or key in seen:
+                continue
+            seen.add(key)
+            raw = lead.get("raw") or {}
+            leads.append({
+                "organization": str(raw.get("organization") or ""),
+                "program": str(raw.get("program") or ""),
+                "website": str(raw.get("website") or ""),
+                "phone": str(raw.get("phone") or ""),
+                "address": str(raw.get("address") or ""),
+                "leadType": str(raw.get("leadType") or ""),
+                "locationOrServiceArea": str(raw.get("locationOrServiceArea") or ""),
+                "whyRelevant": str(raw.get("whyRelevant") or ""),
+                "uncertainty": str(raw.get("uncertainty") or ""),
+            })
+    return json.dumps({"leads": leads}, ensure_ascii=False)
 
 
 def _research_prompt(
