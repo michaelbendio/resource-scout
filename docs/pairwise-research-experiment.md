@@ -255,3 +255,36 @@ The supervisor refuses to start if any monitor port is already occupied. Monitor
 PIDs, URLs, and server log paths are saved in the experiment `manifest.json`.
 The monitor servers are intentionally left running after the experiment finishes
 so the final state remains inspectable in the browser the next morning.
+
+
+## Worker telemetry
+
+Future pairwise and production runs persist one telemetry row per provider attempt
+in `research_worker_telemetry`. The runner records:
+
+- provider, role, profile, category, pass or challenger assignment, and model;
+- attempt number, success/failure, start/end timestamps, and elapsed milliseconds;
+- response size and parsed lead count;
+- retries and failure text;
+- native provider usage metadata when exposed by the CLI.
+
+Codex runs use `codex exec --json` so Scout can retain Codex turn events, token
+usage, completed item counts, and web-search item counts while still writing the
+schema-constrained final response to the normal result file.
+
+Grok headless runs use `--output-format json` so Scout can retain Grok
+`num_turns`, token usage, model usage, session/request ids, stop reason, and
+web-search counts when present.
+
+Claude headless runs retain the existing JSON envelope fields including
+`num_turns`, API duration, model usage, reported cost, stop/terminal reasons,
+and web-search counts.
+
+`codex_first_view` exposes an aggregate telemetry summary with attempts,
+failures, active research minutes, turns, web searches, leads, and leads per
+active research minute.
+
+For the final architecture decision, telemetry should be combined with curation
+provenance. The most useful efficiency metrics are accepted unique identities
+per provider, accepted unique identities per active research minute, and
+consequential-pathway misses—not raw lead count alone.
