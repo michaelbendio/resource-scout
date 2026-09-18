@@ -214,6 +214,24 @@ and concurrent host use prevent a clean model ranking. The local server was stop
 after testing to release memory. Both completed experiment database hashes were
 verified unchanged; no Bonsai outputs were submitted to Scout.
 
+### Follow-up extraction test: Stephanie's four criteria
+
+Michael clarified the criteria in the September 18 session: **Eligibility
+requirements; How to best connect; Access (hours, etc); Important information to
+know.** The existing production enrichment's three headings have not been changed;
+this correction was applied to the separate Bonsai test.
+
+`~/scout-bonsai-pilot/extraction/switchpoint-services/REPORT.md` records the result.
+A supplied-text Switchpoint services-page extraction with thinking disabled and
+JSON output enforced finished in 70 seconds. It correctly flagged many missing
+facts, but inferred service availability from HQ cities and blurred descriptive
+language with formal eligibility. Treat it as a draft requiring review, not a
+visitor-ready resource or validated production capability. An earlier thinking-on
+attempt failed at 4,500 output tokens; a generic JSON-only follow-up took 108 seconds.
+All attempts, pre-inference rubrics, raw results, and source hashes are preserved.
+No production code or experiment records were changed; completed database hashes
+still match. The local server was stopped after testing.
+
 ## Safety / preservation rules
 
 - Never restart a primary run merely because a handoff was opened.
