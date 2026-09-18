@@ -1446,6 +1446,19 @@ class ResearchStore:
             )
         return int(cursor.lastrowid)
 
+    def update_worker_telemetry_lead_count(
+        self,
+        telemetry_id: int,
+        lead_count: int,
+    ) -> None:
+        with self.connect() as connection:
+            connection.execute(
+                """UPDATE research_worker_telemetry
+                   SET lead_count = ?
+                   WHERE id = ?""",
+                (max(0, int(lead_count)), int(telemetry_id)),
+            )
+
     def worker_telemetry(self, import_id: int) -> list[dict[str, Any]]:
         with self.connect() as connection:
             rows = connection.execute(
