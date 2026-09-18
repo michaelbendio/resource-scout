@@ -7,11 +7,20 @@ import zipfile
 from pathlib import Path
 
 from resource_research_agent.importer import ResourcePackageImporter
-from resource_research_agent.pairwise_supervisor import clone_import_baseline
+from resource_research_agent.pairwise_supervisor import _monitor_specs, clone_import_baseline
 from resource_research_agent.storage import ResearchStore
 
 
 class PairwiseSupervisorTests(unittest.TestCase):
+    def test_monitor_specs_assign_one_port_per_profile(self) -> None:
+        specs = _monitor_specs(Path("/tmp/pairwise"), 8766)
+        self.assertEqual(8766, specs["codex-grok"]["port"])
+        self.assertEqual("http://127.0.0.1:8766", specs["codex-grok"]["url"])
+        self.assertEqual(8767, specs["codex-claude"]["port"])
+        self.assertEqual("http://127.0.0.1:8767", specs["codex-claude"]["url"])
+        self.assertEqual(8768, specs["claude-grok"]["port"])
+        self.assertEqual("http://127.0.0.1:8768", specs["claude-grok"]["url"])
+
     def test_clone_import_baseline_preserves_clean_package_order(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
