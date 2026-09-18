@@ -288,3 +288,47 @@ For the final architecture decision, telemetry should be combined with curation
 provenance. The most useful efficiency metrics are accepted unique identities
 per provider, accepted unique identities per active research minute, and
 consequential-pathway misses—not raw lead count alone.
+
+
+## Adaptive challenger partitioning
+
+The pairwise runner now adapts challenger work to assignment complexity instead
+of blindly retrying an oversized whole-category prompt.
+
+Before launching a challenger, Scout examines the generated assignment and the
+number of identities already found by the primary researcher. By default it
+switches directly to partitioned mode when either:
+
+- the current candidate manifest contains at least 36 identities; or
+- the challenger assignment is at least 18,000 characters.
+
+These are experimental thresholds and can be changed from the CLI.
+
+If an assignment falls below the thresholds, Scout first tries the ordinary
+whole-category challenger. If that subprocess reaches its timeout, Scout does
+not retry the same monolithic request. It records the failed attempt and
+immediately converts the challenger into bounded partitions.
+
+Partitions are derived from the category's existing fixed focused-research
+passes, so the decomposition is category-aware rather than model-specific. Each
+partition gets a compact identity exclusion index, a narrow coverage target, and
+a shorter default runtime cap. Partition state and results are stored durably in
+SQLite. If the runner stops, a later invocation resumes only unfinished
+partitions.
+
+After all partitions complete, Scout merges their JSON responses, removes exact
+candidate/partition duplicates, and saves one normal challenger result through
+the existing Scout contribution and consolidation pipeline. The rest of Scout
+therefore does not need to know whether the challenger completed monolithically
+or through partitions.
+
+Relevant controls:
+
+```text
+--challenger-partition-candidate-threshold 36
+--challenger-partition-char-threshold 18000
+--challenger-partition-timeout-seconds 900
+```
+
+A threshold of zero disables that proactive trigger. Timeout-driven partitioning
+still applies to an attempted monolithic challenger.
