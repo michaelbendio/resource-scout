@@ -408,7 +408,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--codex-timeout-seconds", type=int, default=1800)
     value.add_argument("--grok-timeout-seconds", type=int, default=1800)
     value.add_argument("--claude-timeout-seconds", type=int, default=1800)
-    value.add_argument("--claude-max-turns", type=int, default=24)
+    value.add_argument("--claude-max-turns", type=int, default=60)
     value.add_argument("--retry-count", type=int, default=3)
     value.add_argument("--stagger-seconds", type=int, default=10)
     value.add_argument("--monitor-base-port", type=int, default=8766)
