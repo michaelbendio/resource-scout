@@ -417,6 +417,12 @@ class CodexFirstResearchTests(unittest.TestCase):
                 self.assertEqual("completed", researchers[primary]["status"])
                 self.assertEqual("completed", researchers[challenger]["status"])
                 self.assertEqual(1, researchers[challenger]["leadCount"])
+                telemetry = store.worker_telemetry(import_id)
+                self.assertTrue(telemetry)
+                telemetry_providers = {item["provider"] for item in telemetry}
+                self.assertIn(primary, telemetry_providers)
+                self.assertIn(challenger, telemetry_providers)
+                self.assertTrue(all(item["outcome"] == "completed" for item in telemetry))
 
     def test_codex_primary_work_skips_a_provider_gated_category(self) -> None:
         root = Path(self.temporary.name)
