@@ -258,15 +258,24 @@ function renderCodexFirstDetail(view) {
     const externalTitle = document.createElement('strong');
     const externalDetail = document.createElement('small');
     const status = document.createElement('span');
-    const challengerCompleted = category.researchers.filter(item => item.role === 'challenger' && item.status === 'completed').length;
+    const primaryResearcher = category.researchers.find(item => item.role === 'primary');
+    const challengers = category.researchers.filter(item => item.role === 'challenger');
+    const shadows = category.researchers.filter(item => item.role === 'shadow');
+    const challengerCompleted = challengers.filter(item => item.status === 'completed').length;
+    const primaryName = primaryResearcher?.name || 'Primary';
     row.className = 'codex-category-row';
     row.dataset.status = category.status;
     name.textContent = category.categoryLabel;
     sequence.textContent = `Category ${view.categories.indexOf(category) + 1} of ${view.totalCategories}`;
-    primaryTitle.textContent = `${category.primary.completed} of ${category.primary.total} Codex passes`;
-    primaryDetail.textContent = `${category.primary.leadCount} Codex leads · ${category.funnel.consolidatedIdentities} consolidated identities`;
-    externalTitle.textContent = `${challengerCompleted} of 3 challengers complete`;
-    externalDetail.textContent = `Claude shadow: ${researchStatusLabel(researcherStatus(category, 'Claude')).toLowerCase()}`;
+    primaryTitle.textContent = `${category.primary.completed} of ${category.primary.total} ${primaryName} passes`;
+    primaryDetail.textContent = `${category.primary.leadCount} ${primaryName} leads · ${category.funnel.consolidatedIdentities} consolidated identities`;
+    externalTitle.textContent = challengers.length
+      ? `${challengerCompleted} of ${challengers.length} challenger${challengers.length === 1 ? '' : 's'} complete`
+      : 'No challengers configured';
+    externalDetail.textContent = [
+      ...challengers.map(item => `${item.name}: ${researchStatusLabel(item.status).toLowerCase()}`),
+      ...shadows.map(item => `${item.name} shadow: ${researchStatusLabel(item.status).toLowerCase()}`),
+    ].join(' · ');
     status.className = 'codex-status';
     status.dataset.status = category.status;
     status.textContent = researchStatusLabel(category.status);
