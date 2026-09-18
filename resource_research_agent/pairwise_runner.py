@@ -432,17 +432,15 @@ def run_pairwise(
             print(json.dumps({"event": "claude-preflight-completed", "profile": profile}), flush=True)
 
     prepare_codex_first_plan(store, import_id, roster=roster)
-    starting_view = codex_first_view(store, import_id)
-    starting_completed_categories = int(starting_view["completedCategories"])
     primary_passes_this_run = 0
     challenger_runs_this_run = 0
 
     while True:
         view = codex_first_view(store, import_id)
-        completed_this_run = (
-            int(view["completedCategories"]) - starting_completed_categories
-        )
-        if max_categories is not None and completed_this_run >= max_categories:
+        if (
+            max_categories is not None
+            and int(view["completedCategories"]) >= max_categories
+        ):
             break
         if max_passes is not None and primary_passes_this_run >= max_passes:
             break
