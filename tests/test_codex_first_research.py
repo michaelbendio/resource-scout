@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 import tempfile
 import threading
 import unittest
@@ -423,6 +424,134 @@ class CodexFirstResearchTests(unittest.TestCase):
                 self.assertIn(primary, telemetry_providers)
                 self.assertIn(challenger, telemetry_providers)
                 self.assertTrue(all(item["outcome"] == "completed" for item in telemetry))
+
+    def test_pairwise_challenger_prepartitions_oversized_candidate_set(self) -> None:
+        database = Path(self.temporary.name) / "adaptive-prepartition.sqlite3"
+        store = ResearchStore(database)
+        package = Path(self.temporary.name) / "adaptive-prepartition.zip"
+        with zipfile.ZipFile(package, "w") as archive:
+            archive.writestr("tso-resources.json", json.dumps({
+                "resourcePackageSchemaVersion": 3,
+                "packageVersion": 1,
+                "officeName": "Test TSO",
+                "serviceArea": "Test County",
+                "categories": [
+                    {"id": "food", "name": "Food", "filters": []},
+                    {"id": "miscellaneous", "name": "Miscellaneous", "filters": []},
+                ],
+                "forGroups": [],
+                "resources": [],
+            }))
+        import_id = store.save_import(ResourcePackageImporter(None).read(package))
+
+        with patch(
+            "resource_research_agent.pairwise_runner._run_claude_worker",
+            return_value=response("Adaptive Claude"),
+        ), patch(
+            "resource_research_agent.pairwise_runner._run_grok_worker",
+            return_value=response("Adaptive Grok"),
+        ):
+            completed = run_pairwise(
+                store,
+                import_id,
+                profile="claude-grok",
+                codex_binary="/usr/bin/true",
+                codex_model="test-codex",
+                grok_binary="/usr/bin/true",
+                grok_model="",
+                claude_binary="/usr/bin/true",
+                claude_model="",
+                codex_timeout_seconds=10,
+                grok_timeout_seconds=10,
+                claude_timeout_seconds=10,
+                claude_max_turns=4,
+                retry_count=0,
+                max_passes=None,
+                max_categories=1,
+                preflight=False,
+                challenger_partition_candidate_threshold=1,
+                challenger_partition_char_threshold=0,
+                challenger_partition_timeout_seconds=10,
+            )
+
+        self.assertEqual("completed", completed["status"])
+        job = store.list_focused_research_jobs(import_id)[0]
+        assignment = store.list_codex_first_assignments(int(job["id"]))[0]
+        partitions = store.list_challenger_partitions(int(assignment["id"]))
+        self.assertGreaterEqual(len(partitions), 1)
+        self.assertTrue(all(item["status"] == "completed" for item in partitions))
+        self.assertEqual(1, assignment["leadCount"])
+
+    def test_pairwise_challenger_timeout_switches_to_partitions(self) -> None:
+        database = Path(self.temporary.name) / "adaptive-timeout.sqlite3"
+        store = ResearchStore(database)
+        package = Path(self.temporary.name) / "adaptive-timeout.zip"
+        with zipfile.ZipFile(package, "w") as archive:
+            archive.writestr("tso-resources.json", json.dumps({
+                "resourcePackageSchemaVersion": 3,
+                "packageVersion": 1,
+                "officeName": "Test TSO",
+                "serviceArea": "Test County",
+                "categories": [
+                    {"id": "food", "name": "Food", "filters": []},
+                    {"id": "miscellaneous", "name": "Miscellaneous", "filters": []},
+                ],
+                "forGroups": [],
+                "resources": [],
+            }))
+        import_id = store.save_import(ResourcePackageImporter(None).read(package))
+        calls = {"monolithic": 0, "partitioned": 0}
+
+        def grok_worker(assignment_text: str, **kwargs: object) -> str:
+            if "partitioned adversarial challenger" in assignment_text:
+                calls["partitioned"] += 1
+                return response("Timeout Recovery Grok")
+            calls["monolithic"] += 1
+            raise subprocess.TimeoutExpired(cmd="grok", timeout=10)
+
+        with patch(
+            "resource_research_agent.pairwise_runner._run_claude_worker",
+            return_value=response("Timeout Claude"),
+        ), patch(
+            "resource_research_agent.pairwise_runner._run_grok_worker",
+            side_effect=grok_worker,
+        ):
+            completed = run_pairwise(
+                store,
+                import_id,
+                profile="claude-grok",
+                codex_binary="/usr/bin/true",
+                codex_model="test-codex",
+                grok_binary="/usr/bin/true",
+                grok_model="",
+                claude_binary="/usr/bin/true",
+                claude_model="",
+                codex_timeout_seconds=10,
+                grok_timeout_seconds=10,
+                claude_timeout_seconds=10,
+                claude_max_turns=4,
+                retry_count=3,
+                max_passes=None,
+                max_categories=1,
+                preflight=False,
+                challenger_partition_candidate_threshold=9999,
+                challenger_partition_char_threshold=999999,
+                challenger_partition_timeout_seconds=10,
+            )
+
+        self.assertEqual("completed", completed["status"])
+        self.assertEqual(1, calls["monolithic"])
+        self.assertGreaterEqual(calls["partitioned"], 1)
+        job = store.list_focused_research_jobs(import_id)[0]
+        assignment = store.list_codex_first_assignments(int(job["id"]))[0]
+        partitions = store.list_challenger_partitions(int(assignment["id"]))
+        self.assertTrue(partitions)
+        self.assertTrue(all(item["status"] == "completed" for item in partitions))
+        failed = [
+            item for item in store.worker_telemetry(import_id)
+            if item["provider"] == "Grok" and item["outcome"] == "failed"
+        ]
+        self.assertEqual(1, len(failed))
 
     def test_codex_primary_work_skips_a_provider_gated_category(self) -> None:
         root = Path(self.temporary.name)
