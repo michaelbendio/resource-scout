@@ -53,17 +53,18 @@ def _compact_candidate_lines(candidates: list[dict[str, str]]) -> list[str]:
     if not candidates:
         return ["- None."]
     lines: list[str] = []
+    seen: set[tuple[str, str]] = set()
     for item in candidates:
-        label = " · ".join(
-            value for value in (
-                str(item.get("organization") or "").strip(),
-                str(item.get("program") or "").strip(),
-            )
-            if value
-        ) or str(item.get("website") or "").strip()
+        organization = str(item.get("organization") or "").strip()
+        program = str(item.get("program") or "").strip()
+        label = organization or program or str(item.get("website") or "").strip()
         host = (
             urlsplit(str(item.get("website") or "")).hostname or ""
         ).casefold().removeprefix("www.")
+        key = (normalize_manual_identity(label), host)
+        if key in seen:
+            continue
+        seen.add(key)
         suffix = f" [{host}]" if host else ""
         lines.append(f"- {label}{suffix}")
     return lines
@@ -85,6 +86,65 @@ def _challenger_partition_reasons(
     if char_threshold > 0 and char_count >= char_threshold:
         reasons.append(f"assignment-chars:{char_count}>={char_threshold}")
     return reasons
+
+
+def _primary_name(job: dict[str, Any]) -> str:
+    roster = (job.get("plan") or {}).get("researcherRoster") or {}
+    return next(
+        (
+            str(item.get("name") or "").strip()
+            for item in roster.get("researchers") or []
+            if item.get("role") == "primary"
+        ),
+        "Primary researcher",
+    )
+
+
+def _partition_assignment(
+    job: dict[str, Any],
+    researcher: str,
+    candidates: list[dict[str, str]],
+    *,
+    label: str,
+    direction: str,
+    coverage: list[str],
+    vocabulary: list[str],
+    source_channels: list[str],
+    descriptor: str,
+) -> str:
+    plan = job.get("plan") or {}
+    candidate_lines = _compact_candidate_lines(candidates)
+    return "\n".join([
+        f"Resource Scout partitioned adversarial challenger assignment for {researcher}.",
+        f"Category: {job['categoryLabel']}",
+        f"Service area: {job['serviceArea']}",
+        f"Partition: {label}",
+        f"Partition path: {descriptor}",
+        "",
+        f"{_primary_name(job)} has completed the category playbook and coverage-gap pass.",
+        "Search only this bounded partition for credible direct-service candidates the primary researcher missed.",
+        "Do not broaden into a whole-category search. Finish and return JSON when this partition has strong coverage.",
+        "",
+        "Partition direction:",
+        direction or "Search this bounded focus area adversarially.",
+        "",
+        "Coverage to seek:",
+        *[f"- {item}" for item in coverage],
+        "",
+        "Alternative vocabulary:",
+        *[f"- {item}" for item in vocabulary],
+        "",
+        "Source channels:",
+        *[f"- {item}" for item in source_channels],
+        "",
+        "Global exclusions:",
+        *[f"- {item}" for item in plan.get("exclude") or []],
+        "",
+        "Known identity anchors; avoid obvious repeats. A genuinely distinct named program at a known organization may still be returned:",
+        *candidate_lines,
+        "",
+        "Return one JSON object with a leads array. Each lead must contain organization, program, website, phone, address, leadType, locationOrServiceArea, whyRelevant, and uncertainty as text fields.",
+    ])
 
 
 def _challenger_partition_specs(
@@ -137,17 +197,6 @@ def _challenger_partition_specs(
             },
         }]
 
-    roster = plan.get("researcherRoster") or {}
-    primary_name = next(
-        (
-            str(item.get("name") or "").strip()
-            for item in roster.get("researchers") or []
-            if item.get("role") == "primary"
-        ),
-        "Primary researcher",
-    )
-    candidate_lines = _compact_candidate_lines(candidates)
-    total = len(fixed)
     result: list[dict[str, str]] = []
     for ordinal, research_pass in enumerate(fixed, start=1):
         definition = research_pass.get("definition") or {}
@@ -161,38 +210,197 @@ def _challenger_partition_specs(
             or definition.get("label")
             or key
         )
-        assignment = "\n".join([
-            f"Resource Scout partitioned adversarial challenger assignment for {researcher}.",
-            f"Category: {job['categoryLabel']}",
-            f"Service area: {job['serviceArea']}",
-            f"Partition {ordinal} of {total}: {label}",
-            "",
-            f"{primary_name} has completed the category playbook and coverage-gap pass.",
-            "Search only this bounded partition for credible direct-service candidates the primary researcher missed.",
-            "Do not broaden into a whole-category search. Finish and return JSON when this partition has strong coverage.",
-            "",
-            "Partition direction:",
-            str(definition.get("direction") or "Search this focus area adversarially."),
-            "",
-            "Coverage to seek:",
-            *[f"- {item}" for item in definition.get("coverage") or []],
-            "",
-            "Alternative vocabulary:",
-            *[f"- {item}" for item in definition.get("vocabulary") or []],
-            "",
-            "Source channels:",
-            *[f"- {item}" for item in definition.get("sourceChannels") or []],
-            "",
-            "Global exclusions:",
-            *[f"- {item}" for item in plan.get("exclude") or []],
-            "",
-            "Compact identity exclusion index; do not repeat obvious aliases:",
-            *candidate_lines,
-            "",
-            "Return one JSON object with a leads array. Each lead must contain organization, program, website, phone, address, leadType, locationOrServiceArea, whyRelevant, and uncertainty as text fields.",
-        ])
-        result.append({"key": key, "label": label, "assignment": assignment})
+        result.append({
+            "key": key,
+            "label": label,
+            "assignment": _partition_assignment(
+                job,
+                researcher,
+                candidates,
+                label=label,
+                direction=str(
+                    definition.get("direction")
+                    or "Search this focus area adversarially."
+                ),
+                coverage=[
+                    str(item) for item in definition.get("coverage") or []
+                ],
+                vocabulary=[
+                    str(item) for item in definition.get("vocabulary") or []
+                ],
+                source_channels=[
+                    str(item) for item in definition.get("sourceChannels") or []
+                ],
+                descriptor=f"level-1:{key}",
+            ),
+        })
     return result
+
+
+def _base_partition_definition(
+    job: dict[str, Any],
+    partition_key: str,
+) -> tuple[str, str, dict[str, Any]]:
+    base_key = str(partition_key).split("::", 1)[0]
+    for item in job.get("passes") or []:
+        if str(item.get("focusKey") or "") == base_key:
+            return (
+                base_key,
+                str(item.get("focusLabel") or base_key),
+                dict(item.get("definition") or {}),
+            )
+    for item in (job.get("plan") or {}).get("focuses") or []:
+        if str(item.get("key") or "") == base_key:
+            return (
+                base_key,
+                str(item.get("label") or base_key),
+                dict(item),
+            )
+    return (
+        base_key,
+        base_key,
+        {
+            "direction": "Search this bounded focus area adversarially.",
+            "coverage": list((job.get("plan") or {}).get("include") or []),
+            "vocabulary": [],
+            "sourceChannels": [],
+        },
+    )
+
+
+def _coverage_for_partition_key(
+    definition: dict[str, Any],
+    partition_key: str,
+) -> list[str]:
+    coverage = [str(item) for item in definition.get("coverage") or []]
+    for segment in str(partition_key).split("::")[1:]:
+        if segment.startswith("coverage-"):
+            try:
+                index = int(segment.removeprefix("coverage-")) - 1
+            except ValueError:
+                continue
+            if 0 <= index < len(coverage):
+                return [coverage[index]]
+    return coverage
+
+
+def _source_channels_for_partition_key(
+    definition: dict[str, Any],
+    partition_key: str,
+) -> list[str]:
+    channels = [str(item) for item in definition.get("sourceChannels") or []]
+    for segment in str(partition_key).split("::")[1:]:
+        if segment.startswith("source-"):
+            try:
+                index = int(segment.removeprefix("source-")) - 1
+            except ValueError:
+                continue
+            if 0 <= index < len(channels):
+                return [channels[index]]
+    return channels
+
+
+def _split_challenger_partition_specs(
+    job: dict[str, Any],
+    researcher: str,
+    candidates: list[dict[str, str]],
+    parent: dict[str, Any],
+) -> list[dict[str, str]]:
+    key = str(parent["key"])
+    depth = key.count("::")
+    base_key, base_label, definition = _base_partition_definition(job, key)
+    coverage = _coverage_for_partition_key(definition, key)
+    vocabulary = [str(item) for item in definition.get("vocabulary") or []]
+    source_channels = _source_channels_for_partition_key(definition, key)
+    direction = str(
+        definition.get("direction")
+        or "Search this bounded focus area adversarially."
+    )
+
+    specs: list[dict[str, str]] = []
+    if depth == 0 and len(coverage) > 1:
+        all_coverage = [str(item) for item in definition.get("coverage") or []]
+        for index, item in enumerate(all_coverage, start=1):
+            child_key = f"{key}::coverage-{index}"
+            child_label = f"{base_label} — {item}"
+            specs.append({
+                "key": child_key,
+                "label": child_label,
+                "assignment": _partition_assignment(
+                    job,
+                    researcher,
+                    candidates,
+                    label=child_label,
+                    direction=direction,
+                    coverage=[item],
+                    vocabulary=vocabulary,
+                    source_channels=source_channels,
+                    descriptor=f"level-{depth + 2}:{child_key}",
+                ),
+            })
+        return specs
+
+    if depth <= 1 and len(source_channels) > 1:
+        for index, channel in enumerate(source_channels, start=1):
+            child_key = f"{key}::source-{index}"
+            child_label = f"{parent['label']} — {channel}"
+            specs.append({
+                "key": child_key,
+                "label": child_label,
+                "assignment": _partition_assignment(
+                    job,
+                    researcher,
+                    candidates,
+                    label=child_label,
+                    direction=direction,
+                    coverage=coverage,
+                    vocabulary=vocabulary,
+                    source_channels=[channel],
+                    descriptor=f"level-{depth + 2}:{child_key}",
+                ),
+            })
+        return specs
+
+    if depth <= 2:
+        ecosystem_slices = [
+            (
+                "public-registry",
+                "Public systems and registries",
+                ["Government agencies, public systems, contracts, grants, registries, and public benefits"],
+            ),
+            (
+                "provider-community",
+                "Provider and community ecosystems",
+                ["Provider, nonprofit, faith, community, peer, and referral-partner primary sources"],
+            ),
+        ]
+        for suffix, title, channels in ecosystem_slices:
+            child_key = f"{key}::ecosystem-{suffix}"
+            child_label = f"{parent['label']} — {title}"
+            specs.append({
+                "key": child_key,
+                "label": child_label,
+                "assignment": _partition_assignment(
+                    job,
+                    researcher,
+                    candidates,
+                    label=child_label,
+                    direction=direction,
+                    coverage=coverage,
+                    vocabulary=vocabulary,
+                    source_channels=channels,
+                    descriptor=f"level-{depth + 2}:{child_key}",
+                ),
+            })
+        return specs
+    return []
+
+
+def _leaf_challenger_partitions(
+    partitions: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    return [item for item in partitions if not bool(item.get("isSplit"))]
+
 
 
 def _merge_partition_results(
