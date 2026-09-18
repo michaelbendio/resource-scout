@@ -140,3 +140,58 @@ python3 -m resource_research_agent.pairwise_challenge \
 Then rerun the Codex primary runner. It will close that category and move to the
 next one. This keeps Codex and Grok in lock-step and prevents Codex from running
 ahead of the challenger.
+
+
+## Fully automated Grok CLI mode
+
+The pairwise runner can now execute Grok directly through xAI's official Grok CLI.
+This avoids browser automation and the manual clipboard handoff.
+
+Install the CLI on macOS if it is not already present:
+
+```bash
+curl -fsSL https://x.ai/cli/install.sh | bash
+```
+
+Authenticate once in an interactive terminal:
+
+```bash
+grok login
+```
+
+The CLI stores refreshable browser-login credentials. Scout performs a tiny
+`GROK_READY` preflight before starting any Codex work so authentication failures
+surface immediately rather than during an unattended run.
+
+For a clean Codex + Grok experiment, use a fresh database and start Scout on the
+pairwise port:
+
+```bash
+python3 -m resource_research_agent \
+  --database data/codex-grok.sqlite3 \
+  serve --port 8766
+```
+
+Import the St. George package, then run:
+
+```bash
+python3 -m resource_research_agent.pairwise_runner \
+  --database data/codex-grok.sqlite3 \
+  --import-id 1 \
+  --profile codex-grok \
+  --max-categories 6
+```
+
+The runner is lock-step and unattended:
+
+1. run one fresh-context Codex pass;
+2. continue until the current category's Codex gap pass closes;
+3. create the Grok challenger assignment;
+4. run a fresh headless Grok CLI session in a strict temporary sandbox;
+5. validate and save Grok's JSON result;
+6. close the category;
+7. continue to the next category.
+
+Each worker has independent retry handling. The Grok runner uses the CLI's current
+default model unless `--grok-model` is supplied. Use `grok models` to inspect
+models available to the authenticated account before overriding it.
