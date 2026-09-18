@@ -245,6 +245,70 @@ class CodexFirstResearchTests(unittest.TestCase):
         self.assertEqual("completed", researchers["Claude"]["status"])
         self.assertEqual("completed", researchers["Grok"]["status"])
 
+    def test_pairwise_primary_waits_for_challenger_before_next_category(self) -> None:
+        root = Path(self.temporary.name)
+        package = root / "pairwise-two-category-resource-package.zip"
+        with zipfile.ZipFile(package, "w") as archive:
+            archive.writestr("tso-resources.json", json.dumps({
+                "resourcePackageSchemaVersion": 3,
+                "packageVersion": 1,
+                "officeName": "Test TSO",
+                "serviceArea": "Test County",
+                "categories": [
+                    {"id": "food", "name": "Food", "filters": []},
+                    {"id": "legal", "name": "Legal", "filters": []},
+                    {"id": "miscellaneous", "name": "Miscellaneous", "filters": []},
+                ],
+                "forGroups": [],
+                "resources": [],
+            }))
+        import_id = self.store.save_import(ResourcePackageImporter(None).read(package))
+        roster = load_researcher_profile("codex-grok")
+        plan = prepare_codex_first_plan(self.store, import_id, roster=roster)
+        first_job_id = plan["categories"][0]["jobId"]
+        second_job_id = plan["categories"][1]["jobId"]
+
+        index = 0
+        while True:
+            assignment = next_codex_first_assignment(
+                self.store, import_id, "Codex", random_source=FixedRandom(5)
+            )
+            if assignment is None:
+                break
+            self.assertEqual(first_job_id, assignment["job"]["id"])
+            research_pass = assignment["researchPass"]
+            save_codex_first_primary_result(
+                self.store,
+                first_job_id,
+                research_pass["focusKey"],
+                response(f"Pairwise Codex Food {index}"),
+            )
+            index += 1
+
+        grok = next_codex_first_assignment(
+            self.store, import_id, "Grok", random_source=FixedRandom(5)
+        )
+        self.assertIsNotNone(grok)
+        self.assertEqual(first_job_id, grok["job"]["id"])
+        self.assertEqual("challenger", grok["kind"])
+
+        blocked = next_codex_first_assignment(
+            self.store, import_id, "Codex", random_source=FixedRandom(5)
+        )
+        self.assertIsNone(blocked)
+
+        save_codex_first_external_result(
+            self.store,
+            grok["externalAssignment"]["id"],
+            response("Pairwise Grok Food"),
+        )
+
+        next_category = next_codex_first_assignment(
+            self.store, import_id, "Codex", random_source=FixedRandom(5)
+        )
+        self.assertIsNotNone(next_category)
+        self.assertEqual(second_job_id, next_category["job"]["id"])
+
     def test_codex_primary_work_skips_a_provider_gated_category(self) -> None:
         root = Path(self.temporary.name)
         package = root / "two-category-resource-package.zip"
