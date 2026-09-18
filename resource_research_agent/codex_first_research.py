@@ -321,7 +321,16 @@ def next_codex_first_assignment(
                     prepare_codex_first_challenges(
                         store, int(job["id"]), random_source=random_source, now=now
                     )
-                    _close_if_ready(store, int(job["id"]))
+                    closed = _close_if_ready(store, int(job["id"]))
+                    roster_version = str(
+                        ((job.get("plan") or {}).get("researcherRoster") or {}).get("version")
+                        or ""
+                    )
+                    if closed is None and roster_version.startswith("pairwise-"):
+                        # Pairwise experiments are intentionally lock-step: do not
+                        # let the primary researcher run into the next category
+                        # until the configured challenger has completed this one.
+                        return None
                     continue
             research_pass = next_focused_research_assignment(store, int(job["id"]))
             return {"kind": "primary", "job": job, "researchPass": research_pass}
