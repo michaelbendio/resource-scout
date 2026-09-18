@@ -481,6 +481,14 @@ class CodexFirstResearchTests(unittest.TestCase):
         self.assertGreaterEqual(len(partitions), 1)
         self.assertTrue(all(item["status"] == "completed" for item in partitions))
         self.assertEqual(1, assignment["leadCount"])
+        view = codex_first_view(store, import_id)
+        grok = next(
+            item for item in view["categories"][0]["researchers"]
+            if item["name"] == "Grok"
+        )
+        self.assertEqual(len(partitions), grok["partitions"]["total"])
+        self.assertEqual(len(partitions), grok["partitions"]["completed"])
+        self.assertIsNone(grok["partitions"]["active"])
 
     def test_pairwise_challenger_timeout_switches_to_partitions(self) -> None:
         database = Path(self.temporary.name) / "adaptive-timeout.sqlite3"
