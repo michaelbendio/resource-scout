@@ -336,19 +336,74 @@ def _claude_preflight(
         )
 
 
+def _normalize_worker_result(value: Any) -> dict[str, Any]:
+    if isinstance(value, str):
+        return {"rawText": value, "usage": {}}
+    if not isinstance(value, dict) or not isinstance(value.get("rawText"), str):
+        raise RuntimeError("Worker returned an unsupported result shape")
+    return {
+        "rawText": str(value["rawText"]),
+        "usage": dict(value.get("usage") or {}),
+    }
+
+
+def _provider_model(
+    provider: str,
+    *,
+    codex_model: str,
+    grok_model: str,
+    claude_model: str,
+) -> dict[str, Any]:
+    if provider == "Codex":
+        return codex_model or "cli-default"
+    if provider == "Grok":
+        return grok_model or "cli-default"
+    if provider == "Claude":
+        return claude_model or "cli-default"
+    return ""
+
+
 def _run_with_retries(
     label: str,
-    action: Callable[[], str],
+    action: Callable[[], Any],
     *,
     retry_count: int,
     context: dict[str, Any],
-) -> str:
+    record_attempt: Callable[..., int] | None = None,
+) -> dict[str, Any]:
     error: Exception | None = None
     for attempt in range(1, retry_count + 2):
+        started = datetime.now(timezone.utc)
+        started_monotonic = time.monotonic()
         try:
-            return action()
+            result = _normalize_worker_result(action())
+            completed = datetime.now(timezone.utc)
+            telemetry_id = None
+            if record_attempt is not None:
+                telemetry_id = record_attempt(
+                    attempt=attempt,
+                    outcome="completed",
+                    started_at=started.isoformat(),
+                    completed_at=completed.isoformat(),
+                    elapsed_ms=round((time.monotonic() - started_monotonic) * 1000),
+                    result=result,
+                    error="",
+                )
+            result["telemetryId"] = telemetry_id
+            return result
         except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as caught:
             error = caught
+            completed = datetime.now(timezone.utc)
+            if record_attempt is not None:
+                record_attempt(
+                    attempt=attempt,
+                    outcome="failed",
+                    started_at=started.isoformat(),
+                    completed_at=completed.isoformat(),
+                    elapsed_ms=round((time.monotonic() - started_monotonic) * 1000),
+                    result=None,
+                    error=str(caught),
+                )
             final_attempt = attempt >= retry_count + 1
             print(json.dumps({
                 "event": "worker-retry" if not final_attempt else "worker-failed",
