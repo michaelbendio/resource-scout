@@ -418,4 +418,5 @@ def codex_first_view(store: ResearchStore, import_id: int) -> dict[str, Any]:
         "totalCategories": len(categories),
         "activeCategory": next((item for item in categories if item["status"] != "completed"), None),
         "categories": categories,
+        "telemetry": store.worker_telemetry_summary(import_id),
     }
