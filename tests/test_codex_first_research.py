@@ -354,37 +354,69 @@ class CodexFirstResearchTests(unittest.TestCase):
         self.assertEqual("completed", saved["status"])
         self.assertEqual(1, saved["leadCount"])
 
-    def test_automated_codex_grok_runner_completes_one_category(self) -> None:
-        with patch(
-            "resource_research_agent.pairwise_runner._run_codex_worker",
-            return_value=response("Automated Codex"),
-        ), patch(
-            "resource_research_agent.pairwise_runner._run_grok_worker",
-            return_value=response("Automated Grok"),
-        ):
-            completed = run_pairwise(
-                self.store,
-                self.import_id,
-                profile="codex-grok",
-                codex_binary="/usr/bin/true",
-                codex_model="test-codex",
-                grok_binary="/usr/bin/true",
-                grok_model="",
-                codex_timeout_seconds=10,
-                grok_timeout_seconds=10,
-                retry_count=0,
-                max_passes=None,
-                max_categories=1,
-                grok_preflight=False,
-            )
+    def test_automated_pairwise_runner_completes_all_three_profiles(self) -> None:
+        profiles = (
+            ("codex-grok", "Codex", "Grok"),
+            ("codex-claude", "Codex", "Claude"),
+            ("claude-grok", "Claude", "Grok"),
+        )
+        for index, (profile, primary, challenger) in enumerate(profiles):
+            with self.subTest(profile=profile):
+                database = Path(self.temporary.name) / f"pairwise-{index}.sqlite3"
+                store = ResearchStore(database)
+                package = Path(self.temporary.name) / f"pairwise-{index}.zip"
+                with zipfile.ZipFile(package, "w") as archive:
+                    archive.writestr("tso-resources.json", json.dumps({
+                        "resourcePackageSchemaVersion": 3,
+                        "packageVersion": 1,
+                        "officeName": "Test TSO",
+                        "serviceArea": "Test County",
+                        "categories": [
+                            {"id": "food", "name": "Food", "filters": []},
+                            {"id": "miscellaneous", "name": "Miscellaneous", "filters": []},
+                        ],
+                        "forGroups": [],
+                        "resources": [],
+                    }))
+                import_id = store.save_import(ResourcePackageImporter(None).read(package))
 
-        self.assertEqual("completed", completed["status"])
-        self.assertEqual(1, completed["completedCategories"])
-        category = completed["categories"][0]
-        researchers = {item["name"]: item for item in category["researchers"]}
-        self.assertEqual("completed", researchers["Codex"]["status"])
-        self.assertEqual("completed", researchers["Grok"]["status"])
-        self.assertEqual(1, researchers["Grok"]["leadCount"])
+                with patch(
+                    "resource_research_agent.pairwise_runner._run_codex_worker",
+                    return_value=response("Automated Codex"),
+                ), patch(
+                    "resource_research_agent.pairwise_runner._run_grok_worker",
+                    return_value=response("Automated Grok"),
+                ), patch(
+                    "resource_research_agent.pairwise_runner._run_claude_worker",
+                    return_value=response("Automated Claude"),
+                ):
+                    completed = run_pairwise(
+                        store,
+                        import_id,
+                        profile=profile,
+                        codex_binary="/usr/bin/true",
+                        codex_model="test-codex",
+                        grok_binary="/usr/bin/true",
+                        grok_model="",
+                        claude_binary="/usr/bin/true",
+                        claude_model="",
+                        codex_timeout_seconds=10,
+                        grok_timeout_seconds=10,
+                        claude_timeout_seconds=10,
+                        claude_max_turns=4,
+                        retry_count=0,
+                        max_passes=None,
+                        max_categories=1,
+                        preflight=False,
+                    )
+
+                self.assertEqual("completed", completed["status"])
+                self.assertEqual(1, completed["completedCategories"])
+                category = completed["categories"][0]
+                researchers = {item["name"]: item for item in category["researchers"]}
+                self.assertEqual("completed", researchers[primary]["status"])
+                self.assertEqual("completed", researchers[challenger]["status"])
+                self.assertEqual(1, researchers[challenger]["leadCount"])
 
     def test_codex_primary_work_skips_a_provider_gated_category(self) -> None:
         root = Path(self.temporary.name)
