@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
 import subprocess
 import tempfile
+import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from .codex_first_research import (
     codex_first_view,
@@ -23,39 +25,30 @@ SCHEMA_PATH = Path(__file__).with_name("codex_replay_response.schema.json")
 DEFAULT_CODEX_MODEL = "gpt-5.5"
 
 
-def _codex_prompt(assignment: dict[str, Any]) -> str:
-    research_pass = assignment["researchPass"]
+def _research_prompt(
+    assignment_text: str,
+    researcher: str,
+    role: str,
+) -> str:
     return "\n".join([
-        "You are the fresh-context Codex primary researcher for Resource Scout.",
-        "Research only the assignment below using live web search.",
-        "Do not inspect local project files, the Scout database, prior sessions, or Scout APIs.",
-        "Do not ask the user questions.",
-        "Return only the JSON object required by the supplied output schema.",
-        "Use empty strings for facts you cannot verify; do not invent them.",
-        "",
-        str(research_pass["assignment"]),
-    ])
-
-
-def _grok_prompt(assignment: dict[str, Any]) -> str:
-    external = assignment["externalAssignment"]
-    return "\n".join([
-        "You are the fresh-context Grok challenger for Resource Scout.",
+        f"You are the fresh-context {researcher} {role} researcher for Resource Scout.",
         "Research only the assignment below using live web research.",
+        "Search broadly and verify consequential claims with authoritative sources.",
         "Do not inspect local project files, the Scout database, prior sessions, or Scout APIs.",
         "Do not modify files, send messages, contact providers, or take external actions.",
         "Do not ask the user questions.",
         "Return exactly one JSON object with a leads array and no markdown fences or commentary.",
         "Every lead must contain organization, program, website, phone, address, leadType, "
         "locationOrServiceArea, whyRelevant, and uncertainty as text fields.",
+        "leadType must be one of program, provider-organization, access-point, routing-source, or directory.",
         "Use empty strings for facts you cannot verify; do not invent them.",
         "",
-        str(external["assignment"]),
+        assignment_text,
     ])
 
 
 def _run_codex_worker(
-    assignment: dict[str, Any],
+    assignment_text: str,
     *,
     codex_binary: str,
     model: str,
@@ -75,12 +68,13 @@ def _run_codex_worker(
             "--cd", directory,
             "--output-schema", str(SCHEMA_PATH),
             "--output-last-message", str(output_path),
-            "--model", model,
-            "-",
         ]
+        if model:
+            command.extend(["--model", model])
+        command.append("-")
         completed = subprocess.run(
             command,
-            input=_codex_prompt(assignment),
+            input=_research_prompt(assignment_text, "Codex", "primary"),
             text=True,
             capture_output=True,
             timeout=timeout_seconds,
@@ -150,17 +144,103 @@ def _run_grok_text(
 
 
 def _run_grok_worker(
-    assignment: dict[str, Any],
+    assignment_text: str,
     *,
+    role: str,
     grok_binary: str,
     model: str,
     timeout_seconds: int,
 ) -> str:
     return _run_grok_text(
-        _grok_prompt(assignment),
+        _research_prompt(assignment_text, "Grok", role),
         grok_binary=grok_binary,
         model=model,
         timeout_seconds=timeout_seconds,
+    )
+
+
+def _claude_command(
+    claude_binary: str,
+    prompt: str,
+    *,
+    model: str,
+    max_turns: int,
+) -> list[str]:
+    command = [
+        claude_binary,
+        "-p", prompt,
+        "--output-format", "json",
+        "--max-turns", str(max_turns),
+        "--allowedTools", "WebSearch,WebFetch",
+    ]
+    if model:
+        command.extend(["--model", model])
+    return command
+
+
+def _run_claude_text(
+    prompt: str,
+    *,
+    claude_binary: str,
+    model: str,
+    timeout_seconds: int,
+    max_turns: int,
+) -> str:
+    with tempfile.TemporaryDirectory(prefix="scout-pairwise-claude-") as directory:
+        env = dict(os.environ)
+        env["DISABLE_AUTOUPDATER"] = "1"
+        completed = subprocess.run(
+            _claude_command(
+                claude_binary,
+                prompt,
+                model=model,
+                max_turns=max_turns,
+            ),
+            cwd=directory,
+            env=env,
+            text=True,
+            capture_output=True,
+            timeout=timeout_seconds,
+            check=False,
+        )
+        if completed.returncode:
+            detail = (completed.stderr or completed.stdout).strip()
+            raise RuntimeError(
+                f"Fresh Claude worker exited {completed.returncode}: {detail[-3000:]}"
+            )
+        try:
+            envelope = json.loads(completed.stdout)
+        except json.JSONDecodeError as error:
+            raise RuntimeError(
+                "Fresh Claude worker did not return its JSON envelope: "
+                + completed.stdout[-2000:]
+            ) from error
+        if envelope.get("is_error"):
+            raise RuntimeError(
+                "Fresh Claude worker reported an error: "
+                + str(envelope.get("result") or envelope)[-2000:]
+            )
+        raw = str(envelope.get("result") or "").strip()
+        if not raw:
+            raise RuntimeError("Fresh Claude worker returned no result text")
+        return raw
+
+
+def _run_claude_worker(
+    assignment_text: str,
+    *,
+    role: str,
+    claude_binary: str,
+    model: str,
+    timeout_seconds: int,
+    max_turns: int,
+) -> str:
+    return _run_claude_text(
+        _research_prompt(assignment_text, "Claude", role),
+        claude_binary=claude_binary,
+        model=model,
+        timeout_seconds=timeout_seconds,
+        max_turns=max_turns,
     )
 
 
@@ -182,9 +262,29 @@ def _grok_preflight(
         )
 
 
+def _claude_preflight(
+    *,
+    claude_binary: str,
+    model: str,
+    timeout_seconds: int,
+    max_turns: int,
+) -> None:
+    raw = _run_claude_text(
+        "Use WebSearch once to search for Anthropic, then return exactly CLAUDE_WEB_READY and nothing else.",
+        claude_binary=claude_binary,
+        model=model,
+        timeout_seconds=min(timeout_seconds, 180),
+        max_turns=max(3, min(max_turns, 5)),
+    )
+    if raw.strip() != "CLAUDE_WEB_READY":
+        raise RuntimeError(
+            "Claude CLI preflight returned an unexpected response: " + raw[:500]
+        )
+
+
 def _run_with_retries(
     label: str,
-    action: Any,
+    action: Callable[[], str],
     *,
     retry_count: int,
     context: dict[str, Any],
@@ -192,18 +292,68 @@ def _run_with_retries(
     error: Exception | None = None
     for attempt in range(1, retry_count + 2):
         try:
-            return str(action())
+            return action()
         except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as caught:
             error = caught
+            final_attempt = attempt >= retry_count + 1
             print(json.dumps({
-                "event": "worker-retry",
+                "event": "worker-retry" if not final_attempt else "worker-failed",
                 "worker": label,
                 "attempt": attempt,
                 "error": str(caught),
                 **context,
             }, ensure_ascii=False), flush=True)
+            if not final_attempt:
+                time.sleep(min(60, 5 * (2 ** (attempt - 1))))
     assert error is not None
     raise error
+
+
+def _binary_available(value: str) -> bool:
+    return bool(shutil.which(value) or Path(value).exists())
+
+
+def _run_provider(
+    provider: str,
+    assignment_text: str,
+    *,
+    role: str,
+    codex_binary: str,
+    codex_model: str,
+    grok_binary: str,
+    grok_model: str,
+    claude_binary: str,
+    claude_model: str,
+    codex_timeout_seconds: int,
+    grok_timeout_seconds: int,
+    claude_timeout_seconds: int,
+    claude_max_turns: int,
+) -> str:
+    if provider == "Codex":
+        return _run_codex_worker(
+            assignment_text,
+            codex_binary=codex_binary,
+            model=codex_model,
+            timeout_seconds=codex_timeout_seconds,
+        )
+    if provider == "Grok":
+        return _run_grok_worker(
+            assignment_text,
+            role=role,
+            grok_binary=grok_binary,
+            model=grok_model,
+            timeout_seconds=grok_timeout_seconds,
+        )
+    if provider == "Claude":
+        return _run_claude_worker(
+            assignment_text,
+            role=role,
+            claude_binary=claude_binary,
+            model=claude_model,
+            timeout_seconds=claude_timeout_seconds,
+            max_turns=claude_max_turns,
+        )
+    raise ValueError(f"Unsupported automated researcher: {provider}")
 
 
 def run_pairwise(
@@ -215,57 +365,68 @@ def run_pairwise(
     codex_model: str,
     grok_binary: str,
     grok_model: str,
+    claude_binary: str,
+    claude_model: str,
     codex_timeout_seconds: int,
     grok_timeout_seconds: int,
+    claude_timeout_seconds: int,
+    claude_max_turns: int,
     retry_count: int,
     max_passes: int | None,
     max_categories: int | None,
-    grok_preflight: bool = True,
+    preflight: bool = True,
 ) -> dict[str, Any]:
     roster = load_researcher_profile(profile)
     primary = next(
-        item["name"]
+        str(item["name"])
         for item in roster["researchers"]
         if item["role"] == "primary"
     )
     challengers = [
-        item["name"]
+        str(item["name"])
         for item in roster["researchers"]
         if item["role"] == "challenger"
     ]
-    if primary != "Codex" or challengers != ["Grok"]:
-        raise ValueError(
-            "The automated pairwise runner currently supports only codex-grok"
-        )
+    if len(challengers) != 1:
+        raise ValueError("Automated pairwise profiles require exactly one challenger")
+    challenger = challengers[0]
+    enabled = {primary, challenger}
 
-    if not shutil.which(codex_binary) and not Path(codex_binary).exists():
-        raise RuntimeError(f"Codex binary not found: {codex_binary}")
-    if not shutil.which(grok_binary) and not Path(grok_binary).exists():
-        raise RuntimeError(
-            "Grok CLI not found. Install it from xAI, run grok login, "
-            "then restart the pairwise runner."
-        )
+    binaries = {
+        "Codex": codex_binary,
+        "Grok": grok_binary,
+        "Claude": claude_binary,
+    }
+    for provider in enabled:
+        if not _binary_available(binaries[provider]):
+            raise RuntimeError(
+                f"{provider} CLI not found: {binaries[provider]}"
+            )
 
-    if grok_preflight:
-        print(json.dumps({
-            "event": "grok-preflight-started",
-            "profile": profile,
-        }), flush=True)
-        _grok_preflight(
-            grok_binary=grok_binary,
-            model=grok_model,
-            timeout_seconds=grok_timeout_seconds,
-        )
-        print(json.dumps({
-            "event": "grok-preflight-completed",
-            "profile": profile,
-        }), flush=True)
+    if preflight:
+        if "Grok" in enabled:
+            print(json.dumps({"event": "grok-preflight-started", "profile": profile}), flush=True)
+            _grok_preflight(
+                grok_binary=grok_binary,
+                model=grok_model,
+                timeout_seconds=grok_timeout_seconds,
+            )
+            print(json.dumps({"event": "grok-preflight-completed", "profile": profile}), flush=True)
+        if "Claude" in enabled:
+            print(json.dumps({"event": "claude-preflight-started", "profile": profile}), flush=True)
+            _claude_preflight(
+                claude_binary=claude_binary,
+                model=claude_model,
+                timeout_seconds=claude_timeout_seconds,
+                max_turns=claude_max_turns,
+            )
+            print(json.dumps({"event": "claude-preflight-completed", "profile": profile}), flush=True)
 
     prepare_codex_first_plan(store, import_id, roster=roster)
     starting_view = codex_first_view(store, import_id)
     starting_completed_categories = int(starting_view["completedCategories"])
-    codex_passes_this_run = 0
-    grok_challenges_this_run = 0
+    primary_passes_this_run = 0
+    challenger_runs_this_run = 0
 
     while True:
         view = codex_first_view(store, import_id)
@@ -274,31 +435,43 @@ def run_pairwise(
         )
         if max_categories is not None and completed_this_run >= max_categories:
             break
-        if max_passes is not None and codex_passes_this_run >= max_passes:
+        if max_passes is not None and primary_passes_this_run >= max_passes:
             break
 
-        primary_assignment = next_codex_first_assignment(store, import_id, "Codex")
+        primary_assignment = next_codex_first_assignment(store, import_id, primary)
         if primary_assignment is not None:
             research_pass = primary_assignment["researchPass"]
             category = str(primary_assignment["job"]["categoryLabel"])
             focus_key = str(research_pass["focusKey"])
+            assignment_text = str(research_pass["assignment"])
             print(json.dumps({
-                "event": "codex-pass-started",
+                "event": "primary-pass-started",
+                "profile": profile,
+                "researcher": primary,
                 "category": category,
                 "focusKey": focus_key,
                 "passKind": str(research_pass.get("passKind") or ""),
-                "codexPassesThisRun": codex_passes_this_run,
+                "primaryPassesThisRun": primary_passes_this_run,
             }, ensure_ascii=False), flush=True)
             raw = _run_with_retries(
-                "Codex",
-                lambda: _run_codex_worker(
-                    primary_assignment,
+                primary,
+                lambda: _run_provider(
+                    primary,
+                    assignment_text,
+                    role="primary",
                     codex_binary=codex_binary,
-                    model=codex_model,
-                    timeout_seconds=codex_timeout_seconds,
+                    codex_model=codex_model,
+                    grok_binary=grok_binary,
+                    grok_model=grok_model,
+                    claude_binary=claude_binary,
+                    claude_model=claude_model,
+                    codex_timeout_seconds=codex_timeout_seconds,
+                    grok_timeout_seconds=grok_timeout_seconds,
+                    claude_timeout_seconds=claude_timeout_seconds,
+                    claude_max_turns=claude_max_turns,
                 ),
                 retry_count=retry_count,
-                context={"category": category, "focusKey": focus_key},
+                context={"profile": profile, "category": category, "focusKey": focus_key},
             )
             save_codex_first_primary_result(
                 store,
@@ -306,52 +479,71 @@ def run_pairwise(
                 focus_key,
                 raw,
             )
-            codex_passes_this_run += 1
+            primary_passes_this_run += 1
             view = codex_first_view(store, import_id)
             print(json.dumps({
-                "event": "codex-pass-completed",
+                "event": "primary-pass-completed",
+                "profile": profile,
+                "researcher": primary,
                 "category": category,
                 "focusKey": focus_key,
-                "codexPassesThisRun": codex_passes_this_run,
+                "primaryPassesThisRun": primary_passes_this_run,
                 "completedCategories": view["completedCategories"],
                 "totalCategories": view["totalCategories"],
             }, ensure_ascii=False), flush=True)
             continue
 
-        grok_assignment = next_codex_first_assignment(store, import_id, "Grok")
-        if grok_assignment is not None:
-            external = grok_assignment["externalAssignment"]
-            category = str(grok_assignment["job"]["categoryLabel"])
+        challenger_assignment = next_codex_first_assignment(
+            store, import_id, challenger
+        )
+        if challenger_assignment is not None:
+            external = challenger_assignment["externalAssignment"]
+            category = str(challenger_assignment["job"]["categoryLabel"])
             assignment_id = int(external["id"])
+            assignment_text = str(external["assignment"])
             print(json.dumps({
-                "event": "grok-challenge-started",
+                "event": "challenger-started",
+                "profile": profile,
+                "researcher": challenger,
                 "category": category,
                 "assignmentId": assignment_id,
-                "grokChallengesThisRun": grok_challenges_this_run,
+                "challengerRunsThisRun": challenger_runs_this_run,
             }, ensure_ascii=False), flush=True)
             raw = _run_with_retries(
-                "Grok",
-                lambda: _run_grok_worker(
-                    grok_assignment,
+                challenger,
+                lambda: _run_provider(
+                    challenger,
+                    assignment_text,
+                    role="challenger",
+                    codex_binary=codex_binary,
+                    codex_model=codex_model,
                     grok_binary=grok_binary,
-                    model=grok_model,
-                    timeout_seconds=grok_timeout_seconds,
+                    grok_model=grok_model,
+                    claude_binary=claude_binary,
+                    claude_model=claude_model,
+                    codex_timeout_seconds=codex_timeout_seconds,
+                    grok_timeout_seconds=grok_timeout_seconds,
+                    claude_timeout_seconds=claude_timeout_seconds,
+                    claude_max_turns=claude_max_turns,
                 ),
                 retry_count=retry_count,
                 context={
+                    "profile": profile,
                     "category": category,
                     "assignmentId": assignment_id,
                 },
             )
             saved = save_codex_first_external_result(store, assignment_id, raw)
-            grok_challenges_this_run += 1
+            challenger_runs_this_run += 1
             view = codex_first_view(store, import_id)
             print(json.dumps({
-                "event": "grok-challenge-completed",
+                "event": "challenger-completed",
+                "profile": profile,
+                "researcher": challenger,
                 "category": category,
                 "assignmentId": assignment_id,
                 "leadCount": int(saved["leadCount"]),
-                "grokChallengesThisRun": grok_challenges_this_run,
+                "challengerRunsThisRun": challenger_runs_this_run,
                 "completedCategories": view["completedCategories"],
                 "totalCategories": view["totalCategories"],
             }, ensure_ascii=False), flush=True)
@@ -363,43 +555,49 @@ def run_pairwise(
     print(json.dumps({
         "event": "pairwise-run-stopped",
         "profile": profile,
+        "primary": primary,
+        "challenger": challenger,
         "status": view["status"],
         "completedCategories": view["completedCategories"],
         "totalCategories": view["totalCategories"],
-        "codexPassesThisRun": codex_passes_this_run,
-        "grokChallengesThisRun": grok_challenges_this_run,
+        "primaryPassesThisRun": primary_passes_this_run,
+        "challengerRunsThisRun": challenger_runs_this_run,
     }, ensure_ascii=False), flush=True)
     return view
 
 
 def parser() -> argparse.ArgumentParser:
     value = argparse.ArgumentParser(
-        description="Run lock-step Codex + Grok Resource Scout research"
+        description="Run one lock-step Resource Scout pairwise research condition"
     )
     value.add_argument("--database", default="data/research-agent.sqlite3")
     value.add_argument("--import-id", type=int)
-    value.add_argument("--profile", default="codex-grok", choices=("codex-grok",))
+    value.add_argument(
+        "--profile",
+        default="codex-grok",
+        choices=("codex-grok", "codex-claude", "claude-grok"),
+    )
     value.add_argument("--codex-binary", default=shutil.which("codex") or "codex")
     value.add_argument("--codex-model", default=DEFAULT_CODEX_MODEL)
     value.add_argument("--grok-binary", default=shutil.which("grok") or "grok")
-    value.add_argument(
-        "--grok-model",
-        default="",
-        help="Optional Grok model override; blank uses the CLI default",
-    )
+    value.add_argument("--grok-model", default="")
+    value.add_argument("--claude-binary", default=shutil.which("claude") or "claude")
+    value.add_argument("--claude-model", default="")
     value.add_argument("--codex-timeout-seconds", type=int, default=1800)
     value.add_argument("--grok-timeout-seconds", type=int, default=1800)
-    value.add_argument("--retry-count", type=int, default=2)
+    value.add_argument("--claude-timeout-seconds", type=int, default=1800)
+    value.add_argument("--claude-max-turns", type=int, default=24)
+    value.add_argument("--retry-count", type=int, default=3)
     value.add_argument("--max-passes", type=int)
     value.add_argument(
         "--max-categories",
         type=int,
-        help="Stop after this many fully completed Codex+Grok categories",
+        help="Stop after this many fully completed pairwise categories",
     )
     value.add_argument(
-        "--skip-grok-preflight",
+        "--skip-preflight",
         action="store_true",
-        help="Skip the small Grok authentication/readiness probe",
+        help="Skip provider authentication/readiness probes",
     )
     return value
 
@@ -418,12 +616,16 @@ def main(argv: list[str] | None = None) -> int:
         codex_model=args.codex_model,
         grok_binary=args.grok_binary,
         grok_model=args.grok_model,
+        claude_binary=args.claude_binary,
+        claude_model=args.claude_model,
         codex_timeout_seconds=args.codex_timeout_seconds,
         grok_timeout_seconds=args.grok_timeout_seconds,
+        claude_timeout_seconds=args.claude_timeout_seconds,
+        claude_max_turns=args.claude_max_turns,
         retry_count=args.retry_count,
         max_passes=args.max_passes,
         max_categories=args.max_categories,
-        grok_preflight=not args.skip_grok_preflight,
+        preflight=not args.skip_preflight,
     )
     return 0
 
