@@ -23,6 +23,31 @@ Addiction, Children/Pregnancy, Clothing/Household, Disability, Domestic Violence
 
 Do not run category 7 or the full 21-category St. George production run until the six-category architecture review is complete.
 
+## Live diagnosis: September 18, 2026, 11:42 a.m. MDT
+
+Claude+Grok runner PID 95414 was interrupted after confirming that Grok was
+repeatedly receiving HTTP 401 responses, not making research progress. Its child
+exited as well; the experiment database and all saved primary results remain intact.
+A new `grok login` was started and is awaiting user browser authorization.
+Verify authentication and live processes before resuming from the existing database.
+Do not use `--skip-preflight` for the first resume after this incident.
+
+Evidence: `~/.grok/logs/unified.jsonl` records `shell.turn.inference_failed`
+with `kind=auth`, expired/invalid credentials, and repeated inability to open
+`~/.grok/auth.json.lock` (`Operation not permitted`) from strict-sandbox workers.
+The same failures occur in the 15:18–15:48 UTC monolithic attempt and the
+16:31, 17:03, and 17:18 UTC partition attempts. The 17:33 UTC worker also
+remained in authentication resubmission loops without completing a leaf.
+At interruption, 12 active leaves remained pending and none had completed.
+
+Interpretation correction: these timeouts are confounded by authentication and
+sandbox credential-refresh failure. They do not establish a task-size problem or
+model-quality failure. Preserve the recursive partition history, but distinguish
+authentication downtime from active research in the architecture analysis.
+Recursive splitting exists and ran; successful research recovery remains unproven.
+A durable fix must prevent authentication failures from triggering further splits
+and support credential refresh without weakening research isolation.
+
 ## Claude+Grok adaptive challenger work
 
 Last known important state:
