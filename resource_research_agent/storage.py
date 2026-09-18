@@ -1505,7 +1505,7 @@ class ResearchStore:
                 "elapsedMs": 0,
                 "leadCount": 0,
                 "responseBytes": 0,
-                "claudeTurns": 0,
+                "turnCount": 0,
                 "webSearchRequests": 0,
             })
             item["attempts"] += 1
@@ -1515,13 +1515,19 @@ class ResearchStore:
             item["leadCount"] += int(row["leadCount"] or 0)
             item["responseBytes"] += int(row["responseBytes"] or 0)
             usage = row.get("usage") or {}
-            item["claudeTurns"] += int(usage.get("numTurns") or 0)
+            item["turnCount"] += int(usage.get("numTurns") or 0)
             item["webSearchRequests"] += int(usage.get("webSearchRequests") or 0)
+        provider_values = [providers[name] for name in sorted(providers)]
+        for item in provider_values:
+            elapsed_minutes = item["elapsedMs"] / 60000
+            item["elapsedMinutes"] = round(elapsed_minutes, 3)
+            item["leadsPerActiveMinute"] = (
+                round(item["leadCount"] / elapsed_minutes, 3)
+                if elapsed_minutes > 0 else None
+            )
         return {
             "attemptCount": len(rows),
-            "providers": [
-                providers[name] for name in sorted(providers)
-            ],
+            "providers": provider_values,
         }
 
     def create_manual_discovery_run(
