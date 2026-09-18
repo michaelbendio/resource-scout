@@ -4,7 +4,9 @@ import json
 import tempfile
 import unittest
 import zipfile
+from contextlib import contextmanager
 from pathlib import Path
+from unittest.mock import patch
 
 from resource_research_agent.importer import ResourcePackageImporter
 from resource_research_agent.manual_consolidation import (
@@ -67,6 +69,31 @@ class ManualConsolidationTests(unittest.TestCase):
             target_category_id="addiction",
             target_category_label="Addiction",
         )
+
+    def test_finish_large_union_survives_sqlite_page_cache_spill(self) -> None:
+        run_id = self.create_run()
+        self.store.save_manual_contribution(run_id, "many sources", payload(*[
+            lead(f"Provider {i}", f"Program {i}", website=f"https://provider{i}.example/", why="Evidence " * 1000)
+            for i in range(20)
+        ]))
+        snapshot = consolidate_manual_discovery(self.store, run_id)
+        if any(item["status"] == "pending" for item in snapshot["suggestions"]):
+            leave_pending_manual_identities_unresolved(self.store, run_id)
+        original_connect = self.store.connect
+
+        @contextmanager
+        def small_cache():
+            with original_connect() as connection:
+                connection.execute("PRAGMA cache_size=4")
+                connection.execute("PRAGMA busy_timeout=50")
+                yield connection
+
+        with patch.object(self.store, "connect", small_cache):
+            finish_manual_discovery(self.store, run_id)
+        run = self.store.get_run(run_id)
+        self.assertEqual("completed", run["status"])
+        with self.store.connect() as connection:
+            self.assertEqual(20, connection.execute("SELECT COUNT(*) FROM discoveries WHERE run_id=?", (run_id,)).fetchone()[0])
 
     def save_pilot(self, run_id: int, store: ResearchStore | None = None, reverse: bool = False) -> None:
         active_store = store or self.store

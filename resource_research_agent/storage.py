@@ -2920,6 +2920,9 @@ class ResearchStore:
             ).fetchone()
             if existing:
                 raise ValueError("This manual discovery run already has candidate records")
+            # Read before writes can spill the page cache and take an exclusive
+            # SQLite lock. A second connection cannot read through our own lock.
+            progress = self.manual_discovery_progress(run_id)
             for item in candidates:
                 candidate = item["candidate"]
                 match = item.get("match")
@@ -2952,7 +2955,7 @@ class ResearchStore:
             )
             result = {
                 "summary": summary,
-                "manualDiscoveryProgress": self.manual_discovery_progress(run_id),
+                "manualDiscoveryProgress": progress,
                 "manualDiscoveryFunnel": funnel,
                 "candidateCount": len(candidates),
             }

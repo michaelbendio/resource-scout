@@ -1,0 +1,302 @@
+{
+  "reviewedAt": "2026-09-18T22:02:08.191822+00:00",
+  "status": "all three six-category conditions complete",
+  "limits": [
+    "No completed curation: accepted identities and accepted-rate metrics are unknown.",
+    "Exact name pairs are candidate string fingerprints, not resolved service identities.",
+    "Shared organization does not imply duplicate program. Shared domain does not imply duplicate provider.",
+    "Assignment time windows include pauses/retries; not interchangeable with active inference time.",
+    "Missing telemetry is unknown, not zero. Legacy zero search counters may represent missing metadata.",
+    "Comparison includes different primary results, wrapper ceilings, authentication failures and staggered restarts.",
+    "Only savedResultMatched sessions are usable as recovered successful execution observations.",
+    "Transcript elapsed time excludes process startup and completion overhead; it is not pure inference time.",
+    "Assistant messages and tool invocations are not interchangeable with provider num_turns or billed web-search requests.",
+    "Tool invocation counts include requested calls; explicit tool-result errors are listed separately.",
+    "Unmatched sessions may be failures, preliminary replays or active calls; do not label them failures without separate evidence."
+  ],
+  "conditions": [
+    {
+      "profile": "codex-grok",
+      "sourceDatabaseSha256": "9435f9862e6d6fb95e687a1eab55929264839832da38ccff60eac25fff671089",
+      "baselineLogicalSha256": "fbab7d779f2d30949c18ba0dc0afac2c2fdbde6f63b5b7faafd762fbc1b02819",
+      "counts": {
+        "primary": 376,
+        "challenger": 97,
+        "total": 473
+      },
+      "categoryElapsedMinutes": 91.11891238333334,
+      "successfulPrimaryMinutesEstimate": 61.72708023333334,
+      "successfulChallengerMinutesEstimate": 29.330426866666667,
+      "successfulTotalMinutesEstimate": 91.05750710000001,
+      "timeBasis": {
+        "primary": "uninterrupted database assignment windows",
+        "challenger": "uninterrupted database assignment windows"
+      },
+      "rawLeadsPerSuccessfulMinuteEstimate": 5.194519541157084,
+      "rawChallengerLeadsPerAdditionalMinuteEstimate": 3.307145867359953,
+      "narrativeWords": 28669,
+      "medianNarrativeWordsPerLead": 59,
+      "nativeClaude": null,
+      "nativeGrokTurns": null,
+      "originalTurnLimitFailures": 0,
+      "originalTurnLimitFailureMinutes": 0.0,
+      "acceptedUniqueIdentities": null,
+      "marginalAcceptedChallengerIdentities": null,
+      "acceptedIdentitiesPerActiveMinute": null,
+      "marginalAcceptedIdentitiesPerAdditionalMinute": null,
+      "curatorMinutes": null,
+      "categories": [
+        {
+          "category": "Addiction",
+          "primaryLeads": 56,
+          "challengerLeads": 11,
+          "categoryElapsedMinutes": 14.235797999999999,
+          "successfulPrimaryMinutesEstimate": 9.442288450000001,
+          "successfulChallengerMinutesEstimate": 4.784527616666667,
+          "challengerAssignmentCharacters": 9794
+        },
+        {
+          "category": "Children/Pregnancy",
+          "primaryLeads": 73,
+          "challengerLeads": 20,
+          "categoryElapsedMinutes": 14.560968133333335,
+          "successfulPrimaryMinutesEstimate": 9.877018583333333,
+          "successfulChallengerMinutesEstimate": 4.672589400000001,
+          "challengerAssignmentCharacters": 11344
+        },
+        {
+          "category": "Clothing/Household",
+          "primaryLeads": 40,
+          "challengerLeads": 8,
+          "categoryElapsedMinutes": 17.5096479,
+          "successfulPrimaryMinutesEstimate": 12.078417,
+          "successfulChallengerMinutesEstimate": 5.420798716666667,
+          "challengerAssignmentCharacters": 7314
+        },
+        {
+          "category": "Disability",
+          "primaryLeads": 79,
+          "challengerLeads": 21,
+          "categoryElapsedMinutes": 15.805611833333334,
+          "successfulPrimaryMinutesEstimate": 10.702645749999999,
+          "successfulChallengerMinutesEstimate": 5.092933933333333,
+          "challengerAssignmentCharacters": 12165
+        },
+        {
+          "category": "Domestic Violence",
+          "primaryLeads": 61,
+          "challengerLeads": 17,
+          "categoryElapsedMinutes": 15.340865383333332,
+          "successfulPrimaryMinutesEstimate": 10.127434216666668,
+          "successfulChallengerMinutesEstimate": 5.20250595,
+          "challengerAssignmentCharacters": 9738
+        },
+        {
+          "category": "Education",
+          "primaryLeads": 67,
+          "challengerLeads": 20,
+          "categoryElapsedMinutes": 13.666021133333334,
+          "successfulPrimaryMinutesEstimate": 9.499276233333335,
+          "successfulChallengerMinutesEstimate": 4.1570712499999996,
+          "challengerAssignmentCharacters": 10790
+        }
+      ]
+    },
+    {
+      "profile": "codex-claude",
+      "sourceDatabaseSha256": "ff46c06dae2431cf30578088ecb80275aaf0389e433367128b983440e629337b",
+      "baselineLogicalSha256": "fbab7d779f2d30949c18ba0dc0afac2c2fdbde6f63b5b7faafd762fbc1b02819",
+      "counts": {
+        "primary": 410,
+        "challenger": 157,
+        "total": 567
+      },
+      "categoryElapsedMinutes": 488.10374500000006,
+      "successfulPrimaryMinutesEstimate": 63.91820141666667,
+      "successfulChallengerMinutesEstimate": 63.41321666666667,
+      "successfulTotalMinutesEstimate": 127.33141808333333,
+      "timeBasis": {
+        "primary": "uninterrupted database assignment windows",
+        "challenger": "matched Claude transcript duration"
+      },
+      "rawLeadsPerSuccessfulMinuteEstimate": 4.452946558946835,
+      "rawChallengerLeadsPerAdditionalMinuteEstimate": 2.4758245717966783,
+      "narrativeWords": 44720,
+      "medianNarrativeWordsPerLead": 62,
+      "nativeClaude": {
+        "matchedSuccessfulCalls": 6,
+        "assistantMessages": 162,
+        "toolInvocations": {
+          "ToolSearch": 6,
+          "WebSearch": 274,
+          "WebFetch": 96
+        },
+        "explicitToolErrors": {
+          "WebFetch": 1
+        }
+      },
+      "nativeGrokTurns": null,
+      "originalTurnLimitFailures": 4,
+      "originalTurnLimitFailureMinutes": 19.51268333333333,
+      "acceptedUniqueIdentities": null,
+      "marginalAcceptedChallengerIdentities": null,
+      "acceptedIdentitiesPerActiveMinute": null,
+      "marginalAcceptedIdentitiesPerAdditionalMinute": null,
+      "curatorMinutes": null,
+      "categories": [
+        {
+          "category": "Addiction",
+          "primaryLeads": 66,
+          "challengerLeads": 16,
+          "categoryElapsedMinutes": 379.50987728333337,
+          "successfulPrimaryMinutesEstimate": 9.7836648,
+          "successfulChallengerMinutesEstimate": 9.095483333333334,
+          "challengerAssignmentCharacters": 10353
+        },
+        {
+          "category": "Children/Pregnancy",
+          "primaryLeads": 81,
+          "challengerLeads": 27,
+          "categoryElapsedMinutes": 20.057929466666668,
+          "successfulPrimaryMinutesEstimate": 10.823906666666666,
+          "successfulChallengerMinutesEstimate": 9.203783333333332,
+          "challengerAssignmentCharacters": 12381
+        },
+        {
+          "category": "Clothing/Household",
+          "primaryLeads": 43,
+          "challengerLeads": 17,
+          "categoryElapsedMinutes": 23.444864733333336,
+          "successfulPrimaryMinutesEstimate": 11.925769566666668,
+          "successfulChallengerMinutesEstimate": 11.49225,
+          "challengerAssignmentCharacters": 7430
+        },
+        {
+          "category": "Disability",
+          "primaryLeads": 83,
+          "challengerLeads": 53,
+          "categoryElapsedMinutes": 27.08946645,
+          "successfulPrimaryMinutesEstimate": 11.752373083333334,
+          "successfulChallengerMinutesEstimate": 15.3036,
+          "challengerAssignmentCharacters": 13542
+        },
+        {
+          "category": "Domestic Violence",
+          "primaryLeads": 64,
+          "challengerLeads": 21,
+          "categoryElapsedMinutes": 18.048204133333336,
+          "successfulPrimaryMinutesEstimate": 9.278018083333333,
+          "successfulChallengerMinutesEstimate": 8.745733333333334,
+          "challengerAssignmentCharacters": 10527
+        },
+        {
+          "category": "Education",
+          "primaryLeads": 73,
+          "challengerLeads": 23,
+          "categoryElapsedMinutes": 19.953402933333333,
+          "successfulPrimaryMinutesEstimate": 10.354469216666667,
+          "successfulChallengerMinutesEstimate": 9.572366666666666,
+          "challengerAssignmentCharacters": 10982
+        }
+      ]
+    },
+    {
+      "profile": "claude-grok",
+      "sourceDatabaseSha256": "715d4571cd21bc4c301e46856899c9c8ce0229c06b8f94b4b763376d8bed7910",
+      "baselineLogicalSha256": "fbab7d779f2d30949c18ba0dc0afac2c2fdbde6f63b5b7faafd762fbc1b02819",
+      "counts": {
+        "primary": 603,
+        "challenger": 95,
+        "total": 698
+      },
+      "categoryElapsedMinutes": 810.3313775833333,
+      "successfulPrimaryMinutesEstimate": 264.3112333333333,
+      "successfulChallengerMinutesEstimate": 31.74566666666667,
+      "successfulTotalMinutesEstimate": 296.0569,
+      "timeBasis": {
+        "primary": "matched Claude transcript duration",
+        "challenger": "per-attempt worker telemetry"
+      },
+      "rawLeadsPerSuccessfulMinuteEstimate": 2.3576548967445112,
+      "rawChallengerLeadsPerAdditionalMinuteEstimate": 2.9925344141457626,
+      "narrativeWords": 64044,
+      "medianNarrativeWordsPerLead": 89.0,
+      "nativeClaude": {
+        "matchedSuccessfulCalls": 31,
+        "assistantMessages": 832,
+        "toolInvocations": {
+          "ToolSearch": 31,
+          "WebSearch": 1084,
+          "WebFetch": 478
+        },
+        "explicitToolErrors": {
+          "WebFetch": 15
+        }
+      },
+      "nativeGrokTurns": 33,
+      "originalTurnLimitFailures": 4,
+      "originalTurnLimitFailureMinutes": 19.421883333333334,
+      "acceptedUniqueIdentities": null,
+      "marginalAcceptedChallengerIdentities": null,
+      "acceptedIdentitiesPerActiveMinute": null,
+      "marginalAcceptedIdentitiesPerAdditionalMinute": null,
+      "curatorMinutes": null,
+      "categories": [
+        {
+          "category": "Addiction",
+          "primaryLeads": 81,
+          "challengerLeads": 15,
+          "categoryElapsedMinutes": 563.4294197666666,
+          "successfulPrimaryMinutesEstimate": 45.7192,
+          "successfulChallengerMinutesEstimate": 3.8718166666666667,
+          "challengerAssignmentCharacters": 16549
+        },
+        {
+          "category": "Children/Pregnancy",
+          "primaryLeads": 125,
+          "challengerLeads": 20,
+          "categoryElapsedMinutes": 49.86393945,
+          "successfulPrimaryMinutesEstimate": 44.50638333333333,
+          "successfulChallengerMinutesEstimate": 5.262766666666667,
+          "challengerAssignmentCharacters": 25545
+        },
+        {
+          "category": "Clothing/Household",
+          "primaryLeads": 59,
+          "challengerLeads": 7,
+          "categoryElapsedMinutes": 50.899173516666664,
+          "successfulPrimaryMinutesEstimate": 45.61181666666666,
+          "successfulChallengerMinutesEstimate": 5.197683333333333,
+          "challengerAssignmentCharacters": 11709
+        },
+        {
+          "category": "Disability",
+          "primaryLeads": 128,
+          "challengerLeads": 17,
+          "categoryElapsedMinutes": 54.85795326666666,
+          "successfulPrimaryMinutesEstimate": 49.2271,
+          "successfulChallengerMinutesEstimate": 5.551616666666666,
+          "challengerAssignmentCharacters": 28706
+        },
+        {
+          "category": "Domestic Violence",
+          "primaryLeads": 102,
+          "challengerLeads": 21,
+          "categoryElapsedMinutes": 45.051555216666664,
+          "successfulPrimaryMinutesEstimate": 38.36335,
+          "successfulChallengerMinutesEstimate": 6.60435,
+          "challengerAssignmentCharacters": 18494
+        },
+        {
+          "category": "Education",
+          "primaryLeads": 108,
+          "challengerLeads": 15,
+          "categoryElapsedMinutes": 46.229336366666665,
+          "successfulPrimaryMinutesEstimate": 40.883383333333335,
+          "successfulChallengerMinutesEstimate": 5.257433333333334,
+          "challengerAssignmentCharacters": 21889
+        }
+      ]
+    }
+  ]
+}

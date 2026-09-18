@@ -10,9 +10,20 @@ import json
 from pathlib import Path
 import re
 import sqlite3
+import sys
 from urllib.parse import urlsplit
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from resource_research_agent.worker_metrics import observed_counter
+
 PROFILES = ('codex-grok', 'codex-claude', 'claude-grok')
+
+def counter_observation(usages, key):
+    values = [observed_counter(usage, key) for usage in usages]
+    known = [value for value in values if value is not None]
+    return {'observedSum': sum(known) if known else None,
+            'knownAttempts': len(known), 'attempts': len(values),
+            'completeSum': sum(known) if values and len(known) == len(values) else None}
 
 def seconds(start, end):
     return (dt.datetime.fromisoformat(end)-dt.datetime.fromisoformat(start)).total_seconds() if start and end else None
@@ -85,16 +96,20 @@ def read_condition(path, limit):
             attempts=[t for t in telemetry if t['provider']==provider]
             successful=[t for t in attempts if t['outcome']=='completed']
             counters=[json.loads(t['usage_json']) for t in successful]
+            turns=counter_observation(counters, 'numTurns')
+            searches=counter_observation(counters, 'webSearchRequests')
             provider_metrics[provider]={
               'successfulAttempts':len(successful),'failedAttempts':len(attempts)-len(successful),
               'successfulWorkerSeconds':sum(t['elapsed_ms'] for t in successful)/1000,
               'failedWorkerSeconds':sum(t['elapsed_ms'] for t in attempts if t['outcome']=='failed')/1000,
-              'observedTurns':sum(u.get('numTurns') or 0 for u in counters) if counters else None,
-              'positiveSearchCountLowerBound':sum(u.get('webSearchRequests') or 0 for u in counters) if counters else None,
+              'observedTurns':turns['observedSum'],
+              'positiveSearchCountLowerBound':searches['observedSum'],
+              'counterCoverage':{'numTurns':turns,'webSearchRequests':searches},
               'successfulModelUsage':[u.get('modelUsage') for u in counters if u.get('modelUsage')]}
         # Legacy extraction converted absent counters to zero. A positive counter is observed;
         # zero cannot establish absence of tools without the underlying provider envelope.
-        positive_search=sum(u.get('webSearchRequests') or 0 for u in usage)
+        turns=counter_observation(usage, 'numTurns')
+        searches=counter_observation(usage, 'webSearchRequests')
         categories.append({'category':job['category_label'],'status':job['status'],'counts':counts,
           'firstPassAssignedAt':min(starts) if starts else None,'completedAt':job['completed_at'],
           'categoryElapsedSeconds':seconds(min(starts),job['completed_at']) if starts else None,
@@ -104,12 +119,14 @@ def read_condition(path, limit):
           'telemetrySuccessfulAttempts':len(known_success),'telemetryFailedAttempts':sum(t['outcome']=='failed' for t in telemetry),
           'telemetrySuccessfulSeconds':sum(t['elapsed_ms'] for t in known_success)/1000,
           'telemetryFailedSeconds':sum(t['elapsed_ms'] for t in telemetry if t['outcome']=='failed')/1000,
-          'reportedTurns':sum(u.get('numTurns') or 0 for u in usage) if usage else None,
-          'reportedPositiveSearchCountLowerBound':positive_search if usage else None,
+          'reportedTurns':turns['observedSum'],
+          'reportedPositiveSearchCountLowerBound':searches['observedSum'],
+          'counterCoverage':{'numTurns':turns,'webSearchRequests':searches},
           'acceptedUniqueIdentities':None,'acceptedIdentitiesPerActiveMinute':None,
           'marginalAcceptedIdentitiesPerAdditionalMinute':None,'curatorMinutes':None,
           'passes':[{k:p[k] for k in ['id','focus_key','pass_kind','status','assigned_at','completed_at','lead_count']} for p in passes],
-          'challengers':[{k:a[k] for k in ['id','researcher','status','created_at','completed_at','lead_count','assignment_sha256']} for a in assignments],
+          'challengers':[{**{k:a[k] for k in ['id','researcher','status','created_at','completed_at','lead_count','assignment_sha256']},
+                          'assignmentCharacters':len(a['assignment'])} for a in assignments],
           'telemetry':telemetry})
         categories[-1]['providerMetrics']=provider_metrics
         all_leads.extend(leads)

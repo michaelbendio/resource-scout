@@ -1,0 +1,354 @@
+{
+  "reviewedAt": "2026-09-18T22:23:00.809110+00:00",
+  "countsAre": "submitted rows, not accepted unique resources",
+  "conditions": {
+    "fiveWorker": {
+      "database": "/Users/michaelbendio/resource-scout-baselines/st-george-20260918-002522/research-agent.sqlite3",
+      "databaseSha256": "82398c38c15fd4818f4d6d23008bf427adf84caf5d8d9d1fef9ac2f5c394134b",
+      "semanticBaselineSha256": "f936df55650dc190afe42765d0e6b8add18588b44f41538f4b37b8c065a978f0",
+      "sourcePackageSha256": "96b808700679db1a14cfd10cf9447eed2f403f4353fc08101735005511c8f292",
+      "submissionRowsIncludingShadow": 412,
+      "narrativeWords": 32050,
+      "medianNarrativeWords": 73.0,
+      "curationJobCount": 0,
+      "categories": [
+        {
+          "category": "Addiction",
+          "counts": {
+            "primary": 25,
+            "challenger": 25,
+            "total": 50,
+            "exactNamePairs": 50,
+            "challengerExactNamePairAdditions": 25,
+            "challengerSameOrganizationRows": 0,
+            "missingWebsiteRows": 0,
+            "uncertaintyRows": 50,
+            "sourceHosts": 42
+          },
+          "includingShadowRows": 61,
+          "bySource": {
+            "Codex": 25,
+            "Grok": 12,
+            "Perplexity": 4,
+            "ChatGPT": 9,
+            "Claude shadow": 11
+          },
+          "categoryElapsedSeconds": 2470.414664,
+          "elapsedThroughShadowSeconds": 2470.414664,
+          "acceptedUniqueIdentities": null,
+          "acceptedIdentitiesPerActiveMinute": null,
+          "marginalAcceptedIdentitiesPerAdditionalMinute": null,
+          "curatorMinutes": null
+        },
+        {
+          "category": "Children/Pregnancy",
+          "counts": {
+            "primary": 24,
+            "challenger": 31,
+            "total": 55,
+            "exactNamePairs": 55,
+            "challengerExactNamePairAdditions": 31,
+            "challengerSameOrganizationRows": 5,
+            "missingWebsiteRows": 0,
+            "uncertaintyRows": 55,
+            "sourceHosts": 36
+          },
+          "includingShadowRows": 80,
+          "bySource": {
+            "Codex": 24,
+            "Perplexity": 8,
+            "Grok": 9,
+            "ChatGPT": 14,
+            "Claude shadow": 25
+          },
+          "categoryElapsedSeconds": 3344.032039,
+          "elapsedThroughShadowSeconds": 3344.032039,
+          "acceptedUniqueIdentities": null,
+          "acceptedIdentitiesPerActiveMinute": null,
+          "marginalAcceptedIdentitiesPerAdditionalMinute": null,
+          "curatorMinutes": null
+        },
+        {
+          "category": "Clothing/Household",
+          "counts": {
+            "primary": 14,
+            "challenger": 16,
+            "total": 30,
+            "exactNamePairs": 29,
+            "challengerExactNamePairAdditions": 15,
+            "challengerSameOrganizationRows": 0,
+            "missingWebsiteRows": 0,
+            "uncertaintyRows": 30,
+            "sourceHosts": 29
+          },
+          "includingShadowRows": 40,
+          "bySource": {
+            "Codex": 14,
+            "Grok": 7,
+            "Perplexity": 3,
+            "ChatGPT": 6,
+            "Claude shadow": 10
+          },
+          "categoryElapsedSeconds": 3133.660594,
+          "elapsedThroughShadowSeconds": 3156.219491,
+          "acceptedUniqueIdentities": null,
+          "acceptedIdentitiesPerActiveMinute": null,
+          "marginalAcceptedIdentitiesPerAdditionalMinute": null,
+          "curatorMinutes": null
+        },
+        {
+          "category": "Disability",
+          "counts": {
+            "primary": 27,
+            "challenger": 36,
+            "total": 63,
+            "exactNamePairs": 63,
+            "challengerExactNamePairAdditions": 36,
+            "challengerSameOrganizationRows": 8,
+            "missingWebsiteRows": 0,
+            "uncertaintyRows": 63,
+            "sourceHosts": 44
+          },
+          "includingShadowRows": 80,
+          "bySource": {
+            "Codex": 27,
+            "Grok": 12,
+            "ChatGPT": 17,
+            "Perplexity": 7,
+            "Claude shadow": 17
+          },
+          "categoryElapsedSeconds": 3057.255107,
+          "elapsedThroughShadowSeconds": 3080.826536,
+          "acceptedUniqueIdentities": null,
+          "acceptedIdentitiesPerActiveMinute": null,
+          "marginalAcceptedIdentitiesPerAdditionalMinute": null,
+          "curatorMinutes": null
+        },
+        {
+          "category": "Domestic Violence",
+          "counts": {
+            "primary": 28,
+            "challenger": 30,
+            "total": 58,
+            "exactNamePairs": 57,
+            "challengerExactNamePairAdditions": 29,
+            "challengerSameOrganizationRows": 2,
+            "missingWebsiteRows": 0,
+            "uncertaintyRows": 58,
+            "sourceHosts": 46
+          },
+          "includingShadowRows": 74,
+          "bySource": {
+            "Codex": 28,
+            "Perplexity": 8,
+            "Grok": 14,
+            "ChatGPT": 8,
+            "Claude shadow": 16
+          },
+          "categoryElapsedSeconds": 2793.949505,
+          "elapsedThroughShadowSeconds": 2848.249474,
+          "acceptedUniqueIdentities": null,
+          "acceptedIdentitiesPerActiveMinute": null,
+          "marginalAcceptedIdentitiesPerAdditionalMinute": null,
+          "curatorMinutes": null
+        },
+        {
+          "category": "Education",
+          "counts": {
+            "primary": 25,
+            "challenger": 29,
+            "total": 54,
+            "exactNamePairs": 54,
+            "challengerExactNamePairAdditions": 29,
+            "challengerSameOrganizationRows": 7,
+            "missingWebsiteRows": 0,
+            "uncertaintyRows": 54,
+            "sourceHosts": 42
+          },
+          "includingShadowRows": 77,
+          "bySource": {
+            "Codex": 25,
+            "ChatGPT": 11,
+            "Grok": 12,
+            "Perplexity": 6,
+            "Claude shadow": 23
+          },
+          "categoryElapsedSeconds": 2867.045311,
+          "elapsedThroughShadowSeconds": 2996.776701,
+          "acceptedUniqueIdentities": null,
+          "acceptedIdentitiesPerActiveMinute": null,
+          "marginalAcceptedIdentitiesPerAdditionalMinute": null,
+          "curatorMinutes": null
+        }
+      ]
+    },
+    "codexGrok": {
+      "database": "/Users/michaelbendio/resource-scout-pairwise/data/pairwise-overnight-20260918-022703/codex-grok.sqlite3",
+      "databaseSha256": "9435f9862e6d6fb95e687a1eab55929264839832da38ccff60eac25fff671089",
+      "semanticBaselineSha256": "f936df55650dc190afe42765d0e6b8add18588b44f41538f4b37b8c065a978f0",
+      "sourcePackageSha256": "96b808700679db1a14cfd10cf9447eed2f403f4353fc08101735005511c8f292",
+      "submissionRowsIncludingShadow": 473,
+      "narrativeWords": 28669,
+      "medianNarrativeWords": 59,
+      "curationJobCount": 0,
+      "categories": [
+        {
+          "category": "Addiction",
+          "counts": {
+            "primary": 56,
+            "challenger": 11,
+            "total": 67,
+            "exactNamePairs": 67,
+            "challengerExactNamePairAdditions": 11,
+            "challengerSameOrganizationRows": 1,
+            "missingWebsiteRows": 0,
+            "uncertaintyRows": 67,
+            "sourceHosts": 55
+          },
+          "includingShadowRows": 67,
+          "bySource": {
+            "Codex": 56,
+            "Grok": 11
+          },
+          "categoryElapsedSeconds": 854.14788,
+          "elapsedThroughShadowSeconds": 854.14788,
+          "acceptedUniqueIdentities": null,
+          "acceptedIdentitiesPerActiveMinute": null,
+          "marginalAcceptedIdentitiesPerAdditionalMinute": null,
+          "curatorMinutes": null
+        },
+        {
+          "category": "Children/Pregnancy",
+          "counts": {
+            "primary": 73,
+            "challenger": 20,
+            "total": 93,
+            "exactNamePairs": 93,
+            "challengerExactNamePairAdditions": 20,
+            "challengerSameOrganizationRows": 5,
+            "missingWebsiteRows": 0,
+            "uncertaintyRows": 93,
+            "sourceHosts": 66
+          },
+          "includingShadowRows": 93,
+          "bySource": {
+            "Codex": 73,
+            "Grok": 20
+          },
+          "categoryElapsedSeconds": 873.658088,
+          "elapsedThroughShadowSeconds": 873.658088,
+          "acceptedUniqueIdentities": null,
+          "acceptedIdentitiesPerActiveMinute": null,
+          "marginalAcceptedIdentitiesPerAdditionalMinute": null,
+          "curatorMinutes": null
+        },
+        {
+          "category": "Clothing/Household",
+          "counts": {
+            "primary": 40,
+            "challenger": 8,
+            "total": 48,
+            "exactNamePairs": 48,
+            "challengerExactNamePairAdditions": 8,
+            "challengerSameOrganizationRows": 0,
+            "missingWebsiteRows": 0,
+            "uncertaintyRows": 48,
+            "sourceHosts": 46
+          },
+          "includingShadowRows": 48,
+          "bySource": {
+            "Codex": 40,
+            "Grok": 8
+          },
+          "categoryElapsedSeconds": 1050.578874,
+          "elapsedThroughShadowSeconds": 1050.578874,
+          "acceptedUniqueIdentities": null,
+          "acceptedIdentitiesPerActiveMinute": null,
+          "marginalAcceptedIdentitiesPerAdditionalMinute": null,
+          "curatorMinutes": null
+        },
+        {
+          "category": "Disability",
+          "counts": {
+            "primary": 79,
+            "challenger": 21,
+            "total": 100,
+            "exactNamePairs": 100,
+            "challengerExactNamePairAdditions": 21,
+            "challengerSameOrganizationRows": 6,
+            "missingWebsiteRows": 0,
+            "uncertaintyRows": 100,
+            "sourceHosts": 66
+          },
+          "includingShadowRows": 100,
+          "bySource": {
+            "Codex": 79,
+            "Grok": 21
+          },
+          "categoryElapsedSeconds": 948.33671,
+          "elapsedThroughShadowSeconds": 948.33671,
+          "acceptedUniqueIdentities": null,
+          "acceptedIdentitiesPerActiveMinute": null,
+          "marginalAcceptedIdentitiesPerAdditionalMinute": null,
+          "curatorMinutes": null
+        },
+        {
+          "category": "Domestic Violence",
+          "counts": {
+            "primary": 61,
+            "challenger": 17,
+            "total": 78,
+            "exactNamePairs": 78,
+            "challengerExactNamePairAdditions": 17,
+            "challengerSameOrganizationRows": 2,
+            "missingWebsiteRows": 0,
+            "uncertaintyRows": 78,
+            "sourceHosts": 67
+          },
+          "includingShadowRows": 78,
+          "bySource": {
+            "Codex": 61,
+            "Grok": 17
+          },
+          "categoryElapsedSeconds": 920.451923,
+          "elapsedThroughShadowSeconds": 920.451923,
+          "acceptedUniqueIdentities": null,
+          "acceptedIdentitiesPerActiveMinute": null,
+          "marginalAcceptedIdentitiesPerAdditionalMinute": null,
+          "curatorMinutes": null
+        },
+        {
+          "category": "Education",
+          "counts": {
+            "primary": 67,
+            "challenger": 20,
+            "total": 87,
+            "exactNamePairs": 87,
+            "challengerExactNamePairAdditions": 20,
+            "challengerSameOrganizationRows": 2,
+            "missingWebsiteRows": 0,
+            "uncertaintyRows": 87,
+            "sourceHosts": 64
+          },
+          "includingShadowRows": 87,
+          "bySource": {
+            "Codex": 67,
+            "Grok": 20
+          },
+          "categoryElapsedSeconds": 819.961268,
+          "elapsedThroughShadowSeconds": 819.961268,
+          "acceptedUniqueIdentities": null,
+          "acceptedIdentitiesPerActiveMinute": null,
+          "marginalAcceptedIdentitiesPerAdditionalMinute": null,
+          "curatorMinutes": null
+        }
+      ]
+    }
+  },
+  "limits": [
+    "Counts are submitted rows, not accepted identities or recall.",
+    "Claude shadow submissions were excluded from the old canonical run but are included here.",
+    "Category windows include scheduling and human handoff; they are not active model time.",
+    "Separate primary executions and incomplete historical telemetry prevent causal model comparisons."
+  ]
+}

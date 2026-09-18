@@ -1,221 +1,137 @@
 # Scout Current Status
 
-Read this file before doing Resource Scout work from a fresh Codex session.
+Read this file before substantive Scout work. Verify live process/database state;
+a monitor process is not a research worker.
 
-## Working copy
+## Binding instructions
 
-- Repo: `~/resource-scout-pairwise`
-- Branch: `pairwise-research-experiment`
-- Experiment directory: `data/pairwise-overnight-20260918-022703`
-- Do not overwrite or restart completed experiment databases.
-- Before acting on a live run, inspect processes and database state rather than inferring from browser polling.
+- Work in `~/resource-scout-pairwise`, branch `pairwise-research-experiment`.
+- **Claude is disabled for all Scout work, including preflights and probes.**
+  Michael reported more than $125 in unexpected Anthropic charges. Do not
+  re-enable it without his explicit new instruction. Reading saved Claude
+  responses is allowed; assigning it new work is not.
+- Preserve the three completed experiment databases and the earlier five-worker
+  baseline. Never rerun their completed categories or replace those databases.
+- Michael authorized continuing at Extra High through the architecture review
+  and production preparation, then **stopping before production launch**. He
+  will return and select High. The Extra High review is now complete; High is
+  appropriate for execution. Do not infer that an effort change alone is a launch.
+- Bonsai was removed at Michael's request. Structured extraction is deferred,
+  not a current or near-term task.
 
-## Six-category experiment
+## Current state: September 18, 2026
 
-Three pairwise conditions:
+All three conditions in `data/pairwise-overnight-20260918-022703/` completed their
+six categories: Addiction, Children/Pregnancy, Clothing/Household, Disability,
+Domestic Violence, Education. The final Claude+Grok research worker exited after
+Education; no seventh experimental category ran. No production worker has started.
 
-1. `codex-grok.sqlite3` — six-category condition completed.
-2. `codex-claude.sqlite3` — six-category condition completed.
-3. `claude-grok.sqlite3` — remaining/adaptive condition. Verify current process/database state before resuming.
+- `codex-grok.sqlite3`: complete, 473 submitted rows.
+- `codex-claude.sqlite3`: complete, 567 submitted rows.
+- `claude-grok.sqlite3`: complete, 698 submitted rows.
 
-The six experimental categories are the first six non-Miscellaneous St. George categories:
-Addiction, Children/Pregnancy, Clothing/Household, Disability, Domestic Violence, Education.
+These are raw submissions, not accepted unique resources. All lack recorded
+curator acceptance/time. Source hashes and frozen snapshots are in
+`data/pairwise-review-20260918/final-evidence.json`.
 
-Do not run category 7 or the full 21-category St. George production run until the six-category architecture review is complete.
+Completed Extra High reports:
 
-## Authorized next sequence and effort levels
+- [Architecture review](docs/six-category-architecture-review-20260918.md)
+- [Earlier five-worker comparison](docs/five-worker-versus-codex-grok-20260918.md)
+- [Consequential source audit](docs/six-category-source-audit-20260918.md)
+- [Pairwise metrics](docs/six-category-results-20260918.json)
+- [Five-worker metrics](docs/five-worker-comparison-results-20260918.json)
 
-Michael's latest instruction supersedes the earlier automatic-launch authorization:
-continue at Extra High through completion of Claude+Grok, the six-category analysis,
-evidence-supported architecture/implementation revisions, and validation. **Stop when
-the 21-category run is ready; do not launch it.** Michael will return and switch the
-conversation to High before production. He confirmed Extra High is selected.
+The older baseline is
+`~/resource-scout-baselines/st-george-20260918-002522/research-agent.sqlite3`.
+It contains 310 canonical submissions plus 102 separately saved Claude shadow
+rows across these six categories. The new pair returned 473 versus those 412,
+with about 91 versus 298 elapsed category minutes including shadows. The older
+workflow included scheduling/manual handoffs; this is not an active-model-speed
+ratio. It has useful findings missing from the new pair, including EnglishConnect,
+BYU–Pathway, accessible library service and the Lifeline survivor benefit.
+Some came from its Codex primary. Preserve the old evidence instead of replacing
+it with the pair's list.
 
-Preserve the experiment databases, keep production state separate, and do not
-conflate raw lead counts with curated accepted identities. Leave running research
-workers' settings unchanged. Use the full architecture-review checklist below.
-Commit and push verified work and leave a concrete launch handoff.
+## Architecture decision
 
-## Authentication diagnosis and partitioning rollback: September 18, 2026
+Use **Codex focused primary + Grok challenger**, with explicit pathway/gap checks
+and narrow follow-up when a consequential gap is demonstrated. Claude routing
+from an earlier draft was withdrawn. Current evidence does not justify a learned
+provider router, five broad workers per category, automatic recursive splitting,
+or acceptance/recall claims based on raw rows.
 
-The Grok timeouts were authentication stalls. Native CLI logs showed repeated
-HTTP 401 failures and inability to refresh credentials from the strict sandbox
-(`auth.json.lock`: Operation not permitted). The affected earlier monolithic and
-partition workers recorded zero completed inference events and zero completed
-tool events. They provide no evidence that the assignment was oversized.
+The Grok stalls were authentication failures (HTTP 401 and strict-sandbox
+credential-lock errors), with zero completed inference/tool events in those
+attempts. After login, the unchanged sealed Addiction request completed in
+232.309 seconds, six turns, fifteen leads. Larger subsequent requests also
+completed monolithically. Recursive partitioning was reverted; all fifteen
+historical partition rows remain. Authentication/timeout/turn-limit failures
+stop without unchanged automatic retries or provider fallback.
 
-After `grok login` and a successful strict-sandbox preflight, an unchanged replay
-of the original sealed Addiction challenger assignment completed in 232.309 seconds
-(3m52s), with 6 turns and 15 parseable leads. These are submitted leads, not curated
-or accepted unique resources. The parser preserved leading progress commentary.
-The successful replay has been saved to original assignment 1 (telemetry row 4);
-Addiction is now completed. All 15 historical partition rows remain unchanged.
-A pre-recovery SQLite backup is retained beside the replay artifacts.
+Claude's original 24-turn wrapper failures were an artificial ceiling; recovered
+runs used 60. Keep that history distinct from the authentication outage and from
+successful recovered calls. Historical native Claude/tool counters are not
+uniformly comparable to Grok/Codex counters. Missing values remain unknown.
 
-The native usage envelope reports no web-search counter; zero in Scout's current
-summary must not be interpreted as proof that no searches occurred.
+## Prepared production workspace — not launched
 
-Replay evidence is stored separately in:
-`data/monolithic-auth-replay-20260918-114447/`
+Database: `data/st-george-production-20260918-codex-grok/research.sqlite3`
+Manifest: adjacent `research.preparation.json` (`status: ready`, `launched: false`).
+Read the [launch handoff](docs/st-george-production-handoff-20260918.md).
 
-- `assignment.txt` and `manifest.json`: exact assignment, original hash, timing
-- `result.json`: original response and provider usage envelope
-- `authentication-evidence.json`: sanitized counts from prior worker logs
-- `database-sha256-before.json`: preservation fingerprints
+Verified preparation:
 
-Validation: the full local suite passed 193 tests (one skipped), and the guarded
-Grok preflight succeeded against the real CLI.
+- All six completed Codex+Grok jobs, passes and assignments preserved unchanged.
+- 2,150 source rows retained in six separate curation-union runs from the three
+  pairs and the earlier five-worker run, including Claude shadow evidence.
+- All eight completed Employment primary passes reused (37 leads). Its next
+  research is the Grok challenger, not another primary run.
+- Two completed Financial Assistance primary passes reused (11 leads); resume
+  the remaining passes. Thirteen other categories remain untouched.
+- Only Codex and Grok are enabled in every production category plan.
+- All four source database hashes unchanged; production SQLite quick_check passed.
+- Full local suite: 207 tests, one skipped. No live provider calls during these
+  tests; historical Claude fixtures are mocked. Final commit/CI recorded in the
+  handoff when available.
 
-Automatic and recursive challenger partitioning has been reverted. Provider
-telemetry, Claude's 60-turn limit, and resume-safe six-category cap remain.
-Existing SQLite partition rows are retained as historical evidence, but the runner
-no longer uses or expands them. The original Git commits also preserve the removed
-implementation. Reconsider partitioning only if future authenticated runs demonstrate
-an actual need; this replay does not establish that partitioning could never help.
+The initial draft copy at `data/st-george-production-20260918-reviewed/` failed
+on SQLite cache-spill locking during consolidation. It is preserved and explicitly
+marked `abandoned-not-for-launch`; its obsolete Claude routing must not be used.
+The lock bug is fixed and regression-tested. Use only the new copy above.
 
-A narrow Grok execution guard now watches new native authentication-failure events
-for its own child process. It stops on an authentication failure and records a failed
-attempt without automatic retries. The strict research sandbox is unchanged.
-Credential refresh remains unresolved inside that sandbox; use `grok login` when
-needed. If native logs are unavailable or their format changes, detection can fall
-back to the ordinary timeout. No timeout can trigger partitioning after the rollback.
+The runner uses an exclusive database lock, a resume-safe total category cap,
+explicit Codex High effort, and honest nullable telemetry. Prompt v4 adds geography,
+service-exclusion, fee/availability and distinct-access-pathway checks. Those are
+preventive guidance, not a new tested six-category condition.
 
-Before resuming, check actual runners, not monitor processes:
+## Launch/curation boundaries
 
-```bash
-ps -axo pid,etime,command | grep "pairwise_runner.*claude-grok" | grep -v grep
-```
+Do not start a runner until Michael resumes after this readiness handoff. Inspect
+actual worker processes and DB statuses first; never start a duplicate. Keep
+Codex/Grok preflight enabled. Refresh Grok login outside its strict research
+sandbox when needed; never call Claude as fallback.
 
-Only if no runner is active and the six-category condition is unfinished:
+Monitors at 8767 and 8768, if still running, only view the completed experiment.
+A production monitor can use 8769; a monitor does not perform research.
 
-```bash
-caffeinate -dimsu python3 -m resource_research_agent.pairwise_runner \
-  --database data/pairwise-overnight-20260918-022703/claude-grok.sqlite3 \
-  --import-id 1 \
-  --profile claude-grok \
-  --max-categories 6
-```
+After research completes, consolidate and curate before creating usable
+`autoStGeorge.html`. Stephanie wants eligibility requirements, how best to connect,
+access (including hours), and important information. This does not reopen the
+structured-extraction project. Cedar City, Las Vegas and Salt Lake remain queued.
 
-Keep preflight enabled. Never rerun Claude's completed Addiction primary work or the
-successful original challenger replay. Check the database for their saved status.
+## Architecture-review checklist retained for follow-up
 
-Monitor URLs when running:
+Evaluate research quality and consequential pathway misses; primary/challenger
+complementarity; accepted unique identities and marginal challenger contribution;
+wall time and active/successful/failed worker time; turns, searches/tools, retries
+and failures; curator time, duplicates and noise; category differences; accepted
+identities per active research minute; marginal accepted identities per additional
+research minute; Claude turn-limit history; Grok authentication versus task-shape
+failures; and fairness between original and recovered conditions.
 
-- Codex+Claude: http://127.0.0.1:8767
-- Claude+Grok: http://127.0.0.1:8768
-
-## Telemetry
-
-Scout now persists per-provider/per-attempt telemetry including:
-
-- provider, role, profile, category, pass/assignment, model
-- start/end times and elapsed time
-- retries/failures
-- response size and lead count
-- native turn counts when exposed
-- web-search/tool counts when exposed
-- provider token/model usage when exposed
-- Claude API duration/cost/terminal reason when exposed
-- raw leads per elapsed worker minute, with successful and failed time separated
-
-Production preparation now preserves missing counters as unknown (including
-legacy zero counters that could mean absent metadata). Observed partial sums
-include their known-attempt counts. Provider turn counters are not necessarily
-comparable units. No raw-lead rate is an accepted-resource rate.
-
-The runner now takes a local exclusive database lock; explicit timeouts and Claude
-turn-limit failures stop instead of retrying the unchanged assignment. Codex effort
-can be explicitly supplied with `--codex-reasoning-effort high`. Claude is given
-only WebSearch/WebFetch built-in tools. Prompt v2 addresses the source-audit errors
-around service exclusions, fees, one-time events and unsupported identity mergers.
-These changes do not alter the already-running Claude+Grok Python process.
-
-The full local suite passed 200 tests (one skipped) during preparation. The final
-architecture recommendation is still pending completion of Domestic Violence and
-Education in Claude+Grok. Read-only review artifacts are under
-`data/pairwise-review-20260918/`; they are not curated acceptance results.
-
-Codex runs use JSONL execution telemetry. Grok uses JSON headless telemetry. Claude retains its JSON envelope metrics.
-
-## Six-category architecture review
-
-When all three conditions are complete, perform this analysis at **Extra High reasoning effort**.
-
-Do not merely rank the three fixed pairs. Evaluate whether Scout should use an adaptive architecture.
-
-Analyze:
-
-- research quality
-- consequential pathway misses
-- primary/challenger complementarity
-- accepted unique resources
-- marginal challenger contribution
-- wall-clock time
-- turns
-- searches/tool calls
-- retries and failures
-- curator burden
-- duplicates/noise
-- category-specific differences
-- accepted unique identities per active research minute
-- marginal accepted identities per additional research minute
-- Claude turn-limit behavior
-- Grok authentication stalls, unnecessary partitioning, and successful monolithic replay
-
-Experimental fairness:
-
-- Distinguish original Claude+Grok, authentication-blocked adaptive attempts, and authenticated monolithic recovery. Preserve all elapsed downtime as operational cost, separately from active research time.
-- Claude's earlier 24-turn failures were an artificial wrapper ceiling; current runs use 60 turns.
-- The observed Grok timeouts were authentication-confounded, not evidence of task size or model-quality failure.
-
-Explicitly evaluate architectures beyond the three fixed pairs, including:
-
-**Codex primary + Scout-controlled adaptive challenger routing and task granularity**, where Scout may choose challenger and partition strategy according to category characteristics and observed worker performance.
-
-Do not launch the 21-category St. George production run until this review is complete.
-
-## Production queue after St. George
-
-Queued Scout locations include:
-
-- Cedar City
-- Las Vegas
-- Salt Lake
-
-More locations are expected.
-
-The goal after choosing the architecture is to run all 21 St. George categories, curate/consolidate the result, and generate a usable `autoStGeorge.html`.
-
-## Bonsai experiment closed; extraction deferred
-
-On September 18, Michael directed removal of Bonsai after reviewing its research
-and extraction results. The separate `~/scout-bonsai-pilot` installation, model
-weights, virtual environment, test files, and model-specific Hugging Face cache
-were removed. No Bonsai server remains running. Do not reinstall or resume this
-experiment unless Michael requests it.
-
-Historical outcome: neither broad research replay produced a final lead list.
-A constrained extraction using Stephanie's four criteria produced JSON in 70
-seconds, but geographic and eligibility interpretation errors required review.
-The demonstrated benefit did not justify further integration effort. Earlier Git
-history retains the operational summaries; the local pilot artifacts are deleted.
-No Bonsai output was submitted to an experiment database. Both completed condition
-database fingerprints were verified unchanged before removal.
-
-**Structured text extraction is deferred to the distant backlog, with no near-term
-work planned.** Do not start implementation, additional tests, or replacement-model
-experiments for it. Current priorities remain the six-category experiment and the
-required architecture review before any 21-category production run.
-
-Stephanie's criteria, as clarified by Michael, are **Eligibility requirements;
-How to best connect; Access (hours, etc); Important information to know.** The
-existing production enrichment headings have not been changed in this work.
-
-## Safety / preservation rules
-
-- Never restart a primary run merely because a handoff was opened.
-- Never overwrite completed experiment databases.
-- Preserve durable SQLite state and resume from it.
-- Verify process state before launching duplicate workers.
-- Prefer small reversible changes with tests.
-- Run the full test suite / CI before using new orchestration code on the experiment.
+Consider adaptive task scope and provider choice rather than declaring a fixed
+pair universally best. Current accepted-identity rates and curator minutes are
+unknown. Record them during curation; do not manufacture a score from name/domain
+counts. A future controlled replay should use the same sealed primary, blinded
+identity decisions and repeated categories. No new replay is authorized now.

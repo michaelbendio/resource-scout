@@ -5,6 +5,8 @@ import json
 import tempfile
 import unittest
 import zipfile
+import sqlite3
+from contextlib import closing
 from pathlib import Path
 from unittest.mock import patch
 
@@ -15,10 +17,14 @@ from resource_research_agent.pairwise_supervisor import clone_import_baseline
 from resource_research_agent.production_prep import PROFILES, prepare_production_copy
 from resource_research_agent.scout_curation import _canonical_run
 from resource_research_agent.storage import ResearchStore
+from resource_research_agent.focused_research import next_focused_research_assignment, save_focused_research_result
 from tests.test_challenger_routing import response
 
 
 class ProductionPreparationTests(unittest.TestCase):
+    def setUp(self):
+        self.enterContext(patch.dict("resource_research_agent.worker_policy.DISABLED_WORKERS", {}, clear=True))
+
     def test_promotion_preserves_sources_reuses_completed_and_keeps_all_evidence_for_curation(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -75,6 +81,40 @@ class ProductionPreparationTests(unittest.TestCase):
                     self.assertEqual(before, after)
             with self.assertRaisesRegex(ValueError, "already exists"):
                 prepare_production_copy(root, destination, review_path=review, completed_count=2)
+
+            # A frozen older run also contains a separate Claude shadow result
+            # and useful completed primary work in the next category.
+            legacy_path = root / "legacy.sqlite3"
+            with closing(sqlite3.connect(source.path)) as original, closing(sqlite3.connect(legacy_path)) as copied:
+                original.backup(copied)
+            legacy = ResearchStore(legacy_path)
+            future = next(j for j in legacy.list_focused_research_jobs(1) if j["categoryId"] == "education")
+            assignment = next_focused_research_assignment(legacy, future["id"])
+            save_focused_research_result(legacy, future["id"], assignment["focusKey"], response("saved primary"))
+            with legacy.connect() as connection:
+                # Duplicate only a mock saved envelope to exercise shadow import.
+                connection.execute("""INSERT INTO codex_first_research_assignments
+                    (job_id,researcher,role,status,assignment,assignment_sha256,candidate_manifest_sha256,
+                     contribution_id,raw_text,raw_sha256,parsed_json,lead_count,created_at,completed_at,updated_at)
+                    SELECT job_id,'Claude','shadow',status,assignment,assignment_sha256,candidate_manifest_sha256,
+                           NULL,raw_text,raw_sha256,parsed_json,lead_count,created_at,completed_at,updated_at
+                    FROM codex_first_research_assignments WHERE job_id=1 LIMIT 1""")
+            legacy_hash = hashlib.sha256(legacy_path.read_bytes()).hexdigest()
+            with_legacy = prepare_production_copy(root, root / "with-legacy.sqlite3", review_path=review,
+                                                  completed_count=2, legacy_baseline=legacy_path)
+            self.assertEqual(legacy_hash, hashlib.sha256(legacy_path.read_bytes()).hexdigest())
+            self.assertEqual(1, len(with_legacy["reusedLegacyPrimaryPasses"]))
+            reused = with_legacy["reusedLegacyPrimaryPasses"][0]
+            promoted = ResearchStore(root / "with-legacy.sqlite3")
+            job = promoted.get_focused_research_job(reused["jobId"])
+            done = next(p for p in job["passes"] if p["id"] == reused["passId"])
+            self.assertEqual("completed", done["status"])
+            self.assertEqual(assignment["assignmentSha256"], done["assignmentSha256"])
+            self.assertEqual(assignment["assignedAt"], done["assignedAt"])
+            next_assignment = next_focused_research_assignment(promoted, job["id"])
+            self.assertNotEqual(done["focusKey"], next_assignment["focusKey"])
+            self.assertIn("saved primary", next_assignment["assignment"])
+            self.assertIn("shadow", {c["sourceRole"] for u in with_legacy["curationUnions"] for c in u["contributions"]})
 
 
 if __name__ == "__main__":

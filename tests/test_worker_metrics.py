@@ -16,6 +16,10 @@ from resource_research_agent.worker_metrics import model_counter, observed_count
 
 
 class WorkerMetricsTests(unittest.TestCase):
+    def setUp(self):
+        # Parsing fixtures mock subprocess.run; no disabled provider is launched.
+        self.enterContext(patch.dict("resource_research_agent.worker_policy.DISABLED_WORKERS", {}, clear=True))
+
     def test_duplicate_runner_is_refused_and_lock_releases_on_failure(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "test.sqlite3"

@@ -26,6 +26,9 @@ def response(name):
 
 
 class ChallengerRoutingTests(unittest.TestCase):
+    def setUp(self):
+        self.enterContext(patch.dict("resource_research_agent.worker_policy.DISABLED_WORKERS", {}, clear=True))
+
     def test_scoped_second_opinion_waits_for_grok_and_resume_keeps_completed_categories(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

@@ -24,11 +24,12 @@ from .grok_execution import GrokAuthenticationError, run_grok_process
 from .worker_metrics import model_counter, optional_counter
 from .runner_lock import research_runner_lock
 from .challenger_routing import load_challenger_routing
+from .worker_policy import assert_worker_enabled, WorkerDisabledError
 
 
 SCHEMA_PATH = Path(__file__).with_name("codex_replay_response.schema.json")
 DEFAULT_CODEX_MODEL = "gpt-5.5"
-RESEARCH_PROMPT_VERSION = "scout-research-2026-09-18-v2"
+RESEARCH_PROMPT_VERSION = "scout-research-2026-09-18-v4"
 
 
 class WorkerLimitError(RuntimeError):
@@ -40,7 +41,7 @@ class WorkerLimitError(RuntimeError):
 
 
 def _is_terminal_failure(error: Exception) -> bool:
-    return isinstance(error, (GrokAuthenticationError, WorkerLimitError, subprocess.TimeoutExpired))
+    return isinstance(error, (GrokAuthenticationError, WorkerLimitError, WorkerDisabledError, subprocess.TimeoutExpired))
 
 
 def _research_prompt(
@@ -64,7 +65,9 @@ def _research_prompt(
         "Financial assistance does not establish universally free service; distinguish fees from waivers or discounts.",
         "A past event, donation depot, job posting, or grant is not by itself a current public intake route. State that limitation.",
         "Do not merge organizations as aliases or rebrands without authoritative evidence. Keep programs and access locations distinct from provider identities.",
+        "For ambiguous place or organization names, verify the source's state, address and service area. Do not dismiss conflicting geography as a typo or invent local sites; an out-of-area provider needs evidence that it serves the requested area.",
         "Official government or contracting-agency corroboration can establish a pathway even when the provider website is sparse.",
+        "Within the assigned scope, check distinct access mechanisms as well as provider names: eligibility-specific benefits, accessible formats, and remote or faith/community programs when relevant. A general directory or another program at the same organization does not establish coverage of a distinct practical route. Do not add rows merely to increase the count.",
         *(
             [
                 "Do not try to use Bash, shell commands, local-file tools, curl, or pdftotext.",
@@ -308,6 +311,7 @@ def _run_claude_text(
     max_turns: int,
     return_metadata: bool = False,
 ) -> str | dict[str, Any]:
+    assert_worker_enabled("Claude")
     with tempfile.TemporaryDirectory(prefix="scout-pairwise-claude-") as directory:
         env = dict(os.environ)
         env["DISABLE_AUTOUPDATER"] = "1"
@@ -677,6 +681,8 @@ def _run_pairwise_locked(
             if researcher["role"] == "challenger" and researcher["name"] not in challengers:
                 challengers.append(str(researcher["name"]))
     enabled = {primary, *challengers}
+    for provider in enabled:
+        assert_worker_enabled(provider)
 
     initial_view = prepare_codex_first_plan(
         store, import_id, roster=roster, category_rosters=category_rosters,
@@ -954,6 +960,11 @@ def parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
+    category_rosters = load_challenger_routing(args.routing_policy) if args.routing_policy else None
+    for roster in [load_researcher_profile(args.profile), *(category_rosters or {}).values()]:
+        for researcher in roster["researchers"]:
+            if researcher["role"] != "disabled":
+                assert_worker_enabled(researcher["name"])
     store = ResearchStore(args.database)
     import_id = int(args.import_id or store.latest_import_id() or 0)
     if not import_id:
@@ -977,7 +988,7 @@ def main(argv: list[str] | None = None) -> int:
         max_categories=args.max_categories,
         preflight=not args.skip_preflight,
         codex_reasoning_effort=args.codex_reasoning_effort,
-        category_rosters=load_challenger_routing(args.routing_policy) if args.routing_policy else None,
+        category_rosters=category_rosters,
         preserve_completed=args.reuse_completed,
     )
     return 0

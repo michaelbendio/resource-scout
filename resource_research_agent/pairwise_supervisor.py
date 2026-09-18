@@ -21,6 +21,7 @@ from .pairwise_runner import (
     _grok_preflight,
 )
 from .storage import ResearchStore
+from .worker_policy import assert_worker_enabled
 
 
 PROFILES = ("codex-grok", "codex-claude", "claude-grok")
@@ -231,6 +232,7 @@ def run_supervisor(
     monitor_base_port: int,
     open_browser: bool,
 ) -> dict[str, Any]:
+    assert_worker_enabled("Claude")  # This supervisor launches all three historical pairs.
     if not seed_database.exists():
         raise FileNotFoundError(f"Seed database not found: {seed_database}")
     for name, binary in (

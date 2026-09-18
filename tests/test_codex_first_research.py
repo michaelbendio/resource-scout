@@ -54,6 +54,8 @@ def response(name: str) -> str:
 
 class CodexFirstResearchTests(unittest.TestCase):
     def setUp(self) -> None:
+        # Historical orchestration is exercised only with mocked workers.
+        self.enterContext(patch.dict("resource_research_agent.worker_policy.DISABLED_WORKERS", {}, clear=True))
         self.temporary = tempfile.TemporaryDirectory()
         root = Path(self.temporary.name)
         package = root / "provo-resource-package.zip"
