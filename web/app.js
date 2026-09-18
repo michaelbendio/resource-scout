@@ -192,10 +192,13 @@ function renderCodexFirstDetail(view) {
   if (active) {
     document.querySelector('#codex-active-category').textContent = active.categoryLabel;
     const primaryComplete = Number(active.primary.completed) === Number(active.primary.total);
-    const challengerComplete = active.researchers.filter(item => item.role === 'challenger' && item.status === 'completed').length;
+    const primaryResearcher = active.researchers.find(item => item.role === 'primary');
+    const challengers = active.researchers.filter(item => item.role === 'challenger');
+    const challengerComplete = challengers.filter(item => item.status === 'completed').length;
+    const primaryName = primaryResearcher?.name || 'Primary';
     document.querySelector('#codex-active-status').textContent = !primaryComplete
-      ? 'Codex research'
-      : challengerComplete < 3
+      ? `${primaryName} research`
+      : challengerComplete < challengers.length
         ? 'Challenger research'
         : 'Consolidation and verification';
 
@@ -215,7 +218,7 @@ function renderCodexFirstDetail(view) {
       const kind = document.createElement('small');
       const result = document.createElement('small');
       title.textContent = researchPass.focusLabel;
-      kind.textContent = researchPass.passKind === 'gap' ? 'Deterministic gap pass' : 'Fixed focused pass';
+      kind.textContent = researchPass.passKind === 'gap' ? ' Deterministic gap pass' : ' Fixed focused pass';
       result.textContent = researchPass.status === 'completed'
         ? `${researchPass.leadCount} lead${researchPass.leadCount === 1 ? '' : 's'}`
         : researchStatusLabel(researchPass.status);
@@ -313,7 +316,7 @@ function renderScoutProgress(progress) {
   codexFirstMetric.hidden = !codexFirst;
   if (codexFirst) {
     const active = codexFirst.activeCategory ? ` · ${codexFirst.activeCategory}` : '';
-    document.querySelector('#scout-codex-first-progress').textContent = `${codexFirst.completedCategories} of ${codexFirst.totalCategories} categories · ${codexFirst.completedPasses} of ${codexFirst.totalPasses} Codex passes · ${codexFirst.leadCount} leads${active}`;
+    document.querySelector('#scout-codex-first-progress').textContent = `${codexFirst.completedCategories} of ${codexFirst.totalCategories} categories · ${codexFirst.completedPasses} of ${codexFirst.totalPasses} primary passes · ${codexFirst.leadCount} leads${active}`;
   }
 
   const next = progress.chatgptAssignment || progress.nextChatgpt;
