@@ -9,8 +9,8 @@ SNAPSHOT="${BASELINE_ROOT}/st-george-${STAMP}"
 DB="${ROOT}/data/research-agent.sqlite3"
 BRANCH="pairwise-research-experiment"
 
-if [[ ! -d "${ROOT}/.git" ]]; then
-  echo "Expected repository at ${ROOT}" >&2
+if ! git -C "${ROOT}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "Expected Git working tree at ${ROOT}" >&2
   exit 1
 fi
 if [[ ! -f "${DB}" ]]; then
