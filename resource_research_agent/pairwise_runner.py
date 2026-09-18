@@ -705,6 +705,7 @@ def _run_with_retries(
     retry_count: int,
     context: dict[str, Any],
     record_attempt: Callable[..., int] | None = None,
+    partition_on_timeout: bool = False,
 ) -> dict[str, Any]:
     error: Exception | None = None
     for attempt in range(1, retry_count + 2):
@@ -739,6 +740,16 @@ def _run_with_retries(
                     result=None,
                     error=str(caught),
                 )
+            if partition_on_timeout and isinstance(caught, subprocess.TimeoutExpired):
+                print(json.dumps({
+                    "event": "challenger-partition-triggered",
+                    "worker": label,
+                    "attempt": attempt,
+                    "reason": "timeout",
+                    "error": str(caught),
+                    **context,
+                }, ensure_ascii=False), flush=True)
+                raise AdaptivePartitionRequired(str(caught)) from caught
             final_attempt = attempt >= retry_count + 1
             print(json.dumps({
                 "event": "worker-retry" if not final_attempt else "worker-failed",
