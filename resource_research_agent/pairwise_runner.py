@@ -135,6 +135,7 @@ def run_primary(
     timeout_seconds: int,
     retry_count: int,
     max_passes: int | None,
+    max_categories: int | None,
     challenge_dir: Path,
 ) -> dict[str, Any]:
     roster = load_researcher_profile(profile)
@@ -151,7 +152,11 @@ def run_primary(
 
     prepare_codex_first_plan(store, import_id, roster=roster)
     completed = 0
-    while max_passes is None or completed < max_passes:
+    completed_primary_categories = 0
+    while (
+        (max_passes is None or completed < max_passes)
+        and (max_categories is None or completed_primary_categories < max_categories)
+    ):
         assignment = next_codex_first_assignment(store, import_id, "Codex")
         if assignment is None:
             break
@@ -189,12 +194,15 @@ def run_primary(
             raise error
 
         completed += 1
+        if str(research_pass.get("passKind") or "") == "gap":
+            completed_primary_categories += 1
         view = codex_first_view(store, import_id)
         print(json.dumps({
             "event": "primary-pass-completed",
             "category": assignment["job"]["categoryLabel"],
             "focusKey": research_pass["focusKey"],
             "completedPassesThisRun": completed,
+            "completedPrimaryCategoriesThisRun": completed_primary_categories,
             "completedCategories": view["completedCategories"],
             "totalCategories": view["totalCategories"],
         }, ensure_ascii=False), flush=True)
@@ -230,6 +238,11 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--retry-count", type=int, default=2)
     value.add_argument("--max-passes", type=int)
     value.add_argument(
+        "--max-categories",
+        type=int,
+        help="Stop after this many primary category gap passes complete",
+    )
+    value.add_argument(
         "--challenge-dir",
         default="data/pairwise-challenges",
         type=Path,
@@ -252,6 +265,7 @@ def main(argv: list[str] | None = None) -> int:
         timeout_seconds=args.timeout_seconds,
         retry_count=args.retry_count,
         max_passes=args.max_passes,
+        max_categories=args.max_categories,
         challenge_dir=args.challenge_dir,
     )
     return 0
