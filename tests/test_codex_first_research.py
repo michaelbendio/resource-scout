@@ -486,9 +486,96 @@ class CodexFirstResearchTests(unittest.TestCase):
             item for item in view["categories"][0]["researchers"]
             if item["name"] == "Grok"
         )
-        self.assertEqual(len(partitions), grok["partitions"]["total"])
-        self.assertEqual(len(partitions), grok["partitions"]["completed"])
+        leaves = [item for item in partitions if not item.get("isSplit")]
+        self.assertEqual(len(leaves), grok["partitions"]["total"])
+        self.assertEqual(len(leaves), grok["partitions"]["completed"])
         self.assertIsNone(grok["partitions"]["active"])
+
+    def test_timed_out_partition_recursively_splits_into_children(self) -> None:
+        database = Path(self.temporary.name) / "recursive-partition.sqlite3"
+        store = ResearchStore(database)
+        package = Path(self.temporary.name) / "recursive-partition.zip"
+        with zipfile.ZipFile(package, "w") as archive:
+            archive.writestr("tso-resources.json", json.dumps({
+                "resourcePackageSchemaVersion": 3,
+                "packageVersion": 1,
+                "officeName": "Test TSO",
+                "serviceArea": "Test County",
+                "categories": [
+                    {"id": "food", "name": "Food", "filters": []},
+                    {"id": "miscellaneous", "name": "Miscellaneous", "filters": []},
+                ],
+                "forGroups": [],
+                "resources": [],
+            }))
+        import_id = store.save_import(ResourcePackageImporter(None).read(package))
+        calls = {"broad": 0, "children": 0}
+
+        def grok_worker(assignment_text: str, **kwargs: object) -> str:
+            if "Partition path: level-1:direct-service-landscape" in assignment_text:
+                calls["broad"] += 1
+                raise subprocess.TimeoutExpired(cmd="grok", timeout=10)
+            if "Partition path: level-2:direct-service-landscape::coverage-" in assignment_text:
+                calls["children"] += 1
+            return response("Recursive Grok")
+
+        with patch(
+            "resource_research_agent.pairwise_runner._run_claude_worker",
+            return_value=response("Recursive Claude"),
+        ), patch(
+            "resource_research_agent.pairwise_runner._run_grok_worker",
+            side_effect=grok_worker,
+        ):
+            completed = run_pairwise(
+                store,
+                import_id,
+                profile="claude-grok",
+                codex_binary="/usr/bin/true",
+                codex_model="test-codex",
+                grok_binary="/usr/bin/true",
+                grok_model="",
+                claude_binary="/usr/bin/true",
+                claude_model="",
+                codex_timeout_seconds=10,
+                grok_timeout_seconds=10,
+                claude_timeout_seconds=10,
+                claude_max_turns=4,
+                retry_count=3,
+                max_passes=None,
+                max_categories=1,
+                preflight=False,
+                challenger_partition_candidate_threshold=1,
+                challenger_partition_char_threshold=0,
+                challenger_partition_timeout_seconds=10,
+            )
+
+        self.assertEqual("completed", completed["status"])
+        self.assertEqual(1, calls["broad"])
+        self.assertGreater(calls["children"], 1)
+        job = store.list_focused_research_jobs(import_id)[0]
+        assignment = store.list_codex_first_assignments(int(job["id"]))[0]
+        partitions = store.list_challenger_partitions(int(assignment["id"]))
+        parent = next(
+            item for item in partitions
+            if item["key"] == "direct-service-landscape"
+        )
+        self.assertTrue(parent["isSplit"])
+        self.assertEqual("pending", parent["status"])
+        children = [
+            item for item in partitions
+            if item["key"].startswith("direct-service-landscape::coverage-")
+        ]
+        self.assertGreater(len(children), 1)
+        self.assertTrue(all(item["status"] == "completed" for item in children))
+        leaves = [item for item in partitions if not item.get("isSplit")]
+        self.assertTrue(all(item["status"] == "completed" for item in leaves))
+        view = codex_first_view(store, import_id)
+        grok = next(
+            item for item in view["categories"][0]["researchers"]
+            if item["name"] == "Grok"
+        )
+        self.assertEqual(len(leaves), grok["partitions"]["total"])
+        self.assertEqual(len(leaves), grok["partitions"]["completed"])
 
     def test_pairwise_challenger_timeout_switches_to_partitions(self) -> None:
         database = Path(self.temporary.name) / "adaptive-timeout.sqlite3"
