@@ -83,3 +83,28 @@ Run this experiment from a separate worktree checked out to
 `pairwise-research-experiment`. Do not point the currently running Scout
 process at that worktree or its configuration until the baseline run has reached
 the chosen clean stopping boundary and its database/checkpoint has been copied.
+
+
+## Running the Codex + Grok sample
+
+With the pairwise Scout server running on port 8766 and the St. George package
+imported as import 1, run the Codex primary passes from a second terminal:
+
+```bash
+cd ~/resource-scout-pairwise
+git pull --ff-only
+python3 -m resource_research_agent.pairwise_runner \
+  --database data/research-agent.sqlite3 \
+  --import-id 1 \
+  --profile codex-grok \
+  --max-categories 6
+```
+
+The runner uses one ephemeral Codex context per pass, with live web search and the
+same response schema as the existing Codex replay runner. The Scout browser can
+remain open at `http://127.0.0.1:8766`; its polling view will reflect database
+progress while the runner works.
+
+After each primary category reaches its gap pass, the runner prepares the Grok
+challenger assignment. At the end it writes all pending Grok assignments plus a
+manifest to `data/pairwise-challenges/`.
