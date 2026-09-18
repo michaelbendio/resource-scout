@@ -156,81 +156,30 @@ More locations are expected.
 
 The goal after choosing the architecture is to run all 21 St. George categories, curate/consolidate the result, and generate a usable `autoStGeorge.html`.
 
-## Local-model experiment
+## Bonsai experiment closed; extraction deferred
 
-After stabilizing the six-category experiment, prepare PrismML Ternary Bonsai 2 27B as a **separate local worker experiment** on the 64 GB M4 Pro Mac mini.
+On September 18, Michael directed removal of Bonsai after reviewing its research
+and extraction results. The separate `~/scout-bonsai-pilot` installation, model
+weights, virtual environment, test files, and model-specific Hugging Face cache
+were removed. No Bonsai server remains running. Do not reinstall or resume this
+experiment unless Michael requests it.
 
-Do not add Bonsai to the live six-category experiment.
+Historical outcome: neither broad research replay produced a final lead list.
+A constrained extraction using Stephanie's four criteria produced JSON in 70
+seconds, but geographic and eligibility interpretation errors required review.
+The demonstrated benefit did not justify further integration effort. Earlier Git
+history retains the operational summaries; the local pilot artifacts are deleted.
+No Bonsai output was submitted to an experiment database. Both completed condition
+database fingerprints were verified unchanged before removal.
 
-Preferred path:
+**Structured text extraction is deferred to the distant backlog, with no near-term
+work planned.** Do not start implementation, additional tests, or replacement-model
+experiments for it. Current priorities remain the six-category experiment and the
+required architecture review before any 21-category production run.
 
-- use PrismML's official `Bonsai-demo` repo
-- use the official llama.cpp/Metal server for the approved first pilot; the current Bonsai 2 MLX server explicitly refuses this model because it needs a special loader
-- replay already-completed sealed Scout assignments
-- compare useful finds, unique accepted resources, latency, RAM use, tool-calling reliability, and curator burden
-
-### Separate installation (September 18)
-
-The user approved an initial official llama.cpp/Metal pilot after reviewing the
-MLX server limitation. Installation lives at `~/scout-bonsai-pilot/Bonsai-demo`,
-independent of this worktree and all experiment databases. Demo revision:
-`ab39c615b30a982faf296100d6d0224a772c8772`; binary release:
-`prism-b10685-7dffb15`. Model: Bonsai 2 27B PQ2_0 with Q8 vision projector.
-MLX, Open WebUI, and code interpreter extras were skipped.
-
-`~/scout-bonsai-pilot/README.md` documents the pilot. The local API uses
-`127.0.0.1:8089`, one slot, 65,536-token context, and a 2,048-token reasoning budget.
-Native tool-call emission and consumption passed a synthetic round-trip test.
-`start-server.sh` starts it; `server.pid` and the live process table establish whether
-it is actually running. Do not start duplicate servers.
-
-Two completed assignments were exported read-only with matching sealed hashes:
-Addiction challenger from Claude+Grok and Clothing/Household challenger from
-Codex+Grok. `pilot.py` and `runs/*/state.json` hold independent replay checkpoints.
-This is a supervised Codex-session web-search/fetch relay, not unattended integration
-or a fourth six-category condition. No search API credential is configured here.
-The first two Clothing/Household search responses were overly large (`long` relay
-setting); turn 2 used `short`, then search excerpts were mechanically capped at
-eight results / 600 characters each and fetch text at 12,000 characters. All timing
-and raw evidence are retained. Addiction used these bounds from its first call.
-These exploratory measurements require a later standardized comparison before
-making performance or architecture claims. Submitted leads are not accepted resources.
-
-Bonsai Clothing/Household exploratory replay reached a confirmed context error
-(69,789 requested tokens versus 65,536 configured) after 13 completed model turns,
-21 search calls, and 5 fetch calls, with no final lead JSON. Completed model calls
-took 1,726.96 seconds; sampled server RSS peaked at 12.82 GiB. Large initial tool
-responses confound this result. A fresh Addiction replay uses bounded retrieval
-from its first call but also failed to emit final JSON: six completed model turns,
-21 searches, three fetches, and a seventh request timing out against the remaining
-30-minute aggregate allowance (1,800.02 seconds including failure). Its peak sampled
-server RSS was 17.63 GiB. All 50 emitted calls across both replays had valid names
-and JSON arguments; useful-find quality and accepted-resource yield remain unmeasured.
-
-`~/scout-bonsai-pilot/REPORT.md` records results and limitations. Keep Bonsai available
-for narrower extraction/verification experiments; do not adopt it as a broad Scout
-challenger on these results. Different tools, supervised relay, retrieval adjustments,
-and concurrent host use prevent a clean model ranking. The local server was stopped
-after testing to release memory. Both completed experiment database hashes were
-verified unchanged; no Bonsai outputs were submitted to Scout.
-
-### Follow-up extraction test: Stephanie's four criteria
-
-Michael clarified the criteria in the September 18 session: **Eligibility
-requirements; How to best connect; Access (hours, etc); Important information to
-know.** The existing production enrichment's three headings have not been changed;
-this correction was applied to the separate Bonsai test.
-
-`~/scout-bonsai-pilot/extraction/switchpoint-services/REPORT.md` records the result.
-A supplied-text Switchpoint services-page extraction with thinking disabled and
-JSON output enforced finished in 70 seconds. It correctly flagged many missing
-facts, but inferred service availability from HQ cities and blurred descriptive
-language with formal eligibility. Treat it as a draft requiring review, not a
-visitor-ready resource or validated production capability. An earlier thinking-on
-attempt failed at 4,500 output tokens; a generic JSON-only follow-up took 108 seconds.
-All attempts, pre-inference rubrics, raw results, and source hashes are preserved.
-No production code or experiment records were changed; completed database hashes
-still match. The local server was stopped after testing.
+Stephanie's criteria, as clarified by Michael, are **Eligibility requirements;
+How to best connect; Access (hours, etc); Important information to know.** The
+existing production enrichment headings have not been changed in this work.
 
 ## Safety / preservation rules
 
