@@ -610,7 +610,7 @@ def run_pairwise(
                 "passKind": str(research_pass.get("passKind") or ""),
                 "primaryPassesThisRun": primary_passes_this_run,
             }, ensure_ascii=False), flush=True)
-            raw = _run_with_retries(
+            worker_result = _run_with_retries(
                 primary,
                 lambda: _run_provider(
                     primary,
@@ -629,13 +629,36 @@ def run_pairwise(
                 ),
                 retry_count=retry_count,
                 context={"profile": profile, "category": category, "focusKey": focus_key},
+                record_attempt=_attempt_recorder(
+                    store,
+                    import_id=import_id,
+                    profile=profile,
+                    provider=primary,
+                    role="primary",
+                    category_id=str(primary_assignment["job"]["categoryId"]),
+                    category_label=category,
+                    model=_provider_model(
+                        primary,
+                        codex_model=codex_model,
+                        grok_model=grok_model,
+                        claude_model=claude_model,
+                    ),
+                    job_id=int(primary_assignment["job"]["id"]),
+                    research_pass_id=int(research_pass["id"]),
+                    focus_key=focus_key,
+                ),
             )
-            save_codex_first_primary_result(
+            saved_pass = save_codex_first_primary_result(
                 store,
                 int(primary_assignment["job"]["id"]),
                 focus_key,
-                raw,
+                str(worker_result["rawText"]),
             )
+            if worker_result.get("telemetryId") is not None:
+                store.update_worker_telemetry_lead_count(
+                    int(worker_result["telemetryId"]),
+                    int(saved_pass["leadCount"]),
+                )
             primary_passes_this_run += 1
             view = codex_first_view(store, import_id)
             print(json.dumps({
@@ -666,7 +689,7 @@ def run_pairwise(
                 "assignmentId": assignment_id,
                 "challengerRunsThisRun": challenger_runs_this_run,
             }, ensure_ascii=False), flush=True)
-            raw = _run_with_retries(
+            worker_result = _run_with_retries(
                 challenger,
                 lambda: _run_provider(
                     challenger,
@@ -689,8 +712,34 @@ def run_pairwise(
                     "category": category,
                     "assignmentId": assignment_id,
                 },
+                record_attempt=_attempt_recorder(
+                    store,
+                    import_id=import_id,
+                    profile=profile,
+                    provider=challenger,
+                    role="challenger",
+                    category_id=str(challenger_assignment["job"]["categoryId"]),
+                    category_label=category,
+                    model=_provider_model(
+                        challenger,
+                        codex_model=codex_model,
+                        grok_model=grok_model,
+                        claude_model=claude_model,
+                    ),
+                    job_id=int(challenger_assignment["job"]["id"]),
+                    external_assignment_id=assignment_id,
+                ),
             )
-            saved = save_codex_first_external_result(store, assignment_id, raw)
+            saved = save_codex_first_external_result(
+                store,
+                assignment_id,
+                str(worker_result["rawText"]),
+            )
+            if worker_result.get("telemetryId") is not None:
+                store.update_worker_telemetry_lead_count(
+                    int(worker_result["telemetryId"]),
+                    int(saved["leadCount"]),
+                )
             challenger_runs_this_run += 1
             view = codex_first_view(store, import_id)
             print(json.dumps({
