@@ -10,7 +10,6 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
-from urllib.parse import urlsplit
 
 from .codex_first_research import (
     codex_first_view,
@@ -20,433 +19,12 @@ from .codex_first_research import (
     save_codex_first_external_result,
     save_codex_first_primary_result,
 )
-from .focused_research import build_candidate_manifest
-from .manual_discovery import normalize_manual_identity, parse_manual_contribution
 from .storage import ResearchStore
+from .grok_execution import GrokAuthenticationError, run_grok_process
 
 
 SCHEMA_PATH = Path(__file__).with_name("codex_replay_response.schema.json")
 DEFAULT_CODEX_MODEL = "gpt-5.5"
-DEFAULT_CHALLENGER_PARTITION_CANDIDATE_THRESHOLD = 36
-DEFAULT_CHALLENGER_PARTITION_CHAR_THRESHOLD = 18000
-DEFAULT_CHALLENGER_PARTITION_TIMEOUT_SECONDS = 900
-
-
-class AdaptivePartitionRequired(RuntimeError):
-    pass
-
-
-def _identity_key(
-    organization: str,
-    program: str,
-    website: str,
-) -> tuple[str, str, str]:
-    host = (urlsplit(str(website or "")).hostname or "").casefold().removeprefix("www.")
-    return (
-        normalize_manual_identity(organization),
-        normalize_manual_identity(program),
-        host,
-    )
-
-
-def _compact_candidate_lines(candidates: list[dict[str, str]]) -> list[str]:
-    if not candidates:
-        return ["- None."]
-    lines: list[str] = []
-    seen: set[tuple[str, str]] = set()
-    for item in candidates:
-        organization = str(item.get("organization") or "").strip()
-        program = str(item.get("program") or "").strip()
-        label = organization or program or str(item.get("website") or "").strip()
-        host = (
-            urlsplit(str(item.get("website") or "")).hostname or ""
-        ).casefold().removeprefix("www.")
-        key = (normalize_manual_identity(label), host)
-        if key in seen:
-            continue
-        seen.add(key)
-        suffix = f" [{host}]" if host else ""
-        lines.append(f"- {label}{suffix}")
-    return lines
-
-
-def _challenger_partition_reasons(
-    assignment_text: str,
-    candidate_count: int,
-    *,
-    candidate_threshold: int,
-    char_threshold: int,
-) -> list[str]:
-    reasons: list[str] = []
-    if candidate_threshold > 0 and candidate_count >= candidate_threshold:
-        reasons.append(
-            f"candidate-count:{candidate_count}>={candidate_threshold}"
-        )
-    char_count = len(assignment_text)
-    if char_threshold > 0 and char_count >= char_threshold:
-        reasons.append(f"assignment-chars:{char_count}>={char_threshold}")
-    return reasons
-
-
-def _primary_name(job: dict[str, Any]) -> str:
-    roster = (job.get("plan") or {}).get("researcherRoster") or {}
-    return next(
-        (
-            str(item.get("name") or "").strip()
-            for item in roster.get("researchers") or []
-            if item.get("role") == "primary"
-        ),
-        "Primary researcher",
-    )
-
-
-def _partition_assignment(
-    job: dict[str, Any],
-    researcher: str,
-    candidates: list[dict[str, str]],
-    *,
-    label: str,
-    direction: str,
-    coverage: list[str],
-    vocabulary: list[str],
-    source_channels: list[str],
-    descriptor: str,
-) -> str:
-    plan = job.get("plan") or {}
-    candidate_lines = _compact_candidate_lines(candidates)
-    return "\n".join([
-        f"Resource Scout partitioned adversarial challenger assignment for {researcher}.",
-        f"Category: {job['categoryLabel']}",
-        f"Service area: {job['serviceArea']}",
-        f"Partition: {label}",
-        f"Partition path: {descriptor}",
-        "",
-        f"{_primary_name(job)} has completed the category playbook and coverage-gap pass.",
-        "Search only this bounded partition for credible direct-service candidates the primary researcher missed.",
-        "Do not broaden into a whole-category search. Finish and return JSON when this partition has strong coverage.",
-        "",
-        "Partition direction:",
-        direction or "Search this bounded focus area adversarially.",
-        "",
-        "Coverage to seek:",
-        *[f"- {item}" for item in coverage],
-        "",
-        "Alternative vocabulary:",
-        *[f"- {item}" for item in vocabulary],
-        "",
-        "Source channels:",
-        *[f"- {item}" for item in source_channels],
-        "",
-        "Global exclusions:",
-        *[f"- {item}" for item in plan.get("exclude") or []],
-        "",
-        "Known identity anchors; avoid obvious repeats. A genuinely distinct named program at a known organization may still be returned:",
-        *candidate_lines,
-        "",
-        "Return one JSON object with a leads array. Each lead must contain organization, program, website, phone, address, leadType, locationOrServiceArea, whyRelevant, and uncertainty as text fields.",
-    ])
-
-
-def _challenger_partition_specs(
-    job: dict[str, Any],
-    researcher: str,
-    candidates: list[dict[str, str]],
-) -> list[dict[str, str]]:
-    fixed = [
-        item for item in job.get("passes") or []
-        if str(item.get("passKind") or "") == "focus"
-    ]
-    plan = job.get("plan") or {}
-    if len(fixed) < 2:
-        focuses = list(plan.get("focuses") or [])
-        fixed = [
-            {
-                "focusKey": str(item.get("key") or f"focus-{index}"),
-                "focusLabel": str(item.get("label") or f"Focus {index}"),
-                "definition": item,
-            }
-            for index, item in enumerate(focuses, start=1)
-        ]
-    if len(fixed) < 2:
-        include = list(plan.get("include") or [])
-        midpoint = max(1, (len(include) + 1) // 2)
-        groups = [include[:midpoint], include[midpoint:]]
-        fixed = [
-            {
-                "focusKey": f"scope-{index}",
-                "focusLabel": f"Scope {index}",
-                "definition": {
-                    "direction": "Search only this bounded portion of the category scope.",
-                    "coverage": group,
-                    "vocabulary": [],
-                    "sourceChannels": [],
-                },
-            }
-            for index, group in enumerate(groups, start=1)
-            if group
-        ]
-    if not fixed:
-        fixed = [{
-            "focusKey": "bounded",
-            "focusLabel": "Bounded challenger search",
-            "definition": {
-                "direction": "Search for credible direct-service candidates missed by the primary researcher.",
-                "coverage": list(plan.get("include") or []),
-                "vocabulary": [],
-                "sourceChannels": [],
-            },
-        }]
-
-    result: list[dict[str, str]] = []
-    for ordinal, research_pass in enumerate(fixed, start=1):
-        definition = research_pass.get("definition") or {}
-        key = str(
-            research_pass.get("focusKey")
-            or definition.get("key")
-            or f"partition-{ordinal}"
-        )
-        label = str(
-            research_pass.get("focusLabel")
-            or definition.get("label")
-            or key
-        )
-        result.append({
-            "key": key,
-            "label": label,
-            "assignment": _partition_assignment(
-                job,
-                researcher,
-                candidates,
-                label=label,
-                direction=str(
-                    definition.get("direction")
-                    or "Search this focus area adversarially."
-                ),
-                coverage=[
-                    str(item) for item in definition.get("coverage") or []
-                ],
-                vocabulary=[
-                    str(item) for item in definition.get("vocabulary") or []
-                ],
-                source_channels=[
-                    str(item) for item in definition.get("sourceChannels") or []
-                ],
-                descriptor=f"level-1:{key}",
-            ),
-        })
-    return result
-
-
-def _base_partition_definition(
-    job: dict[str, Any],
-    partition_key: str,
-) -> tuple[str, str, dict[str, Any]]:
-    base_key = str(partition_key).split("::", 1)[0]
-    for item in job.get("passes") or []:
-        if str(item.get("focusKey") or "") == base_key:
-            return (
-                base_key,
-                str(item.get("focusLabel") or base_key),
-                dict(item.get("definition") or {}),
-            )
-    for item in (job.get("plan") or {}).get("focuses") or []:
-        if str(item.get("key") or "") == base_key:
-            return (
-                base_key,
-                str(item.get("label") or base_key),
-                dict(item),
-            )
-    return (
-        base_key,
-        base_key,
-        {
-            "direction": "Search this bounded focus area adversarially.",
-            "coverage": list((job.get("plan") or {}).get("include") or []),
-            "vocabulary": [],
-            "sourceChannels": [],
-        },
-    )
-
-
-def _coverage_for_partition_key(
-    definition: dict[str, Any],
-    partition_key: str,
-) -> list[str]:
-    coverage = [str(item) for item in definition.get("coverage") or []]
-    for segment in str(partition_key).split("::")[1:]:
-        if segment.startswith("coverage-"):
-            try:
-                index = int(segment.removeprefix("coverage-")) - 1
-            except ValueError:
-                continue
-            if 0 <= index < len(coverage):
-                return [coverage[index]]
-    return coverage
-
-
-def _source_channels_for_partition_key(
-    definition: dict[str, Any],
-    partition_key: str,
-) -> list[str]:
-    channels = [str(item) for item in definition.get("sourceChannels") or []]
-    for segment in str(partition_key).split("::")[1:]:
-        if segment.startswith("source-"):
-            try:
-                index = int(segment.removeprefix("source-")) - 1
-            except ValueError:
-                continue
-            if 0 <= index < len(channels):
-                return [channels[index]]
-    return channels
-
-
-def _split_challenger_partition_specs(
-    job: dict[str, Any],
-    researcher: str,
-    candidates: list[dict[str, str]],
-    parent: dict[str, Any],
-) -> list[dict[str, str]]:
-    key = str(parent["key"])
-    depth = key.count("::")
-    base_key, base_label, definition = _base_partition_definition(job, key)
-    coverage = _coverage_for_partition_key(definition, key)
-    vocabulary = [str(item) for item in definition.get("vocabulary") or []]
-    source_channels = _source_channels_for_partition_key(definition, key)
-    direction = str(
-        definition.get("direction")
-        or "Search this bounded focus area adversarially."
-    )
-
-    specs: list[dict[str, str]] = []
-    if depth == 0 and len(coverage) > 1:
-        all_coverage = [str(item) for item in definition.get("coverage") or []]
-        for index, item in enumerate(all_coverage, start=1):
-            child_key = f"{key}::coverage-{index}"
-            child_label = f"{base_label} — {item}"
-            specs.append({
-                "key": child_key,
-                "label": child_label,
-                "assignment": _partition_assignment(
-                    job,
-                    researcher,
-                    candidates,
-                    label=child_label,
-                    direction=direction,
-                    coverage=[item],
-                    vocabulary=vocabulary,
-                    source_channels=source_channels,
-                    descriptor=f"level-{depth + 2}:{child_key}",
-                ),
-            })
-        return specs
-
-    if depth <= 1 and len(source_channels) > 1:
-        for index, channel in enumerate(source_channels, start=1):
-            child_key = f"{key}::source-{index}"
-            child_label = f"{parent['label']} — {channel}"
-            specs.append({
-                "key": child_key,
-                "label": child_label,
-                "assignment": _partition_assignment(
-                    job,
-                    researcher,
-                    candidates,
-                    label=child_label,
-                    direction=direction,
-                    coverage=coverage,
-                    vocabulary=vocabulary,
-                    source_channels=[channel],
-                    descriptor=f"level-{depth + 2}:{child_key}",
-                ),
-            })
-        return specs
-
-    if depth <= 2:
-        ecosystem_slices = [
-            (
-                "public-registry",
-                "Public systems and registries",
-                ["Government agencies, public systems, contracts, grants, registries, and public benefits"],
-            ),
-            (
-                "provider-community",
-                "Provider and community ecosystems",
-                ["Provider, nonprofit, faith, community, peer, and referral-partner primary sources"],
-            ),
-        ]
-        for suffix, title, channels in ecosystem_slices:
-            child_key = f"{key}::ecosystem-{suffix}"
-            child_label = f"{parent['label']} — {title}"
-            specs.append({
-                "key": child_key,
-                "label": child_label,
-                "assignment": _partition_assignment(
-                    job,
-                    researcher,
-                    candidates,
-                    label=child_label,
-                    direction=direction,
-                    coverage=coverage,
-                    vocabulary=vocabulary,
-                    source_channels=channels,
-                    descriptor=f"level-{depth + 2}:{child_key}",
-                ),
-            })
-        return specs
-    return []
-
-
-def _leaf_challenger_partitions(
-    partitions: list[dict[str, Any]],
-) -> list[dict[str, Any]]:
-    return [item for item in partitions if not bool(item.get("isSplit"))]
-
-
-
-def _merge_partition_results(
-    partitions: list[dict[str, Any]],
-    candidates: list[dict[str, str]],
-) -> str:
-    excluded = {
-        _identity_key(
-            str(item.get("organization") or ""),
-            str(item.get("program") or ""),
-            str(item.get("website") or ""),
-        )
-        for item in candidates
-    }
-    seen: set[tuple[str, str, str]] = set()
-    leads: list[dict[str, str]] = []
-    for partition in partitions:
-        parsed = parse_manual_contribution(str(partition.get("rawText") or ""))
-        if parsed["status"] != "parsed":
-            raise ValueError(
-                f"Stored challenger partition {partition.get('key')} is not parseable"
-            )
-        for lead in parsed["leads"]:
-            key = (
-                str(lead.get("normalizedOrganization") or ""),
-                str(lead.get("normalizedProgram") or ""),
-                (
-                    urlsplit(str(lead.get("website") or "")).hostname or ""
-                ).casefold().removeprefix("www."),
-            )
-            if key in excluded or key in seen:
-                continue
-            seen.add(key)
-            raw = lead.get("raw") or {}
-            leads.append({
-                "organization": str(raw.get("organization") or ""),
-                "program": str(raw.get("program") or ""),
-                "website": str(raw.get("website") or ""),
-                "phone": str(raw.get("phone") or ""),
-                "address": str(raw.get("address") or ""),
-                "leadType": str(raw.get("leadType") or ""),
-                "locationOrServiceArea": str(raw.get("locationOrServiceArea") or ""),
-                "whyRelevant": str(raw.get("whyRelevant") or ""),
-                "uncertainty": str(raw.get("uncertainty") or ""),
-            })
-    return json.dumps({"leads": leads}, ensure_ascii=False)
 
 
 def _research_prompt(
@@ -602,7 +180,7 @@ def _run_grok_text(
     return_metadata: bool = False,
 ) -> str | dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="scout-pairwise-grok-") as directory:
-        completed = subprocess.run(
+        completed = run_grok_process(
             _grok_command(
                 grok_binary,
                 prompt,
@@ -610,10 +188,7 @@ def _run_grok_text(
                 model=model,
                 output_format="json" if return_metadata else "plain",
             ),
-            text=True,
-            capture_output=True,
-            timeout=timeout_seconds,
-            check=False,
+            timeout_seconds=timeout_seconds,
         )
         if completed.returncode:
             detail = (completed.stderr or completed.stdout).strip()
@@ -913,7 +488,6 @@ def _run_with_retries(
     retry_count: int,
     context: dict[str, Any],
     record_attempt: Callable[..., int] | None = None,
-    partition_on_timeout: bool = False,
 ) -> dict[str, Any]:
     error: Exception | None = None
     for attempt in range(1, retry_count + 2):
@@ -948,17 +522,7 @@ def _run_with_retries(
                     result=None,
                     error=str(caught),
                 )
-            if partition_on_timeout and isinstance(caught, subprocess.TimeoutExpired):
-                print(json.dumps({
-                    "event": "challenger-partition-triggered",
-                    "worker": label,
-                    "attempt": attempt,
-                    "reason": "timeout",
-                    "error": str(caught),
-                    **context,
-                }, ensure_ascii=False), flush=True)
-                raise AdaptivePartitionRequired(str(caught)) from caught
-            final_attempt = attempt >= retry_count + 1
+            final_attempt = isinstance(caught, GrokAuthenticationError) or attempt >= retry_count + 1
             print(json.dumps({
                 "event": "worker-retry" if not final_attempt else "worker-failed",
                 "worker": label,
@@ -966,6 +530,8 @@ def _run_with_retries(
                 "error": str(caught),
                 **context,
             }, ensure_ascii=False), flush=True)
+            if isinstance(caught, GrokAuthenticationError):
+                raise
             if not final_attempt:
                 time.sleep(min(60, 5 * (2 ** (attempt - 1))))
     assert error is not None
@@ -1019,271 +585,6 @@ def _run_provider(
     raise ValueError(f"Unsupported automated researcher: {provider}")
 
 
-def _partition_timeout_values(
-    provider: str,
-    *,
-    partition_timeout_seconds: int,
-    codex_timeout_seconds: int,
-    grok_timeout_seconds: int,
-    claude_timeout_seconds: int,
-) -> tuple[int, int, int]:
-    cap = max(1, int(partition_timeout_seconds))
-    return (
-        min(int(codex_timeout_seconds), cap)
-        if provider == "Codex" else int(codex_timeout_seconds),
-        min(int(grok_timeout_seconds), cap)
-        if provider == "Grok" else int(grok_timeout_seconds),
-        min(int(claude_timeout_seconds), cap)
-        if provider == "Claude" else int(claude_timeout_seconds),
-    )
-
-
-def _partition_timed_out_before(
-    store: ResearchStore,
-    import_id: int,
-    assignment_id: int,
-    partition_key: str,
-) -> bool:
-    focus_key = f"challenger-partition:{partition_key}"
-    return any(
-        int(item.get("externalAssignmentId") or 0) == int(assignment_id)
-        and str(item.get("focusKey") or "") == focus_key
-        and str(item.get("outcome") or "") == "failed"
-        and "timed out" in str(item.get("error") or "").casefold()
-        for item in store.worker_telemetry(import_id)
-    )
-
-
-def _run_partitioned_challenger(
-    store: ResearchStore,
-    import_id: int,
-    *,
-    profile: str,
-    challenger: str,
-    challenger_assignment: dict[str, Any],
-    candidates: list[dict[str, str]],
-    reason: str,
-    codex_binary: str,
-    codex_model: str,
-    grok_binary: str,
-    grok_model: str,
-    claude_binary: str,
-    claude_model: str,
-    codex_timeout_seconds: int,
-    grok_timeout_seconds: int,
-    claude_timeout_seconds: int,
-    claude_max_turns: int,
-    retry_count: int,
-    partition_timeout_seconds: int,
-) -> dict[str, Any]:
-    external = challenger_assignment["externalAssignment"]
-    job = challenger_assignment["job"]
-    assignment_id = int(external["id"])
-    category = str(job["categoryLabel"])
-    category_id = str(job["categoryId"])
-    existing = store.list_challenger_partitions(assignment_id)
-    if existing:
-        partitions = existing
-        trigger = "resume-existing-partitions"
-    else:
-        specs = _challenger_partition_specs(job, challenger, candidates)
-        partitions = store.ensure_challenger_partitions(assignment_id, specs)
-        trigger = reason
-    leaves = _leaf_challenger_partitions(partitions)
-    print(json.dumps({
-        "event": "challenger-partitioning-started",
-        "profile": profile,
-        "researcher": challenger,
-        "category": category,
-        "assignmentId": assignment_id,
-        "reason": trigger,
-        "partitionCount": len(leaves),
-        "completedPartitions": sum(
-            item["status"] == "completed" for item in leaves
-        ),
-    }, ensure_ascii=False), flush=True)
-
-    part_codex_timeout, part_grok_timeout, part_claude_timeout = (
-        _partition_timeout_values(
-            challenger,
-            partition_timeout_seconds=partition_timeout_seconds,
-            codex_timeout_seconds=codex_timeout_seconds,
-            grok_timeout_seconds=grok_timeout_seconds,
-            claude_timeout_seconds=claude_timeout_seconds,
-        )
-    )
-    model = _provider_model(
-        challenger,
-        codex_model=codex_model,
-        grok_model=grok_model,
-        claude_model=claude_model,
-    )
-
-    while True:
-        partitions = store.list_challenger_partitions(assignment_id)
-        leaves = _leaf_challenger_partitions(partitions)
-        pending = [item for item in leaves if item["status"] != "completed"]
-        if not pending:
-            break
-        partition = pending[0]
-        key = str(partition["key"])
-
-        if _partition_timed_out_before(
-            store,
-            import_id,
-            assignment_id,
-            key,
-        ):
-            child_specs = _split_challenger_partition_specs(
-                job,
-                challenger,
-                candidates,
-                partition,
-            )
-            if child_specs:
-                store.ensure_challenger_partitions(assignment_id, child_specs)
-                print(json.dumps({
-                    "event": "challenger-partition-split",
-                    "profile": profile,
-                    "researcher": challenger,
-                    "category": category,
-                    "assignmentId": assignment_id,
-                    "partitionKey": key,
-                    "partitionLabel": partition["label"],
-                    "reason": "prior-timeout",
-                    "childCount": len(child_specs),
-                }, ensure_ascii=False), flush=True)
-                continue
-
-        print(json.dumps({
-            "event": "challenger-partition-started",
-            "profile": profile,
-            "researcher": challenger,
-            "category": category,
-            "assignmentId": assignment_id,
-            "partitionKey": key,
-            "partitionLabel": partition["label"],
-            "partitionOrdinal": partition["ordinal"],
-            "partitionCount": len(leaves),
-        }, ensure_ascii=False), flush=True)
-        try:
-            worker_result = _run_with_retries(
-                challenger,
-                lambda partition=partition: _run_provider(
-                    challenger,
-                    str(partition["assignment"]),
-                    role="challenger",
-                    codex_binary=codex_binary,
-                    codex_model=codex_model,
-                    grok_binary=grok_binary,
-                    grok_model=grok_model,
-                    claude_binary=claude_binary,
-                    claude_model=claude_model,
-                    codex_timeout_seconds=part_codex_timeout,
-                    grok_timeout_seconds=part_grok_timeout,
-                    claude_timeout_seconds=part_claude_timeout,
-                    claude_max_turns=claude_max_turns,
-                ),
-                retry_count=retry_count,
-                context={
-                    "profile": profile,
-                    "category": category,
-                    "assignmentId": assignment_id,
-                    "partitionKey": key,
-                },
-                record_attempt=_attempt_recorder(
-                    store,
-                    import_id=import_id,
-                    profile=profile,
-                    provider=challenger,
-                    role="challenger",
-                    category_id=category_id,
-                    category_label=category,
-                    model=model,
-                    job_id=int(job["id"]),
-                    external_assignment_id=assignment_id,
-                    focus_key=f"challenger-partition:{key}",
-                ),
-                partition_on_timeout=True,
-            )
-        except AdaptivePartitionRequired:
-            child_specs = _split_challenger_partition_specs(
-                job,
-                challenger,
-                candidates,
-                partition,
-            )
-            if not child_specs:
-                raise RuntimeError(
-                    f"Challenger partition {key} timed out at maximum partition depth"
-                )
-            store.ensure_challenger_partitions(assignment_id, child_specs)
-            print(json.dumps({
-                "event": "challenger-partition-split",
-                "profile": profile,
-                "researcher": challenger,
-                "category": category,
-                "assignmentId": assignment_id,
-                "partitionKey": key,
-                "partitionLabel": partition["label"],
-                "reason": "timeout",
-                "childCount": len(child_specs),
-            }, ensure_ascii=False), flush=True)
-            continue
-
-        saved_partition = store.complete_challenger_partition(
-            int(partition["id"]),
-            str(worker_result["rawText"]),
-        )
-        if worker_result.get("telemetryId") is not None:
-            store.update_worker_telemetry_lead_count(
-                int(worker_result["telemetryId"]),
-                int(saved_partition["leadCount"]),
-            )
-        refreshed = store.list_challenger_partitions(assignment_id)
-        refreshed_leaves = _leaf_challenger_partitions(refreshed)
-        print(json.dumps({
-            "event": "challenger-partition-completed",
-            "profile": profile,
-            "researcher": challenger,
-            "category": category,
-            "assignmentId": assignment_id,
-            "partitionKey": key,
-            "leadCount": int(saved_partition["leadCount"]),
-            "completedPartitions": sum(
-                item["status"] == "completed" for item in refreshed_leaves
-            ),
-            "partitionCount": len(refreshed_leaves),
-        }, ensure_ascii=False), flush=True)
-
-    completed = _leaf_challenger_partitions(
-        store.list_challenger_partitions(assignment_id)
-    )
-    if any(item["status"] != "completed" for item in completed):
-        raise RuntimeError("Not every challenger leaf partition completed")
-    merged = _merge_partition_results(completed, candidates)
-    parsed = parse_manual_contribution(merged)
-    print(json.dumps({
-        "event": "challenger-partitioning-completed",
-        "profile": profile,
-        "researcher": challenger,
-        "category": category,
-        "assignmentId": assignment_id,
-        "partitionCount": len(completed),
-        "mergedLeadCount": len(parsed["leads"]),
-    }, ensure_ascii=False), flush=True)
-    return {
-        "rawText": merged,
-        "usage": {
-            "partitioned": True,
-            "partitionCount": len(completed),
-            "partitionReason": trigger,
-        },
-        "telemetryId": None,
-    }
-
-
-
 def run_pairwise(
     store: ResearchStore,
     import_id: int,
@@ -1303,9 +604,6 @@ def run_pairwise(
     max_passes: int | None,
     max_categories: int | None,
     preflight: bool = True,
-    challenger_partition_candidate_threshold: int = DEFAULT_CHALLENGER_PARTITION_CANDIDATE_THRESHOLD,
-    challenger_partition_char_threshold: int = DEFAULT_CHALLENGER_PARTITION_CHAR_THRESHOLD,
-    challenger_partition_timeout_seconds: int = DEFAULT_CHALLENGER_PARTITION_TIMEOUT_SECONDS,
 ) -> dict[str, Any]:
     roster = load_researcher_profile(profile)
     primary = next(
@@ -1461,41 +759,12 @@ def run_pairwise(
                 "assignmentId": assignment_id,
                 "challengerRunsThisRun": challenger_runs_this_run,
             }, ensure_ascii=False), flush=True)
-            candidates = build_candidate_manifest(
-                store,
-                int(challenger_assignment["job"]["runId"]),
-            )
-            existing_partitions = store.list_challenger_partitions(assignment_id)
-            partition_reasons = _challenger_partition_reasons(
-                assignment_text,
-                len(candidates),
-                candidate_threshold=challenger_partition_candidate_threshold,
-                char_threshold=challenger_partition_char_threshold,
-            )
-            if existing_partitions or partition_reasons:
-                reason = (
-                    "resume-existing-partitions"
-                    if existing_partitions
-                    else ",".join(partition_reasons)
-                )
-                print(json.dumps({
-                    "event": "challenger-partition-triggered",
-                    "profile": profile,
-                    "researcher": challenger,
-                    "category": category,
-                    "assignmentId": assignment_id,
-                    "reason": reason,
-                    "candidateCount": len(candidates),
-                    "assignmentChars": len(assignment_text),
-                }, ensure_ascii=False), flush=True)
-                worker_result = _run_partitioned_challenger(
-                    store,
-                    import_id,
-                    profile=profile,
-                    challenger=challenger,
-                    challenger_assignment=challenger_assignment,
-                    candidates=candidates,
-                    reason=reason,
+            worker_result = _run_with_retries(
+                challenger,
+                lambda: _run_provider(
+                    challenger,
+                    assignment_text,
+                    role="challenger",
                     codex_binary=codex_binary,
                     codex_model=codex_model,
                     grok_binary=grok_binary,
@@ -1506,79 +775,31 @@ def run_pairwise(
                     grok_timeout_seconds=grok_timeout_seconds,
                     claude_timeout_seconds=claude_timeout_seconds,
                     claude_max_turns=claude_max_turns,
-                    retry_count=retry_count,
-                    partition_timeout_seconds=challenger_partition_timeout_seconds,
-                )
-            else:
-                try:
-                    worker_result = _run_with_retries(
+                ),
+                retry_count=retry_count,
+                context={
+                    "profile": profile,
+                    "category": category,
+                    "assignmentId": assignment_id,
+                },
+                record_attempt=_attempt_recorder(
+                    store,
+                    import_id=import_id,
+                    profile=profile,
+                    provider=challenger,
+                    role="challenger",
+                    category_id=str(challenger_assignment["job"]["categoryId"]),
+                    category_label=category,
+                    model=_provider_model(
                         challenger,
-                        lambda: _run_provider(
-                            challenger,
-                            assignment_text,
-                            role="challenger",
-                            codex_binary=codex_binary,
-                            codex_model=codex_model,
-                            grok_binary=grok_binary,
-                            grok_model=grok_model,
-                            claude_binary=claude_binary,
-                            claude_model=claude_model,
-                            codex_timeout_seconds=codex_timeout_seconds,
-                            grok_timeout_seconds=grok_timeout_seconds,
-                            claude_timeout_seconds=claude_timeout_seconds,
-                            claude_max_turns=claude_max_turns,
-                        ),
-                        retry_count=retry_count,
-                        context={
-                            "profile": profile,
-                            "category": category,
-                            "assignmentId": assignment_id,
-                        },
-                        record_attempt=_attempt_recorder(
-                            store,
-                            import_id=import_id,
-                            profile=profile,
-                            provider=challenger,
-                            role="challenger",
-                            category_id=str(challenger_assignment["job"]["categoryId"]),
-                            category_label=category,
-                            model=_provider_model(
-                                challenger,
-                                codex_model=codex_model,
-                                grok_model=grok_model,
-                                claude_model=claude_model,
-                            ),
-                            job_id=int(challenger_assignment["job"]["id"]),
-                            external_assignment_id=assignment_id,
-                        ),
-                        partition_on_timeout=True,
-                    )
-                except AdaptivePartitionRequired:
-                    candidates = build_candidate_manifest(
-                        store,
-                        int(challenger_assignment["job"]["runId"]),
-                    )
-                    worker_result = _run_partitioned_challenger(
-                        store,
-                        import_id,
-                        profile=profile,
-                        challenger=challenger,
-                        challenger_assignment=challenger_assignment,
-                        candidates=candidates,
-                        reason="timeout",
-                        codex_binary=codex_binary,
                         codex_model=codex_model,
-                        grok_binary=grok_binary,
                         grok_model=grok_model,
-                        claude_binary=claude_binary,
                         claude_model=claude_model,
-                        codex_timeout_seconds=codex_timeout_seconds,
-                        grok_timeout_seconds=grok_timeout_seconds,
-                        claude_timeout_seconds=claude_timeout_seconds,
-                        claude_max_turns=claude_max_turns,
-                        retry_count=retry_count,
-                        partition_timeout_seconds=challenger_partition_timeout_seconds,
-                    )
+                    ),
+                    job_id=int(challenger_assignment["job"]["id"]),
+                    external_assignment_id=assignment_id,
+                ),
+            )
             saved = save_codex_first_external_result(
                 store,
                 assignment_id,
@@ -1643,24 +864,6 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--claude-timeout-seconds", type=int, default=1800)
     value.add_argument("--claude-max-turns", type=int, default=60)
     value.add_argument("--retry-count", type=int, default=3)
-    value.add_argument(
-        "--challenger-partition-candidate-threshold",
-        type=int,
-        default=DEFAULT_CHALLENGER_PARTITION_CANDIDATE_THRESHOLD,
-        help="Pre-partition challenger work at or above this many existing candidate identities; 0 disables this trigger",
-    )
-    value.add_argument(
-        "--challenger-partition-char-threshold",
-        type=int,
-        default=DEFAULT_CHALLENGER_PARTITION_CHAR_THRESHOLD,
-        help="Pre-partition challenger work at or above this generated assignment size; 0 disables this trigger",
-    )
-    value.add_argument(
-        "--challenger-partition-timeout-seconds",
-        type=int,
-        default=DEFAULT_CHALLENGER_PARTITION_TIMEOUT_SECONDS,
-        help="Maximum runtime for each bounded challenger partition",
-    )
     value.add_argument("--max-passes", type=int)
     value.add_argument(
         "--max-categories",
@@ -1699,9 +902,6 @@ def main(argv: list[str] | None = None) -> int:
         max_passes=args.max_passes,
         max_categories=args.max_categories,
         preflight=not args.skip_preflight,
-        challenger_partition_candidate_threshold=args.challenger_partition_candidate_threshold,
-        challenger_partition_char_threshold=args.challenger_partition_char_threshold,
-        challenger_partition_timeout_seconds=args.challenger_partition_timeout_seconds,
     )
     return 0
 

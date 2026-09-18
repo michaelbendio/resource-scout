@@ -23,90 +23,73 @@ Addiction, Children/Pregnancy, Clothing/Household, Disability, Domestic Violence
 
 Do not run category 7 or the full 21-category St. George production run until the six-category architecture review is complete.
 
-## Live diagnosis: September 18, 2026, 11:42 a.m. MDT
+## Authentication diagnosis and partitioning rollback: September 18, 2026
 
-Claude+Grok runner PID 95414 was interrupted after confirming that Grok was
-repeatedly receiving HTTP 401 responses, not making research progress. Its child
-exited as well; the experiment database and all saved primary results remain intact.
-A new `grok login` was started and is awaiting user browser authorization.
-Verify authentication and live processes before resuming from the existing database.
-Do not use `--skip-preflight` for the first resume after this incident.
+The Grok timeouts were authentication stalls. Native CLI logs showed repeated
+HTTP 401 failures and inability to refresh credentials from the strict sandbox
+(`auth.json.lock`: Operation not permitted). The affected earlier monolithic and
+partition workers recorded zero completed inference events and zero completed
+tool events. They provide no evidence that the assignment was oversized.
 
-Evidence: `~/.grok/logs/unified.jsonl` records `shell.turn.inference_failed`
-with `kind=auth`, expired/invalid credentials, and repeated inability to open
-`~/.grok/auth.json.lock` (`Operation not permitted`) from strict-sandbox workers.
-The same failures occur in the 15:18–15:48 UTC monolithic attempt and the
-16:31, 17:03, and 17:18 UTC partition attempts. The 17:33 UTC worker also
-remained in authentication resubmission loops without completing a leaf.
-At interruption, 12 active leaves remained pending and none had completed.
+After `grok login` and a successful strict-sandbox preflight, an unchanged replay
+of the original sealed Addiction challenger assignment completed in 232.309 seconds
+(3m52s), with 6 turns and 15 parseable leads. These are submitted leads, not curated
+or accepted unique resources. The parser preserved leading progress commentary.
+The successful replay has been saved to original assignment 1 (telemetry row 4);
+Addiction is now completed. All 15 historical partition rows remain unchanged.
+A pre-recovery SQLite backup is retained beside the replay artifacts.
 
-Interpretation correction: these timeouts are confounded by authentication and
-sandbox credential-refresh failure. They do not establish a task-size problem or
-model-quality failure. Preserve the recursive partition history, but distinguish
-authentication downtime from active research in the architecture analysis.
-Recursive splitting exists and ran; successful research recovery remains unproven.
-A durable fix must prevent authentication failures from triggering further splits
-and support credential refresh without weakening research isolation.
+The native usage envelope reports no web-search counter; zero in Scout's current
+summary must not be interpreted as proof that no searches occurred.
 
-## Claude+Grok adaptive challenger work
+Replay evidence is stored separately in:
+`data/monolithic-auth-replay-20260918-114447/`
 
-Last known important state:
+- `assignment.txt` and `manifest.json`: exact assignment, original hash, timing
+- `result.json`: original response and provider usage envelope
+- `authentication-evidence.json`: sanitized counts from prior worker logs
+- `database-sha256-before.json`: preservation fingerprints
 
-- Addiction Claude primary work completed with 81 candidate identities/leads in the challenger exclusion set.
-- A monolithic Grok challenger timed out at 30 minutes.
-- Scout added adaptive challenger partitioning.
-- The first broad `direct-service-landscape` Grok partition then timed out at 15 minutes.
-- Scout now supports recursive partitioning.
+Validation: the full local suite passed 193 tests (one skipped), and the guarded
+Grok preflight succeeded against the real CLI.
 
-Current recursive behavior:
+Automatic and recursive challenger partitioning has been reverted. Provider
+telemetry, Claude's 60-turn limit, and resume-safe six-category cap remain.
+Existing SQLite partition rows are retained as historical evidence, but the runner
+no longer uses or expands them. The original Git commits also preserve the removed
+implementation. Reconsider partitioning only if future authenticated runs demonstrate
+an actual need; this replay does not establish that partitioning could never help.
 
-- Oversized challenger assignments are proactively partitioned.
-- A monolithic challenger timeout switches to partitioned mode instead of retrying the same giant prompt.
-- Challenger partitions are persisted in SQLite and resumable.
-- A timed-out partition is superseded by smaller child partitions rather than retried unchanged.
-- Broad partitions split first by coverage pathway, then (if needed) by source channel, then by broad source ecosystem.
-- Parent partitions remain as durable history but do not count as active leaves once children exist.
-- Completed leaf partitions are merged and deduplicated before one logical challenger result is saved.
-- The worker receives compact identity anchors; Scout retains responsibility for final duplicate removal.
-- Browser monitor reports current leaf-partition progress.
+A narrow Grok execution guard now watches new native authentication-failure events
+for its own child process. It stops on an authentication failure and records a failed
+attempt without automatic retries. The strict research sandbox is unchanged.
+Credential refresh remains unresolved inside that sandbox; use `grok login` when
+needed. If native logs are unavailable or their format changes, detection can fall
+back to the ordinary timeout. No timeout can trigger partitioning after the rollback.
 
-Default adaptive thresholds:
-
-- proactive candidate threshold: 36 identities
-- proactive assignment-size threshold: 18,000 characters
-- leaf partition timeout: 900 seconds
-- Claude max turns: 60
-
-Relevant events:
-`challenger-partition-triggered`
-`challenger-partitioning-started`
-`challenger-partition-split`
-`challenger-partition-started`
-`challenger-partition-completed`
-
-Resume Claude+Grok only after checking no older runner is still active:
+Before resuming, check actual runners, not monitor processes:
 
 ```bash
 ps -axo pid,etime,command | grep "pairwise_runner.*claude-grok" | grep -v grep
 ```
 
-If no runner is active:
+Only if no runner is active and the six-category condition is unfinished:
 
 ```bash
 caffeinate -dimsu python3 -m resource_research_agent.pairwise_runner \
   --database data/pairwise-overnight-20260918-022703/claude-grok.sqlite3 \
   --import-id 1 \
   --profile claude-grok \
-  --max-categories 6 \
-  --skip-preflight
+  --max-categories 6
 ```
+
+Keep preflight enabled. Never rerun Claude's completed Addiction primary work or the
+successful original challenger replay. Check the database for their saved status.
 
 Monitor URLs when running:
 
 - Codex+Claude: http://127.0.0.1:8767
 - Claude+Grok: http://127.0.0.1:8768
-
-Browser monitor processes are not research workers.
 
 ## Telemetry
 
@@ -147,13 +130,13 @@ Analyze:
 - accepted unique identities per active research minute
 - marginal accepted identities per additional research minute
 - Claude turn-limit behavior
-- Grok monolithic-challenger failure and recursive-partition recovery
+- Grok authentication stalls, unnecessary partitioning, and successful monolithic replay
 
 Experimental fairness:
 
-- Distinguish original Claude+Grok monolithic behavior from adaptive Claude+Grok behavior.
+- Distinguish original Claude+Grok, authentication-blocked adaptive attempts, and authenticated monolithic recovery. Preserve all elapsed downtime as operational cost, separately from active research time.
 - Claude's earlier 24-turn failures were an artificial wrapper ceiling; current runs use 60 turns.
-- Grok timeouts should be interpreted as task-shape/orchestration evidence, not automatically as model-quality failure.
+- The observed Grok timeouts were authentication-confounded, not evidence of task size or model-quality failure.
 
 Explicitly evaluate architectures beyond the three fixed pairs, including:
 

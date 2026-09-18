@@ -289,57 +289,18 @@ provenance. The most useful efficiency metrics are accepted unique identities
 per provider, accepted unique identities per active research minute, and
 consequential-pathway misses—not raw lead count alone.
 
+## September 18 authentication correction
 
-## Adaptive challenger partitioning
+The original sealed Claude+Grok Addiction challenger completed after reauthentication
+in 232.309 seconds (6 turns, 15 parseable leads). Previous monolithic and partition
+timeouts had recorded authentication failures without completed model responses.
+Automatic and recursive partitioning was therefore reverted; historical database
+rows and replay artifacts remain intact. See `SCOUT_STATUS.md` for the evidence.
 
-The pairwise runner now adapts challenger work to assignment complexity instead
-of blindly retrying an oversized whole-category prompt.
-
-Before launching a challenger, Scout examines the generated assignment and the
-number of identities already found by the primary researcher. By default it
-switches directly to partitioned mode when either:
-
-- the current candidate manifest contains at least 36 identities; or
-- the challenger assignment is at least 18,000 characters.
-
-These are experimental thresholds and can be changed from the CLI.
-
-If an assignment falls below the thresholds, Scout first tries the ordinary
-whole-category challenger. If that subprocess reaches its timeout, Scout does
-not retry the same monolithic request. It records the failed attempt and
-immediately converts the challenger into bounded partitions.
-
-Partitions are derived from the category's existing fixed focused-research
-passes, so the decomposition is category-aware rather than model-specific. Each
-partition gets a compact identity-anchor index, a narrow coverage target, and a
-shorter default runtime cap. Scout, rather than the worker model, remains
-responsible for duplicate removal after the partition results are merged.
-
-Partitioning is recursive. If a leaf partition times out, Scout supersedes that
-leaf with smaller persisted child partitions instead of retrying the same task.
-It first splits broad coverage into individual coverage pathways, then can split
-further by source channel, and finally by broad source ecosystem. Parent
-partitions remain as durable history but are excluded from completion counts and
-result merging once they have children. A restarted runner detects previous
-partition timeouts and resumes directly from the new child leaves rather than
-repeating the failed parent.
-
-Partition state and results are stored durably in SQLite. If the runner stops, a
-later invocation resumes only unfinished leaf partitions.
-
-After all partitions complete, Scout merges their JSON responses, removes exact
-candidate/partition duplicates, and saves one normal challenger result through
-the existing Scout contribution and consolidation pipeline. The rest of Scout
-therefore does not need to know whether the challenger completed monolithically
-or through partitions.
-
-Relevant controls:
-
-```text
---challenger-partition-candidate-threshold 36
---challenger-partition-char-threshold 18000
---challenger-partition-timeout-seconds 900
-```
-
-A threshold of zero disables that proactive trigger. Timeout-driven partitioning
-still applies to an attempted monolithic challenger.
+Grok workers now stop promptly on native authentication-failure events for their own
+PID, without automatic research retries. Run `grok login` and resume with preflight
+enabled. Strict research isolation remains enabled; the guard does not repair
+credential refresh inside the sandbox. Missing or changed native logs can leave the
+ordinary worker timeout as the fallback. Separate authentication downtime from active
+research when comparing conditions, and do not equate submitted leads with accepted
+unique resources.

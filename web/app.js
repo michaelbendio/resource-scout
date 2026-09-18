@@ -237,10 +237,7 @@ function renderCodexFirstDetail(view) {
       const status = document.createElement('span');
       item.className = 'codex-researcher';
       name.textContent = researcher.name;
-      const partitionCopy = researcher.partitions?.total
-        ? ` · ${researcher.partitions.completed} of ${researcher.partitions.total} partitions${researcher.partitions.active ? ` · ${researcher.partitions.active.label}` : ''}`
-        : '';
-      role.textContent = `${researcher.role}${researcher.leadCount ? ` · ${researcher.leadCount} leads` : ''}${partitionCopy}`;
+      role.textContent = `${researcher.role}${researcher.leadCount ? ` · ${researcher.leadCount} leads` : ''}`;
       status.className = 'codex-status';
       status.dataset.status = researcher.status;
       status.textContent = researchStatusLabel(researcher.status);
@@ -279,12 +276,7 @@ function renderCodexFirstDetail(view) {
       ? `${challengerCompleted} of ${challengers.length} challenger${challengers.length === 1 ? '' : 's'} complete`
       : 'No challengers configured';
     externalDetail.textContent = [
-      ...challengers.map(item => {
-        const partitions = item.partitions?.total
-          ? ` · ${item.partitions.completed}/${item.partitions.total} partitions`
-          : '';
-        return `${item.name}: ${researchStatusLabel(item.status).toLowerCase()}${partitions}`;
-      }),
+      ...challengers.map(item => `${item.name}: ${researchStatusLabel(item.status).toLowerCase()}`),
       ...shadows.map(item => `${item.name} shadow: ${researchStatusLabel(item.status).toLowerCase()}`),
     ].join(' · ');
     status.className = 'codex-status';
