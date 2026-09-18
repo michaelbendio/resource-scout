@@ -108,3 +108,35 @@ progress while the runner works.
 After each primary category reaches its gap pass, the runner prepares the Grok
 challenger assignment. At the end it writes all pending Grok assignments plus a
 manifest to `data/pairwise-challenges/`.
+
+
+## Lock-step Grok handoff
+
+Pairwise profiles now gate the primary researcher at the end of each category.
+For `codex-grok`, Codex cannot begin the next category until Grok's challenger
+result for the current category has been saved.
+
+Read the pending Grok assignment, copy it to the macOS clipboard, and open the
+Grok app:
+
+```bash
+python3 -m resource_research_agent.pairwise_challenge \
+  --database data/codex-grok.sqlite3 \
+  --import-id 1 \
+  next --researcher Grok --copy --open-app
+```
+
+After Grok returns the required JSON, copy the JSON response and submit it
+directly from the clipboard using the assignment ID printed by the previous
+command:
+
+```bash
+python3 -m resource_research_agent.pairwise_challenge \
+  --database data/codex-grok.sqlite3 \
+  --import-id 1 \
+  submit-clipboard ASSIGNMENT_ID
+```
+
+Then rerun the Codex primary runner. It will close that category and move to the
+next one. This keeps Codex and Grok in lock-step and prevents Codex from running
+ahead of the challenger.
