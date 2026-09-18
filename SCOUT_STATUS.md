@@ -165,9 +165,54 @@ Do not add Bonsai to the live six-category experiment.
 Preferred path:
 
 - use PrismML's official `Bonsai-demo` repo
-- prefer the MLX path
+- use the official llama.cpp/Metal server for the approved first pilot; the current Bonsai 2 MLX server explicitly refuses this model because it needs a special loader
 - replay already-completed sealed Scout assignments
 - compare useful finds, unique accepted resources, latency, RAM use, tool-calling reliability, and curator burden
+
+### Separate installation (September 18)
+
+The user approved an initial official llama.cpp/Metal pilot after reviewing the
+MLX server limitation. Installation lives at `~/scout-bonsai-pilot/Bonsai-demo`,
+independent of this worktree and all experiment databases. Demo revision:
+`ab39c615b30a982faf296100d6d0224a772c8772`; binary release:
+`prism-b10685-7dffb15`. Model: Bonsai 2 27B PQ2_0 with Q8 vision projector.
+MLX, Open WebUI, and code interpreter extras were skipped.
+
+`~/scout-bonsai-pilot/README.md` documents the pilot. The local API uses
+`127.0.0.1:8089`, one slot, 65,536-token context, and a 2,048-token reasoning budget.
+Native tool-call emission and consumption passed a synthetic round-trip test.
+`start-server.sh` starts it; `server.pid` and the live process table establish whether
+it is actually running. Do not start duplicate servers.
+
+Two completed assignments were exported read-only with matching sealed hashes:
+Addiction challenger from Claude+Grok and Clothing/Household challenger from
+Codex+Grok. `pilot.py` and `runs/*/state.json` hold independent replay checkpoints.
+This is a supervised Codex-session web-search/fetch relay, not unattended integration
+or a fourth six-category condition. No search API credential is configured here.
+The first two Clothing/Household search responses were overly large (`long` relay
+setting); turn 2 used `short`, then search excerpts were mechanically capped at
+eight results / 600 characters each and fetch text at 12,000 characters. All timing
+and raw evidence are retained. Addiction used these bounds from its first call.
+These exploratory measurements require a later standardized comparison before
+making performance or architecture claims. Submitted leads are not accepted resources.
+
+Bonsai Clothing/Household exploratory replay reached a confirmed context error
+(69,789 requested tokens versus 65,536 configured) after 13 completed model turns,
+21 search calls, and 5 fetch calls, with no final lead JSON. Completed model calls
+took 1,726.96 seconds; sampled server RSS peaked at 12.82 GiB. Large initial tool
+responses confound this result. A fresh Addiction replay uses bounded retrieval
+from its first call but also failed to emit final JSON: six completed model turns,
+21 searches, three fetches, and a seventh request timing out against the remaining
+30-minute aggregate allowance (1,800.02 seconds including failure). Its peak sampled
+server RSS was 17.63 GiB. All 50 emitted calls across both replays had valid names
+and JSON arguments; useful-find quality and accepted-resource yield remain unmeasured.
+
+`~/scout-bonsai-pilot/REPORT.md` records results and limitations. Keep Bonsai available
+for narrower extraction/verification experiments; do not adopt it as a broad Scout
+challenger on these results. Different tools, supervised relay, retrieval adjustments,
+and concurrent host use prevent a clean model ranking. The local server was stopped
+after testing to release memory. Both completed experiment database hashes were
+verified unchanged; no Bonsai outputs were submitted to Scout.
 
 ## Safety / preservation rules
 
