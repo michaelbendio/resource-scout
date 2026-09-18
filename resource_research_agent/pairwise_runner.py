@@ -72,6 +72,7 @@ def _run_codex_worker(
             "--ask-for-approval", "never",
             "--sandbox", "read-only",
             "exec",
+            "--json",
             "--ephemeral",
             "--ignore-user-config",
             "--skip-git-repo-check",
@@ -99,9 +100,47 @@ def _run_codex_worker(
             raise RuntimeError("Fresh Codex worker did not produce a result")
         value = json.loads(output_path.read_text(encoding="utf-8"))
         raw = json.dumps(value, ensure_ascii=False)
+        events: list[dict[str, Any]] = []
+        for line in (completed.stdout or "").splitlines():
+            try:
+                event = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(event, dict):
+                events.append(event)
+        item_counts: dict[str, int] = {}
+        for event in events:
+            if str(event.get("type") or "") != "item.completed":
+                continue
+            item = event.get("item") or {}
+            item_type = str(item.get("type") or "unknown")
+            item_counts[item_type] = item_counts.get(item_type, 0) + 1
+        turn_events = [
+            event for event in events
+            if str(event.get("type") or "") == "turn.completed"
+        ]
+        last_turn_usage = dict((turn_events[-1].get("usage") or {})) if turn_events else {}
+        thread_event = next(
+            (
+                event for event in events
+                if str(event.get("type") or "") == "thread.started"
+            ),
+            {},
+        )
         return {
             "rawText": raw,
             "usage": {
+                "numTurns": sum(
+                    1 for event in events
+                    if str(event.get("type") or "") == "turn.started"
+                ),
+                "webSearchRequests": sum(
+                    count for item_type, count in item_counts.items()
+                    if "web_search" in item_type
+                ),
+                "itemCounts": item_counts,
+                "tokenUsage": last_turn_usage,
+                "threadId": str(thread_event.get("thread_id") or ""),
                 "cliStdoutBytes": len((completed.stdout or "").encode("utf-8")),
                 "cliStderrBytes": len((completed.stderr or "").encode("utf-8")),
             },
@@ -114,6 +153,7 @@ def _grok_command(
     *,
     directory: str,
     model: str,
+    output_format: str = "plain",
 ) -> list[str]:
     command = [
         grok_binary,
@@ -123,7 +163,7 @@ def _grok_command(
         "--sandbox", "strict",
         "--cwd", directory,
         "-p", prompt,
-        "--output-format", "plain",
+        "--output-format", output_format,
     ]
     if model:
         command.extend(["--model", model])
@@ -140,7 +180,13 @@ def _run_grok_text(
 ) -> str | dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="scout-pairwise-grok-") as directory:
         completed = subprocess.run(
-            _grok_command(grok_binary, prompt, directory=directory, model=model),
+            _grok_command(
+                grok_binary,
+                prompt,
+                directory=directory,
+                model=model,
+                output_format="json" if return_metadata else "plain",
+            ),
             text=True,
             capture_output=True,
             timeout=timeout_seconds,
@@ -159,9 +205,33 @@ def _run_grok_text(
                 + (f": {detail[-2000:]}" if detail else "")
             )
         if return_metadata:
+            try:
+                envelope = json.loads(raw)
+            except json.JSONDecodeError as error:
+                raise RuntimeError(
+                    "Fresh Grok worker did not return its JSON envelope: "
+                    + raw[-2000:]
+                ) from error
+            text = str(envelope.get("text") or "").strip()
+            if not text:
+                raise RuntimeError("Fresh Grok worker JSON contained no response text")
+            model_usage = envelope.get("modelUsage") or {}
+            web_search_requests = sum(
+                int((item or {}).get("webSearchRequests") or 0)
+                for item in model_usage.values()
+                if isinstance(item, dict)
+            )
             return {
-                "rawText": raw,
+                "rawText": text,
                 "usage": {
+                    "numTurns": int(envelope.get("num_turns") or 0),
+                    "stopReason": str(envelope.get("stopReason") or ""),
+                    "sessionId": str(envelope.get("sessionId") or ""),
+                    "requestId": str(envelope.get("requestId") or ""),
+                    "tokenUsage": envelope.get("usage") or {},
+                    "modelUsage": model_usage,
+                    "webSearchRequests": web_search_requests,
+                    "totalCostUsd": envelope.get("total_cost_usd"),
                     "cliStdoutBytes": len((completed.stdout or "").encode("utf-8")),
                     "cliStderrBytes": len((completed.stderr or "").encode("utf-8")),
                 },
