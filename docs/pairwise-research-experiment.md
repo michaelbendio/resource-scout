@@ -311,10 +311,21 @@ immediately converts the challenger into bounded partitions.
 
 Partitions are derived from the category's existing fixed focused-research
 passes, so the decomposition is category-aware rather than model-specific. Each
-partition gets a compact identity exclusion index, a narrow coverage target, and
-a shorter default runtime cap. Partition state and results are stored durably in
-SQLite. If the runner stops, a later invocation resumes only unfinished
-partitions.
+partition gets a compact identity-anchor index, a narrow coverage target, and a
+shorter default runtime cap. Scout, rather than the worker model, remains
+responsible for duplicate removal after the partition results are merged.
+
+Partitioning is recursive. If a leaf partition times out, Scout supersedes that
+leaf with smaller persisted child partitions instead of retrying the same task.
+It first splits broad coverage into individual coverage pathways, then can split
+further by source channel, and finally by broad source ecosystem. Parent
+partitions remain as durable history but are excluded from completion counts and
+result merging once they have children. A restarted runner detects previous
+partition timeouts and resumes directly from the new child leaves rather than
+repeating the failed parent.
+
+Partition state and results are stored durably in SQLite. If the runner stops, a
+later invocation resumes only unfinished leaf partitions.
 
 After all partitions complete, Scout merges their JSON responses, removes exact
 candidate/partition duplicates, and saves one normal challenger result through
