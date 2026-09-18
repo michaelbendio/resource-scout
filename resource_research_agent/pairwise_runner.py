@@ -1038,6 +1038,22 @@ def _partition_timeout_values(
     )
 
 
+def _partition_timed_out_before(
+    store: ResearchStore,
+    import_id: int,
+    assignment_id: int,
+    partition_key: str,
+) -> bool:
+    focus_key = f"challenger-partition:{partition_key}"
+    return any(
+        int(item.get("externalAssignmentId") or 0) == int(assignment_id)
+        and str(item.get("focusKey") or "") == focus_key
+        and str(item.get("outcome") or "") == "failed"
+        and "timed out" in str(item.get("error") or "").casefold()
+        for item in store.worker_telemetry(import_id)
+    )
+
+
 def _run_partitioned_challenger(
     store: ResearchStore,
     import_id: int,
@@ -1073,6 +1089,7 @@ def _run_partitioned_challenger(
         specs = _challenger_partition_specs(job, challenger, candidates)
         partitions = store.ensure_challenger_partitions(assignment_id, specs)
         trigger = reason
+    leaves = _leaf_challenger_partitions(partitions)
     print(json.dumps({
         "event": "challenger-partitioning-started",
         "profile": profile,
@@ -1080,9 +1097,9 @@ def _run_partitioned_challenger(
         "category": category,
         "assignmentId": assignment_id,
         "reason": trigger,
-        "partitionCount": len(partitions),
+        "partitionCount": len(leaves),
         "completedPartitions": sum(
-            item["status"] == "completed" for item in partitions
+            item["status"] == "completed" for item in leaves
         ),
     }, ensure_ascii=False), flush=True)
 
@@ -1101,10 +1118,43 @@ def _run_partitioned_challenger(
         grok_model=grok_model,
         claude_model=claude_model,
     )
-    for partition in partitions:
-        if partition["status"] == "completed":
-            continue
+
+    while True:
+        partitions = store.list_challenger_partitions(assignment_id)
+        leaves = _leaf_challenger_partitions(partitions)
+        pending = [item for item in leaves if item["status"] != "completed"]
+        if not pending:
+            break
+        partition = pending[0]
         key = str(partition["key"])
+
+        if _partition_timed_out_before(
+            store,
+            import_id,
+            assignment_id,
+            key,
+        ):
+            child_specs = _split_challenger_partition_specs(
+                job,
+                challenger,
+                candidates,
+                partition,
+            )
+            if child_specs:
+                store.ensure_challenger_partitions(assignment_id, child_specs)
+                print(json.dumps({
+                    "event": "challenger-partition-split",
+                    "profile": profile,
+                    "researcher": challenger,
+                    "category": category,
+                    "assignmentId": assignment_id,
+                    "partitionKey": key,
+                    "partitionLabel": partition["label"],
+                    "reason": "prior-timeout",
+                    "childCount": len(child_specs),
+                }, ensure_ascii=False), flush=True)
+                continue
+
         print(json.dumps({
             "event": "challenger-partition-started",
             "profile": profile,
@@ -1114,46 +1164,73 @@ def _run_partitioned_challenger(
             "partitionKey": key,
             "partitionLabel": partition["label"],
             "partitionOrdinal": partition["ordinal"],
-            "partitionCount": len(partitions),
+            "partitionCount": len(leaves),
         }, ensure_ascii=False), flush=True)
-        worker_result = _run_with_retries(
-            challenger,
-            lambda partition=partition: _run_provider(
+        try:
+            worker_result = _run_with_retries(
                 challenger,
-                str(partition["assignment"]),
-                role="challenger",
-                codex_binary=codex_binary,
-                codex_model=codex_model,
-                grok_binary=grok_binary,
-                grok_model=grok_model,
-                claude_binary=claude_binary,
-                claude_model=claude_model,
-                codex_timeout_seconds=part_codex_timeout,
-                grok_timeout_seconds=part_grok_timeout,
-                claude_timeout_seconds=part_claude_timeout,
-                claude_max_turns=claude_max_turns,
-            ),
-            retry_count=retry_count,
-            context={
+                lambda partition=partition: _run_provider(
+                    challenger,
+                    str(partition["assignment"]),
+                    role="challenger",
+                    codex_binary=codex_binary,
+                    codex_model=codex_model,
+                    grok_binary=grok_binary,
+                    grok_model=grok_model,
+                    claude_binary=claude_binary,
+                    claude_model=claude_model,
+                    codex_timeout_seconds=part_codex_timeout,
+                    grok_timeout_seconds=part_grok_timeout,
+                    claude_timeout_seconds=part_claude_timeout,
+                    claude_max_turns=claude_max_turns,
+                ),
+                retry_count=retry_count,
+                context={
+                    "profile": profile,
+                    "category": category,
+                    "assignmentId": assignment_id,
+                    "partitionKey": key,
+                },
+                record_attempt=_attempt_recorder(
+                    store,
+                    import_id=import_id,
+                    profile=profile,
+                    provider=challenger,
+                    role="challenger",
+                    category_id=category_id,
+                    category_label=category,
+                    model=model,
+                    job_id=int(job["id"]),
+                    external_assignment_id=assignment_id,
+                    focus_key=f"challenger-partition:{key}",
+                ),
+                partition_on_timeout=True,
+            )
+        except AdaptivePartitionRequired:
+            child_specs = _split_challenger_partition_specs(
+                job,
+                challenger,
+                candidates,
+                partition,
+            )
+            if not child_specs:
+                raise RuntimeError(
+                    f"Challenger partition {key} timed out at maximum partition depth"
+                )
+            store.ensure_challenger_partitions(assignment_id, child_specs)
+            print(json.dumps({
+                "event": "challenger-partition-split",
                 "profile": profile,
+                "researcher": challenger,
                 "category": category,
                 "assignmentId": assignment_id,
                 "partitionKey": key,
-            },
-            record_attempt=_attempt_recorder(
-                store,
-                import_id=import_id,
-                profile=profile,
-                provider=challenger,
-                role="challenger",
-                category_id=category_id,
-                category_label=category,
-                model=model,
-                job_id=int(job["id"]),
-                external_assignment_id=assignment_id,
-                focus_key=f"challenger-partition:{key}",
-            ),
-        )
+                "partitionLabel": partition["label"],
+                "reason": "timeout",
+                "childCount": len(child_specs),
+            }, ensure_ascii=False), flush=True)
+            continue
+
         saved_partition = store.complete_challenger_partition(
             int(partition["id"]),
             str(worker_result["rawText"]),
@@ -1163,6 +1240,8 @@ def _run_partitioned_challenger(
                 int(worker_result["telemetryId"]),
                 int(saved_partition["leadCount"]),
             )
+        refreshed = store.list_challenger_partitions(assignment_id)
+        refreshed_leaves = _leaf_challenger_partitions(refreshed)
         print(json.dumps({
             "event": "challenger-partition-completed",
             "profile": profile,
@@ -1171,11 +1250,17 @@ def _run_partitioned_challenger(
             "assignmentId": assignment_id,
             "partitionKey": key,
             "leadCount": int(saved_partition["leadCount"]),
+            "completedPartitions": sum(
+                item["status"] == "completed" for item in refreshed_leaves
+            ),
+            "partitionCount": len(refreshed_leaves),
         }, ensure_ascii=False), flush=True)
 
-    completed = store.list_challenger_partitions(assignment_id)
+    completed = _leaf_challenger_partitions(
+        store.list_challenger_partitions(assignment_id)
+    )
     if any(item["status"] != "completed" for item in completed):
-        raise RuntimeError("Not every challenger partition completed")
+        raise RuntimeError("Not every challenger leaf partition completed")
     merged = _merge_partition_results(completed, candidates)
     parsed = parse_manual_contribution(merged)
     print(json.dumps({
@@ -1196,6 +1281,7 @@ def _run_partitioned_challenger(
         },
         "telemetryId": None,
     }
+
 
 
 def run_pairwise(
