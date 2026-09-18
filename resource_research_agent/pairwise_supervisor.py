@@ -61,9 +61,11 @@ def clone_import_baseline(
             )
             for table in IMPORT_TABLES[1:]:
                 connection.execute(
-                    f"INSERT INTO {table} SELECT * FROM seed.{table} WHERE import_id = ?",
+                    f"INSERT INTO {table} "
+                    f"SELECT * FROM seed.{table} WHERE import_id = ? ORDER BY rowid",
                     (seed_import_id,),
                 )
+            connection.commit()
         finally:
             connection.execute("DETACH DATABASE seed")
     return seed_import_id
