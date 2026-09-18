@@ -338,6 +338,29 @@ CREATE TABLE IF NOT EXISTS research_worker_telemetry (
 );
 CREATE INDEX IF NOT EXISTS research_worker_telemetry_import
     ON research_worker_telemetry(import_id, provider, category_id, id);
+CREATE TABLE IF NOT EXISTS research_challenger_partitions (
+    id INTEGER PRIMARY KEY,
+    external_assignment_id INTEGER NOT NULL REFERENCES codex_first_research_assignments(id) ON DELETE CASCADE,
+    ordinal INTEGER NOT NULL CHECK (ordinal > 0),
+    partition_key TEXT NOT NULL,
+    partition_label TEXT NOT NULL,
+    assignment TEXT NOT NULL,
+    assignment_sha256 TEXT NOT NULL CHECK (length(assignment_sha256) = 64),
+    status TEXT NOT NULL CHECK (status IN ('pending', 'completed')),
+    raw_text TEXT NOT NULL DEFAULT '',
+    raw_sha256 TEXT NOT NULL DEFAULT '' CHECK (
+        raw_sha256 = '' OR length(raw_sha256) = 64
+    ),
+    parsed_json TEXT,
+    lead_count INTEGER NOT NULL DEFAULT 0 CHECK (lead_count >= 0),
+    created_at TEXT NOT NULL,
+    completed_at TEXT,
+    updated_at TEXT NOT NULL,
+    UNIQUE (external_assignment_id, partition_key),
+    UNIQUE (external_assignment_id, ordinal)
+);
+CREATE INDEX IF NOT EXISTS research_challenger_partition_status
+    ON research_challenger_partitions(external_assignment_id, status, ordinal);
 CREATE TABLE IF NOT EXISTS codex_replay_studies (
     id INTEGER PRIMARY KEY,
     import_id INTEGER NOT NULL REFERENCES imports(id),
@@ -1384,6 +1407,131 @@ class ResearchStore:
             }
             for row in rows
         ]
+
+    def ensure_challenger_partitions(
+        self,
+        external_assignment_id: int,
+        partitions: list[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            for ordinal, partition in enumerate(partitions, start=1):
+                assignment = str(partition["assignment"])
+                digest = hashlib.sha256(assignment.encode("utf-8")).hexdigest()
+                key = str(partition["key"])
+                label = str(partition["label"])
+                existing = connection.execute(
+                    """SELECT assignment_sha256 FROM research_challenger_partitions
+                       WHERE external_assignment_id = ? AND partition_key = ?""",
+                    (int(external_assignment_id), key),
+                ).fetchone()
+                if existing:
+                    if str(existing["assignment_sha256"]) != digest:
+                        raise ValueError(
+                            f"Challenger partition {key} changed after it was created"
+                        )
+                    continue
+                connection.execute(
+                    """INSERT INTO research_challenger_partitions (
+                           external_assignment_id, ordinal, partition_key,
+                           partition_label, assignment, assignment_sha256,
+                           status, created_at, updated_at
+                       ) VALUES (?, ?, ?, ?, ?, ?, 'pending', ?, ?)""",
+                    (
+                        int(external_assignment_id),
+                        ordinal,
+                        key,
+                        label,
+                        assignment,
+                        digest,
+                        now,
+                        now,
+                    ),
+                )
+        return self.list_challenger_partitions(external_assignment_id)
+
+    def list_challenger_partitions(
+        self,
+        external_assignment_id: int,
+    ) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT * FROM research_challenger_partitions
+                   WHERE external_assignment_id = ?
+                   ORDER BY ordinal""",
+                (int(external_assignment_id),),
+            ).fetchall()
+        return [
+            {
+                "id": int(row["id"]),
+                "externalAssignmentId": int(row["external_assignment_id"]),
+                "ordinal": int(row["ordinal"]),
+                "key": str(row["partition_key"]),
+                "label": str(row["partition_label"]),
+                "assignment": str(row["assignment"]),
+                "assignmentSha256": str(row["assignment_sha256"]),
+                "status": str(row["status"]),
+                "rawText": str(row["raw_text"]),
+                "rawSha256": str(row["raw_sha256"]),
+                "parsed": json.loads(row["parsed_json"]) if row["parsed_json"] else None,
+                "leadCount": int(row["lead_count"]),
+                "createdAt": str(row["created_at"]),
+                "completedAt": row["completed_at"],
+                "updatedAt": str(row["updated_at"]),
+            }
+            for row in rows
+        ]
+
+    def complete_challenger_partition(
+        self,
+        partition_id: int,
+        raw_text: str,
+    ) -> dict[str, Any]:
+        parsed = parse_manual_contribution(raw_text)
+        if parsed["status"] != "parsed":
+            raise ValueError(
+                "Correct the challenger partition response before saving it: "
+                + str(parsed["error"])
+            )
+        now = datetime.now(timezone.utc).isoformat()
+        digest = hashlib.sha256(raw_text.encode("utf-8")).hexdigest()
+        with self.connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM research_challenger_partitions WHERE id = ?",
+                (int(partition_id),),
+            ).fetchone()
+            if not row:
+                raise ValueError("Challenger partition not found")
+            if str(row["status"]) == "completed":
+                if str(row["raw_sha256"]) != digest:
+                    raise ValueError("Completed challenger partition is immutable")
+            else:
+                connection.execute(
+                    """UPDATE research_challenger_partitions
+                       SET status = 'completed',
+                           raw_text = ?,
+                           raw_sha256 = ?,
+                           parsed_json = ?,
+                           lead_count = ?,
+                           completed_at = ?,
+                           updated_at = ?
+                       WHERE id = ?""",
+                    (
+                        raw_text,
+                        digest,
+                        _json(parsed["parsed"]),
+                        len(parsed["leads"]),
+                        now,
+                        now,
+                        int(partition_id),
+                    ),
+                )
+        return next(
+            item for item in self.list_challenger_partitions(
+                int(row["external_assignment_id"])
+            )
+            if int(item["id"]) == int(partition_id)
+        )
 
     def record_worker_telemetry(
         self,
