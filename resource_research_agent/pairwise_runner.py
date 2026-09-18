@@ -21,10 +21,25 @@ from .codex_first_research import (
 )
 from .storage import ResearchStore
 from .grok_execution import GrokAuthenticationError, run_grok_process
+from .worker_metrics import model_counter, optional_counter
+from .runner_lock import research_runner_lock
 
 
 SCHEMA_PATH = Path(__file__).with_name("codex_replay_response.schema.json")
 DEFAULT_CODEX_MODEL = "gpt-5.5"
+RESEARCH_PROMPT_VERSION = "scout-research-2026-09-18-v2"
+
+
+class WorkerLimitError(RuntimeError):
+    """An unchanged retry cannot remove an explicit worker budget ceiling."""
+
+    def __init__(self, message: str, usage: dict[str, Any] | None = None):
+        super().__init__(message)
+        self.worker_result = {"rawText": "", "usage": usage or {}}
+
+
+def _is_terminal_failure(error: Exception) -> bool:
+    return isinstance(error, (GrokAuthenticationError, WorkerLimitError, subprocess.TimeoutExpired))
 
 
 def _research_prompt(
@@ -44,6 +59,11 @@ def _research_prompt(
         "locationOrServiceArea, whyRelevant, and uncertainty as text fields.",
         "leadType must be one of program, provider-organization, access-point, routing-source, or directory.",
         "Use empty strings for facts you cannot verify; do not invent them.",
+        "Check explicit service exclusions before calling a provider a treatment or direct-service option.",
+        "Financial assistance does not establish universally free service; distinguish fees from waivers or discounts.",
+        "A past event, donation depot, job posting, or grant is not by itself a current public intake route. State that limitation.",
+        "Do not merge organizations as aliases or rebrands without authoritative evidence. Keep programs and access locations distinct from provider identities.",
+        "Official government or contracting-agency corroboration can establish a pathway even when the provider website is sparse.",
         *(
             [
                 "Do not try to use Bash, shell commands, local-file tools, curl, or pdftotext.",
@@ -64,6 +84,7 @@ def _run_codex_worker(
     codex_binary: str,
     model: str,
     timeout_seconds: int,
+    reasoning_effort: str = "",
 ) -> dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="scout-pairwise-codex-") as directory:
         output_path = Path(directory) / "result.json"
@@ -83,6 +104,8 @@ def _run_codex_worker(
         ]
         if model:
             command.extend(["--model", model])
+        if reasoning_effort:
+            command.extend(["--config", f'model_reasoning_effort="{reasoning_effort}"'])
         command.append("-")
         completed = subprocess.run(
             command,
@@ -131,14 +154,16 @@ def _run_codex_worker(
         return {
             "rawText": raw,
             "usage": {
+                "counterSchemaVersion": 2,
+                "requestedReasoningEffort": reasoning_effort or "cli-default",
                 "numTurns": sum(
                     1 for event in events
                     if str(event.get("type") or "") == "turn.started"
-                ),
+                ) if turn_events else None,
                 "webSearchRequests": sum(
                     count for item_type, count in item_counts.items()
                     if "web_search" in item_type
-                ),
+                ) if turn_events else None,
                 "itemCounts": item_counts,
                 "tokenUsage": last_turn_usage,
                 "threadId": str(thread_event.get("thread_id") or ""),
@@ -214,15 +239,12 @@ def _run_grok_text(
             if not text:
                 raise RuntimeError("Fresh Grok worker JSON contained no response text")
             model_usage = envelope.get("modelUsage") or {}
-            web_search_requests = sum(
-                int((item or {}).get("webSearchRequests") or 0)
-                for item in model_usage.values()
-                if isinstance(item, dict)
-            )
+            web_search_requests = model_counter(model_usage, "webSearchRequests")
             return {
                 "rawText": text,
                 "usage": {
-                    "numTurns": int(envelope.get("num_turns") or 0),
+                    "counterSchemaVersion": 2,
+                    "numTurns": optional_counter(envelope.get("num_turns")),
                     "stopReason": str(envelope.get("stopReason") or ""),
                     "sessionId": str(envelope.get("sessionId") or ""),
                     "requestId": str(envelope.get("requestId") or ""),
@@ -268,6 +290,7 @@ def _claude_command(
         "-p", prompt,
         "--output-format", "json",
         "--max-turns", str(max_turns),
+        "--tools", "WebSearch,WebFetch",
         "--allowedTools", "WebSearch,WebFetch",
     ]
     if model:
@@ -301,6 +324,26 @@ def _run_claude_text(
             timeout=timeout_seconds,
             check=False,
         )
+        try:
+            terminal_envelope = json.loads(completed.stdout)
+        except (json.JSONDecodeError, TypeError):
+            terminal_envelope = {}
+        if isinstance(terminal_envelope, dict) and (
+            terminal_envelope.get("subtype") == "error_max_turns"
+            or terminal_envelope.get("terminal_reason") == "max_turns"
+        ):
+            raise WorkerLimitError(
+                f"Claude reached its {max_turns}-turn wrapper limit; preserve the assignment and review its scope or budget before retrying.",
+                usage={
+                    "counterSchemaVersion": 2,
+                    "numTurns": optional_counter(terminal_envelope.get("num_turns")),
+                    "webSearchRequests": model_counter(terminal_envelope.get("modelUsage"), "webSearchRequests"),
+                    "durationApiMs": optional_counter(terminal_envelope.get("duration_api_ms")),
+                    "terminalReason": "max_turns",
+                    "modelUsage": terminal_envelope.get("modelUsage") or {},
+                    "requestedMaxTurns": max_turns,
+                },
+            )
         if completed.returncode:
             detail = (completed.stderr or completed.stdout).strip()
             raise RuntimeError(
@@ -323,16 +366,13 @@ def _run_claude_text(
             raise RuntimeError("Fresh Claude worker returned no result text")
         if return_metadata:
             model_usage = envelope.get("modelUsage") or {}
-            web_search_requests = sum(
-                int((item or {}).get("webSearchRequests") or 0)
-                for item in model_usage.values()
-                if isinstance(item, dict)
-            )
+            web_search_requests = model_counter(model_usage, "webSearchRequests")
             return {
                 "rawText": raw,
                 "usage": {
-                    "numTurns": int(envelope.get("num_turns") or 0),
-                    "durationApiMs": int(envelope.get("duration_api_ms") or 0),
+                    "counterSchemaVersion": 2,
+                    "numTurns": optional_counter(envelope.get("num_turns")),
+                    "durationApiMs": optional_counter(envelope.get("duration_api_ms")),
                     "totalCostUsd": envelope.get("total_cost_usd"),
                     "terminalReason": str(envelope.get("terminal_reason") or ""),
                     "stopReason": str(envelope.get("stop_reason") or ""),
@@ -475,7 +515,7 @@ def _attempt_recorder(
             external_assignment_id=external_assignment_id,
             focus_key=focus_key,
             response_bytes=(len(raw.encode("utf-8")) if raw else None),
-            usage=dict((result or {}).get("usage") or {}),
+            usage={"researchPromptVersion": RESEARCH_PROMPT_VERSION, **dict((result or {}).get("usage") or {})},
             error=error,
         )
     return record
@@ -519,10 +559,10 @@ def _run_with_retries(
                     started_at=started.isoformat(),
                     completed_at=completed.isoformat(),
                     elapsed_ms=round((time.monotonic() - started_monotonic) * 1000),
-                    result=None,
+                    result=getattr(caught, "worker_result", None),
                     error=str(caught),
                 )
-            final_attempt = isinstance(caught, GrokAuthenticationError) or attempt >= retry_count + 1
+            final_attempt = _is_terminal_failure(caught) or attempt >= retry_count + 1
             print(json.dumps({
                 "event": "worker-retry" if not final_attempt else "worker-failed",
                 "worker": label,
@@ -530,7 +570,7 @@ def _run_with_retries(
                 "error": str(caught),
                 **context,
             }, ensure_ascii=False), flush=True)
-            if isinstance(caught, GrokAuthenticationError):
+            if _is_terminal_failure(caught):
                 raise
             if not final_attempt:
                 time.sleep(min(60, 5 * (2 ** (attempt - 1))))
@@ -557,6 +597,7 @@ def _run_provider(
     grok_timeout_seconds: int,
     claude_timeout_seconds: int,
     claude_max_turns: int,
+    codex_reasoning_effort: str = "",
 ) -> dict[str, Any]:
     if provider == "Codex":
         return _run_codex_worker(
@@ -564,6 +605,7 @@ def _run_provider(
             codex_binary=codex_binary,
             model=codex_model,
             timeout_seconds=codex_timeout_seconds,
+            reasoning_effort=codex_reasoning_effort,
         )
     if provider == "Grok":
         return _run_grok_worker(
@@ -585,7 +627,12 @@ def _run_provider(
     raise ValueError(f"Unsupported automated researcher: {provider}")
 
 
-def run_pairwise(
+def run_pairwise(store: ResearchStore, import_id: int, **options: Any) -> dict[str, Any]:
+    with research_runner_lock(store.path):
+        return _run_pairwise_locked(store, import_id, **options)
+
+
+def _run_pairwise_locked(
     store: ResearchStore,
     import_id: int,
     *,
@@ -604,6 +651,7 @@ def run_pairwise(
     max_passes: int | None,
     max_categories: int | None,
     preflight: bool = True,
+    codex_reasoning_effort: str = "",
 ) -> dict[str, Any]:
     roster = load_researcher_profile(profile)
     primary = next(
@@ -696,6 +744,7 @@ def run_pairwise(
                     grok_timeout_seconds=grok_timeout_seconds,
                     claude_timeout_seconds=claude_timeout_seconds,
                     claude_max_turns=claude_max_turns,
+                    codex_reasoning_effort=codex_reasoning_effort,
                 ),
                 retry_count=retry_count,
                 context={"profile": profile, "category": category, "focusKey": focus_key},
@@ -775,6 +824,7 @@ def run_pairwise(
                     grok_timeout_seconds=grok_timeout_seconds,
                     claude_timeout_seconds=claude_timeout_seconds,
                     claude_max_turns=claude_max_turns,
+                    codex_reasoning_effort=codex_reasoning_effort,
                 ),
                 retry_count=retry_count,
                 context={
@@ -855,6 +905,7 @@ def parser() -> argparse.ArgumentParser:
     )
     value.add_argument("--codex-binary", default=shutil.which("codex") or "codex")
     value.add_argument("--codex-model", default=DEFAULT_CODEX_MODEL)
+    value.add_argument("--codex-reasoning-effort", choices=("low", "medium", "high", "xhigh"), default="")
     value.add_argument("--grok-binary", default=shutil.which("grok") or "grok")
     value.add_argument("--grok-model", default="")
     value.add_argument("--claude-binary", default=shutil.which("claude") or "claude")
@@ -902,6 +953,7 @@ def main(argv: list[str] | None = None) -> int:
         max_passes=args.max_passes,
         max_categories=args.max_categories,
         preflight=not args.skip_preflight,
+        codex_reasoning_effort=args.codex_reasoning_effort,
     )
     return 0
 

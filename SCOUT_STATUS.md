@@ -25,22 +25,16 @@ Do not run category 7 or the full 21-category St. George production run until th
 
 ## Authorized next sequence and effort levels
 
-Michael authorized the following sequence on September 18 after the Bonsai removal:
-finish Claude+Grok's six-category condition; analyze all three conditions; revise
-Scout's architecture and implementation as supported by the evidence; validate
-changes with required tests/CI; then start the full 21-category St. George run.
-No additional routine launch approval is needed once those prerequisites pass.
-Preserve the experiment databases and do not conflate raw lead counts with curated
-accepted identities. Production must use separate durable state.
+Michael's latest instruction supersedes the earlier automatic-launch authorization:
+continue at Extra High through completion of Claude+Grok, the six-category analysis,
+evidence-supported architecture/implementation revisions, and validation. **Stop when
+the 21-category run is ready; do not launch it.** Michael will return and switch the
+conversation to High before production. He confirmed Extra High is selected.
 
-Requested effort: High for remaining experiment supervision; Extra High for the
-architecture analysis and consequential design review; High for routine production
-execution. Worker reasoning settings are separate from the supervising chat's
-setting; do not change ongoing experimental worker settings to match the chat.
-The assistant has no exposed tool to switch this conversation's reasoning effort.
-Michael must select Extra High in the conversation before that analysis begins;
-editing CLI defaults does not establish that the active chat has changed effort.
-No automatic chat effort switching or post-completion wake-up has been configured.
+Preserve the experiment databases, keep production state separate, and do not
+conflate raw lead counts with curated accepted identities. Leave running research
+workers' settings unchanged. Use the full architecture-review checklist below.
+Commit and push verified work and leave a concrete launch handoff.
 
 ## Authentication diagnosis and partitioning rollback: September 18, 2026
 
@@ -122,7 +116,24 @@ Scout now persists per-provider/per-attempt telemetry including:
 - web-search/tool counts when exposed
 - provider token/model usage when exposed
 - Claude API duration/cost/terminal reason when exposed
-- leads per active research minute summary
+- raw leads per elapsed worker minute, with successful and failed time separated
+
+Production preparation now preserves missing counters as unknown (including
+legacy zero counters that could mean absent metadata). Observed partial sums
+include their known-attempt counts. Provider turn counters are not necessarily
+comparable units. No raw-lead rate is an accepted-resource rate.
+
+The runner now takes a local exclusive database lock; explicit timeouts and Claude
+turn-limit failures stop instead of retrying the unchanged assignment. Codex effort
+can be explicitly supplied with `--codex-reasoning-effort high`. Claude is given
+only WebSearch/WebFetch built-in tools. Prompt v2 addresses the source-audit errors
+around service exclusions, fees, one-time events and unsupported identity mergers.
+These changes do not alter the already-running Claude+Grok Python process.
+
+The full local suite passed 200 tests (one skipped) during preparation. The final
+architecture recommendation is still pending completion of Domestic Violence and
+Education in Claude+Grok. Read-only review artifacts are under
+`data/pairwise-review-20260918/`; they are not curated acceptance results.
 
 Codex runs use JSONL execution telemetry. Grok uses JSON headless telemetry. Claude retains its JSON envelope metrics.
 

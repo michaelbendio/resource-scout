@@ -78,11 +78,18 @@ class PairwiseSupervisorTests(unittest.TestCase):
             self.assertEqual(2, provider["attempts"])
             self.assertEqual(1, provider["completedAttempts"])
             self.assertEqual(1, provider["failedAttempts"])
-            self.assertEqual(7, provider["turnCount"])
-            self.assertEqual(4, provider["webSearchRequests"])
+            self.assertIsNone(provider["turnCount"])
+            self.assertIsNone(provider["webSearchRequests"])
+            self.assertEqual(7, provider["observedTurnCount"])
+            self.assertEqual(4, provider["observedWebSearchRequests"])
+            self.assertEqual(1, provider["turnCountKnownAttempts"])
+            self.assertEqual(1, provider["webSearchKnownAttempts"])
             self.assertEqual(3, provider["leadCount"])
             self.assertEqual(1.5, provider["elapsedMinutes"])
-            self.assertEqual(2.0, provider["leadsPerActiveMinute"])
+            self.assertEqual(1.0, provider["successfulElapsedMinutes"])
+            self.assertEqual(0.5, provider["failedElapsedMinutes"])
+            self.assertEqual(2.0, provider["rawLeadsPerWorkerMinute"])
+            self.assertEqual(3.0, provider["rawLeadsPerSuccessfulWorkerMinute"])
 
     def test_clone_import_baseline_preserves_clean_package_order(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

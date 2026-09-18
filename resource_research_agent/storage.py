@@ -19,6 +19,7 @@ from .importer import (
     resource_name,
 )
 from .manual_discovery import parse_manual_contribution
+from .worker_metrics import observed_counter
 
 
 SCHEMA = """
@@ -1503,31 +1504,58 @@ class ResearchStore:
                 "completedAttempts": 0,
                 "failedAttempts": 0,
                 "elapsedMs": 0,
+                "successfulElapsedMs": 0,
+                "failedElapsedMs": 0,
                 "leadCount": 0,
                 "responseBytes": 0,
-                "turnCount": 0,
-                "webSearchRequests": 0,
+                "observedTurnCount": 0,
+                "turnCountKnownAttempts": 0,
+                "observedWebSearchRequests": 0,
+                "webSearchKnownAttempts": 0,
             })
             item["attempts"] += 1
             item["completedAttempts"] += row["outcome"] == "completed"
             item["failedAttempts"] += row["outcome"] == "failed"
             item["elapsedMs"] += int(row["elapsedMs"])
+            item["successfulElapsedMs" if row["outcome"] == "completed" else "failedElapsedMs"] += int(row["elapsedMs"])
             item["leadCount"] += int(row["leadCount"] or 0)
             item["responseBytes"] += int(row["responseBytes"] or 0)
             usage = row.get("usage") or {}
-            item["turnCount"] += int(usage.get("numTurns") or 0)
-            item["webSearchRequests"] += int(usage.get("webSearchRequests") or 0)
+            turns = observed_counter(usage, "numTurns")
+            searches = observed_counter(usage, "webSearchRequests")
+            if turns is not None:
+                item["observedTurnCount"] += turns
+                item["turnCountKnownAttempts"] += 1
+            if searches is not None:
+                item["observedWebSearchRequests"] += searches
+                item["webSearchKnownAttempts"] += 1
         provider_values = [providers[name] for name in sorted(providers)]
         for item in provider_values:
             elapsed_minutes = item["elapsedMs"] / 60000
             item["elapsedMinutes"] = round(elapsed_minutes, 3)
-            item["leadsPerActiveMinute"] = (
+            item["successfulElapsedMinutes"] = round(item["successfulElapsedMs"] / 60000, 3)
+            item["failedElapsedMinutes"] = round(item["failedElapsedMs"] / 60000, 3)
+            item["turnCount"] = (
+                item["observedTurnCount"]
+                if item["turnCountKnownAttempts"] == item["attempts"] else None
+            )
+            item["webSearchRequests"] = (
+                item["observedWebSearchRequests"]
+                if item["webSearchKnownAttempts"] == item["attempts"] else None
+            )
+            item["rawLeadsPerWorkerMinute"] = (
                 round(item["leadCount"] / elapsed_minutes, 3)
                 if elapsed_minutes > 0 else None
+            )
+            item["rawLeadsPerSuccessfulWorkerMinute"] = (
+                round(item["leadCount"] * 60000 / item["successfulElapsedMs"], 3)
+                if item["successfulElapsedMs"] > 0 else None
             )
         return {
             "attemptCount": len(rows),
             "providers": provider_values,
+            "timingBasis": "Elapsed worker attempts, including network waits; not measured active inference.",
+            "leadBasis": "Submitted candidates, not curated accepted identities.",
         }
 
     def create_manual_discovery_run(
