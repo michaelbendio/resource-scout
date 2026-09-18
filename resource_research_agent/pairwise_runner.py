@@ -1009,6 +1009,9 @@ def run_pairwise(
     max_passes: int | None,
     max_categories: int | None,
     preflight: bool = True,
+    challenger_partition_candidate_threshold: int = DEFAULT_CHALLENGER_PARTITION_CANDIDATE_THRESHOLD,
+    challenger_partition_char_threshold: int = DEFAULT_CHALLENGER_PARTITION_CHAR_THRESHOLD,
+    challenger_partition_timeout_seconds: int = DEFAULT_CHALLENGER_PARTITION_TIMEOUT_SECONDS,
 ) -> dict[str, Any]:
     roster = load_researcher_profile(profile)
     primary = next(
@@ -1164,12 +1167,41 @@ def run_pairwise(
                 "assignmentId": assignment_id,
                 "challengerRunsThisRun": challenger_runs_this_run,
             }, ensure_ascii=False), flush=True)
-            worker_result = _run_with_retries(
-                challenger,
-                lambda: _run_provider(
-                    challenger,
-                    assignment_text,
-                    role="challenger",
+            candidates = build_candidate_manifest(
+                store,
+                int(challenger_assignment["job"]["runId"]),
+            )
+            existing_partitions = store.list_challenger_partitions(assignment_id)
+            partition_reasons = _challenger_partition_reasons(
+                assignment_text,
+                len(candidates),
+                candidate_threshold=challenger_partition_candidate_threshold,
+                char_threshold=challenger_partition_char_threshold,
+            )
+            if existing_partitions or partition_reasons:
+                reason = (
+                    "resume-existing-partitions"
+                    if existing_partitions
+                    else ",".join(partition_reasons)
+                )
+                print(json.dumps({
+                    "event": "challenger-partition-triggered",
+                    "profile": profile,
+                    "researcher": challenger,
+                    "category": category,
+                    "assignmentId": assignment_id,
+                    "reason": reason,
+                    "candidateCount": len(candidates),
+                    "assignmentChars": len(assignment_text),
+                }, ensure_ascii=False), flush=True)
+                worker_result = _run_partitioned_challenger(
+                    store,
+                    import_id,
+                    profile=profile,
+                    challenger=challenger,
+                    challenger_assignment=challenger_assignment,
+                    candidates=candidates,
+                    reason=reason,
                     codex_binary=codex_binary,
                     codex_model=codex_model,
                     grok_binary=grok_binary,
@@ -1180,31 +1212,79 @@ def run_pairwise(
                     grok_timeout_seconds=grok_timeout_seconds,
                     claude_timeout_seconds=claude_timeout_seconds,
                     claude_max_turns=claude_max_turns,
-                ),
-                retry_count=retry_count,
-                context={
-                    "profile": profile,
-                    "category": category,
-                    "assignmentId": assignment_id,
-                },
-                record_attempt=_attempt_recorder(
-                    store,
-                    import_id=import_id,
-                    profile=profile,
-                    provider=challenger,
-                    role="challenger",
-                    category_id=str(challenger_assignment["job"]["categoryId"]),
-                    category_label=category,
-                    model=_provider_model(
+                    retry_count=retry_count,
+                    partition_timeout_seconds=challenger_partition_timeout_seconds,
+                )
+            else:
+                try:
+                    worker_result = _run_with_retries(
                         challenger,
+                        lambda: _run_provider(
+                            challenger,
+                            assignment_text,
+                            role="challenger",
+                            codex_binary=codex_binary,
+                            codex_model=codex_model,
+                            grok_binary=grok_binary,
+                            grok_model=grok_model,
+                            claude_binary=claude_binary,
+                            claude_model=claude_model,
+                            codex_timeout_seconds=codex_timeout_seconds,
+                            grok_timeout_seconds=grok_timeout_seconds,
+                            claude_timeout_seconds=claude_timeout_seconds,
+                            claude_max_turns=claude_max_turns,
+                        ),
+                        retry_count=retry_count,
+                        context={
+                            "profile": profile,
+                            "category": category,
+                            "assignmentId": assignment_id,
+                        },
+                        record_attempt=_attempt_recorder(
+                            store,
+                            import_id=import_id,
+                            profile=profile,
+                            provider=challenger,
+                            role="challenger",
+                            category_id=str(challenger_assignment["job"]["categoryId"]),
+                            category_label=category,
+                            model=_provider_model(
+                                challenger,
+                                codex_model=codex_model,
+                                grok_model=grok_model,
+                                claude_model=claude_model,
+                            ),
+                            job_id=int(challenger_assignment["job"]["id"]),
+                            external_assignment_id=assignment_id,
+                        ),
+                        partition_on_timeout=True,
+                    )
+                except AdaptivePartitionRequired:
+                    candidates = build_candidate_manifest(
+                        store,
+                        int(challenger_assignment["job"]["runId"]),
+                    )
+                    worker_result = _run_partitioned_challenger(
+                        store,
+                        import_id,
+                        profile=profile,
+                        challenger=challenger,
+                        challenger_assignment=challenger_assignment,
+                        candidates=candidates,
+                        reason="timeout",
+                        codex_binary=codex_binary,
                         codex_model=codex_model,
+                        grok_binary=grok_binary,
                         grok_model=grok_model,
+                        claude_binary=claude_binary,
                         claude_model=claude_model,
-                    ),
-                    job_id=int(challenger_assignment["job"]["id"]),
-                    external_assignment_id=assignment_id,
-                ),
-            )
+                        codex_timeout_seconds=codex_timeout_seconds,
+                        grok_timeout_seconds=grok_timeout_seconds,
+                        claude_timeout_seconds=claude_timeout_seconds,
+                        claude_max_turns=claude_max_turns,
+                        retry_count=retry_count,
+                        partition_timeout_seconds=challenger_partition_timeout_seconds,
+                    )
             saved = save_codex_first_external_result(
                 store,
                 assignment_id,
@@ -1269,6 +1349,24 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--claude-timeout-seconds", type=int, default=1800)
     value.add_argument("--claude-max-turns", type=int, default=60)
     value.add_argument("--retry-count", type=int, default=3)
+    value.add_argument(
+        "--challenger-partition-candidate-threshold",
+        type=int,
+        default=DEFAULT_CHALLENGER_PARTITION_CANDIDATE_THRESHOLD,
+        help="Pre-partition challenger work at or above this many existing candidate identities; 0 disables this trigger",
+    )
+    value.add_argument(
+        "--challenger-partition-char-threshold",
+        type=int,
+        default=DEFAULT_CHALLENGER_PARTITION_CHAR_THRESHOLD,
+        help="Pre-partition challenger work at or above this generated assignment size; 0 disables this trigger",
+    )
+    value.add_argument(
+        "--challenger-partition-timeout-seconds",
+        type=int,
+        default=DEFAULT_CHALLENGER_PARTITION_TIMEOUT_SECONDS,
+        help="Maximum runtime for each bounded challenger partition",
+    )
     value.add_argument("--max-passes", type=int)
     value.add_argument(
         "--max-categories",
@@ -1307,6 +1405,9 @@ def main(argv: list[str] | None = None) -> int:
         max_passes=args.max_passes,
         max_categories=args.max_categories,
         preflight=not args.skip_preflight,
+        challenger_partition_candidate_threshold=args.challenger_partition_candidate_threshold,
+        challenger_partition_char_threshold=args.challenger_partition_char_threshold,
+        challenger_partition_timeout_seconds=args.challenger_partition_timeout_seconds,
     )
     return 0
 
