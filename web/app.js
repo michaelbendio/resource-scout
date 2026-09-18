@@ -242,6 +242,11 @@ function renderCodexFirstDetail(view) {
       status.dataset.status = researcher.status;
       status.textContent = researchStatusLabel(researcher.status);
       identity.append(name, role);
+      if (researcher.scope) {
+        const scope = document.createElement('small');
+        scope.textContent = `Focused second opinion${researcher.after ? ` after ${researcher.after}` : ''}: ${researcher.scope}`;
+        identity.append(scope);
+      }
       item.append(identity, status);
       researcherList.append(item);
     }

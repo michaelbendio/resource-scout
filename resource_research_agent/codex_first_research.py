@@ -52,7 +52,7 @@ def validate_researcher_roster(value: dict[str, Any]) -> dict[str, Any]:
     allowed = {"primary", "challenger", "shadow", "disabled"}
     names: set[str] = set()
     primary = 0
-    normalized: list[dict[str, str]] = []
+    normalized: list[dict[str, Any]] = []
     for item in researchers:
         if not isinstance(item, dict):
             raise RuntimeError("Every researcher roster entry must be an object")
@@ -62,7 +62,21 @@ def validate_researcher_roster(value: dict[str, Any]) -> dict[str, Any]:
             raise RuntimeError("Researcher roster names must be unique and roles valid")
         names.add(name.casefold())
         primary += role == "primary"
-        normalized.append({"name": name, "role": role})
+        entry = {"name": name, "role": role}
+        for field in ("scope", "routingReason"):
+            if field in item:
+                if not isinstance(item[field], str) or not item[field].strip():
+                    raise RuntimeError(f"Researcher {field} must be nonempty text")
+                entry[field] = item[field].strip()
+        if item.get("after"):
+            predecessor = str(item["after"])
+            if role != "challenger" or not any(
+                previous["name"] == predecessor and previous["role"] == "challenger"
+                for previous in normalized
+            ):
+                raise RuntimeError("A dependent challenger must follow an earlier enabled challenger")
+            entry["after"] = predecessor
+        normalized.append(entry)
     if primary != 1:
         raise RuntimeError("Researcher roster must have exactly one primary")
     return {
@@ -99,6 +113,8 @@ def prepare_codex_first_plan(
     import_id: int | None = None,
     *,
     roster: dict[str, Any] | None = None,
+    category_rosters: dict[str, dict[str, Any]] | None = None,
+    preserve_completed: bool = False,
 ) -> dict[str, Any]:
     selected = int(import_id or store.latest_import_id() or 0)
     if not selected:
@@ -123,14 +139,48 @@ def prepare_codex_first_plan(
     ]
     if missing:
         raise ValueError("Focused research guidance is missing for: " + ", ".join(missing))
+    overrides = {
+        key: validate_researcher_roster(value)
+        for key, value in (category_rosters or {}).items()
+    }
+    unknown = set(overrides) - {str(category["id"]) for category in categories}
+    if unknown:
+        raise ValueError("Unknown category routing keys: " + ", ".join(sorted(unknown)))
+    all_existing = [job for job in store.list_focused_research_jobs(selected)
+                    if job.get("experimentMode") == CODEX_FIRST_EXPERIMENT_MODE]
+    if len({job["categoryId"] for job in all_existing}) != len(all_existing):
+        raise ValueError("Multiple researcher plans exist for one category; resolve the active plan before running")
+    existing = _codex_jobs(store, selected)
+    previous = {str(job["categoryId"]): job for job in existing}
+    # Validate the complete requested policy before creating any jobs. Changing a
+    # roster must not silently create a second job and rerun a completed category.
     for category in categories:
+        category_id = str(category["id"])
+        chosen = overrides.get(category_id, roster_value)
+        if _primary_researcher_name(chosen) != _primary_researcher_name(roster_value):
+            raise ValueError("Category routing must keep the same primary researcher")
+        old = previous.get(category_id)
+        if not old:
+            continue
+        old_roster = (old.get("plan") or {}).get("researcherRoster") or {}
+        if preserve_completed and old["status"] == "completed" and (
+            _primary_researcher_name(old_roster) == _primary_researcher_name(chosen)
+        ):
+            continue
+        if old_roster != chosen:
+            raise ValueError(
+                f"{category['label']} already has a different sealed researcher plan; use a separate prepared production database"
+            )
+    for category in categories:
+        if str(category["id"]) in previous:
+            continue
         prepare_focused_research_job(
             store,
             selected,
             str(category["id"]),
             experiment_mode=CODEX_FIRST_EXPERIMENT_MODE,
             redact_recovery_targets=False,
-            researcher_roster=roster_value,
+            researcher_roster=overrides.get(str(category["id"]), roster_value),
         )
     return codex_first_view(store, selected)
 
@@ -153,6 +203,8 @@ def _build_challenger_assignment(
     ] or ["- None."]
     plan = job["plan"]
     primary_name = _primary_researcher_name(plan.get("researcherRoster") or {})
+    route = next(item for item in _external_researchers(job) if item["name"] == researcher)
+    scope = str(route.get("scope") or "")
     return "\n".join([
         f"Resource Scout adversarial challenger assignment for {researcher}.",
         f"Category: {job['categoryLabel']}",
@@ -162,6 +214,13 @@ def _build_challenger_assignment(
         "Find credible, direct-service candidates it still missed. Do not repeat the identities below.",
         "Search different vocabulary, provider ecosystems, referral pathways, public records, grants, contracts, registries, and primary-source PDFs.",
         "Return only candidates that credibly serve the stated area. A broken page alone does not prove closure.",
+        *([
+            "",
+            "Bounded second-opinion scope:",
+            scope,
+            "Cover only these pathways. Return at most eight well-supported, materially distinct additions; an empty leads array is valid if no such gap remains.",
+            "The exclusions include completed earlier challenger results as well as primary research.",
+        ] if scope else []),
         "",
         "Include:",
         *[f"- {item}" for item in plan.get("include") or []],
@@ -196,6 +255,9 @@ def prepare_codex_first_challenges(
     current = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
     for researcher in _external_researchers(job):
         name = str(researcher["name"])
+        after = researcher.get("after")
+        if after and (existing.get(str(after)) or {}).get("status") != "completed":
+            continue
         assignment_text = _build_challenger_assignment(job, name, candidates)
         saved = existing.get(name) or store.create_codex_first_assignment(
             job_id=job_id,
@@ -394,8 +456,16 @@ def codex_first_view(store: ResearchStore, import_id: int) -> dict[str, Any]:
                 {
                     "name": item["name"],
                     "role": item["role"],
+                    "scope": str(item.get("scope") or ""),
+                    "after": str(item.get("after") or ""),
+                    "routingReason": str(item.get("routingReason") or ""),
                     "status": (
-                        "completed" if item["role"] == "primary" and job["status"] == "completed"
+                        "completed" if item["role"] == "primary" and (
+                            job["status"] == "completed" or (
+                                any(p["passKind"] == "gap" for p in job["passes"])
+                                and all(p["status"] == "completed" for p in job["passes"])
+                            )
+                        )
                         else "in-progress" if item["role"] == "primary" and job["status"] == "in-progress"
                         else "pending" if item["role"] == "primary"
                         else (assignments_by_researcher.get(item["name"]) or {}).get("status", "pending")

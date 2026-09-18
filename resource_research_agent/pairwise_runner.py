@@ -23,6 +23,7 @@ from .storage import ResearchStore
 from .grok_execution import GrokAuthenticationError, run_grok_process
 from .worker_metrics import model_counter, optional_counter
 from .runner_lock import research_runner_lock
+from .challenger_routing import load_challenger_routing
 
 
 SCHEMA_PATH = Path(__file__).with_name("codex_replay_response.schema.json")
@@ -652,8 +653,13 @@ def _run_pairwise_locked(
     max_categories: int | None,
     preflight: bool = True,
     codex_reasoning_effort: str = "",
+    category_rosters: dict[str, dict[str, Any]] | None = None,
+    preserve_completed: bool = False,
 ) -> dict[str, Any]:
     roster = load_researcher_profile(profile)
+    if category_rosters:
+        routing_versions = sorted({str(route["version"]) for route in category_rosters.values()})
+        profile = profile + "+" + "+".join(routing_versions)
     primary = next(
         str(item["name"])
         for item in roster["researchers"]
@@ -665,9 +671,22 @@ def _run_pairwise_locked(
         if item["role"] == "challenger"
     ]
     if len(challengers) != 1:
-        raise ValueError("Automated pairwise profiles require exactly one challenger")
-    challenger = challengers[0]
-    enabled = {primary, challenger}
+        raise ValueError("The base pairwise profile requires exactly one challenger")
+    for category_roster in (category_rosters or {}).values():
+        for researcher in category_roster["researchers"]:
+            if researcher["role"] == "challenger" and researcher["name"] not in challengers:
+                challengers.append(str(researcher["name"]))
+    enabled = {primary, *challengers}
+
+    initial_view = prepare_codex_first_plan(
+        store, import_id, roster=roster, category_rosters=category_rosters,
+        preserve_completed=preserve_completed,
+    )
+    needs_work = not (
+        (max_categories is not None and initial_view["completedCategories"] >= max_categories)
+        or (max_passes is not None and max_passes <= 0)
+        or initial_view["status"] == "completed"
+    )
 
     binaries = {
         "Codex": codex_binary,
@@ -675,12 +694,12 @@ def _run_pairwise_locked(
         "Claude": claude_binary,
     }
     for provider in enabled:
-        if not _binary_available(binaries[provider]):
+        if needs_work and not _binary_available(binaries[provider]):
             raise RuntimeError(
                 f"{provider} CLI not found: {binaries[provider]}"
             )
 
-    if preflight:
+    if preflight and needs_work:
         if "Grok" in enabled:
             print(json.dumps({"event": "grok-preflight-started", "profile": profile}), flush=True)
             _grok_preflight(
@@ -699,7 +718,6 @@ def _run_pairwise_locked(
             )
             print(json.dumps({"event": "claude-preflight-completed", "profile": profile}), flush=True)
 
-    prepare_codex_first_plan(store, import_id, roster=roster)
     primary_passes_this_run = 0
     challenger_runs_this_run = 0
 
@@ -792,9 +810,11 @@ def _run_pairwise_locked(
             }, ensure_ascii=False), flush=True)
             continue
 
-        challenger_assignment = next_codex_first_assignment(
-            store, import_id, challenger
-        )
+        challenger_assignment = None
+        for challenger in challengers:
+            challenger_assignment = next_codex_first_assignment(store, import_id, challenger)
+            if challenger_assignment is not None:
+                break
         if challenger_assignment is not None:
             external = challenger_assignment["externalAssignment"]
             category = str(challenger_assignment["job"]["categoryLabel"])
@@ -882,7 +902,8 @@ def _run_pairwise_locked(
         "event": "pairwise-run-stopped",
         "profile": profile,
         "primary": primary,
-        "challenger": challenger,
+        "challenger": challengers[0],
+        "challengers": challengers,
         "status": view["status"],
         "completedCategories": view["completedCategories"],
         "totalCategories": view["totalCategories"],
@@ -906,6 +927,8 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--codex-binary", default=shutil.which("codex") or "codex")
     value.add_argument("--codex-model", default=DEFAULT_CODEX_MODEL)
     value.add_argument("--codex-reasoning-effort", choices=("low", "medium", "high", "xhigh"), default="")
+    value.add_argument("--routing-policy", type=Path, help="Versioned category scopes for a bounded Claude second opinion after Grok")
+    value.add_argument("--reuse-completed", action="store_true", help="Preserve completed categories with the same primary when promoting a separate production copy")
     value.add_argument("--grok-binary", default=shutil.which("grok") or "grok")
     value.add_argument("--grok-model", default="")
     value.add_argument("--claude-binary", default=shutil.which("claude") or "claude")
@@ -954,6 +977,8 @@ def main(argv: list[str] | None = None) -> int:
         max_categories=args.max_categories,
         preflight=not args.skip_preflight,
         codex_reasoning_effort=args.codex_reasoning_effort,
+        category_rosters=load_challenger_routing(args.routing_policy) if args.routing_policy else None,
+        preserve_completed=args.reuse_completed,
     )
     return 0
 
