@@ -3,6 +3,16 @@
 Read this file before substantive Scout work. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Live launch — September 18, 2026, 22:39 UTC
+
+Michael explicitly authorized: “run the 21-category Scout and tell me the port
+number.” Production is running with Codex+Grok, Codex CLI at High. Grok preflight
+passed and the Employment challenger started. Runner PID at launch: 10099;
+monitor PID: 10078. Monitor: **http://127.0.0.1:8769**. Verify current processes
+before any resume; these PIDs are observations, not permanent identities.
+`data/st-george-production-20260918-codex-grok/launch.json` records the command.
+The runner log is adjacent. Do not launch a duplicate worker.
+
 ## Binding instructions
 
 - Work in `~/resource-scout-pairwise`, branch `pairwise-research-experiment`.
@@ -12,10 +22,9 @@ a monitor process is not a research worker.
   responses is allowed; assigning it new work is not.
 - Preserve the three completed experiment databases and the earlier five-worker
   baseline. Never rerun their completed categories or replace those databases.
-- Michael authorized continuing at Extra High through the architecture review
-  and production preparation, then **stopping before production launch**. He
-  will return and select High. The Extra High review is now complete; High is
-  appropriate for execution. Do not infer that an effort change alone is a launch.
+- Michael explicitly authorized the 21-category production launch after the
+  completed Extra High review. The run is now active. Codex CLI workers use
+  High; no further launch confirmation is needed for an ordinary safe resume.
 - Bonsai was removed at Michael's request. Structured extraction is deferred,
   not a current or near-term task.
 
@@ -24,7 +33,7 @@ a monitor process is not a research worker.
 All three conditions in `data/pairwise-overnight-20260918-022703/` completed their
 six categories: Addiction, Children/Pregnancy, Clothing/Household, Disability,
 Domestic Violence, Education. The final Claude+Grok research worker exited after
-Education; no seventh experimental category ran. No production worker has started.
+Education; no seventh experimental category ran. The separate production worker has now started.
 
 - `codex-grok.sqlite3`: complete, 473 submitted rows.
 - `codex-claude.sqlite3`: complete, 567 submitted rows.
@@ -74,10 +83,11 @@ runs used 60. Keep that history distinct from the authentication outage and from
 successful recovered calls. Historical native Claude/tool counters are not
 uniformly comparable to Grok/Codex counters. Missing values remain unknown.
 
-## Prepared production workspace — not launched
+## Active production workspace
 
 Database: `data/st-george-production-20260918-codex-grok/research.sqlite3`
-Manifest: adjacent `research.preparation.json` (`status: ready`, `launched: false`).
+Manifest: adjacent `research.preparation.json` records the pre-launch preparation
+snapshot. The newer `launch.json` records the authorized active launch.
 Read the [launch handoff](docs/st-george-production-handoff-20260918.md).
 
 Verified preparation:
@@ -107,8 +117,8 @@ preventive guidance, not a new tested six-category condition.
 
 ## Launch/curation boundaries
 
-Do not start a runner until Michael resumes after this readiness handoff. Inspect
-actual worker processes and DB statuses first; never start a duplicate. Keep
+Production is already running. Before any resume, inspect actual worker
+processes and DB statuses; never start a duplicate. Keep
 Codex/Grok preflight enabled. Refresh Grok login outside its strict research
 sandbox when needed; never call Claude as fallback.
 

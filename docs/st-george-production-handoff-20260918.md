@@ -1,8 +1,11 @@
 # St. George production launch handoff
 
-**Ready, not launched.** The Extra High architecture review and five-worker
-comparison are complete. Michael can switch to High; production remains held
-until he resumes it after this handoff. Claude is disabled, including probes.
+**Launched September 18, 2026, at 22:39 UTC on Michael's explicit instruction.**
+Monitor: **http://127.0.0.1:8769**. Grok preflight passed; the first active task
+is the Employment challenger. Runner PID at launch: 10099; monitor PID: 10078.
+Inspect live state before resuming. Claude is disabled, including probes.
+The Extra High review is complete; Codex CLI workers run at High.
+The adjacent `launch.json` and `runner.log` record this execution.
 
 ## Workspace and preserved work
 
@@ -45,14 +48,15 @@ The manifest there says `abandoned-not-for-launch`. It remains as failure eviden
   under forced SQLite page-cache spill. Tests use mocked historical workers.
 - Codex High/web/JSON and sandboxed Grok authentication probes passed earlier.
   They are historical readiness evidence; preflight is still required at launch.
-- No production worker started; the preparation manifest says `launched: false`.
+- The preparation manifest is the pre-launch snapshot. Production subsequently
+  started on explicit authorization; see `launch.json` and the runner log.
 
 Implementation and reports are committed/pushed on the current branch as recorded
 in Git history. Check the corresponding GitHub Actions run before launch.
 
-## Before launching
+## Before any resume
 
-1. Michael selects High and resumes production. CLI worker effort is separately
+1. Launch authorization is already granted. CLI worker effort is explicitly
    set to High in the command below.
 2. Read `SCOUT_STATUS.md`, inspect actual processes and this production database.
    Do not launch a second runner on it. A monitor is not a worker.
@@ -70,7 +74,7 @@ Inspect a suspected worker's command/database path when necessary. A leftover
 `.runner.lock` file does not imply a live process; OS locks release on exit. Do
 not delete that file to evade an active lock.
 
-## Launch after Michael resumes
+## Authorized command — do not run while the current worker is active
 
 ```bash
 caffeinate -dimsu python3 -u -m resource_research_agent.pairwise_runner \
