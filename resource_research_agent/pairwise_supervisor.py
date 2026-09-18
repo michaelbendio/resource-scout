@@ -4,9 +4,11 @@ import argparse
 import json
 import shutil
 import sqlite3
+import socket
 import subprocess
 import sys
 import time
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -33,6 +35,97 @@ IMPORT_TABLES = (
 
 def _utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def _monitor_specs(output_dir: Path, base_port: int) -> dict[str, dict[str, Any]]:
+    return {
+        profile: {
+            "port": base_port + index,
+            "url": f"http://127.0.0.1:{base_port + index}",
+            "logFile": str(output_dir / f"{profile}-server.log"),
+        }
+        for index, profile in enumerate(PROFILES)
+    }
+
+
+def _assert_port_free(port: int) -> None:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as probe:
+        try:
+            probe.bind(("127.0.0.1", port))
+        except OSError as error:
+            raise RuntimeError(
+                f"Monitor port {port} is already in use. "
+                f"Stop the existing process before starting the three-way experiment."
+            ) from error
+
+
+def _wait_for_server(url: str, process: subprocess.Popen[str], timeout_seconds: int = 30) -> None:
+    deadline = time.monotonic() + timeout_seconds
+    status_url = url.rstrip("/") + "/api/status"
+    while time.monotonic() < deadline:
+        if process.poll() is not None:
+            raise RuntimeError(
+                f"Scout monitor server exited early with code {process.returncode}: {url}"
+            )
+        try:
+            with urllib.request.urlopen(status_url, timeout=2) as response:
+                if response.status == 200:
+                    return
+        except Exception:
+            time.sleep(0.25)
+    raise RuntimeError(f"Scout monitor server did not become ready: {url}")
+
+
+def _start_monitor_servers(
+    databases: dict[str, Path],
+    output_dir: Path,
+    *,
+    base_port: int,
+    open_browser: bool,
+) -> dict[str, dict[str, Any]]:
+    specs = _monitor_specs(output_dir, base_port)
+    for spec in specs.values():
+        _assert_port_free(int(spec["port"]))
+
+    processes: dict[str, subprocess.Popen[str]] = {}
+    for profile in PROFILES:
+        spec = specs[profile]
+        log_path = Path(str(spec["logFile"]))
+        handle = log_path.open("w", encoding="utf-8")
+        process = subprocess.Popen(
+            [
+                sys.executable,
+                "-m", "resource_research_agent",
+                "--database", str(databases[profile]),
+                "serve",
+                "--port", str(spec["port"]),
+            ],
+            stdout=handle,
+            stderr=subprocess.STDOUT,
+            text=True,
+            start_new_session=True,
+        )
+        handle.close()
+        _wait_for_server(str(spec["url"]), process)
+        processes[profile] = process
+        spec["pid"] = process.pid
+        print(json.dumps({
+            "event": "monitor-started",
+            "profile": profile,
+            "pid": process.pid,
+            "port": spec["port"],
+            "url": spec["url"],
+            "database": str(databases[profile]),
+        }), flush=True)
+
+    if open_browser and shutil.which("open"):
+        subprocess.run(
+            ["open", *[str(specs[profile]["url"]) for profile in PROFILES]],
+            check=False,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+    return specs
 
 
 def clone_import_baseline(
@@ -135,6 +228,8 @@ def run_supervisor(
     claude_max_turns: int,
     retry_count: int,
     stagger_seconds: int,
+    monitor_base_port: int,
+    open_browser: bool,
 ) -> dict[str, Any]:
     if not seed_database.exists():
         raise FileNotFoundError(f"Seed database not found: {seed_database}")
@@ -172,6 +267,13 @@ def run_supervisor(
         databases[profile] = database
         logs[profile] = output_dir / f"{profile}.log"
 
+    monitor_specs = _start_monitor_servers(
+        databases,
+        output_dir,
+        base_port=monitor_base_port,
+        open_browser=open_browser,
+    )
+
     manifest = {
         "schemaVersion": 1,
         "createdAt": _utc_now(),
@@ -184,6 +286,7 @@ def run_supervisor(
         "claudeModel": claude_model or "cli-default",
         "databases": {profile: str(path) for profile, path in databases.items()},
         "logs": {profile: str(path) for profile, path in logs.items()},
+        "monitorServers": monitor_specs,
     }
     (output_dir / "manifest.json").write_text(
         json.dumps(manifest, indent=2, ensure_ascii=False) + "\n",
@@ -308,6 +411,8 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--claude-max-turns", type=int, default=24)
     value.add_argument("--retry-count", type=int, default=3)
     value.add_argument("--stagger-seconds", type=int, default=10)
+    value.add_argument("--monitor-base-port", type=int, default=8766)
+    value.add_argument("--open-browser", action="store_true")
     return value
 
 
@@ -332,6 +437,8 @@ def main(argv: list[str] | None = None) -> int:
         claude_max_turns=args.claude_max_turns,
         retry_count=args.retry_count,
         stagger_seconds=args.stagger_seconds,
+        monitor_base_port=args.monitor_base_port,
+        open_browser=args.open_browser,
     )
     return 0 if all(item["returnCode"] == 0 for item in summary["conditions"]) else 1
 
