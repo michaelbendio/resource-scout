@@ -353,7 +353,7 @@ def _provider_model(
     codex_model: str,
     grok_model: str,
     claude_model: str,
-) -> dict[str, Any]:
+) -> str:
     if provider == "Codex":
         return codex_model or "cli-default"
     if provider == "Grok":
@@ -361,6 +361,56 @@ def _provider_model(
     if provider == "Claude":
         return claude_model or "cli-default"
     return ""
+
+
+def _attempt_recorder(
+    store: ResearchStore,
+    *,
+    import_id: int,
+    profile: str,
+    provider: str,
+    role: str,
+    category_id: str,
+    category_label: str,
+    model: str,
+    job_id: int,
+    research_pass_id: int | None = None,
+    external_assignment_id: int | None = None,
+    focus_key: str = "",
+) -> Callable[..., int]:
+    def record(
+        *,
+        attempt: int,
+        outcome: str,
+        started_at: str,
+        completed_at: str,
+        elapsed_ms: int,
+        result: dict[str, Any] | None,
+        error: str,
+    ) -> int:
+        raw = str((result or {}).get("rawText") or "")
+        return store.record_worker_telemetry(
+            import_id=import_id,
+            profile=profile,
+            provider=provider,
+            role=role,
+            category_id=category_id,
+            category_label=category_label,
+            attempt=attempt,
+            model=model,
+            outcome=outcome,
+            started_at=started_at,
+            completed_at=completed_at,
+            elapsed_ms=elapsed_ms,
+            job_id=job_id,
+            research_pass_id=research_pass_id,
+            external_assignment_id=external_assignment_id,
+            focus_key=focus_key,
+            response_bytes=(len(raw.encode("utf-8")) if raw else None),
+            usage=dict((result or {}).get("usage") or {}),
+            error=error,
+        )
+    return record
 
 
 def _run_with_retries(
@@ -437,7 +487,7 @@ def _run_provider(
     grok_timeout_seconds: int,
     claude_timeout_seconds: int,
     claude_max_turns: int,
-) -> str:
+) -> dict[str, Any]:
     if provider == "Codex":
         return _run_codex_worker(
             assignment_text,
