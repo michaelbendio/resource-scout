@@ -19,7 +19,7 @@ from .storage import ResearchStore
 
 
 SCHEMA_PATH = Path(__file__).with_name("codex_replay_response.schema.json")
-DEFAULT_MODEL = "gpt-5.6-codex"
+DEFAULT_MODEL = "gpt-5.5"
 
 
 def _worker_prompt(assignment: dict[str, Any]) -> str:
