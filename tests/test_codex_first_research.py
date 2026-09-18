@@ -4,6 +4,7 @@ import json
 import tempfile
 import threading
 import unittest
+from unittest.mock import patch
 import urllib.request
 import zipfile
 from datetime import datetime, timedelta, timezone
@@ -22,6 +23,7 @@ from resource_research_agent.scout_curation import ScoutCurationError, prepare_s
 from resource_research_agent.storage import ResearchStore
 from resource_research_agent.playbooks import PLAYBOOKS
 from resource_research_agent.pairwise_challenge import next_challenge, submit_challenge
+from resource_research_agent.pairwise_runner import run_pairwise
 from resource_research_agent.scout_progress import build_scout_progress
 from resource_research_agent.server import ResearchHTTPServer
 
@@ -351,6 +353,38 @@ class CodexFirstResearchTests(unittest.TestCase):
         )
         self.assertEqual("completed", saved["status"])
         self.assertEqual(1, saved["leadCount"])
+
+    def test_automated_codex_grok_runner_completes_one_category(self) -> None:
+        with patch(
+            "resource_research_agent.pairwise_runner._run_codex_worker",
+            return_value=response("Automated Codex"),
+        ), patch(
+            "resource_research_agent.pairwise_runner._run_grok_worker",
+            return_value=response("Automated Grok"),
+        ):
+            completed = run_pairwise(
+                self.store,
+                self.import_id,
+                profile="codex-grok",
+                codex_binary="/usr/bin/true",
+                codex_model="test-codex",
+                grok_binary="/usr/bin/true",
+                grok_model="",
+                codex_timeout_seconds=10,
+                grok_timeout_seconds=10,
+                retry_count=0,
+                max_passes=None,
+                max_categories=1,
+                grok_preflight=False,
+            )
+
+        self.assertEqual("completed", completed["status"])
+        self.assertEqual(1, completed["completedCategories"])
+        category = completed["categories"][0]
+        researchers = {item["name"]: item for item in category["researchers"]}
+        self.assertEqual("completed", researchers["Codex"]["status"])
+        self.assertEqual("completed", researchers["Grok"]["status"])
+        self.assertEqual(1, researchers["Grok"]["leadCount"])
 
     def test_codex_primary_work_skips_a_provider_gated_category(self) -> None:
         root = Path(self.temporary.name)
