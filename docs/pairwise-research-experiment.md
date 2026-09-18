@@ -195,3 +195,44 @@ The runner is lock-step and unattended:
 Each worker has independent retry handling. The Grok runner uses the CLI's current
 default model unless `--grok-model` is supplied. Use `grok models` to inspect
 models available to the authenticated account before overriding it.
+
+
+## Three-condition overnight supervisor
+
+The supervisor runs all three controlled conditions concurrently from the same
+immutable import snapshot:
+
+- `codex-grok`
+- `codex-claude`
+- `claude-grok`
+
+Each condition gets its own fresh SQLite database. Only the import snapshot
+(`imports`, categories, imported resources, known terms, and research seeds) is
+cloned. Research runs, assignments, contributions, and curation state are not
+copied between conditions.
+
+Claude Code must be installed and authenticated before starting. Claude's
+non-interactive print mode is used with JSON output and web-search/web-fetch
+tools. The supervisor performs live Grok and Claude readiness probes before
+creating the experiment databases.
+
+To start the six-category overnight comparison:
+
+```bash
+cd ~/resource-scout-pairwise
+git pull --ff-only
+bash scripts/run-three-way-overnight.sh
+```
+
+The launcher wraps the supervisor in macOS `caffeinate -dimsu` so the Mac stays
+awake while any of the three conditions is running.
+
+A timestamped directory under `data/pairwise-overnight-*/` contains:
+
+- one SQLite database per condition,
+- one line-oriented log per condition,
+- `manifest.json` with the common experiment setup, and
+- `summary.json` with completion status, elapsed time, and lead counts.
+
+The supervisor staggers condition starts slightly and each worker uses
+retry/backoff handling to reduce the impact of transient provider rate limits.
