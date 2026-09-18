@@ -42,6 +42,15 @@ def _research_prompt(
         "locationOrServiceArea, whyRelevant, and uncertainty as text fields.",
         "leadType must be one of program, provider-organization, access-point, routing-source, or directory.",
         "Use empty strings for facts you cannot verify; do not invent them.",
+        *(
+            [
+                "Do not try to use Bash, shell commands, local-file tools, curl, or pdftotext.",
+                "If a PDF or page cannot be usefully read with WebFetch, find an alternate authoritative web source or record the limitation in uncertainty.",
+                "Finish the requested JSON once coverage is strong; do not keep searching merely to exhaust every possible lead.",
+            ]
+            if researcher == "Claude"
+            else []
+        ),
         "",
         assignment_text,
     ])
@@ -586,7 +595,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--codex-timeout-seconds", type=int, default=1800)
     value.add_argument("--grok-timeout-seconds", type=int, default=1800)
     value.add_argument("--claude-timeout-seconds", type=int, default=1800)
-    value.add_argument("--claude-max-turns", type=int, default=24)
+    value.add_argument("--claude-max-turns", type=int, default=60)
     value.add_argument("--retry-count", type=int, default=3)
     value.add_argument("--max-passes", type=int)
     value.add_argument(
