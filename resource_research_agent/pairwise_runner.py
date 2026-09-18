@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import tempfile
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
@@ -62,7 +63,7 @@ def _run_codex_worker(
     codex_binary: str,
     model: str,
     timeout_seconds: int,
-) -> str:
+) -> dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="scout-pairwise-codex-") as directory:
         output_path = Path(directory) / "result.json"
         command = [
@@ -97,7 +98,14 @@ def _run_codex_worker(
         if not output_path.exists():
             raise RuntimeError("Fresh Codex worker did not produce a result")
         value = json.loads(output_path.read_text(encoding="utf-8"))
-        return json.dumps(value, ensure_ascii=False)
+        raw = json.dumps(value, ensure_ascii=False)
+        return {
+            "rawText": raw,
+            "usage": {
+                "cliStdoutBytes": len((completed.stdout or "").encode("utf-8")),
+                "cliStderrBytes": len((completed.stderr or "").encode("utf-8")),
+            },
+        }
 
 
 def _grok_command(
@@ -128,7 +136,8 @@ def _run_grok_text(
     grok_binary: str,
     model: str,
     timeout_seconds: int,
-) -> str:
+    return_metadata: bool = False,
+) -> str | dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="scout-pairwise-grok-") as directory:
         completed = subprocess.run(
             _grok_command(grok_binary, prompt, directory=directory, model=model),
@@ -149,6 +158,14 @@ def _run_grok_text(
                 "Fresh Grok worker returned no text"
                 + (f": {detail[-2000:]}" if detail else "")
             )
+        if return_metadata:
+            return {
+                "rawText": raw,
+                "usage": {
+                    "cliStdoutBytes": len((completed.stdout or "").encode("utf-8")),
+                    "cliStderrBytes": len((completed.stderr or "").encode("utf-8")),
+                },
+            }
         return raw
 
 
@@ -159,13 +176,16 @@ def _run_grok_worker(
     grok_binary: str,
     model: str,
     timeout_seconds: int,
-) -> str:
-    return _run_grok_text(
+) -> dict[str, Any]:
+    value = _run_grok_text(
         _research_prompt(assignment_text, "Grok", role),
         grok_binary=grok_binary,
         model=model,
         timeout_seconds=timeout_seconds,
+        return_metadata=True,
     )
+    assert isinstance(value, dict)
+    return value
 
 
 def _claude_command(
@@ -194,7 +214,8 @@ def _run_claude_text(
     model: str,
     timeout_seconds: int,
     max_turns: int,
-) -> str:
+    return_metadata: bool = False,
+) -> str | dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="scout-pairwise-claude-") as directory:
         env = dict(os.environ)
         env["DISABLE_AUTOUPDATER"] = "1"
@@ -232,6 +253,27 @@ def _run_claude_text(
         raw = str(envelope.get("result") or "").strip()
         if not raw:
             raise RuntimeError("Fresh Claude worker returned no result text")
+        if return_metadata:
+            model_usage = envelope.get("modelUsage") or {}
+            web_search_requests = sum(
+                int((item or {}).get("webSearchRequests") or 0)
+                for item in model_usage.values()
+                if isinstance(item, dict)
+            )
+            return {
+                "rawText": raw,
+                "usage": {
+                    "numTurns": int(envelope.get("num_turns") or 0),
+                    "durationApiMs": int(envelope.get("duration_api_ms") or 0),
+                    "totalCostUsd": envelope.get("total_cost_usd"),
+                    "terminalReason": str(envelope.get("terminal_reason") or ""),
+                    "stopReason": str(envelope.get("stop_reason") or ""),
+                    "webSearchRequests": web_search_requests,
+                    "modelUsage": model_usage,
+                    "cliStdoutBytes": len((completed.stdout or "").encode("utf-8")),
+                    "cliStderrBytes": len((completed.stderr or "").encode("utf-8")),
+                },
+            }
         return raw
 
 
@@ -243,14 +285,17 @@ def _run_claude_worker(
     model: str,
     timeout_seconds: int,
     max_turns: int,
-) -> str:
-    return _run_claude_text(
+) -> dict[str, Any]:
+    value = _run_claude_text(
         _research_prompt(assignment_text, "Claude", role),
         claude_binary=claude_binary,
         model=model,
         timeout_seconds=timeout_seconds,
         max_turns=max_turns,
+        return_metadata=True,
     )
+    assert isinstance(value, dict)
+    return value
 
 
 def _grok_preflight(
