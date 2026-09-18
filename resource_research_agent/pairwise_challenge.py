@@ -22,6 +22,19 @@ def _copy_to_clipboard(text: str) -> bool:
     return True
 
 
+def _read_clipboard() -> str:
+    pbpaste = shutil.which("pbpaste")
+    if not pbpaste:
+        raise RuntimeError("pbpaste is required for clipboard submission")
+    completed = subprocess.run(
+        [pbpaste],
+        text=True,
+        capture_output=True,
+        check=True,
+    )
+    return completed.stdout
+
+
 def _open_app(name: str) -> bool:
     opener = shutil.which("open")
     if not opener:
@@ -104,6 +117,12 @@ def parser() -> argparse.ArgumentParser:
     submit = sub.add_parser("submit", help="Submit one external challenge result")
     submit.add_argument("assignment_id", type=int)
     submit.add_argument("result_file", type=Path)
+
+    clipboard = sub.add_parser(
+        "submit-clipboard",
+        help="Submit one external challenge result from the macOS clipboard",
+    )
+    clipboard.add_argument("assignment_id", type=int)
     return value
 
 
@@ -129,7 +148,18 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(value, indent=2, ensure_ascii=False))
         return 0
 
-    value = submit_challenge(store, args.assignment_id, args.result_file)
+    if args.command == "submit":
+        value = submit_challenge(store, args.assignment_id, args.result_file)
+    else:
+        raw_text = _read_clipboard()
+        saved = save_codex_first_external_result(store, args.assignment_id, raw_text)
+        value = {
+            "assignmentId": int(saved["id"]),
+            "researcher": str(saved["researcher"]),
+            "status": str(saved["status"]),
+            "leadCount": int(saved["leadCount"]),
+            "rawSha256": str(saved["rawSha256"] or ""),
+        }
     print(json.dumps(value, indent=2, ensure_ascii=False))
     return 0
 
