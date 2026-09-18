@@ -23,6 +23,25 @@ Addiction, Children/Pregnancy, Clothing/Household, Disability, Domestic Violence
 
 Do not run category 7 or the full 21-category St. George production run until the six-category architecture review is complete.
 
+## Authorized next sequence and effort levels
+
+Michael authorized the following sequence on September 18 after the Bonsai removal:
+finish Claude+Grok's six-category condition; analyze all three conditions; revise
+Scout's architecture and implementation as supported by the evidence; validate
+changes with required tests/CI; then start the full 21-category St. George run.
+No additional routine launch approval is needed once those prerequisites pass.
+Preserve the experiment databases and do not conflate raw lead counts with curated
+accepted identities. Production must use separate durable state.
+
+Requested effort: High for remaining experiment supervision; Extra High for the
+architecture analysis and consequential design review; High for routine production
+execution. Worker reasoning settings are separate from the supervising chat's
+setting; do not change ongoing experimental worker settings to match the chat.
+The assistant has no exposed tool to switch this conversation's reasoning effort.
+Michael must select Extra High in the conversation before that analysis begins;
+editing CLI defaults does not establish that the active chat has changed effort.
+No automatic chat effort switching or post-completion wake-up has been configured.
+
 ## Authentication diagnosis and partitioning rollback: September 18, 2026
 
 The Grok timeouts were authentication stalls. Native CLI logs showed repeated
