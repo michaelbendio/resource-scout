@@ -138,6 +138,8 @@ function friendlyProgressPhase(value) {
     research: 'Research',
     'ready-for-curation': 'Ready for curation',
     'curation-start': 'Curation',
+    'awaiting-codex-review': 'Ready for Codex review',
+    'codex-review-completed': 'Ready to save',
     'curation-awaiting-effort-review': 'Paused for effort discussion',
     'codex-curation-started': 'Curation',
     'codex-curation-active': 'Curation',
@@ -306,6 +308,7 @@ function renderScoutProgress(progress) {
   state.workflowProgress = progress;
   const phaseLabel = friendlyProgressPhase(progress.phase);
   const reviewFilename = progress.reviewFile?.filename || progress.targetReviewFilename || 'office review file';
+  const awaitingReview = progress.reviewFile?.readyForSave === false;
   const readyForCuration = ['ready-for-curation', 'codex-first-research-complete', 'focused-research-complete'].includes(progress.phase)
     && progress.research.total > 0 && progress.research.completed >= progress.research.total;
   const effortReview = progress.phase === 'curation-awaiting-effort-review';
@@ -318,7 +321,7 @@ function renderScoutProgress(progress) {
     ? 'Completed work is saved. Review the category comparison with Codex and agree on effort before continuing.'
     : 'Discuss curation effort with Codex before starting. During validation, Scout waits for that decision.';
   document.querySelector('#scout-progress-title').textContent = progress.reviewFile
-    ? `${reviewFilename} is ready`
+    ? awaitingReview ? 'Curation complete — ready for Codex review' : `${reviewFilename} is ready`
     : effortReview ? 'Curation paused for an effort discussion'
     : readyForCuration ? 'Research complete — ready to curate and consolidate'
     : `Creating ${reviewFilename}`;
@@ -386,13 +389,18 @@ function renderScoutProgress(progress) {
   const reviewPanel = document.querySelector('#review-file-ready');
   reviewPanel.hidden = !review;
   if (review) {
-    document.querySelector('#review-file-title').textContent = review.status === 'created'
+    document.querySelector('#review-file-title').textContent = awaitingReview
+      ? 'Ready for Codex review'
+      : review.status === 'created'
       ? `${review.filename} created`
       : `${review.filename} is ready`;
     const created = review.createdAt ? ` · created ${formatWhen(review.createdAt)}` : '';
-    document.querySelector('#review-file-detail').textContent = `${review.categoryCount} curated categories · ${review.resourceCount} proposed resources${created}`;
+    document.querySelector('#review-file-detail').textContent = awaitingReview
+      ? 'Start a Codex session and ask for a review. When it is finished, save your auto file here.'
+      : `${review.categoryCount} curated categories · ${review.resourceCount} proposed resources${created}`;
     const download = document.querySelector('#review-file-download');
-    download.href = review.downloadUrl;
+    download.hidden = awaitingReview;
+    download.href = awaitingReview ? '' : review.downloadUrl;
     download.download = review.filename;
     download.textContent = `Save ${review.filename}`;
   }

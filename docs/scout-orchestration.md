@@ -168,8 +168,12 @@ cross-category consolidation audit. It does not participate in every internal
 worker decision. Michael wants Extra High available at these judgment checkpoints;
 that does not imply Extra High for every curation worker.
 
-An unattended implementation must preserve this review function as an explicit
-stage, not assume a longer curation prompt reproduces it:
+Michael's latest agreed workflow is **curation finishes → Ready for Codex review
+→ Michael starts a Codex session and asks for review → assistant reviews at Extra
+High and records completion → Michael clicks Save auto[Location].html**. Do not
+automatically launch a paid reviewer. The following checklist governs the
+assistant's requested review and any future independently approved implementation;
+a longer curation prompt alone does not reproduce this review function:
 
 1. Run deterministic coverage, link, provenance and checkpoint checks.
 2. Give a bounded reviewer the sealed assignment, original proposals, omission
@@ -191,3 +195,31 @@ This is an implementation/validation requirement, not an already running reviewe
 or authorization for a new paid review worker before the current effort discussion.
 Human approval and telephone verification remain separate. Proposed lessons from
 AI reviews are not automatically accepted training examples or canonical facts.
+
+## Recording the requested Codex review
+
+Curation completion and local draft generation do not complete the Codex review.
+The monitor and browser download endpoint require a recorded review of the exact
+current result fingerprint. A source-backed revision changes that fingerprint
+and makes Save unavailable until the changed results are reviewed again.
+
+At the start of Michael's requested review, inspect the handoff and retain its
+fingerprint:
+
+```sh
+python3 -m resource_research_agent.scout_review_handoff --database DATABASE --job-id JOB
+```
+
+Complete the actual review checklist above, retain original outputs and versioned
+corrections, inspect the final HTML, and save a review report with findings,
+corrections, verification and remaining uncertainty. After any reviewed revisions,
+obtain the final fingerprint. Only after the review is actually complete, record:
+
+```sh
+python3 -m resource_research_agent.scout_review_handoff --database DATABASE --job-id JOB --complete --expected-fingerprint FINGERPRINT --report REPORT.md
+```
+
+This command records completed work; it does not perform a review. Never run it
+merely to expose the Save button. It stores the report and its hash in durable
+SQLite progress history. Tell Michael when Save is ready. Do not label Codex review
+as human resource approval, phone verification or office publication.

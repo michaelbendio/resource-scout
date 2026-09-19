@@ -31,12 +31,14 @@ from .codex_replay import (
     save_codex_replay_result,
 )
 from .scout_curation import (
+    ScoutCurationError,
     build_scout_review_seed,
     next_scout_curation_assignment,
     prepare_scout_curation_job,
     save_scout_curation_result,
 )
 from .scout_review import build_scout_review_file
+from .scout_review_handoff import review_handoff
 from .scout_progress import build_scout_progress
 from .candidate_package import CandidatePackageError, build_candidate_package
 from .contact_lookup import apply_contact_lookup_results, build_contact_lookup_request
@@ -241,10 +243,18 @@ class ResearchHandler(BaseHTTPRequestHandler):
             elif (job_id := self._path_id(
                 parsed.path, "/api/scout-curation-jobs", "review-file"
             )) is not None:
+                job = self.server.store.get_scout_curation_job(job_id)
+                handoff = review_handoff(job, self.server.store.list_scout_curation_progress(job_id)) if job else {}
+                if not handoff.get("readyForSave"):
+                    raise ScoutCurationError("Curation must receive a completed Codex review before saving the review HTML")
                 review_file = build_scout_review_file(
                     self.server.store,
                     job_id,
                 )
+                current = self.server.store.get_scout_curation_job(job_id)
+                latest = review_handoff(current, self.server.store.list_scout_curation_progress(job_id))
+                if not latest["readyForSave"] or latest["resultFingerprint"] != handoff["resultFingerprint"]:
+                    raise ScoutCurationError("Curation changed while preparing the download; review the changed results first")
                 self._download(
                     review_file.content,
                     "text/html; charset=utf-8",

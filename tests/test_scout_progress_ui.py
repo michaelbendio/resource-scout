@@ -34,10 +34,14 @@ assert.equal(nodes.get('#curation-next-step').hidden, true); // 0 completed can 
 renderScoutProgress({...base, phase:'curation-awaiting-effort-review', curation:{completed:2,total:21}});
 assert.equal(nodes.get('#curation-next-step').hidden, false);
 assert.match(nodes.get('#scout-progress-title').textContent, /paused/);
+renderScoutProgress({...base, phase:'awaiting-codex-review', reviewFile:{readyForSave:false,filename:'autoWelfareSquare.html'}});
+assert.equal(nodes.get('#review-file-download').hidden, true);
+assert.match(nodes.get('#scout-progress-title').textContent, /ready for Codex review/);
 renderScoutProgress({...base, phase:'review-file', reviewFile:{filename:'autoWelfareSquare.html',
  downloadUrl:'/api/scout-curation-jobs/7/review-file', categoryCount:21,resourceCount:250}});
 assert.equal(nodes.get('#curation-next-step').hidden, true);
 assert.equal(nodes.get('#review-file-ready').hidden, false);
+assert.equal(nodes.get('#review-file-download').hidden, false);
 assert.equal(nodes.get('#review-file-download').textContent, 'Save autoWelfareSquare.html');
 assert.equal(nodes.get('#review-file-download').download, 'autoWelfareSquare.html');
 assert.equal(nodes.get('#review-file-download').href, '/api/scout-curation-jobs/7/review-file');

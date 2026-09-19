@@ -26,6 +26,7 @@ from resource_research_agent.scout_review import (
     build_scout_review_file,
 )
 from resource_research_agent.scout_curation_revision import revise_scout_curation_result
+from resource_research_agent.scout_review_handoff import complete_codex_review, review_fingerprint, review_handoff
 from resource_research_agent.scout_progress import build_scout_progress
 from resource_research_agent.duplicates import DuplicateIndex
 from resource_research_agent.importer import ResourcePackageImporter
@@ -86,6 +87,12 @@ class ScoutCurationTests(unittest.TestCase):
             "employment", "Employment", ["ChatGPT", "Claude"]
         )
         self.food_run = self.completed_run("food", "Food", ["Grok"])
+
+    def complete_test_review(self, job_id):
+        report = self.root / "review-report.md"
+        report.write_text("Test fixture review: checked identities, sources, omissions and consolidation.")
+        return complete_codex_review(self.store, job_id,
+            expected_fingerprint=review_fingerprint(self.store.get_scout_curation_job(job_id)), report_path=report)
 
     def tearDown(self) -> None:
         self.temporary.cleanup()
@@ -181,9 +188,36 @@ class ScoutCurationTests(unittest.TestCase):
                                       self.result_for(assignment, resource_id="food"))
             build_scout_review_file(self.store, job["id"])
             progress = build_scout_progress(self.store, self.import_id)
-            self.assertEqual("review-file-built", progress["phase"])
+            self.assertEqual("awaiting-codex-review", progress["phase"])
+            self.assertFalse(progress["reviewFile"]["readyForSave"])
+            self.complete_test_review(job["id"])
+            progress = build_scout_progress(self.store, self.import_id)
+            self.assertEqual("codex-review-completed", progress["phase"])
             self.assertEqual(2, progress["curation"]["completed"])
             self.assertEqual("created", progress["reviewFile"]["status"])
+
+    def test_review_is_bound_to_exact_results_and_cannot_approve_incomplete_curation(self):
+        job = prepare_scout_curation_job(self.store, self.import_id)
+        with self.assertRaisesRegex(ScoutCurationError, "Complete curation"):
+            self.complete_test_review(job["id"])
+        for category in ("employment", "food"):
+            assignment = next_scout_curation_assignment(self.store, job["id"])
+            save_scout_curation_result(self.store, job["id"], category,
+                                      self.result_for(assignment, resource_id=category))
+        self.assertTrue(self.complete_test_review(job["id"])["readyForSave"])
+        job = self.store.get_scout_curation_job(job["id"])
+        original_fingerprint = review_fingerprint(job)
+        category = job["categories"][0]
+        result = json.loads(json.dumps(category["result"]))
+        result["resources"][0]["informationText"] = "Eligibility corrected from source evidence"
+        revised = revise_scout_curation_result(self.store, job["id"], category["categoryId"], result,
+            expected_result_sha256=category["resultSha256"], reason="Correct eligibility",
+            evidence=[{"url":"https://example.org/eligibility"}])
+        self.assertFalse(review_handoff(revised, self.store.list_scout_curation_progress(job["id"]))["readyForSave"])
+        with self.assertRaisesRegex(ScoutCurationError, "changed since the review"):
+            complete_codex_review(self.store, job["id"], expected_fingerprint=original_fingerprint,
+                                 report_path=self.root / "review-report.md")
+        self.assertTrue(self.complete_test_review(job["id"])["readyForSave"])
 
     def test_audit_revision_preserves_original_and_rejects_stale_or_incomplete_updates(self) -> None:
         job = prepare_scout_curation_job(self.store, self.import_id)
@@ -495,6 +529,10 @@ class ScoutCurationTests(unittest.TestCase):
                 "categoryId": "food",
                 "result": self.result_for(food, resource_id="mesa-food"),
             })
+            with self.assertRaises(urllib.error.HTTPError) as blocked:
+                urllib.request.urlopen(base + f"/api/scout-curation-jobs/{job['id']}/review-file", timeout=5)
+            self.assertEqual(400, blocked.exception.code)
+            self.complete_test_review(job["id"])
             with urllib.request.urlopen(
                 base + f"/api/scout-curation-jobs/{job['id']}/review-file",
                 timeout=5,
@@ -563,7 +601,10 @@ class ScoutCurationTests(unittest.TestCase):
         self.assertEqual("review-file-built", last_event["phase"])
         self.assertEqual(__build__, last_event["details"]["scoutBuild"])
         progress = build_scout_progress(self.store, self.import_id)
-        self.assertEqual("created", progress["reviewFile"]["status"])
+        self.assertEqual("awaiting-codex-review", progress["reviewFile"]["status"])
+        self.complete_test_review(job["id"])
+        progress = build_scout_progress(self.store, self.import_id)
+        self.assertTrue(progress["reviewFile"]["readyForSave"])
         self.assertEqual("autoMesa.html", progress["targetReviewFilename"])
         self.assertEqual("autoMesa.html", progress["reviewFile"]["filename"])
         self.assertEqual(1, progress["reviewFile"]["resourceCount"])

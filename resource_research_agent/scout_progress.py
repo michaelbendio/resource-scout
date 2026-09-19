@@ -4,6 +4,7 @@ import re
 from typing import Any
 
 from .storage import ResearchStore
+from .scout_review_handoff import review_handoff
 from .focused_research import CODEX_FIRST_EXPERIMENT_MODE
 
 
@@ -251,14 +252,25 @@ def build_scout_progress(
             for resource in (category.get("result") or {}).get("resources") or []
             if resource.get("id")
         }
+        handoff = review_handoff(job, curation_events)
         review_file = {
-            "status": "created" if review_event else "ready",
+            **handoff,
+            "status": ("created" if review_event else "ready") if handoff["readyForSave"] else "awaiting-codex-review",
             "filename": _review_filename(location_name),
             "createdAt": review_event.get("createdAt") if review_event else None,
             "resourceCount": len(resource_ids),
             "categoryCount": int(curation.get("total") or 0),
             "downloadUrl": f"/api/scout-curation-jobs/{job['id']}/review-file",
         }
+
+        if not handoff["readyForSave"]:
+            phase = "awaiting-codex-review"
+            message = "Curation is complete. Start a Codex session and ask for a review. Save will be available when that review is complete."
+            category_id = ""
+        else:
+            phase = "codex-review-completed"
+            message = "Codex review is complete. The review HTML is ready to save."
+            category_id = ""
 
     return {
         "importId": selected_import_id,

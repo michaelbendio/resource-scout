@@ -13,3 +13,8 @@ Treat `SCOUT_STATUS.md` as the current operational handoff. Verify live process/
 For the final six-category architecture analysis, use **Extra High reasoning effort** and follow the evaluation checklist in `SCOUT_STATUS.md`.
 
 Do not launch the full 21-category St. George production run until that architecture review is complete.
+
+When curation finishes, hand off as **Ready for Codex review**. Michael starts a
+Codex session to request that review. Follow the review checklist and completion
+recording instructions in `docs/scout-orchestration.md`; do not automatically
+launch a paid review worker or mark a review complete just to enable Save.

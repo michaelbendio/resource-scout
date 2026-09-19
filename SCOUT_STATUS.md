@@ -4,6 +4,18 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Agreed ongoing review handoff
+
+Scout finishes curation and shows **Ready for Codex review**. Michael starts a
+Codex session and requests the review; the reviewing assistant uses Extra High,
+checks sources/omissions/identities and final consolidation, makes traceable
+corrections, records completion for the exact results, and tells Michael. Only
+then does **Save auto[Location].html** become available. Do not automatically
+launch a separate paid reviewer. This replaces the proposed automatic AI review
+stage as the current operating plan; a future unattended reviewer remains a
+possible improvement to evaluate separately. Human approval/phone verification
+are still separate from Codex review.
+
 ## Latest effort decision — stop after Children/Pregnancy
 
 Michael requests that the current Children/Pregnancy category finish at Extra
