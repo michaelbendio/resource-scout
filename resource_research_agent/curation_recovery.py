@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
@@ -47,7 +48,9 @@ def recover_result(directory: Path, execute: Callable[..., None], *,
                 else:
                     with target.open("xb") as handle:
                         handle.write(original)
-        if (attempt / "events.jsonl").exists() and not (attempt / "execution.json").exists():
+        if ((attempt / "events.jsonl").exists()
+                and not (attempt / "execution.json").exists()
+                and not (attempt / "orphan-recovery.json").exists()):
             # A crashed coordinator may have left its worker alive. Never start
             # another worker or inspect a half-written result until it exits.
             try:
@@ -57,6 +60,14 @@ def recover_result(directory: Path, execute: Callable[..., None], *,
                     "kind": "timeout", "message": str(error), "retryable": False,
                 })
                 raise
+            if (attempt / "worker.json").exists():
+                worker = json.loads((attempt / "worker.json").read_text())
+                atomic_json(attempt / "orphan-recovery.json", {
+                    "workerPid": worker["pid"], "workerIdentity": worker.get("identity"),
+                    "exitObservedAt": datetime.now(timezone.utc).isoformat(),
+                    "exitCode": None, "elapsedSeconds": None,
+                    "note": "Worker exited after its original coordinator; exact exit code and runtime unavailable.",
+                })
         if (attempt / "result.json").exists():
             if attempt == retry:
                 atomic_json(directory / "recovery-result.json", {

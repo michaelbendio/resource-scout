@@ -19,12 +19,24 @@ are still separate from Codex review.
 ## Curation resumed at High — September 19, 17:28 UTC
 
 Michael read the comparison, selected High and explicitly instructed: "Continue
-curation." The effort gate is satisfied. Coordinator PID 32965 resumed job 1 with
+curation." The effort gate is satisfied. Original coordinator PID 32965 resumed job 1 with
 `--effort high --batch-candidates 30 --batch-chars 60000 --max-categories 21`.
 Addiction and Children/Pregnancy are preserved; the remaining 19 categories are
 authorized. Verify actual processes/database progress before acting. Monitor:
 **http://127.0.0.1:8769**. No automatic final reviewer is authorized; finish at
 **Ready for Codex review**. Conversation effort and worker effort remain separate.
+
+Persistent supervisor PID **33716** now monitors the run every 30 seconds. It
+launched replacement coordinator **33718** to load tested recovery/readable
+evidence changes; the existing batch-3 worker **33369** was adopted intact, with
+no duplicate paid call. The two already validated Clothing/Household batches were
+reused. Check `data/st-george-curation-20260919/supervisor-status.json` for live
+state; these PIDs are a handoff snapshot. The durable coordinator recovery budget
+is three launches, one used for this transition. A confirmed transport failure
+allows one additional attempt per batch. Other failure classes stop for diagnosis,
+with a monitor message and a requested local macOS notification. This remains a
+limited supervisor, not a claim that all unattended operation requirements are met.
+
 
 ## Historical effort checkpoint — Children/Pregnancy
 

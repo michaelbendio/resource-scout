@@ -32,6 +32,12 @@ class CurationRecoveryTests(unittest.TestCase):
                 worker.assert_not_called()
                 self.assertEqual('{}', (root / 'result.json').read_text())
                 self.assertEqual(0, process.wait(timeout=5))
+                receipt = json.loads((root / 'orphan-recovery.json').read_text())
+                self.assertEqual(process.pid, receipt['workerPid'])
+                self.assertIsNone(receipt['exitCode'])
+                with patch('resource_research_agent.curation_recovery.await_orphan') as adopt_again:
+                    self.assertEqual(root, self.call(root, worker))
+                adopt_again.assert_not_called()
             finally:
                 if process.poll() is None:
                     process.terminate()
