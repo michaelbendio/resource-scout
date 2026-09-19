@@ -37,7 +37,8 @@ class WorkerLifecycleTests(unittest.TestCase):
             root = Path(temporary); self.make_worker(root, age=100)
             with patch("resource_research_agent.worker_lifecycle.process_identity", side_effect=[
                 {"state": "Ss", "identity": "original worker"}, None]), patch("os.killpg") as kill:
-                await_orphan(root, 60, lambda _: None, pause=lambda _: None)
+                with self.assertRaises(TimeoutError):
+                    await_orphan(root, 60, lambda _: None, pause=lambda _: None)
             self.assertEqual(1, kill.call_count)
             self.assertEqual(12345, kill.call_args.args[0])
 

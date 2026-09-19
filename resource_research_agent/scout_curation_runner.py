@@ -22,6 +22,7 @@ from .scout_review import build_scout_review_file
 from .storage import ResearchStore
 from .worker_failures import classify_worker_failure, native_error
 from .worker_lifecycle import record_worker
+from .curation_recovery import recover_result
 
 
 def encode(value: Any) -> str:
@@ -123,6 +124,20 @@ def write_once(path: Path, content: str) -> None:
             raise ValueError(f"Refusing to replace sealed artifact: {path}")
     else:
         path.write_text(content)
+
+
+def write_evidence_once(path: Path, value: Any) -> None:
+    """Readable new evidence; retain byte-for-byte sealed files on resume.
+
+    Minified JSON defeats line-based selective searches by returning the entire
+    file for one match. Existing evidence can have either representation, but
+    its parsed value must still equal the sealed input.
+    """
+    if path.exists():
+        if json.loads(path.read_text()) != value:
+            raise ValueError(f"Refusing to replace sealed artifact: {path}")
+    else:
+        path.write_text(json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2))
 
 
 def validate_links(assignment: dict[str, Any], result: dict[str, Any]) -> None:
@@ -252,19 +267,17 @@ def complete_batched_category(job: dict[str, Any], assignment: dict[str, Any], d
         for name, value in {"assignment.json": part, "view.json": view,
                             "prior-resources.json": prior, "source-only.json": part.get("sourceOnlyRecords", []),
                             "excluded.json": part.get("excludedCandidates", []), "schema.json": response_schema()}.items():
-            write_once(folder / name, encode(value))
+            write_evidence_once(folder / name, value)
         write_once(folder / "prompt.txt", worker_prompt(view, source_audit))
         event("codex-curation-batch-started", f"Curating {assignment['category']['label']}: batch {index}/{len(batches)}",
               category_id, batch=index, totalBatches=len(batches), candidateCount=len(candidates), effort=args.effort)
-        if not (folder / "result.json").exists():
-            if (folder / "events.jsonl").exists():
-                raise RuntimeError(f"Interrupted batch at {folder}; inspect before explicit recovery")
-            execute_worker(folder, binary=args.codex_binary, model=args.model, timeout=args.timeout_seconds,
-                           effort=args.effort,
-                           heartbeat=lambda elapsed: event("codex-curation-active",
-                           f"Curating {assignment['category']['label']}: batch {index}/{len(batches)}", category_id,
-                           batch=index, totalBatches=len(batches), elapsedSeconds=round(elapsed), effort=args.effort))
-        raw = read_worker_result(folder)
+        result_folder = recover_result(
+            folder, execute_worker, binary=args.codex_binary, model=args.model,
+            timeout=args.timeout_seconds, effort=args.effort,
+            heartbeat=lambda elapsed: event("codex-curation-active",
+                f"Curating {assignment['category']['label']}: batch {index}/{len(batches)}", category_id,
+                batch=index, totalBatches=len(batches), elapsedSeconds=round(elapsed), effort=args.effort))
+        raw = read_worker_result(result_folder)
         validate_links(part, raw)
         validation_job = deepcopy(job)
         category = next(c for c in validation_job["categories"] if c["categoryId"] == category_id)
@@ -339,17 +352,15 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                         "source-only.json": assignment.get("sourceOnlyRecords", []),
                         "excluded.json": assignment.get("excludedCandidates", []), "schema.json": response_schema(),
                     }.items():
-                        write_once(directory / name, encode(value))
+                        write_evidence_once(directory / name, value)
                     write_once(directory / "prompt.txt", worker_prompt(view, source_audit))
-                    if not (directory / "result.json").exists():
-                        if (directory / "events.jsonl").exists():
-                            raise RuntimeError(f"Prior interrupted/failed attempt at {directory}; inspect before an explicit retry")
-                        event("codex-curation-started", f"Curating {assignment['category']['label']}", category_id,
-                              candidateCount=len(view["candidates"]), assignmentSha256=assignment["assignmentSha256"])
-                        execute_worker(directory, binary=args.codex_binary, model=args.model, timeout=args.timeout_seconds,
-                                       effort=args.effort,
-                                       heartbeat=lambda elapsed: event("codex-curation-active", f"Curating {assignment['category']['label']}", category_id, elapsedSeconds=round(elapsed)))
-                    result = read_worker_result(directory)
+                    event("codex-curation-started", f"Curating {assignment['category']['label']}", category_id,
+                          candidateCount=len(view["candidates"]), assignmentSha256=assignment["assignmentSha256"])
+                    result_folder = recover_result(
+                        directory, execute_worker, binary=args.codex_binary, model=args.model,
+                        timeout=args.timeout_seconds, effort=args.effort,
+                        heartbeat=lambda elapsed: event("codex-curation-active", f"Curating {assignment['category']['label']}", category_id, elapsedSeconds=round(elapsed)))
+                    result = read_worker_result(result_folder)
                 validate_links(assignment, result)
                 save_scout_curation_result(store, job_id, category_id, result)
                 event("codex-curation-completed", f"Completed {assignment['category']['label']}", category_id,

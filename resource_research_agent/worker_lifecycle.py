@@ -60,9 +60,9 @@ def await_orphan(directory: Path, timeout_seconds: int, heartbeat: Callable[[flo
                 pause(1)
                 current = process_identity(int(worker["pid"]))
                 if current is None or current["state"].startswith("Z"):
-                    return
+                    raise TimeoutError("Surviving curation worker exceeded its original deadline")
                 if current["identity"] != worker["identity"]:
                     raise RuntimeError("Worker identity changed during termination")
             os.killpg(int(worker["pid"]), signal.SIGKILL)
-            return
+            raise TimeoutError("Surviving curation worker exceeded its original deadline")
         pause(min(30, max(1, timeout_seconds - elapsed)))

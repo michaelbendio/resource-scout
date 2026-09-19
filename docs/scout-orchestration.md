@@ -248,3 +248,36 @@ retaining raw output and a normalization manifest. It does not choose between
 conflicting same-ID records. The comparison also prompted explicit instructions
 to actually incorporate supported access facts with candidate links when merging,
 and to keep shared resource titles accurate for every retained category.
+
+
+## Persistent curation supervisor and bounded recovery
+
+`python3 -m resource_research_agent.curation_supervisor --launch-manifest PATH
+--attach-pid PID --notify` attaches to an existing coordinator without starting a
+second worker. Omit `--attach-pid` to resume the saved curation command. Use a
+preserved launch manifest with explicit effort, output, database and total category
+limit. Run from the repository root. A separate per-database supervisor lock
+prevents duplicate supervisors; the runner retains its own exclusive lock.
+
+The supervisor checks every 30 seconds, records native event age separately from
+coordinator liveness, and persists its coordinator restart budget. On a coordinator
+crash it can restart within that budget. The runner waits for an identified live
+orphan before reading its result or starting work. Completed batches are validated
+and reused. A confirmed transient transport failure allows one additional worker
+attempt per batch in `transport-retry-1`, retaining every original artifact and
+sealed input; restarting does not reset this budget. Timeout, authentication,
+quota, context and content/validation failures require diagnosis and do not trigger
+an unchanged automatic paid retry. The sole automatic content normalization remains
+removal of fully identical resource rows.
+
+`supervisor-status.json` records current state and recovery counts. Terminal states
+are also visible through the existing monitor; `--notify` requests a local macOS
+notification at completion or a stop requiring attention, subject to macOS
+notification settings. No provider messages or automatic final AI review are sent.
+An assistant must still resolve substantive curation failures. This is not a claim
+that all unattended-recovery requirements have been completed: automatic context
+resizing, semantic-result repair and OS-reboot recovery remain unimplemented.
+
+New evidence JSON is written over multiple lines so a line search does not return
+an entire minified document. Resumption accepts the prior representation only when
+its parsed value still matches the sealed assignment, and never rewrites its bytes.

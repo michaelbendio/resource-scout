@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 from resource_research_agent.scout_curation_runner import (
     compact_assignment, execute_worker, validate_links, write_once,
-    run, candidate_batches, read_worker_result,
+    run, candidate_batches, read_worker_result, write_evidence_once,
 )
 from resource_research_agent.storage import ResearchStore
 from resource_research_agent.importer import ResourcePackageImporter
@@ -19,6 +19,22 @@ from resource_research_agent.manual_consolidation import consolidate_manual_disc
 
 
 class CurationRunnerTests(unittest.TestCase):
+    def test_readable_evidence_preserves_old_sealed_bytes_and_rejects_changed_values(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            value = [{"id": "a", "informationText": "First"}, {"id": "b", "informationText": "Second"}]
+            old = root / "old.json"
+            original = json.dumps(value, separators=(",", ":"))
+            old.write_text(original)
+            write_evidence_once(old, value)
+            self.assertEqual(original, old.read_text())
+            new = root / "new.json"
+            write_evidence_once(new, value)
+            self.assertEqual(value, json.loads(new.read_text()))
+            self.assertGreater(len(new.read_text().splitlines()), 2)
+            with self.assertRaisesRegex(ValueError, "sealed artifact"):
+                write_evidence_once(new, [{"id": "changed"}])
+
     def test_category_resume_and_completed_export_do_not_repeat_worker(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
