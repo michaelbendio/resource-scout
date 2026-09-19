@@ -20,6 +20,8 @@ from .scout_curation import (
 )
 from .scout_review import build_scout_review_file
 from .storage import ResearchStore
+from .worker_failures import classify_worker_failure, native_error
+from .worker_lifecycle import record_worker
 
 
 def encode(value: Any) -> str:
@@ -149,6 +151,7 @@ def execute_worker(directory: Path, *, binary: str, model: str, timeout: int,
     with (directory / "prompt.txt").open() as prompt, (directory / "events.jsonl").open("x") as events, (directory / "stderr.log").open("x") as errors:
         process = subprocess.Popen(command, stdin=prompt, stdout=events, stderr=errors, start_new_session=True)
         try:
+            record_worker(directory, process.pid, command)
             while True:
                 try:
                     code = process.wait(timeout=min(30, max(1, timeout - (time.monotonic() - started))))
@@ -159,7 +162,13 @@ def execute_worker(directory: Path, *, binary: str, model: str, timeout: int,
                     if elapsed >= timeout:
                         raise TimeoutError(f"Curation exceeded {timeout} seconds; no automatic retry")
             if code:
-                raise RuntimeError(f"Codex exited {code}; inspect {directory / 'stderr.log'}")
+                detail = native_error(directory)
+                failure = classify_worker_failure(detail)
+                (directory / "failure.json").write_text(encode({
+                    "kind": failure.kind, "message": failure.message,
+                    "retryable": failure.retryable, "exitCode": code,
+                }))
+                raise RuntimeError(f"Codex exited {code}: {detail}")
             if not (directory / "result.json").is_file():
                 raise RuntimeError("Codex produced no result")
         finally:
@@ -278,6 +287,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             current = store.get_scout_curation_job(job_id)
             done = sum(c["status"] == "completed" for c in current["categories"])
             if args.max_categories is not None and done >= args.max_categories:
+                if done < len(current["categories"]):
+                    event("curation-awaiting-effort-review",
+                          "Curation paused at the agreed category limit. Review results and agree on effort before continuing.",
+                          completedCategories=done, effort=args.effort)
                 break
             assignment = next_scout_curation_assignment(store, job_id)
             if assignment is None:

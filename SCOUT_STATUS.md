@@ -4,6 +4,20 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Latest effort decision — stop after Children/Pregnancy
+
+Michael requests that the current Children/Pregnancy category finish at Extra
+High, then curation **pause before another category**. Compare it with original
+Addiction (High) and discuss effort before continuing. This supersedes the older
+Mental Health/end-of-run comparison timing below. Preserve the original results
+and distinguish category/source-pool differences, batching, prior context and
+separate audit corrections from any effort benefit.
+
+During validation, research completion must visibly prompt a curation-effort
+discussion. Automatic research-to-curation transition is a future mode to enable
+only after explicit agreement that Scout is ready to run unattended. The existing
+review HTML download should be a prominent Save auto[Location].html action.
+
 ## Research complete — September 19, 2026
 
 **All 21 categories completed at 08:32:58 UTC (2:32:58 a.m. Mountain).**
@@ -26,8 +40,8 @@ about 11 minutes. Its unchanged final result was validated and saved.
 
 Michael explicitly requested **Extra High for the category workers too**.
 The coordinator transitioned at the category boundary, preserving Addiction.
-Current runner PID **30021**, Codex `gpt-5.5`, `--effort xhigh`,
-`--batch-candidates 30 --batch-chars 60000`. Children/Pregnancy is running
+Current runner PID **30612**, Codex `gpt-5.5`, `--effort xhigh`,
+`--batch-candidates 30 --batch-chars 60000 --max-categories 2`. Children/Pregnancy is running
 in nine saved batches after the whole-category Extra High attempt exhausted
 its context window at 263.73 seconds. The failed attempt is preserved under
 `job-1/children-pregnancy/a33833317d3c23d0/`; bounded recovery uses parent

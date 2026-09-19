@@ -65,6 +65,8 @@ class CurationRunnerTests(unittest.TestCase):
                 first = run(args)
                 self.assertEqual(2, launch.call_count)
                 self.assertEqual("in-progress", first["status"])
+                self.assertEqual("curation-awaiting-effort-review",
+                                 store.list_scout_curation_progress(first["jobId"])[-1]["phase"])
                 run(args)
                 self.assertEqual(2, launch.call_count)
                 args.max_categories = None
@@ -133,10 +135,11 @@ class CurationRunnerTests(unittest.TestCase):
             root = Path(temporary)
             (root / "prompt.txt").write_text("sealed prompt")
             process = unittest.mock.Mock()
+            process.pid = 12345
             process.wait.return_value = 7
             process.returncode = 7
             process.poll.return_value = 7
-            with patch("resource_research_agent.scout_curation_runner.subprocess.Popen", return_value=process) as launch:
+            with patch("resource_research_agent.scout_curation_runner.record_worker"), patch("resource_research_agent.scout_curation_runner.subprocess.Popen", return_value=process) as launch:
                 with self.assertRaisesRegex(RuntimeError, "Codex exited 7"):
                     execute_worker(root, binary="codex", model="test", timeout=60, heartbeat=lambda _: None, effort="xhigh")
             self.assertEqual(launch.call_count, 1)

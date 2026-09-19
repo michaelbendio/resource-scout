@@ -45,7 +45,7 @@ partitioning was reverted after authentication was shown to cause those stalls.
 Do not restore it merely because a worker is slow.
 
 Children/Pregnancy curation actually exhausted the model context window on
-September 19. For the remaining current curation, use bounded fresh contexts:
+September 19. For the currently authorized Children/Pregnancy curation, use bounded fresh contexts:
 `--batch-candidates 30 --batch-chars 60000 --effort xhigh`. These limits bound the
 submitted candidate evidence, not a guarantee about all future tool output.
 Avoid dumping full provenance files or long webpages into context.
@@ -90,8 +90,11 @@ Routine investigation and repair belong to the assistant.
 
 - Claude is disabled for every Scout call, including probes, preflight and
   fallback. Reading historical Claude evidence is allowed.
-- Michael requested Extra High for current category curation workers and the
-  supervising audit. The already-running Addiction assignment completed at High;
+- Michael authorizes Extra High through Children/Pregnancy, followed by an
+  effort discussion before another category. Use Extra High for the supervising
+  comparison, difficult source/identity decisions and final consolidation audit.
+  Worker effort is a separate decision; do not infer a blanket Extra High setting
+  from the assistant effort setting. The already-running Addiction assignment completed at High;
   preserve that original for comparison. The conversation effort and CLI worker
   effort are separate; verify the actual CLI argument/metadata.
 - Address Stephanie's four needs: eligibility, how best to connect, access/hours,
@@ -112,9 +115,12 @@ must preserve original results and record a reason, sources and before/after
 hashes. Check whether in-flight or later categories reused a corrected resource.
 Do not silently change research evidence or experimental results.
 
-After all 21 categories complete, compare original Addiction (High) with Mental
-Health (Extra High), including overlapping providers, decisions, Stephanie's
-criteria, latency and native usage/tool counts. Report concrete gains and adverse
+**Current effort gate (latest instruction): finish Children/Pregnancy at Extra
+High, then stop before assigning another category. Compare its original worker
+results with original Addiction (High), including decisions, Stephanie's criteria,
+latency and native usage/tool counts, and discuss effort with Michael. Do not
+continue curation until that discussion produces a decision. This replaces the
+earlier plan to wait for Mental Health/all 21 categories before comparing.** Report concrete gains and adverse
 cases. Source pools, order and prior curated context differ; this is observational,
 not a causal effort experiment. Also record the curation batching/prompt change.
 
@@ -139,3 +145,17 @@ and actionable account/usage alerts. Test interrupted workers, context limits,
 invalid results, transient failures, exhausted recovery budgets and resumed
 completion. State what still requires human action. Do not equate a background
 worker, monitor heartbeat or untested retry loop with unattended reliability.
+
+## Research-to-curation transition and saving
+
+During validation, research completion must visibly say "Research complete —
+ready to curate and consolidate" and pause for an effort discussion with Michael.
+Only after Michael and the assistant agree Scout is ready for unattended operation
+should a configured unattended run automatically start curation when research
+finishes, using the agreed effort. Authorization to implement supervision is not
+permission to enable that transition early. The current category has explicit
+Extra High authorization, followed by the effort gate above.
+
+Keep a prominent **Save auto[Location].html** action when the review file is
+available. Reuse the existing review-file download endpoint; do not add a second
+competing export or label AI proposals as human approved.

@@ -138,6 +138,13 @@ function friendlyProgressPhase(value) {
     research: 'Research',
     'ready-for-curation': 'Ready for curation',
     'curation-start': 'Curation',
+    'curation-awaiting-effort-review': 'Paused for effort discussion',
+    'codex-curation-started': 'Curation',
+    'codex-curation-active': 'Curation',
+    'codex-curation-batch-started': 'Curation',
+    'codex-curation-batch-completed': 'Curation',
+    'codex-curation-completed': 'Category curated',
+    'codex-curation-stopped': 'Curation needs attention',
     'category-assigned': 'Curation',
     'category-completed': 'Curation',
     'curation-heartbeat': 'Curation',
@@ -299,8 +306,21 @@ function renderScoutProgress(progress) {
   state.workflowProgress = progress;
   const phaseLabel = friendlyProgressPhase(progress.phase);
   const reviewFilename = progress.reviewFile?.filename || progress.targetReviewFilename || 'office review file';
+  const readyForCuration = ['ready-for-curation', 'codex-first-research-complete', 'focused-research-complete'].includes(progress.phase)
+    && progress.research.total > 0 && progress.research.completed >= progress.research.total;
+  const effortReview = progress.phase === 'curation-awaiting-effort-review';
+  const nextStep = document.querySelector('#curation-next-step');
+  nextStep.hidden = !!progress.reviewFile || !(readyForCuration || effortReview);
+  document.querySelector('#curation-next-step-title').textContent = effortReview
+    ? 'Curation paused for an effort discussion'
+    : 'Research complete — ready to curate and consolidate';
+  document.querySelector('#curation-next-step-detail').textContent = effortReview
+    ? 'Completed work is saved. Review the category comparison with Codex and agree on effort before continuing.'
+    : 'Discuss curation effort with Codex before starting. During validation, Scout waits for that decision.';
   document.querySelector('#scout-progress-title').textContent = progress.reviewFile
     ? `${reviewFilename} is ready`
+    : effortReview ? 'Curation paused for an effort discussion'
+    : readyForCuration ? 'Research complete — ready to curate and consolidate'
     : `Creating ${reviewFilename}`;
   document.querySelector('#scout-progress-phase').textContent = phaseLabel;
   document.querySelector('#scout-progress-message').textContent = progress.message;
@@ -374,7 +394,7 @@ function renderScoutProgress(progress) {
     const download = document.querySelector('#review-file-download');
     download.href = review.downloadUrl;
     download.download = review.filename;
-    download.textContent = `Download ${review.filename}`;
+    download.textContent = `Save ${review.filename}`;
   }
 }
 
