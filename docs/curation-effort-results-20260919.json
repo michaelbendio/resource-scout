@@ -1,0 +1,467 @@
+{
+  "status": "category-result-available-for-review",
+  "baselineHigh": {
+    "directory": "job-1/addiction/7fd29b36ffd79a81",
+    "candidateCount": 196,
+    "assignmentSha256": "7fd29b36ffd79a817b827496ae3b0a4710dd928b0dc7eed60c4f79df8344e9cf",
+    "completed": true,
+    "validatedBatch": null,
+    "normalization": null,
+    "elapsedSeconds": 689.294854,
+    "timingNote": "Preserved manual coordinator transition metadata; approximate elapsed time; native completion confirmed.",
+    "exitCode": null,
+    "nativeOutputResourceCount": 72,
+    "validatedResourceCount": null,
+    "dispositions": {
+      "curated": 72,
+      "merged": 76,
+      "omitted": 48
+    },
+    "nativeCompletedItems": {
+      "agent_message": 3,
+      "command_execution": 6,
+      "web_search": 16
+    },
+    "nativeWebActions": {
+      "other": 15,
+      "search": 1
+    },
+    "nativeUsage": {
+      "input_tokens": 399417,
+      "cached_input_tokens": 185472,
+      "output_tokens": 35655,
+      "reasoning_output_tokens": 9526
+    },
+    "failures": [],
+    "originalResultValidatedAndSaved": true
+  },
+  "childrenFailedWholeCategoryXhigh": {
+    "directory": "job-1/children-pregnancy/a33833317d3c23d0",
+    "candidateCount": 264,
+    "assignmentSha256": "a33833317d3c23d0c9b698eeb2de713fb51ac3687c39278faf435d0efec9c796",
+    "completed": false,
+    "validatedBatch": null,
+    "normalization": null,
+    "elapsedSeconds": 263.7297963750025,
+    "timingNote": null,
+    "exitCode": 1,
+    "nativeOutputResourceCount": null,
+    "validatedResourceCount": null,
+    "dispositions": null,
+    "nativeCompletedItems": {
+      "agent_message": 2,
+      "command_execution": 14,
+      "web_search": 17
+    },
+    "nativeWebActions": {
+      "other": 15,
+      "search": 2
+    },
+    "nativeUsage": null,
+    "failures": [
+      {
+        "type": "error",
+        "message": "Codex ran out of room in the model's context window. Start a new thread or clear earlier history before retrying."
+      },
+      {
+        "type": "turn.failed",
+        "error": {
+          "message": "Codex ran out of room in the model's context window. Start a new thread or clear earlier history before retrying."
+        }
+      }
+    ]
+  },
+  "childrenXhighBatches": [
+    {
+      "directory": "job-1/children-pregnancy/77ad03dcfbf51f0c/batches-v1/001-be206b42fed82392",
+      "candidateCount": 30,
+      "assignmentSha256": "be206b42fed823928b1b5fb3aadd92099b1f2ba3ec66cd881a06cb13b2a12840",
+      "completed": true,
+      "validatedBatch": true,
+      "normalization": null,
+      "elapsedSeconds": 393.58253004201106,
+      "timingNote": null,
+      "exitCode": 0,
+      "nativeOutputResourceCount": 16,
+      "validatedResourceCount": 16,
+      "dispositions": {
+        "curated": 16,
+        "omitted": 2,
+        "merged": 12
+      },
+      "nativeCompletedItems": {
+        "agent_message": 3,
+        "command_execution": 7,
+        "web_search": 25
+      },
+      "nativeWebActions": {
+        "search": 10,
+        "other": 15
+      },
+      "nativeUsage": {
+        "input_tokens": 455236,
+        "cached_input_tokens": 156544,
+        "output_tokens": 18068,
+        "reasoning_output_tokens": 9782
+      },
+      "failures": []
+    },
+    {
+      "directory": "job-1/children-pregnancy/77ad03dcfbf51f0c/batches-v1/002-1879913ebd3363e1",
+      "candidateCount": 30,
+      "assignmentSha256": "1879913ebd3363e1112004e693a95b9ffda303d2e4a56393a2be2f379f17fe7c",
+      "completed": true,
+      "validatedBatch": true,
+      "normalization": null,
+      "elapsedSeconds": 506.7443907260895,
+      "timingNote": "File timestamp interval; coordinator unavailable to capture exact subprocess exit",
+      "exitCode": null,
+      "nativeOutputResourceCount": 15,
+      "validatedResourceCount": 15,
+      "dispositions": {
+        "merged": 16,
+        "curated": 13,
+        "omitted": 1
+      },
+      "nativeCompletedItems": {
+        "agent_message": 4,
+        "command_execution": 14,
+        "web_search": 22
+      },
+      "nativeWebActions": {
+        "other": 15,
+        "search": 7
+      },
+      "nativeUsage": {
+        "input_tokens": 634820,
+        "cached_input_tokens": 333056,
+        "output_tokens": 25494,
+        "reasoning_output_tokens": 15617
+      },
+      "failures": []
+    },
+    {
+      "directory": "job-1/children-pregnancy/77ad03dcfbf51f0c/batches-v1/003-5d20e624a6d32a83",
+      "candidateCount": 30,
+      "assignmentSha256": "5d20e624a6d32a831293d5dcf159bad846fde91a5883a2f20ad32c8fdedee1f0",
+      "completed": true,
+      "validatedBatch": true,
+      "normalization": null,
+      "elapsedSeconds": 638.7566669170046,
+      "timingNote": null,
+      "exitCode": 0,
+      "nativeOutputResourceCount": 22,
+      "validatedResourceCount": 22,
+      "dispositions": {
+        "curated": 20,
+        "merged": 5,
+        "omitted": 5
+      },
+      "nativeCompletedItems": {
+        "agent_message": 4,
+        "command_execution": 9,
+        "web_search": 30
+      },
+      "nativeWebActions": {
+        "other": 19,
+        "search": 11
+      },
+      "nativeUsage": {
+        "input_tokens": 618321,
+        "cached_input_tokens": 270976,
+        "output_tokens": 31360,
+        "reasoning_output_tokens": 20169
+      },
+      "failures": []
+    },
+    {
+      "directory": "job-1/children-pregnancy/77ad03dcfbf51f0c/batches-v1/004-2de4875bf9a9650c",
+      "candidateCount": 30,
+      "assignmentSha256": "2de4875bf9a9650ceeb856720a22c3b360898de09d6527640efd7b24ad85114a",
+      "completed": true,
+      "validatedBatch": true,
+      "normalization": {
+        "method": "remove fully identical resource rows only",
+        "normalizedSha256": "cad8cdcc3eefa3094068fb2ca9135670f31be89833aa3f1a2bd16b7b3a610fb2",
+        "originalSha256": "1b891f7dd232ebe718ed4d3e201f03132e7d8217a2ed941751ce3d2210467f83",
+        "removedDuplicateIds": [
+          "res-root-for-kids-early-head-start"
+        ]
+      },
+      "elapsedSeconds": 503.6451171670051,
+      "timingNote": null,
+      "exitCode": 0,
+      "nativeOutputResourceCount": 14,
+      "validatedResourceCount": 13,
+      "dispositions": {
+        "omitted": 6,
+        "curated": 12,
+        "merged": 12
+      },
+      "nativeCompletedItems": {
+        "agent_message": 8,
+        "command_execution": 13,
+        "web_search": 15
+      },
+      "nativeWebActions": {
+        "search": 10,
+        "other": 5
+      },
+      "nativeUsage": {
+        "input_tokens": 525484,
+        "cached_input_tokens": 345472,
+        "output_tokens": 25007,
+        "reasoning_output_tokens": 15164
+      },
+      "failures": []
+    },
+    {
+      "directory": "job-1/children-pregnancy/77ad03dcfbf51f0c/batches-v1/005-f3cce49a51aadc3f",
+      "candidateCount": 30,
+      "assignmentSha256": "f3cce49a51aadc3f6d567abf15bce36467cf9b46cabe767690ae4fb0393868d2",
+      "completed": true,
+      "validatedBatch": true,
+      "normalization": null,
+      "elapsedSeconds": 440.3348620420147,
+      "timingNote": null,
+      "exitCode": 0,
+      "nativeOutputResourceCount": 19,
+      "validatedResourceCount": 19,
+      "dispositions": {
+        "curated": 19,
+        "omitted": 1,
+        "merged": 10
+      },
+      "nativeCompletedItems": {
+        "agent_message": 3,
+        "command_execution": 7,
+        "web_search": 21
+      },
+      "nativeWebActions": {
+        "search": 4,
+        "other": 17
+      },
+      "nativeUsage": {
+        "input_tokens": 392406,
+        "cached_input_tokens": 184192,
+        "output_tokens": 21703,
+        "reasoning_output_tokens": 11566
+      },
+      "failures": []
+    },
+    {
+      "directory": "job-1/children-pregnancy/77ad03dcfbf51f0c/batches-v1/006-4f027361f41d876f",
+      "candidateCount": 30,
+      "assignmentSha256": "4f027361f41d876f8698f2e90a06a6171ffa702c02bf4613ea339eff14968621",
+      "completed": true,
+      "validatedBatch": true,
+      "normalization": null,
+      "elapsedSeconds": 532.7499599170114,
+      "timingNote": null,
+      "exitCode": 0,
+      "nativeOutputResourceCount": 18,
+      "validatedResourceCount": 18,
+      "dispositions": {
+        "merged": 15,
+        "curated": 14,
+        "omitted": 1
+      },
+      "nativeCompletedItems": {
+        "agent_message": 3,
+        "command_execution": 16,
+        "web_search": 26
+      },
+      "nativeWebActions": {
+        "other": 19,
+        "search": 7
+      },
+      "nativeUsage": {
+        "input_tokens": 759550,
+        "cached_input_tokens": 444032,
+        "output_tokens": 25952,
+        "reasoning_output_tokens": 15241
+      },
+      "failures": []
+    },
+    {
+      "directory": "job-1/children-pregnancy/77ad03dcfbf51f0c/batches-v1/007-0b9061a85b6a6793",
+      "candidateCount": 30,
+      "assignmentSha256": "0b9061a85b6a67932cbfa8e7d52b32559d079d29ba3755fab858f5ae7816d513",
+      "completed": true,
+      "validatedBatch": true,
+      "normalization": null,
+      "elapsedSeconds": 497.6865623749909,
+      "timingNote": null,
+      "exitCode": 0,
+      "nativeOutputResourceCount": 22,
+      "validatedResourceCount": 22,
+      "dispositions": {
+        "curated": 16,
+        "merged": 9,
+        "omitted": 5
+      },
+      "nativeCompletedItems": {
+        "agent_message": 4,
+        "command_execution": 13,
+        "web_search": 21
+      },
+      "nativeWebActions": {
+        "other": 17,
+        "search": 4
+      },
+      "nativeUsage": {
+        "input_tokens": 484333,
+        "cached_input_tokens": 280832,
+        "output_tokens": 25360,
+        "reasoning_output_tokens": 13040
+      },
+      "failures": []
+    },
+    {
+      "directory": "job-1/children-pregnancy/77ad03dcfbf51f0c/batches-v1/008-a82c58ba7e34747d",
+      "candidateCount": 30,
+      "assignmentSha256": "a82c58ba7e34747d3905cdea43145b9651f0db55e55e6d37968ca705749b6c16",
+      "completed": true,
+      "validatedBatch": true,
+      "normalization": null,
+      "elapsedSeconds": 432.7702381250274,
+      "timingNote": null,
+      "exitCode": 0,
+      "nativeOutputResourceCount": 17,
+      "validatedResourceCount": 17,
+      "dispositions": {
+        "curated": 13,
+        "merged": 14,
+        "omitted": 3
+      },
+      "nativeCompletedItems": {
+        "agent_message": 3,
+        "command_execution": 10,
+        "web_search": 20
+      },
+      "nativeWebActions": {
+        "other": 18,
+        "search": 2
+      },
+      "nativeUsage": {
+        "input_tokens": 525042,
+        "cached_input_tokens": 215936,
+        "output_tokens": 22035,
+        "reasoning_output_tokens": 11528
+      },
+      "failures": []
+    },
+    {
+      "directory": "job-1/children-pregnancy/77ad03dcfbf51f0c/batches-v1/009-8b50495c5b5bf8b4",
+      "candidateCount": 24,
+      "assignmentSha256": "8b50495c5b5bf8b4e45685d617fae5f2ecd3483cc89077fb87a4f91f01ef122f",
+      "completed": true,
+      "validatedBatch": true,
+      "normalization": null,
+      "elapsedSeconds": 434.06268462500884,
+      "timingNote": null,
+      "exitCode": 0,
+      "nativeOutputResourceCount": 14,
+      "validatedResourceCount": 14,
+      "dispositions": {
+        "curated": 11,
+        "merged": 13
+      },
+      "nativeCompletedItems": {
+        "agent_message": 4,
+        "command_execution": 9,
+        "web_search": 20
+      },
+      "nativeWebActions": {
+        "other": 17,
+        "search": 3
+      },
+      "nativeUsage": {
+        "input_tokens": 296394,
+        "cached_input_tokens": 145920,
+        "output_tokens": 21709,
+        "reasoning_output_tokens": 13379
+      },
+      "failures": []
+    }
+  ],
+  "childrenXhighCompletedBatchesTotals": {
+    "batchCount": 9,
+    "candidateCount": 264,
+    "elapsedSeconds": 4380.3330119361635,
+    "nativeUsage": {
+      "input_tokens": 4691586,
+      "cached_input_tokens": 2376960,
+      "output_tokens": 216688,
+      "reasoning_output_tokens": 125486
+    }
+  },
+  "childrenFinalCategory": {
+    "resourceCount": 136,
+    "dispositions": {
+      "curated": 134,
+      "omitted": 24,
+      "merged": 106
+    }
+  },
+  "interpretation": [
+    "Original worker results only; root audit corrections are separate.",
+    "Different categories, sources, prior-resource context, batching and prompt guidance confound effort comparisons.",
+    "Native token fields are not dollar costs or subscription quota percentages; do not add cached input to total input or reasoning output to total output.",
+    "Native web actions may batch searches; action counts are not pages verified.",
+    "Resource counts are AI proposals, not human accepted identities.",
+    "Completed batch time excludes incomplete batches, failed attempt, transitions and root audit time; report all components separately."
+  ],
+  "inputPools": {
+    "addiction": {
+      "candidates": 196,
+      "originalMemberSubmissions": 229,
+      "sourceOnlyRecords": 74,
+      "sourceResponses": 27
+    },
+    "childrenPregnancy": {
+      "candidates": 264,
+      "originalMemberSubmissions": 317,
+      "sourceOnlyRecords": 102,
+      "sourceResponses": 27
+    },
+    "bothConditions": [
+      "codex-grok",
+      "codex-claude",
+      "claude-grok",
+      "five-worker-baseline"
+    ],
+    "note": "Both categories have historical research unions. The old note that Addiction has a richer union than Mental Health does not apply to this updated Children/Pregnancy comparison."
+  },
+  "promptComparison": {
+    "sameSuppliedSourceAudit": true,
+    "sourceAuditSha256": [
+      "c846c739af60b99ff32bd3332d9c56349957f7a2e7823e9aa6a5c0c15d88b429",
+      "c846c739af60b99ff32bd3332d9c56349957f7a2e7823e9aa6a5c0c15d88b429"
+    ],
+    "actualGuidanceDifference": "Changed source-only review from general review instruction to selective bounded reads, and added batch instructions. Earlier commentary describing additional audit guidance was imprecise: the source-audit text itself was unchanged."
+  },
+  "databaseCheckpoint": {
+    "jobId": 1,
+    "completedCategories": 2,
+    "totalCategories": 21,
+    "nextCategory": "clothing-household",
+    "nextCategoryStatus": "pending",
+    "workerRunning": false,
+    "finishedAt": "2026-09-19T17:08:07.225244+00:00"
+  },
+  "readingVolume": {
+    "addictionHigh": {
+      "medianInformationWordsExcludingUrls": 53.0,
+      "totalInformationWordsExcludingUrls": 3842,
+      "originalResultFileSha256": "3ac4a4ad86917e73c17778d2c2020deb0b43201ac077e2206a5c6c250c8be08c"
+    },
+    "childrenXhigh": {
+      "medianInformationWordsExcludingUrls": 119.0,
+      "totalInformationWordsExcludingUrls": 16562,
+      "originalResultFileSha256": "7fa8b9f28e1942a618750936ec6e3ef35d7303d9966ef21e9ffd0e9f5e75b523"
+    }
+  },
+  "claudeCallsDuringCuration": 0,
+  "extraHighWorkflowWallMinutes": 90.3
+}

@@ -96,6 +96,8 @@ def worker_prompt(view: dict[str, Any], source_audit: str) -> str:
         "Consolidate aliases into distinct actionable programs, preserving genuinely different services and eligibility.",
         "Reuse prior stable resource IDs for the same program. Read its full record in prior-resources.json before extending it.",
         "When extending, preserve prior verified details and candidateIds; include the current category and new contributing IDs.",
+        "Keep a shared resource's title accurate for all retained categories. Put special population or category details inside the record without implying narrower overall eligibility.",
+        "If you decide an access candidate belongs inside a retained resource, actually incorporate its supported actionable details and mark it merged with those resource IDs. An omission reason saying it should be incorporated is not completed consolidation.",
         "Every curated/merged disposition must link exactly the resources that actually contain its candidateId.",
         "Use current official sources to resolve conflicts, geography, current operation, essential eligibility and access.",
         "Search in batches where useful. Do not repeat broad discovery or inflate the list with new unassigned resources.",

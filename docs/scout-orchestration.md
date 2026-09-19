@@ -223,3 +223,19 @@ This command records completed work; it does not perform a review. Never run it
 merely to expose the Save button. It stores the report and its hash in durable
 SQLite progress history. Tell Michael when Save is ready. Do not label Codex review
 as human resource approval, phone verification or office publication.
+
+## September 19 effort checkpoint reached
+
+Children/Pregnancy has completed at Extra High; Addiction completed at High.
+The requested comparison is in `docs/curation-effort-review-20260919.md`.
+The runner stopped at 2/21 and the remaining 19 categories are pending. Do not
+resume until Michael and the assistant agree on worker effort. The recommendation
+is High workers with the current batching/checkpoints and Extra High for the
+requested final Codex review. This supersedes the earlier wait-for-Mental-Health
+comparison plan. No automatic reviewer is authorized by this recommendation.
+
+The current runner automatically normalizes only fully identical resource rows,
+retaining raw output and a normalization manifest. It does not choose between
+conflicting same-ID records. The comparison also prompted explicit instructions
+to actually incorporate supported access facts with candidate links when merging,
+and to keep shared resource titles accurate for every retained category.

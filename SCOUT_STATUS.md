@@ -16,81 +16,81 @@ stage as the current operating plan; a future unattended reviewer remains a
 possible improvement to evaluate separately. Human approval/phone verification
 are still separate from Codex review.
 
-## Latest effort decision — stop after Children/Pregnancy
+## Effort checkpoint reached — paused after Children/Pregnancy
 
-Michael requests that the current Children/Pregnancy category finish at Extra
-High, then curation **pause before another category**. Compare it with original
-Addiction (High) and discuss effort before continuing. This supersedes the older
-Mental Health/end-of-run comparison timing below. Preserve the original results
-and distinguish category/source-pool differences, batching, prior context and
-separate audit corrections from any effort benefit.
+**Curation is paused at 2/21 categories. No curation worker is running.**
+Children/Pregnancy completed September 19 at 17:08:07 UTC (11:08 a.m. Mountain).
+The coordinator enforced `--max-categories 2` and exited normally. Latest runner
+PID 31492 is historical; monitor PID 31256 serves **http://127.0.0.1:8769**.
+The monitor says `curation-awaiting-effort-review`. Verify live state before acting.
 
-During validation, research completion must visibly prompt a curation-effort
-discussion. Automatic research-to-curation transition is a future mode to enable
-only after explicit agreement that Scout is ready to run unattended. The existing
-review HTML download should be a prominent Save auto[Location].html action.
+Michael requested the pause to compare Children/Pregnancy (Extra High) with
+Addiction (High) and discuss effort before another category. The offered earlier
+batch checkpoint received no answer; the original category-end instruction was
+followed. **Do not resume until the effort discussion produces a decision.**
+
+Read [effort comparison](docs/curation-effort-review-20260919.md) and
+[evidence](docs/curation-effort-results-20260919.json). Recommendation: **High for
+remaining curation workers with bounded batches; Extra High for Michael's requested
+Codex review after curation.** This recommendation is not approval to resume.
+The old plan to compare Addiction with Mental Health after all categories is
+superseded by this completed Children/Pregnancy checkpoint comparison.
+
+- Addiction: High, 196 candidates, 72 proposals, about 11.5 worker minutes;
+  dispositions 72 curated / 76 merged / 48 omitted.
+- Children/Pregnancy: Extra High, 264 candidates, 136 proposals, 73 successful
+  worker minutes plus 4.4 minutes for the failed whole-category attempt;
+  dispositions 134 curated / 106 merged / 24 omitted. Nine batches are validated.
+- Native successful-work input/output tokens: High 399,417 / 35,655;
+  Extra High 4,691,586 / 216,688. These are not dollar or quota figures.
+- Clothing/Household and the other 18 categories remain pending and unassigned.
+
+The comparison is observational: both categories have the same four historical
+research sources and identical source-audit text, but different candidate pools,
+prior context, task breadth, batching and evidence-reading guidance. Original
+worker results remain unchanged; root review corrections are separate.
+
+The first whole-category Extra High attempt exhausted context. Completed bounded
+work uses parent assignment `77ad03dcfbf51f0c...`. Batch 4 contained one fully
+identical duplicate Root for Kids Early Head Start row. Scout preserved the raw
+output and recorded exact-row normalization, then resumed without a worker rerun.
+Conflicting same-ID records still fail. See `result-normalization.json` beside that
+batch's original `result.json`. The failure remains visible in the experiment.
+
+The comparison identified shared-title narrowing, incomplete incorporation of
+financial-access details, category-fit consistency questions and a source-version
+uncertainty. These are flagged in the report for review, not silently treated as
+corrected or human approved. Future worker prompts now explicitly require actual
+fact/link incorporation when merging access information and broad shared titles.
+These instruction changes were made after Children/Pregnancy completed.
+
+**Earlier Addiction audit correction applied:** Maryland's Washington County
+harm-reduction program (candidate 594) was removed and Utah's Hand in Hand mobile
+service (candidate 468) restored from Utah DHHS evidence. The count remains 72.
+`scout_curation_result_revisions` preserves original/revised results, sources,
+reason and hashes. Children received the corrected prior-resource context.
+
+Artifacts and logs: `data/st-george-curation-20260919/`.
+`launch.json` is historical execution evidence, not proof a process is still alive.
+The comparison/preservation records are in its `audit/` subdirectory. No final
+`autoStGeorge.html` has been generated from this incomplete curation job. After
+all 21 categories finish, the monitor must hand off **Ready for Codex review**;
+Save is withheld until the requested review is complete for the exact results.
 
 ## Research complete — September 19, 2026
 
-**All 21 categories completed at 08:32:58 UTC (2:32:58 a.m. Mountain).**
-The research runner exited normally; no worker remains. Monitor PID 10078 was
-still serving **http://127.0.0.1:8769** at verification. It reports research 21/21,
-curation 0/21 and ready for Codex-controlled curation. A monitor is not a worker.
+All 21 categories completed at 08:32:58 UTC (2:32:58 a.m. Mountain). No research
+worker remains. The Codex+Grok jobs contain 1,613 submitted rows. The richer curation
+selection contains 3,290 source rows and 2,421 candidate records; these are not
+accepted unique resources. All four historical database hashes and the frozen
+snapshot remain unchanged. At the effort checkpoint, all 36 non-curation tables
+in the working database matched the frozen snapshot; SQLite quick_check passed.
 
-The Codex+Grok research jobs contain 1,613 submitted rows. The richer curation
-selection, including preserved historical findings, contains 3,290 source rows
-and 2,421 candidate records. These are not accepted unique resources. All source
-databases retain their verified hashes; production SQLite integrity passed.
-
-Frozen database, complete candidate ZIP and completion/checksum manifest:
+Frozen database, candidate ZIP and completion/checksum manifest:
 `data/st-george-completion-20260919/`.
-Read [completion report](docs/st-george-research-completion-20260919.md).
-Curation job 1 started September 19 at 15:26 UTC (9:26 a.m. Mountain).
-**Addiction completed: 196 candidates, 72 proposals, 76 merged-candidate
-and 48 omitted-candidate dispositions.** The first worker used High and took
-about 11 minutes. Its unchanged final result was validated and saved.
-
-Michael explicitly requested **Extra High for the category workers too**.
-The coordinator transitioned at the category boundary, preserving Addiction.
-Current runner PID **30612**, Codex `gpt-5.5`, `--effort xhigh`,
-`--batch-candidates 30 --batch-chars 60000 --max-categories 2`. Children/Pregnancy is running
-in nine saved batches after the whole-category Extra High attempt exhausted
-its context window at 263.73 seconds. The failed attempt is preserved under
-`job-1/children-pregnancy/a33833317d3c23d0/`; bounded recovery uses parent
-assignment `77ad03dcfbf51f0c...`. No completed research/category was rerun.
-Verify live processes and logs; this snapshot will advance.
-Monitor PID 31256 remains **http://127.0.0.1:8769**, curation 1/21 at restart.
-The coordinator records batch progress as well as completed-category counts.
-
-**Material Addiction audit correction applied:** remove Maryland's Washington
-County harm-reduction program (candidate 594, `res-washco-harm-reduction`) and
-restore Utah's Hand in Hand mobile service (candidate 468,
-`res-hand-in-hand-stgeorge`) from Utah DHHS evidence. The count remains 72.
-The SQLite `scout_curation_result_revisions` table preserves the original High
-result plus sources, reason and before/after hashes. Original worker files are
-unchanged. Audit artifacts: `data/st-george-curation-20260919/audit/`.
-Children's failed assignment was archived and its prior-resource context was
-explicitly refreshed to include the correction before bounded recovery.
-
-After curation completes, Michael explicitly requests an effort comparison:
-**Addiction (High) versus Mental Health (Extra High)**. Compare overlapping
-providers, consolidation/omission decisions, direct category fit, Stephanie's
-four information criteria, and latency/usage. Identify concrete added value;
-do not attribute every difference to effort. Addiction has a richer historical
-source union and Mental Health receives prior curated resources, so this is an
-observational comparison, not a controlled same-assignment experiment. Extra High recovery also changes
-batch size and evidence-reading guidance; the root audit corrections are a
-separate intervention. Preserve
-both inputs, outputs, web/tool events and effort metadata. Do not rerun Addiction
-just to manufacture a matched comparison without discussing the extra work.
-
-Working artifacts/log: `data/st-george-curation-20260919/`.
-Completed category results are durable in the production working database.
-The frozen research snapshot and all historical source databases remain unchanged.
-No `autoStGeorge.html` has yet been generated from this run. The curation runner
-will generate it after all 21 categories pass candidate-coverage/link validation.
-Read [curation operations](docs/scout-curation-runner.md).
-Do not restart completed research.
+Read [research completion report](docs/st-george-research-completion-20260919.md)
+and [curation operations](docs/scout-curation-runner.md). Do not restart completed
+research or completed categories.
 
 The run had one expired-token Grok authentication failure at September 18,
 23:51 UTC. OAuth sign-in refreshed outside the strict sandbox and the run resumed
@@ -123,7 +123,7 @@ not by itself a supervisor. See `docs/scout-orchestration.md`.
 - Bonsai was removed at Michael's request. Structured extraction is deferred,
   not a current or near-term task.
 
-## Current state: September 18, 2026
+## Completed six-category experiment: September 18, 2026
 
 All three conditions in `data/pairwise-overnight-20260918-022703/` completed their
 six categories: Addiction, Children/Pregnancy, Clothing/Household, Disability,
