@@ -442,6 +442,18 @@ CREATE TABLE IF NOT EXISTS scout_curation_categories (
     error TEXT NOT NULL DEFAULT '',
     PRIMARY KEY (job_id, category_id)
 );
+CREATE TABLE IF NOT EXISTS scout_curation_result_revisions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    job_id INTEGER NOT NULL REFERENCES scout_curation_jobs(id),
+    category_id TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    reason TEXT NOT NULL,
+    evidence_json TEXT NOT NULL,
+    previous_result_json TEXT NOT NULL,
+    previous_result_sha256 TEXT NOT NULL,
+    result_json TEXT NOT NULL,
+    result_sha256 TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS scout_curation_progress_events (
     id INTEGER PRIMARY KEY,
     job_id INTEGER NOT NULL REFERENCES scout_curation_jobs(id) ON DELETE CASCADE,

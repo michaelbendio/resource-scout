@@ -13,6 +13,7 @@ caffeinate -dimsu python3 -m resource_research_agent.scout_curation_runner \
   --database data/st-george-production-20260918-codex-grok/research.sqlite3 \
   --import-id 1 \
   --effort xhigh \
+  --batch-candidates 30 --batch-chars 60000 \
   --output data/st-george-curation-20260919 \
   --source-audit docs/six-category-source-audit-20260918.md
 ```
@@ -51,3 +52,24 @@ Generated resources are **proposals for human review**, not human-approved or
 phone-vetted resources. A web verification date does not mark them Curated.
 The runner does not publish an office package, enable structured extraction,
 contact providers or start another city.
+
+## Context recovery and audit corrections
+
+Children/Pregnancy exhausted its context window on the first whole-category
+Extra High attempt. Remaining curation now uses saved batches of at most 30
+candidates and approximately 60,000 characters of original member evidence.
+The full sealed assignment remains in SQLite; batch assignments and results
+are under `batches-v1/`. Each validated batch is reused on resume, including
+its normalization timestamps, so later assignment hashes remain stable.
+
+`revise_scout_curation_result` applies source-backed corrections to a completed
+category without another worker call. It validates full candidate coverage and
+links, rejects stale edits by expected result hash, and atomically preserves the
+old/new results and evidence in `scout_curation_result_revisions`. Assignments
+and original completion times remain unchanged. Later assignments receive the
+corrected resources; already-sealed in-flight assignments need explicit review.
+
+Read [the orchestration contract](scout-orchestration.md) before supervising
+these operations. Bounded batching and durable results are implemented; the
+CLI still stops for unexpected failures. It is not yet a self-repairing unattended
+supervisor. The assistant owns diagnosis and recovery during the current run.

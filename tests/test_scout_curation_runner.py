@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 from resource_research_agent.scout_curation_runner import (
     compact_assignment, execute_worker, validate_links, write_once,
-    run,
+    run, candidate_batches,
 )
 from resource_research_agent.storage import ResearchStore
 from resource_research_agent.importer import ResourcePackageImporter
@@ -42,36 +42,39 @@ class CurationRunnerTests(unittest.TestCase):
                     "website": f"https://example.org/{category}", "phone": "555-555-5555",
                     "address": "1 Main Street", "leadType": "program", "locationOrServiceArea": "Test",
                     "whyRelevant": f"Provides direct {category} help.", "uncertainty": "Confirm hours",
-                }]}))
+                }, {"organization": f"Alternate {category} name", "program": f"Direct {category} help",
+                    "website": f"https://example.org/alternate-{category}", "leadType": "program",
+                    "whyRelevant": "Direct service", "locationOrServiceArea": "Test"}]}))
                 consolidate_manual_discovery(store, run_id, DuplicateIndex(store))
                 finish_manual_discovery(store, run_id)
             args = argparse.Namespace(database=str(store.path), output=str(root / "out"),
                                       import_id=import_id, source_audit=None, max_categories=1,
-                                      codex_binary="never-call", model="test", timeout_seconds=60, effort="high")
+                                      codex_binary="never-call", model="test", timeout_seconds=60, effort="high", batch_candidates=1, batch_chars=60000)
             def worker(directory, **kwargs):
                 assignment = json.loads((directory / "assignment.json").read_text())
                 category = assignment["category"]["id"]
                 ids = [str(c["id"]) for c in assignment["candidates"]]
+                prior_ids = [c for r in assignment["previouslyCuratedResources"] if r["id"] == category for c in r["candidateIds"]]
                 (directory / "result.json").write_text(json.dumps({
                     "scoutCurationResultSchemaVersion": 1, "assignmentSha256": assignment["assignmentSha256"],
                     "categoryId": category,
-                    "resources": [{"id": category, "name": f"Direct {category}", "categories": [category], "candidateIds": ids}],
+                    "resources": [{"id": category, "name": f"Direct {category}", "categories": [category], "candidateIds": prior_ids + ids}],
                     "candidateDispositions": [{"candidateId": c, "disposition": "curated", "resourceIds": [category], "reason": ""} for c in ids],
                 }))
             with patch("resource_research_agent.scout_curation_runner.execute_worker", side_effect=worker) as launch:
                 first = run(args)
-                self.assertEqual(1, launch.call_count)
+                self.assertEqual(2, launch.call_count)
                 self.assertEqual("in-progress", first["status"])
                 run(args)
-                self.assertEqual(1, launch.call_count)
+                self.assertEqual(2, launch.call_count)
                 args.max_categories = None
                 completed = run(args)
-                self.assertEqual(2, launch.call_count)
+                self.assertEqual(4, launch.call_count)
                 self.assertEqual("completed", completed["status"])
                 self.assertEqual(2, completed["resourceCount"])
                 self.assertTrue(Path(completed["reviewFile"]).exists())
                 self.assertEqual(completed, run(args))
-                self.assertEqual(2, launch.call_count)
+                self.assertEqual(4, launch.call_count)
                 Path(completed["reviewFile"]).write_text("Human edit")
                 with self.assertRaisesRegex(ValueError, "Review artifact changed"):
                     run(args)

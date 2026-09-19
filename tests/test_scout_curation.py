@@ -25,6 +25,7 @@ from resource_research_agent.scout_curation import (
 from resource_research_agent.scout_review import (
     build_scout_review_file,
 )
+from resource_research_agent.scout_curation_revision import revise_scout_curation_result
 from resource_research_agent.scout_progress import build_scout_progress
 from resource_research_agent.duplicates import DuplicateIndex
 from resource_research_agent.importer import ResourcePackageImporter
@@ -183,6 +184,45 @@ class ScoutCurationTests(unittest.TestCase):
             self.assertEqual("review-file-built", progress["phase"])
             self.assertEqual(2, progress["curation"]["completed"])
             self.assertEqual("created", progress["reviewFile"]["status"])
+
+    def test_audit_revision_preserves_original_and_rejects_stale_or_incomplete_updates(self) -> None:
+        job = prepare_scout_curation_job(self.store, self.import_id)
+        assignment = next_scout_curation_assignment(self.store, job["id"])
+        saved = save_scout_curation_result(self.store, job["id"], "employment",
+                                          self.result_for(assignment, resource_id="work"))
+        before = saved["categories"][0]
+        corrected = json.loads(json.dumps(before["result"]))
+        corrected["resources"][0]["description"] = "Corrected direct employment service."
+        revised = revise_scout_curation_result(
+            self.store, job["id"], "employment", corrected,
+            expected_result_sha256=before["resultSha256"], reason="Provider source corrected scope",
+            evidence=[{"url": "https://example.org/official"}],
+        )
+        after = revised["categories"][0]
+        self.assertEqual(before["assignmentSha256"], after["assignmentSha256"])
+        self.assertEqual(before["completedAt"], after["completedAt"])
+        self.assertEqual(1, revised["progress"]["completed"])
+        with self.store.connect() as connection:
+            revision = connection.execute("SELECT * FROM scout_curation_result_revisions").fetchone()
+            self.assertEqual(before["result"], json.loads(revision["previous_result_json"]))
+            self.assertEqual(after["result"], json.loads(revision["result_json"]))
+        with self.assertRaisesRegex(ScoutCurationError, "changed since"):
+            revise_scout_curation_result(
+                self.store, job["id"], "employment", corrected,
+                expected_result_sha256=before["resultSha256"], reason="Stale edit",
+                evidence=[{"url": "https://example.org/official"}],
+            )
+        corrected["candidateDispositions"] = []
+        with self.assertRaisesRegex(ScoutCurationError, "missing candidate dispositions"):
+            revise_scout_curation_result(
+                self.store, job["id"], "employment", corrected,
+                expected_result_sha256=after["resultSha256"], reason="Incomplete edit",
+                evidence=[{"url": "https://example.org/official"}],
+            )
+        with self.store.connect() as connection:
+            self.assertEqual(1, connection.execute("SELECT COUNT(*) FROM scout_curation_result_revisions").fetchone()[0])
+        next_assignment = next_scout_curation_assignment(self.store, job["id"])
+        self.assertEqual("Corrected direct employment service.", next_assignment["previouslyCuratedResources"][0]["description"])
 
     def test_prepares_resumable_job_and_uses_most_complete_category_run(self) -> None:
         job = prepare_scout_curation_job(self.store, self.import_id)

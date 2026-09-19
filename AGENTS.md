@@ -2,6 +2,12 @@
 
 Before doing substantive Scout work, read `SCOUT_STATUS.md`.
 
+Before starting, resuming, changing, or supervising a Scout worker, also read
+[`docs/scout-orchestration.md`](docs/scout-orchestration.md) and follow its
+monitoring, checkpoint, recovery, evidence-preservation, and handoff instructions.
+The supervising assistant owns routine monitoring and recovery; Michael should
+not have to babysit the run.
+
 Treat `SCOUT_STATUS.md` as the current operational handoff. Verify live process/database state before acting because long-running experiments may have advanced since the file was last updated.
 
 For the final six-category architecture analysis, use **Extra High reasoning effort** and follow the evaluation checklist in `SCOUT_STATUS.md`.

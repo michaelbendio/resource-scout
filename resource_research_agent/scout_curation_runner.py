@@ -16,6 +16,7 @@ from .runner_lock import research_runner_lock
 from .scout_curation import (
     build_scout_review_seed, next_scout_curation_assignment,
     prepare_scout_curation_job, save_scout_curation_result,
+    validate_scout_curation_result, _assignment_sha256, _completed_resources,
 )
 from .scout_review import build_scout_review_file
 from .storage import ResearchStore
@@ -105,7 +106,7 @@ def worker_prompt(view: dict[str, Any], source_audit: str) -> str:
         "Omission reasons must be specific to the candidate, including duplicate/indirect/wrong-geography/obsolete evidence when applicable.",
         "No provider contact, login, other AI, writes, or user questions. Local reads are allowed ONLY in this assignment directory.",
         "The smaller view preserves original member submissions; full originals are in assignment.json. Do not read that huge file unbounded.",
-        "Review source-only.json as reference evidence; it supplies no new candidate IDs. Preserve any consequential unresolved omission in your reason.",
+        "Consult source-only.json selectively for relevant reference evidence; it supplies no new candidate IDs. Use bounded reads, avoid dumping entire evidence files or long web pages. Preserve consequential unresolved omissions in your reasons.",
         "Return one JSON object matching the schema, with no Markdown fences.",
         "Prior source audit (dated evidence to consider and recheck as needed):", source_audit,
         "SEALED ASSIGNMENT VIEW:", encode(view),
@@ -175,6 +176,92 @@ def execute_worker(directory: Path, *, binary: str, model: str, timeout: int,
             }))
 
 
+def candidate_batches(assignment: dict[str, Any], max_candidates: int, max_chars: int) -> list[list[dict[str, Any]]]:
+    """Bound fresh contexts by actual submitted-evidence size and candidate count."""
+    rows = compact_assignment(assignment)["candidates"]
+    batches, batch, size = [], [], 0
+    for original, row in zip(assignment["candidates"], rows):
+        count = len(encode(row))
+        if batch and (len(batch) >= max_candidates or size + count > max_chars):
+            batches.append(batch)
+            batch, size = [], 0
+        batch.append(original)
+        size += count
+    if batch:
+        batches.append(batch)
+    return batches
+
+
+def complete_batched_category(job: dict[str, Any], assignment: dict[str, Any], directory: Path,
+                              args: argparse.Namespace, source_audit: str, event: Any) -> dict[str, Any]:
+    from copy import deepcopy
+    category_id = assignment["category"]["id"]
+    batches = candidate_batches(assignment, args.batch_candidates, args.batch_chars)
+    prior = deepcopy(assignment.get("previouslyCuratedResources", []))
+    results = []
+    for index, candidates in enumerate(batches, 1):
+        part = deepcopy(assignment)
+        part["candidates"] = deepcopy(candidates)
+        part["previouslyCuratedResources"] = prior
+        part["batch"] = {"index": index, "total": len(batches),
+                         "parentAssignmentSha256": assignment["assignmentSha256"],
+                         "instructions": "Curate only these candidate IDs. Other batches cover the remaining candidates. Reuse full prior records for matching identities; do not omit a duplicate when it contributes to a retained prior program."}
+        part["assignmentSha256"] = _assignment_sha256(part)
+        folder = directory / "batches-v1" / f"{index:03d}-{part['assignmentSha256'][:16]}"
+        folder.mkdir(parents=True, exist_ok=True)
+        view = compact_assignment(part)
+        for name, value in {"assignment.json": part, "view.json": view,
+                            "prior-resources.json": prior, "source-only.json": part.get("sourceOnlyRecords", []),
+                            "excluded.json": part.get("excludedCandidates", []), "schema.json": response_schema()}.items():
+            write_once(folder / name, encode(value))
+        write_once(folder / "prompt.txt", worker_prompt(view, source_audit))
+        event("codex-curation-batch-started", f"Curating {assignment['category']['label']}: batch {index}/{len(batches)}",
+              category_id, batch=index, totalBatches=len(batches), candidateCount=len(candidates), effort=args.effort)
+        if not (folder / "result.json").exists():
+            if (folder / "events.jsonl").exists():
+                raise RuntimeError(f"Interrupted batch at {folder}; inspect before explicit recovery")
+            execute_worker(folder, binary=args.codex_binary, model=args.model, timeout=args.timeout_seconds,
+                           effort=args.effort,
+                           heartbeat=lambda elapsed: event("codex-curation-active",
+                           f"Curating {assignment['category']['label']}: batch {index}/{len(batches)}", category_id,
+                           batch=index, totalBatches=len(batches), elapsedSeconds=round(elapsed), effort=args.effort))
+        raw = json.loads((folder / "result.json").read_text())
+        validate_links(part, raw)
+        validation_job = deepcopy(job)
+        category = next(c for c in validation_job["categories"] if c["categoryId"] == category_id)
+        category.update(assignment=part, assignmentSha256=part["assignmentSha256"], status="assigned", result={"resources": prior})
+        normalized = validate_scout_curation_result(validation_job, category_id, raw)
+        # Freeze normalization timestamps too, so resuming keeps later batch hashes stable.
+        normalized_path = folder / "validated-result.json"
+        if normalized_path.exists():
+            saved = json.loads(normalized_path.read_text())
+            def without_timestamps(value):
+                clone = deepcopy(value)
+                for resource in clone["resources"]:
+                    resource.pop("lastModified", None)
+                return clone
+            if without_timestamps(saved) != without_timestamps(normalized):
+                raise ValueError(f"Validated batch result changed: {folder}")
+            normalized = saved
+        else:
+            write_once(normalized_path, encode(normalized))
+        results.append(normalized)
+        prior = _completed_resources({"categories": [{"result": {"resources": assignment.get("previouslyCuratedResources", [])}}]
+                                     + [{"result": result} for result in results]})
+        event("codex-curation-batch-completed", f"Completed {assignment['category']['label']} batch {index}/{len(batches)}",
+              category_id, batch=index, totalBatches=len(batches), resourceCount=len(normalized["resources"]))
+    merged = {
+        "scoutCurationResultSchemaVersion": 1, "assignmentSha256": assignment["assignmentSha256"],
+        "categoryId": category_id,
+        "resources": _completed_resources({"categories": [{"result": result} for result in results]}),
+        "candidateDispositions": [d for result in results for d in result["candidateDispositions"]],
+    }
+    # Later batches may extend a resource; each candidate still links its actual resource IDs.
+    validate_links(assignment, merged)
+    write_once(directory / "batched-result.json", encode(merged))
+    return merged
+
+
 def run(args: argparse.Namespace) -> dict[str, Any]:
     database = Path(args.database).expanduser().resolve()
     output = Path(args.output).expanduser().resolve()
@@ -198,25 +285,28 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             category_id = assignment["category"]["id"]
             directory = output / f"job-{job_id}" / category_id / assignment["assignmentSha256"][:16]
             directory.mkdir(parents=True, exist_ok=True)
-            view = compact_assignment(assignment)
-            for name, value in {
-                "assignment.json": assignment, "view.json": view,
-                "prior-resources.json": assignment.get("previouslyCuratedResources", []),
-                "source-only.json": assignment.get("sourceOnlyRecords", []),
-                "excluded.json": assignment.get("excludedCandidates", []), "schema.json": response_schema(),
-            }.items():
-                write_once(directory / name, encode(value))
-            write_once(directory / "prompt.txt", worker_prompt(view, source_audit))
             try:
-                if not (directory / "result.json").exists():
-                    if (directory / "events.jsonl").exists():
-                        raise RuntimeError(f"Prior interrupted/failed attempt at {directory}; inspect before an explicit retry")
-                    event("codex-curation-started", f"Curating {assignment['category']['label']}", category_id,
-                          candidateCount=len(view["candidates"]), assignmentSha256=assignment["assignmentSha256"])
-                    execute_worker(directory, binary=args.codex_binary, model=args.model, timeout=args.timeout_seconds,
-                                   effort=args.effort,
-                                   heartbeat=lambda elapsed: event("codex-curation-active", f"Curating {assignment['category']['label']}", category_id, elapsedSeconds=round(elapsed)))
-                result = json.loads((directory / "result.json").read_text())
+                if args.batch_candidates:
+                    result = complete_batched_category(current, assignment, directory, args, source_audit, event)
+                else:
+                    view = compact_assignment(assignment)
+                    for name, value in {
+                        "assignment.json": assignment, "view.json": view,
+                        "prior-resources.json": assignment.get("previouslyCuratedResources", []),
+                        "source-only.json": assignment.get("sourceOnlyRecords", []),
+                        "excluded.json": assignment.get("excludedCandidates", []), "schema.json": response_schema(),
+                    }.items():
+                        write_once(directory / name, encode(value))
+                    write_once(directory / "prompt.txt", worker_prompt(view, source_audit))
+                    if not (directory / "result.json").exists():
+                        if (directory / "events.jsonl").exists():
+                            raise RuntimeError(f"Prior interrupted/failed attempt at {directory}; inspect before an explicit retry")
+                        event("codex-curation-started", f"Curating {assignment['category']['label']}", category_id,
+                              candidateCount=len(view["candidates"]), assignmentSha256=assignment["assignmentSha256"])
+                        execute_worker(directory, binary=args.codex_binary, model=args.model, timeout=args.timeout_seconds,
+                                       effort=args.effort,
+                                       heartbeat=lambda elapsed: event("codex-curation-active", f"Curating {assignment['category']['label']}", category_id, elapsedSeconds=round(elapsed)))
+                    result = json.loads((directory / "result.json").read_text())
                 validate_links(assignment, result)
                 save_scout_curation_result(store, job_id, category_id, result)
                 event("codex-curation-completed", f"Completed {assignment['category']['label']}", category_id,
@@ -265,6 +355,8 @@ def main() -> int:
     parser.add_argument("--model", default="gpt-5.5")
     parser.add_argument("--effort", choices=("high", "xhigh"), default="high")
     parser.add_argument("--timeout-seconds", type=int, default=3600)
+    parser.add_argument("--batch-candidates", type=int, default=0, help="Bound each fresh curation context; 0 uses one context per category")
+    parser.add_argument("--batch-chars", type=int, default=60000)
     parser.add_argument("--max-categories", type=int, help="Completed categories total, resume-safe")
     print(json.dumps(run(parser.parse_args()), indent=2), flush=True)
     return 0

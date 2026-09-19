@@ -1,6 +1,7 @@
 # Scout Current Status
 
-Read this file before substantive Scout work. Verify live process/database state;
+Read this file and [orchestration instructions](docs/scout-orchestration.md)
+before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
 ## Research complete — September 19, 2026
@@ -18,16 +19,32 @@ databases retain their verified hashes; production SQLite integrity passed.
 Frozen database, complete candidate ZIP and completion/checksum manifest:
 `data/st-george-completion-20260919/`.
 Read [completion report](docs/st-george-research-completion-20260919.md).
-Curation job 1 started September 19 at 15:26 UTC (9:26 a.m. Mountain),
-runner PID 29071. It uses Codex `gpt-5.5`, one sealed category at a time,
-with no Claude calls. Initial category: Addiction, 196 candidate records.
-Michael has now explicitly requested **Extra High for the category workers too**.
-The initial Addiction worker PID 29076 remains at High to finish its existing
-work. Coordinator PID 29071 is SIGSTOP-paused so it cannot start another High
-assignment. After Addiction finishes, terminate the paused coordinator and resume
-with `--effort xhigh`; its saved result is ingested without another worker call.
-This is a temporary boundary transition, not a stalled research worker.
-Verify live state; do not launch a duplicate. Monitor PID 29232 remains port 8769.
+Curation job 1 started September 19 at 15:26 UTC (9:26 a.m. Mountain).
+**Addiction completed: 196 candidates, 72 proposals, 76 merged-candidate
+and 48 omitted-candidate dispositions.** The first worker used High and took
+about 11 minutes. Its unchanged final result was validated and saved.
+
+Michael explicitly requested **Extra High for the category workers too**.
+The coordinator transitioned at the category boundary, preserving Addiction.
+Current runner PID **30021**, Codex `gpt-5.5`, `--effort xhigh`,
+`--batch-candidates 30 --batch-chars 60000`. Children/Pregnancy is running
+in nine saved batches after the whole-category Extra High attempt exhausted
+its context window at 263.73 seconds. The failed attempt is preserved under
+`job-1/children-pregnancy/a33833317d3c23d0/`; bounded recovery uses parent
+assignment `77ad03dcfbf51f0c...`. No completed research/category was rerun.
+Verify live processes and logs; this snapshot will advance.
+Monitor PID 29232 remains **http://127.0.0.1:8769**, curation 1/21 at restart.
+The coordinator records batch progress as well as completed-category counts.
+
+**Material Addiction audit correction applied:** remove Maryland's Washington
+County harm-reduction program (candidate 594, `res-washco-harm-reduction`) and
+restore Utah's Hand in Hand mobile service (candidate 468,
+`res-hand-in-hand-stgeorge`) from Utah DHHS evidence. The count remains 72.
+The SQLite `scout_curation_result_revisions` table preserves the original High
+result plus sources, reason and before/after hashes. Original worker files are
+unchanged. Audit artifacts: `data/st-george-curation-20260919/audit/`.
+Children's failed assignment was archived and its prior-resource context was
+explicitly refreshed to include the correction before bounded recovery.
 
 After curation completes, Michael explicitly requests an effort comparison:
 **Addiction (High) versus Mental Health (Extra High)**. Compare overlapping
@@ -35,7 +52,9 @@ providers, consolidation/omission decisions, direct category fit, Stephanie's
 four information criteria, and latency/usage. Identify concrete added value;
 do not attribute every difference to effort. Addiction has a richer historical
 source union and Mental Health receives prior curated resources, so this is an
-observational comparison, not a controlled same-assignment experiment. Preserve
+observational comparison, not a controlled same-assignment experiment. Extra High recovery also changes
+batch size and evidence-reading guidance; the root audit corrections are a
+separate intervention. Preserve
 both inputs, outputs, web/tool events and effort metadata. Do not rerun Addiction
 just to manufacture a matched comparison without discussing the extra work.
 
@@ -52,6 +71,16 @@ The run had one expired-token Grok authentication failure at September 18,
 at September 19, 05:03 UTC. No further failures were recorded. Completed work was
 reused; no Claude work was performed. Recovery history remains in `launch.json`
 and `runner.log` beside the production database.
+
+## Newly authorized reliability deliverable
+
+Michael explicitly authorizes the work needed to make Scout routinely usable
+from its shell script without an active supervising conversation. Continue the
+current curation and final audit/comparison while implementing and testing
+persistent supervision, durable recovery, bounded retries and actionable
+account/usage alerts. Do not call it unattended-ready until interruption and
+recovery paths have been tested. A model worker running in the background is
+not by itself a supervisor. See `docs/scout-orchestration.md`.
 
 ## Binding instructions
 

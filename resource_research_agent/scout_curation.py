@@ -404,13 +404,12 @@ def _normalize_resource(
     }
 
 
-def save_scout_curation_result(
-    store: ResearchStore,
-    job_id: int,
+def validate_scout_curation_result(
+    job: dict[str, Any],
     category_id: str,
     result: dict[str, Any],
+    *, required_status: str = "assigned",
 ) -> dict[str, Any]:
-    job = store.get_scout_curation_job(job_id)
     if not job:
         raise ScoutCurationError("Resource Scout curation job not found")
     category = next(
@@ -419,7 +418,7 @@ def save_scout_curation_result(
     )
     if not category:
         raise ScoutCurationError("Resource Scout curation category not found")
-    if category["status"] != "assigned":
+    if category["status"] != required_status:
         raise ScoutCurationError("Assign this category to Codex before saving its result")
     if not isinstance(result, dict):
         raise ScoutCurationError("Codex curation result must be one JSON object")
@@ -535,12 +534,21 @@ def save_scout_curation_result(
         "resources": resources,
         "candidateDispositions": normalized_dispositions,
     }
+    return normalized
+
+
+def save_scout_curation_result(
+    store: ResearchStore,
+    job_id: int,
+    category_id: str,
+    result: dict[str, Any],
+) -> dict[str, Any]:
+    normalized = validate_scout_curation_result(
+        store.get_scout_curation_job(job_id), category_id, result
+    )
     return store.save_scout_curation_category_result(
-        job_id,
-        category_id,
-        normalized,
-        _sha256(normalized),
-        len(resources),
+        job_id, category_id, normalized, _sha256(normalized),
+        len(normalized["resources"]),
     )
 
 
