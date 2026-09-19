@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 from resource_research_agent.scout_curation_runner import (
     compact_assignment, execute_worker, validate_links, write_once,
-    run, candidate_batches,
+    run, candidate_batches, read_worker_result,
 )
 from resource_research_agent.storage import ResearchStore
 from resource_research_agent.importer import ResourcePackageImporter
@@ -81,6 +81,25 @@ class CurationRunnerTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "Review artifact changed"):
                     run(args)
                 self.assertEqual("Human edit", Path(completed["reviewFile"]).read_text())
+
+    def test_only_identical_resource_duplicates_are_normalized_with_original_preserved(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            resource = {"id": "same", "name": "Same provider", "candidateIds": ["1"]}
+            result = {"resources": [resource, dict(resource)], "candidateDispositions": []}
+            original = json.dumps(result)
+            (root / "result.json").write_text(original)
+            repaired = read_worker_result(root)
+            self.assertEqual([resource], repaired["resources"])
+            self.assertEqual(original, (root / "result.json").read_text())
+            self.assertEqual(["same"], json.loads((root / "result-normalization.json").read_text())["removedDuplicateIds"])
+            self.assertEqual(repaired, read_worker_result(root))
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            result = {"resources": [resource, {**resource, "name": "Conflicting provider"}]}
+            (root / "result.json").write_text(json.dumps(result))
+            self.assertEqual(result, read_worker_result(root))
+            self.assertFalse((root / "normalized-result.json").exists())
 
     def test_projection_preserves_every_identity_original_and_manual_edit(self):
         original = {"submittedOrganization": "Clinic", "uncertainty": "Adults only?", "sourceLabel": "Saved Claude", "submittedWebsite": "https://example.org"}

@@ -59,7 +59,7 @@ its context window at 263.73 seconds. The failed attempt is preserved under
 `job-1/children-pregnancy/a33833317d3c23d0/`; bounded recovery uses parent
 assignment `77ad03dcfbf51f0c...`. No completed research/category was rerun.
 Verify live processes and logs; this snapshot will advance.
-Monitor PID 29232 remains **http://127.0.0.1:8769**, curation 1/21 at restart.
+Monitor PID 31256 remains **http://127.0.0.1:8769**, curation 1/21 at restart.
 The coordinator records batch progress as well as completed-category counts.
 
 **Material Addiction audit correction applied:** remove Maryland's Washington

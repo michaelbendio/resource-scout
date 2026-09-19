@@ -140,6 +140,34 @@ def validate_links(assignment: dict[str, Any], result: dict[str, Any]) -> None:
             raise ValueError(f"Inconsistent candidate/resource links: {disposition['candidateId']}")
 
 
+def read_worker_result(directory: Path) -> dict[str, Any]:
+    """Remove only fully identical resource rows; preserve native output and evidence.
+
+    Conflicting records with a shared ID still fail the normal validator. This
+    repair never selects between claims or changes candidate dispositions.
+    """
+    original = (directory / "result.json").read_bytes()
+    result = json.loads(original)
+    resources, seen, removed = [], set(), []
+    for resource in result.get("resources", []):
+        encoded = encode(resource)
+        if encoded in seen:
+            removed.append(resource.get("id"))
+        else:
+            seen.add(encoded)
+            resources.append(resource)
+    if removed:
+        result["resources"] = resources
+        write_once(directory / "result-normalization.json", encode({
+            "method": "remove fully identical resource rows only",
+            "originalSha256": hashlib.sha256(original).hexdigest(),
+            "normalizedSha256": hashlib.sha256(encode(result).encode()).hexdigest(),
+            "removedDuplicateIds": removed,
+        }))
+        write_once(directory / "normalized-result.json", encode(result))
+    return result
+
+
 def execute_worker(directory: Path, *, binary: str, model: str, timeout: int,
                    heartbeat: Any, effort: str = "high") -> None:
     command = [binary, "--search", "--ask-for-approval", "never", "--sandbox", "read-only",
@@ -234,7 +262,7 @@ def complete_batched_category(job: dict[str, Any], assignment: dict[str, Any], d
                            heartbeat=lambda elapsed: event("codex-curation-active",
                            f"Curating {assignment['category']['label']}: batch {index}/{len(batches)}", category_id,
                            batch=index, totalBatches=len(batches), elapsedSeconds=round(elapsed), effort=args.effort))
-        raw = json.loads((folder / "result.json").read_text())
+        raw = read_worker_result(folder)
         validate_links(part, raw)
         validation_job = deepcopy(job)
         category = next(c for c in validation_job["categories"] if c["categoryId"] == category_id)
@@ -319,7 +347,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                         execute_worker(directory, binary=args.codex_binary, model=args.model, timeout=args.timeout_seconds,
                                        effort=args.effort,
                                        heartbeat=lambda elapsed: event("codex-curation-active", f"Curating {assignment['category']['label']}", category_id, elapsedSeconds=round(elapsed)))
-                    result = json.loads((directory / "result.json").read_text())
+                    result = read_worker_result(directory)
                 validate_links(assignment, result)
                 save_scout_curation_result(store, job_id, category_id, result)
                 event("codex-curation-completed", f"Completed {assignment['category']['label']}", category_id,
