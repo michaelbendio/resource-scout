@@ -86,6 +86,15 @@ Escalate to Michael only when action or a decision is genuinely required from hi
 choice). Explain the concrete blocker and what was already preserved or tried.
 Routine investigation and repair belong to the assistant.
 
+## Current authorization — September 19, 17:28 UTC
+
+Michael has read the effort comparison and instructed "Continue curation" at
+High. Resume the remaining 19 categories with `--effort high`, batches of at most
+30 candidates / 60,000 candidate-view characters, and a completed-total category
+limit of 21. Preserve both completed categories. This satisfies the historical
+effort gate below; do not ask again. The final review remains a separate
+Michael-requested Codex session, preferably Extra High.
+
 ## Current worker and review policy
 
 - Claude is disabled for every Scout call, including probes, preflight and
@@ -115,7 +124,7 @@ must preserve original results and record a reason, sources and before/after
 hashes. Check whether in-flight or later categories reused a corrected resource.
 Do not silently change research evidence or experimental results.
 
-**Current effort gate (latest instruction): finish Children/Pregnancy at Extra
+**Historical effort gate (now satisfied by the High resumption authorization above): finish Children/Pregnancy at Extra
 High, then stop before assigning another category. Compare its original worker
 results with original Addiction (High), including decisions, Stephanie's criteria,
 latency and native usage/tool counts, and discuss effort with Michael. Do not
@@ -153,8 +162,8 @@ ready to curate and consolidate" and pause for an effort discussion with Michael
 Only after Michael and the assistant agree Scout is ready for unattended operation
 should a configured unattended run automatically start curation when research
 finishes, using the agreed effort. Authorization to implement supervision is not
-permission to enable that transition early. The current category has explicit
-Extra High authorization, followed by the effort gate above.
+permission to enable that transition early. The remaining curation categories now have explicit High authorization. The
+comparison effort gate is satisfied; the unattended-operation agreement is separate.
 
 Keep a prominent **Save auto[Location].html** action when the review file is
 available. Reuse the existing review-file download endpoint; do not add a second

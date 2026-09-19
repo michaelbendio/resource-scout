@@ -16,9 +16,19 @@ stage as the current operating plan; a future unattended reviewer remains a
 possible improvement to evaluate separately. Human approval/phone verification
 are still separate from Codex review.
 
-## Effort checkpoint reached — paused after Children/Pregnancy
+## Curation resumed at High — September 19, 17:28 UTC
 
-**Curation is paused at 2/21 categories. No curation worker is running.**
+Michael read the comparison, selected High and explicitly instructed: "Continue
+curation." The effort gate is satisfied. Coordinator PID 32965 resumed job 1 with
+`--effort high --batch-candidates 30 --batch-chars 60000 --max-categories 21`.
+Addiction and Children/Pregnancy are preserved; the remaining 19 categories are
+authorized. Verify actual processes/database progress before acting. Monitor:
+**http://127.0.0.1:8769**. No automatic final reviewer is authorized; finish at
+**Ready for Codex review**. Conversation effort and worker effort remain separate.
+
+## Historical effort checkpoint — Children/Pregnancy
+
+**At the comparison checkpoint, curation paused at 2/21 categories.**
 Children/Pregnancy completed September 19 at 17:08:07 UTC (11:08 a.m. Mountain).
 The coordinator enforced `--max-categories 2` and exited normally. Latest runner
 PID 31492 is historical; monitor PID 31256 serves **http://127.0.0.1:8769**.
@@ -27,12 +37,12 @@ The monitor says `curation-awaiting-effort-review`. Verify live state before act
 Michael requested the pause to compare Children/Pregnancy (Extra High) with
 Addiction (High) and discuss effort before another category. The offered earlier
 batch checkpoint received no answer; the original category-end instruction was
-followed. **Do not resume until the effort discussion produces a decision.**
+followed. **That discussion is now complete; High resumption is authorized above.**
 
 Read [effort comparison](docs/curation-effort-review-20260919.md) and
 [evidence](docs/curation-effort-results-20260919.json). Recommendation: **High for
 remaining curation workers with bounded batches; Extra High for Michael's requested
-Codex review after curation.** This recommendation is not approval to resume.
+Codex review after curation.** Michael subsequently approved High and resumption; see the current state above.
 The old plan to compare Addiction with Mental Health after all categories is
 superseded by this completed Children/Pregnancy checkpoint comparison.
 
@@ -43,7 +53,7 @@ superseded by this completed Children/Pregnancy checkpoint comparison.
   dispositions 134 curated / 106 merged / 24 omitted. Nine batches are validated.
 - Native successful-work input/output tokens: High 399,417 / 35,655;
   Extra High 4,691,586 / 216,688. These are not dollar or quota figures.
-- Clothing/Household and the other 18 categories remain pending and unassigned.
+- At the checkpoint, Clothing/Household and the other 18 categories were pending.
 
 The comparison is observational: both categories have the same four historical
 research sources and identical source-audit text, but different candidate pools,
