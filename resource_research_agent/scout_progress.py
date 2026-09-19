@@ -117,7 +117,8 @@ def build_scout_progress(
     }
     location_name = _location_name(summary)
 
-    if codex_jobs:
+    # A completed research plan must not hide the newer curation/review phase.
+    if codex_jobs and (codex_plan_in_progress or not job):
         completed_codex = sum(item["status"] == "completed" for item in codex_jobs)
         active_codex = next((item for item in codex_jobs if item["status"] != "completed"), None)
         phase = "codex-first-research" if active_codex else "codex-first-research-complete"

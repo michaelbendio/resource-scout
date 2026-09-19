@@ -18,8 +18,34 @@ databases retain their verified hashes; production SQLite integrity passed.
 Frozen database, complete candidate ZIP and completion/checksum manifest:
 `data/st-george-completion-20260919/`.
 Read [completion report](docs/st-george-research-completion-20260919.md).
-No curation jobs have started and no `autoStGeorge.html` has been generated from
-this run. Next stage is consolidation/curation; do not restart completed research.
+Curation job 1 started September 19 at 15:26 UTC (9:26 a.m. Mountain),
+runner PID 29071. It uses Codex `gpt-5.5`, one sealed category at a time,
+with no Claude calls. Initial category: Addiction, 196 candidate records.
+Michael has now explicitly requested **Extra High for the category workers too**.
+The initial Addiction worker PID 29076 remains at High to finish its existing
+work. Coordinator PID 29071 is SIGSTOP-paused so it cannot start another High
+assignment. After Addiction finishes, terminate the paused coordinator and resume
+with `--effort xhigh`; its saved result is ingested without another worker call.
+This is a temporary boundary transition, not a stalled research worker.
+Verify live state; do not launch a duplicate. Monitor PID 29232 remains port 8769.
+
+After curation completes, Michael explicitly requests an effort comparison:
+**Addiction (High) versus Mental Health (Extra High)**. Compare overlapping
+providers, consolidation/omission decisions, direct category fit, Stephanie's
+four information criteria, and latency/usage. Identify concrete added value;
+do not attribute every difference to effort. Addiction has a richer historical
+source union and Mental Health receives prior curated resources, so this is an
+observational comparison, not a controlled same-assignment experiment. Preserve
+both inputs, outputs, web/tool events and effort metadata. Do not rerun Addiction
+just to manufacture a matched comparison without discussing the extra work.
+
+Working artifacts/log: `data/st-george-curation-20260919/`.
+Completed category results are durable in the production working database.
+The frozen research snapshot and all historical source databases remain unchanged.
+No `autoStGeorge.html` has yet been generated from this run. The curation runner
+will generate it after all 21 categories pass candidate-coverage/link validation.
+Read [curation operations](docs/scout-curation-runner.md).
+Do not restart completed research.
 
 The run had one expired-token Grok authentication failure at September 18,
 23:51 UTC. OAuth sign-in refreshed outside the strict sandbox and the run resumed

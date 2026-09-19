@@ -8,6 +8,7 @@ import threading
 import unittest
 import urllib.request
 import zipfile
+from unittest.mock import patch
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -150,6 +151,38 @@ class ScoutCurationTests(unittest.TestCase):
                 for candidate_id in current_ids
             ],
         }
+
+    def test_completed_codex_plan_does_not_mask_curation_or_review(self) -> None:
+        job = prepare_scout_curation_job(self.store, self.import_id)
+        completed_plan = [{
+            "categoryId": category, "status": "completed",
+            "experimentMode": "codex-first", "updatedAt": "2020-01-01T00:00:00Z",
+            "progress": {"completed": 4, "total": 4, "leadCount": 4},
+        } for category in ("employment", "food")]
+        from resource_research_agent.focused_research import CODEX_FIRST_EXPERIMENT_MODE
+        for item in completed_plan:
+            item["experimentMode"] = CODEX_FIRST_EXPERIMENT_MODE
+        with patch.object(self.store, "list_focused_research_jobs", return_value=completed_plan):
+            assignment = next_scout_curation_assignment(self.store, job["id"])
+            self.store.record_scout_curation_progress(
+                job["id"], "codex-curation-active", "Curating Employment",
+                category_id="employment",
+            )
+            progress = build_scout_progress(self.store, self.import_id)
+            self.assertEqual("codex-curation-active", progress["phase"])
+            self.assertEqual("employment", progress["categoryId"])
+            self.assertEqual({"completed": 2, "total": 2}, progress["research"])
+            save_scout_curation_result(self.store, job["id"], "employment",
+                                      self.result_for(assignment, resource_id="work"))
+            self.assertEqual(1, build_scout_progress(self.store, self.import_id)["curation"]["completed"])
+            assignment = next_scout_curation_assignment(self.store, job["id"])
+            save_scout_curation_result(self.store, job["id"], "food",
+                                      self.result_for(assignment, resource_id="food"))
+            build_scout_review_file(self.store, job["id"])
+            progress = build_scout_progress(self.store, self.import_id)
+            self.assertEqual("review-file-built", progress["phase"])
+            self.assertEqual(2, progress["curation"]["completed"])
+            self.assertEqual("created", progress["reviewFile"]["status"])
 
     def test_prepares_resumable_job_and_uses_most_complete_category_run(self) -> None:
         job = prepare_scout_curation_job(self.store, self.import_id)
