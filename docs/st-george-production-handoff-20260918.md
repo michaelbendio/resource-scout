@@ -1,11 +1,15 @@
 # St. George production launch handoff
 
-**Launched September 18, 2026, at 22:39 UTC on Michael's explicit instruction.**
-Monitor: **http://127.0.0.1:8769**. Grok preflight passed; the first active task
-is the Employment challenger. Runner PID at launch: 10099; monitor PID: 10078.
-Inspect live state before resuming. Claude is disabled, including probes.
-The Extra High review is complete; Codex CLI workers run at High.
-The adjacent `launch.json` and `runner.log` record this execution.
+**Running after authentication recovery.** The original September 18 launch
+completed ten categories, then stopped at 23:51 UTC on an expired Grok token.
+Sign-in refreshed successfully outside the sandbox and the same command resumed
+on September 19 at 05:03 UTC. Grok preflight passed; Medical/Dental/Vision challenger
+assignment 11 is active, with all primary work already saved.
+
+Monitor: **http://127.0.0.1:8769**. Runner PID at recovery: **13407**; monitor PID:
+**10078**. Inspect live state before resuming; a live monitor alone is insufficient.
+Claude is disabled, including probes. Codex CLI workers run at High.
+The adjacent `launch.json` and `runner.log` record both execution and recovery.
 
 ## Workspace and preserved work
 

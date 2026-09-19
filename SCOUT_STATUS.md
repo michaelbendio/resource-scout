@@ -3,15 +3,28 @@
 Read this file before substantive Scout work. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Live launch — September 18, 2026, 22:39 UTC
+## Live recovery — September 19, 2026, 05:03 UTC
 
-Michael explicitly authorized: “run the 21-category Scout and tell me the port
-number.” Production is running with Codex+Grok, Codex CLI at High. Grok preflight
-passed and the Employment challenger started. Runner PID at launch: 10099;
-monitor PID: 10078. Monitor: **http://127.0.0.1:8769**. Verify current processes
-before any resume; these PIDs are observations, not permanent identities.
-`data/st-george-production-20260918-codex-grok/launch.json` records the command.
-The runner log is adjacent. Do not launch a duplicate worker.
+Production has **10 of 21 categories completed**. Employment, Financial Assistance,
+Reentry Support and Food finished after the original six. Medical/Dental/Vision's
+six primary passes are complete (68 submitted leads); Grok's challenger is active.
+
+The original runner exited at September 18, 23:51:59 UTC (5:51 p.m. Mountain)
+after Grok's cached token expired. Native logs show HTTP 401 and denied access to
+`auth.json.lock` inside the strict sandbox. The monitor remained open, so its
+presence did not prove research was running. Saved work was intact.
+
+At Michael's status check, `grok login --oauth` refreshed sign-in successfully
+outside the research sandbox without user intervention. The same authorized
+command resumed on September 19 at 05:03 UTC (September 18, 11:03 p.m. Mountain).
+Grok preflight passed and saved challenger assignment 11 resumed. No completed
+primary pass/category was rerun; the research sandbox and worker policy are unchanged.
+
+Runner PID at this verification: **13407**; monitor PID: **10078**.
+Monitor: **http://127.0.0.1:8769**. Verify live processes before any resume.
+`data/st-george-production-20260918-codex-grok/launch.json` records the resume;
+`runner.log` retains the original failure and new events. No duplicate worker or
+Claude process was launched. Original launch authorization remains in force.
 
 ## Binding instructions
 
