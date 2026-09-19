@@ -159,3 +159,35 @@ Extra High authorization, followed by the effort gate above.
 Keep a prominent **Save auto[Location].html** action when the review file is
 available. Reuse the existing review-file download endpoint; do not add a second
 competing export or label AI proposals as human approved.
+
+## Making judgment review independent of the conversation
+
+The supervising assistant currently reviews saved category results, investigates
+consequential concerns, applies evidence-backed revisions, and performs the final
+cross-category consolidation audit. It does not participate in every internal
+worker decision. Michael wants Extra High available at these judgment checkpoints;
+that does not imply Extra High for every curation worker.
+
+An unattended implementation must preserve this review function as an explicit
+stage, not assume a longer curation prompt reproduces it:
+
+1. Run deterministic coverage, link, provenance and checkpoint checks.
+2. Give a bounded reviewer the sealed assignment, original proposals, omission
+   reasons, prior-resource changes and explicit office/service area. Review
+   questionable merges, consequential pathway omissions, category fit, geography,
+   conflicting eligibility and Stephanie's four information needs.
+3. Investigate flagged source conflicts with targeted checks. An out-of-state
+   address or area code is a concern to resolve, not automatic exclusion of a
+   legitimate statewide/remote/cross-border service. Failed fetches are not closure.
+4. Record findings and any corrections with source evidence and before/after
+   versions. Preserve unresolved uncertainty; do not silently make claims stronger.
+5. Audit the final cross-category result for duplicate identities, lost program
+   details and conflicting claims before declaring the review HTML ready.
+6. Measure missed errors, false alarms, added usage and curator burden against
+   known cases, including the Washington County Maryland/Utah error. Test recovery
+   and spending limits separately from judgment quality.
+
+This is an implementation/validation requirement, not an already running reviewer
+or authorization for a new paid review worker before the current effort discussion.
+Human approval and telephone verification remain separate. Proposed lessons from
+AI reviews are not automatically accepted training examples or canonical facts.
