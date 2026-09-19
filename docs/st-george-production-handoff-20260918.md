@@ -1,15 +1,13 @@
 # St. George production launch handoff
 
-**Running after authentication recovery.** The original September 18 launch
-completed ten categories, then stopped at 23:51 UTC on an expired Grok token.
-Sign-in refreshed successfully outside the sandbox and the same command resumed
-on September 19 at 05:03 UTC. Grok preflight passed; Medical/Dental/Vision challenger
-assignment 11 is active, with all primary work already saved.
+**Research completed September 19, 2026, at 08:32:58 UTC (2:32:58 a.m. Mountain).**
+All 21 categories finished and the worker exited normally. Monitor:
+**http://127.0.0.1:8769**. See the
+[completion report](st-george-research-completion-20260919.md) and frozen artifacts
+in `data/st-george-completion-20260919/`.
 
-Monitor: **http://127.0.0.1:8769**. Runner PID at recovery: **13407**; monitor PID:
-**10078**. Inspect live state before resuming; a live monitor alone is insufficient.
-Claude is disabled, including probes. Codex CLI workers run at High.
-The adjacent `launch.json` and `runner.log` record both execution and recovery.
+The commands below are retained as execution history, not instructions to rerun
+completed research. Next stage is consolidation/curation. Claude remains disabled.
 
 ## Workspace and preserved work
 
@@ -78,7 +76,7 @@ Inspect a suspected worker's command/database path when necessary. A leftover
 `.runner.lock` file does not imply a live process; OS locks release on exit. Do
 not delete that file to evade an active lock.
 
-## Authorized command — do not run while the current worker is active
+## Historical command — research is complete; do not relaunch
 
 ```bash
 caffeinate -dimsu python3 -u -m resource_research_agent.pairwise_runner \

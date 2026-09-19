@@ -3,28 +3,29 @@
 Read this file before substantive Scout work. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Live recovery — September 19, 2026, 05:03 UTC
+## Research complete — September 19, 2026
 
-Production has **10 of 21 categories completed**. Employment, Financial Assistance,
-Reentry Support and Food finished after the original six. Medical/Dental/Vision's
-six primary passes are complete (68 submitted leads); Grok's challenger is active.
+**All 21 categories completed at 08:32:58 UTC (2:32:58 a.m. Mountain).**
+The research runner exited normally; no worker remains. Monitor PID 10078 was
+still serving **http://127.0.0.1:8769** at verification. It reports research 21/21,
+curation 0/21 and ready for Codex-controlled curation. A monitor is not a worker.
 
-The original runner exited at September 18, 23:51:59 UTC (5:51 p.m. Mountain)
-after Grok's cached token expired. Native logs show HTTP 401 and denied access to
-`auth.json.lock` inside the strict sandbox. The monitor remained open, so its
-presence did not prove research was running. Saved work was intact.
+The Codex+Grok research jobs contain 1,613 submitted rows. The richer curation
+selection, including preserved historical findings, contains 3,290 source rows
+and 2,421 candidate records. These are not accepted unique resources. All source
+databases retain their verified hashes; production SQLite integrity passed.
 
-At Michael's status check, `grok login --oauth` refreshed sign-in successfully
-outside the research sandbox without user intervention. The same authorized
-command resumed on September 19 at 05:03 UTC (September 18, 11:03 p.m. Mountain).
-Grok preflight passed and saved challenger assignment 11 resumed. No completed
-primary pass/category was rerun; the research sandbox and worker policy are unchanged.
+Frozen database, complete candidate ZIP and completion/checksum manifest:
+`data/st-george-completion-20260919/`.
+Read [completion report](docs/st-george-research-completion-20260919.md).
+No curation jobs have started and no `autoStGeorge.html` has been generated from
+this run. Next stage is consolidation/curation; do not restart completed research.
 
-Runner PID at this verification: **13407**; monitor PID: **10078**.
-Monitor: **http://127.0.0.1:8769**. Verify live processes before any resume.
-`data/st-george-production-20260918-codex-grok/launch.json` records the resume;
-`runner.log` retains the original failure and new events. No duplicate worker or
-Claude process was launched. Original launch authorization remains in force.
+The run had one expired-token Grok authentication failure at September 18,
+23:51 UTC. OAuth sign-in refreshed outside the strict sandbox and the run resumed
+at September 19, 05:03 UTC. No further failures were recorded. Completed work was
+reused; no Claude work was performed. Recovery history remains in `launch.json`
+and `runner.log` beside the production database.
 
 ## Binding instructions
 
@@ -36,8 +37,8 @@ Claude process was launched. Original launch authorization remains in force.
 - Preserve the three completed experiment databases and the earlier five-worker
   baseline. Never rerun their completed categories or replace those databases.
 - Michael explicitly authorized the 21-category production launch after the
-  completed Extra High review. The run is now active. Codex CLI workers use
-  High; no further launch confirmation is needed for an ordinary safe resume.
+  completed Extra High review. The run is now complete. Do not restart completed research. Codex CLI workers
+  used High; Claude remains prohibited for any next-stage work.
 - Bonsai was removed at Michael's request. Structured extraction is deferred,
   not a current or near-term task.
 
@@ -46,7 +47,7 @@ Claude process was launched. Original launch authorization remains in force.
 All three conditions in `data/pairwise-overnight-20260918-022703/` completed their
 six categories: Addiction, Children/Pregnancy, Clothing/Household, Disability,
 Domestic Violence, Education. The final Claude+Grok research worker exited after
-Education; no seventh experimental category ran. The separate production worker has now started.
+Education; no seventh experimental category ran. The separate production run has now completed all 21 categories.
 
 - `codex-grok.sqlite3`: complete, 473 submitted rows.
 - `codex-claude.sqlite3`: complete, 567 submitted rows.
@@ -96,11 +97,11 @@ runs used 60. Keep that history distinct from the authentication outage and from
 successful recovered calls. Historical native Claude/tool counters are not
 uniformly comparable to Grok/Codex counters. Missing values remain unknown.
 
-## Active production workspace
+## Completed production workspace
 
 Database: `data/st-george-production-20260918-codex-grok/research.sqlite3`
 Manifest: adjacent `research.preparation.json` records the pre-launch preparation
-snapshot. The newer `launch.json` records the authorized active launch.
+snapshot. The newer `launch.json` records execution/recovery and completion.
 Read the [launch handoff](docs/st-george-production-handoff-20260918.md).
 
 Verified preparation:
@@ -108,10 +109,10 @@ Verified preparation:
 - All six completed Codex+Grok jobs, passes and assignments preserved unchanged.
 - 2,150 source rows retained in six separate curation-union runs from the three
   pairs and the earlier five-worker run, including Claude shadow evidence.
-- All eight completed Employment primary passes reused (37 leads). Its next
-  research is the Grok challenger, not another primary run.
-- Two completed Financial Assistance primary passes reused (11 leads); resume
-  the remaining passes. Thirteen other categories remain untouched.
+- All eight completed Employment primary passes were reused (37 leads); its
+  Grok challenger and the category are now completed.
+- Two completed Financial Assistance primary passes were reused (11 leads).
+  All remaining passes and categories have now finished.
 - Only Codex and Grok are enabled in every production category plan.
 - All four source database hashes unchanged; production SQLite quick_check passed.
 - Full local suite: 207 tests, one skipped. No live provider calls during these
@@ -130,10 +131,9 @@ preventive guidance, not a new tested six-category condition.
 
 ## Launch/curation boundaries
 
-Production is already running. Before any resume, inspect actual worker
-processes and DB statuses; never start a duplicate. Keep
-Codex/Grok preflight enabled. Refresh Grok login outside its strict research
-sandbox when needed; never call Claude as fallback.
+Production research is complete; there is nothing to resume. Preserve the
+completed evidence and use the curation workflow for the next stage. Never call
+Claude as a fallback or launch another locale without a new instruction.
 
 Monitors at 8767 and 8768, if still running, only view the completed experiment.
 A production monitor can use 8769; a monitor does not perform research.
