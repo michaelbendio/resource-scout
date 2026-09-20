@@ -1,0 +1,18 @@
+{
+  "completion": {
+    "status": "reviewed",
+    "readyForSave": true,
+    "resultFingerprint": "644a9834734f2a42e4b053cb240f8d86d9cf7cbf0c92c05feeb7a916b190e83f",
+    "reviewedAt": "2026-09-20T21:52:14.091264+00:00"
+  },
+  "download": {
+    "saveHref": "http://127.0.0.1:8769/api/scout-curation-jobs/1/review-file",
+    "downloadPath": "/Users/michaelbendio/resource-scout-pairwise/data/st-george-curation-20260919/audit/review-priorities-20260920/download/autoStGeorge.html",
+    "resourceCount": 879,
+    "categoryCount": 21,
+    "artifact": "scout-review-60f1f63fa9fbff83730151f8",
+    "reviewedSeedMatches": true,
+    "humanCuratedCount": 0,
+    "humanGroupReviewCount": 0
+  }
+}

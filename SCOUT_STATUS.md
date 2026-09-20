@@ -4,6 +4,50 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Review priorities ready for Matt — September 20
+
+**Scout 0.51.0, build 18** now proposes a human review order in every Category:
+**Start here**, **Important specialized help**, and **Additional options**. All
+879 resources remain, with reasons/evidence for all 1,699 Category memberships.
+There are **259 distinct Start-here resources**, 10–29 starting entries per Category.
+These are AI suggestions, not provider ratings or human approval. Matt can change
+priorities independently by Category; Curated progress is shared across Categories.
+
+Read the [assessment and counts](docs/st-george-review-priorities-20260920.md),
+[complete assignment table](docs/st-george-review-priorities-20260920.csv),
+[evidence](docs/st-george-review-priorities-evidence-20260920.json), and
+[actual Save/download receipt](docs/st-george-review-priorities-delivery-20260920.json).
+This assessment is now required during the requested post-curation AI review in
+AGENTS, orchestration and workbench readiness. Contract **v3** requires a current
+priority proposal before completion/Save; it does not launch a paid review worker.
+Scout validates completeness and staleness; the AI reviewer supplies the judgment.
+
+**Save autoStGeorge.html is enabled at http://127.0.0.1:8769.** Download a fresh copy.
+The actual button downloaded an HTML whose seed matches the reviewed seed, with all
+879 records and zero human Curated/group-review flags. Master:
+`data/st-george-curation-20260919/autoStGeorge.html`. Audit/backups:
+`data/st-george-curation-20260919/audit/review-priorities-20260920/`.
+
+Five misleading Type associations on four records were corrected: Waterford/water
+help, Electric Lifeline/phone and debt counseling, ITIN/Social Security documents,
+and military records/vital records. See the assessment for the precise changes.
+All source facts/Information, Category memberships and For-group assignments are
+unchanged from the full group audit. All curation results, sealed assignments,
+2,421 candidate decisions, 36 research tables, frozen snapshot and historical
+comparison database hashes passed preservation checks.
+
+Navigation revision **5**, SHA-256 `fc7519a13e7121fa02532c2b06567603abd6fc6b1fea1a99e06a9d57c9c4b456`.
+Priority revision **1**, SHA-256 `b94dd79007d374cc182f352313de46321c9c9a11acda164864fe53e8ee25f0da`.
+Review recorded **2026-09-20T21:52:14.091264+00:00**, fingerprint:
+`644a9834734f2a42e4b053cb240f8d86d9cf7cbf0c92c05feeb7a916b190e83f`.
+Artifact: `scout-review-60f1f63fa9fbff83730151f8`.
+
+Full suite: 264 tests passed with one optional skip, plus the new priority-state UI
+unit test passed. Actual Chrome: 115 behavioral checks and final reader/editor,
+filter, screenshot and download inspection passed without JS errors. Monitor-only
+PID **57094**, port **8769**; no research/curation worker started.
+The fingerprints, artifact IDs, versions and monitor PIDs below are historical.
+
 ## Complete resource-by-resource group audit — September 20
 
 **All 879 resources have now been reviewed against all 25 existing For-group

@@ -34,12 +34,31 @@ No new research or paid AI call is implied by this stage.
    Resolve material source questions before delivery, or explicitly omit an
    unsupported assignment and record why. An announced service without a confirmed
    offering must not be presented as currently accessible.
-4. **Usability:** inspect Category Types, Browse by Group, search, and combined
+4. **Review priorities:** as part of this requested AI review, assess every
+   resource in each of its Categories. Propose Start here, Important specialized
+   help, or Additional options, with a short reason and a literal saved-resource
+   evidence excerpt. Add a focused question when a consequential access issue needs
+   human resolution. Consider local intake, practical accessibility, eligibility,
+   distinct pathways, and urgency. Rare but consequential services can belong in
+   Start here. Do not rank by keyword, provider fame, alphabetical order, group
+   count, or a fixed quota; do not claim provider superiority or verification.
+   The same resource can have different priority in different Categories. Preserve
+   every resource, including lower-priority alternatives. Scout validates this
+   judgment's coverage and currency; Scout itself does not judge marginal usefulness
+   or automatically stop research. Keep the AI proposal separate from human
+   priority overrides, resource facts, For groups, and Curated flags.
+5. **Usability:** inspect Category Types, Browse by Group, search, and combined
    Type/For filters. Multiple Types use OR; multiple groups default to AND, with an explicit
    Match any option for OR. The two dimensions combine with AND. Check meaningful matches and empty combinations.
    Inspect the Information reader and editor and confirm zero new human Curated
    flags. Preserve browser-local work if Michael has already edited the older file.
-5. **Delivery:** preserve source evidence and candidate dispositions, write a report
+   Also inspect priority sections, short reasons/questions, counts with active
+   filters, personal overrides and reload, and shared Curated progress across
+   Categories. Search must still find Additional options. A priority change must
+   not approve a resource. New resource/category entries must show Needs priority
+   review instead of inheriting an invented AI judgment. Priority metadata must
+   not enter ordinary curated office resource packages.
+6. **Delivery:** preserve source evidence and candidate dispositions, write a report
    with counts, decisions, tests and uncertainties, then record review completion
    for the final fingerprint. Verify the monitor's actual Save download afterward.
 
@@ -165,3 +184,43 @@ its reduced catalog. Adding catalog options later requires renewed review.
 This is structural checking plus an explicit human decision. It cannot establish
 that every semantic assignment is correct or that a person is eligible. No automatic
 classification, paid AI calls or provider-page extraction are part of these checks.
+
+## Durable priority proposal and completion contract
+
+`scout_review_priorities.py` stores immutable revisions separately from resource
+results and navigation. It supports both reviewed navigation and compiled taxonomy
+workbenches. Its base fingerprint binds the completed curation and current
+navigation/taxonomy; changing either invalidates priorities. The final review
+fingerprint also includes the priority proposal, and contract v3 requires a complete
+current priority review before Save is enabled. Old completion events do not satisfy
+this contract. A draft HTML can still be built before priorities are ready.
+
+Prepare an explicitly reviewed JSON proposal (expand to every category membership):
+
+```json
+{
+  "schemaVersion": 1,
+  "baseFingerprint": "PRIORITY_BASE_FINGERPRINT",
+  "assignments": [{
+    "resourceId": "RESOURCE_ID",
+    "categoryId": "housing",
+    "tier": "start",
+    "reason": "Establish this local shelter intake and family eligibility first.",
+    "question": "What is the current intake route and alternative when full?",
+    "evidence": {"field": "description", "text": "EXACT SAVED RESOURCE EXCERPT"}
+  }]
+}
+```
+
+Get the base with `priority_base_fingerprint(job)` from `scout_review_handoff`,
+then save with:
+
+```sh
+python3 -m resource_research_agent.scout_review_priorities --database DATABASE --job-id JOB --proposal PRIORITIES.json --reason "Completed per-category AI priority review"
+```
+
+This command records the reviewer's decisions; it does not classify resources.
+Inspect the generated file before recording final review completion. Report tier
+counts by category and unique resources in Start here so repeated listings do not
+inflate the human workload estimate. Staff may override priority in their local
+workbench without altering the saved AI proposal or marking anything Curated.

@@ -5,6 +5,15 @@ from several consumer AI products. It creates a self-contained TSO Resources
 review file such as `autoMesa.html` for human vetting and package creation. It is
 designed for repeated use across TSO locations and resource categories.
 
+Version 0.51.0 makes a proposed human review order part of the requested
+post-curation AI review. Each category has Start here, Important specialized help,
+and Additional options, with short reasons and useful questions. The workbench
+shows shared Curated progress, permits personal category-specific priority changes,
+and keeps all resources searchable. Priorities are not provider ratings or approval
+and are omitted from the curated office package. Scout enforces complete, current
+decisions; the AI reviewer supplies the judgment. See
+[`docs/scout-workbench-readiness.md`](docs/scout-workbench-readiness.md).
+
 Version 0.50.0 adds a non-destructive curation/enrichment project for an existing
 `auto[Location].html`. Each resource receives the three Information sections
 approved from Stephanie's template—Services Provided, Eligibility Requirements,

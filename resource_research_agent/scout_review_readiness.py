@@ -41,4 +41,8 @@ def require_review_ready(store, job: dict[str, Any]) -> dict[str, int]:
     if not job.get('reviewNavigationSha256') and not compilation:
         raise ScoutCurationError('Complete the Types and For-group review, including explicit no-group decisions, before handoff')
     seed = compilation['seed'] if compilation else build_scout_review_seed(store, job['id'])
-    return validate_ready_seed(seed)
+    summary = validate_ready_seed(seed)
+    from .scout_review_priorities import apply_priorities
+    reviewed = apply_priorities(store, job, seed, required=True)
+    summary['priorityAssignments'] = len(reviewed['scoutReviewPriorities']['assignments'])
+    return summary

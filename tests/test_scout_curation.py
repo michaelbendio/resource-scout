@@ -102,10 +102,24 @@ class ScoutCurationTests(unittest.TestCase):
                 'forGroups':[{'label':'Veterans','evidence':{'field':'informationText','text':'Veterans'}}]} for r in resources]}
         if job['status'] == 'completed':
             save_navigation(self.store, job_id, proposal, reason='Reviewed test fixture navigation')
+            self.save_test_priorities(job_id)
         report = self.root / "review-report.md"
         report.write_text("Test fixture review: checked identities, sources, omissions and consolidation.")
         return complete_codex_review(self.store, job_id,
             expected_fingerprint=review_fingerprint(self.store.get_scout_curation_job(job_id)), report_path=report)
+
+    def save_test_priorities(self, job_id):
+        from resource_research_agent.scout_review_priorities import save_priorities, priority_source_seed
+        from resource_research_agent.scout_review_handoff import priority_base_fingerprint
+        job = self.store.get_scout_curation_job(job_id)
+        seed = priority_source_seed(self.store, job)
+        proposal = {'schemaVersion':1, 'baseFingerprint':priority_base_fingerprint(job),
+            'assignments':[{'resourceId':r['id'],'categoryId':cid,'tier':'start',
+                'reason':'Establish this direct local intake route first.',
+                'question':'What is the current intake process?',
+                'evidence':{'field':'description','text':r['description']}}
+                for r in seed['resources'] for cid in r['categories']]}
+        return save_priorities(self.store,job_id,proposal,reason='Reviewed priority fixture')
 
     def tearDown(self) -> None:
         self.temporary.cleanup()
@@ -337,6 +351,9 @@ class ScoutCurationTests(unittest.TestCase):
         proposal['noGroupCatalogReason'] = 'This fixture has only broad services.'
         save_navigation(self.store, job['id'], proposal, reason='Explicit catalog conclusion')
         from resource_research_agent.scout_review_readiness import require_review_ready
+        with self.assertRaisesRegex(ScoutCurationError, 'different curation or navigation'):
+            require_review_ready(self.store, self.store.get_scout_curation_job(job['id']))
+        self.save_test_priorities(job['id'])
         self.assertEqual(0, require_review_ready(self.store, self.store.get_scout_curation_job(job['id']))['resourcesWithGroups'])
 
     def test_audit_revision_preserves_original_and_rejects_stale_or_incomplete_updates(self) -> None:

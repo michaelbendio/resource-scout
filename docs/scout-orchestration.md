@@ -209,6 +209,13 @@ a longer curation prompt alone does not reproduce this review function:
    defined Types in every Category and supported assignments in every resource's
    Categories; defined For groups, supported assignments or explicit no-group
    decisions. Inspect the rendered reader/editor and combined Type/For filters.
+   Propose the human review order within every Category at this same checkpoint:
+   Start here, Important specialized help, Additional options, with concise reasons,
+   supporting excerpts and useful unresolved questions. Record priorities through
+   `scout_review_priorities.py` as required by workbench readiness. This judgment is
+   supplied by the requested AI reviewer, not by Scout's deterministic orchestrator.
+   Keep rare consequential pathways prominent; preserve all resources and human
+   Curated status. Inspect local overrides and shared progress across Categories.
    A successful HTML build or occurrence of four keywords is insufficient.
 6. Measure missed errors, false alarms, added usage and curator burden against
    known cases, including the Washington County Maryland/Utah error. Test recovery
@@ -224,7 +231,9 @@ AI reviews are not automatically accepted training examples or canonical facts.
 Curation completion and local draft generation do not complete the Codex review.
 The monitor and browser download endpoint require a recorded review of the exact
 current result and navigation fingerprint. Scout's versioned readiness gate blocks
-completion when Information sections, Types, or the For-group review are missing.
+completion when Information sections, Types, For-group review, or current
+per-category review priorities are missing. Completion contract v3 requires the
+priority proposal as well as the curation and navigation fingerprints.
 Definitions/assignments changed after review invalidate the earlier approval;
 legacy review records from before this contract cannot enable Save. A source-backed revision changes that fingerprint
 and makes Save unavailable until the changed results are reviewed again.

@@ -1125,6 +1125,18 @@ textarea.information-editor { min-height:320px; resize:vertical; }
     display: none !important;
   }
 }
+
+/* Scout review priorities are separate from Stephanie's resource Information. */
+.scout-priority-intro { background:#eef5fc; border:1px solid #c9d9e9; border-radius:8px; padding:12px; line-height:1.5; }
+.scout-priority-section { margin:14px 0; border:1px solid #bccddd; border-radius:10px; padding:12px; }
+.scout-priority-section > summary { cursor:pointer; font-weight:700; font-size:1.08rem; padding:4px; color:#123d61; }
+.scout-priority-section .resource-card { margin-top:12px; }
+.scout-priority-note { border-left:3px solid #8ca8bf; background:#f5f8fb; padding:10px 12px; margin-top:12px; font-size:0.94rem; line-height:1.45; }
+.scout-priority-note p { margin:6px 0; }
+.scout-priority-controls { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:10px; }
+.scout-priority-controls select { max-width:100%; padding:5px; font:inherit; }
+.scout-priority-curated { font-weight:600; }
+@media print { .scout-priority-note,.scout-priority-intro { display:none !important; } }
 </style>
 <!-- ===== APP CSS END ===== -->
 </head>
@@ -4943,7 +4955,7 @@ function renderGroupBrowseResults(){
     heading.appendChild(count);
     heading.onclick = () => openCategoryFromGroupBrowse(row.id);
     section.appendChild(heading);
-    row.resources.forEach(resource => renderCategoryResourceCard(resource, section));
+    if(!renderScoutPrioritySections(row.resources,row.id,section)) row.resources.forEach(resource => renderCategoryResourceCard(resource, section));
     results.appendChild(section);
   });
   appView.appendChild(results);
@@ -5107,7 +5119,131 @@ function renderCategoryFilterControls(categoryFilterOptions, activeFilters){
   appView.appendChild(filterArea);
 }
 
-function renderCategoryResourceCard(res, container = appView){
+// Scout-only review priorities. These are workflow notes, not resource facts.
+const SCOUT_PRIORITY_LABELS = {start:"Start here",specialized:"Important specialized help",additional:"Additional options",unassigned:"Needs priority review"};
+const scoutPrioritySectionOpen = new Map();
+
+function getScoutPriority(resourceId, categoryId){
+  const proposal = data.scoutReviewPriorities;
+  return (proposal && Array.isArray(proposal.assignments) ? proposal.assignments : [])
+    .find(a => a.resourceId === resourceId && a.categoryId === categoryId) || null;
+}
+
+function getScoutPriorityTier(resourceId, categoryId){
+  const override = data.scoutReviewPriorityOverrides?.[categoryId]?.[resourceId]?.tier;
+  if(["start","specialized","additional"].includes(override)) return override;
+  const proposed = getScoutPriority(resourceId, categoryId)?.tier;
+  return ["start","specialized","additional"].includes(proposed) ? proposed : "unassigned";
+}
+
+function changeScoutPriority(resourceId, categoryId, tier){
+  if(!isScoutReviewMode() || !["","start","specialized","additional"].includes(tier)) return false;
+  const resource = data.resources.find(r => r.id === resourceId);
+  if(!resource || !resource.categories.includes(categoryId)) return false;
+  const previous = cloneScoutReviewValue(data.scoutReviewPriorityOverrides);
+  const next = cloneScoutReviewValue(previous || {});
+  if(!next[categoryId]) next[categoryId] = {};
+  if(tier) next[categoryId][resourceId] = {tier,updatedAt:nowISO()};
+  else delete next[categoryId][resourceId];
+  if(!Object.keys(next[categoryId]).length) delete next[categoryId];
+  data.scoutReviewPriorityOverrides = next;
+  const state = buildCompactScoutReviewState(data, scoutReviewState);
+  if(!writeCompactScoutReviewState(state)){
+    if(previous === undefined) delete data.scoutReviewPriorityOverrides;
+    else data.scoutReviewPriorityOverrides = previous;
+    alert("The priority change could not be saved in this browser. Please resolve the storage warning and try again.");
+    return false;
+  }
+  scoutReviewState = state;
+  return true;
+}
+
+function buildScoutPriorityNote(resource, categoryId, {editor=false}={}){
+  const proposed = getScoutPriority(resource.id, categoryId);
+  const note = document.createElement("div");
+  note.className = "scout-priority-note";
+  note.dataset.priorityResourceId = resource.id;
+  note.dataset.priorityCategoryId = categoryId;
+  note.addEventListener("click", e => e.stopPropagation());
+  const category = data.categories.find(c => c.id === categoryId);
+  const label = document.createElement("strong");
+  label.textContent = `${editor ? (category?.label || categoryId) + " · " : ""}AI suggestion: ${proposed ? SCOUT_PRIORITY_LABELS[proposed.tier] : "Not yet proposed"}`;
+  note.appendChild(label);
+  const reason = document.createElement("p");
+  reason.textContent = proposed ? "Why review this now? " + proposed.reason : "This resource or category membership was added after the AI priority review. Choose a review priority if useful.";
+  note.appendChild(reason);
+  if(proposed?.question){
+    const question = document.createElement("p");
+    question.textContent = "Question to resolve: " + proposed.question;
+    note.appendChild(question);
+  }
+  const base = scoutReviewBaseData?.resources.find(r => r.id === resource.id);
+  if(proposed && base && ["name","description","informationText","categories","categoryFilters","forGroups"].some(k => !scoutReviewValuesEqual(base[k],resource[k]))){
+    const warning = document.createElement("p");
+    warning.textContent = "Resource edited since this AI suggestion; reconsider its priority.";
+    note.appendChild(warning);
+  }
+  const controls = document.createElement("div");
+  controls.className = "scout-priority-controls";
+  const controlLabel = document.createElement("label");
+  controlLabel.textContent = "Your review priority: ";
+  const select = document.createElement("select");
+  select.setAttribute("aria-label", `Review priority for ${resource.name} in ${category?.label || categoryId}`);
+  const choices = [["",proposed ? "Use AI suggestion" : "Not assigned"],...Object.entries(SCOUT_PRIORITY_LABELS).filter(([tier]) => tier !== "unassigned")];
+  choices.forEach(([value,text]) => { const option=document.createElement("option");option.value=value;option.textContent=text;select.appendChild(option); });
+  select.value = data.scoutReviewPriorityOverrides?.[categoryId]?.[resource.id]?.tier || "";
+  select.onchange = () => {
+    if(changeScoutPriority(resource.id,categoryId,select.value)){
+      if(editor) setupScoutPriorityEditor(resource);
+      else safeRender();
+    }else select.value = data.scoutReviewPriorityOverrides?.[categoryId]?.[resource.id]?.tier || "";
+  };
+  controlLabel.appendChild(select);controls.appendChild(controlLabel);
+  const status = document.createElement("span");
+  status.className = "scout-priority-curated";
+  status.textContent = isScoutReviewResourceCurated(resource.id) ? "✓ Curated" : "Not yet Curated";
+  controls.appendChild(status);
+  if(!editor){
+    const button = document.createElement("button");button.className="button";button.type="button";button.textContent="Open for curation";
+    button.onclick=()=>{ if(!commitPendingEditsIfChanged())return;setAdminVisibility(true);view="admin";openAdminCategoryResourceById(resource.id); };
+    controls.appendChild(button);
+  }
+  note.appendChild(controls);
+  return note;
+}
+
+function setupScoutPriorityEditor(resource){
+  const target = document.getElementById("scout-priority-editor");
+  if(!target || !isScoutReviewMode() || !data.scoutReviewPriorities) return;
+  target.replaceChildren();
+  const heading=document.createElement("h4");heading.textContent="Review priorities";target.appendChild(heading);
+  const hint=document.createElement("p");hint.textContent="AI-proposed review order, not provider ratings or verification. Changing a priority does not mark the resource Curated.";target.appendChild(hint);
+  resource.categories.forEach(cid=>target.appendChild(buildScoutPriorityNote(resource,cid,{editor:true})));
+}
+
+function renderScoutPrioritySections(resources, categoryId, container){
+  if(!isScoutReviewMode() || !data.scoutReviewPriorities) return false;
+  const intro=document.createElement("p");intro.className="scout-priority-intro";
+  intro.textContent="AI-proposed review priorities suggest where to begin. All resources remain available, and none is approved merely because it appears first. Counts reflect the resources shown with your current filters; Curated status is shared across categories.";
+  container.appendChild(intro);
+  for(const tier of ["start","specialized","additional","unassigned"]){
+    const matches=resources.filter(r=>getScoutPriorityTier(r.id,categoryId)===tier).slice().sort(compareResourcesByName);
+    if(!matches.length)continue;
+    const section=document.createElement("details");section.className="scout-priority-section";section.dataset.priorityTier=tier;section.dataset.priorityCategoryId=categoryId;
+    const key=categoryId+":"+tier;
+    section.open=scoutPrioritySectionOpen.has(key)?scoutPrioritySectionOpen.get(key):tier==="start"||tier==="unassigned";
+    section.ontoggle=()=>scoutPrioritySectionOpen.set(key,section.open);
+    const summary=document.createElement("summary");
+    const curated=matches.filter(r=>isScoutReviewResourceCurated(r.id)).length;
+    summary.textContent=`${SCOUT_PRIORITY_LABELS[tier]} — ${curated} of ${matches.length} Curated`;
+    section.appendChild(summary);
+    matches.forEach(r=>renderCategoryResourceCard(r,section,categoryId));
+    container.appendChild(section);
+  }
+  return true;
+}
+
+function renderCategoryResourceCard(res, container = appView, priorityCategoryId = null){
   const target = container && typeof container.appendChild === "function"
     ? container
     : appView;
@@ -5116,6 +5252,9 @@ function renderCategoryResourceCard(res, container = appView){
   card.classList.add("resource-card-interactive");
   card.dataset.resourceId = String(res && res.id || "");
   card.tabIndex = -1;
+  if(isScoutReviewMode() && data.scoutReviewPriorities && typeof priorityCategoryId === "string"){
+    card.querySelector(".resource-main").appendChild(buildScoutPriorityNote(res,priorityCategoryId));
+  }
 
   const expandToggle = document.createElement("button");
   expandToggle.type = "button";
@@ -5159,12 +5298,11 @@ function renderCategoryResources(filtered, activeFilters){
     return;
   }
 
-  filtered.forEach(renderCategoryResourceCard);
+  if(!renderScoutPrioritySections(filtered,currentCategory,appView)) filtered.forEach(resource=>renderCategoryResourceCard(resource));
 }
 
 function renderCategoryView(){
-  // Types are OR'd with other selected Types; For groups are OR'd with other
-  // selected groups. When both dimensions are active, their results are AND'd.
+  // Types use OR; groups default to AND with optional ANY. Dimensions use AND.
   renderCategoryBackButton();
   renderCategoryTitle();
   const categoryFilterOptions = getCategoryFilterOptions(currentCategory);
@@ -6521,6 +6659,9 @@ function buildResourcePackageData(sourceData){
   };
   delete packageData.lastLoadedPackageInfo;
   delete packageData.categoryPresetVersion;
+  // Review scheduling belongs to this workbench, not the published office package.
+  delete packageData.scoutReviewPriorities;
+  delete packageData.scoutReviewPriorityOverrides;
   return packageData;
 }
 
@@ -9254,6 +9395,8 @@ function refreshCurrentResourceCuratedButton(){
   const curated = isScoutReviewResourceCurated(selectedResourceId);
   button.classList.toggle("primary", curated);
   button.setAttribute("aria-pressed", curated ? "true" : "false");
+  const resource = data.resources.find(r => r.id === selectedResourceId);
+  if(resource) setupScoutPriorityEditor(resource);
 }
 
 function toggleCurrentResourceCurated(){
@@ -9458,6 +9601,7 @@ function renderResourceEditorMarkup(res){
   const informationDraft = parseInformationText(res.informationText || "");
   return [
     renderResourceBasicsSection(res, verifiedDisplay),
+    isScoutReviewMode() && data.scoutReviewPriorities ? '<details class="scout-priority-section"><summary>Review priorities by category</summary><div id="scout-priority-editor"></div></details>' : '',
     renderResourceUpdateSection(),
     renderResourceForGroupsSection(renderResourceForGroupChecks(res)),
     renderForGroupReviewSection(res),
@@ -9700,6 +9844,7 @@ function editResource(idx){
   editing = { kind:"resource", idx };
   normalizeResourceForEditor(res);
   editor.innerHTML = renderResourceEditorMarkup(res);
+  setupScoutPriorityEditor(res);
 
   const elements = getResourceEditorElements();
   const validateEditorState = () => validateResourceEditorState(idx);

@@ -62,6 +62,8 @@ def _build_scout_review_file_from_seed(
     *,
     taxonomy: dict[str, object] | None = None,
 ) -> ScoutReviewFile:
+    from .scout_review_priorities import apply_priorities
+    seed = apply_priorities(store, job, seed)
     job_id = int(job["id"])
     location_name = str(job["locationName"] or "").strip()
     location_token = "".join(
@@ -145,12 +147,17 @@ def _build_scout_review_file_from_seed(
     release = {
         "version": __version__,
         "build": __build__,
-        "date": "2026-09-02",
-        "message": "Delete proposed resources and categories directly while curating",
+        "date": "2026-09-20",
+        "message": "Review resources in a proposed per-category priority order",
         "changes": [
             {
-                "date": "2026-09-02",
+                "date": "2026-09-20",
                 "version": __version__,
+                "message": "Per-category AI review priorities, reasons, questions, shared Curated progress and personal priority choices",
+            },
+            {
+                "date": "2026-09-02",
+                "version": "0.50.0",
                 "message": "Delete proposed resources and categories directly from Scout review files",
             },
             {

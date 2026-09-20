@@ -733,6 +733,16 @@ CREATE TABLE IF NOT EXISTS scout_review_navigation_revisions (
     reason TEXT NOT NULL,
     UNIQUE (job_id, base_fingerprint, proposal_sha256)
 );
+CREATE TABLE IF NOT EXISTS scout_review_priority_revisions (
+    id INTEGER PRIMARY KEY,
+    job_id INTEGER NOT NULL REFERENCES scout_curation_jobs(id),
+    created_at TEXT NOT NULL,
+    base_fingerprint TEXT NOT NULL CHECK (length(base_fingerprint) = 64),
+    proposal_sha256 TEXT NOT NULL CHECK (length(proposal_sha256) = 64),
+    proposal_json TEXT NOT NULL,
+    reason TEXT NOT NULL,
+    UNIQUE (job_id, base_fingerprint, proposal_sha256)
+);
 """
 
 
@@ -4254,6 +4264,10 @@ class ResearchStore:
                 "SELECT proposal_sha256, base_fingerprint FROM scout_review_navigation_revisions WHERE job_id = ? ORDER BY id DESC LIMIT 1",
                 (job_id,),
             ).fetchone()
+            priorities = connection.execute(
+                "SELECT proposal_sha256 FROM scout_review_priority_revisions WHERE job_id = ? ORDER BY id DESC LIMIT 1",
+                (job_id,),
+            ).fetchone()
             compilation = connection.execute(
                 """SELECT seed_sha256 FROM taxonomy_compilations c JOIN taxonomy_studies s ON s.id=c.study_id
                    WHERE s.curation_job_id=? ORDER BY c.study_id DESC LIMIT 1""", (job_id,),
@@ -4284,6 +4298,7 @@ class ResearchStore:
             "reviewTaxonomySeedSha256": compilation["seed_sha256"] if compilation else None,
             "reviewNavigationSha256": navigation["proposal_sha256"] if navigation else None,
             "reviewNavigationBaseFingerprint": navigation["base_fingerprint"] if navigation else None,
+            "reviewPrioritySha256": priorities["proposal_sha256"] if priorities else None,
         }
 
     def list_scout_curation_jobs(self, import_id: int | None = None) -> list[dict[str, Any]]:

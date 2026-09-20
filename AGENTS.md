@@ -23,5 +23,8 @@ A requested post-curation review also requires reading and completing
 [`docs/scout-workbench-readiness.md`](docs/scout-workbench-readiness.md).
 Resource-content checks alone do not make the workbench ready: verify Stephanie's
 four rendered Information sections, useful Category Types with complete assignments,
-and an evidenced For-group design with explicit no-group decisions. Inspect the
+an evidenced For-group design with explicit no-group decisions, and per-category
+AI-proposed human review priorities with reasons and resource evidence. Scout
+checks completeness and staleness; the requested reviewer supplies the judgment.
+Preserve all resources and keep priority separate from human Curated status. Inspect the
 actual browser filters and editor. Do not record completion merely to enable Save.

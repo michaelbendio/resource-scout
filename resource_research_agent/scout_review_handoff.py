@@ -15,7 +15,7 @@ from typing import Any
 from .scout_curation import ScoutCurationError, _canonical_json, _sha256
 from .storage import ResearchStore
 
-REVIEW_CONTRACT_VERSION = 2
+REVIEW_CONTRACT_VERSION = 3
 
 def curation_fingerprint(job: dict[str, Any]) -> str:
     return _sha256({
@@ -28,11 +28,17 @@ def curation_fingerprint(job: dict[str, Any]) -> str:
     })
 
 
-def review_fingerprint(job: dict[str, Any]) -> str:
+def priority_base_fingerprint(job: dict[str, Any]) -> str:
     digest = curation_fingerprint(job)
     navigation = job.get("reviewNavigationSha256")
     taxonomy = job.get("reviewTaxonomySeedSha256")
     return _sha256({"curation": digest, "navigation": navigation, "taxonomy": taxonomy}) if navigation or taxonomy else digest
+
+
+def review_fingerprint(job: dict[str, Any]) -> str:
+    base = priority_base_fingerprint(job)
+    priorities = job.get("reviewPrioritySha256")
+    return _sha256({"base": base, "priorities": priorities}) if priorities else base
 
 
 def review_handoff(job: dict[str, Any], events: list[dict[str, Any]]) -> dict[str, Any]:
