@@ -4,6 +4,21 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## For-group gap identified — September 20, after final review
+
+Michael reported that the saved workbench has no For groups. Verified: the starting
+package and every sealed assignment supplied an empty group list; curation only
+allowed existing groups, and no separate taxonomy study ran. Export did not lose
+group data. **Resource-content review is complete, but population grouping is
+unfinished.** The prior ready-to-save handoff should have stated this limitation.
+See [diagnosis and next step](docs/st-george-for-groups-gap-20260920.md).
+
+A choice between a St. George-specific group proposal and the seven labels used in
+earlier local workbench packages is pending. No groups have been applied. Preserve
+the current reviewed resources and any human browser edits; no research rerun is
+needed. The existing group-design prototype includes a 342-resource constraint and
+Mesa-specific decisions, so it cannot simply be run against this 879-record corpus.
+
 ## Final curation review complete — September 20
 
 All **21 categories** completed curation at September 20, 07:03:46 UTC. Michael
