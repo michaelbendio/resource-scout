@@ -25,8 +25,8 @@ No new research or paid AI call is implied by this stage.
    If no groups are justified anywhere, document that catalog-level conclusion too.
    Blank starting groups alone do not satisfy this review.
 4. **Usability:** inspect Category Types, Browse by Group, search, and combined
-   Type/For filters. Multiple Types use OR; multiple groups use OR; the two
-   dimensions combine with AND. Check meaningful matches and empty combinations.
+   Type/For filters. Multiple Types use OR; multiple groups default to AND, with an explicit
+   Match any option for OR. The two dimensions combine with AND. Check meaningful matches and empty combinations.
    Inspect the Information reader and editor and confirm zero new human Curated
    flags. Preserve browser-local work if Michael has already edited the older file.
 5. **Delivery:** preserve source evidence and candidate dispositions, write a report
@@ -112,3 +112,34 @@ Existing approved taxonomy compilations use their own study revision path. Do no
 combine competing taxonomy mechanisms or rerun the old Mesa-specific prototype on
 a different corpus. For St. George's 879 records, the reviewed navigation proposal
 is the applicable path.
+
+## Local For-group checks in every generated workbench
+
+The workbench and Resource Assistant share two levels of local checks, with no AI
+call. Keep the shared For-group module in Scout's template and
+`resource-assistant/src/js/28-for-group-checks.js` synchronized when changing it.
+
+1. Apply only the approved relationships: Deaf & hard of hearing and Blind & low
+   vision each imply People with disabilities when both labels exist in the office
+   catalog. Never create an unavailable group or infer unrelated labels. Navigation
+   validation rejects proposals missing these parent assignments. Test both the
+   underlying tags and combined AND results, including children's hearing programs.
+2. Require the editor to confirm every applicable group, or explicitly confirm that
+   no specific group applies, before saving resource edits. Show the group's saved
+   definition beside its checkbox; definitions can be edited under Admin → For.
+   A review is tied to the resource's name, description, Information, Categories,
+   Types, assigned groups, and available group labels/definitions. A change to any
+   of those requires another confirmation. Phone/address/hours-only edits preserve
+   a current review. A missing legacy review still needs confirmation on editing.
+
+Imports and merges retain resources, with missing/stale group reviews counted in
+Admin → Resources and a Review next action. They do not silently mark resources as
+reviewed. Scout also blocks marking Curated or exporting a selected curated resource
+until its group review is current. Group review remains separate from human Curated
+and telephone verification. Generated AI proposals begin without a human review stamp.
+A scoped Scout export preserves the review date while rebasing its content key to
+its reduced catalog. Adding catalog options later requires renewed review.
+
+This is structural checking plus an explicit human decision. It cannot establish
+that every semantic assignment is correct or that a person is eligible. No automatic
+classification, paid AI calls or provider-page extraction are part of these checks.

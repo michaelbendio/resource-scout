@@ -88,6 +88,8 @@ scoutReviewBaseData = {{
 }};
 const current = cloneScoutReviewValue(scoutReviewBaseData);
 current.resources[0].description = 'Reviewer edit';
+current.resources[0].forGroupReview = {{version:1,decision:'none',contentKey:'fixture',reviewedAt:'2026-09-20T10:00:00Z'}};
+current.forGroupDefinitions = {{Veterans:{{description:'Military veterans',lastModified:'2026-09-20T10:00:00Z'}}}};
 current.categories = current.categories.filter(category => category.id !== 'housing');
 current.resources[0].categories = ['employment'];
 delete current.resources[0].categoryFilters.housing;
@@ -132,6 +134,8 @@ assert(restoredIds.has('reviewer-added'));
 assert(!restoredIds.has('resource-1'));
 assert(!restoredIds.has('resource-2'));
 assert.strictEqual(restored.resources.find(resource => resource.id === 'resource-0').description, 'Reviewer edit');
+assert.deepStrictEqual(restored.forGroupDefinitions, current.forGroupDefinitions);
+assert.deepStrictEqual(restored.resources[0].forGroupReview, current.resources[0].forGroupReview);
 assert.deepStrictEqual(restored.categories.map(category => category.id), ['employment']);
 assert.deepStrictEqual(restored.resources.find(resource => resource.id === 'resource-0').categories, ['employment']);
 assert.strictEqual(restored.resources.find(resource => resource.id === 'resource-0').categoryFilters.housing, undefined);

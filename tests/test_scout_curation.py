@@ -273,6 +273,29 @@ class ScoutCurationTests(unittest.TestCase):
         with self.assertRaisesRegex(ScoutCurationError, 'Types'):
             validate_ready_seed(seed)
 
+    def test_navigation_requires_approved_disability_parents_and_exports_definitions(self):
+        from resource_research_agent.scout_navigation import latest_navigation, save_navigation
+        job = self.completed_review_fixture()
+        self.complete_test_review(job['id'])
+        proposal = latest_navigation(self.store, job['id'])['proposal']
+        proposal['groups'] = [
+            {'label':'Deaf & hard of hearing','definition':'Hearing-specific services'},
+            {'label':'People with disabilities','definition':'Disability-specific services'},
+        ]
+        for assignment in proposal['assignments']:
+            # Synthetic evidence exercises structure, not a real population judgment.
+            evidence = assignment['forGroups'][0]['evidence']
+            assignment['forGroups'] = [{'label':'Deaf & hard of hearing','evidence':evidence}]
+        with self.assertRaisesRegex(ScoutCurationError, 'also requires People with disabilities'):
+            save_navigation(self.store, job['id'], proposal, reason='Invalid missing parent fixture')
+        for assignment in proposal['assignments']:
+            assignment['forGroups'].append({'label':'People with disabilities','evidence':assignment['forGroups'][0]['evidence']})
+        saved = save_navigation(self.store, job['id'], proposal, reason='Approved parent fixture')
+        seed = build_scout_review_seed(self.store, job['id'])
+        self.assertEqual({'description':'Hearing-specific services','lastModified':saved['createdAt']},
+                         seed['forGroupDefinitions']['Deaf & hard of hearing'])
+        self.assertTrue(all('forGroupReview' not in r for r in seed['resources']))
+
     def test_navigation_is_evidenced_complete_and_invalidates_saved_review(self):
         from resource_research_agent.scout_navigation import latest_navigation, save_navigation
         job = self.completed_review_fixture()

@@ -693,7 +693,7 @@ textarea.information-editor { min-height:320px; resize:vertical; }
 .resource-category-filter-list { margin:4px 0 8px 28px; }
 .resource-category-filter-list label { display:block; margin:2px 0; }
 .editor-sticky-bar { position:sticky; bottom:0; background:#fff; border-top:1px solid #ddd; padding:10px 0 0; margin-top:12px; display:flex; gap:8px; justify-content:flex-end; z-index:5; }
-.for-group-row { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
+.for-group-row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:8px; }
 .for-group-row.selected { background:#eef4ff; outline:2px solid #99b8e8; outline-offset:2px; }
 .for-group-row input[type="text"] { flex:1; min-width:0; }
 .deletion-tag-status { color:#9a3412; font-size:13px; font-weight:bold; white-space:nowrap; }
@@ -2453,6 +2453,19 @@ function validateResourcePackageData(packageData){
   if(!Array.isArray(packageData.categories)) errors.push("Missing or invalid 'categories' array.");
   if(!Array.isArray(packageData.resources)) errors.push("Missing or invalid 'resources' array.");
   if(!Array.isArray(packageData.forGroups)) errors.push("Invalid normalized 'forGroups' array.");
+  if(packageData.forGroupDefinitions != null){
+    const definitions = packageData.forGroupDefinitions;
+    if(typeof definitions !== "object" || Array.isArray(definitions)){
+      errors.push("For-group definitions must be an object.");
+    }else{
+      Object.entries(definitions).forEach(([label, entry]) => {
+        if(!entry || typeof entry !== "object" || typeof entry.description !== "string"
+          || typeof entry.lastModified !== "string" || !Number.isFinite(Date.parse(entry.lastModified))){
+          errors.push(`Invalid definition for For group '${label}'.`);
+        }
+      });
+    }
+  }
   if(!Array.isArray(packageData.deletionRequests)) errors.push("Invalid normalized 'deletionRequests' array.");
   if(!Array.isArray(packageData.deletions)) errors.push("Invalid normalized 'deletions' array.");
 
@@ -3883,7 +3896,7 @@ function showAdminHelp(options = {}){
               <li><strong>Verified</strong> stores a <code>MM/YY</code> date. Click <strong>Update</strong> to fill in the current month and year.</li>
               <li><strong>Description</strong> is the short public summary.</li>
               <li><strong>Describe this update</strong> is used in the change log and package update summary.</li>
-              <li><strong>For</strong> identifies who the resource is for.</li>
+              <li><strong>For</strong> identifies who the resource is for. Read each group definition, select every applicable group, and confirm the review before saving. If none applies, explicitly confirm that no specific group applies. Relevant content or group changes require another confirmation.</li>
               <li><strong>Categories</strong> determines which categories the resource will be part of and shows the Types available for each selected category.</li>
               <li><strong>Information</strong> is the detailed public service text.</li>
               <li><strong>PDFs</strong> lets you attach, open, or remove PDF files. Attached PDFs are included when you save a resource package.</li>
@@ -3910,6 +3923,7 @@ function showAdminHelp(options = {}){
         <details>
           <summary>For</summary>
           <div class="admin-help-section-body">
+            <p>Use definitions to explain when each group applies. Changes to available groups or their definitions make previous group reviews outdated. Under <strong>Resources</strong>, the review count and <strong>Review next</strong> button help you check missing or outdated reviews after a package merge.</p>
             <p><strong>For</strong> manages the governed list of groups a resource can be for.</p>
             <p>Use <strong>For</strong> for cross-category people-served groups, such as veterans or families with children. Use <strong>Types</strong> for the specific service being offered.</p>
             <p>Select a group to see which resources use it. <strong>Delete</strong> tags the selected group for deletion; it remains active until an admin approves it after merging the package.</p>
@@ -4167,6 +4181,192 @@ function clearAllCategoryFilters(shouldRender = true){
   if(shouldRender && view === "category") safeRender();
 }
 
+/* ---------- For-group matching and explicit editor review ---------- */
+// Approved relationships only. They apply when both labels exist in the office
+// catalog; they never create a group or infer eligibility from descriptive text.
+const FOR_GROUP_REVIEW_VERSION = 1;
+const APPROVED_FOR_GROUP_RELATIONSHIPS = [
+  ["Deaf & hard of hearing", "People with disabilities"],
+  ["Blind & low vision", "People with disabilities"]
+];
+let forGroupMatchMode = "all";
+
+function effectiveForGroups(values, catalog){
+  const labels = normalizeTaxonomyLabels(values);
+  const available = new Map(normalizeTaxonomyLabels(catalog).map(label => [label.toLowerCase(), label]));
+  const found = new Map(labels.map(label => [label.toLowerCase(), available.get(label.toLowerCase()) || label]));
+  APPROVED_FOR_GROUP_RELATIONSHIPS.forEach(([child, parent]) => {
+    if(available.has(child.toLowerCase()) && available.has(parent.toLowerCase()) && found.has(child.toLowerCase())){
+      found.set(parent.toLowerCase(), available.get(parent.toLowerCase()));
+    }
+  });
+  return Array.from(found.values());
+}
+
+function matchesSelectedForGroupKeys(resource, keys){
+  const selected = Array.from(keys || []);
+  if(!selected.length) return true;
+  const available = getResourceForGroupFilterKeys(resource);
+  return forGroupMatchMode === "any"
+    ? selected.some(key => available.has(key))
+    : selected.every(key => available.has(key));
+}
+
+function renderForGroupMatchControl(container){
+  const control = document.createElement("div");
+  control.className = "for-group-match-control";
+  control.style.cssText = "display:flex;flex-wrap:wrap;gap:8px 18px;margin:8px 0 12px;";
+  control.setAttribute("role", "radiogroup");
+  control.setAttribute("aria-label", "How to match selected groups");
+  [["all", "Match all selected groups"], ["any", "Match any selected group"]].forEach(([value, text]) => {
+    const label = document.createElement("label");
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "for-group-match-mode";
+    radio.value = value;
+    radio.checked = forGroupMatchMode === value;
+    radio.onchange = () => {
+      forGroupMatchMode = value;
+      safeRender();
+      document.querySelector(`input[name="for-group-match-mode"][value="${value}"]`)?.focus();
+    };
+    label.appendChild(radio);
+    label.appendChild(document.createTextNode(` ${text}`));
+    control.appendChild(label);
+  });
+  container.appendChild(control);
+}
+
+function forGroupReviewContentKey(resource, catalog, definitions = {}){
+  // Synchronous change detector, not a signature or proof of human identity.
+  const text = JSON.stringify({version:FOR_GROUP_REVIEW_VERSION,
+    rules:APPROVED_FOR_GROUP_RELATIONSHIPS,
+    catalog:normalizeTaxonomyLabels(catalog).map(x => [x.toLowerCase(), forGroupDefinition({forGroupDefinitions:definitions}, x)]).sort(),
+    name:String(resource.name || "").trim(), description:String(resource.description || ""),
+    informationText:String(resource.informationText || ""),
+    categories:normalizeTaxonomyLabels(resource.categories).sort(),
+    types:Object.entries(resource.categoryFilters || {}).map(([id, labels]) => [id, normalizeTaxonomyLabels(labels).sort()]).sort(),
+    groups:effectiveForGroups(resource.forGroups, catalog).map(x => x.toLowerCase()).sort()
+  });
+  let hash = 14695981039346656037n;
+  for(let i=0; i<text.length; i++){
+    hash ^= BigInt(text.charCodeAt(i));
+    hash = BigInt.asUintN(64, hash * 1099511628211n);
+  }
+  return hash.toString(16).padStart(16, "0");
+}
+
+function hasCurrentForGroupReview(resource, catalog, definitions = {}){
+  const review = resource && resource.forGroupReview;
+  return !!(review && review.version === FOR_GROUP_REVIEW_VERSION
+    && ["groups", "none"].includes(review.decision)
+    && review.decision === (normalizeTaxonomyLabels(resource.forGroups).length ? "groups" : "none")
+    && typeof review.reviewedAt === "string" && Number.isFinite(Date.parse(review.reviewedAt))
+    && review.contentKey === forGroupReviewContentKey(resource, catalog, definitions));
+}
+
+function recordForGroupReview(resource, catalog, definitions = {}){
+  resource.forGroups = effectiveForGroups(resource.forGroups, catalog);
+  resource.forGroupReview = {version:FOR_GROUP_REVIEW_VERSION,
+    decision:resource.forGroups.length ? "groups" : "none",
+    contentKey:forGroupReviewContentKey(resource, catalog, definitions), reviewedAt:nowISO()};
+}
+
+function resourcesNeedingForGroupReview(source){
+  return (source.resources || []).filter(resource => !hasCurrentForGroupReview(resource, source.forGroups, source.forGroupDefinitions));
+}
+
+function forGroupReviewSummaryHTML(){
+  const count = resourcesNeedingForGroupReview(data).length;
+  return count ? `<p id="for_group_review_summary" role="status">${count} ${count === 1 ? "resource needs" : "resources need"} a For-group review. Imported resources remain available.
+    <button class="button" type="button" onclick="openNextForGroupReview()">Review next</button></p>` : "";
+}
+
+function openNextForGroupReview(){
+  if(!commitPendingEditsIfChanged()) return;
+  const resource = resourcesNeedingForGroupReview(data)[0];
+  if(!resource) return;
+  selectedResourceId = resource.id;
+  adminTab = "resources";
+  adminResourceEditMode = true;
+  safeRenderAdmin();
+}
+
+function renderForGroupReviewSection(resource){
+  const current = hasCurrentForGroupReview(resource, data.forGroups, data.forGroupDefinitions);
+  return `<div class="for-group-review" style="margin:10px 0;">
+    <p>Choose every applicable For group. Hearing and vision disability groups also include People with disabilities when that group is available. These checks do not determine a person's eligibility.</p>
+    <label style="display:block;"><input type="checkbox" id="res_for_groups_reviewed"
+      data-review-key="${current ? forGroupReviewContentKey(resource, data.forGroups, data.forGroupDefinitions) : ""}" ${current ? "checked" : ""}>
+      <span id="res_for_groups_review_label">I reviewed all applicable For groups.</span></label>
+    <p id="res_for_groups_review_status" role="status"></p>
+  </div>`;
+}
+
+function syncApprovedForGroupSelections(){
+  const boxes = Array.from(document.querySelectorAll(".resForGroup"));
+  const selected = boxes.filter(box => box.checked).map(box => box.value);
+  const effective = new Set(effectiveForGroups(selected, data.forGroups).map(x => x.toLowerCase()));
+  boxes.forEach(box => { if(effective.has(box.value.toLowerCase())) box.checked = true; });
+}
+
+function readForGroupReviewConfirmation(draft){
+  const checkbox = document.getElementById("res_for_groups_reviewed");
+  if(!checkbox) return false;
+  const key = forGroupReviewContentKey(draft, data.forGroups, data.forGroupDefinitions);
+  if(checkbox.checked && checkbox.dataset.reviewKey !== key) checkbox.checked = false;
+  const label = document.getElementById("res_for_groups_review_label");
+  if(label) label.textContent = draft.forGroups.length
+    ? "I reviewed all applicable For groups."
+    : "I reviewed this resource: no specific For group applies.";
+  const status = document.getElementById("res_for_groups_review_status");
+  if(status) status.textContent = checkbox.checked
+    ? "For-group review is current."
+    : "Review the groups and confirm above before saving changes. Changes to the resource's services, eligibility, Categories or groups require another review.";
+  return checkbox.checked;
+}
+
+function setupForGroupReviewControls(validateEditorState){
+  const checkbox = document.getElementById("res_for_groups_reviewed");
+  if(!checkbox) return;
+  checkbox.addEventListener("change", () => {
+    const checked = checkbox.checked;
+    const draft = resourceEditorDraft();
+    if(!draft) return;
+    checkbox.dataset.reviewKey = checked ? forGroupReviewContentKey(draft, data.forGroups, data.forGroupDefinitions) : "";
+    checkbox.checked = checked;
+    validateEditorState();
+  });
+}
+
+function requireDraftForGroupReview(draft){
+  if(draft.forGroupReviewConfirmed) return true;
+  const checkbox = document.getElementById("res_for_groups_reviewed");
+  if(checkbox){ checkbox.scrollIntoView({block:"center"}); checkbox.focus(); }
+  return false;
+}
+
+function forGroupDefinition(source, label){
+  const key = Object.keys(source.forGroupDefinitions || {}).find(key => key.toLowerCase() === String(label).toLowerCase());
+  return key ? String(source.forGroupDefinitions[key].description || "") : "";
+}
+
+function mergeForGroupDefinitions(local, incoming){
+  const merged = new Map();
+  for(const source of [local, incoming]){
+    for(const [label, entry] of Object.entries(source.forGroupDefinitions || {})){
+      const key = label.toLowerCase();
+      const previous = merged.get(key);
+      if(previous && entry.lastModified === previous.entry.lastModified && entry.description !== previous.entry.description){
+        throw new Error(`Conflicting definitions for For group '${label}'. Edit its definition before merging these packages.`);
+      }
+      if(!previous || Date.parse(entry.lastModified) > Date.parse(previous.entry.lastModified)) merged.set(key, {label, entry});
+    }
+  }
+  return Object.fromEntries(Array.from(merged.values()).map(({label,entry}) => [label, {...entry}]));
+}
+
+
 function makeCategorySpecificFilterKey(filter){
   return `filter:${canonicalizeTaxonomyLabel(filter).toLowerCase()}`;
 }
@@ -4208,7 +4408,8 @@ function getResourceCategoryFilterKeys(resource, categoryId){
 }
 
 function getResourceForGroupFilterKeys(resource){
-  return new Set(normalizeTaxonomyLabels(resource && resource.forGroups).map(makeForGroupFilterKey));
+  const catalog = typeof data === "undefined" ? [] : data.forGroups;
+  return new Set(effectiveForGroups(resource && resource.forGroups, catalog).map(makeForGroupFilterKey));
 }
 
 function countSelectedCategoryFilterMatches(resource, categoryId, activeFilterKeys){
@@ -4233,14 +4434,12 @@ function selectedCategoryFilterDimensions(selectedFilterKeys){
 }
 
 function resourceMatchesSelectedCategoryFilters(resource, categoryId, selectedFilterKeys){
-  const dimensions = selectedCategoryFilterDimensions(selectedFilterKeys);
-  const resourceTypes = getResourceCategoryFilterKeys(resource, categoryId);
-  const resourceGroups = getResourceForGroupFilterKeys(resource);
-  const typeMatch = !dimensions.types.size
-    || Array.from(dimensions.types).some(key => resourceTypes.has(key));
-  const groupMatch = !dimensions.groups.size
-    || Array.from(dimensions.groups).some(key => resourceGroups.has(key));
-  return typeMatch && groupMatch;
+  const selected = normalizeTaxonomyLabels(selectedFilterKeys);
+  const types = selected.filter(key => key.startsWith("filter:"));
+  const groups = selected.filter(key => key.startsWith("for:"));
+  const availableTypes = getResourceCategoryFilterKeys(resource, categoryId);
+  return (!types.length || types.some(key => availableTypes.has(key)))
+    && matchesSelectedForGroupKeys(resource, groups);
 }
 
 function filterResourcesBySelectedCategoryFilters(resources, categoryId, selectedFilterKeys){
@@ -4654,6 +4853,7 @@ function renderBrowseGroupButtons(){
   heading.className = "group-browse-heading";
   heading.textContent = "Choose one or more groups";
   panel.appendChild(heading);
+  renderForGroupMatchControl(panel);
   const buttons = document.createElement("div");
   buttons.className = "group-browse-buttons";
   normalizeTaxonomyLabels(data.forGroups).forEach(group => {
@@ -4683,10 +4883,7 @@ function getGroupBrowseCategoryRows(){
     .map(category => {
       const seen = new Set();
       const resources = getCategoryResources(category.id)
-        .filter(resource => {
-          const keys = getResourceForGroupFilterKeys(resource);
-          return Array.from(selectedKeys).some(key => keys.has(key));
-        })
+        .filter(resource => matchesSelectedForGroupKeys(resource, selectedKeys))
         .filter(resource => {
           const id = String(resource && resource.id || "");
           if(!id || seen.has(id)) return false;
@@ -4721,9 +4918,11 @@ function renderGroupBrowseResults(){
   const rows = getGroupBrowseCategoryRows();
   const summary = document.createElement("p");
   summary.className = "group-browse-summary";
+  const uniqueCount = new Set(rows.flatMap(row => row.resources.map(resource => resource.id))).size;
+  summary.setAttribute("role", "status");
   summary.textContent = rows.length
-    ? "Matching resources are organized below by the needs they address. Select a need to narrow it by Type."
-    : "No resources match the selected groups.";
+    ? `${uniqueCount} matching resources are organized below by the needs they address. Select a need to narrow it by Type.`
+    : `No resources are tagged with ${forGroupMatchMode === "all" ? "all" : "any"} of these groups. ${forGroupMatchMode === "all" ? "Try Match any selected group or remove a group." : "Try another group."}`;
   appView.appendChild(summary);
   if(!rows.length) return;
   const results = document.createElement("div");
@@ -4904,6 +5103,7 @@ function renderCategoryFilterControls(categoryFilterOptions, activeFilters){
   appendCategoryFilterGroup(filterArea, "Type", categoryFilterOptions.filter(option => option.kind === "filter"), activeFilters);
   appendCategoryFilterGroup(filterArea, "For", categoryFilterOptions.filter(option => option.kind === "for"), activeFilters);
 
+  renderForGroupMatchControl(filterArea);
   appView.appendChild(filterArea);
 }
 
@@ -6332,6 +6532,8 @@ function buildScoutReviewSelectionPackageData(sourceData, curatedResourceIds){
   const resources = source.resources
     .filter(resource => selectedIds.has(String(resource && resource.id || "")))
     .map(resource => cloneDataObject(resource));
+  const pending = resources.filter(resource => !hasCurrentForGroupReview(resource, source.forGroups, source.forGroupDefinitions));
+  if(pending.length) throw new Error(`Review For groups before packaging: ${pending.slice(0,5).map(resource => resource.name || resource.id).join(", ")}${pending.length > 5 ? "…" : ""}`);
   const resourceIds = new Set(resources.map(resource => String(resource.id || "")));
   const referencedCategoryIds = new Set(resources.flatMap(resource =>
     Array.isArray(resource.categories) ? resource.categories.map(String) : []
@@ -6353,6 +6555,9 @@ function buildScoutReviewSelectionPackageData(sourceData, curatedResourceIds){
     deletionRequests:[],
     deletions:[]
   };
+  scopedData.resources.forEach(resource => {
+    resource.forGroupReview.contentKey = forGroupReviewContentKey(resource, scopedData.forGroups, scopedData.forGroupDefinitions);
+  });
   return buildResourcePackageData(scopedData);
 }
 
@@ -6441,6 +6646,7 @@ function mergeResourcePackages(localData, incomingData){
     resources: resourceMerge.merged,
     changes: mergeChanges(local.changes, incoming.changes),
     forGroups: normalizeTaxonomyLabels([...(local.forGroups || []), ...(incoming.forGroups || [])]),
+    forGroupDefinitions: mergeForGroupDefinitions(local, incoming),
     deletionRequests,
     deletions,
     resourcePackageSchemaVersion: RESOURCE_PACKAGE_SCHEMA_VERSION
@@ -7783,6 +7989,7 @@ function resourceEditorDraft(){
   if(!nameEl || !phoneEl || !addressEl || !websiteEl || !hoursEl || !descEl) return null;
   const verifiedEl = document.getElementById("res_verified_on");
   const verifiedOn = verifiedEl ? verifiedEl.value.trim() : "";
+  syncApprovedForGroupSelections();
   const forGroups = Array.from(document.querySelectorAll(".resForGroup"))
     .filter(cb=>cb.checked)
     .map(cb=>cb.value)
@@ -7803,7 +8010,7 @@ function resourceEditorDraft(){
   const additionalEl = document.getElementById("res_info_additional");
   const informationDraft = { additional:additionalEl ? additionalEl.value : "" };
 
-  return {
+  const draft = {
     name: nameEl.value.trim(),
     phone: phoneEl.value.trim(),
     address: addressEl.value.trim(),
@@ -7817,6 +8024,8 @@ function resourceEditorDraft(){
     forGroups,
     updateDescription: updateEl ? updateEl.value.trim() : ""
   };
+  draft.forGroupReviewConfirmed = readForGroupReviewConfirmation(draft);
+  return draft;
 }
 
 function getResourceIndexById(resourceId){
@@ -8109,7 +8318,10 @@ function applyResourceDraft(idx, draft){
   if("verifiedDate" in res) delete res.verifiedDate;
   res.categories = draft.categories;
   res.categoryFilters = draft.categoryFilters || {};
-  res.forGroups = normalizeTaxonomyLabels(draft.forGroups);
+  res.forGroups = effectiveForGroups(draft.forGroups, data.forGroups);
+  if(draft.forGroupReviewConfirmed && !hasCurrentForGroupReview(res, data.forGroups, data.forGroupDefinitions)){
+    recordForGroupReview(res, data.forGroups, data.forGroupDefinitions);
+  }
   res.lastModified = nowISO();
   refreshAdminCategoryResourceList();
 }
@@ -8237,6 +8449,7 @@ function commitPendingEditsIfChanged(){
       return false;
     }
     if(nextSnapshot !== editorSnapshot){
+      if(!requireDraftForGroupReview(draft)) return false;
       if(!confirmBlankUpdateDescription(draft)) return false;
       const resource = data.resources[editing.idx];
       const resourceId = resource && resource.id ? resource.id : "";
@@ -8745,6 +8958,7 @@ function renderAdminResources(container){
         <div class="admin-box">
           <div class="admin-resource-heading">
             <h3 class="admin-panel-title">Resources</h3>
+          ${forGroupReviewSummaryHTML()}
             ${getScoutReviewPackageActionHTML()}
           </div>
       <div class="resource-browse-wrap">
@@ -9044,6 +9258,10 @@ function refreshCurrentResourceCuratedButton(){
 
 function toggleCurrentResourceCurated(){
   if(!isScoutReviewMode() || !selectedResourceId) return;
+  if(!isScoutReviewResourceCurated(selectedResourceId)){
+    const draft = resourceEditorDraft();
+    if(!draft || !requireDraftForGroupReview(draft)) return;
+  }
   pendingResourceCuratedToggle = true;
   if(!commitPendingEditsIfChanged()){
     if(!document.getElementById("blankUpdateDescriptionPrompt")) pendingResourceCuratedToggle = false;
@@ -9069,14 +9287,13 @@ function cancelResourceEditor(){
 }
 
 function renderResourceForGroupChecks(res){
-  const selectedForKeys = new Set(normalizeTaxonomyLabels(res.forGroups).map(group => group.toLowerCase()));
-  return normalizeTaxonomyLabels(data.forGroups)
-    .map(group => `
-      <label style="display:block; margin:2px 0;">
-        <input type="checkbox" class="resForGroup" value="${escapeHTML(group)}" ${selectedForKeys.has(group.toLowerCase()) ? "checked" : ""}>
-        ${escapeHTML(group)}
-      </label>
-    `).join("");
+  const selectedForKeys = new Set(effectiveForGroups(res.forGroups, data.forGroups).map(group => group.toLowerCase()));
+  return normalizeTaxonomyLabels(data.forGroups).map(group => `
+    <label style="display:block; margin:4px 2px;">
+      <input type="checkbox" class="resForGroup" value="${escapeHTML(group)}" ${selectedForKeys.has(group.toLowerCase()) ? "checked" : ""}>
+      ${escapeHTML(group)}
+      ${forGroupDefinition(data, group) ? `<small style="display:block;margin-left:24px;">${escapeHTML(forGroupDefinition(data, group))}</small>` : ""}
+    </label>`).join("");
 }
 
 function renderResourceCategoryChecks(res){
@@ -9243,6 +9460,7 @@ function renderResourceEditorMarkup(res){
     renderResourceBasicsSection(res, verifiedDisplay),
     renderResourceUpdateSection(),
     renderResourceForGroupsSection(renderResourceForGroupChecks(res)),
+    renderForGroupReviewSection(res),
     renderResourceCategoriesSection(renderResourceCategoryChecks(res)),
     renderResourcePDFSection(res),
     renderResourceInformationSection(informationDraft)
@@ -9489,6 +9707,7 @@ function editResource(idx){
   setupResourceCategoryControls(editor, validateEditorState);
   setupResourceVerifiedControls(elements, validateEditorState);
   setupResourceEditorValidation(editor, elements, validateEditorState);
+  setupForGroupReviewControls(validateEditorState);
   setupResourcePDFControls(idx);
 
   editorSnapshot = snapshotResourceEditor();
@@ -9507,7 +9726,7 @@ function getResourcesUsingForGroup(group){
   const groupKey = normalizedGroup.toLowerCase();
   if(!groupKey) return [];
   return (Array.isArray(data.resources) ? data.resources : [])
-    .filter(resource => normalizeTaxonomyLabels(resource && resource.forGroups).some(resourceGroup => resourceGroup.toLowerCase() === groupKey))
+    .filter(resource => effectiveForGroups(resource && resource.forGroups, data.forGroups).some(resourceGroup => resourceGroup.toLowerCase() === groupKey))
     .sort((a,b)=>String(a && a.name || "").localeCompare(String(b && b.name || ""), undefined, { sensitivity:"base" }));
 }
 
@@ -9516,10 +9735,15 @@ function formatResourceCount(count){
 }
 
 function forGroupsEditorDraft(){
-  const groups = Array.from(document.querySelectorAll(".forGroupInput"))
-    .map(input => input.value)
-    .filter(value => String(value || "").trim());
-  return { forGroups: normalizeTaxonomyLabels(groups) };
+  const groups = [];
+  const definitions = {};
+  document.querySelectorAll(".for-group-row").forEach(row => {
+    const group = canonicalizeTaxonomyLabel(row.querySelector(".forGroupInput").value);
+    if(!group) return;
+    groups.push(group);
+    definitions[group] = (row.querySelector(".forGroupDefinitionInput")?.value || "").trim();
+  });
+  return {forGroups:normalizeTaxonomyLabels(groups), definitions};
 }
 
 function snapshotForGroupsEditor(){
@@ -9539,6 +9763,15 @@ function applyForGroupsDraft(draft){
     ), "requestedAt");
   }
   data.forGroups = normalizeTaxonomyLabels([...nextGroups, ...removedGroups]);
+  const definitions = {...(data.forGroupDefinitions || {})};
+  Object.entries(draft.definitions || {}).forEach(([label, description]) => {
+    if(description !== forGroupDefinition(data, label)){
+      const previous = Object.keys(definitions).find(key => key.toLowerCase() === label.toLowerCase());
+      if(previous) delete definitions[previous];
+      definitions[label] = {description, lastModified:nowISO()};
+    }
+  });
+  data.forGroupDefinitions = definitions;
 }
 
 function validateForGroupsDraft(draft){
@@ -9584,6 +9817,7 @@ function addForGroupRow(value){
   row.tabIndex = 0;
   row.innerHTML = `
     <input type="text" class="forGroupInput" value="${escapeHTML(value || "")}" aria-label="For group">
+    <textarea class="forGroupDefinitionInput" aria-label="For group definition" placeholder="Who this group is for; when to apply it" style="display:block;width:100%;box-sizing:border-box;margin-top:6px;">${escapeHTML(forGroupDefinition(data, value || ""))}</textarea>
   `;
   if(value && hasDeletionRequest("forGroup", { label:value })){
     const status = document.createElement("span");
@@ -9591,6 +9825,8 @@ function addForGroupRow(value){
     status.textContent = "tagged for deletion";
     row.appendChild(status);
   }
+  const definitionInput = row.querySelector(".forGroupDefinitionInput");
+  if(definitionInput) definitionInput.addEventListener("input", updateForGroupsEditorActionBar);
   const input = row.querySelector(".forGroupInput");
   if(input){
     input.addEventListener("input", () => {

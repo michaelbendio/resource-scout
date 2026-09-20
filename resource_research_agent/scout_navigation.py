@@ -23,7 +23,7 @@ def latest_navigation(store: ResearchStore, job_id: int) -> dict[str, Any] | Non
         ).fetchone()
     if not row:
         return None
-    result = {"id": row["id"], "baseFingerprint": row["base_fingerprint"],
+    result = {"id": row["id"], "createdAt": row["created_at"], "baseFingerprint": row["base_fingerprint"],
               "proposalSha256": row["proposal_sha256"], "proposal": json.loads(row["proposal_json"])}
     if _sha256(result["proposal"]) != result["proposalSha256"]:
         raise ScoutCurationError("Navigation proposal hash does not match its saved content")
@@ -83,6 +83,11 @@ def validate_navigation(job: dict[str, Any], proposal: dict[str, Any]) -> None:
         labels = [x.get("label") for x in assignment.get("forGroups", [])]
         if len(labels) != len(set(labels)) or any(str(x).casefold() not in groups for x in labels):
             raise ScoutCurationError(f"Unknown or duplicate For group on {resource['id']}")
+        label_keys = {str(label).casefold() for label in labels}
+        for child in ("Deaf & hard of hearing", "Blind & low vision"):
+            parent = "People with disabilities"
+            if child.casefold() in groups and parent.casefold() in groups and child.casefold() in label_keys and parent.casefold() not in label_keys:
+                raise ScoutCurationError(f"{resource['id']}: {child} also requires {parent}")
         used_groups.update(labels)
         if not labels and (not isinstance(assignment.get("noGroupReason"), str) or not assignment["noGroupReason"].strip()):
             raise ScoutCurationError(f"Record the no-group decision for {resource['id']}")
@@ -143,6 +148,9 @@ def apply_navigation(seed: dict[str, Any], job: dict[str, Any], navigation: dict
     for category in result["categories"]:
         category["filters"] = [t["label"] for t in categories[category["id"]]["types"]]
     result["forGroups"] = [g["label"] for g in proposal["groups"]]
+    result["forGroupDefinitions"] = {g["label"]: {
+        "description": g["definition"], "lastModified": navigation["createdAt"]
+    } for g in proposal["groups"]}
     assignments = {a["resourceId"]: a for a in proposal["assignments"]}
     for resource in result["resources"]:
         a = assignments[resource["id"]]

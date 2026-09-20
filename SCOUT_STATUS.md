@@ -4,6 +4,42 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## AND group matching and explicit group checks — September 20
+
+The workbench now defaults to **Match all selected groups (AND)**, with **Match
+any** available. All **12 Deaf & hard of hearing** and **13 Blind & low vision**
+resources also have People with disabilities. Fourteen distinct records needed
+that broader assignment; its total increased from **133 to 147**. All 879 resources,
+21 Categories, 25 group labels, facts and original research remain preserved.
+
+Two local checks are implemented in Resource Assistant and Scout's generated HTML:
+approved sensory-disability parent tags, and an explicit editor group-review
+confirmation (including an explicit no-specific-group decision). Definitions appear
+beside checkboxes. Relevant edits and changed group catalogs invalidate the review;
+imports/merges flag missing or outdated reviews. Scout's Curated and package export
+require a current review. This calls no AI and does not establish semantic completeness
+or human eligibility. All 879 source records remain unreviewed by a human.
+
+Read the [delivery review](docs/st-george-and-groups-review-20260920.md) and
+[evidence](docs/st-george-and-groups-evidence-20260920.json). The active prevention
+instructions remain [workbench readiness](docs/scout-workbench-readiness.md).
+
+**Save autoStGeorge.html is enabled at http://127.0.0.1:8769.** Download a fresh
+copy; an older HTML does not update itself. Master:
+`data/st-george-curation-20260919/autoStGeorge.html`. Audit, prior SQLite/HTML backup,
+14-record correction list, browser checks and download receipt:
+`data/st-george-curation-20260919/audit/group-checks-20260920/`.
+
+Review recorded **2026-09-20 16:25:46 UTC**, contract v2, fingerprint:
+`080bd9563ba0522bba750855e0f227b95aa28cfeb0e3f3d16c2b254586a553d0`.
+Navigation revision 2 SHA-256:
+`b7352942b6f8f7e2d38ad45ee3c2bbb4e4facbafbdf82c10ea54f34b811f7636`.
+
+Scout's full suite passed: 261 tests, one optional skip. The monitor-only process
+is **PID 53076**, port **8769**. No research/curation worker or supervisor was
+launched. Verify liveness before acting. Earlier review fingerprints and monitor
+PIDs below are historical and are superseded by this delivery.
+
 ## Workbench omissions corrected and prevention added — September 20
 
 Michael identified three delivery omissions after the content review: no For

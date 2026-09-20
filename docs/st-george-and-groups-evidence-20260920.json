@@ -1,0 +1,290 @@
+{
+  "verification": {
+    "resultFingerprint": "080bd9563ba0522bba750855e0f227b95aa28cfeb0e3f3d16c2b254586a553d0",
+    "navigationSha256": "b7352942b6f8f7e2d38ad45ee3c2bbb4e4facbafbdf82c10ea54f34b811f7636",
+    "readiness": {
+      "resources": 879,
+      "categoriesWithTypes": 21,
+      "groups": 25,
+      "resourcesWithGroups": 674,
+      "resourcesWithoutGroups": 205
+    },
+    "candidateDecisions": 2421,
+    "historicalSourceHashes": {
+      "codex-grok": "9435f9862e6d6fb95e687a1eab55929264839832da38ccff60eac25fff671089",
+      "codex-claude": "ff46c06dae2431cf30578088ecb80275aaf0389e433367128b983440e629337b",
+      "claude-grok": "715d4571cd21bc4c301e46856899c9c8ce0229c06b8f94b4b763376d8bed7910",
+      "five-worker-baseline": "82398c38c15fd4818f4d6d23008bf427adf84caf5d8d9d1fef9ac2f5c394134b"
+    },
+    "frozenSnapshotSha256": "9e058883b1ff95c00128a68038d30b2f3c8ae11f47e1948f55a856635457d4a0",
+    "unchangedResearchTables": {
+      "imports": 1,
+      "categories": 22,
+      "imported_resources": 0,
+      "known_terms": 0,
+      "research_seeds": 0,
+      "discoveries": 2832,
+      "discovery_contact_lookups": 0,
+      "research_runs": 27,
+      "manual_discovery_contributions": 299,
+      "manual_discovery_leads": 3763,
+      "manual_discovery_consolidations": 27,
+      "manual_discovery_identity_groups": 3495,
+      "manual_discovery_identity_members": 3763,
+      "manual_discovery_identity_decisions": 51,
+      "focused_research_jobs": 21,
+      "focused_research_passes": 112,
+      "codex_first_research_assignments": 21,
+      "codex_replay_studies": 0,
+      "codex_replay_categories": 0,
+      "research_run_reconciliations": 0,
+      "discovery_reconciliation_matches": 0,
+      "taxonomy_studies": 0,
+      "taxonomy_category_review_revisions": 0,
+      "taxonomy_category_redistribution_proposals": 0,
+      "taxonomy_category_approvals": 0,
+      "taxonomy_type_review_packets": 0,
+      "taxonomy_type_design_revisions": 0,
+      "taxonomy_group_review_packets": 0,
+      "taxonomy_group_inference_revisions": 0,
+      "taxonomy_compilations": 0,
+      "scout_workflow_progress_events": 0,
+      "chatgpt_assignment_schedules": 0,
+      "scout_enrichment_projects": 0,
+      "scout_enrichment_resources": 0,
+      "scout_enrichment_audits": 0,
+      "research_worker_telemetry": 87
+    },
+    "resourceFactsAndMembershipPreserved": true,
+    "sqliteQuickCheck": "ok",
+    "htmlPath": "/Users/michaelbendio/resource-scout-pairwise/data/st-george-curation-20260919/autoStGeorge.html",
+    "htmlSha256": "94f53c379292bc9665d6ca5f77cca07d004882f89196bd5033f3f77ff2f9ea44",
+    "htmlBytes": 2734439,
+    "humanCuratedCount": 0
+  },
+  "assignmentCorrections": [
+    {
+      "resourceId": "res-utah-cshcn-chap-hearing-aids",
+      "fromGroups": [
+        "Deaf & hard of hearing"
+      ],
+      "added": "People with disabilities"
+    },
+    {
+      "resourceId": "res-utah-ehdi-newborn-hearing-followup",
+      "fromGroups": [
+        "Deaf & hard of hearing"
+      ],
+      "added": "People with disabilities"
+    },
+    {
+      "resourceId": "res-usdb-parent-infant-program-southern-utah",
+      "fromGroups": [
+        "Deaf & hard of hearing",
+        "Blind & low vision"
+      ],
+      "added": "People with disabilities"
+    },
+    {
+      "resourceId": "res-nfb-utah-red-rocks-chapter",
+      "fromGroups": [
+        "Blind & low vision"
+      ],
+      "added": "People with disabilities"
+    },
+    {
+      "resourceId": "res-olive-osmond-hearing-fund-here2hear",
+      "fromGroups": [
+        "Deaf & hard of hearing"
+      ],
+      "added": "People with disabilities"
+    },
+    {
+      "resourceId": "res-sego-lily-abused-deaf-st-george-support",
+      "fromGroups": [
+        "Deaf & hard of hearing"
+      ],
+      "added": "People with disabilities"
+    },
+    {
+      "resourceId": "res-utah-dsbvi-low-vision-services",
+      "fromGroups": [
+        "Blind & low vision"
+      ],
+      "added": "People with disabilities"
+    },
+    {
+      "resourceId": "res-utah-dsbvi-st-george-vocational-rehabilitation",
+      "fromGroups": [
+        "Blind & low vision"
+      ],
+      "added": "People with disabilities"
+    },
+    {
+      "resourceId": "res-utah-dsdhh-southern-center-case-management",
+      "fromGroups": [
+        "Deaf & hard of hearing"
+      ],
+      "added": "People with disabilities"
+    },
+    {
+      "resourceId": "res-usdb-southern-utah-school-of-the-deaf",
+      "fromGroups": [
+        "Deaf & hard of hearing"
+      ],
+      "added": "People with disabilities"
+    },
+    {
+      "resourceId": "res-utah-dsbvi-business-enterprise-program",
+      "fromGroups": [
+        "Blind & low vision"
+      ],
+      "added": "People with disabilities"
+    },
+    {
+      "resourceId": "res-utah-dsbvi-deafblind-ssp-program",
+      "fromGroups": [
+        "Deaf & hard of hearing"
+      ],
+      "added": "People with disabilities"
+    },
+    {
+      "resourceId": "res-deaf-hotline-adwas-24-7-asl",
+      "fromGroups": [
+        "Deaf & hard of hearing"
+      ],
+      "added": "People with disabilities"
+    },
+    {
+      "resourceId": "res-utah-council-blind-subsidized-transportation",
+      "fromGroups": [
+        "Blind & low vision"
+      ],
+      "added": "People with disabilities"
+    }
+  ],
+  "uiChecks": {
+    "outcomes": {
+      "Scout": {
+        "checks": [
+          "AND is the default",
+          "All 879 resources remain",
+          "All 25 group definitions are included",
+          "No human group review was silently granted",
+          "Deaf & hard of hearing parent tags are complete",
+          "Blind & low vision parent tags are complete",
+          "Hearing AND disability finds all 12 resources",
+          "Optional ANY finds all 147 disability resources",
+          "Switching back to ALL restores 12",
+          "Children hearing aid program remains findable",
+          "Group mode survives opening a category",
+          "Editor shows group definitions",
+          "Editor requires explicit group review",
+          "Curated cannot bypass group review",
+          "Unreviewed package export is blocked",
+          "A relevant edit cannot save without confirmation",
+          "Explicit confirmation is accepted",
+          "Confirmed edit saves",
+          "Saved confirmation matches current content",
+          "Phone-only change preserves review",
+          "Phone-only change keeps review date",
+          "Later relevant change clears confirmation and blocks save",
+          "Second explicit review saves",
+          "Reviewed resource can be marked Curated",
+          "Scoped curated export preserves valid review",
+          "Export does not invent a new review date",
+          "Curated package reopens with current review",
+          "Stale reviewed package cannot be exported",
+          "Ungrouped resource has an explicit no-group choice",
+          "Explicit no-group decision saves",
+          "Approved parent stays selected while a child group is selected",
+          "New resource cannot save without a group decision",
+          "New resource saves with explicit no-group review",
+          "New resource retains explicit no-group decision"
+        ],
+        "newId": "1811b8c54dc4923ebf7716c1881ad75d",
+        "hearingId": "res-utah-cshcn-chap-hearing-aids",
+        "hearingName": "Utah Children’s Hearing Aid Program (CHAP)",
+        "remaining": 877,
+        "restored": {
+          "count": 880,
+          "reviewed": true,
+          "added": "none",
+          "definitions": 25,
+          "mode": "all"
+        }
+      },
+      "Resource Assistant": {
+        "checks": [
+          "AND is the default",
+          "All 879 resources remain",
+          "All 25 group definitions are included",
+          "No human group review was silently granted",
+          "Deaf & hard of hearing parent tags are complete",
+          "Blind & low vision parent tags are complete",
+          "Hearing AND disability finds all 12 resources",
+          "Optional ANY finds all 147 disability resources",
+          "Switching back to ALL restores 12",
+          "Children hearing aid program remains findable",
+          "Group mode survives opening a category",
+          "Editor shows group definitions",
+          "Editor requires explicit group review",
+          "A relevant edit cannot save without confirmation",
+          "Explicit confirmation is accepted",
+          "Confirmed edit saves",
+          "Saved confirmation matches current content",
+          "Phone-only change preserves review",
+          "Phone-only change keeps review date",
+          "Later relevant change clears confirmation and blocks save",
+          "Second explicit review saves",
+          "Ungrouped resource has an explicit no-group choice",
+          "Explicit no-group decision saves",
+          "Approved parent stays selected while a child group is selected",
+          "New resource cannot save without a group decision",
+          "New resource saves with explicit no-group review",
+          "New resource retains explicit no-group decision"
+        ],
+        "newId": "1d4cf86a4bfdd3e2f9099c1300105661",
+        "hearingId": "res-utah-cshcn-chap-hearing-aids",
+        "hearingName": "Utah Children’s Hearing Aid Program (CHAP)",
+        "remaining": 877,
+        "restored": {
+          "count": 880,
+          "reviewed": true,
+          "added": "none",
+          "definitions": 25,
+          "mode": "all"
+        }
+      }
+    },
+    "errors": []
+  },
+  "parentGroupCount": 147,
+  "actualDownload": {
+    "url": "http://127.0.0.1:8769/api/scout-curation-jobs/1/review-file",
+    "httpStatus": 200,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.14.7",
+      "Date": "Sun, 20 Sep 2026 16:26:19 GMT",
+      "Content-Type": "text/html; charset=utf-8",
+      "Content-Disposition": "attachment; filename=\"autoStGeorge.html\"",
+      "Content-Length": "2734439",
+      "Cache-Control": "no-store",
+      "X-Content-Type-Options": "nosniff"
+    },
+    "sha256": "421d5b7de05a87b12a9a07523175e488ef6bf67a27d71fbdacacfd24ecd09000",
+    "artifact": "scout-review-541c649d9f49d58cf9b8bf99",
+    "sameSeedAsInspectedMaster": true,
+    "resourceCount": 879,
+    "humanReviewCount": 0,
+    "humanCuratedCount": 0
+  },
+  "deliveryMonitor": {
+    "title": "autoStGeorge.html created",
+    "detail": "21 curated categories · 879 proposed resources · created 9/20/2026, 10:26:19 AM",
+    "saveText": "Save autoStGeorge.html",
+    "saveVisible": true,
+    "saveHref": "http://127.0.0.1:8769/api/scout-curation-jobs/1/review-file"
+  },
+  "deliveryBrowserErrors": []
+}
