@@ -4,6 +4,23 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Discovery and maintenance proposal — September 19 evening
+
+Michael requested a clean-sheet design for new-office discovery and maintenance
+of existing resource packages. The [proposal](docs/scout-discovery-and-maintenance-proposal-20260920.md)
+uses one evidence and human-review process, Stephanie's four information headings,
+separate complementary-search and verification responsibilities, and safe old/new
+maintenance proposals. It recommends testing same-model roles with optional provider
+diversity, not assuming the recent two-category pilot proves replacement equivalence.
+This is a proposal for discussion; it does not change the running architecture,
+worker effort, final-review gate, or authorize new worker experiments.
+
+Live snapshot at September 20, 04:22 UTC: supervisor **39227** and coordinator
+**39230** remain active. SQLite records **13/21 categories completed**; Housing
+finished 85 candidates into 70 proposals at 04:21:41 UTC, and ID Recovery batch
+**1/2** started at High. Monitor: **http://127.0.0.1:8769**. Verify live state;
+earlier counts and worker PIDs below are historical snapshots.
+
 ## Agreed ongoing review handoff
 
 Scout finishes curation and shows **Ready for Codex review**. Michael starts a
