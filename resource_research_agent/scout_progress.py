@@ -264,6 +264,12 @@ def build_scout_progress(
         }
 
         if not handoff["readyForSave"]:
+            from .scout_curation import ScoutCurationError
+            from .scout_review_readiness import require_review_ready
+            try:
+                require_review_ready(store, job)
+            except ScoutCurationError as exc:
+                review_file["readinessIssue"] = str(exc)
             phase = "awaiting-codex-review"
             message = "Curation is complete. Start a Codex session and ask for a review. Save will be available when that review is complete."
             category_id = ""

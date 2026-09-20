@@ -15,8 +15,9 @@ from typing import Any
 from .scout_curation import ScoutCurationError, _canonical_json, _sha256
 from .storage import ResearchStore
 
+REVIEW_CONTRACT_VERSION = 2
 
-def review_fingerprint(job: dict[str, Any]) -> str:
+def curation_fingerprint(job: dict[str, Any]) -> str:
     return _sha256({
         **{key: job.get(key) for key in (
             "id", "importId", "status", "candidatePackageSha256", "sourcePackageContentSha256",
@@ -27,11 +28,19 @@ def review_fingerprint(job: dict[str, Any]) -> str:
     })
 
 
+def review_fingerprint(job: dict[str, Any]) -> str:
+    digest = curation_fingerprint(job)
+    navigation = job.get("reviewNavigationSha256")
+    taxonomy = job.get("reviewTaxonomySeedSha256")
+    return _sha256({"curation": digest, "navigation": navigation, "taxonomy": taxonomy}) if navigation or taxonomy else digest
+
+
 def review_handoff(job: dict[str, Any], events: list[dict[str, Any]]) -> dict[str, Any]:
     digest = review_fingerprint(job)
     completed = job.get("status") == "completed" and all(c["status"] == "completed" for c in job["categories"])
     review = next((e for e in reversed(events)
                    if e["phase"] == "codex-review-completed"
+                   and e.get("details", {}).get("reviewContractVersion") == REVIEW_CONTRACT_VERSION
                    and e.get("details", {}).get("resultFingerprint") == digest), None) if completed else None
     return {"status": "reviewed" if review else "awaiting-codex-review" if completed else "curating",
             "readyForSave": bool(review), "resultFingerprint": digest,
@@ -52,9 +61,12 @@ def complete_codex_review(store: ResearchStore, job_id: int, *, expected_fingerp
         digest = review_fingerprint(job)
         if digest != expected_fingerprint:
             raise ScoutCurationError("Curation changed since the review; inspect the changed results first")
+        from .scout_review_readiness import require_review_ready
+        readiness = require_review_ready(store, job)
         details = {"resultFingerprint": digest, "reportPath": str(report_path.resolve()),
                    "reportSha256": hashlib.sha256(report.encode()).hexdigest(), "reportText": report,
-                   "humanApproved": False, "phoneVerified": False}
+                   "humanApproved": False, "phoneVerified": False,
+                   "reviewContractVersion": REVIEW_CONTRACT_VERSION, "readiness": readiness}
         connection.execute(
             """INSERT INTO scout_curation_progress_events
                (job_id,category_id,created_at,phase,message,details_json) VALUES (?,?,?,?,?,?)""",

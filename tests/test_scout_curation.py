@@ -89,6 +89,19 @@ class ScoutCurationTests(unittest.TestCase):
         self.food_run = self.completed_run("food", "Food", ["Grok"])
 
     def complete_test_review(self, job_id):
+        from resource_research_agent.scout_curation import _completed_resources
+        from resource_research_agent.scout_navigation import save_navigation
+        from resource_research_agent.scout_review_handoff import curation_fingerprint
+        job = self.store.get_scout_curation_job(job_id)
+        resources = _completed_resources(job)
+        proposal = {'schemaVersion':1, 'baseFingerprint':curation_fingerprint(job),
+            'categories':[{'id':c['categoryId'],'types':[{'label':'Direct help','definition':'Practical assistance in this category'}]} for c in job['categories']],
+            'groups':[{'label':'Veterans','definition':'Programs serving veterans'}],
+            'assignments':[{'resourceId':r['id'],
+                'types':{c:[{'label':'Direct help','evidence':{'field':'description','text':r['description']}}] for c in r['categories']},
+                'forGroups':[{'label':'Veterans','evidence':{'field':'informationText','text':'Veterans'}}]} for r in resources]}
+        if job['status'] == 'completed':
+            save_navigation(self.store, job_id, proposal, reason='Reviewed test fixture navigation')
         report = self.root / "review-report.md"
         report.write_text("Test fixture review: checked identities, sources, omissions and consolidation.")
         return complete_codex_review(self.store, job_id,
@@ -143,7 +156,7 @@ class ScoutCurationTests(unittest.TestCase):
                 "id": resource_id,
                 "name": "Mesa Community Assistance",
                 "description": "Connects Mesa residents with practical help.",
-                "informationText": "Call or visit the website to confirm eligibility.",
+                "informationText": "**Eligibility Requirements**\n\nVeterans in Mesa.\n\n**How to Best Connect**\n\nCall to apply.\n\n**Access**\n\nConfirm appointment hours.\n\n**Important Information to Know**\n\nConfirm availability.",
                 "categories": categories or [assignment["category"]["id"]],
                 "categoryFilters": {},
                 "forGroups": ["Veterans"],
@@ -209,7 +222,7 @@ class ScoutCurationTests(unittest.TestCase):
         original_fingerprint = review_fingerprint(job)
         category = job["categories"][0]
         result = json.loads(json.dumps(category["result"]))
-        result["resources"][0]["informationText"] = "Eligibility corrected from source evidence"
+        result["resources"][0]["informationText"] = result["resources"][0]["informationText"].replace("Veterans in Mesa.", "Veterans in Mesa; eligibility corrected from source evidence.")
         revised = revise_scout_curation_result(self.store, job["id"], category["categoryId"], result,
             expected_result_sha256=category["resultSha256"], reason="Correct eligibility",
             evidence=[{"url":"https://example.org/eligibility"}])
@@ -217,7 +230,91 @@ class ScoutCurationTests(unittest.TestCase):
         with self.assertRaisesRegex(ScoutCurationError, "changed since the review"):
             complete_codex_review(self.store, job["id"], expected_fingerprint=original_fingerprint,
                                  report_path=self.root / "review-report.md")
+        with self.assertRaisesRegex(ScoutCurationError, "different curation results"):
+            build_scout_review_seed(self.store, job["id"])
         self.assertTrue(self.complete_test_review(job["id"])["readyForSave"])
+
+    def completed_review_fixture(self):
+        job = prepare_scout_curation_job(self.store, self.import_id)
+        for category in ("employment", "food"):
+            assignment = next_scout_curation_assignment(self.store, job["id"])
+            save_scout_curation_result(self.store, job["id"], category,
+                                      self.result_for(assignment, resource_id=category))
+        return self.store.get_scout_curation_job(job["id"])
+
+    def test_handoff_rejects_missing_navigation_and_monitor_explains_it(self):
+        job = self.completed_review_fixture()
+        report = self.root / "report.md"
+        report.write_text("Source review alone is insufficient.")
+        with self.assertRaisesRegex(ScoutCurationError, "Types and For-group review"):
+            complete_codex_review(self.store, job['id'],
+                expected_fingerprint=review_fingerprint(job), report_path=report)
+        progress = build_scout_progress(self.store, self.import_id)
+        self.assertFalse(progress['reviewFile']['readyForSave'])
+        self.assertIn('For-group review', progress['reviewFile']['readinessIssue'])
+        # A legacy approval of exactly the same results is insufficient.
+        legacy = [{'phase':'codex-review-completed','createdAt':'earlier',
+                   'details':{'resultFingerprint':review_fingerprint(job)}}]
+        self.assertFalse(review_handoff(job, legacy)['readyForSave'])
+
+    def test_information_sections_and_type_coverage_are_release_requirements(self):
+        from resource_research_agent.scout_review_readiness import validate_ready_seed
+        job = self.completed_review_fixture()
+        self.complete_test_review(job['id'])
+        seed = build_scout_review_seed(self.store, job['id'])
+        self.assertEqual(2, validate_ready_seed(seed)['resources'])
+        for bad in ('Eligibility: Veterans. Connect: Call. Access: Varies. Important: Confirm.',
+                    seed['resources'][0]['informationText'].replace('Call to apply.', '')):
+            broken = json.loads(json.dumps(seed))
+            broken['resources'][0]['informationText'] = bad
+            with self.assertRaisesRegex(ScoutCurationError, 'Information'):
+                validate_ready_seed(broken)
+        seed['resources'][0]['categoryFilters'] = {}
+        with self.assertRaisesRegex(ScoutCurationError, 'Types'):
+            validate_ready_seed(seed)
+
+    def test_navigation_is_evidenced_complete_and_invalidates_saved_review(self):
+        from resource_research_agent.scout_navigation import latest_navigation, save_navigation
+        job = self.completed_review_fixture()
+        before = build_scout_review_seed(self.store, job['id'])
+        self.complete_test_review(job['id'])
+        navigation = latest_navigation(self.store, job['id'])
+        proposal = navigation['proposal']
+        for mutation, message in (
+            (lambda p:p['assignments'].pop(), 'every resource'),
+            (lambda p:p['assignments'][0]['forGroups'].clear(), 'no-group decision'),
+            (lambda p:p['assignments'][0]['types'].clear(), 'exactly the Categories'),
+            (lambda p:p['assignments'][0]['forGroups'][0]['evidence'].update(text='Invented population'), 'evidence'),
+        ):
+            broken = json.loads(json.dumps(proposal)); mutation(broken)
+            with self.assertRaisesRegex(ScoutCurationError, message):
+                save_navigation(self.store, job['id'], broken, reason='Invalid fixture')
+        proposal['assignments'][0]['forGroups'] = []
+        proposal['assignments'][0]['noGroupReason'] = None
+        with self.assertRaisesRegex(ScoutCurationError, 'no-group decision'):
+            save_navigation(self.store, job['id'], proposal, reason='Null reason is not review')
+        proposal['assignments'][0]['noGroupReason'] = 'Reviewed as broadly available.'
+        saved = save_navigation(self.store, job['id'], proposal, reason='Revise population decision')
+        self.assertEqual(saved['id'], save_navigation(self.store, job['id'], proposal, reason='Idempotent')['id'])
+        after = build_scout_review_seed(self.store, job['id'])
+        for old,new in zip(before['resources'],after['resources']):
+            for key in old:
+                if key not in {'categoryFilters','forGroups'}:
+                    self.assertEqual(old[key],new[key])
+        job = self.store.get_scout_curation_job(job['id'])
+        self.assertFalse(review_handoff(job, self.store.list_scout_curation_progress(job['id']))['readyForSave'])
+        self.assertEqual([],after['resources'][0]['forGroups'])
+        # A deliberate all-ungrouped design differs from silently skipping review.
+        proposal['groups'] = []
+        for assignment in proposal['assignments']:
+            assignment['forGroups'] = []
+            assignment['noGroupReason'] = 'Reviewed as broadly available.'
+        with self.assertRaisesRegex(ScoutCurationError, 'catalog needs'):
+            save_navigation(self.store, job['id'], proposal, reason='Empty catalog')
+        proposal['noGroupCatalogReason'] = 'This fixture has only broad services.'
+        save_navigation(self.store, job['id'], proposal, reason='Explicit catalog conclusion')
+        from resource_research_agent.scout_review_readiness import require_review_ready
+        self.assertEqual(0, require_review_ready(self.store, self.store.get_scout_curation_job(job['id']))['resourcesWithGroups'])
 
     def test_audit_revision_preserves_original_and_rejects_stale_or_incomplete_updates(self) -> None:
         job = prepare_scout_curation_job(self.store, self.import_id)

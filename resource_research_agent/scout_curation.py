@@ -569,7 +569,7 @@ def build_scout_review_seed(store: ResearchStore, job_id: int) -> dict[str, Any]
         for category in summary["categories"]
         if category["id"] != "miscellaneous"
     ]
-    return {
+    seed = {
         "resourcePackageSchemaVersion": 3,
         "packageVersion": summary["schema"]["packageVersion"],
         "officeName": f"Auto{job['locationName'].replace(' ', '')}",
@@ -584,6 +584,9 @@ def build_scout_review_seed(store: ResearchStore, job_id: int) -> dict[str, Any]
         "packageCreatedAt": datetime.now(timezone.utc).isoformat(),
         "lastModified": datetime.now(timezone.utc).isoformat(),
     }
+    from .scout_navigation import apply_navigation, latest_navigation
+    navigation = latest_navigation(store, job_id)
+    return apply_navigation(seed, job, navigation) if navigation else seed
 
 
 @dataclass(frozen=True)

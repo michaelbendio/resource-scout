@@ -110,9 +110,18 @@ Michael-requested Codex session, preferably Extra High.
   and important information. Verify direct service, identity and geography;
   unfamiliar laws, area codes or addresses are conflicts to resolve, not typos to
   explain away. A failed fetch does not establish closure.
+- Information must render four distinct bold headings, with relevant paragraphs
+  beneath them: **Eligibility Requirements**, **How to Best Connect**, **Access**,
+  and **Important Information to Know**. Access must include the supported hours
+  or availability limits. A keyword-presence check or inline colon labels are
+  insufficient. Inspect the generated reader view and editor before handoff.
 - Keep explicit candidate dispositions. Preserve distinct programs, merge aliases,
   and apply cross-category labels only for substantial direct services.
-- Apply only existing, evidenced For groups. Do not create or suggest missing ones.
+- Curation workers apply only supplied, evidenced For groups; they do not invent
+  missing labels. After curation, the requested review must explicitly resolve
+  missing Types and For groups under the [workbench readiness contract](scout-workbench-readiness.md).
+  A blank starting taxonomy is unfinished work, not evidence that no groups are useful.
+  Michael has authorized a corpus-derived St. George proposal for human vetting.
 - AI-curated proposals are not human-approved or phone-vetted. Never automatically
   check the human Curated field to enable an export.
 
@@ -195,7 +204,12 @@ a longer curation prompt alone does not reproduce this review function:
 4. Record findings and any corrections with source evidence and before/after
    versions. Preserve unresolved uncertainty; do not silently make claims stronger.
 5. Audit the final cross-category result for duplicate identities, lost program
-   details and conflicting claims before declaring the review HTML ready.
+   details and conflicting claims. Complete [workbench readiness](scout-workbench-readiness.md):
+   four rendered Information sections with relevant text and hours/uncertainty;
+   defined Types in every Category and supported assignments in every resource's
+   Categories; defined For groups, supported assignments or explicit no-group
+   decisions. Inspect the rendered reader/editor and combined Type/For filters.
+   A successful HTML build or occurrence of four keywords is insufficient.
 6. Measure missed errors, false alarms, added usage and curator burden against
    known cases, including the Washington County Maryland/Utah error. Test recovery
    and spending limits separately from judgment quality.
@@ -209,7 +223,10 @@ AI reviews are not automatically accepted training examples or canonical facts.
 
 Curation completion and local draft generation do not complete the Codex review.
 The monitor and browser download endpoint require a recorded review of the exact
-current result fingerprint. A source-backed revision changes that fingerprint
+current result and navigation fingerprint. Scout's versioned readiness gate blocks
+completion when Information sections, Types, or the For-group review are missing.
+Definitions/assignments changed after review invalidate the earlier approval;
+legacy review records from before this contract cannot enable Save. A source-backed revision changes that fingerprint
 and makes Save unavailable until the changed results are reviewed again.
 
 At the start of Michael's requested review, inspect the handoff and retain its

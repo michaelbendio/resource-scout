@@ -405,7 +405,7 @@ function renderScoutProgress(progress) {
       : `${review.filename} is ready`;
     const created = review.createdAt ? ` · created ${formatWhen(review.createdAt)}` : '';
     document.querySelector('#review-file-detail').textContent = awaitingReview
-      ? 'Start a Codex session and ask for a review. When it is finished, save your auto file here.'
+      ? `${review.readinessIssue ? `Still needed: ${review.readinessIssue}. ` : ''}Start a Codex session and ask for a review. When it is finished, save your auto file here.`
       : `${review.categoryCount} curated categories · ${review.resourceCount} proposed resources${created}`;
     const download = document.querySelector('#review-file-download');
     download.hidden = awaitingReview;

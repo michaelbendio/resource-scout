@@ -4,22 +4,50 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## For-group gap identified — September 20, after final review
+## Workbench omissions corrected and prevention added — September 20
 
-Michael reported that the saved workbench has no For groups. Verified: the starting
-package and every sealed assignment supplied an empty group list; curation only
-allowed existing groups, and no separate taxonomy study ran. Export did not lose
-group data. **Resource-content review is complete, but population grouping is
-unfinished.** The prior ready-to-save handoff should have stated this limitation.
-See [diagnosis and next step](docs/st-george-for-groups-gap-20260920.md).
+Michael identified three delivery omissions after the content review: no For
+groups, no Category Types, and Information rendered as inline topic labels. He
+requested a St. George-specific group proposal and confirmed that he had only
+inspected the earlier HTML, with no edits or human Curated selections.
 
-A choice between a St. George-specific group proposal and the seven labels used in
-earlier local workbench packages is pending. No groups have been applied. Preserve
-the current reviewed resources and any human browser edits; no research rerun is
-needed. The existing group-design prototype includes a 342-resource constraint and
-Mesa-specific decisions, so it cannot simply be run against this 879-record corpus.
+The corrected workbench contains **879 resources**, Types in **all 21 Categories**,
+and **25 proposed For groups** derived from these records. **674 resources** have
+population labels; **205** have recorded no-group decisions. Every Information
+field now has Stephanie's four bold headings, with supported hours/availability
+under Access. The source facts, 2,421 candidate decisions, sealed assignments and
+historical research databases are preserved. No paid worker was launched.
 
-## Final curation review complete — September 20
+Read the [completion and prevention report](docs/st-george-workbench-readiness-review-20260920.md)
+for the group list, Category Types, validation, classification limits and remaining
+source uncertainties. This is a proposed finding-aid taxonomy for human vetting,
+not human approval of resources or a published office taxonomy.
+
+**Save autoStGeorge.html is enabled at http://127.0.0.1:8769.** The new file replaces
+the older download, which does not update itself. Master file:
+`data/st-george-curation-20260919/autoStGeorge.html`. Audit/backup and all assignment
+excerpts: `data/st-george-curation-20260919/audit/navigation-20260920/`; Information
+before/after evidence is in the sibling `information-format-20260920/` directory.
+The actual download matches the inspected resource seed and artifact ID.
+
+Current contract-v2 review recorded at **2026-09-20 13:50:22 UTC** for fingerprint:
+`fc38acb44b43e653216154f2409c3aa068bc2e161c778a89dc81eb9e173eac1b`.
+Navigation proposal SHA-256:
+`c0b7b875952edcb60b567e81b2569f7fa69f6d234332fe0638c338de94933466`.
+
+Scout now blocks review completion for missing Information sections, Type coverage,
+or navigation review decisions. Navigation changes also invalidate prior approval.
+The monitor describes outstanding requirements. `AGENTS.md` now requires the
+[workbench readiness checklist](docs/scout-workbench-readiness.md), including actual
+reader/editor and Type/For-filter inspection. Structural checks do not establish
+semantic correctness; the separate requested Codex review remains necessary.
+
+Monitor-only restart: PID **50733**, serving port **8769** with the new code. No
+research/curation worker or supervisor was active at verification. Check processes
+before acting; do not restart completed work. The earlier review snapshot below
+is historical and superseded for delivery readiness by this correction.
+
+## Earlier resource-content review — September 20 (delivery assessment superseded)
 
 All **21 categories** completed curation at September 20, 07:03:46 UTC. Michael
 requested the separate Extra High review; it is now complete and recorded for the

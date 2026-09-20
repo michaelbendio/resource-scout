@@ -1,3 +1,9 @@
+> Current Scout workbench contract: use Stephanie's four headings in
+> [scout-workbench-readiness.md](scout-workbench-readiness.md). The older enrichment
+> layout and provider workflow below are historical; do not invoke that workflow
+> to repair current Information formatting or taxonomy. Current worker restrictions
+> in SCOUT_STATUS.md and scout-orchestration.md apply.
+
 # Resource Scout curation and enrichment
 
 Resource Scout can freeze an existing `auto[Location].html` into a durable,

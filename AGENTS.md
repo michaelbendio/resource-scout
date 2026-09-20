@@ -18,3 +18,10 @@ When curation finishes, hand off as **Ready for Codex review**. Michael starts a
 Codex session to request that review. Follow the review checklist and completion
 recording instructions in `docs/scout-orchestration.md`; do not automatically
 launch a paid review worker or mark a review complete just to enable Save.
+
+A requested post-curation review also requires reading and completing
+[`docs/scout-workbench-readiness.md`](docs/scout-workbench-readiness.md).
+Resource-content checks alone do not make the workbench ready: verify Stephanie's
+four rendered Information sections, useful Category Types with complete assignments,
+and an evidenced For-group design with explicit no-group decisions. Inspect the
+actual browser filters and editor. Do not record completion merely to enable Save.
