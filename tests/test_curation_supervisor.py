@@ -4,10 +4,20 @@ import unittest
 from pathlib import Path
 from unittest.mock import Mock, patch
 
-from resource_research_agent.curation_supervisor import load_launch, recovery_decision, supervise
+from resource_research_agent.curation_supervisor import load_launch, recovery_decision, supervise, notify_local
 
 
 class CurationSupervisorTests(unittest.TestCase):
+    def test_notification_records_failure_without_claiming_user_saw_it(self):
+        for code, expected in ((0, 'requested'), (1, 'failed')):
+            with patch('resource_research_agent.curation_supervisor.subprocess.run',
+                       return_value=Mock(returncode=code, stderr='permission error' if code else '')):
+                outcome = notify_local('Curation stopped: inconsistent links')
+            self.assertEqual(expected, outcome['status'])
+            self.assertFalse(outcome['displayConfirmed'])
+        with patch('resource_research_agent.curation_supervisor.subprocess.run', side_effect=OSError('not available')):
+            self.assertEqual('failed', notify_local('Stopped')['status'])
+
     def decision(self, **kwargs):
         settings = dict(complete=False, exported=False, done=2, limit=21,
                         last_phase='codex-curation-active', last_message='Working',

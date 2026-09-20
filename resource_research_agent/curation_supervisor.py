@@ -65,13 +65,16 @@ def load_launch(path: Path) -> tuple[dict[str, Any], Path, Path, int, int]:
     return launch, database, output, int(value("--import-id")), int(value("--max-categories"))
 
 
-def notify_local(message: str) -> None:
+def notify_local(message: str) -> dict[str, Any]:
     script = 'on run argv\ndisplay notification (item 1 of argv) with title "Resource Scout"\nend run'
     try:
-        subprocess.run(["osascript", "-e", script, message], capture_output=True,
-                       timeout=10, check=False)
-    except (OSError, subprocess.TimeoutExpired):
-        pass  # SQLite/UI and supervisor status remain the authoritative alert.
+        result = subprocess.run(["osascript", "-e", script, message], capture_output=True,
+                                text=True, timeout=10, check=False)
+        return {"status": "requested" if result.returncode == 0 else "failed",
+                "exitCode": result.returncode, "error": result.stderr.strip()[:1000],
+                "displayConfirmed": False}
+    except (OSError, subprocess.TimeoutExpired) as error:
+        return {"status": "failed", "error": str(error)[:1000], "displayConfirmed": False}
 
 
 def supervise(manifest: Path, *, attach_pid: int | None, maximum_restarts: int = 2,
@@ -149,12 +152,15 @@ def supervise(manifest: Path, *, attach_pid: int | None, maximum_restarts: int =
                 state["status"] = decision
                 atomic_json(status_path, state)
                 if notify:
-                    notify_local("Curation complete — ready for your requested Codex review."
-                                 if decision == "ready-for-codex-review"
-                                 else f"Curation stopped at {done}/{len(job['categories'])}: {decision}. Check the Scout monitor.")
+                    state["notification"] = notify_local(
+                        "Curation complete — ready for your requested Codex review."
+                        if decision == "ready-for-codex-review"
+                        else f"Curation stopped at {done}/{len(job['categories'])}: {latest.get('message', decision)[:200]}")
+                    atomic_json(status_path, state)
                 if decision not in ("ready-for-codex-review", "category-limit-reached"):
                     store.record_scout_curation_progress(job_id, "codex-curation-stopped",
-                        f"Supervisor stopped: {decision}. {latest.get('message', '')}", details=state)
+                        f"Supervisor stopped: {decision}. {latest.get('message', '')}",
+                        category_id=active[0]["categoryId"] if active else latest.get("categoryId"), details=state)
                 return state
             # Charge the durable coordinator budget BEFORE launch. A supervisor
             # crash must not reset it or allow unlimited launches.

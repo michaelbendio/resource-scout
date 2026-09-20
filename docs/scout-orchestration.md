@@ -281,3 +281,56 @@ resizing, semantic-result repair and OS-reboot recovery remain unimplemented.
 New evidence JSON is written over multiple lines so a line search does not return
 an entire minified document. Resumption accepts the prior representation only when
 its parsed value still matches the sealed assignment, and never rewrites its bytes.
+
+
+## Structural self-correction after the Education stop
+
+Michael explicitly asked to fix the worker workflow that produced the Education
+placeholder. After a result fails validation, Scout now allows one additional
+Codex correction attempt for that sealed batch/result at the configured effort
+(currently High), with web search disabled and a 600-second maximum. This is
+curation output correction, not the separately requested final Codex review.
+
+The `structural-repair-1` directory retains the original output, exact validation
+error, prompt, native events and proposed correction. Code permits only candidate /
+resource link reconciliation using associations asserted on at least one side of
+the original output. It forbids changed facts, IDs, curation decisions, omission
+reasons or candidate coverage. A non-resource placeholder may be removed only
+under the explicit marker, unreferenced-row, matching-program and retained-candidate
+checks in `curation_result_repair.py`. A failed or unsafe correction stops; a
+restart does not grant another paid attempt. Both structural checks and full
+curation validation must pass before completion. Ordinary valid results cost no
+additional worker call.
+
+For a supervising assistant's evidence-backed correction, `reviewed-result-repair.json`
+records the original byte hash, corrected result/hash, reviewer, timestamp, reason
+and evidence. The loader rejects a changed original, a hash mismatch or a changed
+sealed assignment/category identity; it still runs all normal validation. This
+supports repair of unfinished batches without overwriting native output. Completed
+category corrections continue to use `scout_curation_result_revisions`.
+
+The Education batch-3 correction removed only `res-duplicate-placeholder-remove`;
+all 30 decisions and the actual SUU tutoring entry were unchanged. It used no new
+AI call. Its audit record is `audit/education-batch3-placeholder-repair.json` under
+the curation output directory. The five completed category hashes were captured
+before resumption. This fixes the observed defect but does not guarantee that every
+future content error is structurally repairable.
+
+Stopped curation now has a prominent stopped headline and correction-needed panel.
+The supervisor retains the active category in its terminal event. Notification
+requests record success/failure details and explicitly do not claim the user saw
+a notification; macOS notification delivery remains outside Scout's control.
+
+
+## Where AI participates in this run
+
+Michael reaffirmed the separate post-curation review on September 19 evening.
+Research uses Codex primary plus Grok challenger. Curation uses fresh Codex High
+workers for the saved batches: candidate decisions, source checks, resource text,
+alias merging and reuse of prior program IDs happen there. Deterministic code
+validates each output, combines batches and persists category completion. The
+supervisor itself is ordinary code, with no general AI judgment. A failed
+structural validation can invoke the single constrained High correction described
+above; a valid result does not incur another AI call. This remains distinct from
+Michael later asking a Codex assistant to conduct the broader post-curation review
+at Extra High, including substantive decisions and cross-category consistency.

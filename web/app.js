@@ -147,6 +147,9 @@ function friendlyProgressPhase(value) {
     'codex-curation-batch-completed': 'Curation',
     'codex-curation-completed': 'Category curated',
     'codex-curation-stopped': 'Curation needs attention',
+    'codex-curation-repair-started': 'Correcting saved curation result',
+    'codex-curation-repair-active': 'Correcting saved curation result',
+    'codex-curation-repair-completed': 'Curation result corrected',
     'category-assigned': 'Curation',
     'category-completed': 'Curation',
     'curation-heartbeat': 'Curation',
@@ -312,16 +315,22 @@ function renderScoutProgress(progress) {
   const readyForCuration = ['ready-for-curation', 'codex-first-research-complete', 'focused-research-complete'].includes(progress.phase)
     && progress.research.total > 0 && progress.research.completed >= progress.research.total;
   const effortReview = progress.phase === 'curation-awaiting-effort-review';
+  const curationStopped = progress.phase === 'codex-curation-stopped';
   const nextStep = document.querySelector('#curation-next-step');
-  nextStep.hidden = !!progress.reviewFile || !(readyForCuration || effortReview);
-  document.querySelector('#curation-next-step-title').textContent = effortReview
+  nextStep.hidden = !!progress.reviewFile || !(readyForCuration || effortReview || curationStopped);
+  document.querySelector('#curation-next-step-title').textContent = curationStopped
+    ? 'Curation stopped — correction needed'
+    : effortReview
     ? 'Curation paused for an effort discussion'
     : 'Research complete — ready to curate and consolidate';
-  document.querySelector('#curation-next-step-detail').textContent = effortReview
+  document.querySelector('#curation-next-step-detail').textContent = curationStopped
+    ? `Completed work is saved. ${progress.message} Ask Codex to inspect and resume the unfinished work.`
+    : effortReview
     ? 'Completed work is saved. Review the category comparison with Codex and agree on effort before continuing.'
     : 'Discuss curation effort with Codex before starting. During validation, Scout waits for that decision.';
   document.querySelector('#scout-progress-title').textContent = progress.reviewFile
     ? awaitingReview ? 'Curation complete — ready for Codex review' : `${reviewFilename} is ready`
+    : curationStopped ? 'Curation stopped — needs attention'
     : effortReview ? 'Curation paused for an effort discussion'
     : readyForCuration ? 'Research complete — ready to curate and consolidate'
     : `Creating ${reviewFilename}`;

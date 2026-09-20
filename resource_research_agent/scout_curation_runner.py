@@ -23,6 +23,7 @@ from .storage import ResearchStore
 from .worker_failures import classify_worker_failure, native_error
 from .worker_lifecycle import record_worker
 from .curation_recovery import recover_result
+from .curation_result_repair import repair_once, is_explicit_placeholder
 
 
 def encode(value: Any) -> str:
@@ -146,6 +147,8 @@ def validate_links(assignment: dict[str, Any], result: dict[str, Any]) -> None:
               for g in assignment.get("availableForGroups", [])}
     links: dict[str, set[str]] = {}
     for resource in result.get("resources", []):
+        if is_explicit_placeholder(resource):
+            raise ValueError(f"Non-resource placeholder row: {resource.get('id')}")
         if set(resource.get("forGroups", [])) - groups:
             raise ValueError(f"Unknown For group on {resource.get('id')}")
         for candidate_id in resource.get("candidateIds", []):
@@ -165,6 +168,20 @@ def read_worker_result(directory: Path) -> dict[str, Any]:
     """
     original = (directory / "result.json").read_bytes()
     result = json.loads(original)
+    repair_path = directory / "reviewed-result-repair.json"
+    if repair_path.exists():
+        repair = json.loads(repair_path.read_text())
+        corrected = repair.get("result")
+        if (not isinstance(corrected, dict) or not str(repair.get("reason", "")).strip()
+                or not repair.get("evidence") or not repair.get("reviewedAt")
+                or repair.get("reviewer") != "supervising-codex"
+                or repair.get("originalSha256") != hashlib.sha256(original).hexdigest()
+                or repair.get("resultSha256") != hashlib.sha256(encode(corrected).encode()).hexdigest()):
+            raise ValueError(f"Invalid reviewed result repair: {repair_path}")
+        for key in ("assignmentSha256", "categoryId", "scoutCurationResultSchemaVersion"):
+            if corrected.get(key) != result.get(key):
+                raise ValueError(f"Reviewed repair changed sealed identity: {key}")
+        result = corrected
     resources, seen, removed = [], set(), []
     for resource in result.get("resources", []):
         encoded = encode(resource)
@@ -186,8 +203,9 @@ def read_worker_result(directory: Path) -> dict[str, Any]:
 
 
 def execute_worker(directory: Path, *, binary: str, model: str, timeout: int,
-                   heartbeat: Any, effort: str = "high") -> None:
-    command = [binary, "--search", "--ask-for-approval", "never", "--sandbox", "read-only",
+                   heartbeat: Any, effort: str = "high", search: bool = True) -> None:
+    search_options = ["--search"] if search else ["--config", 'web_search="disabled"']
+    command = [binary, *search_options, "--ask-for-approval", "never", "--sandbox", "read-only",
                "exec", "--json", "--ephemeral", "--ignore-user-config", "--skip-git-repo-check",
                "--cd", str(directory), "--output-schema", str(directory / "schema.json"),
                "--output-last-message", str(directory / "result.json"), "--model", model,
@@ -246,6 +264,31 @@ def candidate_batches(assignment: dict[str, Any], max_candidates: int, max_chars
     return batches
 
 
+def validate_worker_result(job: dict, assignment: dict, raw: dict, folder: Path,
+                           args: argparse.Namespace, event: Any) -> dict:
+    category_id = assignment["category"]["id"]
+    def validate(value):
+        validate_links(assignment, value)
+        return validate_scout_curation_result(job, category_id, value)
+    try:
+        return validate(raw)
+    except ValueError as error:
+        event("codex-curation-repair-started",
+              f"Correcting {assignment['category']['label']} result links without repeating research: {error}",
+              category_id, effort=args.effort)
+        normalized = repair_once(
+            folder, raw, assignment, error, execute=execute_worker, validate=validate,
+            seal=write_once, binary=args.codex_binary, model=args.model, effort=args.effort,
+            timeout=args.timeout_seconds,
+            heartbeat=lambda elapsed: event("codex-curation-repair-active",
+                f"Correcting {assignment['category']['label']} saved result; no new research", category_id,
+                elapsedSeconds=round(elapsed), effort=args.effort))
+        event("codex-curation-repair-completed",
+              f"Corrected {assignment['category']['label']} result; facts and curation decisions preserved",
+              category_id, effort=args.effort)
+        return normalized
+
+
 def complete_batched_category(job: dict[str, Any], assignment: dict[str, Any], directory: Path,
                               args: argparse.Namespace, source_audit: str, event: Any) -> dict[str, Any]:
     from copy import deepcopy
@@ -278,11 +321,10 @@ def complete_batched_category(job: dict[str, Any], assignment: dict[str, Any], d
                 f"Curating {assignment['category']['label']}: batch {index}/{len(batches)}", category_id,
                 batch=index, totalBatches=len(batches), elapsedSeconds=round(elapsed), effort=args.effort))
         raw = read_worker_result(result_folder)
-        validate_links(part, raw)
         validation_job = deepcopy(job)
         category = next(c for c in validation_job["categories"] if c["categoryId"] == category_id)
         category.update(assignment=part, assignmentSha256=part["assignmentSha256"], status="assigned", result={"resources": prior})
-        normalized = validate_scout_curation_result(validation_job, category_id, raw)
+        normalized = validate_worker_result(validation_job, part, raw, result_folder, args, event)
         # Freeze normalization timestamps too, so resuming keeps later batch hashes stable.
         normalized_path = folder / "validated-result.json"
         if normalized_path.exists():
@@ -360,7 +402,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                         directory, execute_worker, binary=args.codex_binary, model=args.model,
                         timeout=args.timeout_seconds, effort=args.effort,
                         heartbeat=lambda elapsed: event("codex-curation-active", f"Curating {assignment['category']['label']}", category_id, elapsedSeconds=round(elapsed)))
-                    result = read_worker_result(result_folder)
+                    result = validate_worker_result(current, assignment, read_worker_result(result_folder),
+                                                    result_folder, args, event)
                 validate_links(assignment, result)
                 save_scout_curation_result(store, job_id, category_id, result)
                 event("codex-curation-completed", f"Completed {assignment['category']['label']}", category_id,

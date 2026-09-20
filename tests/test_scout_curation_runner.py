@@ -4,13 +4,14 @@ import json
 import tempfile
 import unittest
 import argparse
+import hashlib
 import zipfile
 from pathlib import Path
 from unittest.mock import patch
 
 from resource_research_agent.scout_curation_runner import (
     compact_assignment, execute_worker, validate_links, write_once,
-    run, candidate_batches, read_worker_result, write_evidence_once,
+    run, candidate_batches, read_worker_result, write_evidence_once, encode,
 )
 from resource_research_agent.storage import ResearchStore
 from resource_research_agent.importer import ResourcePackageImporter
@@ -19,6 +20,46 @@ from resource_research_agent.manual_consolidation import consolidate_manual_disc
 
 
 class CurationRunnerTests(unittest.TestCase):
+    def test_reviewed_repair_preserves_raw_output_and_keeps_validation_required(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            original = {"assignmentSha256": "sealed", "categoryId": "education",
+                        "scoutCurationResultSchemaVersion": 1,
+                        "resources": [{"id": "real", "candidateIds": ["1"]},
+                                      {"id": "stray", "candidateIds": ["1"]}],
+                        "candidateDispositions": [{"candidateId": "1", "disposition": "curated", "resourceIds": ["real"]}]}
+            raw = encode(original); (root / "result.json").write_text(raw)
+            with self.assertRaisesRegex(ValueError, "Inconsistent"):
+                validate_links({}, read_worker_result(root))
+            corrected = {**original, "resources": original["resources"][:1]}
+            repair = {"originalSha256": hashlib.sha256(raw.encode()).hexdigest(),
+                      "resultSha256": hashlib.sha256(encode(corrected).encode()).hexdigest(),
+                      "reviewer": "supervising-codex", "reviewedAt": "2026-09-19T20:00:00Z",
+                      "reason": "Removed reviewed stray placeholder; retained the real entry and all decisions.",
+                      "evidence": [{"removedResourceId": "stray", "retainedResourceId": "real"}],
+                      "result": corrected}
+            path = root / "reviewed-result-repair.json"; path.write_text(encode(repair))
+            self.assertEqual(corrected, read_worker_result(root))
+            validate_links({}, read_worker_result(root))
+            self.assertEqual(raw, (root / "result.json").read_text())
+            # An audited repair is not permission to bypass link validation.
+            invalid = {**corrected, "resources": []}
+            path.write_text(encode({**repair, "result": invalid,
+                "resultSha256": hashlib.sha256(encode(invalid).encode()).hexdigest()}))
+            with self.assertRaisesRegex(ValueError, "Inconsistent"):
+                validate_links({}, read_worker_result(root))
+            # Neither changed source bytes nor moving a correction to a different
+            # sealed assignment can silently reuse the review.
+            path.write_text(encode(repair)); (root / "result.json").write_text(raw + " ")
+            with self.assertRaisesRegex(ValueError, "Invalid reviewed"):
+                read_worker_result(root)
+            (root / "result.json").write_text(raw)
+            changed = {**corrected, "assignmentSha256": "different"}
+            path.write_text(encode({**repair, "result": changed,
+                "resultSha256": hashlib.sha256(encode(changed).encode()).hexdigest()}))
+            with self.assertRaisesRegex(ValueError, "sealed identity"):
+                read_worker_result(root)
+
     def test_readable_evidence_preserves_old_sealed_bytes_and_rejects_changed_values(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -67,32 +108,45 @@ class CurationRunnerTests(unittest.TestCase):
                                       import_id=import_id, source_audit=None, max_categories=1,
                                       codex_binary="never-call", model="test", timeout_seconds=60, effort="high", batch_candidates=1, batch_chars=60000)
             def worker(directory, **kwargs):
+                if directory.name == "structural-repair-1":
+                    self.assertFalse(kwargs["search"])
+                    repaired = json.loads((directory / "original-result.json").read_text())
+                    repaired["resources"] = [r for r in repaired["resources"] if r["id"] != "stray-placeholder"]
+                    (directory / "result.json").write_text(json.dumps(repaired))
+                    return
                 assignment = json.loads((directory / "assignment.json").read_text())
                 category = assignment["category"]["id"]
                 ids = [str(c["id"]) for c in assignment["candidates"]]
                 prior_ids = [c for r in assignment["previouslyCuratedResources"] if r["id"] == category for c in r["candidateIds"]]
-                (directory / "result.json").write_text(json.dumps({
+                result = {
                     "scoutCurationResultSchemaVersion": 1, "assignmentSha256": assignment["assignmentSha256"],
                     "categoryId": category,
-                    "resources": [{"id": category, "name": f"Direct {category}", "categories": [category], "candidateIds": prior_ids + ids}],
+                    "resources": [{"id": category, "name": f"Direct {category}", "categories": [category], "candidateIds": prior_ids + ids,
+                                   "website": f"https://example.org/{category}"}],
                     "candidateDispositions": [{"candidateId": c, "disposition": "curated", "resourceIds": [category], "reason": ""} for c in ids],
-                }))
+                }
+                if category == "food" and not prior_ids:
+                    result["resources"].append({"id": "stray-placeholder", "candidateIds": ids,
+                        "website": "https://example.org/food", "categories": [category],
+                        "name": "Duplicate placeholder remove", "description": "Duplicate placeholder",
+                        "informationText": "Duplicate placeholder remove"})
+                (directory / "result.json").write_text(json.dumps(result))
             with patch("resource_research_agent.scout_curation_runner.execute_worker", side_effect=worker) as launch:
                 first = run(args)
-                self.assertEqual(2, launch.call_count)
+                self.assertEqual(3, launch.call_count)  # two batches plus one structural correction
                 self.assertEqual("in-progress", first["status"])
                 self.assertEqual("curation-awaiting-effort-review",
                                  store.list_scout_curation_progress(first["jobId"])[-1]["phase"])
                 run(args)
-                self.assertEqual(2, launch.call_count)
+                self.assertEqual(3, launch.call_count)
                 args.max_categories = None
                 completed = run(args)
-                self.assertEqual(4, launch.call_count)
+                self.assertEqual(5, launch.call_count)
                 self.assertEqual("completed", completed["status"])
                 self.assertEqual(2, completed["resourceCount"])
                 self.assertTrue(Path(completed["reviewFile"]).exists())
                 self.assertEqual(completed, run(args))
-                self.assertEqual(4, launch.call_count)
+                self.assertEqual(5, launch.call_count)
                 Path(completed["reviewFile"]).write_text("Human edit")
                 with self.assertRaisesRegex(ValueError, "Review artifact changed"):
                     run(args)

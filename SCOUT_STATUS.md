@@ -16,6 +16,36 @@ stage as the current operating plan; a future unattended reviewer remains a
 possible improvement to evaluate separately. Human approval/phone verification
 are still separate from Codex review.
 
+## Education validation stop and recovery — September 19 evening
+
+Five categories are completed: Addiction, Children/Pregnancy, Clothing/Household,
+Disability and Domestic Violence. Education stopped at batch 3 of 9 on September
+19, 19:58 UTC (1:58 p.m. Mountain): candidate 1648 had a valid SUU tutoring record
+plus a stray row literally named "Duplicate placeholder remove". The native worker
+finished normally; exact-link validation stopped curation. No authentication or
+usage failure was observed. The original supervisor stopped as `needs-attention`.
+
+The supervising assistant removed only that placeholder in a hash-bound reviewed
+repair. All 30 decisions and the real tutoring entry remain unchanged. Education
+batches 1 and 2 and all five completed categories are preserved. Audit:
+`data/st-george-curation-20260919/audit/education-batch3-placeholder-repair.json`.
+No additional worker call was used to repair this result.
+
+Michael asked to fix the worker workflow. Future validation failures now receive
+one bounded structural correction attempt at High, with web research disabled;
+code rejects factual changes, changed decisions or substantive resource removal.
+Saved corrections survive restarts, and failed corrections do not repeat. See the
+latest section of `docs/scout-orchestration.md`. This is not the final Codex review.
+
+Curation resumed at September 20, 01:45 UTC (September 19, 7:45 p.m. Mountain).
+Supervisor PID **39227**, coordinator **39230**, and Education batch-4 worker
+**39237** were verified alive. Education batches 1–3 are validated; batch 4 of 9
+is running at High. All five completed category result hashes remain unchanged.
+The persistent supervisor retained its existing recovery counter (2 of 3 launches
+used). Verify the current `supervisor-status.json`, actual processes and SQLite
+state; these and the older PIDs below are handoff snapshots. The monitor stays
+at **http://127.0.0.1:8769**. Finish at **Ready for Codex review**.
+
 ## Curation resumed at High — September 19, 17:28 UTC
 
 Michael read the comparison, selected High and explicitly instructed: "Continue

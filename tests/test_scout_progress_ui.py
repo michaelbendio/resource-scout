@@ -34,6 +34,13 @@ assert.equal(nodes.get('#curation-next-step').hidden, true); // 0 completed can 
 renderScoutProgress({...base, phase:'curation-awaiting-effort-review', curation:{completed:2,total:21}});
 assert.equal(nodes.get('#curation-next-step').hidden, false);
 assert.match(nodes.get('#scout-progress-title').textContent, /paused/);
+renderScoutProgress({...base, phase:'codex-curation-stopped', curation:{completed:5,total:21}, message:'Inconsistent candidate/resource links: 1648'});
+assert.equal(nodes.get('#curation-next-step').hidden, false);
+assert.match(nodes.get('#scout-progress-title').textContent, /stopped/);
+assert.match(nodes.get('#curation-next-step-detail').textContent, /1648/);
+renderScoutProgress({...base, phase:'codex-curation-repair-active'});
+assert.equal(nodes.get('#curation-next-step').hidden, true);
+assert.equal(nodes.get('#scout-progress-phase').textContent, 'Correcting saved curation result');
 renderScoutProgress({...base, phase:'awaiting-codex-review', reviewFile:{readyForSave:false,filename:'autoWelfareSquare.html'}});
 assert.equal(nodes.get('#review-file-download').hidden, true);
 assert.match(nodes.get('#scout-progress-title').textContent, /ready for Codex review/);
