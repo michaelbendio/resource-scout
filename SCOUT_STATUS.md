@@ -38,7 +38,10 @@ prompt together and is not a holdout. No production architecture switch is justi
 yet; see the report's task-diversity and independent-verification recommendations.
 
 Production curation continues independently under supervisor 39227/coordinator
-39230. Latest observed state: Education batch 9/9, five categories completed.
+39230. At September 20, 02:20 UTC, Education completed all nine batches:
+255 candidates, 135 resource proposals. Six categories are complete; Employment
+batch 1/2 started automatically at High. The saved batch-3 repair was reused;
+completed Education did not need another research run.
 Monitor remains **http://127.0.0.1:8769**. These are snapshots; verify live state.
 
 ## Education validation stop and recovery — September 19 evening
