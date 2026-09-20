@@ -1,0 +1,941 @@
+{
+  "reviewedAt": "2026-09-19T20:17:31.676221-06:00",
+  "reviewer": "supervising Codex",
+  "interpretation": "Program-level evidence-screened research leads; not accepted resources, endorsement, full field verification, clinical quality judgment or measured curator minutes. Supported additions can still have factual corrections. One row is at most one addition. A generic directory does not mean its unmentioned members were already discovered. Source snapshots are in the assistant tool transcript; URLs and decision notes here make judgments reviewable.",
+  "manifest": {
+    "automaticRetries": 0,
+    "categories": [
+      {
+        "categoryId": "addiction",
+        "categoryLabel": "Addiction",
+        "historicalAssignmentSha256": "bb517189faab1ae62dd950c7a754f171eb60f85eba12a4dc962787c40b4eb4b0",
+        "historicalChallengerLeads": 11,
+        "historicalPrimaryPassHashes": [
+          "26289fbdadee15425a0e46d1ae245d465aec132a564c2d72f3fde5711ccf905e",
+          "43b7818441929d0126e1dd92edb5b4a202b31f97dc16acf85b018db1789969f9",
+          "448ebac8534065588c440733a52ab77ad7159e298c0178a8205301e788f69535",
+          "eb58ee8a409633e686f85ffac5d2b532ec76f915c45df74c4cecc46d240e2217",
+          "0764dd872c245cc86f318e044d59ede35a163b4a017b8dbdc32668c01bbcf4af"
+        ],
+        "promptSha256": "abba19d78396c45f685f012264cbb1d35c086960d68fd311e9912eb297f7e3a2",
+        "schemaSha256": "33b7d92003a6e85b3ac8435a29ccc31a4dc1edd4f4a04f712426d602aa74da15",
+        "sourceJobId": 1,
+        "workerDirectory": "/Users/michaelbendio/resource-scout-pairwise/data/codex-followup-pilot-20260920/workers/addiction"
+      },
+      {
+        "categoryId": "education",
+        "categoryLabel": "Education",
+        "historicalAssignmentSha256": "280065945db0764c42f531952d9689a595291582438e69053a7bf779677114d0",
+        "historicalChallengerLeads": 20,
+        "historicalPrimaryPassHashes": [
+          "7cb91dc0bcd8508898ddf02531f209ceacccef91cd65eac89d4a64002f4e4322",
+          "3805118e029d7b3df870526297d2847f5ef72cb325c130d4b532ef94bcf0ee39",
+          "5af4db43a04823c2f3e02c5a1df8d86876430e35226651a99933721096b8fbe0",
+          "95f31e289f000ccec96c4e8055fa86e4b7552d44b4dbc910e72c7a282064df1a",
+          "b1a85cd31955e5e236acbadd3c1a0f953c554b92a0e04ed2a0f4324eb394488e"
+        ],
+        "promptSha256": "3f4573dfa6c10519690ae7591e195bbe53cc8dc2d5ceb34fe8b7739f4bd8a0eb",
+        "schemaSha256": "33b7d92003a6e85b3ac8435a29ccc31a4dc1edd4f4a04f712426d602aa74da15",
+        "sourceJobId": 6,
+        "workerDirectory": "/Users/michaelbendio/resource-scout-pairwise/data/codex-followup-pilot-20260920/workers/education"
+      }
+    ],
+    "design": "Two-category exploratory replacement of saved Grok challenge by differently instructed Codex follow-up; primary reused unchanged.",
+    "effort": "high",
+    "limitations": [
+      "Provider and prompt differ together",
+      "Historical comparison; source/time effects possible",
+      "Known categories, one execution each, not a holdout",
+      "No human acceptance or measured curator time"
+    ],
+    "maximumLeadsPerWorker": 20,
+    "maximumWorkerCalls": 2,
+    "model": "gpt-5.5",
+    "preparedAt": "2026-09-20T02:07:03.875471+00:00",
+    "sourceDatabase": "/Users/michaelbendio/resource-scout-pairwise/data/pairwise-overnight-20260918-022703/codex-grok.sqlite3",
+    "sourceSha256": "9435f9862e6d6fb95e687a1eab55929264839832da38ccff60eac25fff671089",
+    "timeoutSecondsPerWorker": 900,
+    "version": 1
+  },
+  "metrics": [
+    {
+      "categoryId": "addiction",
+      "condition": "historical-grok",
+      "rawLeads": 11,
+      "assessments": {
+        "supported-addition": 11
+      },
+      "elapsedSeconds": 287.071657,
+      "timeBasis": "historical assignment window (includes orchestration)",
+      "supportedAdditionsPerMinute": 2.2990775435556148,
+      "counters": null
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "codex-followup",
+      "rawLeads": 11,
+      "assessments": {
+        "supported-addition": 7,
+        "duplicate-or-restatement": 1,
+        "unresolved": 1,
+        "unsuitable-for-increment": 2
+      },
+      "elapsedSeconds": 166.9135613749968,
+      "timeBasis": "native worker elapsed",
+      "supportedAdditionsPerMinute": 2.5162724738489395,
+      "counters": {
+        "nativeTopLevelTurns": 1,
+        "completedWebActions": 17,
+        "webActionsByType": {
+          "search": 15,
+          "other": 2
+        },
+        "searchQueries": 45,
+        "localCommandExecutions": 0,
+        "usage": [
+          {
+            "input_tokens": 117607,
+            "cached_input_tokens": 1408,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 6356,
+            "reasoning_output_tokens": 4179
+          }
+        ],
+        "failures": 0,
+        "retries": 0
+      }
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "rawLeads": 20,
+      "assessments": {
+        "supported-addition": 16,
+        "unresolved": 1,
+        "duplicate-or-restatement": 3
+      },
+      "elapsedSeconds": 249.424275,
+      "timeBasis": "historical assignment window (includes orchestration)",
+      "supportedAdditionsPerMinute": 3.848863547864377,
+      "counters": null
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "rawLeads": 20,
+      "assessments": {
+        "unsuitable-for-increment": 4,
+        "supported-addition": 16
+      },
+      "elapsedSeconds": 222.8427567909821,
+      "timeBasis": "native worker elapsed",
+      "supportedAdditionsPerMinute": 4.307970399506603,
+      "counters": {
+        "nativeTopLevelTurns": 1,
+        "completedWebActions": 17,
+        "webActionsByType": {
+          "search": 17
+        },
+        "searchQueries": 63,
+        "localCommandExecutions": 0,
+        "usage": [
+          {
+            "input_tokens": 121369,
+            "cached_input_tokens": 9600,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 9086,
+            "reasoning_output_tokens": 5345
+          }
+        ],
+        "failures": 0,
+        "retries": 0
+      }
+    }
+  ],
+  "assessments": [
+    {
+      "categoryId": "addiction",
+      "condition": "historical-grok",
+      "ordinal": 1,
+      "organization": "Family Healthcare",
+      "program": "Medication Assisted Treatment and integrated primary care for substance use disorders",
+      "assessment": "supported-addition",
+      "reason": "Local MAT provider absent from primary. Provider page confirms core service; specific drug, payer and immediate intake claims still need curation.",
+      "evidenceUrls": [
+        "https://www.familyhc.org/primary-care"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "historical-grok",
+      "ordinal": 2,
+      "organization": "Intermountain Health",
+      "program": "COMPASS (Community Outreach MAT Peer Addiction Support Services) - Washington County",
+      "assessment": "supported-addition",
+      "reason": "Distinct outpatient COMPASS pathway, not the primary jail-replication announcement or crisis access center. Official page lists Washington County and telehealth access.",
+      "evidenceUrls": [
+        "https://intermountainhealthcare.org/services/behavioral-health/compass-program"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "historical-grok",
+      "ordinal": 3,
+      "organization": "Upper Mesa Recovery",
+      "program": "Residential substance use treatment",
+      "assessment": "supported-addition",
+      "reason": "Distinct Hildale residential provider with current official admissions contact. Cost, eligibility and distance still matter.",
+      "evidenceUrls": [
+        "https://uppermesarecovery.com/"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "historical-grok",
+      "ordinal": 4,
+      "organization": "Addict II Athlete",
+      "program": "St. George free peer recovery meetings and active-recovery chapter",
+      "assessment": "supported-addition",
+      "reason": "Distinct local peer program. Correction: official page says April–October Wednesday 7pm, winter 6pm; saved Grok row generalized 6–7pm.",
+      "evidenceUrls": [
+        "https://www.addicttoathlete.com/supportgroup"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "historical-grok",
+      "ordinal": 5,
+      "organization": "The Church of Jesus Christ of Latter-day Saints",
+      "program": "Healing Through the Savior Addiction Recovery Program - Washington/St. George area meetings",
+      "assessment": "supported-addition",
+      "reason": "Distinct Church recovery/family program accessible through official local/remote finder. Specific claimed Washington Fields meeting not independently reverified here.",
+      "evidenceUrls": [
+        "https://addictionrecovery.churchofjesuschrist.org"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "historical-grok",
+      "ordinal": 6,
+      "organization": "Recovery Dharma",
+      "program": "St. George Recovery Dharma meetings",
+      "assessment": "supported-addition",
+      "reason": "Distinct Buddhist recovery program, not just an alias for USARA hosting it; current host calendar supports it.",
+      "evidenceUrls": [
+        "https://www.utahrecovers.org/locations/stg/"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "historical-grok",
+      "ordinal": 7,
+      "organization": "Adult Children of Alcoholics & Dysfunctional Families",
+      "program": "St. George ACA meeting",
+      "assessment": "supported-addition",
+      "reason": "Distinct family mutual-help program on current host calendar; generic primary family-support wording did not name ACA.",
+      "evidenceUrls": [
+        "https://www.utahrecovers.org/location/utah-support-advocates-for-recovery-awareness-usara-st-george/"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "historical-grok",
+      "ordinal": 8,
+      "organization": "Wellbriety / White Bison",
+      "program": "Wellbriety Southern Utah Sacred Fire Meeting",
+      "assessment": "supported-addition",
+      "reason": "Distinct culturally oriented recovery program on current host calendar, not an alias for USARA.",
+      "evidenceUrls": [
+        "https://www.utahrecovers.org/locations/stg/"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "historical-grok",
+      "ordinal": 9,
+      "organization": "Liahona Treatment Center / Liahona Academy",
+      "program": "Residential, day treatment, and intensive outpatient care for boys including substance abuse treatment",
+      "assessment": "supported-addition",
+      "reason": "Provider confirms adolescent co-occurring substance recovery groups. Narrow saved wording: provider explicitly says licensed mental-health residential, NOT licensed SUD center; no detox. Do not turn procedure codes into verified open PHP/IOP access.",
+      "evidenceUrls": [
+        "https://liahonaacademy.com"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "historical-grok",
+      "ordinal": 10,
+      "organization": "Falcon Ridge Ranch",
+      "program": "Residential treatment for adolescent girls with substance abuse groups",
+      "assessment": "supported-addition",
+      "reason": "Provider clinical page confirms substance-use groups within girls residential care. Licensing, safeguarding and current admission suitability require full curation; research lead is not endorsement.",
+      "evidenceUrls": [
+        "https://falconridgeranch.com",
+        "https://falconridgeranch.com/residential-treatment-center-program-ut/clinical/"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "historical-grok",
+      "ordinal": 11,
+      "organization": "U.S. Department of Veterans Affairs, VA Salt Lake City Health Care System",
+      "program": "St. George VA Clinic mental health and addiction treatment access, including DAV transportation",
+      "assessment": "supported-addition",
+      "reason": "VA clinic officially lists addiction-related mental-health care and access; distinct from primary Vet Center. Do not imply on-site MAT or detox without further evidence.",
+      "evidenceUrls": [
+        "https://www.va.gov/salt-lake-city-health-care/locations/st-george-va-clinic/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 1,
+      "organization": "Utah Tech University Institute for Continued Learning",
+      "program": "Institute for Continued Learning membership classes and clubs for adult lifelong learners",
+      "assessment": "supported-addition",
+      "reason": "Distinct Institute for Continued Learning membership program; primary Community Education is a different offering. Current official registration and fees support access.",
+      "evidenceUrls": [
+        "https://icl.utahtech.edu/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 2,
+      "organization": "Deseret Industries",
+      "program": "Ready for Work job training, development counseling, and education support at the St. George store",
+      "assessment": "supported-addition",
+      "reason": "Distinct DI paid training and education assistance; official application is through store. Do not silently impose a bishop-referral requirement from a secondary listing.",
+      "evidenceUrls": [
+        "https://www.deseretindustries.org/work-at-deseret-industries"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 3,
+      "organization": "Easterseals Senior Community Service Employment Program",
+      "program": "SCSEP paid community-service job training for low-income adults 55+ covering Washington County",
+      "assessment": "supported-addition",
+      "reason": "Distinct older-worker training. Utah 2026 SCSEP state plan confirms Easterseals-Goodwill Washington County operations; saved national URL alone is insufficient local intake guidance.",
+      "evidenceUrls": [
+        "https://www.easterseals.com/get-support/areas-of-support/senior-community-service-employment-program-scsep",
+        "https://daas.utah.gov/wp-content/uploads/2026/02/Utah-SCSEP-Four-Year-State-Plan-Update-2026-2.23.26-1.pdf"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 4,
+      "organization": "Immigrant Welcome Center, sponsored by The Church of Jesus Christ of Latter-day Saints",
+      "program": "Free evening English classes, self-reliance instruction, and immigrant service navigation",
+      "assessment": "unresolved",
+      "reason": "Saved 2024 news/JustServe lead may be real; current local class schedule and operating intake were not established in this bounded review. Not counted, not declared closed.",
+      "evidenceUrls": [
+        "https://www.justserve.org/projects/df6a5786-8ffa-4946-9e53-8e237f02950f"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 5,
+      "organization": "Evans Hairstyling College-St George",
+      "program": "Cosmetology certificate program with Pell Grants and institutional scholarships",
+      "assessment": "supported-addition",
+      "reason": "Distinct local cosmetology school with official application and financial-aid staff. Exact scholarship/price claims require current checking.",
+      "evidenceUrls": [
+        "https://evanshairstylingcollegestg.com/our-team/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 6,
+      "organization": "Utah Tech University Accessibility and Disability Center",
+      "program": "Disability accommodations, learning-specialist support, ADC tutoring, and disability scholarships",
+      "assessment": "supported-addition",
+      "reason": "Distinct disability accommodation enrollment, documentation and tutoring pathway. Primary general student support does not replace ADC registration.",
+      "evidenceUrls": [
+        "https://utahtech.edu/adcenter/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 7,
+      "organization": "Utah Tech University Concurrent Enrollment",
+      "program": "Concurrent Enrollment college-credit pathway for Washington County high-school students",
+      "assessment": "supported-addition",
+      "reason": "Distinct high-school dual-credit enrollment and payment pathway, beyond primary broad CTE listing.",
+      "evidenceUrls": [
+        "https://concurrent.utahtech.edu/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 8,
+      "organization": "Utah Tech University Hurricane Education Center",
+      "program": "Hurricane satellite campus CNA, POST, concurrent enrollment, community education, and testing",
+      "assessment": "duplicate-or-restatement",
+      "reason": "Hurricane access-point row substantially bundles CNA, POST and concurrent enrollment separately returned in this challenger. Retain location/testing details in those records; do not count an extra program for the address.",
+      "evidenceUrls": [
+        "https://hurricane.utahtech.edu/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 9,
+      "organization": "Utah Tech University Health Sciences",
+      "program": "Certified Nursing Assistant certificate and clinical (NURS 1005/1007), including concurrent enrollment",
+      "assessment": "supported-addition",
+      "reason": "Distinct Utah Tech CNA training and clinical enrollment; different provider/program from primary Dixie Tech general training.",
+      "evidenceUrls": [
+        "https://health.utahtech.edu/cna/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 10,
+      "organization": "Utah Tech University Peace Officer Standards and Training Academy",
+      "program": "Special Function Officer and Law Enforcement Officer academy at the Hurricane Education Center",
+      "assessment": "supported-addition",
+      "reason": "Distinct POST credential program and application route. Future session is relevant because applications are already open; source dates need confirmation when applying.",
+      "evidenceUrls": [
+        "https://post.utahtech.edu/application-process/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 11,
+      "organization": "Associated General Contractors of Utah",
+      "program": "DOPL-approved contractor pre-licensure and Business & Law exam prep in St. George",
+      "assessment": "supported-addition",
+      "reason": "Distinct AGC contractor licensing course with published St. George registration dates and fees.",
+      "evidenceUrls": [
+        "https://www.agc-utah.org/pre-licensure-training/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 12,
+      "organization": "Employment Services of The Church of Jesus Christ of Latter-day Saints",
+      "program": "St. George Employment Center job-search coaching, workshops, and computer access",
+      "assessment": "supported-addition",
+      "reason": "Distinct Church job-skills coaching, workshops and computer access. In scope as education/workforce preparation, although also suitable for Employment.",
+      "evidenceUrls": [
+        "https://local.churchofjesuschrist.org/en/employment-services/us/ut/st.-george/2480-e-red-cliffs-drive"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 13,
+      "organization": "Utah System of Higher Education",
+      "program": "Utah Promise Grant need-based aid for adult residents, including Dixie Technical College",
+      "assessment": "duplicate-or-restatement",
+      "reason": "Utah Promise is already named in primary Dixie Tech financial-aid row and Utah Tech Trailblazer Promise. Statewide overview is useful enrichment, not a new local funding identity.",
+      "evidenceUrls": [
+        "https://ushe.edu/utah-promise-grant/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 14,
+      "organization": "Utah System of Higher Education",
+      "program": "Opportunity Scholarship for Utah high-school graduates",
+      "assessment": "supported-addition",
+      "reason": "Distinct named merit scholarship absent from primary submitted evidence. Use current USHE graduation-year rules, not stale campus summary dates.",
+      "evidenceUrls": [
+        "https://ushe.edu/state-scholarships-aid/opportunity-scholarship/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 15,
+      "organization": "Utah Tech University Scholarships",
+      "program": "T.H. Bell Education Scholarship for future Utah educators and school-based licensed professionals",
+      "assessment": "supported-addition",
+      "reason": "Distinct teacher-preparation scholarship with official campus/state description; confirm next-cycle deadline.",
+      "evidenceUrls": [
+        "https://scholarships.utahtech.edu/state-of-utah-scholarships/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 16,
+      "organization": "my529 / Olene S. Walker Transition to Adult Living Scholarship",
+      "program": "TAL Scholarship for former Utah foster youth and unaccompanied refugee minors",
+      "assessment": "duplicate-or-restatement",
+      "reason": "TAL Scholarship explicitly named in primary DCFS education funding row. Direct application details improve that record, not new discovery credit.",
+      "evidenceUrls": [
+        "https://my529.org/tal/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 17,
+      "organization": "Utah National Guard Education Services",
+      "program": "State Tuition Assistance up to $7,000 per fiscal year",
+      "assessment": "supported-addition",
+      "reason": "Distinct Guard tuition assistance with official eligibility, portal and fiscal-year policy.",
+      "evidenceUrls": [
+        "https://guard.utah.gov/sta/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 18,
+      "organization": "Utah Tech University Academic Performance Center",
+      "program": "Free drop-in, appointment, and online tutoring for Utah Tech students",
+      "assessment": "supported-addition",
+      "reason": "Distinct subject tutoring program beyond primary academic coaching/general student navigation.",
+      "evidenceUrls": [
+        "https://tutoring.utahtech.edu/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 19,
+      "organization": "Boys & Girls Clubs of Utah",
+      "program": "St. George afterschool Power Hour, Project Learn, STEM, and homework help",
+      "assessment": "supported-addition",
+      "reason": "Provider sites directory and 2026 Paradise Canyon calendar confirm St. George homework/STEM program. Individual landing-page fetch failed; use corroborating official sources. Recheck current site fees.",
+      "evidenceUrls": [
+        "https://bgcutah.org/paradisecanyon/",
+        "https://bgcutah.org/sites/",
+        "https://bgcutah.org/wp-content/uploads/2026/01/Paradise-Canyon-February-Calendar-1.pdf"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "historical-grok",
+      "ordinal": 20,
+      "organization": "Utah Tech University Registration / Scholarships",
+      "program": "HB 144 affidavit for resident tuition for undocumented students",
+      "assessment": "supported-addition",
+      "reason": "Distinct nonresident tuition waiver application missing from primary; official campus page links HB144 form. Eligibility must be checked against current policy.",
+      "evidenceUrls": [
+        "https://scholarships.utahtech.edu/state-of-utah-scholarships/"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "codex-followup",
+      "ordinal": 1,
+      "organization": "Intermountain Health",
+      "program": "COMPASS Program - Community Outreach MAT Peer Addiction Support Services",
+      "assessment": "supported-addition",
+      "reason": "Distinct COMPASS telehealth/OUD route. Confirmed official Washington County coverage.",
+      "overlapGrokOrdinal": 2,
+      "evidenceUrls": [
+        "https://intermountainhealthcare.org/services/behavioral-health/compass-program"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "codex-followup",
+      "ordinal": 2,
+      "organization": "Intermountain Health",
+      "program": "St. George Regional Hospital Behavioral Health - psychiatric inpatient and addiction-treatment pathway",
+      "assessment": "duplicate-or-restatement",
+      "reason": "Same hospital addiction/crisis admission route already represented by primary Access Center; inpatient department description does not establish a new independent intake route.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://prod.intermountainhealth.org/locations/st-george-regional-hospital/behavioral-health"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "codex-followup",
+      "ordinal": 3,
+      "organization": "Renaissance Recovery",
+      "program": "Renaissance Recovery St. George outpatient detox, PHP/IOP, and medication treatment",
+      "assessment": "unresolved",
+      "reason": "Government provider listing supports Renaissance Recovery, but older directory aliases connect the same phone to Renaissance Ranch; independence from primary Ranch and current detox/MAT details unresolved. Do not count as a verified additional provider.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://findrecoverycenter.com/facility/renaissance-recovery/"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "codex-followup",
+      "ordinal": 4,
+      "organization": "Calvary Chapel Saint George",
+      "program": "Recovery Ministry at The Harbor",
+      "assessment": "supported-addition",
+      "reason": "Official Calvary page confirms recurring local peer recovery ministry. Worker omitted church phone already on page; Harbor street address needs confirmation.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://www.calvarysg.com/care"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "codex-followup",
+      "ordinal": 5,
+      "organization": "The Church of Jesus Christ of Latter-day Saints",
+      "program": "Healing through the Savior: Addiction Recovery Program meeting finder",
+      "assessment": "supported-addition",
+      "reason": "Distinct official Church recovery program with local/remote meeting finder; no particular local meeting verified.",
+      "overlapGrokOrdinal": 5,
+      "evidenceUrls": [
+        "https://addictionrecovery.churchofjesuschrist.org/?lang=eng"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "codex-followup",
+      "ordinal": 6,
+      "organization": "SMART Recovery",
+      "program": "SMART Recovery online and meeting-finder support for addictive behaviors and Family & Friends",
+      "assessment": "supported-addition",
+      "reason": "Official SMART offers online mutual-help access; useful remote secular alternative, not a verified local meeting.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://smartrecovery.org/meeting"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "codex-followup",
+      "ordinal": 7,
+      "organization": "Recovery Dharma",
+      "program": "Recovery Dharma in-person St. George meeting",
+      "assessment": "supported-addition",
+      "reason": "Distinct Recovery Dharma program on USARA calendar.",
+      "overlapGrokOrdinal": 6,
+      "evidenceUrls": [
+        "https://www.utahrecovers.org/locations/stg/"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "codex-followup",
+      "ordinal": 8,
+      "organization": "Wellbriety Southern Utah",
+      "program": "Sacred Fire Meeting at St. George Recovery Community Center",
+      "assessment": "supported-addition",
+      "reason": "Distinct Wellbriety program on USARA calendar.",
+      "overlapGrokOrdinal": 8,
+      "evidenceUrls": [
+        "https://www.utahrecovers.org/locations/stg/"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "codex-followup",
+      "ordinal": 9,
+      "organization": "USARA - Utah Support Advocates for Recovery Awareness",
+      "program": "Fentanyl test strip distribution - St. George access point",
+      "assessment": "supported-addition",
+      "reason": "New concrete USARA test-strip pickup pathway; primary USARA entry did not identify strip distribution. DHHS confirms site. Hours conflict with USARA current host page (closed Friday); needs correction before use.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://opidemic.utah.gov/fentanyl-test-strips/fentanyl-test-strips-distribution/"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "codex-followup",
+      "ordinal": 10,
+      "organization": "Intermountain Health",
+      "program": "PATH Program - Peripartum Addiction Treatment and Healing",
+      "assessment": "unsuitable-for-increment",
+      "reason": "PATH direct treatment is restricted to Weber/Davis deliveries; promise to help other callers find resources does not establish an additional St. George service route. Worker disclosed limitation; do not label false local treatment.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://intermountainhealthcare.org/services/behavioral-health/path-program"
+      ]
+    },
+    {
+      "categoryId": "addiction",
+      "condition": "codex-followup",
+      "ordinal": 11,
+      "organization": "SAMHSA",
+      "program": "FindTreatment.gov and National Helpline",
+      "assessment": "unsuitable-for-increment",
+      "reason": "Generic national locator/helpline can be useful navigation, but does not satisfy this prompt’s request for an additional actionable service pathway. Keep as research infrastructure, not provider-discovery credit.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://www.findtreatment.gov/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 1,
+      "organization": "Washington County Library System",
+      "program": "Brainfuse HelpNow / Adult Learning Center",
+      "assessment": "unsuitable-for-increment",
+      "reason": "Wrong jurisdiction as submitted: wcpl.net is Washington County, Virginia; supplemental washcolibrary.org is Hagerstown, Maryland. Utah address/phone do not establish Utah library subscription or eligibility.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://www.wcpl.net/learn/databases/",
+        "https://www.washcolibrary.org/node/48"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 2,
+      "organization": "Washington County Library System",
+      "program": "Brainfuse JobNow",
+      "assessment": "unsuitable-for-increment",
+      "reason": "Wrong-jurisdiction library attribution: cited database belongs to Virginia, combined with Utah address/phone. No Utah JobNow entitlement established.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://www.wcpl.net/learn/databases/",
+        "https://www.washcolibrary.org/node/48"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 3,
+      "organization": "Washington County Library System",
+      "program": "DigitalLearn",
+      "assessment": "unsuitable-for-increment",
+      "reason": "Wrong-jurisdiction library attribution. DigitalLearn may be independently accessible online, but the submitted Utah library/card claim is unsupported; do not credit a repaired route as the worker’s discovery.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://www.wcpl.net/learn/databases/",
+        "https://www.washcolibrary.org/node/48"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 4,
+      "organization": "Washington County Library System",
+      "program": "Universal Class",
+      "assessment": "unsuitable-for-increment",
+      "reason": "Wrong-jurisdiction library subscription: cited page links washingtonva.universalclass.com, not a Utah library account.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://www.wcpl.net/learn/databases/",
+        "https://www.washcolibrary.org/node/48"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 5,
+      "organization": "The Church of Jesus Christ of Latter-day Saints / BYU-Pathway Worldwide",
+      "program": "EnglishConnect",
+      "assessment": "supported-addition",
+      "reason": "Distinct EnglishConnect program absent from primary and Grok. Official page supports free levels 1/2 and lower-cost level 3; local group availability remains to check.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://www.byupathway.edu/englishconnect"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 6,
+      "organization": "BYU-Pathway Worldwide",
+      "program": "PathwayConnect and Online Certificate/Degree Pathways",
+      "assessment": "supported-addition",
+      "reason": "Distinct BYU-Pathway route absent from primary and Grok. IMPORTANT correction: worker used legacy eligibility page and a test-portal URL. Current admissions allows membership OR willingness to commit to CES Honor Code, and age 16 with secondary completion. Do not publish old close-ties/age rules or test portal.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://www.byupathway.edu/",
+        "https://www.byupathway.edu/admissions"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 7,
+      "organization": "Utah System of Higher Education",
+      "program": "Utah FAFSA Help",
+      "assessment": "supported-addition",
+      "reason": "Distinct statewide FAFSA specialist contact beyond primary campus financial-aid office. Useful remote help; no access to personal FAFSA account.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://ushe.edu/fafsa/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 8,
+      "organization": "Utah System of Higher Education",
+      "program": "Admit Utah and College Access Resources",
+      "assessment": "supported-addition",
+      "reason": "Admit Utah is a concrete central application route, not merely a generic directory. Official USHE page links platform and supports statewide access.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://ushe.edu/utah-college-application-week/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 9,
+      "organization": "Utah State Board of Education",
+      "program": "Statewide Online Education Program (SOEP)",
+      "assessment": "supported-addition",
+      "reason": "Distinct state-funded online course enrollment route with SEATS/provider registration. Student/parent page confirms Utah grades 6–12; check school-type eligibility in current rules.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://www.schools.utah.gov/soep/index"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 10,
+      "organization": "Utah State University Statewide Campuses",
+      "program": "USU St. George Student Support and Degree Pathways",
+      "assessment": "supported-addition",
+      "reason": "Distinct USU degree/student-support route beyond primary USU Extension. Official St. George page supports advising/tutoring; confirm physical address and local versus remote availability before publication.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://statewide.usu.edu/stgeorge/student-support/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 11,
+      "organization": "Utah Tech University",
+      "program": "Academic Performance Center",
+      "assessment": "supported-addition",
+      "reason": "Distinct Utah Tech subject tutoring; same addition as historical Grok 18.",
+      "overlapGrokOrdinal": 18,
+      "evidenceUrls": [
+        "https://tutoring.utahtech.edu/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 12,
+      "organization": "Utah Tech University",
+      "program": "Accessibility and Disability Center",
+      "assessment": "supported-addition",
+      "reason": "Distinct Utah Tech disability accommodation intake; same addition as historical Grok 6.",
+      "overlapGrokOrdinal": 6,
+      "evidenceUrls": [
+        "https://utahtech.edu/adcenter/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 13,
+      "organization": "Utah Tech University",
+      "program": "Veteran and Military Services",
+      "assessment": "supported-addition",
+      "reason": "Distinct campus veteran/military education-benefit certification help. Complements, rather than duplicates, Grok’s Guard tuition funding program.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://veterans.utahtech.edu/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 14,
+      "organization": "Utah Tech University",
+      "program": "Prior Learning Assessment / Experiential Learning Credit",
+      "assessment": "supported-addition",
+      "reason": "Distinct prior-learning credit evaluation and portfolio pathway for enrolled adult students; not merely general adult admissions.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://academics.utahtech.edu/prior-learning-assessment/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 15,
+      "organization": "Utah Tech University",
+      "program": "Student Success Program",
+      "assessment": "supported-addition",
+      "reason": "Distinct admissions-assigned Utah Tech low-GPA support program; different institution/population from primary AmeriCorps Student Success and general Student Resource Center.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://ssc.utahtech.edu/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 16,
+      "organization": "Southern Utah Home Builders Association",
+      "program": "Education Program - Contractor Pre-License and Continuing Education",
+      "assessment": "supported-addition",
+      "reason": "Distinct SUHBA/HBA contractor course provider, unlike Grok AGC. Official registration route supports local continuing education. Worker omitted available contact phone; class-location detail needs checking.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://suhba.com/education-program/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 17,
+      "organization": "Utah Electrical Training Alliance",
+      "program": "Inside Wireman Apprenticeship Program",
+      "assessment": "supported-addition",
+      "reason": "Distinct electrical apprenticeship sponsor with statewide assignment/travel requirement expressly including St. George. Primary DOPL row named Dixie Tech, not UTETA; general sponsor directory does not count all sponsors as discovered.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://uteta.org/programs/careers-inside-wire/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 18,
+      "organization": "Ridgeview CNA Program",
+      "program": "Utah Nursing Assistant Registry-approved CNA classes",
+      "assessment": "supported-addition",
+      "reason": "Distinct local Ridgeview CNA school with direct intake and current evening class listing. Tuition/availability require curation, not a free-service claim.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://ridgeviewcna.com/"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 19,
+      "organization": "Chrysalis Utah LLC - St. George",
+      "program": "Disability-related pre-employment, job development, supported employment, and integrated community learning services",
+      "assessment": "supported-addition",
+      "reason": "Distinct Chrysalis provider with official DHHS St. George integrated learning/pre-employment listing. Funding/referral requirements unresolved but appropriately flagged.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://utahdhhs.211utah.org/provider/chrysalis-utah-llc-st-george"
+      ]
+    },
+    {
+      "categoryId": "education",
+      "condition": "codex-followup",
+      "ordinal": 20,
+      "organization": "Utah State Board of Education / Utah System of Higher Education",
+      "program": "Keys to Success and YouScience college/career readiness tools",
+      "assessment": "supported-addition",
+      "reason": "Concrete Keys to Success/YouScience student tools beyond primary broad district CTE row. Count this bundled lead once; do not inflate by splitting after the fact.",
+      "overlapGrokOrdinal": null,
+      "evidenceUrls": [
+        "https://www.schools.utah.gov/studentservices/_studentservicesprograms/_schoolcounseling/collegecareerreadiness"
+      ]
+    }
+  ]
+}

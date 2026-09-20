@@ -16,6 +16,31 @@ stage as the current operating plan; a future unattended reviewer remains a
 possible improvement to evaluate separately. Human approval/phone verification
 are still separate from Codex review.
 
+## Separate Codex complementary-assignment pilot — September 19 evening
+
+Michael authorized testing a differently scoped second assignment to the same
+model as an alternative to a different-model challenger. A bounded pilot reuses
+the sealed Codex primary for Addiction and Education from `codex-grok.sqlite3`.
+Two fresh Codex `gpt-5.5` High calls, maximum 900 seconds and 20 leads each, no
+automatic retries. This authorization supersedes older no-new-replay wording
+only for this isolated pilot. No Claude calls, production imports or research reruns.
+
+Plan and interpretation: [pilot review](docs/codex-followup-pilot-20260920.md).
+Evidence: `data/codex-followup-pilot-20260920/`. Both calls finished successfully
+at September 20, 02:14:50 UTC: 31 raw rows in 6.50 worker minutes, screened as 23
+supported additional leads (not accepted/publishable resources), versus 27 in the
+saved Grok comparison. Six supported identities overlap. Codex recovered
+EnglishConnect/BYU-Pathway but missed Family Healthcare MAT and returned four
+wrong-jurisdiction library entries plus outdated Pathway eligibility details.
+Pilot runner 40046 has finished; do not relaunch research. Saved results are
+reusable without another paid call. Historical comparison changes model and
+prompt together and is not a holdout. No production architecture switch is justified
+yet; see the report's task-diversity and independent-verification recommendations.
+
+Production curation continues independently under supervisor 39227/coordinator
+39230. Latest observed state: Education batch 9/9, five categories completed.
+Monitor remains **http://127.0.0.1:8769**. These are snapshots; verify live state.
+
 ## Education validation stop and recovery — September 19 evening
 
 Five categories are completed: Addiction, Children/Pregnancy, Clothing/Household,
