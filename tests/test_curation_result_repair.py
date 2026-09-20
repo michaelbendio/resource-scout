@@ -66,6 +66,12 @@ class CurationResultRepairTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'invented'):
             enforce_structural_changes(original, corrected, {})
 
+    def test_existing_prior_candidate_provenance_cannot_be_dropped(self):
+        original, corrected = self.results()
+        original['resources'][0]['candidateIds'].append('earlier-category-candidate')
+        with self.assertRaisesRegex(ValueError, 'prior candidate provenance'):
+            enforce_structural_changes(original, corrected, {'candidates': [{'id': '1'}]})
+
     def test_placeholder_with_distinct_evidence_or_identity_is_not_silently_dropped(self):
         for changes in ({'website': 'https://example.org/different'}, {'phone': '555'},
                         {'informationText': 'Children must be accompanied by an adult'},

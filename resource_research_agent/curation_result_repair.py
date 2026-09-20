@@ -35,12 +35,16 @@ def enforce_structural_changes(original: dict, corrected: dict, assignment: dict
     after = indexed(corrected["resources"], "id")
     if set(after) - set(before):
         raise ValueError("Structural repair added or renamed a resource")
+    assigned_ids = {str(c["id"]) for c in assignment.get("candidates", [])}
     for resource_id, resource in after.items():
         if is_explicit_placeholder(resource):
             raise ValueError(f"Structural repair retained a non-resource placeholder: {resource_id}")
         unchanged = lambda row: {k: v for k, v in row.items() if k != "candidateIds"}
         if unchanged(resource) != unchanged(before[resource_id]):
             raise ValueError(f"Structural repair changed resource facts: {resource_id}")
+        earlier_ids = set(map(str, before[resource_id].get("candidateIds", []))) - assigned_ids
+        if not earlier_ids <= set(map(str, resource.get("candidateIds", []))):
+            raise ValueError(f"Structural repair removed prior candidate provenance: {resource_id}")
     decisions_before = indexed(original["candidateDispositions"], "candidateId")
     decisions_after = indexed(corrected["candidateDispositions"], "candidateId")
     if set(decisions_before) != set(decisions_after):

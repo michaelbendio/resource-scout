@@ -77,6 +77,11 @@ class CurationRunnerTests(unittest.TestCase):
                 write_evidence_once(new, [{"id": "changed"}])
 
     def test_category_resume_and_completed_export_do_not_repeat_worker(self):
+        for batch_candidates in (0, 1):
+            with self.subTest(batch_candidates=batch_candidates):
+                self.exercise_category_resume(batch_candidates)
+
+    def exercise_category_resume(self, batch_candidates):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             package = root / "source.zip"
@@ -106,7 +111,7 @@ class CurationRunnerTests(unittest.TestCase):
                 finish_manual_discovery(store, run_id)
             args = argparse.Namespace(database=str(store.path), output=str(root / "out"),
                                       import_id=import_id, source_audit=None, max_categories=1,
-                                      codex_binary="never-call", model="test", timeout_seconds=60, effort="high", batch_candidates=1, batch_chars=60000)
+                                      codex_binary="never-call", model="test", timeout_seconds=60, effort="high", batch_candidates=batch_candidates, batch_chars=60000)
             def worker(directory, **kwargs):
                 if directory.name == "structural-repair-1":
                     self.assertFalse(kwargs["search"])
@@ -133,20 +138,20 @@ class CurationRunnerTests(unittest.TestCase):
                 (directory / "result.json").write_text(json.dumps(result))
             with patch("resource_research_agent.scout_curation_runner.execute_worker", side_effect=worker) as launch:
                 first = run(args)
-                self.assertEqual(3, launch.call_count)  # two batches plus one structural correction
+                self.assertEqual(3 if batch_candidates else 2, launch.call_count)
                 self.assertEqual("in-progress", first["status"])
                 self.assertEqual("curation-awaiting-effort-review",
                                  store.list_scout_curation_progress(first["jobId"])[-1]["phase"])
                 run(args)
-                self.assertEqual(3, launch.call_count)
+                self.assertEqual(3 if batch_candidates else 2, launch.call_count)
                 args.max_categories = None
                 completed = run(args)
-                self.assertEqual(5, launch.call_count)
+                self.assertEqual(5 if batch_candidates else 3, launch.call_count)
                 self.assertEqual("completed", completed["status"])
                 self.assertEqual(2, completed["resourceCount"])
                 self.assertTrue(Path(completed["reviewFile"]).exists())
                 self.assertEqual(completed, run(args))
-                self.assertEqual(5, launch.call_count)
+                self.assertEqual(5 if batch_candidates else 3, launch.call_count)
                 Path(completed["reviewFile"]).write_text("Human edit")
                 with self.assertRaisesRegex(ValueError, "Review artifact changed"):
                     run(args)

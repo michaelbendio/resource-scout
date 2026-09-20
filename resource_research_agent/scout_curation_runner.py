@@ -266,10 +266,17 @@ def candidate_batches(assignment: dict[str, Any], max_candidates: int, max_chars
 
 def validate_worker_result(job: dict, assignment: dict, raw: dict, folder: Path,
                            args: argparse.Namespace, event: Any) -> dict:
+    from copy import deepcopy
     category_id = assignment["category"]["id"]
+    # run() captured job before next_scout_curation_assignment persisted this
+    # assignment. Bind validation to the actual sealed input, including in the
+    # unbatched path; a stale pending snapshot must not trigger a paid correction.
+    validation_job = deepcopy(job)
+    category = next(c for c in validation_job["categories"] if c["categoryId"] == category_id)
+    category.update(assignment=assignment, assignmentSha256=assignment["assignmentSha256"], status="assigned")
     def validate(value):
         validate_links(assignment, value)
-        return validate_scout_curation_result(job, category_id, value)
+        return validate_scout_curation_result(validation_job, category_id, value)
     try:
         return validate(raw)
     except ValueError as error:
