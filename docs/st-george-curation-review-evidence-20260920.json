@@ -1,0 +1,467 @@
+{
+  "reviewDate": "2026-09-20",
+  "effort": "xhigh",
+  "scope": "Final risk-based review, targeted primary-source verification, complete structural and consolidation checks; not a fresh verification of every claim.",
+  "humanApproved": false,
+  "newScoutWorkerCalls": 0,
+  "verification": {
+    "resultFingerprint": "e5e014245310e23001079d365f21233a82b55427321a37f6a09131b7bbe67568",
+    "candidateDecisions": 2421,
+    "resources": 879,
+    "categories": 21,
+    "dispositions": {
+      "curated": 924,
+      "merged": 1135,
+      "omitted": 362
+    },
+    "categoryCounts": {
+      "addiction": {
+        "candidates": 196,
+        "resultRows": 72,
+        "finalResources": 78
+      },
+      "children-pregnancy": {
+        "candidates": 264,
+        "resultRows": 136,
+        "finalResources": 164
+      },
+      "clothing-household": {
+        "candidates": 147,
+        "resultRows": 40,
+        "finalResources": 42
+      },
+      "disability": {
+        "candidates": 314,
+        "resultRows": 161,
+        "finalResources": 176
+      },
+      "domestic-violence": {
+        "candidates": 238,
+        "resultRows": 90,
+        "finalResources": 92
+      },
+      "education": {
+        "candidates": 255,
+        "resultRows": 135,
+        "finalResources": 166
+      },
+      "employment": {
+        "candidates": 52,
+        "resultRows": 40,
+        "finalResources": 78
+      },
+      "financial-assistance": {
+        "candidates": 67,
+        "resultRows": 52,
+        "finalResources": 77
+      },
+      "reentry-support": {
+        "candidates": 72,
+        "resultRows": 60,
+        "finalResources": 62
+      },
+      "food": {
+        "candidates": 41,
+        "resultRows": 28,
+        "finalResources": 35
+      },
+      "medical-dental-vision": {
+        "candidates": 66,
+        "resultRows": 45,
+        "finalResources": 91
+      },
+      "homeless-services": {
+        "candidates": 56,
+        "resultRows": 36,
+        "finalResources": 40
+      },
+      "housing": {
+        "candidates": 85,
+        "resultRows": 71,
+        "finalResources": 89
+      },
+      "id-recovery": {
+        "candidates": 59,
+        "resultRows": 43,
+        "finalResources": 46
+      },
+      "immigration": {
+        "candidates": 55,
+        "resultRows": 44,
+        "finalResources": 46
+      },
+      "legal": {
+        "candidates": 87,
+        "resultRows": 78,
+        "finalResources": 93
+      },
+      "mental-health": {
+        "candidates": 79,
+        "resultRows": 70,
+        "finalResources": 98
+      },
+      "seniors": {
+        "candidates": 78,
+        "resultRows": 56,
+        "finalResources": 62
+      },
+      "transportation": {
+        "candidates": 63,
+        "resultRows": 47,
+        "finalResources": 48
+      },
+      "utilities-phone-internet": {
+        "candidates": 67,
+        "resultRows": 37,
+        "finalResources": 38
+      },
+      "veterans": {
+        "candidates": 80,
+        "resultRows": 71,
+        "finalResources": 78
+      }
+    },
+    "historicalSourceHashes": {
+      "codex-grok": "9435f9862e6d6fb95e687a1eab55929264839832da38ccff60eac25fff671089",
+      "codex-claude": "ff46c06dae2431cf30578088ecb80275aaf0389e433367128b983440e629337b",
+      "claude-grok": "715d4571cd21bc4c301e46856899c9c8ce0229c06b8f94b4b763376d8bed7910",
+      "five-worker-baseline": "82398c38c15fd4818f4d6d23008bf427adf84caf5d8d9d1fef9ac2f5c394134b"
+    },
+    "frozenSnapshotSha256": "9e058883b1ff95c00128a68038d30b2f3c8ae11f47e1948f55a856635457d4a0",
+    "unchangedNonCurationTables": {
+      "imports": 1,
+      "categories": 22,
+      "imported_resources": 0,
+      "known_terms": 0,
+      "research_seeds": 0,
+      "discoveries": 2832,
+      "discovery_contact_lookups": 0,
+      "research_runs": 27,
+      "manual_discovery_contributions": 299,
+      "manual_discovery_leads": 3763,
+      "manual_discovery_consolidations": 27,
+      "manual_discovery_identity_groups": 3495,
+      "manual_discovery_identity_members": 3763,
+      "manual_discovery_identity_decisions": 51,
+      "focused_research_jobs": 21,
+      "focused_research_passes": 112,
+      "codex_first_research_assignments": 21,
+      "codex_replay_studies": 0,
+      "codex_replay_categories": 0,
+      "research_run_reconciliations": 0,
+      "discovery_reconciliation_matches": 0,
+      "taxonomy_studies": 0,
+      "taxonomy_category_review_revisions": 0,
+      "taxonomy_category_redistribution_proposals": 0,
+      "taxonomy_category_approvals": 0,
+      "taxonomy_type_review_packets": 0,
+      "taxonomy_type_design_revisions": 0,
+      "taxonomy_group_review_packets": 0,
+      "taxonomy_group_inference_revisions": 0,
+      "taxonomy_compilations": 0,
+      "scout_workflow_progress_events": 0,
+      "chatgpt_assignment_schedules": 0,
+      "scout_enrichment_projects": 0,
+      "scout_enrichment_resources": 0,
+      "scout_enrichment_audits": 0,
+      "research_worker_telemetry": 87
+    },
+    "changedTables": [
+      "scout_curation_jobs",
+      "scout_curation_categories",
+      "scout_curation_progress_events",
+      "scout_curation_result_revisions",
+      "sqlite_sequence"
+    ],
+    "sqliteQuickCheck": "ok",
+    "htmlPath": "/Users/michaelbendio/resource-scout-pairwise/data/st-george-curation-20260919/autoStGeorge.html",
+    "htmlSha256": "e611b46b6d01de59f9a39d7f05a77a5f5ae0c13f0eac623b29fc7a05b52b0711",
+    "htmlBytes": 2309059,
+    "humanCuratedCount": 0
+  },
+  "findings": [
+    {
+      "key": "wrong-state-library",
+      "resourceIds": [
+        "res-washington-county-library-st-george-makerspace-learning-access"
+      ],
+      "reason": "The final Utah card imported computer-access rules from Washington County, Minnesota (washcolib.org). Replace them with Utah branch and fee policies.",
+      "evidence": [
+        {
+          "url": "https://library.washco.utah.gov/st-george/",
+          "checkedOn": "2026-09-20"
+        },
+        {
+          "url": "https://library.washco.utah.gov/services-fees/",
+          "checkedOn": "2026-09-20"
+        },
+        {
+          "url": "https://library.washco.utah.gov/st-george/makerspace/",
+          "checkedOn": "2026-09-20"
+        },
+        {
+          "url": "https://washcolib.org/m/faq?cat=15#question-70",
+          "checkedOn": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "key": "liahona-clinical-scope",
+      "resourceIds": [
+        "res-liahona"
+      ],
+      "reason": "Provider explicitly distinguishes its mental-health residential license from a substance-abuse treatment license. Remove unsupported day/PHP/IOP service claims.",
+      "evidence": [
+        {
+          "url": "https://liahonaacademy.com/",
+          "checkedOn": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "key": "sbhc-inclusive-title",
+      "resourceIds": [
+        "res-sbhc-outpatient"
+      ],
+      "reason": "The shared outpatient program serves youth and adults; pregnancy/parenting priority must not make the title exclude other clients.",
+      "evidence": [
+        {
+          "url": "https://www.sbhc.us/services/substance-use-disorders",
+          "checkedOn": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "key": "forensic-routing-66",
+      "resourceIds": [
+        "res-booth-wellness"
+      ],
+      "reason": "Later mental-health consolidation retained forensic scope but lost the dedicated routing number. Restore it without applying routine clinic restrictions to the separate forensic pathway.",
+      "evidence": [
+        {
+          "url": "https://sgcityutah.gov/departments/police_department/victim_services.php",
+          "checkedOn": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "key": "forensic-routing-85",
+      "resourceIds": [
+        "res-doctors-volunteer-clinic"
+      ],
+      "reason": "Later mental-health consolidation retained forensic scope but lost the dedicated routing number. Restore it without applying routine clinic restrictions to the separate forensic pathway.",
+      "evidence": [
+        {
+          "url": "https://sgcityutah.gov/departments/police_department/victim_services.php",
+          "checkedOn": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "key": "forensic-routing-88",
+      "resourceIds": [
+        "res-family-healthcare-women-children-integrated-care"
+      ],
+      "reason": "Later mental-health consolidation retained forensic scope but lost the dedicated routing number. Restore it without applying routine clinic restrictions to the separate forensic pathway.",
+      "evidence": [
+        {
+          "url": "https://sgcityutah.gov/departments/police_department/victim_services.php",
+          "checkedOn": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "key": "maternity-financial-access-98",
+      "resourceIds": [
+        "res-intermountain-stgeorge-nicu"
+      ],
+      "reason": "Candidate 673 was omitted on the premise that its financial-assistance route would appear inside clinical cards, but the actual contact was absent. Incorporate it and link the candidate.",
+      "evidence": [
+        {
+          "url": "https://intermountainhealthcare.org/for-patients/financial-assistance/utah-idaho-nevada",
+          "checkedOn": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "key": "maternity-financial-access-104",
+      "resourceIds": [
+        "res-intermountain-stgeorge-labor-delivery-women-newborn"
+      ],
+      "reason": "Candidate 673 was omitted on the premise that its financial-assistance route would appear inside clinical cards, but the actual contact was absent. Incorporate it and link the candidate.",
+      "evidence": [
+        {
+          "url": "https://intermountainhealthcare.org/for-patients/financial-assistance/utah-idaho-nevada",
+          "checkedOn": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "key": "rise-duplicate",
+      "resourceIds": [
+        "res-rise-services-st-george-child-youth-disability-supports"
+      ],
+      "reason": "Two IDs describe the same St. George branch and overlapping programs. Retain the earlier ID and preserve youth and adult pathways.",
+      "evidence": [
+        {
+          "url": "https://riseservicesincut.org/location/st-george/",
+          "checkedOn": "2026-09-20"
+        },
+        {
+          "url": "https://riseservicesincut.org/after-school-summer-programs/",
+          "checkedOn": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "key": "uald-duplicate",
+      "resourceIds": [
+        "res-utah-labor-commission-uald-disability-discrimination"
+      ],
+      "reason": "Both IDs cover the same employment and housing discrimination complaint intake. Keep the earlier ID, broader scope, and both filing-deadline pathways.",
+      "evidence": [
+        {
+          "url": "https://laborcommission.utah.gov/divisions/utah-antidiscrimination-and-labor-uald/employment-discrimination/",
+          "checkedOn": "2026-09-20"
+        },
+        {
+          "url": "https://laborcommission.utah.gov/divisions/utah-antidiscrimination-and-labor-uald/fair-housing/",
+          "checkedOn": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "key": "va-homeless-routing",
+      "resourceIds": [
+        "res-va-clinic"
+      ],
+      "reason": "Restore the national VA homeless-services phone lost when the final category rewrote the shared clinic summary.",
+      "evidence": [
+        {
+          "url": "https://www.va.gov/homeless/nationalcallcenter.asp",
+          "checkedOn": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "key": "housing-authority-lost-pathways",
+      "resourceIds": [
+        "res-st-george-housing-authority-section-8-public-housing"
+      ],
+      "reason": "The last shared version retained category/provenance links but dropped emergency-rent, VAWA, and homeless document-verification access instructions. Restore the questions to ask; do not promise current rental funds when the live page fails.",
+      "evidence": [
+        {
+          "url": "https://stgeorgehousingauthority.org/public-housing.html",
+          "checkedOn": "2026-09-20",
+          "status": "Live fetch failed; prior saved official-source curation evidence retained. Current waits require confirmation."
+        },
+        {
+          "url": "https://www.stgeorgehousingauthority.org/emergency-rental-assistance.html",
+          "checkedOn": null,
+          "status": "live fetch failed; preserved earlier category source evidence; current availability explicitly unconfirmed"
+        },
+        {
+          "url": "https://vitalrecords.utah.gov/homeless-service-providers",
+          "checkedOn": "2026-09-20"
+        },
+        {
+          "url": "https://vitalrecords.utah.gov/fee-waiver-fact-sheet",
+          "checkedOn": "2026-09-20"
+        },
+        {
+          "url": "https://dld.utah.gov/homeless-fee-waiver/",
+          "checkedOn": "2026-09-20"
+        },
+        {
+          "url": "https://www.hud.gov/vawa",
+          "checkedOn": "2026-09-20"
+        },
+        {
+          "url": "https://www.hud.gov/program_offices/public_indian_housing/programs/hcv/vash",
+          "checkedOn": "2026-09-20",
+          "status": "Live page body did not expose program detail; existing saved curation evidence retained. General VA referral route also supported by VA homeless services."
+        }
+      ]
+    },
+    {
+      "key": "produce-access-lost",
+      "resourceIds": [
+        "res-utah-dhhs-community-food-security-produce-benefits"
+      ],
+      "reason": "The senior rewrite retained the names Double Up and Produce Rx but lost the distinct local access routes. Restore them alongside senior eligibility.",
+      "evidence": [
+        {
+          "url": "https://dhhs.utah.gov/communityfood/",
+          "checkedOn": "2026-09-20"
+        },
+        {
+          "url": "https://www.familyhc.org/",
+          "checkedOn": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "key": "restore-local-housing-counselor",
+      "resourceIds": [
+        "res-sun-country-home-solutions-housing-counseling"
+      ],
+      "reason": "Candidate 2244 was excluded for being counseling-only although another housing counselor was retained. HUD/CFPB corroborate a usable local counseling route.",
+      "evidence": [
+        {
+          "url": "https://apps.hud.gov/offices/hsg/sfh/hcc/hcs_print.cfm?searchstate=UT&webListAction=search",
+          "checkedOn": "2026-09-20"
+        },
+        {
+          "url": "https://www.consumerfinance.gov/find-a-housing-counselor/?zipcode=84780",
+          "checkedOn": "2026-09-20"
+        }
+      ]
+    },
+    {
+      "key": "sun-bucks-source-uncertainty",
+      "resourceIds": [],
+      "reason": "Do not state that the currently fetched DWS page says summer 2026: it now says 2027. Retain omission as unresolved current access, not a proven 2026 closure.",
+      "evidence": [
+        {
+          "url": "https://jobs.utah.gov/customereducation/services/sebt/",
+          "checkedOn": "2026-09-20",
+          "finding": "Live page says summer 2027; earlier indexed text said 2026. No current application established."
+        }
+      ]
+    }
+  ],
+  "browser": {
+    "mode": "isolated headless Chrome",
+    "resourceCount": 879,
+    "categoryCount": 21,
+    "humanCuratedCount": 0,
+    "artifactId": "scout-review-0e5d057d882f7355cac589df",
+    "libraryDetailShowsCorrectedAccess": true,
+    "editorHumanCurated": "false",
+    "applicationExceptions": [],
+    "monitor": {
+      "title": "autoStGeorge.html created",
+      "detail": "21 curated categories \u00b7 879 proposed resources \u00b7 created 9/20/2026, 6:59:56 AM",
+      "saveText": "Save autoStGeorge.html",
+      "saveVisible": true,
+      "saveHref": "http://127.0.0.1:8769/api/scout-curation-jobs/1/review-file"
+    }
+  },
+  "download": {
+    "httpStatus": 200,
+    "bytes": 2309059,
+    "seedMatchesInspectedArtifact": true,
+    "artifactId": "scout-review-0e5d057d882f7355cac589df"
+  },
+  "handoff": {
+    "status": "created",
+    "readyForSave": true,
+    "resultFingerprint": "e5e014245310e23001079d365f21233a82b55427321a37f6a09131b7bbe67568",
+    "reviewedAt": "2026-09-20T12:59:55.693016+00:00",
+    "filename": "autoStGeorge.html",
+    "createdAt": "2026-09-20T12:54:00.070796+00:00",
+    "resourceCount": 879,
+    "categoryCount": 21,
+    "downloadUrl": "/api/scout-curation-jobs/1/review-file"
+  }
+}

@@ -4,6 +4,38 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Final curation review complete — September 20
+
+All **21 categories** completed curation at September 20, 07:03:46 UTC. Michael
+requested the separate Extra High review; it is now complete and recorded for the
+exact revised results at **12:59:55 UTC**. Read the
+[review report](docs/st-george-curation-review-20260920.md) and
+[evidence summary](docs/st-george-curation-review-evidence-20260920.json).
+
+The reviewed workbench contains **879 consolidated resource records** and retains
+all **2,421 candidate decisions**. The review corrected a Minnesota/Utah library
+source mix-up, overstated treatment scope, lost shared-resource access routes,
+two duplicate identities, an omitted local housing counselor, and a source-date
+uncertainty. Eighteen category results have versioned revisions; original worker
+outputs and sealed assignments remain preserved. All historical source databases
+and the frozen completed-research snapshot retain their original hashes.
+
+**Save autoStGeorge.html is enabled at http://127.0.0.1:8769.** The download endpoint
+returns the same resource seed and artifact ID as the inspected HTML. The local
+reviewed file is `data/st-george-curation-20260919/autoStGeorge.html`; audit evidence
+and the pre-review SQLite backup are in
+`data/st-george-curation-20260919/audit/final-review-20260920/`.
+
+Reviewed fingerprint:
+`e5e014245310e23001079d365f21233a82b55427321a37f6a09131b7bbe67568`.
+
+Next step is Michael's human vetting in the workbench. No human Curated flags were
+set, no phone verification or office publication was claimed, and no new worker
+was launched. At review time no research/curation worker or supervisor was active;
+the monitor remained running. Do not resume completed jobs. Earlier running
+snapshots and launch manifests below are historical, not current liveness evidence.
+Any later substantive result correction needs another fingerprint-bound review.
+
 ## Discovery and maintenance proposal — September 19 evening
 
 Michael requested a clean-sheet design for new-office discovery and maintenance
