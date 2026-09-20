@@ -4,6 +4,51 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Complete resource-by-resource group audit — September 20
+
+**All 879 resources have now been reviewed against all 25 existing For-group
+definitions.** Assignments changed on **554 resources**: 1,006 added and 36 removed.
+**782 resources** have groups; **97** have explicit no-specific-group decisions.
+The earlier sensory-parent correction below was a narrower check and is superseded
+by this complete audit. All 31 Deaf and 26 Blind resources also have People with
+disabilities. Children & teens AND People with disabilities returns 84 resources.
+
+Read the [full audit and group counts](docs/st-george-full-group-audit-20260920.md),
+[879-resource assignment list](docs/st-george-group-assignments-20260920.csv),
+[all decisions and evidence](docs/st-george-full-group-audit-evidence-20260920.json),
+and [download receipt](docs/st-george-full-group-audit-delivery-20260920.json).
+This is a semantic review of the final displayed records with four official-provider
+followups, not a new research run or telephone verification. Groups describe
+resource pathways; an AND match does not guarantee joint eligibility in one
+subprogram. All 879 resources still await human group confirmation and curation.
+
+Four source-supported Access clarifications explain Switchpoint family access,
+Utah Tech SRC student-parent/disability services, Suazo Spanish classes, and the
+Tech-Moms women's career course. Each category copy's original text remains
+preserved in place, with durable revision history. The 879 identities, all Category
+Types, 2,421 candidate decisions, sealed assignments, 36 research tables, frozen
+research snapshot and all historical comparison databases are unchanged.
+
+**Save autoStGeorge.html is enabled at http://127.0.0.1:8769.** A real browser Save
+click downloaded the final artifact and its seed matches the reviewed 879-resource
+seed. Download a fresh copy; an older saved HTML does not update itself. Master:
+`data/st-george-curation-20260919/autoStGeorge.html`. Audit/backup directory:
+`data/st-george-curation-20260919/audit/full-group-review-20260920/`.
+
+Navigation revision **4**, SHA-256:
+`98c41d2adf304ab2de21ec8222f1ad48292483b83b0469b4a7af26aa59b2de86`.
+Review recorded **2026-09-20 18:39:46 UTC**, fingerprint:
+`f4b75ec0f0e659885a462f373c6ce8b573c1a5d4f41b3d14c01ac0b370c7217c`.
+Artifact: `scout-review-5cdf20e7a9dc4a0be4939669`.
+
+Validated all category results, assignment and navigation evidence, preservation,
+and SQLite integrity. Browser checks passed: 38 Scout, 31 Resource Assistant,
+actual reader/editor, combined filters and Save download. Zero human Curated or
+human group-review flags were set. [Readiness instructions](docs/scout-workbench-readiness.md)
+now explicitly require the complete semantic ledger and consistency checks.
+Monitor-only PID **53076**, port **8769**, was verified; no worker was launched.
+Earlier review fingerprints and counts below are historical.
+
 ## AND group matching and explicit group checks — September 20
 
 The workbench now defaults to **Match all selected groups (AND)**, with **Match

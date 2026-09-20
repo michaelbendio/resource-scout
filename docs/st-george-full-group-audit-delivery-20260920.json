@@ -1,0 +1,34 @@
+{
+  "review": {
+    "status": "reviewed",
+    "readyForSave": true,
+    "resultFingerprint": "f4b75ec0f0e659885a462f373c6ce8b573c1a5d4f41b3d14c01ac0b370c7217c",
+    "reviewedAt": "2026-09-20T18:39:46.880510+00:00"
+  },
+  "download": {
+    "saveHref": "http://127.0.0.1:8769/api/scout-curation-jobs/1/review-file",
+    "downloadPath": "/Users/michaelbendio/resource-scout-pairwise/data/st-george-curation-20260919/audit/full-group-review-20260920/download/autoStGeorge.html",
+    "resourceCount": 879,
+    "categoryCount": 21,
+    "artifact": "scout-review-5cdf20e7a9dc4a0be4939669",
+    "reviewedSeedMatches": true,
+    "humanCuratedCount": 0,
+    "humanGroupReviewCount": 0
+  },
+  "navigationRevision": 4,
+  "navigationSha256": "98c41d2adf304ab2de21ec8222f1ad48292483b83b0469b4a7af26aa59b2de86",
+  "reportSha256": "db6e0525d2bd4bc6de76eac961f4590ddd88dec3c07e02dd47d2f34df80eec51",
+  "masterHtmlSha256": "f93b19513f2c2151752dc3adc7c36508b97594a24090fd92a2ab6d62d3764b68",
+  "downloadSha256": "c4f2962f49122ef1db879a08ed6e815e9eb01d7f697eb0f3aad4c16536916780",
+  "changedResources": 554,
+  "reviewedResources": 879,
+  "groupedResources": 782,
+  "explicitNoGroupResources": 97,
+  "browserAssertions": {
+    "Scout": 38,
+    "Resource Assistant": 31
+  },
+  "sourceFactsAndResearchPreserved": true,
+  "humanCuratedCount": 0,
+  "humanGroupReviewCount": 0
+}

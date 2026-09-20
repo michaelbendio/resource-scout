@@ -24,6 +24,16 @@ No new research or paid AI call is implied by this stage.
    ungrouped resource, explicitly record why a population label is not established.
    If no groups are justified anywhere, document that catalog-level conclusion too.
    Blank starting groups alone do not satisfy this review.
+   Review every resource against every defined group, including retained labels
+   and plausible missing labels. Keep a per-resource decision ledger with evidence
+   and explicit no-group reasons. A keyword scan, complete JSON coverage, or the
+   sensory-disability parent check does not establish semantic completeness.
+   Check consistent treatment of similar programs: adult-only parenting education
+   versus child services, paid care jobs versus family-carer support, school
+   seniors versus older adults, and documented language access versus ethnicity.
+   Resolve material source questions before delivery, or explicitly omit an
+   unsupported assignment and record why. An announced service without a confirmed
+   offering must not be presented as currently accessible.
 4. **Usability:** inspect Category Types, Browse by Group, search, and combined
    Type/For filters. Multiple Types use OR; multiple groups default to AND, with an explicit
    Match any option for OR. The two dimensions combine with AND. Check meaningful matches and empty combinations.
@@ -52,6 +62,18 @@ Spanish access does not establish ethnicity. Do not infer identities from names.
 Groups and Types in an auto workbench are proposals for human review, not silently
 approved canonical office taxonomy. Creating a new office's taxonomy and modifying
 an existing curated office taxonomy are separate decisions.
+
+Groups describe supported access pathways in a resource. For a record containing
+multiple programs, matching two groups does not establish that a single subprogram
+serves that intersection. Keep each program's eligibility and availability clear in
+Information. Do not equate an AI navigation audit with the editor's explicit human
+For-group review or its separate Curated flag.
+
+When adding a source-backed clarification to a resource appearing in multiple
+saved category results, preserve each category copy's own existing text. Append or
+revise through durable result revisions, verify against the pre-change snapshot,
+and rebind the navigation proposal to the resulting curation fingerprint. Do not
+copy the final merged description over all earlier category-specific versions.
 
 ## Scout enforcement and durable navigation
 
