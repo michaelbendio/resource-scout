@@ -4,6 +4,26 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Category view choice delivered — September 20
+
+**Scout 0.51.0, build 19** adds **Review priorities / All resources A–Z** above
+category results. The alphabetical choice shows one ungrouped list without AI
+priority notes. Both views retain Type/For filters, and the display preference
+persists across Categories and browser reloads. Review priorities remains the
+initial default. The same choice is available in group-browse category results.
+
+All 879 resource records, 1,699 priority assignments, human curation state and the
+reviewed artifact identity are unchanged. This is a presentation-only update;
+no research or curation worker ran and no content review was replaced. The
+[delivery evidence](docs/st-george-alphabetical-view-delivery-20260920.json) records
+89 browser assertions across all 21 Categories, unchanged seed/artifact, the
+actual Save download, and the passing 265-test suite (one optional skip).
+
+**Save the updated autoStGeorge.html at http://127.0.0.1:8769.** Master:
+`data/st-george-curation-20260919/autoStGeorge.html`. Audit/previous-HTML backup:
+`data/st-george-curation-20260919/audit/alphabetical-view-20260920/`.
+Monitor-only PID **57856**, port **8769**. Older versions/PIDs below are historical.
+
 ## Review priorities ready for Matt — September 20
 
 **Scout 0.51.0, build 18** now proposes a human review order in every Category:

@@ -3083,6 +3083,10 @@ let searchDetailResourceId = "";
 let searchResultReturnResourceId = "";
 let selectedCategoryFilters = {}; // categoryId -> transient selected category/For filters
 let categoryBrowseMode = "need";
+let scoutResourceView = "priorities";
+try{
+  if(localStorage.getItem(getStorageKey("ScoutResourceView")) === "alphabetical") scoutResourceView = "alphabetical";
+}catch(error){ /* A display preference must not prevent opening the workbench. */ }
 let selectedBrowseForGroups = [];
 let dismissedTipIds = (() => {
   try{
@@ -5223,6 +5227,33 @@ function setupScoutPriorityEditor(resource){
 
 function renderScoutPrioritySections(resources, categoryId, container){
   if(!isScoutReviewMode() || !data.scoutReviewPriorities) return false;
+  const switcher=document.createElement("div");
+  switcher.className="browse-mode-switch scout-resource-view-switch";
+  switcher.setAttribute("role","radiogroup");
+  switcher.setAttribute("aria-label","Category resource view");
+  for(const [value,text] of [["priorities","Review priorities"],["alphabetical","All resources A–Z"]]){
+    const label=document.createElement("label");
+    label.className=`browse-mode-option ${scoutResourceView===value ? "selected" : ""}`;
+    const input=document.createElement("input");
+    input.type="radio";input.name="scout-resource-view-"+categoryId;input.value=value;
+    input.checked=scoutResourceView===value;
+    input.onchange=()=>{
+      scoutResourceView=value;
+      try{ localStorage.setItem(getStorageKey("ScoutResourceView"),value); }catch(error){ /* Keep the choice for this session. */ }
+      safeRender();
+    };
+    const caption=document.createElement("span");caption.textContent=text;
+    label.append(input,caption);switcher.appendChild(label);
+  }
+  container.appendChild(switcher);
+  if(!resources.length){
+    const empty=document.createElement("p");empty.textContent="No matching resources";
+    container.appendChild(empty);return true;
+  }
+  if(scoutResourceView==="alphabetical"){
+    resources.slice().sort(compareResourcesByName).forEach(resource=>renderCategoryResourceCard(resource,container));
+    return true;
+  }
   const intro=document.createElement("p");intro.className="scout-priority-intro";
   intro.textContent="AI-proposed review priorities suggest where to begin. All resources remain available, and none is approved merely because it appears first. Counts reflect the resources shown with your current filters; Curated status is shared across categories.";
   container.appendChild(intro);
@@ -5291,6 +5322,7 @@ function renderCategoryResourceCard(res, container = appView, priorityCategoryId
 }
 
 function renderCategoryResources(filtered, activeFilters){
+  if(renderScoutPrioritySections(filtered,currentCategory,appView)) return;
   if(!filtered.length){
     const empty = document.createElement("p");
     empty.textContent = activeFilters.length ? "No matching resources" : "No resources in this category.";
@@ -5298,7 +5330,7 @@ function renderCategoryResources(filtered, activeFilters){
     return;
   }
 
-  if(!renderScoutPrioritySections(filtered,currentCategory,appView)) filtered.forEach(resource=>renderCategoryResourceCard(resource));
+  filtered.forEach(resource=>renderCategoryResourceCard(resource));
 }
 
 function renderCategoryView(){

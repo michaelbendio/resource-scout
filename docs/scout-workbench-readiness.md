@@ -54,7 +54,9 @@ No new research or paid AI call is implied by this stage.
    flags. Preserve browser-local work if Michael has already edited the older file.
    Also inspect priority sections, short reasons/questions, counts with active
    filters, personal overrides and reload, and shared Curated progress across
-   Categories. Search must still find Additional options. A priority change must
+   Categories. Offer Review priorities and All resources A–Z in every Category. Both views
+   must show the same matching resources and retain Type/For filters; the alphabetical
+   view must be one ungrouped list. Search must still find Additional options. A priority change must
    not approve a resource. New resource/category entries must show Needs priority
    review instead of inheriting an invented AI judgment. Priority metadata must
    not enter ordinary curated office resource packages.
