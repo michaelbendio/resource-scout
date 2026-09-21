@@ -4,6 +4,28 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Grok recovery verified: 15/21 complete — September 21, 09:14 MDT
+
+The resumed **Immigration** challenger completed at **15:14:34 UTC**: **9 candidate
+leads**, **325.4 seconds**, **3 turns**, **$0.83882052 CLI-reported cost**. This is
+candidate evidence, not accepted/curated resources; the reported cost is not an
+independent account-balance reading. All prior 81 completed Codex passes and 14
+Grok assignments were checked and preserved. The coordinator advanced to **Legal**
+Codex primary; **15/21 research Categories complete**. Runner **67887** and monitor
+**8770** remain active at verification. See
+[recovery evidence](docs/welfare-square-grok-resume-20260921.json).
+
+The $5 top-up and refreshed authentication resolved this attempt. Recent Grok
+assignments reported roughly $0.88–$1.03 each, so that top-up may not cover every
+remaining challenger. Explicit exhausted-balance errors now stop immediately;
+all 266 tests (one optional skip) and GitHub CI passed. Michael is considering
+all-Codex; no architecture switch is authorized or implemented by that discussion.
+
+The assistant observed the resumed Grok assignment through completion. There is
+no independent background research supervisor; do not promise continued assistant
+monitoring after the session ends. The saved runner continues the existing plan,
+with curation still gated separately. Earlier attempt snapshots below are historical.
+
 ## Welfare Square resumed after $5 Grok top-up — September 21
 
 Michael explicitly added $5 to Grok and requested resumption and observation.

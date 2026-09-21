@@ -1,0 +1,22 @@
+{
+  "verifiedAt": "2026-09-21T15:15:39.341034+00:00",
+  "resumedGrok": {
+    "provider": "Grok",
+    "category_label": "Immigration",
+    "outcome": "completed",
+    "elapsed_ms": 325414,
+    "lead_count": 9,
+    "completed_at": "2026-09-21T15:14:34.599277+00:00",
+    "totalCostUsd": 0.83882052,
+    "numTurns": 3
+  },
+  "completedCategories": 15,
+  "nextCategory": "Legal",
+  "priorCompletedPrimaryPassesPreserved": 81,
+  "priorCompletedChallengersPreserved": 14,
+  "suiteTests": 266,
+  "optionalSkips": 1,
+  "ci": "https://github.com/michaelbendio/resource-scout/actions/runs/35617130421",
+  "ciConclusion": "success",
+  "balanceErrorNowTerminal": true
+}
