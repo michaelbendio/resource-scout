@@ -226,3 +226,21 @@ Inspect the generated file before recording final review completion. Report tier
 counts by category and unique resources in Start here so repeated listings do not
 inflate the human workload estimate. Staff may override priority in their local
 workbench without altering the saved AI proposal or marking anything Curated.
+
+## Curation help and interface updates
+
+Generated auto[Location] files use curation-specific Help and Admin Help. Keep the
+red starting hint explicit: read both help sections; Ctrl+Alt+A (Control+Option+A
+on Mac) reveals Admin, then click Admin and Admin Help. Include Match all/any
+examples using available group labels, Stephanie's four headings, a printable
+first-resource walkthrough, printed-handout suitability, human Curated status,
+curated-batch export behavior, and browser-state/HTML/package distinctions.
+Verify the actual shortcut and buttons in the rendered workbench.
+
+When updating older workbench controls, retain the exact embedded seed, storage
+and artifact identifiers, extra attachment scripts, and existing question editor.
+Back up first; do not regenerate resources from a newer source or infer new group
+assignments as part of a controls upgrade. Preserve prior approval marks. Missing
+group-review confirmations remain honestly missing; an interface update is not
+a content review or authorization to invent priority proposals. Verify legacy
+persistence, questions and Match all/any behavior before replacing active copies.

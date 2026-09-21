@@ -2991,7 +2991,7 @@ let scoutReviewState = loadScoutReviewState();
 let data = null;
 const TIP_TEXT = {
   user: isScoutReviewMode()
-    ? "Curate resources in Admin. Save a resource package of the curated resources."
+    ? "Start by reading Help and Admin Help. Press Ctrl+Alt+A (Control+Option+A on a Mac) to show Admin. Click Admin, then Admin Help. Use its Curate your first resource walkthrough to begin."
     : "Click a category to see its resources and click a resource for details. Use the printer button to select it for printing. Use the star to add it to or remove it from Favorites.",
   newAdminWelcome: "Welcome to you, new admin. Press Ctrl+Alt+A to enter admin mode",
   newAdminMode: "This Scout review file is already configured for its local office."
@@ -3695,298 +3695,139 @@ function showAdminSetup(){
 
 function showUserHelp(){
   const modal = getReferenceModal();
-  const titleText = escapeHTML(getAppTitleText());
+  const location = escapeHTML(getScoutReviewConfig()?.locationName || "this office");
+  const youthGroup = escapeHTML(["Children & teens", "Youth", "Families with children"].find(label => (data.forGroups || []).includes(label)) || "Children & teens");
+  const disabilityGroup = escapeHTML(["People with disabilities", "Disabled Persons", "Disabled"].find(label => (data.forGroups || []).includes(label)) || "People with disabilities");
   modal.innerHTML = `
     <div class="reference-modal-panel" role="dialog" aria-modal="true" aria-labelledby="userHelpTitle">
       <div class="reference-modal-header">
-        <div id="userHelpTitle" class="reference-modal-title">User Help</div>
+        <div id="userHelpTitle" class="reference-modal-title">Help — Curating Resources</div>
         <button class="button reference-modal-close" type="button">Close</button>
       </div>
       <div class="reference-modal-body">
-        <h3>Finding Resources</h3>
-        <p>Select a category to view available resources.</p>
-        <p>The <strong>Lists</strong> category appears automatically when a resource is a list rather than a normal service record.</p>
-        <p>Some category pages include <strong>Type</strong> and <strong>For</strong> buttons that narrow the resources shown. For example, in Education, <strong>GED</strong> is a <strong>Type</strong> of educational resource, while <strong>Veterans</strong> identifies a group the resource is <strong>For</strong>.</p>
-        <p>If you select more than one <strong>Type</strong> or <strong>For</strong> button, resources matching any selection are shown. Resources matching more of your selections appear first.</p>
-        <h3>Search</h3>
-        <p>Search is available on the <strong>Categories</strong> screen.</p>
-        <p>Search checks resource names, descriptions, categories, <strong>Types</strong>, <strong>For</strong> groups, phone numbers, addresses, websites, hours, PDF names, and resource information. It also searches the automatically generated <strong>Lists</strong> category.</p>
-        <p>Enter words in any order; the words can appear in different parts of a resource. Each resource appears once in the results.</p>
-        <p>Select a result to see the full resource. Matching words in the displayed details are highlighted. Use a <strong>View in…</strong> button to open and expand the resource on one of its category pages.</p>
-        <h3>Favorites</h3>
-        <p>Click the outline star next to a resource to add it to <strong>Favorites</strong>. A filled star means the resource is a favorite. Click the filled star to remove it. Click the outline star beside <strong>Categories</strong> to view favorite resources.</p>
-        <h3>Selecting Resources for Printing</h3>
-        <p>Click the gray printer button next to a resource to select it for printing. A highlighted printer means the resource is selected.</p>
-        <h3>Print Preview and Printing</h3>
-        <p>Click 🖨️ in the top bar to open <strong>Print Preview</strong>.</p>
-        <p>In Print Preview, click a highlighted printer to remove that resource from the printed handout.</p>
-        <p>Review the selected resources and print the handout.</p>
-        <p>To save the handout as a PDF, choose <strong>Print</strong>, select <strong>Print to PDF</strong> as the printer, then click <strong>Print</strong> and choose where to save the file.</p>
-        <h3>Application Information</h3>
-        <p>Click <strong>${titleText}</strong> to see the current version number and recent updates and changes.</p>
-        <h3>Merging Resource Updates</h3>
-        <p>Click <strong>Categories</strong> in the top bar. The <strong>Merge Resources</strong> button is below the categories on the right side.</p>
-        <p>Click <strong>Merge Resources</strong>. In the file picker, find and select the resource package zip file you received. Wait for the merge to finish.</p>
+        <h3>Start here</h3>
+        <p>This is a curation workbench for <strong>${location}</strong>. Scout has researched and AI-reviewed proposed resources. Your local review determines which are ready to share with people seeking help.</p>
+        <p>Start by reading <strong>Help</strong> and <strong>Admin Help</strong>. Press <kbd>Ctrl+Alt+A</kbd> (<kbd>Control+Option+A</kbd> on a Mac) to show <strong>Admin</strong>. Click <strong>Admin</strong>, then <strong>Admin Help</strong>. The same keys hide Admin again.</p>
+        <h3>Choose what to review</h3>
+        <p>Open a category. If it has <strong>Review priorities</strong>, begin with <strong>Start here</strong>, then consider <strong>Important specialized help</strong> and <strong>Additional options</strong>. These are suggested review priorities, not approval or a judgment that specialized help matters less.</p>
+        <p>Where the view choices are available, select <strong>All resources A–Z</strong> to see all resources in that category in one alphabetical list. Categories without a priority proposal already use an alphabetical list. Active filters still apply; clear them to see the whole category. You can review and save a useful batch without finishing the entire file.</p>
+        <h3>Find resources for a particular need</h3>
+        <p><strong>Categories</strong> identify broad needs. <strong>Types</strong> identify kinds of help within a category. <strong>For</strong> groups identify people served. Search on the Categories screen looks across resource names and information.</p>
+        <p>When selecting For groups, <strong>Match all selected groups</strong> is the default. For example, select <strong>${youthGroup}</strong> and <strong>${disabilityGroup}</strong> to show only resources tagged for <strong>both</strong> groups: help for children and teens with disabilities.</p>
+        <p>Choose <strong>Match any selected group</strong> with those same selections to show resources tagged for <strong>${youthGroup}</strong>, <strong>${disabilityGroup}</strong>, or <strong>both</strong>. This gives a broader list, including resources tagged for only one of those groups.</p>
+        <p>These choices apply to For groups. Multiple Types match any selected Type. Tags help you find proposals; read each resource's eligibility requirements. If results seem incomplete, clear the groups or try Match any: a missing tag can hide useful help.</p>
+        <h3>Read with the person seeking help in mind</h3>
+        <ul>
+          <li><strong>Eligibility Requirements:</strong> Who qualifies, and what proof is needed?</li>
+          <li><strong>How to Best Connect:</strong> What should the person do first?</li>
+          <li><strong>Access:</strong> Where and when is help available? Is an appointment required?</li>
+          <li><strong>Important Information to Know:</strong> What costs, limits, documents, or other facts could affect the next step?</li>
+        </ul>
+        <p>Print the resource to check whether it makes a useful, understandable handout. In Admin's resource editor, <strong>Print</strong> beside <strong>Done</strong> previews the open resource, including unsaved edits. Outside Admin, select a resource's printer button and open the top-bar print preview.</p>
+        <h3>What Curated means</h3>
+        <p>The human reviewer marks a resource <strong>Curated</strong> when satisfied it is ready to include in a resource package. Reading it, changing its priority, or an AI review does not mark it Curated. Leave unresolved resources unchecked and continue with others.</p>
+        <p>A resource can appear in several categories; its information and Curated status are shared across them. Its review priority can differ by category. Admin Help explains editing, checking groups, and saving a package of curated resources.</p>
       </div>
     </div>
   `;
   const closeBtn = modal.querySelector(".reference-modal-close");
   if(closeBtn) closeBtn.addEventListener("click", closeReferenceModal);
   modal.classList.remove("hidden");
+  if(closeBtn) closeBtn.focus();
 }
 
 function showAdminHelp(options = {}){
-  const expandTraining = !!(options && options.expandTraining);
-  const scoutReview = isScoutReviewMode();
   const modal = getReferenceModal();
-  const adminEntryTipHTML = expandTraining && isNewTemplateFile()
-    ? `<div class="red-tip new-admin-tip">${escapeHTML(TIP_TEXT.newAdminMode)}</div>`
-    : "";
-  const curateHelpHTML = scoutReview ? `
-        <details open>
-          <summary>Curate</summary>
-          <div class="admin-help-section-body">
-            <p>Open <strong>Resources</strong>, select a resource, and click <strong>Edit</strong> to curate its public information, Categories, Types, and For groups.</p>
-            <p>Use <strong>Print</strong> beside <strong>Done</strong> to preview the resource currently open in the editor exactly as it will appear in a missionary's printed handout. The preview includes edits that have not yet been saved.</p>
-            <p>When the resource is ready to be included in a resource package, click <strong>Curated</strong> beside <strong>Done</strong>. The button is a toggle. A check mark beside the resource in the Resources list means it is curated.</p>
-            <p><strong>Delete</strong> removes a selected proposed resource or category from this review copy immediately after confirmation. Deleting a category removes that category from its resources, but the resources themselves remain available for review.</p>
-            <p>Click <strong>Save a package of <em>n</em> curated resources</strong> beside the Resources heading to save only the checked resources. After a successful save, those resources leave the active review list but remain in this file's saved package history.</p>
-          </div>
-        </details>
-  ` : "";
   modal.innerHTML = `
     <div class="reference-modal-panel" role="dialog" aria-modal="true" aria-labelledby="adminHelpTitle">
       <div class="reference-modal-header">
-        <div id="adminHelpTitle" class="reference-modal-title">Admin Help</div>
+        <div id="adminHelpTitle" class="reference-modal-title">Admin Help — Curating Resources</div>
         <div class="reference-modal-actions">
           <button class="button" type="button" id="adminHelpPrintButton">Print</button>
           <button class="button reference-modal-close" type="button">Close</button>
         </div>
       </div>
       <div class="reference-modal-body admin-help-content">
-        ${adminEntryTipHTML}
-        <p><strong>NOTE:</strong> The <strong>Lists</strong> category is generated automatically. It is not edited in <strong>Categories</strong>. A resource appears in <strong>Lists</strong> when it has no phone, website, or hours, which usually means it is a list such as food pantries, shelters, rooms, or temp agencies.</p>
-
-        ${curateHelpHTML}
-
-        <details class="admin-training-section" ${expandTraining ? "open" : ""}>
-          <summary>First-Time Admin Training</summary>
+        <p>Use this workbench to verify proposed resources, make their information useful, and save the resources you are ready to share. Read <strong>Help</strong> for browsing and review priorities. Press <kbd>Ctrl+Alt+A</kbd> (<kbd>Control+Option+A</kbd> on a Mac) to show or hide the <strong>Admin</strong> entry. Click <strong>Admin</strong> to open the workspace.</p>
+        <details class="admin-training-section" open>
+          <summary>Curate your first resource</summary>
           <div class="admin-help-section-body">
-            <div class="admin-training-actions">
-              <button class="button" type="button" id="adminTrainingPrintButton">Print Training</button>
-            </div>
-            <p>This walkthrough introduces the <strong>Categories</strong>, <strong>Resources</strong>, and <strong>For</strong> editors. You'll create a practice resource, assign <strong>Types</strong> and <strong>For</strong> groups, review the change log, save a resource package, and see how the update appears to users.</p>
-            <p><strong>Setup for an untitled file:</strong> Most administrators can begin with the training steps below. Complete this setup step only if the blue bar says <code>&lt;New&gt; TSO Resources</code>.</p>
+            <div class="admin-training-actions"><button class="button" type="button" id="adminTrainingPrintButton">Print Walkthrough</button></div>
             <ol>
-              <li>Scout has already configured this review file for its local office.</li>
-            </ol>
-            <p><strong>Training steps:</strong></p>
-            <ol>
-              <li>Click <strong>Categories</strong> in the blue bar, then click the <strong>Education</strong> category. It says, <code>No resources in this category</code>.</li>
-              <li>Click <strong>Admin</strong> in the blue bar.</li>
-              <li>We'll discuss <strong>Save Resource Package</strong> later. <strong>Categories</strong>, <strong>Resources</strong>, and <strong>For</strong> are editors.</li>
-              <li>On the left is a list of the standard categories. You can add <strong>New</strong> categories or <strong>Delete</strong> existing ones.</li>
-              <li>On the right is the category editor. If you make a change you should describe it. Your description will appear in the change log and will inform the users of what has changed.</li>
-              <li>Click <strong>Education</strong> in the list of categories.</li>
-              <li><strong>Types</strong> describe specific kinds of help within a category. Education includes <strong>GED</strong> and other Types. The <strong>Resources in this category</strong> list on the right is empty.</li>
-              <li>Click the <strong>For</strong> button above the list of categories. An Education resource, for example, might be for Spanish speakers.</li>
-              <li>Click <strong>Resources</strong>. We'll create a practice resource that will tie all this together.</li>
-              <li>Click <strong>New</strong>. Name the resource <code>Education Practice [your initials]</code>. Fill in something for <strong>Phone</strong>, <strong>Address</strong>, <strong>Website</strong>, and <strong>Hours</strong>.</li>
-              <li>In <strong>Description</strong>, enter <code>This is a practice resource for training purposes.</code></li>
-              <li>In <strong>Describe this update</strong>, enter <code>new</code>.</li>
-              <li>In <strong>For</strong>, click <strong>Spanish speaking</strong> and <strong>Veterans</strong>.</li>
-              <li>In <strong>Categories</strong>, click <strong>Education</strong> and then click <strong>GED</strong>.</li>
-              <li>In the <strong>Information</strong> section, click <strong>Edit</strong>.</li>
-              <li>Type the following in the text area:
-                <pre class="admin-training-sample"><code>**Practice formatting for this resource**
----
-* here's a bullet
-* __this text is underlined__</code></pre>
-                Now click the <strong>Preview</strong> button.
-              </li>
-              <li>Click the blue <strong>Done</strong> button, then click the <strong>Categories</strong> button in the blue bar.</li>
-              <li><strong>Education</strong> now shows an <strong>Updates: [number]</strong> button. Select it to review the change. Then click <strong>Categories</strong> and click <strong>Education</strong> again.</li>
-              <li>Click <strong>GED</strong> to show your practice resource as a GED Type.</li>
-              <li>Click <strong>Spanish speaking</strong> or <strong>Veterans</strong> or both. Your practice resource is for them.</li>
-              <li>Click <strong>Admin</strong> in the blue bar again. Click <strong>Show change log</strong>. Click <strong>Save Resource Package</strong> and choose the location for the resource package. Remember where you put it.</li>
-              ${scoutReview
-                ? `<li>Click <strong>Resources</strong>, select your practice resource, and click <strong>Delete</strong>. Confirm that you want to remove it from this review copy. Press <kbd>Ctrl+Alt+A</kbd> to exit admin mode.</li>`
-                : `<li>Click <strong>Resources</strong>, select your practice resource, and click <strong>Delete</strong>. The resource remains active and is labeled <strong>tagged for deletion</strong>. Click <strong>Undo tagged resource ... for deletion</strong> so the practice resource is no longer tagged. Press <kbd>Ctrl+Alt+A</kbd> to exit admin mode.</li>`}
-              <li>Under the category buttons, on the right side, click <strong>Merge Resources</strong>. Choose the resource package zip you saved.</li>
-              <li>In the Education category, click the gray square on the left of your practice resource. Use the printer icon in the blue bar to print your practice resource.</li>
+              <li>Browse a category and choose a proposal. Where priorities are available, begin with <strong>Start here</strong>. Note its name.</li>
+              <li>Use the shortcut to show <strong>Admin</strong>, click <strong>Admin</strong>, open <strong>Resources</strong>, select that resource, and click <strong>Edit</strong>.</li>
+              <li>Check that the service is current and serves this office's area. Verify eligibility, contact route, hours or appointments, costs, and significant limits against the provider's information. Contact the provider when important facts remain unclear.</li>
+              <li>Read and correct the Description, contact fields, and all four Information sections. Keep unresolved facts explicit. Make the next step clear to the person seeking help.</li>
+              <li>Check every Category, its Types, and all applicable For groups. Read the group definitions and confirm the group review. If none applies, explicitly confirm that no specific group applies.</li>
+              <li>Use <strong>Print</strong> beside <strong>Done</strong> to preview the resource, then print it to check its suitability as a handout. Check readability, length, contact details, and whether the next step is understandable.</li>
+              <li>When the resource is ready to share, click <strong>Curated</strong> beside <strong>Done</strong>. If it needs more checking, leave it unchecked and click <strong>Done</strong> to save your edits. Add a brief update description when useful.</li>
+              <li>After reviewing a useful batch, use <strong>Save a package of n curated resources</strong> beside the Resources heading. Keep the downloaded ZIP for handoff. You do not need to finish the category or the entire file first.</li>
             </ol>
           </div>
         </details>
-
-        <details class="admin-publishing-help">
-          <summary>Publish to SharePoint</summary>
-          <div class="admin-help-section-body">
-            <p>Every office-specific file shows <strong>Publish to SharePoint</strong> immediately to the left of <strong>Admin Help</strong>.</p>
-            <p>Complete <strong>Office Setup</strong> first. Then open the current SharePoint package from the publishing panel and click SharePoint's Download arrow. TSO Resources detects the completed download, shows <strong>Merging</strong>, merges the canonical package with the prepared local data, reapplies approved deletions, and saves the configured package filename.</p>
-            <p>After <strong>Merge complete</strong>, review the saved package version, filename, save time, resource changes, approved deletions, and SharePoint destination. Click <strong>Upload to SharePoint</strong>, upload the file, and choose <strong>Replace</strong>.</p>
-            <p>After SharePoint finishes, click <strong>I replaced the package</strong>. This records the administrator's confirmation in local publishing history; TSO Resources cannot independently verify the upload.</p>
-            <p>If Edge saves the download somewhere unexpected, use <strong>Select downloaded package</strong>. Change the destination or folder in <strong>Office Setup</strong> if the office workflow moves.</p>
-          </div>
-        </details>
-
-        <details class="admin-publishing-help">
-          <summary>Office Setup</summary>
-          <div class="admin-help-section-body">
-            <p><strong>Office Setup</strong> shows the office name, storage ID, expected package filename, and SharePoint package URL carried by this office HTML file.</p>
-            <p>Each computer separately authorizes its download folder and keeps its own publishing history. Use <strong>Test Configuration</strong> until the panel says <strong>Setup complete</strong>. Office setup and publishing history are never exported in a resource package.</p>
-          </div>
-        </details>
-
         <details>
-          <summary>Recovery Points</summary>
+          <summary>Verify a resource</summary>
           <div class="admin-help-section-body">
-            <p><strong>Recovery points</strong> are automatic snapshots made before resource package merges, including guided SharePoint merges. The five newest are kept on this computer and labeled with the save time, package version, and source filename.</p>
-            <p>Use <strong>Restore</strong> only after checking the label. Restoring replaces current edits with the selected snapshot but keeps the recovery history.</p>
+            <p>Verify the actual program, not just that an organization exists. Check current service, geographic eligibility, who qualifies, required documents, the best contact route, hours or appointments, fees, waitlists, and other access limits.</p>
+            <p>Prefer the provider's current information. Contact the provider when important facts are unclear or conflicting. A failed webpage does not establish that a program has closed. Do not turn uncertainty into a confident statement.</p>
+            <p><strong>Verified</strong> records a month and year. Use <strong>Update</strong> when you have actually checked the resource; opening a proposal or reading Scout's text is not verification.</p>
           </div>
         </details>
-
         <details>
-          <summary>Before You Edit</summary>
+          <summary>Edit useful Information and check the handout</summary>
           <div class="admin-help-section-body">
-            <p>Before editing, make sure your resource data is current. If you have received a newer resource package, merge it before making changes.</p>
-            <p>To load a newer resource package:</p>
-            <ol>
-              <li>Go to the <strong>Categories</strong> screen.</li>
-              <li>Click <strong>Merge Resources</strong>.</li>
-              <li>Choose the latest resource package zip.</li>
-              ${scoutReview ? "" : `<li>If tagged deletions are present, review their consequences and approve or keep each one.</li>`}
-              <li>Wait for the merge to finish before making edits.</li>
-            </ol>
-            <p>Packages are merged using the time each category or resource was last changed. Editing an older copy can make outdated information appear newer and prevent the correct version from replacing it.</p>
-          </div>
-        </details>
-
-        <details>
-          <summary>How do I share my work?</summary>
-          <div class="admin-help-section-body">
-            <p>Admin edits are saved in your browser first. They are not shared with anyone else until you export a new resource package.</p>
-            <p>After a batch of edits:</p>
-            <ol>
-              <li>Click <strong>Show change log</strong> and review the listed changes.</li>
-              <li>Click <strong>Save Resource Package</strong>. When supported by your browser, the save picker starts in the folder where you opened the merged resource package.</li>
-              <li>Save the resource package zip.</li>
-              <li>If you are a resource missionary, send that resource package zip to the office admin. The admin merges it into the current office package before publication.</li>
-            </ol>
-            <p><strong>Save Resource Package</strong> commits any open editor changes, increases the package version, and exports the current data. Users see the changes after they merge the resource package into their TSO file.</p>
-          </div>
-        </details>
-
-        <details>
-          <summary>Categories</summary>
-          <div class="admin-help-section-body">
-            <p>Use <strong>Categories</strong> to manage the sections users see on the main screen.</p>
-            <p><strong>New</strong> creates a blank category. Enter the category label, add any Types for that category, describe the update, and click <strong>Done</strong>.</p>
-            <p><strong>Types</strong> are category-specific choices that answer: what specific type of help does this resource offer within this category?</p>
-            <p>${scoutReview
-              ? `<strong>Delete</strong> removes the selected proposed category from this review copy immediately after confirmation. Resources assigned to it remain, with that category removed from their assignments.`
-              : `<strong>Delete</strong> tags the selected category for deletion. The category and its resources remain active until an admin reviews and approves the deletion after merging the package.`}</p>
-            <p>Categories are shown alphabetically.</p>
-            <p>The category editor also shows <strong>Resources in this category</strong>. Click a resource name there to open it in the resource editor.</p>
-            <p>Category labels must be unique.</p>
-          </div>
-        </details>
-
-        <details>
-          <summary>Resources</summary>
-          <div class="admin-help-section-body">
-            <p>Use <strong>Resources</strong> to add, edit, delete, categorize, assign For groups, and verify resource records.</p>
-            <p>In the resource list:</p>
+            <p>Keep <strong>Description</strong> a short explanation of the help offered. Check Phone, Address, Website, and Hours. In <strong>Information</strong>, keep these four bold headings on separate lines, with the appropriate text beneath each:</p>
             <ul>
-              <li>Click a resource to select it.</li>
-              <li>Click <strong>Edit</strong>, double-click the resource, or press <kbd>Enter</kbd> to edit it.</li>
-              <li>Click <strong>New</strong> to create a resource.</li>
-              <li>${scoutReview
-                ? `Click <strong>Delete</strong> to remove the selected proposed resource from this review copy immediately after confirmation.`
-                : `Click <strong>Delete</strong> to tag the selected resource for deletion. It remains active until an admin approves the deletion after merging the package.`}</li>
-              <li>Turn on <strong>Show verified dates</strong> to show and sort by verification date.</li>
+              <li><strong>Eligibility Requirements:</strong> Who qualifies, including relevant age, income, residence, and documentation rules.</li>
+              <li><strong>How to Best Connect:</strong> The best first action, such as calling intake, applying online, or obtaining a referral.</li>
+              <li><strong>Access:</strong> Service location, hours, appointments, remote options, and supported availability limits.</li>
+              <li><strong>Important Information to Know:</strong> Significant costs, restrictions, preparation, or other practical facts.</li>
             </ul>
-            <p>In the resource editor:</p>
-            <ul>
-              <li><strong>Name</strong> is required and must be unique.</li>
-              <li><strong>Phone</strong>, <strong>Address</strong>, <strong>Website</strong>, and <strong>Hours</strong> appear on the public resource card when filled in.</li>
-              <li><strong>Verified</strong> stores a <code>MM/YY</code> date. Click <strong>Update</strong> to fill in the current month and year.</li>
-              <li><strong>Description</strong> is the short public summary.</li>
-              <li><strong>Describe this update</strong> is used in the change log and package update summary.</li>
-              <li><strong>For</strong> identifies who the resource is for. Read each group definition, select every applicable group, and confirm the review before saving. If none applies, explicitly confirm that no specific group applies. Relevant content or group changes require another confirmation.</li>
-              <li><strong>Categories</strong> determines which categories the resource will be part of and shows the Types available for each selected category.</li>
-              <li><strong>Information</strong> is the detailed public service text.</li>
-              <li><strong>PDFs</strong> lets you attach, open, or remove PDF files. Attached PDFs are included when you save a resource package.</li>
-            </ul>
-            <p>If a resource is a list, leave <strong>Phone</strong>, <strong>Website</strong>, and <strong>Hours</strong> blank so the app can place it in the generated <strong>Lists</strong> category.</p>
-            <p><strong>Done</strong> saves the current edits. <strong>Cancel</strong> leaves the editor without applying those edits. If you leave <strong>Describe this update</strong> blank after changing a category or resource, the app asks whether you want to describe the change or save without a description.</p>
+            <p>For example, under How to Best Connect, write a verified action such as “Call the intake number to request an appointment.” Under Access, put the verified hours and appointment requirements. Do not copy this example as a fact about an unchecked resource.</p>
+            <p>Use <code>**Eligibility Requirements**</code> for a bold heading, a blank line, then its text. Start a line with <code>* </code> for a bullet; use <code>---</code> on its own line for a divider. <strong>Preview</strong> checks the Information formatting.</p>
+            <p><strong>Print</strong> beside <strong>Done</strong> previews the open resource as a handout, including unsaved edits. Print it and ask: is it readable, appropriately brief, and clear about who qualifies and what to do next? Printing does not save edits or mark the resource Curated.</p>
+            <p><strong>Done</strong> saves edits; <strong>Cancel</strong> leaves without applying the current edits. <strong>Describe this update</strong> supplies a useful change-log note, such as “Confirmed intake hours with provider.”</p>
           </div>
         </details>
-
         <details>
-          <summary>Information Text</summary>
+          <summary>Check Categories, Types, and For groups</summary>
           <div class="admin-help-section-body">
-            <p>The resource <strong>Information</strong> editor contains the detailed public service text. Use <strong>Preview</strong> to check how the text will look.</p>
-            <p>Supported formatting:</p>
-            <ul>
-              <li>Start a line with <code>*[space]</code> for a bullet.</li>
-              <li>Use <code>**bold**</code> for bold text.</li>
-              <li>Use <code>__underline__</code> for underlined text.</li>
-              <li>Put <code>---</code> on its own line for a divider.</li>
-            </ul>
+            <p><strong>Categories</strong> describe broad needs, such as Housing. <strong>Types</strong> describe the help offered within a category, such as Emergency shelter. Assign a category only when the resource provides substantial help for that need, and select its supported Types.</p>
+            <p><strong>For</strong> describes people served. Read the definitions in the <strong>For</strong> editor and select every group supported by the resource's services and eligibility. Do not infer a group from the organization's name alone.</p>
+            <p>A resource tagged <strong>Deaf &amp; hard of hearing</strong> should also have <strong>People with disabilities</strong>. The same applies to <strong>Blind &amp; low vision</strong>. When both labels exist in the office's group list, the workbench adds the broader disability tag automatically. This prevents Match all from hiding the resource when both groups are selected; it does not mean the resource serves every disability.</p>
+            <p>Confirm the explicit group review before saving. If none of the defined groups applies, confirm that no specific group applies. Relevant content or group-definition changes require another review. Under Resources, the group-review count and <strong>Review next</strong> help find missing or outdated reviews. Automated checks do not prove complete or accurate eligibility assignments.</p>
+            <p>Changing a shared resource affects every category where it appears. Review priorities are separate: where a priority proposal is available, <strong>Review priorities by category</strong> lets you change the suggested order without changing the resource's information or Curated status.</p>
           </div>
         </details>
-
         <details>
-          <summary>For</summary>
+          <summary>Curated, unresolved proposals, and deletion</summary>
           <div class="admin-help-section-body">
-            <p>Use definitions to explain when each group applies. Changes to available groups or their definitions make previous group reviews outdated. Under <strong>Resources</strong>, the review count and <strong>Review next</strong> button help you check missing or outdated reviews after a package merge.</p>
-            <p><strong>For</strong> manages the governed list of groups a resource can be for.</p>
-            <p>Use <strong>For</strong> for cross-category people-served groups, such as veterans or families with children. Use <strong>Types</strong> for the specific service being offered.</p>
-            <p>Select a group to see which resources use it. <strong>Delete</strong> tags the selected group for deletion; it remains active until an admin approves it after merging the package.</p>
+            <p>Click <strong>Curated</strong> when you are satisfied the resource is ready to share. It is a toggle; a check mark in Resources shows the current selection for a package. AI review and priority do not constitute human approval.</p>
+            <p>Leave an unresolved resource unchecked and continue reviewing others. If two proposals look alike, check whether they are aliases or distinct programs with different services or access routes before removing either.</p>
+            <p><strong>Delete</strong> removes a proposed resource immediately after confirmation. Deleting a proposed category removes its category assignments, but keeps its resources available for review. <strong>Undo does not restore directly deleted resources or categories.</strong></p>
+            <p>Deleting Types or For groups creates deletion tags for later office review. Undo applies to those deletion-tagging actions, only for the most recent action and until another change is saved.</p>
           </div>
         </details>
-
         <details>
-          <summary>Tagged deletions</summary>
+          <summary>Save a batch and hand it off</summary>
           <div class="admin-help-section-body">
-            <p>${scoutReview
-              ? `Resource and category deletion is immediate in this Scout review copy. Deleting Types or For groups still creates deletion tags for an office administrator to review.`
-              : `Delete actions tag resources, categories, Types, and For groups for deletion without removing them. Tagged items remain active and are labeled <strong>tagged for deletion</strong>.`}</p>
-            <p>After an admin merges a package containing deletion tags, the review opens immediately. It shows affected resources and can print a working list. The admin chooses which deletions to approve and can continue editing the merged data.</p>
+            <p>Use <strong>Save a package of n curated resources</strong> beside the Resources heading. The ZIP contains the checked resources and their available attached PDFs. Unchecked proposals are not included.</p>
+            <p>After a successful save, those resources leave the active review list. This is expected: they have been packaged, not rejected. Other proposals remain for later review. Keep each saved ZIP; do not rely on the workbench as a way to download that batch again.</p>
+            <p>Check that the ZIP was saved where you intended, then hand it to the office administrator for merging into the office's resource package. Saving a curation ZIP does not publish it to an office website or SharePoint.</p>
+            <p>You can save a useful batch at any time. You do not need to finish all resources or all categories.</p>
           </div>
         </details>
-
         <details>
-          <summary>Change Log</summary>
+          <summary>Resume work and protect your edits</summary>
           <div class="admin-help-section-body">
-            <p>The change log tracks local admin edits. Good update descriptions make package updates easier for other admins to review.</p>
-            <p>Useful examples:</p>
-            <ul>
-              <li><code>Updated phone number</code></li>
-              <li><code>Added eligibility details</code></li>
-              <li><code>Renamed housing Type</code></li>
-              <li><code>Deleted outdated resource</code></li>
-            </ul>
-            <p>After a package is merged successfully, the local change log is cleared.</p>
-          </div>
-        </details>
-
-        <details>
-          <summary>Undo</summary>
-          <div class="admin-help-section-body">
-            <p>${scoutReview
-              ? `Undo applies to Type and For-group deletion tagging. Directly deleted review resources and categories are not restored by Undo.`
-              : `Undo is available for deletion tagging and approval.`}</p>
-            <p>Only the most recent deletion action can be undone, and Undo expires when another change is saved so newer work cannot be discarded. Use <strong>Undo ...</strong> in Admin mode to restore the saved snapshot, or <strong>Clear undo</strong> to remove it.</p>
-            <p>Normal edits are not undone this way. If you make a wrong normal edit, edit the item again and describe the correction.</p>
+            <p>The workbench keeps saved edits and review progress in this browser's local storage. Continue with the same file and browser profile. Clearing browser data or switching browsers can make that saved state unavailable.</p>
+            <p>The originally downloaded HTML is not rewritten when you edit a resource. Copying that HTML alone does not carry your browser-saved edits to another computer. Keep your saved package ZIPs separately; they contain the resources you exported, not all remaining work in progress.</p>
+            <p>Read any storage or save error before continuing. Do not clear the workbench's saved state to solve a problem without first arranging to preserve your edits. The change log explains changes; it is not a backup. For an ordinary mistaken edit, edit the resource again and describe the correction.</p>
           </div>
         </details>
       </div>
     </div>
   `;
-  if(scoutReview){
-    modal.querySelectorAll(".admin-publishing-help").forEach(section => section.remove());
-  }
   const closeBtn = modal.querySelector(".reference-modal-close");
   const printBtn = document.getElementById("adminHelpPrintButton");
   const trainingPrintBtn = document.getElementById("adminTrainingPrintButton");

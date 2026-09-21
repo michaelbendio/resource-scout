@@ -1,0 +1,61 @@
+{
+  "at": "2026-09-21T16:35:32.225449+00:00",
+  "files": [
+    {
+      "path": "/Users/michaelbendio/Documents/TSO/autoMesa.html",
+      "backup": "/Users/michaelbendio/resource-scout-pairwise/data/workbench-help-controls-20260921/0-autoMesa-before.html",
+      "staged": "/Users/michaelbendio/resource-scout-pairwise/data/workbench-help-controls-20260921/0-autoMesa.html",
+      "beforeSha256": "7aab775630aa41f2a31d55f230a6a733262f67570b874f417a24a1f3db8c1186",
+      "afterSha256": "ec03befdc287ec5e61b3ff4a62ca1990ee4a1f2a237472f6a417f495f6333f07",
+      "seedSha256": "6f4740ab303684b5714144de07a1bc3a1625498efab18044d6892d1299ba4835",
+      "seedResources": 268,
+      "legacyQuestionsPreserved": true,
+      "extraScriptsPreserved": 0,
+      "metadataUnchanged": true
+    },
+    {
+      "path": "/Users/michaelbendio/Documents/TSO/autoProvo.html",
+      "backup": "/Users/michaelbendio/resource-scout-pairwise/data/workbench-help-controls-20260921/1-autoProvo-before.html",
+      "staged": "/Users/michaelbendio/resource-scout-pairwise/data/workbench-help-controls-20260921/1-autoProvo.html",
+      "beforeSha256": "1637511d4f4134da9dda1e44db2955603742e0df4edd10dceda65216b9af2c22",
+      "afterSha256": "9e030ffc61992c874b780323b599379a8da933a57a221be7f1b44df21c5e94df",
+      "seedSha256": "e12247b8a3a504fb71ad59bd09387ee0f5e1dac122f458224f64e65de1485305",
+      "seedResources": 211,
+      "legacyQuestionsPreserved": true,
+      "extraScriptsPreserved": 1,
+      "metadataUnchanged": true
+    },
+    {
+      "path": "/Users/michaelbendio/Downloads/autoStGeorge.html",
+      "backup": "/Users/michaelbendio/resource-scout-pairwise/data/workbench-help-controls-20260921/2-autoStGeorge-before.html",
+      "staged": "/Users/michaelbendio/resource-scout-pairwise/data/workbench-help-controls-20260921/2-autoStGeorge.html",
+      "beforeSha256": "1d5339f7ea6e4cd1b10106dec9ba56075839a0a1881d87fdab0874bfc50dddd6",
+      "afterSha256": "e7626b632b672d489f32be6a39b672aea909152746c646d5841ea0f497f8ea04",
+      "seedSha256": "9a5df1fcc6e66899abb2a72d1aa0ab53a8bfb9576f33f71f9db469e737d181bf",
+      "seedResources": 879,
+      "legacyQuestionsPreserved": false,
+      "extraScriptsPreserved": 0,
+      "metadataUnchanged": true
+    },
+    {
+      "path": "/Users/michaelbendio/resource-scout-pairwise/data/st-george-curation-20260919/autoStGeorge.html",
+      "backup": "/Users/michaelbendio/resource-scout-pairwise/data/workbench-help-controls-20260921/3-autoStGeorge-before.html",
+      "staged": "/Users/michaelbendio/resource-scout-pairwise/data/workbench-help-controls-20260921/3-autoStGeorge.html",
+      "beforeSha256": "3880f426eb5f6dda23a627c165b9d5b96c17937625e7f8d180f69ab34f478ec3",
+      "afterSha256": "b426dd6c1cb14966dbc1362aa1660fbf62e3aed9e220128375a8fa8030864891",
+      "seedSha256": "0f15199d539c2c983350ea65e19c4d1edc981515424ca71752ec6526dc1c987b",
+      "seedResources": 879,
+      "legacyQuestionsPreserved": false,
+      "extraScriptsPreserved": 0,
+      "metadataUnchanged": true
+    }
+  ],
+  "installed": true,
+  "verification": {
+    "fullSuite": "267 tests passed, 1 optional skip",
+    "legacyPersistenceAndControls": "9 tests passed",
+    "mesaBrowser": "Help, walkthrough, shortcut, question editor and group review verified; Disabled+Youth: Match all 6, Match any 69",
+    "newHumanCuratedMarks": 0,
+    "installedBrowsers": "Provo and St. George loaded from installed paths; corrected hint and local Match all/any examples visible"
+  }
+}

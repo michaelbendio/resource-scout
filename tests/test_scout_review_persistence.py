@@ -152,7 +152,7 @@ process.stdout.write(JSON.stringify({{full:JSON.stringify(scoutReviewBaseData).l
 
     def test_curated_workflow_replaces_ready_without_inheriting_ready_marks(self) -> None:
         self.assertIn(
-            "Curate resources in Admin. Save a resource package of the curated resources.",
+            "Start by reading Help and Admin Help. Press Ctrl+Alt+A (Control+Option+A on a Mac)",
             self.template,
         )
         self.assertIn("Save a package of ${count} curated resources", self.template)
@@ -163,13 +163,14 @@ process.stdout.write(JSON.stringify({{full:JSON.stringify(scoutReviewBaseData).l
         self.assertIn("function updateResourceWebsiteLink()", self.template)
         self.assertIn("function printCurrentResource()", self.template)
         self.assertIn("const draft = resourceEditorDraft();", self.template)
-        self.assertIn("<summary>Curate</summary>", self.template)
+        self.assertIn("<summary>Curate your first resource</summary>", self.template)
         self.assertIn("scout-review-curated-indicator", self.template)
         self.assertIn('${scoutReview ? "" : `', self.template)
-        self.assertIn(
-            'modal.querySelectorAll(".admin-publishing-help").forEach(section => section.remove())',
-            self.template,
-        )
+        admin_help = self.template[
+            self.template.index("function showAdminHelp("):self.template.index("function getUnseenUpdates(")
+        ]
+        self.assertNotIn('class="admin-publishing-help"', admin_help)
+        self.assertIn("Curate your first resource", admin_help)
         self.assertNotIn("scout-review-ready-checkbox", self.template)
         self.assertNotIn("Ready to package", self.template)
 

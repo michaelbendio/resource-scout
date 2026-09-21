@@ -446,7 +446,13 @@ class CodexFirstResearchTests(unittest.TestCase):
             preflight=True, primary_only=True,
         )
         prefix = "resource_research_agent.pairwise_runner."
-        with patch(prefix + "_run_codex_worker", return_value=response("Primary")) as codex, \
+        def primary_worker(assignment, **kwargs):
+            active = codex_first_view(self.store, import_id)["activeCategory"]
+            self.assertIn("Category: " + active["categoryLabel"], assignment)
+            self.assertTrue(any(p["status"] == "assigned" for p in active["primary"]["passes"]))
+            return response("Primary")
+
+        with patch(prefix + "_run_codex_worker", side_effect=primary_worker) as codex, \
              patch(prefix + "_grok_preflight", side_effect=AssertionError("No Grok probe")), \
              patch(prefix + "_run_grok_worker", side_effect=AssertionError("No Grok work")), \
              patch(prefix + "_claude_preflight", side_effect=AssertionError("No Claude probe")), \

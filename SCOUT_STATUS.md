@@ -4,6 +4,43 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Curation Help and older workbench controls updated — September 21
+
+Scout **0.51.1 build 20** supplies curation-specific Help and Admin Help, Match
+all/any examples using local group labels, Stephanie's four Information needs,
+printed-handout checks, curated batch export, and a printable **Curate your first
+resource** walkthrough. The red hint says to read both help sections and gives
+**Ctrl+Alt+A / Control+Option+A**, then **Admin → Admin Help**. The shortcut reveals
+the Admin entry; it does not itself navigate into the workspace.
+
+Updated active files in place, with backups and exact seed/metadata checks:
+- `~/Documents/TSO/autoMesa.html` — 268 embedded resources.
+- `~/Documents/TSO/autoProvo.html` — 211 embedded resources, embedded PDF script retained.
+- `~/Downloads/autoStGeorge.html` and the St. George curation master — 879 each.
+
+Mesa/Provo now also have the current Match all/any and explicit group-review
+controls, while retaining their prior unresolved-question editor. Their labels,
+resource content, artifact/storage identifiers and existing approval state were
+not reset. All missing group-review confirmations remain missing; no content or
+priority review was invented. Priority views require an existing proposal.
+Archived pilots and obsolete duplicate downloads were left intact.
+
+Browser checks: Mesa question editor + group review, and Disabled/Youth yields
+6 with Match all vs 69 with Match any. Provo and St. George installed Help/red
+hints verified. Nine legacy persistence/control checks passed. Full suite passed
+267 tests (one optional skip), including the final monitor adjustment. Audit/backups: `data/workbench-help-controls-20260921/`;
+[manifest](docs/workbench-help-controls-20260921.json). No human Curated marks were
+made during verification. Reload/reopen the same active file to see its updated
+interface, saving any currently open edits first.
+
+Monitors alone were restarted to load this release: St. George 8769 PID 70750;
+Welfare Square 8770 PID 70753. The St. George Save endpoint serves the new help
+at 0.51.1/build 20 with all 879 resources and its review gate still satisfied.
+
+The Welfare Square primary-only run continues under the existing authorization.
+The monitor now prefers an assigned primary pass over an earlier pending
+challenger; this changes display only. No Grok/Claude calls or curation authorized.
+
 ## Remaining Welfare Square Codex primary authorized — September 21
 
 Michael authorized the Codex passes for all remaining Categories: Seniors,

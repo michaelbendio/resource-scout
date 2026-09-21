@@ -481,6 +481,12 @@ def codex_first_view(store: ResearchStore, import_id: int) -> dict[str, Any]:
             ],
         })
     completed = sum(item["status"] == "completed" for item in categories)
+    # Primary-only runs can advance while earlier challenger work is pending.
+    # Show the assigned primary pass rather than an earlier waiting challenger.
+    active = next((item for item in categories
+                   if any(p["status"] == "assigned" for p in item["primary"]["passes"])), None)
+    if active is None:
+        active = next((item for item in categories if item["status"] != "completed"), None)
     return {
         "schemaVersion": 1,
         "experimentMode": CODEX_FIRST_EXPERIMENT_MODE,
@@ -488,7 +494,7 @@ def codex_first_view(store: ResearchStore, import_id: int) -> dict[str, Any]:
         "status": "completed" if categories and completed == len(categories) else "in-progress",
         "completedCategories": completed,
         "totalCategories": len(categories),
-        "activeCategory": next((item for item in categories if item["status"] != "completed"), None),
+        "activeCategory": active,
         "categories": categories,
         "telemetry": store.worker_telemetry_summary(import_id),
     }

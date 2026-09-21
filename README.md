@@ -5,6 +5,11 @@ from several consumer AI products. It creates a self-contained TSO Resources
 review file such as `autoMesa.html` for human vetting and package creation. It is
 designed for repeated use across TSO locations and resource categories.
 
+Version 0.51.1 gives generated workbenches curation-specific Help and Admin Help,
+a printable first-resource walkthrough, Match all/any examples, and clear guidance
+for checking a printed handout and saving a curated batch. The red starting hint
+points to both help sections and gives the Admin-mode shortcut.
+
 Version 0.51.0 makes a proposed human review order part of the requested
 post-curation AI review. Each category has Start here, Important specialized help,
 and Additional options, with short reasons and useful questions. The workbench

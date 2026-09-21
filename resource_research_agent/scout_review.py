@@ -147,12 +147,17 @@ def _build_scout_review_file_from_seed(
     release = {
         "version": __version__,
         "build": __build__,
-        "date": "2026-09-20",
-        "message": "Review resources in a proposed per-category priority order",
+        "date": "2026-09-21",
+        "message": "Curation Help, Admin Help and a first-resource walkthrough",
         "changes": [
             {
-                "date": "2026-09-20",
+                "date": "2026-09-21",
                 "version": __version__,
+                "message": "Curation guidance, Match all/any examples, handout checks and Admin-mode shortcut",
+            },
+            {
+                "date": "2026-09-20",
+                "version": "0.51.0",
                 "message": "Per-category AI review priorities, reasons, questions, shared Curated progress and personal priority choices",
             },
             {
