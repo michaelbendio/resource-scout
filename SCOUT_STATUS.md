@@ -4,6 +4,28 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square paused by Michael — September 21, 09:43 MDT
+
+**Do not restart workers until Michael asks.** He reports Grok usage at 100%,
+declines further spend, and plans to restart **Wednesday afternoon, September 23**.
+This is a user-controlled pause, not authorization for a scheduled restart or a
+provider switch. Claude remains disabled; automatic curation remains off.
+
+The coordinator 67887, its caffeinate process 67888, and active Codex worker 68705
+were stopped and verified exited. Monitor **8770** remains available. **16/21
+Categories are fully researched**, through Legal. Mental Health's first primary
+pass is saved; its `public-system-pathways` pass was interrupted and remains assigned
+for resumption. All **87 completed primary passes** and **16 completed Grok
+challengers** were compared before/after and preserved exactly. SQLite integrity
+passed. A consistent database backup, sealed pending-assignment hash, process
+snapshot and available worker files are retained at:
+`data/welfare-square-production-20260921-codex-grok/pause-20260921T154323Z`.
+
+Runtime `launch.json` records `paused-by-user`, no active worker and no automatic
+restart. Resume the same database/command after process/account checks; reuse all
+completed work and restart only the unfinished assignment. No architecture change
+has been authorized. Earlier running snapshots below are historical.
+
 ## Grok recovery verified: 15/21 complete — September 21, 09:14 MDT
 
 The resumed **Immigration** challenger completed at **15:14:34 UTC**: **9 candidate
