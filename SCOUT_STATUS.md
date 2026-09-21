@@ -4,6 +4,27 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square stopped: Grok usage exhausted — September 21, 05:50 MDT
+
+Live process/log/SQLite inspection confirmed the research coordinator has exited;
+monitor 8770 remains available. Grok returned **HTTP 402 Payment Required: Grok
+Build usage balance exhausted** on the Immigration challenger. This is the current
+blocker, superseding the earlier running snapshot below.
+
+**14/21 Categories are complete with both workers.** Codex primary has additionally
+completed Immigration: 15 primary categories / 81 saved passes total. Grok completed
+14 challenger assignments; Immigration's challenger is unfinished. All saved work
+is retained. Six categories have not started. Curation has not started.
+
+The runner made four failed Grok attempts (three retries), ending at
+`2026-09-21T11:50:01.116203+00:00`. The 402 balance error was treated as a generic
+retryable error; future recovery should recognize it as terminal. Do not retry it
+unchanged or launch another paid provider to bypass the limit. Resume the saved
+command with preflight only after Grok usage becomes available or Michael explicitly
+chooses a different architecture. Inspect current processes first and reuse saved
+work. No worker was restarted during this status check. Runtime `launch.json` now
+records the stop; the original launch evidence remains preserved.
+
 ## Welfare Square research started — September 21
 
 Michael authorized a fresh run for **Welfare Square**, covering **all of Salt Lake
