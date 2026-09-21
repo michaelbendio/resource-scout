@@ -171,6 +171,7 @@ process.stdout.write(JSON.stringify({{full:JSON.stringify(scoutReviewBaseData).l
         ]
         self.assertNotIn('class="admin-publishing-help"', admin_help)
         self.assertIn("Curate your first resource", admin_help)
+        self.assertNotIn("Ctrl+Alt+A", admin_help)
         self.assertNotIn("scout-review-ready-checkbox", self.template)
         self.assertNotIn("Ready to package", self.template)
 

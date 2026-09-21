@@ -11,7 +11,8 @@ all/any examples using local group labels, Stephanie's four Information needs,
 printed-handout checks, curated batch export, and a printable **Curate your first
 resource** walkthrough. The red hint says to read both help sections and gives
 **Ctrl+Alt+A / Control+Option+A**, then **Admin → Admin Help**. The shortcut reveals
-the Admin entry; it does not itself navigate into the workspace.
+the Admin entry; it does not itself navigate into the workspace. Entry instructions
+appear only in Help/the red hint; Admin Help assumes the workspace is already open.
 
 Updated active files in place, with backups and exact seed/metadata checks:
 - `~/Documents/TSO/autoMesa.html` — 268 embedded resources.

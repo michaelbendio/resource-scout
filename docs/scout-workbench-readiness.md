@@ -231,7 +231,9 @@ workbench without altering the saved AI proposal or marking anything Curated.
 
 Generated auto[Location] files use curation-specific Help and Admin Help. Keep the
 red starting hint explicit: read both help sections; Ctrl+Alt+A (Control+Option+A
-on Mac) reveals Admin, then click Admin and Admin Help. Include Match all/any
+on Mac) reveals Admin, then click Admin and Admin Help. Keep entry instructions
+in Help and the red hint; Admin Help assumes its reader is already in the workspace.
+Include Match all/any
 examples using available group labels, Stephanie's four headings, a printable
 first-resource walkthrough, printed-handout suitability, human Curated status,
 curated-batch export behavior, and browser-state/HTML/package distinctions.
