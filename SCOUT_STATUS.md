@@ -4,6 +4,45 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## DeepSeek challenger trial complete; production paused — September 21, 17:32 MDT
+
+**All paid trial runs and their audits are complete. No worker is running.**
+Michael authorized only the isolated Housing, Employment and Disability comparison
+against saved Grok results, using DeepSeek V4.1-Flash (`deepseek-flash`, max reasoning).
+[Report](docs/deepseek-challenger-comparison-20260921.md) and
+[per-lead audit / measurements](docs/deepseek-challenger-comparison-20260921.json).
+
+DeepSeek submitted 86 leads; the provider-label-hidden audit credited 77 useful
+category-level pathways, including 63 absent from the saved Grok answers. It
+recovered 14/43 useful Grok pathways (32.6%): Housing 6/15, Employment 5/14,
+Disability 3/14. **The predeclared 80% replacement gate failed.** Promising cheap
+supplementary discovery, not evidence of general Grok superiority: the sets have
+substantially different coverage. Useful counts include candidates needing edits;
+none are human Curated approvals or production additions.
+
+Estimated DeepSeek API usage: $0.2575, excluding Codex-session search, supervision
+and review. Initial balance $7.54; observed balance $7.29 at 23:32 UTC (rounded,
+billing lag observed). No additional paid calls are planned. Sixty provider calls
+completed with no API failures; one malformed Disability tool argument was preserved
+and recovered via a validation-error response and normal continuation, without a
+category restart or unchanged paid retry. Wall time 41.81 minutes includes relay,
+web and polling overhead; API streaming totaled 19.91 minutes.
+
+Live verification: all production table row hashes unchanged, quick_check OK,
+21/21 primary Categories / 112 passes, 16 saved Grok challengers, five pending,
+zero curation jobs, no research coordinators. Monitors 8770 and 8769 return HTTP
+200. Runtime remains paused-by-user with automaticRestart false. No Claude or Grok
+calls were made. Preserve the five sealed pending challengers and all saved work.
+
+Evidence is isolated in `data/deepseek-challenger-trial-20260921/`, including
+requests, unedited web results, native events, costs and frozen review decisions.
+`scripts/deepseek-challenger-trial.py` is a completed one-off experiment, not a
+production adapter. Its seven budget/schema tests pass. Do not rerun completed
+categories or turn this into a production replacement without Michael's decision.
+
+**Production research and curation remain paused. Claude remains disabled.**
+The earlier conversation handoff below predates this completed trial.
+
 **New-context entry point:** [September 21 handoff](docs/context-handoff-20260921.md).
 Live recheck at 20:04 UTC / 14:04 MDT confirms the paused state below: no research
 workers, all 21 primary Categories complete, five challengers pending, no curation.
