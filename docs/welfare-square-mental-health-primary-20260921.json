@@ -1,0 +1,84 @@
+{
+  "verifiedAt": "2026-09-21T15:58:35.147186+00:00",
+  "scope": "Mental Health Codex primary only",
+  "passes": [
+    {
+      "focus_key": "direct-service-landscape",
+      "status": "completed",
+      "lead_count": 32,
+      "assignment_sha256": "d7f360710e85203f7a3cb8d5cf14d0cdcc8087711469de3a6e5519bd37b68114",
+      "completed_at": "2026-09-21T15:41:57.537743+00:00"
+    },
+    {
+      "focus_key": "public-system-pathways",
+      "status": "completed",
+      "lead_count": 17,
+      "assignment_sha256": "8b35e5684a8b8c52ef9c17c5a61606636e69f67294e809d64097584745cc16e6",
+      "completed_at": "2026-09-21T15:48:25.509894+00:00"
+    },
+    {
+      "focus_key": "community-population-pathways",
+      "status": "completed",
+      "lead_count": 15,
+      "assignment_sha256": "535d0efaf14f92e372a79b5fa13a05c996f7fb970d0896096fd24f3d7324f350",
+      "completed_at": "2026-09-21T15:51:32.050667+00:00"
+    },
+    {
+      "focus_key": "non-obvious-primary-sources",
+      "status": "completed",
+      "lead_count": 13,
+      "assignment_sha256": "99004adb3d097e8feadddb9293afce95928ec2a5d3ce9c2e9656397f5a469c7a",
+      "completed_at": "2026-09-21T15:54:12.512106+00:00"
+    },
+    {
+      "focus_key": "gap",
+      "status": "completed",
+      "lead_count": 15,
+      "assignment_sha256": "b04e969e7325e13adb69c0c67988bfd4ef205a47bc46e409971a3a908d968ad2",
+      "completed_at": "2026-09-21T15:56:53.037112+00:00"
+    }
+  ],
+  "newAttempts": [
+    {
+      "provider": "Codex",
+      "category_id": "mental-health",
+      "focus_key": "public-system-pathways",
+      "outcome": "completed",
+      "lead_count": 17,
+      "completed_at": "2026-09-21T15:48:25.501566+00:00"
+    },
+    {
+      "provider": "Codex",
+      "category_id": "mental-health",
+      "focus_key": "community-population-pathways",
+      "outcome": "completed",
+      "lead_count": 15,
+      "completed_at": "2026-09-21T15:51:32.042035+00:00"
+    },
+    {
+      "provider": "Codex",
+      "category_id": "mental-health",
+      "focus_key": "non-obvious-primary-sources",
+      "outcome": "completed",
+      "lead_count": 13,
+      "completed_at": "2026-09-21T15:54:12.504347+00:00"
+    },
+    {
+      "provider": "Codex",
+      "category_id": "mental-health",
+      "focus_key": "gap",
+      "outcome": "completed",
+      "lead_count": 15,
+      "completed_at": "2026-09-21T15:56:53.027041+00:00"
+    }
+  ],
+  "priorCompletedPassesPreserved": 87,
+  "allChallengerRowsUnchanged": true,
+  "otherCategoryJobsAndPassesUnchanged": true,
+  "newGrokCalls": 0,
+  "completedCategories": 16,
+  "primaryCompleteCategories": 17,
+  "workerStopped": true,
+  "autoRestart": false,
+  "sqliteQuickCheck": "ok"
+}

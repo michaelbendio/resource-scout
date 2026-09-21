@@ -4,6 +4,47 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Mental Health Codex complete; paused — September 21, 09:57 MDT
+
+**The limited run finished and all research workers are stopped. Do not restart
+until Michael asks.** All five Mental Health Codex passes are complete: direct
+service 32, public systems 17, community/population 15, non-obvious sources 13,
+and gap 15 candidate submissions. These are research leads, not unique accepted
+or curated resources. Four new passes ran at High; the prior direct-service pass
+was reused. The `--max-passes 4 --skip-preflight` cap stopped the runner normally.
+
+Verified: **zero new Grok calls**, all challenger rows unchanged, all other Category
+jobs/passes unchanged, all 87 previously completed primary passes preserved,
+SQLite integrity OK, and coordinator/process group **68864** exited. There are
+**16 fully researched Categories** and **17 with Codex primary complete**. Mental
+Health awaits its challenger; Seniors and subsequent Categories have not started.
+Monitor **8770** remains available. Automatic curation/restart remain off.
+
+[Completion evidence](docs/welfare-square-mental-health-primary-20260921.json).
+Local snapshots, bounded launch command and verification:
+`data/welfare-square-production-20260921-codex-grok/mental-health-primary-only-20260921/`.
+Runtime `launch.json` records `paused-by-user`. Michael plans to revisit Wednesday
+afternoon, September 23; that is not a scheduled restart or provider-switch approval.
+Earlier running/pause entries below are historical.
+
+## Limited resumption: finish Mental Health Codex only — September 21, 09:45 MDT
+
+Michael changed the pause instruction to **finish the Codex passes for Mental
+Health, then pause**. Coordinator **68864** resumes the assigned public-system
+pass, then community/population, non-obvious sources, and the required gap pass.
+The existing runner command has **`--max-passes 4 --skip-preflight`**: its pass limit
+is checked before selecting another assignment, so it stops after the fourth saved
+primary pass and does not invoke Grok or advance to Seniors. No Grok probe is
+allowed in this limited resumption. Codex effort remains High.
+
+The full-run command remains historical in `launch.json`; `activeCommand` and
+`mental-health-primary-only-20260921/launch.json` record the bounded command. Do
+not use the full-run command to resume this limited authorization. Current output
+is appended to `runner.log`; monitor stays **8770**. All 87 prior primary passes,
+16 Grok results, other Category jobs/passes and telemetry boundary were snapshotted
+under `data/welfare-square-production-20260921-codex-grok/mental-health-primary-only-20260921/`.
+The assistant is supervising through the automatic stop. Keep the rest paused.
+
 ## Welfare Square paused by Michael — September 21, 09:43 MDT
 
 **Do not restart workers until Michael asks.** He reports Grok usage at 100%,
