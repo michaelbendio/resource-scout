@@ -11,6 +11,10 @@ class GrokAuthenticationError(RuntimeError):
     """A worker cannot authenticate; retrying research will not repair sign-in."""
 
 
+class GrokUsageExhaustedError(RuntimeError):
+    """A depleted usage balance requires operator action, not another attempt."""
+
+
 class _AuthLog:
     def __init__(self, path: Path):
         self.path = path
@@ -83,6 +87,11 @@ def run_grok_process(
                     raise GrokAuthenticationError(
                         "Grok authentication failed. Run `grok login`, then resume "
                         "with preflight enabled."
+                    )
+                if process.returncode and "grok build usage balance exhausted" in (stdout + stderr).casefold():
+                    raise GrokUsageExhaustedError(
+                        "Grok Build usage balance exhausted (HTTP 402). Research stopped; "
+                        "saved work is intact. Resume only after usage is available."
                     )
                 return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
         except BaseException:

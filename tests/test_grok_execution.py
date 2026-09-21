@@ -9,11 +9,26 @@ from pathlib import Path
 from unittest.mock import patch
 
 from resource_research_agent.grok_execution import (
-    GrokAuthenticationError, _AuthLog, run_grok_process,
+    GrokAuthenticationError, GrokUsageExhaustedError, _AuthLog, run_grok_process,
 )
 
 
 class GrokExecutionTests(unittest.TestCase):
+    def test_exhausted_balance_stops_after_one_attempt_and_preserves_failure(self):
+        from resource_research_agent.pairwise_runner import _run_with_retries
+        with tempfile.TemporaryDirectory() as directory:
+            records = []
+            command = [sys.executable, "-c", "import sys; sys.stderr.write('API error (status 402 Payment Required): Grok Build usage balance exhausted'); sys.exit(1)"]
+            with patch("resource_research_agent.pairwise_runner.time.sleep") as sleep:
+                with self.assertRaises(GrokUsageExhaustedError):
+                    _run_with_retries(
+                        "Grok", lambda: run_grok_process(command, timeout_seconds=10, log_path=Path(directory)/"missing"),
+                        retry_count=3, context={}, record_attempt=lambda **event: records.append(event),
+                    )
+                self.assertEqual(1, len(records))
+                self.assertEqual("failed", records[0]["outcome"])
+                sleep.assert_not_called()
+
     def test_auth_stall_stops_and_does_not_disclose_raw_log(self):
         with tempfile.TemporaryDirectory() as directory:
             log = Path(directory) / "log.jsonl"

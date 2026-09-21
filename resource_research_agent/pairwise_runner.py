@@ -20,7 +20,7 @@ from .codex_first_research import (
     save_codex_first_primary_result,
 )
 from .storage import ResearchStore
-from .grok_execution import GrokAuthenticationError, run_grok_process
+from .grok_execution import GrokAuthenticationError, GrokUsageExhaustedError, run_grok_process
 from .worker_metrics import model_counter, optional_counter
 from .runner_lock import research_runner_lock
 from .challenger_routing import load_challenger_routing
@@ -41,7 +41,7 @@ class WorkerLimitError(RuntimeError):
 
 
 def _is_terminal_failure(error: Exception) -> bool:
-    return isinstance(error, (GrokAuthenticationError, WorkerLimitError, WorkerDisabledError, subprocess.TimeoutExpired))
+    return isinstance(error, (GrokAuthenticationError, GrokUsageExhaustedError, WorkerLimitError, WorkerDisabledError, subprocess.TimeoutExpired))
 
 
 def _research_prompt(

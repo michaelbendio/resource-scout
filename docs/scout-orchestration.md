@@ -71,6 +71,9 @@ an inference, model-quality or task-size failure.
 - **Authentication or credential lock:** verify actual authentication state and
   the sandbox/credential interaction. Use authorized local recovery where
   possible. Do not route to another paid provider or repeatedly retry unchanged.
+- **Grok usage balance exhausted (HTTP 402):** stop immediately and preserve the
+  failed attempt. Do not retry the unchanged request. Resume with preflight only
+  after Michael restores usage or explicitly authorizes a different architecture.
 - **Transient transport/service error:** a bounded retry may be appropriate after
   inspecting the evidence; preserve each attempt and cap retries. Stop escalating
   repeated identical failures into more unattended spending.

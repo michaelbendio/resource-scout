@@ -4,6 +4,27 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square resumed after $5 Grok top-up — September 21
+
+Michael explicitly added $5 to Grok and requested resumption and observation.
+The first restart found expired authentication; Grok device authorization was
+refreshed successfully and the second startup preflight passed. Coordinator
+**67887** is running the saved **Immigration challenger** assignment; Grok child
+**67897** showed a native inference-start event at **15:09:09 UTC**. Monitor remains
+**http://127.0.0.1:8770** (PID 61317). This is an active-attempt snapshot, not proof
+of completion; verify `runner.log`, processes and database before acting.
+
+All 81 completed primary passes and 14 challenger results were snapshotted before
+resumption and reused. The `launch.json` resume history records both starts.
+Runtime `watch-snapshot.json` contains a bounded, credential-free observation of
+native event names/times and saved results. The assistant is observing this resumed
+Grok assignment; this does not create a persistent background supervisor.
+
+Grok's explicit usage-balance-exhausted error now stops after one recorded failure,
+instead of three unchanged retries. Its integration test and full suite passed
+(266 tests, one optional skip). No provider/effort changes or automatic curation
+were introduced. Earlier stop snapshots below are historical.
+
 ## Welfare Square stopped: Grok usage exhausted — September 21, 05:50 MDT
 
 Live process/log/SQLite inspection confirmed the research coordinator has exited;
