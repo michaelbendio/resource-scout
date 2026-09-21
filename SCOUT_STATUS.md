@@ -4,6 +4,35 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square research started — September 21
+
+Michael authorized a fresh run for **Welfare Square**, covering **all of Salt Lake
+County, Utah** and programs demonstrably serving county residents. The package
+contains the same 21 service Categories plus Miscellaneous as current Resource
+Assistant `new.html`, verified by ID, label and order; no resources were preloaded.
+
+**Monitor: http://127.0.0.1:8770**. Database:
+`data/welfare-square-production-20260921-codex-grok/research.sqlite3`, import 1.
+[Launch handoff](docs/welfare-square-run-20260921.md) and
+[commands/category-source verification](docs/welfare-square-run-20260921.json).
+The starter `welfare-square-resource-package.zip`, source verification, runtime
+`launch.json`, and append-only `runner.log` are in the same run directory.
+
+Verified **2026-09-21T06:08:01.198147+00:00**: Grok preflight passed after device-login refresh; Codex
+started **Addiction / direct-service-landscape**. Coordinator **61427**,
+monitor **61317**. Codex primary (gpt-5.5/High), Grok challenger, all
+21 Categories; Claude disabled. This is a live-start snapshot, not completion.
+Check processes and SQLite before acting. No completed work was rerun.
+
+The runner has locking/bounded retries but no independent research supervisor.
+Do not imply persistent assistant supervision after the session ends. Automatic
+curation is off; pause at research completion for the existing transition/effort
+discussion. Final requested AI review must include Types, For groups, Stephanie's
+four Information sections and review priorities before `autoWelfareSquare.html`.
+
+St. George's completed database/workbench remain unchanged; its monitor is 8769.
+Historical St. George entries below continue to describe that separate run.
+
 ## Category view choice delivered — September 20
 
 **Scout 0.51.0, build 19** adds **Review priorities / All resources A–Z** above

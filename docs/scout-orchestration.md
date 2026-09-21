@@ -148,9 +148,11 @@ publish an office package or start another city without authorization. Update
 `SCOUT_STATUS.md`; commit/push tested code and handoff changes on the current
 branch, excluding unrelated files.
 
-For a later Welfare Square run, explicitly establish `officeName` and
-`serviceArea` before preparing assignments. A filename such as WelfareSquare is
-not an adequate geographic definition. Do not launch that run now.
+For every new office run, explicitly establish `officeName` and `serviceArea`
+before preparing assignments. A filename such as WelfareSquare is not an adequate
+geographic definition. On September 21 Michael authorized Welfare Square with all
+of Salt Lake County, Utah; see `docs/welfare-square-run-20260921.md`. This supersedes
+the earlier instruction to defer that launch. Its automatic curation remains off.
 
 ## Authorized next implementation: unattended shell operation
 
