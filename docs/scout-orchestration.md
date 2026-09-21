@@ -38,6 +38,23 @@ assignment gets a distinct durable attempt record; never overwrite a failed
 attempt to make the history appear clean. Reuse validated saved results without
 another model call. Resume-safe limits mean completed categories total.
 
+## Research with challengers paused
+
+When Michael authorizes only the remaining primary research, use the existing
+pairwise runner with `--primary-only`, the original database/profile, and explicit
+model/effort. This opt-in mode advances the primary across Categories, reuses
+completed passes, includes each required gap pass, and stops when primary work is
+exhausted. It neither checks challenger binaries nor probes or calls challengers.
+It preserves the original roster and seals pending challenger assignments; those
+Categories remain incomplete and unavailable for curation. The default mode stays
+lock-step. `--max-categories` still counts fully completed pairwise Categories;
+`--max-passes` bounds new primary passes within this invocation.
+
+Inspect processes first and audit prior results afterward. A later normal-mode
+resumption can complete pending challengers without rerunning the primary, but
+requires separate authorization while the provider is paused. Do not mistake
+primary completion for a switch to a single-provider research architecture.
+
 ## Size and checkpoint curation
 
 Research and curation are different workloads. The old Grok recursive research

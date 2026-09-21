@@ -426,6 +426,62 @@ class CodexFirstResearchTests(unittest.TestCase):
                 self.assertIn(challenger, telemetry_providers)
                 self.assertTrue(all(item["outcome"] == "completed" for item in telemetry))
 
+    def test_primary_only_finishes_ahead_without_challenger_calls_and_resumes(self) -> None:
+        package = Path(self.temporary.name) / "primary-only.zip"
+        with zipfile.ZipFile(package, "w") as archive:
+            archive.writestr("tso-resources.json", json.dumps({
+                "resourcePackageSchemaVersion": 3, "packageVersion": 1,
+                "officeName": "Test TSO", "serviceArea": "Test County",
+                "categories": [{"id": key, "name": label, "filters": []}
+                               for key, label in [("food", "Food"), ("legal", "Legal")]],
+                "forGroups": [], "resources": [],
+            }))
+        import_id = self.store.save_import(ResourcePackageImporter(None).read(package))
+        options = dict(
+            profile="codex-grok", codex_binary="/usr/bin/true", codex_model="test",
+            grok_binary="/nonexistent/grok", grok_model="",
+            claude_binary="/nonexistent/claude", claude_model="",
+            codex_timeout_seconds=10, grok_timeout_seconds=10, claude_timeout_seconds=10,
+            claude_max_turns=60, retry_count=0, max_passes=None, max_categories=2,
+            preflight=True, primary_only=True,
+        )
+        prefix = "resource_research_agent.pairwise_runner."
+        with patch(prefix + "_run_codex_worker", return_value=response("Primary")) as codex, \
+             patch(prefix + "_grok_preflight", side_effect=AssertionError("No Grok probe")), \
+             patch(prefix + "_run_grok_worker", side_effect=AssertionError("No Grok work")), \
+             patch(prefix + "_claude_preflight", side_effect=AssertionError("No Claude probe")), \
+             patch(prefix + "_run_claude_worker", side_effect=AssertionError("No Claude work")):
+            # Exercise an interrupted run and resume, preserving the saved pass.
+            run_pairwise(self.store, import_id, **{**options, "max_passes": 1})
+            saved = next(p for j in self.store.list_focused_research_jobs(import_id)
+                         for p in j["passes"] if p["status"] == "completed")
+            finished = run_pairwise(self.store, import_id, **options)
+            self.assertEqual(0, finished["completedCategories"])
+            self.assertNotEqual("completed", finished["status"])
+            jobs = self.store.list_focused_research_jobs(import_id)
+            self.assertEqual(saved, next(p for j in jobs for p in j["passes"] if p["id"] == saved["id"]))
+            for job in jobs:
+                self.assertTrue(all(p["status"] == "completed" for p in job["passes"]))
+                self.assertTrue(any(p["passKind"] == "gap" for p in job["passes"]))
+                self.assertNotEqual("completed", job["status"])
+                assignments = self.store.list_codex_first_assignments(job["id"])
+                self.assertEqual(["Grok"], [a["researcher"] for a in assignments])
+                self.assertTrue(all(a["status"] != "completed" for a in assignments))
+            count = codex.call_count
+            run_pairwise(self.store, import_id, **options)
+            self.assertEqual(count, codex.call_count)
+            self.assertIsNone(next_codex_first_assignment(self.store, import_id, "Codex"))
+            with self.assertRaises(ScoutCurationError):
+                prepare_scout_curation_job(self.store, import_id)
+        # Normal mode can later finish the existing challengers with no primary rerun.
+        with patch(prefix + "_run_codex_worker", side_effect=AssertionError("No primary rerun")), \
+             patch(prefix + "_run_grok_worker", return_value=response("Challenger")) as grok:
+            completed = run_pairwise(self.store, import_id, **{
+                **options, "primary_only": False, "preflight": False, "grok_binary": "/usr/bin/true",
+            })
+            self.assertEqual(2, completed["completedCategories"])
+            self.assertEqual(2, grok.call_count)
+
     def test_codex_primary_work_skips_a_provider_gated_category(self) -> None:
         root = Path(self.temporary.name)
         package = root / "two-category-resource-package.zip"

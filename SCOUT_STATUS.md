@@ -4,6 +4,25 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Remaining Welfare Square Codex primary authorized — September 21
+
+Michael authorized the Codex passes for all remaining Categories: Seniors,
+Transportation, Utilities/Phone/Internet, and Veterans. Coordinator **69435**
+uses the new explicit `--primary-only` mode at **gpt-5.5 / High**. It reuses the
+91 saved primary passes, advances without waiting for challengers, and stops when
+all remaining primary/gap passes are saved. **No Grok or Claude calls/probes are
+authorized.** Challenger assignments remain pending; the roster is unchanged and
+curation remains off. Default pairwise runs remain lock-step.
+
+The assistant is supervising this bounded run. Verify processes and SQLite live;
+monitor **8770** is independent. The original full-run command in `launch.json`
+is historical; `activeCommand` and `remaining-primary-only-20260921/launch.json`
+record the authorized command. Consistent pre-run backup and prior-result snapshot
+are in the same audit directory. At launch: 16 fully researched Categories, 17
+primary-complete, 16 saved Grok results. All 267 tests pass (one optional skip).
+Earlier pause entries below describe the superseded primary-work instruction;
+Grok remains paused pending a new user decision.
+
 ## Mental Health Codex complete; paused — September 21, 09:57 MDT
 
 **The limited run finished and all research workers are stopped. Do not restart

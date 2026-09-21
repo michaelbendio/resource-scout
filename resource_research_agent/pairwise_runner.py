@@ -659,6 +659,7 @@ def _run_pairwise_locked(
     codex_reasoning_effort: str = "",
     category_rosters: dict[str, dict[str, Any]] | None = None,
     preserve_completed: bool = False,
+    primary_only: bool = False,
 ) -> dict[str, Any]:
     roster = load_researcher_profile(profile)
     if category_rosters:
@@ -680,7 +681,7 @@ def _run_pairwise_locked(
         for researcher in category_roster["researchers"]:
             if researcher["role"] == "challenger" and researcher["name"] not in challengers:
                 challengers.append(str(researcher["name"]))
-    enabled = {primary, *challengers}
+    enabled = {primary} if primary_only else {primary, *challengers}
     for provider in enabled:
         assert_worker_enabled(provider)
 
@@ -737,7 +738,9 @@ def _run_pairwise_locked(
         if max_passes is not None and primary_passes_this_run >= max_passes:
             break
 
-        primary_assignment = next_codex_first_assignment(store, import_id, primary)
+        primary_assignment = next_codex_first_assignment(
+            store, import_id, primary, allow_primary_ahead=primary_only
+        )
         if primary_assignment is not None:
             research_pass = primary_assignment["researchPass"]
             category = str(primary_assignment["job"]["categoryLabel"])
@@ -815,6 +818,9 @@ def _run_pairwise_locked(
                 "totalCategories": view["totalCategories"],
             }, ensure_ascii=False), flush=True)
             continue
+
+        if primary_only:
+            break
 
         challenger_assignment = None
         for challenger in challengers:
@@ -915,6 +921,7 @@ def _run_pairwise_locked(
         "totalCategories": view["totalCategories"],
         "primaryPassesThisRun": primary_passes_this_run,
         "challengerRunsThisRun": challenger_runs_this_run,
+        "primaryOnly": primary_only,
     }, ensure_ascii=False), flush=True)
     return view
 
@@ -944,6 +951,10 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--claude-timeout-seconds", type=int, default=1800)
     value.add_argument("--claude-max-turns", type=int, default=60)
     value.add_argument("--retry-count", type=int, default=3)
+    value.add_argument(
+        "--primary-only", action="store_true",
+        help="Finish remaining primary passes without calling or probing challengers; challenger work stays pending",
+    )
     value.add_argument("--max-passes", type=int)
     value.add_argument(
         "--max-categories",
@@ -963,7 +974,8 @@ def main(argv: list[str] | None = None) -> int:
     category_rosters = load_challenger_routing(args.routing_policy) if args.routing_policy else None
     for roster in [load_researcher_profile(args.profile), *(category_rosters or {}).values()]:
         for researcher in roster["researchers"]:
-            if researcher["role"] != "disabled":
+            if (researcher["role"] != "disabled"
+                    and (not args.primary_only or researcher["role"] == "primary")):
                 assert_worker_enabled(researcher["name"])
     store = ResearchStore(args.database)
     import_id = int(args.import_id or store.latest_import_id() or 0)
@@ -990,6 +1002,7 @@ def main(argv: list[str] | None = None) -> int:
         codex_reasoning_effort=args.codex_reasoning_effort,
         category_rosters=category_rosters,
         preserve_completed=args.reuse_completed,
+        primary_only=args.primary_only,
     )
     return 0
 

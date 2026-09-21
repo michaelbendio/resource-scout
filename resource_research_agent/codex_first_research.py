@@ -364,6 +364,7 @@ def next_codex_first_assignment(
     *,
     random_source: Any = random,
     now: datetime | None = None,
+    allow_primary_ahead: bool = False,
 ) -> dict[str, Any] | None:
     jobs = _codex_jobs(store, int(import_id))
     if not jobs:
@@ -388,8 +389,9 @@ def next_codex_first_assignment(
                         ((job.get("plan") or {}).get("researcherRoster") or {}).get("version")
                         or ""
                     )
-                    if closed is None and roster_version.startswith("pairwise-"):
-                        # Pairwise experiments are intentionally lock-step: do not
+                    if (closed is None and roster_version.startswith("pairwise-")
+                            and not allow_primary_ahead):
+                        # Pairwise runs default to lock-step: do not
                         # let the primary researcher run into the next category
                         # until the configured challenger has completed this one.
                         return None
