@@ -4,6 +4,11 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+**New-context entry point:** [September 21 handoff](docs/context-handoff-20260921.md).
+Live recheck at 20:04 UTC / 14:04 MDT confirms the paused state below: no research
+workers, all 21 primary Categories complete, five challengers pending, no curation.
+Both monitors respond; all four updated workbench files match their final audit.
+
 ## All Welfare Square Codex primary complete; paused — September 21, 11:09 MDT
 
 **The requested remaining Codex passes are complete. All research workers are
@@ -68,8 +73,8 @@ Monitors alone were restarted to load this release: St. George 8769 PID 70750;
 Welfare Square 8770 PID 70753. The St. George Save endpoint serves the new help
 at 0.51.1/build 20 with all 879 resources and its review gate still satisfied.
 
-The Welfare Square primary-only run continues under the existing authorization.
-The monitor now prefers an assigned primary pass over an earlier pending
+At the time of this interface release, the primary-only run was continuing; it
+has since completed and paused as recorded above. The monitor now prefers an assigned primary pass over an earlier pending
 challenger; this changes display only. No Grok/Claude calls or curation authorized.
 
 ## Remaining Welfare Square Codex primary authorized — September 21
