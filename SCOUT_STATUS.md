@@ -4,6 +4,36 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## All Welfare Square Codex primary complete; paused — September 21, 11:09 MDT
+
+**The requested remaining Codex passes are complete. All research workers are
+stopped. Do not restart Grok, Claude, or curation without Michael's decision.**
+The primary-only runner completed **21 new passes at gpt-5.5 / High**, including
+all four required gap passes, then exited normally. There were zero failures,
+retries, Grok calls, or Claude calls. Active worker time: 62.37 minutes.
+
+All **21 Categories / 112 primary passes** now have Codex research complete.
+Seniors: 5 passes / 84 submitted leads; Transportation: 6 / 85;
+Utilities/Phone/Internet: 5 / 75; Veterans: 5 / 97. These are submissions, not
+unique accepted or curated resources. **16 Categories remain fully researched**;
+the five Grok challengers for Mental Health, Seniors, Transportation,
+Utilities/Phone/Internet, and Veterans are sealed and pending. The original
+Codex+Grok roster is preserved; this was not a single-provider architecture change.
+
+Verified all 91 previous primary passes, all 16 previous challenger rows and all
+16 completed Category jobs unchanged. SQLite quick_check passed. Coordinator
+**69435** and its entire process group exited; no duplicate worker remains.
+No curation job exists. `launch.json` records `paused-by-user`, primary completion
+21/21, and no automatic restart. Monitor **http://127.0.0.1:8770** remains available
+(PID 70753); its overall completed count stays 16 while challengers are pending.
+
+[Completion evidence](docs/welfare-square-all-primary-20260921.json).
+Backup, sealed launch command, before snapshot and audit:
+`data/welfare-square-production-20260921-codex-grok/remaining-primary-only-20260921/`.
+Earlier running/authorization entries below are historical. Primary-only mode,
+Help/controls release and the corrected Help wording passed GitHub CI. Workbench
+files and backups are described in the next entry.
+
 ## Curation Help and older workbench controls updated — September 21
 
 Scout **0.51.1 build 20** supplies curation-specific Help and Admin Help, Match

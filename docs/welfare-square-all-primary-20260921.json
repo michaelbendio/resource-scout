@@ -1,0 +1,348 @@
+{
+  "verifiedAt": "2026-09-21T17:09:02.004096+00:00",
+  "scope": "All remaining Welfare Square Codex primary passes, then pause",
+  "newPrimaryPasses": 21,
+  "newAttempts": [
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Seniors",
+      "focus_key": "direct-service-landscape",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 170761,
+      "lead_count": 28,
+      "started_at": "2026-09-21T16:04:55.451422+00:00",
+      "completed_at": "2026-09-21T16:07:46.213090+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Seniors",
+      "focus_key": "public-system-pathways",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 194935,
+      "lead_count": 16,
+      "started_at": "2026-09-21T16:07:46.335533+00:00",
+      "completed_at": "2026-09-21T16:11:01.270957+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Seniors",
+      "focus_key": "community-population-pathways",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 187809,
+      "lead_count": 16,
+      "started_at": "2026-09-21T16:11:01.392045+00:00",
+      "completed_at": "2026-09-21T16:14:09.201094+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Seniors",
+      "focus_key": "non-obvious-primary-sources",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 165808,
+      "lead_count": 12,
+      "started_at": "2026-09-21T16:14:09.319217+00:00",
+      "completed_at": "2026-09-21T16:16:55.127931+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Seniors",
+      "focus_key": "gap",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 169479,
+      "lead_count": 12,
+      "started_at": "2026-09-21T16:16:55.295192+00:00",
+      "completed_at": "2026-09-21T16:19:44.774894+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Transportation",
+      "focus_key": "transit-fares",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 193698,
+      "lead_count": 24,
+      "started_at": "2026-09-21T16:19:44.940605+00:00",
+      "completed_at": "2026-09-21T16:22:58.638865+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Transportation",
+      "focus_key": "paratransit-senior",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 164618,
+      "lead_count": 11,
+      "started_at": "2026-09-21T16:22:58.760328+00:00",
+      "completed_at": "2026-09-21T16:25:43.378315+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Transportation",
+      "focus_key": "medical-transport",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 179545,
+      "lead_count": 14,
+      "started_at": "2026-09-21T16:25:43.503160+00:00",
+      "completed_at": "2026-09-21T16:28:43.047352+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Transportation",
+      "focus_key": "employment-emergency",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 166393,
+      "lead_count": 13,
+      "started_at": "2026-09-21T16:28:43.165580+00:00",
+      "completed_at": "2026-09-21T16:31:29.559129+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Transportation",
+      "focus_key": "vehicle-bike-repair",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 152579,
+      "lead_count": 11,
+      "started_at": "2026-09-21T16:31:29.686299+00:00",
+      "completed_at": "2026-09-21T16:34:02.265895+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Transportation",
+      "focus_key": "gap",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 167531,
+      "lead_count": 12,
+      "started_at": "2026-09-21T16:34:02.430974+00:00",
+      "completed_at": "2026-09-21T16:36:49.962210+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Utilities, Phone, Internet",
+      "focus_key": "direct-service-landscape",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 199168,
+      "lead_count": 26,
+      "started_at": "2026-09-21T16:36:50.085778+00:00",
+      "completed_at": "2026-09-21T16:40:09.254430+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Utilities, Phone, Internet",
+      "focus_key": "public-system-pathways",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 205990,
+      "lead_count": 12,
+      "started_at": "2026-09-21T16:40:09.376530+00:00",
+      "completed_at": "2026-09-21T16:43:35.365614+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Utilities, Phone, Internet",
+      "focus_key": "community-population-pathways",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 173636,
+      "lead_count": 14,
+      "started_at": "2026-09-21T16:43:35.486924+00:00",
+      "completed_at": "2026-09-21T16:46:29.123110+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Utilities, Phone, Internet",
+      "focus_key": "non-obvious-primary-sources",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 208420,
+      "lead_count": 13,
+      "started_at": "2026-09-21T16:46:29.240874+00:00",
+      "completed_at": "2026-09-21T16:49:57.661220+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Utilities, Phone, Internet",
+      "focus_key": "gap",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 170198,
+      "lead_count": 10,
+      "started_at": "2026-09-21T16:49:57.837108+00:00",
+      "completed_at": "2026-09-21T16:52:48.035268+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Veterans",
+      "focus_key": "direct-service-landscape",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 187155,
+      "lead_count": 36,
+      "started_at": "2026-09-21T16:52:48.207111+00:00",
+      "completed_at": "2026-09-21T16:55:55.362183+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Veterans",
+      "focus_key": "public-system-pathways",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 144529,
+      "lead_count": 14,
+      "started_at": "2026-09-21T16:55:55.488118+00:00",
+      "completed_at": "2026-09-21T16:58:20.017271+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Veterans",
+      "focus_key": "community-population-pathways",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 188936,
+      "lead_count": 19,
+      "started_at": "2026-09-21T16:58:20.139981+00:00",
+      "completed_at": "2026-09-21T17:01:29.076108+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Veterans",
+      "focus_key": "non-obvious-primary-sources",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 195456,
+      "lead_count": 18,
+      "started_at": "2026-09-21T17:01:29.199334+00:00",
+      "completed_at": "2026-09-21T17:04:44.654254+00:00",
+      "requestedReasoningEffort": "high"
+    },
+    {
+      "provider": "Codex",
+      "role": "primary",
+      "category_label": "Veterans",
+      "focus_key": "gap",
+      "model": "gpt-5.5",
+      "outcome": "completed",
+      "elapsed_ms": 155319,
+      "lead_count": 10,
+      "started_at": "2026-09-21T17:04:44.839310+00:00",
+      "completed_at": "2026-09-21T17:07:20.159036+00:00",
+      "requestedReasoningEffort": "high"
+    }
+  ],
+  "remainingCategoryResults": [
+    {
+      "category_label": "Seniors",
+      "passes": 5,
+      "submittedLeads": 84
+    },
+    {
+      "category_label": "Transportation",
+      "passes": 6,
+      "submittedLeads": 85
+    },
+    {
+      "category_label": "Utilities, Phone, Internet",
+      "passes": 5,
+      "submittedLeads": 75
+    },
+    {
+      "category_label": "Veterans",
+      "passes": 5,
+      "submittedLeads": 97
+    }
+  ],
+  "priorCompletedPassesPreserved": 91,
+  "priorCompletedJobsPreserved": 16,
+  "allExistingChallengerRowsUnchanged": true,
+  "newGrokCalls": 0,
+  "newClaudeCalls": 0,
+  "failuresOrRetries": 0,
+  "completedCategories": 16,
+  "primaryCompleteCategories": 21,
+  "pendingChallengers": [
+    {
+      "category_label": "Mental Health",
+      "researcher": "Grok",
+      "status": "assigned",
+      "assignment_sha256": "57dbb936a07f0495ddd54c3242aa2785533f4cc395fac56d09759d9d737f4fbc"
+    },
+    {
+      "category_label": "Seniors",
+      "researcher": "Grok",
+      "status": "assigned",
+      "assignment_sha256": "1129c8195ebe9203989af29f0dc85fc0a2c2e74edb9e3c883bb6a1c921481e34"
+    },
+    {
+      "category_label": "Transportation",
+      "researcher": "Grok",
+      "status": "assigned",
+      "assignment_sha256": "13449707df90a7f1e0241270419442fac9affe5a3e895c8435b19831415951ad"
+    },
+    {
+      "category_label": "Utilities, Phone, Internet",
+      "researcher": "Grok",
+      "status": "assigned",
+      "assignment_sha256": "0c5b62f400368b524069b11705fb7feed3821b93bf91d989e7446022c9cf260a"
+    },
+    {
+      "category_label": "Veterans",
+      "researcher": "Grok",
+      "status": "assigned",
+      "assignment_sha256": "5ccb1af8c327b1639de4aaf710fc75e3d52360948626bc66f7f7f676c2d87ba9"
+    }
+  ],
+  "activeResearchMinutes": 62.37,
+  "workerStopped": true,
+  "processGroupGone": true,
+  "automaticRestart": false,
+  "curationStarted": false,
+  "sqliteQuickCheck": "ok"
+}
