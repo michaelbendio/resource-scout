@@ -4,6 +4,27 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square three-category selective checkpoint — September 21, 23:22 MDT
+
+Existing xhigh curation continues in **Disability**, with persistent supervisor
+active and zero restarts at the checkpoint. Research 21/21; curation **3/21**.
+Selected drafts: Addiction **72**, Children/Pregnancy **91**, Clothing/Household
+**42**; 197 unique IDs across these saved category results, not a final office count.
+Clothing’s 61 original drafts were reduced through 16 explicit exclusions (including
+two incidental Clothing memberships) and three access-route consolidations. All 75
+candidate dispositions and original outputs remain. Wrong-campus Primary Pantry
+facts and shared-body losses were addressed. Core shelter pathways must remain in
+Housing/Homeless/Children despite the Clothing membership exclusions.
+Children and Clothing have complete provisional manual Type/priority judgments;
+final taxonomy, For groups, cross-category audit and browser review remain pending.
+SQLite integrity, links and four-heading checks pass; all 13 reviewed original
+batch hashes are unchanged. All 37 non-curation tables matched the pre-curation
+backup at the preservation checkpoint. Latest usage snapshot at 23:09 MDT was
+56% remaining; this is not a forecast. See the updated
+[review checkpoint](docs/welfare-square-review-checkpoint-20260922.md) for exact
+applied revision paths and remaining obligations. Continue authorized work without
+another approval; do not mark final review complete or human Curated prematurely.
+
 ## Welfare Square selective review continued — September 21, 23:04 MDT
 
 [Continuation checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
