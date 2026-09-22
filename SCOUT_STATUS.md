@@ -6,6 +6,20 @@ a monitor process is not a research worker.
 
 ## Welfare Square completion and review authorized — September 21, 20:01 MDT
 
+**Latest handover — September 21, 22:44 MDT:** Michael requested a context handover
+and radically smaller assistant/tool output, not a worker pause. Read
+[`docs/context-handoff-20260921-late.md`](docs/context-handoff-20260921-late.md)
+for the active run and pending selective review. Live: research 21/21 complete;
+curation 2/21 complete (Addiction 73 selected resources, Children/Pregnancy 96
+original curator drafts awaiting root revisions). Clothing/Household batch 1/4
+active; coordinator 79229 and persistent supervisor 79234 verified, restarts 0,
+recent native activity, SQLite quick_check OK. Existing supervisor continues across
+the handover; it does not conduct substantive review. Last quota snapshot at 22:31
+MDT was 58% remaining. Children batches 1–4 reviewed; batch 5 needs a bounded read;
+prepared source corrections, restoration and merges are saved but not applied.
+Continue the authorized selective review and delivery without another approval.
+Earlier progress snapshots below are historical.
+
 Live progress at September 21, 21:01 MDT: **21/21 Categories fully researched**.
 DeepSeek's five saved results contain 136 raw submissions: Mental Health 26,
 Seniors 21, Transportation 25, Utilities/Phone/Internet 10, Veterans 54. Total
