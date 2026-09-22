@@ -4,6 +4,23 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square selective review continued — September 21, 23:04 MDT
+
+[Continuation checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Existing xhigh coordinator and persistent supervisor continue; no duplicate worker
+or new research was launched. Verify live status before acting. Research 21/21;
+curation 2/21, Clothing/Household in progress with two saved batches reviewed.
+Children/Pregnancy now has **91 selected drafts / 112 preserved dispositions**:
+26 source field corrections, restored Guadalupe home visits, one center merge,
+five reasoned omissions. Addiction remains 73, with SUPeRAD intake reconciled.
+All 91 Children drafts have provisional manual Type/priority judgments, not final
+navigation. Clothing review caught Lehi hospital diaper rules incorrectly applied
+to Salt Lake Primary Pantry; correction/selection remains pending category completion.
+Cross-category obligations and immutable revision evidence are saved. SQLite
+quick_check and current candidate/resource link checks pass. Full review, For-group
+design, browser inspection and Save verification remain pending; continue authorized
+review and delivery without another approval. Earlier snapshots are historical.
+
 ## Welfare Square completion and review authorized — September 21, 20:01 MDT
 
 **Latest handover — September 21, 22:44 MDT:** Michael requested a context handover
