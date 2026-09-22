@@ -5,6 +5,62 @@ Research is complete; final content, taxonomy, browser review and Save delivery 
 unfinished. Continue without another approval. No new research, subagents or
 provider calls were launched by this continuation.
 
+## Medical selected — September 22, 06:40 MDT
+
+Original coordinator 79229/supervisor 79234 continue at xhigh, zero restarts.
+Research 21/21; curation **11/21**, **Homeless Services batch 2/4** active.
+All four Medical batches and all 89 dispositions are root-read. The batches contain
+81 resource rows, including a repeated Friends for Sight identity, yielding 80
+unique drafts. Guarded `audit/medical-dental-vision-review-revision-001/` retains
+**71 records**, result hash
+`0f2971090c1feefa3424f48a82449351f972fc149b6dcb81f430e66268fe9002`.
+
+- Applied 85 unique prepared field corrections (88 including repeated Friends
+  fields), with 82 on retained or merged identities. All 89 candidate decisions
+  remain. Original batches and ten earlier completed categories are unchanged.
+- Three connected-access consolidations remove three IDs: Friends for Sight/RMU;
+  Moran outreach/Operation Sight; and Clinic 1A/state Ryan White and ADAP access.
+  Full labeled sections preserve direct versus partner intake, school restrictions,
+  Provo versus Salt Lake availability, national versus local surgery criteria, and
+  clinical care versus state benefit rules. General patient scheduling replaces the
+  Moran phone that was only established in fundraising context.
+- Two whole-record omissions concern a generic insured eye clinic and uncertain
+  Health Clinics of Utah intake whose official directory link now redirects to the
+  already retained IOC with different contacts/hours. Neither is a closure finding.
+  Four Medical-only exclusions preserve corrected Head Start, Older Blind, YRC and
+  Older Refugee facts in their approved primary categories. Do not restore earlier
+  exclusions through category union, especially Head Start Education, Friends
+  Disability or Rose Park Food/Clothing.
+- Current primary findings include OHAP's established-patient, Utah-residency and
+  no-dental-coverage rules, document alternatives and 30-day treatment-plan deadline;
+  Medication Support Service's U of U pharmacy restriction, 30-day fills and drug
+  exclusions; and the 2025 Ryan White manual's 500% FPL case-management versus 250%
+  core/support/ADAP rules and annual eligibility review. The older linked application
+  still says six months; its age is now explicit. The image-only medication handout
+  and OHAP instructions were downloaded, rendered and visually checked.
+- Restore earlier Children, Disability, Financial, Reentry and Food facts, including
+  hospital-assistance policies, specialty access, pregnancy/teen-program limits,
+  application contacts, UATP financing rules and YRC's actual new-intake window.
+  Correct MVP's mandatory medical review and stairs/no-elevator restriction, West
+  High's age-18 authorization exception, and actual self-pay imaging/hygiene fees.
+- Keep independent safety-net clinics and distinct specialist pathways where their
+  services, populations and intake differ. Final shared-body review must reconcile
+  UICSL/UPFH agency copies and forthcoming Homeless/Mental versions without losing
+  reviewed facts or the three redirects.
+
+The 06:40 preservation check confirms **37 unchanged non-curation tables**, **54
+unchanged reviewed batch hashes**, current links/four headings and SQLite integrity.
+The revision additionally preserves all 55 original batch files saved at application
+time. Eleven categories contain **713 unique IDs**. Evidence:
+`audit/root-review-checkpoint-20260922T124017Z.json` and
+`audit/research-preservation-20260922T124017Z.json`. Homeless batch 1 is saved but
+not root-read. Education For remains 86/86 and Disability 147/147, provisional.
+Continue remaining content, shared-copy reconciliation, manual navigation/groups/
+priorities, browser checks and actual Save delivery. No human Curated marking,
+final-completion record or office publication.
+Allowance snapshot at 06:41 MDT: **41% remaining**, reset September 25 at 14:12 MDT;
+not a completion forecast.
+
 ## Food selected — September 22, 06:05 MDT
 
 Original coordinator 79229/supervisor 79234 continue at xhigh, zero restarts.

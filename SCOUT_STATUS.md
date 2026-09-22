@@ -4,6 +4,27 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Medical selected — September 22, 06:40 MDT
+
+Research **21/21**; curation **11/21**. Original coordinator/supervisor continue at
+xhigh with zero restarts; **Homeless Services batch 2/4** is active. All Medical
+batches are read: **80 unique records / 89 candidate dispositions**. Guarded
+revision retains **71 Medical records**, with 85 unique prepared field corrections
+(82 on retained/merged IDs), three connected-access consolidations and six
+individually reasoned exclusions. Four exclusions preserve useful health facts in
+their primary services; final cross-copy reconciliation remains pending. Source
+findings include actual OHAP application requirements, medication-support limits,
+Ryan White's newer income/annual-review rules and corrected vision intake phones.
+Eleven current categories contain **713 unique IDs**, not a final office count.
+The preservation check confirms **37 unchanged non-curation tables and 54 unchanged
+reviewed batch hashes**, current links/four headings and SQLite integrity. Homeless
+batch 1 is saved but not yet root-read. Education For remains 86/86 provisional;
+Disability 147/147. Remaining content, shared copies, navigation/priorities, final
+group review, browser inspection and Save are unfinished. Continue authorized work;
+see the [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Allowance snapshot at 06:41 MDT: **41% remaining**, reset September 25 at 14:12 MDT;
+not a completion forecast.
+
 ## Welfare Square Food selected — September 22, 06:05 MDT
 
 Research **21/21**; curation **10/21**. Original coordinator/supervisor continue at
