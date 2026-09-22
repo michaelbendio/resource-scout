@@ -55,8 +55,14 @@ def compact_assignment(assignment: dict[str, Any]) -> dict[str, Any]:
                 row[key] = item[key]
         candidates.append(row)
     view["candidates"] = candidates
+    index_fields = ("id", "name", "website", "categories", "description")
+    if (assignment.get("batch") or {}).get("priorIndexFormat") == "identity-v1":
+        # Large offices can have hundreds of prior proposals. Keep every
+        # identity discoverable; complete descriptions/bodies remain in the
+        # sealed prior-resources.json for selective reads.
+        index_fields = ("id", "name", "website", "categories")
     view["previousResourceIndex"] = [{
-        key: resource.get(key) for key in ("id", "name", "website", "categories", "description")
+        key: resource.get(key) for key in index_fields
     } for resource in assignment.get("previouslyCuratedResources", [])]
     view["evidenceFiles"] = {
         "assignment.json": "Full sealed original, including raw source responses and consolidation metadata.",
@@ -313,6 +319,10 @@ def complete_batched_category(job: dict[str, Any], assignment: dict[str, Any], d
         part["batch"] = {"index": index, "total": len(batches),
                          "parentAssignmentSha256": assignment["assignmentSha256"],
                          "instructions": "Curate only these candidate IDs. Other batches cover the remaining candidates. Reuse full prior records for matching identities; do not omit a duplicate when it contributes to a retained prior program."}
+        if getattr(args, "compact_prior_index", False):
+            # Bind the changed projection to a new immutable attempt identity.
+            # Legacy batches keep their original hashes and sealed bytes.
+            part["batch"]["priorIndexFormat"] = "identity-v1"
         part["assignmentSha256"] = _assignment_sha256(part)
         folder = directory / "batches-v1" / f"{index:03d}-{part['assignmentSha256'][:16]}"
         folder.mkdir(parents=True, exist_ok=True)
@@ -464,8 +474,13 @@ def main() -> int:
     parser.add_argument("--timeout-seconds", type=int, default=3600)
     parser.add_argument("--batch-candidates", type=int, default=0, help="Bound each fresh curation context; 0 uses one context per category")
     parser.add_argument("--batch-chars", type=int, default=60000)
+    parser.add_argument("--compact-prior-index", action="store_true",
+                        help="With batching, omit prior descriptions from the inline index; preserve full records in sealed evidence")
     parser.add_argument("--max-categories", type=int, help="Completed categories total, resume-safe")
-    print(json.dumps(run(parser.parse_args()), indent=2), flush=True)
+    args = parser.parse_args()
+    if args.compact_prior_index and not args.batch_candidates:
+        parser.error("--compact-prior-index requires --batch-candidates")
+    print(json.dumps(run(args), indent=2), flush=True)
     return 0
 
 

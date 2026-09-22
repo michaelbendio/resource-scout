@@ -73,3 +73,15 @@ Read [the orchestration contract](scout-orchestration.md) before supervising
 these operations. Bounded batching and durable results are implemented; the
 CLI still stops for unexpected failures. It is not yet a self-repairing unattended
 supervisor. The assistant owns diagnosis and recovery during the current run.
+
+## Large prior-resource index recovery
+
+Welfare Square ID Recovery exhausted context on September 22 after 13 categories
+completed. For that remaining run, use `--batch-candidates 10 --batch-chars 25000
+--compact-prior-index` at the already authorized xhigh effort. The opt-in index
+keeps every prior resource ID, name, website and categories inline, with complete
+descriptions and Information bodies still available in `prior-resources.json`.
+`priorIndexFormat: identity-v1` is part of the batch assignment hash, so changed
+projections create distinct sealed attempts; the default preserves legacy batch
+bytes/hashes. The option requires batching. Preserve the failed attempt and any
+completed batches before changing limits; do not repartition completed work.

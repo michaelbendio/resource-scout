@@ -77,11 +77,11 @@ class CurationRunnerTests(unittest.TestCase):
                 write_evidence_once(new, [{"id": "changed"}])
 
     def test_category_resume_and_completed_export_do_not_repeat_worker(self):
-        for batch_candidates in (0, 1):
-            with self.subTest(batch_candidates=batch_candidates):
-                self.exercise_category_resume(batch_candidates)
+        for batch_candidates, compact_prior_index in ((0, False), (1, False), (1, True)):
+            with self.subTest(batch_candidates=batch_candidates, compact_prior_index=compact_prior_index):
+                self.exercise_category_resume(batch_candidates, compact_prior_index)
 
-    def exercise_category_resume(self, batch_candidates):
+    def exercise_category_resume(self, batch_candidates, compact_prior_index=False):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             package = root / "source.zip"
@@ -112,6 +112,7 @@ class CurationRunnerTests(unittest.TestCase):
             args = argparse.Namespace(database=str(store.path), output=str(root / "out"),
                                       import_id=import_id, source_audit=None, max_categories=1,
                                       codex_binary="never-call", model="test", timeout_seconds=60, effort="high", batch_candidates=batch_candidates, batch_chars=60000)
+            args.compact_prior_index = compact_prior_index
             def worker(directory, **kwargs):
                 if directory.name == "structural-repair-1":
                     self.assertFalse(kwargs["search"])
@@ -120,6 +121,10 @@ class CurationRunnerTests(unittest.TestCase):
                     (directory / "result.json").write_text(json.dumps(repaired))
                     return
                 assignment = json.loads((directory / "assignment.json").read_text())
+                if compact_prior_index:
+                    self.assertEqual("identity-v1", assignment["batch"]["priorIndexFormat"])
+                    view = json.loads((directory / "view.json").read_text())
+                    self.assertTrue(all("description" not in r for r in view["previousResourceIndex"]))
                 category = assignment["category"]["id"]
                 ids = [str(c["id"]) for c in assignment["candidates"]]
                 prior_ids = [c for r in assignment["previouslyCuratedResources"] if r["id"] == category for c in r["candidateIds"]]
@@ -175,6 +180,27 @@ class CurationRunnerTests(unittest.TestCase):
             (root / "result.json").write_text(json.dumps(result))
             self.assertEqual(result, read_worker_result(root))
             self.assertFalse((root / "normalized-result.json").exists())
+
+    def test_compact_index_preserves_all_identities_and_full_evidence(self):
+        from copy import deepcopy
+        from resource_research_agent.scout_curation import _assignment_sha256
+        assignment = {"candidates": [], "batch": {"index": 1, "total": 1},
+                      "previouslyCuratedResources": [
+                          {"id": "a", "name": "Clinic", "website": "https://example.org/a",
+                           "categories": ["medical"], "description": "Detailed eligibility " * 100,
+                           "informationText": "Complete body"},
+                          {"id": "b", "name": "Shelter", "website": "https://example.org/b",
+                           "categories": ["housing"], "description": "Different access"}]}
+        legacy = deepcopy(assignment)
+        legacy_view = compact_assignment(assignment)
+        assignment["batch"]["priorIndexFormat"] = "identity-v1"
+        compact = compact_assignment(assignment)
+        self.assertNotEqual(_assignment_sha256(legacy), _assignment_sha256(assignment))
+        self.assertEqual(legacy["previouslyCuratedResources"], assignment["previouslyCuratedResources"])
+        self.assertEqual(["a", "b"], [r["id"] for r in compact["previousResourceIndex"]])
+        self.assertEqual([{k: v for k, v in r.items() if k != "description"}
+                          for r in legacy_view["previousResourceIndex"]], compact["previousResourceIndex"])
+        self.assertLess(len(encode(compact)), len(encode(legacy_view)))
 
     def test_projection_preserves_every_identity_original_and_manual_edit(self):
         original = {"submittedOrganization": "Clinic", "uncertainty": "Adults only?", "sourceLabel": "Saved Claude", "submittedWebsite": "https://example.org"}

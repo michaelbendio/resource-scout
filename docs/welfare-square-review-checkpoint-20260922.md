@@ -1,9 +1,77 @@
 # Welfare Square selective review checkpoint — September 21 late continuation
 
-The existing xhigh curation coordinator and persistent supervisor remain active.
-Research is complete; final content, taxonomy, browser review and Save delivery are
-unfinished. Continue without another approval. No new research, subagents or
-provider calls were launched by this continuation.
+The authorized xhigh curation run and persistent supervisor are active after one
+preserved context-exhaustion recovery. Research is complete; final content,
+taxonomy, browser review and Save delivery remain unfinished. Continue without
+another approval. No new discovery, subagents or alternate providers were launched.
+
+## Housing selected; ID Recovery context recovery — September 22, 08:33 MDT
+
+Research **21/21**, curation **13/21**. Housing's six batches contain 101 rows,
+95 unique identities and 119 decisions. Guarded `audit/housing-review-revision-001/`
+retains **86 records**, result hash
+`9f7755eda694f72db08834e3261a5e06e4e6613c77853d9efeb95be1f0f8bc1c`.
+
+- 140 per-batch corrections collapse to **134 unique fields**. Six repeated fields
+  were explicitly rebased: five proposals agree; Microshelter adds dated location
+  context while preserving every earlier paragraph. All expected-old values and
+  original batch hashes matched before application.
+- Three connected-access merges: Road Home three shelters, UNPHC/Aspenview and
+  Valley Safe Haven/Homefront/Woods. Preserve each branch's distinct eligibility,
+  contacts, address and support. DSPD supplement reuses Disability ID
+  `a7745018b69254de8b88731db9c63f9b`, preserving full intake/waitlist/appeal facts.
+- Five exclusions: Upward Motion and Rise Again selective whole-record omissions;
+  VOA two detox programs and VA SARRTP Housing-only omissions. Clinical overnight
+  treatment alone is not a housing placement. Their full Addiction facts remain
+  in correction evidence for global reconciliation. Rise Again has a verified
+  address/interview/house-vote process; its omission is not based on the draft's
+  erroneous claim that no address/rules exist.
+- Restore Featherstone's ACT-team referral, and attach HASLC Atkinson/Sunrise and
+  Housing Connect public applications to the respective authority records. Keep
+  Housing Connect's current opening/closure contradiction visible.
+- Batches 4–6 additionally verify Valley's housing-income requirement and separate
+  outpatient schedule; UNPHC property-selection rejection/update rules; Friendship
+  office 8–4 and info@ contact; KRH leases/assistance animals/family support; Holding
+  Out HELP cost-free Host Homes; New Life graduate housing 6–18 months; Sarah Daft
+  shared/private bathrooms; FYI's historical 52-voucher award; Ville adult/referral/
+  no-cost access; and 7th Street's actual housing vouchers plus conflicting IOP
+  durations. Earlier complete shared bodies were retained.
+- New May 19, 2026 OHS material describes St. Vincent operating and proposes
+  year-round funding. It does not prove post-July implementation. The revised
+  title drops unconditional winter-only wording and distinguishes historical hours
+  from the proposed change. Microshelter's September 2024 state address cannot
+  settle the current provider/211 location discrepancy.
+- Global obligations are appended to `cross-category-correction-obligations.json`.
+  Preserve Road Home/Geraldine Food/Clothing and YRC Medical exclusions. Reconcile
+  later Mental/Seniors/Utilities copies, Featherstone and DSPD identities, Promise
+  utility conditions, and Holding Out HELP's expanded For evidence.
+
+The 08:33 audit (`root-review-checkpoint-20260922T143316Z.json` and matching
+`research-preservation-*`) confirms **37 unchanged research tables, 64 unchanged
+reviewed original batch hashes**, links/four headings and SQLite integrity.
+Thirteen completed categories contain **773 unique IDs**, not a final office count.
+
+At 08:24 MDT ID Recovery batch 1 failed with the native context-exhaustion error.
+No validated ID batch existed. Its prompt was 439,470 bytes, largely the
+780-resource prior index. Recovery preserves all 12 failed attempt files, launch/
+supervisor snapshots and 13 completed result hashes under
+`audit/context-recovery-20260922-001/`. Runner now offers opt-in
+`--compact-prior-index`, binding the projection version into the batch hash;
+all identities remain and full descriptions/bodies stay in sealed evidence.
+**26 runner/recovery/supervisor tests pass**, including legacy and compact resume.
+The same authorized gpt-5.5/xhigh worker resumed with **10 candidates / 25,000
+characters**, reducing its first prompt to **238,578 bytes**. Coordinator **1786**
+and supervisor **1787** are active; **ID Recovery batch 1/8**, fresh native events.
+One manual context recovery, zero automatic coordinator restarts. Do not alter
+sealed inputs or redo completed categories. Inspect actual native events at least
+once per minute and diagnose further failures before any retry.
+
+Provisional For progress: Education 86/86, Disability 147/147, Domestic Violence
+**24/76**, with the first three DV checkpoints saved. Holding Out HELP's old no-group
+judgment must be revisited after its expanded Host Homes body is reconciled.
+Every remaining content, shared-identity, manual Type/For/priority and actual
+browser/Save requirement still applies. No completion record or human Curated
+marks. Allowance 08:33 MDT: **37% remaining**, reset September 25 at 14:12 MDT.
 
 ## Housing batches 1–3 reviewed — September 22, 08:02 MDT
 

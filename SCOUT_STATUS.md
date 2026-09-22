@@ -4,6 +4,35 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Housing selected; ID Recovery resumed — September 22, 08:33 MDT
+
+Research **21/21**; curation **13/21**. Housing review retains **86 records** from
+95 unique drafts / 119 candidate dispositions, with **134 unique field corrections**,
+three consolidations removing five duplicate IDs, one DSPD identity replacement,
+five exclusions, restored Featherstone ACT referral and two restored authority
+candidate links. All six Housing batches are read and preserved. The audit confirms
+**37 unchanged research tables, 64 unchanged reviewed batch hashes**, current
+links/four headings and SQLite integrity; **773 current unique IDs** across completed
+categories. Result and evidence are in `audit/housing-review-revision-001/`.
+
+ID Recovery batch 1 exhausted the native context window at 08:24 MDT. No ID batch
+had completed. Its 12 attempt files and all completed work are preserved in place,
+with recovery evidence under `audit/context-recovery-20260922-001/`. After 26 passing
+runner/recovery/supervisor tests, the authorized xhigh worker resumed with **10
+candidates / 25,000 candidate characters** and `--compact-prior-index`: all identities
+remain inline, complete prior bodies remain in sealed evidence. First prompt shrank
+from **439,470 to 238,578 bytes**. Coordinator **1786**, supervisor **1787** are active;
+**ID Recovery batch 1/8** is producing native events. One manual context recovery;
+zero automatic coordinator restarts. No new discovery or provider was introduced.
+
+Education For 86/86, Disability 147/147 and Domestic Violence **24/76** are provisional;
+Holding Out HELP's expanded Housing body requires revisiting its earlier no-group
+judgment. Final shared bodies/identities, manual navigation/groups/priorities,
+browser review and Save remain unfinished. Continue authorized work; see the
+[review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Allowance at 08:33 MDT: **37% remaining**, reset September 25 at 14:12 MDT;
+not a completion forecast.
+
 ## Welfare Square Housing review continued — September 22, 08:02 MDT
 
 Research **21/21**; curation **12/21**. Original xhigh coordinator/supervisor
