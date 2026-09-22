@@ -4,6 +4,23 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Financial Assistance selected — September 22, 04:33 MDT
+
+Research **21/21**; curation **8/21**. Original coordinator/supervisor remain healthy,
+zero restarts; **Reentry Support batch 2/4** is active. All five Financial batches
+and 104 dispositions are read. Guarded review retains **67 of 87** drafts through
+seven consolidations (ten merged IDs), eleven specific exclusions and one restored
+lender-access grant. There are 43 unique prepared field corrections, 39 on retained
+or merged IDs. Nine exclusions are Financial-only and carry explicit later-category
+preservation obligations. Eight current categories contain **591 unique IDs**, not
+a final office count. The audit verifies 37 unchanged non-curation tables and
+**42 reviewed original batch hashes**, current links/headings and SQLite integrity.
+Reentry batch 1 is saved but not root-read. Final shared copies, navigation, group
+judgments, priorities, remaining content, browser review and Save remain unfinished.
+Continue authorized work; see the [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Allowance snapshot at 04:33 MDT: **46% remaining**, reset September 25 at 14:12 MDT;
+not a completion forecast.
+
 ## Welfare Square Employment selected — September 22, 03:51 MDT
 
 Research **21/21**; curation **7/21**. Original coordinator/supervisor remain healthy,

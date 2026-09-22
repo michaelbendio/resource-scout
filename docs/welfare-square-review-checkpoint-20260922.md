@@ -5,6 +5,66 @@ Research is complete; final content, taxonomy, browser review and Save delivery 
 unfinished. Continue without another approval. No new research, subagents or
 provider calls were launched by this continuation.
 
+## Financial Assistance selected — September 22, 04:33 MDT
+
+Original coordinator 79229/supervisor 79234 remain healthy at xhigh, zero restarts.
+Research 21/21; curation **8/21**, Reentry Support **batch 2/4** active. Its first
+batch is saved but awaits root reading. All five Financial batches are fully read:
+**91 batch resource records / 104 dispositions**. Guarded
+`audit/financial-assistance-review-revision-001/` retains **67 of 87** original
+Financial drafts, with result hash
+`4cdd38711880e8df35110757fe7a08520cd6b28f41be56dcfe0a95e49b781de2`.
+
+- Applied 43 unique prepared field changes, 39 on retained or merged IDs. Original
+  results, all 104 decisions and corrected excluded bodies remain in evidence.
+  The first prewrite paragraph assertion produced a formatting false positive;
+  no write occurred. The successful check verifies every complete revised source
+  section survives its labeled merge branch.
+- Seven consolidations remove ten duplicate access records: NeighborWorks
+  Midvale/Murray housing aid; HEAT with linked HELP/Enbridge/Murray credits;
+  UCA's South Salt Lake/West Jordan municipal funds; Salvation Army gas/electric/
+  water programs; Refugee Center Afghan/RESH pathways; UHC's two loan routes; and
+  VA homeless care/HUD-VASH. Separate subprogram eligibility, debt, geography,
+  timing and intake rules remain explicit under the four Information headings.
+- Eleven specific exclusions include two overlapping remote credit-counseling
+  alternatives. Local/tailored coaching and one remote DMP fallback remain, with
+  fees and account-closure consequences stated. Nine other exclusions concern
+  Financial membership: First Step, Odyssey, Operation Homefront, HASLC, HARP,
+  general Road Home RRH, YRC, VR employment-plan support and Women of the World.
+  **The first five had no earlier current same-ID record and require later Housing
+  review.** Their exclusion here is not a whole-office rejection. All nine have
+  saved full corrected bodies and category-preservation obligations. Existing
+  copies may still union excluded Financial memberships back until final cleanup.
+- Restored candidate 779 as combined FHLB Home$tart/NAHI lender-access grants.
+  Home$tart is publicly fully reserved with an October 1 scheduled release; NAHI
+  has separate availability and eligibility. Preserve lender-only applications,
+  five-year repayment restrictions and the distinction from CDCU HomeStart savings.
+- Preserved visible primary-source conflicts: REACH income/disability rules differ
+  between Enbridge and Salvation Army; county/state property-tax age and grandfather
+  summaries differ; Murray repair-loan cap wording is ambiguous; Taylorsville links
+  an older application; winter moratorium instructions retain Red Cross routing
+  while current REACH uses Salvation Army. Do not silently decide these conflicts.
+- Restored UOVC's local DA advocacy contact and vehicle-crime exceptions, passed tax
+  deadlines, FEP good-cause safety, childcare SSN/immigration privacy, UATP grant
+  prerequisites, VR merged program details, YRC's 6 PM new-intake cutoff, Crossroads
+  source-scope conflict and Women of the World's passed scholarship deadline.
+  Lifeline gains supported Domestic Violence membership for its dedicated survivor
+  benefit. Human Curated and human group-review flags remain unset.
+- Retained rare consequential routes such as cremation, hospice/burial hardship
+  inquiries, specialized Deaf/DeafBlind tax help and survivor aid. Westminster
+  explicitly offers April–December appointments; expired generic seasonal VITA
+  availability was not assumed. No numerical selection quota was used.
+
+The 04:33 audit confirms **37 unchanged non-curation tables**, **42 reviewed original
+batch hashes**, current links/four headings and SQLite integrity. The revision
+separately preserved all 43 then-existing original batches, including unread Reentry
+batch 1, and all seven earlier category hashes. Eight current results contain
+**591 unique IDs**, not a final office count. Evidence:
+`audit/root-review-checkpoint-20260922T103338Z.json` and
+`audit/research-preservation-20260922T103338Z.json`. Disability For stays 89/147;
+Financial navigation/priorities and other outstanding review remain unfinished.
+Allowance at 04:33 MDT: **46% remaining**, reset September 25 14:12 MDT; not a forecast.
+
 ## Employment selected — September 22, 03:51 MDT
 
 Original coordinator 79229/supervisor 79234 remain healthy at xhigh, zero restarts.
