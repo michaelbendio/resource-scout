@@ -5,6 +5,57 @@ Research is complete; final content, taxonomy, browser review and Save delivery 
 unfinished. Continue without another approval. No new research, subagents or
 provider calls were launched by this continuation.
 
+## Food selected — September 22, 06:05 MDT
+
+Original coordinator 79229/supervisor 79234 continue at xhigh, zero restarts.
+Research 21/21; curation **10/21**, **Medical, Dental, Vision batch 2/4** active.
+All Food batches and all 98 dispositions are fully root-read. Guarded
+`audit/food-review-revision-001/` retains **63 of 86 drafts**, result hash
+`27f07ba8aba56cd496c7bf8645ad61b94fdb89e81dff10af6ff95845f1310de7`.
+
+- Applied 46 prepared field corrections, 38 on retained or merged identities, and
+  corrected Hope Unlimited's disposition to distinguish the prior indexed closure
+  announcement from the redesigned current homepage. All 98 decisions survive.
+- Three consolidations remove three IDs: CCS St. Vincent meals/Weigand day services;
+  Utah Food Bank homebound food boxes/senior CSFP; and Food Bank/County Library Kids
+  Cafe. Complete labeled sections preserve distinct eligibility, contacts, schedules,
+  application/pickup rules and program limits. The earlier Weigand ID is retained.
+- Thirteen whole-record exclusions have individual intake, source-conflict or
+  incremental-usefulness reasons; none asserts closure from an inaccessible page.
+  Seven Food-only exclusions preserve enrolled-care or shelter benefits in their
+  primary services. Neighborhood House pantry and UCA Head Start meal attachments,
+  Rose Park clinic pantry and corrected Road Home/Home Care/Geraldine King/YWCA bodies
+  remain explicit final reconciliation obligations. Earlier Clothing exclusions
+  and Primary Pantry/Geraldine King aliases must not be resurrected by category union.
+- Later-batch source corrections cover WIC document alternatives, Meals on Wheels'
+  suggested donation, Food Pharmacy's dated clinical-referral account, full Welfare
+  Square and Harm Reduction shared services, SFMNP's signed self-declaration and
+  season, Double Up's separate grocery mechanism, current CSFP 150% versus UFB 185%
+  income limits, in-home signup and missed-pickup/delivery rules. Produce Rx's
+  malformed source income wording remains visible for clinic confirmation.
+- Youth Resource Center drop-in meals and VOA street-outreach food remain Food
+  because they do not require overnight shelter enrollment. School districts and
+  independent bag programs remain distinct where applications and access differ.
+
+Education For checkpoints 001–005 now cover **86/86 records** against the 24
+provisional group definitions, including explicit no-group judgments. Disability
+remains 147/147. These are not final installed judgments: later shared bodies and
+comparable-program semantics still require reconciliation. First-generation and
+rural populations are catalog considerations, not automatically created groups;
+ordinary age/admission or FAFSA requirements do not establish targeted groups.
+
+The 06:05 preservation check confirms **37 unchanged non-curation tables**, **50
+unchanged reviewed original batch hashes**, current links/four headings and SQLite
+integrity. The revision also confirms all 51 currently saved original batch hashes
+and all nine other completed category hashes unchanged. Ten categories contain
+**665 unique IDs**. Evidence: `audit/root-review-checkpoint-20260922T120523Z.json`
+and `audit/research-preservation-20260922T120523Z.json`. Medical batch 1 is saved,
+not root-read. Continue remaining content, final shared copies, navigation/priorities,
+all-resource group review, browser checks and actual Save delivery. No human Curated
+marking, final-completion record or office publication.
+Allowance snapshot at 06:05 MDT: **43% remaining**, reset September 25 at 14:12 MDT;
+not a completion forecast.
+
 ## Food review continued — September 22, 05:32 MDT
 
 Original coordinator 79229/supervisor 79234 continue at xhigh, zero restarts.

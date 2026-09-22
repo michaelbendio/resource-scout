@@ -4,6 +4,25 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Food selected — September 22, 06:05 MDT
+
+Research **21/21**; curation **10/21**. Original coordinator/supervisor continue at
+xhigh with zero restarts; **Medical, Dental, Vision batch 2/4** is active. All Food
+batches are read: **86 resource records / 98 candidate dispositions**. Guarded
+revision retains **63 Food records**, with 46 prepared field corrections (38 on
+retained/merged IDs), three connected-program consolidations and 20 individually
+reasoned exclusions. Seven exclusions retain ancillary food benefits in their
+primary care/shelter pathways; those final cross-copy attachments remain pending.
+Education now has **86/86 provisional manual For judgments**; Disability remains
+147/147. Ten current categories contain **665 unique IDs**, not a final office count.
+The preservation check confirms **37 unchanged non-curation tables and 50 unchanged
+reviewed batch hashes**, current links/four headings and SQLite integrity. Medical
+batch 1 is saved but not yet root-read. Remaining content, shared copies, navigation,
+priorities, final group review, browser inspection and Save are unfinished. Continue
+authorized work; see the [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Allowance snapshot at 06:05 MDT: **43% remaining**, reset September 25 at 14:12 MDT;
+not a completion forecast.
+
 ## Welfare Square Food review continued — September 22, 05:32 MDT
 
 Research **21/21**; curation **9/21**. Original coordinator/supervisor continue at
