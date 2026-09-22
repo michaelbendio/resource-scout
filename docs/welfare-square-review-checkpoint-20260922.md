@@ -5,6 +5,49 @@ preserved context-exhaustion recovery. Research is complete; final content,
 taxonomy, browser review and Save delivery remain unfinished. Continue without
 another approval. No new discovery, subagents or alternate providers were launched.
 
+## Legal selected — September 22, 14:20 MDT
+
+Applied `audit/legal-review-revision-001/`: **88 records**, **100 decisions**,
+hash `c44cf2513a1259f562a94d37ad11116356738938abf11bbd5cab0110d138df66`.
+All eleven originals and 16 other completed categories are unchanged. The backup,
+before/proposed/evidence/manifest, prepared corrections and source captures remain.
+**Do not rerun** applied preparation, polishing or application scripts. There are
+98 unique field fixes, five wording changes and four repeated-field reconciliations.
+
+Whole-record exclusions: uncertain CU direct legal intake, generic Midvale legal
+navigation and PLA's unestablished current intake. PLA's advertised intake link
+opens unrelated law-school essay content; this is not a closure finding. Remove
+embedded recommended PLA referrals in the final corpus unless stronger evidence
+establishes actual intake. NTAS is **Legal-only** excluded; preserve Immigration
+and its actual Tongan passport-filing ID service.
+
+Canonical merge: University Refugee/Immigration Law Clinic public-access alias
+`796cfe8540d154f1a8675d529b6c1842` → TLC immigration clinic
+`530030d0d5a05006b45f3154c2f91b03`, with candidates 1431 and 1495. TLC's spring
+2026 primary announcement establishes this public brief-advice partnership, not
+separate open university full-representation intake. Keep clinic-specific income/
+abuse criteria separate from TLC's general hotline.
+
+Current provider calendar supersedes old PBI directory assumptions: Immigration
+is online September 23/October 28, 5:30–7 by email appointment; Rainbow is hybrid
+at the Law School October 14/November 11, 5:30–7, with limited online appointments.
+Preserve the actual directory conflicts and propagate these corrections to older
+ID/Immigration copies. Other PBI dates, venues and registration requirements were
+checked individually. Source: `legal-source-review-005/web-a.txt`.
+
+Restored full earlier bodies include SLDA ATI/RIO, UCA HRC/rent, DLC CAP/PABSS,
+FJC employment/housing/survivor services, Parent Center Transition University,
+UOVC payer-of-last-resort rules, BCI fee/report distinctions and DLD sanction fees.
+Preserve prior ID-only SLDA/UCA and Immigration-only general Bar/Legal Aid exclusions.
+NLSU's debt-only form, possible weeks of delay and nonlawyer confidentiality limits
+remain explicit; its direct intake is reachable although the USU directory returned
+403. Westminster Room118 is a VITA/TCE site, not a confirmed LITC appointment room.
+
+Research21/21; curation17/21. Mental Health104 drafts are next. Existing Seniors
+worker has recent native events. Audit: 37 research tables and90 reviewed batch
+hashes unchanged,914 unique current IDs. Final shared copies, taxonomy, priorities,
+browser and Save remain unfinished. Allowance30% remaining at14:20MDT.
+
 ## Immigration selected — September 22, 13:32 MDT
 
 Applied `audit/immigration-review-revision-001/`: **45 records**, **63 decisions**,

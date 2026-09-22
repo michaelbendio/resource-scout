@@ -4,6 +4,27 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Legal selected — September 22, 14:20 MDT
+
+Research **21/21**, curation **17/21**. Mental Health has 104 drafts awaiting
+root review. Seniors is active under the existing coordinator **15292** and
+supervisor **15296**, with recent native events; no competing worker was launched.
+Legal's eleven batches and all 100 decisions are reviewed: **88 selected from 92
+drafts**, 98 unique field corrections, five wording changes, four exclusions and
+one external canonical merge. Applied `audit/legal-review-revision-001/` hash
+`c44cf2513a1259f562a94d37ad11116356738938abf11bbd5cab0110d138df66`.
+Do not rerun applied scripts. All originals and 16 other completed category
+hashes are unchanged; the preservation audit passes 37 research tables and 90
+reviewed native batch hashes. Current unique IDs: 914, not the final count.
+
+Global reconciliation must carry current PBI calendar corrections, the University
+Refugee/Immigration public clinic alias into the existing TLC clinic, full earlier
+service bodies, and every explicit category exclusion. Remove embedded PLA intake
+referrals unless stronger current access is established. Details and evidence are
+in the runtime obligations and [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Remaining content, final Types/For/priorities, browser inspection and actual Save
+verification are unfinished. Usage is **70% used / 30% remaining**, not a forecast.
+
 ## Welfare Square Immigration selected — September 22, 13:32 MDT
 
 Research **21/21**, curation **16/21**; Mental Health **7/12** is producing native
