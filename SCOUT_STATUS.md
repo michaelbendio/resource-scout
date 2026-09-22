@@ -4,6 +4,22 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Domestic Violence selected — September 22, 01:44 MDT
+
+Research **21/21**; curation **5/21**. Existing coordinator/supervisor remain healthy,
+zero restarts; **Education batch 2/4** is active (not Employment). Domestic Violence's
+four batches are fully read: 83 batch records and all 89 candidate dispositions.
+Guarded review applied **41 field corrections, two access-route consolidations and
+four category exclusions**, retaining **76 drafts**. First five categories contain
+396 unique current IDs, not a final office count. All 37 non-curation tables match
+the pre-curation backup, 26 original batch hashes are unchanged, SQLite and current
+link/four-heading checks pass. Additional HLAA and Children nursery source revisions
+are applied; Disability has 146 provisional Type/priority and 21 provisional For
+rows. Final navigation, all-resource For review, shared-copy reconciliation, remaining
+categories, browser checks and Save delivery remain unfinished. Continue authorized
+work; see the [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Latest allowance snapshot was 52% remaining at 01:30 MDT; not a forecast.
+
 ## Welfare Square navigation and Domestic Violence review — September 22, 01:15 MDT
 
 Research **21/21**; curation **4/21**. The existing coordinator/supervisor remain

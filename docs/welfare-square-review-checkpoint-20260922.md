@@ -307,6 +307,54 @@ unchanged from the pre-curation backup. All 23 saved original batch hashes check
 at this milestone remain unchanged; SQLite quick_check passes. No content revision
 was applied during this milestone, and no new research or inference worker launched.
 
+## Domestic Violence selected — September 22, 01:44 MDT
+
+Research 21/21; curation **5/21**. The original coordinator 79229 and supervisor
+79234 remain healthy with zero restarts. **Education batch 2/4** is active; an earlier
+conversation summary incorrectly called it Employment. Native path is authoritative.
+All four Domestic Violence batches are read: **83 records / 89 dispositions**.
+
+Applied `audit/domestic-violence-review-revision-001/`: **41 field corrections**, two
+consolidations (ACS survivor/immigration access; duplicate RRC/UCASA helpline contacts),
+and four category exclusions leave **76 drafts**. Changes, Clearview and Elevate were
+omitted for specific overlap/access reasons, not closure or quality claims. General
+FSC crisis nursery remains in Children/Pregnancy, with the newly verified after-hours
+number applied there. Municipal jurisdictions, campus privacy choices, shelter versus
+long-term housing, child forensic care and culturally specific support stay distinct.
+
+Corrections include HRSS financial restrictions, FEP-TP household/timing rules,
+current HUD complaint access, UCVLC intake corroborated by Utah Courts, YWCA KRH
+eligibility/office hours and FJC limited walk-ins, VOA affordability and the FCC
+two-versus-four-year age conflict, and forensic-exam time/reporting distinctions.
+UCVLC's own site contains unrelated gambling navigation; the public website field
+now uses Utah Courts' service listing while original clinic evidence is retained.
+The existing candidate 477 LINKLine contact now clearly offers general survivor
+support, while retaining the separate conditional DCFS therapy-funding inquiry.
+Original research had classified LINKLine as source-only; no candidate or assignment
+was added or changed. Do not imply UDVC administers DCFS subsidies.
+
+Also applied `audit/disability-source-revision-002/` (HLAA national phone versus
+local email and older recurring schedule) and
+`audit/children-pregnancy-nursery-source-revision-001/` (after-hours 801-635-8510,
+preserving registration requirements). Do not rerun applied scripts. The Disability
+navigation ledger now reflects the HLAA body; its For ledger has **21 provisional
+rows, 126 still pending**. Final catalog semantics and literal evidence remain due.
+Children navigation/For evidence needs its final current-body rebinding.
+
+`audit/root-review-checkpoint-20260922T074426Z.json` records five selected category
+counts: 72 / 91 / 42 / 147 / 76, **396 unique current IDs**. This is not the final
+office count. `audit/research-preservation-20260922T074426Z.json` verifies all
+37 non-curation tables against the backup. All 26 original batch hashes at this
+milestone are unchanged; SQLite quick_check, current links and heading structure
+pass. Latest quota snapshot `audit/usage-20260922T073036Z.json` was 52% remaining,
+reset September 25 at 14:12 MDT; a snapshot, not a forecast. No review completion,
+navigation installation, human Curated marks or office publication occurred.
+
+Continue bounded Education reads, provisional navigation/For judgments and final
+shared-body obligations while the original xhigh worker proceeds. Remaining whole
+office review, final taxonomy/priorities, browser inspection and Save delivery are
+still required; the persistent supervisor does not supply substantive review.
+
 ## Durable evidence and next steps
 
 All runtime paths below are relative to `data/welfare-square-curation-20260921/`:
