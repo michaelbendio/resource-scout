@@ -22,6 +22,23 @@ coordinator progress after adoption describes the newly configured xhigh setting
 Coordinator PID **79229**, persistent supervisor PID **79234**. Effort-change
 evidence and prior launch/status: `data/welfare-square-curation-20260921/effort-change-20260921/`.
 
+Michael reports 52% context and 61% usage remaining, resetting the afternoon of
+September 25. This is a user-reported allowance, not a completion forecast or
+scheduled restart. He also questioned whether even 1,000 resources is too many.
+The assistant recommended a manageable core directory with a preserved reserve,
+judged by distinct service/eligibility/access and useful fallback value, with an
+editorial workload budget. Michael then instructed: **"When you do your review
+be very judicious about what you include."** The final reviewer must select
+conservatively: retain actionable, distinct or consequential pathways; omit weak
+fits, unsupported offerings and alternatives that add little beyond stronger
+entries, with specific durable reasons and original findings preserved. No fixed
+quota; rare consequential services can merit inclusion. This authorizes selective
+final inclusion, not deletion of research evidence or a new core/reserve UI.
+Continue xhigh; do not silently reduce effort or mark AI output human Curated.
+The first High Addiction batch is saved (24 proposals); batch 2 runs at xhigh.
+An initial content checkpoint in `audit/content-checkpoints/` records corrections
+to revisit after Category completion. It is not final review completion.
+
 Whole-office curation is running as job 1, with **2,153
 candidate identities including 77 reviewed supplemental proposals**, 30-candidate
 / 60,000-character bounds;
