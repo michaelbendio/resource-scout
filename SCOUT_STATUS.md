@@ -4,6 +4,39 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Requested challenger review complete — September 21, 19:44 MDT
+
+**Michael requested the review; the isolated comparison is reviewed. Production
+remains paused, with no new worker or provider inference launched.**
+[Review and judgment](docs/challenger-review-20260921.md),
+[durable decisions, revisions, navigation and priority audit](docs/challenger-review-20260921.json).
+The 113 retained identities and attribution remain: DeepSeek 77, saved Grok 4.6 50,
+14 shared. Eight Information records were corrected/clarified; CPSS remains in
+Employment with its unsupported Disability cross-list removed (124 memberships).
+Native curation, original decisions, prior reports and three HTML drafts are preserved.
+
+Human vetting order: 48 unique Start here resources; DeepSeek 26, Grok 30, eight
+shared. Excluding already-covered category-primary services: DeepSeek 25, Grok 22,
+seven shared, 40 unique. This is reviewer judgment and category-relative novelty,
+not model ground truth, all-office novelty, verified availability or human approval.
+DeepSeek is promising for inexpensive further discovery with Codex curation/gap
+review; no architecture change or next run is authorized by this recommendation.
+Grok 4.7 has not been tested.
+
+The separate file workbench has 29 Types, 16 evidenced For groups, complete
+per-resource group decisions and per-membership priorities/questions. Safari
+verified reader/editor, group/type AND/OR filters, priority/A–Z views, search,
+overrides/reload, and zero Curated marks. Twelve existing relevant tests passed.
+Local artifact: `data/challenger-curation-review-20260921/autoWelfareSquareChallengerReviewed.html`.
+Review fingerprint: `bf9379391d6c5a2d018f09771cf1ffd21da5695f3bddc06f57f1fc4e2292e866`.
+Completion is a durable file audit: this experiment has no production curation job,
+so no production review event or monitor Save gate was altered. No office publication.
+
+Production table hashes remain unchanged; quick_check OK; both monitors HTTP 200;
+no coordinator/curation worker. Runtime is paused-by-user with automatic restart off.
+Preserve all 21 completed primaries, 16 saved Grok results, and five sealed pending
+challengers. The following pre-review entry is historical.
+
 ## Challenger findings curated and compared — September 21, 18:30 MDT
 
 **Ready for Codex review. All six isolated curation workers finished normally;
