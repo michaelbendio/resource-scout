@@ -141,6 +141,59 @@ in the first three selected categories are saved in
 final merged-body evidence, useful filter granularity and the entire For-group
 catalog still need judgment. No navigation proposal or final review is installed.
 
+## September 22, 00:33 MDT continuation
+
+Coordinator 79229 and supervisor 79234 remain healthy, zero restarts. Curation is
+3/21, Disability batch 7/8 active. Batches 1–6 are fully read: 144 batch resource
+records and 148 dispositions. All six review checkpoint hashes match the unchanged
+original validated results; SQLite quick_check passes.
+
+Applied `audit/clothing-source-revision-003/` adds URC's explicitly documented
+maternal specialist service for refugee mothers and young children, preserving its
+Sharehouse access facts and 42 selected Clothing records. The supporting source is
+<https://serverefugees.org/faq/>. `shared-for-group-reconciliation-001.json` records
+provisional reconciliations for Project Reality, SUPeRAD and URC against current
+merged bodies. These are not installed final group decisions.
+
+Disability source corrections 005 and 006 bring the prepared total to **24 fields**:
+
+- EPSDT's description now matches Utah's end-of-21st-birthday-month endpoint.
+- HRSS's lost financial condition and currently published transition-service cap
+  are restored in the proposed latest body.
+- State-plan personal care retains a practical assessment route but removes
+  unverified non-bedbound/two-task exclusions. The submitted March 2026 manual and
+  indexed November 2024 manual returned 403. The same restrictive language occurs
+  struck out in a 2015 rule replacement; that does not establish current criteria.
+  Current general Medicaid documentation confirms the service, with exact functional
+  assessment and authorization left explicit for the provider to resolve.
+- UTA's linked rider guide supplies the 3/4-mile service boundary and advance
+  booking requirements. Evaluation hours and reservation hours are distinguished.
+- Carson Smith Opportunity Scholarship now includes the administrator's current
+  disability/residency documentation, next funding milestone, public/charter
+  withdrawal and IDEA-services opt-out consequence, and overlapping-award limits.
+- Canine Companions' actual diabetes-alert eligibility and Southwest coverage of
+  Utah replace vague program/region wording.
+
+All Disability changes remain **prepared, not applied**. Proposed merges 002 adds
+the two Phoenix navigation/direct-service records, preserving their distinct funding
+and clinical scope. Proposed merges 003 supersedes only the county/Aging Waiver
+proposal in 001 and preserves newly added candidate 406. The ICF/Community
+Transitions consolidation from 001 remains. Compare later batch updates before
+any supported guarded revision; never apply the earlier county candidate list.
+
+`disability-provider-portfolio-checkpoint-001.json` proposes five overlapping generic
+DSPD provider omissions. Batch 6's checkpoint adds Vista Care as another proposed
+omission and flags Friends for Sight for Medical retention with Disability-category
+fit reconsidered. These are selection judgments awaiting the full category, not
+claims of closure or quality. Best Buddies' uncertain Utah intake remains a separate
+proposed omission. Condition-specific supports, sensory access, school placement,
+specialized care, funding and adaptive participation retain distinct value.
+
+Batch 5's checkpoint also flags possible consolidation of general Medicaid
+application, spenddown and work-incentive eligibility after the remaining batches;
+no such merger is prepared yet. Preserve distinct clinical benefits and EPAS.
+The latest quota snapshot remains 54% remaining at 00:15 MDT, not a forecast.
+
 ## Durable evidence and next steps
 
 All runtime paths below are relative to `data/welfare-square-curation-20260921/`:

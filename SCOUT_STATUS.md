@@ -4,6 +4,21 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Disability review — September 22, 00:33 MDT
+
+Existing coordinator/supervisor are healthy, zero restarts. Research **21/21**;
+curation **3/21**, Disability batch **7/8** active. Saved Disability batches 1–6
+are fully read: 144 batch resource records and 148 candidate dispositions.
+Twenty-four source field corrections and three consolidations are prepared,
+**not applied**. The county home-care merge has a newer proposal preserving batch
+5's added candidate 406. Original reviewed batch hashes and SQLite quick_check pass.
+Applied Clothing source revision 003 restores URC's explicit maternal-service facts;
+shared group reconciliation is provisional. Final Disability selection, all remaining
+categories, navigation/priorities, browser and Save review remain unfinished.
+See [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Continue the existing authorized run and selective review; no duplicate worker,
+new research provider, human Curated marks or premature completion recording.
+
 ## Welfare Square Disability and group review — September 22, 00:11 MDT
 
 Existing coordinator/supervisor remain active, zero restarts. Research **21/21**;
