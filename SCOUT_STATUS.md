@@ -4,6 +4,26 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Seniors selected — September 22, 15:37 MDT
+
+Research **21/21**, curation **18/21**. Transportation **batch 5/11** is active
+under coordinator **15292** and supervisor **15296**, with recent native events.
+Seniors review preserves all 71 native identities and restores one previously
+omitted current LGBTQIA+ senior social gathering: **72 resources / 94 decisions**.
+Applied `audit/seniors-review-revision-001/`, hash
+`d9763929335379b27d73b4cb494bf4554e88a79065138cc01fc61f0097cc5dce`.
+Do not rerun applied scripts. All ten originals and 17 other completed category
+hashes are unchanged; preservation passes 37 research tables and 112 reviewed
+native hashes. Current unique IDs: 937, not the final count.
+
+Carry current CMS GUIDE restrictions, NFB-NEWSLINE app correction, INN Between
+referral phone/hours, renter-credit tax-year wording and complete shared-service
+bodies into final reconciliation. See the [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Transportation, Utilities and Veterans review, global reconciliation,
+Types/For/priorities, actual browser inspection and Save delivery remain.
+Allowance at 15:36 MDT: **73% used / 27% remaining**, not a forecast.
+No human Curated marks or office publication.
+
 ## Welfare Square Mental Health selected — September 22, 15:05 MDT
 
 Research **21/21**, curation **17/21**. Seniors **batch 10/10** is active under

@@ -5,6 +5,43 @@ preserved context-exhaustion recovery. Research is complete; final content,
 taxonomy, browser review and Save delivery remain unfinished. Continue without
 another approval. No new discovery, subagents or alternate providers were launched.
 
+## Seniors selected — September 22, 15:37 MDT
+
+Applied `audit/seniors-review-revision-001/`: **72 resources**, **94 decisions**,
+hash `d9763929335379b27d73b4cb494bf4554e88a79065138cc01fc61f0097cc5dce`.
+All ten batches (77 native resource rows) were read. The revision includes
+39 unique field corrections, four repeated-field reconciliations, three wording
+fixes and one restored program. All ten originals and 17 other completed categories
+remain unchanged. Native results, source captures, before/proposed/evidence/manifest
+and pre-revision database backup remain. **Do not rerun** preparation or apply scripts.
+
+Restored submitted ID `af10e3d0f7b052a2a853905101a3aad9`: Utah LGBTQIA+ Humanity,
+formerly Silver Pride, Mondays 2–4 PM through December 28, 2026 at La Puente,
+3205 S State Street. The exact supplied provider calendar returned ordinary
+HTML 200 despite web cache failure. It gives drop-in instructions, organizer
+Becky's public email and attendee-paid food. Preserve conflicting availability
+labels and the restaurant address; the Pride Center footer is not the meeting site.
+Lynden Legacy remains provisionally omitted: its specific respite page pauses
+applications while another page retains email applications. Neither is a closure finding.
+
+Final shared-copy obligations include CMS GUIDE's July 2026 residential-partnership,
+no-respite and memory-care restrictions; full Medicare eligibility and distinct
+UofU/partner intake routes; NFB-NEWSLINE Mobile rather than the Utah page's incorrect
+BARD label; INN Between referral **801-456-4566**, M–F 8:30–4:30; county caregiver
+under-18 older-relative branch excluding parents; renter-credit age tied to the
+claimed tax year rather than submission year. Preserve full HEAT/vendor-credit,
+Medicaid/spenddown/RMA, tax-relief, food-box, UATP, paratransit, legal, medical and
+reentry bodies. Repeated senior-center copies now preserve Active Aging, spouse
+eligibility, virtual/meal offerings and Stepping On. Add actual JFS respite and
+South Salt Lake walking-group facts. WVC online applications do not guarantee funding.
+
+At 15:37 MDT, Transportation batch 5/11 had recent native events, curation 18/21.
+Preservation: 37 research tables, 112 reviewed native hashes and SQLite integrity
+pass. Current unique IDs: 937, not final. Allowance: 73% used / 27% remaining.
+Continue remaining categories, final shared-copy identities/memberships,
+Types/For/priorities, browser/filter/editor verification and actual Save delivery.
+No human Curated marks or office publication.
+
 ## Mental Health selected — September 22, 15:05 MDT
 
 Applied `audit/mental-health-review-revision-001/`: **102 records**, **109 decisions**,
