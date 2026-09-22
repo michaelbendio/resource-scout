@@ -5,6 +5,62 @@ Research is complete; final content, taxonomy, browser review and Save delivery 
 unfinished. Continue without another approval. No new research, subagents or
 provider calls were launched by this continuation.
 
+## Reentry Support selected — September 22, 05:08 MDT
+
+Original coordinator 79229/supervisor 79234 remain healthy at xhigh, zero restarts.
+Research 21/21; curation **9/21**, **Food batch 1/4** active. All four Reentry batches
+are fully read: **61 resource records / 87 dispositions**. Guarded
+`audit/reentry-support-review-revision-001/` retains **47 drafts**, result hash
+`90bfc0dd4210f65193014f696c1ed805527387a1b7fac7006661510544945e46`.
+
+- Applied 32 prepared field corrections, 28 on retained or merged IDs. All original
+  resources and decisions, corrected excluded bodies and source reasons remain.
+- Four consolidations remove six IDs: Journey of Hope community support/prison
+  mentoring; four UDC Salt Lake County correctional centers; BCI/court expungement
+  workflow; and SLDA ATI/Project RIO. Each preserves complete source sections under
+  labeled branches, with separate eligibility, supervision, contacts and limits.
+- Excluded Advantage, Liferaft, My Story Matters and a duplicate generic DWS gateway
+  for individually stated capacity, actionability or overlap reasons. These are not
+  closure or quality findings. Four Reentry-only exclusions are Rescue Transitions,
+  police Community Connection Center, general Road Home housing navigation and USARA
+  peer recovery. Preserve their appropriate other-category services. Police CCC has
+  no earlier current same-ID record and requires later Mental Health/Homeless review.
+  Road Home's earlier Financial exclusion still applies.
+- Restored VA HUD-VASH's full Financial-reviewed branch and candidate 858, DLC
+  CAP/PABSS scope, House of Hope child services, Project Reality's pregnancy funding
+  nuance and clinic contacts, USCF transcripts, Welfare bishop/DI access, and THRIVE's
+  alternate IPS directory. CORE gains its supported Mental Health membership.
+- Source corrections include Rasa's actual fees, PBI provider-versus-directory
+  appointment conflict and limited advice scope, TOSA's current 30-month commitment
+  versus the separately hosted two-year page, TAM's 5% FPL/no-asset criteria and DV
+  housing condition, one-primary/two-secondary vital-record ID rules, DOPL disclosure
+  exceptions, and DLD fees per action. JRRP's county-listed contact address is not
+  silently asserted to be its jail-exit service point. Atherton's conflicting gender
+  descriptions remain visible. Medicaid prerelease coverage depends on facility
+  readiness; federal approval is not proof of local rollout.
+- Kept narrow consequential pathways including supervised-offense treatment,
+  medically necessary compassionate-release care, JJYS youth transition, federal
+  court programs, criminal-history licensing determinations and record-clearing
+  assistance. No numerical quota or human Curated marking was used.
+
+`audit/disability-for-group-checkpoint-005.json` and `-006.json` bring Disability to
+**147/147 provisional manual For judgments** against all 24 current definitions.
+They include an explicit no-group decision for the thin long-term-care ombudsman
+body and specific non-assignment reasons. Head Start's later body adds parent/family
+and student-travel facts beyond the earlier Children ledger. These are not installed
+navigation or final shared-body/expanded-catalog semantic certification.
+
+The 05:08 audit confirms **37 unchanged non-curation tables**, **46 reviewed original
+batch hashes**, current links/four headings and SQLite integrity. All eight earlier
+category hashes were preserved by the revision. Nine current categories contain
+**620 unique IDs**, not a final office count. Evidence:
+`audit/root-review-checkpoint-20260922T110834Z.json` and
+`audit/research-preservation-20260922T110834Z.json`. Continue Food and remaining
+content review, all-category navigation/priorities, shared-copy reconciliation,
+browser inspection and actual Save delivery. No review completion is recorded.
+Allowance snapshot at 05:09 MDT: **45% remaining**, reset September 25 14:12 MDT;
+this is a snapshot, not a completion forecast.
+
 ## Financial Assistance selected — September 22, 04:33 MDT
 
 Original coordinator 79229/supervisor 79234 remain healthy at xhigh, zero restarts.
