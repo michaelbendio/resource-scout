@@ -4,6 +4,21 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square stopped by Michael — September 22, 16:28 MDT
+
+**Do not restart until Michael asks to resume.** The current Transportation
+batch **10/11** finished and was validated without another model call. All ten
+saved native batches remain intact; batch 11 was not launched. Coordinator,
+supervisor, native worker and their caffeinate process are confirmed gone.
+Research remains **21/21**, curation **18/21**. Transportation root review is
+prepared through batch **9**, not applied. Utilities and Veterans are pending.
+
+Handover: [Welfare Square stopped handover](docs/welfare-square-stopped-handover-20260922.md).
+Final stop evidence: `audit/user-requested-stop-20260922/stopped.json` under the
+curation run. Integrity passes **37 research tables / 121 reviewed original
+hashes**; current IDs remain 937. Allowance at 16:28 MDT: **25% remaining**.
+Final review and Save remain unfinished; no completion or human Curated marks.
+
 ## Welfare Square Transportation review checkpoint — September 22, 16:16 MDT
 
 Research **21/21**, curation **18/21**. Transportation **batch 9/11** is active

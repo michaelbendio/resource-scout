@@ -1,5 +1,21 @@
 # Welfare Square selective review checkpoint — September 21 late continuation
 
+## September 22, 16:28 MDT — stopped at Michael's request
+
+See [the stopped handover](welfare-square-stopped-handover-20260922.md).
+Transportation batch 10 saved and validated: nine resources / ten decisions,
+native validated hash `88efa21ff9cd759e221d33747f926fd3d81f5cfaa2f1cd79d9916684ffce2c8d`.
+Batch 11 was not launched. Coordinator 15292, supervisor 15296, worker 24798 and
+caffeinate 15293 are confirmed absent; no other curation workers were found.
+Only resume after Michael asks. No paid repair or new generation was used to stop.
+
+Root Transportation review is prepared through batch 9: 67 per-batch field
+changes. Batch 10 awaits root review. Latest preservation evidence is
+`audit/research-preservation-20260922T222759Z.json`: all 37 research tables and
+121 reviewed original hashes unchanged. Current unique IDs remain 937.
+Allowance at 22:28 UTC: 75% used / 25% remaining. Curation remains 18/21 and
+final review/export unfinished; no completion or human Curated flag was set.
+
 ## September 22, 16:16 MDT — Transportation batches 1–8 prepared
 
 All saved bodies and candidate decisions in these eight batches were read and
