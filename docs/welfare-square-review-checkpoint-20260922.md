@@ -74,6 +74,23 @@ The three completed categories contain 197 unique saved IDs. This is not a final
 all-office workload forecast. Integrity, candidate links and Information heading
 checks pass; all 13 reviewed original batch hashes remain unchanged.
 
+## Disability review started
+
+Batch 1 (26 records / 25 dispositions) is fully read; current batch 2 is running.
+`audit/content-checkpoints/disability-batch-001.json` records the review.
+`audit/disability-prepared-source-corrections-001.json` contains **unapplied**
+Epilepsy Foundation group schedules and ALS national contact improvements.
+Best Buddies Utah is proposed for omission because local program intake is not
+established by the expansion/fundraising page. Compare generic DSPD provider
+alternatives against the complete category before choosing the retained portfolio.
+
+Draft Type definitions and literal description evidence for all 205 memberships
+in the first three selected categories are saved in
+`audit/provisional-type-definitions.json` and
+`audit/provisional-type-evidence-first-three.json`. These remain provisional;
+final merged-body evidence, useful filter granularity and the entire For-group
+catalog still need judgment. No navigation proposal or final review is installed.
+
 ## Durable evidence and next steps
 
 All runtime paths below are relative to `data/welfare-square-curation-20260921/`:
