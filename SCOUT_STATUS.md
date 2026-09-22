@@ -4,6 +4,28 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square ID Recovery selected — September 22, 12:54 MDT
+
+Research **21/21**, curation **16/21**. Legal completed with 92 drafts; Immigration
+has 52 drafts. Both still need selective root review. Coordinator **15292** and
+supervisor **15296** remain active at gpt-5.5/xhigh; **Mental Health batch 2/12** is
+producing native events. No duplicate coordinator or new discovery was launched.
+
+ID Recovery's eight batches and all 73 candidate decisions are reviewed. Guarded
+`audit/id-recovery-review-revision-001/` retains **39 records** from 63 drafts:
+101 unique source/shared-body field corrections, six wording cleanups, two merges
+removing five aliases, 20 reasoned category exclusions and separate library social
+worker/passport desks. Agency-only verification facts remain in corrected primary
+service evidence for global reconciliation. The revised DLD record preserves every
+waiver branch and adds ordinary lost/stolen replacement. All originals remain.
+
+The 12:54 audit confirms **37 unchanged research tables, 72 unchanged reviewed
+batch hashes**, current links/four headings and SQLite integrity. Other 15 completed
+categories were unchanged by this revision. Current unique IDs: **867**, not final.
+Allowance **33% remaining**, resets September 25 at 14:12 MDT; not a forecast.
+Continue the authorized remaining content, shared-copy, manual Types/For/priorities,
+browser and Save work. See the [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+
 ## Welfare Square Legal batch recovered — September 22, 12:11 MDT
 
 Research **21/21**, curation **15/21**. ID Recovery and Immigration completed;

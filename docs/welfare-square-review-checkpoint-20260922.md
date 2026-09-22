@@ -5,6 +5,55 @@ preserved context-exhaustion recovery. Research is complete; final content,
 taxonomy, browser review and Save delivery remain unfinished. Continue without
 another approval. No new discovery, subagents or alternate providers were launched.
 
+## ID Recovery selected — September 22, 12:54 MDT
+
+Curation **16/21**; Legal 92 and Immigration 52 drafts await root review. Same
+coordinator **15292** / supervisor **15296**, zero automatic restarts; Mental Health
+batch **2/12** has recent native events. Michael interrupted the other terminal
+conversation; this conversation owns the continuation. Keep output bounded.
+
+All eight ID batches are read. Applied `audit/id-recovery-review-revision-001/`
+retains **39 records**, all **73 decisions**, result hash
+`82b2e375519854abfeec4b331452820c8e432b7e8e171db08d5869fa39a1b45f`.
+Preparation, polishing and application scripts are applied: **do not rerun**.
+Original results, source captures, pre-revision DB and before/after/evidence/manifest
+files remain. There are 101 unique prepared field corrections (102 per-batch),
+six reader-facing wording changes, two consolidations removing five aliases,
+20 category exclusions and one added record separating the library's two desks.
+
+- Restore prior medical/housing/employment/shelter facts before adding ID branches.
+  Preserve INN referral phone/paperwork/admission timing, SLDA ATI/RIO eligibility
+  and court conditions, Youth Hub age rules, and YRC new-intake cutoff at 6 PM.
+- Keep direct CCS immigration contacts, Mexico's current $41 matricula fee,
+  Granite's actual liaison email/department phone/hours, current DCFS regional
+  coordinator contacts, and Drive to Thrive's document/fee help. Its registered
+  agent/donation address is not a lesson location. NOMAS host/court schedules differ.
+- Reuse the three-shelter Road Home identity and preserve Gail Miller 30-day mail
+  storage versus the general case-management page's two weeks. Consolidate DLD
+  application/limited-term/waiver/surrender branches, add ordinary replacement and
+  statutory disability fees. The actual legislative landing HTML identifies the
+  exact current code version; guessed historical code was not used.
+- Exclude agency-only homelessness-verifier listings from ID Recovery while keeping
+  corrected support facts in their main program records. Whole-record exclusions
+  are generic AAU duplicate navigation, insufficient current MHA voucher intake,
+  and unconfirmed SixFifty tool access. These are not closure findings. BCI and
+  Adoption Registry are ID-category fit exclusions; do not globally invalidate later
+  Legal evidence. VA benefit/document assistance needs Veterans review.
+- Library social-worker vouchers and Level 3 passport acceptance are distinct desks.
+  Preserve current indexed voucher evidence and worker primary evidence; live pages
+  returned 403, so confirm same-day availability/hours. The passport ID is
+  `30cb10a0b75c56738b598266954c123e`.
+- `cross-category-correction-obligations.json` has the full reconciliation obligation.
+  Immigration, Legal and Mental Health were sealed before these corrections; apply
+  final shared bodies and redirects without losing any supported service branch.
+
+The 12:54 preservation audit confirms **37 unchanged research tables and 72 unchanged
+root-reviewed batch hashes**, links/four headings and SQLite integrity. Other 15
+completed category hashes were unchanged. **867 current unique IDs** is not a final
+office count. Allowance: **33% remaining**, reset September 25 at 14:12 MDT.
+Final remaining content, shared identities, manual Type/For/priority proposals,
+browser review and Save are unfinished. No human Curated marks or publication.
+
 ## Legal empty-result recovery — September 22, 12:11 MDT
 
 Curation **15/21**; ID Recovery (63 drafts) and Immigration (52 drafts) await full
