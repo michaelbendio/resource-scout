@@ -5,6 +5,56 @@ Research is complete; final content, taxonomy, browser review and Save delivery 
 unfinished. Continue without another approval. No new research, subagents or
 provider calls were launched by this continuation.
 
+## Food review continued — September 22, 05:32 MDT
+
+Original coordinator 79229/supervisor 79234 continue at xhigh, zero restarts.
+Research 21/21; curation **9/21**, **Food batch 3/4** active. Food batches 1–2 are
+fully read: **46 resources / 52 dispositions**. The ignored audit files
+`food-prepared-source-corrections-001.json` and `-002.json` hold **22 field changes**;
+these are prepared, not applied. Original validated outputs remain untouched.
+
+- Primary Pantry's new Food ID repeats the Salt Lake/Lehi campus error found in
+  Clothing. DHHS explicitly assigns the monthly pantry/diaper limits and other
+  requirements to Miller Campus, Lehi. Preserve a corrected historical Salt Lake
+  lead and propose omission until current campus-specific intake is established.
+- Restore AAU survivor-safe contact guidance; Crossroads' complete Financial-reviewed
+  thrift/voucher details; Magna's distinct clothing hours, item types and victim
+  appointment route; and earlier JFS, Rescue Mission, Weigand and SLC Mission facts.
+  Hildegarde's provider confirms ID copies, out-of-state adult ID and child-document
+  alternatives that the earlier Children source review had not established.
+- Canyons' actual 2026–27 application supplies household, SSN and SUN Bucks privacy
+  details. Distinguish direct certification from annual meal applications across
+  districts. Preserve separate fee-waiver procedures and school-specific contacts.
+- MOSAIC's provider pages disagree on the Tuesday–Thursday pantry start (10 versus
+  10:30); both agree on Monday and the market route. PIK2AR explicitly defines its
+  frequency as twice per month. Pantry to Porch confirms monthly delivery and
+  twice-monthly pickup with stated access populations, not exclusive eligibility.
+- Food Not Bombs' city evidence is a **2025** grant profile, not an exact 2026
+  schedule. Hope Unlimited's indexed prior homepage announced January 2025 pantry
+  closure; its redesigned current homepage establishes no reopened intake.
+- Proposed whole-record omissions also cover Pentecostal International Movement
+  and RCCG pantries for conflicting or insufficiently actionable intake details.
+  Neighborhood House's enrolled-client pantry is a proposed Food-only exclusion,
+  requiring its benefit to survive in existing childcare/adult-day records. Other
+  uncertain pantry leads still need final geographic and selectivity judgments.
+
+Education For checkpoints 001–003 now cover **50/86 current records** against the
+24 provisional group definitions, including explicit no-group judgments. All
+147 Disability judgments remain provisional. Final shared bodies, catalog expansion
+and comparable-program semantics must be checked before installation. In particular,
+Tech-Moms' name alone is not evidence for a Women label; its final shared body/provider
+scope needs review, while current childcare accommodation supports parents.
+
+The 05:32 preservation check confirms **37 unchanged non-curation tables**, **48
+unchanged reviewed original batch hashes**, current links/four headings and SQLite
+integrity. Nine current categories contain **620 unique IDs**. Evidence:
+`audit/root-review-checkpoint-20260922T113216Z.json` and
+`audit/research-preservation-20260922T113216Z.json`. No final completion, human
+Curated marking or publication. Continue remaining content, navigation/priorities,
+shared-copy reconciliation, browser review and actual Save delivery.
+Allowance snapshot at 05:32 MDT: **44% remaining**, reset September 25 at 14:12 MDT;
+not a completion forecast.
+
 ## Reentry Support selected — September 22, 05:08 MDT
 
 Original coordinator 79229/supervisor 79234 remain healthy at xhigh, zero restarts.

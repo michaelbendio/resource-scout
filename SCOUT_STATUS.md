@@ -4,6 +4,26 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Food review continued — September 22, 05:32 MDT
+
+Research **21/21**; curation **9/21**. Original coordinator/supervisor continue at
+xhigh with zero restarts; **Food batch 3/4** is active. Food batches 1–2 are fully
+read: **46 resource records / 52 candidate dispositions**. Saved proposals contain
+**22 field corrections**, three whole-record omissions and one Food-only omission
+with required preservation in Neighborhood House's existing care pathways. No Food
+revision has been applied. Corrections include wrong-campus Primary Pantry evidence,
+lost shared-service details, school-meal direct certification, MOSAIC's conflicting
+weekday start time and the date of Food Not Bombs' city evidence. Final Food
+selection still awaits all batches. Education now has **50/86 provisional manual
+For judgments**; Disability remains 147/147. Nine current categories still contain
+**620 unique IDs**, not a final office count. The preservation check confirms
+**37 unchanged non-curation tables and 48 unchanged reviewed batch hashes**,
+current links/four headings and SQLite integrity. Remaining content, shared copies,
+navigation/priorities, final group review, browser inspection and Save are unfinished.
+Continue authorized work; see the [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Allowance snapshot at 05:32 MDT: **44% remaining**, reset September 25 at 14:12 MDT;
+not a completion forecast.
+
 ## Welfare Square Reentry Support selected — September 22, 05:08 MDT
 
 Research **21/21**; curation **9/21**. Original coordinator/supervisor remain healthy,
