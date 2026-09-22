@@ -6,9 +6,23 @@ a monitor process is not a research worker.
 
 ## Welfare Square completion and review authorized — September 21, 20:01 MDT
 
-Live progress: Mental Health (26 leads), Seniors (21), and Transportation (25)
-are completed and saved as DeepSeek results: **19/21 Categories fully researched**.
-Utilities/Phone/Internet is active; Veterans follows. Utilities' first response
+Live progress at September 21, 21:01 MDT: **21/21 Categories fully researched**.
+DeepSeek's five saved results contain 136 raw submissions: Mental Health 26,
+Seniors 21, Transportation 25, Utilities/Phone/Internet 10, Veterans 54. Total
+peak-price estimate is $0.811819368 across 125 calls, including the preserved
+output-limit failure. Observed account balance is $6.52 (rounding/billing lag
+possible). Search, Codex curation and review are excluded from that API figure.
+
+Whole-office Codex `gpt-5.5` / High curation is running as job 1, with **2,153
+candidate identities including 77 reviewed supplemental proposals**, 30-candidate
+/ 60,000-character bounds. Coordinator PID 79044; persistent supervisor PID 79051;
+launch, runner log, native events and pre-curation backup:
+`data/welfare-square-curation-20260921/`. Addiction batch 1/4 is active. Check live
+state before acting; do not duplicate a worker. The requested post-curation review
+is already authorized and still pending. Continue through content, omissions,
+navigation, group decisions, priorities, browser checks and final Save verification.
+
+Utilities' first response
 exhausted its 32,768-token output budget while planning without searching. The
 failed response and charge are retained; one changed continuation instructed it
 to begin source checks, at the same max reasoning setting, and it resumed useful
@@ -16,8 +30,13 @@ searches. No Category was restarted. Five earlier malformed web-tool requests
 were rejected and corrected through normal continuation. Source-audit.md records
 eligibility, conflicting-contact and wrong-state-plan corrections for curation.
 The monitor at 8770 was restarted to load the audited provider-handoff support;
-its completion count and active DeepSeek provider were verified. Code commit
-`75fa094` passed GitHub CI. Curation has a sealed command but has not started.
+its completion count and active DeepSeek provider were verified. Code commits
+`75fa094` and `05cb92c` passed GitHub CI. Final research preservation checks passed:
+all 112 primary passes, 21 original external assignments, 16 previously completed
+jobs and 128 original contributions remain unchanged. SQLite quick_check is OK.
+The monitor reports 21/21 research completion. The source audit includes VET TEC
+2.0 entitlement, survivor-benefit distinctions, Headstrong geography, ROGER intake,
+Utah utility-cap period, wrong-state Molina and other consequential corrections.
 
 Michael instructed: **"Finish the job. Then review without asking me."** This
 authorizes the proposed five DeepSeek V4.1-Flash/max challenger completions,

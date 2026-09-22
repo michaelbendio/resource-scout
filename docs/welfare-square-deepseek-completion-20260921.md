@@ -43,6 +43,35 @@ category-fit concerns are retained in `source-audit.md` for curation.
 This is an in-progress execution record. Final curation, navigation, priorities,
 browser checks and exact-fingerprint review completion are still required.
 
+## Research complete; whole-office curation running
+
+At September 21, 21:01 MDT all 21 Categories are fully researched. The five
+DeepSeek completions contain 136 raw submissions, before whole-office curation:
+
+| Category | Raw submissions | API calls | Peak-price estimate |
+| --- | ---: | ---: | ---: |
+| Mental Health | 26 | 17 | $0.132647340 |
+| Seniors | 21 | 30 | $0.167125692 |
+| Transportation | 25 | 30 | $0.178437456 |
+| Utilities, Phone, Internet | 10 | 29 | $0.154875456 |
+| Veterans | 54 | 19 | $0.178733424 |
+| Total | 136 | 125 | $0.811819368 |
+
+The total includes the single output-limit failure described below. Observed
+account balance is $6.52; rounding and billing lag may affect it. These are API
+inference costs, excluding supervised search and Codex work. Original raw outputs
+are unchanged. Supervisory acceptance means suitable inputs for curation, not
+factual approval of every submitted claim. Source checks found consequential
+corrections, including VET TEC 2.0 not requiring remaining education entitlement,
+Survivors Pension not requiring service-connected death, unsupported new-client
+Utah Headstrong access, and Utah utility assistance's 12-month cap period.
+
+Job 1 seals 2,153 candidate identities across 21 Categories, including all 77
+reviewed supplements. `gpt-5.5` / High curation started at 03:00:51 UTC September 22
+with bounded batches, a persistent supervisor, native events and a pre-curation
+backup in `data/welfare-square-curation-20260921/`. No additional research inference
+is planned. Curation completion and the already-requested review remain pending.
+
 ## Diagnosed output-limit continuation
 
 Utilities/Phone/Internet's first response ended at the 32,768-token output limit
