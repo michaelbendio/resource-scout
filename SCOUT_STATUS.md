@@ -4,6 +4,27 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Mental Health selected — September 22, 15:05 MDT
+
+Research **21/21**, curation **17/21**. Seniors **batch 10/10** is active under
+coordinator **15292** and supervisor **15296**; verify native events before acting.
+Mental Health's twelve batches are reviewed: **102 selected from 104 drafts**,
+all **109 decisions**, 70 unique field corrections and explicit shared 988
+body/phone reconciliation. Applied `audit/mental-health-review-revision-001/`, hash
+`9df65272aeee0d533352ad3a2ee842b2c2674d38dafd47ce71aeeb32071ef0db`.
+Do not rerun applied scripts. All originals and 16 other completed categories
+are unchanged; 37 research tables and 102 reviewed native hashes pass preservation.
+
+Carry SMR phone correction, VA immediate-care enrollment exceptions, HRSS
+eligibility distinction, CFES adolescent SUD access and complete prior service
+bodies into final reconciliation. BHA/MHA whole-record exclusions are not closure
+findings. Evidence and remaining work are in the
+[review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Continue Seniors, Transportation, Utilities and Veterans content review, then
+global identity/category reconciliation, Types/For/priorities, browser verification
+and actual Save delivery. Usage is **72% used / 28% remaining**, not a forecast.
+No human Curated marks or office publication.
+
 ## Welfare Square Legal selected — September 22, 14:20 MDT
 
 Research **21/21**, curation **17/21**. Mental Health has 104 drafts awaiting

@@ -5,6 +5,40 @@ preserved context-exhaustion recovery. Research is complete; final content,
 taxonomy, browser review and Save delivery remain unfinished. Continue without
 another approval. No new discovery, subagents or alternate providers were launched.
 
+## Mental Health selected — September 22, 15:05 MDT
+
+Applied `audit/mental-health-review-revision-001/`: **102 records**, **109 decisions**,
+hash `9df65272aeee0d533352ad3a2ee842b2c2674d38dafd47ce71aeeb32071ef0db`.
+All twelve originals and 16 other completed categories are unchanged. The revision
+contains 70 unique field corrections, three spacing fixes, and explicit shared
+988 body/phone reconciliation. Before/proposed/evidence/manifest, source captures
+and a pre-revision database backup remain. **Do not rerun** applied scripts.
+
+Whole-record exclusions remain BHA (unestablished current distinct affordable
+intake) and MHA (old peer/respite evidence does not reverse the earlier exclusion).
+The former state MHA respite URL now redirects to a generic page without MHA;
+older dedicated phone evidence remains saved for human verification. Neither
+exclusion is a closure finding.
+
+Critical final cross-category obligations: use **833-723-3326** for SMR despite
+the broad pediatric page's conflicting 877 prefix; keep 988/Utah Crisis Line/MCOT
+one resource with Spanish, veteran and ASL routes; apply VA immediate mental-health
+access exceptions to the routine enrollment rule; clarify HRSS's broad overview
+versus specific homelessness eligibility; add CFES's current adolescent SUD branch
+while preserving its conflicting older FAQ. Preserve complete prior medical,
+outreach, housing, survivor, legal, education and justice-service information.
+ID-only exclusions for Sacred Circle, Youth Hub and SLDA still apply. UAF therapy
+and its after-hours HIV/STI clinic remain separate access pathways.
+
+At 15:05 MDT the worker was on **Seniors batch 10/10**, curation 17/21 complete.
+Preservation checks passed: 37 research tables and 102 reviewed original batches
+unchanged; SQLite, candidate links and four Information headings pass. Quota at
+15:03 MDT was 72% used / 28% remaining, reset September 25 at 14:12 MDT; a snapshot,
+not a forecast. Continue Seniors review, then Transportation, Utilities and Veterans.
+Global shared-copy/alias/membership reconciliation, Types/For/priorities, actual
+browser inspection, final fingerprint and monitor Save delivery remain required.
+No human Curated marks or office publication occurred.
+
 ## Legal selected — September 22, 14:20 MDT
 
 Applied `audit/legal-review-revision-001/`: **88 records**, **100 decisions**,
