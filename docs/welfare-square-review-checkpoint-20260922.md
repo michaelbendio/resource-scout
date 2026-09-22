@@ -76,7 +76,8 @@ checks pass; all 13 reviewed original batch hashes remain unchanged.
 
 ## Disability review started
 
-Batches 1 and 2 are fully read: 26/24 records and 25/26 dispositions. Batch 3 is running at this checkpoint.
+Batches 1–4 are fully read: 100 saved batch resource records and 103 candidate
+dispositions. Batch 5 of 8 is running at the September 22, 00:11 MDT checkpoint.
 `audit/content-checkpoints/disability-batch-001.json` records the review.
 `audit/disability-prepared-source-corrections-001.json` contains **unapplied**
 Epilepsy Foundation group schedules and ALS national contact improvements.
@@ -101,6 +102,37 @@ bodies and the final whole-office catalog must be reconciled. Explicit exclusion
 cover Spanish versus Latino targeting, parental instruction versus direct youth
 service, general insurance acceptance versus targeted populations, historical
 pregnancy preference, and ambiguous domestic-violence/reentry wording.
+
+Batch 3 and 4 checkpoints are saved as `disability-batch-003.json` and `-004.json`.
+Prepared source files `disability-prepared-source-corrections-003.json` and `-004.json`
+add current APS reporting scope instead of a 2017 proposed-rule bulletin; UATP small
+grant eligibility/application/pre-purchase approval; the separate DWS eligibility
+appeals form/contact route; and removal of generic author disclaimers. All four
+prepared Disability source files remain **unapplied** (16 field changes total).
+
+`audit/disability-proposed-merges-001.json` contains two **unapplied** consolidations:
+Aging Waiver into the existing county Home Care/TAP/Veteran Direct Care gateway,
+and ICF Transition Program with Community Transitions Waiver. Exact before copies,
+proposed resources, candidate links and sources are preserved. Program/waiver rules,
+local/state contacts and eligibility differences remain explicit. Compare all later
+batch updates before applying any correction or merge after category completion.
+Distinct sensory-disability supports, caregiver routes and medically complex child
+waivers are retained as consequential pathways; generic DSPD provider selection
+still awaits the complete category.
+
+Provisional group ledgers now cover all 205 category records in the first three
+selected categories (197 IDs before Disability cross-listing):
+`addiction-for-group-working-ledger-001.json`,
+`children-for-group-working-ledger-001.json`, and
+`clothing-for-group-working-ledger-001.json` under `audit/`.
+They contain 44/90/37 records with literal supporting excerpts, respectively, with
+explicit ungrouped reasons and nuanced exclusions. The latest proposed catalog has
+24 groups, including explicit foster/kinship, Black-community and disaster pathways.
+Earlier records must be rechecked against the expanded final catalog. Final shared
+body reconciliation, every-resource/every-group semantic review, additional
+cross-category memberships and pending evidence questions remain; these ledgers
+are **not final navigation or review completion**. No Jev calls or integration were
+made during the intervening discussion; Michael then explicitly said to continue Scout.
 
 Draft Type definitions and literal description evidence for all 205 memberships
 in the first three selected categories are saved in

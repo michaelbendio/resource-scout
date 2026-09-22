@@ -4,6 +4,22 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Disability and group review — September 22, 00:11 MDT
+
+Existing coordinator/supervisor remain active, zero restarts. Research **21/21**;
+curation **3/21**, Disability batch **5/8** running. Disability saved batches 1–4
+are fully read: 100 batch resource records and 103 candidate dispositions.
+Sixteen source field corrections and two program consolidations are prepared,
+**not applied**; compare final category and later copies before guarded revisions.
+First three selected categories remain Addiction 72, Children/Pregnancy 91,
+Clothing/Household 42. All 205 category records now have provisional manual For-group
+ledgers as well as earlier Type/priority drafts. Final merged-body, expanded-catalog,
+category-fit, semantic completeness and browser/Save checks remain unfinished.
+See [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Michael discussed Jev, then explicitly said “Continue resource scout.” No Jev calls,
+new inference provider or additional worker was launched. Continue without another
+approval; preserve research/original batches and the unrelated tracked deletion.
+
 ## Welfare Square three-category selective checkpoint — September 21, 23:22 MDT
 
 Existing xhigh curation continues in **Disability**, with persistent supervisor
