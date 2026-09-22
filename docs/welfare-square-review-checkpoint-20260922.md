@@ -5,6 +5,55 @@ Research is complete; final content, taxonomy, browser review and Save delivery 
 unfinished. Continue without another approval. No new research, subagents or
 provider calls were launched by this continuation.
 
+## Homeless Services selected — September 22, 07:22 MDT
+
+Original coordinator 79229/supervisor 79234 continue at xhigh, zero restarts.
+Research 21/21; curation **12/21**, **Housing batch 2/6** active. All four Homeless
+batches are root-read: 65 batch rows, 64 unique identities and all 79 dispositions.
+Guarded `audit/homeless-services-review-revision-001/` retains **56 records**, hash
+`44107e8613b4f8441fc0ee2f27d249e386bfd93f28283c428824527914428511`.
+
+- Applied 65 unique prepared field corrections, 63 on retained or merged IDs.
+  The repeated birth-certificate record is deliberately rebased to the final copy;
+  its already-correct website needed no mutation. Original batch files remain.
+- Three consolidations remove four IDs: the three Road Home shelters under their
+  shared intake line; VOA city/county street outreach under one program contact;
+  and coordinated city resource fairs/outreach court. All revised branch sections
+  survive, including different eligibility, hours, mail/ID rules, court exclusions
+  and the October 9 location conflict. The library outreach desk stays separate.
+- Whole-record omissions concern business-oriented Downtown Ambassadors, uncertain
+  current MHA peer/drop-in intake, and generic myCase portal duplication. These are
+  selection judgments, not closure findings. FJC is Homeless-only excluded, with
+  full corrected DV/Housing/Financial/Employment facts retained for reconciliation.
+  Direct survivor emergency shelter remains a different access pathway.
+- The INN referral guide requires provider/agency initiation, gives 801-456-4566
+  rather than the CEO concern line, and normally needs at least two days. Preserve
+  acute medical-need, care-level and signed-order requirements. HRSS uses member
+  benefit/eligibility contacts, not the provider billing line; financial need,
+  clinical criteria and housing-related transport limits are explicit.
+- Restore complete earlier bodies for Fourth Street, MVP, VA/HUD-VASH, UCA,
+  Welfare Square, CCS/Crossroads, Martindale and UICSL. YRC intake ends at 6 PM;
+  its Medical exclusion remains. School liaison contacts, student rights,
+  youth/milestone rules, vital-record ID/waiver rules and pet-care conditions are
+  preserved with source uncertainties visible.
+- Resolve Geraldine King aliases globally: current `ceb19035caab5752a9e54fa4d71ae1c9`,
+  earlier Food `6a9881d748525d9f941ace5ba1dfcf97`, Clothing
+  `389171b85bd2544b83710b4cb9e9f1c2`. Preserve the women's shelter and guest services
+  without resurrecting incidental Food/Clothing memberships. Apply Road Home and
+  VOA redirects globally and reconcile new youth/mental/medical category proposals.
+
+The 07:22 preservation check confirms **37 unchanged non-curation tables**, **58
+unchanged reviewed batch hashes**, current links/four headings and SQLite integrity.
+The revision preserves all 59 batch files saved at application and eleven other
+completed category hashes. Twelve categories contain **742 unique IDs**. Evidence:
+`audit/root-review-checkpoint-20260922T132252Z.json` and
+`audit/research-preservation-20260922T132252Z.json`. Housing batch 1 is saved but
+not root-read. Education For 86/86 and Disability 147/147 remain provisional.
+Continue remaining content, shared-copy reconciliation, manual Type/For/priorities,
+browser checks and actual Save delivery. No final completion record, human Curated
+marking or office publication. Allowance at 07:11 MDT: **40% remaining**, reset
+September 25 at 14:12 MDT; not a completion forecast.
+
 ## Medical selected — September 22, 06:40 MDT
 
 Original coordinator 79229/supervisor 79234 continue at xhigh, zero restarts.

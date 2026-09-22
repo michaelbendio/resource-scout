@@ -4,6 +4,25 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Homeless Services selected — September 22, 07:22 MDT
+
+Research **21/21**; curation **12/21**. Original coordinator/supervisor continue at
+xhigh with zero restarts; **Housing batch 2/6** is active. All four Homeless batches
+are read: **64 unique drafts / 79 candidate dispositions**. Guarded review retains
+**56 records**, with 65 unique field corrections (63 on retained/merged IDs), three
+connected-access consolidations removing four IDs and four reasoned exclusions.
+Corrections include INN's provider-only referral and admission timing, HRSS member
+contacts, direct school liaisons, birth-record documentation, and restored earlier
+medical, housing and benefit details. Twelve current categories contain **742 unique
+IDs**, not a final office count. The preservation check confirms **37 unchanged
+non-curation tables and 58 unchanged reviewed batch hashes**, current links/four
+headings and SQLite integrity. Housing batch 1 is saved but not root-read.
+Shared copies, final identities, manual navigation/groups/priorities, browser
+inspection and Save remain unfinished. Continue authorized work; see the
+[review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Allowance snapshot at 07:11 MDT: **40% remaining**, reset September 25 at 14:12 MDT;
+not a completion forecast.
+
 ## Welfare Square Medical selected — September 22, 06:40 MDT
 
 Research **21/21**; curation **11/21**. Original coordinator/supervisor continue at
