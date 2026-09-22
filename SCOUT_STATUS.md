@@ -4,6 +4,22 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Employment review — September 22, 02:59 MDT
+
+Research **21/21**; curation **6/21**. The original coordinator/supervisor remain
+active, with **Employment batch 6/8** underway. Employment batches 1–4 are fully
+read: **87 resource records and 100 candidate dispositions**. Saved, guarded
+proposals contain **55 field corrections and one consolidation**, not yet applied;
+final Employment selection awaits all batches. Material findings include DI's
+referral/store hours, apprenticeship prerequisites/costs/windows, Proxima's actual
+intake, lost shared-body facts, and Other Side Village's rent/work-phase distinction.
+Education now has **86 provisional Type/priority judgments across 11 Types**;
+Disability still has 43 provisional For rows. All 37 non-curation tables match the
+backup, all **33 reviewed original batch hashes** are unchanged, and current
+links/four-heading checks and SQLite integrity pass. Final navigation, all-resource
+group review, remaining content, reconciliation, browser and Save delivery remain
+unfinished. Continue authorized work; see the [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+
 ## Welfare Square Education selected — September 22, 02:24 MDT
 
 Research **21/21**; curation **6/21**. The original coordinator/supervisor remain

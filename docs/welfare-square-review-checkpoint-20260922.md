@@ -5,6 +5,46 @@ Research is complete; final content, taxonomy, browser review and Save delivery 
 unfinished. Continue without another approval. No new research, subagents or
 provider calls were launched by this continuation.
 
+## Employment review — September 22, 02:59 MDT
+
+Original coordinator 79229 and supervisor 79234 remain active at xhigh. Research
+21/21; curation 6/21, Employment batch 6/8 active. Employment batches 1–4 are fully
+read: **87 resource records and 100 dispositions**. The four
+`audit/employment-prepared-source-corrections-00[1-4].json` proposals contain **55
+field changes and one SLCC/buildUP consolidation**, **not applied**. Reconcile
+against the final Employment body before guarded revisions. Original batches remain.
+
+Corrections address DI's explicit bishop referral despite nonmember eligibility,
+Welfare Square's Saturday closure, age 55 inclusion in SCSEP, IEC's current costs,
+math requirements and closed/next enrollment cycle, Proxima's direct intake and
+current versus announced pathways, the CDL permit/license wording conflict and
+short add window, and restored shared Education/Disability/survivor facts. The
+Village application page's no-cost statement conflicts with its FAQ's permanent
+rent requirement; distinguish permanent resident employment from preparatory
+community assignments and ask about phase-specific compensation/costs. Do not
+reinstate Other Side Academy's excluded Education membership or advertise
+Tech-Moms' announced Digital Literacy classes as presently accessible.
+
+Final selection still needs the remaining Employment batches, supported-employment
+and commercial-staffing comparisons, and identity/category judgments. First Step
+IPS and treatment have different eligibility questions; shared provider contact
+alone is insufficient for merging. Justice By Objectives' unusual apprenticeship
+lead remains preserved despite no confirmed current intake; the broken site does
+not establish closure. Clothing-only and generic course-catalog omissions remain
+category-specific.
+
+Education's uninstalled working ledger now covers all **86** selected records with
+11 service Types and **25 Start here / 47 Important specialized help / 14 Additional
+options** judgments, reasons, literal evidence and questions. Final shared-body
+binding, For review and taxonomy usefulness remain pending. Disability's For ledger
+still has 43 rows/104 remaining; Domestic Violence navigation remains pending.
+
+The 02:59 checkpoint verifies 37 non-curation tables unchanged, **33 reviewed
+original batch hashes unchanged**, current links/headings and SQLite integrity.
+Evidence: `audit/research-preservation-20260922T085904Z.json` and
+`audit/root-review-checkpoint-20260922T085938Z.json`. No new human Curated marks,
+final navigation installation, review completion or Save delivery yet. Continue.
+
 ## Education selected — September 22, 02:24 MDT
 
 The original coordinator/supervisor are healthy with zero restarts. Research is
