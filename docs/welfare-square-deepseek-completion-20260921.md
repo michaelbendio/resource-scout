@@ -103,3 +103,23 @@ drafts have preliminary content and inclusion notes, with final selection,
 corrections, navigation and priorities pending. Children/Pregnancy is running at
 xhigh. Live usage at 03:50 UTC reports 59% remaining and a September 25, 14:12 MDT
 reset. Saved checks are under the curation audit directory.
+
+## Incremental selection and source review — September 21, 22:27 MDT
+
+Addiction now has 73 selected drafts. Three immutable result revisions preserve
+the original 85 drafts while merging the De Novo/True North successor identity,
+omitting 11 weakly differentiated alternatives with explicit reasons, and fixing
+supported access details. All candidate dispositions remain accounted for. This
+is incremental review, not a completed office review. Later copies require
+reconciliation against the saved correction and selection obligations.
+
+Children/Pregnancy batches 1 and 2 are saved (26 and 22 resources); batch 3 is
+active. Root review covers both saved batches and the intermediate third draft.
+Current primary sources identified an obsolete PCN insurance reference and
+stronger access information for home visiting, therapeutic preschool, WIC, and
+crisis childcare. Prepared corrections and omission reconsiderations remain in
+the audit directory until the category is completed and final copies inspected.
+The third batch began source checks after emitting intermediate JSON; its early
+verification dates must be assessed against the final validated result. No
+research inference, human Curated approval, final review completion or office
+publication was performed during this checkpoint.

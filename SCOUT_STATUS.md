@@ -35,12 +35,26 @@ entries, with specific durable reasons and original findings preserved. No fixed
 quota; rare consequential services can merit inclusion. This authorizes selective
 final inclusion, not deletion of research evidence or a new core/reserve UI.
 Continue xhigh; do not silently reduce effort or mark AI output human Curated.
-At 21:50 MDT, Addiction is complete: 91 candidates, 85 draft resources,
-four saved batches (first High, remaining xhigh). Children/Pregnancy batch 1/5
-is active. Preliminary content and inclusion notes cover all 85 Addiction drafts
-in `audit/content-checkpoints/` and `audit/addiction-preliminary-portfolio.json`.
-These are not final selection or review completion. Live Codex usage reports
-59% remaining, resetting September 25 at 14:12 MDT; this is not a forecast.
+At 22:27 MDT, Addiction has **73 selected drafts**, reduced from 85 original
+curator drafts through three durable result revisions. One predecessor/successor
+clinic alias was merged (De Novo into current True North), 11 overlapping or
+weakly supported alternatives were omitted with explicit candidate reasons, and
+supported access details were corrected. Original results and all 91 candidate
+dispositions remain preserved. Later category copies must be reconciled against
+these corrections and inclusion decisions before final review. Evidence is in
+`data/welfare-square-curation-20260921/audit/addiction-*-revision-*/` and
+`audit/cross-category-correction-obligations.json`.
+
+Children/Pregnancy has two saved batches (26 and 22 resources); batch 3/5 is
+active and making source checks. Its early JSON messages were intermediate output
+before tool use; assess the final validated result before judging verification
+dates. Root review has read both saved batches and that intermediate third draft;
+source findings include an obsolete PCN insurance reference, useful omitted
+home-visiting support, and missing current access details. These corrections are
+prepared or documented, not yet applied to an unfinished category. No final
+content/navigation/priority/browser review is complete. The last live Codex usage
+check at 21:50 MDT reported 59% remaining, resetting September 25 at 14:12 MDT;
+this is not a current usage claim or completion forecast.
 
 Whole-office curation is running as job 1, with **2,153
 candidate identities including 77 reviewed supplemental proposals**, 30-candidate
