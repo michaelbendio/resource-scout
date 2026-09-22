@@ -5,6 +5,41 @@ preserved context-exhaustion recovery. Research is complete; final content,
 taxonomy, browser review and Save delivery remain unfinished. Continue without
 another approval. No new discovery, subagents or alternate providers were launched.
 
+## Immigration selected — September 22, 13:32 MDT
+
+Applied `audit/immigration-review-revision-001/`: **45 records**, **63 decisions**,
+hash `a06f6b9b2ef3e00b8ded372f7f8fde1bd24a95bde8f56eb171e16eb4453b7737`.
+All seven originals and the other 15 completed categories are unchanged; backup,
+before/proposed/evidence/manifest and source captures remain. **Do not rerun**
+the applied preparation or application scripts. There are 52 unique field fixes,
+four reader-facing cleanups, four repeated-field reconciliations and seven exclusions.
+
+Whole-record exclusions: uncertain CU legal intake, generic Midvale CBC legal
+navigation, unestablished Proseyo legal supervision and ordinary commercial
+US Journey listing. Immigration-only exclusions: Legal Aid guardianship, campus
+Dream Center and general Bar virtual clinic. Preserve their legitimate primary
+categories and all source evidence; none is a closure finding.
+
+**Scope exception:** stronger primary evidence supports AAU
+`27b52accd6a75165a793d62d5e91e5fe` only as defined refugee resettlement with assigned
+case managers and named coordinator Natalia Munar. This supersedes the older
+generic whole-record exclusion for Immigration; the ID-only exclusion remains.
+NTAS Tongan passport filing adds documented ID Recovery fit. Preserve both in
+`audit/cross-category-correction-obligations.json` during final reconciliation.
+
+Carry full previously reviewed health, survivor, education, employment and benefit
+bodies. Key new corrections: Church local Welcome Center phone 801-240-7262 and
+free brief bilingual immigration/family advice; 801-240-1442 belongs to other cities.
+Redwood's four-language claim concerns a planned MyChart project. Preserve current
+HCM/PBI/NOMAS access distinctions, consular old-hours qualifications, passed WOW
+scholarship deadline and conflicting RCA/Medicaid timing. USCIS appointment notice
+controls location; no verified current shared field-office/ASC suite was established.
+
+Curation **16/21**, Mental Health **7/12**, same coordinator/supervisor. Next: Legal
+92 drafts, then remaining categories; all final taxonomy, global reconciliation,
+browser and Save work remains. Latest preservation check: 37 research tables and
+79 original reviewed batches unchanged; 865 unique current IDs. Usage 68% used.
+
 ## ID Recovery selected — September 22, 12:54 MDT
 
 Curation **16/21**; Legal 92 and Immigration 52 drafts await root review. Same

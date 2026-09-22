@@ -4,6 +4,26 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Immigration selected — September 22, 13:32 MDT
+
+Research **21/21**, curation **16/21**; Mental Health **7/12** is producing native
+events under coordinator **15292** / supervisor **15296**. Immigration's seven
+batches are reviewed: **45 selected records from 52 drafts**, all **63 decisions**,
+52 unique prepared field corrections, four wording changes and seven exclusions.
+Applied `audit/immigration-review-revision-001/` hash
+`a06f6b9b2ef3e00b8ded372f7f8fde1bd24a95bde8f56eb171e16eb4453b7737`.
+Do not rerun applied preparation/application scripts. Legal's 92 drafts are next.
+
+AAU `27b52accd6a75165a793d62d5e91e5fe` now has specific primary evidence for
+refugee resettlement with assigned case management: retain that defined Immigration
+program, superseding its earlier generic whole-record exclusion while keeping the
+ID exclusion. NTAS passport filing adds ID category fit. Global reconciliation must
+carry these explicit exceptions and all corrected shared bodies; see the runtime
+cross-category obligations. Final Type/For/priorities, remaining content review,
+browser verification and Save are still pending. Preservation checks pass:
+37 research tables, 79 reviewed original batches, 865 current unique IDs.
+Usage at 13:31 MDT: 68% used / 32% remaining; not a completion forecast.
+
 ## Welfare Square ID Recovery selected — September 22, 12:54 MDT
 
 Research **21/21**, curation **16/21**. Legal completed with 92 drafts; Immigration
