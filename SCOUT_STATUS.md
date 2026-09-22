@@ -4,6 +4,26 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Housing review continued — September 22, 08:02 MDT
+
+Research **21/21**; curation **12/21**. Original xhigh coordinator/supervisor
+continue, zero restarts; **Housing batch 4/6** is active. Housing batches 1–3 are
+root-read: **64 resource rows / 78 candidate dispositions**. Saved proposals contain
+**90 field corrections**, two candidate attachments to existing housing-authority
+records, one whole-record omission, a three-shelter consolidation carried forward
+from Homeless Services, and a separate Featherstone restoration. No Housing DB
+revision has been applied. Corrections include current intake contacts and property
+terms, Housing Connect's conflicting waitlist notices, specialist ACT referrals,
+Solis application cancellation rules, Other Side Village's rent/prep distinction,
+and restoration of previously reviewed shared-service details. Preservation checks
+confirm **37 unchanged research tables and 61 unchanged reviewed batch hashes**,
+current candidate links/four headings and SQLite integrity; **742 current unique
+IDs** across completed categories. Final content, identities, navigation/groups,
+priorities, browser review and Save remain unfinished. Continue authorized work;
+see the [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Allowance at 07:49 MDT: **39% remaining**, reset September 25 at 14:12 MDT;
+not a completion forecast.
+
 ## Welfare Square Homeless Services selected — September 22, 07:22 MDT
 
 Research **21/21**; curation **12/21**. Original coordinator/supervisor continue at

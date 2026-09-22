@@ -5,6 +5,62 @@ Research is complete; final content, taxonomy, browser review and Save delivery 
 unfinished. Continue without another approval. No new research, subagents or
 provider calls were launched by this continuation.
 
+## Housing batches 1–3 reviewed — September 22, 08:02 MDT
+
+Original coordinator/supervisor continue at xhigh, zero restarts. Research 21/21;
+curation **12/21**, **Housing batch 4/6** active. All first-three Housing bodies and
+decisions are read: **64 rows / 78 dispositions**. No Housing DB revision yet.
+
+- `audit/housing-prepared-source-corrections-001.json` through `-003.json` contain
+  **90 field corrections**. Original-batch hashes and all expected-old fields were
+  checked. Do not rerun their preparation scripts; successful scripts assert that
+  output paths do not exist. Reconcile against all six final batches first.
+- Batch 1: current HomeInn prices/hours/email; AIS's opened 2026 apartments and
+  separate support costs; Aspen's self-managed housing/staffing distinction;
+  corrected Avia/Citizens/CDCU property contacts and terms; FSH's actual provider,
+  graduate and court referral branches; Habitat per-adult sweat equity; HASLC's
+  split application portals. Restore full earlier cross-category facts.
+- `housing-restore-featherstone.json` reverses a weak omission: county evidence
+  establishes ACT-team referral for this specialist mental-health residence.
+  Operator general questions are not direct public admissions or vacancy proof.
+- Batch 2: attach candidate 1244 Atkinson/Sunrise Metro to HASLC
+  `3cc4b560065958858460b06623931fbd`; restore candidate 1245 public Housing Connect
+  routes within `05efa637dc94595ba11fe0e6d34488f3`. The June 1, 2026 opening notice
+  conflicts with the general closure page; portal text includes contradictory
+  templates and does not establish live status. Keep uncertainty visible.
+- Correct Sober Living Properties' phone/rules; Mya compliance email; Stonebridge
+  ACT/stabilized-medication requirement; Solis 24-hour cancellation/accounts/fees;
+  Promise navigator-versus-renter-liaison routes; Point Fairpark's actual email/form
+  and age targeting. Remove unsupported Pivot prices and Point phone. Preserve
+  complete Financial/DV/Homeless bodies and memberships where the drafts shortened
+  them. Promise's linked utility rules need later Utilities reconciliation.
+- Whole omission proposed: Upward Motion `b3e380a61c2754b08cffb45136047853`, alias of
+  earlier Addiction omission `829a55ee3bb65c978f9da222f154f66a`. Current program
+  page still provides insufficient distinct value over retained long-term recovery
+  routes and does not verify the draft's free-cost claim. Not a closure judgment.
+  Sunrise House's actual site is private despite older indexed contact details;
+  retain its omission for uncertain current intake and weak added value.
+- Batch 3: Tailwinds's phone is verified on its agency-only pet-retention page;
+  rental fees require lease/pet/landlord evidence and direct landlord payment.
+  Other Side Village's application says free participation but FAQ requires rent
+  for permanent homes; Prep School may last a year or longer, with separate living
+  for couples. Its work assignments are not ordinary paid-job guarantees.
+- Restore the full reviewed INN/MVP/UCA/SSVF/Refugee/DWS/TURN/Haven/Academy bodies.
+  Carry forward the three-public-shelter merge under Road Home
+  `fb4ed8af34e55677bde45f9f47811fb4`; remove Gail/Pamela aliases only during guarded
+  final reconciliation. FINCH remains a separate referral-only private-room family
+  placement. FSC's provider page is a JavaScript shell; its association confirms
+  39-family capacity/up-to-five-year stay. No inference of closure from fetches.
+
+Evidence: `audit/root-review-checkpoint-20260922T140243Z.json` and corresponding
+`research-preservation-20260922T140243Z.json`: **37 unchanged non-curation tables,
+61 unchanged reviewed batch hashes**, current links/headings and SQLite integrity.
+Completed categories still contain **742 unique IDs**. Education For 86/86 and
+Disability 147/147 remain provisional. Remaining content, global identities/shared
+bodies, every-category manual Type/For/priorities, browser checks and actual Save
+delivery remain unfinished. Continue; do not mark completion or human Curated.
+Allowance 07:49 MDT: **39% remaining**, reset September 25 at 14:12 MDT.
+
 ## Homeless Services selected — September 22, 07:22 MDT
 
 Original coordinator 79229/supervisor 79234 continue at xhigh, zero restarts.
