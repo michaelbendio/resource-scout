@@ -1,5 +1,41 @@
 # Welfare Square selective review checkpoint — September 21 late continuation
 
+## September 22, 16:16 MDT — Transportation batches 1–8 prepared
+
+All saved bodies and candidate decisions in these eight batches were read and
+source-reviewed. `audit/transportation-prepared-source-corrections-001.json`
+through `-008.json`, matching `content-checkpoints/`, and per-batch source folders
+hold the work; **not applied**. Preparation scripts already ran: do not rerun.
+Batch 9/11 remains active with current native events. Research remains 21/21,
+curation 18/21. The stopped interactive terminal has not replaced this coordinator.
+
+Carry these findings into selection and cross-category reconciliation:
+
+- Molina 2026 Utah plans' $75/$40 monthly allowances combine transportation and
+  eligible OTC purchases; do not double-count them. Mercy accepts qualifying
+  recurring monthly medical travel, with exact 100-mile threshold wording conflict
+  retained. Miracle Flights has a separate all-age service-dog travel branch.
+- Restore complete previously reviewed services for shared clinical, survivor,
+  housing, disability, aging, legal and document records. Preserve each other
+  category copy's own facts. Ryan White keeps 500% FPL case-management versus
+  250% core/support/ADAP, full Clinic 1A access and annual eligibility rules.
+- NEMT batch 8 explicitly builds on prepared batch 5. Category selection must
+  verify both category references and `preparedCorrectionPath` hash references.
+  Preserve every additional field when later native copies differ.
+- Current ordinary HTML confirms TURN's posted 15–20 year DSPD employment
+  waitlist, THRIVE client volunteer rides, UIC transit support and Family Promise's
+  closed rental applications. Do not infer closure from extraction failures.
+- DCFS main coordinator and housing/transportation rosters differ; preserve both
+  purposes and exact contacts. Aftercare rent/bills/deposits/vehicle funding has
+  separate qualifying foster-history rules. Closed EVRAP/E-bike applications and
+  TAA phase-out remain qualified omissions, not unsupported permanent closures.
+
+Latest preservation: `audit/research-preservation-20260922T221623Z.json`,
+37 research tables and 120 reviewed original hashes unchanged; 937 current IDs.
+Allowance at 22:16 UTC: 74% used / 26% remaining, not a forecast. Final categories,
+global identity/membership review, Types/For/priorities, browser and Save remain.
+No completion or human Curated flags were set; no office publication.
+
 The authorized xhigh curation run and persistent supervisor are active after one
 preserved context-exhaustion recovery. Research is complete; final content,
 taxonomy, browser review and Save delivery remain unfinished. Continue without

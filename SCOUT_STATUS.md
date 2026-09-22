@@ -4,6 +4,22 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Transportation review checkpoint — September 22, 16:16 MDT
+
+Research **21/21**, curation **18/21**. Transportation **batch 9/11** is active
+under coordinator **15292** and supervisor **15296**, with recent native events.
+Root source review has checkpointed batches **1–8**; corrections are prepared,
+not applied. Preserve full earlier category facts during final reconciliation.
+Material corrections include Molina's shared OTC/transport allowance, recurring
+Mercy medical travel, direct grant memberships, and complete Medicaid, foster-youth,
+clinical, disability, survivor and aging service details. Originals are unchanged.
+
+Preservation passes **37 research tables / 120 reviewed native hashes**; current
+unique IDs remain **937**. Allowance at 16:16 MDT is **74% used / 26% remaining**,
+not a forecast. Continue batches 9–11, Utilities/Veterans, global reconciliation,
+Types/For/priorities, browser verification and actual Save delivery. No completion
+flag or human Curated marks. See the [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+
 ## Welfare Square Seniors selected — September 22, 15:37 MDT
 
 Research **21/21**, curation **18/21**. Transportation **batch 5/11** is active
