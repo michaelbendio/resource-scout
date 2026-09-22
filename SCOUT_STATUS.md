@@ -4,6 +4,22 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Education selected — September 22, 02:24 MDT
+
+Research **21/21**; curation **6/21**. The original coordinator/supervisor remain
+healthy with zero restarts; **Employment batch 2/8** is active. Education's four
+batches and all 110 dispositions are read. Guarded review applied **44 field
+corrections, seven access-route consolidations and six exclusions**, retaining
+**86 drafts**. Six current categories contain 474 unique IDs, not a final office
+count. All 37 non-curation tables match the pre-curation backup; 30 original batch
+hashes, current candidate links, four Information headings and SQLite integrity
+pass. Disability now has **43 provisional For rows**, not 21. No final navigation
+or priorities are installed; remaining categories, all-resource group judgments,
+shared-copy reconciliation, browser review and actual Save delivery remain pending.
+Continue authorized work. See the [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Latest allowance snapshot at 02:16 MDT: **50% remaining**, resetting September 25
+at 14:12 MDT; this is not a completion forecast.
+
 ## Welfare Square Domestic Violence selected — September 22, 01:44 MDT
 
 Research **21/21**; curation **5/21**. Existing coordinator/supervisor remain healthy,

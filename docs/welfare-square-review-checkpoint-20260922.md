@@ -5,6 +5,63 @@ Research is complete; final content, taxonomy, browser review and Save delivery 
 unfinished. Continue without another approval. No new research, subagents or
 provider calls were launched by this continuation.
 
+## Education selected — September 22, 02:24 MDT
+
+The original coordinator/supervisor are healthy with zero restarts. Research is
+21/21; curation is **6/21**, now **Employment batch 2/8**. All four Education batches
+are read: **100 resource records and 110 candidate dispositions**. Supported,
+hash-guarded `audit/education-review-revision-001/` retains **86 drafts** after
+44 source/access/shared-body field corrections, seven consolidations and six
+explicit exclusions. Its selected result hash is
+`1b3c606981b2eb582279e460ddc8ea091f7a205c3c13c15b8492e81b8907eb10`.
+
+- Consolidated City Library English/digital learning; three correctional-facility
+  education programs with distinct credentials/providers; Opportunity and First
+  Credential scholarships; prospective/current peace-officer education aid; three
+  DCFS foster-youth funding pathways; SLCC tuition-affidavit support into its Dream
+  Center; and Transition University into the existing Parent Center PTI identity.
+  Keep each subprogram's eligibility, documents, deadline and access differences.
+- Omitted LEAP's high-cost private alternative, overlapping paid University general
+  English, duplicative Nephi-linked LearningExpress, and remote NASA/WICHE programs
+  with specific local-portfolio reasons. Removed Other Side Academy only from
+  Education; its substantive Addiction resource remains. Evidence is preserved;
+  these are not provider-quality or closure judgments.
+- Corrected Horizonte's address, school-year fee, paper address evidence, current
+  classes and full registration/testing attendance; Guadalupe's age, book fee and
+  level-specific schedules; BYU-Pathway age conditions; and actual Columbus/ITEC
+  intake details. Preserved Alliance House and Columbus shared-body service facts.
+- Made passed/started cohort and aid dates explicit, including One Refugee,
+  Future Citizens PATH, SLCC ESL, Tech-Moms, For Utah and Women of the World. The
+  latter's linked 2026 guidelines close August 30 despite its home-page open banner.
+  Preserved University HB60/SB45's actual late-registration exception, instructor
+  form and $50 late fee, instead of treating September 4 as an absolute closure.
+- Clarified SLCC Promise/Pell and TRIO rules, federal Upward Bound status criteria,
+  One Utah's mixed-season eligibility text, and the conflicting local/federal
+  AmeriCorps asylum-status claim. SOEP's linked 2026 sheet establishes grades 6-12
+  and specific school-status conditions. The detailed Technical Education
+  Scholarship page resolves program/FAFSA, duration and SLCC eligibility.
+- The September 10 DOJ complaint concerning Utah nonresident tuition is preserved
+  as a complaint, not a ruling or proof of closure. Campus advising remains
+  distinct. Retained free/local adult learning, district transition, specialized
+  disability supports, student-parent childcare, foster/veteran and workforce aid.
+
+Cross-category obligations are saved. Employment was sealed before these Education
+revisions and may overwrite shared bodies with older text: review and preserve the
+specific corrected facts without copying a merged body over earlier category copies.
+The six selected categories contain **474 unique IDs**, not a final office count.
+The 02:24 audit verifies all **37 non-curation tables**, **30 original batch hashes**,
+current candidate links, four headings and SQLite integrity. The 02:16 read-only
+usage snapshot reports **50% remaining**, reset September 25 at 14:12 MDT; no forecast.
+
+Disability's provisional For ledger now has **43 manual rows / 104 remaining**,
+including 22 retained batch-2 records checked against all 24 working definitions.
+These judgments and its 146 Type/priority rows remain provisional and uninstalled.
+Alliance House's serious-mental-illness rehabilitation scope is now source-confirmed;
+final For evidence still needs binding to the final merged body. Education and
+Domestic Violence navigation/priorities, remaining category content and all-resource
+group review, final reconciliation, browser checks and Save delivery are unfinished.
+Continue authorized work; no final review completion or human Curated marks yet.
+
 ## Applied and preserved
 
 - Children/Pregnancy: all five final batches and all candidate dispositions have
