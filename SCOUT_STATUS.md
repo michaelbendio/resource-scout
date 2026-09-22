@@ -35,15 +35,18 @@ entries, with specific durable reasons and original findings preserved. No fixed
 quota; rare consequential services can merit inclusion. This authorizes selective
 final inclusion, not deletion of research evidence or a new core/reserve UI.
 Continue xhigh; do not silently reduce effort or mark AI output human Curated.
-The first High Addiction batch is saved (24 proposals); batch 2 runs at xhigh.
-An initial content checkpoint in `audit/content-checkpoints/` records corrections
-to revisit after Category completion. It is not final review completion.
+At 21:50 MDT, Addiction is complete: 91 candidates, 85 draft resources,
+four saved batches (first High, remaining xhigh). Children/Pregnancy batch 1/5
+is active. Preliminary content and inclusion notes cover all 85 Addiction drafts
+in `audit/content-checkpoints/` and `audit/addiction-preliminary-portfolio.json`.
+These are not final selection or review completion. Live Codex usage reports
+59% remaining, resetting September 25 at 14:12 MDT; this is not a forecast.
 
 Whole-office curation is running as job 1, with **2,153
 candidate identities including 77 reviewed supplemental proposals**, 30-candidate
 / 60,000-character bounds;
 launch, runner log, native events and pre-curation backup:
-`data/welfare-square-curation-20260921/`. Addiction batch 1/4 is active. Check live
+`data/welfare-square-curation-20260921/`. One of 21 Categories is curated. Check live
 state before acting; do not duplicate a worker. The requested post-curation review
 is already authorized and still pending. Continue through content, omissions,
 navigation, group decisions, priorities, browser checks and final Save verification.

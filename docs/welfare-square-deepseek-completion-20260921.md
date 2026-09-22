@@ -88,3 +88,18 @@ the original assignment and accumulated spending; it neither replays an unchange
 request nor starts the Category over. This recovery path cannot run twice for
 the same Category. Separate failure/completion telemetry avoids counting the
 failed output's tokens and cost twice. Nine transport/recovery tests passed.
+
+## Selective review checkpoint — September 21, 21:50 MDT
+
+Michael instructed the reviewer to be very judicious about inclusion. Final
+selection will retain actionable, distinct or consequential services and useful
+alternatives, with specific versioned reasons for exclusions. No fixed resource
+quota or new reserve interface is implied; original research and curator outputs
+remain preserved.
+
+Addiction curation is complete: 91 candidates, 85 draft resources, four saved
+batches. The first native worker used High; the other three used xhigh. All 85
+drafts have preliminary content and inclusion notes, with final selection,
+corrections, navigation and priorities pending. Children/Pregnancy is running at
+xhigh. Live usage at 03:50 UTC reports 59% remaining and a September 25, 14:12 MDT
+reset. Saved checks are under the curation audit directory.
