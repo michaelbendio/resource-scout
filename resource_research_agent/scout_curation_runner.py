@@ -189,7 +189,25 @@ def read_worker_result(directory: Path) -> dict[str, Any]:
             raise ValueError(f"Invalid reviewed result repair: {repair_path}")
         for key in ("assignmentSha256", "categoryId", "scoutCurationResultSchemaVersion"):
             if corrected.get(key) != result.get(key):
-                raise ValueError(f"Reviewed repair changed sealed identity: {key}")
+                # A native empty envelope contains no assignment identity or
+                # decisions to repair. A human-requested supervising review may
+                # reconstruct that batch, bound to its actual immutable input.
+                empty_envelope = result == {
+                    "scoutCurationResultSchemaVersion": 1,
+                    "assignmentSha256": "", "categoryId": "",
+                    "resources": [], "candidateDispositions": [],
+                }
+                assignment_path = directory / "assignment.json"
+                if not empty_envelope or not assignment_path.is_file():
+                    raise ValueError(f"Reviewed repair changed sealed identity: {key}")
+                assignment_bytes = assignment_path.read_bytes()
+                assignment = json.loads(assignment_bytes)
+                if (repair.get("assignmentFileSha256") != hashlib.sha256(assignment_bytes).hexdigest()
+                        or assignment.get("assignmentSha256") != _assignment_sha256(assignment)
+                        or corrected.get("assignmentSha256") != assignment["assignmentSha256"]
+                        or corrected.get("categoryId") != assignment["category"]["id"]
+                        or corrected.get("scoutCurationResultSchemaVersion") != 1):
+                    raise ValueError("Reviewed empty-result reconstruction does not match sealed assignment")
         result = corrected
     resources, seen, removed = [], set(), []
     for resource in result.get("resources", []):

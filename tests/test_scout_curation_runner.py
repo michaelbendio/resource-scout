@@ -20,6 +20,52 @@ from resource_research_agent.manual_consolidation import consolidate_manual_disc
 
 
 class CurationRunnerTests(unittest.TestCase):
+    def test_empty_result_reconstruction_requires_exact_sealed_assignment(self):
+        from resource_research_agent.scout_curation import _assignment_sha256
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            assignment = {"category": {"id": "legal"}, "candidates": [{"id": "1"}]}
+            assignment["assignmentSha256"] = _assignment_sha256(assignment)
+            source = encode(assignment)
+            (root / "assignment.json").write_text(source)
+            empty = {"scoutCurationResultSchemaVersion": 1, "assignmentSha256": "",
+                     "categoryId": "", "resources": [], "candidateDispositions": []}
+            original = encode(empty)
+            (root / "result.json").write_text(original)
+            corrected = {**empty, "assignmentSha256": assignment["assignmentSha256"],
+                         "categoryId": "legal", "resources": [{"id": "a", "candidateIds": ["1"]}],
+                         "candidateDispositions": [{"candidateId": "1", "disposition": "curated",
+                                                    "resourceIds": ["a"], "reason": "Reviewed source"}]}
+            receipt = {"originalSha256": hashlib.sha256(original.encode()).hexdigest(),
+                       "resultSha256": hashlib.sha256(encode(corrected).encode()).hexdigest(),
+                       "assignmentFileSha256": hashlib.sha256(source.encode()).hexdigest(),
+                       "reviewer": "supervising-codex", "reviewedAt": "2026-09-22T18:00:00Z",
+                       "reason": "Reconstructed empty native output from sealed candidates and evidence",
+                       "evidence": [{"candidateId": "1", "source": "https://example.org"}],
+                       "result": corrected}
+            repair = root / "reviewed-result-repair.json"
+            repair.write_text(encode(receipt))
+            self.assertEqual(corrected, read_worker_result(root))
+            validate_links(assignment, read_worker_result(root))
+            self.assertEqual(original, (root / "result.json").read_text())
+            # A different byte representation is a different sealed artifact.
+            (root / "assignment.json").write_text(source + " ")
+            with self.assertRaisesRegex(ValueError, "sealed assignment"):
+                read_worker_result(root)
+            (root / "assignment.json").write_text(source)
+            wrong = {**corrected, "categoryId": "food"}
+            repair.write_text(encode({**receipt, "result": wrong,
+                "resultSha256": hashlib.sha256(encode(wrong).encode()).hexdigest()}))
+            with self.assertRaisesRegex(ValueError, "sealed assignment"):
+                read_worker_result(root)
+            # Existing nonempty/misidentified output must still be rejected.
+            nonempty = {**empty, "resources": [{"id": "existing"}]}
+            (root / "result.json").write_text(encode(nonempty))
+            repair.write_text(encode({**receipt,
+                "originalSha256": hashlib.sha256(encode(nonempty).encode()).hexdigest()}))
+            with self.assertRaisesRegex(ValueError, "changed sealed identity"):
+                read_worker_result(root)
+
     def test_reviewed_repair_preserves_raw_output_and_keeps_validation_required(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

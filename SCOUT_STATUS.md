@@ -4,6 +4,26 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Legal batch recovered — September 22, 12:11 MDT
+
+Research **21/21**, curation **15/21**. ID Recovery and Immigration completed;
+their final selective root review is pending. Legal batch 6 returned an empty
+JSON envelope; its constrained correction could not supply missing substantive
+decisions. Both attempts remain intact. Root review reconstructed all ten sealed
+decisions using full prior records and official sources: seven reused identities,
+two distinct programs, one Legal-only exclusion preserving ID Recovery.
+
+Normal assignment/coverage/link validation passed; **27 targeted tests passed**.
+All **84 earlier validated batches**, **24 failed-attempt files** and **15 completed
+category hashes** are unchanged. Coordinator **15292**, supervisor **15296** resumed
+the existing gpt-5.5/xhigh command; **Legal batch 7/11** has recent native activity.
+Evidence: `audit/legal-empty-result-recovery-001/` in the curation runtime.
+The 12:10 MDT audit confirms **37 unchanged research tables**, **64 unchanged
+root-reviewed batch hashes**, current links/four headings and SQLite integrity.
+Current unique IDs: **836**, not a final office count. Final content, shared copies,
+Types/For/priorities, browser checks and Save remain unfinished. Michael interrupted
+the other terminal conversation; this conversation continued. Keep output bounded.
+
 ## Welfare Square Housing selected; ID Recovery resumed — September 22, 08:33 MDT
 
 Research **21/21**; curation **13/21**. Housing review retains **86 records** from

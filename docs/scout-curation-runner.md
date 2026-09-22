@@ -1,5 +1,13 @@
 # Codex curation runner
 
+An empty native result envelope requires substantive supervising review; link-only
+structural correction cannot supply missing decisions. Preserve both attempts.
+For that exact empty envelope, `reviewed-result-repair.json` may reconstruct the
+batch only when `assignmentFileSha256` binds the original assignment bytes and the
+corrected metadata matches its recomputed sealed hash/category. Normal coverage,
+links and full validation still apply. Nonempty output retains the strict original
+identity rule. This is an explicit source-backed review, not an automatic paid retry.
+
 The CLI bridge completes Scout's existing sealed category curation contract. It
 uses Codex CLI at the selected High or Extra High effort, saves each validated result to SQLite, and generates the
 review HTML after all categories finish. It never calls Claude or starts research.

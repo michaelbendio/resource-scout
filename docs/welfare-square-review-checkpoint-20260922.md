@@ -5,6 +5,35 @@ preserved context-exhaustion recovery. Research is complete; final content,
 taxonomy, browser review and Save delivery remain unfinished. Continue without
 another approval. No new discovery, subagents or alternate providers were launched.
 
+## Legal empty-result recovery — September 22, 12:11 MDT
+
+Curation **15/21**; ID Recovery (63 drafts) and Immigration (52 drafts) await full
+root content review. Legal batch 6/11 returned an empty envelope, retained by its
+constrained correction. Root review reconstructed nine records/ten decisions from
+the sealed candidates, full prior bodies and current official sources. Evidence:
+`audit/legal-empty-result-recovery-001/`; preparation script
+`audit/reconstruct-legal-batch6.py` is applied: **do not rerun**.
+
+Seven prior identities are reused: county toolkit within BCI/court expungement,
+SLDA criminal defense/client support, SSA benefits/appeals, South Valley advocacy,
+Church immigrant clinics, Timpanogos hotline and HUD housing-rights complaints.
+Prior bodies remain, with source-backed additions. Retain distinct Hill AFB legal
+assistance with military/family eligibility and conflicting official hours; retain
+bankruptcy pro bono defense with **ULS screening 800-662-4245 and summons/complaint**,
+not the clerk's general line. Exclude U of U medical letters from Legal only;
+ID Recovery `3cb688fe1566535fbc67ba4ba6ea445f` remains. No closure claim.
+
+Hash-bound explicit reconstruction is allowed only for the exact empty native
+envelope and matching immutable assignment bytes/hash/category. Normal validation
+still applies; nonempty output cannot change identity. **27 tests passed**.
+All 84 earlier validated batches, 24 failed-attempt files and 15 completed category
+hashes are unchanged. Coordinator **15292**, supervisor **15296** resumed xhigh and
+Legal batch 7/11. The 12:10 audit `root-review-checkpoint-20260922T181056Z.json`
+confirms 37 research tables and 64 root-reviewed batch hashes unchanged, links,
+four headings and SQLite integrity. Current unique IDs: 836. Final global copies
+must preserve the expanded SLDA/SSA/HUD and SVS guidance. Remaining content,
+taxonomy/priorities and browser/Save work is unfinished; no human Curated marks.
+
 ## Housing selected; ID Recovery context recovery — September 22, 08:33 MDT
 
 Research **21/21**, curation **13/21**. Housing's six batches contain 101 rows,
