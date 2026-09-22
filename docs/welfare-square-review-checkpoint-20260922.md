@@ -76,13 +76,31 @@ checks pass; all 13 reviewed original batch hashes remain unchanged.
 
 ## Disability review started
 
-Batch 1 (26 records / 25 dispositions) is fully read; current batch 2 is running.
+Batches 1 and 2 are fully read: 26/24 records and 25/26 dispositions. Batch 3 is running at this checkpoint.
 `audit/content-checkpoints/disability-batch-001.json` records the review.
 `audit/disability-prepared-source-corrections-001.json` contains **unapplied**
 Epilepsy Foundation group schedules and ALS national contact improvements.
 Best Buddies Utah is proposed for omission because local program intake is not
 established by the expansion/fundraising page. Compare generic DSPD provider
 alternatives against the complete category before choosing the retained portfolio.
+
+Batch 2 adds `audit/content-checkpoints/disability-batch-002.json` and
+`audit/disability-prepared-source-corrections-002.json` (five unapplied field changes).
+Outdoor Access Project has a working adaptive mobility scholarship application;
+replace the draft claim that its detailed intake could not be reviewed. County
+Indigent and Blind Relief list September 1 deadlines unless extended; describe the
+passed ordinary deadline and ask about extensions instead of implying open intake.
+HomeChoice terms, Neighborhood House adult-day fees/transport, SOAR grants, TAP
+limits and SSA phone/processing statements were independently source checked.
+
+`audit/addiction-for-group-working-ledger-001.json` contains 72 manual provisional
+population decisions, 44 with literal supporting excerpts, plus proposed definitions.
+The imported Welfare Square package has zero resources and an empty group catalog.
+This is not final navigation or semantic-completeness certification: later shared
+bodies and the final whole-office catalog must be reconciled. Explicit exclusions
+cover Spanish versus Latino targeting, parental instruction versus direct youth
+service, general insurance acceptance versus targeted populations, historical
+pregnancy preference, and ambiguous domestic-violence/reentry wording.
 
 Draft Type definitions and literal description evidence for all 205 memberships
 in the first three selected categories are saved in
