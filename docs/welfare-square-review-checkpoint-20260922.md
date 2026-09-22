@@ -194,6 +194,65 @@ application, spenddown and work-incentive eligibility after the remaining batche
 no such merger is prepared yet. Preserve distinct clinical benefits and EPAS.
 The latest quota snapshot remains 54% remaining at 00:15 MDT, not a forecast.
 
+## September 22, 00:52 MDT — Disability revisions applied
+
+Disability's eight original batches are fully reviewed: 163 batch resource records
+and all 167 candidate dispositions. Curation is now 4/21; the existing coordinator
+has advanced to Domestic Violence batch 2/4, with supervisor running and zero
+restarts. The already sealed Domestic Violence batches can contain earlier versions;
+final cross-category reconciliation must cover them too.
+
+`audit/disability-source-revision-001/` applied all **32 prepared field corrections**
+from preparation files 001–007, plus EPSDT's disposition explanation and two Valley
+supplement identity labels. Batch 7 source work added Parkinson Helpline hours,
+OPG's currently linked referral criteria and outside-assessment requirement, and
+NeuroRestorative's actual Utah adult/pediatric inpatient and complex-care scope.
+The local clinical page replaces national service-menu attribution and supports
+Medical cross-listing. Original curation and research are preserved.
+
+`audit/disability-selection-revision-001/` now retains **147 selected drafts**:
+
+- Four consolidations: county Home Care with Aging Waiver; ICF Transition with
+  Community Transitions Waiver; Phoenix brain-injury navigation with its separately
+  funded direct supports; and Medicaid application/ABD access with spenddown.
+  Every candidate link and the meaningful eligibility/funding differences remain.
+- Seven weak or overlapping alternatives omitted: Ability and Choice, Danville,
+  Goal Home, Launch, Primary Support Services, Vista Care, and Best Buddies Utah.
+  Reasons concern added service/access value or unsupported local intake, not
+  closure, provider quality or a numerical quota.
+- General 0–8 navigation removed only from Disability; its Children resource remains.
+  Dedicated ISP special-needs navigation and Help Me Grow screening remain distinct.
+- NES was reconsidered and retained: the official placement page has actual Salt
+  Lake County openings, a meaningful access distinction. Its current three-opening
+  snapshot is recorded in audit evidence, not presented as guaranteed inventory.
+- Medicaid Work Incentive remains separately findable because its working-disability
+  eligibility and premium rules differ materially from general application/spenddown.
+- Friends for Sight remains temporarily in this saved result to preserve the stable
+  identity for Medical reuse. Secure its Medical retention, then remove incidental
+  Disability membership from every shared copy. This remains a final-audit obligation.
+
+The final selection hash is
+`2c121653e4dbd6ab37c9cc76deaac766329fc32223689303ac7deb7050343cac`.
+Do not rerun either applied script. Preparation merge 004 describes the Medicaid
+consolidation; merge 003 superseded the earlier county proposal before application.
+All four identity redirects and selection/source obligations are saved in
+`audit/cross-category-correction-obligations.json`.
+
+Manual provisional Type/priority checkpoints 001 and 002 now cover 42 Disability
+records, with explicit pending-selection decisions for the other first-two-batch
+records. Reconcile their evidence and Types against applied merged bodies; NES now
+needs its retained assignment. These are not installed navigation or priorities,
+and Disability For-group decisions remain pending.
+
+`audit/root-review-checkpoint-20260922T065128Z.json` verifies 332 unique IDs across
+the first four categories, ordered standalone Information headings, zero human
+Curated flags, unchanged original Disability batch hashes and SQLite integrity.
+`audit/research-preservation-20260922T065128Z.json` verifies all 37 non-curation tables
+still match `before-curation.sqlite3`. The selection revision also preserved all
+22 then-saved original batches and the other completed category hashes.
+Allowance snapshot `audit/usage-20260922T065037Z.json`: 53% remaining, not a forecast.
+Final content/navigation/group/priority/browser/Save review is still unfinished.
+
 ## Durable evidence and next steps
 
 All runtime paths below are relative to `data/welfare-square-curation-20260921/`:

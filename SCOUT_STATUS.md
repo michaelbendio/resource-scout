@@ -4,6 +4,23 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Disability selected — September 22, 00:52 MDT
+
+Research **21/21**; curation **4/21**. Existing coordinator/supervisor remain healthy,
+zero restarts; Domestic Violence batch **2/4** is active. Disability's eight batches
+are fully read: 163 batch records and all 167 candidate dispositions. Supported,
+guarded revisions applied **32 source field corrections**, four consolidations and
+eight category exclusions, retaining **147 selected Disability drafts**. All original
+outputs remain. The first four categories now contain 332 unique current IDs.
+All 37 non-curation tables still match the pre-curation backup; SQLite and four
+Information-heading checks pass. Types/priorities for 42 Disability records remain
+provisional; final navigation, For-group review, remaining category review and
+browser/Save delivery are unfinished. See the
+[review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+Latest allowance snapshot: 53% remaining at 00:50 MDT; not a forecast. Continue the
+authorized run and review. Domestic Violence's already sealed batches may reuse
+older Disability copies, so enforce the saved cross-category obligations.
+
 ## Welfare Square Disability review — September 22, 00:33 MDT
 
 Existing coordinator/supervisor are healthy, zero restarts. Research **21/21**;
