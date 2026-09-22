@@ -5,6 +5,41 @@ Research is complete; final content, taxonomy, browser review and Save delivery 
 unfinished. Continue without another approval. No new research, subagents or
 provider calls were launched by this continuation.
 
+## Employment and Disability checkpoint — September 22, 03:21 MDT
+
+Original coordinator 79229/supervisor 79234 remain healthy at xhigh. Employment
+has advanced to batch 7/8; batch 6 is saved but not yet root-read. Batches 1–5 are
+fully read: **106 records / 122 dispositions**. The five saved proposals total
+**58 field corrections and four consolidations**, still **not applied**. Batch 5
+restores FEP survivor good-cause safeguards and childcare immigration/SSN and
+continuing-eligibility distinctions. Proposed UCA Workforce/Sauté, DWS Veteran/ACE
+and DWS Career Education/OJT consolidations preserve their separate conditions.
+Sauté's training status needs confirmation; suspended catering does not establish
+training closure. WorkSuccess's official page says coming soon; no active cohort
+is promised. Final selection awaits the remaining Employment batches.
+
+Disability's working For ledger now has **89 of 147** records manually checked
+against all 24 definitions, with literal evidence and explicit nonassignments.
+Checkpoints 003/004 add 46 judgments. They remain provisional and uninstalled:
+final shared bodies, expanded catalog and semantic consistency still need review.
+
+Applied `audit/aps-turn-source-revision-001/` updates two Disability information
+fields and one Domestic Violence field. APS's own brochure/FAQ supports Utah
+residents 65+, or 18–64 with an impairment putting them at risk, without an income
+or asset test. TURN's employment page supports youth/student transition. No
+legislative-page fetch was successful or relied upon. Each category retained its
+own existing text; navigation working hashes were rebound. Disability's current
+hash is `6d1179fd04728834aeeed92bea54a7f1863059056abfd0051948761dc09b4836`;
+Domestic Violence's is `36e240eaae8c84e57cc35bda9ecf4dbb38c07f14e3fd03b66f0b92c2fcfe71c4`.
+Later Employment TURN must retain both student/youth and broader day/respite facts.
+
+The 03:21 audit verifies all **37 non-curation tables**, **34 reviewed original
+batch hashes**, current candidate links, four Information headings and SQLite
+integrity. The six current categories still contain 474 unique IDs, not a final
+office count. Evidence: `audit/root-review-checkpoint-20260922T092129Z.json` and
+`audit/research-preservation-20260922T092129Z.json`. No final navigation or priorities,
+human Curated flags, review-completion record or Save delivery. Continue.
+
 ## Employment review — September 22, 02:59 MDT
 
 Original coordinator 79229 and supervisor 79234 remain active at xhigh. Research

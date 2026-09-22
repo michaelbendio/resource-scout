@@ -4,6 +4,21 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square review continued — September 22, 03:21 MDT
+
+Research **21/21**; curation **6/21**. Original coordinator/supervisor are healthy;
+Employment has advanced to **batch 7/8**. Batches 1–5 are fully read: **106 resource
+records / 122 dispositions**, with **58 prepared field changes and four proposed
+consolidations**, not applied. Batch 6 is saved and awaits root reading. Disability
+now has **89 provisional For-group judgments / 58 remaining**. A guarded source
+revision clarified APS age/disability eligibility in Disability and Domestic
+Violence and TURN's youth/student transition pathway in Disability, preserving
+each category's existing text. The 03:21 audit confirms **37 non-curation tables**
+and **34 reviewed original batch hashes** unchanged, current links/four-heading
+checks and SQLite integrity passing. Final navigation, content and shared-copy
+review, browser inspection and Save delivery remain unfinished. Continue without
+another approval; see the [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+
 ## Welfare Square Employment review — September 22, 02:59 MDT
 
 Research **21/21**; curation **6/21**. The original coordinator/supervisor remain
