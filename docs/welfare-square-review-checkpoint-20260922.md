@@ -22,8 +22,10 @@ provider calls were launched by this continuation.
 - Retained Promise Baby & You: its current cohort has begun but the application
   remains. Meals, session childcare and conditional My529 support distinguish it.
 - Kept ISP and 0–8 navigation separate because their eligibility and intake differ.
-- Addiction remains 73 drafts. SUPeRAD's older hospital-directory copy now uses the
-  current program intake, while preserving Addiction-specific treatment details.
+- Addiction now has 72 drafts after a further CHC screening-only exclusion; its
+  direct prenatal/primary-care network remains in Children/Medical. SUPeRAD's older
+  hospital-directory copy now uses the current program intake, while preserving
+  Addiction-specific treatment details.
 - All 91 Children drafts have manual provisional Type/priority judgments, reasons,
   evidence and questions: 36 Start here, 31 specialized, 24 additional. These are
   **not installed final navigation or priorities**. Category fit, literal Type
@@ -61,6 +63,11 @@ All runtime paths below are relative to `data/welfare-square-curation-20260921/`
   `audit/children-pregnancy-selection-revision-001/`: applied versions, evidence,
   expected hashes and manifests. Do not rerun their application scripts.
 - `audit/addiction-source-revision-003/`: applied SUPeRAD reconciliation.
+- `audit/addiction-selection-revision-002/`: applied CHC screening-only exclusion.
+- `audit/research-preservation-20260922T0505.json`: all 37 non-curation tables
+  unchanged from the pre-curation backup.
+- `audit/saved-batch-preservation-20260922T0506.json`: all 11 reviewed original
+  batch hashes unchanged.
 - `audit/children-pregnancy-navigation-priority-checkpoint-001.json` through `-004.json`.
 - `audit/cross-category-correction-obligations.json`: expanded obligations for
   Children changes, selection, Crossroads, wrong-campus pantry and SUPeRAD.

@@ -12,7 +12,8 @@ or new research was launched. Verify live status before acting. Research 21/21;
 curation 2/21, Clothing/Household in progress with two saved batches reviewed.
 Children/Pregnancy now has **91 selected drafts / 112 preserved dispositions**:
 26 source field corrections, restored Guadalupe home visits, one center merge,
-five reasoned omissions. Addiction remains 73, with SUPeRAD intake reconciled.
+five reasoned omissions. Addiction now has 72 after omitting the duplicate CHC
+screening-only entry; SUPeRAD intake is reconciled.
 All 91 Children drafts have provisional manual Type/priority judgments, not final
 navigation. Clothing review caught Lehi hospital diaper rules incorrectly applied
 to Salt Lake Primary Pantry; correction/selection remains pending category completion.
