@@ -35,7 +35,7 @@ entries, with specific durable reasons and original findings preserved. No fixed
 quota; rare consequential services can merit inclusion. This authorizes selective
 final inclusion, not deletion of research evidence or a new core/reserve UI.
 Continue xhigh; do not silently reduce effort or mark AI output human Curated.
-At 22:27 MDT, Addiction has **73 selected drafts**, reduced from 85 original
+At 22:21 MDT, Addiction has **73 selected drafts**, reduced from 85 original
 curator drafts through three durable result revisions. One predecessor/successor
 clinic alias was merged (De Novo into current True North), 11 overlapping or
 weakly supported alternatives were omitted with explicit candidate reasons, and

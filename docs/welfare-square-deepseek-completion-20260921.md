@@ -104,7 +104,7 @@ corrections, navigation and priorities pending. Children/Pregnancy is running at
 xhigh. Live usage at 03:50 UTC reports 59% remaining and a September 25, 14:12 MDT
 reset. Saved checks are under the curation audit directory.
 
-## Incremental selection and source review — September 21, 22:27 MDT
+## Incremental selection and source review — September 21, 22:21 MDT
 
 Addiction now has 73 selected drafts. Three immutable result revisions preserve
 the original 85 drafts while merging the De Novo/True North successor identity,
