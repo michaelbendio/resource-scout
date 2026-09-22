@@ -13,9 +13,18 @@ peak-price estimate is $0.811819368 across 125 calls, including the preserved
 output-limit failure. Observed account balance is $6.52 (rounding/billing lag
 possible). Search, Codex curation and review are excluded from that API figure.
 
-Whole-office Codex `gpt-5.5` / High curation is running as job 1, with **2,153
+Michael then instructed, "BTW, you probably want xhigh." From September 21,
+21:07 MDT, all new curation calls use `gpt-5.5` / **xhigh**, retaining the first
+in-flight High batch. Its native worker was preserved while the coordinator was
+restarted through supported worker adoption; no research or batch was relaunched.
+Original worker metadata remains the effort authority for that first batch;
+coordinator progress after adoption describes the newly configured xhigh setting.
+Coordinator PID **79229**, persistent supervisor PID **79234**. Effort-change
+evidence and prior launch/status: `data/welfare-square-curation-20260921/effort-change-20260921/`.
+
+Whole-office curation is running as job 1, with **2,153
 candidate identities including 77 reviewed supplemental proposals**, 30-candidate
-/ 60,000-character bounds. Coordinator PID 79044; persistent supervisor PID 79051;
+/ 60,000-character bounds;
 launch, runner log, native events and pre-curation backup:
 `data/welfare-square-curation-20260921/`. Addiction batch 1/4 is active. Check live
 state before acting; do not duplicate a worker. The requested post-curation review

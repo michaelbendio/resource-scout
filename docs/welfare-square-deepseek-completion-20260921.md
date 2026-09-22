@@ -72,6 +72,12 @@ with bounded batches, a persistent supervisor, native events and a pre-curation
 backup in `data/welfare-square-curation-20260921/`. No additional research inference
 is planned. Curation completion and the already-requested review remain pending.
 
+At 21:07 MDT Michael directed xhigh. The supervisor and coordinator were restarted
+with xhigh for new calls, preserving and adopting the active first High worker.
+No batch or research was repeated. Original native worker metadata identifies the
+first batch as High; progress from the new coordinator carries its xhigh setting.
+The effort-change record preserves both launch configurations and process IDs.
+
 ## Diagnosed output-limit continuation
 
 Utilities/Phone/Internet's first response ended at the 32,768-token output limit
