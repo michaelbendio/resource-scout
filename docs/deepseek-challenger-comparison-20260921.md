@@ -1,5 +1,7 @@
 # DeepSeek challenger comparison — September 21, 2026
 
+**Later curation follow-up:** [Common-curator comparison](challenger-curation-comparison-20260921.md) retained 77 DeepSeek and 50 Grok direct-service proposals, with 14 shared. The research-stage figures below remain preserved with their original definitions.
+
 **DeepSeek V4.1-Flash is promising for inexpensive supplementary discovery. It did
 not meet this trial's predeclared coverage-preservation gate for replacing Grok.**
 It produced more useful candidate pathways, but substantially different coverage.

@@ -4,6 +4,44 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Challenger findings curated and compared — September 21, 18:30 MDT
+
+**Ready for Codex review. All six isolated curation workers finished normally;
+production research and curation remain paused.** Michael requested "Curate their
+findings and then compare." All 140 original DeepSeek/Grok submissions were
+curated with fresh Codex `gpt-5.5` / High contexts, provider labels and earlier
+scores hidden. Six batches took 39.27 worker minutes, with no failures, retries,
+structural repairs, or new DeepSeek/Grok/Claude inference.
+
+[Comparison report](docs/challenger-curation-comparison-20260921.md) and
+[full decisions, resources and coverage ledger](docs/challenger-curation-comparison-20260921.json).
+**113 distinct direct-service proposals: DeepSeek 77, Grok 50, 14 shared**
+(63 DeepSeek-only, 36 Grok-only). By original Category: Housing 22/16,
+Employment 20/14, Disability 35/20 (DeepSeek/Grok). One Grok directory is retained
+separately as navigation; native curator output remains 114 records. The 77 is
+coincidentally the same as the earlier pathway count, with different membership
+and resource granularity. Against each Category's sealed original Codex primary,
+new/expanded coverage is DeepSeek 76, Grok 42, 13 shared; this is not an office-wide
+novelty audit. Grok's set is not the reference truth or a winner-selection gate.
+
+Native evidence and three isolated HTML drafts (combined 113, DeepSeek 77,
+Grok 50): `data/challenger-curation-comparison-20260921/`. Durable file job,
+not a production database job. Native outputs and original attribution were
+preserved. `scripts/curate-challenger-comparison.py` reuses Scout's normal
+curation/validation; completed jobs never relaunch workers. Three harness tests
+pass. All Information sections and evidence URLs passed structural checks;
+Safari inspected the combined reader/editor and showed zero Curated marks.
+
+The drafts are proposals. Types, For-group design/confirmations, review priorities
+and final content review remain pending. No final review completion, human Curated
+approval, production Save gate change, or office publication was made. User starts
+a separate Codex session to request review; do not launch a paid review worker.
+
+All production table hashes match the pre-curation snapshot. The 21 completed
+primary Categories / 112 passes, 16 saved Grok results, five sealed pending Grok
+challengers and zero production curation jobs are unchanged. Automatic restart
+remains off. Do not rerun research or close pending challengers from this result.
+
 ## DeepSeek challenger trial complete; production paused — September 21, 17:32 MDT
 
 **All paid trial runs and their audits are complete. No worker is running.**
