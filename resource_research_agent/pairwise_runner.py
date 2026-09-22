@@ -689,6 +689,11 @@ def _run_pairwise_locked(
         store, import_id, roster=roster, category_rosters=category_rosters,
         preserve_completed=preserve_completed,
     )
+    pending_providers = {researcher['name'] for category in initial_view['categories']
+                         for researcher in category['researchers']
+                         if researcher['role'] == 'challenger' and researcher['status'] != 'completed'}
+    if not primary_only and pending_providers - enabled:
+        raise ValueError('Pending provider handoff requires its designated runner: ' + ', '.join(sorted(pending_providers - enabled)))
     needs_work = not (
         (max_categories is not None and initial_view["completedCategories"] >= max_categories)
         or (max_passes is not None and max_passes <= 0)

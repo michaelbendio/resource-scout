@@ -314,6 +314,22 @@ CREATE TABLE IF NOT EXISTS codex_first_research_assignments (
 );
 CREATE INDEX IF NOT EXISTS codex_first_assignment_status
     ON codex_first_research_assignments(job_id, role, status, id);
+CREATE TABLE IF NOT EXISTS research_assignment_replacements (
+    original_assignment_id INTEGER PRIMARY KEY REFERENCES codex_first_research_assignments(id),
+    replacement_assignment_id INTEGER NOT NULL UNIQUE REFERENCES codex_first_research_assignments(id),
+    reason TEXT NOT NULL,
+    created_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS scout_curation_supplements (
+    import_id INTEGER NOT NULL REFERENCES imports(id),
+    category_id TEXT NOT NULL,
+    source_key TEXT NOT NULL,
+    payload_json TEXT NOT NULL,
+    payload_sha256 TEXT NOT NULL,
+    reason TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    PRIMARY KEY (import_id, category_id, source_key)
+);
 CREATE TABLE IF NOT EXISTS research_worker_telemetry (
     id INTEGER PRIMARY KEY,
     import_id INTEGER NOT NULL REFERENCES imports(id) ON DELETE CASCADE,
@@ -2262,7 +2278,16 @@ class ResearchStore:
                    WHERE job_id = ? ORDER BY ordinal""",
                 (job_id,),
             ).fetchall()
+            replacements = connection.execute(
+                """SELECT old.researcher AS original, new.researcher AS replacement,
+                          r.original_assignment_id, r.replacement_assignment_id, r.reason
+                   FROM research_assignment_replacements r
+                   JOIN codex_first_research_assignments old ON old.id=r.original_assignment_id
+                   JOIN codex_first_research_assignments new ON new.id=r.replacement_assignment_id
+                   WHERE old.job_id=?""", (job_id,),
+            ).fetchall()
         result = self._focused_research_job_dict(row)
+        result["researcherReplacements"] = [dict(item) for item in replacements]
         result["passes"] = [self._focused_research_pass_dict(item) for item in pass_rows]
         result["progress"] = {
             "completed": sum(item["status"] == "completed" for item in result["passes"]),
@@ -2571,6 +2596,42 @@ class ResearchStore:
             ).fetchone()
         return self._codex_first_assignment_dict(row) if row else None
 
+    def replace_codex_first_assignment(self, assignment_id: int, researcher: str, *, reason: str) -> dict[str, Any]:
+        """Explicit provider handoff; never rewrite the original sealed record/plan."""
+        researcher, reason = researcher.strip(), reason.strip()
+        if not researcher or not reason:
+            raise ValueError("Replacement requires a researcher and authorization reason")
+        now = datetime.now(timezone.utc).isoformat()
+        with self.connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            old = connection.execute("SELECT * FROM codex_first_research_assignments WHERE id=?", (assignment_id,)).fetchone()
+            if not old:
+                raise ValueError("Assignment not found")
+            previous = connection.execute("SELECT * FROM research_assignment_replacements WHERE original_assignment_id=?", (assignment_id,)).fetchone()
+            if previous:
+                new = connection.execute("SELECT * FROM codex_first_research_assignments WHERE id=?", (previous['replacement_assignment_id'],)).fetchone()
+                if new['researcher'] != researcher or previous['reason'] != reason:
+                    raise ValueError("Provider handoff is immutable")
+                return self._codex_first_assignment_dict(new)
+            job = connection.execute("SELECT status FROM focused_research_jobs WHERE id=?", (old['job_id'],)).fetchone()
+            if old['status'] != 'assigned' or old['role'] != 'challenger' or job['status'] == 'completed':
+                raise ValueError("Only an unfinished challenger can be replaced")
+            if connection.execute("SELECT 1 FROM research_assignment_replacements WHERE replacement_assignment_id=?", (assignment_id,)).fetchone():
+                raise ValueError("Chained provider handoffs are not supported")
+            if connection.execute("SELECT 1 FROM codex_first_research_assignments WHERE job_id=? AND researcher=?", (old['job_id'], researcher)).fetchone():
+                raise ValueError("Replacement researcher already has an assignment")
+            old_header = f"Resource Scout adversarial challenger assignment for {old['researcher']}."
+            if not old['assignment'].startswith(old_header):
+                raise ValueError("Unrecognized sealed assignment header")
+            assignment = old['assignment'].replace(old_header, f"Resource Scout adversarial challenger assignment for {researcher}.", 1)
+            cursor = connection.execute("""INSERT INTO codex_first_research_assignments
+                (job_id,researcher,role,status,assignment,assignment_sha256,candidate_manifest_sha256,created_at,updated_at)
+                VALUES (?,?,'challenger','assigned',?,?,?,?,?)""",
+                (old['job_id'],researcher,assignment,hashlib.sha256(assignment.encode()).hexdigest(),old['candidate_manifest_sha256'],now,now))
+            new_id = int(cursor.lastrowid)
+            connection.execute("INSERT INTO research_assignment_replacements VALUES (?,?,?,?)", (assignment_id,new_id,reason,now))
+        return self.get_codex_first_assignment(new_id)
+
     def list_codex_first_assignments(self, job_id: int) -> list[dict[str, Any]]:
         with self.connect() as connection:
             rows = connection.execute(
@@ -2579,6 +2640,30 @@ class ResearchStore:
                 (int(job_id),),
             ).fetchall()
         return [self._codex_first_assignment_dict(row) for row in rows]
+
+    def save_scout_curation_supplement(self, import_id: int, category_id: str, source_key: str,
+                                      payload: dict[str, Any], *, reason: str) -> None:
+        """Seal supplemental evidence without reopening completed research runs."""
+        if not source_key.strip() or not reason.strip() or not payload.get('candidates'):
+            raise ValueError('Supplement requires provenance, candidates and authorization reason')
+        encoded = _json(payload)
+        digest = hashlib.sha256(encoded.encode()).hexdigest()
+        with self.connect() as connection:
+            connection.execute('BEGIN IMMEDIATE')
+            old = connection.execute('SELECT payload_sha256,reason FROM scout_curation_supplements WHERE import_id=? AND category_id=? AND source_key=?', (import_id,category_id,source_key)).fetchone()
+            if old:
+                if old['payload_sha256'] != digest or old['reason'] != reason:
+                    raise ValueError('Curation supplement is immutable')
+                return
+            if connection.execute('SELECT 1 FROM scout_curation_jobs WHERE import_id=?', (import_id,)).fetchone():
+                raise ValueError('Seal supplements before preparing curation')
+            connection.execute('INSERT INTO scout_curation_supplements VALUES (?,?,?,?,?,?,?)',
+                               (import_id,category_id,source_key,encoded,digest,reason,datetime.now(timezone.utc).isoformat()))
+
+    def list_scout_curation_supplements(self, import_id: int) -> list[dict[str, Any]]:
+        with self.connect() as connection:
+            rows = connection.execute('SELECT * FROM scout_curation_supplements WHERE import_id=? ORDER BY category_id,source_key', (import_id,)).fetchall()
+        return [{**dict(row), 'payload': json.loads(row['payload_json'])} for row in rows]
 
     def attach_codex_first_chatgpt_schedule(
         self, assignment_id: int, schedule_id: int
@@ -2616,6 +2701,8 @@ class ResearchStore:
     ) -> dict[str, Any]:
         now = datetime.now(timezone.utc).isoformat()
         with self.connect() as connection:
+            if connection.execute('SELECT 1 FROM research_assignment_replacements WHERE original_assignment_id=?', (assignment_id,)).fetchone():
+                raise ValueError('Cannot complete a superseded assignment')
             row = connection.execute(
                 "SELECT * FROM codex_first_research_assignments WHERE id = ?",
                 (int(assignment_id),),

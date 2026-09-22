@@ -39,6 +39,7 @@ def compact_assignment(assignment: dict[str, Any]) -> dict[str, Any]:
     view = {key: value for key, value in assignment.items() if key not in {
         "candidates", "excludedCandidates", "sourceOnlyRecords", "sourceResponses",
         "previouslyCuratedResources",
+        "supplementalEvidence",
     }}
     candidates = []
     for item in assignment.get("candidates", []):
@@ -62,6 +63,7 @@ def compact_assignment(assignment: dict[str, Any]) -> dict[str, Any]:
         "prior-resources.json": "Complete prior proposals; read a matching resource before extending its stable ID.",
         "source-only.json": "Directory/reference-only evidence, not extra candidate IDs. Review for corroborating access details.",
         "excluded.json": "Previously excluded evidence, retained for audit.",
+        "supplementalEvidence in assignment.json": "Sealed supplemental provenance and prior reviewed drafts; read only the relevant bounded entry.",
     }
     return view
 

@@ -187,8 +187,11 @@ def prepare_codex_first_plan(
 
 def _external_researchers(job: dict[str, Any]) -> list[dict[str, str]]:
     roster = (job.get("plan") or {}).get("researcherRoster") or {}
+    replacements = {item['original']: item['replacement'] for item in job.get('researcherReplacements', [])}
     return [
-        item for item in roster.get("researchers") or []
+        {**item, 'name': replacements.get(item['name'], item['name']),
+         **({'after': replacements.get(item['after'], item['after'])} if item.get('after') else {})}
+        for item in roster.get("researchers") or []
         if item.get("role") in {"challenger", "shadow"}
     ]
 
@@ -310,6 +313,8 @@ def save_codex_first_external_result(
     job = store.get_focused_research_job(int(assignment["jobId"]))
     if not job:
         raise ValueError("Codex-first research job not found")
+    if any(item['original_assignment_id'] == assignment_id for item in job.get('researcherReplacements', [])):
+        raise ValueError("This assignment was superseded by an explicit provider handoff")
     if assignment["chatgptScheduleId"] is not None:
         schedule = store.get_chatgpt_assignment_schedule(
             int(assignment["chatgptScheduleId"])
@@ -400,9 +405,10 @@ def next_codex_first_assignment(
             return {"kind": "primary", "job": job, "researchPass": research_pass}
         return None
     for job in jobs:
+        superseded = {item['original_assignment_id'] for item in job.get('researcherReplacements', [])}
         match = next((
             item for item in store.list_codex_first_assignments(int(job["id"]))
-            if item["researcher"] == wanted and item["status"] != "completed"
+            if item["researcher"] == wanted and item["status"] != "completed" and item['id'] not in superseded
         ), None)
         if match:
             return {"kind": match["role"], "job": job, "externalAssignment": match}
@@ -432,6 +438,7 @@ def codex_first_view(store: ResearchStore, import_id: int) -> dict[str, Any]:
             "categoryId": str(job["categoryId"]),
             "categoryLabel": str(job["categoryLabel"]),
             "status": str(job["status"]),
+            "providerHandoffs": job.get('researcherReplacements', []),
             "primary": {
                 **dict(job["progress"]),
                 "passes": [
@@ -476,7 +483,8 @@ def codex_first_view(store: ResearchStore, import_id: int) -> dict[str, Any]:
                         (assignments_by_researcher.get(item["name"]) or {}).get("leadCount") or 0
                     ) if item["role"] != "primary" else int(job["progress"]["leadCount"]),
                 }
-                for item in (job["plan"].get("researcherRoster") or {}).get("researchers") or []
+                for item in ([item for item in (job["plan"].get("researcherRoster") or {}).get("researchers", [])
+                              if item['role'] in {'primary', 'disabled'}] + _external_researchers(job))
                 if item["role"] != "disabled"
             ],
         })

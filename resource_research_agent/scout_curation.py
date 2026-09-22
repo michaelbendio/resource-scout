@@ -228,6 +228,12 @@ def prepare_scout_curation_job(
         )
     }
     package_fingerprint["runs"] = _durable_run_payloads(package_data.get("runs"))
+    supplements = store.list_scout_curation_supplements(int(selected_import_id))
+    if supplements:
+        category_ids = {str(item['id']) for item in package_data.get('categories', [])}
+        if any(item['category_id'] not in category_ids for item in supplements):
+            raise ScoutCurationError('Supplement references an unknown Category')
+        package_fingerprint['supplements'] = supplements
     candidate_package_sha256 = _sha256(package_fingerprint)
     existing = next((
         job for job in store.list_scout_curation_jobs(int(selected_import_id))
@@ -252,6 +258,14 @@ def prepare_scout_curation_job(
             continue
         canonical = _canonical_run(runs)
         assignment = _assignment(package_data, category, canonical)
+        for supplement in supplements:
+            if supplement['category_id'] != category_id:
+                continue
+            assignment['candidates'].extend(deepcopy(supplement['payload']['candidates']))
+            assignment.setdefault('supplementalEvidence', []).append(deepcopy(supplement))
+        candidate_ids = [str(item['id']) for item in assignment['candidates']]
+        if len(candidate_ids) != len(set(candidate_ids)):
+            raise ScoutCurationError('Duplicate candidate IDs in supplemental evidence')
         assignment["candidatePackageSha256"] = candidate_package_sha256
         assignment_sha256 = _assignment_sha256(assignment)
         assignment["assignmentSha256"] = assignment_sha256
@@ -259,7 +273,7 @@ def prepare_scout_curation_job(
             "categoryId": category_id,
             "categoryLabel": str(category.get("label") or category_id),
             "canonicalRunId": int(canonical["run"]["id"]),
-            "candidateCount": len(canonical.get("candidates") or []),
+            "candidateCount": len(assignment['candidates']),
             "assignment": assignment,
             "assignmentSha256": assignment_sha256,
         })

@@ -4,6 +4,36 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square completion and review authorized — September 21, 20:01 MDT
+
+Michael instructed: **"Finish the job. Then review without asking me."** This
+authorizes the proposed five DeepSeek V4.1-Flash/max challenger completions,
+whole-office Codex High curation with checkpoints, and the following Codex review
+without another approval gate. Preserve all 112 completed primary passes and 16
+Grok results. Claude and further Grok inference remain disabled. Include the
+reviewed three-category DeepSeek supplemental findings as provenance-bearing
+curation inputs, with office-wide duplicate checks. No human Curated marks or
+office publication is authorized by AI completion.
+
+Five remaining Categories: Mental Health; Seniors; Transportation;
+Utilities, Phone, Internet; Veterans. First checkpoint: Mental Health source,
+coverage and eligibility review. DeepSeek inference cap: $2, conservatively
+reserving $0.25; starting account balance $7.29. Search uses the existing supervised
+Codex web relay, with raw responses saved. Native events, requests, usage,
+assignments and pre-change SQLite backup are in
+`data/welfare-square-deepseek-finish-20260921/`. The supervisor must remain active
+to relay searches; this is not an unattended restart configuration.
+
+Production database remains the original
+`data/welfare-square-production-20260921-codex-grok/research.sqlite3`.
+The tested explicit provider-handoff implementation adds replacement records;
+original sealed assignments and plans remain intact. Do not run the historical
+Grok command in launch.json. Curation uses fresh batches of at most 30 candidates
+/ 60,000 candidate-view characters, `gpt-5.5` / High. Complete content, omissions,
+navigation, group evidence, priorities, browser checks and exact-fingerprint
+recording before announcing the final review complete. Earlier pause entries
+below are historical; this authorization supersedes their wait-for-user gates.
+
 ## Requested challenger review complete — September 21, 19:44 MDT
 
 **Michael requested the review; the isolated comparison is reviewed. Production

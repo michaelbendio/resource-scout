@@ -78,6 +78,54 @@ class CodexFirstResearchTests(unittest.TestCase):
     def tearDown(self) -> None:
         self.temporary.cleanup()
 
+    def test_explicit_provider_handoff_preserves_seals_and_closes_with_replacement(self) -> None:
+        prepare_codex_first_plan(self.store, self.import_id, roster=load_researcher_profile('codex-grok'))
+        while (assignment := next_codex_first_assignment(self.store, self.import_id, 'Codex')):
+            save_codex_first_primary_result(self.store, assignment['job']['id'], assignment['researchPass']['focusKey'], response('Primary'))
+        original = next_codex_first_assignment(self.store, self.import_id, 'Grok')['externalAssignment']
+        before_job = self.store.get_focused_research_job(original['jobId'])
+        replacement = self.store.replace_codex_first_assignment(original['id'], 'DeepSeek', reason='Authorized provider handoff')
+        self.assertEqual(original, self.store.get_codex_first_assignment(original['id']))
+        self.assertEqual(before_job['plan'], self.store.get_focused_research_job(original['jobId'])['plan'])
+        self.assertEqual(replacement, self.store.replace_codex_first_assignment(original['id'], 'DeepSeek', reason='Authorized provider handoff'))
+        self.assertIsNone(next_codex_first_assignment(self.store, self.import_id, 'Grok'))
+        self.assertEqual(replacement, next_codex_first_assignment(self.store, self.import_id, 'DeepSeek')['externalAssignment'])
+        options = dict(profile='codex-grok', codex_binary='/usr/bin/true', codex_model='test',
+                       grok_binary='/nonexistent/grok', grok_model='', claude_binary='/nonexistent/claude', claude_model='',
+                       codex_timeout_seconds=10, grok_timeout_seconds=10, claude_timeout_seconds=10,
+                       claude_max_turns=60, retry_count=0, max_passes=None, max_categories=1, preflight=True)
+        with patch('resource_research_agent.pairwise_runner._grok_preflight', side_effect=AssertionError('No obsolete provider probe')):
+            with self.assertRaisesRegex(ValueError, 'designated runner: DeepSeek'):
+                run_pairwise(self.store, self.import_id, **options)
+        with self.assertRaisesRegex(ValueError, 'superseded'):
+            save_codex_first_external_result(self.store, original['id'], response('Obsolete Grok'))
+        with self.assertRaisesRegex(ValueError, 'immutable'):
+            self.store.replace_codex_first_assignment(original['id'], 'Other', reason='Different handoff')
+        with self.assertRaisesRegex(ValueError, 'Chained'):
+            self.store.replace_codex_first_assignment(replacement['id'], 'Other', reason='Another handoff')
+        self.assertIsNone(next_codex_first_assignment(self.store, self.import_id, 'Codex'))
+        save_codex_first_external_result(self.store, replacement['id'], response('DeepSeek'))
+        self.assertEqual('completed', self.store.get_focused_research_job(original['jobId'])['status'])
+        self.assertEqual(original, self.store.get_codex_first_assignment(original['id']))
+        view = codex_first_view(self.store, self.import_id)
+        self.assertEqual(1, view['completedCategories'])
+        self.assertEqual(['Codex', 'DeepSeek'], [r['name'] for r in view['categories'][0]['researchers']])
+        with self.assertRaisesRegex(ValueError, 'unfinished'):
+            self.store.replace_codex_first_assignment(replacement['id'], 'Other', reason='Completed handoff')
+        supplement = {'candidates': [{'id': 'supplement-1', 'name': 'Prior reviewed proposal', 'candidate': {}}],
+                      'sourceReport': 'saved-review.json'}
+        self.store.save_scout_curation_supplement(self.import_id, 'food', 'trial', supplement, reason='Authorized supplemental inputs')
+        self.store.save_scout_curation_supplement(self.import_id, 'food', 'trial', supplement, reason='Authorized supplemental inputs')
+        with self.assertRaisesRegex(ValueError, 'immutable'):
+            self.store.save_scout_curation_supplement(self.import_id, 'food', 'trial', {'candidates': [{'id': 'changed'}]}, reason='Authorized supplemental inputs')
+        curation = prepare_scout_curation_job(self.store, self.import_id)
+        self.assertEqual('pending', curation['status'])
+        self.assertEqual(curation['id'], prepare_scout_curation_job(self.store, self.import_id)['id'])
+        self.assertIn('supplement-1', [c['id'] for c in curation['categories'][0]['assignment']['candidates']])
+        self.assertEqual(curation['categories'][0]['candidateCount'], len(curation['categories'][0]['assignment']['candidates']))
+        with self.assertRaisesRegex(ValueError, 'before preparing'):
+            self.store.save_scout_curation_supplement(self.import_id, 'food', 'later', supplement, reason='Too late')
+
     def test_whole_office_plan_is_durable_and_excludes_miscellaneous(self) -> None:
         plan = prepare_codex_first_plan(self.store, self.import_id)
         repeated = prepare_codex_first_plan(self.store, self.import_id)
