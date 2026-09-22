@@ -42,3 +42,14 @@ category-fit concerns are retained in `source-audit.md` for curation.
 
 This is an in-progress execution record. Final curation, navigation, priorities,
 browser checks and exact-fingerprint review completion are still required.
+
+## Diagnosed output-limit continuation
+
+Utilities/Phone/Internet's first response ended at the 32,768-token output limit
+without making a research tool call. The response, native stream, usage, failure
+and failed state are retained. A single changed continuation directs the model
+to use the preserved planning and begin source checks. It retains max reasoning,
+the original assignment and accumulated spending; it neither replays an unchanged
+request nor starts the Category over. This recovery path cannot run twice for
+the same Category. Separate failure/completion telemetry avoids counting the
+failed output's tokens and cost twice. Nine transport/recovery tests passed.

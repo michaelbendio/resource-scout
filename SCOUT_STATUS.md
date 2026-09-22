@@ -6,6 +6,19 @@ a monitor process is not a research worker.
 
 ## Welfare Square completion and review authorized — September 21, 20:01 MDT
 
+Live progress: Mental Health (26 leads), Seniors (21), and Transportation (25)
+are completed and saved as DeepSeek results: **19/21 Categories fully researched**.
+Utilities/Phone/Internet is active; Veterans follows. Utilities' first response
+exhausted its 32,768-token output budget while planning without searching. The
+failed response and charge are retained; one changed continuation instructed it
+to begin source checks, at the same max reasoning setting, and it resumed useful
+searches. No Category was restarted. Five earlier malformed web-tool requests
+were rejected and corrected through normal continuation. Source-audit.md records
+eligibility, conflicting-contact and wrong-state-plan corrections for curation.
+The monitor at 8770 was restarted to load the audited provider-handoff support;
+its completion count and active DeepSeek provider were verified. Code commit
+`75fa094` passed GitHub CI. Curation has a sealed command but has not started.
+
 Michael instructed: **"Finish the job. Then review without asking me."** This
 authorizes the proposed five DeepSeek V4.1-Flash/max challenger completions,
 whole-office Codex High curation with checkpoints, and the following Codex review

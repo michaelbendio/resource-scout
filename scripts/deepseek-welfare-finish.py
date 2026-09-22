@@ -24,6 +24,29 @@ transport.CEILING = Decimal('2.00')
 AUTHORIZATION = 'Michael: Finish the job. Then review without asking me. Replace five unfinished Grok challengers with DeepSeek; preserve completed research.'
 
 
+def resume_length(category):
+    """One diagnosed continuation, never replay an unchanged truncated request."""
+    directory = transport.OUT / category.lower()
+    state = transport.read(directory / 'state.json')
+    response = transport.read(directory / f"turn-{state['turn']:03d}" / 'response.json')
+    if state['status'] != 'failed' or response['finishReason'] != 'length' or response['message'].get('tool_calls'):
+        raise RuntimeError('Only a diagnosed output-limit stop without tool calls can use this continuation')
+    recovery = directory / 'output-limit-recovery.json'
+    if recovery.exists():
+        raise RuntimeError('Output-limit continuation budget exhausted')
+    instruction = ('Your preceding response reached the output limit while planning, without executing a web search. '
+                   'The analysis is preserved above. Continue this assignment from that checkpoint. '
+                   'Make a web tool call now to verify your strongest candidate gaps. Do not repeat broad planning or enumerate speculative candidates again. '
+                   'Use bounded source checks, then return the required leads JSON. Keep the same scope, exclusions, uncertainty standards and response schema.')
+    transport.dump(directory / 'failed-state-before-output-limit-recovery.json', state)
+    transport.dump(recovery, {'at': transport.now(), 'failedTurn': state['turn'], 'diagnosis': 'Response output limit exhausted by planning before first research tool call', 'continuationInstruction': instruction, 'reasoningEffort': 'max', 'sameAssignment': True, 'newCallUsesSavedConversation': True, 'additionalContinuationsAllowed': 0})
+    state['messages'].append({'role': 'user', 'content': instruction})
+    state['status'] = 'prepared'
+    state['recovery'] = str(recovery)
+    transport.dump(directory / 'state.json', state)
+    print(json.dumps({'status': 'prepared-continuation', 'category': category, 'preservedFailedTurn': state['turn']}))
+
+
 def handoff():
     from resource_research_agent.storage import ResearchStore
     store = ResearchStore(transport.DB)
@@ -57,13 +80,25 @@ def save_result(category):
     store = ResearchStore(transport.DB)
     saved = save_codex_first_external_result(store, record['replacementAssignmentId'], raw)
     with store.connect() as connection:
-        exists = connection.execute('SELECT 1 FROM research_worker_telemetry WHERE external_assignment_id=?', (saved['id'],)).fetchone()
+        exists = connection.execute("SELECT 1 FROM research_worker_telemetry WHERE external_assignment_id=? AND outcome='completed'", (saved['id'],)).fetchone()
     if not exists:
-        turns = [transport.read(p) for p in sorted(directory.glob('turn-*/response.json'))]
-        usage = {key: sum(t['usage'].get(key, 0) for t in turns) for key in ['prompt_tokens', 'completion_tokens', 'prompt_cache_hit_tokens', 'prompt_cache_miss_tokens']}
-        usage.update(reasoningEffort='max', peakPriceUpperEstimateUsd=state['upperCostUsd'], providerCalls=len(turns), evidenceDirectory=str(directory))
+        failed_paths = sorted(directory.glob('turn-*/failure.json'))
         job = store.get_focused_research_job(saved['jobId'])
-        store.record_worker_telemetry(import_id=1, profile='codex-grok-with-explicit-deepseek-handoff', provider='DeepSeek', role='challenger', category_id=job['categoryId'], category_label=category, attempt=1, model='deepseek-flash', outcome='completed', started_at=state['createdAt'], completed_at=state['completedAt'], elapsed_ms=round(sum(t['elapsedSeconds'] for t in turns)*1000), job_id=job['id'], external_assignment_id=saved['id'], lead_count=saved['leadCount'], response_bytes=len(raw.encode()), usage=usage)
+        failed_cost = Decimal(0)
+        for attempt, path in enumerate(failed_paths, 1):
+            failure = transport.read(path)
+            response = transport.read(path.parent / 'response.json')
+            reservation = transport.read(path.parent / 'reservation.json')
+            charge = transport.usage_cost(response['usage'])
+            failed_cost += charge
+            with store.connect() as connection:
+                recorded = connection.execute("SELECT 1 FROM research_worker_telemetry WHERE external_assignment_id=? AND outcome='failed' AND attempt=?", (saved['id'],attempt)).fetchone()
+            if not recorded:
+                store.record_worker_telemetry(import_id=1, profile='codex-grok-with-explicit-deepseek-handoff', provider='DeepSeek', role='challenger', category_id=job['categoryId'], category_label=category, attempt=attempt, model='deepseek-flash', outcome='failed', started_at=reservation['startedAt'], completed_at=failure['at'], elapsed_ms=round(response['elapsedSeconds']*1000), job_id=job['id'], external_assignment_id=saved['id'], usage={**response['usage'], 'reasoningEffort': 'max', 'peakPriceUpperEstimateUsd': str(charge), 'evidenceDirectory': str(path.parent)}, error=failure['message'])
+        turns = [transport.read(p) for p in sorted(directory.glob('turn-*/response.json')) if not (p.parent/'failure.json').exists()]
+        usage = {key: sum(t['usage'].get(key, 0) for t in turns) for key in ['prompt_tokens', 'completion_tokens', 'prompt_cache_hit_tokens', 'prompt_cache_miss_tokens']}
+        usage.update(reasoningEffort='max', peakPriceUpperEstimateUsd=str(Decimal(state['upperCostUsd'])-failed_cost), providerCalls=len(turns), diagnosedPriorStops=len(failed_paths), evidenceDirectory=str(directory))
+        store.record_worker_telemetry(import_id=1, profile='codex-grok-with-explicit-deepseek-handoff', provider='DeepSeek', role='challenger', category_id=job['categoryId'], category_label=category, attempt=len(failed_paths)+1, model='deepseek-flash', outcome='completed', started_at=state['createdAt'], completed_at=state['completedAt'], elapsed_ms=round(sum(t['elapsedSeconds'] for t in turns)*1000), job_id=job['id'], external_assignment_id=saved['id'], lead_count=saved['leadCount'], response_bytes=len(raw.encode()), usage=usage)
     print(json.dumps({'category': category, 'savedAssignmentId': saved['id'], 'leadCount': saved['leadCount']}))
 
 
@@ -151,7 +186,7 @@ def prepare():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['prepare', 'step', 'handoff', 'save', 'supplements', 'verify'])
+    parser.add_argument('action', choices=['prepare', 'step', 'handoff', 'save', 'supplements', 'verify', 'resume-length'])
     parser.add_argument('category', nargs='?', choices=transport.CATEGORIES)
     args = parser.parse_args()
     with transport.research_runner_lock(transport.DB):
@@ -165,6 +200,8 @@ def main():
             save_result(args.category)
         elif args.action == 'supplements':
             supplements()
+        elif args.action == 'resume-length':
+            resume_length(args.category)
         else:
             verify_preserved()
 
