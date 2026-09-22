@@ -4,6 +4,21 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square navigation and Domestic Violence review — September 22, 01:15 MDT
+
+Research **21/21**; curation **4/21**. The existing coordinator/supervisor remain
+active; Domestic Violence batch **3/4** has recent native activity. Its first two
+saved batches are fully read: **47 resource records and 50 candidate dispositions**.
+Twenty source/shared-body field corrections and one ACS consolidation are prepared,
+**not applied**. Final category selection awaits the remaining batches. Disability
+now has **146 provisional manual Type/priority assignments**, plus Friends for
+Sight's pending Medical retention/category-transfer obligation. No final navigation
+or priorities are installed; per-Type evidence, final For-group review, shared-body
+reconciliation, browser checks and Save delivery remain unfinished.
+The 01:15 audit verifies all 37 non-curation tables and 23 original saved batch
+hashes unchanged, with SQLite integrity passing. Continue the authorized run and
+selective review; see the [review checkpoint](docs/welfare-square-review-checkpoint-20260922.md).
+
 ## Welfare Square Disability selected — September 22, 00:52 MDT
 
 Research **21/21**; curation **4/21**. Existing coordinator/supervisor remain healthy,

@@ -253,6 +253,60 @@ still match `before-curation.sqlite3`. The selection revision also preserved all
 Allowance snapshot `audit/usage-20260922T065037Z.json`: 53% remaining, not a forecast.
 Final content/navigation/group/priority/browser/Save review is still unfinished.
 
+## Domestic Violence and Disability navigation — September 22, 01:15 MDT
+
+Research remains 21/21 and curation 4/21. The same coordinator and supervisor are
+active, with recent native web activity in Domestic Violence batch 3/4. Both saved
+DV batches are fully read: **47 resource records and all 50 dispositions**. Checkpoints
+are `audit/content-checkpoints/domestic-violence-batch-001.json` and `-002.json`.
+
+`audit/domestic-violence-prepared-source-corrections-001.json` and `-002.json`
+contain **20 unapplied field corrections** and one proposed ACS consolidation:
+
+- Preserve ACS's free survivor support versus low-cost accredited immigration
+  assistance in one intake record; use U visa and VAWA relief wording.
+- Official indexed Mexican consulate Protection/Contact text establishes the
+  domestic-violence scope, 24-hour consular emergency number and Monday-Friday
+  8 AM–3 PM Protection hours. The January 2025 Contact page resolves an older
+  MEXITEL page's hours conflict. Staff extension formats still conflict, so use
+  the verified switchboard. Remove internal bot-block/submission terminology.
+- Legal Aid's official page explicitly permits walk-in intake without an appointment
+  and free help regardless of income or immigration status. Preserve case jurisdiction
+  and petitioner-only limits without inventing a police-report prerequisite.
+- Cherish's 2026 official guidance confirms its 928 phone number. Its current service
+  pages do not establish the carried Herriman address; use phone/online intake and
+  confirm the meeting location instead of sending a reader to an unverified office.
+- SLC City Prosecutor's generic City Hall footer does not establish the victim
+  assistant's location, and Justice Court hours are not the assistant's schedule.
+  Keep the specific misdemeanor case route; the County DA manages city prosecution.
+- Restore MCC's state-documented income-based payment/Medicaid facts and Youth Hub's
+  self/parent/substance-use crisis access in later shared copies. Add AAU's confirmed
+  state Medicaid listing. Sego Lily's new copy preserves its Disability details.
+- Remove internal evidence-review/dynamic-webpage language and irrelevant Housing
+  Connect emergency-maintenance contact details from survivor access information.
+
+Changes Counseling and Clearview remain **provisional omission candidates**, pending
+the complete survivor counseling portfolio. City jurisdictions, child forensic and
+medical services, Deaf/teen hotlines, pet crisis shelter and culturally focused
+support are distinct routes; do not merge solely because they share a service type.
+Bluffdale explicitly routes victim services to Saratoga Springs on its official
+page, so the office's geography alone does not justify removal.
+
+Disability navigation checkpoints 003–007 add 103 manual provisional judgments.
+`audit/disability-navigation-priority-working-ledger-001.json` consolidates **146
+assignments**, including retained NES and the expanded Phoenix merged body, against
+the applied 147-resource result. Friends for Sight is the one pending Medical
+retention/category-transfer obligation. The two supplemental Valley records reuse
+already assigned identities. This is **not installed navigation, final per-Type
+evidence, For-group certification or a completed review**. A proposed Service Animals
+Type needs a final usefulness decision; do not force service dogs into equipment.
+
+`audit/root-review-checkpoint-20260922T071528Z.json` records the live checkpoint.
+`audit/research-preservation-20260922T071528Z.json` confirms all 37 non-curation tables
+unchanged from the pre-curation backup. All 23 saved original batch hashes checked
+at this milestone remain unchanged; SQLite quick_check passes. No content revision
+was applied during this milestone, and no new research or inference worker launched.
+
 ## Durable evidence and next steps
 
 All runtime paths below are relative to `data/welfare-square-curation-20260921/`:
