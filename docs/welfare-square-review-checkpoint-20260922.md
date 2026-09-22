@@ -5,6 +5,64 @@ Research is complete; final content, taxonomy, browser review and Save delivery 
 unfinished. Continue without another approval. No new research, subagents or
 provider calls were launched by this continuation.
 
+## Employment selected — September 22, 03:51 MDT
+
+Original coordinator 79229/supervisor 79234 remain healthy at xhigh, zero restarts.
+Research 21/21; curation **7/21**, Financial Assistance batch **2/5** active. All
+eight Employment batches are read: **155 batch records / 172 dispositions**.
+Guarded `audit/employment-review-revision-001/` retains **120 of 150** category
+drafts through six consolidations and 24 specific exclusions. Its result hash is
+`981cd708b707a46bb4a82be813c90622eaecdceffe718cab8369c89a3a004599`.
+
+- Preserved 86 unique prepared source corrections, 82 on retained IDs, including
+  earlier DI, childcare, survivor, apprenticeship and shared Education/Disability
+  safeguards. ESLC and TURN later proposals supersede earlier same-field drafts.
+- Consolidated SLCC/buildUP electrical access, UCA/Sauté with current training
+  uncertainty, DWS Veteran/ACE, DWS Career/OJT, USOR VR/Supported Employment/Choose
+  to Work, and UMC/SLCC masonry. Preserve each subprogram's eligibility, fees,
+  required employer/counselor steps and contact. UMC's application explicitly
+  identifies SLCC classes, while its duration/cost FAQ has placeholders.
+- Retained six staffing routes with distinct practical access; omitted 14 overlapping
+  staffing alternatives with individual reasons. Retained the concrete, flexibly
+  scheduled private CNA credential fallback despite fees. Omitted uncertain AMVETS
+  Salt Lake launch, financially uncertain Advantage, vague Danville employment,
+  unconfirmed InPowerED/FTC access, and overlapping paid generic remote-work training.
+  These are selection judgments, not provider-quality or closure findings.
+- Removed incidental Employment membership for Uplift clothing and residential-only
+  Other Side Academy, Village and Milestone work. Uplift remains in Clothing and
+  Academy in Addiction. **Village and Milestone are mandatory later Housing/Homeless
+  review obligations**, with corrected full bodies preserved; their Employment
+  exclusion is not a whole-office rejection. Older copies can still union excluded
+  memberships back into the draft until final reconciliation.
+- Kept Pre-ETS separate because eligible students need not be VR clients. Focused
+  the state IPS/VOA shared ID on direct VOA THRIVE; the other provider named Thrive
+  remains distinct. Reconciled Horizonte candidate 684's earlier omission to the
+  later retained stable resource and supplement; basic credentials are treated
+  consistently with Granite and Guadalupe.
+- Added U-RAPT's concrete local, phase-specific employer contacts. Dated YESS's
+  May 2026 manual evidence and preserved its and/or eligibility. Spy Hop's term
+  has begun and $200 is conditional on projects. VA CWT's Friday meeting is from
+  July 2025 and requires current confirmation. Upwardly Global includes eligible
+  non-visa immigration statuses; its licensing guides date to 2023.
+
+Applied `audit/dhh-yrc-source-revision-001/` also corrected the shared DSDHH contact
+conflict and VOA youth intake cutoff without changing earlier category-specific
+bodies wholesale. Circle of Friends prints 801.414.5677; the main contact page
+lists 385-414-5677, now used with the discrepancy visible. New YRC intake closes
+at 6 PM although general drop-in continues to 7:30 PM. Disability hash is now
+`f247100c9106641fddce4cd4cbc6a64fcaecadcc8b9006c33b12660f6d78e97d`;
+Clothing hash is `b8c0f4d237e95a9d3c2b129fd827e7943c31d649e6e74f3f35e30947d00c1194`.
+Working ledger bindings were refreshed; final navigation remains uninstalled.
+
+The 03:51 audit verifies **37 non-curation tables**, **37 reviewed original batch
+hashes**, current links, four headings and SQLite integrity. Seven current category
+results contain **545 unique IDs**, not a final office count. Evidence:
+`audit/root-review-checkpoint-20260922T095122Z.json` and
+`audit/research-preservation-20260922T095122Z.json`. Disability For remains 89/147.
+Employment/Domestic Violence navigation, remaining group/content review, final
+shared copies, browser checks and actual Save delivery remain unfinished. Continue.
+Allowance at 03:44 MDT: 48% remaining, resetting September 25 14:12 MDT; no forecast.
+
 ## Employment and Disability checkpoint — September 22, 03:21 MDT
 
 Original coordinator 79229/supervisor 79234 remain healthy at xhigh. Employment
