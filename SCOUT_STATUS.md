@@ -4,6 +4,37 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Veterans review underway — September 22, 21:40 MDT
+
+Research **21/21**, native curation **20/21**. Coordinator **6112** / supervisor
+**6126** continue Veterans **batch 5/15**, with recent native events and zero
+automatic restarts. The active worker command was explicitly checked after Michael
+asked: **gpt-5.5 / xhigh**. The effort discussion did not authorize a worker change.
+Verify live state before acting; earlier snapshots below are historical.
+
+Root review has checkpointed Veterans **batches 1–3**, **27 saved resource bodies /
+30 candidate decisions**, with **21 prepared field changes**, not applied.
+Evidence: `audit/veterans-prepared-source-corrections-001.json` through `-003.json`
+and matching immutable content checkpoints/source folders. Do not rerun scripts.
+Preserve full prior VA homeless/justice/HUD-VASH, Dental Lifeline and NAC bodies,
+all newly supported branches, current eligibility exceptions and source conflicts.
+CAF and Folds of Honor linked PDFs were downloaded, hashed and visually checked.
+ESGR's direct pages failed retrieval; retain its native hours conflict and flag the
+indexed newer-hours notice for final clarification rather than claiming closure.
+
+Financial Assistance now has its first **10/67** explicit provisional Type,
+priority and all-catalog For decisions in checkpoint 001. Apply its separate
+`financial-assistance-for-evidence-amendments-001.json` at assembly: AAU Afghan
+targeting must quote the affirmative description, not a confirmation question.
+No final taxonomy or priority proposal is installed. Seven earlier category group
+ledgers are complete only provisionally; all final shared-body/catalog checks remain.
+
+Preservation at **03:40:06 UTC** passes **37 research tables / 134 reviewed native
+hashes**, with **1,003** unique completed-category IDs, not the final count.
+Remaining work is Veterans content review, global reconciliation, remaining
+Types/For/priorities, actual browser checks and monitor Save. No review-completion
+or human Curated flags; preserve the unrelated tracked deletion.
+
 ## Welfare Square Utilities reviewed — September 22, 21:19 MDT
 
 Research **21/21**, curation **20/21**. Coordinator **6112** / supervisor **6126**

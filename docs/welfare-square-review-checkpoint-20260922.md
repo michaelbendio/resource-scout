@@ -1,5 +1,54 @@
 # Welfare Square selective review checkpoint — September 21 late continuation
 
+## September 22, 21:40 MDT — Veterans batch 5; root review through 3
+
+Research **21/21**, curation **20/21**. Coordinator **6112**, supervisor **6126**,
+zero restarts, active native Veterans batch **5/15**. Michael asked about finish time
+and effort; root estimated 6–10 hours for the full handover and recommended High
+for routine assistant passes, reserving xhigh for difficult source/identity and
+final consolidation work per orchestration. The actual worker remains explicitly
+verified **gpt-5.5/xhigh**; no effort change was requested or performed.
+
+Veterans `prepare-veterans-001.py` through `-003.py` have run exactly once:
+27 bodies / 30 dispositions read, 21 prepared field changes, no applied category
+revision yet. Originals remain untouched. Notable obligations:
+
+- Hero Care preserves the Financial review's retired-veteran wording conflict,
+  Guard/Reserve orders over 30 days, grant/loan terms and new communication routes.
+  Blue Star's one-hour/90-minute and PATHH's five-day/week-long conflicts are visible.
+- CAF two-page guide confirms annual grant limit, general $200,000 income exclusion,
+  priority order and Nico contact; primary program page excludes EMTs. A 403 download
+  alias was resolved through the actual indexed primary PDF, not treated as closure.
+- Folds of Honor four PDF pages confirm 100% Children's Fund versus 70% Higher Ed
+  disability-rating routes, narrow active-duty Purple Heart route, relationship and
+  school documents; retain GPA, term caps, cycle dates and expense limits. Current
+  links point to 2025 documents and notification wording differs across pages.
+- EDF/Bob Hope adds actual housing/utilities/transport expense scope, vendor tax
+  requirements distinct from caregiver status, child/adult-applicant distinction,
+  and navigation without an award. Do not imply immediate payment.
+- HFOT preserves the narrow SHA both-hands exception alongside SAH, retired/retiring
+  and criminal/credit screening, redacted rating upload and ongoing ownership costs.
+  Full VA homeless/justice/HUD-VASH body with initial 80% AMI/disability-income rule
+  is restored before adding Housing Connect's partner role, address and hours.
+- NAC retains adaptive activities and PC ALL while adding military/family access.
+  HOPE has direct rent/mortgage/utility assistance and short-term clinical support.
+  Military OneSource's temporary 365-day rule must not erase separate caregiver,
+  survivor, wounded-warrior or Guard/Reserve eligibility. MVP's next Summit Circle
+  was September 30, 2026, with separate caregiver Summit to Renewal programming.
+- Hope of Recovery's FY2027 award remains an investigation lead with no verified
+  direct veteran-bed intake. Preserve the omitted disposition and award evidence;
+  corporate/charity records or a founder reference do not prove an intake route.
+
+Financial Assistance has 10/67 manual provisional Type/priority and For rows in
+checkpoint 001. Its AAU evidence amendment replaces a question excerpt with the
+affirmative `description` excerpt `Afghan/refugee newcomers`; apply at assembly,
+then rebind again after global reconciliation. No automatic keyword judgments.
+
+Preservation **03:40:06 UTC**: 37 research tables and 134 reviewed originals unchanged;
+1,003 unique IDs in completed categories. Final global reconciliation, remaining
+navigation judgments, browser usability and Save remain unfinished. No final or
+human approval flags; preserve unrelated deletion.
+
 ## September 22, 21:19 MDT — Utilities applied; Veterans 2/15
 
 Research is **21/21**, native curation **20/21**. Coordinator **6112** and supervisor
