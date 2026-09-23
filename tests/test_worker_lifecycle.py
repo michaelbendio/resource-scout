@@ -32,6 +32,28 @@ class WorkerLifecycleTests(unittest.TestCase):
                     await_orphan(root, 60, lambda _: None)
             kill.assert_not_called()
 
+    def test_exiting_process_command_change_is_rechecked_without_signaling(self):
+        for finished in (None, {"state": "Z", "identity": "defunct"}):
+            with self.subTest(finished=finished), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary); self.make_worker(root, age=100)
+                pauses = []
+                with patch("resource_research_agent.worker_lifecycle.process_identity", side_effect=[
+                    {"state": "Rs", "identity": "(python3.12)"}, finished]), patch("os.killpg") as kill:
+                    await_orphan(root, 60, lambda _: None, pause=pauses.append)
+                self.assertEqual([0.05], pauses)
+                kill.assert_not_called()
+
+    def test_termination_exit_race_does_not_escalate_to_sigkill(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); self.make_worker(root, age=100)
+            with patch("resource_research_agent.worker_lifecycle.process_identity", side_effect=[
+                {"state": "Ss", "identity": "original worker"},
+                {"state": "Rs", "identity": "(python3.12)"},
+                {"state": "Z", "identity": "defunct"}]), patch("os.killpg") as kill:
+                with self.assertRaises(TimeoutError):
+                    await_orphan(root, 60, lambda _: None, pause=lambda _: None)
+            self.assertEqual(1, kill.call_count)
+
     def test_timed_out_matching_orphan_is_terminated(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary); self.make_worker(root, age=100)

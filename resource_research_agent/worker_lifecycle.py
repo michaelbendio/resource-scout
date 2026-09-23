@@ -38,6 +38,20 @@ def record_worker(directory: Path, pid: int, command: list[str]) -> None:
     })
 
 
+def _matching_process(worker: dict[str, Any], pause: Callable[[float], None]) -> dict[str, str] | None:
+    for attempt in range(2):
+        identity = process_identity(int(worker["pid"]))
+        if identity is None or identity["state"].startswith("Z"):
+            return None
+        if worker.get("identity") and identity["identity"] == worker["identity"]:
+            return identity
+        if attempt == 0:
+            # ps can lose an exiting process's command before its state becomes
+            # Z. Recheck without signaling it or starting another worker.
+            pause(0.05)
+    raise RuntimeError("Worker PID identity changed; refusing to signal or duplicate an uncertain process")
+
+
 def await_orphan(directory: Path, timeout_seconds: int, heartbeat: Callable[[float], None],
                  *, pause: Callable[[float], None] = time.sleep) -> None:
     path = directory / "worker.json"
@@ -46,11 +60,8 @@ def await_orphan(directory: Path, timeout_seconds: int, heartbeat: Callable[[flo
     worker = json.loads(path.read_text())
     started = datetime.fromisoformat(worker["startedAt"])
     while True:
-        identity = process_identity(int(worker["pid"]))
-        if identity is None or identity["state"].startswith("Z"):
+        if _matching_process(worker, pause) is None:
             return
-        if not worker.get("identity") or identity["identity"] != worker["identity"]:
-            raise RuntimeError("Worker PID identity changed; refusing to signal or duplicate an uncertain process")
         elapsed = (datetime.now(timezone.utc) - started).total_seconds()
         heartbeat(elapsed)
         if elapsed >= timeout_seconds:
@@ -58,11 +69,8 @@ def await_orphan(directory: Path, timeout_seconds: int, heartbeat: Callable[[flo
             os.killpg(int(worker["pid"]), signal.SIGTERM)
             for _ in range(5):
                 pause(1)
-                current = process_identity(int(worker["pid"]))
-                if current is None or current["state"].startswith("Z"):
+                if _matching_process(worker, pause) is None:
                     raise TimeoutError("Surviving curation worker exceeded its original deadline")
-                if current["identity"] != worker["identity"]:
-                    raise RuntimeError("Worker identity changed during termination")
             os.killpg(int(worker["pid"]), signal.SIGKILL)
             raise TimeoutError("Surviving curation worker exceeded its original deadline")
         pause(min(30, max(1, timeout_seconds - elapsed)))
