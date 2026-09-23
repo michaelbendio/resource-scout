@@ -4,23 +4,26 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Continuation checkpoint — September 23, 14:18 UTC
+## Continuation checkpoint — September 23, 14:27 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas is queued afterward.
 Michael clarified: minimize context consumption, not useful progress updates. Avoid
 repeated reads and copied evidence. Preserve judgment quality. A checkpoint is NOT
 a stopping point; continue the authorized work without waiting for another prompt.
 
-- **For: 661/1,096**, through060; next061;435 remain.
-- **Type/priority: 970/2,146**, through048; next049;1,176 remain.
-- Use **corpus-snapshot-006.json**, catalog002 and **v7 helpers**. Exact effective
-  override order is implemented by `effective_decisions_v7.py`.
-- `continuation-checkpoint-007.json` passed live corpus/fingerprint, resource hashes,
+- **For: 669/1,096**, through061; next062;427 remain.
+- **Type/priority: 992/2,146**, through049; next050;1,154 remain.
+- Use **corpus-snapshot-006.json**, catalog002 and **v8 helpers**. Exact effective
+  override order is implemented by `effective_decisions_v8.py`.
+  V8 adds `type-catalog-resolution-002.json`: Adapted Homes includes accessibility
+  modifications as well as acquisition/construction. All five pre-existing uses
+  were reviewed explicitly. Use `prepare-numbered-input-v2.py` for new input packs.
+- `continuation-checkpoint-008.json` passed live corpus/fingerprint, resource hashes,
   literal evidence, all26 group partitions/parents and defined Type checks.
-- New `numbered_review_helpers_v1.py` and immutable `review-input-056.json` reduce
+- New `numbered_review_helpers_v2.py` and immutable `review-input-061.json` reduce
   repeated text: reviewers explicitly choose labels, tiers and paragraph references;
   the helper only resolves exact evidence. It performs no classification.
-- Latest batches057–060 add32 resources and72 category decisions since checkpoint006.
+- Latest batches057–061 add40 resources and94 category decisions since checkpoint006.
   Children and Clothing native For queues are finished; Disability is underway.
   This does not finish every additional category membership for earlier resources.
 - For053 first draft had a nonliteral training excerpt;053-v2 passed. Preserve both.
@@ -33,12 +36,14 @@ a stopping point; continue the authorized work without waiting for another promp
 - Semantic004 remains effective. The68 diagnostic consistency candidates and older
   VA/family clusters remain pending. AAU trafficking now explicitly reconciles
   immigration-status accommodation; Food Type is Meals, with Groceries omitted.
+  LDS storehouse Food is Groceries; generic Food Navigation was omitted.
 - Audit new Types for earlier applicable memberships during final assembly:
   Childcare costs/Childcare Support, Nutrition education, Housing Navigation,
   Meals/Food Navigation, School Supplies, Laundry & Showers, Mail Services,
   Household Essentials, Recovery Support, Postpartum supplies, Supportive Housing,
   Haircuts & Grooming, Clothing Costs, Outdoor Essentials, Driver Licenses/Driver
-  License Costs and Outreach Food. Keep supported living distinct from housing support.
+  License Costs, Outreach Food, Travel Training and High School & Equivalency.
+  Keep supported living distinct from housing support.
 - No navigation/priority installation, completion recording, human Curated change,
   browser verification, Save/download or Las Vegas launch. Preserve browser-local
   work and the unrelated tracked deletion. Full finish requirements remain below.
