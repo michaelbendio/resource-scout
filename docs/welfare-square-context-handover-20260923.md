@@ -1,6 +1,6 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 18:20 UTC
+## Continuation checkpoint — September 23, 18:24 UTC
 
 Welfare Square remains authorized and unfinished; Las Vegas follows afterward.
 Minimize context output without weakening review. Checkpoints/compaction are NOT
@@ -10,9 +10,9 @@ stopping points: continue without waiting for another user prompt.
   through124/B021. Final semantic/source/catalog audit is still unfinished.
 - Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
   Current corpus **corpus-snapshot-009.json**, catalog002, effective loader
-  **effective_decisions_v18.py**. Its override order is authoritative. Do not merge
+  **effective_decisions_v19.py**. Its override order is authoritative. Do not merge
   raw ledgers or rerun immutable scripts. No new category/For input is needed.
-- Checkpoint040 passes live completed21/21 curation, exact corpus/hashes/evidence,
+- Checkpoint041 passes live completed21/21 curation, exact corpus/hashes/evidence,
   all26 partitions, sensory parents and Type definitions. Proposals uninstalled;
   no completion record, browser verification or Save. All1,096 resources and
   2,145 memberships preserved. Content001–014 applied; no pending content file.
@@ -26,12 +26,16 @@ stopping points: continue without waiting for another user prompt.
   CCS/HCM low-cost services; added court fee-relief and Job Corps ancillary student
   support; corrected ESLC occupational-English versus foundational literacy Types.
   Review inputsS001/S002 preserve those explicit comparisons.
+- Semantic012 resolves008/009:3 For additions (student childcare/fare support),
+  7 education-pair revisions (Career Readiness, direct tuition help and childcare).
+  Library under18 card confirmed; service-earned awards remain distinct from aid.
+  InputS003indices0–12 reviewed;13–26 cover pending010/011.
 - Content006/snapshot008 corrected Odyssey housing support wording. Content007/
   snapshot009 corrected Courts vulnerable-adult guidance in two native copies:
   this is age65+/dependent-adult impairment guidance to APS, not a universal
   separate court-order form. Rebinding added Seniors/Disability with literal
   evidence. All other facts, IDs, native text, provenance and memberships preserved.
-- **Remaining semantic work:** followups008–015 and Type/scope followups016–022;
+- **Remaining semantic work:** followups010–015 and Type/scope followups016–022;
   older VA income/copay/travel and family-role cluster; full-corpus affordability,
   caregiver-role and student ancillary-support comparisons. Include family
   immigration/reunification versus actual supporting-relative help, custody/legal
