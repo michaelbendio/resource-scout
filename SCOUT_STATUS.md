@@ -4,6 +4,45 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square global review — September 22, 23:39 MDT
+
+Native curation remains **21/21**, supervisor terminal `ready-for-codex-review`;
+monitor-only 6391 remains on 8770. The requested final review continues at Extra
+High, with no new paid worker. The actual Safari monitor visibly shows curation
+complete, review still needed and no Save control. No workbench tab was open in
+the inspected two-tab window; browser-local storage has not been reset or declared
+empty. Rendered final workbench checks remain outstanding.
+
+Global audit `audit/global-review-001/` has reduced **1,101 to 1,096** unique IDs
+through source-backed identity consolidation: HCM Promotora, Housing Connect
+public/supportive pathways, and Utah Legal Services general intake. Named ULS
+special units, Housing Connect VAWA/FYI and other distinct pathways remain.
+`identity-applied-002.json` is durable; proposal001 was superseded, never applied.
+All candidate provenance remains. Do not rerun successful immutable scripts.
+
+Shared-body comparison is complete through diagnostic rows **0–62 (63/328)**;
+35 source fields are durably corrected in prepared/applied001–006. Preserve each
+earlier category copy's own text. Continue at row63 in the immutable diagnostic,
+not a newly sorted inventory. Key restorations include admission and referral
+restrictions, actual filing and enrollment shortcuts, clinic schedules, application
+contacts, accessible formats and specific service branches. Clinical Consultants'
+current primary pages establish early SUD walk-in assessment times and locate its
+transitional housing in Tooele, not West Jordan. Friends for Sight's incidental
+Disability membership is durably removed (`friends-membership-applied-001.json`);
+its full Medical/Children record and candidate provenance remain. Disability now
+has146 records; its old147-row provisional For ledger needs final reconciliation.
+
+Veterans'131-resource revision remains applied and unchanged. Food navigation
+remains40/63 provisional decisions; both Food amendments still apply. All final
+Types, all-catalog For decisions and category priorities remain uninstalled and
+require the final consolidated bodies and IDs. No review-completion event or human
+Curated approval has been recorded.
+
+Preservation at **05:39:10 UTC** passes37 research tables and146 native reviewed
+batch hashes. Next: remaining shared-body/omission obligations, final navigation
+and priorities, actual reader/editor/filter/priority checks, final fingerprint and
+monitor Save/download. Preserve the unrelated tracked deletion.
+
 ## Welfare Square final review underway — September 22, 23:13 MDT
 
 Native curation completed **21/21** at 05:00:11 UTC with zero coordinator
