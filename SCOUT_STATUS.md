@@ -4,58 +4,57 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Continuation checkpoint — September 23, 19:06 UTC
+## Continuation checkpoint — September 23, 19:21 UTC
 
-Welfare Square review remains authorized and unfinished. Continue through
-checkpoints/compaction without another prompt; minimize context output.
+Welfare Square remains authorized and unfinished. Continue through compaction and
+checkpoints without another prompt. Minimize context output without weakening judgment.
 
 - Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
-  Current **snapshot011 / effective_decisions_v27.py / checkpoint045**.
-  Exact live DB, literal evidence,26-group partitions and Type definitions pass.
-  Initial coverage: For1,096/1,096; Type/priority2,145/2,145. Semantic work remains.
-  Proposals uninstalled; no completion record, browser verification or Save.
-- All content001–016 applied. Latest content009 preserves9 identities/15 memberships:
-  school-meal shared eligibility in5 district resources; Lifeline WIC and Native
-  Hawaiian benefit branches; VA burial supporting claimants/spouse exception;
-  CBC diaper-partner transfer; IRC award/intake uncertainty on each native card.
-  All1,096 resources/2,145 memberships, native facts, provenance and Curated preserved.
-- Semantic014 resolves all28 S004 resources/followups012–015 scoped questions;
-  earlier004–011 scoped questions also resolved. Loader order is authoritative.
-  Details in semantic009–014, content006–009 and archived handover-detail040/044.
-- Semantic015 reviewed24 reentry candidates: adds TOSA/SLDA/CJS Diversion,
-  ULS Record Clearance and SLDA Identity Documents; CJS is no longer Specialty
-  Courts. Semantic016 checked all17 Medical Bill Assistance/14 Pharmacy pairs:
-  removed Martindale Pharmacy, strengthened3 evidence spans and clarified scopes.
-  Semantic017 adds8 medical infection/imaging Types; S006 and S007-v2 complete.
-- **Current Type audit:** `review-input-S008.json` has65 homeless resources.
-  Semantic018 completes indices0–8 with7 pair revisions and2 redundant Basic
-  Needs removals. **Next index9**; indices9–64 have NOT been reviewed in this pass.
-  Secure papers alone do not establish general belongings/bag storage.
-- Full-corpus late-Type diagnostic inventory is
-  `type-backfill-diagnostic-input-002.json` (371 resources/648 questions).
-  It strips URLs and tightens lexical boundaries;001 and original S007 contain
-  many false substring matches. These are diagnostic candidates, not assignments.
-  Medical new-Type candidates and reentry scoped candidates are resolved; other
-  cohorts and explicit followups016–022 questions remain. Use current loader27.
-- Remaining: full-corpus affordability, Families supporting-role and Students
-  ancillary-support consistency; older VA/Medicare benefit and military-family
-  comparisons. Then final Type backfill/catalog audit followups016–022, including
-  all newly defined Types, synonyms, overlap and unused labels. Candidate searches
-  are diagnostic only; make explicit judgments from actual service evidence.
-- Final delivery requires actual browser reader/editor four Information headings,
-  Type OR and group AND/Match-any filters, priorities versus A–Z equality,
-  override/reload and zero new Curated flags. Preserve browser-local edits and
-  verify the monitor's actual Save download; record completion only when ready.
-- **New user request:** after finishing, set aside a blind Jev (TypeSafe) test pack,
-  about120 cases across21 categories, ordinary and difficult examples. Include
-  original Scout material and keep reviewed reference answers separate. Preserve
-  source/fingerprint provenance and uncertainties. No Jev call or paid test yet.
-- ETA updated at12:58MDT: **3:30–5:30p.m.MDT** for Welfare review/browser/Save;
-  another20–30 minutes afterward for the Jev test pack.
-  Then Las Vegas setup/launch at explicitly authorized High worker effort.
-  Service-area question remains pending; do not assume Clark County. Re-read
-  orchestration and verify live state before launching/supervising workers.
-- Commit/push only status and handover docs; preserve unrelated deletion
+  **Current corpus-snapshot-012.json / effective_decisions_v31.py / checkpoint048.**
+  Live21/21 curation, fingerprints, evidence,26-group partitions and defined Types pass.
+  For1,096/1,096; Type/priority **2,146/2,146** through raw125. Proposals uninstalled;
+  no completion record, browser verification or Save. Counts do not finish review.
+- Content001–017 applied, none pending. Latest content010 clarifies Jordan
+  McKinney-Vento school-of-origin transportation using posted Utah guidance.
+  Its original3 memberships are preserved; added1 Transportation membership with
+  manually reviewed Student Rides and specialized priority in ledger125.
+  All1,096 identities, native facts, candidate links and Curated flags preserved.
+- Loader override order is authoritative; do not merge raw ledgers or rerun scripts.
+  Archives handover-detail040/044/048 preserve earlier work. Semantic009–014 resolve
+  earlier scoped For/source followups004–015. Full-corpus group comparisons remain.
+- Semantic015 resolves24 reentry scope candidates (S005), clarifies Specialty Courts
+  versus Diversion and backfills record/ID support. Semantic016 checks all17 Medical
+  Bill Assistance/14 Pharmacy pairs; Martindale Pharmacy removed. Semantic017 resolves
+  S006/S007-v2 and adds8 medical infection/imaging Types; other new medical Types checked.
+- **Homeless late-Type pass complete:** S008all65 resources resolved in semantic018–021.
+  Includes resident-only boundaries, school support, food/hygiene/transport/docs,
+  actual supportive/transitional/respite housing and unsupported referral exclusions.
+  FINCH record-only storage removed from Belongings Storage; other5 storage routes
+  remain. Milestone/Village education and FYI voucher-plus-support housing clarified.
+- Remaining Type work: other-category late-Type backfills in diagnostic002; final
+  Basic Needs/synonym/unused-label checks; explicitly remaining followups016–022
+  scopes (mental-health housing/intensity, ID/legal/driver pathways, national funds,
+  older-adult services, education/career/childcare, foster aftercare and VA horse care).
+  `type-backfill-diagnostic-input-002.json` has371 resources/648 *questions*, not
+  assignments. Several cohorts are already resolved as above. It uses snapshot011;
+  only Jordan McKinney-Vento changed since, so select fresh snapshot012 records for
+  new inputs. S008is complete; do not restart it. Original S007/diagnostic001 are noisy.
+- Remaining For work: full-corpus affordability, Families supporting-role and
+  Students ancillary-support comparisons, including older VA/Medicare benefits,
+  immigration/custody/family services and the military-family cluster.
+- Final delivery: install reviewed proposals; preserve browser-local edits; inspect
+  actual reader/editor four Information sections, Type OR/group AND/Match-any,
+  priority/A–Z equality, override/reload and zero new Curated. Verify actual monitor
+  Save download; record completion only when genuinely ready. No paid reviewer.
+- Then prepare the requested **Jev (TypeSafe) blind test pack**, about120 cases across
+  all21 categories, ordinary and difficult cases, with original Scout material and
+  separate reviewed references/provenance/uncertainties. Plan:jev-test-pack-plan-001.json.
+  No paid test or Jev calls authorized/launched yet; prepare material after completion.
+- ETA at12:58MDT: **3:30–5:30p.m.MDT** for Welfare browser/Save, then20–30 minutes
+  for test pack. Las Vegas setup/launch follows at explicitly authorized High effort.
+  Service-area question still pending; do not assume Clark County. Read orchestration
+  and verify live state before launching or supervising a worker.
+- Commit/push only status/handover docs; preserve unrelated deletion
   `docs/scout-discovery-and-maintenance-proposal-20260920.md`.
 
 ## Current continuation checkpoint — September 23, 03:53 MDT
