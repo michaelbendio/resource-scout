@@ -1,12 +1,12 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 18:52 UTC
+## Continuation checkpoint — September 23, 19:06 UTC
 
 Welfare Square review remains authorized and unfinished. Continue through
 checkpoints/compaction without another prompt; minimize context output.
 
 - Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
-  Current **snapshot011 / effective_decisions_v23.py / checkpoint044**.
+  Current **snapshot011 / effective_decisions_v27.py / checkpoint045**.
   Exact live DB, literal evidence,26-group partitions and Type definitions pass.
   Initial coverage: For1,096/1,096; Type/priority2,145/2,145. Semantic work remains.
   Proposals uninstalled; no completion record, browser verification or Save.
@@ -18,6 +18,21 @@ checkpoints/compaction without another prompt; minimize context output.
 - Semantic014 resolves all28 S004 resources/followups012–015 scoped questions;
   earlier004–011 scoped questions also resolved. Loader order is authoritative.
   Details in semantic009–014, content006–009 and archived handover-detail040/044.
+- Semantic015 reviewed24 reentry candidates: adds TOSA/SLDA/CJS Diversion,
+  ULS Record Clearance and SLDA Identity Documents; CJS is no longer Specialty
+  Courts. Semantic016 checked all17 Medical Bill Assistance/14 Pharmacy pairs:
+  removed Martindale Pharmacy, strengthened3 evidence spans and clarified scopes.
+  Semantic017 adds8 medical infection/imaging Types; S006 and S007-v2 complete.
+- **Current Type audit:** `review-input-S008.json` has65 homeless resources.
+  Semantic018 completes indices0–8 with7 pair revisions and2 redundant Basic
+  Needs removals. **Next index9**; indices9–64 have NOT been reviewed in this pass.
+  Secure papers alone do not establish general belongings/bag storage.
+- Full-corpus late-Type diagnostic inventory is
+  `type-backfill-diagnostic-input-002.json` (371 resources/648 questions).
+  It strips URLs and tightens lexical boundaries;001 and original S007 contain
+  many false substring matches. These are diagnostic candidates, not assignments.
+  Medical new-Type candidates and reentry scoped candidates are resolved; other
+  cohorts and explicit followups016–022 questions remain. Use current loader27.
 - Remaining: full-corpus affordability, Families supporting-role and Students
   ancillary-support consistency; older VA/Medicare benefit and military-family
   comparisons. Then final Type backfill/catalog audit followups016–022, including
@@ -31,7 +46,8 @@ checkpoints/compaction without another prompt; minimize context output.
   about120 cases across21 categories, ordinary and difficult examples. Include
   original Scout material and keep reviewed reference answers separate. Preserve
   source/fingerprint provenance and uncertainties. No Jev call or paid test yet.
-- ETA communicated:2:30–4:30p.m.MDT today for Welfare review/browser/Save.
+- ETA updated at12:58MDT: **3:30–5:30p.m.MDT** for Welfare review/browser/Save;
+  another20–30 minutes afterward for the Jev test pack.
   Then Las Vegas setup/launch at explicitly authorized High worker effort.
   Service-area question remains pending; do not assume Clark County. Re-read
   orchestration and verify live state before launching/supervising workers.
