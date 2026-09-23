@@ -4,7 +4,7 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Continuation checkpoint — September 23, 14:42 UTC
+## Continuation checkpoint — September 23, 14:47 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas is queued afterward.
 Michael clarified: minimize context consumption, not useful progress updates. Avoid
@@ -12,15 +12,17 @@ repeated reads and copied evidence. Preserve judgment quality. A checkpoint is N
 a stopping point; continue the authorized work without waiting for another prompt.
 
 - **For: 693/1,096**, through064; next065;403 remain.
-- **Type/priority: 1,040/2,146**, through052; next053;1,106 remain.
-- Use **corpus-snapshot-006.json**, catalog002 and **v8 helpers**. Exact effective
-  override order is implemented by `effective_decisions_v8.py`.
-  V8 adds `type-catalog-resolution-002.json`: Adapted Homes includes accessibility
+- **Type/priority: 1,040/2,145**, through052; next053;1,105 remain.
+- Use **corpus-snapshot-007.json**, catalog002 and **v9 helpers**. Exact effective
+  override order is implemented by `effective_decisions_v9.py`.
+  V9 additionally applies `membership-reconciliation-navigation-001.json` after
+  Type-catalog002, rebinding one For/four category judgments to corpus007.
+  Type-catalog002: Adapted Homes includes accessibility
   modifications as well as acquisition/construction. All five pre-existing uses
-  were reviewed explicitly. Use `prepare-numbered-input-v2.py` for new input packs.
-- `continuation-checkpoint-009.json` passed live corpus/fingerprint, resource hashes,
+  were reviewed explicitly. Use `prepare-numbered-input-v3.py` for new input packs.
+- `continuation-checkpoint-010.json` passed live corpus/fingerprint, resource hashes,
   literal evidence, all26 group partitions/parents and defined Type checks.
-- New `numbered_review_helpers_v2.py` and immutable `review-input-064.json` reduce
+- New `numbered_review_helpers_v3.py` and immutable numbered input packs reduce
   repeated text: reviewers explicitly choose labels, tiers and paragraph references;
   the helper only resolves exact evidence. It performs no classification.
 - Latest batches057–064 add64 resources and142 category decisions since checkpoint006.
@@ -33,13 +35,12 @@ a stopping point; continue the authorized work without waiting for another promp
   resolved through its adopted HUD definition; clinical/Medicaid criteria still apply.
   USOR sensory accommodations are corroborated by its linked official materials.
   UICSL pantry evidence remains dated with explicit current-operation questions.
-- **Pending membership revision:** `category-membership-decision-slc-repairs-001.json`
-  explicitly removes only Utilities from Salt Lake City Minor/Home Repairs; the
-  current city pages support general repairs, not utility-specific coverage. Keep
-  its four supported memberships and all facts/native copies/candidate links.
-  No utility Type/priority was invented. Apply through the final-review removal
-  mechanism, snapshot/rebind that resource, and revalidate before completion.
-  Current corpus/counts still include this unapplied membership.
+- **Membership revision applied:** Salt Lake City Minor/Home Repairs retains four
+  supported memberships; only unsupported Utilities membership was removed.
+  `membership-reconciliation-applied-001.json` and
+  `category-membership-resolution-slc-repairs-001.json` supersede the original
+  proposal's pending flag. All facts/native copies/IDs/links remain; preservation
+  and checkpoint010 passed. No pending membership decisions remain.
 - Semantic004 remains effective. The68 diagnostic consistency candidates and older
   VA/family clusters remain pending. AAU trafficking now explicitly reconciles
   immigration-status accommodation; Food Type is Meals, with Groceries omitted.
