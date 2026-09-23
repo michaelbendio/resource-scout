@@ -4,69 +4,42 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Continuation checkpoint — September 23, 18:32 UTC
+## Continuation checkpoint — September 23, 18:52 UTC
 
-Welfare Square remains authorized and unfinished; Las Vegas follows afterward.
-Minimize context output without weakening review. Checkpoints/compaction are NOT
-stopping points: continue without waiting for another user prompt.
+Welfare Square review remains authorized and unfinished. Continue through
+checkpoints/compaction without another prompt; minimize context output.
 
-- Initial review complete: **For1,096/1,096** through115; **Type/priority2,145/2,145**
-  through124/B021. Final semantic/source/catalog audit is still unfinished.
 - Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
-  Current corpus **corpus-snapshot-010.json**, catalog002, effective loader
-  **effective_decisions_v21.py**. Its override order is authoritative. Do not merge
-  raw ledgers or rerun immutable scripts. No new category/For input is needed.
-- Checkpoint043 passes live completed21/21 curation, exact corpus/hashes/evidence,
-  all26 partitions, sensory parents and Type definitions. Proposals uninstalled;
-  no completion record, browser verification or Save. All1,096 resources and
-  2,145 memberships preserved. Content001–015 applied; no pending content files.
-- Earlier detail is archived in continuation-handover-detail-029.md and -040.md.
-  Semantic009 fixed Hartland basic literacy, Martindale infectious disease and
-  Tunnel to Towers Food Navigation. Semantic010 adjudicated all68 followups004,
-  adding15 affordability groups and removing3 unsupported direct-cost Types.
-  Its policy distinguishes explicit aid/fee relief from generic free services;
-  the full-corpus affordability comparison remains pending.
-- Semantic011 resolved followups006 and most007: removed Low-income from generic
-  CCS/HCM low-cost services; added court fee-relief and Job Corps ancillary student
-  support; corrected ESLC occupational-English versus foundational literacy Types.
-  Review inputsS001/S002 preserve those explicit comparisons.
-- Semantic012 resolves008/009:3 For additions (student childcare/fare support),
-  7 education-pair revisions (Career Readiness, direct tuition help and childcare).
-  Library under18 card confirmed; service-earned awards remain distinct from aid.
-  InputS003indices0–26 reviewed; semantic013 resolves010/011 judgments.
-- Semantic013 adds KRH Justice (individual conviction review), VR&E Low-income
-  (specific extra disaster/housing-loss allowance), UDC Reentry Employment Support;
-  YESS now uses precise new Supported Education instead of unsupported planning/
-  career-readiness claims. Backfill this new Type too.
-- **Content015 applied:** preserved ESLC1665 S Bennett versus Church1999 W1700S
-  address discrepancy in both resources. Content008/snapshot010 preserved5 native copies and rebound2 For/5 category
-  decisions; priority questions now mention the conflict. Both pages are current; whether
-  these are entrances/sites is unresolved. Do not claim relocation or closure.
-- Content006/snapshot008 corrected Odyssey housing support wording. Content007/
-  snapshot009 corrected Courts vulnerable-adult guidance in two native copies:
-  this is age65+/dependent-adult impairment guidance to APS, not a universal
-  separate court-order form. Rebinding added Seniors/Disability with literal
-  evidence. All other facts, IDs, native text, provenance and memberships preserved.
-- **Remaining semantic work:** followups012–015 and Type/scope followups016–022;
-  older VA income/copay/travel and family-role cluster; full-corpus affordability,
-  caregiver-role and student ancillary-support comparisons. Include family
-  immigration/reunification versus actual supporting-relative help, custody/legal
-  services and household housing/material assistance. Counts do not resolve these.
-- Backfill every newly defined Type across earlier relevant memberships, then
-  resolve duplicates/synonyms/overlap/unused labels. Do not classify by keyword.
-  Check actual offered service versus referral, payment or historical award.
-- Remaining source questions include the Lifeline WIC/Tribal/SSI branches; shared school meals/status exceptions;
-  optional Midvale Utah Diaper Bank→Utah Food Bank partner-name clarification.
-- Final delivery: install current reviewed proposals, preserve browser-local edits,
-  inspect actual four Information sections/reader/editor, Type OR and group AND/
-  Match-any filters, priorities/A–Z equality, override/reload and zero new Curated
-  flags; write report/record completion only when genuinely ready, then verify the
-  monitor’s actual Save download. No automatically launched paid reviewer.
-- ETA communicated: **2:30–4:30p.m.MDT September23** for Welfare review/checks/Save.
-  Las Vegas follows at explicitly authorized High worker effort. Service-area
-  clarification was asked and remains pending; do not assume Clark County or
-  launch without an answer. Re-read orchestration and inspect live state first.
-- Commit/push only the two handover/status docs. Preserve unrelated deletion
+  Current **snapshot011 / effective_decisions_v23.py / checkpoint044**.
+  Exact live DB, literal evidence,26-group partitions and Type definitions pass.
+  Initial coverage: For1,096/1,096; Type/priority2,145/2,145. Semantic work remains.
+  Proposals uninstalled; no completion record, browser verification or Save.
+- All content001–016 applied. Latest content009 preserves9 identities/15 memberships:
+  school-meal shared eligibility in5 district resources; Lifeline WIC and Native
+  Hawaiian benefit branches; VA burial supporting claimants/spouse exception;
+  CBC diaper-partner transfer; IRC award/intake uncertainty on each native card.
+  All1,096 resources/2,145 memberships, native facts, provenance and Curated preserved.
+- Semantic014 resolves all28 S004 resources/followups012–015 scoped questions;
+  earlier004–011 scoped questions also resolved. Loader order is authoritative.
+  Details in semantic009–014, content006–009 and archived handover-detail040/044.
+- Remaining: full-corpus affordability, Families supporting-role and Students
+  ancillary-support consistency; older VA/Medicare benefit and military-family
+  comparisons. Then final Type backfill/catalog audit followups016–022, including
+  all newly defined Types, synonyms, overlap and unused labels. Candidate searches
+  are diagnostic only; make explicit judgments from actual service evidence.
+- Final delivery requires actual browser reader/editor four Information headings,
+  Type OR and group AND/Match-any filters, priorities versus A–Z equality,
+  override/reload and zero new Curated flags. Preserve browser-local edits and
+  verify the monitor's actual Save download; record completion only when ready.
+- **New user request:** after finishing, set aside a blind Jev (TypeSafe) test pack,
+  about120 cases across21 categories, ordinary and difficult examples. Include
+  original Scout material and keep reviewed reference answers separate. Preserve
+  source/fingerprint provenance and uncertainties. No Jev call or paid test yet.
+- ETA communicated:2:30–4:30p.m.MDT today for Welfare review/browser/Save.
+  Then Las Vegas setup/launch at explicitly authorized High worker effort.
+  Service-area question remains pending; do not assume Clark County. Re-read
+  orchestration and verify live state before launching/supervising workers.
+- Commit/push only status and handover docs; preserve unrelated deletion
   `docs/scout-discovery-and-maintenance-proposal-20260920.md`.
 
 ## Current continuation checkpoint — September 23, 03:53 MDT
