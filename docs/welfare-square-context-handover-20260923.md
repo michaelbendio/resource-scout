@@ -1,14 +1,14 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 15:33 UTC
+## Continuation checkpoint — September 23, 15:45 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas is queued afterward.
 Michael clarified: minimize context consumption, not useful progress updates. Avoid
 repeated reads and copied evidence. Preserve judgment quality. A checkpoint is NOT
 a stopping point; continue the authorized work without waiting for another prompt.
 
-- **For: 797/1,096**, through077; next078;299 remain.
-- **Type/priority: 1,267/2,145**, through065; next066;878 remain.
+- **For: 821/1,096**, through080; next081;275 remain.
+- **Type/priority: 1,313/2,145**, through068; next069;832 remain.
 - Use **corpus-snapshot-007.json**, catalog002 and **v12 helpers**. Exact effective
   override order is implemented by `effective_decisions_v12.py`.
   V9 additionally applies `membership-reconciliation-navigation-001.json` after
@@ -27,14 +27,15 @@ a stopping point; continue the authorized work without waiting for another promp
   Type-catalog002: Adapted Homes includes accessibility
   modifications as well as acquisition/construction. All five pre-existing uses
   were reviewed explicitly. Use `prepare-numbered-input-v6.py` for new input packs.
-- `continuation-checkpoint-016.json` passed live corpus/fingerprint, resource hashes,
+- `continuation-checkpoint-017.json` passed live corpus/fingerprint, resource hashes,
   literal evidence, all26 group partitions/parents and defined Type checks.
 - New `numbered_review_helpers_v6.py` and immutable numbered input packs reduce
   repeated text: reviewers explicitly choose labels, tiers and paragraph references;
   the helper only resolves exact evidence. It performs no classification.
-- Latest batches057–077 add168 resources and369 category decisions since checkpoint006.
+- Latest batches057–080 add192 resources and415 category decisions since checkpoint006.
   Children, Clothing and Disability native For queues are finished; Domestic
-  Violence is underway.
+  Violence is underway. Seventeen resources originating in other categories
+  still have Disability membership and await For review.
   This does not finish every additional category membership for earlier resources.
 - For053 first draft had a nonliteral training excerpt;053-v2 passed. Preserve both.
   Never rerun successful prepare/save/checkpoint scripts; create new versions.
@@ -71,6 +72,14 @@ a stopping point; continue the authorized work without waiting for another promp
   Source-recheck-pension-ship-20260923-001.json supports named income/age
   benefit pathways in077. UDVMA family-member claims were distinguished from
   dedicated support in a caregiving role; broader VA/family audits remain pending.
+  New078–079 Types: DV Financial Assistance / Housing Support and
+  Immigration/Legal Consular Protection. Audit earlier applicable memberships.
+  New080 judgments explicitly cover PIK2AR Pacific Islander/women/men/youth
+  pathways and RRC income/uninsured/immigration/correctional-facility access.
+  Journey of Hope Men remains omitted: Day Won is partner context without
+  confirmed independent public intake. Keep the access caveat and follow-up.
+  Holding Out HELP has explicit host-home/student/displaced-family pathways;
+  polygamous background alone does not establish abuse-survivor targeting.
   Keep supported living distinct from housing support.
 - Updated ETA at15:28UTC:5–7 more working hours (14:30–16:30MDT) for Welfare
   Square, including
