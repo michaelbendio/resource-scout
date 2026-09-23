@@ -1,12 +1,12 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 19:21 UTC
+## Continuation checkpoint — September 23, 19:55 UTC
 
 Welfare Square remains authorized and unfinished. Continue through compaction and
 checkpoints without another prompt. Minimize context output without weakening judgment.
 
 - Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
-  **Current corpus-snapshot-012.json / effective_decisions_v31.py / checkpoint048.**
+  **Current corpus-snapshot-012.json / effective_decisions_v40.py / checkpoint054.**
   Live21/21 curation, fingerprints, evidence,26-group partitions and defined Types pass.
   For1,096/1,096; Type/priority **2,146/2,146** through raw125. Proposals uninstalled;
   no completion record, browser verification or Save. Counts do not finish review.
@@ -27,14 +27,30 @@ checkpoints without another prompt. Minimize context output without weakening ju
   actual supportive/transitional/respite housing and unsupported referral exclusions.
   FINCH record-only storage removed from Belongings Storage; other5 storage routes
   remain. Milestone/Village education and FYI voucher-plus-support housing clarified.
-- Remaining Type work: other-category late-Type backfills in diagnostic002; final
-  Basic Needs/synonym/unused-label checks; explicitly remaining followups016–022
-  scopes (mental-health housing/intensity, ID/legal/driver pathways, national funds,
-  older-adult services, education/career/childcare, foster aftercare and VA horse care).
-  `type-backfill-diagnostic-input-002.json` has371 resources/648 *questions*, not
-  assignments. Several cohorts are already resolved as above. It uses snapshot011;
-  only Jordan McKinney-Vento changed since, so select fresh snapshot012 records for
-  new inputs. S008is complete; do not restart it. Original S007/diagnostic001 are noisy.
+- **All late-Type diagnostic cohorts complete.** S008 Homeless65 and S009
+  all309 resources/402 questions have explicit saved judgments; coverage audit
+  `late-type-cohort-coverage-001.json` verifies every question maps to a decision.
+  Semantic022–030 covers reentry/employment/food/immigration/phone/financial/
+  transportation/legal/ID/mental-health/disability/veterans/seniors/education.
+  Latest Education work:40 school-course questions and12 student-childcare questions
+  in semantic028; all71 career-readiness questions in029–030. Adds actual school
+  credit pathways, Alliance supported education, and explicit career-preparation
+  services; occupational training/admission interviews alone do not qualify.
+  Diagnostic word matches never generate assignments. Do not restart these cohorts.
+- Catalog inventory at loader40 has no unused Types. Remaining Type/source work:
+  final Basic Needs inventory, synonyms/overlap, and explicit remaining016–022
+  questions. New fresh `review-input-S010.json` has40 resources:indices0–20 all
+  current Homeless Basic Needs;21–39 targeted FSH/IRC/UofU/RyanWhite/UPFH/Nomad/
+  Odyssey/TAL/national military funds/VA horse-service scopes. S010 is prepared,
+  **not yet read/resolved**. Full questions in semantic-consistency-followups016–022
+  were read again; many are already resolved by the prior ledgers, so map evidence
+  and focus new work on genuinely remaining scopes. Final catalog wording still
+  needs a semantic check; no unused labels is only a structural result.
+- CI email for967a84f investigated:1 of283 tests failed on a real process-exit race.
+  ps briefly loses a dying process command before marking it zombie. Fix4034b13
+  rechecks once without signaling mismatched identity or duplicating work. Local285
+  tests pass(1skip), plus30 real-process repetitions; GitHub run35909580142 passed.
+  Only worker_lifecycle.py/tests changed; no live worker/review data restarted.
 - Remaining For work: full-corpus affordability, Families supporting-role and
   Students ancillary-support comparisons, including older VA/Medicare benefits,
   immigration/custody/family services and the military-family cluster.
@@ -50,8 +66,9 @@ checkpoints without another prompt. Minimize context output without weakening ju
   for test pack. Las Vegas setup/launch follows at explicitly authorized High effort.
   Service-area question still pending; do not assume Clark County. Read orchestration
   and verify live state before launching or supervising a worker.
-- Commit/push only status/handover docs; preserve unrelated deletion
+- Audit commits remain status/handover only; CI code fix4034b13 is separately committed. Preserve unrelated deletion
   `docs/scout-discovery-and-maintenance-proposal-20260920.md`.
+
 
 ## Earlier checkpoint detail — 09:53 UTC
 

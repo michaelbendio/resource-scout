@@ -4,13 +4,13 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Continuation checkpoint — September 23, 19:39 UTC
+## Continuation checkpoint — September 23, 19:55 UTC
 
 Welfare Square remains authorized and unfinished. Continue through compaction and
 checkpoints without another prompt. Minimize context output without weakening judgment.
 
 - Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
-  **Current corpus-snapshot-012.json / effective_decisions_v35.py / checkpoint051.**
+  **Current corpus-snapshot-012.json / effective_decisions_v40.py / checkpoint054.**
   Live21/21 curation, fingerprints, evidence,26-group partitions and defined Types pass.
   For1,096/1,096; Type/priority **2,146/2,146** through raw125. Proposals uninstalled;
   no completion record, browser verification or Save. Counts do not finish review.
@@ -31,18 +31,25 @@ checkpoints without another prompt. Minimize context output without weakening ju
   actual supportive/transitional/respite housing and unsupported referral exclusions.
   FINCH record-only storage removed from Belongings Storage; other5 storage routes
   remain. Milestone/Village education and FYI voucher-plus-support housing clarified.
-- Further late-Type audit complete in semantic022–025 using fresh S009/snapshot012:
-  reentry2, Employment5, Food2, Immigration12, Phone Plans16, Financial18,
-  Transportation14, Legal8, ID24 and Mental Health62 candidate category sets.
-  Adds6 explicit DACA/TPS legal application routes,3 conditional vehicle-cost
-  programs,2 formal rights-report routes,3 identity-update routes, and2 mental-health
-  housing options (CORE post-discharge; limited Alliance House active-member options).
-  All are explicit judgments with evidence; diagnostic word matches never assign.
-- Remaining Type work: Seniors, Disability/Veterans food and Education candidates
-  in S009; final Basic Needs/synonym/unused-label checks; explicitly remaining
-  followups016–022 scopes (mental-health intensity, IRC client transport, national
-  funds, older-adult services, foster aftercare, VA horse care, nominal seasonal buses).
-  S008all65 and S009categories listed above are complete; do not restart them.
+- **All late-Type diagnostic cohorts complete.** S008 Homeless65 and S009
+  all309 resources/402 questions have explicit saved judgments; coverage audit
+  `late-type-cohort-coverage-001.json` verifies every question maps to a decision.
+  Semantic022–030 covers reentry/employment/food/immigration/phone/financial/
+  transportation/legal/ID/mental-health/disability/veterans/seniors/education.
+  Latest Education work:40 school-course questions and12 student-childcare questions
+  in semantic028; all71 career-readiness questions in029–030. Adds actual school
+  credit pathways, Alliance supported education, and explicit career-preparation
+  services; occupational training/admission interviews alone do not qualify.
+  Diagnostic word matches never generate assignments. Do not restart these cohorts.
+- Catalog inventory at loader40 has no unused Types. Remaining Type/source work:
+  final Basic Needs inventory, synonyms/overlap, and explicit remaining016–022
+  questions. New fresh `review-input-S010.json` has40 resources:indices0–20 all
+  current Homeless Basic Needs;21–39 targeted FSH/IRC/UofU/RyanWhite/UPFH/Nomad/
+  Odyssey/TAL/national military funds/VA horse-service scopes. S010 is prepared,
+  **not yet read/resolved**. Full questions in semantic-consistency-followups016–022
+  were read again; many are already resolved by the prior ledgers, so map evidence
+  and focus new work on genuinely remaining scopes. Final catalog wording still
+  needs a semantic check; no unused labels is only a structural result.
 - CI email for967a84f investigated:1 of283 tests failed on a real process-exit race.
   ps briefly loses a dying process command before marking it zombie. Fix4034b13
   rechecks once without signaling mismatched identity or duplicating work. Local285
@@ -65,6 +72,7 @@ checkpoints without another prompt. Minimize context output without weakening ju
   and verify live state before launching or supervising a worker.
 - Audit commits remain status/handover only; CI code fix4034b13 is separately committed. Preserve unrelated deletion
   `docs/scout-discovery-and-maintenance-proposal-20260920.md`.
+
 
 ## Current continuation checkpoint — September 23, 03:53 MDT
 
