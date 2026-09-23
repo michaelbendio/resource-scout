@@ -1,6 +1,6 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 18:11 UTC
+## Continuation checkpoint — September 23, 18:13 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas follows afterward.
 Minimize context output without degrading judgment. A checkpoint or compaction is
@@ -11,17 +11,17 @@ NOT a stopping point: continue without waiting for another user prompt.
 - **Type/priority:2,145/2,145**, through124. Category-only batchesB001–B021 saved.
   Initial coverage complete; semantic/source/catalog consistency is still unfinished.
 - Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
-  Use `corpus-snapshot-007.json`, `catalog-decision-002.json` and
-  `effective_decisions_v15.py`. Its override order is authoritative; do not merge
+  Use `corpus-snapshot-008.json`, `catalog-decision-002.json` and
+  `effective_decisions_v16.py`. Its override order is authoritative; do not merge
   raw ledgers yourself. Detailed earlier state is preserved in
   `continuation-handover-detail-029.md` inside the audit root.
 - No new category input is needed. Do not rerun successful immutable scripts.
   Semantic009 removes unsupported Hartland basic literacy, adds Martindale
   Infectious Disease Care and corrects Tunnel to Towers Food to Food Navigation.
-- Checkpoint037 passed against live completed21/21 curation: exact corpus, hashes,
+- Checkpoint038 passed against live completed21/21 curation: exact corpus, hashes,
   evidence, all26 partitions, sensory parents and defined Types. Still uninstalled;
-  no review completion, browser verification or Save yet. Last content snapshot007
-  has1,096 resources/2,145 memberships; content001–012 applied,013 pending.
+  no review completion, browser verification or Save yet. Last content snapshot008
+  has1,096 resources/2,145 memberships; content001–013 applied.
 - **Pending semantic audits:**older VA/family-role cluster;
   followups006–015. Followups016–022 record Type/scope checks fromB001–B021. None may
   be resolved by counts or automated classification. Source questions include
@@ -38,15 +38,17 @@ NOT a stopping point: continue without waiting for another user prompt.
   For additions and3 Type removals. Explicit aid/fee relief need not have an income
   test; generic free service alone remains insufficient. Read its policy/specific
   decisions. Full-corpus affordability consistency and later followups remain.
-- **Content013 pending:** correct Odyssey Sober Housing’s unsupported grants/
-  scholarships sentence in each native copy, retaining the dated county award.
+- **Content013 applied:** corrected Odyssey Sober Housing’s unsupported grants/
+  scholarships sentence in its sole native Housing copy; dated county award retained.
+  Content reconciliation006 preserves all other text/IDs/provenance; one For/Type
+  record is rebound to snapshot008 with unchanged literal evidence.
   Its Housing Costs Type is omitted pending a confirmed applicant funding route.
   Drive to Thrive direct fee-payment Types were removed; financial navigation
   is evidenced but payment is not. Source recheck affordability001 preserves proof.
 - Source rechecks preserve benefit-pathways, pension/SHIP, Beautiful Ability,
   Lifeline/SSA and Midvale diapers. CBC’s named Utah Diaper Bank partner moved into
   Utah Food Bank in2025 and explicitly serves children/parents; consider a brief
-  source-backed partner-name clarification. No new content revision is applied.
+  source-backed partner-name clarification. That optional partner-name clarification is not yet applied.
 - Preserve all IDs/facts/native category copies and human Curated flags. Final work:
   resolve substantive audits, install current proposals, inspect actual browser
   reader/editor/four Information headings, OR/AND/Match-any filters, priorities/A–Z
