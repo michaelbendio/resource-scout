@@ -4,7 +4,7 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Continuation checkpoint — September 23, 18:29 UTC
+## Continuation checkpoint — September 23, 18:32 UTC
 
 Welfare Square remains authorized and unfinished; Las Vegas follows afterward.
 Minimize context output without weakening review. Checkpoints/compaction are NOT
@@ -13,13 +13,13 @@ stopping points: continue without waiting for another user prompt.
 - Initial review complete: **For1,096/1,096** through115; **Type/priority2,145/2,145**
   through124/B021. Final semantic/source/catalog audit is still unfinished.
 - Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
-  Current corpus **corpus-snapshot-009.json**, catalog002, effective loader
-  **effective_decisions_v20.py**. Its override order is authoritative. Do not merge
+  Current corpus **corpus-snapshot-010.json**, catalog002, effective loader
+  **effective_decisions_v21.py**. Its override order is authoritative. Do not merge
   raw ledgers or rerun immutable scripts. No new category/For input is needed.
-- Checkpoint042 passes live completed21/21 curation, exact corpus/hashes/evidence,
+- Checkpoint043 passes live completed21/21 curation, exact corpus/hashes/evidence,
   all26 partitions, sensory parents and Type definitions. Proposals uninstalled;
   no completion record, browser verification or Save. All1,096 resources and
-  2,145 memberships preserved. Content001–014 applied; content015 has2 pending clarifications.
+  2,145 memberships preserved. Content001–015 applied; no pending content files.
 - Earlier detail is archived in continuation-handover-detail-029.md and -040.md.
   Semantic009 fixed Hartland basic literacy, Martindale infectious disease and
   Tunnel to Towers Food Navigation. Semantic010 adjudicated all68 followups004,
@@ -38,8 +38,9 @@ stopping points: continue without waiting for another user prompt.
   (specific extra disaster/housing-loss allowance), UDC Reentry Employment Support;
   YESS now uses precise new Supported Education instead of unsupported planning/
   career-readiness claims. Backfill this new Type too.
-- **Content015 pending:** preserve ESLC1665 S Bennett versus Church1999 W1700S
-  address discrepancy in both resources. Both primary pages are current; whether
+- **Content015 applied:** preserved ESLC1665 S Bennett versus Church1999 W1700S
+  address discrepancy in both resources. Content008/snapshot010 preserved5 native copies and rebound2 For/5 category
+  decisions; priority questions now mention the conflict. Both pages are current; whether
   these are entrances/sites is unresolved. Do not claim relocation or closure.
 - Content006/snapshot008 corrected Odyssey housing support wording. Content007/
   snapshot009 corrected Courts vulnerable-adult guidance in two native copies:
@@ -54,7 +55,7 @@ stopping points: continue without waiting for another user prompt.
 - Backfill every newly defined Type across earlier relevant memberships, then
   resolve duplicates/synonyms/overlap/unused labels. Do not classify by keyword.
   Check actual offered service versus referral, payment or historical award.
-- Remaining source questions include the pending address clarification; Lifeline WIC/Tribal/SSI branches; shared school meals/status exceptions;
+- Remaining source questions include the Lifeline WIC/Tribal/SSI branches; shared school meals/status exceptions;
   optional Midvale Utah Diaper Bank→Utah Food Bank partner-name clarification.
 - Final delivery: install current reviewed proposals, preserve browser-local edits,
   inspect actual four Information sections/reader/editor, Type OR and group AND/
