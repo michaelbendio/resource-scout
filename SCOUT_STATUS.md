@@ -4,33 +4,41 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Continuation checkpoint — September 23, 11:07 UTC
+## Continuation checkpoint — September 23, 14:18 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas is queued afterward.
-Michael requires minimal output. Read narrow evidence only; suppress repeated notes,
-raw web results, full scripts and broad document dumps. Keep audit details in files.
+Michael clarified: minimize context consumption, not useful progress updates. Avoid
+repeated reads and copied evidence. Preserve judgment quality. A checkpoint is NOT
+a stopping point; continue the authorized work without waiting for another prompt.
 
-- **For: 629/1,096**, through056; next057;467 remain.
-- **Type/priority: 898/2,146**, through044; next045;1,248 remain.
+- **For: 661/1,096**, through060; next061;435 remain.
+- **Type/priority: 970/2,146**, through048; next049;1,176 remain.
 - Use **corpus-snapshot-006.json**, catalog002 and **v7 helpers**. Exact effective
   override order is implemented by `effective_decisions_v7.py`.
-- `continuation-checkpoint-006.json` passed live corpus/fingerprint, resource hashes,
+- `continuation-checkpoint-007.json` passed live corpus/fingerprint, resource hashes,
   literal evidence, all26 group partitions/parents and defined Type checks.
 - New `numbered_review_helpers_v1.py` and immutable `review-input-056.json` reduce
   repeated text: reviewers explicitly choose labels, tiers and paragraph references;
   the helper only resolves exact evidence. It performs no classification.
-- Latest batches053–056 add22 resources and56 category decisions since checkpoint005.
-  Children native queue is finished; new unreviewed resources now begin with
-  Granite Education Foundation Student Aid in Clothing/Household.
+- Latest batches057–060 add32 resources and72 category decisions since checkpoint006.
+  Children and Clothing native For queues are finished; Disability is underway.
+  This does not finish every additional category membership for earlier resources.
 - For053 first draft had a nonliteral training excerpt;053-v2 passed. Preserve both.
   Never rerun successful prepare/save/checkpoint scripts; create new versions.
 - All content followups001–012 are applied. No new content change was made.
+  New source-recheck files cover UICSL, HRSS and USOR. HRSS survivor access was
+  resolved through its adopted HUD definition; clinical/Medicaid criteria still apply.
+  USOR sensory accommodations are corroborated by its linked official materials.
+  UICSL pantry evidence remains dated with explicit current-operation questions.
 - Semantic004 remains effective. The68 diagnostic consistency candidates and older
   VA/family clusters remain pending. AAU trafficking now explicitly reconciles
   immigration-status accommodation; Food Type is Meals, with Groceries omitted.
 - Audit new Types for earlier applicable memberships during final assembly:
   Childcare costs/Childcare Support, Nutrition education, Housing Navigation,
-  Meals/Food Navigation, School Supplies, Laundry & Showers and Mail Services.
+  Meals/Food Navigation, School Supplies, Laundry & Showers, Mail Services,
+  Household Essentials, Recovery Support, Postpartum supplies, Supportive Housing,
+  Haircuts & Grooming, Clothing Costs, Outdoor Essentials, Driver Licenses/Driver
+  License Costs and Outreach Food. Keep supported living distinct from housing support.
 - No navigation/priority installation, completion recording, human Curated change,
   browser verification, Save/download or Las Vegas launch. Preserve browser-local
   work and the unrelated tracked deletion. Full finish requirements remain below.
