@@ -1,76 +1,58 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 18:18 UTC
+## Continuation checkpoint — September 23, 18:20 UTC
 
-Welfare Square review remains authorized and unfinished; Las Vegas follows afterward.
-Minimize context output without degrading judgment. A checkpoint or compaction is
-NOT a stopping point: continue without waiting for another user prompt.
+Welfare Square remains authorized and unfinished; Las Vegas follows afterward.
+Minimize context output without weakening review. Checkpoints/compaction are NOT
+stopping points: continue without waiting for another user prompt.
 
-- **For:1,096/1,096**, through115. Every resource has an explicit all26 decision;
-  final semantic consistency remains unfinished. No unreviewed Disability members.
-- **Type/priority:2,145/2,145**, through124. Category-only batchesB001–B021 saved.
-  Initial coverage complete; semantic/source/catalog consistency is still unfinished.
+- Initial review complete: **For1,096/1,096** through115; **Type/priority2,145/2,145**
+  through124/B021. Final semantic/source/catalog audit is still unfinished.
 - Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
-  Use `corpus-snapshot-008.json`, `catalog-decision-002.json` and
-  `effective_decisions_v17.py`. Its override order is authoritative; do not merge
-  raw ledgers yourself. Detailed earlier state is preserved in
-  `continuation-handover-detail-029.md` inside the audit root.
-- No new category input is needed. Do not rerun successful immutable scripts.
-  Semantic009 removes unsupported Hartland basic literacy, adds Martindale
-  Infectious Disease Care and corrects Tunnel to Towers Food to Food Navigation.
-- Checkpoint039 passed against live completed21/21 curation: exact corpus, hashes,
-  evidence, all26 partitions, sensory parents and defined Types. Still uninstalled;
-  no review completion, browser verification or Save yet. Last content snapshot008
-  has1,096 resources/2,145 memberships; content001–013 applied;014 pending.
-- **Pending semantic audits:**older VA/family-role cluster;
-  followups008–015. Followups006 resolved;007 awaits content014. Followups016–022 record Type/scope checks fromB001–B021. None may
-  be resolved by counts or automated classification. Source questions include
-  Humanitarian Center1999W1700S versus ESLC1665SBennett; Lifeline WIC/Tribal/categorical
-  eligibility; shared school-meal branches; benefit/fee versus free-service treatment;
-  caregiver role, conviction-access accommodations and functional disability.
-- Backfill all new Types across earlier relevant pairs, then consolidate synonyms,
-  overlap and unused definitions without losing pathways. Recent additions include
-  Homeless Supportive/Transitional Housing, Mental Health Supported Housing, ID
-  Tribal Documents/Authentication/Identity Changes/U.S. Passports, Immigration
-  Temporary Protection/Enforcement Complaints, Financial Vehicle Costs and Medical
-  Complementary Care. Hartland and Martindale corrections are now applied.
-- Semantic010 resolves all68 followups004 affordability/women questions with15
-  For additions and3 Type removals. Explicit aid/fee relief need not have an income
-  test; generic free service alone remains insufficient. Read its policy/specific
-  decisions. Full-corpus affordability consistency and later followups remain.
-- **Content013 applied:** corrected Odyssey Sober Housing’s unsupported grants/
-  scholarships sentence in its sole native Housing copy; dated county award retained.
-  Content reconciliation006 preserves all other text/IDs/provenance; one For/Type
-  record is rebound to snapshot008 with unchanged literal evidence.
-  Its Housing Costs Type is omitted pending a confirmed applicant funding route.
-  Drive to Thrive direct fee-payment Types were removed; financial navigation
-  is evidenced but payment is not. Source recheck affordability001 preserves proof.
-- Semantic011 removes Low-income from CCS immigration/HCM counseling/HCM legal
-  (generic low/free pricing), adds it to Courts fee-waiver help, adds Job Corps
-  Students for explicit ancillary student supports, and replaces ESLC Technical
-  Training with Basic Literacy. Retained decisions are recorded. InputS002 holds
-  the13 compared records. Family-petition/guardianship caregiver scope and student
-  ancillary-support comparisons still need a full-corpus consistency check.
-- **Content014 pending:** Courts vulnerable-adult guidance sends concerns to APS,
-  not a universal separate protective-order form. Correct each native copy and
-  add explicit65+/dependent-adult impairment wording from current primary page;
-  then add Seniors/Disability and rebind all changed literal evidence/hashes.
-  See source-recheck-legal-affordability-20260923-001.json.
-- Source rechecks preserve benefit-pathways, pension/SHIP, Beautiful Ability,
-  Lifeline/SSA and Midvale diapers. CBC’s named Utah Diaper Bank partner moved into
-  Utah Food Bank in2025 and explicitly serves children/parents; consider a brief
-  source-backed partner-name clarification. That optional partner-name clarification is not yet applied.
-- Preserve all IDs/facts/native category copies and human Curated flags. Final work:
-  resolve substantive audits, install current proposals, inspect actual browser
-  reader/editor/four Information headings, OR/AND/Match-any filters, priorities/A–Z
-  equality, local overrides/reload and existing browser edits, then verify Save.
-- ETA last communicated:2:30–4:30p.m.MDT September23 for Welfare Square including
-  final checks/Save. Las Vegas afterward, High worker explicitly authorized; first
-  establish officeName/serviceArea and do not assume Clark County. A service-area
-  clarification was asked and remains pending; do not launch without the answer. Re-read worker
-  orchestration and inspect live state before launch; no automatic paid reviewer.
-- Only handover/status docs are committed/pushed on the current branch. Preserve
-  unrelated deletion `docs/scout-discovery-and-maintenance-proposal-20260920.md`.
+  Current corpus **corpus-snapshot-009.json**, catalog002, effective loader
+  **effective_decisions_v18.py**. Its override order is authoritative. Do not merge
+  raw ledgers or rerun immutable scripts. No new category/For input is needed.
+- Checkpoint040 passes live completed21/21 curation, exact corpus/hashes/evidence,
+  all26 partitions, sensory parents and Type definitions. Proposals uninstalled;
+  no completion record, browser verification or Save. All1,096 resources and
+  2,145 memberships preserved. Content001–014 applied; no pending content file.
+- Earlier detail is archived in continuation-handover-detail-029.md and -040.md.
+  Semantic009 fixed Hartland basic literacy, Martindale infectious disease and
+  Tunnel to Towers Food Navigation. Semantic010 adjudicated all68 followups004,
+  adding15 affordability groups and removing3 unsupported direct-cost Types.
+  Its policy distinguishes explicit aid/fee relief from generic free services;
+  the full-corpus affordability comparison remains pending.
+- Semantic011 resolved followups006 and most007: removed Low-income from generic
+  CCS/HCM low-cost services; added court fee-relief and Job Corps ancillary student
+  support; corrected ESLC occupational-English versus foundational literacy Types.
+  Review inputsS001/S002 preserve those explicit comparisons.
+- Content006/snapshot008 corrected Odyssey housing support wording. Content007/
+  snapshot009 corrected Courts vulnerable-adult guidance in two native copies:
+  this is age65+/dependent-adult impairment guidance to APS, not a universal
+  separate court-order form. Rebinding added Seniors/Disability with literal
+  evidence. All other facts, IDs, native text, provenance and memberships preserved.
+- **Remaining semantic work:** followups008–015 and Type/scope followups016–022;
+  older VA income/copay/travel and family-role cluster; full-corpus affordability,
+  caregiver-role and student ancillary-support comparisons. Include family
+  immigration/reunification versus actual supporting-relative help, custody/legal
+  services and household housing/material assistance. Counts do not resolve these.
+- Backfill every newly defined Type across earlier relevant memberships, then
+  resolve duplicates/synonyms/overlap/unused labels. Do not classify by keyword.
+  Check actual offered service versus referral, payment or historical award.
+- Remaining source questions include Humanitarian Center work versus ESLC class
+  addresses; Lifeline WIC/Tribal/SSI branches; shared school meals/status exceptions;
+  optional Midvale Utah Diaper Bank→Utah Food Bank partner-name clarification.
+- Final delivery: install current reviewed proposals, preserve browser-local edits,
+  inspect actual four Information sections/reader/editor, Type OR and group AND/
+  Match-any filters, priorities/A–Z equality, override/reload and zero new Curated
+  flags; write report/record completion only when genuinely ready, then verify the
+  monitor’s actual Save download. No automatically launched paid reviewer.
+- ETA communicated: **2:30–4:30p.m.MDT September23** for Welfare review/checks/Save.
+  Las Vegas follows at explicitly authorized High worker effort. Service-area
+  clarification was asked and remains pending; do not assume Clark County or
+  launch without an answer. Re-read orchestration and inspect live state first.
+- Commit/push only the two handover/status docs. Preserve unrelated deletion
+  `docs/scout-discovery-and-maintenance-proposal-20260920.md`.
 
 ## Earlier checkpoint detail — 09:53 UTC
 
