@@ -1,27 +1,30 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 15:00 UTC
+## Continuation checkpoint — September 23, 15:06 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas is queued afterward.
 Michael clarified: minimize context consumption, not useful progress updates. Avoid
 repeated reads and copied evidence. Preserve judgment quality. A checkpoint is NOT
 a stopping point; continue the authorized work without waiting for another prompt.
 
-- **For: 709/1,096**, through066; next067;387 remain.
-- **Type/priority: 1,082/2,145**, through054; next055;1,063 remain.
-- Use **corpus-snapshot-007.json**, catalog002 and **v9 helpers**. Exact effective
-  override order is implemented by `effective_decisions_v9.py`.
+- **For: 733/1,096**, through069; next070;363 remain.
+- **Type/priority: 1,124/2,145**, through057; next058;1,021 remain.
+- Use **corpus-snapshot-007.json**, catalog002 and **v10 helpers**. Exact effective
+  override order is implemented by `effective_decisions_v10.py`.
   V9 additionally applies `membership-reconciliation-navigation-001.json` after
   Type-catalog002, rebinding one For/four category judgments to corpus007.
+  V10 then applies semantic-consistency-resolution-005.json: removes Baby Watch
+  Rehabilitation & Therapy because the record establishes the state gateway, not
+  direct therapy. Other Types, resources, content and For groups are preserved.
   Type-catalog002: Adapted Homes includes accessibility
   modifications as well as acquisition/construction. All five pre-existing uses
-  were reviewed explicitly. Use `prepare-numbered-input-v3.py` for new input packs.
-- `continuation-checkpoint-011.json` passed live corpus/fingerprint, resource hashes,
+  were reviewed explicitly. Use `prepare-numbered-input-v4.py` for new input packs.
+- `continuation-checkpoint-012.json` passed live corpus/fingerprint, resource hashes,
   literal evidence, all26 group partitions/parents and defined Type checks.
-- New `numbered_review_helpers_v3.py` and immutable numbered input packs reduce
+- New `numbered_review_helpers_v4.py` and immutable numbered input packs reduce
   repeated text: reviewers explicitly choose labels, tiers and paragraph references;
   the helper only resolves exact evidence. It performs no classification.
-- Latest batches057–066 add80 resources and184 category decisions since checkpoint006.
+- Latest batches057–069 add104 resources and226 category decisions since checkpoint006.
   Children and Clothing native For queues are finished; Disability is underway.
   This does not finish every additional category membership for earlier resources.
 - For053 first draft had a nonliteral training excerpt;053-v2 passed. Preserve both.
@@ -50,7 +53,8 @@ a stopping point; continue the authorized work without waiting for another promp
   New062 Types also need backfill review: Reentry Legal Help, Disability Peer &
   Community Support/Condition Education, and Housing Affordable Housing.
   New065–066 Types: Income Benefits, Benefits Appeals, Assistive Technology Costs
-  and Workplace Accessibility. Keep supported living distinct from housing support.
+  and Workplace Accessibility. New067/069 Types: Immigration/Seniors Health Coverage
+  and Education Independent Living Skills. Keep supported living distinct from housing support.
 - No navigation/priority installation, completion recording, human Curated change,
   browser verification, Save/download or Las Vegas launch. Preserve browser-local
   work and the unrelated tracked deletion. Full finish requirements remain below.
