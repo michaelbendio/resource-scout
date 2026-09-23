@@ -4,15 +4,15 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Continuation checkpoint — September 23, 15:25 UTC
+## Continuation checkpoint — September 23, 15:33 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas is queued afterward.
 Michael clarified: minimize context consumption, not useful progress updates. Avoid
 repeated reads and copied evidence. Preserve judgment quality. A checkpoint is NOT
 a stopping point; continue the authorized work without waiting for another prompt.
 
-- **For: 781/1,096**, through075; next076;315 remain.
-- **Type/priority: 1,232/2,145**, through063; next064;913 remain.
+- **For: 797/1,096**, through077; next078;299 remain.
+- **Type/priority: 1,267/2,145**, through065; next066;878 remain.
 - Use **corpus-snapshot-007.json**, catalog002 and **v12 helpers**. Exact effective
   override order is implemented by `effective_decisions_v12.py`.
   V9 additionally applies `membership-reconciliation-navigation-001.json` after
@@ -31,13 +31,14 @@ a stopping point; continue the authorized work without waiting for another promp
   Type-catalog002: Adapted Homes includes accessibility
   modifications as well as acquisition/construction. All five pre-existing uses
   were reviewed explicitly. Use `prepare-numbered-input-v6.py` for new input packs.
-- `continuation-checkpoint-015.json` passed live corpus/fingerprint, resource hashes,
+- `continuation-checkpoint-016.json` passed live corpus/fingerprint, resource hashes,
   literal evidence, all26 group partitions/parents and defined Type checks.
 - New `numbered_review_helpers_v6.py` and immutable numbered input packs reduce
   repeated text: reviewers explicitly choose labels, tiers and paragraph references;
   the helper only resolves exact evidence. It performs no classification.
-- Latest batches057–075 add152 resources and334 category decisions since checkpoint006.
-  Children and Clothing native For queues are finished; Disability is underway.
+- Latest batches057–077 add168 resources and369 category decisions since checkpoint006.
+  Children, Clothing and Disability native For queues are finished; Domestic
+  Violence is underway.
   This does not finish every additional category membership for earlier resources.
 - For053 first draft had a nonliteral training excerpt;053-v2 passed. Preserve both.
   Never rerun successful prepare/save/checkpoint scripts; create new versions.
@@ -69,10 +70,15 @@ a stopping point; continue the authorized work without waiting for another promp
   and Education Independent Living Skills. New071–072: Medical Home Health Care /
   Medical Transportation; Employment Personal Assistance / Benefits Planning.
   New073 Financial Type: Transit Fares. New075 Medical Types: Neurology,
-  Residential & Skilled Care and Respiratory Care.
+  Residential & Skilled Care and Respiratory Care. New076–077: Medical Hearing
+  Care; Seniors/Legal Resident Rights; ID Recovery Immigration Documents.
+  Source-recheck-pension-ship-20260923-001.json supports named income/age
+  benefit pathways in077. UDVMA family-member claims were distinguished from
+  dedicated support in a caregiving role; broader VA/family audits remain pending.
   Keep supported living distinct from housing support.
-- Updated ETA at15:24UTC:5–7 more working hours for Welfare Square, including
-  consistency, browser and Save. Last72 resource reviews took24.3 minutes.
+- Updated ETA at15:28UTC:5–7 more working hours (14:30–16:30MDT) for Welfare
+  Square, including
+  consistency, browser and Save. Last80 resource reviews took28.4 minutes.
   Las Vegas remains afterward; this is an estimate, not a completion record.
 - No navigation/priority installation, completion recording, human Curated change,
   browser verification, Save/download or Las Vegas launch. Preserve browser-local
