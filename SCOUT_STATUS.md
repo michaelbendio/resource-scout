@@ -4,6 +4,38 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Veterans midpoint — September 22, 22:03 MDT
+
+Research **21/21**, native curation **20/21**. Coordinator **6112** / supervisor
+**6126** are active on Veterans **batch 8/15**, with recent native events and zero
+restarts. Actual worker remains **gpt-5.5 / xhigh**. Verify live state before acting.
+
+Root content review is prepared through Veterans **batch 6**: **56 resource bodies /
+60 candidate decisions**, **49 per-batch field changes**, not applied. Existing
+preparation scripts have run; do not rerun them. Apply all three hash-bound
+`audit/veterans-source-correction-amendment-00{1,2,3}.json` files at selection:
+001 narrows Homefront deployment windows to Guard/Reserve Title 10, 002 removes
+internal review wording from a participant-facing paragraph, and 003 corrects two
+proposed `children` memberships to the real `children-pregnancy` category ID.
+
+New source findings: RCI's former military enrollment link returns 404; the current
+Carter Center caregiver inquiry email is saved without claiming an open cohort.
+Purple Heart Homes has conflicting discharge/rating language and explicit 65/35
+VHOP financing. ROGER publishes a 24/7 support line, with separate loved-one guidance.
+The linked SSVF flyer was hashed and visually inspected: dedicated intake contacts,
+resident-only versus public outreach and alternative documents are now preserved.
+Keep the full prior tax, county care, clinical and crisis bodies during reconciliation.
+
+Financial Assistance now has **40/67** provisional Type/priority and all-catalog
+For judgments in checkpoints 001–004. Its AAU evidence amendment remains mandatory
+at assembly. No final taxonomy or priority proposal is installed.
+
+Preservation at **04:03:01 UTC** passes **37 research tables / 137 reviewed native
+hashes**, with **1,003** completed-category unique IDs, not the final count.
+Continue Veterans review, global reconciliation, remaining navigation judgments,
+actual browser checks and monitor Save. No final review or human Curated flags.
+Preserve the unrelated tracked deletion. Earlier snapshots below are historical.
+
 ## Welfare Square Veterans review underway — September 22, 21:40 MDT
 
 Research **21/21**, native curation **20/21**. Coordinator **6112** / supervisor

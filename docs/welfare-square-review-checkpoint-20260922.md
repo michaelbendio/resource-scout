@@ -1,5 +1,62 @@
 # Welfare Square selective review checkpoint — September 21 late continuation
 
+## September 22, 22:03 MDT — Veterans batch 8; root review through 6
+
+Research 21/21, curation 20/21. Live coordinator6112/supervisor6126, zero restarts,
+Veterans8/15, gpt-5.5/xhigh unchanged. Root prepared through batch006: 56 bodies,
+60 decisions, 49 per-batch field changes. No Veterans category revision applied.
+Do not rerun preparation scripts or overwrite native results.
+
+Mandatory final selection amendments under `audit/`:
+
+- `veterans-source-correction-amendment-001.json`: the Homefront pre-deployment
+  90-day / return180-day alternatives require Guard/Reserve Title10 orders and
+  exclude Title32, not every deployed E1–E6 applicant. Verify prepared hash/value.
+- `veterans-source-correction-amendment-002.json`: preserve the Strong Hope link
+  while replacing internal review-process wording with ordinary participant copy.
+- `veterans-source-correction-amendment-003.json`: Folds of Honor and Homefront
+  child-service memberships use existing `children-pregnancy`, not `children`.
+  This is an identifier correction, not a changed membership judgment.
+
+Batch004 preserves separate Homefront general food/dependent-vision versus broader
+wounded/deployed aid, three/five lifetime assists, assignment timing, actual open
+Salt Lake/Tacoma apartments and Finally Home nonmilitary first-responder branches.
+PHW has a temporary specified-facility treatment exception even without an expected
+disability rating. Benefits-claims Legal/Financial memberships need global consistency.
+
+Batch005 keeps Recovery Ways Valor distinct from the separately targeted Pride
+program. RCI military enrollment currently404; successor Carter Center publishes
+`rci-tccinfobox@cartercenter.org`, without confirmed military cohort availability.
+Purple Heart Homes' broader age/discharge criteria conflict with its generic footer;
+VHOP65/35 financing and forgiveness differ from no-cost repairs/modular homes.
+Restore full clinical ZIP-source, Vet Center crisis, county home-care and respite
+details. Salesforce's registration FAQ includes spouses whose partner served.
+
+Batch006 restores every earlier tax-relief branch/state-draft conflict, adds exact
+veteran documents, dates the county's2024 military home-visiting priority, and keeps
+Headstrong's unsupported new-client Utah geography omission. ROGER's linked family
+page confirms24/7 support-line availability but not24/7 therapy; loved-one guidance
+is distinct from clinical eligibility. Utah Legion's801-362-2380 versus DVA's
+801-326-2380 conflict remains visible with actual alternate contacts.
+
+SSVF's linked May2025 outreach flyer was downloaded, hashed and visually checked.
+It confirms385-977-2920 / veterans@theroadhome.org, separate from general housing
+crisis385-800-1910. Library outreach is Thursday1–4PM (plain-text ordering can
+mislead). Preserve resident-only restrictions, other day/site schedules and the
+explicit alternative-document option. Food/furniture vouchers and homelessness
+support justify corresponding memberships, subject to final portfolio reconciliation.
+
+Financial Assistance checkpoints001–004 now cover40/67 explicit provisional
+Type/priority and all24-definition For decisions. Apply the separate AAU evidence
+amendment before assembly. Shared final bodies may change population decisions;
+current JSON coverage is not final semantic certification. Seven earlier For
+ledgers also remain provisional. No final navigation or priority installed.
+
+Preservation04:03:01UTC passes37 research tables/137 reviewed original hashes;
+1,003 completed-category unique IDs. Global reconciliation, all remaining navigation,
+rendered reader/editor/filter/priority checks and actual monitor Save remain pending.
+No final review-completion or human Curated flags; preserve unrelated deletion.
+
 ## September 22, 21:40 MDT — Veterans batch 5; root review through 3
 
 Research **21/21**, curation **20/21**. Coordinator **6112**, supervisor **6126**,
