@@ -4,6 +4,39 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Queued next office — Las Vegas
+
+Michael authorized: “When you’ve finished, start a scout for Las Vegas. (You’ll
+need to create lasVegas.html.)” Finish Welfare Square’s current final review and
+Save/download verification first. Then create the exact requested `lasVegas.html`
+through the applicable office workflow, establish the Las Vegas office/service
+area and package, and start/supervise its Scout run under orchestration rules.
+This is authorization for the next office run, not a replacement of the active
+Welfare Square task. No Las Vegas file or worker has been created yet.
+
+## Welfare Square global review — September 22, 23:44 MDT
+
+Global shared-body comparison has reached **96/328**, diagnostic rows0–95;
+continue at row96. Prepared001–008 and applied001–008 are complete and immutable,
+with50 field corrections. No IDs or memberships changed in those fact revisions.
+Count remains1,096 unique IDs after identity002. Friends for Sight remains
+Medical/Children only; Disability146. Food provisional navigation remains40/63.
+
+New current-source checks resolved Clinical Consultants assessment hours/Tooele
+housing location, Shriners pediatric wheelchair/seating, and the asylum clinic’s
+conflicting `hsc`/`hs` email text. Current TC-90CB (Rev.4/26) was downloaded/hashed
+and pages1/4 visually inspected:2025 rent, dueDec31,2026, age66byDec31,2025 or
+unmarried survivor rules, lawful-status documentation, personal-rent/annual-income
+instructions. Keep the published under-versus-inclusive44,221 threshold conflict
+and webpage-before/form-dueDec31 distinction visible. Pub36 fetches returned both
+April26 and September26draft versions; do not remove the draft caution based on
+one cached result. Evidence is under `audit/global-review-001/`.
+
+Preservation **05:44:43 UTC** passes37 research tables/146 reviewed native hashes.
+Native21/21 stays terminal, monitor-only6391/8770. Navigation, priorities, actual
+final workbench UI and fingerprint/Save remain unfinished. Las Vegas starts only
+after Welfare Square is finished, per Michael’s queued instruction above.
+
 ## Welfare Square global review — September 22, 23:39 MDT
 
 Native curation remains **21/21**, supervisor terminal `ready-for-codex-review`;
