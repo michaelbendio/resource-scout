@@ -4,6 +4,32 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square navigation review — September 23, 02:13 MDT
+
+Review remains active. Final navigation checkpoints now contain **379** explicit
+resource/all26-group judgments (through029;020-v2 and026-v2 preserve validation
+repairs) and **297** per-category Type/priority judgments (through016). They are
+uninstalled. There are84 resources without earlier provisional For judgments left
+in the new-record queue; prior634 judgments still need final-body reconciliation.
+Full coverage remains1,096 resources /2,141 category memberships.
+
+`content-followups-001`–`005` remain unapplied: Habitat/Valley descriptions,
+two incidental Seniors memberships (GAU private guardianship and County Library
+delivery), UCS transport description, and source-confirmed DAV disability/family
+claims scope. Preserve all category-specific facts and re-review affected hashes
+after durable revisions. `semantic-consistency-followups-001`/`002` track Medicaid
+versus means-related grouping, family-role scope and the duplicate utilities
+Billing Disputes / Billing & Service Disputes Type. Keep the earlier broader Type.
+American Heroes Project's historical women's retreat does not establish a current
+women-specific offering; current primary pages were checked and Women omitted.
+
+Preservation08:12:38UTC passes37 research tables/146 original batch hashes and
+1,096 IDs. No DB mutation since retention002, no paid worker, no completion or
+human Curated flags. Actual browser, final installation and Save remain pending.
+Continue at For030 / Type-priority017 from the immutable final corpus snapshot.
+Las Vegas remains queued after Welfare Square at explicit High worker effort;
+flag the transition for the user-controlled conversation effort setting.
+
 ## Welfare Square navigation review — September 23, 01:26 MDT
 
 Review remains active. `audit/final-navigation-review-001/for-reviewed-001.json`

@@ -1,5 +1,30 @@
 # Welfare Square selective review checkpoint — September 21 late continuation
 
+## Navigation review — September 23, 02:13 MDT
+
+Final navigation review remains active:379 explicit For decisions through029
+(020-v2 and026-v2 retain validation corrections) and297 category Type/priority
+pairs through016. Runtime progress and exact next IDs are saved in
+`audit/final-navigation-review-001/progress-checkpoint-20260923T0813.json`.
+Continue For030 / priority017. There are84 new-record For decisions left before
+the earlier provisional634-resource reconciliation. Full current corpus remains
+1,096 resources /2,141 memberships; these ledgers are uninstalled.
+
+Read pending content-followups001–005 and semantic-consistency-followups001–002.
+The new content items remove UCS's outdated specific transport promises and add
+source-confirmed DAV disability/family claims scope; earlier items address two
+descriptions and two incidental Seniors memberships. All changes are queued,
+not applied. Rebind only after reviewing the precise revised bodies. Primary
+American Heroes pages confirm that the women's retreat narrative is historical;
+keep the explicit current-schedule uncertainty and omit a current Women group.
+Consolidate the two synonymous utility billing-dispute Types in final assembly.
+
+Preservation08:12:38UTC passes37 research tables/146 native hashes and1,096 IDs.
+No database mutation since retention002; no paid worker or completion/Curated
+event. Final semantic reconciliation, browser checks and Save remain due. Las
+Vegas follows at explicit High worker effort, with conversation effort flagged
+for Michael at the transition. Preserve the unrelated tracked deletion.
+
 ## Navigation review — September 23, 01:26 MDT
 
 The review is active. Final navigation audit `final-navigation-review-001` now
