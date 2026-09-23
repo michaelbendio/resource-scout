@@ -1,54 +1,35 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 10:41 UTC
+## Continuation checkpoint — September 23, 11:07 UTC
 
-This checkpoint supersedes the older counts and helper versions below. Welfare
-Square review remains authorized and unfinished; Las Vegas remains queued afterward.
-Michael requested minimal displayed output twice: **do not print raw web responses,
-full scripts, duplicate records or broad document dumps**. Save detailed evidence
-locally and display only concise decision inputs and validation summaries.
+Welfare Square review remains authorized and unfinished; Las Vegas is queued afterward.
+Michael requires minimal output. Read narrow evidence only; suppress repeated notes,
+raw web results, full scripts and broad document dumps. Keep audit details in files.
 
-- Final For reviews: **601/1,096**, through051; next052;495 remain.
-- Final category Type/priority reviews: **826/2,146**, through039; next040;1,320 remain.
-- Current corpus: **corpus-snapshot-006.json**; use **v7 helpers**, catalog002.
-- Current curation fingerprint: `c7edb319f7e90a481b9326282159e731cf0d3de59f09d228226cea49d244622d`.
-- Content reconciliation004 applied the six pending followups008–010. Encircle's
-  current scholarship banner additionally supports an uninsured funding route.
-  Arches gained Disability membership; all1,096 IDs and candidate links remain.
-- Content reconciliation005 applied followups011–012: Granite's dedicated center
-  page clarifies parent-account/grade/teacher support, adult classes and home-visit
-  companions; JCDC FAQ clarifies income-scaled fees, inability-to-pay protection,
-  and the local hearing/vision team. No pending content-followup files remain.
-- Apply the previous override order through Type-catalog001, **then content
-  navigation004, then005, then semantic consistency004**. `effective_decisions_v7.py` implements that exact order.
-  V7 Type helpers now consult effective definitions and retired-label resolutions.
-- `continuation-checkpoint-004.json` verifies live corpus/fingerprint, all saved
-  hashes, literal evidence,26-group partitions/parents and defined nonretired Types.
-  It is structural validation of partial review, not completion.
-- Type033's first preflight had one nonliteral JCDC excerpt;033-v2 succeeded.
-  Preserve both attempts. Never rerun successful prepare/apply/save scripts.
-- No navigation/priorities installed, review completion, human Curated approvals
-  or Save/download. Remaining consistency clusters and browser checks below still
-  apply. Preserve the unrelated tracked deletion and browser-local work.
-
-- Semantic004 adds Ohana Low-income from its explicit childcare-cost vouchers,
-  consistent with SLCC funding. It applies stated women-focused eligibility
-  consistently to NFP and HMHI; pregnancy wording alone remains insufficient.
-  County NFP/PAT military priority remains dated2024 and unconfirmed currently;
-  facts and Veterans membership are preserved with explicit review questions.
-- For046 had a mistyped Midtown ID;046-v2 passed without changing resources.
-  All original attempts remain. Latest completed batches: For051, Type039.
-
-- `semantic-consistency-followups-004.json` contains68 diagnostic candidates
-  from earlier reviewer notes for affordability and women-focused eligibility
-  consistency. It makes no assignments and is not a completed review; resolve
-  each explicitly, alongside the earlier VA/family/Food consistency clusters.
-- Recent full-body reconciliations: Road Home now includes its men-only shelter
-  and documented disability access; Healing Group adds its explicit men group;
-  WIC reconciles its conflicting prior ledgers; Birth Justice Fund has explicit
-  fee assistance; State CHIP immigrant accommodation applies to retained enrollees
-  while new enrollment is closed. UPAL generic inclusive welcome is insufficient
-  for a dedicated LGBTQ group. Original facts and prior decisions are preserved.
+- **For: 629/1,096**, through056; next057;467 remain.
+- **Type/priority: 898/2,146**, through044; next045;1,248 remain.
+- Use **corpus-snapshot-006.json**, catalog002 and **v7 helpers**. Exact effective
+  override order is implemented by `effective_decisions_v7.py`.
+- `continuation-checkpoint-006.json` passed live corpus/fingerprint, resource hashes,
+  literal evidence, all26 group partitions/parents and defined Type checks.
+- New `numbered_review_helpers_v1.py` and immutable `review-input-056.json` reduce
+  repeated text: reviewers explicitly choose labels, tiers and paragraph references;
+  the helper only resolves exact evidence. It performs no classification.
+- Latest batches053–056 add22 resources and56 category decisions since checkpoint005.
+  Children native queue is finished; new unreviewed resources now begin with
+  Granite Education Foundation Student Aid in Clothing/Household.
+- For053 first draft had a nonliteral training excerpt;053-v2 passed. Preserve both.
+  Never rerun successful prepare/save/checkpoint scripts; create new versions.
+- All content followups001–012 are applied. No new content change was made.
+- Semantic004 remains effective. The68 diagnostic consistency candidates and older
+  VA/family clusters remain pending. AAU trafficking now explicitly reconciles
+  immigration-status accommodation; Food Type is Meals, with Groceries omitted.
+- Audit new Types for earlier applicable memberships during final assembly:
+  Childcare costs/Childcare Support, Nutrition education, Housing Navigation,
+  Meals/Food Navigation, School Supplies, Laundry & Showers and Mail Services.
+- No navigation/priority installation, completion recording, human Curated change,
+  browser verification, Save/download or Las Vegas launch. Preserve browser-local
+  work and the unrelated tracked deletion. Full finish requirements remain below.
 
 ## Earlier checkpoint detail — 09:53 UTC
 
