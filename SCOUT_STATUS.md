@@ -4,7 +4,7 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Continuation checkpoint — September 23, 18:00 UTC
+## Continuation checkpoint — September 23, 18:05 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas follows afterward.
 Minimize context output without degrading judgment. A checkpoint or compaction is
@@ -12,38 +12,32 @@ NOT a stopping point: continue without waiting for another user prompt.
 
 - **For:1,096/1,096**, through115. Every resource has an explicit all26 decision;
   final semantic consistency remains unfinished. No unreviewed Disability members.
-- **Type/priority:2,089/2,145**, through121. Category-only batchesB001–B018 saved.
-  **56 pairs across22 resources remain**; next inputB019, next Type ledger122.
+- **Type/priority:2,145/2,145**, through124. Category-only batchesB001–B021 saved.
+  Initial coverage complete; semantic/source/catalog consistency is still unfinished.
 - Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
   Use `corpus-snapshot-007.json`, `catalog-decision-002.json` and
-  `effective_decisions_v13.py`. Its override order is authoritative; do not merge
+  `effective_decisions_v14.py`. Its override order is authoritative; do not merge
   raw ledgers yourself. Detailed earlier state is preserved in
   `continuation-handover-detail-029.md` inside the audit root.
-- Category-only workflow: `prepare-category-input-v1.py B019 8` creates the next
-  immutable input; `category_review_helpers_v1.py B019 INDEX` reads one full record.
-  Author `prepare-category-batch-B019.py` using `CategoryReview`, explicit `.types`
-  calls for every pending membership, then `.finish('122', definitions_if_needed)`.
-  Helpers resolve literals and check completeness; they do not classify anything.
-  Do not resave For ledgers or rerun successful immutable scripts.
-- Checkpoint035 passed against live completed21/21 curation: exact corpus, hashes,
+- No new category input is needed. Do not rerun successful immutable scripts.
+  Semantic009 removes unsupported Hartland basic literacy, adds Martindale
+  Infectious Disease Care and corrects Tunnel to Towers Food to Food Navigation.
+- Checkpoint036 passed against live completed21/21 curation: exact corpus, hashes,
   evidence, all26 partitions, sensory parents and defined Types. Still uninstalled;
   no review completion, browser verification or Save yet. Last content snapshot007
   has1,096 resources/2,145 memberships; all content followups001–012 are applied.
 - **Pending semantic audits:**68-candidate followups004; older VA/family-role cluster;
-  followups006–015. Followups016–021 record Type/scope checks fromB001–B018. None may
+  followups006–015. Followups016–022 record Type/scope checks fromB001–B021. None may
   be resolved by counts or automated classification. Source questions include
   Humanitarian Center1999W1700S versus ESLC1665SBennett; Lifeline WIC/Tribal/categorical
   eligibility; shared school-meal branches; benefit/fee versus free-service treatment;
   caregiver role, conviction-access accommodations and functional disability.
-- Known Type correction: UNPHartland091#5 Basic Literacy must be removed or supported;
-  generic writing is insufficient. Backfill new Types across earlier relevant pairs,
-  then consolidate synonyms/overlap/unused definitions without losing pathways.
-  Recent additions include Career Readiness, Correctional Housing, Record Clearance,
-  Diversion, Identity Documents, Medical Respite Housing, Community Gardens, Pet Food,
-  Seniors Food Benefits/Groceries, Disability/Veterans Food Assistance, Driver
-  Licensing/License Hearings/Driving Privileges, Diagnostic Imaging, Foot Care,
-  Infectious Disease Care, Seniors Housing Support and specific Homeless service Types. Known new-Type candidate:
-  MartindaleB006#4 hepatitisC treatment needs Infectious Disease Care backfill.
+- Backfill all new Types across earlier relevant pairs, then consolidate synonyms,
+  overlap and unused definitions without losing pathways. Recent additions include
+  Homeless Supportive/Transitional Housing, Mental Health Supported Housing, ID
+  Tribal Documents/Authentication/Identity Changes/U.S. Passports, Immigration
+  Temporary Protection/Enforcement Complaints, Financial Vehicle Costs and Medical
+  Complementary Care. Hartland and Martindale corrections are now applied.
 - Source rechecks preserve benefit-pathways, pension/SHIP, Beautiful Ability,
   Lifeline/SSA and Midvale diapers. CBC’s named Utah Diaper Bank partner moved into
   Utah Food Bank in2025 and explicitly serves children/parents; consider a brief
