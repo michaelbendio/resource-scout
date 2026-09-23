@@ -1,5 +1,48 @@
 # Welfare Square selective review checkpoint — September 21 late continuation
 
+## September 22, 20:49 MDT — Utilities batches 1–4 prepared
+
+Coordinator **6112** / supervisor **6126** are active on Utilities **5/8**;
+curation remains **19/21**, research **21/21**. Batches 1–4 root review covers
+28 resource bodies and 40 decisions, with 28 per-batch prepared field corrections.
+See `audit/prepare-utilities-001.py` through `-004.py` and their saved
+`utilities-phone-internet-prepared-source-corrections-NNN.json` outputs. They have
+already run; do not rerun. Nothing is applied to this category yet.
+
+Lifeline batches 2 and 3 explicitly build on the preceding prepared Information
+and retain all prior provider contacts, household rules, Tribal-land eligibility,
+survivor support and use/recertification rules. Access Wireless's FAQ/footer give
+different start times; both are preserved. HomeFit's currently linked five-page
+flyer was downloaded and visually read: preserve the second-mortgage exception,
+program email and $100 nonrefundable application fee. Crossroads and the four-branch
+HEAT entry restore full earlier reviewed bodies. SSP retains its community-access
+scope separately from iCanConnect's 400%-FPG income and combined-loss criteria.
+Ordinary source-download errors are saved, without bypass or closure claims.
+
+Domestic Violence's new provisional navigation/priority ledger covers all 76:
+11 Types, tiers 24 start / 46 specialized / 6 additional. Explicit judgment inputs
+and four immutable checkpoints are retained. Employment has 120/120 provisional
+Type/priority decisions in six checkpoints, assembled into a 15-Type ledger with
+tiers 24 start / 88 specialized / 8 additional. Assembly records refinements:
+Project Read uses Digital Skills; YouthCity and Utah Career Center lose an
+unsupported extra Paid Training label. Twenty new Employment For decisions are
+saved in two checkpoints; 49 other Employment identities have earlier category
+group judgments that still need shared-body reconciliation. No final taxonomy or
+priority proposal is installed; reconcile evidence against final shared records.
+
+Batch 4 proposes merging Murray credit ID `ebf9f58c1eaa518cac20b97bf7e05684`
+into existing HEAT ID `76c16a6711795a389dfaf033195dd8c0`. Preserve candidate 1891
+and add the next-month posting rule to the full prepared batch-2 HEAT body.
+Do not discard its four branches or November 2024 source-staleness warning.
+This merge is prepared, not applied. JFS, NeighborWorks and Relay restore earlier
+reviewed facts; Lifeline explicitly builds on prepared batch 3.
+
+Preservation at 02:47:25 UTC passes 37 research tables and 127 reviewed native
+hashes. Current unique IDs are 982 (completed categories only, not final).
+Global identity/category/source reconciliation, remaining navigation judgments,
+actual browser tests and monitor Save are still required. No final completion
+or human Curated flags; preserve the unrelated tracked deletion.
+
 ## September 22, 20:14 MDT — resumed; Transportation reviewed
 
 Michael requested **"continue per the handover"**, superseding the stop below.

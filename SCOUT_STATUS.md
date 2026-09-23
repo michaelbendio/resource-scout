@@ -4,6 +4,33 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Utilities review underway — September 22, 20:49 MDT
+
+Research **21/21**, curation **19/21**. Coordinator **6112** and supervisor
+**6126** are active on Utilities **batch 5/8**, with recent native events and no
+automatic restart. Root has reviewed Utilities batches **1–4** and saved **28
+per-batch field corrections**, not applied. Repeated Lifeline fields explicitly
+build on each earlier prepared correction; verify those hashes and reconcile
+against the final native result. Do not rerun existing preparation scripts.
+
+Current HomeFit flyer was visually checked across all five pages. Preserve its
+second-mortgage consideration and nonrefundable fee, full earlier Crossroads/HEAT
+facts, Access Wireless's conflicting hours, and SSP versus iCanConnect eligibility.
+Source evidence and prepared corrections are under the run's `audit/` directory.
+The new Murray utility-credit ID duplicates the existing HEAT fourth branch;
+batch 4 proposes a merge preserving candidate 1891 and the payment-timing detail.
+Preservation passes **37 research tables / 127 reviewed original hashes**.
+
+Domestic Violence now has a provisional Type/priority ledger for **76 resources**:
+11 Types, 24 Start here / 46 Important specialized help / 6 Additional options.
+Employment has **120/120** provisional Type/priority rows: 15 Types and tiers
+24 start / 88 specialized / 8 additional. Twenty new Employment population
+decisions are checkpointed against all 24 proposed group definitions.
+These are not installed;
+final shared-body, taxonomy and membership reconciliation is still required.
+Content review, global reconciliation, complete For decisions/priorities, actual
+browser checks and Save remain unfinished. No final or human Curated flags.
+
 ## Welfare Square Transportation reviewed — September 22, 20:14 MDT
 
 Research **21/21**, curation **19/21**. Transportation's eleven batches and all
