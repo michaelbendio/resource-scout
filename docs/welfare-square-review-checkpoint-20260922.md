@@ -1,5 +1,58 @@
 # Welfare Square selective review checkpoint — September 21 late continuation
 
+## September 22, 22:32 MDT — Veterans batch 12; root review through 10
+
+Research21/21, curation20/21. Coordinator6112/supervisor6126 are active with recent
+native events and zero restarts; live native command is gpt-5.5/xhigh. Root review
+is prepared through010:95 bodies/100 dispositions/99 per-batch field changes.
+Do not rerun preparation scripts. No Veterans category revision is applied.
+All three mandatory hash-bound amendments below still apply at selection.
+
+Prepared007 preserves TVC's distinct national women/MST and naturalization branches,
+TAPS youth service, Farrell correction procedures, VA caregiver/travel/CHAMPVA
+details and MST contacts. Prepared008 keeps HCRV distinct from the homeless/VJO
+composite, adds discharge-review exceptions, survivor-benefit distinctions,
+SAH/SHA/TRA conditions, DEA deadlines/benefit elections, pension age65 and VET TEC
+entitlement consumption. Avoid redundant survivor-pension coverage while retaining
+DIC and all supported branches. Current fiscal-year and dated capacity limits stay
+visible; do not treat them as guarantees.
+
+Prepared009 restores Employment's full VR&E body and adds deadlines, subsistence,
+entitlement and disaster adjustment. The homeless/justice body explicitly builds
+on the hash-bound prepared003 Information; retain the HUD-VASH80%AMI and disability
+income rule, PHA routing and full service menu when adding verified VJO email.
+VITAL, VSC and VSOC are distinct campus pathways. Women Veterans Call Center accepts
+any discharge/no enrollment, plus specified all-gender infertility/MST/harassment
+inquiries. University RFB two-page PDF was downloaded, hashed and visually checked:
+email instructions agree with homepage but conflict with financial-aid paper/CIS
+copy. Preserve the conflict, consent and schedule-change obligations. USA Cares
+vendor-paid branches and career email are supported. UDVMA DD214 archive is a
+distinct service from the agency's claims assistance, with Utah-home-of-record
+and certified-copy photo-ID/presence restrictions.
+
+Prepared010 confirms SAA omission as institutional administration, separate tuition
+waivers, SLCC residency/proof contact and broader line-of-duty wording than the
+state's killed-in-action summary. Legislature retrieval returned an empty version
+shell, not read statutory text; UDVMA must certify the actual facts. Veteran homebuyer
+rules explicitly allow prior ownership outside Utah. Cemetery has no veteran burial
+fee, separate family/chapel/niche fees and dawn-to-dusk grounds; direct page office
+9–4:30 conflicts with general contact9–5. DWS employer-liaison page is not the sole
+job-seeker route: linked roster was hashed/rendered/visually inspected and supplies
+Metro, South County and ACE contacts, dated November26,2024 with current-staff caveat.
+Preserve full earlier category bodies and new supported memberships in final review.
+
+Financial Assistance's two provisional working ledgers now cover67/67, with19 Types,
+35 start/31 specialized/1 additional and seven no-group records. All24 definitions
+were explicitly considered. AAU evidence amendment is applied at assembly; final
+shared bodies still require new population decisions, including Veterans Pension
+age65. Resolve TTY, Medicare-funding, child-space, caregiver-versus-own-benefit and
+income-targeting consistency. No navigation or priority proposal is installed.
+
+Preservation04:32:13UTC passes37 research tables/141 reviewed original hashes;
+1,003 unique completed-category IDs. Remaining Veterans, global reconciliation,
+navigation and rendered reader/editor/filter/priority/Save work remain unfinished.
+No review-completion or human Curated flags. Preserve unrelated tracked deletion.
+
 ## September 22, 22:03 MDT — Veterans batch 8; root review through 6
 
 Research 21/21, curation 20/21. Live coordinator6112/supervisor6126, zero restarts,

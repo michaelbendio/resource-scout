@@ -4,6 +4,40 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Veterans review — September 22, 22:32 MDT
+
+Research **21/21**, native curation **20/21**. Coordinator **6112** / supervisor
+**6126** are active on Veterans **batch 12/15**, recent native events, zero restarts.
+Actual native command remains **gpt-5.5 / xhigh**. Verify live state before acting.
+
+Root review is prepared through Veterans **batch 10**: **95 saved bodies / 100
+candidate decisions**, **99 per-batch field changes**, not applied. Preparation
+scripts 001–010 have run; do not rerun. All three hash-bound Veterans amendments
+listed below remain mandatory at selection. Batch 009's shared homeless/justice
+Information explicitly builds on prepared batch 003 and adds VJO email; preserve
+the prior full body and HUD-VASH income/disability rules during reconciliation.
+
+New source obligations include distinct VA survivor/education/discharge pathways,
+the Women Veterans Call Center's all-gender exceptions, University RFB conflicting
+submission instructions, tuition-waiver residency/line-of-duty details, homebuyer
+out-of-state ownership exception, cemetery fees and conflicting hours, and DWS
+job-seeker contacts separate from employer liaison staff. RFB and DWS roster PDFs
+were hashed and visually inspected; the DWS roster is dated November 26, 2024.
+
+Financial Assistance has **67/67** provisional For and Type/priority judgments
+assembled in its two working ledgers: **19 Types**, **35 start / 31 specialized /
+1 additional**, seven no-group rows. The AAU affirmative-evidence amendment was
+applied at assembly. All 24 provisional definitions were considered per record.
+Final shared bodies and the office catalog still require reconciliation; nothing
+is installed or marked final. Seven earlier category For ledgers remain provisional.
+
+Preservation **04:32:13 UTC** passes **37 research tables / 141 reviewed original
+hashes**, with **1,003** completed-category unique IDs, not the final count.
+Continue remaining Veterans review, global identities/shared facts/memberships,
+remaining navigation, actual browser checks and Save. No final review-completion
+or human Curated flags. Preserve unrelated tracked deletion. Earlier snapshots
+below are historical.
+
 ## Welfare Square Veterans midpoint — September 22, 22:03 MDT
 
 Research **21/21**, native curation **20/21**. Coordinator **6112** / supervisor
