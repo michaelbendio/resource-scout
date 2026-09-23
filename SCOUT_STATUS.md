@@ -4,6 +4,28 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square navigation review — September 23, 01:26 MDT
+
+Review remains active. `audit/final-navigation-review-001/for-reviewed-001.json`
+through `-016.json` contain213 explicit resource/all26-group judgments. Earlier
+634 provisional resource judgments still require final-body/catalog reconciliation.
+`navigation-priority-reviewed-001.json` through `-003.json` contain63 explicitly
+reviewed category/resource pairs with Types, priorities, reasons and evidence.
+They are uninstalled; full coverage is2,141 current category memberships.
+
+Primary dental source confirms dedicated geriatric dentistry: retain University
+of Utah Dental's Seniors membership/group (source-clarifications002). Two new
+description corrections are queued, not applied, in `content-followups-001.json`
+and `-002.json`: remove Habitat homeownership's unsupported zero-interest promise;
+clarify Valley housing's three-property scope rather than implying24 total units.
+Applying them will require precise final-ledger hash rebinding after review.
+
+Preservation07:19:13UTC passes37 research tables/146 original batch hashes and
+1,096 IDs. No database mutation since retention002; no paid worker. Continue
+bounded complete-record semantic judgments, final Types/priorities, consistency
+reconciliation, actual browser checks, completion and Save. Las Vegas stays queued
+at High effort after Welfare Square; no Las Vegas launch/file yet.
+
 ## Welfare Square retention reconciliation — September 23, 00:49 MDT
 
 Global content obligations are reconciled in

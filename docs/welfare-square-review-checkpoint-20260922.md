@@ -1,5 +1,24 @@
 # Welfare Square selective review checkpoint — September 21 late continuation
 
+## Navigation review — September 23, 01:26 MDT
+
+The review is active. Final navigation audit `final-navigation-review-001` now
+has213 For-group judgments (001–016) and63 per-category Type/priority judgments
+(001–003), all explicit and uninstalled. Its corpus snapshot preserves the
+post-retention002 fingerprint. Earlier634 unique provisional For judgments still
+need final reconciliation; the full current output has1,096 unique IDs and2,141
+category memberships. Literal-evidence validation is not semantic completion.
+
+`content-followups-001.json` and002 queue two description corrections, not applied:
+Habitat's unsupported zero-interest promise and Valley housing's misleading
+24-unit aggregate wording. University dental geriatric service was source-confirmed
+and retained. Preserve successful immutable scripts; do not rerun them.
+
+Latest preservation07:19:13UTC verifies37 research tables/146 original batch hashes.
+No content mutation since retention002, no paid worker, no final navigation or
+priorities installed. Browser, completion and Save remain due. Las Vegas is still
+authorized afterward with explicit High workers and exact `lasVegas.html` creation.
+
 ## Retention reconciliation — September 23, 00:49 MDT
 
 See the top of `SCOUT_STATUS.md`: global35 content obligations now have durable
