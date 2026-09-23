@@ -1,6 +1,6 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 18:24 UTC
+## Continuation checkpoint — September 23, 18:29 UTC
 
 Welfare Square remains authorized and unfinished; Las Vegas follows afterward.
 Minimize context output without weakening review. Checkpoints/compaction are NOT
@@ -10,12 +10,12 @@ stopping points: continue without waiting for another user prompt.
   through124/B021. Final semantic/source/catalog audit is still unfinished.
 - Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
   Current corpus **corpus-snapshot-009.json**, catalog002, effective loader
-  **effective_decisions_v19.py**. Its override order is authoritative. Do not merge
+  **effective_decisions_v20.py**. Its override order is authoritative. Do not merge
   raw ledgers or rerun immutable scripts. No new category/For input is needed.
-- Checkpoint041 passes live completed21/21 curation, exact corpus/hashes/evidence,
+- Checkpoint042 passes live completed21/21 curation, exact corpus/hashes/evidence,
   all26 partitions, sensory parents and Type definitions. Proposals uninstalled;
   no completion record, browser verification or Save. All1,096 resources and
-  2,145 memberships preserved. Content001–014 applied; no pending content file.
+  2,145 memberships preserved. Content001–014 applied; content015 has2 pending clarifications.
 - Earlier detail is archived in continuation-handover-detail-029.md and -040.md.
   Semantic009 fixed Hartland basic literacy, Martindale infectious disease and
   Tunnel to Towers Food Navigation. Semantic010 adjudicated all68 followups004,
@@ -29,13 +29,20 @@ stopping points: continue without waiting for another user prompt.
 - Semantic012 resolves008/009:3 For additions (student childcare/fare support),
   7 education-pair revisions (Career Readiness, direct tuition help and childcare).
   Library under18 card confirmed; service-earned awards remain distinct from aid.
-  InputS003indices0–12 reviewed;13–26 cover pending010/011.
+  InputS003indices0–26 reviewed; semantic013 resolves010/011 judgments.
+- Semantic013 adds KRH Justice (individual conviction review), VR&E Low-income
+  (specific extra disaster/housing-loss allowance), UDC Reentry Employment Support;
+  YESS now uses precise new Supported Education instead of unsupported planning/
+  career-readiness claims. Backfill this new Type too.
+- **Content015 pending:** preserve ESLC1665 S Bennett versus Church1999 W1700S
+  address discrepancy in both resources. Both primary pages are current; whether
+  these are entrances/sites is unresolved. Do not claim relocation or closure.
 - Content006/snapshot008 corrected Odyssey housing support wording. Content007/
   snapshot009 corrected Courts vulnerable-adult guidance in two native copies:
   this is age65+/dependent-adult impairment guidance to APS, not a universal
   separate court-order form. Rebinding added Seniors/Disability with literal
   evidence. All other facts, IDs, native text, provenance and memberships preserved.
-- **Remaining semantic work:** followups010–015 and Type/scope followups016–022;
+- **Remaining semantic work:** followups012–015 and Type/scope followups016–022;
   older VA income/copay/travel and family-role cluster; full-corpus affordability,
   caregiver-role and student ancillary-support comparisons. Include family
   immigration/reunification versus actual supporting-relative help, custody/legal
@@ -43,8 +50,7 @@ stopping points: continue without waiting for another user prompt.
 - Backfill every newly defined Type across earlier relevant memberships, then
   resolve duplicates/synonyms/overlap/unused labels. Do not classify by keyword.
   Check actual offered service versus referral, payment or historical award.
-- Remaining source questions include Humanitarian Center work versus ESLC class
-  addresses; Lifeline WIC/Tribal/SSI branches; shared school meals/status exceptions;
+- Remaining source questions include the pending address clarification; Lifeline WIC/Tribal/SSI branches; shared school meals/status exceptions;
   optional Midvale Utah Diaper Bank→Utah Food Bank partner-name clarification.
 - Final delivery: install current reviewed proposals, preserve browser-local edits,
   inspect actual four Information sections/reader/editor, Type OR and group AND/
