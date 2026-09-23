@@ -4,15 +4,15 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Continuation checkpoint — September 23, 16:10 UTC
+## Continuation checkpoint — September 23, 16:16 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas is queued afterward.
 Michael clarified: minimize context consumption, not useful progress updates. Avoid
 repeated reads and copied evidence. Preserve judgment quality. A checkpoint is NOT
 a stopping point; continue the authorized work without waiting for another prompt.
 
-- **For: 893/1,096**, through089; next090;203 remain.
-- **Type/priority: 1,449/2,145**, through077; next078;696 remain.
+- **For: 917/1,096**, through092; next093;179 remain.
+- **Type/priority: 1,492/2,145**, through080; next081;653 remain.
 - Use **corpus-snapshot-007.json**, catalog002 and **v13 helpers**. Exact effective
   override order is implemented by `effective_decisions_v13.py`.
   V9 additionally applies `membership-reconciliation-navigation-001.json` after
@@ -40,16 +40,20 @@ a stopping point; continue the authorized work without waiting for another promp
   implies Youth; Guadalupe and YouthCity Education Planning Types are removed
   because career instruction/exploration is not academic counseling. Other
   assignments/priorities are preserved. New Types also include basic literacy,
-  informal language practice, reentry education and public Wi-Fi.
+  informal language practice, reentry education, public Wi-Fi, course auditing,
+  service placements and student childcare. Followups008 adds six explicit hub,
+  library-child-access and education-award affordability consistency questions.
+  The hub Basic Literacy assignment must be removed or substantiated before
+  installation; a generic writing class is not proof of foundational literacy.
   Type-catalog002: Adapted Homes includes accessibility
   modifications as well as acquisition/construction. All five pre-existing uses
   were reviewed explicitly. Use `prepare-numbered-input-v7.py` for new input packs.
-- `continuation-checkpoint-020.json` passed live corpus/fingerprint, resource hashes,
+- `continuation-checkpoint-021.json` passed live corpus/fingerprint, resource hashes,
   literal evidence, all26 group partitions/parents and defined Type checks.
 - New `numbered_review_helpers_v7.py` and immutable numbered input packs reduce
   repeated text: reviewers explicitly choose labels, tiers and paragraph references;
   the helper only resolves exact evidence. It performs no classification.
-- Latest batches057–089 add264 resources and551 category decisions since checkpoint006.
+- Latest batches057–092 add288 resources and594 category decisions since checkpoint006.
   Children, Clothing and Disability native For queues are finished; Domestic
   Violence native For queue is finished; Education is underway. Seventeen resources originating in other categories
   had Disability membership and awaited For review at797; recount before claiming
