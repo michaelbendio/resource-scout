@@ -1,6 +1,6 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 17:24 UTC
+## Continuation checkpoint — September 23, 17:31 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas follows afterward.
 Minimize context output without degrading judgment. A checkpoint or compaction is
@@ -8,25 +8,25 @@ NOT a stopping point: continue without waiting for another user prompt.
 
 - **For:1,096/1,096**, through115. Every resource has an explicit all26 decision;
   final semantic consistency remains unfinished. No unreviewed Disability members.
-- **Type/priority:1,858/2,145**, through106. Category-only batchesB001–B003 saved.
-  **287 pairs across142 resources remain**; next inputB004, next Type ledger107.
+- **Type/priority:1,905/2,145**, through109. Category-only batchesB001–B006 saved.
+  **240 pairs across118 resources remain**; next inputB007, next Type ledger110.
 - Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
   Use `corpus-snapshot-007.json`, `catalog-decision-002.json` and
   `effective_decisions_v13.py`. Its override order is authoritative; do not merge
   raw ledgers yourself. Detailed earlier state is preserved in
   `continuation-handover-detail-029.md` inside the audit root.
-- Category-only workflow: `prepare-category-input-v1.py B004 8` creates the next
-  immutable input; `category_review_helpers_v1.py B004 INDEX` reads one full record.
-  Author `prepare-category-batch-B004.py` using `CategoryReview`, explicit `.types`
-  calls for every pending membership, then `.finish('107', definitions_if_needed)`.
+- Category-only workflow: `prepare-category-input-v1.py B007 8` creates the next
+  immutable input; `category_review_helpers_v1.py B007 INDEX` reads one full record.
+  Author `prepare-category-batch-B007.py` using `CategoryReview`, explicit `.types`
+  calls for every pending membership, then `.finish('110', definitions_if_needed)`.
   Helpers resolve literals and check completeness; they do not classify anything.
   Do not resave For ledgers or rerun successful immutable scripts.
-- Checkpoint030 passed against live completed21/21 curation: exact corpus, hashes,
+- Checkpoint031 passed against live completed21/21 curation: exact corpus, hashes,
   evidence, all26 partitions, sensory parents and defined Types. Still uninstalled;
   no review completion, browser verification or Save yet. Last content snapshot007
   has1,096 resources/2,145 memberships; all content followups001–012 are applied.
 - **Pending semantic audits:**68-candidate followups004; older VA/family-role cluster;
-  followups006–015. Followups016 records Type/scope checks fromB001–B003. None may
+  followups006–015. Followups016–017 record Type/scope checks fromB001–B006. None may
   be resolved by counts or automated classification. Source questions include
   Humanitarian Center1999W1700S versus ESLC1665SBennett; Lifeline WIC/Tribal/categorical
   eligibility; shared school-meal branches; benefit/fee versus free-service treatment;
@@ -36,7 +36,8 @@ NOT a stopping point: continue without waiting for another user prompt.
   then consolidate synonyms/overlap/unused definitions without losing pathways.
   Recent additions include Career Readiness, Correctional Housing, Record Clearance,
   Diversion, Identity Documents, Medical Respite Housing, Community Gardens, Pet Food,
-  Seniors Food Benefits/Groceries, and Disability/Veterans Food Assistance.
+  Seniors Food Benefits/Groceries, Disability/Veterans Food Assistance, Driver
+  Licensing/License Hearings/Driving Privileges and Diagnostic Imaging.
 - Source rechecks preserve benefit-pathways, pension/SHIP, Beautiful Ability,
   Lifeline/SSA and Midvale diapers. CBC’s named Utah Diaper Bank partner moved into
   Utah Food Bank in2025 and explicitly serves children/parents; consider a brief
