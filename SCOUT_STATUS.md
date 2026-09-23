@@ -4,15 +4,15 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Continuation checkpoint — September 23, 14:47 UTC
+## Continuation checkpoint — September 23, 15:00 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas is queued afterward.
 Michael clarified: minimize context consumption, not useful progress updates. Avoid
 repeated reads and copied evidence. Preserve judgment quality. A checkpoint is NOT
 a stopping point; continue the authorized work without waiting for another prompt.
 
-- **For: 693/1,096**, through064; next065;403 remain.
-- **Type/priority: 1,040/2,145**, through052; next053;1,105 remain.
+- **For: 709/1,096**, through066; next067;387 remain.
+- **Type/priority: 1,082/2,145**, through054; next055;1,063 remain.
 - Use **corpus-snapshot-007.json**, catalog002 and **v9 helpers**. Exact effective
   override order is implemented by `effective_decisions_v9.py`.
   V9 additionally applies `membership-reconciliation-navigation-001.json` after
@@ -20,12 +20,12 @@ a stopping point; continue the authorized work without waiting for another promp
   Type-catalog002: Adapted Homes includes accessibility
   modifications as well as acquisition/construction. All five pre-existing uses
   were reviewed explicitly. Use `prepare-numbered-input-v3.py` for new input packs.
-- `continuation-checkpoint-010.json` passed live corpus/fingerprint, resource hashes,
+- `continuation-checkpoint-011.json` passed live corpus/fingerprint, resource hashes,
   literal evidence, all26 group partitions/parents and defined Type checks.
 - New `numbered_review_helpers_v3.py` and immutable numbered input packs reduce
   repeated text: reviewers explicitly choose labels, tiers and paragraph references;
   the helper only resolves exact evidence. It performs no classification.
-- Latest batches057–064 add64 resources and142 category decisions since checkpoint006.
+- Latest batches057–066 add80 resources and184 category decisions since checkpoint006.
   Children and Clothing native For queues are finished; Disability is underway.
   This does not finish every additional category membership for earlier resources.
 - For053 first draft had a nonliteral training excerpt;053-v2 passed. Preserve both.
@@ -53,7 +53,8 @@ a stopping point; continue the authorized work without waiting for another promp
   License Costs, Outreach Food, Travel Training and High School & Equivalency.
   New062 Types also need backfill review: Reentry Legal Help, Disability Peer &
   Community Support/Condition Education, and Housing Affordable Housing.
-  Keep supported living distinct from housing support.
+  New065–066 Types: Income Benefits, Benefits Appeals, Assistive Technology Costs
+  and Workplace Accessibility. Keep supported living distinct from housing support.
 - No navigation/priority installation, completion recording, human Curated change,
   browser verification, Save/download or Las Vegas launch. Preserve browser-local
   work and the unrelated tracked deletion. Full finish requirements remain below.
