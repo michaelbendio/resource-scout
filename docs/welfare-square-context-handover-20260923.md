@@ -1,6 +1,6 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 10:13 UTC
+## Continuation checkpoint — September 23, 10:41 UTC
 
 This checkpoint supersedes the older counts and helper versions below. Welfare
 Square review remains authorized and unfinished; Las Vegas remains queued afterward.
@@ -8,9 +8,9 @@ Michael requested minimal displayed output twice: **do not print raw web respons
 full scripts, duplicate records or broad document dumps**. Save detailed evidence
 locally and display only concise decision inputs and validation summaries.
 
-- Final For reviews: **565/1,096**, through045; next046;531 remain.
-- Final category Type/priority reviews: **751/2,146**, through033; next034;1,395 remain.
-- Current corpus: **corpus-snapshot-006.json**; use **v6 helpers**, catalog002.
+- Final For reviews: **601/1,096**, through051; next052;495 remain.
+- Final category Type/priority reviews: **826/2,146**, through039; next040;1,320 remain.
+- Current corpus: **corpus-snapshot-006.json**; use **v7 helpers**, catalog002.
 - Current curation fingerprint: `c7edb319f7e90a481b9326282159e731cf0d3de59f09d228226cea49d244622d`.
 - Content reconciliation004 applied the six pending followups008–010. Encircle's
   current scholarship banner additionally supports an uninsured funding route.
@@ -20,9 +20,9 @@ locally and display only concise decision inputs and validation summaries.
   companions; JCDC FAQ clarifies income-scaled fees, inability-to-pay protection,
   and the local hearing/vision team. No pending content-followup files remain.
 - Apply the previous override order through Type-catalog001, **then content
-  navigation004, then005**. `effective_decisions_v6.py` implements that exact order.
-  V6 Type helpers now consult effective definitions and retired-label resolutions.
-- `continuation-checkpoint-002.json` verifies live corpus/fingerprint, all saved
+  navigation004, then005, then semantic consistency004**. `effective_decisions_v7.py` implements that exact order.
+  V7 Type helpers now consult effective definitions and retired-label resolutions.
+- `continuation-checkpoint-004.json` verifies live corpus/fingerprint, all saved
   hashes, literal evidence,26-group partitions/parents and defined nonretired Types.
   It is structural validation of partial review, not completion.
 - Type033's first preflight had one nonliteral JCDC excerpt;033-v2 succeeded.
@@ -30,6 +30,25 @@ locally and display only concise decision inputs and validation summaries.
 - No navigation/priorities installed, review completion, human Curated approvals
   or Save/download. Remaining consistency clusters and browser checks below still
   apply. Preserve the unrelated tracked deletion and browser-local work.
+
+- Semantic004 adds Ohana Low-income from its explicit childcare-cost vouchers,
+  consistent with SLCC funding. It applies stated women-focused eligibility
+  consistently to NFP and HMHI; pregnancy wording alone remains insufficient.
+  County NFP/PAT military priority remains dated2024 and unconfirmed currently;
+  facts and Veterans membership are preserved with explicit review questions.
+- For046 had a mistyped Midtown ID;046-v2 passed without changing resources.
+  All original attempts remain. Latest completed batches: For051, Type039.
+
+- `semantic-consistency-followups-004.json` contains68 diagnostic candidates
+  from earlier reviewer notes for affordability and women-focused eligibility
+  consistency. It makes no assignments and is not a completed review; resolve
+  each explicitly, alongside the earlier VA/family/Food consistency clusters.
+- Recent full-body reconciliations: Road Home now includes its men-only shelter
+  and documented disability access; Healing Group adds its explicit men group;
+  WIC reconciles its conflicting prior ledgers; Birth Justice Fund has explicit
+  fee assistance; State CHIP immigrant accommodation applies to retained enrollees
+  while new enrollment is closed. UPAL generic inclusive welcome is insufficient
+  for a dedicated LGBTQ group. Original facts and prior decisions are preserved.
 
 ## Earlier checkpoint detail — 09:53 UTC
 
