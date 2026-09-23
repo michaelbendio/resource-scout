@@ -4,7 +4,43 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## New-terminal handover — September 23, 03:12 MDT
+## Current continuation checkpoint — September 23, 03:53 MDT
+
+Michael warned that the conversation had little context left. The assistant saved
+[the updated handover](docs/welfare-square-context-handover-20260923.md); Welfare
+Square review remains unfinished and authorized. This checkpoint supersedes older
+counts and pending-item lists below. Las Vegas remains queued after actual review,
+browser verification and Save/download, at the previously authorized High effort.
+
+Final uninstalled decisions: **549/1,096** resource/all26-group reviews through
+`for-reviewed-043-v2.json`, and **710/2,145** category Type/priority reviews through030.
+Next: For044 and Type/priority031. Use **corpus-snapshot-004.json**, **v4 helpers** and
+**catalog-decision-002.json**. Current curation fingerprint:
+`c933f246610b4552e64ec1da89be1672f7e3f1a070c6ddcd656f56031650761c`.
+
+Content reconciliations002–003 are applied: 7th Street day treatment/family support,
+MCC immigration evaluations, YouthHub ID support, CHC pediatric/senior care, Andy's
+Medical membership and WhiteTree Medical/Mental Health memberships. Apply saved
+navigation overrides001→002→003, semantic resolutions001→002→003, then Type-catalog
+resolution001. The handover gives the precise sequence, resolved decisions and
+failed-attempt history. All remain proposals, separate from human Curated status.
+
+**Six pending content corrections** are saved in followups008–010: SSVF affordability,
+Project Connection reduced fares, Encircle scholarships, Arches disability services,
+True North probation support and SUPeRAD pediatric/gynecology care. They are not yet
+applied. After revision, rebind effective overridden judgments, not only raw ledgers.
+Remaining coverage:547 For reviews and1,435 category pairs, plus the documented
+consistency clusters, complete assembly and actual browser/Save checks.
+
+`final-navigation-review-001/continuation-checkpoint-001.json` verifies live corpus,
+fingerprint, hashes, evidence, group partitions/parents and defined nonretired Types.
+Preservation09:52:07UTC passes37 research tables/146 original batches/1,096 IDs.
+Latest content revision09:33:51UTC. Terminal21/21; monitor-only6391/8770; no paid worker,
+installed navigation/priorities, completion event or human Curated approvals.
+Audit artifacts remain local Git-ignored files; the handover/status docs are the
+scoped Git checkpoint. Preserve the unrelated tracked deletion.
+
+## Historical new-terminal handover — September 23, 03:12 MDT
 
 Michael requested continuation in a **new terminal session**. The old session
 saved [the current handover](docs/welfare-square-context-handover-20260923.md) and
