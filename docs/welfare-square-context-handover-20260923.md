@@ -1,14 +1,14 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 16:50 UTC
+## Continuation checkpoint — September 23, 17:02 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas is queued afterward.
 Michael clarified: minimize context consumption, not useful progress updates. Avoid
 repeated reads and copied evidence. Preserve judgment quality. A checkpoint is NOT
 a stopping point; continue the authorized work without waiting for another prompt.
 
-- **For: 1,013/1,096**, through104; next105;83 remain.
-- **Type/priority: 1,670/2,145**, through092; next093;475 remain.
+- **For: 1,037/1,096**, through107; next108;59 remain.
+- **Type/priority: 1,725/2,145**, through095; next096;420 remain.
 - Use **corpus-snapshot-007.json**, catalog002 and **v13 helpers**. Exact effective
   override order is implemented by `effective_decisions_v13.py`.
   V9 additionally applies `membership-reconciliation-navigation-001.json` after
@@ -56,16 +56,21 @@ a stopping point; continue the authorized work without waiting for another promp
   alongside the earlier68-candidate and VA/family audits; none are auto-assigned.
   source-recheck-beautiful-ability-20260923-001.json corroborates disability-focused
   employment from the provider site; detailed payer/referral rules remain open.
-  Current unreviewed resources with Disability membership: 3.
+  Followups012 adds eleven explicit benefit/household/tax/Medicare/SSA consistency
+  questions from105–107. Source rechecks preserve Lifeline and SSA categorical
+  eligibility; WIC primary fetch403 does not establish closure. New Types:
+  Seniors Utility Assistance and Income Benefits; Medical Bill Assistance;
+  Financial Child Support; Utilities Phone Plans. Backfill relevant earlier pairs.
+  Current unreviewed resources with Disability membership: 2.
   Type-catalog002: Adapted Homes includes accessibility
   modifications as well as acquisition/construction. All five pre-existing uses
   were reviewed explicitly. Use `prepare-numbered-input-v7.py` for new input packs.
-- `continuation-checkpoint-025.json` passed live corpus/fingerprint, resource hashes,
+- `continuation-checkpoint-026.json` passed live corpus/fingerprint, resource hashes,
   literal evidence, all26 group partitions/parents and defined Type checks.
 - New `numbered_review_helpers_v7.py` and immutable numbered input packs reduce
   repeated text: reviewers explicitly choose labels, tiers and paragraph references;
   the helper only resolves exact evidence. It performs no classification.
-- Latest batches057–104 add384 resources and772 category decisions since checkpoint006.
+- Latest batches057–107 add408 resources and827 category decisions since checkpoint006.
   Children, Clothing and Disability native For queues are finished; Domestic
   Violence and Education native For queues are finished; Employment native For queue is finished; Financial Assistance is underway. Seventeen resources originating in other categories
   had Disability membership and awaited For review at797; recount before claiming
