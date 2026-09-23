@@ -1,5 +1,38 @@
 # Welfare Square review handover for a fresh context
 
+## Continuation checkpoint — September 23, 10:13 UTC
+
+This checkpoint supersedes the older counts and helper versions below. Welfare
+Square review remains authorized and unfinished; Las Vegas remains queued afterward.
+Michael requested minimal displayed output twice: **do not print raw web responses,
+full scripts, duplicate records or broad document dumps**. Save detailed evidence
+locally and display only concise decision inputs and validation summaries.
+
+- Final For reviews: **565/1,096**, through045; next046;531 remain.
+- Final category Type/priority reviews: **751/2,146**, through033; next034;1,395 remain.
+- Current corpus: **corpus-snapshot-006.json**; use **v6 helpers**, catalog002.
+- Current curation fingerprint: `c7edb319f7e90a481b9326282159e731cf0d3de59f09d228226cea49d244622d`.
+- Content reconciliation004 applied the six pending followups008–010. Encircle's
+  current scholarship banner additionally supports an uninsured funding route.
+  Arches gained Disability membership; all1,096 IDs and candidate links remain.
+- Content reconciliation005 applied followups011–012: Granite's dedicated center
+  page clarifies parent-account/grade/teacher support, adult classes and home-visit
+  companions; JCDC FAQ clarifies income-scaled fees, inability-to-pay protection,
+  and the local hearing/vision team. No pending content-followup files remain.
+- Apply the previous override order through Type-catalog001, **then content
+  navigation004, then005**. `effective_decisions_v6.py` implements that exact order.
+  V6 Type helpers now consult effective definitions and retired-label resolutions.
+- `continuation-checkpoint-002.json` verifies live corpus/fingerprint, all saved
+  hashes, literal evidence,26-group partitions/parents and defined nonretired Types.
+  It is structural validation of partial review, not completion.
+- Type033's first preflight had one nonliteral JCDC excerpt;033-v2 succeeded.
+  Preserve both attempts. Never rerun successful prepare/apply/save scripts.
+- No navigation/priorities installed, review completion, human Curated approvals
+  or Save/download. Remaining consistency clusters and browser checks below still
+  apply. Preserve the unrelated tracked deletion and browser-local work.
+
+## Earlier checkpoint detail — 09:53 UTC
+
 Checkpoint: **September 23, 2026, 09:53 UTC (03:53 MDT)**. This file is the current
 continuation handover and supersedes older state/counts in historical status notes.
 Michael warned that the conversation had little context left. The assistant saved
