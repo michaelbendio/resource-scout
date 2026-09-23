@@ -4,15 +4,15 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Continuation checkpoint — September 23, 15:57 UTC
+## Continuation checkpoint — September 23, 16:03 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas is queued afterward.
 Michael clarified: minimize context consumption, not useful progress updates. Avoid
 repeated reads and copied evidence. Preserve judgment quality. A checkpoint is NOT
 a stopping point; continue the authorized work without waiting for another prompt.
 
-- **For: 845/1,096**, through083; next084;251 remain.
-- **Type/priority: 1,352/2,145**, through071; next072;793 remain.
+- **For: 869/1,096**, through086; next087;227 remain.
+- **Type/priority: 1,403/2,145**, through074; next075;742 remain.
 - Use **corpus-snapshot-007.json**, catalog002 and **v12 helpers**. Exact effective
   override order is implemented by `effective_decisions_v12.py`.
   V9 additionally applies `membership-reconciliation-navigation-001.json` after
@@ -30,19 +30,25 @@ a stopping point; continue the authorized work without waiting for another promp
   Followups005 is resolved; the separate68-candidate audit remains pending.
   New followups006 lists six affordability-consistency candidates; no automatic
   assignments. New Types include pet care (DV/homeless) and legal address
-  confidentiality. Recheck earlier relevant memberships during final assembly.
+  confidentiality. Followups007 adds seven explicit court, accommodation,
+  student-access and Type consistency questions. Recent Types also cover forensic
+  care, survivor health coverage, crime-victim compensation, civil damages, legal
+  identity changes, matched savings, college/afterschool learning, citizenship
+  preparation and child academic support. Backfill earlier relevant memberships
+  and consolidate overlapping Types during final assembly.
   Type-catalog002: Adapted Homes includes accessibility
   modifications as well as acquisition/construction. All five pre-existing uses
   were reviewed explicitly. Use `prepare-numbered-input-v6.py` for new input packs.
-- `continuation-checkpoint-018.json` passed live corpus/fingerprint, resource hashes,
+- `continuation-checkpoint-019.json` passed live corpus/fingerprint, resource hashes,
   literal evidence, all26 group partitions/parents and defined Type checks.
 - New `numbered_review_helpers_v6.py` and immutable numbered input packs reduce
   repeated text: reviewers explicitly choose labels, tiers and paragraph references;
   the helper only resolves exact evidence. It performs no classification.
-- Latest batches057–083 add216 resources and454 category decisions since checkpoint006.
+- Latest batches057–086 add240 resources and505 category decisions since checkpoint006.
   Children, Clothing and Disability native For queues are finished; Domestic
-  Violence is underway. Seventeen resources originating in other categories
-  still have Disability membership and await For review.
+  Violence native For queue is finished; Education is underway. Seventeen resources originating in other categories
+  had Disability membership and awaited For review at797; recount before claiming
+  complete disability coverage.
   This does not finish every additional category membership for earlier resources.
 - For053 first draft had a nonliteral training excerpt;053-v2 passed. Preserve both.
   Never rerun successful prepare/save/checkpoint scripts; create new versions.
