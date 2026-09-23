@@ -1,14 +1,14 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 16:28 UTC
+## Continuation checkpoint — September 23, 16:39 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas is queued afterward.
 Michael clarified: minimize context consumption, not useful progress updates. Avoid
 repeated reads and copied evidence. Preserve judgment quality. A checkpoint is NOT
 a stopping point; continue the authorized work without waiting for another prompt.
 
-- **For: 965/1,096**, through098; next099;131 remain.
-- **Type/priority: 1,569/2,145**, through086; next087;576 remain.
+- **For: 989/1,096**, through101; next102;107 remain.
+- **Type/priority: 1,620/2,145**, through089; next090;525 remain.
 - Use **corpus-snapshot-007.json**, catalog002 and **v13 helpers**. Exact effective
   override order is implemented by `effective_decisions_v13.py`.
   V9 additionally applies `membership-reconciliation-navigation-001.json` after
@@ -45,18 +45,23 @@ a stopping point; continue the authorized work without waiting for another promp
   Employment Support and Education Career Readiness. Followups009 records eight
   explicit new-Type backfill and provider-versus-program population checks.
   Provider portfolio/demographics do not automatically transfer to every service.
+  Followups010 adds seven explicit conviction-access, Humanitarian Center address,
+  VA/ACE funding and reentry Type checks. New Types include Correctional Housing
+  (Housing/Reentry), Reentry Employment Support, Fidelity Bonds and Social Security
+  Cards. Preserve restricted placement and unresolved Atherton gender information.
+  Humanitarian Center1999 W1700 S versus ESLC1665 S Bennett needs source reconciliation.
   source-recheck-beautiful-ability-20260923-001.json corroborates disability-focused
   employment from the provider site; detailed payer/referral rules remain open.
-  Current unreviewed resources with Disability membership: 9.
+  Current unreviewed resources with Disability membership: 5.
   Type-catalog002: Adapted Homes includes accessibility
   modifications as well as acquisition/construction. All five pre-existing uses
   were reviewed explicitly. Use `prepare-numbered-input-v7.py` for new input packs.
-- `continuation-checkpoint-023.json` passed live corpus/fingerprint, resource hashes,
+- `continuation-checkpoint-024.json` passed live corpus/fingerprint, resource hashes,
   literal evidence, all26 group partitions/parents and defined Type checks.
 - New `numbered_review_helpers_v7.py` and immutable numbered input packs reduce
   repeated text: reviewers explicitly choose labels, tiers and paragraph references;
   the helper only resolves exact evidence. It performs no classification.
-- Latest batches057–098 add336 resources and671 category decisions since checkpoint006.
+- Latest batches057–101 add360 resources and722 category decisions since checkpoint006.
   Children, Clothing and Disability native For queues are finished; Domestic
   Violence and Education native For queues are finished; Employment is underway. Seventeen resources originating in other categories
   had Disability membership and awaited For review at797; recount before claiming
