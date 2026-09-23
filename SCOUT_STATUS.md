@@ -4,75 +4,63 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Continuation checkpoint — September 23, 19:55 UTC
+## Welfare Square delivered — September 23, 21:08 UTC
 
-Welfare Square remains authorized and unfinished. Continue through compaction and
-checkpoints without another prompt. Minimize context output without weakening judgment.
+**Requested Codex review and actual Save/download verification are complete.**
+Do not restart this review or rerun installed proposal/completion mutations.
 
-- Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
-  **Current corpus-snapshot-012.json / effective_decisions_v40.py / checkpoint054.**
-  Live21/21 curation, fingerprints, evidence,26-group partitions and defined Types pass.
-  For1,096/1,096; Type/priority **2,146/2,146** through raw125. Proposals uninstalled;
-  no completion record, browser verification or Save. Counts do not finish review.
-- Content001–017 applied, none pending. Latest content010 clarifies Jordan
-  McKinney-Vento school-of-origin transportation using posted Utah guidance.
-  Its original3 memberships are preserved; added1 Transportation membership with
-  manually reviewed Student Rides and specialized priority in ledger125.
-  All1,096 identities, native facts, candidate links and Curated flags preserved.
-- Loader override order is authoritative; do not merge raw ledgers or rerun scripts.
-  Archives handover-detail040/044/048 preserve earlier work. Semantic009–014 resolve
-  earlier scoped For/source followups004–015. Full-corpus group comparisons remain.
-- Semantic015 resolves24 reentry scope candidates (S005), clarifies Specialty Courts
-  versus Diversion and backfills record/ID support. Semantic016 checks all17 Medical
-  Bill Assistance/14 Pharmacy pairs; Martindale Pharmacy removed. Semantic017 resolves
-  S006/S007-v2 and adds8 medical infection/imaging Types; other new medical Types checked.
-- **Homeless late-Type pass complete:** S008all65 resources resolved in semantic018–021.
-  Includes resident-only boundaries, school support, food/hygiene/transport/docs,
-  actual supportive/transitional/respite housing and unsupported referral exclusions.
-  FINCH record-only storage removed from Belongings Storage; other5 storage routes
-  remain. Milestone/Village education and FYI voucher-plus-support housing clarified.
-- **All late-Type diagnostic cohorts complete.** S008 Homeless65 and S009
-  all309 resources/402 questions have explicit saved judgments; coverage audit
-  `late-type-cohort-coverage-001.json` verifies every question maps to a decision.
-  Semantic022–030 covers reentry/employment/food/immigration/phone/financial/
-  transportation/legal/ID/mental-health/disability/veterans/seniors/education.
-  Latest Education work:40 school-course questions and12 student-childcare questions
-  in semantic028; all71 career-readiness questions in029–030. Adds actual school
-  credit pathways, Alliance supported education, and explicit career-preparation
-  services; occupational training/admission interviews alone do not qualify.
-  Diagnostic word matches never generate assignments. Do not restart these cohorts.
-- Catalog inventory at loader40 has no unused Types. Remaining Type/source work:
-  final Basic Needs inventory, synonyms/overlap, and explicit remaining016–022
-  questions. New fresh `review-input-S010.json` has40 resources:indices0–20 all
-  current Homeless Basic Needs;21–39 targeted FSH/IRC/UofU/RyanWhite/UPFH/Nomad/
-  Odyssey/TAL/national military funds/VA horse-service scopes. S010 is prepared,
-  **not yet read/resolved**. Full questions in semantic-consistency-followups016–022
-  were read again; many are already resolved by the prior ledgers, so map evidence
-  and focus new work on genuinely remaining scopes. Final catalog wording still
-  needs a semantic check; no unused labels is only a structural result.
-- CI email for967a84f investigated:1 of283 tests failed on a real process-exit race.
-  ps briefly loses a dying process command before marking it zombie. Fix4034b13
-  rechecks once without signaling mismatched identity or duplicating work. Local285
-  tests pass(1skip), plus30 real-process repetitions; GitHub run35909580142 passed.
-  Only worker_lifecycle.py/tests changed; no live worker/review data restarted.
-- Remaining For work: full-corpus affordability, Families supporting-role and
-  Students ancillary-support comparisons, including older VA/Medicare benefits,
-  immigration/custody/family services and the military-family cluster.
-- Final delivery: install reviewed proposals; preserve browser-local edits; inspect
-  actual reader/editor four Information sections, Type OR/group AND/Match-any,
-  priority/A–Z equality, override/reload and zero new Curated. Verify actual monitor
-  Save download; record completion only when genuinely ready. No paid reviewer.
-- Then prepare the requested **Jev (TypeSafe) blind test pack**, about120 cases across
-  all21 categories, ordinary and difficult cases, with original Scout material and
-  separate reviewed references/provenance/uncertainties. Plan:jev-test-pack-plan-001.json.
-  No paid test or Jev calls authorized/launched yet; prepare material after completion.
-- ETA at12:58MDT: **3:30–5:30p.m.MDT** for Welfare browser/Save, then20–30 minutes
-  for test pack. Las Vegas setup/launch follows at explicitly authorized High effort.
-  Service-area question still pending; do not assume Clark County. Read orchestration
-  and verify live state before launching or supervising a worker.
-- Audit commits remain status/handover only; CI code fix4034b13 is separately committed. Preserve unrelated deletion
-  `docs/scout-discovery-and-maintenance-proposal-20260920.md`.
+- Final corpus: **1,096 resources, 21 Categories, 2,146 memberships, 470 Types,
+  26 For groups**. Every resource/group partition and Type/priority decision is
+  reviewed. No human Curated or human For-review approvals were added.
+- Audit root `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
+  Authoritative corpus012 / effective_decisions_v46.py / checkpoint056 / semantic036.
+  All content followups001–017, late-Type cohorts and source questions016–022 are
+  resolved; the final affordability, Families and Students comparisons are complete.
+- Navigation and priority proposals are installed at revision1. Immutable report:
+  `review-report-final-001.md`. Review recorded at20:47:11UTC for fingerprint
+  `b01f10825a72782acb779b39ee38870540dba286399836b78ab81e1d374e3bc3`.
+  Fresh read-only handoff says `reviewed`, `readyForSave:true`; SQLite quick_check
+  and21/21 completed curation pass. Evidence: `delivery-live-state-001.json`.
+- Actual Chrome reader/editor, all four Information sections, Type OR, group
+  AND/Match-any, combined/empty filters, Browse by Group, priority/A–Z equivalence,
+  overrides/reload/search and zero new Curated checks pass. Evidence:
+  `browser-verification-001.json`. Existing browser-local work was preserved using
+  an isolated preview origin. A real Open for curation routing bug was fixed in
+  pushed397b5fd;286 tests pass(1 intentional skip), GitHub35917686340 passed.
+- Actual Scout monitor Save downloaded `/Users/michaelbendio/Downloads/autoWelfareSquare.html`.
+  Preserved delivery copy: `delivery-001/autoWelfareSquare.html` under the audit root.
+  It matches the browser-tested HTML except seed build timestamps. SHA256
+  `3a1ab5d55d24ec1226789d2b50b83215f497142484dc1881ac63f63bbac0094e`.
+  `download-verification-001.json` records this. The first native Save dialog stalled;
+  it was canceled and a fresh dialog saved successfully. No review data was changed.
+- Original37 research tables and146 batch hashes are preserved; all1,096 final IDs,
+  candidate links/dispositions and integrity checks pass. Preinstall SQLite backup
+  and research-preservation manifests remain intact. No research/review worker runs.
+- CI email for967a84f is resolved: one test failed in the workflow's single job on
+  a real process-exit race. Fix4034b13 rechecks identity once safely;285 tests and
+  30 real-process repetitions passed, and GitHub35909580142 passed. No Scout data lost.
 
+**Jev test material is prepared, not executed.**
+`data/jev-welfare-square-test-20260923/README.md` describes162 cases:120 navigation
+cases (80 ordinary,40 challenge; all21 Categories and all26 groups represented,
+7 explicit no-group cases) plus42 original Scout identity comparisons. Separate
+`jev-blind-inputs.zip` and `jev-private-reference.zip` prevent answer leakage.
+Reference evidence, exact original candidate JSON, source hashes, uncertainty,
+pair-level review, offline scorer and validation are included. All selected
+Type/group/priority evidence matches input literally; scorer sanity/negative checks
+pass. These are Codex-reviewed pilot references, not independent human truth.
+No Jev model, API, account, upload, or paid evaluation was invoked.
+
+**Las Vegas is next, pending the previously asked service-area boundary.**
+Michael authorized exact `lasVegas.html` and High-effort setup/worker launch after
+Welfare delivery. Office/service area must be established before assignments under
+`docs/scout-orchestration.md`; do not assume Clark County. No file or worker has
+been created. Continue the authorized setup after the service-area answer arrives,
+read orchestration, verify live state/runner locks and supervise routine recovery.
+No delegated/paid reviewer or subagent is authorized. Preserve unrelated deletion
+`docs/scout-discovery-and-maintenance-proposal-20260920.md`.
+
+Earlier detailed checkpoint is archived in audit `continuation-handover-detail-057.md`.
 
 ## Current continuation checkpoint — September 23, 03:53 MDT
 
