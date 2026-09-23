@@ -4,6 +4,19 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## User-requested stop — September 23, 00:26 MDT
+
+Michael said **“stop when you safely can.”** Review is stopped at a read-only
+boundary. **Do not resume or start Las Vegas until he asks to resume.** Read the
+[current stopped handover](docs/welfare-square-stopped-handover-20260923.md)
+for exact pending retention/membership decisions. This supersedes earlier active
+continuation language below. Native research/curation21/21 are complete; no paid
+worker remains. Monitor-only6391/8770 was left running. Preservation06:25:52UTC
+passes37 research tables/146 original batch hashes;1,096unique IDs,328 shared-body
+comparisons complete and115 applied field corrections. No database change since
+06:14:48UTC. Navigation, priorities, browser checks, completion and Save remain
+unfinished. Las Vegas is authorized later but has not been created or started.
+
 ## Queued next office — Las Vegas
 
 Michael authorized: “When you’ve finished, start a scout for Las Vegas. (You’ll
