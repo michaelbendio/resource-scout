@@ -4,6 +4,29 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## New-terminal handover — September 23, 03:12 MDT
+
+Michael requested continuation in a **new terminal session**. The old session
+saved [the current handover](docs/welfare-square-context-handover-20260923.md) and
+stopped at a safe boundary. A new session asked to continue per that file should
+resume Welfare Square, with Las Vegas still queued afterward.
+
+Final uninstalled decisions: **503/1,096** resource/all26-group reviews through039
+and **616/2,139** category Type/priority reviews through026. Next: For040 and
+Type/priority027. Use `corpus-snapshot-002.json` and the v2 helpers. The seven-resource
+content rebind is complete in `content-reconciliation-navigation-001.json`; apply
+those overrides during final assembly. Content followup007 (7th Street day treatment
+and family group) remains pending. Earlier semantic-consistency concerns and final
+browser/Save checks remain unfinished. No completion or human Curated event.
+
+Preservation09:12:07UTC passes37 research tables/146 original batch hashes/1,096 IDs.
+Last DB mutation08:55:45UTC. Monitor-only6391/8770; no paid worker. Latest code fix
+69103cc is pushed;37 related tests pass. Las Vegas setup/launch remains authorized
+at explicit High **after** Welfare Square completes, including `lasVegas.html`.
+Latest estimate09:08UTC:4–6 more hours for Welfare Square,20–40 minutes for Las Vegas
+setup/launch, with Las Vegas research additional. The unrelated tracked deletion
+must remain untouched.
+
 ## Welfare Square navigation review — September 23, 02:56 MDT
 
 Review remains active. Final checkpoints contain **463** resource/all26-group

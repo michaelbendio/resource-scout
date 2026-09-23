@@ -1901,3 +1901,17 @@ Preservation08:55:45UTC confirms37 unchanged research tables and146 original
 native batch hashes. No completion/Curated event or paid worker. Actual final
 workbench browser checks and Save remain outstanding. Las Vegas setup/launch stays
 queued at High after Welfare Square, including exact `lasVegas.html` creation.
+
+
+## September 23, 03:12 MDT — new-terminal handover
+
+Michael requested continuation in a new terminal session. The old session saved
+`docs/welfare-square-context-handover-20260923.md` and stopped at a safe boundary;
+a new session asked to continue per that file should resume the review.
+Final uninstalled reviews total503 group decisions /616 category Type-priority
+pairs. Resume at040/027 using corpus002 and v2 helpers. The seven-resource content
+rebind is saved, while new 7th Street content followup007 and prior semantic
+consistency issues remain pending. All1,096 IDs and2,139 memberships remain.
+Preservation09:12:07UTC passes37 tables/146 native batch hashes. No DB mutation
+since08:55:45UTC, no paid worker or review/Curated completion. Las Vegas remains
+queued afterward at High. Code change69103cc is pushed and37 related tests pass.
