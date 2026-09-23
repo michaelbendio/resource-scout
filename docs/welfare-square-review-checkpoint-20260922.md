@@ -1,5 +1,58 @@
 # Welfare Square selective review checkpoint — September 21 late continuation
 
+## September 22, 21:19 MDT — Utilities applied; Veterans 2/15
+
+Research is **21/21**, native curation **20/21**. Coordinator **6112** and supervisor
+**6126** are active with zero restarts; Veterans batch 1 validated and batch 2 is
+running. Monitor **6391** serves port 8770, HTTP 200. Continue routine native-event,
+process and database monitoring at the unchanged authorized xhigh settings.
+
+`audit/utilities-review-revision-001/` contains the database backup, before/proposed
+results, field/merge evidence, hash-bound manifest and applied receipt. **45 retained
+resources / 77 candidate decisions** remain after merging Murray utility credit
+`ebf9f58c1eaa518cac20b97bf7e05684` into existing HEAT
+`76c16a6711795a389dfaf033195dd8c0`, preserving candidate 1891. All other candidate
+decisions are unchanged. There are **40 unique corrected fields** from 65 per-batch
+preparations and **10 explicitly reconciled repeated fields**. Do not rerun scripts.
+Applied result hash:
+`b273681e014c4e31a202b52a6226c217db2756bac8cedd83ed4f1a7497bd6405`.
+
+Final Utilities selection preserves every checked Lifeline provider/contact/hour,
+household/Tribal/survivor rule and the complete HEAT/HELP/Enbridge/Murray branches.
+The Murray merge uses the newer batch-7 body with the $18 HELP maximum, payment
+timing, November 2024 warning and bounded SB 288 notice, not batch 4's older payload.
+Tax-abatement city rules remain distinct from the county's broader relief/deferral
+menu; West Jordan's posted water section is effective October 1, 2026. Retain SSL's
+and/or qualification ambiguity and 30% income-loss proof, and moratorium payment-form
+and REACH-administrator conflicts. Source errors are not closure evidence.
+
+Ryan White retains full clinic, 500%-versus-250% eligibility, ADAP and transportation
+facts, adding EFA terms verified in rendered 2025 manual pages 56–57: client-share
+limits, one-time case-manager exception, repeat-request rules, distinct rent/utility
+caps and timing. Restore complete library, welfare, JFS, Crossroads, NeighborWorks,
+SSVF and assistive-technology bodies. Keep Sorenson CARE Package unavailability,
+Water Savers' October 31 toilet deadline, actual reimbursement/landscape limits,
+Xfinity's verified current prices, and UATP's dated income table visible.
+
+Employment For review now covers **all 120 saved bodies**, including fresh review
+of 49 previously considered shared IDs and 71 new IDs. Twelve explicit-decision
+checkpoints assemble into `audit/employment-for-group-working-ledger-001.json`,
+with 36 no-group rows and literal evidence for assigned groups. No classifier or
+automatic carryover supplied these judgments. Reconcile the draft against final
+shared bodies and earlier retained facts; shorter Employment text must not remove
+earlier survivor or immigration evidence. Resolve relay/TTY handling consistently,
+distinguish student support from course enrollment, and assess Native Hawaiian
+representation without conflating it with American Indian/Alaska Native identity.
+No For catalog, Type/priority proposal or final completion is installed.
+
+Preservation at 03:17:47 UTC passes **37 research tables / 131 reviewed native
+hashes**. Utilities revision separately proves all 19 other completed categories
+unchanged and SQLite quick_check OK. Current unique completed IDs: **1,003**.
+Cross-category obligations now include the Utilities redirect/corrections. Veterans
+batch 1 was sealed before Utilities was revised; reconcile later shared copies.
+Final global review, remaining navigation judgments, browser inspection and actual
+monitor Save download remain required. No human Curated flags or publication.
+
 ## September 22, 20:49 MDT — Utilities batches 1–4 prepared
 
 Coordinator **6112** / supervisor **6126** are active on Utilities **5/8**;

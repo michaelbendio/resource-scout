@@ -4,6 +4,37 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Utilities reviewed — September 22, 21:19 MDT
+
+Research **21/21**, curation **20/21**. Coordinator **6112** / supervisor **6126**
+are active on Veterans **batch 2/15**; batch 1 validated, recent native activity,
+zero automatic restarts. Monitor-only **6391** returns HTTP 200 on port 8770.
+The authorized model/settings are unchanged. Verify live state before acting.
+
+Utilities review is applied in `audit/utilities-review-revision-001/`:
+**45 resources / 77 decisions**, 40 unique field corrections from 65 per-batch
+preparations, 10 explicit repeated-field reconciliations, and one Murray-to-HEAT
+duplicate merge. Result hash:
+`b273681e014c4e31a202b52a6226c217db2756bac8cedd83ed4f1a7497bd6405`.
+All 19 other completed categories and eight native Utilities batches are unchanged.
+Do not rerun existing preparation or apply scripts. Global obligations now include
+the Murray ID redirect and preservation of all Lifeline providers, four HEAT
+subprograms, Ryan White medical/transport/EFA branches and visible source conflicts.
+Veterans batch 1 was sealed before this revision and needs final reconciliation.
+
+Employment now has provisional **120/120 For decisions**, each considered against
+all 24 draft definitions, in 12 immutable checkpoints and
+`audit/employment-for-group-working-ledger-001.json`; 36 explicit no-group rows.
+The 49 shared identities were freshly read, not automatically copied. Resolve
+relay/TTY consistency and consider ITEC's Native Hawaiian pathway at the final
+office catalog review. The existing 120-row Type/priority ledger is also provisional.
+
+Latest preservation passes **37 research tables / 131 reviewed original hashes**;
+current completed-category unique IDs **1,003**, not the final package count.
+Veterans content review, global identities/shared bodies/memberships, remaining
+Types/For/priorities, actual browser verification and monitor Save are unfinished.
+No final review-completion or human Curated flags. Preserve the unrelated deletion.
+
 ## Welfare Square Utilities review underway — September 22, 20:49 MDT
 
 Research **21/21**, curation **19/21**. Coordinator **6112** and supervisor
