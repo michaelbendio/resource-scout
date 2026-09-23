@@ -1,148 +1,56 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 17:17 UTC
+## Continuation checkpoint — September 23, 17:24 UTC
 
-Welfare Square review remains authorized and unfinished; Las Vegas is queued afterward.
-Michael clarified: minimize context consumption, not useful progress updates. Avoid
-repeated reads and copied evidence. Preserve judgment quality. A checkpoint is NOT
-a stopping point; continue the authorized work without waiting for another prompt.
+Welfare Square review remains authorized and unfinished; Las Vegas follows afterward.
+Minimize context output without degrading judgment. A checkpoint or compaction is
+NOT a stopping point: continue without waiting for another user prompt.
 
-- **For: 1,096/1,096**, through115; complete initial per-resource coverage; semantic consistency audit remains.
-- **Type/priority: 1,815/2,145**, through103; next104;330 pairs remain across166 already-For-reviewed resources.
-- Use **corpus-snapshot-007.json**, catalog002 and **v13 helpers**. Exact effective
-  override order is implemented by `effective_decisions_v13.py`.
-  V9 additionally applies `membership-reconciliation-navigation-001.json` after
-  Type-catalog002, rebinding one For/four category judgments to corpus007.
-  V10 then applies semantic-consistency-resolution-005.json: removes Baby Watch
-  Rehabilitation & Therapy because the record establishes the state gateway, not
-  direct therapy. Other Types, resources, content and For groups are preserved.
-  V11 then applies semantic-consistency-resolution-006.json: nine explicit
-  Low-income corrections for direct Medicaid/SSI benefit pathways, supported by
-  source-recheck-benefit-pathways-20260923-001.json. Ordinary Medicaid acceptance
-  remains insufficient. No universal income/parental-income rule is inferred.
-  V12 then applies semantic007 (Take Care Utah Low-income and CHIP-appeal Youth)
-  and Type-catalog003 (Seniors Transportation includes fares/training and
-  conditional programs). All six prior Transportation uses were reviewed.
-  Followups005 is resolved; the separate68-candidate audit remains pending.
-  New followups006 lists six affordability-consistency candidates; no automatic
-  assignments. New Types include pet care (DV/homeless) and legal address
-  confidentiality. Followups007 adds seven explicit court, accommodation,
-  student-access and Type consistency questions. Recent Types also cover forensic
-  care, survivor health coverage, crime-victim compensation, civil damages, legal
-  identity changes, matched savings, college/afterschool learning, citizenship
-  preparation and child academic support. Backfill earlier relevant memberships
-  and consolidate overlapping Types during final assembly.
-  V13 then applies semantic008: Southpointe broad adult16+ eligibility no longer
-  implies Youth; Guadalupe and YouthCity Education Planning Types are removed
-  because career instruction/exploration is not academic counseling. Other
-  assignments/priorities are preserved. New Types also include basic literacy,
-  informal language practice, reentry education, public Wi-Fi, course auditing,
-  service placements and student childcare. Followups008 adds six explicit hub,
-  library-child-access and education-award affordability consistency questions.
-  The hub Basic Literacy assignment must be removed or substantiated before
-  installation; a generic writing class is not proof of foundational literacy.
-  New Types include formal School Courses, Credit for Prior Learning, Seniors
-  Employment Support and Education Career Readiness. Followups009 records eight
-  explicit new-Type backfill and provider-versus-program population checks.
-  Provider portfolio/demographics do not automatically transfer to every service.
-  Followups010 adds seven explicit conviction-access, Humanitarian Center address,
-  VA/ACE funding and reentry Type checks. New Types include Correctional Housing
-  (Housing/Reentry), Reentry Employment Support, Fidelity Bonds and Social Security
-  Cards. Preserve restricted placement and unresolved Atherton gender information.
-  Humanitarian Center1999 W1700 S versus ESLC1665 S Bennett needs source reconciliation.
-  Followups011 adds seven explicit accommodation, supported-education, student
-  fare, peer-professional, military-family and displacement interpretations.
-  New Financial Type: Bank Account Access. All followups006–011 remain pending
-  alongside the earlier68-candidate and VA/family audits; none are auto-assigned.
-  source-recheck-beautiful-ability-20260923-001.json corroborates disability-focused
-  employment from the provider site; detailed payer/referral rules remain open.
-  Followups012 adds eleven explicit benefit/household/tax/Medicare/SSA consistency
-  questions from105–107. Source rechecks preserve Lifeline and SSA categorical
-  eligibility; WIC primary fetch403 does not establish closure. New Types:
-  Seniors Utility Assistance and Income Benefits; Medical Bill Assistance;
-  Financial Child Support; Utilities Phone Plans. Backfill relevant earlier pairs.
-  Followups013 adds six explicit moratorium, income-replacement, tax-access,
-  school-meal consistency and unspecified-diaper checks. New Types: Financial
-  Utility Protections, Immigration Cash Assistance and Employment Unemployment
-  Benefits. Followups006–013, earlier68 and VA/family audits remain pending.
-  Followups014 adds seven explicit food-aid, child/diaper, school-meal, delivery
-  and functional-disability checks. Current primary evidence confirms CBC’s named
-  diaper partner moved into Utah Food Bank in2025 and serves babies/children and
-  parents; source-recheck-midvale-diapers-20260923-001.json preserves it. Assess a
-  brief partner-name clarification before final content assembly. New Food Types:
-  Community Gardens and Pet Food. All pending audits remain unfinished.
-  Followups015 adds four explicit clinical-versus-functional disability, SNAP,
-  new-Type backfill and school-family/Justice vision-clinic checks. New Types:
-  Seniors Food Benefits/Groceries; Disability and Veterans Food Assistance.
-  All followups006–015,68-candidate and VA/family audits remain pending.
-  Category-only backlog helper/input preparation is next: do not resave For
-  ledgers. Next Type ledger104.330 pairs/166 resources await explicit judgments.
-  Current unreviewed resources with Disability membership: 0.
-  Type-catalog002: Adapted Homes includes accessibility
-  modifications as well as acquisition/construction. All five pre-existing uses
-  were reviewed explicitly. Use `prepare-numbered-input-v7.py` for new input packs.
-- `continuation-checkpoint-029.json` passed live corpus/fingerprint, resource hashes,
-  literal evidence, all26 group partitions/parents and defined Type checks.
-- New `numbered_review_helpers_v7.py` and immutable numbered input packs reduce
-  repeated text: reviewers explicitly choose labels, tiers and paragraph references;
-  the helper only resolves exact evidence. It performs no classification.
-- Latest batches057–115 add467 resources and917 category decisions since checkpoint006.
-  Children, Clothing and Disability native For queues are finished; Domestic
-  Violence and Education native For queues are finished; Employment native For queue is finished; Financial Assistance native For queue is finished; Food native For queue is finished. Every resource now has an all26 For decision; final semantic consistency work remains. Seventeen resources originating in other categories
-  had Disability membership and awaited For review at797; recount before claiming
-  complete disability coverage.
-  This does not finish every additional category membership for earlier resources.
-- For053 first draft had a nonliteral training excerpt;053-v2 passed. Preserve both.
-  Never rerun successful prepare/save/checkpoint scripts; create new versions.
-- All content followups001–012 are applied. No new content change was made.
-  New source-recheck files cover UICSL, HRSS and USOR. HRSS survivor access was
-  resolved through its adopted HUD definition; clinical/Medicaid criteria still apply.
-  USOR sensory accommodations are corroborated by its linked official materials.
-  UICSL pantry evidence remains dated with explicit current-operation questions.
-- **Membership revision applied:** Salt Lake City Minor/Home Repairs retains four
-  supported memberships; only unsupported Utilities membership was removed.
-  `membership-reconciliation-applied-001.json` and
-  `category-membership-resolution-slc-repairs-001.json` supersede the original
-  proposal's pending flag. All facts/native copies/IDs/links remain; preservation
-  and checkpoint010 passed. No pending membership decisions remain.
-- Semantic004 remains effective. The68 diagnostic consistency candidates and older
-  VA/family clusters remain pending. AAU trafficking now explicitly reconciles
-  immigration-status accommodation; Food Type is Meals, with Groceries omitted.
-  LDS storehouse Food is Groceries; generic Food Navigation was omitted.
-- Audit new Types for earlier applicable memberships during final assembly:
-  Childcare costs/Childcare Support, Nutrition education, Housing Navigation,
-  Meals/Food Navigation, School Supplies, Laundry & Showers, Mail Services,
-  Household Essentials, Recovery Support, Postpartum supplies, Supportive Housing,
-  Haircuts & Grooming, Clothing Costs, Outdoor Essentials, Driver Licenses/Driver
-  License Costs, Outreach Food, Travel Training and High School & Equivalency.
-  New062 Types also need backfill review: Reentry Legal Help, Disability Peer &
-  Community Support/Condition Education, and Housing Affordable Housing.
-  New065–066 Types: Income Benefits, Benefits Appeals, Assistive Technology Costs
-  and Workplace Accessibility. New067/069 Types: Immigration/Seniors Health Coverage
-  and Education Independent Living Skills. New071–072: Medical Home Health Care /
-  Medical Transportation; Employment Personal Assistance / Benefits Planning.
-  New073 Financial Type: Transit Fares. New075 Medical Types: Neurology,
-  Residential & Skilled Care and Respiratory Care. New076–077: Medical Hearing
-  Care; Seniors/Legal Resident Rights; ID Recovery Immigration Documents.
-  Source-recheck-pension-ship-20260923-001.json supports named income/age
-  benefit pathways in077. UDVMA family-member claims were distinguished from
-  dedicated support in a caregiving role; broader VA/family audits remain pending.
-  New078–079 Types: DV Financial Assistance / Housing Support and
-  Immigration/Legal Consular Protection. Audit earlier applicable memberships.
-  New080 judgments explicitly cover PIK2AR Pacific Islander/women/men/youth
-  pathways and RRC income/uninsured/immigration/correctional-facility access.
-  Journey of Hope Men remains omitted: Day Won is partner context without
-  confirmed independent public intake. Keep the access caveat and follow-up.
-  Holding Out HELP has explicit host-home/student/displaced-family pathways;
-  polygamous background alone does not establish abuse-survivor targeting.
-  Keep supported living distinct from housing support.
-- Updated ETA at15:28UTC:5–7 more working hours (14:30–16:30MDT) for Welfare
-  Square, including
-  consistency, browser and Save. Last80 resource reviews took28.4 minutes.
-  Las Vegas remains afterward; this is an estimate, not a completion record.
-- No navigation/priority installation, completion recording, human Curated change,
-  browser verification, Save/download or Las Vegas launch. Preserve browser-local
-  work and the unrelated tracked deletion. Full finish requirements remain below.
+- **For:1,096/1,096**, through115. Every resource has an explicit all26 decision;
+  final semantic consistency remains unfinished. No unreviewed Disability members.
+- **Type/priority:1,858/2,145**, through106. Category-only batchesB001–B003 saved.
+  **287 pairs across142 resources remain**; next inputB004, next Type ledger107.
+- Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
+  Use `corpus-snapshot-007.json`, `catalog-decision-002.json` and
+  `effective_decisions_v13.py`. Its override order is authoritative; do not merge
+  raw ledgers yourself. Detailed earlier state is preserved in
+  `continuation-handover-detail-029.md` inside the audit root.
+- Category-only workflow: `prepare-category-input-v1.py B004 8` creates the next
+  immutable input; `category_review_helpers_v1.py B004 INDEX` reads one full record.
+  Author `prepare-category-batch-B004.py` using `CategoryReview`, explicit `.types`
+  calls for every pending membership, then `.finish('107', definitions_if_needed)`.
+  Helpers resolve literals and check completeness; they do not classify anything.
+  Do not resave For ledgers or rerun successful immutable scripts.
+- Checkpoint030 passed against live completed21/21 curation: exact corpus, hashes,
+  evidence, all26 partitions, sensory parents and defined Types. Still uninstalled;
+  no review completion, browser verification or Save yet. Last content snapshot007
+  has1,096 resources/2,145 memberships; all content followups001–012 are applied.
+- **Pending semantic audits:**68-candidate followups004; older VA/family-role cluster;
+  followups006–015. Followups016 records Type/scope checks fromB001–B003. None may
+  be resolved by counts or automated classification. Source questions include
+  Humanitarian Center1999W1700S versus ESLC1665SBennett; Lifeline WIC/Tribal/categorical
+  eligibility; shared school-meal branches; benefit/fee versus free-service treatment;
+  caregiver role, conviction-access accommodations and functional disability.
+- Known Type correction: UNPHartland091#5 Basic Literacy must be removed or supported;
+  generic writing is insufficient. Backfill new Types across earlier relevant pairs,
+  then consolidate synonyms/overlap/unused definitions without losing pathways.
+  Recent additions include Career Readiness, Correctional Housing, Record Clearance,
+  Diversion, Identity Documents, Medical Respite Housing, Community Gardens, Pet Food,
+  Seniors Food Benefits/Groceries, and Disability/Veterans Food Assistance.
+- Source rechecks preserve benefit-pathways, pension/SHIP, Beautiful Ability,
+  Lifeline/SSA and Midvale diapers. CBC’s named Utah Diaper Bank partner moved into
+  Utah Food Bank in2025 and explicitly serves children/parents; consider a brief
+  source-backed partner-name clarification. No new content revision is applied.
+- Preserve all IDs/facts/native category copies and human Curated flags. Final work:
+  resolve substantive audits, install current proposals, inspect actual browser
+  reader/editor/four Information headings, OR/AND/Match-any filters, priorities/A–Z
+  equality, local overrides/reload and existing browser edits, then verify Save.
+- ETA last communicated:2:30–4:30p.m.MDT September23 for Welfare Square including
+  final checks/Save. Las Vegas afterward, High worker explicitly authorized; first
+  establish officeName/serviceArea and do not assume Clark County. Re-read worker
+  orchestration and inspect live state before launch; no automatic paid reviewer.
+- Only handover/status docs are committed/pushed on the current branch. Preserve
+  unrelated deletion `docs/scout-discovery-and-maintenance-proposal-20260920.md`.
 
 ## Earlier checkpoint detail — 09:53 UTC
 
