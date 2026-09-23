@@ -373,6 +373,7 @@ def _normalize_resource(
     category_id: str,
     valid_category_ids: set[str],
     now: str,
+    reviewed_origin_removal: bool = False,
 ) -> dict[str, Any]:
     if not isinstance(resource, dict):
         raise ScoutCurationError("Every curated resource must be an object")
@@ -381,7 +382,7 @@ def _normalize_resource(
     if not resource_id or not name:
         raise ScoutCurationError("Every curated resource needs a stable ID and name")
     categories = _unique_text(resource.get("categories"))
-    if category_id not in categories:
+    if not categories or (category_id not in categories and not reviewed_origin_removal):
         raise ScoutCurationError(f"Resource '{name}' is missing category '{category_id}'")
     unknown_categories = set(categories) - valid_category_ids
     if unknown_categories:
@@ -423,6 +424,7 @@ def validate_scout_curation_result(
     category_id: str,
     result: dict[str, Any],
     *, required_status: str = "assigned",
+    reviewed_category_removals: set[str] | None = None,
 ) -> dict[str, Any]:
     if not job:
         raise ScoutCurationError("Resource Scout curation job not found")
@@ -446,6 +448,34 @@ def validate_scout_curation_result(
     assignment_candidates = category["assignment"].get("candidates") or []
     expected_candidate_ids = {str(item.get("id")) for item in assignment_candidates}
     valid_category_ids = {item["categoryId"] for item in job["categories"]}
+    # Discovery ownership and final browsing membership are distinct. A requested
+    # post-curation review may remove the owning category without deleting the
+    # sole record of a resource or moving its candidates into another assignment.
+    # Workers cannot use this exception; new removals need an explicit allowlist
+    # and must preserve the resource's facts, other memberships and provenance.
+    reviewed_removals = set(reviewed_category_removals or ())
+    previous = {r["id"]: r for r in (category.get("result") or {}).get("resources", [])}
+    incoming = {r.get("id"): r for r in result.get("resources") or [] if isinstance(r, dict)}
+    if reviewed_removals:
+        if required_status != "completed" or job.get("status") != "completed":
+            raise ScoutCurationError("Category removal requires a completed job and requested review")
+        for rid in reviewed_removals:
+            old, new = previous.get(rid), incoming.get(rid)
+            if not old or not new or category_id not in old["categories"]:
+                raise ScoutCurationError("Reviewed category removal must preserve an existing resource")
+            expected = deepcopy(old)
+            expected["categories"] = [c for c in old["categories"] if c != category_id]
+            expected["categoryFilters"] = {k: v for k, v in old.get("categoryFilters", {}).items() if k != category_id}
+            expected["lastModified"] = new.get("lastModified")
+            if not expected["categories"] or new != expected:
+                raise ScoutCurationError("Reviewed category removal may only remove that membership and its filters")
+            old_links = [d for d in category["result"]["candidateDispositions"] if rid in d.get("resourceIds", [])]
+            new_links = [d for d in result.get("candidateDispositions") or [] if rid in d.get("resourceIds", [])]
+            if old_links != new_links:
+                raise ScoutCurationError("Reviewed category removal must preserve candidate dispositions")
+    if required_status == "completed" and job.get("status") == "completed":
+        # Subsequent validation/revisions retain removals already durably reviewed.
+        reviewed_removals.update(rid for rid, r in previous.items() if category_id not in r["categories"])
     now = datetime.now(timezone.utc).isoformat()
     resources = [
         _normalize_resource(
@@ -453,6 +483,7 @@ def validate_scout_curation_result(
             category_id=category_id,
             valid_category_ids=valid_category_ids,
             now=now,
+            reviewed_origin_removal=isinstance(resource, dict) and resource.get("id") in reviewed_removals,
         )
         for resource in result.get("resources") or []
     ]

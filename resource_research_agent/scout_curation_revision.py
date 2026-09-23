@@ -12,6 +12,7 @@ from .storage import ResearchStore
 def revise_scout_curation_result(
     store: ResearchStore, job_id: int, category_id: str, result: dict[str, Any], *,
     expected_result_sha256: str, reason: str, evidence: list[dict[str, Any]],
+    reviewed_category_removals: set[str] | None = None,
 ) -> dict[str, Any]:
     """Revise a completed result, preserving its assignment and original output.
 
@@ -22,11 +23,18 @@ def revise_scout_curation_result(
     if not reason.strip() or not evidence:
         raise ScoutCurationError("A curation revision requires a reason and evidence")
     job = store.get_scout_curation_job(job_id)
-    normalized = validate_scout_curation_result(job, category_id, result, required_status="completed")
+    normalized = validate_scout_curation_result(
+        job, category_id, result, required_status="completed",
+        reviewed_category_removals=reviewed_category_removals,
+    )
     category = next(c for c in job["categories"] if c["categoryId"] == category_id)
     validate_links(category["assignment"], normalized)
     now = datetime.now(timezone.utc).isoformat()
     digest = _sha256(normalized)
+    if reviewed_category_removals:
+        evidence = [*evidence, {"decision": "reviewed-discovery-category-removal",
+            "categoryId": category_id, "resourceIds": sorted(reviewed_category_removals),
+            "preservedFactsCandidatesAndOtherMemberships": True}]
     with store.connect() as connection:
         connection.execute("BEGIN IMMEDIATE")
         previous = connection.execute(

@@ -96,6 +96,16 @@ revise through durable result revisions, verify against the pre-change snapshot,
 and rebind the navigation proposal to the resulting curation fingerprint. Do not
 copy the final merged description over all earlier category-specific versions.
 
+A resource discovered in one Category may ultimately belong only in another.
+After all curation is complete, `revise_scout_curation_result` accepts an explicit
+`reviewed_category_removals` set for this case. The resource stays in its original
+discovery result with the same facts, candidate links and dispositions, and at
+least one previously assigned Category must remain. Only the rejected membership,
+its filters and `lastModified` may change for these rows. The revision records the
+reviewed IDs and preserves the original assignment/result. Workers still must
+include their assigned Category; this exception is for an evidenced final-review
+decision, never a reason to delete the sole copy or forge an earlier candidate link.
+
 ## Scout enforcement and durable navigation
 
 `scout_review_readiness.py` checks the structural contract before a review can be

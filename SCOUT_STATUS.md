@@ -4,6 +4,36 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square navigation review — September 23, 02:56 MDT
+
+Review remains active. Final checkpoints contain **463** resource/all26-group
+judgments through036 and **534** category Type/priority judgments through023.
+The new-record For queue is finished; the earlier634 judgments still need final
+shared-body/catalog reconciliation. None of the navigation is installed.
+
+`final-navigation-review-001/content-reconciliation-applied-001.json` durably
+resolves content-followups001–006: three descriptions, DAV disability-claim scope,
+VA discharge-bar wording and two unsupported Seniors memberships. All1,096 IDs,
+facts, candidate links, sealed assignments and original research remain preserved;
+final category memberships are now2,139. **Use `corpus-snapshot-002.json` for new
+judgments.** Existing ledgers need the explicit seven-resource content rebind;
+keep the original corpus and all ledgers immutable. Do not rerun successful scripts.
+
+The two Seniors discoveries have no other native copy. A narrowly scoped reviewed
+category-removal API now preserves their sole records in the discovery result
+while removing only browsing membership. Workers retain the original strict
+category rule; the exception requires completed curation and explicit reviewed IDs,
+unchanged facts/candidates/dispositions and another previously assigned category.
+The original result/assignment and revision evidence survive. All37 related
+curation/runner/repair tests pass, including preservation and rejection cases.
+
+Preservation08:55:45UTC passes37 research tables/146 original batch hashes/1,096 IDs.
+No paid worker, completion event or human Curated flags. Monitor-only6391/8770 is
+unchanged. Continue semantic consistency, earlier judgments, remaining Types and
+priorities, then actual browser/filter/editor/override checks and Save. Las Vegas
+remains queued afterward at explicit **High** effort; flag the conversation-effort
+transition for Michael. No Las Vegas file or worker exists yet.
+
 ## Welfare Square navigation review — September 23, 02:13 MDT
 
 Review remains active. Final navigation checkpoints now contain **379** explicit

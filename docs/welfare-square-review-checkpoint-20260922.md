@@ -1878,3 +1878,26 @@ Continue bounded saved-result review while curation runs. Read the earlier
 No review completion has been recorded. Do not enable Save prematurely, mark
 human Curated, publish an office, or alter sealed worker prompts. Preserve the
 unrelated tracked deletion of the discovery-and-maintenance proposal.
+
+
+## September 23, 02:56 MDT — content corrections and navigation checkpoint
+
+Final new-resource group decisions are complete through036 (463 IDs). Final
+category Type/priority decisions are saved through023 (534 pairs). Earlier634
+provisional group judgments and remaining memberships still need reconciliation;
+none of this navigation is installed or approved as complete.
+
+Content followups001–006 are applied immutably in
+`audit/final-navigation-review-001/content-reconciliation-applied-001.json`.
+The current final corpus is `corpus-snapshot-002.json`, fingerprint
+`c5688159e8c72f2b06e8ce46eff755bb0c2e2e76f1f949dce5311a864d92f96f`.
+It retains1,096 resources and2,139 category memberships. Seven affected resources
+need explicit ledger rebind; preserve the earlier corpus and judgments unchanged.
+The Seniors ownership correction uses the new explicit final-review removal API:
+no record, fact, candidate disposition or sealed assignment was deleted/rewritten.
+The remaining category memberships stay intact. All37 related tests pass.
+
+Preservation08:55:45UTC confirms37 unchanged research tables and146 original
+native batch hashes. No completion/Curated event or paid worker. Actual final
+workbench browser checks and Save remain outstanding. Las Vegas setup/launch stays
+queued at High after Welfare Square, including exact `lasVegas.html` creation.

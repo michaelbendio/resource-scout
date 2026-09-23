@@ -395,6 +395,69 @@ class ScoutCurationTests(unittest.TestCase):
         next_assignment = next_scout_curation_assignment(self.store, job["id"])
         self.assertEqual("Corrected direct employment service.", next_assignment["previouslyCuratedResources"][0]["description"])
 
+    def test_review_can_remove_discovery_membership_without_losing_sole_resource(self) -> None:
+        from copy import deepcopy
+        from resource_research_agent.scout_curation import validate_scout_curation_result
+        job = prepare_scout_curation_job(self.store, self.import_id)
+        assignment = next_scout_curation_assignment(self.store, job["id"])
+        worker_result = self.result_for(assignment, resource_id="sole-resource", categories=["food"])
+        with self.assertRaisesRegex(ScoutCurationError, "missing category"):
+            save_scout_curation_result(self.store, job["id"], "employment", worker_result)
+        with self.assertRaisesRegex(ScoutCurationError, "completed job"):
+            validate_scout_curation_result(self.store.get_scout_curation_job(job["id"]), "employment", worker_result,
+                reviewed_category_removals={"sole-resource"})
+        worker_result["resources"][0]["categories"] = ["employment", "food"]
+        saved = save_scout_curation_result(self.store, job["id"], "employment", worker_result)
+        before = saved["categories"][0]
+        corrected = deepcopy(before["result"])
+        corrected["resources"][0]["categories"] = ["food"]
+        revision_args = dict(expected_result_sha256=before["resultSha256"],
+            reason="Source establishes food assistance only; retain discovery provenance.",
+            evidence=[{"source": "https://example.org/official"}],
+            reviewed_category_removals={"sole-resource"})
+        with self.assertRaisesRegex(ScoutCurationError, "completed job"):
+            revise_scout_curation_result(self.store, job["id"], "employment", corrected, **revision_args)
+        assignment = next_scout_curation_assignment(self.store, job["id"])
+        completed = save_scout_curation_result(self.store, job["id"], "food",
+            self.result_for(assignment, resource_id="other-food-resource"))
+        old_fingerprint = review_fingerprint(completed)
+        for field, value in [("description", "Changed fact"), ("candidateIds", []),
+                             ("categories", []), ("categories", ["unknown"])]:
+            invalid = deepcopy(corrected)
+            invalid["resources"][0][field] = value
+            with self.assertRaisesRegex(ScoutCurationError, "only remove that membership"):
+                revise_scout_curation_result(self.store, job["id"], "employment", invalid, **revision_args)
+        invalid = deepcopy(corrected)
+        invalid["candidateDispositions"][0]["reason"] = "Changed disposition"
+        with self.assertRaisesRegex(ScoutCurationError, "preserve candidate dispositions"):
+            revise_scout_curation_result(self.store, job["id"], "employment", invalid, **revision_args)
+        with self.assertRaisesRegex(ScoutCurationError, "existing resource"):
+            revise_scout_curation_result(self.store, job["id"], "employment", corrected,
+                **{**revision_args, "reviewed_category_removals": {"unrelated"}})
+        with self.assertRaisesRegex(ScoutCurationError, "missing category"):
+            revise_scout_curation_result(self.store, job["id"], "employment", corrected,
+                **{k: v for k, v in revision_args.items() if k != "reviewed_category_removals"})
+        revised = revise_scout_curation_result(self.store, job["id"], "employment", corrected, **revision_args)
+        after = revised["categories"][0]
+        self.assertNotEqual(old_fingerprint, review_fingerprint(revised))
+        self.assertEqual(before["assignment"], after["assignment"])
+        self.assertEqual(before["result"]["candidateDispositions"], after["result"]["candidateDispositions"])
+        self.assertEqual(after["result"], validate_scout_curation_result(
+            revised, "employment", after["result"], required_status="completed"))
+        seed = build_scout_review_seed(self.store, job["id"])
+        self.assertEqual(2, len(seed["resources"]))
+        self.assertEqual(["food"], next(r for r in seed["resources"] if r["id"] == "sole-resource")["categories"])
+        with self.store.connect() as connection:
+            row = connection.execute("SELECT * FROM scout_curation_result_revisions").fetchone()
+            self.assertEqual(before["result"], json.loads(row["previous_result_json"]))
+            self.assertEqual(["sole-resource"], json.loads(row["evidence_json"])[-1]["resourceIds"])
+        # A later fact correction must remain possible without restoring the rejected category.
+        subsequent = deepcopy(after["result"])
+        subsequent["resources"][0]["hours"] = "New verified hours"
+        revise_scout_curation_result(self.store, job["id"], "employment", subsequent,
+            expected_result_sha256=after["resultSha256"], reason="Updated hours",
+            evidence=[{"source": "https://example.org/hours"}])
+
     def test_prepares_resumable_job_and_uses_most_complete_category_run(self) -> None:
         job = prepare_scout_curation_job(self.store, self.import_id)
         self.assertEqual(["employment", "food"], [
