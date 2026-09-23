@@ -1,14 +1,14 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 17:13 UTC
+## Continuation checkpoint — September 23, 17:17 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas is queued afterward.
 Michael clarified: minimize context consumption, not useful progress updates. Avoid
 repeated reads and copied evidence. Preserve judgment quality. A checkpoint is NOT
 a stopping point; continue the authorized work without waiting for another prompt.
 
-- **For: 1,085/1,096**, through113; next114;11 remain.
-- **Type/priority: 1,795/2,145**, through101; next102;350 remain.
+- **For: 1,096/1,096**, through115; complete initial per-resource coverage; semantic consistency audit remains.
+- **Type/priority: 1,815/2,145**, through103; next104;330 pairs remain across166 already-For-reviewed resources.
 - Use **corpus-snapshot-007.json**, catalog002 and **v13 helpers**. Exact effective
   override order is implemented by `effective_decisions_v13.py`.
   V9 additionally applies `membership-reconciliation-navigation-001.json` after
@@ -71,18 +71,24 @@ a stopping point; continue the authorized work without waiting for another promp
   parents; source-recheck-midvale-diapers-20260923-001.json preserves it. Assess a
   brief partner-name clarification before final content assembly. New Food Types:
   Community Gardens and Pet Food. All pending audits remain unfinished.
-  Current unreviewed resources with Disability membership: 1.
+  Followups015 adds four explicit clinical-versus-functional disability, SNAP,
+  new-Type backfill and school-family/Justice vision-clinic checks. New Types:
+  Seniors Food Benefits/Groceries; Disability and Veterans Food Assistance.
+  All followups006–015,68-candidate and VA/family audits remain pending.
+  Category-only backlog helper/input preparation is next: do not resave For
+  ledgers. Next Type ledger104.330 pairs/166 resources await explicit judgments.
+  Current unreviewed resources with Disability membership: 0.
   Type-catalog002: Adapted Homes includes accessibility
   modifications as well as acquisition/construction. All five pre-existing uses
   were reviewed explicitly. Use `prepare-numbered-input-v7.py` for new input packs.
-- `continuation-checkpoint-028.json` passed live corpus/fingerprint, resource hashes,
+- `continuation-checkpoint-029.json` passed live corpus/fingerprint, resource hashes,
   literal evidence, all26 group partitions/parents and defined Type checks.
 - New `numbered_review_helpers_v7.py` and immutable numbered input packs reduce
   repeated text: reviewers explicitly choose labels, tiers and paragraph references;
   the helper only resolves exact evidence. It performs no classification.
-- Latest batches057–113 add456 resources and897 category decisions since checkpoint006.
+- Latest batches057–115 add467 resources and917 category decisions since checkpoint006.
   Children, Clothing and Disability native For queues are finished; Domestic
-  Violence and Education native For queues are finished; Employment native For queue is finished; Financial Assistance native For queue is finished; Food is underway. Seventeen resources originating in other categories
+  Violence and Education native For queues are finished; Employment native For queue is finished; Financial Assistance native For queue is finished; Food native For queue is finished. Every resource now has an all26 For decision; final semantic consistency work remains. Seventeen resources originating in other categories
   had Disability membership and awaited For review at797; recount before claiming
   complete disability coverage.
   This does not finish every additional category membership for earlier resources.
