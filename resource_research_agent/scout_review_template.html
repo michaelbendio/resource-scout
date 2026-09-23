@@ -5050,7 +5050,13 @@ function buildScoutPriorityNote(resource, categoryId, {editor=false}={}){
   controls.appendChild(status);
   if(!editor){
     const button = document.createElement("button");button.className="button";button.type="button";button.textContent="Open for curation";
-    button.onclick=()=>{ if(!commitPendingEditsIfChanged())return;setAdminVisibility(true);view="admin";openAdminCategoryResourceById(resource.id); };
+    button.onclick=()=>{
+      if(!commitPendingEditsIfChanged()) return;
+      setAdminVisibility(true);
+      view="admin";
+      safeRender();
+      openAdminCategoryResourceById(resource.id);
+    };
     controls.appendChild(button);
   }
   note.appendChild(controls);

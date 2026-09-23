@@ -4,6 +4,48 @@ from pathlib import Path
 
 
 class ScoutPriorityUITests(unittest.TestCase):
+    def test_open_for_curation_shows_admin_shell_and_preserves_pending_edits_gate(self):
+        template = (Path(__file__).parents[1] / 'resource_research_agent/scout_review_template.html').read_text()
+        note = template[template.index('function buildScoutPriorityNote('):template.index('function setupScoutPriorityEditor(')]
+        shell = template[template.index('function prepareRenderShell('):template.index('function renderCategoryReminder(')]
+        script = """
+const assert = require('node:assert/strict');
+const resource = {id:'one', name:'One', categories:['food']};
+const data = {resources:[resource], categories:[{id:'food',label:'Food'}]};
+const scoutReviewBaseData = null;
+const SCOUT_PRIORITY_LABELS = {start:'Start here', specialized:'Important specialized help', additional:'Additional options'};
+const getScoutPriority = () => ({tier:'start',reason:'Local intake'});
+const isScoutReviewResourceCurated = () => false;
+const elements = [];
+const document = {createElement(tag) {
+  const element = {tag, dataset:{}, children:[], setAttribute(){}, addEventListener(){}, appendChild(child){this.children.push(child)}};
+  elements.push(element); return element;
+}};
+let view='category', isAdminVisible=false, editing=null, editorSnapshot='';
+let allowCommit=true, selectedId=null, editorOpened=false;
+const appView = {hidden:false, classList:{toggle(_,value){appView.hidden=value}}};
+const adminView = {hidden:true, classList:{toggle(_,value){adminView.hidden=value}}};
+const tabFavorites=null, tabAdmin={style:{}};
+const updatePrintSelectionIndicator=()=>{}, syncSearchPanel=()=>{};
+const commitPendingEditsIfChanged=()=>allowCommit;
+const setAdminVisibility=value=>{isAdminVisible=value};
+const safeRender=()=>prepareRenderShell();
+const openAdminCategoryResourceById=id=>{selectedId=id;editorOpened=true};
+""" + shell + note + """
+buildScoutPriorityNote(resource,'food');
+const button=elements.find(e=>e.tag==='button' && e.textContent==='Open for curation');
+assert(button);
+allowCommit=false;button.onclick();
+assert.equal(view,'category');assert.equal(adminView.hidden,true);assert.equal(editorOpened,false);
+allowCommit=true;button.onclick();
+assert.equal(view,'admin');assert.equal(isAdminVisible,true);
+assert.equal(adminView.hidden,false);assert.equal(appView.hidden,true);
+assert.equal(selectedId,'one');assert.equal(editorOpened,true);
+assert.equal(isScoutReviewResourceCurated('one'),false);
+"""
+        result = subprocess.run(['node','-e',script],capture_output=True,text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_personal_choices_preserve_ai_proposal_facts_and_approval(self):
         template=(Path(__file__).parents[1]/'resource_research_agent/scout_review_template.html').read_text()
         source=template[template.index('const SCOUT_PRIORITY_LABELS'):template.index('function buildScoutPriorityNote')]
