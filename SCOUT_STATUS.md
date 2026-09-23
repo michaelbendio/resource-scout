@@ -4,6 +4,34 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Veterans review — September 22, 22:47 MDT
+
+Research **21/21**, native curation **20/21**. Coordinator **6112** / supervisor
+**6126** continue Veterans **13/15**, with recent native tool events and zero
+restarts. Actual native command remains **gpt-5.5 / xhigh**. Verify live state.
+
+Root review is prepared through Veterans **12**: **113 bodies / 120 decisions**,
+**122 per-batch field changes**, not applied. Scripts 001–012 have run; do not
+rerun. All three existing Veterans amendments remain mandatory at selection.
+Batch 012 explicitly builds on prepared 007 caregiver and 009 homeless/HUD-VASH
+bodies; preserve their hashes and full facts. It adds local caregiver/HVCES
+emails, nicotine/SSP contacts, low-vision family support, dental deadline and
+temporary-rating limits, enrollment sign-in alternatives/time zone, and a bounded
+late-notification clarification for emergency-care coverage. Batch 011 preserves
+the already-started STRIVE cohorts and the women's flyer date/weekday conflict.
+
+Food has **10/63** provisional all-catalog For and Type/priority decisions in
+checkpoint 001. Apply `food-navigation-amendment-001.json` at assembly: generic
+food at the AAU survivor center proves no take-home groceries; retain its explicit
+Meals Type. All navigation remains provisional and uninstalled. Financial's
+67-row ledgers are assembled; eight categories have provisional For ledgers.
+
+Preservation **04:47:07 UTC** passes **37 research tables / 143 reviewed original
+hashes**; current completed-category IDs remain **1,003**, not the final count.
+Continue remaining Veterans review, global identities/shared facts/memberships,
+remaining navigation, actual browser checks and Save. No final review-completion
+or human Curated flags. Preserve unrelated tracked deletion.
+
 ## Welfare Square Veterans review — September 22, 22:32 MDT
 
 Research **21/21**, native curation **20/21**. Coordinator **6112** / supervisor
