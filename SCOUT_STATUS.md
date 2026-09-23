@@ -14,6 +14,38 @@ area and package, and start/supervise its Scout run under orchestration rules.
 This is authorization for the next office run, not a replacement of the active
 Welfare Square task. No Las Vegas file or worker has been created yet.
 
+## Welfare Square global review — September 22, 23:59 MDT
+
+Shared-body comparison is complete through diagnostic rows **0–222 (223/328)**.
+Continue at row223. Prepared/applied001–016 are immutable and successful, with
+**77 field corrections**. Count remains1,096 unique IDs. Do not rerun those scripts.
+Latest preservation05:59:22UTC passes37 research tables/146 original native hashes.
+Native21/21 is terminal; only monitor6391/8770 remains. No paid worker launched.
+
+Recent corrections restore SLCPD voice/text/walk-in distinctions, DDI districts,
+SFMNP enrollment versus redemption, UICSL registration address, VA VERA and foster
+care contacts, UPAL pregnancy-loss scope, UHS divorce branch, SUPeRAD medications,
+Angel Watch sibling/memorial support, LASLS courthouse versus FJC access, ITEC
+contact form, Westminster no-email instruction, Road Home separate hotline hours,
+Project Reality named medications/direct primary care, and detox nurse staffing.
+Earlier category copies retain their own text. Current Veterans hash is
+`9d52b75318260754132c69d43f7bf50b0eebcfcd16a26fcbb5912509932a66b1`.
+
+Additional global membership obligations are recorded in prepared014–016 and
+`source-checks-20260923T0600.json`: remove incidental Seniors membership for WVC
+repair and Habitat critical repair (keep their substantive categories); restore
+WVC TTY contact and remove old May1opening claim from earlier retained copies;
+add Medical membership for existing Project Reality direct primary care. These
+membership changes are **not yet applied**. No new provider is implied.
+
+Food navigation remains40/63; eight earlier For ledgers and Type/priority work
+remain provisional. Final global category/omission obligations, remaining
+navigation/priorities, actual browser workbench checks, final fingerprint and
+Save/download remain unfinished. Las Vegas follows only after Welfare Square
+finishes; exact `lasVegas.html` creation and Scout launch are authorized and queued.
+Preserve the unrelated tracked deletion and all native evidence. No human Curated
+approvals or review-completion event has been recorded.
+
 ## Welfare Square global review — September 22, 23:44 MDT
 
 Global shared-body comparison has reached **96/328**, diagnostic rows0–95;
