@@ -4,13 +4,13 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Continuation checkpoint — September 23, 19:21 UTC
+## Continuation checkpoint — September 23, 19:39 UTC
 
 Welfare Square remains authorized and unfinished. Continue through compaction and
 checkpoints without another prompt. Minimize context output without weakening judgment.
 
 - Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
-  **Current corpus-snapshot-012.json / effective_decisions_v31.py / checkpoint048.**
+  **Current corpus-snapshot-012.json / effective_decisions_v35.py / checkpoint051.**
   Live21/21 curation, fingerprints, evidence,26-group partitions and defined Types pass.
   For1,096/1,096; Type/priority **2,146/2,146** through raw125. Proposals uninstalled;
   no completion record, browser verification or Save. Counts do not finish review.
@@ -31,14 +31,23 @@ checkpoints without another prompt. Minimize context output without weakening ju
   actual supportive/transitional/respite housing and unsupported referral exclusions.
   FINCH record-only storage removed from Belongings Storage; other5 storage routes
   remain. Milestone/Village education and FYI voucher-plus-support housing clarified.
-- Remaining Type work: other-category late-Type backfills in diagnostic002; final
-  Basic Needs/synonym/unused-label checks; explicitly remaining followups016–022
-  scopes (mental-health housing/intensity, ID/legal/driver pathways, national funds,
-  older-adult services, education/career/childcare, foster aftercare and VA horse care).
-  `type-backfill-diagnostic-input-002.json` has371 resources/648 *questions*, not
-  assignments. Several cohorts are already resolved as above. It uses snapshot011;
-  only Jordan McKinney-Vento changed since, so select fresh snapshot012 records for
-  new inputs. S008is complete; do not restart it. Original S007/diagnostic001 are noisy.
+- Further late-Type audit complete in semantic022–025 using fresh S009/snapshot012:
+  reentry2, Employment5, Food2, Immigration12, Phone Plans16, Financial18,
+  Transportation14, Legal8, ID24 and Mental Health62 candidate category sets.
+  Adds6 explicit DACA/TPS legal application routes,3 conditional vehicle-cost
+  programs,2 formal rights-report routes,3 identity-update routes, and2 mental-health
+  housing options (CORE post-discharge; limited Alliance House active-member options).
+  All are explicit judgments with evidence; diagnostic word matches never assign.
+- Remaining Type work: Seniors, Disability/Veterans food and Education candidates
+  in S009; final Basic Needs/synonym/unused-label checks; explicitly remaining
+  followups016–022 scopes (mental-health intensity, IRC client transport, national
+  funds, older-adult services, foster aftercare, VA horse care, nominal seasonal buses).
+  S008all65 and S009categories listed above are complete; do not restart them.
+- CI email for967a84f investigated:1 of283 tests failed on a real process-exit race.
+  ps briefly loses a dying process command before marking it zombie. Fix4034b13
+  rechecks once without signaling mismatched identity or duplicating work. Local285
+  tests pass(1skip), plus30 real-process repetitions; GitHub run35909580142 passed.
+  Only worker_lifecycle.py/tests changed; no live worker/review data restarted.
 - Remaining For work: full-corpus affordability, Families supporting-role and
   Students ancillary-support comparisons, including older VA/Medicare benefits,
   immigration/custody/family services and the military-family cluster.
@@ -54,7 +63,7 @@ checkpoints without another prompt. Minimize context output without weakening ju
   for test pack. Las Vegas setup/launch follows at explicitly authorized High effort.
   Service-area question still pending; do not assume Clark County. Read orchestration
   and verify live state before launching or supervising a worker.
-- Commit/push only status/handover docs; preserve unrelated deletion
+- Audit commits remain status/handover only; CI code fix4034b13 is separately committed. Preserve unrelated deletion
   `docs/scout-discovery-and-maintenance-proposal-20260920.md`.
 
 ## Current continuation checkpoint — September 23, 03:53 MDT
