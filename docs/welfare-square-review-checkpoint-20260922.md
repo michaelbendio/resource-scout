@@ -1,6 +1,30 @@
 # Welfare Square selective review checkpoint — September 21 late continuation
 
-## User-requested stop — September 23, 00:26 MDT
+## Retention reconciliation — September 23, 00:49 MDT
+
+See the top of `SCOUT_STATUS.md`: global35 content obligations now have durable
+resolutions004; retention-memberships002 is applied with1,096 identities intact,
+seven incidental Seniors memberships removed, Homefront Financial excluded and
+Project Reality Medical added. Original research/batches remain unchanged. Food
+provisional63/63 is saved; final union71 and all final navigation remain pending.
+The proposed final group catalog has26 labels (Asian American and Native
+Hawaiian/Pacific Islander added with explicit evidence). Do not rerun successful
+scripts or mistake these checkpoints for installed navigation/completed review.
+
+## Review resumed — September 23, 00:35 MDT
+
+Michael explicitly said **“continue your review.”** The stop below is historical.
+Live verification at 06:35:08 UTC confirms native curation 21/21 complete,
+monitor-only PID 6391 / port 8770, and no paid worker. All 37 research tables and
+146 original batch hashes remain intact; 1,096 unique IDs. Continue the pending
+retention/category queue in the stopped handover, then navigation, priorities,
+actual browser checks and Save verification.
+
+Las Vegas follows Welfare Square. Michael requested **High effort for its setup
+and launch**: configure Scout workers explicitly at High and flag the transition
+for the user-controlled supervising conversation effort setting.
+
+## Historical user-requested stop — September 23, 00:26 MDT
 
 Michael said **“stop when you safely can.”** Review is stopped at a read-only
 boundary. **Do not resume or start Las Vegas until he asks to resume.** Read the

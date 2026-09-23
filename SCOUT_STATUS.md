@@ -4,7 +4,44 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## User-requested stop — September 23, 00:26 MDT
+## Welfare Square retention reconciliation — September 23, 00:49 MDT
+
+Global content obligations are reconciled in
+`audit/global-review-001/global-obligation-resolutions-004.json` (35 obligations).
+`retention-memberships-applied-002.json` preserves 1,096 unique IDs, restores
+enrolled/resident support details, removes seven incidental Seniors memberships
+and Homefront's reintroduced Financial membership, and adds Project Reality's
+direct Medical service. Seniors native result now has 65 records. Retrospective
+candidate links outside older sealed assignment vocabularies are preserved in
+revision evidence; assignments were not weakened or rewritten. Preparation001
+failed validation before writing/mutation; prepared002/applied002 succeeded and
+must not be rerun. Preservation06:43:01UTC passes37 tables/146 native batch hashes.
+
+Food provisional decisions now cover63/63 native records in checkpoints001–006;
+both amendments still apply. For006 uses the final merged bodies because the
+native Food copy lacks the later SNAP age clarification. Final Food union has71
+records, including8 later category additions still needing Food judgments.
+Navigation remains uninstalled. `audit/final-navigation-review-001/catalog-decision-001.json`
+proposes26 groups, adding evidenced Asian American and Native Hawaiian/Pacific
+Islander pathways. All final resource/group and category-Type/priority decisions
+still require reconciliation. Actual browser, completion and Save remain pending.
+
+## Review resumed — September 23, 00:35 MDT
+
+Michael explicitly said **“continue your review.”** The stop below is historical.
+Live verification at 06:35:08 UTC confirms native curation 21/21 complete,
+monitor-only PID 6391 / port 8770, and no paid worker. Preservation passes all
+37 research tables and 146 original batch hashes; 1,096 unique resource IDs.
+Continue pending retention/category decisions, navigation, priorities and actual
+browser/Save verification. The stopped handover remains the detailed work queue.
+
+Michael subsequently requested **High effort for the Las Vegas setup and launch**.
+Configure the Las Vegas Scout workers with explicit High effort. The supervising
+conversation effort is user-controlled; flag the transition so Michael can change
+it. This does not change the current Welfare Square review effort or authorize
+starting Las Vegas before Welfare Square is finished.
+
+## Historical user-requested stop — September 23, 00:26 MDT
 
 Michael said **“stop when you safely can.”** Review is stopped at a read-only
 boundary. **Do not resume or start Las Vegas until he asks to resume.** Read the
