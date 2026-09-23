@@ -14,6 +14,32 @@ area and package, and start/supervise its Scout run under orchestration rules.
 This is authorization for the next office run, not a replacement of the active
 Welfare Square task. No Las Vegas file or worker has been created yet.
 
+## Welfare Square global review — September 23, 00:15 MDT
+
+All **328/328 shared-body comparisons** are complete in diagnostic rows0–327.
+Prepared/applied001–022 are immutable and successful, with **115 field corrections**.
+Do not rerun those scripts. Current count remains1,096 unique IDs. Preservation at
+06:14:51UTC passes37 research tables and146 original native batch hashes. Native
+curation is terminal21/21; monitor6391/8770 remains, with no paid worker running.
+
+Latest restorations include survivor warm meals, clinical/day-program scopes,
+waiver supports, SSA office access, Deaf/youth classes, victim compensation,
+parent English classes, senior computer/ESL classes, school enrollment rights,
+free outreach supplies, shelter amenities and program-specific contact routes.
+All candidate dispositions and category memberships remain unchanged by these
+fact revisions; original native outputs and each earlier copy's own text survive.
+Current Veterans hash: `6746c15efedc6fe429793bdf2abee723e52fe22d92cf088843eb6c7c8d81cf4a`.
+
+Next resolve the durable retention/category obligations and same-website decisions.
+Pending membership work includes WVC/Habitat incidental Seniors removal, WVC old
+opening-date/TTY reconciliation, Project Reality direct Medical membership, and
+review of UILC, Caring Connections and VA caregiver Seniors fit. Prepared019/022
+record those added concerns. Finish global obligations before final Types, all-group
+semantic decisions and per-category review priorities; Food remains40/63 provisional.
+Actual final browser reader/editor/filter/priority checks, fingerprint completion
+and monitor Save/download remain unfinished. No human Curated flags or completion
+event has been set. Las Vegas remains authorized and queued after Welfare Square.
+
 ## Welfare Square global review — September 22, 23:59 MDT
 
 Shared-body comparison is complete through diagnostic rows **0–222 (223/328)**.
