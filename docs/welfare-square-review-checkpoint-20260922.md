@@ -1,5 +1,58 @@
 # Welfare Square selective review checkpoint — September 21 late continuation
 
+## September 22, 20:14 MDT — resumed; Transportation reviewed
+
+Michael requested **"continue per the handover"**, superseding the stop below.
+No live worker existed at inspection. The exact saved command resumed under
+coordinator **6112** and attached supervisor **6126**, reusing all ten saved
+Transportation batches and all eighteen completed categories. Pre-resume database,
+1,599 saved-file hashes and launch/status originals are preserved in
+`audit/user-authorized-resume-20260923T020622Z/`. Automatic restart count remains 0.
+
+Transportation batch 11 finished normally; curation is **19/21**. Utilities is
+active at **batch 1/8**. The restarted monitor-only process **6391** returns HTTP
+200 on port 8770. Verify actual processes and recent native events before acting.
+
+All Transportation source review is applied in
+`audit/transportation-review-revision-001/`: **90 resources / 101 decisions**,
+74 unique field corrections (75 across batches), preserving all seven native
+candidate omissions. Result hash:
+`4161cadf2f2363f8ef545a3ca478176a414ebe034de79efa01257e7cbd334ee8`.
+Prepared-reference hashes and category-reference hashes both passed. NEMT batch 8
+explicitly builds on batch 5 and retains urgent-care, mileage-log and transit-mode
+facts. The final Human Service Fare resource preserves all UTA/VOA/YWCA links.
+
+Batch 10/11 review adds these obligations:
+
+- VA's travel-consult/three-day notice is explicitly from November 2020, despite
+  a July 2025 page update. Preserve the conflict with 48-hour/one-week instructions
+  and require current scheduling confirmation; do not certify old capacity rules.
+- WayToGo primary HTML was retrieved successfully. Preserve its advertised 7 AM
+  start versus 8 AM surcharge boundary, cancellation/waiting costs and private-pay
+  limitations. Provider HTML and source hashes are saved.
+- Storefront directly pays driver-license/government-ID fees according to DHHS/211;
+  retain its bounded transport-enabling help and add ID Recovery. Preserve the
+  earlier caution that basic-needs no-cost access does not establish free clinical
+  treatment. Helping Hands adds Veterans/Financial Assistance; DAV adds Veterans.
+- UTA On Demand's current main page and linked Salt Lake maps support native zone,
+  phone-booking, age, accessibility and hours details. YWCA hours/limited walk-ins
+  are supported; neither its crisis line nor UTA customer service guarantees passes.
+
+The earlier Transportation obligations still apply, including full shared bodies,
+Molina's combined allowance, Mercy recurring trips, Miracle Flights service-dog
+branch, Ryan White income rules, conflicting DCFS rosters, TURN waitlist, current
+INN referral and Family Promise's ID-only exclusion. Final cross-category
+reconciliation remains pending. All original batches and 18 other completed
+category hashes passed preservation. At 02:14:30 UTC, the audit passed all
+37 research tables and **123 reviewed native hashes**, links/headings and SQLite
+integrity; **982 current unique IDs**, not a final count.
+
+Utilities/Veterans content review, global identities and membership reconciliation,
+final Types/For/priorities, actual browser checks and Save are unfinished. No final
+completion or human Curated flags. Live inspection found the Domestic Violence
+For ledger already covers **76/76** provisional decisions, superseding the older
+24/76 handover snapshot; final body/catalog review is still required.
+
 ## September 22, 16:28 MDT — stopped at Michael's request
 
 See [the stopped handover](welfare-square-stopped-handover-20260922.md).

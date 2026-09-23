@@ -4,6 +4,44 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square Transportation reviewed — September 22, 20:14 MDT
+
+Research **21/21**, curation **19/21**. Transportation's eleven batches and all
+101 decisions are reviewed: **90 retained resources**, 74 unique field corrections
+and one explicit repeated NEMT-text reconciliation. Applied
+`audit/transportation-review-revision-001/`, result hash
+`4161cadf2f2363f8ef545a3ca478176a414ebe034de79efa01257e7cbd334ee8`.
+Do not rerun preparation/apply scripts. All 18 other completed categories and
+11 Transportation originals remain unchanged. Preservation passes 37 research
+tables and **123 reviewed original hashes**; current unique IDs **982**, not final.
+
+Coordinator **6112** / supervisor **6126** continue Utilities/Phone/Internet
+**batch 1/8** at the authorized xhigh settings. Monitor-only **6391** serves
+`http://127.0.0.1:8770/` (HTTP 200 verified). Root is continuing the requested review.
+Current source clarifications include the dated November 2020 VA operating notice,
+WayToGo's 7 AM service versus 8 AM surcharge boundary, and direct Storefront ID-fee
+help. Preserve full shared bodies and earlier exclusion scopes during global
+reconciliation. Types/For/priorities, actual browser checks and Save remain pending.
+No final review-completion or human Curated flags. See the review checkpoint.
+
+## Welfare Square resumed by Michael — September 22, 20:06 MDT
+
+Michael instructed **"continue per the handover"**, superseding the user-requested
+stop below. Live verification found no worker, research **21/21**, curation
+**18/21**, and Transportation batches **1–10** saved. Preservation passed all
+37 research tables and 121 reviewed original hashes. The unchanged authorized
+`gpt-5.5 / xhigh`, 10-candidate / 25,000-character, compact-prior-index command
+resumed under coordinator **6112**, attached supervisor **6126**, zero automatic
+restarts. Transportation **batch 11/11** has started; verify live events.
+
+Resume evidence and pre-resume database/files/manifests:
+`data/welfare-square-curation-20260921/audit/user-authorized-resume-20260923T020622Z/`.
+Continue the existing content review, then global reconciliation, evidenced
+Types/For/priorities, actual browser checks and Save delivery. Batch 10 root
+review is in progress; prepared Transportation corrections remain unapplied.
+No final review completion or human Curated marks. Preserve the unrelated tracked
+deletion. Earlier stop and allowance snapshots below are historical.
+
 ## Welfare Square stopped by Michael — September 22, 16:28 MDT
 
 **Do not restart until Michael asks to resume.** The current Transportation
