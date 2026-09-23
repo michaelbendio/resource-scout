@@ -4,7 +4,7 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Continuation checkpoint — September 23, 17:54 UTC
+## Continuation checkpoint — September 23, 18:05 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas follows afterward.
 Minimize context output without degrading judgment. A checkpoint or compaction is
@@ -12,25 +12,25 @@ NOT a stopping point: continue without waiting for another user prompt.
 
 - **For:1,096/1,096**, through115. Every resource has an explicit all26 decision;
   final semantic consistency remains unfinished. No unreviewed Disability members.
-- **Type/priority:2,012/2,145**, through115. Category-only batchesB001–B012 saved.
-  **133 pairs across70 resources remain**; next inputB013, next Type ledger116.
+- **Type/priority:2,047/2,145**, through118. Category-only batchesB001–B015 saved.
+  **98 pairs across46 resources remain**; next inputB016, next Type ledger119.
 - Audit root: `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
   Use `corpus-snapshot-007.json`, `catalog-decision-002.json` and
   `effective_decisions_v13.py`. Its override order is authoritative; do not merge
   raw ledgers yourself. Detailed earlier state is preserved in
   `continuation-handover-detail-029.md` inside the audit root.
-- Category-only workflow: `prepare-category-input-v1.py B013 8` creates the next
-  immutable input; `category_review_helpers_v1.py B013 INDEX` reads one full record.
-  Author `prepare-category-batch-B013.py` using `CategoryReview`, explicit `.types`
-  calls for every pending membership, then `.finish('116', definitions_if_needed)`.
+- Category-only workflow: `prepare-category-input-v1.py B016 8` creates the next
+  immutable input; `category_review_helpers_v1.py B016 INDEX` reads one full record.
+  Author `prepare-category-batch-B016.py` using `CategoryReview`, explicit `.types`
+  calls for every pending membership, then `.finish('119', definitions_if_needed)`.
   Helpers resolve literals and check completeness; they do not classify anything.
   Do not resave For ledgers or rerun successful immutable scripts.
-- Checkpoint033 passed against live completed21/21 curation: exact corpus, hashes,
+- Checkpoint034 passed against live completed21/21 curation: exact corpus, hashes,
   evidence, all26 partitions, sensory parents and defined Types. Still uninstalled;
   no review completion, browser verification or Save yet. Last content snapshot007
   has1,096 resources/2,145 memberships; all content followups001–012 are applied.
 - **Pending semantic audits:**68-candidate followups004; older VA/family-role cluster;
-  followups006–015. Followups016–019 record Type/scope checks fromB001–B012. None may
+  followups006–015. Followups016–020 record Type/scope checks fromB001–B015. None may
   be resolved by counts or automated classification. Source questions include
   Humanitarian Center1999W1700S versus ESLC1665SBennett; Lifeline WIC/Tribal/categorical
   eligibility; shared school-meal branches; benefit/fee versus free-service treatment;
