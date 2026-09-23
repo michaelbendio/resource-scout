@@ -1,25 +1,25 @@
 # Welfare Square review handover for a fresh context
 
-## Continuation checkpoint — September 23, 14:27 UTC
+## Continuation checkpoint — September 23, 14:42 UTC
 
 Welfare Square review remains authorized and unfinished; Las Vegas is queued afterward.
 Michael clarified: minimize context consumption, not useful progress updates. Avoid
 repeated reads and copied evidence. Preserve judgment quality. A checkpoint is NOT
 a stopping point; continue the authorized work without waiting for another prompt.
 
-- **For: 669/1,096**, through061; next062;427 remain.
-- **Type/priority: 992/2,146**, through049; next050;1,154 remain.
+- **For: 693/1,096**, through064; next065;403 remain.
+- **Type/priority: 1,040/2,146**, through052; next053;1,106 remain.
 - Use **corpus-snapshot-006.json**, catalog002 and **v8 helpers**. Exact effective
   override order is implemented by `effective_decisions_v8.py`.
   V8 adds `type-catalog-resolution-002.json`: Adapted Homes includes accessibility
   modifications as well as acquisition/construction. All five pre-existing uses
   were reviewed explicitly. Use `prepare-numbered-input-v2.py` for new input packs.
-- `continuation-checkpoint-008.json` passed live corpus/fingerprint, resource hashes,
+- `continuation-checkpoint-009.json` passed live corpus/fingerprint, resource hashes,
   literal evidence, all26 group partitions/parents and defined Type checks.
-- New `numbered_review_helpers_v2.py` and immutable `review-input-061.json` reduce
+- New `numbered_review_helpers_v2.py` and immutable `review-input-064.json` reduce
   repeated text: reviewers explicitly choose labels, tiers and paragraph references;
   the helper only resolves exact evidence. It performs no classification.
-- Latest batches057–061 add40 resources and94 category decisions since checkpoint006.
+- Latest batches057–064 add64 resources and142 category decisions since checkpoint006.
   Children and Clothing native For queues are finished; Disability is underway.
   This does not finish every additional category membership for earlier resources.
 - For053 first draft had a nonliteral training excerpt;053-v2 passed. Preserve both.
@@ -29,6 +29,13 @@ a stopping point; continue the authorized work without waiting for another promp
   resolved through its adopted HUD definition; clinical/Medicaid criteria still apply.
   USOR sensory accommodations are corroborated by its linked official materials.
   UICSL pantry evidence remains dated with explicit current-operation questions.
+- **Pending membership revision:** `category-membership-decision-slc-repairs-001.json`
+  explicitly removes only Utilities from Salt Lake City Minor/Home Repairs; the
+  current city pages support general repairs, not utility-specific coverage. Keep
+  its four supported memberships and all facts/native copies/candidate links.
+  No utility Type/priority was invented. Apply through the final-review removal
+  mechanism, snapshot/rebind that resource, and revalidate before completion.
+  Current corpus/counts still include this unapplied membership.
 - Semantic004 remains effective. The68 diagnostic consistency candidates and older
   VA/family clusters remain pending. AAU trafficking now explicitly reconciles
   immigration-status accommodation; Food Type is Meals, with Groceries omitted.
@@ -39,6 +46,8 @@ a stopping point; continue the authorized work without waiting for another promp
   Household Essentials, Recovery Support, Postpartum supplies, Supportive Housing,
   Haircuts & Grooming, Clothing Costs, Outdoor Essentials, Driver Licenses/Driver
   License Costs, Outreach Food, Travel Training and High School & Equivalency.
+  New062 Types also need backfill review: Reentry Legal Help, Disability Peer &
+  Community Support/Condition Education, and Housing Affordable Housing.
   Keep supported living distinct from housing support.
 - No navigation/priority installation, completion recording, human Curated change,
   browser verification, Save/download or Las Vegas launch. Preserve browser-local
