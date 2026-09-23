@@ -1,5 +1,36 @@
 # Welfare Square selective review checkpoint — September 21 late continuation
 
+## Welfare Square final review underway — September 22, 23:13 MDT
+
+Native curation completed **21/21** at 05:00:11 UTC with zero coordinator
+restarts. Coordinator 6112 and supervisor 6126 have exited; monitor-only 6391
+remains on port 8770. Michael explicitly requested the final review at Extra High
+and asked for judicious retention. Continue the authorized review through actual
+browser checks and Save; no new paid reviewer or research run is needed.
+
+Veterans review is applied in `audit/veterans-review-revision-001/`: **131 resources /
+144 candidate decisions**, 152 unique prepared field corrections, two explicit
+repeated-body reconciliations and all four mandatory amendments. Result hash:
+`418f7fad856fb5f41c0ac98469cad2b2e5727ead125ab134856301cf74aa0197`.
+All 15 native batches and other 20 completed categories remain unchanged. Do not
+rerun preparation/selection/apply scripts. The RCI military-caregiver entry is
+excluded as an unconfirmed current participant pathway, with evidence retained;
+this is not a closure claim. Keep distinct supported pathways and documented
+category/whole-record exclusions during final consolidation.
+
+Food has **40/63** provisional For and Type/priority decisions in checkpoints
+001–004, not assembled. Both Food navigation amendments remain mandatory. Eight
+other provisional For ledgers are complete, with final shared-body and catalog
+review outstanding. Consider the explicit Asian American and Native Hawaiian /
+Pacific Islander pathways and Whole Health's LGBTQ+ group when finalizing groups.
+No navigation/priority proposal or review-completion event is installed.
+
+Preservation at **05:13:10 UTC** passes **37 research tables / 146 reviewed original
+batch hashes**. Current completed-category IDs total **1,101**, not the final count.
+Global identities, category fit, shared facts, remaining navigation, rendered
+reader/editor/filters/priorities and monitor Save remain unfinished. Preserve the
+unrelated tracked deletion and all source evidence. Zero human Curated approvals.
+
 ## Welfare Square Veterans review — September 22, 22:47 MDT
 
 Research **21/21**, native curation **20/21**. Coordinator **6112** / supervisor
