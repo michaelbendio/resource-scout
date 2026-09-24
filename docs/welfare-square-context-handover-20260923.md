@@ -1,5 +1,9 @@
 # Welfare Square delivery handover
 
+For the current Las Vegas run, use [SCOUT_STATUS.md](../SCOUT_STATUS.md) and
+[Las Vegas run](las-vegas-run-20260923.md). Michael has now authorized automatic
+research → High curation → xhigh review; the older launch snapshot below is historical.
+
 ## Las Vegas Valley running — September 24, 00:47 UTC
 
 Michael selected Las Vegas Valley and DeepSeek V4.1-Flash. Source:

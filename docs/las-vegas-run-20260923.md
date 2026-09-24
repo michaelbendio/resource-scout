@@ -1,5 +1,35 @@
 # Las Vegas Valley research
 
+## Authorized automatic phase transitions
+
+Michael explicitly authorized starting curation after research and beginning the
+review after curation, with xhigh review effort. This overrides earlier manual
+start gates for Las Vegas only. `pipeline.json` preserves his authorization,
+model/effort and limits; `pipeline-status.json` is the current phase. The persistent
+`office_pipeline` process is identified in launch.json and logs to pipeline.log.
+
+After all21 research categories are imported/complete and research coordinators
+exit, the pipeline prepares the canonical curation job and starts the existing
+curation supervisor. Curation uses gpt-5.5/High,30 candidates/60,000 characters per
+batch and the compact prior-resource index. Original evidence remains complete.
+
+After the curation supervisor reports verified completion, the pipeline checks the
+canonical job again and starts a fresh Codex reviewer with an explicit
+`model_reasoning_effort="xhigh"` override. This does not change the parent conversation
+or global configuration. The review prompt requires the full content/navigation/
+groups/priorities/readiness contract and actual browser/editor/filter/download
+checks. Proposed Las Vegas workbench taxonomy remains distinct from human approval.
+
+Review sessions retain sealed prompts, native events, final output and execution
+timing under review/session-*. A durable STATUS.json/checkpoint controls continuation:
+at most8 sessions of90 minutes each, only after new progress. Unknown exits, missing
+checkpoints, stale progress or a session limit stop for diagnosis. No review is marked
+complete merely because its process exits successfully. Missing browser tools leave
+explicit needs-browser-verification status after non-UI review; they do not waive
+the actual UI checks. The native final fingerprint must be recorded for completion.
+Timing snapshots include curation and review sessions. macOS notifications are
+requested at phase changes or stops; delivery and OS reboot recovery are not guaranteed.
+
 ## Required time accounting
 
 Michael requested actual processing time separately from elapsed time. Research
@@ -24,7 +54,7 @@ Record delivery time in launch.json's `deliveredAt` to freeze elapsed time at de
 Refresh at category/phase checkpoints and before answering timing questions.
 
 Michael authorized Las Vegas Valley, Codex High primary, and DeepSeek V4.1-Flash
-challenger. Automatic curation and automatic review remain off.
+challenger. His latest authorization enables the automatic transitions above.
 
 Michael explicitly approved DeepSeek max: "Continue with max--that's fine."
 Codex primary remains High.
@@ -74,7 +104,7 @@ response saved11 leads with upper token cost $0.0405042. Category costs vary.
 The challenger persists checkpoints and requests local notifications on terminal
 failure/completion. Unknown in-flight requests and substantive failures stop for
 diagnosis rather than replaying paid calls. Research completion pauses ready to
-curate. No automatic paid review is launched.
+curate. The separately authorized office pipeline handles curation and review transitions.
 
 The persistent research watchdog now observes both coordinator identities,
 checkpoint ages and database completion every30 seconds. Its exact command/PID
@@ -134,7 +164,7 @@ telemetry row. Its192 seconds are terminal-process elapsed time rounded to secon
 the old transport's native usage stream was unavailable. The new coordinator
 PID34858 resumed with Disability's gap pass; no paid pass was repeated. Exact
 updated command and PID are in launch.json. Original launch/migration failure logs
-remain preserved. Curation and review remain off.
+remain preserved. The later authorization above enables curation and review transitions.
 
 ## Domestic Violence parser correction and persistent supervision
 

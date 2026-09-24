@@ -6,6 +6,18 @@ a monitor process is not a research worker.
 
 ## Las Vegas Valley running — September 24, 00:47 UTC
 
+**Latest authorization: automatic research → High curation → xhigh Codex review.**
+Michael explicitly authorized starting curation after research and beginning review
+after curation, with xhigh review effort. This overrides the earlier manual start
+gates for Las Vegas only. The persistent office pipeline waits for21/21 research
+and stopped research coordinators, then runs supervised bounded curation and the
+requested review. Exact command/PID/configuration are in launch.json and pipeline.json
+under data/las-vegas-production-20260923; live phase is pipeline-status.json.
+Review is a fresh gpt-5.5 worker with explicit model_reasoning_effort="xhigh";
+the parent conversation's effort was not changed. No global Codex settings changed.
+Review completion still requires all readiness and actual browser checks; a worker
+without browser tools must leave those checks pending. Preserve human Curated flags.
+
 Michael explicitly approved DeepSeek max: "Continue with max--that's fine."
 Codex primary remains High.
 
@@ -25,7 +37,7 @@ not the end of all primary research. The independent challenger imports remainin
 results after the primary exits. Original seals and handoff provenance are preserved.
 The first DeepSeek category returned11 leads at a conservative upper token cost
 of $0.0405042. The run has a $5 request-budget guard, not a guaranteed exact bill cap.
-Automatic curation and automatic review remain off. See
+Automatic curation and the explicitly authorized xhigh review are now enabled. See
 [Las Vegas run](docs/las-vegas-run-20260923.md) for supervision limits and evidence.
 Welfare Square remains complete and its monitor/database are preserved.
 

@@ -6,6 +6,25 @@ changing, or supervising any Scout worker. User instructions override this file.
 `SCOUT_STATUS.md` identifies the current database, phase, effort, processes and
 pending work; verify those facts live. This document describes how to operate.
 
+## Las Vegas automatic continuation authorized
+
+Michael explicitly instructed: "When the research passes are done, start curation.
+When curation is finished I am authorizing you to begin your review. Can you set
+your effort to xhigh for review?"
+
+For this Las Vegas Valley run, this supersedes the historical manual curation/review
+start gates below. The persistent office pipeline waits for21 completed research
+categories and finished research coordinators, starts supervised High curation in
+30-candidate/60,000-character batches, then starts the requested gpt-5.5/xhigh review.
+Exact configuration/authorization is data/las-vegas-production-20260923/pipeline.json.
+This is not authorization to bypass completion/readiness checks or mark human
+Curated approval. The review must cover content, navigation, For groups, priorities,
+actual browser/editor/filter checks and download verification. Missing browser
+capabilities must leave those checks visibly pending, not falsely passed.
+The pipeline preserves native events and timing, allows bounded fresh review
+sessions only with new durable progress, and stops on unknown launch/worker failures.
+Other offices retain their existing authorization boundaries.
+
 ## Own the run
 
 Michael should not have to watch the monitor, discover a stopped worker, or
