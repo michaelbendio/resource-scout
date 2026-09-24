@@ -13,13 +13,15 @@ Michael selected Las Vegas Valley and DeepSeek V4.1-Flash. Source:
 `/Users/michaelbendio/resource-assistant/las-vegas.html`;21 research categories.
 Run directory: `data/las-vegas-production-20260923`; exact commands/PIDs in
 `launch.json`. Monitor: http://127.0.0.1:8771 (PID32252).
-Codex primary PID31752 uses gpt-5.5 / High / primary-only; DeepSeek coordinator
+Codex primary PID34858 uses gpt-5.5 / High / primary-only; DeepSeek coordinator
 PID33105 uses deepseek-flash / max and native DeepSeek web search. Grok and Claude
-inference remain disabled. Addiction primary and DeepSeek research are saved;
-Codex has advanced to Clothing/Household. Verify live state before acting.
-DeepSeek results wait for the primary runner's exclusive database lock to release
-before audited provider handoff/import. The monitor reads bound checkpoints to
-show DeepSeek now, preserving original sealed Grok assignments and completion counts.
+inference remain disabled. Addiction, Children/Pregnancy and Clothing/Household
+are imported and complete (3/21). Codex has resumed Disability's gap pass.
+Verify live state before acting. The primary coordinator now imports completed
+DeepSeek results between passes with --challenger-output-dir, under its existing
+runner lock. Brief awaiting-import status lasts until the next primary checkpoint,
+not the end of all primary research. The independent challenger imports remaining
+results after the primary exits. Original seals and handoff provenance are preserved.
 The first DeepSeek category returned11 leads at a conservative upper token cost
 of $0.0405042. The run has a $5 request-budget guard, not a guaranteed exact bill cap.
 Automatic curation and automatic review remain off. See
@@ -31,8 +33,14 @@ mistook its fully answered server-tool stop for an incomplete client-tool call.
 The saved failed state/response remain under assignment-2; recovery-search-limit-001
 records the repair. Coordinator33105 resumed at01:08UTC with the same conversation,
 max effort and open_url verification; further native search is disabled for that
-category. The monitor API confirms in-progress. Addiction remains saved awaiting
-import until the primary lock releases; this is expected, not a stopped worker.
+category. That recovery succeeded; Children/Pregnancy is now imported and complete.
+The later accumulating import queue was an orchestration defect, now fixed.
+Coordinator migration evidence is checkpoint-import-migration-003 in the run
+folder: the terminal Disability pass result was preserved and saved once before
+restarting only the coordinator. No paid pass was rerun. Live monitor API confirms
+3/21 completed; SQLite quick_check passes;301 local tests pass(1 skipped).
+The migrated pass's192 seconds use terminal-process elapsed time at second
+resolution; its legacy native usage stream was unavailable and is marked as such.
 
 Michael requested Las Vegas actual-time tracking. Per-attempt research timing is
 already durable; refresh `timing-summary.json` with `scripts/report-scout-timing.py`.

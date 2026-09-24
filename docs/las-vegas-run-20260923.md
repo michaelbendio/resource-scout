@@ -104,3 +104,22 @@ assignment-2/recovery-search-limit-001. Coordinator33105 resumed that evidence a
 01:08UTC; it did not repeat initial discovery. The UI's saved-awaiting-import state
 is distinct from failure: database handoff/import waits for the primary coordinator's
 next checkpoint, or for the runner lock after primary research finishes.
+
+## Checkpoint imports activated
+
+The initial whole-run lock delayed all challenger imports unnecessarily. The new
+primary coordinator imports finished challenger results between primary passes,
+under the same exclusive lock; no concurrent writer bypass is used. Manifest binding,
+lease ownership and import idempotence are tested. The saved results for Addiction,
+Children/Pregnancy and Clothing/Household now show completed in the live monitor
+API,3/21 overall. SQLite quick_check passes;301 local tests pass(1 skipped).
+
+The one-time migration waited for the Disability non-obvious-primary-sources
+worker's final output and terminal process before replacing the old coordinator.
+`checkpoint-import-migration-003` retains the sealed pass, original worker result,
+hash, process metadata and successful save record. That pass has one completion
+telemetry row. Its192 seconds are terminal-process elapsed time rounded to seconds;
+the old transport's native usage stream was unavailable. The new coordinator
+PID34858 resumed with Disability's gap pass; no paid pass was repeated. Exact
+updated command and PID are in launch.json. Original launch/migration failure logs
+remain preserved. Curation and review remain off.
