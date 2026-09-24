@@ -139,6 +139,21 @@ assert.deepStrictEqual(restored.resources[0].forGroupReview, current.resources[0
 assert.deepStrictEqual(restored.categories.map(category => category.id), ['employment']);
 assert.deepStrictEqual(restored.resources.find(resource => resource.id === 'resource-0').categories, ['employment']);
 assert.strictEqual(restored.resources.find(resource => resource.id === 'resource-0').categoryFilters.housing, undefined);
+// Upgrade V2 overlays without losing edits, package history, or rollback state.
+const legacy = {{...compact, schemaVersion:2, readyResourceIds:['resource-0']}};
+delete legacy.curatedResourceIds;
+const legacyRaw = JSON.stringify(legacy);
+values.delete(SCOUT_REVIEW_STORAGE_KEY);
+values.set(SCOUT_REVIEW_V2_STORAGE_KEY, legacyRaw);
+const migrated = loadScoutReviewState();
+assert.deepStrictEqual(migrated.curatedResourceIds, []);
+assert.deepStrictEqual(applyScoutReviewState(scoutReviewBaseData, migrated), restored);
+assert.deepStrictEqual(migrated.packagedBatches, compact.packagedBatches);
+assert.strictEqual(writeCompactScoutReviewState(migrated), true);
+assert.strictEqual(values.get(SCOUT_REVIEW_V2_STORAGE_KEY), legacyRaw);
+migrated.curatedResourceIds = ['resource-0'];
+assert.strictEqual(writeCompactScoutReviewState(migrated), true);
+assert.deepStrictEqual(loadScoutReviewState().curatedResourceIds, ['resource-0']);
 process.stdout.write(JSON.stringify({{full:JSON.stringify(scoutReviewBaseData).length, compact:serialized.length}}));
 """
         completed = subprocess.run(

@@ -2962,12 +2962,13 @@ function buildCompactScoutReviewState(currentData, sourceState){
 }
 
 function writeCompactScoutReviewState(state){
+  // Keep the compact V2 source for rollback, including its old Ready selections.
+  // Those selections are not evidence of human curation and are not promoted.
   const serialized = JSON.stringify(state);
   try{
     localStorage.setItem(SCOUT_REVIEW_STORAGE_KEY, serialized);
     localStorage.removeItem(DATA_STORAGE_KEY);
     localStorage.removeItem(SCOUT_REVIEW_LEGACY_STORAGE_KEY);
-    localStorage.removeItem(SCOUT_REVIEW_V2_STORAGE_KEY);
     return true;
   }catch(firstError){
     // Old review builds stored a full resource snapshot under these keys. Clear
@@ -2976,7 +2977,6 @@ function writeCompactScoutReviewState(state){
       localStorage.removeItem(DATA_STORAGE_KEY);
       localStorage.removeItem(SCOUT_REVIEW_LEGACY_STORAGE_KEY);
       localStorage.setItem(SCOUT_REVIEW_STORAGE_KEY, serialized);
-      localStorage.removeItem(SCOUT_REVIEW_V2_STORAGE_KEY);
       return true;
     }catch(secondError){
       noteScoutReviewStorageError(secondError || firstError);

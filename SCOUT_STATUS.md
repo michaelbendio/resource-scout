@@ -4,6 +4,31 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Mesa workbench upgraded; content review deferred — September 24 UTC
+
+At Michael's request, `/Volumes/Lexar/TSO/autoMesa.html` now uses the current
+Scout workbench. Its exact embedded seed (333 resources,20 categories,19 groups),
+all original metadata, artifact ID and office storage ID were retained. The old
+0.47 file is backed up at
+`/Volumes/Lexar/TSO Backups/mesa-upgrade-20260924T044807Z/autoMesa.html`.
+Evidence and before/after hashes: `data/mesa-workbench-upgrade-20260924/delivery.json`.
+19 focused tests and JavaScript syntax checks passed. Isolated Safari testing
+saved an edit in the old V2 interface, upgraded the same QA URL, found that edit
+through current search, and verified Curated, its required-confirmation message,
+and Done. No test edits or human Curated flags were applied to the delivered seed.
+
+`upgrade_scout_review_document` refreshes exported interfaces without regenerating
+resource data, preserves identity/provenance, and refuses unidentified or ambiguous
+input. Current storage retains the original compact V2 state for rollback, including
+old Ready selections; it does not promote those selections to human Curated.
+
+Michael asked whether Mesa needs a resource review, explicitly **not now**. Agreed
+that a later review is warranted. A limited sample found15 repeated exact names
+(28 additional same-named records), often distinct services rather than duplicates;
+missing For-group definitions and AI priority proposals also need later attention.
+**Content review remains pending; do not launch it from this handoff.** No resource
+facts, taxonomy assignments, or review-completion records were changed by this upgrade.
+
 ## Welfare Square editor feedback fix — September 24 UTC
 
 Done is a blue primary action, not a dirty-state indicator. The required
@@ -25,7 +50,7 @@ The same code-only fix was subsequently applied in place to Lexar/TSO
 `/Volumes/Lexar/TSO Backups/editor-fix-20260924T043452Z`; local audit is
 `data/welfare-square-curation-20260921/audit/editor-actions-fix-20260923/lexar-delivery.json`.
 Lexar `autoMesa.html` is older, with neither Curated controls nor the For-group
-confirmation gate, so this fix does not apply and that file remains unchanged.
+confirmation gate, so the small feedback fix did not apply. It was subsequently upgraded as recorded above.
 
 ## Las Vegas Valley running — September 24, 00:47 UTC
 

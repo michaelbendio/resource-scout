@@ -55,6 +55,89 @@ def _replace_meta(document: str, name: str, value: str) -> str:
     )
 
 
+def _scout_review_release() -> dict[str, object]:
+    release = {
+        "version": __version__,
+        "build": __build__,
+        "date": "2026-09-21",
+        "message": "Curation Help, Admin Help and a first-resource walkthrough",
+        "changes": [
+            {
+                "date": "2026-09-21",
+                "version": __version__,
+                "message": "Curation guidance, Match all/any examples, handout checks and Admin-mode shortcut",
+            },
+            {
+                "date": "2026-09-20",
+                "version": "0.51.0",
+                "message": "Per-category AI review priorities, reasons, questions, shared Curated progress and personal priority choices",
+            },
+            {
+                "date": "2026-09-02",
+                "version": "0.50.0",
+                "message": "Delete proposed resources and categories directly from Scout review files",
+            },
+            {
+                "date": "2026-09-02",
+                "version": "0.48.0",
+                "message": "Curate resources, package the curated selection, and preview the open resource for printing",
+            },
+            {
+                "date": "2026-09-01",
+                "version": "0.47.0",
+                "message": "Apply reviewed need Categories, Types, and comprehensive For groups",
+            },
+            {
+                "date": "2026-08-29",
+                "version": "0.42.1",
+                "message": "Keep review edits and package selections reliable in Safari",
+            },
+        ],
+    }
+    return release
+
+
+def upgrade_scout_review_document(existing: str) -> bytes:
+    """Refresh an exported workbench without regenerating its data or identity.
+
+    The caller owns backup and file replacement. Keeping the original artifact
+    and office storage IDs lets the current V2/V3 loader retain browser edits.
+    This does not perform or certify a new resource-content review.
+    """
+    document = TEMPLATE_PATH.read_text(encoding="utf-8")
+    metadata = re.findall(r'<meta\s+name="([^"]+)"\s+content="([^"]*)"\s*>', existing)
+    values = dict(metadata)
+    if len(metadata) != len(values):
+        raise ScoutCurationError("Duplicate workbench metadata; upgrade stopped")
+    if not all(values.get(key) for key in (
+        "tso-storage-id", "scout-review-artifact-id", "scout-review-location-name"
+    )):
+        raise ScoutCurationError("An identified Scout review file is required")
+    seed_pattern = r'<script\s+id="seed-data"\s+type="application/json">[\s\S]*?</script>'
+    seeds = re.findall(seed_pattern, existing)
+    titles = re.findall(r'<title>.*?</title>', existing)
+    if len(seeds) != 1 or len(titles) != 1:
+        raise ScoutCurationError("Expected one embedded seed and one page title")
+    seed = json.loads(seeds[0].split(">", 1)[1].rsplit("</script>", 1)[0])
+    if not isinstance(seed, dict) or not all(
+        isinstance(seed.get(key), list) for key in ("resources", "categories")
+    ):
+        raise ScoutCurationError("Invalid embedded review data")
+    for name, value in metadata:
+        # Unknown metadata fails closed rather than silently losing provenance.
+        document = _replace_meta(document, name, html.unescape(value))
+    document = _replace_once(r'<title>.*?</title>', titles[0], document, "page title")
+    document = _replace_once(seed_pattern, seeds[0], document, "seed data")
+    release = json.dumps(_scout_review_release(), ensure_ascii=False, indent=2).replace("</", "<\\/")
+    document = _replace_once(
+        r'<script\s+id="app-release-data"\s+type="application/json">[\s\S]*?</script>',
+        f'<script id="app-release-data" type="application/json">\n{release}\n</script>',
+        document,
+        "Scout review release data",
+    )
+    return document.encode("utf-8")
+
+
 def _build_scout_review_file_from_seed(
     store: ResearchStore,
     job: dict[str, object],
@@ -144,44 +227,7 @@ def _build_scout_review_file_from_seed(
         document,
         "seed data",
     )
-    release = {
-        "version": __version__,
-        "build": __build__,
-        "date": "2026-09-21",
-        "message": "Curation Help, Admin Help and a first-resource walkthrough",
-        "changes": [
-            {
-                "date": "2026-09-21",
-                "version": __version__,
-                "message": "Curation guidance, Match all/any examples, handout checks and Admin-mode shortcut",
-            },
-            {
-                "date": "2026-09-20",
-                "version": "0.51.0",
-                "message": "Per-category AI review priorities, reasons, questions, shared Curated progress and personal priority choices",
-            },
-            {
-                "date": "2026-09-02",
-                "version": "0.50.0",
-                "message": "Delete proposed resources and categories directly from Scout review files",
-            },
-            {
-                "date": "2026-09-02",
-                "version": "0.48.0",
-                "message": "Curate resources, package the curated selection, and preview the open resource for printing",
-            },
-            {
-                "date": "2026-09-01",
-                "version": "0.47.0",
-                "message": "Apply reviewed need Categories, Types, and comprehensive For groups",
-            },
-            {
-                "date": "2026-08-29",
-                "version": "0.42.1",
-                "message": "Keep review edits and package selections reliable in Safari",
-            },
-        ],
-    }
+    release = _scout_review_release()
     release_json = json.dumps(release, ensure_ascii=False, indent=2).replace("</", "<\\/")
     document = _replace_once(
         r'<script\s+id=["\']app-release-data["\']\s+type=["\']application/json["\']>[\s\S]*?</script>',
