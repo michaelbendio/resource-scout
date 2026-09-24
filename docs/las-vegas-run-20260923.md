@@ -1,5 +1,28 @@
 # Las Vegas Valley research
 
+## Required time accounting
+
+Michael requested actual processing time separately from elapsed time. Research
+workers already persist per-attempt runtimes. Refresh the derived snapshot with:
+
+`python3 scripts/report-scout-timing.py data/las-vegas-production-20260923`
+
+This writes `timing-summary.json`, counts failed attempts separately and avoids
+counting DeepSeek's imported telemetry twice. Worker totals include provider/search
+latency; overlapping workers add together. They are not GPU-compute measurements.
+In-flight work and connectivity probes are excluded. Keep unknown durations visible.
+
+When curation starts, supply `--curation-dir ACTUAL_OUTPUT_DIRECTORY` on every
+report; preserve all execution and failure artifacts. For final review/corrections,
+start each actively supervised work session with `--review-start DESCRIPTION`,
+and close it with `--review-stop` before pausing or handing off. Resume with a new
+session. If a session is left open, reconcile its true stop from evidence before
+reporting; do not count unattended idle time as review. These flags only record
+time and do not authorize or launch curation/review. No review session has begun.
+Record delivery time in launch.json's `deliveredAt` to freeze elapsed time at delivery.
+
+Refresh at category/phase checkpoints and before answering timing questions.
+
 Michael authorized Las Vegas Valley, Codex High primary, and DeepSeek V4.1-Flash
 challenger. Automatic curation and automatic review remain off.
 

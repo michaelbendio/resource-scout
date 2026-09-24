@@ -23,6 +23,13 @@ Automatic curation and automatic review remain off. See
 [Las Vegas run](docs/las-vegas-run-20260923.md) for supervision limits and evidence.
 Welfare Square remains complete and its monitor/database are preserved.
 
+Michael requested Las Vegas actual-time tracking. Per-attempt research timing is
+already durable; refresh `timing-summary.json` with `scripts/report-scout-timing.py`.
+Follow the run document's required review-session start/stop accounting and include
+curation execution records when that phase starts. Report processing and elapsed
+time separately, expose missing timing, and never count overlapping worker time
+as a wall-clock duration. No review session has started.
+
 Michael canceled the Jev pilot: "I don't have access to Jev. Don't bother."
 Do not resume its adapter work or launch Jev calls. No calls or charges occurred.
 Its unfinished local files remain outside the Las Vegas change scope.
