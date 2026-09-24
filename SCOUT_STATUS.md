@@ -4,6 +4,36 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Las Vegas review in progress; Mesa parallel review authorized — September 24
+
+Las Vegas research and curation are complete. The overnight xhigh review session
+left a browser-verification checkpoint, but the supervising assistant found that
+its Types/For groups/priorities were generated largely by keyword rules, including
+unsupported fallback Types. Its claimed non-UI completeness is **not accepted**.
+No final review completion has been recorded. Keep Save gated. Preserve the prior
+worker's real content corrections and evidence, but reassess semantic assignments.
+
+Michael explicitly requested **one Las Vegas review by the supervising assistant**;
+do not launch additional Las Vegas reviewers. A sequential evidence-based continuation
+is under `data/las-vegas-production-20260923/review/semantic-review-002/` with original
+artifacts, a seed/job snapshot, timing and checkpoints. The current checkpoint records
+131 individually reviewed resources/301 category
+memberships, with source-backed corrections and draft navigation/priority decisions.
+Whole-corpus reconciliation and browser review remain; read the live checkpoint
+before resuming because these counts will advance.
+
+Michael requested **autoMesa review in parallel on xhigh**. The separate single
+Mesa review is complete: 341 resources (all 333 originals plus eight restored),
+678 memberships/priorities and 135 substantive corrections. Verified download:
+`/Users/michaelbendio/Downloads/autoMesa-reviewed.html`; staged copy and full audit
+are under `data/mesa-review-20260924/`. See [Mesa handoff](docs/mesa-review-20260924.md).
+Safari checks and exact download bytes passed. Existing browser edits were backed
+up and preserved; 22 unchanged stale overlay fields were refreshed. One human
+A New Leaf name/service conflict remains visibly flagged. Seven human-hidden
+records remain hidden (334 visible); no Curated approvals were added. Historical
+study 20 remains unchanged. Lexar is detached, so copy-back is pending. Mesa active
+review-session elapsed time was 1h 48m 59s; browser-local work is separate from HTML.
+
 ## Provo workbench upgraded — September 24 UTC
 
 Updated `/Volumes/Lexar/TSO/autoProvo.html` from Scout0.50.0 to the current
