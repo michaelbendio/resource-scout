@@ -14,7 +14,7 @@ Michael selected Las Vegas Valley and DeepSeek V4.1-Flash. Source:
 Run directory: `data/las-vegas-production-20260923`; exact commands/PIDs in
 `launch.json`. Monitor: http://127.0.0.1:8771 (PID32252).
 Codex primary PID31752 uses gpt-5.5 / High / primary-only; DeepSeek coordinator
-PID32068 uses deepseek-flash / max and native DeepSeek web search. Grok and Claude
+PID33105 uses deepseek-flash / max and native DeepSeek web search. Grok and Claude
 inference remain disabled. Addiction primary and DeepSeek research are saved;
 Codex has advanced to Clothing/Household. Verify live state before acting.
 DeepSeek results wait for the primary runner's exclusive database lock to release
@@ -25,6 +25,14 @@ of $0.0405042. The run has a $5 request-budget guard, not a guaranteed exact bil
 Automatic curation and automatic review remain off. See
 [Las Vegas run](docs/las-vegas-run-20260923.md) for supervision limits and evidence.
 Welfare Square remains complete and its monitor/database are preserved.
+
+DeepSeek Children/Pregnancy hit a native web-search usage limit; the adapter
+mistook its fully answered server-tool stop for an incomplete client-tool call.
+The saved failed state/response remain under assignment-2; recovery-search-limit-001
+records the repair. Coordinator33105 resumed at01:08UTC with the same conversation,
+max effort and open_url verification; further native search is disabled for that
+category. The monitor API confirms in-progress. Addiction remains saved awaiting
+import until the primary lock releases; this is expected, not a stopped worker.
 
 Michael requested Las Vegas actual-time tracking. Per-attempt research timing is
 already durable; refresh `timing-summary.json` with `scripts/report-scout-timing.py`.

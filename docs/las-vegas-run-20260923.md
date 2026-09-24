@@ -85,3 +85,17 @@ restarted independently, and Chrome visibly showed DeepSeek-V4.1-Flash.
 Local suite:299 tests, one skipped, including six unrelated untracked Jev tests
 which are excluded from this change. Regression checks cover lock-safe import,
 seals, paid-call replay prevention, budget guards and the monitor projection.
+
+## Native search limit recovery
+
+Children/Pregnancy's first DeepSeek response returned all server-tool results,
+including max_uses_exceeded errors, with stop_reason=tool_use and no client calls.
+The original adapter rejected that combination. The tested fix accepts only fully
+matched server search calls/results with an explicit limit error, checkpoints the
+conversation once, then disables native search for that category while retaining
+open_url and max effort. Unknown/unmatched tool stops still fail closed.
+
+Original response, billing, failure and failed-state snapshot remain intact in
+assignment-2/recovery-search-limit-001. Coordinator33105 resumed that evidence at
+01:08UTC; it did not repeat initial discovery. The UI's saved-awaiting-import state
+is distinct from failure: database handoff/import waits for the primary runner lock.

@@ -117,6 +117,30 @@ class DeepSeekChallengerRunnerTests(unittest.TestCase):
         api.assert_not_called()
         self.assertEqual(runner.read(self.directory / 'state.json')['status'], 'budget-stop')
 
+    def test_native_search_limit_continues_once_without_repeating_search(self):
+        body = self.body()
+        body['stop_reason'] = 'tool_use'
+        body['content'][0]['tool_use_id'] = 's1'
+        body['content'] = [
+            {'type': 'server_tool_use', 'name': 'web_search', 'id': 's1'}, body['content'][0],
+            {'type': 'server_tool_use', 'name': 'web_search', 'id': 's2'},
+            {'type': 'web_search_tool_result', 'tool_use_id': 's2', 'content': [
+                {'type': 'web_search_tool_result_error', 'error_code': 'max_uses_exceeded'}]}]
+        with patch.object(runner, 'credential', return_value='secret'), patch.object(runner, 'balance', return_value=Decimal('6.48')), self.provider(body):
+            state = runner.step(self.directory, self.out, Decimal('5'))
+        self.assertEqual('prepared', state['status'])
+        self.assertTrue(state['searchLimitReached'])
+        self.assertFalse(runner.checkpoint_search_limit(body, state))
+        unmatched = json.loads(json.dumps(body))
+        unmatched['content'].pop()
+        self.assertFalse(runner.checkpoint_search_limit(unmatched, {'messages': []}))
+        with patch.object(runner, 'credential', return_value='secret'), patch.object(runner, 'balance', return_value=Decimal('6.48')), self.provider(self.body()):
+            state = runner.step(self.directory, self.out, Decimal('5'))
+        self.assertEqual('completed', state['status'])
+        request = runner.read(self.directory / 'turn-002/request.json')
+        self.assertEqual(['open_url'], [t['name'] for t in request['tools']])
+        self.assertEqual('max', request['output_config']['effort'])
+
     def test_sealed_input_change_is_rejected(self):
         changed = dict(self.packet, assignment_sha256='different')
         with self.assertRaisesRegex(ValueError, 'Sealed original'):
