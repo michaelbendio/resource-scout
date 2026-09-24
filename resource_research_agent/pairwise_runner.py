@@ -660,6 +660,7 @@ def _run_pairwise_locked(
     category_rosters: dict[str, dict[str, Any]] | None = None,
     preserve_completed: bool = False,
     primary_only: bool = False,
+    challenger_output_dir: Path | None = None,
 ) -> dict[str, Any]:
     roster = load_researcher_profile(profile)
     if category_rosters:
@@ -734,6 +735,11 @@ def _run_pairwise_locked(
     challenger_runs_this_run = 0
 
     while True:
+        if challenger_output_dir is not None:
+            if not primary_only:
+                raise ValueError('Independent challenger imports require primary-only mode')
+            from .deepseek_challenger_runner import import_completed_locked
+            import_completed_locked(store.path, challenger_output_dir, import_id)
         view = codex_first_view(store, import_id)
         if (
             max_categories is not None
@@ -947,6 +953,8 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--codex-reasoning-effort", choices=("low", "medium", "high", "xhigh"), default="")
     value.add_argument("--routing-policy", type=Path, help="Versioned category scopes for a bounded Claude second opinion after Grok")
     value.add_argument("--reuse-completed", action="store_true", help="Preserve completed categories with the same primary when promoting a separate production copy")
+    value.add_argument("--challenger-output-dir", type=Path,
+                       help="Import sealed independent challenger results between primary passes under the same runner lock")
     value.add_argument("--grok-binary", default=shutil.which("grok") or "grok")
     value.add_argument("--grok-model", default="")
     value.add_argument("--claude-binary", default=shutil.which("claude") or "claude")
@@ -1008,6 +1016,7 @@ def main(argv: list[str] | None = None) -> int:
         category_rosters=category_rosters,
         preserve_completed=args.reuse_completed,
         primary_only=args.primary_only,
+        challenger_output_dir=args.challenger_output_dir,
     )
     return 0
 

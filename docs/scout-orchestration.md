@@ -55,6 +55,15 @@ resumption can complete pending challengers without rerunning the primary, but
 requires separate authorization while the provider is paused. Do not mistake
 primary completion for a switch to a single-provider research architecture.
 
+For an authorized independent DeepSeek challenger, start the primary-only runner
+with `--challenger-output-dir PATH`. The primary coordinator imports completed
+challenger checkpoints before selecting its next pass, while retaining its one
+canonical runner lock. The manifest must match the database/import/model and carry
+authorization. No second writer bypasses that lock. The independent challenger
+retains its lock-acquiring importer for the final tail after primary research exits.
+Saved results may briefly await the current primary pass; they need not wait for
+all Categories. Imported completion remains distinct from curation and review.
+
 ## Size and checkpoint curation
 
 Research and curation are different workloads. The old Grok recursive research

@@ -49,4 +49,4 @@ def apply_challenger_progress(categories, database: Path, import_id: int):
                 leadCount=int(state.get('leadCount') or 0),
             )
             researcher['progressSource'] = 'independent-challenger-checkpoint'
-            researcher['note'] = 'Results enter Scout after the primary runner releases its database lock.'
+            researcher['note'] = 'Saved results enter Scout at the next configured coordinator import checkpoint.'

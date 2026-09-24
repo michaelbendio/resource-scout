@@ -5,8 +5,16 @@ import fcntl
 import json
 import os
 from contextlib import contextmanager
+from contextvars import ContextVar
 from pathlib import Path
 from typing import Iterator
+
+_held_databases = ContextVar('research_runner_databases', default=frozenset())
+
+
+def assert_runner_lock_held(database: Path) -> None:
+    if Path(database).expanduser().resolve() not in _held_databases.get():
+        raise RuntimeError('This coordinator must hold the database runner lock')
 
 
 @contextmanager
@@ -24,7 +32,11 @@ def research_runner_lock(database: Path) -> Iterator[None]:
             handle.truncate()
             json.dump({"pid": os.getpid(), "database": str(database)}, handle)
             handle.flush()
-            yield
+            token = _held_databases.set(_held_databases.get() | {database})
+            try:
+                yield
+            finally:
+                _held_databases.reset(token)
         finally:
             fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
     # Keep the inode: unlinking it would let another process lock a different

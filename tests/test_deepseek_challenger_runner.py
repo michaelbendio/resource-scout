@@ -41,7 +41,8 @@ class DeepSeekChallengerRunnerTests(unittest.TestCase):
         self.packet = runner.packets(self.database, self.import_id)[0]
         self.out = self.root / 'challenger'
         self.directory = runner.prepare_packet(self.out, self.packet)
-        runner.write(self.out / 'manifest.json', {'initialBalanceUsd': '6.48'})
+        runner.write(self.out / 'manifest.json', {'initialBalanceUsd': '6.48', 'database': str(self.database.resolve()),
+            'importId': self.import_id, 'model': runner.MODEL, 'authorization': 'Michael selected DeepSeek'})
 
     def body(self):
         return {'model': 'deepseek-flash', 'stop_reason': 'end_turn', 'usage': {'input_tokens': 100, 'output_tokens': 100},
@@ -109,6 +110,24 @@ class DeepSeekChallengerRunnerTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'requires diagnosis'):
                 runner.step(self.directory, self.out, Decimal('5'))
         api.assert_not_called()
+
+    def test_primary_checkpoint_imports_saved_results_without_another_worker(self):
+        import inspect
+        from resource_research_agent import pairwise_runner as primary
+        with patch.object(runner, 'credential', return_value='secret'), patch.object(runner, 'balance', return_value=Decimal('6.48')), self.provider(self.body()):
+            runner.step(self.directory, self.out, Decimal('5'))
+        with self.assertRaisesRegex(RuntimeError, 'must hold'):
+            runner.import_completed_locked(self.database, self.out, self.import_id)
+        options = vars(primary.parser().parse_args(['--primary-only', '--max-passes', '0']))
+        allowed = inspect.signature(primary._run_pairwise_locked).parameters
+        options = {key: value for key, value in options.items() if key in allowed}
+        options.pop('import_id', None)
+        options.update(preflight=False, challenger_output_dir=self.out)
+        with patch.object(primary, '_run_provider') as worker:
+            primary.run_pairwise(self.store, self.import_id, **options)
+        worker.assert_not_called()
+        self.assertEqual(1, codex_first_view(self.store, self.import_id)['completedCategories'])
+        self.assertTrue(runner.read(self.directory / 'state.json')['importedAssignmentId'])
 
     def test_budget_stop_precedes_inference(self):
         with patch.object(runner, 'balance', return_value=Decimal('6.48')), patch.object(runner.urllib.request, 'urlopen') as api:

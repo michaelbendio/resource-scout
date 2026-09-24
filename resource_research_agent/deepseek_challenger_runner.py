@@ -303,40 +303,51 @@ def step(directory, out, ceiling):
 def import_completed(database, out, import_id):
     try:
         with research_runner_lock(database):
-            store = ResearchStore(database)
-            for state_path in sorted(out.glob('assignment-*/state.json')):
-                state = read(state_path)
-                if state['status'] != 'completed' or state.get('importedAssignmentId'):
-                    continue
-                directory = state_path.parent
-                baseline = read(directory / 'baseline.json')
-                original = store.get_codex_first_assignment(baseline['id'])
-                if original['assignmentSha256'] != baseline['assignment_sha256']:
-                    raise ValueError('Original assignment changed before handoff')
-                new = store.replace_codex_first_assignment(baseline['id'], 'DeepSeek', reason=AUTHORIZATION)
-                if new['assignmentSha256'] != state['replacementAssignmentSha256']:
-                    raise ValueError('Replacement differs from researched assignment')
-                raw = (directory / 'result.json').read_text()
-                saved = save_codex_first_external_result(store, new['id'], raw)
-                job = store.get_focused_research_job(saved['jobId'])
-                with store.connect() as connection:
-                    existing = connection.execute("SELECT 1 FROM research_worker_telemetry WHERE external_assignment_id=? AND provider='DeepSeek' AND outcome='completed'", (saved['id'],)).fetchone()
-                if not existing:
-                    bills = [read(path) for path in sorted(directory.glob('turn-*/billing.json'))]
-                    store.record_worker_telemetry(import_id=import_id, profile='codex-deepseek-explicit-handoff', provider='DeepSeek', role='challenger',
-                        category_id=job['categoryId'], category_label=job['categoryLabel'], attempt=1, model=MODEL, outcome='completed',
-                        started_at=state['createdAt'], completed_at=state['completedAt'], elapsed_ms=round(sum(b['seconds'] for b in bills)*1000),
-                        job_id=job['id'], external_assignment_id=saved['id'], lead_count=saved['leadCount'], response_bytes=len(raw.encode()),
-                        usage={'reasoningEffort': 'max', 'peakPriceUpperEstimateUsd': state['upperCostUsd'], 'providerCalls': state['turn'],
-                               'inputTokens': sum(b['usage']['input_tokens'] for b in bills), 'outputTokens': sum(b['usage']['output_tokens'] for b in bills),
-                               'nativeSearchResults': state['successfulSearchResults'], 'evidenceDirectory': str(directory)})
-                state['importedAssignmentId'] = saved['id']
-                write(state_path, state)
-            return True
+            return import_completed_locked(database, out, import_id)
     except RuntimeError as error:
         if 'A research runner already holds' in str(error):
             return False
         raise
+
+def import_completed_locked(database, out, import_id):
+    """Import saved results inside the primary coordinator's existing runner lease."""
+    from .runner_lock import assert_runner_lock_held
+    assert_runner_lock_held(database)
+    manifest = read(out / 'manifest.json')
+    if (manifest.get('database') != str(Path(database).resolve())
+            or manifest.get('importId') != import_id
+            or manifest.get('model') != MODEL or not manifest.get('authorization')):
+        raise ValueError('Challenger manifest does not match the locked run')
+    store = ResearchStore(database)
+    for state_path in sorted(out.glob('assignment-*/state.json')):
+        state = read(state_path)
+        if state['status'] != 'completed' or state.get('importedAssignmentId'):
+            continue
+        directory = state_path.parent
+        baseline = read(directory / 'baseline.json')
+        original = store.get_codex_first_assignment(baseline['id'])
+        if original['assignmentSha256'] != baseline['assignment_sha256']:
+            raise ValueError('Original assignment changed before handoff')
+        new = store.replace_codex_first_assignment(baseline['id'], 'DeepSeek', reason=AUTHORIZATION)
+        if new['assignmentSha256'] != state['replacementAssignmentSha256']:
+            raise ValueError('Replacement differs from researched assignment')
+        raw = (directory / 'result.json').read_text()
+        saved = save_codex_first_external_result(store, new['id'], raw)
+        job = store.get_focused_research_job(saved['jobId'])
+        with store.connect() as connection:
+            existing = connection.execute("SELECT 1 FROM research_worker_telemetry WHERE external_assignment_id=? AND provider='DeepSeek' AND outcome='completed'", (saved['id'],)).fetchone()
+        if not existing:
+            bills = [read(path) for path in sorted(directory.glob('turn-*/billing.json'))]
+            store.record_worker_telemetry(import_id=import_id, profile='codex-deepseek-explicit-handoff', provider='DeepSeek', role='challenger',
+                category_id=job['categoryId'], category_label=job['categoryLabel'], attempt=1, model=MODEL, outcome='completed',
+                started_at=state['createdAt'], completed_at=state['completedAt'], elapsed_ms=round(sum(b['seconds'] for b in bills)*1000),
+                job_id=job['id'], external_assignment_id=saved['id'], lead_count=saved['leadCount'], response_bytes=len(raw.encode()),
+                usage={'reasoningEffort': 'max', 'peakPriceUpperEstimateUsd': state['upperCostUsd'], 'providerCalls': state['turn'],
+                       'inputTokens': sum(b['usage']['input_tokens'] for b in bills), 'outputTokens': sum(b['usage']['output_tokens'] for b in bills),
+                       'nativeSearchResults': state['successfulSearchResults'], 'evidenceDirectory': str(directory)})
+        state['importedAssignmentId'] = saved['id']
+        write(state_path, state)
+    return True
 
 def supervise(database, out, import_id, ceiling, expected, interval):
     out.mkdir(parents=True, exist_ok=True)

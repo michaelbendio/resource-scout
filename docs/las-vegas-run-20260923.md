@@ -55,10 +55,14 @@ The credential is read from the existing local configuration, never saved in evi
 
 `deepseek-challenger/assignment-*` preserves baseline, original/replacement prompts,
 requests, responses, tool results, usage, cost estimates and result checkpoints.
-Results are imported only after acquiring the canonical runner lock, generally after
-the primary coordinator finishes. Audited provider replacements retain original
-assignments. The monitor projects the bound DeepSeek manifest/checkpoints without
-changing seals or declaring a category complete before database import.
+The primary coordinator now imports completed challenger results between passes
+using `--challenger-output-dir`, under its existing canonical runner lock. The
+challenger's own importer acquires that lock for remaining results after primary
+research finishes. Audited provider replacements retain original assignments.
+The monitor projects the bound DeepSeek manifest/checkpoints without changing
+seals or declaring a category complete before database import. The original
+whole-primary-run import delay was an orchestration defect, corrected after
+Michael flagged the accumulating queue.
 
 ## Budget and supervision
 
@@ -98,4 +102,5 @@ open_url and max effort. Unknown/unmatched tool stops still fail closed.
 Original response, billing, failure and failed-state snapshot remain intact in
 assignment-2/recovery-search-limit-001. Coordinator33105 resumed that evidence at
 01:08UTC; it did not repeat initial discovery. The UI's saved-awaiting-import state
-is distinct from failure: database handoff/import waits for the primary runner lock.
+is distinct from failure: database handoff/import waits for the primary coordinator's
+next checkpoint, or for the runner lock after primary research finishes.
