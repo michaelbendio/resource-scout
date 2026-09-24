@@ -4,6 +4,22 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Welfare Square editor feedback fix — September 24 UTC
+
+Done is a blue primary action, not a dirty-state indicator. The required
+For-group confirmation could silently block both changed-resource Done and
+Curated. The workbench now explicitly explains the missing confirmation, retains
+the draft, and focuses that checkbox. The shared For-group rules are unchanged.
+17 focused editor/persistence/taxonomy/priority/export tests passed. Actual Safari
+QA used a separate artifact ID and verified Done closes, Curated/checkmark update,
+and persistence after reload. No human Curated flags were added to delivered data.
+Code-only patches preserve embedded data and artifact/storage identity in Downloads
+`autoWelfareSquare.html`, Downloads `autoWelfareSquare-copy.html`, and
+`Documents/TSO/autoWelfareSquare.html`. Original files and delivery hashes are in
+`data/welfare-square-curation-20260921/audit/editor-actions-fix-20260923/delivery.json`.
+The user's open Safari editor was not reloaded; save current edits before reloading
+to activate the new explanation. This does not change the completed content review.
+
 ## Las Vegas Valley running — September 24, 00:47 UTC
 
 **Latest authorization: automatic research → High curation → xhigh Codex review.**

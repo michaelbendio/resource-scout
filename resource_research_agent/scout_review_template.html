@@ -8157,7 +8157,7 @@ function setAdminEditorActions(kind, visible, doneDisabled = false, cancelDisabl
     `,
     resource: `
       <button id="res_cancel_btn" class="button" type="button" onclick="cancelResourceEditor()" ${cancelDisabled ? "disabled" : ""}>Cancel</button>
-      <button id="res_done_btn" class="button primary" onclick="closeResourceEditor()" ${doneDisabled ? "disabled" : ""}>Done</button>
+      <button id="res_done_btn" class="button primary" title="Save changes and close the editor" onclick="closeResourceEditor()" ${doneDisabled ? "disabled" : ""}>Done</button>
       ${isScoutReviewMode() ? `
         <button id="res_curated_btn" class="button ${isScoutReviewResourceCurated(selectedResourceId) ? "primary" : ""}" type="button" aria-pressed="${isScoutReviewResourceCurated(selectedResourceId) ? "true" : "false"}" onclick="toggleCurrentResourceCurated()" ${doneDisabled ? "disabled" : ""}>Curated</button>
         <button id="res_print_btn" class="button" type="button" onclick="printCurrentResource()">Print</button>
@@ -8419,6 +8419,15 @@ function confirmBlankUpdateDescription(draft){
   return false;
 }
 
+function requireResourceEditorForGroupReview(draft){
+  if(!draft.forGroupReviewConfirmed){
+    const label = document.getElementById("res_for_groups_review_label");
+    const confirmation = label ? label.textContent.trim() : "I reviewed all applicable For groups.";
+    alert(`Before saving changes or marking this resource Curated, review the For groups and check “${confirmation}” below. Your edits are still in the editor.`);
+  }
+  return requireDraftForGroupReview(draft);
+}
+
 function commitPendingEditsIfChanged(){
   // Editor commit pattern:
   // UI fields -> draft snapshot -> validation -> apply canonical update -> persist.
@@ -8469,7 +8478,7 @@ function commitPendingEditsIfChanged(){
       return false;
     }
     if(nextSnapshot !== editorSnapshot){
-      if(!requireDraftForGroupReview(draft)) return false;
+      if(!requireResourceEditorForGroupReview(draft)) return false;
       if(!confirmBlankUpdateDescription(draft)) return false;
       const resource = data.resources[editing.idx];
       const resourceId = resource && resource.id ? resource.id : "";
@@ -9282,7 +9291,7 @@ function toggleCurrentResourceCurated(){
   if(!isScoutReviewMode() || !selectedResourceId) return;
   if(!isScoutReviewResourceCurated(selectedResourceId)){
     const draft = resourceEditorDraft();
-    if(!draft || !requireDraftForGroupReview(draft)) return;
+    if(!draft || !requireResourceEditorForGroupReview(draft)) return;
   }
   pendingResourceCuratedToggle = true;
   if(!commitPendingEditsIfChanged()){
