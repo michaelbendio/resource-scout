@@ -17,7 +17,7 @@ Michael explicitly requested **one Las Vegas review by the supervising assistant
 do not launch additional Las Vegas reviewers. A sequential evidence-based continuation
 is under `data/las-vegas-production-20260923/review/semantic-review-002/` with original
 artifacts, a seed/job snapshot, timing and checkpoints. The current checkpoint records
-131 individually reviewed resources/301 category
+202 individually reviewed resources/470 category
 memberships, with source-backed corrections and draft navigation/priority decisions.
 Whole-corpus reconciliation and browser review remain; read the live checkpoint
 before resuming because these counts will advance.
