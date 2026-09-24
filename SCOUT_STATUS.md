@@ -4,6 +4,17 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Provo workbench upgraded — September 24 UTC
+
+Updated `/Volumes/Lexar/TSO/autoProvo.html` from Scout0.50.0 to the current
+workbench using the tested upgrade helper. Exact seed (211 resources,23 categories,
+13 groups), all metadata and existing V3 artifact/office storage identities retained.
+Backup: `/Volumes/Lexar/TSO Backups/provo-upgrade-20260924T050522Z/autoProvo.html`.
+Audit: `data/provo-workbench-upgrade-20260924/delivery.json`. Verified seed/metadata
+preservation, upgrade idempotence, written bytes and inline JavaScript syntax.
+No resource-content review or edits; no Curated flags added. Reload after saving
+any open edits to activate the updated interface.
+
 ## Mesa workbench upgraded; content review deferred — September 24 UTC
 
 At Michael's request, `/Volumes/Lexar/TSO/autoMesa.html` now uses the current
