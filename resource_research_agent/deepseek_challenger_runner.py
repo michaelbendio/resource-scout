@@ -184,6 +184,20 @@ def prepare_packet(out, packet):
 def cumulative_cost(out):
     return sum((Decimal(read(path).get('upperCostUsd', '0')) for path in out.glob('assignment-*/state.json')), Decimal(0))
 
+def final_response_result(body):
+    """Read the final answer segment, excluding commentary before native tools."""
+    blocks = body['content']
+    boundary = max((i for i, block in enumerate(blocks)
+                    if block['type'] in {'server_tool_use', 'web_search_tool_result', 'tool_use'}), default=-1)
+    text = '\n'.join(block['text'] for block in blocks[boundary + 1:]
+                     if block['type'] == 'text').strip()
+    if text.startswith('```') and text.endswith('```'):
+        text = text.split('\n', 1)[1].rsplit('```', 1)[0].strip()
+    result = json.loads(text)
+    validate_result(result)
+    return result
+
+
 def checkpoint_search_limit(body, state):
     """Continue a fully answered native-search limit stop using saved evidence."""
     blocks = body.get('content', [])
@@ -278,11 +292,7 @@ def step(directory, out, ceiling):
             state['messages'].append({'role': 'user', 'content': 'The last response reached its output limit. Continue from preserved evidence with bounded source checks and the required leads JSON. Do not repeat broad planning or restart research.'})
             state['status'] = 'prepared'
         elif stop == 'end_turn' and not pending:
-            text = '\n'.join(block['text'] for block in blocks if block.get('type') == 'text').strip()
-            if text.startswith('```') and text.endswith('```'):
-                text = text.split('\n', 1)[1].rsplit('```', 1)[0].strip()
-            result = json.loads(text)
-            validate_result(result)
+            result = final_response_result(body)
             if not state['successfulSearchResults']:
                 raise ValueError('No successful live search evidence')
             write(directory / 'result.json', result)

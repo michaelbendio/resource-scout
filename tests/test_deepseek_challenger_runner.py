@@ -136,6 +136,22 @@ class DeepSeekChallengerRunnerTests(unittest.TestCase):
         api.assert_not_called()
         self.assertEqual(runner.read(self.directory / 'state.json')['status'], 'budget-stop')
 
+    def test_final_json_excludes_only_commentary_before_native_tool_results(self):
+        body = self.body()
+        body['content'].insert(0, {'type': 'text', 'text': 'Continuing source checks.'})
+        with patch.object(runner, 'credential', return_value='secret'), patch.object(runner, 'balance', return_value=Decimal('6.48')), self.provider(body):
+            state = runner.step(self.directory, self.out, Decimal('5'))
+        self.assertEqual('completed', state['status'])
+        self.assertEqual(result(), runner.read(self.directory / 'result.json'))
+        self.assertEqual(body, runner.read(self.directory / 'turn-001/response.json'))
+        # Commentary or conflicting output inside the final segment stays invalid.
+        body['content'].append({'type': 'text', 'text': 'Conflicting trailing output'})
+        with self.assertRaises(json.JSONDecodeError):
+            runner.final_response_result(body)
+        body = {'content': [{'type': 'text', 'text': 'Here are results: ' + json.dumps(result())}]}
+        with self.assertRaises(json.JSONDecodeError):
+            runner.final_response_result(body)
+
     def test_native_search_limit_continues_once_without_repeating_search(self):
         body = self.body()
         body['stop_reason'] = 'tool_use'

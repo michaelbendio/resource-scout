@@ -14,9 +14,10 @@ Michael selected Las Vegas Valley and DeepSeek V4.1-Flash. Source:
 Run directory: `data/las-vegas-production-20260923`; exact commands/PIDs in
 `launch.json`. Monitor: http://127.0.0.1:8771 (PID32252).
 Codex primary PID34858 uses gpt-5.5 / High / primary-only; DeepSeek coordinator
-PID33105 uses deepseek-flash / max and native DeepSeek web search. Grok and Claude
-inference remain disabled. Addiction, Children/Pregnancy and Clothing/Household
-are imported and complete (3/21). Codex has resumed Disability's gap pass.
+PID36061 uses deepseek-flash / max and native DeepSeek web search. Grok and Claude
+inference remain disabled. The first five categories through Domestic Violence
+are imported and complete (5/21). Codex has advanced to Financial Assistance;
+DeepSeek is catching up from Education.
 Verify live state before acting. The primary coordinator now imports completed
 DeepSeek results between passes with --challenger-output-dir, under its existing
 runner lock. Brief awaiting-import status lasts until the next primary checkpoint,
@@ -48,6 +49,23 @@ Follow the run document's required review-session start/stop accounting and incl
 curation execution records when that phase starts. Report processing and elapsed
 time separately, expose missing timing, and never count overlapping worker time
 as a wall-clock duration. No review session has started.
+
+Michael requested persistent issue tracking/recovery. Research watchdog PID36165
+checks every30 seconds; exact command is in launch.json. Read
+research-watchdog-status.json and research-issues.jsonl in the run directory.
+It checks both coordinator identities, progress age and completion, retains a
+durable three-restart budget, and can recover schema-valid saved final-answer or
+fully matched native-search-limit responses offline before restarting DeepSeek.
+Unknown/in-flight requests, auth/budget/content failures and primary crashes stop
+for diagnosis and request a local notification. It does not edit code with AI,
+restart primary blindly, guarantee notification delivery or recover after reboot.
+
+Domestic Violence's seven findings were valid final JSON; an earlier progress-text
+block before native tool results contaminated the old parser. The parser now reads
+only the final answer segment after tool activity. Original response/failure and
+recovery-final-segment-001 are preserved under assignment-9. No new Domestic
+Violence inference was needed. Full suite306 tests passes(1 skipped), including
+four persistent-supervisor tests; real supervisor status is monitoring, no issues.
 
 Michael canceled the Jev pilot: "I don't have access to Jev. Don't bother."
 Do not resume its adapter work or launch Jev calls. No calls or charges occurred.

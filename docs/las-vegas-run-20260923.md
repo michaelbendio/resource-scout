@@ -76,11 +76,23 @@ failure/completion. Unknown in-flight requests and substantive failures stop for
 diagnosis rather than replaying paid calls. Research completion pauses ready to
 curate. No automatic paid review is launched.
 
-The assistant must still monitor the primary process and resolve substantive stops.
-The challenger is not a primary-process crash supervisor: if primary stops before
-sealing remaining categories it can wait indefinitely. OS reboot recovery and
-guaranteed notification delivery are not implemented. Check real processes, the
-latest runner event, checkpoint age and errors; a waiting heartbeat is not progress.
+The persistent research watchdog now observes both coordinator identities,
+checkpoint ages and database completion every30 seconds. Its exact command/PID
+is in launch.json; state is research-watchdog-status.json and issue history is
+research-issues.jsonl. A separate lease prevents duplicate watchdogs.
+
+It can recover schema-valid final JSON or a fully answered native-search-limit
+response from saved evidence without new inference, then resume DeepSeek under
+the unchanged spend/effort settings. Original failed states/responses are retained.
+At most three automatic coordinator restarts are allowed across watchdog restarts.
+The actual challenger lock prevents recovery while its worker is running.
+
+Unknown in-flight requests, invalid findings, exhausted budget/authentication,
+primary crashes and stale work require diagnosis; a local notification is requested.
+The watchdog does not perform general AI diagnosis/code editing or blindly replay
+uncertain paid calls. It keeps monitoring after flagging an issue. OS reboot recovery
+and guaranteed notification delivery remain unimplemented. Human or assistant
+diagnosis is still required for unfamiliar errors; a heartbeat is not progress.
 
 ## Validation
 
@@ -123,3 +135,21 @@ the old transport's native usage stream was unavailable. The new coordinator
 PID34858 resumed with Disability's gap pass; no paid pass was repeated. Exact
 updated command and PID are in launch.json. Original launch/migration failure logs
 remain preserved. Curation and review remain off.
+
+## Domestic Violence parser correction and persistent supervision
+
+The saved response contained interim progress text before native tool results and
+a schema-valid final JSON answer afterward. The old parser joined both text blocks.
+The correction selects only the final answer segment after native tool activity;
+prose/conflicting output inside that final segment still fails validation. Seven
+saved findings were recovered offline, preserving the complete original response,
+failure and failed state in assignment-9/recovery-final-segment-001. No new Domestic
+Violence inference was used; it is imported and complete (5/21 overall).
+
+DeepSeek coordinator36061 resumed; watchdog36165 attached. The issue ledger also
+records the previous search-limit and import-delay incidents with evidence paths.
+Full local suite306 tests passes(1 skipped); targeted supervisor tests verify offline
+recovery, original preservation, restart budgets, command/budget binding, no duplicate
+live workers, and no replay of unknown requests. Live watchdog reports both workers
+alive with no current issues. Six unrelated untracked Jev tests are part of the local
+suite count and remain excluded from commits.
