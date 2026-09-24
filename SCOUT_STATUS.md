@@ -20,6 +20,13 @@ Code-only patches preserve embedded data and artifact/storage identity in Downlo
 The user's open Safari editor was not reloaded; save current edits before reloading
 to activate the new explanation. This does not change the completed content review.
 
+The same code-only fix was subsequently applied in place to Lexar/TSO
+`autoStGeorge.html` and `autoWelfareSquare.html`. Verified original backups are in
+`/Volumes/Lexar/TSO Backups/editor-fix-20260924T043452Z`; local audit is
+`data/welfare-square-curation-20260921/audit/editor-actions-fix-20260923/lexar-delivery.json`.
+Lexar `autoMesa.html` is older, with neither Curated controls nor the For-group
+confirmation gate, so this fix does not apply and that file remains unchanged.
+
 ## Las Vegas Valley running — September 24, 00:47 UTC
 
 **Latest authorization: automatic research → High curation → xhigh Codex review.**
