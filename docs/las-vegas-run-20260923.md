@@ -26,6 +26,10 @@ Refresh at category/phase checkpoints and before answering timing questions.
 Michael authorized Las Vegas Valley, Codex High primary, and DeepSeek V4.1-Flash
 challenger. Automatic curation and automatic review remain off.
 
+Michael explicitly approved DeepSeek max: "Continue with max--that's fine."
+Codex primary remains High.
+
+
 Source: `/Users/michaelbendio/resource-assistant/las-vegas.html`, unchanged.
 SHA256: `904b144f424abba85c9aee65588867e92e057404e56071bce2e4acc416c84dd5`.
 The source has21 research categories, no resources and no For groups.

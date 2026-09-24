@@ -6,6 +6,9 @@ a monitor process is not a research worker.
 
 ## Las Vegas Valley running — September 24, 00:47 UTC
 
+Michael explicitly approved DeepSeek max: "Continue with max--that's fine."
+Codex primary remains High.
+
 Michael selected Las Vegas Valley and DeepSeek V4.1-Flash. Source:
 `/Users/michaelbendio/resource-assistant/las-vegas.html`;21 research categories.
 Run directory: `data/las-vegas-production-20260923`; exact commands/PIDs in
@@ -13,7 +16,7 @@ Run directory: `data/las-vegas-production-20260923`; exact commands/PIDs in
 Codex primary PID31752 uses gpt-5.5 / High / primary-only; DeepSeek coordinator
 PID32068 uses deepseek-flash / max and native DeepSeek web search. Grok and Claude
 inference remain disabled. Addiction primary and DeepSeek research are saved;
-Codex is researching Children/Pregnancy. Verify live state before acting.
+Codex has advanced to Clothing/Household. Verify live state before acting.
 DeepSeek results wait for the primary runner's exclusive database lock to release
 before audited provider handoff/import. The monitor reads bound checkpoints to
 show DeepSeek now, preserving original sealed Grok assignments and completion counts.
