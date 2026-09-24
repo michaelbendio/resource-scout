@@ -4,6 +4,29 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Las Vegas Valley running — September 24, 00:47 UTC
+
+Michael selected Las Vegas Valley and DeepSeek V4.1-Flash. Source:
+`/Users/michaelbendio/resource-assistant/las-vegas.html`;21 research categories.
+Run directory: `data/las-vegas-production-20260923`; exact commands/PIDs in
+`launch.json`. Monitor: http://127.0.0.1:8771 (PID32252).
+Codex primary PID31752 uses gpt-5.5 / High / primary-only; DeepSeek coordinator
+PID32068 uses deepseek-flash / max and native DeepSeek web search. Grok and Claude
+inference remain disabled. Addiction primary and DeepSeek research are saved;
+Codex is researching Children/Pregnancy. Verify live state before acting.
+DeepSeek results wait for the primary runner's exclusive database lock to release
+before audited provider handoff/import. The monitor reads bound checkpoints to
+show DeepSeek now, preserving original sealed Grok assignments and completion counts.
+The first DeepSeek category returned11 leads at a conservative upper token cost
+of $0.0405042. The run has a $5 request-budget guard, not a guaranteed exact bill cap.
+Automatic curation and automatic review remain off. See
+[Las Vegas run](docs/las-vegas-run-20260923.md) for supervision limits and evidence.
+Welfare Square remains complete and its monitor/database are preserved.
+
+Michael canceled the Jev pilot: "I don't have access to Jev. Don't bother."
+Do not resume its adapter work or launch Jev calls. No calls or charges occurred.
+Its unfinished local files remain outside the Las Vegas change scope.
+
 ## Welfare Square delivered — September 23, 21:08 UTC
 
 **Requested Codex review and actual Save/download verification are complete.**

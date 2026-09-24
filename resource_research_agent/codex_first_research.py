@@ -488,6 +488,8 @@ def codex_first_view(store: ResearchStore, import_id: int) -> dict[str, Any]:
                 if item["role"] != "disabled"
             ],
         })
+    from .challenger_progress import apply_challenger_progress
+    apply_challenger_progress(categories, store.path, int(import_id))
     completed = sum(item["status"] == "completed" for item in categories)
     # Primary-only runs can advance while earlier challenger work is pending.
     # Show the assigned primary pass rather than an earlier waiting challenger.

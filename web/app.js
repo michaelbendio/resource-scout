@@ -173,6 +173,7 @@ function researchStatusLabel(value) {
     'in-progress': 'In progress',
     completed: 'Completed',
     failed: 'Needs attention',
+    'awaiting-import': 'Research saved; awaiting import',
   };
   return labels[value] || String(value || 'pending').replaceAll('-', ' ');
 }
@@ -248,7 +249,7 @@ function renderCodexFirstDetail(view) {
       const role = document.createElement('small');
       const status = document.createElement('span');
       item.className = 'codex-researcher';
-      name.textContent = researcher.name;
+      name.textContent = researcher.modelLabel || researcher.name;
       role.textContent = `${researcher.role}${researcher.leadCount ? ` · ${researcher.leadCount} leads` : ''}`;
       status.className = 'codex-status';
       status.dataset.status = researcher.status;
