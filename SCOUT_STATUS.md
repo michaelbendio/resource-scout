@@ -31,7 +31,7 @@ Safari checks and exact download bytes passed. Existing browser edits were backe
 up and preserved; 22 unchanged stale overlay fields were refreshed. One human
 A New Leaf name/service conflict remains visibly flagged. Seven human-hidden
 records remain hidden (334 visible); no Curated approvals were added. Historical
-study 20 remains unchanged. Lexar is detached, so copy-back is pending. Mesa active
+study 20 remains unchanged. Verified copy-back to `/Volumes/Lexar/TSO/autoMesa.html` is complete (September 25 02:33 UTC), after matching the original file hash and creating a backup in `TSO Backups/mesa-reviewed-20260925T023302Z/`. Mesa active
 review-session elapsed time was 1h 48m 59s; browser-local work is separate from HTML.
 
 ## Provo workbench upgraded — September 24 UTC

@@ -1,6 +1,6 @@
 # Mesa review delivery — September 24, 2026
 
-Michael’s requested single xhigh review is complete for a provenance-bound standalone derivative. Historical study 20 remains immutable and is not marked reviewed. Lexar is detached; copy-back is pending.
+Michael’s requested single xhigh review is complete for a provenance-bound standalone derivative. Historical study 20 remains immutable and is not marked reviewed. The verified derivative was copied to `/Volumes/Lexar/TSO/autoMesa.html` on September 25 at 02:33 UTC after confirming the existing file still matched the original source hash.
 
 The reviewed file retains all 333 original resources and restores 8 meaningful pathways: **341 resources, 20 Categories, 678 memberships, 245 Type definitions, 1421 Type assignments, 24 For groups and 678 priority judgments**. All 8184 resource/group decisions are recorded, including 71 no-group resources. There are 135 individually authored substantive corrections. No human Curated or For-review approvals were added.
 
@@ -20,4 +20,4 @@ The downloaded HTML embeds 341 reviewed resources. Browser-local work is separat
 
 Active review-session time: **1h 48m 59s** (6539.534 seconds), `2026-09-24T19:04:38.066393+00:00` through `2026-09-24T20:53:37.600484+00:00`. No idle interval was recorded; this is active-session elapsed time rather than provider-metered inference time. Safari was released and the temporary staging server stopped.
 
-Before Lexar copy-back, compare the latest target with source SHA `bbaf754fd395de9db7069f41f81badb10221cba9e67a8f905132633cdd9183d4`, back it up and reconcile any newer work. Browser edits are not carried by copying HTML alone. Keep the state backup with the delivery.
+Copy-back verified the original source SHA `bbaf754fd395de9db7069f41f81badb10221cba9e67a8f905132633cdd9183d4` before replacement and the reviewed SHA afterward. Original backup: `/Volumes/Lexar/TSO Backups/mesa-reviewed-20260925T023302Z/autoMesa.html`. No newer disk edits were present. Safari was not reloaded and browser storage was not changed by copy-back; those edits remain separate from HTML. Full hashes and delivery time are in `data/mesa-review-20260924/delivery.json`.
