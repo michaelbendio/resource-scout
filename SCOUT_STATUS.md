@@ -4,23 +4,27 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Las Vegas review in progress; Mesa parallel review authorized — September 24
+## Las Vegas and Mesa reviews complete; both delivered to Lexar — September 25 UTC
 
-Las Vegas research and curation are complete. The overnight xhigh review session
-left a browser-verification checkpoint, but the supervising assistant found that
-its Types/For groups/priorities were generated largely by keyword rules, including
-unsupported fallback Types. Its claimed non-UI completeness is **not accepted**.
-No final review completion has been recorded. Keep Save gated. Preserve the prior
-worker's real content corrections and evidence, but reassess semantic assignments.
+Las Vegas's single sequential requested review, reconciliation, actual Safari checks,
+and monitor Save/download are complete. **Do not restart or replay installed mutations.**
+The earlier keyword-generated worker draft was superseded by75 individually authored
+batches and whole-corpus reconciliation. All1170 resources and1659 original category
+copies/candidate histories are preserved; final2012 category memberships have priorities,
+203 Types/3612 assignments and41 For groups/2605 assignments. Human Curated remains0.
 
-Michael explicitly requested **one Las Vegas review by the supervising assistant**;
-do not launch additional Las Vegas reviewers. A sequential evidence-based continuation
-is under `data/las-vegas-production-20260923/review/semantic-review-002/` with original
-artifacts, a seed/job snapshot, timing and checkpoints. The current checkpoint records
-1170 individually reviewed resources/2006 category
-memberships, with source-backed corrections and draft navigation/priority decisions.
-All 21 category passes are finished. Whole-corpus reconciliation and browser review remain; read the live checkpoint
-before resuming because these counts will advance.
+Navigation and priority revisions4/4 are reviewed for fingerprint
+`739a7f67d3f25e499a939ea1130c157a02b947e34c9030ac6451ae37c2b8360f`.
+Completion was recorded at02:59:39UTC. The monitor on8771 shows Ready to Save.
+The real Safari Save download matches the tested build except its two root build
+timestamps. Verified files: `/Users/michaelbendio/Downloads/autoLasVegas.html` and
+`/Volumes/Lexar/TSO/autoLasVegas.html`, SHA256
+`26d392550405a2e769a6ddaae449001f8ea17d41d166f8a4bf19c889ec6b286c`.
+No previous Las Vegas Lexar file existed. [Review report](docs/las-vegas-review-20260924.md)
+and `data/las-vegas-production-20260923/review/semantic-review-002/` retain the source,
+semantic, preservation, browser, completion and delivery audits.14 focused tests passed.
+The sequential review session measured8h6m55s; all recorded review sessions total8h27m56s.
+These are active-session elapsed times, not model-only compute. Review timer is closed.
 
 Michael requested **autoMesa review in parallel on xhigh**. The separate single
 Mesa review is complete: 341 resources (all 333 originals plus eight restored),
