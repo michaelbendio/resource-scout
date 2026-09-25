@@ -77,12 +77,26 @@ class OfficePipelineTests(unittest.TestCase):
             pipeline.supervise(self.config_path)
         self.assertEqual(2, launch.call_count)
         curation_command = pipeline.read(curation / 'launch.json')['command']
-        self.assertEqual('high', curation_command[curation_command.index('--effort') + 1])
+        self.assertEqual(self.config['curationEffort'], curation_command[curation_command.index('--effort') + 1])
         self.assertEqual('30', curation_command[curation_command.index('--batch-candidates') + 1])
         review_command = launch.call_args_list[1].args[0]
         self.assertIn('model_reasoning_effort="xhigh"', review_command)
         self.assertEqual('needs-browser-verification', pipeline.read(self.root / 'pipeline-status.json')['phase'])
         self.assertEqual(1, len(pipeline.read(self.root / 'review-time-sessions.json')))
+
+    def test_xhigh_curation_is_not_silently_lowered(self):
+        self.config['curationEffort'] = 'xhigh'
+        pipeline.write(self.config_path, self.config)
+        self.test_finished_research_starts_supervised_high_curation_then_xhigh_review()
+
+    def test_review_prompt_uses_current_office_scope(self):
+        self.config.update(officeName='Cedar City', serviceArea='Cedar City residents, Utah',
+                           runDocument='docs/cedar-city-run-20260924.md')
+        prompt = pipeline.review_prompt(self.config, 1, 1)
+        self.assertIn('Cedar City residents, Utah', prompt)
+        self.assertIn('docs/cedar-city-run-20260924.md', prompt)
+        self.assertNotIn('Las Vegas', prompt)
+        self.assertIn('Read each resource and its category-copy variants', prompt)
 
     def test_manual_review_handoff_launches_no_reviewer(self):
         self.config.update(automaticReview=False, officeName='Cedar City')

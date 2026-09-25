@@ -25,6 +25,18 @@ The pipeline preserves native events and timing, allows bounded fresh review
 sessions only with new durable progress, and stops on unknown launch/worker failures.
 Other offices retain their existing authorization boundaries.
 
+## Cedar City automatic continuation authorized
+
+For the Cedar City run, Michael explicitly requested curation after research and
+xhigh Codex review after curation. After an effort discussion, he confirmed
+“High curation.” Effective sequence: Codex High/DeepSeek max research → High
+curation → one sequential xhigh Codex review. This supersedes Cedar City’s initial
+manual review handoff, not the evidence, browser, completion or Save requirements.
+Exact authorization and the prior configuration are preserved under
+`data/cedar-city-production-20260924/pipeline-authorization-change-001/`.
+The current pipeline config sets `automaticReview:true` and retains bounded
+sessions, durable progress checks and the final fingerprint gate.
+
 ## Own the run
 
 Michael should not have to watch the monitor, discover a stopped worker, or

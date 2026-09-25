@@ -16,10 +16,12 @@ city and challenger. Addiction began first. Exact PIDs/commands and source hash 
 in `launch.json`; verify live state before any action.
 
 Persistent watchdog checks every30seconds, and the pipeline will start supervised
-High curation after all21 research categories complete. **automaticReview:false**:
-stop **Ready for Codex review**, with no automatic paid reviewer or completion mark.
+High curation after all21 research categories complete. Michael subsequently
+confirmed **High curation**, followed automatically by **xhigh Codex review**.
+**automaticReview:true**; one sequential reviewer, no parallel reviewers. The
+review completion/Save gate still requires the full content and actual browser checks.
 [Run handoff](docs/cedar-city-run-20260924.md) documents recovery limits and timing.
-Twenty pipeline/watchdog/challenger tests passed. Initial watchdog log naming was
+Twenty-two pipeline/watchdog/challenger tests passed. Initial watchdog log naming was
 repaired without restarting research; the error and recovery remain preserved.
 
 ## Las Vegas and Mesa reviews complete; both delivered to Lexar — September 25 UTC

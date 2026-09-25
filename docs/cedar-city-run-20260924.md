@@ -29,9 +29,14 @@ resources and zero For groups. No Las Vegas resource content was copied.
   recovery, at most3 challenger restarts. Local notifications are requested.
 - Pipeline: after21 completed categories and research-worker exit, supervised
   Codex High curation,30-candidate/60,000-character batches, compact prior index.
-- **automaticReview:false.** After canonical curation completion, stop as
-  **Ready for Codex review**. Do not launch a paid reviewer or mark review complete.
-  Michael's earlier automatic review instruction was specific to Las Vegas.
+- **automaticReview:true**, explicitly authorized after launch. Michael first
+  requested xhigh for both phases, then confirmed **High curation** after discussing
+  the recommendation. The effective settings match Las Vegas: High curation,
+  followed by **xhigh Codex review**. Use one sequential reviewer.
+- The pipeline may continue that review through at most8 bounded90-minute sessions
+  only with durable new progress. All source/content, navigation, group, priority,
+  browser and exact-fingerprint requirements remain. Missing browser capabilities
+  leave review visibly incomplete; no automatic completion merely to enable Save.
 
 Exact commands, authorization, service area, source hash and current PIDs are in
 `launch.json`; phase/configuration in `pipeline-status.json` and `pipeline.json`.
@@ -47,7 +52,7 @@ An initial watchdog log-name mismatch was repaired by preserving/renaming the
 live logs and restarting only the watchdog. Its original error is retained in
 `watchdog-startup-error-001.json`; subsequent status showed no issues.
 
-Twenty pipeline, watchdog and challenger tests passed, including manual-review
+Twenty-two pipeline, watchdog and challenger tests passed, including manual-review
 handoff without launching a reviewer and refusal to hand off incomplete curation.
 
 Refresh timing with `python3 scripts/report-scout-timing.py
@@ -55,3 +60,13 @@ data/cedar-city-production-20260924`; add `--curation-dir
 data/cedar-city-production-20260924/curation` after curation starts. Worker timings
 include provider/search latency; parallel durations add together. Record a future
 requested review session separately. No review timer is open for Cedar City.
+
+## Updated authorization
+
+`pipeline-authorization-change-001/` preserves the previous launch, configuration,
+status and exact user instructions. Only the waiting pipeline process was restarted;
+research workers and completed work were untouched. The new configuration hash is
+bound to the preserved waiting-research checkpoint. Tests verify that configured
+xhigh curation is not silently lowered and that review prompts use Cedar City’s
+actual geography and handoff rather than Las Vegas’s. Final curation remains High
+by Michael’s latest choice. Research effort remains Codex High / DeepSeek max.
