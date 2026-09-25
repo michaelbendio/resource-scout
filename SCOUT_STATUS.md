@@ -4,6 +4,24 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Cedar City Scout running — September 25, 03:13 UTC
+
+Michael requested Scout for Cedar City, Utah. Canonical run:
+`data/cedar-city-production-20260924/`, database `research.sqlite3`, import1.
+Service area is Cedar City residents, with qualifying regional/statewide/remote
+programs; not all Iron County. Empty21-category research scaffold, no source resources.
+Codex gpt-5.5/High + DeepSeek V4.1-Flash/max; no Grok or Claude calls. DeepSeek
+per-run ceiling$5.00. Monitor **http://127.0.0.1:8772**; Safari verified the correct
+city and challenger. Addiction began first. Exact PIDs/commands and source hash are
+in `launch.json`; verify live state before any action.
+
+Persistent watchdog checks every30seconds, and the pipeline will start supervised
+High curation after all21 research categories complete. **automaticReview:false**:
+stop **Ready for Codex review**, with no automatic paid reviewer or completion mark.
+[Run handoff](docs/cedar-city-run-20260924.md) documents recovery limits and timing.
+Twenty pipeline/watchdog/challenger tests passed. Initial watchdog log naming was
+repaired without restarting research; the error and recovery remain preserved.
+
 ## Las Vegas and Mesa reviews complete; both delivered to Lexar — September 25 UTC
 
 Las Vegas's single sequential requested review, reconciliation, actual Safari checks,

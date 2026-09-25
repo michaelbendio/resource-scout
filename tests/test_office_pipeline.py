@@ -83,3 +83,27 @@ class OfficePipelineTests(unittest.TestCase):
         self.assertIn('model_reasoning_effort="xhigh"', review_command)
         self.assertEqual('needs-browser-verification', pipeline.read(self.root / 'pipeline-status.json')['phase'])
         self.assertEqual(1, len(pipeline.read(self.root / 'review-time-sessions.json')))
+
+    def test_manual_review_handoff_launches_no_reviewer(self):
+        self.config.update(automaticReview=False, officeName='Cedar City')
+        pipeline.write(self.config_path, self.config)
+        pipeline.write(self.root / 'pipeline-status.json', {'phase':'ready-review', 'jobId':1, 'reviewSessions':0})
+        store = Mock()
+        store.get_scout_curation_job.return_value = dict(status='completed', categories=[{'status':'completed'}]*2)
+        with patch.object(pipeline, 'ResearchStore', return_value=store), patch.object(pipeline.subprocess, 'Popen') as launch, patch.object(pipeline.subprocess, 'run'), patch.object(pipeline, 'notify_local', return_value={}) as notice:
+            pipeline.supervise(self.config_path)
+        launch.assert_not_called()
+        self.assertEqual('ready-for-codex-review', pipeline.read(self.root / 'pipeline-status.json')['phase'])
+        self.assertFalse((self.root / 'review-time-sessions.json').exists())
+        self.assertIn('Cedar City', notice.call_args.args[0])
+
+    def test_manual_review_handoff_still_requires_completed_curation(self):
+        self.config['automaticReview'] = False
+        pipeline.write(self.config_path, self.config)
+        pipeline.write(self.root / 'pipeline-status.json', {'phase':'ready-review', 'jobId':1, 'reviewSessions':0})
+        store = Mock()
+        store.get_scout_curation_job.return_value = dict(status='in-progress', categories=[])
+        with patch.object(pipeline, 'ResearchStore', return_value=store), patch.object(pipeline.subprocess, 'Popen') as launch:
+            with self.assertRaisesRegex(RuntimeError, 'Canonical curation'):
+                pipeline.supervise(self.config_path)
+        launch.assert_not_called()

@@ -1,4 +1,4 @@
-"""Authorized research -> supervised curation -> explicit xhigh Codex review."""
+"""Authorized research -> supervised curation -> manual or authorized review."""
 from __future__ import annotations
 
 import argparse
@@ -124,8 +124,9 @@ def review_outcome(checkpoint, review_dir, prior_digest, native_reviewed):
 
 def supervise(config_path):
     config = read(config_path)
-    if config.get('curationEffort') != 'high' or config.get('reviewEffort') != 'xhigh' or not config.get('authorization'):
-        raise ValueError('Explicit High curation / xhigh review authorization required')
+    automatic_review = config.get('automaticReview', True)
+    if config.get('curationEffort') != 'high' or (automatic_review and config.get('reviewEffort') != 'xhigh') or not config.get('authorization'):
+        raise ValueError('High curation authorization and, when enabled, xhigh review are required')
     root = Path(config['runDirectory'])
     database = Path(config['database'])
     status_path = root / 'pipeline-status.json'
@@ -142,6 +143,7 @@ def supervise(config_path):
             state['phase'] = phase
         write(status_path, state)
     def notice(message):
+        message = message.replace('Las Vegas', config.get('officeName', 'Las Vegas'))
         write(root / 'pipeline-notification.json', dict(at=now(), **notify_local(message)))
     def refresh_timing():
         command = [config['pythonBinary'], str(Path(config['repository']) / 'scripts/report-scout-timing.py'), str(root)]
@@ -167,7 +169,7 @@ def supervise(config_path):
                            '--model', config['model'], '--effort', 'high', '--batch-candidates', '30',
                            '--batch-chars', '60000', '--compact-prior-index', '--max-categories', str(config['expectedCategories'])]
                 manifest = dict(command=command, authorization=config['authorization'], jobId=job['id'], status='prepared',
-                                automaticRestartAuthorized=True, reviewAuthorized=True, startedAt=now())
+                                automaticRestartAuthorized=True, reviewAuthorized=automatic_review, startedAt=now())
                 write(curation / 'launch.json', manifest)
                 load_launch(curation / 'launch.json')
                 supervisor_command = [config['pythonBinary'], '-m', 'resource_research_agent.curation_supervisor',
@@ -197,6 +199,11 @@ def supervise(config_path):
             store = ResearchStore(database)
             if not curation_complete(store.get_scout_curation_job(state['jobId']), config['expectedCategories']):
                 raise RuntimeError('Canonical curation is not complete; review cannot start')
+            if not automatic_review:
+                checkpoint('ready-for-codex-review', reviewAuthorized=False)
+                refresh_timing()
+                notice('Las Vegas curation complete; ready for Michael to request Codex review.')
+                return
             if state['reviewSessions'] >= config['maximumReviewSessions']:
                 checkpoint('needs-attention', reason='Review session budget reached; preserve checkpoints for continuation')
                 notice('Las Vegas review reached its session limit; checkpoints need continuation.')
