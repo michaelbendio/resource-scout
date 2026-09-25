@@ -6,6 +6,11 @@ a monitor process is not a research worker.
 
 ## Design discussion reference — September 25
 
+The [prepared resources, starter sets, and WSRS-TSO handoff design](docs/scout-prepared-resources-design-20260925.md)
+is now drafted for discussion. It distinguishes current implementation from
+proposed policy/data changes and records the remaining contract decisions.
+Writing the draft does not resume Cedar City review or authorize implementation.
+
 Before preparing the design for revised curation/review and the WSRS-TSO data
 handoff, read [Claude's artifact feedback and current discussion constraints](docs/wsrs-tso-scout-artifact-reference-20260925.md).
 Michael requested that this feedback inform the design. It is discussion input,

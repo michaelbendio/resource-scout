@@ -1,8 +1,10 @@
 # Resource Scout product design
 
-For the next revision, consult [WSRS-TSO's artifact feedback and the September 25 discussion constraints](wsrs-tso-scout-artifact-reference-20260925.md).
-That reference records proposed changes and questions; it does not replace the
-implemented design below.
+The proposed next design is [prepared resources, starter sets, and the WSRS-TSO handoff](scout-prepared-resources-design-20260925.md),
+informed by [WSRS-TSO's artifact feedback and the September 25 discussion constraints](wsrs-tso-scout-artifact-reference-20260925.md).
+It is a discussion draft, not an implemented change. The historical design below
+predates several current features; verify active code and review contracts before
+treating it as a statement of present behavior.
 
 ## Product boundary
 

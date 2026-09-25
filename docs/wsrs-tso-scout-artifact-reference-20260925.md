@@ -4,6 +4,8 @@ Date: 2026-09-25
 
 Status: design input, not an approved schema or implementation specification.
 
+The resulting [Scout design draft](scout-prepared-resources-design-20260925.md) addresses this feedback and records remaining decisions.
+
 Michael asked Claude, “Could Scout give you a more useful artifact than an HTML file”. Michael supplied the response below and requested that it be saved and consulted when preparing Scout's design document.
 
 ## How to use this reference
