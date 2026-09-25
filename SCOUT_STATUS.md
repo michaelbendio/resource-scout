@@ -4,6 +4,13 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Design discussion reference — September 25
+
+Before preparing the design for revised curation/review and the WSRS-TSO data
+handoff, read [Claude's artifact feedback and current discussion constraints](docs/wsrs-tso-scout-artifact-reference-20260925.md).
+Michael requested that this feedback inform the design. It is discussion input,
+not an approved schema or authorization to implement changes.
+
 ## Cedar City Scout running — September 25, 03:13 UTC
 
 Michael requested Scout for Cedar City, Utah. Canonical run:

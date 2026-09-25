@@ -1,5 +1,9 @@
 # Resource Scout product design
 
+For the next revision, consult [WSRS-TSO's artifact feedback and the September 25 discussion constraints](wsrs-tso-scout-artifact-reference-20260925.md).
+That reference records proposed changes and questions; it does not replace the
+implemented design below.
+
 ## Product boundary
 
 Resource Scout owns the path from office-package intake through multi-model
