@@ -8,9 +8,21 @@ a monitor process is not a research worker.
 
 **Current run:** `data/mesa-prepared-full-20260926-source-checks/`, import 4,
 job 5, launched September 26 at **06:42:32 UTC** with source-check policy v4.
-Supervisor 9665 checks every 30 seconds; `caffeinate` 9666 prevents idle sleep while
-it runs. Verify live PIDs. Workers remain **High**; the current supervising session
-owns the single **Extra High** review afterward. 29 focused tests passed.
+After a saved-result repair, supervisor **12216** checks every 30 seconds;
+`caffeinate` **12217** prevents idle sleep while it runs. Verify live PIDs and
+`recovery-001.json`. Workers remain **High**; the current supervising session owns
+the single **Extra High** review afterward. 40 recovery/preparation tests passed.
+
+Addiction is prepared (135 drafts); Children/Pregnancy is resuming its validated
+saved batches after removing one invented extra `foster-kinship` category from a
+visitation-center record. The supported `children-pregnancy` membership, all facts,
+27 resource records and28 candidate decisions remain intact. Original output and
+the unsuccessful link-only repair are preserved. The runner now avoids paid
+link-only repairs for category/For-group/content errors it cannot change, and
+prepared validation uses the sealed22-category office catalog, including
+Miscellaneous, rather than only21 discovery assignments. A full content read of
+all135 Addiction drafts and source/correction findings are saved in `review/`;
+this is preliminary work, not a signed final review or completed export.
 
 The first prepared attempt's supervisor and coordinator were stopped after three
 completed batches. Those batches performed

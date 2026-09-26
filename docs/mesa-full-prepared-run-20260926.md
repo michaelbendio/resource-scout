@@ -56,3 +56,34 @@ The initial launch passed 28 focused tests and 17 legacy curation regression tes
 the corrected policy passed 29 focused tests, including sealed-policy compatibility.
 The earlier `data/mesa-prepared-full-20260926/` is a rejected preflight, never a
 second runnable job. No paid worker ran there.
+
+## Saved category repair and preliminary review
+
+At08:47UTC, Children/Pregnancy batch5 stopped because one visitation-center
+resource added an invented `foster-kinship` category alongside its valid
+`children-pregnancy` membership. The automatic link-only repair correctly left
+it unchanged: its contract forbids editing categories. That unnecessary repair
+call exposed a runner defect: any validation error had been routed to a worker
+that could only correct links. The runner now distinguishes repairable link or
+placeholder errors from other validation failures. Category/For-group/content
+errors stop for supervisory judgment without that paid call.
+
+The supervising review removed only the invented extra category in a hashed
+`reviewed-result-repair.json`; all27 resources,28 dispositions, facts, source
+links, IDs and original worker files are preserved. Validation passed before
+resuming. Prepared validation also now uses the sealed office catalog, so Mesa's
+Miscellaneous category is permitted even without a discovery assignment. Unknown
+IDs still fail.40 focused recovery/preparation tests passed; the test log is
+`/private/tmp/mesa-recovery-tests.log`.
+
+`recovery-001.json` records the controlled restart. Supervisor12216 and
+caffeinate12217 replace the stopped processes; verify live state. The prior
+launch count remains recorded, with a total ceiling of3 to allow the known
+repair resume and one bounded transport recovery. High effort is unchanged.
+The failed repair's execution time remains in accumulated processing totals.
+
+All135 Addiction draft Information bodies and contact/source fields have been
+read. Provisional findings001–011 record targeted primary-source checks,
+corrections, program/identity boundaries and a ten-member starter comparison set.
+Later category versions, global identities, taxonomy, all non-starter reasons,
+human-state preservation and the final review/export gates remain outstanding.

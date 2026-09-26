@@ -12,6 +12,7 @@ from unittest.mock import patch
 from resource_research_agent.scout_curation_runner import (
     compact_assignment, execute_worker, validate_links, write_once,
     run, candidate_batches, read_worker_result, write_evidence_once, encode,
+    validate_worker_result,
 )
 from resource_research_agent.storage import ResearchStore
 from resource_research_agent.importer import ResourcePackageImporter
@@ -20,6 +21,21 @@ from resource_research_agent.manual_consolidation import consolidate_manual_disc
 
 
 class CurationRunnerTests(unittest.TestCase):
+    def test_non_link_defects_do_not_launch_an_incapable_paid_repair(self):
+        assignment = {"category": {"id": "food", "label": "Food"}, "assignmentSha256": "sealed"}
+        job = {"categories": [{"categoryId": "food"}]}
+        raw = {"resources": [{"id": "r", "candidateIds": ["1"], "forGroups": []}],
+               "candidateDispositions": [{"candidateId": "1", "disposition": "curated", "resourceIds": ["r"]}]}
+        with patch("resource_research_agent.scout_curation_runner.repair_once") as repair:
+            with patch("resource_research_agent.scout_curation_runner.validate_scout_curation_result",
+                       side_effect=ValueError("unknown categories: foster-kinship")):
+                with self.assertRaisesRegex(ValueError, "unknown categories"):
+                    validate_worker_result(job, assignment, raw, Path("unused"), argparse.Namespace(), lambda *a, **k: None)
+            raw["resources"][0]["forGroups"] = ["invented"]
+            with self.assertRaisesRegex(ValueError, "Unknown For group"):
+                validate_worker_result(job, assignment, raw, Path("unused"), argparse.Namespace(), lambda *a, **k: None)
+            repair.assert_not_called()
+
     def test_empty_result_reconstruction_requires_exact_sealed_assignment(self):
         from resource_research_agent.scout_curation import _assignment_sha256
         with tempfile.TemporaryDirectory() as temporary:

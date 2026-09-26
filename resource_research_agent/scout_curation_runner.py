@@ -184,6 +184,10 @@ def write_evidence_once(path: Path, value: Any) -> None:
         path.write_text(json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2))
 
 
+class RepairableLinkError(ValueError):
+    """A saved-result defect within the link-only worker's permitted scope."""
+
+
 def validate_links(assignment: dict[str, Any], result: dict[str, Any]) -> None:
     """Supplement the application validator with exact links and For-group checks."""
     groups = {str(g.get("id") or g.get("name")) if isinstance(g, dict) else str(g)
@@ -191,7 +195,7 @@ def validate_links(assignment: dict[str, Any], result: dict[str, Any]) -> None:
     links: dict[str, set[str]] = {}
     for resource in result.get("resources", []):
         if is_explicit_placeholder(resource):
-            raise ValueError(f"Non-resource placeholder row: {resource.get('id')}")
+            raise RepairableLinkError(f"Non-resource placeholder row: {resource.get('id')}")
         if set(resource.get("forGroups", [])) - groups:
             raise ValueError(f"Unknown For group on {resource.get('id')}")
         for candidate_id in resource.get("candidateIds", []):
@@ -200,7 +204,7 @@ def validate_links(assignment: dict[str, Any], result: dict[str, Any]) -> None:
         expected = links.get(str(disposition["candidateId"]), set())
         actual = set(disposition.get("resourceIds", []))
         if actual != expected or (disposition["disposition"] == "omitted" and actual):
-            raise ValueError(f"Inconsistent candidate/resource links: {disposition['candidateId']}")
+            raise RepairableLinkError(f"Inconsistent candidate/resource links: {disposition['candidateId']}")
 
 
 def read_worker_result(directory: Path) -> dict[str, Any]:
@@ -340,7 +344,7 @@ def validate_worker_result(job: dict, assignment: dict, raw: dict, folder: Path,
         return validate_scout_curation_result(validation_job, category_id, value)
     try:
         return validate(raw)
-    except ValueError as error:
+    except RepairableLinkError as error:
         event("codex-curation-repair-started",
               f"Correcting {assignment['category']['label']} result links without repeating research: {error}",
               category_id, effort=args.effort)

@@ -504,6 +504,10 @@ def validate_scout_curation_result(
     assignment_candidates = category["assignment"].get("candidates") or []
     expected_candidate_ids = {str(item.get("id")) for item in assignment_candidates}
     valid_category_ids = {item["categoryId"] for item in job["categories"]}
+    if category["assignment"].get("preparationPolicyVersion"):
+        # Prepared resources use the sealed office catalog, which can include
+        # categories with no separate discovery assignment (Mesa: Miscellaneous).
+        valid_category_ids = {item["id"] for item in category["assignment"]["availableCategories"]}
     # Discovery ownership and final browsing membership are distinct. A requested
     # post-curation review may remove the owning category without deleting the
     # sole record of a resource or moving its candidates into another assignment.

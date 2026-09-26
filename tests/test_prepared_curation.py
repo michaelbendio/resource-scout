@@ -29,6 +29,24 @@ class PreparedCurationTests(unittest.TestCase):
             taxonomySuggestions=[dict(kind='type', label='Food benefits', definition='Help applying for benefits', evidence='SNAP application assistance')])
         return result
 
+    def test_prepared_validation_uses_office_catalog_not_research_assignments(self):
+        from resource_research_agent.scout_curation import validate_scout_curation_result, _assignment_sha256
+        job = prepare_scout_curation_job(self.fixture.store, self.fixture.import_id, prepared=True)
+        assignment = next_scout_curation_assignment(self.fixture.store, job['id'])
+        assignment['availableCategories'].append({'id': 'miscellaneous', 'label': 'Miscellaneous'})
+        assignment['assignmentSha256'] = _assignment_sha256(assignment)
+        job = self.fixture.store.get_scout_curation_job(job['id'])
+        category_id = assignment['category']['id']
+        category = next(c for c in job['categories'] if c['categoryId'] == category_id)
+        category.update(assignment=assignment, assignmentSha256=assignment['assignmentSha256'])
+        result = self.result(assignment)
+        result['resources'][0]['categories'].append('miscellaneous')
+        validated = validate_scout_curation_result(job, category_id, result)
+        self.assertIn('miscellaneous', validated['resources'][0]['categories'])
+        result['resources'][0]['categories'].append('foster-kinship')
+        with self.assertRaisesRegex(ScoutCurationError, 'unknown categories: foster-kinship'):
+            validate_scout_curation_result(job, category_id, result)
+
     def test_new_mode_preserves_legacy_seals_and_evidence_round_trip(self):
         old = prepare_scout_curation_job(self.fixture.store, self.fixture.import_id)
         sealed = json.dumps(old, sort_keys=True)
