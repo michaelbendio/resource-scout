@@ -13,24 +13,26 @@ After a saved-result repair, supervisor **12216** checks every 30 seconds;
 `recovery-001.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
-As of09:40UTC, Addiction (135 drafts) and Children/Pregnancy (123 drafts) are
-prepared; Clothing/Household is advancing through its seven batches. Verify the
-live supervisor/native events for the current batch. Children/Pregnancy completed
-after removing one invented extra `foster-kinship` category from a visitation-center
-record. Its supported membership, all facts,27 resources and28 candidate decisions
-remain intact. Original output and the unsuccessful link-only repair are preserved.
-The runner now avoids paid
-link-only repairs for category/For-group/content errors it cannot change, and
-prepared validation uses the sealed22-category office catalog, including
-Miscellaneous, rather than only21 discovery assignments. Preliminary reads of all
-135 Addiction and123 Children/Pregnancy records, targeted source checks,
-corrections, proposed identity merges, taxonomy/starter drafts and individually
-authored consideration reasons are saved in `review/`. Children/Pregnancy has17
-proposed duplicate groups covering19 overlapping rows. Its review resolves the
-Mesa CAPP car-seat access route and identifies useful child-care referral service
-among source-only leads. Those55 source-only rows still need full member-evidence
-and whole-office reconciliation. No final review or export is signed; preserve
-later category-specific facts when assembling the complete collection.
+As of 10:30 UTC, Addiction (135 drafts), Children/Pregnancy (123 drafts), and
+Clothing/Household (122 drafts) are prepared; Disability is on batch 4/8. Verify
+live native events for the current batch. All 380 completed draft bodies have
+received a preliminary read, with targeted source checks and findings saved in
+`review/`. This is not a signed final review. Children/Pregnancy's 55 source-only
+rows have preliminary member-evidence assessments and 11 restoration proposals;
+whole-office reconciliation remains pending. Its 17 proposed duplicate groups
+cover 19 overlapping rows; Clothing has 17 groups covering 18 overlaps. Working
+consideration ledgers contain 135 Addiction, 104 child and 104 clothing reasons.
+Child Types have explicit working assignments; clothing taxonomy/starters remain
+in progress. Source-only clothing evidence has been read but its routing ledger
+is not yet complete. Preserve all later category-specific facts during assembly.
+
+Children/Pregnancy completed after a reviewed repair removed one invented extra
+`foster-kinship` category, preserving its valid membership and all facts, 27
+resources and 28 candidate decisions. The unsuccessful link-only repair and all
+original outputs remain intact. The runner now avoids paid link-only repairs for
+content/category/group errors; prepared validation uses the sealed 22-category
+office catalog, including Miscellaneous. Forty focused recovery tests passed.
+No complete export or final review is signed.
 
 The first prepared attempt's supervisor and coordinator were stopped after three
 completed batches. Those batches performed

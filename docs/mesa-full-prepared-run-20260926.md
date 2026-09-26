@@ -82,27 +82,28 @@ launch count remains recorded, with a total ceiling of3 to allow the known
 repair resume and one bounded transport recovery. High effort is unchanged.
 The failed repair's execution time remains in accumulated processing totals.
 
-All135 Addiction draft Information bodies and contact/source fields have been
-read. Provisional findings001–013 record targeted primary-source checks,
-corrections, program/identity boundaries and a ten-member starter comparison set.
-Children/Pregnancy completed with123 drafts; its descriptions, Information,
-contacts and proposed memberships have been read. Six provisional findings files
-record primary checks, corrections and a child-care-referral restoration proposal.
-The source-only audit identifies55 rows needing final reconciliation rather than
-assuming that a source-only label means a service should be omitted.
+All 135 Addiction, 123 Children/Pregnancy and 122 Clothing/Household draft
+Information bodies, descriptions and contact/source fields have received an
+initial read. Targeted primary checks, corrections and identity proposals are
+saved under `review/`; none is a signed final review. The child category now has
+eight findings files, preliminary routing assessments for all 55 source-only
+rows, and 11 restoration proposals. These include child-care referrals, public
+Arizona PAL assistance, home-visiting navigation and loss support. Whole-office
+matching remains necessary before adding any record.
 
-The child-category working identity file proposes17 duplicate groups covering19
-overlapping rows, with all original references retained. There are104 individually
-authored consideration reasons for those provisional distinct records, alongside
-135 Addiction reasons. Prospective starter reasons are included in these working
-ledgers; export only the final non-starter pairs and recheck comparisons after the
-final selections. The ten-member child starter draft and13 suggested Types remain
-provisional. Current source responses are preserved under `review/source-checks/`.
+The working child identity file proposes 17 duplicate groups covering 19 overlaps;
+Clothing proposes 17 groups covering 18 overlaps. Working ledgers contain 135
+Addiction, 104 child and 104 clothing individually authored consideration reasons.
+Prospective starters are included in these ledgers: export only final non-starter
+pairs and recheck comparisons after final selection. Child Types have 104 explicit
+working assignments; its ten-member starter comparison set remains provisional.
+All 45 clothing source-only rows have been read; their routing ledger, restorations,
+Types and starter selection are still in progress. Current source responses are
+preserved under `review/source-checks/`.
 
-At09:40UTC the persistent coordinator was progressing through Clothing/Household.
-Later category versions, source-only lead decisions, global identities, final
-taxonomy assignments, all-category starters/reasons, human-state preservation and
-the final review/export gates remain outstanding. Read `review/final-assembly-plan.md`
-before applying corrections: later versions may have additional category-specific
-facts that must not be overwritten by an earlier body. Nothing here is a signed
-review, human Curated approval or a completed full-office export.
+At 10:30 UTC the coordinator was on Disability batch 4/8. Later category versions,
+source-only lead decisions, global identities, final taxonomy, all-category
+starters/reasons, human-state preservation and final review/export remain pending.
+Read `review/final-assembly-plan.md` before applying corrections: later versions
+may add useful facts that an earlier body must not overwrite. Nothing here is
+human Curated approval or a completed full-office export.
