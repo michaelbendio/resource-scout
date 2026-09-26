@@ -1,0 +1,2898 @@
+{
+  "artifactType": "scout-starter-evaluation",
+  "schemaVersion": 1,
+  "evaluationOnly": true,
+  "office": {
+    "slug": "mesa",
+    "name": "Mesa"
+  },
+  "seedSha256": "b4d0c6c9de68019eaad01d16f8e429298abf4686f4a27bd13ef6ab22be9e017f",
+  "stateSha256": "e92650411c17c48d9db169e13c3787f8c2253c599cd5d3a9e1c5e4faf2bb09a0",
+  "proposalSha256": "0a629818c8bc5f46da3af01c72b7a641ba0c943293b47d46b4ebf78a8cd5ae93",
+  "uniqueResources": 35,
+  "categoryEntries": 37,
+  "assessedMemberships": 169,
+  "notes": [
+    "Trial prepared September 25, 2026 from the reviewed Mesa collection and its saved reconciled browser state. Later browser edits are not represented. Saved human exclusions are respected.",
+    "The order suggests which resources to curate first. It is not a provider rating or a referral order for every client. Each set deliberately mixes different help and practical alternatives.",
+    "All candidates assigned to these categories were compared using their saved descriptions; shortlisted records were read in full, and consequential uncertainties received targeted source checks. This is a selection trial, not a fresh verification of every provider or a new whole-office review.",
+    "Expand the saved records to inspect supporting information. They retain the previous four-section format; conversion to Stephanie's five sections belongs to the next preparation implementation. Original records and approval state have not been changed.",
+    "A New Leaf's ambiguous work-clothing/Autumn House identity is not selected. Potential duplicate records are identified in the assessment list rather than treated as extra provider capacity.",
+    "The four trial category IDs match the office list supplied by Claude. Other Mesa category differences still require explicit reconciliation before a production import. This trial uses existing IDs and cannot be imported as prepared resources."
+  ],
+  "checks": [
+    {
+      "label": "ARM of Save the Family",
+      "url": "https://savethefamily.org/arm/",
+      "finding": "The official page says new waitlist applications are temporarily closed. Removed from the proposed starter set; retained as a future housing option, not deleted or treated as a closed organization."
+    },
+    {
+      "label": "AllThrive transportation",
+      "url": "https://allthrive365.org/connection/transportation/",
+      "finding": "The current page describes West Valley transportation. It does not establish Mesa coverage for this saved lead. Held outside the starter set pending a program-specific Mesa access check."
+    },
+    {
+      "label": "Housing for Heroes",
+      "url": "https://www.nchponline.org/housingforheroes",
+      "finding": "The official page identifies veteran housing support in Maricopa, Pinal and Yuma counties. Current intake and financial assistance remain subject to screening and funds."
+    },
+    {
+      "label": "WE-CYCLE-USA",
+      "url": "https://wecycleusa.org/",
+      "finding": "The official site describes bicycles and repairs for people in need, an earn-a-bike route, and appointment-based access. Confirm a working shop location and appointment; the published address should not be assumed a walk-in shop."
+    },
+    {
+      "label": "Legal Assistance for Renters",
+      "url": "https://www.maricopa.gov/5763/Legal-Assistance-for-Renters",
+      "finding": "The county page continues to identify CLS assistance for qualifying tenants facing nonpayment eviction. It does not establish acceptance of an individual case."
+    },
+    {
+      "label": "Matthew's Crossing",
+      "url": "https://matthewscrossing.org/",
+      "finding": "The official site describes school-year weekend backpacks and campus food closets. The current Mesa school roster and referral process still need confirmation."
+    },
+    {
+      "label": "La Mesa Resource Center",
+      "url": "https://lamesaministries.org/resource-center/",
+      "finding": "The official page describes personal help with identification documents, applications, and mail. Fee funding and current bus-pass stock remain separate questions."
+    },
+    {
+      "label": "City of Mesa housing",
+      "url": "https://www.mesaaz.gov/Resident-Resources/Housing",
+      "finding": "The city identifies its security-deposit assistance program. This supports the pathway, not a guarantee of an open application window or funds."
+    },
+    {
+      "label": "Valley Metro RideChoice",
+      "url": "https://www.valleymetro.org/ridechoice",
+      "finding": "Direct page access was blocked by the research tool. This is not evidence of closure. Retain the reviewed program distinctions and require confirmation of Mesa-specific eligibility before curation."
+    }
+  ],
+  "starterSets": [
+    {
+      "categoryId": "housing",
+      "label": "Housing",
+      "rationale": "Nine selections address keeping housing, move-in costs, and shelter access for families, single men, single women, survivors, pregnant women and veteran households. Separate intake programs are retained even when operated by the same organization. A coordinated-entry record is not counted as an additional supply of beds.",
+      "gaps": "No immediately open general affordable-housing waitlist is established. Youth-only housing, recovery housing and additional rent providers remain in the reserve. ARM's closed waitlist should be revisited later. Shelter capacity, referral routes and funding must be checked; these selections are useful curation targets, not guaranteed placements.",
+      "candidateCount": 74,
+      "members": [
+        {
+          "label": "MesaCAN — rent assistance",
+          "contribution": "Starts with Mesa's own rent-assistance intake, helping eligible households preserve housing before shelter becomes necessary.",
+          "limitation": "City of Mesa eligibility and limited appointment releases apply. Confirm the rent-intake schedule and funds; utility intake uses a different route.",
+          "resourceId": "106d516390d810b1989b53d59ae806c9",
+          "position": 1,
+          "evidence": {
+            "field": "description",
+            "text": "MesaCAN rent and utility assistance"
+          },
+          "resource": {
+            "address": "635 E. Broadway Road, Mesa, AZ 85204",
+            "candidateIds": [
+              "729",
+              "733",
+              "771",
+              "1276",
+              "1277"
+            ],
+            "categories": [
+              "financial-assistance",
+              "housing",
+              "utilities-phone-internet"
+            ],
+            "categoryFilters": {
+              "financial-assistance": [
+                "Rent/Mortgage Aid",
+                "Utility Aid"
+              ],
+              "housing": [
+                "Rental Assistance",
+                "Eviction Prevention"
+              ],
+              "utilities-phone-internet": [
+                "Bill Assistance"
+              ]
+            },
+            "description": "MesaCAN rent and utility assistance for qualifying low-income City of Mesa residents.",
+            "forGroups": [
+              "Low-income households",
+              "Seniors",
+              "Spanish"
+            ],
+            "hours": "Office Monday–Friday 8 a.m.–4:30 p.m.; rent and utility intake have separate limited schedules.",
+            "id": "106d516390d810b1989b53d59ae806c9",
+            "informationText": "**Eligibility Requirements**\n\nMesa households meeting MesaCAN rent or utility assistance rules. Income, address, documentation and funding apply; utility orientation has an age-60 waiver.\n\n**How to Best Connect**\n\nCall Rent appointments 480-750-9228; utility intake 480-833-9200 and ask for the specific service described below. Website: https://turnanewleaf.org/services/financial-empowerment/mesacan/mesacan-rent-and-utility-assistance/\n\n**Access**\n\nArea served: City of Mesa residents; City of Mesa residents only; Mesa residents. Published hours: Office Monday–Friday 8 a.m.–4:30 p.m.; rent and utility intake have separate limited schedules..  Location/contact address: 635 E. Broadway Road, Mesa, AZ 85204.\n\n**Important Information to Know**\n\nMesaCAN offers rent and utility assistance to low-income City of Mesa residents, subject to eligibility and funds. Rent appointments are released through 480-750-9228 on the first Thursday, 2–3 p.m. or until filled; callers must reach a person. The current utility page lists scheduled orientation Monday, Tuesday and Wednesday at 8 a.m.; applicants age 60 or older do not need orientation. Call 480-833-9200 to arrange utility intake. Spanish application materials are available. The Azura VITA program is a separate tax resource and was previously misattributed here.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "A New Leaf - financial assistance, housing and utilities",
+            "pdfs": [],
+            "phone": "Rent appointments 480-750-9228; utility intake 480-833-9200",
+            "verifiedOn": null,
+            "website": "https://turnanewleaf.org/services/financial-empowerment/mesacan/mesacan-rent-and-utility-assistance/"
+          }
+        },
+        {
+          "label": "Community Legal Services — Legal Assistance for Renters",
+          "contribution": "Adds legal screening and possible representation for nonpayment eviction, a different intervention from paying rent or finding a bed.",
+          "limitation": "Case eligibility and acceptance need screening. Confirm current intake and any deadlines directly; assistance is not guaranteed.",
+          "resourceId": "a75559d019132060ea10e3390d9106ab",
+          "position": 2,
+          "evidence": {
+            "field": "description",
+            "text": "CLS advice, negotiation, and court representation"
+          },
+          "resource": {
+            "address": "",
+            "candidateIds": [
+              "1077"
+            ],
+            "categories": [
+              "housing",
+              "legal"
+            ],
+            "categoryFilters": {
+              "housing": [
+                "Eviction Legal Help"
+              ],
+              "legal": [
+                "Housing/Eviction Law"
+              ]
+            },
+            "description": "County-posted pathway for eligible tenants facing nonpayment eviction to CLS advice, negotiation, and court representation in Justice Court or Superior Court.",
+            "forGroups": [],
+            "hours": "",
+            "id": "a75559d019132060ea10e3390d9106ab",
+            "informationText": "**Eligibility Requirements**\n\nMaricopa County tenants who meet the funded program’s nonpayment-eviction criteria; current eligibility and case acceptance require screening.\n\n**How to Best Connect**\n\nCall 602-385-8880 for the specific program and current intake. Website: https://www.maricopa.gov/5763/Legal-Assistance-for-Renters\n\n**Access**\n\nArea served: Maricopa County tenants. An exact current schedule is not established in this record. \n\n**Important Information to Know**\n\n* Legal Assistance for Renters (eviction for nonpayment): County-posted pathway for eligible tenants facing nonpayment eviction to CLS advice, negotiation, and court representation in Justice Court or Superior Court.\n\n* Area served: Maricopa County tenants\n\n* County page and CLS general intake numbers differ; confirm current funded scope.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Maricopa County Human Services / Community Legal Services · Legal Assistance for Renters (eviction for nonpayment)",
+            "pdfs": [],
+            "phone": "602-385-8880",
+            "verifiedOn": null,
+            "website": "https://www.maricopa.gov/5763/Legal-Assistance-for-Renters"
+          }
+        },
+        {
+          "label": "Family Housing Hub — family shelter access",
+          "contribution": "Provides a coordinated shelter-access route for families with minor children, including a possible Mesa intake option.",
+          "limitation": "Assessment does not guarantee a bed. Saved addresses and satellite schedules conflict; confirm the current intake route before travel.",
+          "resourceId": "0e36c87d7889979a6cf7f4debff3bed7",
+          "position": 3,
+          "evidence": {
+            "field": "description",
+            "text": "Primary coordinated-entry pathway for families"
+          },
+          "resource": {
+            "address": "Confirm current Family Housing Hub or Mesa satellite intake location.",
+            "candidateIds": [
+              "584"
+            ],
+            "categories": [
+              "housing",
+              "homeless-services"
+            ],
+            "categoryFilters": {
+              "housing": [
+                "Coordinated Entry"
+              ],
+              "homeless-services": [
+                "Homeless Navigation"
+              ]
+            },
+            "description": "Primary coordinated-entry pathway for families needing emergency shelter and homeless-services placement. MesaCAN hosts an in-person Mesa access point.",
+            "forGroups": [
+              "Families",
+              "Youth",
+              "Homeless"
+            ],
+            "hours": "Current intake and satellite hours require confirmation.",
+            "id": "0e36c87d7889979a6cf7f4debff3bed7",
+            "informationText": "**Eligibility Requirements**\n\nMaricopa County families with children under 18 who need emergency shelter or homeless-housing assessment; intake does not guarantee a bed.\n\n**How to Best Connect**\n\nCall 602-595-8700 for the specific program and current intake. Website: https://www.fhhub.org/\n\n**Access**\n\nArea served: Families with children under 18 in Maricopa County, including Mesa; Families with minor children in Maricopa County; Mesa access site. Published hours: Current intake and satellite hours require confirmation..  Location/contact address: Confirm current Family Housing Hub or Mesa satellite intake location..\n\n**Important Information to Know**\n\nPrimary coordinated-entry pathway for families needing emergency shelter and homeless-services placement. MesaCAN hosts an in-person Mesa access point.\n\nFamily Housing Hub is the coordinated-access pathway for families experiencing homelessness in Maricopa County. The saved sources conflict between 3307 and 3333 E. Van Buren Street and include a MesaCAN satellite schedule that may change. Confirm the current family intake site, remote options and satellite hours before travel. The two Hub records describe one coordinated system, not separate allocations of shelter beds.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Family Housing Hub (UMOM New Day Centers) · Maricopa family coordinated entry and shelter waitlist",
+            "pdfs": [],
+            "phone": "602-595-8700",
+            "verifiedOn": null,
+            "website": "https://www.fhhub.org/"
+          }
+        },
+        {
+          "label": "East Valley Men's Center — A New Leaf",
+          "contribution": "Adds a Mesa residential homelessness program for adult men, who do not fit the family-with-children pathway.",
+          "limitation": "Prescreening and program rules apply. Confirm the destination; A New Leaf's administrative address is not the program's intake address.",
+          "resourceId": "78410d1265bcc4f89c056a7d624434f8",
+          "position": 4,
+          "evidence": {
+            "field": "informationText",
+            "text": "Homeless adult men eligible for East Valley Men’s Center prescreening"
+          },
+          "resource": {
+            "address": "",
+            "candidateIds": [
+              "906",
+              "907"
+            ],
+            "categories": [
+              "homeless-services",
+              "housing"
+            ],
+            "categoryFilters": {
+              "homeless-services": [
+                "Mail & Storage",
+                "Meals & Basic Needs",
+                "Homeless Navigation",
+                "Overnight Lodging"
+              ],
+              "housing": [
+                "Emergency Shelter",
+                "Rapid Rehousing",
+                "Affordable Housing",
+                "Housing Navigation"
+              ]
+            },
+            "description": "Although centered on emergency shelter, EVMC has a distinct package of practical homeless services: individualized case management and housing-stability planning, personal-property storage for residents, employment assistance, transportation assistance, behavioral-health and substance-use referrals, healthcare/dental referrals, veteran resources and basic needs.",
+            "forGroups": [
+              "Homeless",
+              "Men",
+              "Veterans"
+            ],
+            "hours": "",
+            "id": "78410d1265bcc4f89c056a7d624434f8",
+            "informationText": "**Eligibility Requirements**\n\nHomeless adult men eligible for East Valley Men’s Center prescreening; other A New Leaf housing programs have different populations and intake routes.\n\n**How to Best Connect**\n\nCall 480-969-4024 for the specific program and current intake. Website: https://turnanewleaf.org/\n\n**Access**\n\nArea served: Mesa; homeless adult men; Mesa; men 18+ experiencing homelessness (East Valley / county CE); Mesa and broader Maricopa County service areas. An exact current schedule is not established in this record. \n\n**Important Information to Know**\n\nAlthough centered on emergency shelter, EVMC has a distinct package of practical homeless services: individualized case management and housing-stability planning, personal-property storage for residents, employment assistance, transportation assistance, behavioral-health and substance-use referrals, healthcare/dental referrals, veteran resources and basic needs.\n\nEast Valley Men’s Center is a residential homelessness program for men with screening and program rules. It is not an unrestricted public day center. The 868 E. University Drive address is A New Leaf’s administrative address; confirm the correct intake and destination with program staff before travel.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "A New Leaf - homeless services and housing",
+            "pdfs": [],
+            "phone": "480-969-4024",
+            "verifiedOn": null,
+            "website": "https://turnanewleaf.org/"
+          }
+        },
+        {
+          "label": "UMOM — Halle Women's Center and shelter intake",
+          "contribution": "Adds an explicit shelter pathway for single women, complementing the family Hub and men's program.",
+          "limitation": "The saved record combines several UMOM programs. Confirm the single-women intake route and waiting list rather than assuming the family Hub handles every case.",
+          "resourceId": "15b833547484fe110411244b99712ca9",
+          "position": 5,
+          "evidence": {
+            "field": "informationText",
+            "text": "Halle Women’s Center: Dedicated emergency shelter for single women"
+          },
+          "resource": {
+            "address": "3333 E Van Buren St, Phoenix, AZ 85008",
+            "candidateIds": [
+              "620",
+              "621",
+              "622"
+            ],
+            "categories": [
+              "homeless-services",
+              "housing",
+              "financial-assistance"
+            ],
+            "categoryFilters": {
+              "homeless-services": [
+                "Overnight Lodging",
+                "Homeless Navigation"
+              ],
+              "housing": [
+                "Emergency Shelter",
+                "Rapid Rehousing",
+                "Housing Navigation"
+              ],
+              "financial-assistance": [
+                "Rent/Mortgage Aid",
+                "Deposit Assistance"
+              ]
+            },
+            "description": "Dedicated emergency shelter for single women, with case management, employment assistance, landlord advocacy, and housing-resource connections.",
+            "forGroups": [
+              "Families",
+              "Homeless",
+              "Women",
+              "Youth"
+            ],
+            "hours": "",
+            "id": "15b833547484fe110411244b99712ca9",
+            "informationText": "**Eligibility Requirements**\n\nFamilies with children or single women experiencing homelessness, depending on the UMOM shelter. Rapid rehousing financial support requires separate program eligibility.\n\n**How to Best Connect**\n\nCall 602-275-7852 for the specific program and current intake. Website: https://www.umom.org/shelter/\n\n**Access**\n\nArea served: Single women experiencing homelessness in Maricopa County; Single women without children in Maricopa County; Families with children experiencing homelessness in Maricopa County. An exact current schedule is not established in this record.  Location/contact address: 3333 E Van Buren St, Phoenix, AZ 85008.\n\n**Important Information to Know**\n\n* Halle Women’s Center: Dedicated emergency shelter for single women, with case management, employment assistance, landlord advocacy, and housing-resource connections.\n* New Day Center Family Emergency Shelter: Emergency family shelter with case management, employment support, landlord advocacy, children’s services, and pathways to rapid rehousing and affordable housing.\n* Rapid Rehousing: Housing-stabilization model offering eligible households financial assistance such as move-in costs and rental subsidies alongside supportive services.\n\n* Area served: Single women experiencing homelessness in Maricopa County; Single women without children in Maricopa County; Families with children experiencing homelessness in Maricopa County\n\n* Prospective residents must call for the waiting list. Current capacity and pet policies require confirmation.\n* Phoenix location; waitlist is typical.\n* Access normally runs through the Family Housing Hub or 2-1-1; placement and pet accommodation should be confirmed.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "UMOM New Day Centers",
+            "pdfs": [],
+            "phone": "602-275-7852",
+            "verifiedOn": null,
+            "website": "https://www.umom.org/shelter/"
+          }
+        },
+        {
+          "label": "Sojourner Center — survivor housing and pet support",
+          "contribution": "Adds confidential survivor housing and a distinct pet-support pathway, an important constraint that ordinary shelter listings may not address.",
+          "limitation": "Phoenix-based; housing and pet placement have separate availability. Confirm intake and pet arrangements without publishing a confidential shelter location.",
+          "resourceId": "79a54c3aaf0d161f9dbab859bfba7da2",
+          "position": 6,
+          "evidence": {
+            "field": "description",
+            "text": "DV shelter plus transitional apartments and a dedicated pet companion program"
+          },
+          "resource": {
+            "address": "Confidential (Phoenix)",
+            "candidateIds": [
+              "608"
+            ],
+            "categories": [
+              "housing",
+              "domestic-violence"
+            ],
+            "categoryFilters": {
+              "housing": [
+                "Emergency Shelter",
+                "Transitional Housing"
+              ],
+              "domestic-violence": [
+                "Emergency Shelter",
+                "Transitional Housing"
+              ]
+            },
+            "description": "Large DV shelter plus transitional apartments and a dedicated pet companion program that can board pets for survivors placed anywhere in the county.",
+            "forGroups": [
+              "Pet owners",
+              "Domestic violence survivors"
+            ],
+            "hours": "",
+            "id": "79a54c3aaf0d161f9dbab859bfba7da2",
+            "informationText": "**Eligibility Requirements**\n\nSurvivors of domestic or sexual violence or trafficking seeking Sojourner housing; pet boarding is a separate companion service with its own availability.\n\n**How to Best Connect**\n\nCall 602-244-0089 for the specific program and current intake. Website: https://www.sojournercenter.org/\n\n**Access**\n\nArea served: Maricopa County survivors of DV, sexual violence, and trafficking. An exact current schedule is not established in this record.  Location/contact address: Confidential (Phoenix).\n\n**Important Information to Know**\n\n* Emergency/transitional DV housing and Pet Companion Shelter: Large DV shelter plus transitional apartments and a dedicated pet companion program that can board pets for survivors placed anywhere in the county.\n\n* Area served: Maricopa County survivors of DV, sexual violence, and trafficking\n\n* Not Mesa-sited; pet boarding is a companion service, not always co-located with every survivor room.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Sojourner Center · Emergency/transitional DV housing and Pet Companion Shelter",
+            "pdfs": [],
+            "phone": "602-244-0089",
+            "verifiedOn": null,
+            "website": "https://www.sojournercenter.org/"
+          }
+        },
+        {
+          "label": "City of Mesa — security-deposit assistance",
+          "contribution": "Addresses the up-front cost of entering an eligible rental, which differs from rent-arrears assistance and shelter placement.",
+          "limitation": "Confirm the application window, funding and timing before lease signing or occupancy. Landlord, inspection and income rules apply.",
+          "resourceId": "987a8b8eb5e82e8c0216ef7bb436693f",
+          "position": 7,
+          "evidence": {
+            "field": "description",
+            "text": "Pays the refundable portion of a rental security deposit"
+          },
+          "resource": {
+            "address": "200 S Center St, Building 1, Mesa, AZ 85210",
+            "candidateIds": [
+              "757"
+            ],
+            "categories": [
+              "financial-assistance",
+              "housing"
+            ],
+            "categoryFilters": {
+              "financial-assistance": [
+                "Deposit Assistance"
+              ],
+              "housing": [
+                "Deposit Assistance"
+              ]
+            },
+            "description": "Pays the refundable portion of a rental security deposit and, when requested with the security deposit, a utility deposit. Payments are made directly to the landlord and utility provider. Income must generally be at or below 80% AMI; the landlord and utility must accept a payment-guarantee letter, and the unit must pass inspection.",
+            "forGroups": [
+              "Low-income households"
+            ],
+            "hours": "",
+            "id": "987a8b8eb5e82e8c0216ef7bb436693f",
+            "informationText": "**Eligibility Requirements**\n\nIncome-qualified households arranging an eligible Mesa move before lease signing or occupancy, subject to current deposit-program rules and funding.\n\n**How to Best Connect**\n\nCall (480) 644-2221 for the specific program and current intake. Website: https://www.mesaaz.gov/residents/housing\n\n**Access**\n\nArea served: City of Mesa residents; City of Mesa; payments to landlord/utility vendor; Low-income City of Mesa residents moving into an eligible unit. An exact current schedule is not established in this record.  Location/contact address: 200 S Center St, Building 1, Mesa, AZ 85210.\n\n**Important Information to Know**\n\nPays the refundable portion of a rental security deposit and, when requested with the security deposit, a utility deposit. Payments are made directly to the landlord and utility provider. Income must generally be at or below 80% AMI; the landlord and utility must accept a payment-guarantee letter, and the unit must pass inspection.\n\nMesa security-deposit assistance may help qualifying households enter housing, subject to income, rental approval, program rules and funds. A program description does not establish an open application window. Ask the housing office about current intake, landlord requirements and when a deposit can be paid.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "City of Mesa Housing Authority · Security and Utility Deposit Assistance Program",
+            "pdfs": [],
+            "phone": "(480) 644-2221",
+            "verifiedOn": null,
+            "website": "https://www.mesaaz.gov/residents/housing"
+          }
+        },
+        {
+          "label": "Housing for Heroes — veteran housing stabilization",
+          "contribution": "Adds a separate provider and veteran-specific prevention or rehousing assistance for qualifying households.",
+          "limitation": "SSVF eligibility, current intake and available funds must be screened; this is not a general rent fund.",
+          "resourceId": "a3782d71fb0f13f124d33c95dadd779c",
+          "position": 8,
+          "evidence": {
+            "field": "description",
+            "text": "Separate SSVF grantee covering Maricopa"
+          },
+          "resource": {
+            "address": "",
+            "candidateIds": [
+              "1352"
+            ],
+            "categories": [
+              "financial-assistance",
+              "housing"
+            ],
+            "categoryFilters": {
+              "financial-assistance": [
+                "Rent/Mortgage Aid",
+                "Deposit Assistance"
+              ],
+              "housing": [
+                "Rapid Rehousing",
+                "Deposit Assistance",
+                "Eviction Prevention",
+                "Rental Assistance"
+              ]
+            },
+            "description": "Separate SSVF grantee covering Maricopa for prevention, rapid rehousing, deposits, and HUD-VASH deposit support.",
+            "forGroups": [
+              "Veterans"
+            ],
+            "hours": "",
+            "id": "a3782d71fb0f13f124d33c95dadd779c",
+            "informationText": "**Eligibility Requirements**\n\nVeteran households meeting Housing for Heroes’ current SSVF income and housing-stability requirements; confirm current Maricopa service coverage.\n\n**How to Best Connect**\n\nCall 480-361-0177 for the specific program and current intake. Website: https://www.nchponline.org/housingforheroes\n\n**Access**\n\nArea served: Maricopa, Pinal, and Yuma Counties. An exact current schedule is not established in this record. \n\n**Important Information to Know**\n\nSeparate SSVF grantee covering Maricopa for prevention, rapid rehousing, deposits, and HUD-VASH deposit support.\n\nNational Community Health Partners is retained as an SSVF veteran-housing assistance lead. Current grant coverage, Maricopa intake, income rules and funds require confirmation before referral. SSVF is targeted housing stabilization for qualifying veteran households, not a general rent fund.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "National Community Health Partners · Housing for Heroes (SSVF)",
+            "pdfs": [],
+            "phone": "480-361-0177",
+            "verifiedOn": null,
+            "website": "https://www.nchponline.org/housingforheroes"
+          }
+        },
+        {
+          "label": "Maggie's Place — maternity housing",
+          "contribution": "Adds housing tailored to homeless pregnant adults, with parenting support beyond an ordinary emergency-shelter listing.",
+          "limitation": "Program-specific safety and household rules can exclude applicants with other children in their care. Confirm eligibility and openings; home addresses can be confidential.",
+          "resourceId": "0df6bb236d8c7bf168ce4867dc83360e",
+          "position": 9,
+          "evidence": {
+            "field": "description",
+            "text": "Housing and wraparound support for homeless pregnant women 18+"
+          },
+          "resource": {
+            "address": "4001 N 30th St, Phoenix, AZ 85016",
+            "candidateIds": [
+              "272"
+            ],
+            "categories": [
+              "household-essentials",
+              "housing",
+              "parenting-child-development"
+            ],
+            "categoryFilters": {
+              "household-essentials": [
+                "Baby Supplies"
+              ],
+              "housing": [
+                "Transitional Housing"
+              ],
+              "parenting-child-development": [
+                "Parenting Education"
+              ]
+            },
+            "description": "Housing and wraparound support for homeless pregnant women 18+ through baby’s first year, plus infant supplies, parenting, and car-seat education.",
+            "forGroups": [
+              "Families",
+              "Pregnant/postpartum",
+              "Women",
+              "Homeless",
+              "Youth"
+            ],
+            "hours": "",
+            "id": "0df6bb236d8c7bf168ce4867dc83360e",
+            "informationText": "**Eligibility Requirements**\n\nPregnant women age 18 or older experiencing homelessness; residence and services through the baby’s first year have program-specific rules.\n\n**How to Best Connect**\n\nCall 602-246-3724 for the specific program and current intake. Website: https://maggiesplace.org/\n\n**Access**\n\nArea served: Maricopa County; homes described in Phoenix, Glendale, Mesa, and Tempe. An exact current schedule is not established in this record.  Location/contact address: 4001 N 30th St, Phoenix, AZ 85016.\n\n**Important Information to Know**\n\n* Maternity and parenting housing / Family Success Center: Housing and wraparound support for homeless pregnant women 18+ through baby’s first year, plus infant supplies, parenting, and car-seat education.\n\n* Area served: Maricopa County; homes described in Phoenix, Glendale, Mesa, and Tempe\n\n* Strict intake rules (generally no other children in care, safety/sobriety screens); Mesa house address is confidential. Confirm current openings with intake.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Maggie's Place · Maternity and parenting housing / Family Success Center",
+            "pdfs": [],
+            "phone": "602-246-3724",
+            "verifiedOn": null,
+            "website": "https://maggiesplace.org/"
+          }
+        }
+      ],
+      "assessments": [
+        {
+          "resourceId": "db2e8f3b8772791cf254fb9cc04b9838",
+          "name": "A New Leaf - domestic violence and housing",
+          "decision": "not-selected",
+          "reason": "Another survivor housing route; retain as alternative to Sojourner without overloading the initial set."
+        },
+        {
+          "resourceId": "106d516390d810b1989b53d59ae806c9",
+          "name": "A New Leaf - financial assistance, housing and utilities",
+          "decision": "selected",
+          "reason": "Starts with Mesa's own rent-assistance intake, helping eligible households preserve housing before shelter becomes necessary."
+        },
+        {
+          "resourceId": "78410d1265bcc4f89c056a7d624434f8",
+          "name": "A New Leaf - homeless services and housing",
+          "decision": "selected",
+          "reason": "Adds a Mesa residential homelessness program for adult men, who do not fit the family-with-children pathway."
+        },
+        {
+          "resourceId": "2683e222e5f6957b1e5bddb3292334d1",
+          "name": "A New Leaf - work clothing, furniture",
+          "decision": "not-selected",
+          "reason": "Preserved human clothing/furniture name conflicts with Autumn House housing facts; resolve identity first."
+        },
+        {
+          "resourceId": "177117c4ee2b5824559a13d70c603148",
+          "name": "Area Agency on Aging, Region One",
+          "decision": "not-selected",
+          "reason": "Late-life abuse housing is a consequential specialized reserve; assess age-specific needs when matching."
+        },
+        {
+          "resourceId": "a90b957439ba736a20a0eb129322891e",
+          "name": "Arizona Department of Corrections, Rehabilitation & Reentry",
+          "decision": "not-selected",
+          "reason": "Corrections-linked housing planning is restricted to eligible release pathways, not general public intake."
+        },
+        {
+          "resourceId": "fb402105bec44e0623b4ccf8d7064802",
+          "name": "Arizona Department of Veterans' Services",
+          "decision": "not-selected",
+          "reason": "Veteran benefits counseling supports stability but does not itself establish housing placement."
+        },
+        {
+          "resourceId": "138a8c6f2c950488f75f8766e2ef6252",
+          "name": "Arizona Legal Center",
+          "decision": "not-selected",
+          "reason": "Limited-scope legal consultation is useful backup when CLS cannot accept a case."
+        },
+        {
+          "resourceId": "86255417090cba31f14b0d7e9334d157",
+          "name": "Arizona Women's Recovery Center",
+          "decision": "not-selected",
+          "reason": "Women-specific recovery housing is useful reserve depth; the starter already includes pregnancy and survivor pathways."
+        },
+        {
+          "resourceId": "773f0771a3cca46a7a57189d17a58a01",
+          "name": "AZCEND · I-HELP overnight lodging and CAP rent/utility assistance",
+          "decision": "not-selected",
+          "reason": "Nearby I-HELP/CAP alternative; confirm that this specific program accepts Mesa residents."
+        },
+        {
+          "resourceId": "bd8d70a1ed5b94634c74d90a66d1ea64",
+          "name": "Catholic Charities Community Services Arizona",
+          "decision": "not-selected",
+          "reason": "East Valley survivor shelter is a useful alternative; check overlap with the My Sister's Place record."
+        },
+        {
+          "resourceId": "996b322aa685b24c16a5bbea4b68ed0e",
+          "name": "Catholic Charities Community Services · MANA House",
+          "decision": "not-selected",
+          "reason": "Veteran transitional residence is useful reserve depth beyond the selected prevention/rehousing provider."
+        },
+        {
+          "resourceId": "8d56f8448fc9b780197d3015c051f81c",
+          "name": "Central Arizona Shelter Services (CASS)",
+          "decision": "not-selected",
+          "reason": "Regional shelter provider is a practical reserve fallback when the selected local routes do not fit."
+        },
+        {
+          "resourceId": "00cca473db91285a4a393f5ba53add8f",
+          "name": "Chandler-Gilbert Arc · Adult Developmental Disability Services",
+          "decision": "not-selected",
+          "reason": "Developmental-disability community living has specialized eligibility and deserves targeted reserve access."
+        },
+        {
+          "resourceId": "6f709ac3eafa28d894f99dad814a2430",
+          "name": "Chicanos Por La Causa (CPLC) · Eviction prevention and utility assistance",
+          "decision": "not-selected",
+          "reason": "Potential overlap with CPLC family assistance; establish distinct intake before treating as extra capacity."
+        },
+        {
+          "resourceId": "5a185dff18772905536e3488f7b75129",
+          "name": "Chicanos Por La Causa (CPLC) · Family Assistance (Terry Cruz Legacy Program)",
+          "decision": "not-selected",
+          "reason": "Additional essential-expense provider; confirm Mesa rental funding instead of assuming utility eligibility transfers."
+        },
+        {
+          "resourceId": "b666b49c655c08750bdf54de800e82af",
+          "name": "Chrysalis",
+          "decision": "not-selected",
+          "reason": "Additional survivor housing provider remains reserve after selecting the pet-support pathway."
+        },
+        {
+          "resourceId": "d9955a94238970f4a2e3c2e93c554835",
+          "name": "City of Mesa / Mercy House · Off the Streets emergency hotel shelter",
+          "decision": "not-selected",
+          "reason": "Off the Streets site and referral route remain uncertain in the reviewed record."
+        },
+        {
+          "resourceId": "27adbd6da40ba1d0325ed17d523a3e94",
+          "name": "City of Mesa Housing / Community Development · HOME Tenant-Based Rental Assistance (TBRA) and HOME-ARP",
+          "decision": "not-selected",
+          "reason": "TBRA/HOME-ARP household intake and administrator remain uncertain; not a dependable opening-set route yet."
+        },
+        {
+          "resourceId": "51cfce1c2944ef0453c793aba1923e08",
+          "name": "City of Mesa Housing Authority",
+          "decision": "not-selected",
+          "reason": "Keep voucher access as a reserve pathway; select the specific deposit program rather than assume an open general waitlist."
+        },
+        {
+          "resourceId": "987a8b8eb5e82e8c0216ef7bb436693f",
+          "name": "City of Mesa Housing Authority · Security and Utility Deposit Assistance Program",
+          "decision": "selected",
+          "reason": "Addresses the up-front cost of entering an eligible rental, which differs from rent-arrears assistance and shelter placement."
+        },
+        {
+          "resourceId": "6aa599e3a9f6ce52dd0a27bc6e625fd2",
+          "name": "Community Bridges, Inc.",
+          "decision": "not-selected",
+          "reason": "Pregnancy/parenting treatment-linked housing is more specialized than the selected maternity program."
+        },
+        {
+          "resourceId": "f2e69a8b2402313065411a32eaa02190",
+          "name": "Community Bridges, Inc. (CBI) · ReEntry Program at Center for Hope",
+          "decision": "not-selected",
+          "reason": "Named Center for Hope/ReEntry admission and program identity need clarification before selecting."
+        },
+        {
+          "resourceId": "4d728e518eb341e958f91d67d4cac4cd",
+          "name": "Community Bridges, Inc. · VA Supportive Services for Veteran Families (SSVF)",
+          "decision": "not-selected",
+          "reason": "A second veteran SSVF provider is useful reserve choice after Housing for Heroes."
+        },
+        {
+          "resourceId": "c8f5de50d9d41ce30ec0b8b6ef45b249",
+          "name": "Community Legal Services",
+          "decision": "not-selected",
+          "reason": "CLS survivor legal services are distinct from the selected renter program; avoid assuming duplicate service scope."
+        },
+        {
+          "resourceId": "f76b64043d73b489d7067d9f9d856b42",
+          "name": "De Colores · Domestic Violence Shelter and Spanish-Language Services",
+          "decision": "not-selected",
+          "reason": "Spanish-language survivor housing is retained for a targeted language/access match."
+        },
+        {
+          "resourceId": "df171bb522d8c9a10c10b5c20e52cc1b",
+          "name": "Dress for Success Arizona · HOPE for Success / Pathway Home 6",
+          "decision": "not-selected",
+          "reason": "Workforce-centered reentry support provides housing connections, not established independent housing placement."
+        },
+        {
+          "resourceId": "0e36c87d7889979a6cf7f4debff3bed7",
+          "name": "Family Housing Hub (UMOM New Day Centers) · Maricopa family coordinated entry and shelter waitlist",
+          "decision": "selected",
+          "reason": "Provides a coordinated shelter-access route for families with minor children, including a possible Mesa intake option."
+        },
+        {
+          "resourceId": "1bd2fb5b4587feef40252e0630c6c94c",
+          "name": "Foundation for Senior Living (FSL) · In-home services, Adult Foster Care, and Senior Adult Independent Living (SAIL) case management",
+          "decision": "not-selected",
+          "reason": "Supported living/adult foster-care placement is specialized reserve for older or disabled adults."
+        },
+        {
+          "resourceId": "087b0bd908ca3082b11b8f637137b181",
+          "name": "GreenPath Financial Wellness · Free credit and debt counseling, housing counseling",
+          "decision": "not-selected",
+          "reason": "Housing/debt counseling is useful reserve support but does not supply immediate rent or shelter."
+        },
+        {
+          "resourceId": "db242d7df7b5e913727adc08e1ab4029",
+          "name": "Hope & Healing Addiction Treatment Centers",
+          "decision": "not-selected",
+          "reason": "Withdrawal treatment does not by itself establish a general housing placement; clarify the housing program."
+        },
+        {
+          "resourceId": "c922c1358349b26864bc1c2f50341b2c",
+          "name": "Housing Authority of Maricopa County",
+          "decision": "not-selected",
+          "reason": "County housing-authority jurisdiction is not interchangeable with Mesa's; retain for a confirmed geographic match."
+        },
+        {
+          "resourceId": "25eba00c6cbab9b8fd1950d2938172b3",
+          "name": "Into Action Recovery · Men's Residential Program",
+          "decision": "not-selected",
+          "reason": "Residential addiction treatment is a specialized admission route, not general emergency housing."
+        },
+        {
+          "resourceId": "da4f4b5a717ae241f3363cc09eb4298a",
+          "name": "Justa Center",
+          "decision": "not-selected",
+          "reason": "Senior day-center navigation is valuable but is not itself a general shelter bed."
+        },
+        {
+          "resourceId": "3460a40faf90d00f895061b117f1d9cc",
+          "name": "Keys to Change (formerly Human Services Campus) · Brian Garcia Welcome Center and Lodestar Day Resource Center",
+          "decision": "not-selected",
+          "reason": "Regional single-adult coordinated entry remains an important reserve fallback; initial set includes named men's/women's routes."
+        },
+        {
+          "resourceId": "8c7a5e3631418ce97d934b37a67fbd61",
+          "name": "Keys to Change / Human Services Campus · Brian Garcia Welcome Center coordinated entry for single adults",
+          "decision": "not-selected",
+          "reason": "Same regional coordinated-entry system as the broader Keys record; do not count both as extra beds."
+        },
+        {
+          "resourceId": "f762833ab9433719331a7c11e58f71c4",
+          "name": "Lifeology AZ · Emergency Youth Shelter and Shared Transitional Housing",
+          "decision": "not-selected",
+          "reason": "Youth shelter/transitional housing is an acknowledged starter gap and a priority reserve match for young clients."
+        },
+        {
+          "resourceId": "5c289896c8e36191fd9beb5704951340",
+          "name": "Lutheran Social Services of the Southwest · I-HELP emergency housing (Mesa)",
+          "decision": "not-selected",
+          "reason": "Second uncertain Mesa I-HELP record; operator and intake need verification before selection."
+        },
+        {
+          "resourceId": "0df6bb236d8c7bf168ce4867dc83360e",
+          "name": "Maggie's Place · Maternity and parenting housing / Family Success Center",
+          "decision": "selected",
+          "reason": "Adds housing tailored to homeless pregnant adults, with parenting support beyond an ordinary emergency-shelter listing."
+        },
+        {
+          "resourceId": "a4e45e62c0b9cb505d5b4874340871fb",
+          "name": "Maricopa County Adult Probation Department",
+          "decision": "not-selected",
+          "reason": "Probation release navigation is valuable only for clients within those specific justice-system pathways."
+        },
+        {
+          "resourceId": "6e7170ded0655c5a4c98f215acb7ac4d",
+          "name": "Maricopa County and City of Mesa · Mesa Hotel Emergency Shelter and Transitional Housing Project",
+          "decision": "not-selected",
+          "reason": "Hotel-conversion proposal is not confirmation of an operating shelter or independent capacity."
+        },
+        {
+          "resourceId": "a75559d019132060ea10e3390d9106ab",
+          "name": "Maricopa County Human Services / Community Legal Services · Legal Assistance for Renters (eviction for nonpayment)",
+          "decision": "selected",
+          "reason": "Adds legal screening and possible representation for nonpayment eviction, a different intervention from paying rent or finding a bed."
+        },
+        {
+          "resourceId": "bcc694b6232b6b88cd40c57d3052f4ca",
+          "name": "Maricopa County Human Services Department",
+          "decision": "not-selected",
+          "reason": "County CAP explicitly routes Mesa residents to MesaCAN, already selected; do not duplicate the intake."
+        },
+        {
+          "resourceId": "36a1aba6efe7a704aa4ca190a4f82467",
+          "name": "Maricopa County Human Services Department · Emergency Rental Assistance / eviction prevention (non-direct-entitlement cities)",
+          "decision": "not-selected",
+          "reason": "County rental program excludes or reroutes direct-entitlement cities; Mesa needs its own applicable intake."
+        },
+        {
+          "resourceId": "096327d7591511a067b7e9dd29f900b6",
+          "name": "Mesa I-HELP · Interfaith Homeless Emergency Lodging Program",
+          "decision": "not-selected",
+          "reason": "Current Mesa I-HELP operator and intake are unresolved; do not count an unconfirmed shelter pathway."
+        },
+        {
+          "resourceId": "ea694e1df9c5ce31796e579520312da9",
+          "name": "My Sister's Place · Domestic Violence Shelter and Advocacy",
+          "decision": "not-selected",
+          "reason": "Possible overlap with Catholic Charities shelter record; preserve as alternative pending identity reconciliation."
+        },
+        {
+          "resourceId": "a3782d71fb0f13f124d33c95dadd779c",
+          "name": "National Community Health Partners · Housing for Heroes (SSVF)",
+          "decision": "selected",
+          "reason": "Adds a separate provider and veteran-specific prevention or rehousing assistance for qualifying households."
+        },
+        {
+          "resourceId": "cfddfe7aec2aa52de1a56c0d3d797d9e",
+          "name": "Native American Connections",
+          "decision": "not-selected",
+          "reason": "The broad recovery description needs a named housing pathway and intake before starter selection."
+        },
+        {
+          "resourceId": "815148d4fe10fdbf28f981c14050256c",
+          "name": "New Freedom",
+          "decision": "not-selected",
+          "reason": "Residential reentry/recovery is specialized; reserve for eligible clients seeking that structured program."
+        },
+        {
+          "resourceId": "ed0745322850d01341f8baf07c69f0a0",
+          "name": "New Life Center",
+          "decision": "not-selected",
+          "reason": "Additional pet-friendly survivor shelter is valuable reserve capacity, not a guaranteed open bed."
+        },
+        {
+          "resourceId": "4ad64cc79738db00fc4c12cac4481fd5",
+          "name": "Newfound Hope – Wellness and Detox Center",
+          "decision": "not-selected",
+          "reason": "Treatment-linked Native American family services are valuable specialized reserve, with clinical admission rules."
+        },
+        {
+          "resourceId": "08a26b747ffe8b1ea284e491a62d39e7",
+          "name": "Paz de Cristo Community Center",
+          "decision": "not-selected",
+          "reason": "Select Paz in other categories; housing assessor versus referral-only role remains unclear here."
+        },
+        {
+          "resourceId": "edc5a63f8239da2c402f528da2718669",
+          "name": "Phoenix Rescue Mission",
+          "decision": "not-selected",
+          "reason": "Women-and-children residential recovery adds specialization; pregnancy and family shelter are represented first."
+        },
+        {
+          "resourceId": "b8ca7f8d2eab81113b10c1a8835f0817",
+          "name": "Save the Family",
+          "decision": "not-selected",
+          "reason": "Possible overlap with ARM affordable rentals; resolve program identity and closed-waitlist applicability."
+        },
+        {
+          "resourceId": "ff1488daaf584a5c3e58c81b4e22bf10",
+          "name": "Save the Family · Affordable Rental Movement (ARM)",
+          "decision": "not-selected",
+          "reason": "Official ARM page currently closes the waitlist to new applicants; retain for later reconsideration."
+        },
+        {
+          "resourceId": "617d4be1951f67468b5ddffdb2f670f5",
+          "name": "Scottsdale Recovery Center (SRC) · ADCRR Re-Entry Program and Housing Voucher Program",
+          "decision": "not-selected",
+          "reason": "ADCRR-linked treatment/housing vouchers require justice-system referral and specialized admission."
+        },
+        {
+          "resourceId": "5f7fa3abe7c319ad1bd03122a3caae11",
+          "name": "SOBA Recovery · Mesa location",
+          "decision": "not-selected",
+          "reason": "Addiction treatment alone does not establish an independently usable housing pathway in this description."
+        },
+        {
+          "resourceId": "14d40b4e4bdd71c67e009326f3716119",
+          "name": "Soberman's Estate",
+          "decision": "not-selected",
+          "reason": "Men's residential clinical treatment is narrower than the initial homelessness pathways."
+        },
+        {
+          "resourceId": "5fd29d6c772cabbc8a6abc6614f9d3bd",
+          "name": "Society of St. Vincent de Paul",
+          "decision": "not-selected",
+          "reason": "Neighborhood conference assistance is a practical reserve alternative when its address-specific funding is available."
+        },
+        {
+          "resourceId": "d0eeddd67746f3a298eaf4969b6e9bd1",
+          "name": "Society of St. Vincent de Paul",
+          "decision": "not-selected",
+          "reason": "Family moteling/move-in assistance is useful reserve; distinguish it from neighborhood conference funding."
+        },
+        {
+          "resourceId": "626aab0a5b4c6dcd7811605470690fc3",
+          "name": "Sojourner Center",
+          "decision": "not-selected",
+          "reason": "Mobile survivor advocacy differs from shelter; selected Sojourner housing record represents the initial housing route."
+        },
+        {
+          "resourceId": "79a54c3aaf0d161f9dbab859bfba7da2",
+          "name": "Sojourner Center · Emergency/transitional DV housing and Pet Companion Shelter",
+          "decision": "selected",
+          "reason": "Adds confidential survivor housing and a distinct pet-support pathway, an important constraint that ordinary shelter listings may not address."
+        },
+        {
+          "resourceId": "5065a00c9613e2e388a9dce511778b9d",
+          "name": "Southwest Behavioral & Health Services",
+          "decision": "not-selected",
+          "reason": "The saved description establishes outpatient counseling, not an independent housing service; membership needs review."
+        },
+        {
+          "resourceId": "6d4803e545580ed7abc3cd8bb87b1314",
+          "name": "State Bar of Arizona / Arizona Foundation for Legal Services and Education · Modest Means Project",
+          "decision": "not-selected",
+          "reason": "Reduced-fee referral needs current intake/rate confirmation; retain beyond the free renter-assistance route."
+        },
+        {
+          "resourceId": "6f857637fa2be0cd00ed6fc1671bded3",
+          "name": "The Mesa House Inc. · Resident Work Transportation / Bus Pass Support",
+          "decision": "not-selected",
+          "reason": "Resident bus-pass support does not establish open housing admissions; assess the underlying residence separately."
+        },
+        {
+          "resourceId": "fcdf7044337d12d9e7bdd3a7a732fd08",
+          "name": "The Salvation Army · Utility and Rent Assistance (Mesa Corps, E 6th Street)",
+          "decision": "not-selected",
+          "reason": "Additional Mesa rent/utility provider; retain for availability alternatives without implying active rental funds."
+        },
+        {
+          "resourceId": "5494e7153548657ba7384d98b5d24247",
+          "name": "Transitional Living Communities · TLC Treatment Center",
+          "decision": "not-selected",
+          "reason": "Keep Mesa recovery-oriented housing as a reserve alternative; sobriety/treatment rules need a specific match."
+        },
+        {
+          "resourceId": "19a8af5b80be03028603cfa5e8bebb6e",
+          "name": "Tumbleweed Center for Youth Development — Arizona successor-program lead",
+          "decision": "not-selected",
+          "reason": "Historical Tumbleweed successor identity needs confirmation through UMOM before referral."
+        },
+        {
+          "resourceId": "e81a4666fa9fdf3874524e595834798c",
+          "name": "U.S. Department of Veterans Affairs / Phoenix VA Health Care System · HUD-VASH voucher and Community Resource & Referral Center (CRRC)",
+          "decision": "not-selected",
+          "reason": "HUD-VASH is valuable long-term veteran housing reserve; it is not interchangeable with SSVF assistance."
+        },
+        {
+          "resourceId": "2af79fdd0101ee3a198c732086f9bfc6",
+          "name": "U.S.VETS Phoenix",
+          "decision": "not-selected",
+          "reason": "Additional veteran housing and SSVF provider stays available as a practical alternative."
+        },
+        {
+          "resourceId": "15b833547484fe110411244b99712ca9",
+          "name": "UMOM New Day Centers",
+          "decision": "selected",
+          "reason": "Adds an explicit shelter pathway for single women, complementing the family Hub and men's program."
+        },
+        {
+          "resourceId": "eadaaf197b67dc1d520ae55c2dc28a19",
+          "name": "UMOM New Day Centers (operates on behalf of Maricopa Regional Continuum of Care) · Family Housing Hub",
+          "decision": "not-selected",
+          "reason": "Duplicate Family Housing Hub system; selecting another record would not add a second shelter allocation."
+        },
+        {
+          "resourceId": "0be7372bda5d130e905a555ea663b1aa",
+          "name": "Unhooked Recovery (Residents at the Heights)",
+          "decision": "not-selected",
+          "reason": "Clinical detox/residential treatment is reserved for treatment-seeking clients rather than general housing need."
+        },
+        {
+          "resourceId": "948dd967fb329f7e5f04c0814a113889",
+          "name": "VA Phoenix Health Care System",
+          "decision": "not-selected",
+          "reason": "Veteran caregiver support and respite do not establish independent housing placement; review this membership."
+        }
+      ]
+    },
+    {
+      "categoryId": "food",
+      "label": "Food",
+      "rationale": "Ten selections combine ongoing benefits, prepared meals, take-home groceries, school food and delivery. Several local providers remain so referrals are not concentrated at one pantry; each alternative changes geography, access or the kind of food help.",
+      "gaps": "Confirm dietary accommodations, pantry schedules and current delivery boundaries. Summer-only school meals and additional neighborhood pantries remain in reserve. Meals to Grow needs its current Mesa school/referral list before office approval.",
+      "candidateCount": 47,
+      "members": [
+        {
+          "label": "Arizona DES — SNAP Nutrition Assistance",
+          "contribution": "Adds ongoing grocery purchasing support, reducing dependence on repeated emergency pantry visits for eligible households.",
+          "limitation": "Household eligibility determines benefits; applicants may need an assistor. This is not immediate prepared food.",
+          "resourceId": "cd0fd35209b8684c1b85d3a08afb1f4d",
+          "position": 1,
+          "evidence": {
+            "field": "description",
+            "text": "Primary public benefit for ongoing household food purchasing"
+          },
+          "resource": {
+            "address": "",
+            "candidateIds": [
+              "163"
+            ],
+            "categories": [
+              "food"
+            ],
+            "categoryFilters": {
+              "food": [
+                "Gov't Benefits"
+              ]
+            },
+            "description": "Primary public benefit for ongoing household food purchasing, with online, telephone, mail, in-person, and community-assistor access routes.",
+            "forGroups": [
+              "Low-income households",
+              "Seniors",
+              "Spanish",
+              "Domestic violence survivors"
+            ],
+            "hours": "",
+            "id": "cd0fd35209b8684c1b85d3a08afb1f4d",
+            "informationText": "**Eligibility Requirements**\n\nArizona households meeting current Nutrition Assistance/SNAP eligibility; household circumstances determine benefits.\n\n**How to Best Connect**\n\nCall 855-432-7587 for the specific program and current intake. Website: https://des.az.gov/how-to-apply-snap\n\n**Access**\n\nArea served: Statewide, including Mesa and Maricopa County. An exact current schedule is not established in this record. \n\n**Important Information to Know**\n\nPrimary public benefit for ongoing household food purchasing, with online, telephone, mail, in-person, and community-assistor access routes.\n\nNutrition Assistance is Arizona’s SNAP food benefit for qualifying households. Financial and household rules apply, with allowable deductions and other eligibility considerations. Apply through the official DES/HEAplus route or request application help; a food benefit is not a prepared-meal distribution.\n\nDES offers Spanish application materials and a simplified SNAP application for qualifying adults age 65 or older without earned income. It also describes possible safety-related requirement exceptions for domestic-violence survivors; discuss these privately with the eligibility specialist.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Arizona Department of Economic Security · Nutrition Assistance (SNAP)",
+            "pdfs": [],
+            "phone": "855-432-7587",
+            "verifiedOn": null,
+            "website": "https://des.az.gov/how-to-apply-snap"
+          }
+        },
+        {
+          "label": "Paz de Cristo — nightly meals and basic-needs services",
+          "contribution": "Adds a Mesa evening-meal route and a single resource useful across food, documents and transportation assistance.",
+          "limitation": "Individual services have separate schedules and prerequisites. Confirm today's meal access and do not assume every listed service operates daily.",
+          "resourceId": "08a26b747ffe8b1ea284e491a62d39e7",
+          "position": 2,
+          "evidence": {
+            "field": "informationText",
+            "text": "nightly hot meals"
+          },
+          "resource": {
+            "address": "424 W Broadway Rd, Mesa, AZ 85210",
+            "candidateIds": [
+              "940",
+              "941",
+              "942"
+            ],
+            "categories": [
+              "homeless-services",
+              "housing",
+              "food",
+              "clothing",
+              "household-essentials",
+              "id-recovery",
+              "transportation",
+              "employment",
+              "financial-assistance"
+            ],
+            "categoryFilters": {
+              "homeless-services": [
+                "Day Center",
+                "Showers & Laundry",
+                "Mail & Storage",
+                "ID & Documents",
+                "Meals & Basic Needs",
+                "Homeless Navigation"
+              ],
+              "housing": [
+                "Coordinated Entry",
+                "Housing Navigation"
+              ],
+              "food": [
+                "Prepared Meals",
+                "Food Pantry"
+              ],
+              "clothing": [
+                "General Clothing"
+              ],
+              "household-essentials": [
+                "Hygiene Supplies"
+              ],
+              "id-recovery": [
+                "State ID/License",
+                "Birth Certificates",
+                "Document Navigation",
+                "Mail Service"
+              ],
+              "transportation": [
+                "Bus Passes"
+              ],
+              "employment": [
+                "Job Search & Placement"
+              ],
+              "financial-assistance": [
+                "Benefits Navigation"
+              ]
+            },
+            "description": "Exceptionally practical Mesa access point for people experiencing homelessness: showers, hygiene kits, clothing, haircuts, nightly meals, mail service, Arizona ID vouchers, birth-certificate assistance, water, food and connections to shelter, housing and healthcare partners. Mail service is especially important for benefits and document safety.",
+            "forGroups": [
+              "Homeless"
+            ],
+            "hours": "",
+            "id": "08a26b747ffe8b1ea284e491a62d39e7",
+            "informationText": "**Eligibility Requirements**\n\nPeople experiencing homelessness or unmet basic needs in Mesa; each meal, shower, mail, document or benefits service has its own schedule and prerequisites.\n\n**How to Best Connect**\n\nCall 480-464-2370 for the specific program and current intake. Website: https://pazdecristo.org/\n\n**Access**\n\nArea served: Mesa and the East Valley; Mesa / East Valley; Mesa / East Valley; guests travel from across the Valley. An exact current schedule is not established in this record.  Location/contact address: 424 W Broadway Rd, Mesa, AZ 85210.\n\n**Important Information to Know**\n\n* Community Center / Empowerment Services: Exceptionally practical Mesa access point for people experiencing homelessness: showers, hygiene kits, clothing, haircuts, nightly meals, mail service, Arizona ID vouchers, birth-certificate assistance, water, food and connections to shelter, housing and healthcare partners. Mail service is especially important for benefits and document safety.\n* Daily Meal, Shower, Clothing & Document Assistance Program: Mesa-based, in-person daily service hub offering nightly hot meals, weekly showers, clothing, haircuts, mail service, food boxes, bus passes, and help obtaining AZ ID/birth certificates — matches nearly every hygiene/access need in scope.\n* Feed, Clothe & Empower / Coordinated Entry satellite (COPA Health listed historically): Core Mesa drop-in day program: nightly dinner (~5:15–6:30 p.m., 365 days), Wednesday showers, clothing, haircuts, mailroom (Mon–Fri afternoon; photo ID required for mail/food boxes), ID/birth-certificate help, SNAP/job support, computers. Listed as a Maricopa Coordinated Entry access point. City of Mesa historically stationed navigators on site.\n\n* Area served: Mesa and the East Valley; Mesa / East Valley; Mesa / East Valley; guests travel from across the Valley\n\n* The official site gives unusually useful schedules, but individual programs have limited days, appointment requirements or first-come capacity. Verify current bus-pass availability, haircut schedule, computers/phones, storage and exact shelter-navigation process.\n* Shower schedule appears seasonal (varies by month per 211 listing); confirm current-year shower days/times and whether mail service is still offered.\n* CE partner name on older MAG lists is COPA Health at Paz; confirm current CE assessor on site vs. referral-only.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Paz de Cristo Community Center",
+            "pdfs": [],
+            "phone": "480-464-2370",
+            "verifiedOn": null,
+            "website": "https://pazdecristo.org/"
+          }
+        },
+        {
+          "label": "NATIVE HEALTH Mesa — food distribution",
+          "contribution": "Adds a central Mesa take-home-food option connected to health and nutrition services.",
+          "limitation": "Confirm Mesa distribution days and intake. Do not assume Native identity is required or that pantry and WIC eligibility are identical.",
+          "resourceId": "5add8558737e9cfc392878fce4cca308",
+          "position": 3,
+          "evidence": {
+            "field": "description",
+            "text": "Walk-up food distribution"
+          },
+          "resource": {
+            "address": "777 W. Southern Ave., Building B (south side), Mesa, AZ 85210",
+            "candidateIds": [
+              "187",
+              "188"
+            ],
+            "categories": [
+              "food"
+            ],
+            "categoryFilters": {
+              "food": [
+                "Food Pantry",
+                "Gov't Benefits"
+              ]
+            },
+            "description": "Walk-up food distribution (including TEFAP commodities) integrated with health services; accessible weekday hours in central Mesa.",
+            "forGroups": [
+              "Native American",
+              "Pregnant/postpartum",
+              "Youth"
+            ],
+            "hours": "",
+            "id": "5add8558737e9cfc392878fce4cca308",
+            "informationText": "**Eligibility Requirements**\n\nPeople seeking NATIVE HEALTH Mesa pantry distribution, or pregnant/postpartum clients and young children eligible for its separate WIC program. Native identity should not be assumed a requirement.\n\n**How to Best Connect**\n\nCall (602) 279-5262 for the specific program and current intake. Website: https://www.nativehealthphoenix.org/\n\n**Access**\n\nArea served: East Valley / Mesa; Mesa, Maricopa County. An exact current schedule is not established in this record.  Location/contact address: 777 W. Southern Ave., Building B (south side), Mesa, AZ 85210.\n\n**Important Information to Know**\n\nWalk-up food distribution (including TEFAP commodities) integrated with health services; accessible weekday hours in central Mesa.\n\nNATIVE HEALTH’s nutrition programs include food support and WIC access. WIC has pregnancy, postpartum, infant and young-child eligibility, nutrition-risk and financial rules. Native American cultural focus does not mean every NATIVE HEALTH service is restricted to tribal members. Ask which service is offered at the Mesa location and which requires another site.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "NATIVE HEALTH",
+            "pdfs": [],
+            "phone": "(602) 279-5262",
+            "verifiedOn": null,
+            "website": "https://www.nativehealthphoenix.org/"
+          }
+        },
+        {
+          "label": "New Hope Community Center — East Mesa pantry",
+          "contribution": "Adds a neighborhood option for East Mesa households, reducing travel and providing an alternative provider.",
+          "limitation": "The saved boundary is ZIP codes 85205–85209; confirm current boundaries, frequency and schedule.",
+          "resourceId": "89a928c6f5bbdc65de87c3fecbbcae79",
+          "position": 4,
+          "evidence": {
+            "field": "description",
+            "text": "specific East Mesa ZIP cluster"
+          },
+          "resource": {
+            "address": "6915 E. University Dr., Mesa, AZ 85207",
+            "candidateIds": [
+              "190",
+              "191"
+            ],
+            "categories": [
+              "food",
+              "clothing"
+            ],
+            "categoryFilters": {
+              "food": [
+                "Food Pantry"
+              ],
+              "clothing": [
+                "General Clothing"
+              ]
+            },
+            "description": "Regular weekday food-box / choice pantry service plus clothing and limited family aid for a specific East Mesa ZIP cluster.",
+            "forGroups": [],
+            "hours": "",
+            "id": "89a928c6f5bbdc65de87c3fecbbcae79",
+            "informationText": "**Eligibility Requirements**\n\nHouseholds in the listed East Mesa ZIP codes 85205–85209, subject to current pantry and clothing intake rules.\n\n**How to Best Connect**\n\nCall (480) 807-1668 for the specific program and current intake. Website: https://bccmesa.com/missions-outreach/nhcc\n\n**Access**\n\nArea served: ZIP codes 85205–85209 (East Mesa); Mesa ZIP codes 85205, 85206, 85207, 85208, and 85209. An exact current schedule is not established in this record.  Location/contact address: 6915 E. University Dr., Mesa, AZ 85207.\n\n**Important Information to Know**\n\n* Food pantry / choice marketplace: Regular weekday food-box / choice pantry service plus clothing and limited family aid for a specific East Mesa ZIP cluster.\n* Food Box Assistance: Neighborhood food-box access point covering several East Mesa ZIP codes, alongside other basic-needs assistance.\n\n* Area served: ZIP codes 85205–85209 (East Mesa); Mesa ZIP codes 85205, 85206, 85207, 85208, and 85209\n\n* The current 2-1-1 description contains somewhat inconsistent language about frequency and additional services. Confirm food-box schedule, boundaries, and intake directly.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "New Hope Community Center",
+            "pdfs": [],
+            "phone": "(480) 807-1668",
+            "verifiedOn": null,
+            "website": "https://bccmesa.com/missions-outreach/nhcc"
+          }
+        },
+        {
+          "label": "Maricopa County — WIC",
+          "contribution": "Adds pregnancy, infant and young-child nutrition assistance that a general pantry or SNAP listing does not replace.",
+          "limitation": "WIC screening applies. Confirm the nearest available clinic or remote option rather than assume a Mesa walk-in site.",
+          "resourceId": "47ea38f7dcac87504d34a3e7d2866f21",
+          "position": 5,
+          "evidence": {
+            "field": "description",
+            "text": "pregnant, postpartum, and breastfeeding individuals and young children"
+          },
+          "resource": {
+            "address": "",
+            "candidateIds": [
+              "178",
+              "179"
+            ],
+            "categories": [
+              "food"
+            ],
+            "categoryFilters": {
+              "food": [
+                "Gov't Benefits"
+              ]
+            },
+            "description": "County-run WIC clinics providing nutrition assistance/food benefits for pregnant, postpartum, and breastfeeding individuals and young children.",
+            "forGroups": [
+              "Pregnant/postpartum",
+              "Families",
+              "Youth"
+            ],
+            "hours": "",
+            "id": "47ea38f7dcac87504d34a3e7d2866f21",
+            "informationText": "**Eligibility Requirements**\n\nPregnant/postpartum people and children under five who meet WIC eligibility; nutrition, residence and income rules apply.\n\n**How to Best Connect**\n\nCall 602-506-9333 for the specific program and current intake. Website: https://www.maricopa.gov/1491/Women-Infants-Children-WIC\n\n**Access**\n\nArea served: Maricopa County including Mesa; Maricopa County, including East Valley clinic access. An exact current schedule is not established in this record. \n\n**Important Information to Know**\n\n* WIC (Women, Infants and Children): County-run WIC clinics providing nutrition assistance/food benefits for pregnant, postpartum, and breastfeeding individuals and young children.\n* Women, Infants & Children (WIC): Public nutrition program providing healthy foods, nutrition support, breastfeeding services, and referrals for pregnant people, postpartum participants, infants, and children under five.\n\n* Area served: Maricopa County including Mesa; Maricopa County, including East Valley clinic access\n\n* The county's current location list groups clinics by region but does not clearly label a clinic as Mesa. Confirm the nearest clinic or remote-service option through the main line.\n\nWIC serves qualifying pregnant or postpartum participants, infants and young children, with family nutrition support and program-specific financial rules.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Maricopa County Department of Public Health",
+            "pdfs": [],
+            "phone": "602-506-9333",
+            "verifiedOn": null,
+            "website": "https://www.maricopa.gov/1491/Women-Infants-Children-WIC"
+          }
+        },
+        {
+          "label": "Aster Aging — Meals on Wheels and senior meals",
+          "contribution": "Adds prepared-meal delivery and social contact for eligible older or homebound people, plus congregate senior meals.",
+          "limitation": "Confirm assessment, delivery boundaries, waitlist and subsidized/private-pay arrangements for the particular service.",
+          "resourceId": "78ae362f464eb9c81519fc00a43f21ba",
+          "position": 6,
+          "evidence": {
+            "field": "description",
+            "text": "Mesa-based home-delivered meal provider"
+          },
+          "resource": {
+            "address": "45 West University Drive, Mesa, AZ 85201",
+            "candidateIds": [
+              "164",
+              "165",
+              "166",
+              "1179",
+              "1180",
+              "1181",
+              "1182",
+              "1183",
+              "1184",
+              "1185",
+              "1186",
+              "1187",
+              "1188"
+            ],
+            "categories": [
+              "food",
+              "independent-living",
+              "caregiving",
+              "financial-assistance"
+            ],
+            "categoryFilters": {
+              "food": [
+                "Prepared Meals",
+                "Home Delivery"
+              ],
+              "independent-living": [
+                "In-home Support",
+                "Assistive Technology"
+              ],
+              "caregiving": [
+                "Respite"
+              ],
+              "financial-assistance": [
+                "Benefits Navigation"
+              ]
+            },
+            "description": "Mesa-based home-delivered meal provider offering food, friendly visits, and safety checks. Current Mesa funding documents specifically identify Aster's Meals on Wheels program.",
+            "forGroups": [
+              "Seniors",
+              "Low-income households",
+              "People with disabilities"
+            ],
+            "hours": "",
+            "id": "78ae362f464eb9c81519fc00a43f21ba",
+            "informationText": "**Eligibility Requirements**\n\nOlder adults and eligible people with limited mobility or care needs. Meals, in-home help, equipment, respite and benefits services have separate screening rules.\n\n**How to Best Connect**\n\nCall 480-964-9014 for the specific program and current intake. Website: https://www.asteraz.org/services/meals.html\n\n**Access**\n\nArea served: Mesa and East Valley; exact coverage should be verified; Mesa and nearby East Valley communities; focused on older and homebound adults; Mesa, Maricopa County. An exact current schedule is not established in this record.  Location/contact address: 45 West University Drive, Mesa, AZ 85201.\n\n**Important Information to Know**\n\n* Meals on Wheels: Mesa-based home-delivered meal provider offering food, friendly visits, and safety checks. Current Mesa funding documents specifically identify Aster's Meals on Wheels program.\n* Meals on Wheels - Mesa: Home-delivered meal provider for seniors and individuals with disabilities/limited mobility in Mesa, administered via AAA referral.\n* Senior Center Congregate Meals: Provides an in-person meal option distinct from Meals on Wheels, with Mesa senior-center access and associated social services.\n* East Valley senior centers, Meals on Wheels, in-home support, and NCOA Benefits Enrollment Center: Primary Mesa-based aging provider: congregate and home-delivered meals, wellness checks, senior-center meals/activities/exercise, outreach and benefits enrollment (SNAP, Extra Help, MSP, AHCCCS, LIHEAP, Mesa utility aid), transportation/grocery help, personal care, housekeeping, respite, and equipment loan.\n* Aster Senior Center at Mesa Downtown: In-city senior center offering congregate/home-delivered meals, exercise, recreation, social activities, outreach, transportation assistance, and in-home service referrals — directly covers several requested categories (meals, social connection, exercise).\n* Aster Senior Center at Mesa Downtown: Weekday congregate lunch, café, exercise/yoga/dance, education, support groups, bingo/games, and on-site social-services access for isolated and low-income older adults.\n\n* Area served: Mesa and East Valley; exact coverage should be verified; Mesa and nearby East Valley communities; focused on older and homebound adults; Mesa, Maricopa County\n\n* Delivery boundaries, assessment criteria, waitlist status, and subsidized versus private-pay arrangements should be confirmed.\n* Mesa service boundary and current access details should be verified.\n* Reservations may be required, and meal availability, suggested donations, and age rules should be confirmed. A second ordinary location operates at the Red Mountain center and need not be treated as a separate service.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Aster Aging",
+            "pdfs": [],
+            "phone": "480-964-9014",
+            "verifiedOn": "2026-08-26",
+            "website": "https://www.asteraz.org/services/meals.html"
+          }
+        },
+        {
+          "label": "Matthew's Crossing — Meals to Grow",
+          "contribution": "Adds a school-based route for weekend food and campus food access, reaching students through a different channel.",
+          "limitation": "Confirm participating Mesa schools and how staff refer students. This is not an unrestricted school or pantry walk-in benefit.",
+          "resourceId": "d6f9cf4449c9ba1d947c0bcbf2ead96f",
+          "position": 7,
+          "evidence": {
+            "field": "description",
+            "text": "weekend backpacks and on-campus food closets"
+          },
+          "resource": {
+            "address": "1368 N Arizona Ave, Unit 112, Chandler, AZ 85225",
+            "candidateIds": [
+              "180"
+            ],
+            "categories": [
+              "food"
+            ],
+            "categoryFilters": {
+              "food": [
+                "School Food"
+              ]
+            },
+            "description": "Provides weekend backpacks and on-campus food closets for students, a materially distinct school-access food program.",
+            "forGroups": [
+              "Youth",
+              "Students"
+            ],
+            "hours": "",
+            "id": "d6f9cf4449c9ba1d947c0bcbf2ead96f",
+            "informationText": "**Eligibility Requirements**\n\nStudents at participating schools who qualify for Meals to Grow backpacks or on-campus food access.\n\n**How to Best Connect**\n\nCall 480-857-2296 for the specific program and current intake. Website: https://matthewscrossing.org/\n\n**Access**\n\nArea served: School-based program in the East Valley; City of Mesa funding documents identify a Mesa-supported Meals to Grow project. An exact current schedule is not established in this record.  Location/contact address: 1368 N Arizona Ave, Unit 112, Chandler, AZ 85225.\n\n**Important Information to Know**\n\n* Meals to Grow: Provides weekend backpacks and on-campus food closets for students, a materially distinct school-access food program.\n\n* Area served: School-based program in the East Valley; City of Mesa funding documents identify a Mesa-supported Meals to Grow project\n\n* The provider's public page does not identify the current Mesa schools or referral route. Investigate how the Mesa-funded project is administered before making referrals.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Matthew's Crossing Food Bank · Meals to Grow",
+            "pdfs": [],
+            "phone": "480-857-2296",
+            "verifiedOn": null,
+            "website": "https://matthewscrossing.org/"
+          }
+        },
+        {
+          "label": "St. Vincent de Paul — Mesa Dining Room",
+          "contribution": "Adds a daytime prepared meal from another provider, complementing Paz's evening route.",
+          "limitation": "Confirm the current meal schedule and entrance; saved records contain two Broadway street numbers.",
+          "resourceId": "1d66d1be0ba923ab021628030571f488",
+          "position": 8,
+          "evidence": {
+            "field": "informationText",
+            "text": "daily hot lunch service"
+          },
+          "resource": {
+            "address": "49 W. Broadway Rd., Mesa, AZ 85210",
+            "candidateIds": [
+              "204",
+              "205",
+              "217"
+            ],
+            "categories": [
+              "food"
+            ],
+            "categoryFilters": {
+              "food": [
+                "Prepared Meals"
+              ]
+            },
+            "description": "Established direct-access Mesa dining room providing a daily meal and connections to partner services.",
+            "forGroups": [
+              "Families"
+            ],
+            "hours": "",
+            "id": "1d66d1be0ba923ab021628030571f488",
+            "informationText": "**Eligibility Requirements**\n\nAdults and families seeking a prepared meal at the Mesa Dining Room; food-box assistance elsewhere in the network has separate intake.\n\n**How to Best Connect**\n\nCall 602-619-9411 for the specific program and current intake. Website: https://stvincentdepaul.net/locations/mesa-dining-room\n\n**Access**\n\nArea served: Mesa; adults and families seeking a prepared meal; Mesa; Maricopa County; multiple locations. An exact current schedule is not established in this record.  Location/contact address: 49 W. Broadway Rd., Mesa, AZ 85210.\n\n**Important Information to Know**\n\n* Mesa Dining Room: Established direct-access Mesa dining room providing a daily meal and connections to partner services.\n* Mesa Dining Room: Provides daily hot lunch service (and summer heat-relief station) in central Mesa. Part of a larger regional network of dining rooms and food-box programs.\n* Meals and Food Boxes: Established nonprofit offering food boxes and meal assistance through a multi-site network.\n\n* Area served: Mesa; adults and families seeking a prepared meal; Mesa; Maricopa County; multiple locations\n\n* Some City of Mesa and older St. Vincent de Paul materials show 67 W Broadway Rd rather than 49 W Broadway Rd. The current provider location page uses 49 W Broadway Rd; verify the entrance.\n* Mesa-area service points and current program access should be verified.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Society of St. Vincent de Paul",
+            "pdfs": [],
+            "phone": "602-619-9411",
+            "verifiedOn": null,
+            "website": "https://stvincentdepaul.net/locations/mesa-dining-room"
+          }
+        },
+        {
+          "label": "St. Mary's Food Bank — home-delivered groceries",
+          "contribution": "Adds groceries for people unable to reach a pantry, complementing prepared senior meals rather than assuming every client can travel.",
+          "limitation": "Current Mesa address coverage and homebound/transport criteria must be confirmed; delivery capacity is not established by the general food-bank listing.",
+          "resourceId": "81a717d8c41a9cf35a86be0cdb1e5de3",
+          "position": 9,
+          "evidence": {
+            "field": "description",
+            "text": "Delivers emergency food boxes to homebound individuals"
+          },
+          "resource": {
+            "address": "2831 N 31st Ave, Phoenix, AZ 85009",
+            "candidateIds": [
+              "208",
+              "209",
+              "210"
+            ],
+            "categories": [
+              "food"
+            ],
+            "categoryFilters": {
+              "food": [
+                "Food Pantry",
+                "Home Delivery"
+              ]
+            },
+            "description": "Delivers emergency food boxes to homebound individuals who cannot reach a pantry, materially distinct intake path from walk-in pantries.",
+            "forGroups": [],
+            "hours": "",
+            "id": "81a717d8c41a9cf35a86be0cdb1e5de3",
+            "informationText": "**Eligibility Requirements**\n\nFood-delivery applicants must meet the program’s homebound, mobility or transportation criteria. Mobile pantry access has different requirements.\n\n**How to Best Connect**\n\nCall 602-352-3640 for the specific program and current intake. Website: https://www.stmarysfoodbank.org/\n\n**Access**\n\nArea served: Maricopa, Pinal, Yavapai, Coconino Counties; Maricopa County including Mesa; Maricopa County, including delivery coverage cited for Maricopa County. An exact current schedule is not established in this record.  Location/contact address: 2831 N 31st Ave, Phoenix, AZ 85009.\n\n**Important Information to Know**\n\n* Home Delivery Program: Delivers emergency food boxes to homebound individuals who cannot reach a pantry, materially distinct intake path from walk-in pantries.\n* Mobile Pantry: Brings perishable food directly to neighborhoods, a distinct access model from fixed pantry sites.\n* Emergency Food Boxes: Large regional food-bank lead offering emergency food boxes and cited home delivery in Maricopa County.\n\n* Area served: Maricopa, Pinal, Yavapai, Coconino Counties; Maricopa County including Mesa; Maricopa County, including delivery coverage cited for Maricopa County\n\n* Eligibility limited to homebound/mobility-limited or transportation-lacking applicants\n* Locations/dates rotate; verify current mobile stop in Mesa\n* Mesa-specific distribution and delivery access should be verified.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "St. Mary's Food Bank",
+            "pdfs": [],
+            "phone": "602-352-3640",
+            "verifiedOn": null,
+            "website": "https://www.stmarysfoodbank.org/"
+          }
+        },
+        {
+          "label": "Salvation Army Mesa — emergency food boxes",
+          "contribution": "Adds another local food-box provider when another pantry's location, eligibility or availability does not fit.",
+          "limitation": "Confirm stock, identification rules and current access. Optional pet food must not be promised.",
+          "resourceId": "cdfb3f0865d219ddb377d180c8b354d8",
+          "position": 10,
+          "evidence": {
+            "field": "description",
+            "text": "Mesa-based pantry offering emergency food boxes"
+          },
+          "resource": {
+            "address": "241 E 6th St, Bldg 3, Mesa, AZ 85201",
+            "candidateIds": [
+              "215"
+            ],
+            "categories": [
+              "food"
+            ],
+            "categoryFilters": {
+              "food": [
+                "Food Pantry"
+              ]
+            },
+            "description": "Mesa-based pantry offering emergency food boxes and, according to current referral data, some pet food through a partnership.",
+            "forGroups": [
+              "Pet owners",
+              "Families"
+            ],
+            "hours": "",
+            "id": "cdfb3f0865d219ddb377d180c8b354d8",
+            "informationText": "**Eligibility Requirements**\n\nPeople and families seeking Mesa Corps food boxes; documentation, coverage, stock and optional pet-food availability need confirmation.\n\n**How to Best Connect**\n\nCall 480-962-9103 for the specific program and current intake. Website: https://mesa.salvationarmy.org/mesa_corps/cure-hunger/\n\n**Access**\n\nArea served: Mesa access point; 2-1-1 currently describes statewide ZIP-code coverage for families in need. An exact current schedule is not established in this record.  Location/contact address: 241 E 6th St, Bldg 3, Mesa, AZ 85201.\n\n**Important Information to Know**\n\n* Emergency Food Boxes: Mesa-based pantry offering emergency food boxes and, according to current referral data, some pet food through a partnership.\n\n* Area served: Mesa access point; 2-1-1 currently describes statewide ZIP-code coverage for families in need\n\n* Services are subject to availability and identification or residency documentation may be required. Confirm current food-box inventory and intake.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "The Salvation Army Mesa Citadel Corps · Emergency Food Boxes",
+            "pdfs": [],
+            "phone": "480-962-9103",
+            "verifiedOn": null,
+            "website": "https://mesa.salvationarmy.org/mesa_corps/cure-hunger/"
+          }
+        }
+      ],
+      "assessments": [
+        {
+          "resourceId": "b818a3a3b765d76ab42f0c78b169eef9",
+          "name": "A New Leaf / Mesa Community Action Network (MesaCAN) · Food boxes and basic-needs support",
+          "decision": "not-selected",
+          "reason": "MesaCAN boxes are a practical reserve alternative; selecting its rent program does not establish pantry hours."
+        },
+        {
+          "resourceId": "33b8cbd29cf68ac3a07e0fd8d984771b",
+          "name": "Adelante Healthcare",
+          "decision": "not-selected",
+          "reason": "Health-center WIC support remains an alternative; the county WIC route represents the initial benefit pathway."
+        },
+        {
+          "resourceId": "bd13f813cdf1a52f4297b41d93bea46b",
+          "name": "Adelante Healthcare · Adelante Healthcare Mesa (FQHC medical, dental, WIC, Care Today, eligibility)",
+          "decision": "not-selected",
+          "reason": "Second Adelante record overlaps health-center/WIC support; county WIC selected first."
+        },
+        {
+          "resourceId": "d54d48c6356e5e983f4bd33e02469bc3",
+          "name": "Andre House of Arizona · Hospitality Services",
+          "decision": "not-selected",
+          "reason": "Downtown Phoenix meal access is valuable when already traveling there; local meals selected first."
+        },
+        {
+          "resourceId": "5f72f3c9e07e90867dc016da33c05457",
+          "name": "Area Agency on Aging, Region One",
+          "decision": "suppressed",
+          "reason": "Excluded by saved human browser state."
+        },
+        {
+          "resourceId": "de9cf94ebcf45f375f7b8f0dba219edc",
+          "name": "Area Agency on Aging, Region One · Home-Delivered Meals / Senior Nutrition Program",
+          "decision": "not-selected",
+          "reason": "Agency coordination overlaps Aster's direct meal-delivery route; no second delivery capacity is inferred."
+        },
+        {
+          "resourceId": "337e91d961e84d96ee124c6c891045eb",
+          "name": "Arizona Association for Foster and Adoptive Parents (AZAFAP) · Jose's Closet",
+          "decision": "not-selected",
+          "reason": "Foster/kinship food support is a valuable targeted reserve option with specific family eligibility."
+        },
+        {
+          "resourceId": "b47b61d084512681adb9c7ccacf2268c",
+          "name": "Arizona Department of Economic Security",
+          "decision": "suppressed",
+          "reason": "Excluded by saved human browser state."
+        },
+        {
+          "resourceId": "c11d6b3cdb3f6531bae81d7ec38e1e9e",
+          "name": "Arizona Department of Economic Security",
+          "decision": "not-selected",
+          "reason": "Cash-assistance record is not the specific SNAP route; select the dedicated food-benefit record."
+        },
+        {
+          "resourceId": "cd0fd35209b8684c1b85d3a08afb1f4d",
+          "name": "Arizona Department of Economic Security · Nutrition Assistance (SNAP)",
+          "decision": "selected",
+          "reason": "Adds ongoing grocery purchasing support, reducing dependence on repeated emergency pantry visits for eligible households."
+        },
+        {
+          "resourceId": "78ae362f464eb9c81519fc00a43f21ba",
+          "name": "Aster Aging",
+          "decision": "selected",
+          "reason": "Adds prepared-meal delivery and social contact for eligible older or homebound people, plus congregate senior meals."
+        },
+        {
+          "resourceId": "c39b7edce7fd22875fba8558aa17172c",
+          "name": "Central Christian Church Acts Ministry · ACTS Homeless Ministry (Mesa Campus)",
+          "decision": "not-selected",
+          "reason": "Twice-monthly breakfast/outreach remains a useful reserve schedule rather than a daily meal substitute."
+        },
+        {
+          "resourceId": "af848390332ec0fb5a3b60ba708457ee",
+          "name": "Christ the King Catholic Church · Hope Program Food Pantry",
+          "decision": "not-selected",
+          "reason": "Boundary-restricted parish pantry remains a targeted local alternative."
+        },
+        {
+          "resourceId": "bd171f3dee49f66941dccb61f68c2dea",
+          "name": "Desert Manna Food Pantry",
+          "decision": "not-selected",
+          "reason": "Saturday pantry is useful reserve scheduling flexibility; the opening set already has several grocery providers."
+        },
+        {
+          "resourceId": "e8989c429a0fd3824db237f9d8a9a4d8",
+          "name": "East Mesa Baptist Church · East Mesa Food Bank",
+          "decision": "not-selected",
+          "reason": "Additional East Mesa pantry is reserve capacity after choosing New Hope's neighborhood route."
+        },
+        {
+          "resourceId": "2a530b4a56b21439a952af2ac753f12f",
+          "name": "Health-e-Arizona Plus (HEAplus) · AHCCCS/Medicaid, KidsCare, SNAP, and TANF online enrollment portal",
+          "decision": "not-selected",
+          "reason": "HEAplus is the application channel for the selected SNAP benefit, not a second food resource."
+        },
+        {
+          "resourceId": "24ea5cbf96413ae1016d5b8ad6140c2c",
+          "name": "House of Refuge · Donation Center Food Boxes",
+          "decision": "not-selected",
+          "reason": "General food-box versus resident-only access needs clarification alongside the other House of Refuge record."
+        },
+        {
+          "resourceId": "5359125c3611d817c5b9511c96a017fa",
+          "name": "House of Refuge · Helping Hands House Donation Center (resident shopping)",
+          "decision": "not-selected",
+          "reason": "Resident-only shopping is not general pantry access; retain for House of Refuge participants."
+        },
+        {
+          "resourceId": "577e54a943c0cb1d97e003e0e6ba6623",
+          "name": "La Mesa Ministries · Bus Pass Assistance / Resource Center",
+          "decision": "not-selected",
+          "reason": "Select La Mesa for transportation and document navigation; food remains another local alternative."
+        },
+        {
+          "resourceId": "a6043035dfbf51e34bad108416bca340",
+          "name": "Lutheran Social Services of the Southwest",
+          "decision": "not-selected",
+          "reason": "Family-center formula and supplies serve a narrower family-support need than the initial food routes."
+        },
+        {
+          "resourceId": "47ea38f7dcac87504d34a3e7d2866f21",
+          "name": "Maricopa County Department of Public Health",
+          "decision": "selected",
+          "reason": "Adds pregnancy, infant and young-child nutrition assistance that a general pantry or SNAP listing does not replace."
+        },
+        {
+          "resourceId": "ec74c1192ef14f1debb3a31c912a1bbc",
+          "name": "Maricopa County Department of Public Health",
+          "decision": "not-selected",
+          "reason": "Maternal case management description does not establish direct general food provision; review the food membership."
+        },
+        {
+          "resourceId": "d6f9cf4449c9ba1d947c0bcbf2ead96f",
+          "name": "Matthew's Crossing Food Bank · Meals to Grow",
+          "decision": "selected",
+          "reason": "Adds a school-based route for weekend food and campus food access, reaching students through a different channel."
+        },
+        {
+          "resourceId": "da047755bc1b7958186bd4dbcea9c8cb",
+          "name": "Mesa Community College",
+          "decision": "not-selected",
+          "reason": "Student-only college pantry is useful for enrolled clients, beyond the school-food starter pathway."
+        },
+        {
+          "resourceId": "663199b0f4bb6151cde8abc21bceb26c",
+          "name": "Mesa First Presbyterian Church Community Services · Food pantry and clothing closet",
+          "decision": "not-selected",
+          "reason": "Additional church food boxes remain reserve after selecting geographically and functionally varied providers."
+        },
+        {
+          "resourceId": "e81c856ded56111fff730cb01a05858c",
+          "name": "Mesa Public Schools · Summer Food Service Program",
+          "decision": "not-selected",
+          "reason": "Summer program is seasonal; do not imply year-round access in the September starter set."
+        },
+        {
+          "resourceId": "61ba95efea2447e1f5b054e5206ef5e1",
+          "name": "Mom's Pantry",
+          "decision": "not-selected",
+          "reason": "More distant independent pantry adds less initial access value than the selected Mesa options."
+        },
+        {
+          "resourceId": "5add8558737e9cfc392878fce4cca308",
+          "name": "NATIVE HEALTH",
+          "decision": "selected",
+          "reason": "Adds a central Mesa take-home-food option connected to health and nutrition services."
+        },
+        {
+          "resourceId": "edd25249cae3302c71dfdf01ed68fd86",
+          "name": "NATIVE HEALTH · NATIVE HEALTH Mesa medical, dental, and behavioral health clinic",
+          "decision": "not-selected",
+          "reason": "NATIVE HEALTH clinic listing overlaps the specific nutrition/food record selected."
+        },
+        {
+          "resourceId": "89a928c6f5bbdc65de87c3fecbbcae79",
+          "name": "New Hope Community Center",
+          "decision": "selected",
+          "reason": "Adds a neighborhood option for East Mesa households, reducing travel and providing an alternative provider."
+        },
+        {
+          "resourceId": "4ad64cc79738db00fc4c12cac4481fd5",
+          "name": "Newfound Hope – Wellness and Detox Center",
+          "decision": "not-selected",
+          "reason": "Meal support is linked to recovery-program participation, not a general food intake."
+        },
+        {
+          "resourceId": "f05e5c2c63d27e8c03ce7ed46003ae31",
+          "name": "NourishPHX · Food Pantry and Meal Services",
+          "decision": "not-selected",
+          "reason": "Central Phoenix pantry is a reserve option when a client can travel there."
+        },
+        {
+          "resourceId": "72ddcda0a55400e3066289181a6795d0",
+          "name": "Olive Branch Community of Hope · Food Pantry",
+          "decision": "not-selected",
+          "reason": "Eastern Phoenix pantry is retained for a geographic match beyond the selected Mesa sites."
+        },
+        {
+          "resourceId": "08a26b747ffe8b1ea284e491a62d39e7",
+          "name": "Paz de Cristo Community Center",
+          "decision": "selected",
+          "reason": "Adds a Mesa evening-meal route and a single resource useful across food, documents and transportation assistance."
+        },
+        {
+          "resourceId": "9674f1a708712c74c41c9d591821a356",
+          "name": "Paz de Cristo Community Center",
+          "decision": "not-selected",
+          "reason": "Same Paz program family as the broader selected record; avoid duplicate human work and capacity counts."
+        },
+        {
+          "resourceId": "15507c56e359f505d8f574491c7962ac",
+          "name": "Resurrection Street Ministry · RSM Food Pantry",
+          "decision": "not-selected",
+          "reason": "Senior/veteran-restricted pantry is useful reserve; general meals and senior delivery are represented first."
+        },
+        {
+          "resourceId": "2bf6edeedd27a167fa3b1ba584d2c7c4",
+          "name": "Rio Vista Center",
+          "decision": "not-selected",
+          "reason": "Current operator, site and schedule unresolved; hold before recommending a visit."
+        },
+        {
+          "resourceId": "1d66d1be0ba923ab021628030571f488",
+          "name": "Society of St. Vincent de Paul",
+          "decision": "selected",
+          "reason": "Adds a daytime prepared meal from another provider, complementing Paz's evening route."
+        },
+        {
+          "resourceId": "5fd29d6c772cabbc8a6abc6614f9d3bd",
+          "name": "Society of St. Vincent de Paul",
+          "decision": "not-selected",
+          "reason": "Address-specific conference food help remains reserve; distinguish from the selected direct dining-room access."
+        },
+        {
+          "resourceId": "198981e1dc00de23338ff11916b8b4f4",
+          "name": "St. Mark's Episcopal Church · Food Pantry Outreach",
+          "decision": "not-selected",
+          "reason": "Another weekly Mesa pantry remains reserve for schedule and neighborhood alternatives."
+        },
+        {
+          "resourceId": "81a717d8c41a9cf35a86be0cdb1e5de3",
+          "name": "St. Mary's Food Bank",
+          "decision": "selected",
+          "reason": "Adds groceries for people unable to reach a pantry, complementing prepared senior meals rather than assuming every client can travel."
+        },
+        {
+          "resourceId": "b99546482569a1341c2d1bee2c229b84",
+          "name": "St. Stephen's Episcopal Church · Food Pantry",
+          "decision": "not-selected",
+          "reason": "Eastern Phoenix pantry remains reserve after prioritizing Mesa access."
+        },
+        {
+          "resourceId": "cdfb3f0865d219ddb377d180c8b354d8",
+          "name": "The Salvation Army Mesa Citadel Corps · Emergency Food Boxes",
+          "decision": "selected",
+          "reason": "Adds another local food-box provider when another pantry's location, eligibility or availability does not fit."
+        },
+        {
+          "resourceId": "13cf776353746eb632703023c26e9365",
+          "name": "The Salvation Army Mesa Citadel Corps · Emergency food, utility, and limited financial assistance",
+          "decision": "not-selected",
+          "reason": "Overlaps the same Mesa Corps food-box pathway already selected; not an additional provider."
+        },
+        {
+          "resourceId": "6e7d458a612213f8327cade4ebd7b7fd",
+          "name": "The Salvation Army · Food Assistance",
+          "decision": "not-selected",
+          "reason": "Broad Salvation Army listing overlaps the specific Mesa food-box record selected."
+        },
+        {
+          "resourceId": "7dd0c1074a53e4e1aa41c662ca9e6455",
+          "name": "United Food Bank",
+          "decision": "not-selected",
+          "reason": "Regional supplier and Neighbor Pantry overlap; supplying partner pantries is not extra direct-client capacity."
+        },
+        {
+          "resourceId": "d0c9ac481879ff5e0a5b9e11b1eb3d9a",
+          "name": "United Food Bank — Neighbor Pantry distribution lead",
+          "decision": "not-selected",
+          "reason": "Next Neighbor Pantry event and requirements need confirmation; retain as distribution-specific reserve."
+        }
+      ]
+    },
+    {
+      "categoryId": "transportation",
+      "label": "Transportation",
+      "rationale": "Nine selections distinguish general transit, fare assistance, travel training, health-plan rides, assisted senior rides, cancer and veteran transport, and bicycle access. Two bus-pass providers provide a practical alternative when supplies or outreach schedules differ.",
+      "gaps": "Affordable accessible nonmedical rides for people outside transit and volunteer eligibility remain difficult. AllThrive's current page does not establish Mesa coverage. No selected volunteer service guarantees urgent rides; separate Valley Metro program details need a clearer prepared record.",
+      "candidateCount": 26,
+      "members": [
+        {
+          "label": "Valley Metro — transit, fares and specialized ride programs",
+          "contribution": "Provides the basic transit pathway plus reduced fares and separately eligible accessible-ride programs.",
+          "limitation": "The record combines several programs and historical geography. Confirm Mesa-specific eligibility; a reduced bus fare does not establish RideChoice eligibility.",
+          "resourceId": "d8a0a0095b59cb2e7bceb2cffbd239e5",
+          "position": 1,
+          "evidence": {
+            "field": "informationText",
+            "text": "distinct public-transit, reduced-fare, ADA paratransit, RideChoice and commuter programs"
+          },
+          "resource": {
+            "address": "4600 E Washington St, Ste 101, Phoenix, AZ 85034",
+            "candidateIds": [
+              "1258",
+              "1259",
+              "1260",
+              "1261",
+              "1262",
+              "1263",
+              "1264",
+              "1265",
+              "1266",
+              "1267",
+              "1268",
+              "1269",
+              "1270"
+            ],
+            "categories": [
+              "transportation"
+            ],
+            "categoryFilters": {
+              "transportation": [
+                "Ride Vouchers",
+                "ADA Paratransit",
+                "Reduced Fares",
+                "Commuter Programs"
+              ]
+            },
+            "description": "Discounted taxi voucher/coupon program supplementing paratransit for ADA-certified riders needing flexible trips beyond scheduled paratransit windows.",
+            "forGroups": [
+              "Seniors",
+              "Youth",
+              "Students",
+              "People with disabilities"
+            ],
+            "hours": "",
+            "id": "d8a0a0095b59cb2e7bceb2cffbd239e5",
+            "informationText": "**Eligibility Requirements**\n\nRequirements differ among ADA-certified paratransit/RideChoice, senior/disability/youth reduced fares, student passes and commuter vanpool or carpool programs.\n\n**How to Best Connect**\n\nCall (602) 716-2111 for the specific program and current intake. Website: https://valleymetro.org/ridechoice\n\n**Access**\n\nArea served: Historically Phoenix-resident ADA-certified riders under 65; Mesa and 18 other Maricopa County jurisdictions; All Valley Metro local bus and light rail, including Mesa. An exact current schedule is not established in this record.  Location/contact address: 4600 E Washington St, Ste 101, Phoenix, AZ 85034.\n\n**Important Information to Know**\n\nDiscounted taxi voucher/coupon program supplementing paratransit for ADA-certified riders needing flexible trips beyond scheduled paratransit windows.\n\nValley Metro has distinct public-transit, reduced-fare, ADA paratransit, RideChoice and commuter programs. Eligibility for one does not imply eligibility for another: age-based reduced bus fare is not automatic Mesa RideChoice eligibility. Phoenix’s ADA taxi program is not a Mesa RideChoice benefit. Use the city- and program-specific application and ask about accessibility, booking and fares.\n\nReduced transit fares have specific youth ages, including ages 6–18, and student programs have separate enrollment rules. This does not establish RideChoice eligibility.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Valley Metro",
+            "pdfs": [],
+            "phone": "(602) 716-2111",
+            "verifiedOn": null,
+            "website": "https://valleymetro.org/ridechoice"
+          }
+        },
+        {
+          "label": "Paz de Cristo — bus-pass assistance",
+          "contribution": "Adds possible fare help through an established Mesa basic-needs center; the same record is useful in Food and ID Recovery.",
+          "limitation": "Confirm current bus-pass stock and distribution requirements; this is not an on-demand ride service.",
+          "resourceId": "08a26b747ffe8b1ea284e491a62d39e7",
+          "position": 2,
+          "evidence": {
+            "field": "informationText",
+            "text": "food boxes, bus passes"
+          },
+          "resource": {
+            "address": "424 W Broadway Rd, Mesa, AZ 85210",
+            "candidateIds": [
+              "940",
+              "941",
+              "942"
+            ],
+            "categories": [
+              "homeless-services",
+              "housing",
+              "food",
+              "clothing",
+              "household-essentials",
+              "id-recovery",
+              "transportation",
+              "employment",
+              "financial-assistance"
+            ],
+            "categoryFilters": {
+              "homeless-services": [
+                "Day Center",
+                "Showers & Laundry",
+                "Mail & Storage",
+                "ID & Documents",
+                "Meals & Basic Needs",
+                "Homeless Navigation"
+              ],
+              "housing": [
+                "Coordinated Entry",
+                "Housing Navigation"
+              ],
+              "food": [
+                "Prepared Meals",
+                "Food Pantry"
+              ],
+              "clothing": [
+                "General Clothing"
+              ],
+              "household-essentials": [
+                "Hygiene Supplies"
+              ],
+              "id-recovery": [
+                "State ID/License",
+                "Birth Certificates",
+                "Document Navigation",
+                "Mail Service"
+              ],
+              "transportation": [
+                "Bus Passes"
+              ],
+              "employment": [
+                "Job Search & Placement"
+              ],
+              "financial-assistance": [
+                "Benefits Navigation"
+              ]
+            },
+            "description": "Exceptionally practical Mesa access point for people experiencing homelessness: showers, hygiene kits, clothing, haircuts, nightly meals, mail service, Arizona ID vouchers, birth-certificate assistance, water, food and connections to shelter, housing and healthcare partners. Mail service is especially important for benefits and document safety.",
+            "forGroups": [
+              "Homeless"
+            ],
+            "hours": "",
+            "id": "08a26b747ffe8b1ea284e491a62d39e7",
+            "informationText": "**Eligibility Requirements**\n\nPeople experiencing homelessness or unmet basic needs in Mesa; each meal, shower, mail, document or benefits service has its own schedule and prerequisites.\n\n**How to Best Connect**\n\nCall 480-464-2370 for the specific program and current intake. Website: https://pazdecristo.org/\n\n**Access**\n\nArea served: Mesa and the East Valley; Mesa / East Valley; Mesa / East Valley; guests travel from across the Valley. An exact current schedule is not established in this record.  Location/contact address: 424 W Broadway Rd, Mesa, AZ 85210.\n\n**Important Information to Know**\n\n* Community Center / Empowerment Services: Exceptionally practical Mesa access point for people experiencing homelessness: showers, hygiene kits, clothing, haircuts, nightly meals, mail service, Arizona ID vouchers, birth-certificate assistance, water, food and connections to shelter, housing and healthcare partners. Mail service is especially important for benefits and document safety.\n* Daily Meal, Shower, Clothing & Document Assistance Program: Mesa-based, in-person daily service hub offering nightly hot meals, weekly showers, clothing, haircuts, mail service, food boxes, bus passes, and help obtaining AZ ID/birth certificates — matches nearly every hygiene/access need in scope.\n* Feed, Clothe & Empower / Coordinated Entry satellite (COPA Health listed historically): Core Mesa drop-in day program: nightly dinner (~5:15–6:30 p.m., 365 days), Wednesday showers, clothing, haircuts, mailroom (Mon–Fri afternoon; photo ID required for mail/food boxes), ID/birth-certificate help, SNAP/job support, computers. Listed as a Maricopa Coordinated Entry access point. City of Mesa historically stationed navigators on site.\n\n* Area served: Mesa and the East Valley; Mesa / East Valley; Mesa / East Valley; guests travel from across the Valley\n\n* The official site gives unusually useful schedules, but individual programs have limited days, appointment requirements or first-come capacity. Verify current bus-pass availability, haircut schedule, computers/phones, storage and exact shelter-navigation process.\n* Shower schedule appears seasonal (varies by month per 211 listing); confirm current-year shower days/times and whether mail service is still offered.\n* CE partner name on older MAG lists is COPA Health at Paz; confirm current CE assessor on site vs. referral-only.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Paz de Cristo Community Center",
+            "pdfs": [],
+            "phone": "480-464-2370",
+            "verifiedOn": null,
+            "website": "https://pazdecristo.org/"
+          }
+        },
+        {
+          "label": "La Mesa Ministries — bus-pass outreach",
+          "contribution": "Adds a second local fare-assistance route so a failed visit or empty stock at one provider need not end the search.",
+          "limitation": "Passes depend on outreach schedules and supplies. Verify any claimed appointment rides separately.",
+          "resourceId": "577e54a943c0cb1d97e003e0e6ba6623",
+          "position": 3,
+          "evidence": {
+            "field": "description",
+            "text": "Mesa and Tempe outreach provides bus passes"
+          },
+          "resource": {
+            "address": "805 N Country Club Dr, Mesa, AZ 85201",
+            "candidateIds": [
+              "1247"
+            ],
+            "categories": [
+              "homeless-services",
+              "transportation",
+              "food",
+              "clothing",
+              "household-essentials"
+            ],
+            "categoryFilters": {
+              "homeless-services": [
+                "Meals & Basic Needs"
+              ],
+              "transportation": [
+                "Bus Passes"
+              ],
+              "food": [
+                "Prepared Meals"
+              ],
+              "clothing": [
+                "General Clothing"
+              ],
+              "household-essentials": [
+                "Hygiene Supplies"
+              ]
+            },
+            "description": "La Mesa states that its Mesa and Tempe outreach provides bus passes along with meals, clothing, hygiene supplies and resource connections. Its volunteer description also mentions helping provide rides for appointments.",
+            "forGroups": [
+              "Homeless",
+              "Low-income households"
+            ],
+            "hours": "",
+            "id": "577e54a943c0cb1d97e003e0e6ba6623",
+            "informationText": "**Eligibility Requirements**\n\nPeople using La Mesa’s Mesa/Tempe outreach, particularly those experiencing homelessness or poverty; bus passes and supplies depend on availability.\n\n**How to Best Connect**\n\nCall 480-590-4622 for the specific program and current intake. Website: https://lamesaministries.org/\n\n**Access**\n\nArea served: Mesa and Tempe, particularly people experiencing homelessness or poverty. An exact current schedule is not established in this record.  Location/contact address: 805 N Country Club Dr, Mesa, AZ 85201.\n\n**Important Information to Know**\n\n* Bus Pass Assistance / Resource Center: La Mesa states that its Mesa and Tempe outreach provides bus passes along with meals, clothing, hygiene supplies and resource connections. Its volunteer description also mentions helping provide rides for appointments.\n\n* Area served: Mesa and Tempe, particularly people experiencing homelessness or poverty\n\n* Transportation appears to be supportive assistance embedded in outreach rather than a scheduled ride program. Verify when and how bus passes are distributed and whether appointment rides are actually available to clients.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "La Mesa Ministries · Bus Pass Assistance / Resource Center",
+            "pdfs": [],
+            "phone": "480-590-4622",
+            "verifiedOn": null,
+            "website": "https://lamesaministries.org/"
+          }
+        },
+        {
+          "label": "AHCCCS — non-emergency medical transportation",
+          "contribution": "Adds health-plan-arranged transportation to covered appointments for eligible members unable to arrange a ride.",
+          "limitation": "Use the member's actual plan. Confirm notice, authorization and mobility needs; this is not transport for all errands.",
+          "resourceId": "1d65b4adbe723072ef2992d60f99bdf2",
+          "position": 4,
+          "evidence": {
+            "field": "description",
+            "text": "administered through the member's specific managed care plan"
+          },
+          "resource": {
+            "address": "",
+            "candidateIds": [
+              "1221"
+            ],
+            "categories": [
+              "transportation"
+            ],
+            "categoryFilters": {
+              "transportation": [
+                "Medical Rides"
+              ]
+            },
+            "description": "Covers rides to and from Medicaid-covered medical and behavioral health appointments for AHCCCS members who cannot arrange their own transportation; administered through the member's specific managed care plan (e.g., Banner-University, Care1st, Health Choice, Mercy Care, UnitedHealthcare Community Plan).",
+            "forGroups": [],
+            "hours": "",
+            "id": "1d65b4adbe723072ef2992d60f99bdf2",
+            "informationText": "**Eligibility Requirements**\n\nAHCCCS members needing transport to covered appointments who cannot arrange their own transportation; requests go through the correct health plan.\n\n**How to Best Connect**\n\nCall Varies by health plan (number on member's AHCCCS ID card) for the specific program and current intake. Website: https://www.azahcccs.gov/\n\n**Access**\n\nArea served: Maricopa County (statewide AHCCCS benefit). An exact current schedule is not established in this record. \n\n**Important Information to Know**\n\nCovers rides to and from Medicaid-covered medical and behavioral health appointments for AHCCCS members who cannot arrange their own transportation; administered through the member's specific managed care plan (e.g., Banner-University, Care1st, Health Choice, Mercy Care, UnitedHealthcare Community Plan).\n\nAHCCCS non-emergency medical transportation helps qualifying members reach covered medical services according to health-plan rules. Medicaid membership does not by itself establish a disability, older-adult or medically fragile population-specific program. Arrange through the health plan and confirm advance notice, authorization and mobility needs.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "AHCCCS (Arizona Health Care Cost Containment System) / member's contracted health plan · Non-Emergency Medical Transportation (NEMT) benefit",
+            "pdfs": [],
+            "phone": "Varies by health plan (number on member's AHCCCS ID card)",
+            "verifiedOn": null,
+            "website": "https://www.azahcccs.gov/"
+          }
+        },
+        {
+          "label": "Aster Aging — Neighbors assisted transportation",
+          "contribution": "Adds volunteer-assisted trips for qualifying homebound older or disabled adults, including groceries and pharmacies as well as appointments.",
+          "limitation": "An assessment, service boundary and volunteer availability apply. It is not urgent or guaranteed transportation.",
+          "resourceId": "40894eb45a7350552e6e0df4621e8eb3",
+          "position": 5,
+          "evidence": {
+            "field": "description",
+            "text": "rides to doctors, pharmacies and grocery stores"
+          },
+          "resource": {
+            "address": "45 W University Dr, Suite A, Mesa, AZ 85201",
+            "candidateIds": [
+              "1230",
+              "1231"
+            ],
+            "categories": [
+              "transportation"
+            ],
+            "categoryFilters": {
+              "transportation": [
+                "Volunteer Rides",
+                "Medical Rides"
+              ]
+            },
+            "description": "Volunteer-based essential transportation for older adults, including rides to doctors, pharmacies and grocery stores. Particularly relevant when a senior needs personal, non-transit transportation or has difficulty navigating ordinary fixed-route service.",
+            "forGroups": [
+              "Seniors",
+              "People with disabilities"
+            ],
+            "hours": "",
+            "id": "40894eb45a7350552e6e0df4621e8eb3",
+            "informationText": "**Eligibility Requirements**\n\nEligible homebound older adults or adults with disabilities within Aster’s current transportation service area; assessment and driver availability apply.\n\n**How to Best Connect**\n\nCall 480-629-5502 for the specific program and current intake. Website: https://www.asteraz.org/services/neighbors.html\n\n**Access**\n\nArea served: East Valley older adults; organization is based in Mesa; Mesa, Chandler, and Gilbert homebound older/disabled adults (also listed for Tempe/Apache Junction in some guides). An exact current schedule is not established in this record.  Location/contact address: 45 W University Dr, Suite A, Mesa, AZ 85201.\n\n**Important Information to Know**\n\n* Neighbors - Essential Transportation: Volunteer-based essential transportation for older adults, including rides to doctors, pharmacies and grocery stores. Particularly relevant when a senior needs personal, non-transit transportation or has difficulty navigating ordinary fixed-route service.\n* Neighbors Program volunteer assisted transportation: Mesa-based volunteer drivers take isolated seniors to medical appointments, pharmacy, and grocery. Distinct from ADA paratransit because it is companionship/assisted transport through a senior-services agency, not a transit reservation.\n\n* Area served: East Valley older adults; organization is based in Mesa; Mesa, Chandler, and Gilbert homebound older/disabled adults (also listed for Tempe/Apache Junction in some guides)\n\n* Volunteer availability and exact geographic boundaries should be checked. This is not an urgent or guaranteed on-demand transportation service.\n* Capacity depends on volunteer drivers; in-home assessment is typically required. Alternate published numbers include 480-966-9704.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Aster Aging",
+            "pdfs": [],
+            "phone": "480-629-5502",
+            "verifiedOn": null,
+            "website": "https://www.asteraz.org/services/neighbors.html"
+          }
+        },
+        {
+          "label": "Ability360 — travel training",
+          "contribution": "Adds help learning to use transit independently, which can address a barrier that providing one ride does not solve.",
+          "limitation": "Confirm local training enrollment. Do not present information/referral or training as direct ride provision.",
+          "resourceId": "c98efcff0bd197bbec30e22139820e7a",
+          "position": 6,
+          "evidence": {
+            "field": "description",
+            "text": "teaching clients with disabilities to use fixed-route transit independently"
+          },
+          "resource": {
+            "address": "5025 E Washington St, Ste 200, Phoenix, AZ 85034 (Gilbert/Mesa office also listed)",
+            "candidateIds": [
+              "1220"
+            ],
+            "categories": [
+              "transportation"
+            ],
+            "categoryFilters": {
+              "transportation": [
+                "Travel Training"
+              ]
+            },
+            "description": "Center for Independent Living offering transportation information/referral and travel training (teaching clients with disabilities to use fixed-route transit independently); has a physical East Valley (Gilbert/Mesa) presence.",
+            "forGroups": [
+              "People with disabilities"
+            ],
+            "hours": "",
+            "id": "c98efcff0bd197bbec30e22139820e7a",
+            "informationText": "**Eligibility Requirements**\n\nPeople with disabilities who need assistance learning to use fixed-route transportation; confirm training enrollment and local delivery.\n\n**How to Best Connect**\n\nCall 602-256-2245 for the specific program and current intake. Website: https://ability360.org/information-referral/\n\n**Access**\n\nArea served: Maricopa County, including a Gilbert/Mesa office. An exact current schedule is not established in this record.  Location/contact address: 5025 E Washington St, Ste 200, Phoenix, AZ 85034 (Gilbert/Mesa office also listed).\n\n**Important Information to Know**\n\n* Transportation information/referral and travel training: Center for Independent Living offering transportation information/referral and travel training (teaching clients with disabilities to use fixed-route transit independently); has a physical East Valley (Gilbert/Mesa) presence.\n\n* Area served: Maricopa County, including a Gilbert/Mesa office\n\n* Extent of direct ride provision (vs. information, referral, and training only) from the Gilbert/Mesa office specifically should be confirmed.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Ability360 (Center for Independent Living) · Transportation information/referral and travel training",
+            "pdfs": [],
+            "phone": "602-256-2245",
+            "verifiedOn": null,
+            "website": "https://ability360.org/information-referral/"
+          }
+        },
+        {
+          "label": "American Cancer Society — Road To Recovery",
+          "contribution": "Adds a cancer-specific volunteer ride option that may help when general transit or other appointment transport does not fit.",
+          "limitation": "Local drivers, advance notice, mobility and companion requirements must be checked for each appointment.",
+          "resourceId": "206aace5d5722f95e596d3369baa90cc",
+          "position": 7,
+          "evidence": {
+            "field": "description",
+            "text": "Free volunteer-driver rides to and from cancer-related medical appointments"
+          },
+          "resource": {
+            "address": "",
+            "candidateIds": [
+              "1224"
+            ],
+            "categories": [
+              "transportation"
+            ],
+            "categoryFilters": {
+              "transportation": [
+                "Volunteer Rides",
+                "Medical Rides"
+              ]
+            },
+            "description": "Free volunteer-driver rides to and from cancer-related medical appointments (chemo, radiation, blood draws); caregiver escort allowed when medically needed.",
+            "forGroups": [
+              "Medically vulnerable"
+            ],
+            "hours": "",
+            "id": "206aace5d5722f95e596d3369baa90cc",
+            "informationText": "**Eligibility Requirements**\n\nCancer patients needing rides to cancer-related medical appointments who meet the volunteer program’s mobility and scheduling requirements.\n\n**How to Best Connect**\n\nCall 1-800-227-2345 for the specific program and current intake. Website: https://www.cancer.org/support-programs-and-services/road-to-recovery.html\n\n**Access**\n\nArea served: Arizona including Phoenix metro; volunteer-driver availability is local and not guaranteed for every appointment; Phoenix metro area, including Maricopa County/Mesa (subject to volunteer driver availability). An exact current schedule is not established in this record. \n\n**Important Information to Know**\n\n* Road To Recovery: Free volunteer-driver rides to and from cancer-related medical appointments (chemo, radiation, blood draws); caregiver escort allowed when medically needed.\n\n* Area served: Arizona including Phoenix metro; volunteer-driver availability is local and not guaranteed for every appointment; Phoenix metro area, including Maricopa County/Mesa (subject to volunteer driver availability)\n\n* Coverage depends on volunteer driver availability in the client's specific area and schedule; call well in advance of the appointment to confirm a driver can be matched.\n* Driver supply fluctuates. ACS asks for several days’ notice. Ambulatory patients are the typical match; companions may be required.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "American Cancer Society · Road To Recovery",
+            "pdfs": [],
+            "phone": "1-800-227-2345",
+            "verifiedOn": null,
+            "website": "https://www.cancer.org/support-programs-and-services/road-to-recovery.html"
+          }
+        },
+        {
+          "label": "Phoenix VA — Veteran Transportation Service",
+          "contribution": "Adds veteran medical transport with an accessible-vehicle pathway that the ambulatory-only DAV option may not provide.",
+          "limitation": "Confirm VA eligibility, route and accessible vehicle availability; do not assume every Mesa address is served.",
+          "resourceId": "9458ee851891add0159701b3c62bcca4",
+          "position": 8,
+          "evidence": {
+            "field": "description",
+            "text": "including wheelchair-accessible transportation"
+          },
+          "resource": {
+            "address": "650 E Indian School Rd, Phoenix, AZ 85012",
+            "candidateIds": [
+              "1257"
+            ],
+            "categories": [
+              "transportation"
+            ],
+            "categoryFilters": {
+              "transportation": [
+                "Medical Rides"
+              ]
+            },
+            "description": "VA Phoenix separately identifies Veteran Transportation Service and other shuttle options, including wheelchair-accessible transportation, making this an important alternative when a Veteran cannot use the ambulatory-only DAV vans.",
+            "forGroups": [
+              "Veterans",
+              "People with disabilities"
+            ],
+            "hours": "",
+            "id": "9458ee851891add0159701b3c62bcca4",
+            "informationText": "**Eligibility Requirements**\n\nEligible Phoenix VA patients needing VTS transportation, including those needing an accessible vehicle; route and reservation criteria apply.\n\n**How to Best Connect**\n\nCall 602-277-5551 ext. 7799 for the specific program and current intake. Website: https://www.va.gov/phoenix-health-care/dav-vans-transportation-for-veterans/\n\n**Access**\n\nArea served: VA Phoenix Health Care patients, including eligible Mesa and Maricopa County Veterans. An exact current schedule is not established in this record.  Location/contact address: 650 E Indian School Rd, Phoenix, AZ 85012.\n\n**Important Information to Know**\n\n* Veteran Transportation Service: VA Phoenix separately identifies Veteran Transportation Service and other shuttle options, including wheelchair-accessible transportation, making this an important alternative when a Veteran cannot use the ambulatory-only DAV vans.\n\n* Area served: VA Phoenix Health Care patients, including eligible Mesa and Maricopa County Veterans\n\n* Specific routes, eligibility, accessible-vehicle availability and reservation requirements should be confirmed with the Phoenix VA mobility/transportation staff.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "VA Phoenix Health Care System · Veteran Transportation Service",
+            "pdfs": [],
+            "phone": "602-277-5551 ext. 7799",
+            "verifiedOn": null,
+            "website": "https://www.va.gov/phoenix-health-care/dav-vans-transportation-for-veterans/"
+          }
+        },
+        {
+          "label": "WE-CYCLE-USA — bicycle access and repairs",
+          "contribution": "Adds a potential ongoing way to reach work or local services for people who can safely cycle, beyond individual ride requests.",
+          "limitation": "Confirm an appointment and actual shop location. Earn-a-bike work requirements, inventory and individual accessibility matter.",
+          "resourceId": "03c08ccec6ec7f669d5594a7c8499d06",
+          "position": 9,
+          "evidence": {
+            "field": "informationText",
+            "text": "earn-a-bike program"
+          },
+          "resource": {
+            "address": "221 Leisure World, Mesa, AZ 85206",
+            "candidateIds": [
+              "1272",
+              "1273",
+              "1274",
+              "1275"
+            ],
+            "categories": [
+              "transportation"
+            ],
+            "categoryFilters": {
+              "transportation": [
+                "Bicycles"
+              ]
+            },
+            "description": "Mesa-rooted nonprofit established to refurbish bicycles and provide cycling transportation to people in need, including people with disabilities needing transportation to employment. Its stated mission includes bicycle repair, maintenance, safe operation and recycled bicycles.",
+            "forGroups": [
+              "Youth",
+              "People with disabilities"
+            ],
+            "hours": "",
+            "id": "03c08ccec6ec7f669d5594a7c8499d06",
+            "informationText": "**Eligibility Requirements**\n\nAdults or youth accepted into WeCycle bicycle placement or earn-a-bike services. The described age-16+ volunteer requirement may not apply to younger children.\n\n**How to Best Connect**\n\nCall (602) 516-0002 for the specific program and current intake. Website: https://wecycleusa.org/\n\n**Access**\n\nArea served: Mesa and surrounding communities; Mesa community cycling center (partnered with CDP/El Rancho Community); referrals from city/state agencies; Mesa, AZ (Maricopa County). An exact current schedule is not established in this record.  Location/contact address: 221 Leisure World, Mesa, AZ 85206.\n\n**Important Information to Know**\n\n* Community Cycle Center / Bicycles for People in Need: Mesa-rooted nonprofit established to refurbish bicycles and provide cycling transportation to people in need, including people with disabilities needing transportation to employment. Its stated mission includes bicycle repair, maintenance, safe operation and recycled bicycles.\n* Earn-a-bike / refurbished bicycle placement: Places refurbished donated bikes with adults and youth; earn-a-bike (about 8 hours sweat equity if 16+) and free bikes for some younger riders. Shop tools available for self-repair.\n* Recycled/refurbished bicycles for clients with disabilities: Mesa-based nonprofit originally created by a vocational rehabilitation provider to fix and give bicycles directly to clients with disabilities to support work/school access.\n* Earn a Bike Program: Materially distinct transportation-access lead for adults who can safely use a bicycle. The organization states that people needing a bicycle can participate in an earn-a-bike program; for participants age 16 or older, it identifies eight hours of volunteer service as sweat equity. This may support low-cost local transportation, job access, and first-mile/last-mile connections.\n\n* Area served: Mesa and surrounding communities; Mesa community cycling center (partnered with CDP/El Rancho Community); referrals from city/state agencies; Mesa, AZ (Maricopa County)\n\n* Current individual bicycle-request procedure, inventory, physical location and any referral requirements were not established in this discovery pass and should be investigated.\n* Confirm current shop hours, address, and whether they still accept TSO/agency referrals. Public phone not prominently listed.\n* Small, founder-run organization; confirm current operating status, capacity, and intake process before referral.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "WeCycle USA",
+            "pdfs": [],
+            "phone": "(602) 516-0002",
+            "verifiedOn": null,
+            "website": "https://wecycleusa.org/"
+          }
+        }
+      ],
+      "assessments": [
+        {
+          "resourceId": "c98efcff0bd197bbec30e22139820e7a",
+          "name": "Ability360 (Center for Independent Living) · Transportation information/referral and travel training",
+          "decision": "selected",
+          "reason": "Adds help learning to use transit independently, which can address a barrier that providing one ride does not solve."
+        },
+        {
+          "resourceId": "1d65b4adbe723072ef2992d60f99bdf2",
+          "name": "AHCCCS (Arizona Health Care Cost Containment System) / member's contracted health plan · Non-Emergency Medical Transportation (NEMT) benefit",
+          "decision": "selected",
+          "reason": "Adds health-plan-arranged transportation to covered appointments for eligible members unable to arrange a ride."
+        },
+        {
+          "resourceId": "33560faa0e326f7d9f179cfc8f356488",
+          "name": "AllThrive 365 · Transportation Services / Volunteer Driver Trips",
+          "decision": "not-selected",
+          "reason": "Current official transportation page covers West Valley areas; Mesa coverage is unestablished."
+        },
+        {
+          "resourceId": "206aace5d5722f95e596d3369baa90cc",
+          "name": "American Cancer Society · Road To Recovery",
+          "decision": "selected",
+          "reason": "Adds a cancer-specific volunteer ride option that may help when general transit or other appointment transport does not fit."
+        },
+        {
+          "resourceId": "7d5ab5422e4e7754622adfaf76789c63",
+          "name": "Arizona Complete Health – Complete Care Plan · AHCCCS member transportation",
+          "decision": "not-selected",
+          "reason": "Specific AHCCCS plan is a routing detail under the selected benefit, not another independent entitlement."
+        },
+        {
+          "resourceId": "855aea5e0d3d3b07f11e7bb81212e4d2",
+          "name": "Arizona Health Care Cost Containment System",
+          "decision": "not-selected",
+          "reason": "Pregnancy coverage record is not the clearest transport intake; use the dedicated AHCCCS NEMT record."
+        },
+        {
+          "resourceId": "f95aad04c5e72f66f324d9875d7caffd",
+          "name": "ARIZONA@WORK Maricopa County",
+          "decision": "not-selected",
+          "reason": "Workforce-related transport support needs program participation; preserve for employment-specific matching."
+        },
+        {
+          "resourceId": "40894eb45a7350552e6e0df4621e8eb3",
+          "name": "Aster Aging",
+          "decision": "selected",
+          "reason": "Adds volunteer-assisted trips for qualifying homebound older or disabled adults, including groceries and pharmacies as well as appointments."
+        },
+        {
+          "resourceId": "b8974853db6587c88187211e9eb32960",
+          "name": "Bob's Free Bikes · Free Bikes for Kids",
+          "decision": "not-selected",
+          "reason": "Children-only bicycle provider is useful reserve when the all-age cycling route does not fit."
+        },
+        {
+          "resourceId": "c39b7edce7fd22875fba8558aa17172c",
+          "name": "Central Christian Church Acts Ministry · ACTS Homeless Ministry (Mesa Campus)",
+          "decision": "not-selected",
+          "reason": "Van pickup serves scheduled ACTS outreach rather than a general client-selected trip."
+        },
+        {
+          "resourceId": "69bc2e9938b04722b0c8cdc1d67dadc8",
+          "name": "Circle the City",
+          "decision": "not-selected",
+          "reason": "Respite-patient appointment transport is tied to clinical admission, not public ride intake."
+        },
+        {
+          "resourceId": "60e4d8ec2611999a357a1283fd451295",
+          "name": "Disabled American Veterans (DAV) · DAV Transportation Network (Hospital Service Coordinator vans)",
+          "decision": "not-selected",
+          "reason": "DAV vans remain a veteran alternative; selected VTS highlights accessible transport unavailable on ambulatory-only vans."
+        },
+        {
+          "resourceId": "2504ccabf901d68e7682a299c2151b21",
+          "name": "Duet Partners in Health & Aging (program transferred to AllThrive 365) · Homebound Adult Services — volunteer rides to medical appointments and grocery stores",
+          "decision": "not-selected",
+          "reason": "Transferred Duet service needs its specific successor coverage verified; do not assume Mesa eligibility."
+        },
+        {
+          "resourceId": "38629d0e712141f7531b4cff4b0bfd53",
+          "name": "Duet: Partners in Health & Aging",
+          "decision": "suppressed",
+          "reason": "Excluded by saved human browser state."
+        },
+        {
+          "resourceId": "528e3dad283cd117ea2ff80b3bec333c",
+          "name": "Father Matters · Reentry Mentoring Project / Job & Training Institute Reentry Program",
+          "decision": "not-selected",
+          "reason": "Reentry-parent bus cards are specialized participant support, not general transportation access."
+        },
+        {
+          "resourceId": "f5956fe09395d25458ca9fda67d737c9",
+          "name": "Fresh Start Women's Foundation · Justice-Involved Women",
+          "decision": "not-selected",
+          "reason": "Justice-involved women's Lyft support is valuable targeted reserve with program-specific eligibility."
+        },
+        {
+          "resourceId": "577e54a943c0cb1d97e003e0e6ba6623",
+          "name": "La Mesa Ministries · Bus Pass Assistance / Resource Center",
+          "decision": "selected",
+          "reason": "Adds a second local fare-assistance route so a failed visit or empty stock at one provider need not end the search."
+        },
+        {
+          "resourceId": "5bfda48463f45755a59145fa7d226906",
+          "name": "La Mesa Ministries · Resource Center – Important Document Assistance",
+          "decision": "not-selected",
+          "reason": "Same La Mesa resource-center bus-pass pathway as the selected transportation record; reconcile overlap later."
+        },
+        {
+          "resourceId": "8f69d21d4d0d04de3adeae58d4890d6c",
+          "name": "Mercy Care · AHCCCS member NEMT / transit-pass request line",
+          "decision": "not-selected",
+          "reason": "Mercy Care is a plan-specific NEMT contact under the selected member-plan route."
+        },
+        {
+          "resourceId": "08a26b747ffe8b1ea284e491a62d39e7",
+          "name": "Paz de Cristo Community Center",
+          "decision": "selected",
+          "reason": "Adds possible fare help through an established Mesa basic-needs center; the same record is useful in Food and ID Recovery."
+        },
+        {
+          "resourceId": "e1f846bba51958551be6dde95f68a852",
+          "name": "Paz de Cristo Community Center · Bus Pass Assistance",
+          "decision": "not-selected",
+          "reason": "Same Paz bus-pass service as the broader record selected across categories; avoid duplicate work."
+        },
+        {
+          "resourceId": "2aeb697bd9f8e4d9ce206105d197e6a2",
+          "name": "Society of St. Vincent de Paul",
+          "decision": "not-selected",
+          "reason": "Bicycle placement based on a bike-drive page needs current request instructions; WE-CYCLE provides clearer program detail."
+        },
+        {
+          "resourceId": "6f857637fa2be0cd00ed6fc1671bded3",
+          "name": "The Mesa House Inc. · Resident Work Transportation / Bus Pass Support",
+          "decision": "not-selected",
+          "reason": "Work bus passes are restricted to residents of the housing program."
+        },
+        {
+          "resourceId": "9458ee851891add0159701b3c62bcca4",
+          "name": "VA Phoenix Health Care System · Veteran Transportation Service",
+          "decision": "selected",
+          "reason": "Adds veteran medical transport with an accessible-vehicle pathway that the ambulatory-only DAV option may not provide."
+        },
+        {
+          "resourceId": "d8a0a0095b59cb2e7bceb2cffbd239e5",
+          "name": "Valley Metro",
+          "decision": "selected",
+          "reason": "Provides the basic transit pathway plus reduced fares and separately eligible accessible-ride programs."
+        },
+        {
+          "resourceId": "03c08ccec6ec7f669d5594a7c8499d06",
+          "name": "WeCycle USA",
+          "decision": "selected",
+          "reason": "Adds a potential ongoing way to reach work or local services for people who can safely cycle, beyond individual ride requests."
+        }
+      ]
+    },
+    {
+      "categoryId": "id-recovery",
+      "label": "ID Recovery",
+      "rationale": "Nine selections distinguish agencies that issue documents from local organizations that help clients obtain them. Three local assistance routes provide choices when evidence, fees, mailing address or schedules are the obstacle. National immigration and Social Security routes remain represented.",
+      "gaps": "Out-of-state birth certificates, military discharge records and corrections-specific release documents remain reserve pathways. Source records still need clearer descriptions of fees and alternative identity evidence. Tribal credentials apply only to that tribe's members.",
+      "candidateCount": 22,
+      "members": [
+        {
+          "label": "Homeless ID Project — identification and document storage",
+          "contribution": "Adds specialized no-cost help when homelessness or missing documents makes an ordinary agency application difficult.",
+          "limitation": "Confirm the Mesa satellite schedule and holiday changes. The issuing agency still controls the document and timing.",
+          "resourceId": "4a4a619b7b63a00120d7f6c7391caabd",
+          "position": 1,
+          "evidence": {
+            "field": "description",
+            "text": "replacement state IDs, driver's licenses, birth certificates and supporting documents at no cost"
+          },
+          "resource": {
+            "address": "49 W. Broadway Road, Mesa, AZ 85210",
+            "candidateIds": [
+              "927",
+              "928",
+              "970",
+              "971",
+              "972",
+              "973"
+            ],
+            "categories": [
+              "homeless-services",
+              "id-recovery"
+            ],
+            "categoryFilters": {
+              "homeless-services": [
+                "ID & Documents",
+                "Mail & Storage"
+              ],
+              "id-recovery": [
+                "State ID/License",
+                "Birth Certificates",
+                "Document Navigation",
+                "Document Storage"
+              ]
+            },
+            "description": "Homeless-specific assistance obtaining replacement state IDs, driver's licenses, birth certificates and supporting documents at no cost. Also provides secure document storage, directly addressing the repeated loss, theft or destruction of documents among unsheltered people.",
+            "forGroups": [
+              "Homeless"
+            ],
+            "hours": "Second and fourth Tuesdays, 1–3:30 p.m.; first come, first served.",
+            "id": "4a4a619b7b63a00120d7f6c7391caabd",
+            "informationText": "**Eligibility Requirements**\n\nPeople experiencing homelessness who need no-cost identification replacement or secure document storage; intake staff assess available identity evidence.\n\n**How to Best Connect**\n\nCall 602-223-3427 for the specific program and current intake. Website: https://www.homelessidproject.org/id-service-locations/\n\n**Access**\n\nArea served: Phoenix metro area, including people experiencing homelessness from Maricopa County; Arizona statewide; Phoenix office and partner sites across Arizona; Maricopa and Pima Counties, AZ; multiple satellite/pop-up sites. Published hours: Second and fourth Tuesdays, 1–3:30 p.m.; first come, first served..  Location/contact address: 49 W. Broadway Road, Mesa, AZ 85210.\n\n**Important Information to Know**\n\nHomeless-specific assistance obtaining replacement state IDs, driver's licenses, birth certificates and supporting documents at no cost. Also provides secure document storage, directly addressing the repeated loss, theft or destruction of documents among unsheltered people.\n\nHomeless ID Project provides free help obtaining identification and supporting records, including for people who currently have no documents. Its September 2026 locations page lists Mesa service at St. Vincent de Paul Mesa Dining Room, 49 W. Broadway Road, on the second and fourth Tuesdays from 1–3:30 p.m., first come, first served. State agencies still control document issuance and timing. Confirm holiday or schedule changes.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Homeless ID Project",
+            "pdfs": [],
+            "phone": "602-223-3427",
+            "verifiedOn": null,
+            "website": "https://www.homelessidproject.org/id-service-locations/"
+          }
+        },
+        {
+          "label": "Paz de Cristo — ID vouchers, birth certificates and mail",
+          "contribution": "Adds a Mesa route combining document help and mailing access, with the same resource also supporting food and transportation needs.",
+          "limitation": "Each service has its own schedule and prerequisites. Confirm voucher availability and how someone without photo ID can access mail support.",
+          "resourceId": "08a26b747ffe8b1ea284e491a62d39e7",
+          "position": 2,
+          "evidence": {
+            "field": "description",
+            "text": "Arizona ID vouchers, birth-certificate assistance"
+          },
+          "resource": {
+            "address": "424 W Broadway Rd, Mesa, AZ 85210",
+            "candidateIds": [
+              "940",
+              "941",
+              "942"
+            ],
+            "categories": [
+              "homeless-services",
+              "housing",
+              "food",
+              "clothing",
+              "household-essentials",
+              "id-recovery",
+              "transportation",
+              "employment",
+              "financial-assistance"
+            ],
+            "categoryFilters": {
+              "homeless-services": [
+                "Day Center",
+                "Showers & Laundry",
+                "Mail & Storage",
+                "ID & Documents",
+                "Meals & Basic Needs",
+                "Homeless Navigation"
+              ],
+              "housing": [
+                "Coordinated Entry",
+                "Housing Navigation"
+              ],
+              "food": [
+                "Prepared Meals",
+                "Food Pantry"
+              ],
+              "clothing": [
+                "General Clothing"
+              ],
+              "household-essentials": [
+                "Hygiene Supplies"
+              ],
+              "id-recovery": [
+                "State ID/License",
+                "Birth Certificates",
+                "Document Navigation",
+                "Mail Service"
+              ],
+              "transportation": [
+                "Bus Passes"
+              ],
+              "employment": [
+                "Job Search & Placement"
+              ],
+              "financial-assistance": [
+                "Benefits Navigation"
+              ]
+            },
+            "description": "Exceptionally practical Mesa access point for people experiencing homelessness: showers, hygiene kits, clothing, haircuts, nightly meals, mail service, Arizona ID vouchers, birth-certificate assistance, water, food and connections to shelter, housing and healthcare partners. Mail service is especially important for benefits and document safety.",
+            "forGroups": [
+              "Homeless"
+            ],
+            "hours": "",
+            "id": "08a26b747ffe8b1ea284e491a62d39e7",
+            "informationText": "**Eligibility Requirements**\n\nPeople experiencing homelessness or unmet basic needs in Mesa; each meal, shower, mail, document or benefits service has its own schedule and prerequisites.\n\n**How to Best Connect**\n\nCall 480-464-2370 for the specific program and current intake. Website: https://pazdecristo.org/\n\n**Access**\n\nArea served: Mesa and the East Valley; Mesa / East Valley; Mesa / East Valley; guests travel from across the Valley. An exact current schedule is not established in this record.  Location/contact address: 424 W Broadway Rd, Mesa, AZ 85210.\n\n**Important Information to Know**\n\n* Community Center / Empowerment Services: Exceptionally practical Mesa access point for people experiencing homelessness: showers, hygiene kits, clothing, haircuts, nightly meals, mail service, Arizona ID vouchers, birth-certificate assistance, water, food and connections to shelter, housing and healthcare partners. Mail service is especially important for benefits and document safety.\n* Daily Meal, Shower, Clothing & Document Assistance Program: Mesa-based, in-person daily service hub offering nightly hot meals, weekly showers, clothing, haircuts, mail service, food boxes, bus passes, and help obtaining AZ ID/birth certificates — matches nearly every hygiene/access need in scope.\n* Feed, Clothe & Empower / Coordinated Entry satellite (COPA Health listed historically): Core Mesa drop-in day program: nightly dinner (~5:15–6:30 p.m., 365 days), Wednesday showers, clothing, haircuts, mailroom (Mon–Fri afternoon; photo ID required for mail/food boxes), ID/birth-certificate help, SNAP/job support, computers. Listed as a Maricopa Coordinated Entry access point. City of Mesa historically stationed navigators on site.\n\n* Area served: Mesa and the East Valley; Mesa / East Valley; Mesa / East Valley; guests travel from across the Valley\n\n* The official site gives unusually useful schedules, but individual programs have limited days, appointment requirements or first-come capacity. Verify current bus-pass availability, haircut schedule, computers/phones, storage and exact shelter-navigation process.\n* Shower schedule appears seasonal (varies by month per 211 listing); confirm current-year shower days/times and whether mail service is still offered.\n* CE partner name on older MAG lists is COPA Health at Paz; confirm current CE assessor on site vs. referral-only.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Paz de Cristo Community Center",
+            "pdfs": [],
+            "phone": "480-464-2370",
+            "verifiedOn": null,
+            "website": "https://pazdecristo.org/"
+          }
+        },
+        {
+          "label": "La Mesa Ministries — one-to-one document assistance",
+          "contribution": "Adds another local navigator for forms, appointments and official mail when clients need assistance assembling an application.",
+          "limitation": "Clarify which document fees can be funded. Navigation is not a promise that every document can be obtained free.",
+          "resourceId": "5bfda48463f45755a59145fa7d226906",
+          "position": 3,
+          "evidence": {
+            "field": "description",
+            "text": "one-on-one help obtaining IDs, driver licenses, birth certificates, and Social Security cards"
+          },
+          "resource": {
+            "address": "805 N Country Club Dr, Mesa, AZ 85201",
+            "candidateIds": [
+              "975"
+            ],
+            "categories": [
+              "homeless-services",
+              "id-recovery",
+              "transportation"
+            ],
+            "categoryFilters": {
+              "homeless-services": [
+                "ID & Documents",
+                "Mail & Storage"
+              ],
+              "id-recovery": [
+                "State ID/License",
+                "Birth Certificates",
+                "Social Security Card",
+                "Document Navigation",
+                "Mail Service"
+              ],
+              "transportation": [
+                "Bus Passes"
+              ]
+            },
+            "description": "Especially promising navigation lead because it explicitly offers one-on-one help obtaining IDs, driver licenses, birth certificates, and Social Security cards rather than merely referring clients to government websites. It also offers mail service for official documents, form and appointment assistance, transportation help, and free bus passes.",
+            "forGroups": [
+              "Homeless"
+            ],
+            "hours": "",
+            "id": "5bfda48463f45755a59145fa7d226906",
+            "informationText": "**Eligibility Requirements**\n\nPeople using La Mesa Ministries’ Mesa/East Valley resource center who need document, mail or bus-pass assistance; confirm current intake and fee support.\n\n**How to Best Connect**\n\nCall 480-590-4622 for the specific program and current intake. Website: https://lamesaministries.org/resource-center/\n\n**Access**\n\nArea served: Mesa and surrounding East Valley. An exact current schedule is not established in this record.  Location/contact address: 805 N Country Club Dr, Mesa, AZ 85201.\n\n**Important Information to Know**\n\nEspecially promising navigation lead because it explicitly offers one-on-one help obtaining IDs, driver licenses, birth certificates, and Social Security cards rather than merely referring clients to government websites. It also offers mail service for official documents, form and appointment assistance, transportation help, and free bus passes.\n\nLa Mesa Ministries supports people experiencing homelessness with meals, clothing, mail, document navigation and potential bus-pass assistance. Ask which records staff can obtain or fund and whether passes are currently available. Help navigating ID recovery is not a guarantee that every government document fee will be paid.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "La Mesa Ministries · Resource Center – Important Document Assistance",
+            "pdfs": [],
+            "phone": "480-590-4622",
+            "verifiedOn": null,
+            "website": "https://lamesaministries.org/resource-center/"
+          }
+        },
+        {
+          "label": "Arizona MVD — state ID issuance and replacement",
+          "contribution": "Provides the official Arizona ID endpoint, which local assistance organizations help clients reach.",
+          "limitation": "Confirm current documents and fee rules. General homelessness is not a blanket fee exemption, and Travel ID has separate requirements.",
+          "resourceId": "b684b97f8e67ea1cb39778d953a2c4cf",
+          "position": 4,
+          "evidence": {
+            "field": "description",
+            "text": "Arizona MVD state ID application and replacement"
+          },
+          "resource": {
+            "address": "Mesa/Gilbert SE Regional: 4123 E. Valley Auto Dr., Mesa, AZ 85206",
+            "candidateIds": [
+              "960",
+              "961",
+              "962",
+              "964",
+              "965",
+              "966"
+            ],
+            "categories": [
+              "id-recovery"
+            ],
+            "categoryFilters": {
+              "id-recovery": [
+                "State ID/License"
+              ]
+            },
+            "description": "Arizona MVD state ID application and replacement, with document rules and specific statutory fee exceptions.",
+            "forGroups": [
+              "Homeless",
+              "Seniors",
+              "Veterans",
+              "Youth",
+              "Foster & kinship families",
+              "People with disabilities"
+            ],
+            "hours": "",
+            "id": "b684b97f8e67ea1cb39778d953a2c4cf",
+            "informationText": "**Eligibility Requirements**\n\nArizona applicants eligible for a state ID or driver credential. Specific fee exemptions apply to eligible older adults, disability-SSI recipients, DCS-custody children and homeless veterans; general homelessness alone is not a documented blanket exemption.\n\n**How to Best Connect**\n\nCall 602-255-0072 for the specific program and current intake. Website: https://azdot.gov/mvd/services/driver-services/arizona-id-card\n\n**Access**\n\nArea served: Statewide; Mesa MVD office available; Arizona statewide, including Mesa and Maricopa County; Statewide; Mesa office serves East Valley. An exact current schedule is not established in this record.  Location/contact address: Mesa/Gilbert SE Regional: 4123 E. Valley Auto Dr., Mesa, AZ 85206.\n\n**Important Information to Know**\n\nArizona MVD issues state identification cards. A standard card generally costs $12. A.R.S. 28-3165 provides fee exceptions for specified groups including people age 65 or older, qualifying disability/SSI recipients, children in DCS custody and qualifying homeless veterans; it does not create a blanket waiver for every person experiencing homelessness. REAL ID/Travel ID has separate requirements. An SSN may be required, but this is not the same as universally requiring the physical Social Security card.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Arizona Department of Transportation Motor Vehicle Division",
+            "pdfs": [],
+            "phone": "602-255-0072",
+            "verifiedOn": null,
+            "website": "https://azdot.gov/mvd/services/driver-services/arizona-id-card"
+          }
+        },
+        {
+          "label": "Maricopa County — Arizona vital records",
+          "contribution": "Adds the official source for eligible Arizona birth-record requests, often part of rebuilding an identity-document chain.",
+          "limitation": "Requester eligibility and identity evidence apply. It does not issue out-of-state records; the saved postal box is not a walk-in counter.",
+          "resourceId": "1d7914c5fe0d1c96c8583057ac00239f",
+          "position": 5,
+          "evidence": {
+            "field": "description",
+            "text": "Official local source for certified birth and death certificates"
+          },
+          "resource": {
+            "address": "PO Box 2111, Phoenix, AZ 85001",
+            "candidateIds": [
+              "980",
+              "981"
+            ],
+            "categories": [
+              "id-recovery"
+            ],
+            "categoryFilters": {
+              "id-recovery": [
+                "Birth Certificates"
+              ]
+            },
+            "description": "Official local source for certified birth and death certificates. Particularly useful as the governmental endpoint when Homeless ID Project, Paz de Cristo, La Mesa Ministries, or another navigator is reconstructing a person's identity-document chain.",
+            "forGroups": [],
+            "hours": "",
+            "id": "1d7914c5fe0d1c96c8583057ac00239f",
+            "informationText": "**Eligibility Requirements**\n\nPeople legally entitled to request the relevant Arizona birth or death record, with acceptable identity or approved alternative evidence. This office does not issue out-of-state birth records.\n\n**How to Best Connect**\n\nCall 602-506-6805 for the specific program and current intake. Website: https://www.maricopa.gov/2770/Vital-Records\n\n**Access**\n\nArea served: Maricopa County; Arizona birth and death records within the program's statutory authority; Maricopa County; issues official copies for Arizona birth and death events. An exact current schedule is not established in this record.  Location/contact address: PO Box 2111, Phoenix, AZ 85001.\n\n**Important Information to Know**\n\nOfficial local source for certified birth and death certificates. Particularly useful as the governmental endpoint when Homeless ID Project, Paz de Cristo, La Mesa Ministries, or another navigator is reconstructing a person's identity-document chain.\n\nMaricopa County Vital Registration handles Arizona birth and death records for eligible requesters. Marriage records and out-of-state birth records require different issuing agencies. Use the current application and public-counter information; a postal box is not a walk-in service address.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Maricopa County Department of Public Health",
+            "pdfs": [],
+            "phone": "602-506-6805",
+            "verifiedOn": null,
+            "website": "https://www.maricopa.gov/2770/Vital-Records"
+          }
+        },
+        {
+          "label": "Social Security Administration — replacement cards",
+          "contribution": "Adds the federal Social Security card route, which MVD and county vital records cannot provide.",
+          "limitation": "Confirm whether online replacement or an appointment applies. Use the current locator because saved local addresses conflict.",
+          "resourceId": "2f439f11fb6027227582190274a7e325",
+          "position": 6,
+          "evidence": {
+            "field": "description",
+            "text": "Official pathway for replacing a lost or stolen Social Security card"
+          },
+          "resource": {
+            "address": "Use SSA office locator to confirm current card-service location.",
+            "candidateIds": [
+              "986",
+              "987"
+            ],
+            "categories": [
+              "id-recovery"
+            ],
+            "categoryFilters": {
+              "id-recovery": [
+                "Social Security Card"
+              ]
+            },
+            "description": "Official pathway for replacing a lost or stolen Social Security card. Applications may begin online in some cases, while other cases require an appointment. Replacement cards are free and are mailed after SSA completes the request.",
+            "forGroups": [],
+            "hours": "",
+            "id": "2f439f11fb6027227582190274a7e325",
+            "informationText": "**Eligibility Requirements**\n\nPeople eligible for a replacement Social Security card who can establish identity and any required citizenship/status evidence. Replacement cards are free.\n\n**How to Best Connect**\n\nCall 800-772-1213 for the specific program and current intake. Website: https://www.ssa.gov/number-card/replace-card\n\n**Access**\n\nArea served: Federal program; local field-office access in Maricopa County; Federal service available to eligible Mesa and Maricopa County residents; Mesa and East Valley, Maricopa County. An exact current schedule is not established in this record.  Location/contact address: Use SSA office locator to confirm current card-service location..\n\n**Important Information to Know**\n\nOfficial pathway for replacing a lost or stolen Social Security card. Applications may begin online in some cases, while other cases require an appointment. Replacement cards are free and are mailed after SSA completes the request.\n\nSocial Security provides replacement-card applications and other Social Security services. Use SSA’s current office locator or online replacement process to confirm whether a card-center appointment is needed. Saved local office addresses conflict and should not be used without confirmation. An Arizona ID application’s SSN requirement does not always mean the physical card is required.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Social Security Administration",
+            "pdfs": [],
+            "phone": "800-772-1213",
+            "verifiedOn": null,
+            "website": "https://www.ssa.gov/number-card/replace-card"
+          }
+        },
+        {
+          "label": "Immigrant Hope Mesa — immigration-document application help",
+          "contribution": "Adds local low-cost assistance with supported immigration filings for clients who need help using the federal process.",
+          "limitation": "Confirm fees and appointment availability. The record does not establish asylum or immigration-court representation.",
+          "resourceId": "4465e68f2478923dfe880de0556150f0",
+          "position": 7,
+          "evidence": {
+            "field": "description",
+            "text": "green-card renewals/replacements"
+          },
+          "resource": {
+            "address": "1818 E. Southern Avenue, Suite 4A, Mesa, AZ",
+            "candidateIds": [
+              "1013",
+              "1014",
+              "1069"
+            ],
+            "categories": [
+              "immigration",
+              "legal",
+              "id-recovery"
+            ],
+            "categoryFilters": {
+              "immigration": [
+                "Citizenship",
+                "Family Petitions",
+                "Green Cards",
+                "DACA",
+                "Humanitarian Relief",
+                "Document Replacement"
+              ],
+              "legal": [
+                "Immigration Law"
+              ],
+              "id-recovery": [
+                "Immigration Documents"
+              ]
+            },
+            "description": "Mesa-based nonprofit low-cost immigration legal-aid clinic using DOJ-accredited representatives. Services include naturalization, family-based petitions, green-card renewals/replacements, DACA renewals, VAWA, U visas, adjustment of status and related USCIS filings. Explicitly serves low-income immigrants in the Phoenix metropolitan area.",
+            "forGroups": [
+              "Domestic violence survivors",
+              "Immigrants",
+              "Low-income households",
+              "Spanish"
+            ],
+            "hours": "Monday–Thursday 10 a.m.–5 p.m.; confirm appointment.",
+            "id": "4465e68f2478923dfe880de0556150f0",
+            "informationText": "**Eligibility Requirements**\n\nLow-income immigrants in the Phoenix metropolitan area seeking supported USCIS matters. The Mesa clinic currently excludes asylum and immigration-court cases.\n\n**How to Best Connect**\n\nCall 480-524-8131 and ask for the specific service described below. Website: https://www.immigranthopemesa.org/\n\n**Access**\n\nArea served: Mesa; Phoenix metropolitan area; Mesa office serving Phoenix metro / low-income immigrants; Mesa; states it serves the low-income immigrant community in the Phoenix metro area. Published hours: Monday–Thursday 10 a.m.–5 p.m.; confirm appointment..  Location/contact address: 1818 E. Southern Avenue, Suite 4A, Mesa, AZ.\n\n**Important Information to Know**\n\nMesa-based nonprofit low-cost immigration legal-aid clinic using DOJ-accredited representatives. Services include naturalization, family-based petitions, green-card renewals/replacements, DACA renewals, VAWA, U visas, adjustment of status and related USCIS filings. Explicitly serves low-income immigrants in the Phoenix metropolitan area.\n\nImmigrant Hope Mesa provides immigration application assistance within its authorized scope. Its current official contact lists 1818 E. Southern Avenue, Suite 4A, Mesa, 480-524-8131, Monday–Thursday 10 a.m.–5 p.m. Confirm an appointment and fees. This record does not establish asylum representation or immigration-court defense, and it is not proven to be Mesa’s only low-cost immigration clinic.\n\nThe saved program describes Spanish-speaking immigration assistance; confirm availability when scheduling.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Immigrant Hope - Mesa",
+            "pdfs": [],
+            "phone": "480-524-8131",
+            "verifiedOn": null,
+            "website": "https://www.immigranthopemesa.org/"
+          }
+        },
+        {
+          "label": "USCIS — replacement immigration documents",
+          "contribution": "Adds the authoritative federal process for replacement immigration documents and temporary proof of status.",
+          "limitation": "The correct form depends on the document. Biometrics centers are not general walk-in offices; appointment notices control destinations.",
+          "resourceId": "3a1860ddbd26130bf05da552b564c12a",
+          "position": 8,
+          "evidence": {
+            "field": "description",
+            "text": "replacement permanent-resident cards, replacement naturalization/citizenship documents"
+          },
+          "resource": {
+            "address": "Use the address on the USCIS appointment notice.",
+            "candidateIds": [
+              "989"
+            ],
+            "categories": [
+              "id-recovery",
+              "immigration"
+            ],
+            "categoryFilters": {
+              "id-recovery": [
+                "Immigration Documents"
+              ],
+              "immigration": [
+                "Document Replacement",
+                "Case Status/Biometrics"
+              ]
+            },
+            "description": "Authoritative escalation point for replacement or temporary evidence of immigration status. USCIS handles replacement permanent-resident cards, replacement naturalization/citizenship documents, employment authorization and emergency or temporary proof-of-status situations. Certain replacement applications can qualify for USCIS fee waivers.",
+            "forGroups": [
+              "Immigrants"
+            ],
+            "hours": "Appointment notice controls access.",
+            "id": "3a1860ddbd26130bf05da552b564c12a",
+            "informationText": "**Eligibility Requirements**\n\nApplicants eligible for the specific replacement or temporary immigration-status document requested. Forms, fees and possible waivers differ by document.\n\n**How to Best Connect**\n\nCall 800-375-5283 for the specific program and current intake. Website: https://www.uscis.gov/contactcenter\n\n**Access**\n\nArea served: Federal service for eligible applicants in Mesa and Maricopa County; Federal; Phoenix ASC serves Maricopa County by appointment only. Published hours: Appointment notice controls access..  Location/contact address: Use the address on the USCIS appointment notice..\n\n**Important Information to Know**\n\nAuthoritative escalation point for replacement or temporary evidence of immigration status. USCIS handles replacement permanent-resident cards, replacement naturalization/citizenship documents, employment authorization and emergency or temporary proof-of-status situations. Certain replacement applications can qualify for USCIS fee waivers.\n\nUSCIS Application Support Centers principally provide scheduled biometrics services. They are not general walk-in immigration offices and should not be confused with interview or emergency appointment locations. Follow the appointment notice for the correct address, time and identification. Replacement documents require the form appropriate to the document; Form I-90 is for permanent-resident cards, not every immigration record.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "U.S. Citizenship and Immigration Services · Replace Permanent Resident Card (Form I-90) and other immigration identity documents",
+            "pdfs": [],
+            "phone": "800-375-5283",
+            "verifiedOn": null,
+            "website": "https://www.uscis.gov/contactcenter"
+          }
+        },
+        {
+          "label": "Salt River Pima-Maricopa Indian Community — tribal credentials",
+          "contribution": "Adds an otherwise unrepresented tribal-document pathway for enrolled community members living near Mesa.",
+          "limitation": "This office serves its own enrolled members. People from other tribes need their tribe's enrollment office.",
+          "resourceId": "7605d7bd12f1c558ab092d52ceaa6aa0",
+          "position": 9,
+          "evidence": {
+            "field": "informationText",
+            "text": "Enrolled Salt River Pima-Maricopa Indian Community members"
+          },
+          "resource": {
+            "address": "Two Waters Building B, 3rd Floor, 10079 E. Osborn Rd, Scottsdale, AZ 85256",
+            "candidateIds": [
+              "985"
+            ],
+            "categories": [
+              "id-recovery"
+            ],
+            "categoryFilters": {
+              "id-recovery": [
+                "Tribal ID"
+              ]
+            },
+            "description": "Issues tribal IDs used as identity documents at MVD and vital-records counters. Arizona MVD also accepts tribal enrollment proof (tribal ID, CIB, BIA birth affidavit) for a Native American designation on state credentials.",
+            "forGroups": [
+              "Native American"
+            ],
+            "hours": "",
+            "id": "7605d7bd12f1c558ab092d52ceaa6aa0",
+            "informationText": "**Eligibility Requirements**\n\nEnrolled Salt River Pima-Maricopa Indian Community members requesting their own tribal credentials; other tribes have separate enrollment offices.\n\n**How to Best Connect**\n\nCall 480-362-7330 for the specific program and current intake. Website: https://www.srpmic-nsn.gov/\n\n**Access**\n\nArea served: SRPMIC members; community borders Mesa, Scottsdale, Tempe, Fountain Hills. An exact current schedule is not established in this record.  Location/contact address: Two Waters Building B, 3rd Floor, 10079 E. Osborn Rd, Scottsdale, AZ 85256.\n\n**Important Information to Know**\n\n* Tribal identification / enrollment credentials: Issues tribal IDs used as identity documents at MVD and vital-records counters. Arizona MVD also accepts tribal enrollment proof (tribal ID, CIB, BIA birth affidavit) for a Native American designation on state credentials.\n\n* Area served: SRPMIC members; community borders Mesa, Scottsdale, Tempe, Fountain Hills\n\n* Service is limited to enrolled SRPMIC members. Other Arizona tribes must be routed to their own enrollment offices.",
+            "lastModified": "2026-09-24T20:38:31.096855+00:00",
+            "name": "Salt River Pima-Maricopa Indian Community, Office of Membership · Tribal identification / enrollment credentials",
+            "pdfs": [],
+            "phone": "480-362-7330",
+            "verifiedOn": null,
+            "website": "https://www.srpmic-nsn.gov/"
+          }
+        }
+      ],
+      "assessments": [
+        {
+          "resourceId": "2a8159c00294405bdb9123bc13f28b34",
+          "name": "Arizona Department of Corrections, Rehabilitation & Reentry",
+          "decision": "not-selected",
+          "reason": "Pre-release MVD coordination is important reserve for incarcerated/releasing clients, not general office intake."
+        },
+        {
+          "resourceId": "a90b957439ba736a20a0eb129322891e",
+          "name": "Arizona Department of Corrections, Rehabilitation & Reentry",
+          "decision": "not-selected",
+          "reason": "Broad corrections reentry planning overlaps the more specific release-document policy record."
+        },
+        {
+          "resourceId": "b684b97f8e67ea1cb39778d953a2c4cf",
+          "name": "Arizona Department of Transportation Motor Vehicle Division",
+          "decision": "selected",
+          "reason": "Provides the official Arizona ID endpoint, which local assistance organizations help clients reach."
+        },
+        {
+          "resourceId": "fb402105bec44e0623b4ccf8d7064802",
+          "name": "Arizona Department of Veterans' Services",
+          "decision": "not-selected",
+          "reason": "Military-record and benefits assistance is an acknowledged reserve pathway for veterans."
+        },
+        {
+          "resourceId": "ac64a1ee6e7d4f2563ae162bd0a12e9d",
+          "name": "Arizona Immigrant and Refugee Services",
+          "decision": "not-selected",
+          "reason": "Refugee/status-document specialization is retained beyond the local clinic and federal issuer selected."
+        },
+        {
+          "resourceId": "18b310b424be337cab93090af8d2d5fd",
+          "name": "Arizona Legal Women and Youth Services · Free Legal Services and Opportunity Through Immigration",
+          "decision": "not-selected",
+          "reason": "Young-survivor legal help is a specialized reserve for linked immigration or identity barriers."
+        },
+        {
+          "resourceId": "8fbf07bdf33a69f83a1afc375c0f66d3",
+          "name": "Central Arizona Shelter Services (CASS) / Keys to Change campus partners · Benefits and identification case-management assistance",
+          "decision": "not-selected",
+          "reason": "Phoenix campus document case management overlaps Homeless ID Project access; useful regional fallback."
+        },
+        {
+          "resourceId": "528e3dad283cd117ea2ff80b3bec333c",
+          "name": "Father Matters · Reentry Mentoring Project / Job & Training Institute Reentry Program",
+          "decision": "not-selected",
+          "reason": "Parent-focused reentry vouchers are valuable for that group; local general document assistance is selected first."
+        },
+        {
+          "resourceId": "4a4a619b7b63a00120d7f6c7391caabd",
+          "name": "Homeless ID Project",
+          "decision": "selected",
+          "reason": "Adds specialized no-cost help when homelessness or missing documents makes an ordinary agency application difficult."
+        },
+        {
+          "resourceId": "4465e68f2478923dfe880de0556150f0",
+          "name": "Immigrant Hope - Mesa",
+          "decision": "selected",
+          "reason": "Adds local low-cost assistance with supported immigration filings for clients who need help using the federal process."
+        },
+        {
+          "resourceId": "34603fb44974ece7329a1a2d8ca51f35",
+          "name": "International Rescue Committee",
+          "decision": "not-selected",
+          "reason": "Humanitarian resettlement-document assistance is valuable for targeted reserve matching."
+        },
+        {
+          "resourceId": "da4f4b5a717ae241f3363cc09eb4298a",
+          "name": "Justa Center",
+          "decision": "not-selected",
+          "reason": "Senior-specific Phoenix navigator remains reserve when local options do not fit an older client."
+        },
+        {
+          "resourceId": "5bfda48463f45755a59145fa7d226906",
+          "name": "La Mesa Ministries · Resource Center – Important Document Assistance",
+          "decision": "selected",
+          "reason": "Adds another local navigator for forms, appointments and official mail when clients need assistance assembling an application."
+        },
+        {
+          "resourceId": "8b325c40eea9d85f2dd5afccb96f5993",
+          "name": "Lutheran Social Services of the Southwest",
+          "decision": "not-selected",
+          "reason": "Refugee/asylee integration filings add specialized reserve rather than a general replacement-card route."
+        },
+        {
+          "resourceId": "a4e45e62c0b9cb505d5b4874340871fb",
+          "name": "Maricopa County Adult Probation Department",
+          "decision": "not-selected",
+          "reason": "Probation release help is only available through the relevant justice-system pathway."
+        },
+        {
+          "resourceId": "1d7914c5fe0d1c96c8583057ac00239f",
+          "name": "Maricopa County Department of Public Health",
+          "decision": "selected",
+          "reason": "Adds the official source for eligible Arizona birth-record requests, often part of rebuilding an identity-document chain."
+        },
+        {
+          "resourceId": "c24a862cda664d0144ec0ae39b3e8f1f",
+          "name": "Maricopa County Recorder's Office · Military Discharge Recordation and Certified DD214 Copies",
+          "decision": "not-selected",
+          "reason": "DD214 recordation/copies are useful for military documents, but not a general identity-document substitute."
+        },
+        {
+          "resourceId": "08a26b747ffe8b1ea284e491a62d39e7",
+          "name": "Paz de Cristo Community Center",
+          "decision": "selected",
+          "reason": "Adds a Mesa route combining document help and mailing access, with the same resource also supporting food and transportation needs."
+        },
+        {
+          "resourceId": "fb14c6d3b942c86033ad23bf8b60fb48",
+          "name": "Paz de Cristo Community Center · Empowerment Services – Arizona ID Vouchers and Birth Certificate Assistance",
+          "decision": "not-selected",
+          "reason": "Same Paz ID/birth-certificate service already represented by the broader selected resource."
+        },
+        {
+          "resourceId": "7605d7bd12f1c558ab092d52ceaa6aa0",
+          "name": "Salt River Pima-Maricopa Indian Community, Office of Membership · Tribal identification / enrollment credentials",
+          "decision": "selected",
+          "reason": "Adds an otherwise unrepresented tribal-document pathway for enrolled community members living near Mesa."
+        },
+        {
+          "resourceId": "2f439f11fb6027227582190274a7e325",
+          "name": "Social Security Administration",
+          "decision": "selected",
+          "reason": "Adds the federal Social Security card route, which MVD and county vital records cannot provide."
+        },
+        {
+          "resourceId": "3a1860ddbd26130bf05da552b564c12a",
+          "name": "U.S. Citizenship and Immigration Services · Replace Permanent Resident Card (Form I-90) and other immigration identity documents",
+          "decision": "selected",
+          "reason": "Adds the authoritative federal process for replacement immigration documents and temporary proof of status."
+        }
+      ]
+    }
+  ]
+}

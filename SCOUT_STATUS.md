@@ -6,6 +6,12 @@ a monitor process is not a research worker.
 
 ## Design discussion reference — September 25
 
+Michael authorized implementation. Phase 0 is the [Mesa starter-set trial](docs/mesa-starter-trial-20260925.md):
+four categories, 37 selections, 35 distinct records, 169 assessed memberships.
+The evaluation compiler and readable documents are implemented. Michael and
+Stephanie assess this trial before full pipeline implementation, as agreed in the
+design. No production registry/export or new whole-office review is claimed.
+
 The [prepared resources, starter sets, and WSRS-TSO handoff design](docs/scout-prepared-resources-design-20260925.md)
 now incorporates [Michael's decisions](docs/wsrs-tso-review-of-prepared-resources-design-20260925.md)
 and [Claude's contract answers](docs/wsrs-tso-contract-followup-20260925.md).
@@ -14,12 +20,13 @@ production imports require code-assigned IDs from a committed repository registr
 The design adopts five Information sections and the minimum JSON exchange.
 The reviewed Mesa seed's category IDs differ from the supplied office catalog;
 production delivery requires explicit reconciliation (details in the design).
-Writing the draft does not resume Cedar City review or authorize implementation.
+Implementation authorization starts with the agreed trial; Cedar City remains on
+its discussion hold.
 
 Before preparing the design for revised curation/review and the WSRS-TSO data
 handoff, read [Claude's artifact feedback and current discussion constraints](docs/wsrs-tso-scout-artifact-reference-20260925.md).
-Michael requested that this feedback inform the design. It is discussion input,
-not an approved schema or authorization to implement changes.
+Michael requested that this feedback inform the design. The revised design and
+later recorded decisions govern the now-authorized implementation sequence.
 
 ## Cedar City Scout running — September 25, 03:13 UTC
 
