@@ -247,3 +247,26 @@ supports a narrow usable prison-braille training route; its unconfirmed EPIC/pub
 parolee extension stays out of offered services. These corrections are not a signed
 review or a completed export. User ETA update at13:30 estimated12–14hours for
 remaining curation alone; final review/export requires additional time.
+
+At14:14UTC, Employment is complete and Financial Assistance is on batch2/8;
+57 completed executions total442.2 current-run worker-minutes. Employment's
+260 batch versions, 183 aggregate drafts and18 special merge rationales have
+been inspected. The276 disposition links are accounted for; the combined
+Apprenticeship/Workforce2You source candidate needs links to both distinct programs.
+Working proposals contain14 duplicate groups/17 overlaps,163 membership reasons,
+11 Types with explicit assignments and ten starters. These remain unapplied and
+unsigned. Televerde, Father Matters Reentry and Empowering Services restoration
+proposals now match completed Employment drafts; preserve their richer facts.
+
+Root primary checks confirmed MCC Welding's480-461-7131 program phone and
+NATIVE HEALTH Mesa's separate BuildingC Tuesday workforce session and BuildingD
+Monday/Wednesday/Friday benefits sessions. The latter supports AHCCCS/SNAP/TANF,
+not a Utilities category. Pima Medical Institute is training, not a patient-care
+provider. PeopleReady's two verified Phoenix branches are alternatives, not a
+replacement address or an invented Mesa location.
+
+The current-run Mesa dashboard is on127.0.0.1:8773, detached PID20319 at launch,
+with its command in `dashboard-start.json`. HTTP status and Mesa import4 were
+verified; no second curation coordinator was started. At14:06UTC the user received
+an estimated12–14hours for remaining curation and18–24hours for final delivery,
+with review overlapping curation and final assembly/validation afterward.

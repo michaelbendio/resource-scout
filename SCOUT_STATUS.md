@@ -13,14 +13,15 @@ After a saved-result repair, supervisor **12216** checks every 30 seconds;
 `recovery-001.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
-As of 13:50 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
-Household (122), Disability (140), Domestic Violence (91) and Education (82) are
-prepared. Employment is on batch 9/11. Verify live native events for the current batch. Disability's 194 batch
+As of 14:14 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
+Household (122), Disability (140), Domestic Violence (91), Education (82) and
+Employment (183) are prepared. Financial Assistance is on batch 2/8. Verify live
+native events for the current batch. Disability's 194 batch
 resource versions and 61 source-only groups have now been read; the completed
 snapshot has 140 resources and 227 dispositions. Working proposals include
 14 duplicate groups (18 overlaps), 122 consideration rows, 14 Types, ten starters
 and 18 reserve additions. These are preliminary, not applied or signed. Current
-accumulated worker execution time is about 414.3 minutes, plus the preserved
+accumulated worker execution time is about 442.2 minutes, plus the preserved
 initial attempt; recalculate final processing totals after completion.
 
 Education's sealed snapshot contains 82 resources and 136 dispositions. All 116
@@ -39,8 +40,14 @@ another provider's closed intake is not evidence of its own waitlist. Current
 Grace UMC Mesa evidence supports a narrow usable adult-learning record. These
 are review proposals only; final assembly and the review signature are pending.
 
-Employment batches 1–8 have 199 reviewed resource versions, with saved findings
-for every version. All 54 source-only groups/members have explicit working
+Employment's 11 batches have 260 reviewed resource versions, with saved findings
+for every version. Its sealed snapshot has 183 drafts and 276 candidate
+dispositions. Working proposals contain 14 identity groups/17 overlaps, 163
+retained-category explanations, 11 Types with explicit assignments and ten
+starters. Two records stay not-offered (closed workforce scholarship and the
+Oklahoma Transition Academy), and ID replacement alone loses Employment membership.
+The source-level City/County identity correction remains mandatory before binding.
+All 54 source-only groups/members have explicit working
 dispositions; 19 source-backed reserve proposals await full-office matching.
 Some proposals now match later worker records. There are also 22 explicit content/
 eligibility/category corrections in the two `employment-content-patches*` files.
@@ -51,6 +58,14 @@ Academy is the Oklahoma organization, not the Arizona agency. Keep that wrong-ar
 lead in Scout's audit without altering the historical human Arizona override.
 Preserve older category-specific facts when later employment drafts shorten them.
 The worker is still running; do not start another coordinator or review worker.
+
+Mesa's current-run dashboard is **http://127.0.0.1:8773**, PID20319 at launch;
+`dashboard-start.json` and `dashboard.log` preserve its command and output.
+It was verified against this database/import4. It is a monitor, not another worker.
+At14:06UTC Michael received a working estimate of12–14hours for remaining
+curation and18–24hours for the complete reviewed/validated delivery. Review is
+overlapping preparation, but final content application, registry binding and export
+are still outstanding; do not present working proposals as a finished review.
 
 Domestic Violence has a sealed 91-resource/184-disposition snapshot. All 162 batch
 versions and 48 source-only groups/members were read. Working proposals include
