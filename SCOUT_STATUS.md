@@ -29,6 +29,19 @@ After three saved-result repairs, supervisor **27600** checks every 30 seconds;
 `recovery-003.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
+**20:13UTC checkpoint:**14of21 categories are prepared; Immigration1/5 is running.
+Current-run worker execution totals about791minutes. Housing working review covers
+all231batch versions,191aggregate drafts,262candidate dispositions and56source-only
+groups/58members. Proposals include39duplicate groups/47overlaps,one Colorado
+not-offered record,143retained-membership reasons,12Types,explicit groups/no-group
+decisions,ten starters andten reserve additions/matches (nine usable,one hold).
+All13 earlier sealed category snapshots matched live result payloads and hashes;
+ID Recovery has now also completed and its root review is starting. These are
+working proposals, unapplied and unsigned. Read Housing's content patches and
+scoped identity corrections before final assembly; the TCAA/LSS collision remains
+mandatory. The tenth Housing starter references the restored state rental finder.
+DeepSeek-only changes passed41tests and were committed/pushed as4a5e523.
+
 At 17:54 UTC, Homeless Services batch3 was recovered after HomeBase mistakenly
 included a nonexistent `youth` category. The repair removes only that label;
 the valid Youth For group, all27 resources,29 candidate decisions and every

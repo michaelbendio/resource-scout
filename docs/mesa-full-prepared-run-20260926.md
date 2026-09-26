@@ -400,3 +400,17 @@ unavailable; the live served JavaScript was verified byte-for-byte and curation
 continued at ID Recovery3/5 with a5–9hour curation-only estimate.
 Validation:41 relevant tests pass, including native DeepSeek import, preserved
 legacy handoffs, blocked probes and HTTP progress; JavaScript syntax also passes.
+
+## 20:13 UTC checkpoint
+
+ID Recovery finished; Immigration1/5 is active.14of21categories are prepared and
+current-run worker execution totals about791minutes. Housing's complete working
+review covers231batch versions,191aggregate resources,262dispositions and56source
+groups/58members. It proposes39duplicate groups/47overlaps,143retained-membership
+reasons,12Types,explicit group/no-group assignments,ten starters andten reserve
+additions/matches (nine usable,one administrator hold). The Colorado refugee
+programme is not a Mesa offering. All13previously completed category snapshots
+match live sealed database payloads and hashes. ID Recovery review starts next.
+Apply the Housing source-scoped TCAA/LSS identity correction and eight content/
+state patches before final registry binding. All proposals remain unapplied and
+unsigned; ten Housing starters include the restored state rental-search service.
