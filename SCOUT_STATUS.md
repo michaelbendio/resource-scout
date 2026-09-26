@@ -4,7 +4,38 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Mesa prepared-resource handoff — September 25
+## Full Mesa re-curation authorized — September 26
+
+Michael explicitly requested Scout re-curation of Mesa's saved research, followed
+by this supervising Codex session's single **Extra High review** and a complete
+`prepared-resources.json`. Scout workers use **High**. This supersedes Mesa's
+four-category delivery limit; Cedar City remains held.
+
+Prepared isolated run: `data/mesa-prepared-full-20260926-all-research/`, import4,
+job5. Its launch manifest explicitly combines all completed Mesa research
+collections: **3,920 candidate records across21 categories**, including the
+earlier discovery, focused research, Codex-first v2 and retained Housing pilot.
+Every one of the341 previously reviewed resources has an evidence link in the new
+assignments. Saved human overrides/hidden choices and the committed canonical ID
+registry must survive final review. The22nd office category, Miscellaneous, needs
+an explicit full-office assessment. No new discovery run is requested.
+
+The separate `data/mesa-prepared-full-20260926/` is a **rejected preflight only**:
+its pending job selected898 candidates and lost all historical evidence links;
+no paid worker ran. Preserve it, but never launch its manifest. The accepted run
+above includes all collections and retains immutable original inputs. Verify live
+process/database state before resuming. Preparation does not equal completion;
+the complete office review, taxonomy, starters/considerations and export are pending.
+
+Launched September26 **06:12:12 UTC** (00:12 MDT): persistent supervisor7531,
+coordinator7532; verify rather than reuse PIDs blindly. The first Addiction batch
+has active native tool events and explicit `--effort high`. Supervisor checks
+every30seconds; the supervising assistant retains routine monitoring/recovery.
+28 focused preparation/runner/supervisor tests passed. Preserve
+`supervisor-start.json`, `curation/runner.log`, native events and all batch outputs
+for elapsed/active processing accounting. No review worker is launched in parallel.
+
+## Mesa prepared-resource handoff — September 25 (completed partial delivery)
 
 Michael accepted the four-category trial and authorized production preparation
 for **Housing, Food, Transportation and ID Recovery only**, at Extra High.

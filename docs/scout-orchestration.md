@@ -9,7 +9,9 @@ identity registry. Existing sealed jobs keep their exact prompts/schema. New-mod
 completion emits non-importable drafts, **Ready for Codex review**; it does not
 record review or enable legacy Save. Monitoring, recovery and evidence preservation
 below still apply. Michael accepted the Mesa trial and authorized only its four
-categories for the first handoff. Cedar City's discussion hold remains effective.
+categories for the first handoff. On September26 he authorized full Mesa
+re-curation at High, followed by this supervisor's single Extra High review and
+complete prepared-resource export. Cedar City's discussion hold remains effective.
 
 This is the operating contract for the Codex assistant supervising Scout.
 Read `AGENTS.md`, `SCOUT_STATUS.md`, and this file before starting, resuming,

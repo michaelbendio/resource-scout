@@ -35,6 +35,16 @@ Codex review**. It does not enable legacy HTML Save or complete the requested re
 The existing office pipeline continues its established HTML mode unless a new run
 is deliberately configured for the prepared workflow; no running office is converted.
 
+For re-curation, `--reviewed-context FILE` seals earlier reviewed records and human
+state cautions as evidence, with a bounded candidate-linked index and separate
+`reviewed-resources.json`. It never skips a new candidate disposition or supplies
+human approval. `--all-research-runs` explicitly includes every completed research
+collection returned for the office, retaining candidate IDs, source responses and
+run provenance. Both switches require prepared mode and change the job fingerprint;
+existing checkpoints remain intact. Without the latter switch, the established
+single-canonical-run selection remains unchanged. The persistent supervisor checks
+the saved prepared draft hash before declaring **Ready for Codex review**.
+
 The requested reviewer writes an internal `scout-reviewed-preparation` bundle:
 
 - `inputs`: hashes of the exact reviewed source snapshots and decisions.

@@ -40,6 +40,7 @@ def compact_assignment(assignment: dict[str, Any]) -> dict[str, Any]:
         "candidates", "excludedCandidates", "sourceOnlyRecords", "sourceResponses",
         "previouslyCuratedResources",
         "supplementalEvidence",
+        "reviewedContext",
     }}
     candidates = []
     for item in assignment.get("candidates", []):
@@ -71,6 +72,12 @@ def compact_assignment(assignment: dict[str, Any]) -> dict[str, Any]:
         "excluded.json": "Previously excluded evidence, retained for audit.",
         "supplementalEvidence in assignment.json": "Sealed supplemental provenance and prior reviewed drafts; read only the relevant bounded entry.",
     }
+    if assignment.get('reviewedContext'):
+        from .preparation_context import reviewed_index
+        view['reviewedResourceIndex'] = reviewed_index(assignment)
+        view['reviewedContextFingerprint'] = assignment['reviewedContext']['fingerprint']
+        view['reviewedContextInstructions'] = assignment['reviewedContext']['instructions']
+        view['evidenceFiles']['reviewed-resources.json'] = 'Earlier reviewed records and human-state cautions; read matching entries by legacyResourceId. These are evidence, not completed new curation.'
     return view
 
 
@@ -119,6 +126,7 @@ def worker_prompt(view: dict[str, Any], source_audit: str) -> str:
             *preparation_instructions(),
             "Assess EVERY candidate once. Each curated/merged disposition must link exactly the proposals containing its candidateId. Omitted candidates require specific reasons; unresolved useful leads may be retained as needs-resolution.",
             "Reuse prior proposal references only after reading their full records in prior-resources.json. Preserve every supported fact and contributing candidate ID. These references are not production registry IDs.",
+            "When reviewedResourceIndex is supplied, read matching historical records in reviewed-resources.json and preserve supported corrections. Their legacy taxonomy is not the current office catalog. Use preferredDraftReference for the same affirmed program; it is a legacy draft reference, never the registry ID. Include only currently assigned candidateIds and links already present in new-pass prior proposals, not unrelated historicalCandidateIds. Earlier review is evidence to assess, not permission to skip current source checks. Preserve human-hidden and unresolved-identity cautions for final review.",
             "Use live public primary sources for consequential conflicts. Failed fetches do not establish closure. Do not repeat broad discovery or add unassigned candidates.",
             "Keep categoryFilters {} and pdfs []; apply evidenced existing For groups. Put proposed new Types/groups with meaning and evidence in taxonomySuggestions for whole-collection review.",
             "No provider contact, login, other AI, writes or questions. Local reads only inside this assignment directory; use bounded reads of original evidence and prior proposals.",
@@ -375,6 +383,8 @@ def complete_batched_category(job: dict[str, Any], assignment: dict[str, Any], d
                             "prior-resources.json": prior, "source-only.json": part.get("sourceOnlyRecords", []),
                             "excluded.json": part.get("excludedCandidates", []), "schema.json": response_schema(part)}.items():
             write_evidence_once(folder / name, value)
+        if part.get('reviewedContext'):
+            write_evidence_once(folder / 'reviewed-resources.json', part['reviewedContext'])
         write_once(folder / "prompt.txt", worker_prompt(view, source_audit))
         event("codex-curation-batch-started", f"Curating {assignment['category']['label']}: batch {index}/{len(batches)}",
               category_id, batch=index, totalBatches=len(batches), candidateCount=len(candidates), effort=args.effort)
@@ -426,7 +436,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     output.mkdir(parents=True, exist_ok=True)
     with research_runner_lock(database):
         store = ResearchStore(database)
-        job = prepare_scout_curation_job(store, args.import_id, prepared=getattr(args, "prepared", False))
+        reviewed_context = None
+        if getattr(args, 'reviewed_context', None):
+            reviewed_context = json.loads(Path(args.reviewed_context).read_text())
+            write_evidence_once(output / 'preparation-context.json', reviewed_context)
+        job = prepare_scout_curation_job(store, args.import_id, prepared=getattr(args, "prepared", False),
+                                        reviewed_context=reviewed_context,
+                                        all_research_runs=getattr(args, 'all_research_runs', False))
         job_id = job["id"]
         source_audit = Path(args.source_audit).read_text() if args.source_audit else "None supplied."
         def event(phase: str, message: str, category_id: str | None = None, **details: Any) -> None:
@@ -459,6 +475,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                         "excluded.json": assignment.get("excludedCandidates", []), "schema.json": response_schema(assignment),
                     }.items():
                         write_evidence_once(directory / name, value)
+                    if assignment.get('reviewedContext'):
+                        write_evidence_once(directory / 'reviewed-resources.json', assignment['reviewedContext'])
                     write_once(directory / "prompt.txt", worker_prompt(view, source_audit))
                     event("codex-curation-started", f"Curating {assignment['category']['label']}", category_id,
                           candidateCount=len(view["candidates"]), assignmentSha256=assignment["assignmentSha256"])
@@ -525,6 +543,8 @@ def main() -> int:
     parser.add_argument("--import-id", type=int, default=1)
     parser.add_argument("--output", required=True)
     parser.add_argument("--prepared", action="store_true", help="New five-section reserve preparation policy; emits drafts for registry/taxonomy/starter review, not legacy HTML")
+    parser.add_argument('--reviewed-context', help='Sealed earlier review evidence for a prepared re-curation; never a substitute for new candidate decisions')
+    parser.add_argument('--all-research-runs', action='store_true', help='Prepared mode: assess every completed collection, preserving all candidate IDs')
     parser.add_argument("--source-audit")
     parser.add_argument("--codex-binary", default=shutil.which("codex") or "codex")
     parser.add_argument("--model", default="gpt-5.5")
@@ -536,6 +556,10 @@ def main() -> int:
                         help="With batching, omit prior descriptions from the inline index; preserve full records in sealed evidence")
     parser.add_argument("--max-categories", type=int, help="Completed categories total, resume-safe")
     args = parser.parse_args()
+    if args.reviewed_context and not args.prepared:
+        parser.error('--reviewed-context requires --prepared')
+    if args.all_research_runs and not args.prepared:
+        parser.error('--all-research-runs requires --prepared')
     if args.compact_prior_index and not args.batch_candidates:
         parser.error("--compact-prior-index requires --batch-candidates")
     print(json.dumps(run(args), indent=2), flush=True)

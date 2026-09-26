@@ -6,6 +6,7 @@ saved local command. Native workers are managed by scout_curation_runner.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import subprocess
@@ -18,6 +19,16 @@ from .runner_lock import research_runner_lock
 from .storage import ResearchStore
 from .worker_failures import classify_worker_failure
 from .worker_lifecycle import atomic_json, process_identity
+
+
+def completed_export(summary: dict[str, Any], job_id: int) -> bool:
+    if summary.get('status') != 'completed' or summary.get('jobId') != job_id:
+        return False
+    if 'draftFile' in summary:
+        path = Path(summary['draftFile'])
+        return (summary.get('handoff') == 'Ready for Codex review' and path.is_file()
+                and hashlib.sha256(path.read_bytes()).hexdigest() == summary.get('draftSha256'))
+    return Path(summary.get('reviewFile', '__absent__')).is_file()
 
 
 def recovery_decision(*, complete: bool, exported: bool, done: int, limit: int,
@@ -142,8 +153,7 @@ def supervise(manifest: Path, *, attach_pid: int | None, maximum_restarts: int =
                 continue
             summary_path = output / "curation-summary.json"
             summary = json.loads(summary_path.read_text()) if summary_path.exists() else {}
-            exported = (summary.get("status") == "completed" and summary.get("jobId") == job_id
-                        and Path(summary.get("reviewFile", "__absent__")).is_file())
+            exported = completed_export(summary, job_id)
             decision = recovery_decision(
                 complete=job["status"] == "completed", exported=exported, done=done,
                 limit=limit, last_phase=latest.get("phase", ""), last_message=latest.get("message", ""),

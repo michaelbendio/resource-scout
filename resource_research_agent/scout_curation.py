@@ -79,6 +79,19 @@ def _durable_run_payloads(run_payloads: Any) -> list[dict[str, Any]]:
     return durable
 
 
+def _combined_runs(run_payloads: list[dict[str, Any]]) -> dict[str, Any]:
+    """Keep every completed research collection without silently choosing one."""
+    runs = _durable_run_payloads(sorted(run_payloads, key=lambda r: int(r['run']['id'])))
+    combined = deepcopy(_canonical_run(runs))
+    combined['researchRunIds'] = [r['run']['id'] for r in runs]
+    for field in ('candidates', 'excludedCandidates', 'sourceOnlyRecords', 'sourceResponses'):
+        combined[field] = [deepcopy(item) for run in runs for item in run.get(field, [])]
+    ids = [str(c['id']) for c in combined['candidates']]
+    if len(ids) != len(set(ids)):
+        raise ScoutCurationError('Repeated candidate IDs across research collections; reconcile before combining')
+    return combined
+
+
 def _assignment(
     candidate_package: dict[str, Any],
     category: dict[str, Any],
@@ -185,9 +198,15 @@ def prepare_scout_curation_job(
     store: ResearchStore,
     import_id: int | None = None,
     *, prepared: bool = False,
+    reviewed_context: dict[str, Any] | None = None,
+    all_research_runs: bool = False,
 ) -> dict[str, Any]:
     from .preparation_contract import ASSIGNMENT_VERSION, prepared_assignment
     assignment_version = ASSIGNMENT_VERSION if prepared else SCOUT_CURATION_ASSIGNMENT_VERSION
+    if reviewed_context is not None and not prepared:
+        raise ScoutCurationError('Reviewed context requires prepared mode')
+    if all_research_runs and not prepared:
+        raise ScoutCurationError('Combining research collections requires prepared mode')
     selected_import_id = import_id or store.latest_import_id()
     if selected_import_id is None:
         raise ScoutCurationError("Connect a resource package before starting Resource Scout curation")
@@ -231,6 +250,10 @@ def prepare_scout_curation_job(
         )
     }
     package_fingerprint["runs"] = _durable_run_payloads(package_data.get("runs"))
+    if all_research_runs:
+        package_fingerprint['researchSelection'] = 'all-completed-runs-v1'
+    if reviewed_context is not None:
+        package_fingerprint['reviewedContextSha256'] = _sha256(reviewed_context)
     supplements = store.list_scout_curation_supplements(int(selected_import_id))
     if supplements:
         category_ids = {str(item['id']) for item in package_data.get('categories', [])}
@@ -259,10 +282,15 @@ def prepare_scout_curation_job(
         runs = run_by_category.get(category_id, [])
         if not runs:
             continue
-        canonical = _canonical_run(runs)
+        canonical = _combined_runs(runs) if all_research_runs else _canonical_run(runs)
         assignment = _assignment(package_data, category, canonical)
+        if all_research_runs:
+            assignment['category']['researchRunIds'] = canonical['researchRunIds']
         if prepared:
             assignment = prepared_assignment(assignment)
+            if reviewed_context is not None:
+                from .preparation_context import attach_reviewed_context
+                assignment = attach_reviewed_context(assignment, reviewed_context)
         for supplement in supplements:
             if supplement['category_id'] != category_id:
                 continue

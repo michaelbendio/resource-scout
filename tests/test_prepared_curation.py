@@ -91,6 +91,24 @@ class PreparedCurationTests(unittest.TestCase):
         self.assertEqual(old, json.dumps(assignment, sort_keys=True))
         self.assertNotIn('sources', response_schema()['properties']['resources']['items']['properties'])
 
+    def test_all_research_keeps_both_collections_and_distinct_checkpoint(self):
+        later = self.fixture.completed_run('food', 'Food', ['codex', 'deepseek', 'other'])
+        default = prepare_scout_curation_job(self.fixture.store, self.fixture.import_id, prepared=True)
+        combined = prepare_scout_curation_job(self.fixture.store, self.fixture.import_id,
+                                            prepared=True, all_research_runs=True)
+        self.assertNotEqual(default['id'], combined['id'])
+        food = next(c for c in combined['categories'] if c['categoryId'] == 'food')
+        original = next(c for c in default['categories'] if c['categoryId'] == 'food')
+        self.assertGreater(food['candidateCount'], original['candidateCount'])
+        self.assertEqual(3, len(food['assignment']['category']['researchRunIds']))
+        self.assertEqual(6, food['candidateCount'])
+        self.assertEqual(6, len(food['assignment']['sourceResponses']))
+        self.assertIn(later, food['assignment']['category']['researchRunIds'])
+        self.assertEqual(combined['id'], prepare_scout_curation_job(
+            self.fixture.store, self.fixture.import_id, prepared=True, all_research_runs=True)['id'])
+        with self.assertRaises(ScoutCurationError):
+            prepare_scout_curation_job(self.fixture.store, self.fixture.import_id, all_research_runs=True)
+
     def test_runner_emits_review_drafts_and_resumes_without_calls(self):
         import contextlib
         import io
