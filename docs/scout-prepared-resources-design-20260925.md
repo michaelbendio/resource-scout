@@ -1,8 +1,10 @@
 # Scout prepared resources, starter sets, and WSRS-TSO handoff
 
-Date: 2026-09-25 · Status: proposed design for discussion; not implemented.
+Date: 2026-09-25 · Status: revised design incorporating Michael's decisions and Claude's contract answers; not implemented.
 
 This design turns Michael's September 25 discussion into changes to Scout's AI instructions, stored results, review requirements, and exported data. It incorporates [Claude's artifact feedback](wsrs-tso-scout-artifact-reference-20260925.md), preserving the distinction between user decisions and implementation proposals. WSRS-TSO application design will be discussed separately with Claude.
+
+This revision also adopts [Michael's decisions in the WSRS-TSO review](wsrs-tso-review-of-prepared-resources-design-20260925.md) and the [follow-up contract answers](wsrs-tso-contract-followup-20260925.md). The original review's agency-confirmation wording and suggestion that Mesa had not been reviewed are superseded by that follow-up.
 
 ## 1. Outcome and boundaries
 
@@ -15,11 +17,12 @@ No enhancements to [location].html are included. This design does not implement 
 ### Agreed direction
 
 - Keep the broad research net and full AI preparation of usable candidates.
-- Replace tiers with a recommended starter set of 7–10 per category and explanations. No three-resource opening set or total ranking of the reserve.
+- Michael decided to replace tiers with 7–10 starter resources per category and explanations. Stephanie's concern, which Michael shares, is that too many referrals to too few providers concentrate the load and funding. No three-resource opening set or total ranking of the reserve.
 - Choose complementary help and practical alternatives, considering eligibility, access, geography, and provider choice. Do not concentrate referrals unnecessarily or claim knowledge of capacity/funding without evidence.
 - Consolidate Types and For groups from the whole collection. Reduce redundant distinctions, not useful selectivity. Retain specific service and population details for search.
-- Curated-only and all-resource search are distinct scopes. All resources means the curated collection plus usable reserve resources, not every raw lead.
-- A promising reserve resource can be saved for a later human decision. Saving and AI recommendation do not publish it. Human Curated approval publishes it in WSRS-TSO.
+- Michael decided missionaries may find and use uncurated reserve resources with a warning, exercising their judgment. Curated-only and all-resource search are distinct scopes; All includes usable reserve resources, not every raw lead. Ask also searches the reserve.
+- Michael decided a reserve resource can be saved for possible curation, with a stable resource reference and an optional note about the resource, never the client. Saving and AI recommendation do not publish it. Human Curated approval means office review and publishes it in WSRS-TSO; it does not establish agency contact.
+- Michael approved a Mesa trial before the full pipeline and Stephanie's five Information sections. Office order: Mesa (Stephanie), Welfare Square, Matt Kimmel's Las Vegas/St. George/Cedar City, then Julie Erkelens's Ogden/Logan/Brigham City. No new ordering within those latter groups is implied.
 
 The following architecture and field names are proposals, not a finalized consumer contract.
 
@@ -58,7 +61,7 @@ Replace minimization language with: **retain each distinct, supported, actionabl
 
 Audit existing exclusion instructions as part of this revision. Distinguish a generic directory or referral-only page from an actionable navigation/intake service that itself helps a client. Do not delete all conservative inclusion rules merely to enlarge the reserve; document any changed service boundary and its evidence.
 
-Each usable resource must be understandable outside its discovery category. Prepare its specific services, eligibility, access/intake, costs where established, hours where known, service geography, contact details, sources, and uncertainties. Keep the four current Information sections: Eligibility Requirements, How to Best Connect, Access, and Important Information to Know. Preserve useful service details in description and structured facts rather than inventing an incompatible fifth-section requirement.
+Each usable resource must be understandable outside its discovery category. Prepare its specific services, eligibility, access/intake, costs where established, hours where known, service geography, contact details, sources, and uncertainties. Michael decided Scout writes Stephanie's five bold standalone Information headings in this exact order: **Services Offered**, **Eligibility Requirements**, **Population Served**, **How to Best Connect**, **Important Information to Know**. Move appropriate material from the old Access section into How to Best Connect; retain consequential limitations in the appropriate section. Preserve details and source links during conversion. Unknown populations or eligibility must remain explicit unknowns, not invented claims. The worker and all rendering/readiness requirements must adopt the same five-section contract.
 
 Do not erase distinctions such as rent arrears, security deposits, and eviction representation when consolidating labels. Preserve detailed statements in searchable fields and source-linked facts. Do not add keyword lists that imply unsupported services or populations.
 
@@ -66,7 +69,7 @@ During batching, reuse labels whose meaning fits. Retain proposed service/popula
 
 Resolve supported aliases while preserving genuinely different programs and eligibility pathways. A shared organization or website alone is insufficient to merge everything. Preserve program/site distinctions that change access; don't split ordinary locations into duplicates unnecessarily.
 
-Proposed preparation outcomes for the exchange are `usable`, `needs-resolution`, and `not-offered`, each with reasons where relevant. These are preparation states, not confidence scores, tiers, or approval states. Raw leads and omissions stay in the audit. Only usable prepared resources belong in the default referral-search collection; unresolved/withdrawn records remain available for administrative reconciliation. Unknown nonessential details need not disqualify a usable resource, but consequential uncertainty must be visible.
+Preparation states are `usable`, `needs-resolution`, and `not-offered`, with reasons where relevant. These are not confidence scores, tiers, or approval states. WSRS-TSO imports usable resources and needs-resolution records; only usable resources are eligible for missionary search. Raw leads, omissions, and not-offered records stay in Scout's audit. An office-deleted usable resource stays suppressed and must not reappear after a later import. For a previously delivered resource, send an evidence-backed withdrawn event when appropriate; WSRS-TSO flags it for administrative review and never removes it automatically. Unknown nonessential details need not disqualify a usable resource, but consequential uncertainty must be visible.
 
 ## 5. Types and For groups
 
@@ -98,7 +101,11 @@ Starter membership is independent of publication: an unapproved starter resource
 
 Use three distinct identifiers: research observation/candidate ID, consolidated Scout resource ID, and consumer office-record ID. Export links among them where known. Consumer decisions attach to the stable consolidated ID plus office context, not run-local lead IDs or mutable names.
 
-Proposed implementation: maintain a durable identity registry with an explicit producer namespace, aliases, prior mappings, and supported program boundaries. Reconcile each new run against it before allocating an ID. IDs do not change for a renamed program, corrected address, new category, new source, or a reordered batch. Ambiguous matches stay unresolved rather than automatically overwriting identities. A fresh database must import registry continuity or clearly declare a new lineage; a UUID by itself does not solve rediscovery.
+Maintain a durable identity registry with an explicit producer namespace, aliases, prior mappings, and supported program boundaries. **Code assigns consolidated resource IDs from this registry; the model never assigns them.** The model may propose same-as matches or new identities using temporary references; code resolves those proposals or leaves them unresolved. IDs do not change for a renamed program, corrected address, new category, new source, or a reordered batch. Ambiguous matches stay unresolved rather than automatically overwriting identities.
+
+Hosting is settled for the current operation: Scout runs on Michael's Mac mini. Use a plain, versioned JSON file committed in Scout's repository (proposed path `registry/resource-identities.json`, outside ignored run data). No shared service or lease file is needed. Use atomic file replacement, preserve stable IDs and aliases, and refuse a missing or invalid registry for an established lineage rather than silently starting over. Commit the registry revision used for a production snapshot so a successor can reproduce it. Document validation, backup/restore, unresolved matches, migrations, and transfer of the checkout for succession around November 2027. Future multi-machine writers would require a separate design; none are assumed now.
+
+No production prepared-resource import into WSRS-TSO precedes this registry and legacy-ID migration. The phase 0 Mesa evaluation is explicitly exempt: it uses existing IDs in a clearly marked evaluation document for Michael and Stephanie and cannot be treated as a production import.
 
 Use explicit merge/split events. A merge identifies predecessor IDs and the survivor; a split names successors and requires review of affected consumer decisions. Do not blindly transfer Curated, Deleted, pins, or notes where identities or human choices conflict. Bootstrap existing artifact IDs through an explicit migration map and preserve unmapped decisions for resolution. Audit more than one historical run before promising cross-run stability.
 
@@ -108,9 +115,19 @@ The same snapshot can be imported repeatedly without recreating records or reset
 
 ## 8. Proposed exchange artifact
 
-Add a reviewed-resource artifact, distinct from the existing research candidate ZIP and from an office's curated resource package. Proposed filename: `scout-<office>-prepared-resources.json`; proposed discriminator: `artifactType: "scout-prepared-resources"`, with `schemaVersion: 1`. Exact names need agreement with Claude before implementation.
+Add a reviewed-resource artifact, distinct from the existing research candidate ZIP and from an office's curated resource package. Proposed filename: `scout-<office>-prepared-resources.json`; agreed discriminator: `artifactType: "scout-prepared-resources"`, with `schemaVersion: 1`. Optional fields may be added within version 1 and readers ignore unknown optional fields. Removing a field, changing its meaning, or otherwise breaking the contract requires version 2; WSRS-TSO rejects unsupported major versions clearly.
 
-Plain UTF-8 JSON is the first format. A later ZIP may contain the same JSON plus a manifest of attachments and checksums; the filename, media type, and relative-path rules must then be specified. Do not add empty office `deletions`, `changes`, or `packageVersion` fields merely to imitate an office package. Scout's proposed `changeSet` has the explicit semantics above and is not an office deletion instruction.
+Plain UTF-8 JSON is the first format. Transport may use `.json.gz` or ZIP; attachments would require an explicit manifest and path rules. WSRS-TSO imports by script, searches its stored data, loads reserve records when needed, and fetches evidence on demand. Total delivery size need not drive loss of useful facts. Keep sources/evidence referenced rather than duplicated; no single resource should approach the approximately 1 MB text-cell limit reported by Claude. The importer must check its actual configured storage limits. Do not add empty office `deletions`, `changes`, or `packageVersion` fields merely to imitate an office package. Scout's later `changeSet` is not an office deletion instruction.
+
+### Minimum first exchange
+
+Use Claude's minimum shape with the agreed source-catalog correction: root `artifactType`, `schemaVersion`, `snapshot` (`id`, `predecessorId`, `generatedAt`), `office` (`slug`, `name`), `taxonomy`, `sources`, `resources`, and `starterSets`. Resources contain registry-assigned `id`, `revision`, `state`, `name`, `description`, contact fields including `email`, five-section `informationText`, `categories`, `types`, `forGroups`, `sourceIds`, and `researchedAt`. Represent unknown fields explicitly without inventing content. Types have `id`, `categoryId`, `label`, and `definition`; groups have `id`, `label`, and `definition`. Source catalog entries have `id`, `url`, and `title`; resources reference IDs. Starter sets have `categoryId`, `rationale`, `gaps`, and members with `resourceId`, `position`, `contribution`, and `limitation`.
+
+Category IDs must exactly equal the office's authoritative category IDs; compare IDs, never infer equivalence from labels. Type references must belong to the resource's assigned categories. Include the office catalog even when some categories have no prepared resources; completeness claims must distinguish empty/unresearched categories. The provided Mesa catalog is recorded in the follow-up reference.
+
+Fact-level evidence, full changeSet, identityEvents, duplicateSuggestions, exported review details, fingerprints, and policy hashes may follow as optional additions. Scout retains existing provenance and staleness safeguards internally from the beginning. The first update that withdraws a previously imported resource needs a small evidence-backed withdrawn-event contract even if the general changeSet is deferred; specify its exact fields before delivering that update. Do not silently omit the prior record as a substitute.
+
+The table below describes the fuller target, not mandatory fields for the first exchange:
 
 | Proposed section | Required meaning |
 | --- | --- |
@@ -132,15 +149,15 @@ Absence of a predecessor means an initial snapshot, not that all resources were 
 
 Reference evidence from facts, not merely a whole resource or priority. Phone, hours, eligibility, and service-area assertions need identifiable support or an explicit unconfirmed status. Use typed field paths or stable fact IDs, source references, and short relevant excerpts. A general homepage link is not automatically evidence for every claim. Track conflicts without averaging them into a fabricated answer.
 
-Separate research/observation times, AI review time, and agency-confirmation records. Proposed `researchedAt`/`observedAt` fields never imply agency contact. Human or agency confirmation needs method, date, provenance, and field scope; never infer it from legacy `verifiedOn`. Preserve legacy values with their known/unknown provenance, and map only demonstrated agency confirmation into any consumer field with that meaning. Unknown historical source dates remain unknown rather than being assigned the export date.
+Separate research/observation times and AI review time from the office's verification date. **Scout never supplies the office's verified date.** Curation starts with that date blank; missionaries enter it during periodic re-verification. WSRS-TSO prints wording such as “verified June 2026” only when that date is entered. Curated means office review, not a claim that anyone called the agency. `researchedAt` is only research timing and never populates verification. Preserve legacy dates in Scout's audit with provenance rather than exporting them as fresh human verification. Imports must preserve an existing consumer-owned verification date. Unknown historical research dates remain unknown rather than becoming the export date.
 
 Preserve location, service-area and eligibility statements, remote access, and their evidence. Do not reduce them to a guessed `reach` enum. National/statewide applicability does not imply uniform local intake. Distance calculations and client travel preferences are outside this version.
 
 ### Search and consumer expectations
 
-Export enough prepared text and facts for WSRS-TSO to search across categories and for Ask to explain matches and uncertainties. Do not encode every circumstance as a Type/group. Curated-only versus all-resource scope and the default scope are application choices; our suggested default is curated-only with an explicit reserve expansion.
+Export enough prepared text and facts for WSRS-TSO to search across categories and for Ask to explain matches and uncertainties. Do not encode every circumstance as a Type/group. Michael decided Ask uses reserve resources too. WSRS-TSO retrieves relevant records first and sends a bounded selection to the model; it does not send the entire collection with every question. Its ordinary search offers curated-only and all-resource scopes. Do not impose the earlier curated-only Ask default.
 
-Reserve labels describe absence of human approval, not lower provider quality. Saving a reserve candidate is an application event containing a stable resource reference and optional resource-focused note. Scout does not receive or require identifiable client situations. The queue's persistence, permissions, and Ask implementation belong in Claude's application design.
+Reserve labels describe absence of human approval, not lower provider quality. Michael permits printing the prepared reserve resource's own sheet only with this exact warning: **“Not yet reviewed by the office. Call the provider to verify this information.”** WSRS-TSO renders the warning and already prints “Please call before you go.” Ask's generated sentences are never printed. Scout supplies preparation state; WSRS-TSO supplies its human-approval state, so selection as a starter must not suppress the warning. Saving a reserve candidate contains a stable resource reference and optional resource-focused note, never a client note. The queue's persistence, permissions, and Ask implementation belong in Claude's application design.
 
 ## 9. Compatibility and delivery gates
 
@@ -150,15 +167,18 @@ Do not map new recommendations into invented legacy tiers or discard extra prepa
 
 Current review-completion rules remain operative until implementation revises them coherently. Then data delivery requires content/identity/taxonomy/starter review and artifact validation; any emitted HTML additionally requires its actual browser/editor/filter checks. Both completion records bind to the exact delivered fingerprint. Revisions invalidate affected reviews rather than inheriting a stale “complete” flag.
 
-Do not mechanically reprocess all prior offices. Pilot on a frozen Cedar City copy after the discussion hold is lifted. Assess existing evidence and fill specific preparation gaps; preserve original resources, category copies, dispositions, and review history. No replay of human approval or edits. Older sources lacking fact-level links may need targeted review; migration must not invent those links.
+Do not mechanically reprocess all prior offices. Begin with the phase 0 Mesa evaluation below; Mesa's later completed review supersedes the September 24 observation that it needed review. Use that reviewed collection and fill specific gaps, not an assumed new discovery run. Preserve original resources, category copies, dispositions, human work, and review history. Older sources lacking fact-level links may need targeted review; migration must not invent those links. Cedar City's review remains on its discussion hold.
+
+Local comparison against `data/mesa-review-20260924/after-seed.json` found 341 resources and 20 categories, of which 15 IDs match Claude's 22-category Mesa office catalog. The five foreign IDs are `caregiving`, `clothing`, `household-essentials`, `independent-living`, and `parenting-child-development`. The office IDs absent from the reviewed catalog are `children-pregnancy`, `clothing-household`, `disability`, `miscellaneous`, `reentry-support`, `seniors`, and `veterans`. These are catalog differences, not proof of missing services. Production import must stop until evidence-based membership reconciliation resolves them; do not translate by label. The trial can select matching categories first. Recheck the authoritative office catalog at delivery.
 
 ## 10. Implementation plan and affected instructions
 
+0. **Mesa evaluation first.** Before building the new registry, fact-level export, or fingerprints, prepare starter sets with contribution explanations for three or four categories from the already reviewed Mesa collection. Choose varied categories with matching office IDs, assess all relevant existing resources, and show gaps and limitations. Use existing IDs in a clearly marked evaluation document, not an import file. Michael and Stephanie judge whether the selections and explanations are useful before full implementation. Targeted source checks or preparation may fill consequential gaps; no full discovery run is presumed. Record their feedback and adjust the design.
 1. **Agree the exchange contract and audit identity.** Inventory ID paths and real multi-run examples, specify migration, and settle required consumer fields with Claude. Create a schema and small synthetic fixtures before producing a real release.
 2. **Version preparation policy and data.** Update `scout_curation.py`, `scout_curation_runner.py`, normalization/storage/revision handling, and documentation together. Preserve prior sealed assignments; hash the new policy into new assignments. Keep worker schemas and Python validators consistent.
 3. **Implement whole-collection taxonomy and starter review.** Extend navigation metadata and replace the tier proposal contract with a versioned starter/assessment contract. Update `office_pipeline.py` review prompts, `scout_review_priorities.py`, navigation/readiness validators, and completion fingerprint dependencies.
 4. **Implement deterministic export and migrations.** Add a dedicated prepared-resource exporter, identity continuity, fact/source/date handling, change comparison, and compatibility tests. Publish machine-readable data independently of HTML.
-5. **Run the bounded pilot and consumer handoff.** Review a preserved Cedar City copy under the revised instructions, inspect the artifact and import behavior with Claude, document gaps, and then decide which earlier offices need migration or targeted re-review.
+5. **Validate real import and proceed in office order.** After successful Mesa evaluation and infrastructure validation, deliver Mesa's minimum artifact through the registry/category gates and inspect import behavior with Claude. Continue with Welfare Square, Matt Kimmel's offices, then Julie Erkelens's offices as Michael directed. Review existing work for specific gaps before deciding which offices need fresh research. This implementation/import validation is distinct from the earlier selection trial.
 
 Documentation changes include `docs/scout-curation.md`, `docs/scout-curation-runner.md`, `docs/scout-workbench-readiness.md`, `docs/scout-orchestration.md`, `docs/product-design.md`, `SCOUT_STATUS.md`, and `AGENTS.md` where its review contract references priorities. The category playbooks remain broad discovery guidance; change individual playbooks only for demonstrated discovery gaps, not to enforce starter sizes.
 
@@ -171,6 +191,9 @@ English policy is part of the implementation. A Markdown-only edit cannot change
 - Importing the same artifact twice preserves Curated, Deleted/suppressed, drafts, pins, and notes. Changed Scout facts do not overwrite human edits without reconciliation. Consumer-side evidence for this must come from Claude/WSRS-TSO, not a Scout-only test.
 - Missing-from-run, confirmed closure, and narrower research scope are distinguished. An incomplete run cannot falsely report disappearance.
 - New evidence and date fields survive worker output, normalization, persistence, revision, and export. Schema/version and dangling references fail clearly. Unknown research dates do not become agency confirmations.
+- Five Information headings occur in the agreed order with meaningful content; conversion preserves Access details. Scout never sets a consumer verification date. Reserve print warnings and nonprinting of Ask prose are verified on the WSRS-TSO side.
+- Code, not the model, allocates production IDs. A restored successor checkout retains registry continuity. Trial documents cannot be confused with production import artifacts. Office-category mismatch fails explicitly.
+- Usable and needs-resolution import distinctly; raw/not-offered records do not import. A withdrawn event requests administrative review without automatic deletion. Unknown optional version-1 fields are tolerated, while unsupported major versions fail clearly.
 - Each category has a justified starter set, individual contributions and limitations, valid positions, and a full internal assessment ledger. No tiers, opening set, reserve total ranking, or automatic approval is introduced.
 - Semantic review checks Type selectivity/overlap, justified rare labels, consistent definitions, all memberships, and group evidence/no-group decisions. Counts alone cannot pass this check.
 - A synthetic cross-category search case, such as a parent facing eviction, retains the relevant legal/housing/family-service facts in the artifact; application relevance and Ask behavior are tested separately in WSRS-TSO.
@@ -182,11 +205,11 @@ The direction is sufficiently defined to implement after these design choices ar
 
 | Decision | Proposed default / remaining question |
 | --- | --- |
-| Consumer schema and migration | Separate reviewed-resource JSON with explicit discriminator/version. Agree exact names, required fields, and migration of existing candidate-keyed decisions with Claude. |
-| Stable identity continuity | Durable namespaced registry and explicit lineage events. Determine where the registry persists across installations/offices before claiming cross-office identity reuse. |
+| Consumer schema and migration | Minimum JSON shape, source catalog, and evolution rules agreed above. Finish executable schema details and mapping of existing candidate-keyed decisions; define withdrawn-event fields before an update needs them. |
+| Stable identity continuity | Settled: code-assigned IDs in a plain registry file committed to Scout's repository, operated on the Mac mini and documented for a successor. Audit matching/migration behavior; no shared service or lease. |
 | Legacy workbench compatibility | Preserve current artifacts and old export mode; prioritize new JSON delivery. Decide whether new-style HTML curation support is still needed before changing its UI. |
 | Human feedback returning to Scout | Preserve source/human ownership now. Define a later update/import contract if curated corrections are to improve future Scout runs. |
-| Pilot scope | Proposed Cedar City preserved-copy pilot. Existing discussion hold remains until Michael directs continuation. |
+| Trial scope | Settled: three or four Mesa categories using reviewed candidates and existing IDs in an evaluation document; Michael and Stephanie judge before full implementation. Category choices remain to be selected. |
 
 Claude's seven requests are addressed as follows: stable IDs (§7); changes since last run (§7–8); agreed Types (§5); starter selection and geographic data with the opening-set proposal superseded (§6, §8); fact sources (§8); separate research/agency dates (§8); and duplicates (§4, §7–8). The JSON/ZIP proposal and separation from office packages are covered in §8–9.
 

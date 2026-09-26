@@ -7,8 +7,13 @@ a monitor process is not a research worker.
 ## Design discussion reference — September 25
 
 The [prepared resources, starter sets, and WSRS-TSO handoff design](docs/scout-prepared-resources-design-20260925.md)
-is now drafted for discussion. It distinguishes current implementation from
-proposed policy/data changes and records the remaining contract decisions.
+now incorporates [Michael's decisions](docs/wsrs-tso-review-of-prepared-resources-design-20260925.md)
+and [Claude's contract answers](docs/wsrs-tso-contract-followup-20260925.md).
+The next evaluation is three or four categories from reviewed Mesa candidates;
+production imports require code-assigned IDs from a committed repository registry.
+The design adopts five Information sections and the minimum JSON exchange.
+The reviewed Mesa seed's category IDs differ from the supplied office catalog;
+production delivery requires explicit reconciliation (details in the design).
 Writing the draft does not resume Cedar City review or authorize implementation.
 
 Before preparing the design for revised curation/review and the WSRS-TSO data
