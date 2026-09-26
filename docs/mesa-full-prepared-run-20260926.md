@@ -35,6 +35,20 @@ Miscellaneous. Never substitute the older reviewed seed's 20-category taxonomy.
 
 ## Completion work
 
+September26,17:45UTC checkpoint: eleven categories are prepared; Homeless Services
+is on batch3/6. Current-run worker execution is about645.2minutes. Medical/Dental/
+Vision's164 batch versions,124 aggregate drafts,177 dispositions and64 source-only
+groups/65 members have saved working decisions:22 duplicate groups/23 overlaps,
+100 retained-category reasons,14 Types,explicit For-group/no-group proposals,ten
+starters and22 reserve additions/matches (21 usable,one intake-resolution hold).
+These remain unapplied and unsigned. Preserve the Sun Life full-HTML service evidence,
+MCC patient phone and discounts,dated clinic closures and vaccine changes,and the
+current successor route for PAN copay help. Keep the planned SVdP Mesa clinic on
+hold and San Diego's Lions clinic in the audit. Resolve composite DES VR/ILOB scope
+and preserve both SVdP medical/dental links for candidate893. All eleven sealed
+snapshots equal the live database. Final content application,whole-office matching,
+human-state preservation,registry binding and export remain pending.
+
 September26,16:58UTC checkpoint: ten categories are prepared; Medical/Dental/Vision
 is on batch4/7. Current-run worker execution is about600.8minutes. Food's130 batch
 versions,96 aggregate drafts,158 dispositions and58 source-only groups/members

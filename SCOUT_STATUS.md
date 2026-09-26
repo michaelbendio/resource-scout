@@ -13,17 +13,18 @@ After two saved-result repairs, supervisor **25181** checks every 30 seconds;
 `recovery-002.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
-As of 16:58 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
+As of 17:45 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
 Household (122), Disability (140), Domestic Violence (91), Education (82) and
 Employment (183), Financial Assistance (133), Reentry Support (103) and Food (96)
-are prepared: ten of 21 research categories. Medical/Dental/Vision is on batch4/7.
+and Medical/Dental/Vision (124) are prepared: eleven of 21 research categories.
+Homeless Services is on batch3/6.
 Verify live
 native events for the current batch. Disability's 194 batch
 resource versions and 61 source-only groups have now been read; the completed
 snapshot has 140 resources and 227 dispositions. Working proposals include
 14 duplicate groups (18 overlaps), 122 consideration rows, 14 Types, ten starters
 and 18 reserve additions. These are preliminary, not applied or signed. Current
-accumulated worker execution time is about 600.8 minutes, plus the preserved
+accumulated worker execution time is about 645.2 minutes, plus the preserved
 initial attempt; recalculate final processing totals after completion.
 
 Education's sealed snapshot contains 82 resources and 136 dispositions. All 116
@@ -102,6 +103,22 @@ database; the preservation check is saved in review/. Root sources establish St 
 including a published evening session, and distinguish RSM's senior CSFP boxes
 from its separate under60 veteran assistance. Preserve earlier cross-category
 details when later drafts shorten descriptions or omit contacts.
+
+Medical/Dental/Vision has working review decisions for all164 batch versions,
+124 aggregate drafts,177 candidate dispositions and64 source-only groups/65 members.
+Proposals contain22 duplicate groups/23 overlaps,100 retained-category reasons,
+14 Types,explicit For-group/no-group decisions,ten starters and22 reserve additions
+or matches (21 usable,one administrator intake hold). These remain unapplied and
+unsigned. Preserve Sun Life Mesa services established by the full primary HTML,
+MCC's patient clinic phone and student discounts,TotalAssist's successor intake,
+and the current County and Mission of Mercy clinic dates. San Diego's Lions clinic
+is not a Mesa resource; the planned SVdP Mesa clinic remains on hold. The combined
+DES VR/ILOB draft needs a scoped correction, and SVdP candidate893 must retain both
+medical and dental links. Raw primary HTML is under review/source-checks/; newer
+Medical source captures are under source-checks/. All eleven sealed snapshots
+match the live database; see completed-snapshot-preservation-check-20260926T1745.json.
+The single reviewer still owns final content application,whole-office reconciliation,
+registry binding,signature and export. No final review or human approval is recorded.
 
 Reentry Support's 114 batch versions, 103 aggregate drafts and 138 dispositions
 have been read, together with all 80 source-only groups/81 members. Working
