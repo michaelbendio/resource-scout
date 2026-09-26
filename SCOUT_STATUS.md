@@ -13,15 +13,15 @@ After a saved-result repair, supervisor **12216** checks every 30 seconds;
 `recovery-001.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
-As of 11:05 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
+As of 11:32 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
 Household (122) and Disability (140) are prepared. Domestic Violence is on batch
-1/7. Verify live native events for the current batch. Disability's immutable
-completed snapshot contains 227 candidate dispositions. The first three category
-bodies have been read; Disability batch findings 001–005 cover 112 resource
-versions, including repeated IDs, with later batches still under review. Preserve
-the batch-level facts that shorter later versions omit. Current accumulated worker
-execution time is about 255.8 minutes, plus the preserved initial attempt; this is
-not the final processing total.
+4/7. Verify live native events for the current batch. Disability's 194 batch
+resource versions and 61 source-only groups have now been read; the completed
+snapshot has 140 resources and 227 dispositions. Working proposals include
+14 duplicate groups (18 overlaps), 122 consideration rows, 14 Types, ten starters
+and 18 reserve additions. These are preliminary, not applied or signed. Current
+accumulated worker execution time is about 278.6 minutes, plus the preserved
+initial attempt; recalculate final processing totals after completion.
 
 The 75 Addiction, 55 child and 45 clothing source-only rows now have explicit
 member-evidence assessments. Addiction has six usable direct-program restoration
@@ -34,6 +34,15 @@ The child and clothing duplicate ledgers propose 17 groups each, covering 19 and
 Type assignments for 104 provisional distinct records and a ten-member starter
 comparison set. None of these notes signs the final review or export. Preserve
 later category-specific facts and all human suppressions during assembly.
+
+Current source checks found Power AZ funds exhausted: applications after
+September21 are not accepted, while LIHEAP remains a separate active route.
+Reconcile this in every utility-assistance occurrence. Disability review also
+corrects a commercial SSI/SSDI service's old “no charge” claim to conditional
+representation fees, and restores public-school/current-IEP requirements for the
+2026–2027 family transition pilot. Preserve all dated source responses and review
+findings. A paused application route is not evidence of provider closure.
+
 
 Children/Pregnancy completed after a reviewed repair removed one invented extra
 `foster-kinship` category, preserving its valid membership and all facts, 27

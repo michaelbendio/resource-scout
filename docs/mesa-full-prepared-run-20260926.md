@@ -102,9 +102,13 @@ Current source responses are preserved under `review/source-checks/`.
 
 At 11:05 UTC, Disability completed with 140 draft resources and 227 candidate
 dispositions; its immutable completed snapshot is saved. Scout advanced to
-Domestic Violence batch 1/7. Disability findings 001–005 cover 112 batch resource
-versions, including repeated identities. Batches 6–8, source-only decisions and
-whole-category consolidation remain under review.
+Domestic Violence, now batch4/7 at11:32UTC. Disability findings001–008 cover all
+194 batch resource versions; the aggregate differs only by unioned candidate IDs
+and groups. All61 source-only groups and their members have explicit assessments.
+Working proposals contain14 merge groups/18 overlaps,122 consideration rows,
+14 Types with explicit assignments, ten starter contributions/limitations, and
+18 reserve additions. Full-office identity, group and human-state decisions remain
+pending; none of these drafts is a final signed output.
 
 Material review points include omitted DDD onset/functional eligibility, the
 fact that statewide Pre-ETS does not require VR membership (one provider still
@@ -117,9 +121,18 @@ supported services when later disability-focused drafts omit other transit paths
 
 Source checks also distinguish temporary intake/office pauses from closure:
 DRAZ announced September28 reopening; AzTAP posts an October2 closure and October5
-reopening. Recheck date-sensitive notices at delivery. About255.8 current-run
+reopening. Recheck date-sensitive notices at delivery. About278.6 current-run
 worker-minutes are accumulated, plus the preserved initial attempt; final timing
 must be recalculated after completion.
+
+Additional source checks corrected three consequential details: Power AZ stopped
+accepting applications after September21 while LIHEAP remains separately active;
+Disability Help Group's current representation fee terms conflict with an old
+no-charge directory claim; and the2026–2027 Family Transition Navigation pilot
+requires public-school enrollment and a current IEP as well as age14–22. Mesa's
+paused emergency-repair program retains only a clearly labeled future-interest
+route; RTVOS ramps remain an audit watch because applications are closed. These
+are proposed evidence-backed corrections, not claims of office approval.
 
 Later versions, global identities, final taxonomy, all-category starters/reasons,
 human-state preservation and final review/export remain pending. Read
