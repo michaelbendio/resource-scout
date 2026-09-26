@@ -6,7 +6,8 @@ from copy import deepcopy
 
 
 POLICY_VERSION = "prepared-resources-v1-five-sections"
-ASSIGNMENT_VERSION = "codex-preparation-v3-reserve"
+ASSIGNMENT_VERSION = "codex-preparation-v4-source-checks"
+PREPARED_ASSIGNMENT_VERSIONS = frozenset(("codex-preparation-v3-reserve", ASSIGNMENT_VERSION))
 INFORMATION_HEADINGS = (
     "Services Offered", "Eligibility Requirements", "Population Served",
     "How to Best Connect", "Important Information to Know",
@@ -54,10 +55,15 @@ def preparation_instructions():
         "Retain each distinct, supported, actionable resource, including useful reserve options. Do not minimize the collection or fill a numerical quota.",
         "Assess every candidate; explain omissions and unresolved facts. Distinguish a generic directory from a service that directly assists people with navigation or intake.",
         "Preserve specific services, eligibility, costs, hours, service area, remote access and source URLs. Broader labels must not erase search-relevant details.",
+        "Preparation includes bounded primary-source research, not just summarizing submissions. For a retained program, establish its identity, relevant direct service, service area and actionable contact/intake route. Use live official pages to fill material gaps or resolve stale/conflicting facts; do not leave an ordinary public lookup for the final reviewer. Recent matching reviewed evidence may support facts that are already adequate and unconflicted. Do not repeat broad discovery.",
+        "usable means credible program identity, relevant service and a practical way for a client in the office's service area to inquire or apply are supported. It does not mean office approval, guaranteed eligibility or an available place. Unknown hours, exact costs, insurance participation, schedules, funding or capacity alone do not make a resource needs-resolution; state those limits and give the supported contact route.",
+        "needs-resolution is for a consequential unresolved identity, existence, service scope, geography or access conflict that prevents a responsible referral even with a clear warning. Attempt a targeted primary-source check first and state the actual remaining obstacle. An unavailable webpage alone is not evidence of closure. Keep useful unresolved leads for administrators rather than inventing facts.",
         "Write five standalone bold Information headings in this exact order: " + ", ".join(f"**{h}**" for h in INFORMATION_HEADINGS) + ". Each must have relevant text beneath it.",
         "Services Offered describes the actual help; Eligibility Requirements states qualification rules; Population Served states evidenced populations without inferring identity. Put hours, appointments, location and access limits in How to Best Connect. Important Information to Know preserves costs, conflicts and uncertainties.",
+        "Write description and Information for missionaries and clients. Say the supported fact or a clear uncertainty directly; do not describe saved evidence, assigned candidates, source-only records or other Scout workflow. Keep preparation reasoning in dispositions and resolutionReason.",
         "Reuse existing Type/group meanings where supported. Record any new population/service concept and its evidence for whole-collection review, rather than inventing a final catalog in a batch.",
         "Keep source URLs with claims. researchedAt is research timing only. verifiedOn must be null: only the office records its verification date.",
+        "If you inspect live source pages, set researchedAt to the actual research date. Do not claim to have checked a page you did not open; do not manufacture a research date from an earlier file's modification or office-verification date.",
         "The output's local resource references identify draft proposals only. Code resolves final consolidated IDs through the registry before any production delivery. Never invent a production sr_ identity.",
         "AI preparation and starter selection never imply human Curated approval, agency confirmation, present capacity or guaranteed eligibility.",
     ]

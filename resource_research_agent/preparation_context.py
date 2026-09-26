@@ -32,6 +32,7 @@ def reviewed_index(assignment):
     candidates = {str(c['id']) for c in assignment['candidates']}
     return [dict(legacyResourceId=r['legacyResourceId'],
                  preferredDraftReference=r['preferredDraftReference'],
+                 evidenceStatus=r.get('evidenceStatus','previously-reviewed'),
                  name=r['record']['name'],
                  relatedCandidateIds=sorted(candidates.intersection(map(str, r['historicalCandidateIds']))))
             for r in assignment.get('reviewedContext', {}).get('resources', [])

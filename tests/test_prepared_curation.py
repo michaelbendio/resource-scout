@@ -50,6 +50,11 @@ class PreparedCurationTests(unittest.TestCase):
         seed = build_scout_review_seed(self.fixture.store, new['id'])
         self.assertFalse(seed['importable'])
         self.assertEqual('scout-preparation-drafts', seed['artifactType'])
+        sealed_v3 = self.fixture.store.get_scout_curation_job(new['id'])
+        sealed_v3['assignmentVersion'] = 'codex-preparation-v3-reserve'
+        with patch.object(self.fixture.store, 'get_scout_curation_job', return_value=sealed_v3):
+            self.assertEqual('scout-preparation-drafts',
+                             build_scout_review_seed(self.fixture.store, new['id'])['artifactType'])
         for resource in seed['resources']:
             self.assertEqual('2026-09-25', resource['researchedAt'])
             self.assertEqual('help@example.org', resource['email'])
@@ -90,6 +95,14 @@ class PreparedCurationTests(unittest.TestCase):
         self.assertNotIn('assignmentSha256', converted)
         self.assertEqual(old, json.dumps(assignment, sort_keys=True))
         self.assertNotIn('sources', response_schema()['properties']['resources']['items']['properties'])
+
+    def test_worker_uses_sealed_instructions_when_policy_changes(self):
+        job = prepare_scout_curation_job(self.fixture.store, self.fixture.import_id, prepared=True)
+        view = compact_assignment(next_scout_curation_assignment(self.fixture.store, job['id']))
+        view['instructions'] = ['Previously sealed preparation instructions.']
+        prompt = worker_prompt(view, '')
+        self.assertIn('Previously sealed preparation instructions.', prompt)
+        self.assertNotIn('Preparation includes bounded primary-source research', prompt)
 
     def test_all_research_keeps_both_collections_and_distinct_checkpoint(self):
         later = self.fixture.completed_run('food', 'Food', ['codex', 'deepseek', 'other'])

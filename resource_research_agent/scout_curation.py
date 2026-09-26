@@ -664,8 +664,8 @@ def build_scout_review_seed(store: ResearchStore, job_id: int) -> dict[str, Any]
     if not summary:
         raise ScoutCurationError("Resource Scout curation source package snapshot is missing")
     resources = _completed_resources(job)
-    from .preparation_contract import ASSIGNMENT_VERSION
-    is_prepared = job['assignmentVersion'] == ASSIGNMENT_VERSION
+    from .preparation_contract import PREPARED_ASSIGNMENT_VERSIONS
+    is_prepared = job['assignmentVersion'] in PREPARED_ASSIGNMENT_VERSIONS
     if not is_prepared:
         for resource in resources:
             resource.pop("candidateIds", None)

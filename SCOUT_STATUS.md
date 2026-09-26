@@ -6,12 +6,27 @@ a monitor process is not a research worker.
 
 ## Full Mesa re-curation authorized — September 26
 
+**Current run:** `data/mesa-prepared-full-20260926-source-checks/`, import 4,
+job 5, launched September 26 at **06:42:32 UTC** with source-check policy v4.
+Supervisor 9665 checks every 30 seconds; `caffeinate` 9666 prevents idle sleep while
+it runs. Verify live PIDs. Workers remain **High**; the current supervising session
+owns the single **Extra High** review afterward. 29 focused tests passed.
+
+The first prepared attempt's supervisor and coordinator were stopped after three
+completed batches. Those batches performed
+no live source checks and overused admin-only needs-resolution for ordinary
+missing details. Its fourth worker finished separately; all four outputs are
+preserved. `quality-hold-001.json` records the operator action. Do not resume that
+old manifest. The current run retains those drafts as explicitly unreviewed
+supporting evidence, without adopting their state judgments or unverified claims.
+High worker effort and the single Extra High final review remain unchanged.
+
 Michael explicitly requested Scout re-curation of Mesa's saved research, followed
 by this supervising Codex session's single **Extra High review** and a complete
 `prepared-resources.json`. Scout workers use **High**. This supersedes Mesa's
 four-category delivery limit; Cedar City remains held.
 
-Prepared isolated run: `data/mesa-prepared-full-20260926-all-research/`, import4,
+Earlier isolated attempt: `data/mesa-prepared-full-20260926-all-research/`, import4,
 job5. Its launch manifest explicitly combines all completed Mesa research
 collections: **3,920 candidate records across21 categories**, including the
 earlier discovery, focused research, Codex-first v2 and retained Housing pilot.

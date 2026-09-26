@@ -10,7 +10,7 @@ and `prepared_resources.validate_artifact` define structural and semantic checks
 
 New curation jobs explicitly select `scout_curation_runner --prepared`. This seals
 policy `prepared-resources-v1-five-sections` into assignment version
-`codex-preparation-v3-reserve`, distinct from existing jobs. It retains useful
+`codex-preparation-v4-source-checks`, distinct from existing jobs. It retains useful
 reserve proposals rather than minimizing their count. The closed worker response
 schema and normalizer preserve email, sources, research date, preparation state,
 resolution reason and evidenced taxonomy suggestions. IDs are provisional draft
@@ -44,6 +44,16 @@ run provenance. Both switches require prepared mode and change the job fingerpri
 existing checkpoints remain intact. Without the latter switch, the established
 single-canonical-run selection remains unchanged. The persistent supervisor checks
 the saved prepared draft hash before declaring **Ready for Codex review**.
+
+Version 4 clarifies that preparation includes targeted official-source checks for
+material gaps. A usable reserve resource needs credible identity, relevant service
+and a practical contact/intake route; unknown hours, costs, insurer participation
+or capacity alone do not require administrator-only status. Consequential identity,
+existence, geography, service or access conflicts do. Information is written for
+missionaries and clients, with research-process reasoning kept in the internal
+evidence. Older version 3 assignments and drafts retain their recorded policy;
+worker prompts read the sealed instructions rather than silently substituting the
+latest instructions. This does not change the consumer artifact's major version.
 
 The requested reviewer writes an internal `scout-reviewed-preparation` bundle:
 
