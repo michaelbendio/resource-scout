@@ -35,14 +35,18 @@ Miscellaneous. Never substitute the older reviewed seed's 20-category taxonomy.
 
 ## Completion work
 
-September 26, 14:50 UTC checkpoint: seven categories are prepared; Financial
-Assistance is on batch 6/8. Accumulated current-run worker execution is about
-474.1 minutes. The root review has saved findings for its first 90 resource
-versions, read 50 source-only groups/51 members, and proposed nine reserve
-restorations. Several source-only decisions still require verification; none of
-these proposals is an applied or signed final review. The County eviction pilot
-closed August 21 and only served four Phoenix ZIP codes. Phoenix HOPWA has a
-separate Maricopa/Pinal service area that includes Mesa. Keep these distinct.
+September 26, 15:24 UTC checkpoint: eight categories are prepared; Reentry Support
+is on batch 4/6. Current-run worker execution is about 514.6 minutes. Financial
+Assistance's sealed snapshot has 133 resources/188 dispositions; all 176 batch
+versions and 50 source-only groups/51 members have saved working assessments.
+Working proposals contain 15 duplicate groups/15 overlaps, 107 retained-category
+reasons, 14 Types with explicit assignments, ten starters and 19 reserve proposals
+(18 usable, one administrator identity hold). Several proposals match later worker
+drafts. Four content patches address consequential H2O eligibility/referral,
+Police/Prosecutor contact confusion, Energy Share intake and dated VITA details.
+Final whole-office matching, human-state reconciliation, fact application and
+signature remain pending. The City utility umbrella/two-program overlap still
+needs a final identity decision. Working proposals are not a completed review.
 
 - Audit all candidate dispositions, cross-batch merges and prior reviewed pathways.
 - Review program identity and bind aliases to the existing committed registry;

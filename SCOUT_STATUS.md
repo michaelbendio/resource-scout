@@ -13,15 +13,16 @@ After a saved-result repair, supervisor **12216** checks every 30 seconds;
 `recovery-001.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
-As of 14:50 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
+As of 15:24 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
 Household (122), Disability (140), Domestic Violence (91), Education (82) and
-Employment (183) are prepared. Financial Assistance is on batch 6/8. Verify live
+Employment (183) and Financial Assistance (133) are prepared. Reentry Support is
+on batch 4/6. Verify live
 native events for the current batch. Disability's 194 batch
 resource versions and 61 source-only groups have now been read; the completed
 snapshot has 140 resources and 227 dispositions. Working proposals include
 14 duplicate groups (18 overlaps), 122 consideration rows, 14 Types, ten starters
 and 18 reserve additions. These are preliminary, not applied or signed. Current
-accumulated worker execution time is about 474.1 minutes, plus the preserved
+accumulated worker execution time is about 514.6 minutes, plus the preserved
 initial attempt; recalculate final processing totals after completion.
 
 Education's sealed snapshot contains 82 resources and 136 dispositions. All 116
@@ -59,13 +60,23 @@ lead in Scout's audit without altering the historical human Arizona override.
 Preserve older category-specific facts when later employment drafts shorten them.
 The worker is still running; do not start another coordinator or review worker.
 
-Financial Assistance's first four batches have 90 reviewed resource versions.
-All 50 source-only groups (51 members) have been read, but several verification
-decisions remain pending. Nine source-backed reserve proposals await full-office
-matching. Current evidence closes the County eviction pilot to new applications
-after August 21 and restricts it to four Phoenix ZIP codes; it is not Mesa aid.
-Phoenix HOPWA separately covers eligible Maricopa/Pinal households, including Mesa.
-Later drafts must retain each program's eligibility and application-route details.
+Financial Assistance has a sealed 133-resource/188-disposition snapshot. All 176
+batch versions and 50 source-only groups/51 members have working review decisions.
+Proposals include 15 duplicate groups/15 overlaps, 107 retained-category reasons,
+14 Types with explicit assignments, ten starters and 19 reserve proposals (18
+usable, one administrator identity hold); several proposals match later drafts.
+Four concrete content patches correct H2O, Police Victim Services, Energy Share
+intake and dated Azura VITA details. These remain unapplied and unsigned.
+The City utility umbrella overlaps two specific discount programs; reconcile that
+composite with historical IDs and final Utilities material before export. Preserve
+hidden AAA/Coalition ancestry, MesaCAN human overrides and earlier category facts.
+Current AHCCCS evidence requires combined H2O eligibility and data-driven referral,
+not an open public application. The Police page's 250 E 1st address belongs to the
+separate Prosecutor unit. IRS now explicitly leaves VITA income limits to sites;
+the dated Mesa summer schedule has a different limit from a generic VITA page.
+The County eviction pilot is closed and the old ARPA funeral fund ended in 2025;
+keep those in Scout's audit. Phoenix HOPWA separately serves Maricopa/Pinal,
+including Mesa. Read the saved findings/patches before later bodies overwrite them.
 
 Mesa's current-run dashboard is **http://127.0.0.1:8773**, PID20319 at launch;
 `dashboard-start.json` and `dashboard.log` preserve its command and output.
