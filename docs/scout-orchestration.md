@@ -66,6 +66,14 @@ perform routine recovery. The supervising assistant owns that work.
   progress updates during long work without asking Michael to monitor for you.
 - Continue through the authorized deliverable, including validation and audits;
   starting a background process alone is not completion.
+- The monitor appends a remaining-curation estimate, for example
+  "Done in 2 - 4 hours", after at least two timed batches. It recalculates at each
+  completed batch using candidate-weighted overall and recent throughput, with a
+  broad allowance for variation. Replayed checkpoints count once; heartbeats do
+  not move the estimate. Minutes are used for shorter estimates. Stops, pauses
+  and completed curation have no running ETA. This covers curation only, not the
+  later Codex review or export. The progress server computes it from saved events;
+  adding it does not require restarting a worker or changing sealed assignments.
 - Do not promise monitoring after the assistant turn ends unless a persistent
   supervisor actually performs it. If work must be handed off, record the live
   state and remaining responsibility candidly.

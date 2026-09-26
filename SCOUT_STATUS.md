@@ -8,16 +8,52 @@ a monitor process is not a research worker.
 
 **Current run:** `data/mesa-prepared-full-20260926-source-checks/`, import 4,
 job 5, launched September 26 at **06:42:32 UTC** with source-check policy v4.
-After two saved-result repairs, supervisor **25181** checks every 30 seconds;
-`caffeinate` **25182** prevents idle sleep while it runs. Verify live PIDs and
-`recovery-002.json`. Workers remain **High**; the current supervising session owns
+After three saved-result repairs, supervisor **27600** checks every 30 seconds;
+`caffeinate` **27601** prevents idle sleep while it runs. Verify live PIDs and
+`recovery-003.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
+
+At 17:54 UTC, Homeless Services batch3 was recovered after HomeBase mistakenly
+included a nonexistent `youth` category. The repair removes only that label;
+the valid Youth For group, all27 resources,29 candidate decisions and every
+factual field remain unchanged. Full application/link validation and the
+hash-checking repair loader pass. Original output and events remain intact.
+Supervisor27600 resumed from the saved result at High and advanced to batch4/6.
+The existing four-launch limit is retained: this is launch4, so further automatic
+retries are exhausted. Any later failure needs diagnosis, not an unchanged retry.
+
+At 18:40 UTC, twelve of21 research categories are prepared; Housing is on
+batch3/9. Current-run accumulated worker execution is about691.7minutes,
+plus the preserved initial attempt. The root reviewer has read all126 Homeless
+Services batch versions,77 aggregate drafts,144 candidate decisions and49
+source-only groups/members. Working proposals include two duplicate groups,
+two category removals,73 retained-category reasons,12 Types with explicit
+assignments,group/no-group decisions,ten starters and14 reserve proposals
+(11 usable,three administrator holds). Originals remain unchanged; the proposals
+are not applied or signed.
+
+Before registry binding, apply homeless-services-scoped-identity-corrections-working.json:
+TCAA I-HELP incorrectly inherited an established LSS Mesa ID. Preserve both
+historical LSS administrator identities; bind only actual TCAA candidates to its
+own draft. MANA House must not inherit Catholic Charities SSVF restricted to
+Coconino/Mohave/Yavapai. The youth8882907233 number is provider training support,
+not a client crisis hotline; use verified local Lifeology/TXT4HELP routes.
+All12 completed database assignment/result hashes survived the monitor reload.
+
+Michael requested a curation ETA after every batch. Port8773 now shows
+"Curating Housing: batch3/9, Done in6 -12 hours" (display has normal spacing).
+Monitor PID28847 reloaded only the HTTP server; supervisor27600/coordinator27606
+were not restarted.31 relevant tests pass, including the socket test rerun with
+local-network permission. Read monitor-eta-reload.json for the exact live message.
+The estimate covers curation only, remains stable between batch checkpoints and
+is hidden for stopped/completed work. The full reviewed export estimate remains
+September27,1–7a.m.Mountain; verify live pace before updating that estimate.
 
 As of 17:45 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
 Household (122), Disability (140), Domestic Violence (91), Education (82) and
 Employment (183), Financial Assistance (133), Reentry Support (103) and Food (96)
 and Medical/Dental/Vision (124) are prepared: eleven of 21 research categories.
-Homeless Services is on batch3/6.
+Homeless Services was on batch3/6 at that checkpoint; it has since advanced (see recovery above).
 Verify live
 native events for the current batch. Disability's 194 batch
 resource versions and 61 source-only groups have now been read; the completed

@@ -6,6 +6,7 @@ from typing import Any
 from .storage import ResearchStore
 from .scout_review_handoff import review_handoff
 from .focused_research import CODEX_FIRST_EXPERIMENT_MODE
+from .curation_eta import ACTIVE_PHASES, estimate_curation
 
 
 def _effective_import_id(run: dict[str, Any]) -> int | None:
@@ -278,6 +279,13 @@ def build_scout_progress(
             message = "Codex review is complete. The review HTML is ready to save."
             category_id = ""
 
+    curation_eta = (
+        estimate_curation(job, curation_events)
+        if job and phase in ACTIVE_PHASES else None
+    )
+    if curation_eta:
+        message = f"{message.rstrip('. ')}, {curation_eta['label']}."
+
     return {
         "importId": selected_import_id,
         "sourceName": summary.get("sourceName"),
@@ -297,6 +305,7 @@ def build_scout_progress(
             "completed": int(curation.get("completed") or 0),
             "failed": int(curation.get("failed") or 0),
             "total": int(curation.get("total") or research_total),
+            "estimate": curation_eta,
         },
         "nextChatgpt": next_chatgpt,
         "chatgptAssignment": chatgpt_assignment,

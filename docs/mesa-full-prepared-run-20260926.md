@@ -10,6 +10,24 @@ The persistent supervisor checks every 30 seconds and preserves worker checkpoin
 The supervisor handles curation only; it does not approve the final export or
 launch another reviewer. Verify current processes and logs before resuming.
 
+September26,18:40UTC checkpoint: twelve categories are prepared; Housing is on
+batch3/9. Homeless Services working review covers126 batch versions,77 aggregate
+drafts,144 dispositions and49 source-only groups/members. Saved proposals contain
+two duplicate groups/two rejected category memberships,73 reasons,12 Types,
+explicit group decisions,ten starters and14 reserve additions or matches.
+Three additions are administrator holds, including both historical LSS I-HELP IDs.
+Apply the scoped TCAA/LSS and MANA/SSVF identity corrections before registry binding.
+Final whole-office matching, content application, human-state reconciliation and
+review signature remain pending.
+
+The progress monitor now appends a remaining-curation ETA after every batch,
+using actual candidate-weighted overall/recent pace. At this checkpoint it reads
+"Curating Housing: batch 3/9, Done in 6 - 12 hours." This excludes the subsequent
+review/export. Monitor28847 replaced20319 on port8773; worker/supervisor unchanged,
+and all12 completed category hashes preserved.31 targeted tests pass. The only
+initial failure was sandbox denial of a test listening socket; that test passed
+with the required permission. Runtime audit: monitor-eta-reload.json.
+
 The earlier `mesa-prepared-full-20260926-all-research` attempt started at 06:12 UTC
 and is now held. Its first three completed batches used no live source checks and
 overused needs-resolution for ordinary missing details. The coordinator was stopped;
@@ -356,3 +374,15 @@ source and identity boundaries. City Hope's location-specific page establishes
 food-only service in Mesa, government ID, one visit per center per month and an
 arrival cutoff fifteen minutes before closing; the generic home-page text does
 not establish clothing service there. Full-office review and delivery remain pending.
+
+### 17:54 UTC recovery checkpoint
+
+Homeless Services batch3 emitted a nonexistent `youth` category on HomeBase.
+The reviewed repair removes only that category, preserving the valid Youth For
+group, every fact, all27 resources and29 candidate dispositions. Full application
+and link validators plus the hash-checking repair loader pass. Original native
+output and events are unchanged. `recovery-003.json` records the evidence and
+preserved supervisor state. Supervisor27600/caffeinate27601 resumed High curation
+and advanced to batch4/6. This consumes launch4 of the existing maximum4; no
+unchanged automatic retries remain. Eleven completed categories remain intact.
+The root review continues; none of its working proposals is applied or signed.
