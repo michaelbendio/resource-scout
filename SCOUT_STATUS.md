@@ -34,6 +34,7 @@ every30seconds; the supervising assistant retains routine monitoring/recovery.
 28 focused preparation/runner/supervisor tests passed. Preserve
 `supervisor-start.json`, `curation/runner.log`, native events and all batch outputs
 for elapsed/active processing accounting. No review worker is launched in parallel.
+See the [full Mesa run and completion checklist](docs/mesa-full-prepared-run-20260926.md).
 
 ## Mesa prepared-resource handoff — September 25 (completed partial delivery)
 
