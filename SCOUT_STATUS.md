@@ -13,16 +13,16 @@ After a saved-result repair, supervisor **12216** checks every 30 seconds;
 `recovery-001.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
-As of 15:24 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
+As of 16:10 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
 Household (122), Disability (140), Domestic Violence (91), Education (82) and
-Employment (183) and Financial Assistance (133) are prepared. Reentry Support is
-on batch 4/6. Verify live
+Employment (183), Financial Assistance (133) and Reentry Support (103) are prepared.
+Food is on batch 4/6. Verify live
 native events for the current batch. Disability's 194 batch
 resource versions and 61 source-only groups have now been read; the completed
 snapshot has 140 resources and 227 dispositions. Working proposals include
 14 duplicate groups (18 overlaps), 122 consideration rows, 14 Types, ten starters
 and 18 reserve additions. These are preliminary, not applied or signed. Current
-accumulated worker execution time is about 514.6 minutes, plus the preserved
+accumulated worker execution time is about 558.3 minutes, plus the preserved
 initial attempt; recalculate final processing totals after completion.
 
 Education's sealed snapshot contains 82 resources and 136 dispositions. All 116
@@ -78,6 +78,24 @@ The County eviction pilot is closed and the old ARPA funeral fund ended in 2025;
 keep those in Scout's audit. Phoenix HOPWA separately serves Maricopa/Pinal,
 including Mesa. Read the saved findings/patches before later bodies overwrite them.
 
+Reentry Support's 114 batch versions, 103 aggregate drafts and 138 dispositions
+have been read, together with all 80 source-only groups/81 members. Working
+proposals contain 11 duplicate groups/12 overlaps, 86 retained-category reasons,
+11 Types, ten starters and 23 reserve proposals (20 usable, three administrator
+holds). These remain unapplied and unsigned. Source-only restoration includes
+in-custody release curricula, a rare sexual-offense reentry expense grant, family
+connection, federal supervision treatment and practical transport/ID help.
+The `reentry-support-smart-justice-identity-resolution-working.json` correction
+is mandatory before global ID union: Reentry reused the general County Career
+Center's draft ID for the distinct felony-focused Smart Justice program. Preserve
+the general County canonical ID and correct only the scoped program occurrence.
+New Freedom's historical canonical record already covers core and outpatient
+services; preserve that identity and retain the distinct program rules/contacts.
+Review sources also correct a housing provider phone copied from its website vendor,
+remove unsupported Stone income/insurance groups and separate civil Title36 and
+dependency pathways from criminal Reentry membership. Failed source fetches do not
+establish closure. Reconcile all restored programs against the whole office.
+
 Mesa's current-run dashboard is **http://127.0.0.1:8773**, PID20319 at launch;
 `dashboard-start.json` and `dashboard.log` preserve its command and output.
 It was verified against this database/import4. It is a monitor, not another worker.
@@ -85,6 +103,9 @@ At14:06UTC Michael received a working estimate of12–14hours for remaining
 curation and18–24hours for the complete reviewed/validated delivery. Review is
 overlapping preparation, but final content application, registry binding and export
 are still outstanding; do not present working proposals as a finished review.
+At16:02UTC the estimate was updated to September27, roughly1–7a.m. Mountain
+(15–21hours), including final review, consolidation and validation. This is an
+estimate, not a completion commitment; check actual remaining batch durations.
 
 Domestic Violence has a sealed 91-resource/184-disposition snapshot. All 162 batch
 versions and 48 source-only groups/members were read. Working proposals include

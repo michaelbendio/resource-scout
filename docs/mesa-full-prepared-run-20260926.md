@@ -283,3 +283,30 @@ with its command in `dashboard-start.json`. HTTP status and Mesa import4 were
 verified; no second curation coordinator was started. At14:06UTC the user received
 an estimated12–14hours for remaining curation and18–24hours for final delivery,
 with review overlapping curation and final assembly/validation afterward.
+
+At16:10UTC, nine categories are prepared and Food is on batch4/6. There are73
+completed executions and558.3current-run worker-minutes. Reentry Support's114
+batch versions,103aggregate drafts and138dispositions have been read; all80
+source-only groups/81members now have explicit working decisions. The review
+proposes11duplicate groups/12overlaps,86retained-category reasons,11Types,
+ten starters and23reserve restorations (20usable,3administrator holds).
+These are durable proposals, not applied revisions or a signed final review.
+
+Before combining IDs, apply the scoped Smart Justice identity correction:
+Reentry row24 reused the general County Career Center ID, while its facts and
+candidates describe the distinct Smart Justice program. Preserve the general
+County canonical identity and bind the program occurrence separately. New
+Freedom's existing canonical identity already covers core and outpatient
+services; preserve it with separate program rules and contacts in the text.
+
+Primary-source review retains AZRSOL's limited reentry expense grant, GLO's
+transport/ID help, Bridges women's residential program, federal-supervision
+treatment and family/custody pathways that were left in source-only material.
+It also corrects a website-vendor phone mistakenly presented as housing intake,
+removes unsupported Stone income/insurance groups, and separates civil mental-
+health and dependency court programs from criminal Reentry membership. The
+in-custody Merging Two Worlds omission needs a usable facility-case-manager
+pathway linked to its original candidate, not silent deletion from the evidence.
+
+The latest user ETA, at16:02UTC, is September27 roughly1–7a.m. Mountain time
+(15–21hours), including full-office consolidation, review and validation.
