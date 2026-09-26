@@ -1,5 +1,21 @@
 # Resource Scout product design
 
+## September 25 prepared-resource handoff
+
+The [prepared-resources design](scout-prepared-resources-design-20260925.md) and
+[implemented contract](scout-prepared-resources-contract.md) govern the new WSRS-TSO
+data mode. Research remains broad; preparation makes the reserve useful; requested
+review proposes 7–10 complementary starters per category and a reason to consider
+every remaining exported membership. No tiers or three-item opening set. Types and
+groups are reconciled from the collection for useful filtering without erasing
+specific searchable facts. Code owns stable resource IDs in a repository registry.
+
+WSRS-TSO owns human curation, saved-for-review items, Ask, reserve warnings and the
+five-at-a-time display order. Scout exports source-linked facts and judgments,
+never human approval or verification dates. The first delivery is the four-category
+Mesa trial extended to production data; other offices and categories remain outside
+that scope. Ordinary `[location].html` enhancements were explicitly withdrawn.
+
 The proposed next design is [prepared resources, starter sets, and the WSRS-TSO handoff](scout-prepared-resources-design-20260925.md),
 informed by [WSRS-TSO's artifact feedback and the September 25 discussion constraints](wsrs-tso-scout-artifact-reference-20260925.md).
 It is a discussion draft, not an implemented change. The historical design below

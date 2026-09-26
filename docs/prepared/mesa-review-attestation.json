@@ -1,0 +1,7 @@
+{
+  "reviewer": "Codex, requested Extra High review",
+  "report": "docs/mesa-wsrs-tso-handoff-20260925.md",
+  "reviewFingerprint": "0d63f397c737f9fa29b05c91e88026b158f725ac07dc18a5e4ba1b7e238f9b2a",
+  "payloadFingerprint": "ee62b9665477b3972ac8aabbb34d8cc23418719cdfff4559386f78faa087c5d1",
+  "instruction": "This attests the exact reviewed four-category output. Changed source data, decisions, taxonomy, considerations, starter sets or compiler behavior require review before these hashes are replaced; never update them merely to let export pass."
+}

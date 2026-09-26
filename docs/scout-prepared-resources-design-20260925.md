@@ -1,5 +1,20 @@
 # Scout prepared resources, starter sets, and WSRS-TSO handoff
 
+Implementation update: Michael accepted the phase 0 Mesa trial and authorized
+**only Housing, Food, Transportation and ID Recovery**, including reserve resources,
+for the first production handoff. The [implemented contract](scout-prepared-resources-contract.md)
+and [Mesa handoff](mesa-wsrs-tso-handoff-20260925.md) specify its scope and tests.
+Phase 5 actual WSRS-TSO import validation is still required; it is not implied by
+Scout's local tests. Existing sealed HTML jobs are preserved as a separate mode.
+
+**Additional Michael/Claude decision:** export `considerations` containing one
+`{resourceId, categoryId, reason}` for every non-starter exported membership.
+The reason tells the curator what the resource adds or why to consider it, checked
+against the actual starter set. No rank is added. WSRS-TSO chooses five alternatives
+at a time: Types not yet covered first, then alphabetical. This is an optional
+version-1 field for old-reader compatibility, required on new Scout deliveries.
+The Mesa handoff contains all 118 reasons and a readable preview of this next step.
+
 Date: 2026-09-25 · Status: revised design incorporating Michael's decisions and Claude's contract answers; not implemented.
 
 This design turns Michael's September 25 discussion into changes to Scout's AI instructions, stored results, review requirements, and exported data. It incorporates [Claude's artifact feedback](wsrs-tso-scout-artifact-reference-20260925.md), preserving the distinction between user decisions and implementation proposals. WSRS-TSO application design will be discussed separately with Claude.

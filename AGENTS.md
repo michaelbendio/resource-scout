@@ -2,6 +2,17 @@
 
 Before doing substantive Scout work, read `SCOUT_STATUS.md`.
 
+For prepared-resource JSON delivery, follow
+[`docs/scout-prepared-resources-contract.md`](docs/scout-prepared-resources-contract.md).
+Michael's September 25 decisions require Stephanie's **five** Information sections,
+usable reserve preparation, 7–10 complementary starter choices with explanations,
+and a consideration reason for every non-starter resource/category membership.
+Review Types/groups across the collection, preserve human state, and use only
+code-assigned registry IDs for delivery. Complete the data/fingerprint gates;
+do not apply the legacy four-section/tier gate to JSON delivery. Existing sealed
+HTML workbenches retain the legacy contract below. Any newly emitted HTML workbench
+still requires its actual browser/editor/filter checks.
+
 Before starting, resuming, changing, or supervising a Scout worker, also read
 [`docs/scout-orchestration.md`](docs/scout-orchestration.md) and follow its
 monitoring, checkpoint, recovery, evidence-preservation, and handoff instructions.
@@ -19,7 +30,7 @@ Codex session to request that review. Follow the review checklist and completion
 recording instructions in `docs/scout-orchestration.md`; do not automatically
 launch a paid review worker or mark a review complete just to enable Save.
 
-A requested post-curation review also requires reading and completing
+A requested legacy HTML post-curation review also requires reading and completing
 [`docs/scout-workbench-readiness.md`](docs/scout-workbench-readiness.md).
 Resource-content checks alone do not make the workbench ready: verify Stephanie's
 four rendered Information sections, useful Category Types with complete assignments,

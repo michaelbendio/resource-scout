@@ -1,0 +1,35 @@
+{
+  "artifactType": "scout-preparation-receipt",
+  "schemaVersion": 1,
+  "snapshotId": "ss_80df3898c3033d1c16bc0a78a3d03d6d",
+  "contentFingerprint": "80df3898c3033d1c16bc0a78a3d03d6d81240942eab7880b7fe32222aab75d25",
+  "reviewFingerprint": "0d63f397c737f9fa29b05c91e88026b158f725ac07dc18a5e4ba1b7e238f9b2a",
+  "registryFingerprint": "ea3dee67dd907c3a3eb91ac1d124fdb57b6d071cdbcfabff53dc12b772c3a754",
+  "inputHashes": {
+    "seedSha256": "b4d0c6c9de68019eaad01d16f8e429298abf4686f4a27bd13ef6ab22be9e017f",
+    "stateSha256": "e92650411c17c48d9db169e13c3787f8c2253c599cd5d3a9e1c5e4faf2bb09a0",
+    "decisionsSha256": "756df4f6cddb85b3f89d734cd7461a444193353ce9b6a2ce3f299e5fd966dbac",
+    "proposalSha256": "efdd444a1e5c57e6f322f27623faa001ac0142b0548333e94a0082fbe8c9b43c",
+    "configFingerprint": "26bdf8bf3b1fef8e1329ac18fb51565ff2399cafc8360e26ffcf00a76f172996",
+    "officeCategoryFingerprint": "6b5dca7c0a2f03696003364c37dbc9b9eb031ea95d3e1105fb58c2576d74bcb6"
+  },
+  "counts": {
+    "resources": 143,
+    "usable": 125,
+    "needsResolution": 18,
+    "considerations": 118,
+    "starterMemberships": 37,
+    "uniqueStarterResources": 34
+  },
+  "review": {
+    "reviewer": "Codex, requested Extra High review; starter trial accepted by Michael",
+    "reviewedAt": "2026-09-26T05:19:57Z",
+    "identity": "Three explicit same-program consolidations; no organization-wide merging. Other identities retain their reviewed program boundary.",
+    "content": "Migration of completed Mesa content review plus accepted trial cautions. Unsupported memberships excluded and unresolved referrals quarantined. No new whole-collection research or agency verification claimed. For this migration, reuse the reviewed Eligibility Requirements paragraph as Population Served when no separately reviewed population prose exists. It conservatively preserves exact restrictions without inferring broader eligibility from a label. This temporary repetition is intentional; new preparation workers write distinct evidence-backed sections.",
+    "taxonomy": "Consolidate equivalent access facets, not every uncommon concept: rent/deposit/eviction cost aid, navigation/coordinated entry, food-benefit navigation, and fare support share useful broader filters. Keep clinical versus recovery housing, vouchers versus affordable rentals, and rare high-value formula, paratransit, tribal-ID and document-storage routes separate. The reviewed 22 population/access groups distinguish materially different eligibility or support needs; retain their definitions and evidence rather than merging by frequency alone. Spanish is an evidenced language-access feature, not inferred ethnicity. No group assignment means no specific evidenced group, never that every person qualifies.",
+    "starterSets": "Michael accepted the four-category trial. All 37 positions and contribution/limitation explanations retained; shared identities are one resource. Non-starter reasons were written individually for curators and compared with the actual selected set; overlapping services are not described as extra capacity.",
+    "preservation": "Use the reviewed seed plus saved browser overrides. Carry forward all text and sources when consolidating the three explicit identities. Preserve suppressed records in the identity migration and audit without exporting them for missionary use. Remove only specifically unsupported memberships in this four-category projection. All original records, other categories and prior decisions remain unchanged in Scout. Starter selection is Michael's accepted trial, never office Curated approval.",
+    "inputFingerprint": "0d63f397c737f9fa29b05c91e88026b158f725ac07dc18a5e4ba1b7e238f9b2a"
+  },
+  "artifactSha256": "aea5c16e14de68643361a726114524ecab0800051c9b8f73a4384c0a855bbdd5"
+}

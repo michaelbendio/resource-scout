@@ -1,5 +1,17 @@
 # Resource Scout curation and review files
 
+## Prepared-resource mode (September 25)
+
+New `scout_curation_runner --prepared` jobs use the
+[prepared delivery contract](scout-prepared-resources-contract.md). Their goal is
+usable reserve preparation followed by starter selection, not the smallest proposal
+collection. The worker writes the five sections, source pages, research date and
+resolution state; suggested Types/groups retain meaning and evidence for collection
+review. Code preserves those fields and assigns production IDs only during export.
+Worker proposal IDs remain provisional, and `verifiedOn` must be null.
+Completed jobs emit non-importable drafts for requested Codex review. Existing
+sealed jobs and the older HTML workflow described below are not rewritten.
+
 Resource Scout owns the complete candidate workflow: research, consolidation,
 Codex-controlled curation, and generation of a location review file such as
 `autoMesa.html` or `autoProvo.html`. Curation is a stage of Resource Scout, not a

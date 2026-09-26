@@ -1,5 +1,19 @@
 # Codex curation runner
 
+## New prepared-resource output
+
+Use `--prepared` for a newly authorized prepared-resource job. Assignment version
+`codex-preparation-v3-reserve` seals the
+[new policy](scout-prepared-resources-contract.md); separate job versions prevent
+accidental reuse of legacy results. The response schema and normalizer preserve
+email, supporting sources, `researchedAt`, state/resolution reason and evidenced
+taxonomy suggestions. Five Information headings and null `verifiedOn` are validated.
+Finished output is `prepared-drafts.json`, **Ready for Codex review**, not an import
+or reviewed HTML file. Resume checks its saved byte hash and reuses completed work.
+The existing pipeline has not been switched automatically; legacy runs without
+this flag retain their sealed four-section contract and output. No new worker was
+needed for Mesa's migration of previously reviewed resources.
+
 An empty native result envelope requires substantive supervising review; link-only
 structural correction cannot supply missing decisions. Preserve both attempts.
 For that exact empty envelope, `reviewed-result-repair.json` may reconstruct the

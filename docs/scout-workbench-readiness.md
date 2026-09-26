@@ -1,5 +1,15 @@
 # Workbench readiness after curation
 
+For the new prepared-resource JSON mode, use the
+[prepared delivery contract](scout-prepared-resources-contract.md): five Information
+sections, useful and evidenced taxonomy, complete assessment of the scoped reserve,
+explained starter sets, non-starter considerations, registry identity and current
+review fingerprints. `prepared_export.finalize` and `validate_artifact` enforce
+those structural gates; the requested reviewer supplies the semantic judgment.
+The four-section/tier checks below remain the contract for existing sealed **HTML**
+workbenches. Data-only delivery does not claim browser/editor testing or office
+approval. Any HTML workbench emitted still needs its actual UI checks.
+
 A generated HTML file is a draft until the requested Codex review covers both
 resource content and the tools people need to find and vet those resources.
 Read this alongside `AGENTS.md`, `SCOUT_STATUS.md`, and `scout-orchestration.md`.

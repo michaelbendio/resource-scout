@@ -1,0 +1,143 @@
+{
+  "office": {"slug": "mesa", "name": "Mesa"},
+  "sourceNamespace": "mesa-legacy-resource",
+  "reviewedAt": "2026-09-26T05:19:57Z",
+  "seedSha256": "b4d0c6c9de68019eaad01d16f8e429298abf4686f4a27bd13ef6ab22be9e017f",
+  "stateSha256": "e92650411c17c48d9db169e13c3787f8c2253c599cd5d3a9e1c5e4faf2bb09a0",
+  "decisionsSha256": "756df4f6cddb85b3f89d734cd7461a444193353ce9b6a2ce3f299e5fd966dbac",
+  "proposalSha256": "efdd444a1e5c57e6f322f27623faa001ac0142b0548333e94a0082fbe8c9b43c",
+  "scope": ["housing", "food", "transportation", "id-recovery"],
+  "officeCategoryIds": ["addiction", "children-pregnancy", "clothing-household", "disability", "domestic-violence", "education", "employment", "financial-assistance", "reentry-support", "food", "medical-dental-vision", "homeless-services", "housing", "id-recovery", "immigration", "legal", "mental-health", "miscellaneous", "seniors", "transportation", "utilities-phone-internet", "veterans"],
+  "merges": [
+    {"primary": "08a26b74", "members": ["9674f1a7", "fb14c6d3", "e1f846bb"], "name": "Paz de Cristo Community Center", "reason": "The reviewed records identify the same Mesa center, address and phone; the broad center proposal already includes its food, document and transportation programs. Retain each program's distinct eligibility and schedule paragraphs under one shared resource."},
+    {"primary": "0e36c87d", "members": ["eadaaf19"], "name": "Family Housing Hub — family coordinated entry", "reason": "Both reviewed records explicitly identify the same county Family Housing Hub, same phone and same Mesa satellite pathway, not two shelter capacities."},
+    {"primary": "5bfda484", "members": ["577e54a9"], "name": "La Mesa Ministries — Resource Center and outreach", "reason": "The document-assistance record already includes the bus-pass pathway. Both records share the resource center and phone. Preserve center document/mail access and outreach meal/bus-pass limitations separately."}
+  ],
+  "removeMemberships": {
+    "08a26b74": {"housing": "The reviewed center establishes food, document and transport help; independent housing assessment versus referrals is not established."},
+    "fb402105": {"housing": "Veterans' document/benefit assistance is supported; this broad record does not establish a distinct housing intake. Retain ID Recovery."}
+  },
+  "notOffered": {
+    "c11d6b3c": "Cash Assistance is not the separately reviewed SNAP food-purchasing benefit; retain this source in Scout's financial-assistance history, outside this delivery scope.",
+    "ec74c119": "Maternal case management does not establish direct food provision. Keep the source for its other categories, not this scoped food export.",
+    "5065a00c": "This is outpatient counseling; the reviewed text does not support independent housing service. Preserve the original outside this scoped delivery.",
+    "948dd967": "Veteran caregiver support does not establish a direct housing intake. Preserve the human-edited original for review in its supported categories."
+  },
+  "needsResolution": {
+    "db242d7d": "Outpatient withdrawal treatment does not establish the claimed housing placement; identify the specific housing program and admission route.",
+    "cfddfe7a": "The broad recovery description needs a named housing program and intake before a housing referral is actionable.",
+    "5f7fa3ab": "The reviewed addiction-treatment description does not establish an independently actionable residential housing pathway.",
+    "2683e222": "The saved human title describes work clothing/furniture while the reviewed body describes Autumn House survivor housing. Resolve with the curator before missionary use; preserve the human edit.",
+    "27adbd6d": "Current Mesa TBRA/HOME-ARP household intake and administering program are unconfirmed.",
+    "ff1488da": "The official ARM page says its waitlist is temporarily closed to new applications. This is not closure of the provider. Administrator should check reopening before referrals.",
+    "f2e69a8b": "The named Center for Hope/ReEntry program identity and admission route need clarification.",
+    "096327d7": "Mesa I-HELP's current operator and referral route are unresolved; compare the other I-HELP lead before publication.",
+    "19a8af5b": "Historical Tumbleweed identity requires confirmation through the successor provider; do not refer to the old identity as current.",
+    "b8ca7f8d": "Resolve overlap with ARM and whether the current closed waitlist applies to this affordable-rental record.",
+    "d9955a94": "Off the Streets operating site and current referral route are unresolved.",
+    "5c289896": "Mesa I-HELP operator and intake remain unconfirmed and may duplicate the other I-HELP lead.",
+    "6e7170de": "This is a hotel-conversion project with opening unconfirmed and possible overlap with Off the Streets; it is not yet a dependable referral.",
+    "24ea5cbf": "Resolve whether House of Refuge donation-center food boxes are available to the general public or only program residents.",
+    "2bf6edee": "Rio Vista Mesa's current operator, site and food-distribution schedule are unresolved.",
+    "33560faa": "Current AllThrive transportation page describes West Valley coverage. The reviewed East Valley claim has not been reconciled; Mesa eligibility is not established.",
+    "2504ccab": "Duet's homebound services transferred to AllThrive in August 2026. Resolve this successor program's Mesa coverage and intake independently of its other transportation program.",
+    "6d4803e5": "Modest Means' current intake and rates require confirmation before describing this as an actionable referral."
+  },
+  "descriptionOverrides": {
+    "d8a0a009": "Valley Metro offers fixed-route transit, reduced fares, ADA paratransit and RideChoice access pathways. Eligibility, application, scheduling and fare rules differ by program; use the program-specific details below."
+  },
+  "populationOverrides": {
+    "0df6bb23": "Adult women experiencing homelessness during pregnancy and early parenting.",
+    "106d5163": "Low-income households living in the City of Mesa who need help keeping their housing or utilities.",
+    "987a8b8e": "Income-qualified households preparing to move into eligible housing in Mesa.",
+    "cd0fd352": "Arizona households that qualify for help purchasing food, with eligibility based on household circumstances.",
+    "78ae362f": "Older adults and eligible people with mobility or care needs who need meal support.",
+    "47ea38f7": "Eligible pregnant, postpartum and breastfeeding people, infants and children younger than five.",
+    "d6f9cf44": "Students at participating schools who need food outside ordinary school meals.",
+    "5add8558": "People seeking Mesa pantry food and eligible families using WIC. Native American identity is not assumed to be an access requirement.",
+    "89a928c6": "Households in East Mesa ZIP codes 85205–85209 needing food and basic-needs support.",
+    "1d66d1be": "Adults and families needing a prepared meal in Mesa.",
+    "81a717d8": "People unable to reach a pantry because of homebound status, limited mobility or transportation barriers, subject to delivery screening.",
+    "cdfb3f08": "People and families seeking food assistance through the Mesa Corps.",
+    "78410d12": "Adult men experiencing homelessness and seeking the East Valley Men's Center pathway.",
+    "4a4a619b": "People experiencing homelessness who need help replacing identification or keeping documents safe.",
+    "08a26b74": "People and families experiencing homelessness, hunger, poverty or other unmet basic needs in Mesa. Some document services are for adults; each service has its own access rules.",
+    "0e36c87d": "Maricopa County families with dependent children younger than 18 who are seeking emergency shelter or housing assessment.",
+    "79a54c3a": "Survivors of domestic or sexual violence or trafficking who need safe housing, including survivors seeking a safe arrangement for pets.",
+    "15b83354": "Single women seeking the selected UMOM shelter pathway. UMOM also has separate programs for families with children.",
+    "b684b97f": "Arizona residents eligible to obtain or replace a state identification card or driver credential. Fee exemptions apply only to specified groups.",
+    "5bfda484": "People using Mesa/East Valley resource-center services and Mesa/Tempe outreach, particularly people experiencing homelessness or poverty.",
+    "1d7914c5": "People legally entitled to obtain the requested Arizona birth or death record.",
+    "7605d7bd": "Enrolled members of the Salt River Pima-Maricopa Indian Community seeking their own tribal credentials.",
+    "2f439f11": "People eligible to replace a Social Security card who can establish the required identity and status.",
+    "3a1860dd": "People eligible to replace or obtain temporary evidence of the specific immigration-status document requested.",
+    "4465e68f": "Low-income immigrants in the Phoenix metropolitan area seeking one of the Mesa clinic's supported USCIS services.",
+    "a75559d0": "Eligible Maricopa County tenants facing eviction for nonpayment of rent.",
+    "c98efcff": "People with disabilities seeking practical instruction in using fixed-route transportation.",
+    "1d65b4ad": "AHCCCS members who need transportation to covered appointments and cannot arrange their own ride.",
+    "206aace5": "People with cancer who need transportation to cancer-related medical appointments and can use the volunteer ride service.",
+    "40894eb4": "Eligible homebound older adults and adults with disabilities in Aster's transportation service area.",
+    "d8a0a009": "Transit users and people eligible for particular reduced-fare, ADA paratransit, RideChoice or commuter programs. Each program has separate requirements.",
+    "9458ee85": "Eligible Phoenix VA patients needing transportation, including patients who need an accessible vehicle.",
+    "03c08cce": "Adults and youth accepted for bicycle placement or earn-a-bike assistance, including people needing cycling transportation for work.",
+    "a3782d71": "Veterans and their households who meet the SSVF program's income and housing-stability requirements."
+  },
+  "programLabels": {
+    "08a26b74": "Center-wide services",
+    "9674f1a7": "Meals, food boxes and SNAP assistance",
+    "fb14c6d3": "Identification and birth-certificate assistance",
+    "e1f846bb": "Bus-pass assistance",
+    "0e36c87d": "Family Housing Hub intake",
+    "eadaaf19": "Same Family Housing Hub pathway, additional reviewed detail",
+    "5bfda484": "Resource-center documents and mail",
+    "577e54a9": "Outreach meals and bus-pass support"
+  },
+  "typeCatalog": {
+    "housing": [
+      ["housing-costs", "Housing Costs", "Help with rent, eviction-related housing costs or rental deposits; individual program rules and available funds differ.", ["Rental Assistance", "Eviction Prevention", "Deposit Assistance"]],
+      ["housing-navigation", "Housing Navigation", "Individual housing assessment, coordinated entry or practical help accessing housing programs; not a guarantee of placement.", ["Housing Navigation", "Coordinated Entry"]],
+      ["shelter", "Emergency Shelter", "Short-term emergency shelter or a named shelter admission pathway.", ["Emergency Shelter"]],
+      ["affordable-housing", "Affordable Housing", "Below-market rental housing with program-specific income and availability rules.", ["Affordable Housing"]],
+      ["vouchers", "Housing Vouchers", "Rental subsidy or housing voucher application and administration.", ["Housing Vouchers"]],
+      ["recovery-housing", "Recovery Housing", "Recovery-oriented sober housing; distinguish from licensed residential clinical treatment.", ["Recovery Housing"]],
+      ["treatment-housing", "Treatment Housing", "Residential housing available as part of a clinical treatment program with admission and payer requirements.", ["Treatment Housing"]],
+      ["transitional-housing", "Transitional Housing", "Time-limited housing with a transition or stabilization program.", ["Transitional Housing"]],
+      ["supportive-housing", "Supportive Housing", "Housing combined with ongoing case management or support services.", ["Supportive Housing"]],
+      ["community-living", "Supported Community Living", "Disability or older-adult community living arrangements and support; not general affordable rental housing.", ["Community Living"]],
+      ["rapid-rehousing", "Rapid Rehousing", "Time-limited assistance to move from homelessness into housing with stabilization support.", ["Rapid Rehousing"]],
+      ["housing-legal", "Housing Legal Help", "Legal advice, negotiation or representation for housing or eviction problems; referral and representation limits vary.", ["Eviction Legal Help"]]
+    ],
+    "food": [
+      ["meals", "Prepared Meals", "Meals ready to eat through community, institutional or program-specific access.", ["Prepared Meals"]],
+      ["benefits", "Food Benefits and Applications", "Food purchasing/nutrition benefits or practical assistance applying for those benefits.", ["Gov't Benefits", "Food Navigation"]],
+      ["formula", "Infant Formula", "An explicitly documented route to infant formula; not inferred from general food boxes.", ["Infant Formula"]],
+      ["pantry", "Food Pantry", "Groceries or food boxes through a pantry or distribution, with any boundaries and access limits in the resource.", ["Food Pantry"]],
+      ["delivery", "Food Delivery", "Food delivered to a person who cannot reach ordinary meal or pantry access.", ["Home Delivery"]],
+      ["school-food", "School Food", "Food or meals accessed through school, campus or student-specific programs.", ["School Food"]]
+    ],
+    "transportation": [
+      ["medical", "Medical Rides", "Transportation to eligible health appointments; payer and medical-purpose restrictions vary.", ["Medical Rides"]],
+      ["fare-help", "Fares and Passes", "Bus passes, reduced fares or ride vouchers; mode, eligibility and available funding remain in the service details.", ["Bus Passes", "Ride Vouchers", "Reduced Fares"]],
+      ["program-rides", "Program Transportation", "Transportation restricted to participants of another named service or residential program.", ["Program Rides"]],
+      ["volunteer", "Volunteer Rides", "Volunteer-arranged trips with advance booking, geography and driver-capacity limits.", ["Volunteer Rides"]],
+      ["training", "Travel Training", "Instruction and practical support learning to use transportation independently.", ["Travel Training"]],
+      ["bicycles", "Bicycles", "Provision or repair of bicycles for personal transportation.", ["Bicycles"]],
+      ["paratransit", "ADA Paratransit", "Accessible paratransit requiring its specific eligibility assessment and reservation process.", ["ADA Paratransit"]],
+      ["commuter", "Commuter Programs", "Shared or organized commuting options distinct from medical and crisis rides.", ["Commuter Programs"]]
+    ],
+    "id-recovery": [
+      ["immigration", "Immigration Documents", "Replacement or correction of immigration-related identity/status documents, or qualified legal help obtaining them.", ["Immigration Documents"]],
+      ["navigation", "Document Assistance", "Practical individual help obtaining identity documents or navigating issuing agencies.", ["Document Navigation"]],
+      ["state-id", "State ID or License", "Application, replacement or specifically documented assistance obtaining state identification or a driver license.", ["State ID/License"]],
+      ["vital-records", "Birth Certificates", "Issuance or specifically documented assistance obtaining a birth certificate.", ["Birth Certificates"]],
+      ["storage", "Document Storage", "A specifically documented service keeping important documents safe.", ["Document Storage"]],
+      ["mail", "Mail Service", "A mailing or document-receipt service for people who need a reliable address.", ["Mail Service"]],
+      ["social-security", "Social Security Cards", "Replacement cards or specifically documented assistance with the replacement process.", ["Social Security Card"]],
+      ["tribal", "Tribal Credentials", "Tribal identification or enrollment credentials with community-specific eligibility.", ["Tribal ID"]],
+      ["military", "Military Records", "Obtaining, recording or replacing military service/discharge records.", ["Military Records"]]
+    ]
+  },
+  "taxonomyJudgment": "Consolidate equivalent access facets, not every uncommon concept: rent/deposit/eviction cost aid, navigation/coordinated entry, food-benefit navigation, and fare support share useful broader filters. Keep clinical versus recovery housing, vouchers versus affordable rentals, and rare high-value formula, paratransit, tribal-ID and document-storage routes separate. The reviewed 22 population/access groups distinguish materially different eligibility or support needs; retain their definitions and evidence rather than merging by frequency alone. Spanish is an evidenced language-access feature, not inferred ethnicity. No group assignment means no specific evidenced group, never that every person qualifies.",
+  "populationPolicy": "For this migration, reuse the reviewed Eligibility Requirements paragraph as Population Served when no separately reviewed population prose exists. It conservatively preserves exact restrictions without inferring broader eligibility from a label. This temporary repetition is intentional; new preparation workers write distinct evidence-backed sections.",
+  "preservationJudgment": "Use the reviewed seed plus saved browser overrides. Carry forward all text and sources when consolidating the three explicit identities. Preserve suppressed records in the identity migration and audit without exporting them for missionary use. Remove only specifically unsupported memberships in this four-category projection. All original records, other categories and prior decisions remain unchanged in Scout. Starter selection is Michael's accepted trial, never office Curated approval."
+}

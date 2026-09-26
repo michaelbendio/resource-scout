@@ -1,5 +1,16 @@
 # Scout orchestration and supervision
 
+**September 25 prepared-resource mode:** the
+[prepared delivery contract](scout-prepared-resources-contract.md) supersedes the
+four-section/minimum-volume/tier instructions below for new `--prepared` jobs and
+JSON handoffs. It requires five sections, useful reserves, whole-collection
+taxonomy judgment, explained starters, non-starter considerations and a committed
+identity registry. Existing sealed jobs keep their exact prompts/schema. New-mode
+completion emits non-importable drafts, **Ready for Codex review**; it does not
+record review or enable legacy Save. Monitoring, recovery and evidence preservation
+below still apply. Michael accepted the Mesa trial and authorized only its four
+categories for the first handoff. Cedar City's discussion hold remains effective.
+
 This is the operating contract for the Codex assistant supervising Scout.
 Read `AGENTS.md`, `SCOUT_STATUS.md`, and this file before starting, resuming,
 changing, or supervising any Scout worker. User instructions override this file.

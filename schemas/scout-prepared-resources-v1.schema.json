@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:resource-scout:prepared-resources:1",
+  "title": "Scout prepared resources, major version 1",
+  "description": "Structural schema. Also validate reference integrity, office IDs, revisions, ordered headings, registry IDs and starter membership with prepared_resources.validate_artifact. Unknown optional fields are allowed and must be ignored by older consumers.",
+  "type": "object",
+  "required": ["artifactType", "schemaVersion", "snapshot", "office", "taxonomy", "sources", "resources", "starterSets"],
+  "properties": {
+    "artifactType": {"const": "scout-prepared-resources"},
+    "schemaVersion": {"const": 1, "type": "integer"},
+    "evaluationOnly": {"const": false},
+    "office": {
+      "type": "object", "required": ["slug", "name"],
+      "properties": {"slug": {"$ref": "#/$defs/nonempty"}, "name": {"$ref": "#/$defs/nonempty"}}
+    },
+    "snapshot": {
+      "type": "object", "required": ["id", "predecessorId", "generatedAt"],
+      "properties": {
+        "id": {"$ref": "#/$defs/nonempty"},
+        "predecessorId": {"type": ["string", "null"]},
+        "generatedAt": {"type": "string", "format": "date-time"},
+        "contentFingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "scope": {
+      "type": "object", "required": ["categoryIds", "completeScope", "completeOffice"],
+      "properties": {
+        "categoryIds": {"$ref": "#/$defs/ids"},
+        "completeScope": {"type": "boolean"}, "completeOffice": {"type": "boolean"}, "note": {"type": "string"}
+      }
+    },
+    "taxonomy": {
+      "type": "object", "required": ["categories", "types", "forGroups"],
+      "properties": {
+        "categories": {"type": "array", "items": {"$ref": "#/$defs/category"}},
+        "types": {"type": "array", "items": {"$ref": "#/$defs/type"}},
+        "forGroups": {"type": "array", "items": {"$ref": "#/$defs/group"}}
+      }
+    },
+    "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}},
+    "resources": {"type": "array", "items": {"$ref": "#/$defs/resource"}},
+    "starterSets": {"type": "array", "items": {"$ref": "#/$defs/starterSet"}},
+    "considerations": {"type": "array", "items": {
+      "type": "object", "required": ["resourceId", "categoryId", "reason"],
+      "properties": {
+        "resourceId": {"$ref": "#/$defs/nonempty"}, "categoryId": {"$ref": "#/$defs/nonempty"},
+        "reason": {"$ref": "#/$defs/nonempty"}
+      }
+    }},
+    "withdrawnEvents": {"type": "array", "items": {
+      "type": "object", "required": ["resourceId", "reason", "sourceIds", "action"],
+      "properties": {
+        "resourceId": {"$ref": "#/$defs/nonempty"}, "reason": {"$ref": "#/$defs/nonempty"},
+        "sourceIds": {"allOf": [{"$ref": "#/$defs/ids"}, {"minItems": 1}]}, "action": {"const": "admin-review"}
+      }
+    }}
+  },
+  "$defs": {
+    "nonempty": {"type": "string", "minLength": 1},
+    "ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/nonempty"}},
+    "category": {
+      "type": "object", "required": ["id", "label"],
+      "properties": {"id": {"$ref": "#/$defs/nonempty"}, "label": {"$ref": "#/$defs/nonempty"}}
+    },
+    "type": {
+      "allOf": [{"$ref": "#/$defs/category"}], "required": ["categoryId", "definition"],
+      "properties": {"categoryId": {"$ref": "#/$defs/nonempty"}, "definition": {"$ref": "#/$defs/nonempty"}}
+    },
+    "group": {
+      "allOf": [{"$ref": "#/$defs/category"}], "required": ["definition"],
+      "properties": {"definition": {"$ref": "#/$defs/nonempty"}}
+    },
+    "source": {
+      "type": "object", "required": ["id", "url", "title"],
+      "properties": {
+        "id": {"$ref": "#/$defs/nonempty"}, "title": {"$ref": "#/$defs/nonempty"},
+        "url": {"type": "string", "format": "uri", "pattern": "^https?://"}
+      }
+    },
+    "resource": {
+      "type": "object",
+      "required": ["id", "revision", "state", "name", "description", "phone", "address", "website", "email", "hours", "informationText", "categories", "types", "forGroups", "sourceIds", "researchedAt"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^sr_[a-f0-9]{32}$"},
+        "revision": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "state": {"enum": ["usable", "needs-resolution"]},
+        "name": {"$ref": "#/$defs/nonempty"}, "description": {"$ref": "#/$defs/nonempty"},
+        "phone": {"type": "string"}, "address": {"type": "string"}, "website": {"type": "string"},
+        "email": {"type": "string"}, "hours": {"type": "string"},
+        "informationText": {"$ref": "#/$defs/nonempty"},
+        "categories": {"allOf": [{"$ref": "#/$defs/ids"}, {"minItems": 1}]},
+        "types": {"$ref": "#/$defs/ids"}, "forGroups": {"$ref": "#/$defs/ids"},
+        "sourceIds": {"allOf": [{"$ref": "#/$defs/ids"}, {"minItems": 1}]},
+        "researchedAt": {"oneOf": [
+          {"type": "null"},
+          {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+          {"type": "string", "format": "date-time", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T.*(Z|[+-][0-9]{2}:[0-9]{2})$"}
+        ]},
+        "resolutionReason": {"$ref": "#/$defs/nonempty"},
+        "verifiedOn": false, "verifiedAt": false, "curated": false, "curatedAt": false,
+        "deleted": false, "pinned": false, "clientNote": false
+      },
+      "if": {"properties": {"state": {"const": "needs-resolution"}}},
+      "then": {"required": ["resolutionReason"]}
+    },
+    "starterSet": {
+      "type": "object", "required": ["categoryId", "rationale", "gaps", "members"],
+      "properties": {
+        "categoryId": {"$ref": "#/$defs/nonempty"}, "rationale": {"$ref": "#/$defs/nonempty"}, "gaps": {"type": "string"},
+        "sizeException": {"$ref": "#/$defs/nonempty"},
+        "members": {"type": "array", "items": {
+          "type": "object", "required": ["resourceId", "position", "contribution", "limitation"],
+          "properties": {
+            "resourceId": {"$ref": "#/$defs/nonempty"}, "position": {"type": "integer", "minimum": 1},
+            "contribution": {"$ref": "#/$defs/nonempty"}, "limitation": {"type": "string"}
+          }
+        }}
+      },
+      "if": {"not": {"required": ["sizeException"]}},
+      "then": {"properties": {"members": {"minItems": 7, "maxItems": 10}}}
+    }
+  }
+}

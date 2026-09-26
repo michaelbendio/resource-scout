@@ -184,7 +184,10 @@ def _assignment(
 def prepare_scout_curation_job(
     store: ResearchStore,
     import_id: int | None = None,
+    *, prepared: bool = False,
 ) -> dict[str, Any]:
+    from .preparation_contract import ASSIGNMENT_VERSION, prepared_assignment
+    assignment_version = ASSIGNMENT_VERSION if prepared else SCOUT_CURATION_ASSIGNMENT_VERSION
     selected_import_id = import_id or store.latest_import_id()
     if selected_import_id is None:
         raise ScoutCurationError("Connect a resource package before starting Resource Scout curation")
@@ -237,7 +240,7 @@ def prepare_scout_curation_job(
     candidate_package_sha256 = _sha256(package_fingerprint)
     existing = next((
         job for job in store.list_scout_curation_jobs(int(selected_import_id))
-        if job["assignmentVersion"] == SCOUT_CURATION_ASSIGNMENT_VERSION
+        if job["assignmentVersion"] == assignment_version
         and job["candidatePackageSha256"] == candidate_package_sha256
     ), None)
     if existing:
@@ -258,6 +261,8 @@ def prepare_scout_curation_job(
             continue
         canonical = _canonical_run(runs)
         assignment = _assignment(package_data, category, canonical)
+        if prepared:
+            assignment = prepared_assignment(assignment)
         for supplement in supplements:
             if supplement['category_id'] != category_id:
                 continue
@@ -281,7 +286,7 @@ def prepare_scout_curation_job(
     job_id = store.create_scout_curation_job(
         {
             "importId": int(selected_import_id),
-            "assignmentVersion": SCOUT_CURATION_ASSIGNMENT_VERSION,
+            "assignmentVersion": assignment_version,
             "candidatePackageSha256": candidate_package_sha256,
             "locationName": package_data["location"]["name"],
             "officeName": package_data["location"].get("officeName") or "",
@@ -301,6 +306,7 @@ def prepare_scout_curation_job(
 def _completed_resources(job: dict[str, Any]) -> list[dict[str, Any]]:
     merged: dict[str, dict[str, Any]] = {}
     order: list[str] = []
+    prepared = any(c.get('assignment', {}).get('preparationPolicyVersion') for c in job['categories'])
     for category in job["categories"]:
         result = category.get("result") or {}
         for resource in result.get("resources") or []:
@@ -322,6 +328,19 @@ def _completed_resources(job: dict[str, Any]) -> list[dict[str, Any]]:
             filters = deepcopy(previous.get("categoryFilters") or {})
             filters.update(deepcopy(resource.get("categoryFilters") or {}))
             next_resource["categoryFilters"] = filters
+            if prepared:
+                # Historical source evidence and proposed concepts must survive
+                # a cross-category extension, even when a later batch omits them.
+                for key in ('sources', 'taxonomySuggestions'):
+                    combined = deepcopy(previous.get(key, []))
+                    for entry in resource.get(key, []):
+                        if entry not in combined:
+                            combined.append(deepcopy(entry))
+                    next_resource[key] = combined
+                if previous.get('state') == 'needs-resolution':
+                    next_resource['state'] = 'needs-resolution'
+                    next_resource['resolutionReason'] = '\n'.join(dict.fromkeys(
+                        reason for reason in (previous.get('resolutionReason'), resource.get('resolutionReason')) if reason))
             next_resource["candidateIds"] = _unique_text(
                 (previous.get("candidateIds") or []) + (resource.get("candidateIds") or [])
             )
@@ -374,6 +393,7 @@ def _normalize_resource(
     valid_category_ids: set[str],
     now: str,
     reviewed_origin_removal: bool = False,
+    prepared: bool = False,
 ) -> dict[str, Any]:
     if not isinstance(resource, dict):
         raise ScoutCurationError("Every curated resource must be an object")
@@ -400,7 +420,15 @@ def _normalize_resource(
         for key, value in filters.items()
         if str(key) in categories and _unique_text(value)
     }
+    extra = {}
+    if prepared:
+        from .preparation_contract import normalize_preparation_fields
+        try:
+            extra = normalize_preparation_fields(resource)
+        except (ValueError, TypeError, KeyError) as exc:
+            raise ScoutCurationError(str(exc)) from exc
     return {
+        **extra,
         "id": resource_id,
         "name": name,
         "phone": _text(resource.get("phone")),
@@ -484,6 +512,7 @@ def validate_scout_curation_result(
             valid_category_ids=valid_category_ids,
             now=now,
             reviewed_origin_removal=isinstance(resource, dict) and resource.get("id") in reviewed_removals,
+            prepared=bool(category["assignment"].get("preparationPolicyVersion")),
         )
         for resource in result.get("resources") or []
     ]
@@ -607,8 +636,11 @@ def build_scout_review_seed(store: ResearchStore, job_id: int) -> dict[str, Any]
     if not summary:
         raise ScoutCurationError("Resource Scout curation source package snapshot is missing")
     resources = _completed_resources(job)
-    for resource in resources:
-        resource.pop("candidateIds", None)
+    from .preparation_contract import ASSIGNMENT_VERSION
+    is_prepared = job['assignmentVersion'] == ASSIGNMENT_VERSION
+    if not is_prepared:
+        for resource in resources:
+            resource.pop("candidateIds", None)
     categories = [
         deepcopy(category)
         for category in summary["categories"]
@@ -630,6 +662,9 @@ def build_scout_review_seed(store: ResearchStore, job_id: int) -> dict[str, Any]
         "lastModified": datetime.now(timezone.utc).isoformat(),
     }
     from .scout_navigation import apply_navigation, latest_navigation
+    if is_prepared:
+        seed.update(artifactType='scout-preparation-drafts', importable=False)
+        return seed
     navigation = latest_navigation(store, job_id)
     return apply_navigation(seed, job, navigation) if navigation else seed
 

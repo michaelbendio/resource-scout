@@ -4,24 +4,49 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Design discussion reference — September 25
+## Mesa prepared-resource handoff — September 25
+
+Michael accepted the four-category trial and authorized production preparation
+for **Housing, Food, Transportation and ID Recovery only**, at Extra High.
+He subsequently requested Claude's exported non-starter consideration reasons.
+The [handoff](docs/mesa-wsrs-tso-handoff-20260925.md) and
+[readable five-more preview](deliveries/mesa-four-categories-20260925/starters-and-five-more.html)
+cover 143 resources: 125 usable and 18 admin-only needs-resolution; 37 starter
+memberships, 34 distinct starters, and 118 non-starter reasons. The committed
+repository registry owns canonical IDs; the delivery includes the legacy-ID map.
+
+The [prepared delivery contract](docs/scout-prepared-resources-contract.md)
+governs new JSON delivery: five Information sections, reserve-preserving preparation,
+whole-collection taxonomy review, complementary starters and no tiers. Existing
+sealed HTML jobs retain their legacy contract; `--prepared` is an explicit new-job
+mode and does not resume or convert an existing run. All original source snapshots
+and saved human overrides remain intact. Normal location HTML files are unchanged.
+
+Phase 0 accepted by Michael; phases 1–4 implemented for this scoped handoff.
+Local validation passed: 108 focused/regression tests, independent JSON Schema
+validation, byte-identical reproduction, source/override preservation and a rendered
+Chrome preview check. Phase 5 actual import validation belongs
+with Claude in WSRS-TSO; no Dataverse import is claimed. Cedar City remains on its
+discussion hold. Do not infer authorization to resume it or deliver other categories.
+
+## Design discussion reference — September 25 (background)
 
 Michael authorized implementation. Phase 0 is the [Mesa starter-set trial](docs/mesa-starter-trial-20260925.md):
 four categories, 37 selections, 35 distinct records, 169 assessed memberships.
-The evaluation compiler and readable documents are implemented. Michael and
-Stephanie assess this trial before full pipeline implementation, as agreed in the
-design. No production registry/export or new whole-office review is claimed.
+The evaluation compiler and readable documents are implemented. Michael subsequently
+accepted the trial himself rather than waiting four days for Stephanie; that
+acceptance authorized the scoped production work documented above.
 
 The [prepared resources, starter sets, and WSRS-TSO handoff design](docs/scout-prepared-resources-design-20260925.md)
 now incorporates [Michael's decisions](docs/wsrs-tso-review-of-prepared-resources-design-20260925.md)
 and [Claude's contract answers](docs/wsrs-tso-contract-followup-20260925.md).
-The next evaluation is three or four categories from reviewed Mesa candidates;
-production imports require code-assigned IDs from a committed repository registry.
+The accepted evaluation used four categories from reviewed Mesa candidates;
+production imports require code-assigned IDs from the committed repository registry.
 The design adopts five Information sections and the minimum JSON exchange.
 The reviewed Mesa seed's category IDs differ from the supplied office catalog;
 production delivery requires explicit reconciliation (details in the design).
-Implementation authorization starts with the agreed trial; Cedar City remains on
-its discussion hold.
+Implementation authorization now includes the four-category handoff; Cedar City
+remains on its discussion hold.
 
 Before preparing the design for revised curation/review and the WSRS-TSO data
 handoff, read [Claude's artifact feedback and current discussion constraints](docs/wsrs-tso-scout-artifact-reference-20260925.md).

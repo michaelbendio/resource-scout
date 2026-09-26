@@ -1,6 +1,9 @@
 # Mesa starter-set trial — phase 0
 
-Status: implemented evaluation, awaiting Michael and Stephanie's assessment before full prepared-resource implementation.
+Status: accepted by Michael, who elected to judge the work rather than wait four days
+for Stephanie. He authorized preparing these four categories and their reserve for
+WSRS-TSO. See the [production handoff and five-more preview](mesa-wsrs-tso-handoff-20260925.md).
+The original evaluation below remains unchanged as acceptance evidence.
 
 Open the [readable evaluation](trials/mesa-starter-evaluation-20260925/evaluation.html) or [Markdown copy](trials/mesa-starter-evaluation-20260925/evaluation.md). The [authored proposal](trials/mesa-starter-proposal-20260925.json) records the individual selections and reasons; the [compiled evaluation](trials/mesa-starter-evaluation-20260925/evaluation.json) contains existing full IDs, evidence, and all assessments. Neither JSON file is a production prepared-resources import.
 
