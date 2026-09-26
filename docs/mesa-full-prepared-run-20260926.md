@@ -83,7 +83,26 @@ repair resume and one bounded transport recovery. High effort is unchanged.
 The failed repair's execution time remains in accumulated processing totals.
 
 All135 Addiction draft Information bodies and contact/source fields have been
-read. Provisional findings001–011 record targeted primary-source checks,
+read. Provisional findings001–013 record targeted primary-source checks,
 corrections, program/identity boundaries and a ten-member starter comparison set.
-Later category versions, global identities, taxonomy, all non-starter reasons,
-human-state preservation and the final review/export gates remain outstanding.
+Children/Pregnancy completed with123 drafts; its descriptions, Information,
+contacts and proposed memberships have been read. Six provisional findings files
+record primary checks, corrections and a child-care-referral restoration proposal.
+The source-only audit identifies55 rows needing final reconciliation rather than
+assuming that a source-only label means a service should be omitted.
+
+The child-category working identity file proposes17 duplicate groups covering19
+overlapping rows, with all original references retained. There are104 individually
+authored consideration reasons for those provisional distinct records, alongside
+135 Addiction reasons. Prospective starter reasons are included in these working
+ledgers; export only the final non-starter pairs and recheck comparisons after the
+final selections. The ten-member child starter draft and13 suggested Types remain
+provisional. Current source responses are preserved under `review/source-checks/`.
+
+At09:40UTC the persistent coordinator was progressing through Clothing/Household.
+Later category versions, source-only lead decisions, global identities, final
+taxonomy assignments, all-category starters/reasons, human-state preservation and
+the final review/export gates remain outstanding. Read `review/final-assembly-plan.md`
+before applying corrections: later versions may have additional category-specific
+facts that must not be overwritten by an earlier body. Nothing here is a signed
+review, human Curated approval or a completed full-office export.

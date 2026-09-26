@@ -13,16 +13,24 @@ After a saved-result repair, supervisor **12216** checks every 30 seconds;
 `recovery-001.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
-Addiction is prepared (135 drafts); Children/Pregnancy is resuming its validated
-saved batches after removing one invented extra `foster-kinship` category from a
-visitation-center record. The supported `children-pregnancy` membership, all facts,
-27 resource records and28 candidate decisions remain intact. Original output and
-the unsuccessful link-only repair are preserved. The runner now avoids paid
+As of09:40UTC, Addiction (135 drafts) and Children/Pregnancy (123 drafts) are
+prepared; Clothing/Household is advancing through its seven batches. Verify the
+live supervisor/native events for the current batch. Children/Pregnancy completed
+after removing one invented extra `foster-kinship` category from a visitation-center
+record. Its supported membership, all facts,27 resources and28 candidate decisions
+remain intact. Original output and the unsuccessful link-only repair are preserved.
+The runner now avoids paid
 link-only repairs for category/For-group/content errors it cannot change, and
 prepared validation uses the sealed22-category office catalog, including
-Miscellaneous, rather than only21 discovery assignments. A full content read of
-all135 Addiction drafts and source/correction findings are saved in `review/`;
-this is preliminary work, not a signed final review or completed export.
+Miscellaneous, rather than only21 discovery assignments. Preliminary reads of all
+135 Addiction and123 Children/Pregnancy records, targeted source checks,
+corrections, proposed identity merges, taxonomy/starter drafts and individually
+authored consideration reasons are saved in `review/`. Children/Pregnancy has17
+proposed duplicate groups covering19 overlapping rows. Its review resolves the
+Mesa CAPP car-seat access route and identifies useful child-care referral service
+among source-only leads. Those55 source-only rows still need full member-evidence
+and whole-office reconciliation. No final review or export is signed; preserve
+later category-specific facts when assembling the complete collection.
 
 The first prepared attempt's supervisor and coordinator were stopped after three
 completed batches. Those batches performed
