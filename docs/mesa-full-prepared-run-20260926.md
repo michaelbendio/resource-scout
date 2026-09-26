@@ -165,3 +165,26 @@ human-state preservation and final review/export remain pending. Read
 `review/final-assembly-plan.md` before applying corrections: later versions may
 add useful facts that an earlier body must not overwrite. Nothing here is human
 Curated approval or a completed full-office export.
+
+At 12:48 UTC, six categories are prepared and Employment is on batch 2/11.
+Education's sealed snapshot contains 82 resources (80 worker-usable, two worker
+holds) and 136 candidate dispositions. All 116 batch versions and 90 source-only
+groups/members were read. Ten source-backed reserve proposals are saved; Grace
+and ETV now match completed drafts, so they are not automatic additional resources.
+Remaining source-only program checks, final Types, starters and reasons are pending.
+The root reviewer independently confirmed Make Welcome is a Charlotte, NC program.
+
+Education exposed a draft-ID program switch between the City Workforce Center at
+635 E. Broadway and the County East Valley Career Center at 1001 W. Southern.
+Resolve the source aliases explicitly before registry binding, preserving both
+programs and the earlier human MesaCAN override. Do not blend their contacts.
+Restore Graduation Alliance's administrator hold because current state funding
+and its old advertisement conflict; Smart Schools' closed workforce-funded intake
+does not prove Graduation Alliance has a waitlist. Grace UMC Mesa's current calendar
+supports a narrower usable adult-learning record. Preserve distinct Mesa, Maricopa
+and Arizona Promise eligibility and correct Friendly House's program-site address.
+
+Current-run accumulated worker time is about 356.4 minutes, plus the separately
+preserved initial attempt. Live PIDs and actual execution metadata confirm High
+workers; this root session retains the single Extra High review. No final review
+or complete export is signed.

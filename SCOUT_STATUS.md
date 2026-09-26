@@ -13,15 +13,28 @@ After a saved-result repair, supervisor **12216** checks every 30 seconds;
 `recovery-001.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
-As of 12:08 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
-Household (122), Disability (140) and Domestic Violence (91) are prepared.
-Education is on batch 2/5. Verify live native events for the current batch. Disability's 194 batch
+As of 12:48 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
+Household (122), Disability (140), Domestic Violence (91) and Education (82) are
+prepared. Employment is on batch 2/11. Verify live native events for the current batch. Disability's 194 batch
 resource versions and 61 source-only groups have now been read; the completed
 snapshot has 140 resources and 227 dispositions. Working proposals include
 14 duplicate groups (18 overlaps), 122 consideration rows, 14 Types, ten starters
 and 18 reserve additions. These are preliminary, not applied or signed. Current
-accumulated worker execution time is about 316.5 minutes, plus the preserved
+accumulated worker execution time is about 356.4 minutes, plus the preserved
 initial attempt; recalculate final processing totals after completion.
+
+Education's sealed snapshot contains 82 resources and 136 dispositions. All 116
+batch resource versions and 90 source-only groups/members were read; targeted
+source-only matches and restorations remain pending. Ten reserve restoration
+proposals are saved, including two that now match completed drafts. Primary
+evidence confirms the omitted Make Welcome lead belongs to Charlotte, NC.
+Resolve a consequential draft-ID collision before registry binding: Education's
+City Workforce Center and County East Valley Career Center switched draft IDs
+between batches. Keep their actual programs, contacts and source links distinct.
+Graduation Alliance's free-program availability needs administrator resolution;
+another provider's closed intake is not evidence of its own waitlist. Current
+Grace UMC Mesa evidence supports a narrow usable adult-learning record. These
+are review proposals only; Education's final taxonomy/starters/reasons are pending.
 
 Domestic Violence has a sealed 91-resource/184-disposition snapshot. All 162 batch
 versions and 48 source-only groups/members were read. Working proposals include
