@@ -13,18 +13,24 @@ After a saved-result repair, supervisor **12216** checks every 30 seconds;
 `recovery-001.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
-As of 10:30 UTC, Addiction (135 drafts), Children/Pregnancy (123 drafts), and
-Clothing/Household (122 drafts) are prepared; Disability is on batch 4/8. Verify
+As of 10:52 UTC, Addiction (135 drafts), Children/Pregnancy (123 drafts), and
+Clothing/Household (122 drafts) are prepared; Disability is on batch 7/8. Verify
 live native events for the current batch. All 380 completed draft bodies have
 received a preliminary read, with targeted source checks and findings saved in
-`review/`. This is not a signed final review. Children/Pregnancy's 55 source-only
-rows have preliminary member-evidence assessments and 11 restoration proposals;
-whole-office reconciliation remains pending. Its 17 proposed duplicate groups
-cover 19 overlapping rows; Clothing has 17 groups covering 18 overlaps. Working
-consideration ledgers contain 135 Addiction, 104 child and 104 clothing reasons.
-Child Types have explicit working assignments; clothing taxonomy/starters remain
-in progress. Source-only clothing evidence has been read but its routing ledger
-is not yet complete. Preserve all later category-specific facts during assembly.
+`review/`. Disability batches 1–2 add 35 preliminary body reviews; reconcile their
+resource IDs with the completed category before applying corrections.
+
+The 75 Addiction, 55 child and 45 clothing source-only rows now have explicit
+member-evidence assessments. Addiction has six usable direct-program restoration
+proposals, one administrator hold and seven public navigation/service proposals;
+Children has 11 restoration proposals, and Clothing has three usable proposals
+plus one administrator hold. These still require full-office identity matching.
+The child and clothing duplicate ledgers propose 17 groups each, covering 19 and
+18 overlapping rows respectively. Their working consideration ledgers contain
+104 reasons each, alongside 135 Addiction reasons. Clothing now has explicit
+Type assignments for 104 provisional distinct records and a ten-member starter
+comparison set. None of these notes signs the final review or export. Preserve
+later category-specific facts and all human suppressions during assembly.
 
 Children/Pregnancy completed after a reviewed repair removed one invented extra
 `foster-kinship` category, preserving its valid membership and all facts, 27

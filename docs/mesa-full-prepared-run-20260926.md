@@ -85,25 +85,31 @@ The failed repair's execution time remains in accumulated processing totals.
 All 135 Addiction, 123 Children/Pregnancy and 122 Clothing/Household draft
 Information bodies, descriptions and contact/source fields have received an
 initial read. Targeted primary checks, corrections and identity proposals are
-saved under `review/`; none is a signed final review. The child category now has
-eight findings files, preliminary routing assessments for all 55 source-only
-rows, and 11 restoration proposals. These include child-care referrals, public
-Arizona PAL assistance, home-visiting navigation and loss support. Whole-office
-matching remains necessary before adding any record.
+saved under `review/`; none is a signed final review. Explicit source-routing
+assessments now cover all 75 Addiction, 55 child and 45 clothing source-only rows.
+Addiction has six usable direct-program restoration proposals, one administrator
+hold and seven public navigation/service proposals. Children has 11 restorations;
+Clothing has three usable proposals and one administrator hold. Whole-office
+identity matching is required before adding any record.
 
-The working child identity file proposes 17 duplicate groups covering 19 overlaps;
+The child identity file proposes 17 duplicate groups covering 19 overlaps;
 Clothing proposes 17 groups covering 18 overlaps. Working ledgers contain 135
 Addiction, 104 child and 104 clothing individually authored consideration reasons.
-Prospective starters are included in these ledgers: export only final non-starter
-pairs and recheck comparisons after final selection. Child Types have 104 explicit
-working assignments; its ten-member starter comparison set remains provisional.
-All 45 clothing source-only rows have been read; their routing ledger, restorations,
-Types and starter selection are still in progress. Current source responses are
-preserved under `review/source-checks/`.
+Prospective starters are included: export only final non-starter pairs and recheck
+comparisons after selection. Child and Clothing have explicit Type assignments
+for their 104 provisional distinct records and ten-member starter comparison sets.
+Current source responses are preserved under `review/source-checks/`.
 
-At 10:30 UTC the coordinator was on Disability batch 4/8. Later category versions,
-source-only lead decisions, global identities, final taxonomy, all-category
-starters/reasons, human-state preservation and final review/export remain pending.
-Read `review/final-assembly-plan.md` before applying corrections: later versions
-may add useful facts that an earlier body must not overwrite. Nothing here is
-human Curated approval or a completed full-office export.
+At 10:52 UTC the coordinator was on Disability batch 7/8. The first two immutable
+batch results have been read (35 resource versions), with batch/hash-linked
+findings and individual consideration drafts. Material points include omitted
+DDD functional/onset eligibility, the fact that Pre-ETS does not require VR
+membership, countable versus gross earnings for Freedom to Work, and preservation
+of human-hidden identities. Reconcile batch references with the final category;
+do not equate 35 versions with 35 additional unique resources.
+
+Later versions, global identities, final taxonomy, all-category starters/reasons,
+human-state preservation and final review/export remain pending. Read
+`review/final-assembly-plan.md` before applying corrections: later versions may
+add useful facts that an earlier body must not overwrite. Nothing here is human
+Curated approval or a completed full-office export.
