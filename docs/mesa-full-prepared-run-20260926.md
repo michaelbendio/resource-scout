@@ -102,7 +102,7 @@ Current source responses are preserved under `review/source-checks/`.
 
 At 11:05 UTC, Disability completed with 140 draft resources and 227 candidate
 dispositions; its immutable completed snapshot is saved. Scout advanced to
-Domestic Violence, now batch4/7 at11:32UTC. Disability findings001–008 cover all
+Domestic Violence. Disability findings001–008 cover all
 194 batch resource versions; the aggregate differs only by unioned candidate IDs
 and groups. All61 source-only groups and their members have explicit assessments.
 Working proposals contain14 merge groups/18 overlaps,122 consideration rows,
@@ -121,7 +121,7 @@ supported services when later disability-focused drafts omit other transit paths
 
 Source checks also distinguish temporary intake/office pauses from closure:
 DRAZ announced September28 reopening; AzTAP posts an October2 closure and October5
-reopening. Recheck date-sensitive notices at delivery. About278.6 current-run
+reopening. Recheck date-sensitive notices at delivery. About316.5 current-run
 worker-minutes are accumulated, plus the preserved initial attempt; final timing
 must be recalculated after completion.
 
@@ -133,6 +133,32 @@ requires public-school enrollment and a current IEP as well as age14–22. Mesa'
 paused emergency-repair program retains only a clearly labeled future-interest
 route; RTVOS ramps remain an audit watch because applications are closed. These
 are proposed evidence-backed corrections, not claims of office approval.
+
+At 12:08 UTC, Domestic Violence is complete and Education is on batch 2/5.
+The Domestic Violence immutable snapshot has 91 resources and 184 dispositions;
+all 162 batch versions and every member of 48 source-only groups were read.
+Its working identity proposal has five groups/six overlaps; three memberships
+are proposed for removal or audit-only handling (closed SERF funding, generic
+one-n-ten partner routing and unconfirmed ACDHH direct DV service). Working files
+contain 82 retained-category reasons, 12 explicitly assigned Types, ten starter
+contributions/limitations and eight reserve restoration proposals. Seven are
+proposed usable and ASAFSF remains administrator-only because its former website
+now redirects to unrelated gambling content. This is not evidence of agency closure.
+
+Material Domestic Violence findings: centralized SAFEDVS placement guidance
+conflicts with current provider evidence, so direct shelter contacts are needed;
+HonorHealth's non-reporting sexual-assault-exam route is an evidenced 24-hour
+callback, not necessarily a live operator; Fresh Start now provides free legal
+document preparation and disallows children at appointments/classes; approved
+court organizations do not necessarily have an active certified advocate.
+Current primary pages support narrower usable records for SWIWC's public directory
+and Sahara's Arizona-facing survivor program; missing bed counts or a general
+licensing question alone were not grounds for exclusion. Preserve the source
+checks and exact program limitations. DOVES ancestry still intersects the hidden
+historical AAA umbrella and must be resolved before publication.
+
+Current-run worker time includes the failed repair and is separate from this
+supervising review's wall time. No final review, human approval or import is signed.
 
 Later versions, global identities, final taxonomy, all-category starters/reasons,
 human-state preservation and final review/export remain pending. Read

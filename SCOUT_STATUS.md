@@ -13,15 +13,29 @@ After a saved-result repair, supervisor **12216** checks every 30 seconds;
 `recovery-001.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
-As of 11:32 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
-Household (122) and Disability (140) are prepared. Domestic Violence is on batch
-4/7. Verify live native events for the current batch. Disability's 194 batch
+As of 12:08 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
+Household (122), Disability (140) and Domestic Violence (91) are prepared.
+Education is on batch 2/5. Verify live native events for the current batch. Disability's 194 batch
 resource versions and 61 source-only groups have now been read; the completed
 snapshot has 140 resources and 227 dispositions. Working proposals include
 14 duplicate groups (18 overlaps), 122 consideration rows, 14 Types, ten starters
 and 18 reserve additions. These are preliminary, not applied or signed. Current
-accumulated worker execution time is about 278.6 minutes, plus the preserved
+accumulated worker execution time is about 316.5 minutes, plus the preserved
 initial attempt; recalculate final processing totals after completion.
+
+Domestic Violence has a sealed 91-resource/184-disposition snapshot. All 162 batch
+versions and 48 source-only groups/members were read. Working proposals include
+five identity groups/six overlaps, 82 retained-category consideration rows,
+12 Types with explicit assignments, ten starters and eight reserve restorations
+(seven usable, one administrator hold). These are proposals, not applied or signed.
+Current provider evidence conflicts with old SAFEDVS centralized shelter routing;
+use verified direct contacts. Preserve HonorHealth's evidenced non-reporting
+forensic-exam callback, Fresh Start's child-attendance restriction and free legal
+document preparation, and the distinction between court organization approval and
+an active certified advocate. SWIWC is proposed as a narrow usable public directory;
+Sahara's current primary pages resolve the worker's broad Arizona-geography hold.
+ASAFSF's former domain is hijacked: administrator reconciliation, not a closure
+claim. DOVES still needs historical human-suppression ancestry resolution.
 
 The 75 Addiction, 55 child and 45 clothing source-only rows now have explicit
 member-evidence assessments. Addiction has six usable direct-program restoration
