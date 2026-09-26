@@ -100,13 +100,26 @@ comparisons after selection. Child and Clothing have explicit Type assignments
 for their 104 provisional distinct records and ten-member starter comparison sets.
 Current source responses are preserved under `review/source-checks/`.
 
-At 10:52 UTC the coordinator was on Disability batch 7/8. The first two immutable
-batch results have been read (35 resource versions), with batch/hash-linked
-findings and individual consideration drafts. Material points include omitted
-DDD functional/onset eligibility, the fact that Pre-ETS does not require VR
-membership, countable versus gross earnings for Freedom to Work, and preservation
-of human-hidden identities. Reconcile batch references with the final category;
-do not equate 35 versions with 35 additional unique resources.
+At 11:05 UTC, Disability completed with 140 draft resources and 227 candidate
+dispositions; its immutable completed snapshot is saved. Scout advanced to
+Domestic Violence batch 1/7. Disability findings 001–005 cover 112 batch resource
+versions, including repeated identities. Batches 6–8, source-only decisions and
+whole-category consolidation remain under review.
+
+Material review points include omitted DDD onset/functional eligibility, the
+fact that statewide Pre-ETS does not require VR membership (one provider still
+requires a VR referral), countable versus gross earnings for Freedom to Work,
+Ticket to Work's ages 18–64, and preservation of human-hidden identities. The
+new `az-caregiver-coalition-respite-230` draft describes the same program as hidden
+legacy `b21220ad00416ac580741d14ba3a1e7d`: merge those affirmed aliases while keeping
+the human suppression. Preserve current canonical Valley Metro identity and its
+supported services when later disability-focused drafts omit other transit paths.
+
+Source checks also distinguish temporary intake/office pauses from closure:
+DRAZ announced September28 reopening; AzTAP posts an October2 closure and October5
+reopening. Recheck date-sensitive notices at delivery. About255.8 current-run
+worker-minutes are accumulated, plus the preserved initial attempt; final timing
+must be recalculated after completion.
 
 Later versions, global identities, final taxonomy, all-category starters/reasons,
 human-state preservation and final review/export remain pending. Read

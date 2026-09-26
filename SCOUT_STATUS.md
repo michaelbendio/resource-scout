@@ -13,12 +13,15 @@ After a saved-result repair, supervisor **12216** checks every 30 seconds;
 `recovery-001.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
-As of 10:52 UTC, Addiction (135 drafts), Children/Pregnancy (123 drafts), and
-Clothing/Household (122 drafts) are prepared; Disability is on batch 7/8. Verify
-live native events for the current batch. All 380 completed draft bodies have
-received a preliminary read, with targeted source checks and findings saved in
-`review/`. Disability batches 1–2 add 35 preliminary body reviews; reconcile their
-resource IDs with the completed category before applying corrections.
+As of 11:05 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
+Household (122) and Disability (140) are prepared. Domestic Violence is on batch
+1/7. Verify live native events for the current batch. Disability's immutable
+completed snapshot contains 227 candidate dispositions. The first three category
+bodies have been read; Disability batch findings 001–005 cover 112 resource
+versions, including repeated IDs, with later batches still under review. Preserve
+the batch-level facts that shorter later versions omit. Current accumulated worker
+execution time is about 255.8 minutes, plus the preserved initial attempt; this is
+not the final processing total.
 
 The 75 Addiction, 55 child and 45 clothing source-only rows now have explicit
 member-evidence assessments. Addiction has six usable direct-program restoration
