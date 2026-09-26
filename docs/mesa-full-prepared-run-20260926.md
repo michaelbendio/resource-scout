@@ -230,3 +230,20 @@ material drug-screening, background, housing and full-time attendance requiremen
 replace the worker's vague wording. Preserve the separate Kitchen and LIFT tracks.
 The state Pre-ETS contractor directory confirms usable EES and Empowering Services
 contacts despite limited/maintenance-mode provider pages. Do not infer closure.
+
+At 13:50 UTC, Employment is on batch9/11; 53 completed executions total414.3
+current-run worker-minutes. Its first eight batches contain199 reviewed versions.
+All54 source-only groups now have explicit working dispositions, including19
+reserve proposals and matches to existing programs. Several proposals (Father
+Matters, Empowering Services, HBI) now have later worker matches; consolidate them
+before adding anything. The original outputs are unchanged.
+
+Two `employment-content-patches*` files contain22 explicit client-facing fixes for
+final assembly, supplementing the per-batch findings. Apply only after program
+identity and full-office service preservation are resolved. Current Habitat CTP
+evidence lists $13,995 tuition with potential funding, whereas HBI's separate
+Phoenix program is tuition-free for accepted participants. Current FBC evidence
+supports a narrow usable prison-braille training route; its unconfirmed EPIC/public
+parolee extension stays out of offered services. These corrections are not a signed
+review or a completed export. User ETA update at13:30 estimated12–14hours for
+remaining curation alone; final review/export requires additional time.
