@@ -13,16 +13,17 @@ After two saved-result repairs, supervisor **25181** checks every 30 seconds;
 `recovery-002.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
-As of 16:10 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
+As of 16:58 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
 Household (122), Disability (140), Domestic Violence (91), Education (82) and
-Employment (183), Financial Assistance (133) and Reentry Support (103) are prepared.
-Food is now on batch 5/6 after the recovery below. Verify live
+Employment (183), Financial Assistance (133), Reentry Support (103) and Food (96)
+are prepared: ten of 21 research categories. Medical/Dental/Vision is on batch4/7.
+Verify live
 native events for the current batch. Disability's 194 batch
 resource versions and 61 source-only groups have now been read; the completed
 snapshot has 140 resources and 227 dispositions. Working proposals include
 14 duplicate groups (18 overlaps), 122 consideration rows, 14 Types, ten starters
 and 18 reserve additions. These are preliminary, not applied or signed. Current
-accumulated worker execution time is about 565.1 minutes, plus the preserved
+accumulated worker execution time is about 600.8 minutes, plus the preserved
 initial attempt; recalculate final processing totals after completion.
 
 Education's sealed snapshot contains 82 resources and 136 dispositions. All 116
@@ -86,8 +87,18 @@ validation and the hash-checking repair loader pass. Original output/events rema
 unchanged; the saved batch was reused without another model call. Supervisor25181
 resumed coordinator25184 at High, with cumulative launch count3/max4 (one bounded
 transport recovery remains). Verify live state rather than reusing these PIDs.
-Food batches1–3 have63read resource versions with saved working findings; later
-batches remain under review. Root sources establish St Stephen's Wednesday pantry,
+All130 Food batch versions,96 aggregate drafts,158 candidate dispositions and58
+source-only groups/members now have working review decisions. Proposals contain
+12 duplicate groups/13 overlaps,83 retained-category reasons,11 Types,explicit
+food-specific For-group/no-group decisions,ten starters and14 reserve additions
+or matches. These are unapplied and unsigned. Current primary evidence resolves
+the two Red Mountain pantry locations as operating in2026 and establishes current
+Valle del Sol WIC access in Phoenix without endorsing its old Mesa address.
+RSM's historical canonical ID represents senior/veteran food support: do not
+silently expand it to absorb general Main Street and mobile pantries. Preserve
+separate NATIVE pantry/WIC rules and restore SVdP food-box routing lost in a broad
+merge into the Mesa Dining Room. All ten sealed category snapshots match the live
+database; the preservation check is saved in review/. Root sources establish St Stephen's Wednesday pantry,
 including a published evening session, and distinguish RSM's senior CSFP boxes
 from its separate under60 veteran assistance. Preserve earlier cross-category
 details when later drafts shorten descriptions or omit contacts.
@@ -120,6 +131,8 @@ are still outstanding; do not present working proposals as a finished review.
 At16:02UTC the estimate was updated to September27, roughly1–7a.m. Mountain
 (15–21hours), including final review, consolidation and validation. This is an
 estimate, not a completion commitment; check actual remaining batch durations.
+At16:44UTC that window remained the estimate: about14–20hours remaining, with
+ten categories complete and Medical/Dental/Vision on batch2/7 at that check.
 
 Domestic Violence has a sealed 91-resource/184-disposition snapshot. All 162 batch
 versions and 48 source-only groups/members were read. Working proposals include

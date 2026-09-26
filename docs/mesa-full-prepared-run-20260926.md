@@ -35,8 +35,20 @@ Miscellaneous. Never substitute the older reviewed seed's 20-category taxonomy.
 
 ## Completion work
 
-September 26, 15:24 UTC checkpoint: eight categories are prepared; Reentry Support
-is on batch 4/6. Current-run worker execution is about 514.6 minutes. Financial
+September26,16:58UTC checkpoint: ten categories are prepared; Medical/Dental/Vision
+is on batch4/7. Current-run worker execution is about600.8minutes. Food's130 batch
+versions,96 aggregate drafts,158 dispositions and58 source-only groups/members
+have saved working decisions:12 duplicate groups/13 overlaps,83 retained-category
+reasons,11 Types,explicit food-focused For-group/no-group proposals,ten starters
+and14 reserve additions or matches. RSM's senior/veteran canonical identity must
+remain distinct from its general pantry/mobile scopes; NATIVE WIC remains distinct
+from its pantry, and SVdP food-box routing must survive the dining-room merge.
+New primary evidence resolves both Red Mountain pantry locations and current
+Phoenix WIC access for Valle del Sol. All ten sealed snapshots match the liveDB;
+see review/completed-snapshot-preservation-check-20260926T1658.json. Working
+proposals remain unapplied, unsigned and subject to whole-office reconciliation.
+
+The earlier15:24UTC Financial
 Assistance's sealed snapshot has 133 resources/188 dispositions; all 176 batch
 versions and 50 source-only groups/51 members have saved working assessments.
 Working proposals contain 15 duplicate groups/15 overlaps, 107 retained-category
