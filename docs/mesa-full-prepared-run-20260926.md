@@ -188,3 +188,30 @@ Current-run accumulated worker time is about 356.4 minutes, plus the separately
 preserved initial attempt. Live PIDs and actual execution metadata confirm High
 workers; this root session retains the single Extra High review. No final review
 or complete export is signed.
+
+At 13:11 UTC, Employment is on batch4/11, with 373.0 accumulated current-run
+worker-minutes. All64 resource versions from its first three batches have working
+review findings. Live worker18667 was confirmed at High during its output interval;
+the supervisor/coordinator remain12216/12219. Verify again rather than reuse PIDs.
+
+Education now has four proposed identity groups/five overlapping records, two
+specific closed programs retained in Scout audit, 75 retained-category reasons,
+13 defined/used Types, ten explained starters and26 restoration proposals. Grace
+and ETV match existing drafts; cross-category matches remain explicit. These are
+working judgments, not applied resources or a final signed taxonomy.
+
+The City/County workforce ID switch is now traced to nine original candidates and
+the prior reviewed collection. Historicalc3ab belongs to the City Broadway center;
+the original444882 draft belongs to the County Southern Avenue center. Apply the
+source-level decision in `review/education-workforce-identity-resolution-working.json`
+before registry allocation, retaining the human7f314 City override and separate
+MesaCAN program identity. Rebind the Education row-based reasons/Types by their
+intended program; do not trust the exchanged worker IDs alone.
+
+Employment primary checks also found CPLC's15–18 Growth Opportunities grant targets
+Las Vegas/North Las Vegas, while its Phoenix WIOA/YouthBuild programs remain useful.
+The A New Leaf Transition Academy lead belongs to Owasso, Oklahoma, not Arizona.
+DES/IRS pages still describe WOTC2026 applications held pending renewal; do not
+promise a current tax credit. SNAP CAN's16+/Nutrition Assistance/not-TANF eligibility
+and SCSEP's55+/income/employment-barrier rules were checked against current DES pages.
+No original worker output, human approval or WSRS-TSO state has been changed.
