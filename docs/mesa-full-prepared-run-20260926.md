@@ -215,3 +215,18 @@ DES/IRS pages still describe WOTC2026 applications held pending renewal; do not
 promise a current tax credit. SNAP CAN's16+/Nutrition Assistance/not-TANF eligibility
 and SCSEP's55+/income/employment-barrier rules were checked against current DES pages.
 No original worker output, human approval or WSRS-TSO state has been changed.
+
+At 13:33 UTC, Scout is on Employment batch7/11, with 51 completed executions and
+397.5 current-run worker-minutes. Batches1–6 contain145 reviewed resource versions;
+each has durable findings. The source-only inventory has54 groups, all read, with
+11 verified reserve-restoration proposals so far. Sources and findings live under
+the current run's `review/`; full-office matching and final application remain pending.
+
+New review corrections include removing healthcare-category memberships from a
+college behavioral-health certificate, distinguishing shelter-enrolled employment
+help from public job services, and retaining pre-release enrollment restrictions
+for Father Matters and Televerde pathways. St. Mary's Skills Center publishes
+material drug-screening, background, housing and full-time attendance requirements;
+replace the worker's vague wording. Preserve the separate Kitchen and LIFT tracks.
+The state Pre-ETS contractor directory confirms usable EES and Empowering Services
+contacts despite limited/maintenance-mode provider pages. Do not infer closure.

@@ -13,14 +13,14 @@ After a saved-result repair, supervisor **12216** checks every 30 seconds;
 `recovery-001.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
-As of 13:11 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
+As of 13:33 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
 Household (122), Disability (140), Domestic Violence (91) and Education (82) are
-prepared. Employment is on batch 4/11. Verify live native events for the current batch. Disability's 194 batch
+prepared. Employment is on batch 7/11. Verify live native events for the current batch. Disability's 194 batch
 resource versions and 61 source-only groups have now been read; the completed
 snapshot has 140 resources and 227 dispositions. Working proposals include
 14 duplicate groups (18 overlaps), 122 consideration rows, 14 Types, ten starters
 and 18 reserve additions. These are preliminary, not applied or signed. Current
-accumulated worker execution time is about 373.0 minutes, plus the preserved
+accumulated worker execution time is about 397.5 minutes, plus the preserved
 initial attempt; recalculate final processing totals after completion.
 
 Education's sealed snapshot contains 82 resources and 136 dispositions. All 116
@@ -39,7 +39,10 @@ another provider's closed intake is not evidence of its own waitlist. Current
 Grace UMC Mesa evidence supports a narrow usable adult-learning record. These
 are review proposals only; final assembly and the review signature are pending.
 
-Employment batches 1–3 have 64 reviewed resource versions. Current source checks
+Employment batches 1–6 have 145 reviewed resource versions, with saved findings
+for every version. All 54 source-only groups/members were read; 11 source-backed
+reserve restoration proposals are saved, with further verification and full-office
+matching pending. These are working proposals, not applied or signed. Current source checks
 confirm CPLC's Growth Opportunities project serves Las Vegas/North Las Vegas,
 not Mesa; retain its separate Phoenix youth programs. A New Leaf's Transition
 Academy is the Oklahoma organization, not the Arizona agency. Keep that wrong-area
