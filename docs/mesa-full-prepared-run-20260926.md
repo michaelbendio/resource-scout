@@ -35,6 +35,15 @@ Miscellaneous. Never substitute the older reviewed seed's 20-category taxonomy.
 
 ## Completion work
 
+September 26, 14:50 UTC checkpoint: seven categories are prepared; Financial
+Assistance is on batch 6/8. Accumulated current-run worker execution is about
+474.1 minutes. The root review has saved findings for its first 90 resource
+versions, read 50 source-only groups/51 members, and proposed nine reserve
+restorations. Several source-only decisions still require verification; none of
+these proposals is an applied or signed final review. The County eviction pilot
+closed August 21 and only served four Phoenix ZIP codes. Phoenix HOPWA has a
+separate Maricopa/Pinal service area that includes Mesa. Keep these distinct.
+
 - Audit all candidate dispositions, cross-batch merges and prior reviewed pathways.
 - Review program identity and bind aliases to the existing committed registry;
   preserve the canonical IDs in the four-category delivery and all human state.

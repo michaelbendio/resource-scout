@@ -13,15 +13,15 @@ After a saved-result repair, supervisor **12216** checks every 30 seconds;
 `recovery-001.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
-As of 14:14 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
+As of 14:50 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
 Household (122), Disability (140), Domestic Violence (91), Education (82) and
-Employment (183) are prepared. Financial Assistance is on batch 2/8. Verify live
+Employment (183) are prepared. Financial Assistance is on batch 6/8. Verify live
 native events for the current batch. Disability's 194 batch
 resource versions and 61 source-only groups have now been read; the completed
 snapshot has 140 resources and 227 dispositions. Working proposals include
 14 duplicate groups (18 overlaps), 122 consideration rows, 14 Types, ten starters
 and 18 reserve additions. These are preliminary, not applied or signed. Current
-accumulated worker execution time is about 442.2 minutes, plus the preserved
+accumulated worker execution time is about 474.1 minutes, plus the preserved
 initial attempt; recalculate final processing totals after completion.
 
 Education's sealed snapshot contains 82 resources and 136 dispositions. All 116
@@ -58,6 +58,14 @@ Academy is the Oklahoma organization, not the Arizona agency. Keep that wrong-ar
 lead in Scout's audit without altering the historical human Arizona override.
 Preserve older category-specific facts when later employment drafts shorten them.
 The worker is still running; do not start another coordinator or review worker.
+
+Financial Assistance's first four batches have 90 reviewed resource versions.
+All 50 source-only groups (51 members) have been read, but several verification
+decisions remain pending. Nine source-backed reserve proposals await full-office
+matching. Current evidence closes the County eviction pilot to new applications
+after August 21 and restricts it to four Phoenix ZIP codes; it is not Mesa aid.
+Phoenix HOPWA separately covers eligible Maricopa/Pinal households, including Mesa.
+Later drafts must retain each program's eligibility and application-route details.
 
 Mesa's current-run dashboard is **http://127.0.0.1:8773**, PID20319 at launch;
 `dashboard-start.json` and `dashboard.log` preserve its command and output.
