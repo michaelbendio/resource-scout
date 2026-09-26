@@ -6,6 +6,22 @@ a monitor process is not a research worker.
 
 ## Full Mesa re-curation authorized — September 26
 
+**Challenger correction, September26 at19:50UTC:** Michael instructed "Use
+DeepSeek only." New plans now select Codex primary and DeepSeek alone; ChatGPT,
+Grok, Perplexity and Claude are disabled for execution, including probes.
+DeepSeek remains V4.1-Flash/max. The independent challenger supports native
+DeepSeek assignments as well as preserved Grok-to-DeepSeek handoffs. New primary
+launches use `--profile codex-deepseek --primary-only` with the authorized
+`--challenger-output-dir`; the independent challenger remains a separate worker.
+No new research was launched and no sealed historical assignment was changed.
+Mesa's three displayed challengers belong to its completed original research.
+Port8773 now labels that section "Historical research results"; refresh the page
+to load the new JavaScript. No HTTP server or curation worker restart was needed.
+At19:50UTC curation had13 of21 categories complete, ID Recovery batch3/5, with
+the live curation-only estimate5–9hours. Housing's231 batch resource versions
+and56 source-only groups have been read; final Housing proposals are still pending.
+Verify live progress below; older checkpoints retain their original times.
+
 **Current run:** `data/mesa-prepared-full-20260926-source-checks/`, import 4,
 job 5, launched September 26 at **06:42:32 UTC** with source-check policy v4.
 After three saved-result repairs, supervisor **27600** checks every 30 seconds;

@@ -208,6 +208,7 @@ def _run_grok_text(
     timeout_seconds: int,
     return_metadata: bool = False,
 ) -> str | dict[str, Any]:
+    assert_worker_enabled("Grok")
     with tempfile.TemporaryDirectory(prefix="scout-pairwise-grok-") as directory:
         completed = run_grok_process(
             _grok_command(
@@ -685,6 +686,8 @@ def _run_pairwise_locked(
     enabled = {primary} if primary_only else {primary, *challengers}
     for provider in enabled:
         assert_worker_enabled(provider)
+    if "DeepSeek" in enabled:
+        raise ValueError("DeepSeek uses its independent challenger runner. Run the primary with --primary-only and --challenger-output-dir; do not launch it through a CLI provider.")
 
     initial_view = prepare_codex_first_plan(
         store, import_id, roster=roster, category_rosters=category_rosters,
@@ -945,8 +948,8 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--import-id", type=int)
     value.add_argument(
         "--profile",
-        default="codex-grok",
-        choices=("codex-grok", "codex-claude", "claude-grok"),
+        default="codex-deepseek",
+        choices=("codex-deepseek", "codex-grok", "codex-claude", "claude-grok"),
     )
     value.add_argument("--codex-binary", default=shutil.which("codex") or "codex")
     value.add_argument("--codex-model", default=DEFAULT_CODEX_MODEL)

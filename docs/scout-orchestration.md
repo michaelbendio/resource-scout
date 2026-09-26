@@ -52,6 +52,22 @@ sessions, durable progress checks and the final fingerprint gate.
 
 ## Own the run
 
+### Current challenger selection — September26
+
+Michael's instruction is **DeepSeek only**. New research uses Codex primary and
+DeepSeek V4.1-Flash at max thinking effort, with no other challengers or shadow
+workers. The default roster and `codex-deepseek` profile reflect this. Execution
+policy blocks Grok, ChatGPT and Perplexity as well as the existing Claude block,
+including probes. Historical evidence and sealed rosters remain intact.
+
+The primary coordinator uses `--profile codex-deepseek --primary-only` and its
+authorized `--challenger-output-dir`; the independent DeepSeek runner accepts
+native DeepSeek packets. Legacy `codex-grok --primary-only` handoffs may resume
+their existing sealed jobs through that runner without invoking Grok. Never
+change an old sealed profile just to rename the provider. A completed monitor's
+challenger counts describe historical research, not current workers. This policy
+does not authorize fresh research or replace High curation/Extra High review.
+
 Michael should not have to watch the monitor, discover a stopped worker, or
 perform routine recovery. The supervising assistant owns that work.
 

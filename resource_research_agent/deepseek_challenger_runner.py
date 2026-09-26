@@ -35,6 +35,7 @@ MODEL = 'deepseek-flash'
 ENDPOINT = 'https://api.deepseek.com/anthropic/v1/messages'
 MAX_OUTPUT = 32768
 AUTHORIZATION = 'Michael: start Scout for Las Vegas; Just do Las Vegas Valley; Use DeepSeek v4.1-flash.'
+CURRENT_AUTHORIZATION = 'Michael: Use DeepSeek only (2026-09-26); DeepSeek v4.1-flash with max thinking effort remains selected.'
 
 def now():
     return datetime.now(timezone.utc).isoformat()
@@ -154,7 +155,9 @@ def packets(database, import_id):
             SELECT a.*, j.category_id, j.category_label
             FROM codex_first_research_assignments a
             JOIN focused_research_jobs j ON j.id=a.job_id
-            WHERE j.import_id=? AND a.researcher='Grok' AND a.role='challenger'
+            WHERE j.import_id=? AND a.researcher IN ('Grok', 'DeepSeek') AND a.role='challenger'
+              AND NOT EXISTS (SELECT 1 FROM research_assignment_replacements r
+                              WHERE r.replacement_assignment_id=a.id)
             ORDER BY a.id''', (import_id,))]
 
 def prepare_packet(out, packet):
@@ -166,7 +169,10 @@ def prepare_packet(out, packet):
     original = packet['assignment']
     if sha(original) != packet['assignment_sha256']:
         raise ValueError('Invalid original assignment hash')
-    marker = 'Resource Scout adversarial challenger assignment for Grok.'
+    provider = packet['researcher']
+    if provider not in {'Grok', 'DeepSeek'}:
+        raise ValueError('Only an existing Grok handoff or a DeepSeek assignment is supported')
+    marker = f'Resource Scout adversarial challenger assignment for {provider}.'
     if original.count(marker) != 1:
         raise ValueError('Unexpected original provider header')
     replacement = original.replace(marker, 'Resource Scout adversarial challenger assignment for DeepSeek.', 1)
@@ -338,7 +344,8 @@ def import_completed_locked(database, out, import_id):
         original = store.get_codex_first_assignment(baseline['id'])
         if original['assignmentSha256'] != baseline['assignment_sha256']:
             raise ValueError('Original assignment changed before handoff')
-        new = store.replace_codex_first_assignment(baseline['id'], 'DeepSeek', reason=AUTHORIZATION)
+        new = (original if original['researcher'] == 'DeepSeek' else
+               store.replace_codex_first_assignment(baseline['id'], 'DeepSeek', reason=AUTHORIZATION))
         if new['assignmentSha256'] != state['replacementAssignmentSha256']:
             raise ValueError('Replacement differs from researched assignment')
         raw = (directory / 'result.json').read_text()
@@ -366,7 +373,7 @@ def supervise(database, out, import_id, ceiling, expected, interval):
         if not (out / 'manifest.json').exists():
             write(out / 'manifest.json', {'createdAt': now(), 'database': str(database), 'importId': import_id, 'model': MODEL,
                   'versionExpected': 'DeepSeek-V4.1-Flash', 'reasoningEffort': 'max', 'initialBalanceUsd': str(balance()),
-                  'ceilingUsd': str(ceiling), 'expectedCategories': expected, 'authorization': AUTHORIZATION,
+                  'ceilingUsd': str(ceiling), 'expectedCategories': expected, 'authorization': CURRENT_AUTHORIZATION,
                   'harness': 'DeepSeek native server web search plus read-only public page/PDF fetch; no Claude inference or OpenAI search relay',
                   'importRule': 'Research reads sealed packets only; database writes wait for exclusive main runner lock.'})
         manifest = read(out / 'manifest.json')
@@ -420,12 +427,12 @@ def main():
         write(path, status)
         if args.notify:
             from .curation_supervisor import notify_local
-            write(args.output_dir / 'notification.json', notify_local('Las Vegas DeepSeek challenger stopped; saved evidence and status need attention.'))
+            write(args.output_dir / 'notification.json', notify_local('Scout DeepSeek challenger stopped; saved evidence and status need attention.'))
         raise
     else:
         if args.notify:
             from .curation_supervisor import notify_local
-            write(args.output_dir / 'notification.json', notify_local('Las Vegas research complete — ready to curate and consolidate.'))
+            write(args.output_dir / 'notification.json', notify_local('Scout research complete — ready to curate and consolidate.'))
 
 if __name__ == '__main__':
     main()

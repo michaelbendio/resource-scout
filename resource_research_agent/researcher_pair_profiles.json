@@ -2,6 +2,14 @@
   "schemaVersion": 1,
   "version": "pairwise-research-profiles-v1",
   "profiles": {
+    "codex-deepseek": {
+      "schemaVersion": 1,
+      "version": "pairwise-codex-deepseek-v1",
+      "researchers": [
+        {"name": "Codex", "role": "primary"},
+        {"name": "DeepSeek", "role": "challenger"}
+      ]
+    },
     "codex-grok": {
       "schemaVersion": 1,
       "version": "pairwise-codex-grok-v1",

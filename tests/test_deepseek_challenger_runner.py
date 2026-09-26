@@ -98,6 +98,30 @@ class DeepSeekChallengerRunnerTests(unittest.TestCase):
         self.assertEqual(self.store.get_codex_first_assignment(original['id']), original)
         self.assertEqual(len(self.store.worker_telemetry(self.import_id)), 1)
 
+    def test_native_deepseek_plan_imports_without_provider_replacement(self):
+        database = self.root / 'native.sqlite3'
+        store = ResearchStore(database)
+        import_id = store.save_import(ResourcePackageImporter(None).read(self.root / 'seed.zip'))
+        prepare_codex_first_plan(store, import_id, roster=load_researcher_profile('codex-deepseek'))
+        while (assignment := next_codex_first_assignment(store, import_id, 'Codex')):
+            save_codex_first_primary_result(store, assignment['job']['id'], assignment['researchPass']['focusKey'], json.dumps(result()))
+        packet = runner.packets(database, import_id)[0]
+        self.assertEqual('DeepSeek', packet['researcher'])
+        out = self.root / 'native-challenger'
+        directory = runner.prepare_packet(out, packet)
+        runner.write(out / 'manifest.json', {'initialBalanceUsd': '6.48', 'database': str(database.resolve()),
+            'importId': import_id, 'model': runner.MODEL, 'authorization': 'Michael selected DeepSeek'})
+        with patch.object(runner, 'credential', return_value='secret'), patch.object(runner, 'balance', return_value=Decimal('6.48')), self.provider(self.body()):
+            runner.step(directory, out, Decimal('5'))
+        self.assertTrue(runner.import_completed(database, out, import_id))
+        self.assertTrue(runner.import_completed(database, out, import_id))
+        self.assertEqual(1, codex_first_view(store, import_id)['completedCategories'])
+        self.assertEqual(1, len(runner.packets(database, import_id)))
+        self.assertEqual(packet['assignment_sha256'], store.get_codex_first_assignment(packet['id'])['assignmentSha256'])
+        with store.connect() as connection:
+            self.assertEqual(0, connection.execute('SELECT count(*) FROM research_assignment_replacements').fetchone()[0])
+        self.assertEqual(1, len(store.worker_telemetry(import_id)))
+
     def test_output_without_live_search_is_preserved_but_not_accepted(self):
         body = self.body()
         body['content'] = body['content'][1:]
@@ -118,7 +142,7 @@ class DeepSeekChallengerRunnerTests(unittest.TestCase):
             runner.step(self.directory, self.out, Decimal('5'))
         with self.assertRaisesRegex(RuntimeError, 'must hold'):
             runner.import_completed_locked(self.database, self.out, self.import_id)
-        options = vars(primary.parser().parse_args(['--primary-only', '--max-passes', '0']))
+        options = vars(primary.parser().parse_args(['--profile', 'codex-grok', '--primary-only', '--max-passes', '0']))
         allowed = inspect.signature(primary._run_pairwise_locked).parameters
         options = {key: value for key, value in options.items() if key in allowed}
         options.pop('import_id', None)

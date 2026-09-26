@@ -386,3 +386,17 @@ preserved supervisor state. Supervisor27600/caffeinate27601 resumed High curatio
 and advanced to batch4/6. This consumes launch4 of the existing maximum4; no
 unchanged automatic retries remain. Eleven completed categories remain intact.
 The root review continues; none of its working proposals is applied or signed.
+## Challenger selection correction — September26,19:50UTC
+
+Michael requested DeepSeek alone. Live process inspection found no research
+workers: only supervisor27600 and High curation coordinator27606 were running.
+The three challengers in the monitor were completed historical Mesa research,
+not new calls. The monitor now labels the results historical. New plans select
+DeepSeek only; the worker policy also blocks Grok/ChatGPT/Perplexity probes and
+calls. Native DeepSeek packets now work with the independent challenger; old
+sealed handoffs remain readable. No sealed research/curation input was changed,
+and no worker restart or new research was needed. Browser automation was
+unavailable; the live served JavaScript was verified byte-for-byte and curation
+continued at ID Recovery3/5 with a5–9hour curation-only estimate.
+Validation:41 relevant tests pass, including native DeepSeek import, preserved
+legacy handoffs, blocked probes and HTTP progress; JavaScript syntax also passes.

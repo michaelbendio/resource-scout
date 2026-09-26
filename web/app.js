@@ -198,7 +198,10 @@ function renderCodexFirstDetail(view) {
   detail.hidden = !view?.categories?.length;
   if (detail.hidden) return;
 
-  document.querySelector('#codex-progress-summary').textContent = `${view.completedCategories} of ${view.totalCategories} complete`;
+  const researchComplete = view.status === 'completed';
+  document.querySelector('#codex-progress-summary').textContent = researchComplete
+    ? `${view.completedCategories} of ${view.totalCategories} complete · Historical research results`
+    : `${view.completedCategories} of ${view.totalCategories} complete`;
   const active = view.activeCategory;
   const activePanel = document.querySelector('#codex-active-progress');
   activePanel.hidden = !active;
@@ -291,7 +294,7 @@ function renderCodexFirstDetail(view) {
     primaryTitle.textContent = `${category.primary.completed} of ${category.primary.total} ${primaryName} passes`;
     primaryDetail.textContent = `${category.primary.leadCount} ${primaryName} leads · ${category.funnel.consolidatedIdentities} consolidated identities`;
     externalTitle.textContent = challengers.length
-      ? `${challengerCompleted} of ${challengers.length} challenger${challengers.length === 1 ? '' : 's'} complete`
+      ? `${researchComplete ? 'Historical: ' : ''}${challengerCompleted} of ${challengers.length} challenger${challengers.length === 1 ? '' : 's'} complete`
       : 'No challengers configured';
     externalDetail.textContent = [
       ...challengers.map(item => `${item.name}: ${researchStatusLabel(item.status).toLowerCase()}`),

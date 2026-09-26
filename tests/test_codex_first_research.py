@@ -136,7 +136,7 @@ class CodexFirstResearchTests(unittest.TestCase):
             [item["jobId"] for item in repeated["categories"]],
         )
         job = self.store.get_focused_research_job(plan["categories"][0]["jobId"])
-        self.assertEqual("researcher-roster-v1", job["plan"]["researcherRoster"]["version"])
+        self.assertEqual("researcher-roster-deepseek-only-v2", job["plan"]["researcherRoster"]["version"])
         with self.assertRaisesRegex(ScoutCurationError, "Codex-first research plan"):
             prepare_scout_curation_job(self.store, self.import_id)
         progress = build_scout_progress(self.store, self.import_id)
@@ -590,7 +590,7 @@ class CodexFirstResearchTests(unittest.TestCase):
         self.assertIsNotNone(next_category)
         self.assertEqual(second_job_id, next_category["job"]["id"])
         self.assertEqual(
-            {"ChatGPT", "Grok", "Perplexity", "Claude"},
+            {"DeepSeek"},
             {
                 item["researcher"]
                 for item in self.store.list_codex_first_assignments(first_job_id)

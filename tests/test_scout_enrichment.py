@@ -139,7 +139,7 @@ class ScoutEnrichmentTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Services Provided"):
             save_scout_enrichment_result(self.store, project["id"], result)
 
-    def test_hybrid_rotates_four_ais_and_requires_codex_reconciliation(self) -> None:
+    def test_hybrid_uses_only_deepseek_and_requires_codex_reconciliation(self) -> None:
         seed = extract_scout_seed(self.source.read_text(encoding="utf-8"))
         seed["resources"] = []
         for ordinal in range(4):
@@ -166,14 +166,14 @@ class ScoutEnrichmentTests(unittest.TestCase):
         project = self.store.get_scout_enrichment_project(project_id)
         self.assertEqual(
             [audit["researcher"] for audit in project["audits"]],
-            ["ChatGPT", "Grok", "Perplexity", "Claude"],
+            ["DeepSeek"] * 4,
         )
         self.assertEqual(project["status"], "in-progress")
         self.assertEqual(project["progress"]["auditsRequired"], 4)
         with self.assertRaisesRegex(ValueError, "incomplete"):
             build_scout_enriched_html(self.store, project_id)
 
-        for researcher in ("ChatGPT", "Grok", "Perplexity", "Claude"):
+        for researcher in ("DeepSeek",) * 4:
             assignment = next_scout_enrichment_audit(
                 self.store, project_id, researcher
             )

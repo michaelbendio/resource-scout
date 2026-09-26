@@ -1,11 +1,12 @@
 {
   "schemaVersion": 1,
-  "version": "researcher-roster-v1",
+  "version": "researcher-roster-deepseek-only-v2",
   "researchers": [
     {"name": "Codex", "role": "primary"},
-    {"name": "ChatGPT", "role": "challenger"},
-    {"name": "Grok", "role": "challenger"},
-    {"name": "Perplexity", "role": "challenger"},
-    {"name": "Claude", "role": "shadow"}
+    {"name": "DeepSeek", "role": "challenger"},
+    {"name": "ChatGPT", "role": "disabled"},
+    {"name": "Grok", "role": "disabled"},
+    {"name": "Perplexity", "role": "disabled"},
+    {"name": "Claude", "role": "disabled"}
   ]
 }
