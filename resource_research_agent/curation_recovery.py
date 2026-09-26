@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
@@ -12,6 +13,50 @@ from .worker_lifecycle import atomic_json, await_orphan
 
 INPUT_FILES = ("assignment.json", "view.json", "prior-resources.json", "source-only.json",
                "excluded.json", "schema.json", "prompt.txt")
+
+
+def reviewed_context_attempt(directory: Path) -> Path | None:
+    """Accept one explicitly diagnosed context retry, never an automatic retry.
+
+    The supervisor prepares the reduced view/prompt and seals their hashes. All
+    assignment, candidate, prior-record and schema bytes remain unchanged.
+    """
+    plan_path = directory / "reviewed-context-recovery.json"
+    if not plan_path.exists():
+        return None
+    plan = json.loads(plan_path.read_text())
+    if (plan.get("schemaVersion") != 1 or not plan.get("reviewer")
+            or not plan.get("reason") or plan.get("maximumAttempts") != 1):
+        raise ValueError("Invalid reviewed context recovery plan")
+    if classify_worker_failure(failure_detail(directory)).kind != "context":
+        raise ValueError("Reviewed context recovery requires a confirmed context failure")
+    if (directory / "result.json").exists() or not (directory / "execution.json").exists():
+        raise ValueError("Context recovery requires an exited worker without a result")
+    attempt = directory / "context-retry-1"
+    originals = plan.get("originalHashes", {})
+    outputs = plan.get("retryHashes", {})
+    required = set(INPUT_FILES) | {"events.jsonl", "execution.json"}
+    if not required <= set(originals) or not (set(INPUT_FILES) | {"prior-resource-index.json"}) <= set(outputs):
+        raise ValueError("Context recovery is missing sealed hashes")
+    for folder, hashes in ((directory, originals), (attempt, outputs)):
+        for name, expected in hashes.items():
+            if Path(name).name != name:
+                raise ValueError("Context recovery filenames must be local basenames")
+            if hashlib.sha256((folder / name).read_bytes()).hexdigest() != expected:
+                raise ValueError(f"Context recovery sealed input changed: {folder / name}")
+    for name in (*INPUT_FILES, "reviewed-resources.json"):
+        if name in ("view.json", "prompt.txt") or not (directory / name).exists():
+            continue
+        if (directory / name).read_bytes() != (attempt / name).read_bytes():
+            raise ValueError(f"Context recovery changed original evidence: {name}")
+    if (attempt / "prompt.txt").stat().st_size >= (directory / "prompt.txt").stat().st_size:
+        raise ValueError("Context retry must reduce the inline context")
+    from .scout_curation_runner import file_index_view
+    expected_view, expected_index = file_index_view(json.loads((directory / "view.json").read_text()))
+    if (json.loads((attempt / "view.json").read_text()) != expected_view
+            or json.loads((attempt / "prior-resource-index.json").read_text()) != expected_index):
+        raise ValueError("Context recovery view must preserve all candidates and identities")
+    return attempt
 
 
 def failure_detail(directory: Path) -> str:
@@ -27,6 +72,7 @@ def failure_detail(directory: Path) -> str:
 
 def recover_result(directory: Path, execute: Callable[..., None], *,
                    heartbeat: Callable[[float], None], timeout: int,
+                   allow_transport_retry: bool = True,
                    **worker_options: Any) -> Path:
     """Adopt surviving workers; allow at most one retry of a transport failure.
 
@@ -35,11 +81,23 @@ def recover_result(directory: Path, execute: Callable[..., None], *,
     stop for diagnosis. Retry inputs are byte-identical; failed output is retained.
     The on-disk attempt path is the budget, including across coordinator restarts.
     """
+    context_attempt = reviewed_context_attempt(directory)
+    if context_attempt is not None:
+        # The normal path adopts an orphan and preserves a failed retry. No
+        # nested context recovery is permitted; the plan allows one attempt.
+        if (context_attempt / "reviewed-context-recovery.json").exists():
+            raise ValueError("Nested context recovery is not permitted")
+        return recover_result(context_attempt, execute, heartbeat=heartbeat,
+                              timeout=timeout, allow_transport_retry=False, **worker_options)
     retry = directory / "transport-retry-1"
-    for attempt in (directory, retry):
+    for attempt in ((directory, retry) if allow_transport_retry else (directory,)):
         if attempt == retry:
             attempt.mkdir(exist_ok=True)
-            for name in INPUT_FILES:
+            for name in (*INPUT_FILES, "reviewed-resources.json", "prior-resource-index.json"):
+                if not (directory / name).exists():
+                    if name in INPUT_FILES:
+                        raise ValueError(f"Missing retry input: {name}")
+                    continue
                 original = (directory / name).read_bytes()
                 target = attempt / name
                 if target.exists():
@@ -97,7 +155,7 @@ def recover_result(directory: Path, execute: Callable[..., None], *,
         failure = classify_worker_failure(detail)
         if not failure.retryable:
             raise RuntimeError(f"Curation {failure.kind} failure at {attempt}: {detail}")
-        if attempt == retry:
+        if attempt == retry or not allow_transport_retry:
             raise RuntimeError(f"Curation transport retry exhausted at {attempt}: {detail}")
         atomic_json(directory / "recovery-plan.json", {
             "kind": failure.kind, "reason": detail, "maximumRetries": 1,

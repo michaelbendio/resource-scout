@@ -30,6 +30,29 @@ def encode(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
 
+BOUNDED_READ_INSTRUCTIONS = (
+    "The complete prior identity index is in prior-resource-index.json, not inline. "
+    "Search it by the current candidate's organization, program, domain or known ID; "
+    "return at most 20 identity summaries per read. Read matching full records from "
+    "prior-resources.json one or two at a time, at most 8000 characters per tool result; "
+    "split a longer record by fields/sections and read all its relevant facts. "
+    "Never print the entire index, all object keys, or many complete prior records. "
+    "The original evidence is unchanged and remains available; bounded reads must "
+    "not omit candidate decisions, sources or supported access details."
+)
+
+
+def file_index_view(view: dict[str, Any]) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """Move an unbounded identity index out of the worker's inline context."""
+    from copy import deepcopy
+    bounded = deepcopy(view)
+    index = bounded.pop("previousResourceIndex", [])
+    bounded["previousResourceCount"] = len(index)
+    bounded["previousResourceIndexFile"] = "prior-resource-index.json"
+    bounded.setdefault("evidenceFiles", {})["prior-resource-index.json"] = BOUNDED_READ_INSTRUCTIONS
+    return bounded, index
+
+
 def compact_assignment(assignment: dict[str, Any]) -> dict[str, Any]:
     """Original member submissions once, rather than repeated consolidation checks.
 
@@ -57,7 +80,7 @@ def compact_assignment(assignment: dict[str, Any]) -> dict[str, Any]:
         candidates.append(row)
     view["candidates"] = candidates
     index_fields = ("id", "name", "website", "categories", "description")
-    if (assignment.get("batch") or {}).get("priorIndexFormat") == "identity-v1":
+    if (assignment.get("batch") or {}).get("priorIndexFormat") in ("identity-v1", "file-v1"):
         # Large offices can have hundreds of prior proposals. Keep every
         # identity discoverable; complete descriptions/bodies remain in the
         # sealed prior-resources.json for selective reads.
@@ -381,8 +404,17 @@ def complete_batched_category(job: dict[str, Any], assignment: dict[str, Any], d
             part["batch"]["priorIndexFormat"] = "identity-v1"
         part["assignmentSha256"] = _assignment_sha256(part)
         folder = directory / "batches-v1" / f"{index:03d}-{part['assignmentSha256'][:16]}"
+        # Never rename/reseal an existing attempt, successful or failed. This
+        # opt-in affects only new batches, including after an interrupted run.
+        if getattr(args, "file_prior_index", False) and not folder.exists():
+            part["batch"]["priorIndexFormat"] = "file-v1"
+            part["assignmentSha256"] = _assignment_sha256(part)
+            folder = directory / "batches-v1" / f"{index:03d}-{part['assignmentSha256'][:16]}"
         folder.mkdir(parents=True, exist_ok=True)
         view = compact_assignment(part)
+        if part["batch"].get("priorIndexFormat") == "file-v1":
+            view, prior_index = file_index_view(view)
+            write_evidence_once(folder / "prior-resource-index.json", prior_index)
         for name, value in {"assignment.json": part, "view.json": view,
                             "prior-resources.json": prior, "source-only.json": part.get("sourceOnlyRecords", []),
                             "excluded.json": part.get("excludedCandidates", []), "schema.json": response_schema(part)}.items():
@@ -556,6 +588,8 @@ def main() -> int:
     parser.add_argument("--timeout-seconds", type=int, default=3600)
     parser.add_argument("--batch-candidates", type=int, default=0, help="Bound each fresh curation context; 0 uses one context per category")
     parser.add_argument("--batch-chars", type=int, default=60000)
+    parser.add_argument("--file-prior-index", action="store_true",
+                        help="For unsealed batches only, keep the complete prior identity index in a searchable file instead of the prompt")
     parser.add_argument("--compact-prior-index", action="store_true",
                         help="With batching, omit prior descriptions from the inline index; preserve full records in sealed evidence")
     parser.add_argument("--max-categories", type=int, help="Completed categories total, resume-safe")

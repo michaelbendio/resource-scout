@@ -143,7 +143,12 @@ class CurationRunnerTests(unittest.TestCase):
             with self.subTest(batch_candidates=batch_candidates, compact_prior_index=compact_prior_index):
                 self.exercise_category_resume(batch_candidates, compact_prior_index)
 
-    def exercise_category_resume(self, batch_candidates, compact_prior_index=False):
+    def test_file_index_resume_preserves_sealed_batches(self):
+        self.exercise_category_resume(1, True, file_prior_index=True)
+        self.exercise_category_resume(1, True, enable_file_index_on_resume=True)
+
+    def exercise_category_resume(self, batch_candidates, compact_prior_index=False,
+                                 file_prior_index=False, enable_file_index_on_resume=False):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             package = root / "source.zip"
@@ -175,6 +180,7 @@ class CurationRunnerTests(unittest.TestCase):
                                       import_id=import_id, source_audit=None, max_categories=1,
                                       codex_binary="never-call", model="test", timeout_seconds=60, effort="high", batch_candidates=batch_candidates, batch_chars=60000)
             args.compact_prior_index = compact_prior_index
+            args.file_prior_index = file_prior_index
             def worker(directory, **kwargs):
                 if directory.name == "structural-repair-1":
                     self.assertFalse(kwargs["search"])
@@ -183,7 +189,12 @@ class CurationRunnerTests(unittest.TestCase):
                     (directory / "result.json").write_text(json.dumps(repaired))
                     return
                 assignment = json.loads((directory / "assignment.json").read_text())
-                if compact_prior_index:
+                if args.file_prior_index:
+                    self.assertEqual("file-v1", assignment["batch"]["priorIndexFormat"])
+                    view = json.loads((directory / "view.json").read_text())
+                    self.assertNotIn("previousResourceIndex", view)
+                    self.assertTrue((directory / "prior-resource-index.json").is_file())
+                elif compact_prior_index:
                     self.assertEqual("identity-v1", assignment["batch"]["priorIndexFormat"])
                     view = json.loads((directory / "view.json").read_text())
                     self.assertTrue(all("description" not in r for r in view["previousResourceIndex"]))
@@ -209,7 +220,11 @@ class CurationRunnerTests(unittest.TestCase):
                 self.assertEqual("in-progress", first["status"])
                 self.assertEqual("curation-awaiting-effort-review",
                                  store.list_scout_curation_progress(first["jobId"])[-1]["phase"])
+                if enable_file_index_on_resume:
+                    args.file_prior_index = True
+                sealed = {str(p): p.read_bytes() for p in (root / "out").rglob("prompt.txt")}
                 run(args)
+                self.assertEqual(sealed, {p: Path(p).read_bytes() for p in sealed})
                 self.assertEqual(3 if batch_candidates else 2, launch.call_count)
                 args.max_categories = None
                 completed = run(args)

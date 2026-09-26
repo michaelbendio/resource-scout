@@ -6,6 +6,23 @@ a monitor process is not a research worker.
 
 ## Full Mesa re-curation authorized — September 26
 
+**21:24UTC context recovery:** Legal batch4 exhausted its worker context after
+an inline index of1,611 prior resources (394,528characters) and a75,542-character
+bulk record read. Original events/output and all15completed categories/110validated
+batch checkpoints are preserved in recovery-004.json. One explicitly diagnosed
+High retry moves the complete index into a searchable file and bounds full-record
+reads. Its prompt falls from455,442bytes to77,209bytes; all27candidates and all
+evidence remain.32recovery/resume/preparation tests pass. New, unsealed batches
+use --file-prior-index; existing sealed assignments are unchanged. The manually
+resumed coordinator33337, supervisor33339 and caffeinate33340 are live; the
+automatic four-launch budget stays exhausted, so another failure stops for
+diagnosis. Verify current progress. Immigration review has now read and saved
+all102batch versions and all31source-only groups; final judgments remain pending.
+Legal batch4 completed successfully and batch5 uses the file index (77,284-byte
+prompt). All15completed result/assignment hashes and110prior validated checkpoints
+passed the preservation audit after recovery. Context recovery code and this
+checkpoint are local; the publication approval question below remains unanswered.
+
 **Challenger correction, September26 at19:50UTC:** Michael instructed "Use
 DeepSeek only." New plans now select Codex primary and DeepSeek alone; ChatGPT,
 Grok, Perplexity and Claude are disabled for execution, including probes.
@@ -28,6 +45,24 @@ After three saved-result repairs, supervisor **27600** checks every 30 seconds;
 `caffeinate` **27601** prevents idle sleep while it runs. Verify live PIDs and
 `recovery-003.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
+
+**20:58UTC checkpoint:**15of21 categories are prepared; Legal1/7 is running.
+Current-run worker execution totals about830minutes. ID Recovery working review
+covers all99batch versions,72aggregate drafts,120candidate dispositions and41
+source-only groups/members. Proposals contain four duplicate groups/five overlaps,
+five category removals,62retained-membership reasons,ten Types,explicit group/no-group
+decisions,ten starters andnine reserve additions/matches (seven usable,two holds).
+Thirteen concrete content patches are saved. One Arizona TLC draft borrowed an ID
+FAQ from an unrelated Pennsylvania organization; remove that category claim and
+restore the earlier Arizona content, without removing the actual Arizona provider.
+All15sealed snapshots match live result payloads and assignment/result hashes.
+Immigration has73drafts/102batch versions and its root review is next. Working
+proposals remain unapplied and unsigned; final consolidation/export is pending.
+
+Progress-notes commit6eb7934 remains local: automatic approval review rejected
+publishing internal run/status details to the public GitHub remote without explicit
+confirmation. Michael has a pending approval question; do not retry the push until
+he answers. DeepSeek-only code4a5e523 was already successfully pushed earlier.
 
 **20:13UTC checkpoint:**14of21 categories are prepared; Immigration1/5 is running.
 Current-run worker execution totals about791minutes. Housing working review covers

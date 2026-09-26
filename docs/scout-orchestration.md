@@ -159,6 +159,15 @@ an inference, model-quality or task-size failure.
 - **Context exhaustion:** preserve the attempt and completed batches. Reduce the
   remaining batch/evidence size or use bounded evidence reads. Resume only the
   incomplete work; do not resend the same oversized prompt unchanged.
+  For a diagnosed oversized prior-resource index, `--file-prior-index` moves the
+  complete identity index into a searchable evidence file for unsealed batches
+  only. Existing batch identities and prompts remain unchanged. An exited,
+  failed-context batch without a result may have one explicitly reviewed
+  `reviewed-context-recovery.json` plan: it binds original and retry hashes,
+  preserves all candidates and evidence, and permits only the reduced view in
+  `context-retry-1`. It is not an automatic context retry or an additional
+  transport-retry allowance. Preserve the diagnosis and coordinator budget;
+  resume manually after testing the changed input strategy.
 - **JSON/schema/link failure:** preserve the output. Diagnose the exact missing,
   inconsistent or invalid fields. Repair the bounded result with the evidence
   already collected; do not restart discovery or omit inconvenient candidates.
