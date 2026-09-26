@@ -8,21 +8,21 @@ a monitor process is not a research worker.
 
 **Current run:** `data/mesa-prepared-full-20260926-source-checks/`, import 4,
 job 5, launched September 26 at **06:42:32 UTC** with source-check policy v4.
-After a saved-result repair, supervisor **12216** checks every 30 seconds;
-`caffeinate` **12217** prevents idle sleep while it runs. Verify live PIDs and
-`recovery-001.json`. Workers remain **High**; the current supervising session owns
+After two saved-result repairs, supervisor **25181** checks every 30 seconds;
+`caffeinate` **25182** prevents idle sleep while it runs. Verify live PIDs and
+`recovery-002.json`. Workers remain **High**; the current supervising session owns
 the single **Extra High** review afterward. 40 recovery/preparation tests passed.
 
 As of 16:10 UTC, Addiction (135 drafts), Children/Pregnancy (123), Clothing/
 Household (122), Disability (140), Domestic Violence (91), Education (82) and
 Employment (183), Financial Assistance (133) and Reentry Support (103) are prepared.
-Food is on batch 4/6. Verify live
+Food is now on batch 5/6 after the recovery below. Verify live
 native events for the current batch. Disability's 194 batch
 resource versions and 61 source-only groups have now been read; the completed
 snapshot has 140 resources and 227 dispositions. Working proposals include
 14 duplicate groups (18 overlaps), 122 consideration rows, 14 Types, ten starters
 and 18 reserve additions. These are preliminary, not applied or signed. Current
-accumulated worker execution time is about 558.3 minutes, plus the preserved
+accumulated worker execution time is about 565.1 minutes, plus the preserved
 initial attempt; recalculate final processing totals after completion.
 
 Education's sealed snapshot contains 82 resources and 136 dispositions. All 116
@@ -77,6 +77,20 @@ the dated Mesa summer schedule has a different limit from a generic VITA page.
 The County eviction pilot is closed and the old ARPA funeral fund ended in 2025;
 keep those in Scout's audit. Phoenix HOPWA separately serves Maricopa/Pinal,
 including Mesa. Read the saved findings/patches before later bodies overwrite them.
+
+Food batch4 stopped on one invalid For-group label: the worker placed
+`Children/Pregnancy` alongside valid Families/Homeless/Pet owners on Family Promise.
+The supervisor's reviewed repair removes only that invalid label and preserves
+all27resources,28candidate decisions and all factual text. Full application/link
+validation and the hash-checking repair loader pass. Original output/events remain
+unchanged; the saved batch was reused without another model call. Supervisor25181
+resumed coordinator25184 at High, with cumulative launch count3/max4 (one bounded
+transport recovery remains). Verify live state rather than reusing these PIDs.
+Food batches1–3 have63read resource versions with saved working findings; later
+batches remain under review. Root sources establish St Stephen's Wednesday pantry,
+including a published evening session, and distinguish RSM's senior CSFP boxes
+from its separate under60 veteran assistance. Preserve earlier cross-category
+details when later drafts shorten descriptions or omit contacts.
 
 Reentry Support's 114 batch versions, 103 aggregate drafts and 138 dispositions
 have been read, together with all 80 source-only groups/81 members. Working

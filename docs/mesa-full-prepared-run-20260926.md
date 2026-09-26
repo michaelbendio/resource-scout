@@ -310,3 +310,23 @@ pathway linked to its original candidate, not silent deletion from the evidence.
 
 The latest user ETA, at16:02UTC, is September27 roughly1–7a.m. Mountain time
 (15–21hours), including full-office consolidation, review and validation.
+
+Food batch4 stopped on an invalid For-group label on Family Promise. The root
+removed only `Children/Pregnancy`, retaining valid Families/Homeless/Pet owners
+and every factual field, ID, source and candidate decision. All27resources and
+28dispositions pass full application/link validation; the repair loader verifies
+the preserved original and correction hashes. No replacement model call was made.
+`recovery-002.json` records the repair and preserved pre-recovery status.
+Supervisor25181/caffeinate25182 resumed coordinator25184 at High; cumulative
+launch count3/max4 retains one bounded transport recovery. Food batch5 has fresh
+native events. Verify live processes before any later recovery.
+
+Food batches1–3 contain63read resource versions with saved findings. Root primary
+checks resolve St Stephen's pantry operation and published Wednesday evening
+session, retain House of Refuge's literal Monday-and-Friday hours, and distinguish
+RSM's senior federal boxes from separate under60 veteran assistance. UFB's Mesa
+Neighbor's Pantry and TCAA's Tempe pantry are separate programs; preserve their
+source and identity boundaries. City Hope's location-specific page establishes
+food-only service in Mesa, government ID, one visit per center per month and an
+arrival cutoff fifteen minutes before closing; the generic home-page text does
+not establish clothing service there. Full-office review and delivery remain pending.
