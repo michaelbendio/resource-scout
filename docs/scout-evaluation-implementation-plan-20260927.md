@@ -4,6 +4,8 @@ September 27, 2026 · Version 1 · Implementation instructions, not a run author
 
 Companion to [Scout: DeepSeek evaluation and discovery design](scout-evaluation-and-discovery-design-20260927.md).
 
+**Latest sequencing:** Michael will do Housing, then return for an Extra High assessment and appropriate redesign changes. The [discussion handoff](scout-discussion-handoff-20260927.md) governs that next step; the milestone sequence below remains the original proposal for reassessment.
+
 ## Outcome and working method
 
 Implement a small, isolated DeepSeek evaluation first. Use its results to decide which Scout workflow changes to build and adopt. Deliver a complete-office cost estimate, including preparation, final review, corrections, tools, and remaining Codex demand. Do not rerun all of Mesa to answer these questions.
