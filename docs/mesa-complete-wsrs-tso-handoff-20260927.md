@@ -1,5 +1,11 @@
 # Complete Mesa handoff to WSRS-TSO — 27 September 2026
 
+**Acceptance reopened:** hold broad missionary exposure pending
+[reserve relevance correction](mesa-reserve-relevance-reopened-20260927.md).
+A spot-check found apparent duplicate pathways and questions about which entries
+deserve separate client-facing records. The artifact below remains the preserved
+export, not a corrected or newly accepted reserve. Existing human work must remain.
+
 The full Mesa re-curation and requested single Codex review are complete.
 Use **[prepared-resources.json](../deliveries/mesa-complete-20260927-r2/prepared-resources.json)**
 or its [gzip copy](../deliveries/mesa-complete-20260927-r2/prepared-resources.json.gz).

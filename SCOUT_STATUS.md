@@ -4,7 +4,20 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
-## Complete Mesa delivery — September 27
+## Mesa relevance review reopened — September 27
+
+**Current acceptance status: hold broad missionary exposure of the full reserve.**
+Michael challenged the credibility of 1,785 usable records. A bounded inspection
+found apparent duplicate MCC CTE and teacher-apprenticeship pathways and inconsistent
+granularity between umbrella agencies, programmes and course offerings. See
+`docs/mesa-reserve-relevance-reopened-20260927.md`. Structural tests still pass,
+but they do not establish distinct practical usefulness for every record.
+The complete export and all evidence remain intact; no human state, resources or
+IDs have been deleted. No corrected export or second completed review is claimed.
+Do not start another research or curation worker for this issue. The completed
+export record below is historical and does not override this reopened quality gate.
+
+## Complete Mesa delivery — September 27 (acceptance subsequently reopened)
 
 **Current:** Scout High re-curation and the single requested Codex Extra High
 review are complete. Importable output is
