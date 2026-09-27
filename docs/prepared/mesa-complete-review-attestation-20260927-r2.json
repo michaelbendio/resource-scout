@@ -1,0 +1,49 @@
+{
+  "artifactType": "scout-static-review-attestation",
+  "schemaVersion": 1,
+  "office": "mesa",
+  "bundlePath": "data/mesa-prepared-full-20260926-source-checks/review/prepared-review-final-type-continuity.json",
+  "bundleSha256": "6b87c822186650576e4f09de06e74aee0789792372aceb4935c81b300c19a103",
+  "payloadFingerprint": "f66d6e91460cdf79ecc33ed94e5df0f4d33433019d550dd326d662feff2376b7",
+  "reviewFingerprint": "457132fc609eb94be209e119f2b99e130a0ce706a4f482d48269a106d34d0479",
+  "review": {
+    "reviewer": "Codex — single requested Extra High reviewer",
+    "reviewedAt": "2026-09-27T16:49:23.260284+00:00",
+    "identity": "Reviewed source-bound matches and programme boundaries across 2,863 source occurrences and historical anchors. Preserve all 150 established IDs; unresolved established-ID overlaps remain separate administrator holds. Code alone allocates new IDs.",
+    "content": "Reviewed category results, source restorations, conflicting public versions, final consistency corrections and targeted source evidence. Five Information sections retain programme-specific eligibility and intake; 81 material uncertainties remain administrator-only. Source attachments for two historical holds establish identity only, not current service availability.",
+    "taxonomy": "Completed bottom-up Type and population judgment across the consolidated collection, including secondary memberships and explicit no-group decisions. 269 defined Types and 25 groups preserve useful and rare access distinctions; no Type covers 85 percent of its usable category and unsupported population inferences are omitted. Final compatibility review retains the established Housing Legal Help Type ID and explicitly records thirteen broader Type replacements for consumer reconciliation. Old office Types and human assignments must not be deleted or silently retagged.",
+    "starterSets": "Reviewed all 22 sets: 218 complementary memberships, 195 distinct resources, with contribution and limitation explanations. Twenty sets have ten and Miscellaneous/Reentry have nine. All 3,947 non-starter considerations are accounted for, including explicit held-resource and comparison judgments; comparisons use actual final starter membership.",
+    "preservation": "Every scoped source occurrence has a disposition. All seven original human hides survive; Michael authorized thirteen separated programmes to become usable reserve candidates. Existing human approvals, dates, pins, notes and edits are neither supplied nor overwritten. Not-observed is not deletion; the ARM withdrawal requests administrator review only.",
+    "inputFingerprint": "457132fc609eb94be209e119f2b99e130a0ce706a4f482d48269a106d34d0479"
+  },
+  "inputHashes": {
+    "finalCollectionInputManifest": "1d6fcafc0e54c5619679041b0b7fa543a470560d56e26f843e502e192ad945ee",
+    "identityPlan": "f189cb8f588ae387cbf8f8b88d350b2b01a5c3ae5de27e39669e4a54c931be2d",
+    "finalPublicCopies": "7db83b5ee2d019d70234da46500845e99f74aa47a3290f317bf0b62fa39bc50d",
+    "finalNavigation": "2bf29fa41c175ec604a3052fb5f9b37c66f2eec38c6fd7b9acf4c423f032b62d",
+    "finalTaxonomy": "d7c729f0d9eba418dfe7b1c4a2cac76d43e9e499d8d6c0b5f5fd569a16c6b85a",
+    "finalStarterJudgments": "293d10ddc36bb589e6ee9da5dc5f0753c22ba5ba703b28aeec7b24c86121f555",
+    "finalConsiderationJudgments": "5255feb15f9c81c265478813ca3b52ff66bc8e5a171a5f2f98b30b10d14da6d2",
+    "finalConsiderations": "aae0bdb61ce1ce6a428e8627f1b8fcced7bb664482acf90c64042b205a7e8b04",
+    "structuredHoldReasons": "088e14e0d1bfdd548fa5c5e18c51bbd91f5e556d44576d164d1b261898b0d01c",
+    "historicalSourceAttachments": "92244d1207d86580e13937c8ba3ef0dc8c5657f6ec8c264425548b0ba07494a2",
+    "officeCategorySource": "2151453825a77af7856ce169721352be48c8941d208897bc776dd1dffc4c23e1",
+    "registryBefore": "cb9c4cc9233fee1496c48f45a693ce5c67344f187ca439c7288ece4d22136d6e",
+    "originalAssemblyInputManifest": "ff13ba92f335046f289ddb180ce3f798ee775203db3d73f03ccabed096ce6518",
+    "priorSnapshot": "aea5c16e14de68643361a726114524ecab0800051c9b8f73a4384c0a855bbdd5",
+    "finalPreflightChecks": "83d5c7ebdf852e54780f12ba87c57f520e7826c37461fed2ca9468ef5d5243b4",
+    "previewInspection": "bfc1300cccd0667c7dddf8b9698ab29faa276b3733dbe943f7d58a8e245edf7c",
+    "reviewReport": "4547eee4c020a837fb8dc3fa1e5a14d946f2a52747227b4a9f59e22fffd6fdb0",
+    "previousReviewedBundle": "77746e91d4070f5e8701e56006895c2b2e9d423cbefe9c38f819b45cbaa9b48e",
+    "taxonomyContinuityDecision": "71224fac6e6d0b5437e30c52134f07e2a24d2a6f97da4ed1caf8aea7a10a9836",
+    "taxonomyContinuityReport": "e0f8af449df9bcfb095ad92604fdad9193ba5c0031e50e40d7e5098dc5019192"
+  },
+  "supersedes": "mesa-complete-review-attestation-20260927.json",
+  "amendment": {
+    "priorPayloadFingerprint": "e8dd9336f287b34cabdd4be436f6f17153a756d56b82871c44de782e86e1bf17",
+    "changedTypeIdAssignments": 14,
+    "resourceFactsChanged": false,
+    "identityStateOrSelectionChanged": false
+  },
+  "rule": "Completed explicit review of the Type continuity correction. Do not automatically re-sign changed inputs."
+}

@@ -1,0 +1,24 @@
+{
+  "status": "Full pending artifact independently validated; no registry mutation or implicit review attestation.",
+  "counts": {
+    "resources": 1866,
+    "usable": 1785,
+    "needsResolution": 81,
+    "considerations": 3947,
+    "starterMemberships": 218,
+    "uniqueStarterResources": 195
+  },
+  "sealedInputFiles": 1647,
+  "databaseCategoriesEqualSealedSnapshots": 21,
+  "legacyRegistryIdsPreserved": 150,
+  "legacyAliasesPreserved": 155,
+  "humanHidesPreserved": 7,
+  "authorizedReserveDescendants": 13,
+  "independentSchemaValidation": true,
+  "fiveSections": true,
+  "selectiveUsedTypes": true,
+  "unattestedExportRejected": true,
+  "previewHashUnchanged": true,
+  "registryUnchanged": true,
+  "contentFingerprint": "6b55594c338db34273c50f947ab425d7be325c9c6d9126390f1ef58dda67259b"
+}

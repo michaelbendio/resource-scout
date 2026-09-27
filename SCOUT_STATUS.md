@@ -4,7 +4,263 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Complete Mesa delivery — September 27
+
+**Current:** Scout High re-curation and the single requested Codex Extra High
+review are complete. Importable output is
+`deliveries/mesa-complete-20260927-r2/prepared-resources.json`:
+**1,785 usable reserve resources, 81 administrator-only records, 22 categories,
+218 starter memberships / 195 distinct resources, and 3,947 considerations**.
+Twenty starter sets have ten; Miscellaneous and Reentry have nine. All seven
+original human hides and 150 established registry IDs survive. Michael's thirteen
+separated programmes are available as usable reserve candidates. No human Curated
+status or verification date was supplied. The registry now holds 1,891 identities.
+
+**Final handoff:** `docs/mesa-complete-wsrs-tso-handoff-20260927.md`. Read its
+Type continuity supplement before import: preserve office Types and human tags;
+thirteen broader Scout proposals require consumer reconciliation. Housing Legal
+Help retains its established Type ID. The superseded first full export is archived
+locally, not delivered. Fifty-two relevant tests pass, including independent JSON
+Schema and byte-identical isolated export retries. Native browser control was
+unavailable; the read-only preview was visually inspected in headless Chrome.
+
+Review completion is recorded in the prepared bundle/attestation/receipt, not a
+legacy HTML Save override. SQLite job 5 remains completed and its original draft
+and category results remain unchanged. No research or curation worker is needed.
+Actual WSRS-TSO import, human-edit preservation, Ask and printing tests are Claude's
+remaining phase 5 work; no consumer acceptance or office publication is claimed.
+Cedar City's discussion hold and unrelated files remain unchanged. Historical
+checkpoints below are superseded by this complete delivery.
+
 ## Full Mesa re-curation authorized — September 26
+
+**Latest checkpoint, September 27:** All **22 starter sets** are substantively reviewed: **218 memberships / 195 distinct resources**, with 20 sets of ten and two sets of nine. All **3,947 non-starter resource/category explanations** are present and verified against final membership. Explicit final judgments resolve 138 missing/ambiguous reasons,155 administrator-only memberships,8 comparison flags and13 access/cost wording flags (309 unique decisions), preserving prior individually authored reasons with provenance. GLO is removed from Reentry starters because its geography remains unresolved; the usable Keys/Welcome Center identity replaces the held duplicate. Authorized AzEIP, DDD and VR programmes fill appropriate starter gaps. Current H output retains1,885 identities:1,789 usable,81 needs-resolution,15 not-offered including four hidden records. The original165 group and62 wording flags are complete. A final source check restores CGCC/Velda Rose household supplies and removes one unsupported Everyday Clothing assignment; no resource or category was removed. Ten rejection checks and deterministic regeneration pass. All103 programme boundaries, established IDs,13 releases and human hides survive; registry unchanged. Current work: final identity/preservation bundle, readable preview and export gates. No complete importable artifact or review attestation yet. Checkpoint: `review/checkpoints/final-starters22-considerations3947/`. Earlier entries below are historical.
+
+
+**Current Mesa assembly checkpoint, September 27:** Live SQLite job 5 is
+`completed`; all 21 research categories finished. Its preparation draft remains
+**Ready for Codex review**, not importable. Native execution totals are 1,190.1
+worker minutes across 155 executions. Original draft SHA256:
+`120ed9c8b229da04b10b7c6d6905875b1a870b3694116c9b8eb7a7423face626`.
+
+Root is the single reviewer; no worker or additional reviewer is running for this
+stage. The approved notes commit `6eb7934` is already pushed. Tested recovery-code
+commit `bf2655c` remains local. Preserve unrelated files and the prior four-category
+delivery. No full importable export, registry allocation, review attestation or
+human approval exists yet.
+
+Base assembly preserves 2,539 category draft occurrences plus 324 restorations,
+with 2,131 current identity groups and six historical-only groups. All 264 shared
+reference cases and 37 historical cases have explicit source-bound decisions.
+The original assembly is retained as the evidence basis of those judgments.
+
+The later identity pass is now complete for all 41 exact-name and 236 shared-website
+cases. A separate `review/assembly/consolidated/` layer applies the reviewed joins:
+**1,903 current identities**, 2,863 source occurrences, six historical-only groups,
+20 suppressed identities and zero conflicting established-ID unions. These remain
+staging counts. RSM food assistance and veteran rides are explicitly separate;
+the initial transitive join was corrected with its prior decision retained.
+All 103 reviewed programme-boundary assertions pass. Existing IDs and all original
+hide decisions are preserved; new canonical duplicate holds remain administrator-only.
+
+All 106 population disagreements introduced by these joins now have new explicit,
+hash-bound judgments. They do not replace or re-sign earlier decisions. Fifteen
+resource-specific Type translations and three sensory-parent corrections are also
+applied. Five excluded/audit records still await their final state disposition.
+**1,896 provisional secondary-category memberships still need a reviewed Type or
+an explicit unsupported-scope removal.** Do not drop supported categories to clear
+this queue. Complete consideration coverage also remains pending.
+
+The exact content patch stage has processed 445 instructions (446 source-level
+applications, including a Miscellaneous annotation on two category occurrences).
+It applies scalar/section replacements to source copies, including 95 complete
+Information replacements, and checks all 336 original per-record patch hashes.
+The original freeform narrative queue has 295 source copies. Root has now
+written **295 explicit source-bound prose decisions**: all 59 Addiction, all 52
+Transportation, all 68 Utilities, all 102 Veterans and 14 miscellaneous/scope cases.
+**The freeform prose queue is complete.** The 295-decision verifier passes two
+byte-identical regenerations with all 103 programme boundaries, five new canonical
+holds and the production registry unchanged. These checks remain intermediate.
+Current work is identity-level selection/combination of reviewed source versions,
+followed by final navigation, starters and export gates. Additional source checks
+resolve MAM computer-only applications, AzTAP closure rather than relocation,
+tax-year 2026/2027 veteran exemptions, Ozanam intake, MANA CRRC-only referrals,
+AZPVA equipment access and purpose-based DD214 copy fees.
+The later CPLC utility copy is now explicitly joined to its held existing canonical
+in a separate `review/assembly/final-source/` layer; Terri Cruz remains separate.
+This leaves **1,902 current identities**, plus six historical-only identities.
+All 2,863 source occurrences and all 20 suppression decisions survive.
+
+Public-version selection now has **521 explicit hash-bound decisions** (queue cases
+0–519 plus one separately reviewed single-copy food resource), with **zero overlapping
+version sets pending**. A further 1,381 identities have a single source or
+identical public values, mechanically staged without a new semantic approval.
+The assembled-copy count is therefore 1,902; it is not an importable-resource count or completion claim.
+`verify-assembly-public-versions.py` passes two byte-identical regenerations and
+checks source preservation, holds, prior evidence and registry immutability.
+Programme-specific corrections include MFAC therapy separate from its parent,
+MANA CRRC-only referrals, Vet Center crisis texting, the MesaCAN orientation-only
+senior exemption, De Colores' current public community-services address, and
+Live and Learn's current closed application status (`not-offered`, not provider
+closure). PLAN remains usable only for public legal information while new-case
+representation intake is closed. These judgments are in
+`assembly-final-public-versions-working.json`; final navigation must honor them.
+An additional Keys to Change/Welcome Center overlap has two established IDs.
+Its broader campus copy is held for administrator reconciliation in
+`assembly-final-canonical-holds-working.json`; both IDs and all human state survive.
+The public-version verifier now enforces that hold.
+Four post-selection joins are now applied in `assembly/final-joined/`:
+MANA, Ability360 loan closet, the broad Phoenix VA system and Justa Center.
+They preserve established IDs without absorbing separate clinics/programmes.
+This leaves **1,898 current identities** plus six historical-only records.
+All 2,863 source occurrences, all 20 suppressions and all 103 prior programme
+boundaries survive. The final-joined verifier passes two byte-identical regenerations
+without changing earlier evidence or the registry.
+
+The active output is `assembly/final-navigation/`: **1,707 explicit category/Type/consideration decisions across 1,021 identities**. **Zero importable, unsuppressed memberships remain without final Types**, down from 700 after Michael's visibility decision. The original category/Type queue is complete. Final group/scope reconciliation, post-navigation identity decisions, starter sets, full consideration coverage, preview and export gates remain pending. No semantic completion is attested. Checkpoint: `review/checkpoints/final-navigation-1707/`.
+
+**Michael's September 27 decision:** “Make the separate programs available as reserve candidates.” The 13 explicitly documented descendants of three hidden composite entries (Duet and two DES bundles) are now unsuppressed in the effective final-navigation units. None has a direct programme-specific historical hide. Four directly hidden current identities and all seven original historical office hides remain unchanged. The original G layer stays immutable. **Use final-navigation/units.json for downstream visibility**, not final-joined/units.json. The authorization and evidence are in `assembly-reserve-visibility-authorization-20260927.json`; this neither curates the programmes nor changes their IDs.
+
+All ten canonical holds remain enforced. The current preparation states are **1,802 usable, 81 needs-resolution, 15 not-offered**, including hidden records. A new administrator hold covers the MAG Safe Place directory entry: its age/phone route conflicts with the current Lifeology lead agency and its linked Valley Metro page is unavailable. Lifeology's current record remains usable; no provider closure is inferred.
+
+The catalog now has **269 Types and 25 groups**, retaining every original ID, with 23 explicit broader definitions and seven new shared service distinctions. Every frozen missing-Type category cohort is complete. Safe at Home health education now fits the broader prevention Type without implying clinical rehabilitation. Medical treatment, health education and care navigation are distinguished. Copper Springs/Canyon Vista official evidence restores actual psychiatric scope omitted by condensed copies. The county/HOM eviction pilot is `not-offered` because current official evidence closes applications; it is not a provider-closure assertion. Programme-specific evidence remains under review/source-checks.
+
+Friendly House, broad Save the Family, Touchstone, Family Promise, AZYouthforce, The Worker and the Salvation Army Phoenix composite still need final identity resolution. Compare other noted programme overlaps against the 103 prior boundaries before any merge. Legal Defender and House of Refuge group/evidence questions remain. Previous broad-source facts must not automatically transfer into each named programme. Any later joins need a new post-navigation layer; original evidence and G remain immutable.
+
+The final-navigation verifier passes two deterministic regenerations, preserves original sources and registry, and rejects six unsafe/stale input cases, including unauthorized release, changed release evidence, and attempted release of a direct programme hide. These are intermediate checks. Continue with the durable navigation/cohort tools, working ledgers and final-navigation remaining queue. Do not drop supported categories simply to clear the queue.
+
+`verify-consolidated-assembly.py` passes: two regenerations are byte-identical,
+base evidence and the production registry are unchanged, all source records and
+suppression decisions survive, and the new administrator holds are enforced.
+The registry SHA256 is
+`cb9c4cc9233fee1496c48f45a693ce5c67344f187ca439c7288ece4d22136d6e`.
+Intermediate checks are not a completed semantic review or permission to deliver.
+
+Continue from `data/mesa-prepared-full-20260926-source-checks/review/assembly/`
+(`identity-staging-summary.json`, `review-index-summary.json`, `review-units.json`,
+`staging-verification.json`) and adjacent `build-assembly-*.py` scripts.
+Read `review/assembly-current-handoff.md` for the latest continuation details.
+`verify-assembly-staging.py` checks deterministic regeneration, historical hides,
+explicit descendant suppressions, starter counts/identity safety, nine newly
+completed group ledgers, and registry immutability. The latest check passed.
+`build-assembly-taxonomy.py` stages 262 Types and 25 groups, retaining 21 prior
+Type IDs and documenting 14 broader reorganizations without silently retagging
+human-curated records. Its proposed catalog still needs assignment reconciliation.
+Regenerate the index after reading new ledgers; older checkpoints below describe
+historical intermediate states. All 21 SQLite results match sealed snapshots;
+staging regeneration passed twice with identical outputs and no registry mutation.
+DeepSeek remains the only challenger; no new research or worker restart is needed.
+Michael approved publication of notes commit `6eb7934`, which was pushed to
+`origin/pairwise-research-experiment`. Do not treat that push as pending.
+
+**Veterans interim checkpoint, September27:**20of21 categories are prepared;
+Veterans batch6/8 is running (verify live state). Root has read and checkpointed
+all119 versions in Veterans batches1–5, and read all65 source-only groups. Five
+source-only reserve proposals are saved in the partial Veterans restoration file.
+Global working corrections cover Veterans Crisis Line call988press1/text838255,
+the relocated AZVRC/Azura centre, purpose-based DD214 copy fee exceptions, and
+RSM veteran rides (provider appointment4053867799, general4806152799,1135Main;
+424Broadway belonged to the adjacent Paz listing). Source checks001–015 are saved.
+Additional global corrections confirm Axiom McCain at804E.Jones and the MFRF
+statutory extension to2031 (remove outdated2026sunset warnings).29explicit partial
+Veterans identity groups are saved. All remain unapplied/unsigned.
+`assembly-input-index-20-categories.json` indexes
+2389 scoped drafts and192 working files; it is not an export or completed review.
+Curation-only ETA after batch5:14–25minutes; final review/export remains afterward.
+DeepSeek remains the sole challenger. Public-push approval is still pending.
+
+**Utilities review checkpoint, September27:**20of21 categories are prepared;
+Veterans batch3/8 is running (verify live state). Utilities review covers all149
+batch versions,125 drafts,171 dispositions,23 aggregate deltas and55 source-only
+groups/58members. Working ledgers have24 duplicate groups/30overlaps,93 membership
+reasons,13 Types,ten starters,18 usable reserve restorations,four cross-category
+additions and68 content patches. Apply18 scoped programme/identity corrections
+before registry binding. Important resolutions include closed ConnectArizona phone
+navigators versus its current directory, frozen SRP medical-credit enrollment,
+Mesa eligibility for AllThrive Healthy Homes AC, current Cox/Spectrum offers,
+usable Mesa Hive host contact, RTVOS category-only removal, and current Lifeline
+mailing address. Read utilities-phone-internet-review-checkpoint.json under the
+current run's review/. All20 completed DB payloads and391 preexisting sealed files
+are unchanged. All judgments remain unapplied/unsigned; Veterans,Miscellaneous,
+whole-office assembly and export remain. Latest curation-only estimate33–58minutes.
+DeepSeek is the sole permitted challenger; public-push approval remains pending.
+
+**Transportation review checkpoint, September 27:** 19 of 21 categories are
+prepared; Utilities, Phone & Internet batch 3/7 is running (verify live state).
+Transportation review covers all 184 batch versions, 141 drafts, 203 dispositions,
+30 aggregate deltas and 60 source-only groups/64 members. Working ledgers contain
+21 duplicate groups, 116 membership reasons, 13 Types, ten starters, nine reserve
+restorations and 53 content patches. All are unapplied and unsigned; whole-office
+assembly and export remain. Read `transportation-review-checkpoint.json` and the
+global Homeless ID, GLO geography and Dress for Success contact corrections under
+the current run's `review/`. All 19 completed SQLite payloads and 391 preexisting
+sealed files remain unchanged. The live batch-based curation estimate is 1–3 hours,
+excluding final review/export. DeepSeek is the sole permitted challenger. Public
+publication approval is still pending; do not push local commits or status.
+
+**Seniors review checkpoint, September27 00:33UTC:** All172 batch versions,
+116 aggregate drafts,194 dispositions and59 source-only groups/61members are
+reviewed. Working ledgers contain ten duplicate groups, six category removals,
+95 considerations,12 Types, ten starters, five reserve proposals and27 content
+patches. They remain unapplied and unsigned; final whole-office assembly is pending.
+Root is reviewing Transportation (first three batches/60 versions checkpointed).
+Transportation batch4 has entered its bounded saved-result link correction for
+candidate3210; verify live progress. No research has restarted. DeepSeek remains
+the sole permitted challenger. Public publication approval is still pending.
+
+**Transportation recovery006:** 18 of 21 categories are prepared. Transportation
+batch1 referenced a Banner University Family Care/ACC NEMT record for candidates
+1232/1233 but omitted that record from its resource array. The constrained structural
+repair could not add a missing factual record and stopped. The supervising reviewer
+restored exactly that selected record using both assigned candidates and current
+Banner transportation/Customer Care sources. All17 existing resource records and
+all26 original dispositions are unchanged; all18 completed SQLite category payloads
+and their sealed hashes match the review snapshots. Read `recovery-006.json` and
+`review/transportation-banner-preservation-working.json` under the current run.
+Original/failed output remains preserved. No repeat research or paid repeat batch.
+Coordinator37692, supervisor37694 and caffeinate37695 resumed at High; verify live
+state. The automatic four-launch budget remains exhausted, so another failure needs
+diagnosis. Root has read and checkpointed all172 Seniors batch versions and read all59
+source-only groups/61members; Seniors final working judgments are in progress.
+The last batch-based curation estimate was2–4hours, excluding final review/export;
+refresh live before reporting. All judgments remain unapplied and unsigned.
+Public publication approval remains unanswered: do not push local commits/status.
+
+**Mental Health review checkpoint:**17 of21 research categories are prepared;
+Seniors batch5/7 is running (verify live state). Coordinator35515 and supervisor35517
+are live at High; current worker execution totals about978minutes. Root's single
+Extra High review has now checkpointed all159 Mental Health original versions,
+122aggregate drafts,188dispositions and61source-only groups. Working proposals have
+14duplicate groups/16overlaps, six category removals, one scoped Terros composite,
+99retained reasons with13Types and explicit group/no-group decisions, ten starters,
+24reserve proposals (22usable/two administrator holds),28content patches and one
+Children/Pregnancy mentoring restoration. All17 sealed category payloads and
+assignment/result hashes match live SQLite. Read `mental-health-review-checkpoint.json`
+and the scoped identity, content, source-routing and restoration ledgers under
+`data/mesa-prepared-full-20260926-source-checks/review/`. All remain unapplied/unsigned;
+whole-office consolidation, final cross-category review, registry and export are pending.
+The live batch-based curation-only estimate is3–6hours; it excludes review/export.
+Public publication approval is still pending. Do not push the local commits/status.
+
+**Mental Health recovery005:** Batch6 proposed Regional Homeless Court without
+Mental Health membership, correctly describing a legal/case-manager pathway
+already retained in earlier categories. The validator rejected that label omission.
+The supervising reviewer changed only candidate4581 to a category-scoped omission,
+preserving the full supplemental record and an explicit final-assembly directive in
+`review/mental-health-court-preservation-working.json`. The provider is NOT removed
+from the office. All26other resource records and28candidate decisions remain;
+application/link validation and the hash-bound repair loader pass. Original outputs,
+sealed assignments and all16completed category payloads/hashes are unchanged.
+No paid repeat call and no code change were needed. Manual coordinator35515,
+supervisor35517 and caffeinate35518 resumed at High; batch7/7 is running. The
+four-launch automatic budget remains exhausted; any new failure needs diagnosis.
+Read `recovery-005.json` and verify live state. Legal working review now covers
+all164versions and57source-only groups/60members, with99retained reasons,
+13Types,ten starters,20reserve additions and31content/category patches.
+Mental Health review has read batches1–5; batches1–4 findings are checkpointed.
+All judgments remain unapplied/unsigned; whole-office consolidation and export
+are pending. Public publication approval remains unanswered; do not push.
+
 
 **21:24UTC context recovery:** Legal batch4 exhausted its worker context after
 an inline index of1,611 prior resources (394,528characters) and a75,542-character

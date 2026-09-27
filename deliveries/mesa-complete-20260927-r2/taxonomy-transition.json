@@ -1,0 +1,238 @@
+{
+  "artifactType": "scout-taxonomy-transition",
+  "schemaVersion": 1,
+  "office": "mesa",
+  "status": "Reviewed compatibility supplement for Claude; this is not permission to alter human-curated taxonomy or tags.",
+  "predecessorSnapshotId": "ss_80df3898c3033d1c16bc0a78a3d03d6d",
+  "consumerRule": "Keep existing Type definitions and human-curated assignments. Treat these broader Scout Types as proposals; do not delete old Types or automatically retag human records. These are service-navigation changes, not resource identity merges.",
+  "retainedIdentityCorrections": [
+    {
+      "undeliveredProvisionalId": "type_mesa_housing_legal-help",
+      "retainedId": "type_mesa_housing_housing-legal",
+      "reason": "Housing legal advice and representation retain the previously delivered Type identity. The new wording does not justify a new ID."
+    }
+  ],
+  "broaderReplacements": [
+    {
+      "previousType": {
+        "id": "type_mesa_food_formula",
+        "categoryId": "food",
+        "label": "Infant Formula",
+        "definition": "An explicitly documented route to infant formula; not inferred from general food boxes."
+      },
+      "proposedType": {
+        "id": "type_mesa_food_infant-and-young-child-nutrition",
+        "categoryId": "food",
+        "label": "Infant and young-child nutrition",
+        "definition": "WIC and targeted infant/young-child food or formula assistance."
+      },
+      "relationship": "broader-navigation-proposal",
+      "action": "preserve-human-classifications",
+      "reason": "Broader infant/young-child nutrition includes WIC and food as well as explicitly documented formula. Original formula-specific facts remain searchable; a broader label alone does not promise formula."
+    },
+    {
+      "previousType": {
+        "id": "type_mesa_housing_affordable-housing",
+        "categoryId": "housing",
+        "label": "Affordable Housing",
+        "definition": "Below-market rental housing with program-specific income and availability rules."
+      },
+      "proposedType": {
+        "id": "type_mesa_housing_affordable-rentals",
+        "categoryId": "housing",
+        "label": "Affordable rentals",
+        "definition": "Income-restricted apartments, vouchers and rental application/waitlist programmes."
+      },
+      "relationship": "broader-navigation-proposal",
+      "action": "preserve-human-classifications",
+      "reason": "Combines below-market rental properties with voucher and waitlist routes; resource-specific eligibility and application status distinguish them."
+    },
+    {
+      "previousType": {
+        "id": "type_mesa_housing_vouchers",
+        "categoryId": "housing",
+        "label": "Housing Vouchers",
+        "definition": "Rental subsidy or housing voucher application and administration."
+      },
+      "proposedType": {
+        "id": "type_mesa_housing_affordable-rentals",
+        "categoryId": "housing",
+        "label": "Affordable rentals",
+        "definition": "Income-restricted apartments, vouchers and rental application/waitlist programmes."
+      },
+      "relationship": "broader-navigation-proposal",
+      "action": "preserve-human-classifications",
+      "reason": "Voucher programmes now share a rental-access Type with income-restricted properties. Do not infer that an apartment listing administers vouchers."
+    },
+    {
+      "previousType": {
+        "id": "type_mesa_housing_treatment-housing",
+        "categoryId": "housing",
+        "label": "Treatment Housing",
+        "definition": "Residential housing available as part of a clinical treatment program with admission and payer requirements."
+      },
+      "proposedType": {
+        "id": "type_mesa_housing_recovery-housing",
+        "categoryId": "housing",
+        "label": "Recovery housing",
+        "definition": "Sober living or residential recovery programmes; treatment and house requirements are stated separately."
+      },
+      "relationship": "broader-navigation-proposal",
+      "action": "preserve-human-classifications",
+      "reason": "Broader recovery housing includes sober living as well as residential treatment; clinical admission and payer rules remain programme-specific."
+    },
+    {
+      "previousType": {
+        "id": "type_mesa_housing_rapid-rehousing",
+        "categoryId": "housing",
+        "label": "Rapid Rehousing",
+        "definition": "Time-limited assistance to move from homelessness into housing with stabilization support."
+      },
+      "proposedType": {
+        "id": "type_mesa_housing_housing-costs",
+        "categoryId": "housing",
+        "label": "Rent and deposit help",
+        "definition": "Rental subsidies, homelessness prevention, rapid rehousing or move-in/deposit assistance with programme-specific eligibility."
+      },
+      "relationship": "broader-navigation-proposal",
+      "action": "preserve-human-classifications",
+      "reason": "Broader rent/deposit assistance includes rapid rehousing, prevention and subsidies. Homelessness and coordinated-entry requirements remain in the individual programme."
+    },
+    {
+      "previousType": {
+        "id": "type_mesa_transportation_fare-help",
+        "categoryId": "transportation",
+        "label": "Fares and Passes",
+        "definition": "Bus passes, reduced fares or ride vouchers; mode, eligibility and available funding remain in the service details."
+      },
+      "proposedType": {
+        "id": "type_mesa_transportation_fares-and-fuel",
+        "categoryId": "transportation",
+        "label": "Fares and fuel",
+        "definition": "Passes, fare reductions, fuel grants and medical-travel reimbursement."
+      },
+      "relationship": "broader-navigation-proposal",
+      "action": "preserve-human-classifications",
+      "reason": "Expanded to fuel grants and medical-travel reimbursement as well as fares, passes and ride vouchers."
+    },
+    {
+      "previousType": {
+        "id": "type_mesa_transportation_training",
+        "categoryId": "transportation",
+        "label": "Travel Training",
+        "definition": "Instruction and practical support learning to use transportation independently."
+      },
+      "proposedType": {
+        "id": "type_mesa_transportation_planning-and-travel-skills",
+        "categoryId": "transportation",
+        "label": "Planning and travel skills",
+        "definition": "Help finding ride options, planning trips or learning to use transit."
+      },
+      "relationship": "broader-navigation-proposal",
+      "action": "preserve-human-classifications",
+      "reason": "Expanded to route planning and ride navigation as well as practical independent-travel training."
+    },
+    {
+      "previousType": {
+        "id": "type_mesa_transportation_paratransit",
+        "categoryId": "transportation",
+        "label": "ADA Paratransit",
+        "definition": "Accessible paratransit requiring its specific eligibility assessment and reservation process."
+      },
+      "proposedType": {
+        "id": "type_mesa_transportation_accessible-rides",
+        "categoryId": "transportation",
+        "label": "Accessible rides",
+        "definition": "Disability-related paratransit and accessible on-demand ride options."
+      },
+      "relationship": "broader-navigation-proposal",
+      "action": "preserve-human-classifications",
+      "reason": "Expanded to non-ADA accessible ride services. ADA eligibility and reservations remain explicit in actual paratransit records; the broad Type alone does not establish ADA service."
+    },
+    {
+      "previousType": {
+        "id": "type_mesa_id-recovery_immigration",
+        "categoryId": "id-recovery",
+        "label": "Immigration Documents",
+        "definition": "Replacement or correction of immigration-related identity/status documents, or qualified legal help obtaining them."
+      },
+      "proposedType": {
+        "id": "type_mesa_id-recovery_immigration-and-consular-documents",
+        "categoryId": "id-recovery",
+        "label": "Immigration and consular documents",
+        "definition": "Immigration, citizenship, passport, tax-identification or foreign-consular documents and their supporting procedures."
+      },
+      "relationship": "broader-navigation-proposal",
+      "action": "preserve-human-classifications",
+      "reason": "Expanded to citizenship, passports, consular and tax-identification documents; legal authority and assistance scope remain resource-specific."
+    },
+    {
+      "previousType": {
+        "id": "type_mesa_id-recovery_vital-records",
+        "categoryId": "id-recovery",
+        "label": "Birth Certificates",
+        "definition": "Issuance or specifically documented assistance obtaining a birth certificate."
+      },
+      "proposedType": {
+        "id": "type_mesa_id-recovery_birth-and-civil-records",
+        "categoryId": "id-recovery",
+        "label": "Birth and civil records",
+        "definition": "Birth, death, marriage and other certified civil records, including help obtaining them."
+      },
+      "relationship": "broader-navigation-proposal",
+      "action": "preserve-human-classifications",
+      "reason": "Expanded from specifically documented birth certificates to other certified civil records as well."
+    },
+    {
+      "previousType": {
+        "id": "type_mesa_id-recovery_storage",
+        "categoryId": "id-recovery",
+        "label": "Document Storage",
+        "definition": "A specifically documented service keeping important documents safe."
+      },
+      "proposedType": {
+        "id": "type_mesa_id-recovery_mail-and-document-storage",
+        "categoryId": "id-recovery",
+        "label": "Mail and document storage",
+        "definition": "A reliable mailing address or secure storage for important identity documents."
+      },
+      "relationship": "broader-navigation-proposal",
+      "action": "preserve-human-classifications",
+      "reason": "Combines secure document storage with reliable mailing-address services; a mail-only resource must not be described as storing documents."
+    },
+    {
+      "previousType": {
+        "id": "type_mesa_id-recovery_mail",
+        "categoryId": "id-recovery",
+        "label": "Mail Service",
+        "definition": "A mailing or document-receipt service for people who need a reliable address."
+      },
+      "proposedType": {
+        "id": "type_mesa_id-recovery_mail-and-document-storage",
+        "categoryId": "id-recovery",
+        "label": "Mail and document storage",
+        "definition": "A reliable mailing address or secure storage for important identity documents."
+      },
+      "relationship": "broader-navigation-proposal",
+      "action": "preserve-human-classifications",
+      "reason": "Combines reliable mailing-address service with document storage; specific records distinguish which is actually offered."
+    },
+    {
+      "previousType": {
+        "id": "type_mesa_id-recovery_military",
+        "categoryId": "id-recovery",
+        "label": "Military Records",
+        "definition": "Obtaining, recording or replacing military service/discharge records."
+      },
+      "proposedType": {
+        "id": "type_mesa_id-recovery_supporting-records",
+        "categoryId": "id-recovery",
+        "label": "Supporting records",
+        "definition": "Education, military, benefit and occupational records used to establish a history, credential or eligibility; these are not necessarily accepted photo identification."
+      },
+      "relationship": "broader-navigation-proposal",
+      "action": "preserve-human-classifications",
+      "reason": "Expanded beyond military records to educational, benefit and occupational records. Actual DD214 pathways and fees remain in prepared text."
+    }
+  ]
+}

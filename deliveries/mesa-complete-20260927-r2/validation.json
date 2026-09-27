@@ -1,0 +1,18 @@
+{
+  "status": "Complete final delivery validated after explicit Type continuity review",
+  "counts": {
+    "resources": 1866,
+    "usable": 1785,
+    "needsResolution": 81,
+    "considerations": 3947,
+    "starterMemberships": 218,
+    "uniqueStarterResources": 195
+  },
+  "independentSchemaValidation": true,
+  "onlyReviewedTypeIdChanged": true,
+  "visuallyInspectedPreviewUnchanged": true,
+  "contentFingerprint": "5e50a92e977f6d87f39fbc550ee569b439fdc4f21072fd33d053487bb76adc19",
+  "artifactSha256": "a2cf8a8cc0ae15659460952065a04240615a408a7bd5fed9cf93019f8ebcb1af",
+  "retainedPriorTypeIds": 22,
+  "broaderTypeProposalsForConsumerReconciliation": 13
+}

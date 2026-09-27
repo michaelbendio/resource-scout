@@ -1,0 +1,7 @@
+{
+  "status": "Read-only generated preview visually inspected in isolated headless Chrome.",
+  "htmlSha256": "d81aa35cea1c280e3ee9acb38b3c21295fa6c3d23ee53005468ab761f23e0355",
+  "screenshotSha256": "0f313a6bee672fef089fcf4f2355a147d2f3b934b9f8298153caa88f3f6738d1",
+  "observed": "Clear readable title, evaluation status, category rationale, starter names, contributions and limitations; no Curated approval shown.",
+  "limits": "Native browser automation was unavailable; Chrome produced the screenshot and HTTP200 before its wrapper timed out. This is not a WSRS-TSO import, editing, Ask or print test."
+}
