@@ -2,6 +2,8 @@
 
 Version 1 · September 27, 2026 · Design for review
 
+Implementation: [step-by-step plan for bounded coding sessions](scout-evaluation-implementation-plan-20260927.md).
+
 ## Purpose and recommendation
 
 Build a controlled, affordable evaluation of DeepSeek, then use its results to improve Scout's discovery workflow. Preserve the playbooks, provenance, resumability, and delivery contracts that already provide value.
