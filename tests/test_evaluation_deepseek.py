@@ -126,6 +126,26 @@ class AdapterTests(unittest.TestCase):
         self.assertEqual([],result['result']['leads'])
     def test_incomplete_length_stop_cannot_be_completed(self):
         with self.assertRaisesRegex(Exception,'stop state'):self.run_fake([response(search_blocks()+[final()],'max_tokens'),response([final()],'max_tokens')])
+    def test_diagnosed_collection_length_recovery_reuses_saved_responses(self):
+        from resource_research_agent.evaluation.protocol import read,checkpoint,file_hash
+        self.packet.update(stage='housing-collection',requiresLiveSearch=False)
+        authorization=read(self.exp/'authorization.json')
+        authorization.update(dollarCapMode='none-authorized',totalUsd=None,stageCapsUsd={'housing-collection':None})
+        checkpoint(self.exp/'authorization.json',authorization)
+        with self.assertRaisesRegex(Exception,'stop state'):
+            self.run_fake([response([{'type':'thinking','thinking':'Saved reasoning'}],'max_tokens'),
+                           response([{'type':'thinking','thinking':'More saved reasoning'}],'max_tokens')])
+        aid=self.packet['assignmentId'];prior=self.exp/'attempts'/(aid+'-01')/'request.json';prior_sha=file_hash(prior)
+        amendment=self.exp/'execution-amendments'/(aid+'-output.json')
+        checkpoint(amendment,dict(protocolSha256=self.ledger.manifest_sha,assignmentId=aid,stage='housing-collection',
+            fromTurn=2,maxOutputTokens=65536,lengthRecoveries=2,reason='Known exhaustion',recordedBy='Test supervisor'))
+        state_path=self.exp/'results/existing-policy/housing'/aid/'state.json';state=read(state_path)
+        state.update(status='pending',messages=read(prior)['messages']);state.pop('reason',None);checkpoint(state_path,state)
+        result,transport=self.run_fake([response([final()])])
+        self.assertEqual(len(transport.requests),1)
+        self.assertEqual(transport.requests[0]['max_tokens'],65536)
+        self.assertEqual(file_hash(prior),prior_sha)
+        self.assertEqual(result['result'],{'leads':[]})
     def test_tool_error_is_preserved_as_uncertainty(self):
         call=dict(type='tool_use',id='fetch1',name='open_url',input={'url':'https://provider.example.org'})
         result,t=self.run_fake([response(search_blocks()+[call],'tool_use'),response([final()])],fetcher=lambda *args:{'errorType':'TimeoutError','notice':'Not proof of closure'})

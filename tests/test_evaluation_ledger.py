@@ -10,6 +10,23 @@ from tests.evaluation_support import fixture,authorize
 
 
 class LedgerTests(unittest.TestCase):
+    def test_output_amendment_is_scoped_and_reserves_the_larger_allowance(self):
+        l=self.parallel_ledger();a=read(self.exp/'authorization.json')
+        a.update(dollarCapMode='none-authorized',totalUsd=None,stageCapsUsd={'housing-collection':None})
+        (self.exp/'authorization.json').write_text(json.dumps(a))
+        path=self.exp/'execution-amendments/collection-output.json';path.parent.mkdir()
+        path.write_text(json.dumps(dict(protocolSha256=l.manifest_sha,assignmentId='collection',stage='housing-collection',
+            fromTurn=2,maxOutputTokens=65536,lengthRecoveries=2,reason='Known output exhaustion',recordedBy='Test supervisor')))
+        self.assertEqual(l.output_controls('housing','housing-collection','collection',1)['maxOutputTokens'],l.config['provider']['maxOutputTokens'])
+        self.assertEqual(l.output_controls('housing','housing-collection','collection',2)['maxOutputTokens'],65536)
+        row=l.reserve_attempt('collection-02',condition='existing-policy',category='housing',stage='housing-collection',
+            pass_key='collection',request={'model':'deepseek-flash','max_tokens':65536},timeout_seconds=1)
+        expected=maximum_charge(dict(l.config['provider'],maxOutputTokens=65536),l.pricing)
+        self.assertEqual(Decimal(row['reservation']),expected)
+        with self.assertRaises(BudgetHold):l.output_controls('housing','housing-review','collection',2)
+        a.pop('dollarCapMode');a['totalUsd']='10';(self.exp/'authorization.json').write_text(json.dumps(a))
+        with self.assertRaises(BudgetHold):l.output_controls('housing','housing-collection','collection',2)
+
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
         self.config,self.source=fixture(self.root);self.exp=self.root/'experiment'

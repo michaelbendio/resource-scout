@@ -186,6 +186,24 @@ class Ledger:
         limits.update(replacements)
         return limits,sha
 
+    def output_controls(self, category, stage, assignment_id, turn):
+        controls={'maxOutputTokens':self.config['provider']['maxOutputTokens'],'lengthRecoveries':1,'amendmentSha256':None}
+        identifier(assignment_id)
+        path=self.root/'execution-amendments'/(assignment_id+'-output.json')
+        if not path.exists():return controls
+        amendment=read(path);authorization,_=self.authorization()
+        if (category!='housing' or stage!='housing-collection' or stage not in authorization['stageCapsUsd']
+                or not self.uncapped(authorization) or amendment.get('protocolSha256')!=self.manifest_sha
+                or amendment.get('assignmentId')!=assignment_id or amendment.get('stage')!=stage
+                or type(amendment.get('fromTurn')) is not int or not 1<=amendment['fromTurn']<self.config['limits']['maxTurns']
+                or amendment.get('maxOutputTokens')!=65536 or amendment.get('lengthRecoveries')!=2
+                or not amendment.get('reason') or not amendment.get('recordedBy')):
+            raise BudgetHold('Invalid diagnosed collection output amendment')
+        sha=file_hash(path);write_once(self.root/'authorizations'/('output-'+sha+'.json'),amendment)
+        controls.update(lengthRecoveries=2,amendmentSha256=sha)
+        if turn>=amendment['fromTurn']:controls['maxOutputTokens']=65536
+        return controls
+
     def reserve_attempt(self, attempt_id, *, condition, category, stage, pass_key, request,
                         timeout_seconds, recovery_of=None, diagnosis=None):
         identifier(attempt_id);identifier(category)
@@ -194,7 +212,16 @@ class Ledger:
             raise BudgetHold('Category/stage outside the authorized envelope')
         if condition!=self.config['condition']:raise BudgetHold('Unsealed experimental condition')
         execution_limits,limit_amendment_sha=self.execution_limits(category,stage)
-        try:amount=maximum_charge(self.config['provider'],self.pricing)
+        output_tokens=request.get('max_tokens',self.config['provider']['maxOutputTokens'])
+        output_amendment=None
+        if type(output_tokens) is not int or output_tokens<=0:raise BudgetHold('Invalid output token allowance')
+        if output_tokens>self.config['provider']['maxOutputTokens']:
+            aid,_,suffix=attempt_id.rpartition('-')
+            if not suffix.isdigit():raise BudgetHold('Unscoped output allowance')
+            controls=self.output_controls(category,stage,aid,int(suffix))
+            if output_tokens>controls['maxOutputTokens']:raise BudgetHold('Output allowance exceeds authorized controls')
+            output_amendment=controls['amendmentSha256']
+        try:amount=maximum_charge(dict(self.config['provider'],maxOutputTokens=output_tokens),self.pricing)
         except BudgetHold:
             if not self.uncapped(a):raise
             amount=None
@@ -235,7 +262,8 @@ class Ledger:
                 VALUES (?,?,?,?,?,?,?,'reserved',?,?,?,?,?,?,?)''',
                 (attempt_id,condition,category,stage,pass_key,request_sha,request['model'],str(amount) if amount is not None else None,digest(self.pricing),auth_sha,now(),timeout_seconds,recovery_of,diagnosis))
             self.event(db,attempt_id,'reserved',{'maximumUsd':str(amount) if amount is not None else None,'uncappedAuthorized':self.uncapped(a),
-                'executionLimitAmendmentSha256':limit_amendment_sha,'executionLimits':execution_limits})
+                'executionLimitAmendmentSha256':limit_amendment_sha,'executionLimits':execution_limits,
+                'outputAmendmentSha256':output_amendment,'maxOutputTokens':output_tokens})
             self._owned_attempts.add(attempt_id)
         return self.attempt(attempt_id)
 
