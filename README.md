@@ -1,219 +1,78 @@
 # Resource Scout
 
-Resource Scout researches, consolidates, and curates resource candidates gathered
-from several consumer AI products. It creates a self-contained TSO Resources
-review file such as `autoMesa.html` for human vetting and package creation. It is
-designed for repeated use across TSO locations and resource categories.
+Scout researches community services, prepares resource candidates, and supports
+review for TSO offices. Its current data handoff to WSRS-TSO is
+`prepared-resources.json`: stable resource identities, sources, taxonomy, explained
+starter sets, and reserve resources. AI preparation and review do not confer human
+approval or agency verification.
 
-Version 0.51.1 gives generated workbenches curation-specific Help and Admin Help,
-a printable first-resource walkthrough, Match all/any examples, and clear guidance
-for checking a printed handout and saving a curated batch. The red starting hint
-points to both help sections and gives the Admin-mode shortcut.
+Start with [SCOUT_STATUS.md](SCOUT_STATUS.md) for the current checkout, run state,
+deliveries and holds. Read [the documentation guide](docs/README.md) for current
+policy and contracts. Scout is stopped pending Welfare Square rule/run preparation;
+commands below describe capabilities, not authorization to start paid work.
 
-Version 0.51.0 makes a proposed human review order part of the requested
-post-curation AI review. Each category has Start here, Important specialized help,
-and Additional options, with short reasons and useful questions. The workbench
-shows shared Curated progress, permits personal category-specific priority changes,
-and keeps all resources searchable. Priorities are not provider ratings or approval
-and are omitted from the curated office package. Scout enforces complete, current
-decisions; the AI reviewer supplies the judgment. See
-[`docs/scout-workbench-readiness.md`](docs/scout-workbench-readiness.md).
+## Current workflow
 
-Version 0.50.0 adds a non-destructive curation/enrichment project for an existing
-`auto[Location].html`. Each resource receives the three Information sections
-approved from Stephanie's template—Services Provided, Eligibility Requirements,
-and How to Best Connect—while its previous Information is appended verbatim as
-Scout Findings. Codex researches every resource; deterministic risk signals send
-targeted audits across ChatGPT, Grok, Perplexity, and Claude, followed by a fresh
-Codex reconciliation. Assignments and results are durable, source-hashed, and
-resumable; the enriched HTML is a new artifact and cannot be built until every
-required audit passes validation. See
-[`docs/scout-enrichment.md`](docs/scout-enrichment.md).
+1. Research under the [office-fit rules](docs/office-fit-rules-20260928.md), preserving
+   source evidence and sealed assignments.
+2. Prepare supported candidates and reconcile identities and taxonomy.
+3. Review content, useful starter sets and reserve explanations under the
+   [prepared-resource contract](docs/scout-prepared-resources-contract.md).
+4. Export validated JSON for WSRS-TSO; the office makes its own curation decisions.
 
-Version 0.49.0 lets Curators delete proposed resources and categories directly
-from generated `auto[Location].html` files. Resource deletion removes the
-proposal from that review copy. Category deletion removes the category and its
-assignments while leaving the affected resources available for further review.
-The office package's deletion-tag and approval workflow remains unchanged.
+Scope, providers and review authority come from the current handoff and Michael's
+instructions. Follow [orchestration](docs/scout-orchestration.md) for monitoring,
+checkpointing, interruptions and recovery. Do not replay unknown-outcome requests.
 
-Version 0.48.0 gives generated `auto[Location].html` files a dedicated Curated
-workflow. Every review begins with no curated resources. Reviewers curate an
-open resource, preview its unsaved edits in the missionary-facing print layout,
-open its website directly from the editor, toggle Curated beside Done, and save
-only the checked resources from the Resources work area. Scout review files hide
-Office Setup and Publish to SharePoint because their job ends with a mergeable
-resource package.
+Scout also supports legacy `auto[Location].html` workbenches and candidate ZIPs.
+See [legacy curation](docs/scout-curation.md) and
+[workbench readiness](docs/scout-workbench-readiness.md). Their historical tiers,
+provider rosters and section formats do not override the prepared-resource contract
+or current office-fit policy.
 
-Version 0.47.0 compiles an approved, source-hashed taxonomy study into
-`auto[Location].html`. The compilation applies need-based Categories,
-category-specific Types, and comprehensive For groups to the frozen corpus,
-records the exact proposal hashes, and refuses unresolved or stale inputs.
-The review file lets missionaries browse by need or find resources for one or
-more For groups; Type choices are ORed, group choices are ORed, and the two
-dimensions are combined with AND.
+## Local interface
 
-Version 0.46.0 makes Codex-first research the durable whole-office workflow.
-Every non-Miscellaneous category has a versioned focused playbook and gap pass.
-The readable researcher roster assigns Codex as primary, ChatGPT, Grok, and
-Perplexity as one-pass challengers, and Claude as a non-blocking shadow source.
-Scout saves every exact assignment and response, excludes shadow results from
-candidate packages, resumes category state after restart, and prevents curation
-until the configured research plan is complete. ChatGPT's random baseline is
-now 5–10 minutes; the existing 30-minute throttle cooldown remains. The v0.45
-blind-comparison runtime was retired after its immutable evidence and report
-were preserved.
-
-The source-hidden Codex-first replay compares the completed v1 run with a fresh
-v2 proposal on the same immutable package baseline. Saved provider results are
-split into anonymous lesson evidence and sealed identities; providers do not
-rerun, and no active playbook changes automatically. See
-[`docs/codex-first-replay.md`](docs/codex-first-replay.md) for its durable study,
-API, metrics, and evidence-boundary contract.
-
-Version 0.44.0 added an evidence-gated Codex focused-research laboratory without
-changing Scout's existing four-AI workflow. Employment research can now run as
-durable, candidate-aware focus passes followed by a deterministic gap pass.
-Scout preserves each pass, its exact assignment, leads, source focus, and
-cross-pass provenance; Section 02 shows compact operational progress. A sealed
-Mesa-and-Provo retrospective recovered all nine primary targets and both
-secondary diagnostics, exceeding the approved eight-of-nine advancement gate.
-The detailed result remains an evaluation artifact and no learned guidance is
-activated automatically.
-
-Version 0.43.1 preserves every completed research run for the connected office
-when Scout builds its candidate snapshot, even after many newer runs have been
-created for another office. Long-lived Mesa and Provo research therefore remains
-available for later curation without depending on the recent-runs display limit.
-
-Version 0.43.0 makes proposal quality, rather than proposal volume, the curation
-target. Codex must keep the smallest high-confidence set of direct, actionable
-services, explicitly dispose of every candidate, consolidate related programs
-that share an organization or intake path, and add another category only when
-the same program directly serves it. Indirect barrier removal and downstream
-outcomes no longer justify category assignment.
-
-Version 0.42.1 keeps each generated review file's embedded curated resources as
-an immutable base and saves only the reviewer's compact changes, selection marks,
-deletions, and packaged-resource IDs. This avoids duplicating a large curation
-result in browser storage and keeps the review file usable under Safari's
-smaller local-file storage allowance. Review state is scoped to the exact
-generated curation artifact.
-
-Version 0.42.0 added durable ChatGPT assignment scheduling with explicit
-scheduled, due, sent, and cooldown states. A past-due assignment becomes due
-immediately when Scout restarts instead of receiving another delay.
-The former model-agent, optimization, benchmark, trace, and teaching systems are
-not part of this codebase.
-
-## Workflow
-
-1. Connect an existing TSO Resources package.
-2. Codex performs focused and coverage-gap research category by category.
-   ChatGPT, Grok, and Perplexity each receive one adversarial assignment to find
-   what Codex missed. Claude may run as a non-blocking shadow source. Scout
-   preserves exact assignments, responses, roles, and attribution.
-3. Scout's progress area reports research and curation counts, the current
-   activity, the selected delay, scheduled time, and delivery state for the next
-   ChatGPT run, and a 15-minute heartbeat during long categories.
-4. After research finishes, Scout curates each non-Miscellaneous category through
-   durable Codex-controlled assignments.
-5. Scout creates a transient `auto[Location].html` for human review and displays
-   a ready message and download control.
-6. Reviewers edit ordinary resources in that file, mark vetted resources
-   **Curated**, save a standard package containing the curated selection, and merge
-   it into the office HTML. Successfully packaged resources are hidden locally.
-7. An existing review artifact can enter the separate enrichment workflow. Scout
-   researches the three approved Information sections per resource and carries the
-   artifact's prior Information forward under **Scout Findings**.
-
-## Candidate packages
-
-Scout can build an internal location-wide candidate snapshot such as
-`mesa-candidates.zip`. It contains the consolidated candidates from every
-completed discovery associated with the connected package, grouped by category
-and accompanied by their source responses, source-only records, closed or
-unreachable records, and package provenance. The main Scout screen does not ask
-the operator to save this intermediate package.
-
-Candidate packages are a portable Scout snapshot. They do not contain curation
-decisions and do not alter the connected resource package.
-
-## Resource Scout curation
-
-After all named service categories have completed research, Scout prepares one
-durable curation assignment at a time for Codex. It validates and stores a
-disposition for every consolidated candidate, resumes completed work without
-repeating it, and carries previously curated resources forward so one program
-can be classified under more than one category.
-
-When every category except Miscellaneous is curated, Scout creates a versioned,
-self-contained `auto[Location].html`. Reviewers mark any vetted resources
-**Curated** in that normal TSO Resources file. Each successful save
-exports one standard additions-only package and removes the saved resources from
-that browser's active review queue. See
-[`docs/scout-curation.md`](docs/scout-curation.md) for the full contract and pacing
-policy.
-
-When a genuinely changed resource package is connected after discovery has
-finished, Scout can reconcile the preserved discoveries against it without
-repeating research. It omits only candidates supported as the same resource by
-an exact identity plus exact website or address and keeps weaker relationships
-for review. The resulting office review file uses that reconciled package as its
-additions-only base.
-
-Resource Specialists perform the website review, telephone interview,
-classification, editing, printing, and final package decision in Scout's normal
-TSO Resources review file.
-
-## Run Scout
-
-Python 3.10 or newer is required. Scout has no third-party Python dependency.
+Python 3.10 or newer is required for the core application. Optional evaluation
+tooling may have separate dependencies; follow its specific instructions.
 
 ```sh
 ./run.sh
 ```
 
-Open [http://127.0.0.1:8765](http://127.0.0.1:8765).
-
-For private access from an iPad connected to the same Tailscale network:
+The default interface is [localhost:8765](http://127.0.0.1:8765).
+For private access through Tailscale:
 
 ```sh
 ./run-tailscale.sh --port 8767
 ```
 
-The command prints the private address to open on the iPad.
+The command prints the private address. A dashboard server is not a research worker.
+For service management, see `./background-service.sh` and its `status`, `logs`,
+`install` and `restart` commands. Installing or restarting a service is an explicit
+operational action; this cleanup leaves Scout stopped.
 
-## Background service on macOS
+## Repository and data
 
-```sh
-./background-service.sh install
-./background-service.sh status
-./background-service.sh restart
-./background-service.sh logs
-```
+- `resource_research_agent/`, `scripts/`, `tests/`: implementation and checks.
+- `docs/`, `schemas/`, `registry/`: policies, contracts and committed identities.
+- `deliveries/`: versioned handoffs; check scope and acceptance status before import.
+- `data/`: ignored local research databases, responses, runtime evidence and previews.
+  It also currently contains a separate Git worktree at `data/evaluations/implementation`.
+  Do not bulk-delete this directory or use `git clean -fdx` to tidy the repository.
 
-The service starts Scout with private Tailscale access. Uninstalling the service
-does not remove Scout's database or logs.
+Git pushes do not back up ignored runtime evidence. Connected source packages,
+research evidence and human decisions must be preserved. Do not commit credentials
+or private client information.
 
-## Data and privacy
-
-The connected package is read without modifying the source ZIP. Scout stores an
-immutable import snapshot, chat responses, deterministic consolidation records,
-contact-search results, completed candidate records, curation assignments, and
-workflow progress in its local SQLite database. A generated office review file
-contains curated proposals and only the office/package provenance needed for
-review and standard package creation.
-
-## Tests
+## Verification
 
 ```sh
 python3 -m unittest discover -s tests
 ```
 
-The suite covers package import and duplicate indexing, category guidance,
-response parsing, conservative consolidation, identity decisions, contact lookup,
-focused-research planning, resumability, target sealing, gap analysis, provenance,
-retrospective evaluation, Curator isolation and package creation, Tailscale
-behavior, background service configuration, Resource Scout curation durability,
-curation and enrichment validation, exact Scout Findings preservation, progress
-and pacing, Scout-owned review-file generation, and Scout/review-file UI wiring.
+Use focused checks for a scoped change and the appropriate delivery validators.
+Passing structural tests does not establish resource quality or office approval.
+
+Older version notes and workflow descriptions are preserved in the
+[pre-cleanup README](docs/archive/20260928/README.md). Historical operational
+checkpoints are in the [status archive](docs/archive/20260928/SCOUT_STATUS.md).
