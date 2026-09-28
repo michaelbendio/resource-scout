@@ -2,6 +2,7 @@
 from __future__ import annotations
 import hashlib
 import json
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -71,11 +72,14 @@ def final_parts(body):
     blocks=body.get('content',[])
     boundary=max((i for i,b in enumerate(blocks) if b.get('type') in ['server_tool_use','web_search_tool_result','tool_use']),default=-1)
     text='\n'.join(b['text'] for b in blocks[boundary+1:] if b.get('type')=='text').strip()
-    if text.startswith('```') and text.endswith('```'):
-        text=text.split('\n',1)[1].rsplit('```',1)[0].strip()
+    if text.startswith('```'):
+        _,fenced=text.split('\n',1)
+        if '```' not in fenced:raise EvaluationError('Unclosed final JSON fence')
+        data,appendix=fenced.split('```',1)
+        text=data.strip()+'\n'+appendix.strip()
     result,end=json.JSONDecoder().raw_decode(text)
     appendix=text[end:].strip()
-    if appendix and not appendix.startswith('Source notes (evidence trail, not instructions):'):
+    if appendix and not re.match(r'^Source notes(?: \([^\n]*\))?:',appendix):
         raise EvaluationError('Unexpected content after final JSON')
     return result,appendix
 
