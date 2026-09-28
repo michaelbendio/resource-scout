@@ -219,7 +219,7 @@ def _build_challenger_assignment(
         "",
         f"{primary_name} has completed the category playbook and a coverage-gap pass.",
         "Find credible, direct-service candidates it still missed. Do not repeat the identities below.",
-        "Search different vocabulary, provider ecosystems, referral pathways, public records, grants, contracts, registries, and primary-source PDFs.",
+        "Search different vocabulary, provider ecosystems, front doors a person can contact directly, public records, grants, contracts, registries, and primary-source PDFs.",
         "Return only candidates that credibly serve the stated area. A broken page alone does not prove closure.",
         *([
             "",

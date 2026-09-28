@@ -154,8 +154,15 @@ class MesaCompleteDeliveryTests(unittest.TestCase):
             for _ in range(2):
                 export_bundle(bundle_path, registry, target/'out',
                     previous_path=ROOT/'deliveries/mesa-four-categories-20260925/prepared-resources.json')
-                for name in ['prepared-resources.json','prepared-resources.json.gz','identity-migration.json','receipt.json']:
-                    self.assertEqual((D/name).read_bytes(), (target/'out'/name).read_bytes(), name)
+                # The delivery predates the agreed file name; a re-export writes the same
+                # bytes under scout-<office>-prepared-resources-<date>.json.
+                named = next((target/'out').glob('scout-mesa-prepared-resources-*.json'))
+                for old, new in [('prepared-resources.json', named.name), ('prepared-resources.json.gz', named.name+'.gz'),
+                                 ('identity-migration.json', 'identity-migration.json')]:
+                    self.assertEqual((D/old).read_bytes(), (target/'out'/new).read_bytes(), old)
+                receipt = load(target/'out'/'receipt.json')
+                self.assertEqual(receipt.pop('artifactFile'), named.name)
+                self.assertEqual(receipt, load(D/'receipt.json'))
 
     @unittest.skipUnless(importlib.util.find_spec('jsonschema'), 'Optional independent JSON Schema validator')
     def test_independent_schema_validation_of_complete_delivery(self):

@@ -7,12 +7,18 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+from .office_fit import office_fit_lines
 from .codex_first_research import (
     next_codex_first_assignment,
     save_codex_first_external_result,
 )
 from .storage import ResearchStore
 
+
+
+def with_office_fit(assignment: str) -> str:
+    """The pasted challenger assignment, led by the office-fit rules like every other researcher's."""
+    return "\n".join([*office_fit_lines("Return only leads a missionary at the assignment's office would hand to someone across the desk. A lead that fails any of these office-fit rules is not returned:"), "", assignment])
 
 def _copy_to_clipboard(text: str) -> bool:
     pbcopy = shutil.which("pbcopy")
@@ -63,7 +69,7 @@ def next_challenge(
     if assignment["kind"] not in {"challenger", "shadow"}:
         raise ValueError(f"{researcher} does not have an external assignment")
     external = assignment["externalAssignment"]
-    text = str(external["assignment"])
+    text = with_office_fit(str(external["assignment"]))
     if output is not None:
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(text, encoding="utf-8")

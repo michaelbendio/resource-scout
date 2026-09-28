@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
 
+from .office_fit import office_fit_lines
 from .candidate_package import build_candidate_package
 from .storage import ResearchStore
 from .focused_research import CODEX_FIRST_EXPERIMENT_MODE
@@ -15,13 +16,36 @@ from .resource_writing import (
 )
 
 
-SCOUT_CURATION_ASSIGNMENT_VERSION = "codex-curation-v3-writing"
+SCOUT_CURATION_ASSIGNMENT_VERSION = "codex-curation-v4-writing-office-fit"
 SCOUT_CURATION_RESULT_SCHEMA_VERSION = 2
 
 
 class ScoutCurationError(ValueError):
     """Raised when a curation job or Codex result violates its durable contract."""
 
+
+
+def curation_instructions():
+    """The default (schema 2) curator's instructions, led by the office-fit rules."""
+    return [
+        "\n".join(office_fit_lines("Omit a candidate that fails any of these office-fit rules, naming the rule in its reason:")),
+        "Curate every candidate or explicitly omit it with a reason.",
+        "Treat candidate coverage as an audit requirement, not an instruction to propose every candidate.",
+        "Propose only distinct, current, actionable programs or providers that directly deliver the current category's service.",
+        "Omit generic employer career pages, general school catalogs, broad directories, referral-only pages, and programs whose connection to the category is only an indirect barrier or downstream outcome.",
+        "Prefer one actionable program or provider per resource; consolidate aliases and duplicate program descriptions, and do not split ordinary locations.",
+        "Preserve uncertainty in plain language and do not invent facts.",
+        "A broken page alone does not prove closure; use current official or primary evidence before omitting a candidate as closed or inaccessible.",
+        "Reuse and extend a previously curated resource when it is the same program.",
+        "Every new resource must include the current category and contributing candidate IDs.",
+        "Assign another category only when the same named program directly and independently provides a substantial service in that category; barrier removal, referrals, and likely client overlap are not enough.",
+        "Apply only clearly evidenced existing For groups. Do not create or suggest a missing For group.",
+        "Prefer the smallest high-confidence proposal set; there is no target count or coverage quota.",
+        "Follow writingGuidance.instructionsText and return section bodies using its assigned keys. Scout composes the headings.",
+        "Record supporting candidate IDs and newly consulted source material in writingEvidence; never set a human verifiedOn date.",
+        "Use openQuestions for specific unresolved curator questions, each with question and explanation. Use an empty array when none remain. This does not replace full curation or put administrative questions in patron Information. Never resolve a curator question yourself.",
+        "Return only one JSON object matching outputContract.",
+    ]
 
 def _canonical_json(value: Any) -> str:
     return json.dumps(
@@ -155,24 +179,7 @@ def _assignment(
                 "that population. Never create or suggest a missing For group in this pass."
             ),
         },
-        "instructions": [
-            "Curate every candidate or explicitly omit it with a reason.",
-            "Treat candidate coverage as an audit requirement, not an instruction to propose every candidate.",
-            "Propose only distinct, current, actionable programs or providers that directly deliver the current category's service.",
-            "Omit generic employer career pages, general school catalogs, broad directories, referral-only pages, and programs whose connection to the category is only an indirect barrier or downstream outcome.",
-            "Prefer one actionable program or provider per resource; consolidate aliases and duplicate program descriptions, and do not split ordinary locations.",
-            "Preserve uncertainty in plain language and do not invent facts.",
-            "A broken page alone does not prove closure; use current official or primary evidence before omitting a candidate as closed or inaccessible.",
-            "Reuse and extend a previously curated resource when it is the same program.",
-            "Every new resource must include the current category and contributing candidate IDs.",
-            "Assign another category only when the same named program directly and independently provides a substantial service in that category; barrier removal, referrals, and likely client overlap are not enough.",
-            "Apply only clearly evidenced existing For groups. Do not create or suggest a missing For group.",
-            "Prefer the smallest high-confidence proposal set; there is no target count or coverage quota.",
-            "Follow writingGuidance.instructionsText and return section bodies using its assigned keys. Scout composes the headings.",
-            "Record supporting candidate IDs and newly consulted source material in writingEvidence; never set a human verifiedOn date.",
-            "Use openQuestions for specific unresolved curator questions, each with question and explanation. Use an empty array when none remain. This does not replace full curation or put administrative questions in patron Information. Never resolve a curator question yourself.",
-            "Return only one JSON object matching outputContract.",
-        ],
+        "instructions": curation_instructions(),
         "outputContract": {
             "scoutCurationResultSchemaVersion": SCOUT_CURATION_RESULT_SCHEMA_VERSION,
             "assignmentSha256": "Copy from this assignment's assignmentSha256 field.",

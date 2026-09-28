@@ -15,7 +15,7 @@ from unittest.mock import patch
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from resource_research_agent import __build__, __version__
+from resource_research_agent import __build__, __version__, scout_curation
 from resource_research_agent.scout_curation import (
     ScoutCurationError,
     build_scout_review_seed,
@@ -505,7 +505,7 @@ class ScoutCurationTests(unittest.TestCase):
         )
         assignment = job["categories"][0]["assignment"]
         self.assertEqual(
-            "codex-curation-v3-writing:" + assignment["writingGuidance"]["sha256"],
+            scout_curation.SCOUT_CURATION_ASSIGNMENT_VERSION + ":" + assignment["writingGuidance"]["sha256"],
             assignment["assignmentVersion"],
         )
         self.assertIn(

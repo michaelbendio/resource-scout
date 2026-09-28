@@ -56,3 +56,34 @@ They are written relative to the office, so they apply to every office unchanged
   **"Phone and online resources count."** Rule 1 now says so.
 
 Tests: `tests/test_office_fit.py`.
+
+## Gaps closed after the merge into `main` (same day)
+
+An audit of every model-facing prompt on `main` after Codex's reconciliation found the
+rules missing or contradicted in several live places. Fixed, with a test for each in
+`tests/test_office_fit.py`:
+
+- **Default curation** (the schema-2 writing contract, used by `office_pipeline` and the
+  server) had no rule text. Its instructions are now `scout_curation.curation_instructions()`,
+  led by the rules; `SCOUT_CURATION_ASSIGNMENT_VERSION` is `codex-curation-v4-writing-office-fit`.
+- **Prepared curation could reuse a job sealed before the rules**, because its version
+  was unchanged. `ASSIGNMENT_VERSION` is now `codex-preparation-v5-office-fit`; v4 jobs
+  remain readable. Its objective no longer reads "Prepare every distinct supported
+  resource", and an unresolved lead is kept for administrators only if it would pass
+  the rules once resolved.
+- **The curation worker** no longer says unresolved useful leads "may be retained", or
+  that a duplicate should be kept when it contributes to a retained programme.
+- **Review** no longer tells the reviewer to preserve every resource identity.
+- **Challengers** are sent to look for "front doors a person can contact directly", not
+  "referral pathways".
+- **The manual challenger** (`pairwise_challenge`) now pastes the rules ahead of its
+  assignment.
+- **`AGENTS.md`** states the rules, which the review Michael starts by hand reads. It,
+  the orchestration guide, the prepared-resource contract and the curation guide no
+  longer ask for "useful reserves" or to "preserve all resources".
+
+**Left for Codex:** the evaluation harness's curation step
+(`evaluation/preparation.py`) calls the live `prepared_assignment`, so a *new* evaluation
+would get the rules at curation but not at research or review. Sealed evaluations are
+unaffected. For a like-for-like comparison, freeze a copy of the older instructions in
+the harness.

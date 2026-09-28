@@ -6,12 +6,24 @@ contract. [Design and decisions](scout-prepared-resources-design-20260925.md) ex
 the policy; the [JSON Schema](../schemas/scout-prepared-resources-v1.schema.json)
 and `prepared_resources.validate_artifact` define structural and semantic checks.
 
+## Delivery file name
+
+From 28 September 2026 `prepared_export` writes
+`scout-<office>-prepared-resources-<YYYY-MM-DD>.json` and its `.json.gz` copy, where
+`<office>` is the office slug and the date is the snapshot's generation date, for example
+`scout-welfare-square-prepared-resources-2026-09-28.json`. Agreed with WSRS-TSO on
+26 September so deliveries can be told apart; the receipt records it as `artifactFile`.
+Earlier deliveries keep their plain `prepared-resources.json` names.
+
 ## Preparation and review
 
 New curation jobs explicitly select `scout_curation_runner --prepared`. This seals
 policy `prepared-resources-v1-five-sections` into assignment version
-`codex-preparation-v4-source-checks`, distinct from existing jobs. It retains useful
-reserve proposals rather than minimizing their count. The closed worker response
+`codex-preparation-v5-office-fit` (from 28 September 2026; earlier jobs used
+`codex-preparation-v4-source-checks`), distinct from existing jobs. It retains only
+proposals that pass the [office-fit rules](office-fit-rules-20260928.md); until that
+date it retained "useful reserve proposals rather than minimizing their count", which
+Michael reversed ("settle the conflict in the way that most narrows the output"). The closed worker response
 schema and normalizer preserve email, sources, research date, preparation state,
 resolution reason and evidenced taxonomy suggestions. IDs are provisional draft
 references. Workers cannot allocate production `sr_` IDs or supply `verifiedOn`.

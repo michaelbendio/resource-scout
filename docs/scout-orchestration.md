@@ -3,7 +3,7 @@
 **September 25 prepared-resource mode:** the
 [prepared delivery contract](scout-prepared-resources-contract.md) supersedes the
 four-section/minimum-volume/tier instructions below for new `--prepared` jobs and
-JSON handoffs. It requires five sections, useful reserves, whole-collection
+JSON handoffs. It requires five sections, reserves that pass the office-fit rules, whole-collection
 taxonomy judgment, explained starters, non-starter considerations and a committed
 identity registry. Existing sealed jobs keep their exact prompts/schema. New-mode
 completion emits non-importable drafts, **Ready for Codex review**; it does not
@@ -322,8 +322,8 @@ a longer curation prompt alone does not reproduce this review function:
    supporting excerpts and useful unresolved questions. Record priorities through
    `scout_review_priorities.py` as required by workbench readiness. This judgment is
    supplied by the requested AI reviewer, not by Scout's deterministic orchestrator.
-   Keep rare consequential pathways prominent; preserve all resources and human
-   Curated status. Inspect local overrides and shared progress across Categories.
+   Keep rare consequential pathways prominent; preserve human Curated status and
+   remove resources that fail an office-fit rule. Inspect local overrides and shared progress across Categories.
    A successful HTML build or occurrence of four keywords is insufficient.
 6. Measure missed errors, false alarms, added usage and curator burden against
    known cases, including the Washington County Maryland/Utah error. Test recovery
