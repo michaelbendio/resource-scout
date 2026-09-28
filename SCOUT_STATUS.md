@@ -1,22 +1,33 @@
-# Active isolated Housing evaluation — September 27, 2026
+# Housing pilot complete — targeted retest before expansion
 
-This checkout implements the evaluation plan on `docs/scout-evaluation-design-20260927`.
-The historical operational notes below are superseded for this checkout: do not
-resume their Mesa workers. Production Mesa remains on its separate relevance hold.
+September 27, 2026. This isolated implementation checkout is on
+`docs/scout-evaluation-design-20260927`. No Housing worker is running.
 
-Michael authorized the Housing comparison and removed its proposed $3 cap.
-Active experiment: `data/evaluations/mesa-housing-existing-policy-20260927/`.
-DeepSeek V4.1-Flash, max effort; 60 calls, 3,600 active seconds, 24 turns per
-assignment and two diagnosed paid-recovery attempts remain the limits. Research
-uses only an isolated scratch store. Inspect ledger/request state and runner.log
-before resuming; never resend a request with an uncertain paid outcome.
+The authorized existing-policy DeepSeek Housing pilot completed five focused
+passes and one gap pass: **104 raw leads, 6 paid requests, 16.75 active minutes**
+(23.18 minutes from first dispatch to final response). Historical primary: 61 raw
+leads; exact historical model/settings and active processing time are not established.
+Michael removed the $3 cap before dispatch. No paid call was replayed; the three
+format recoveries adopted immutable saved responses. All six outcomes are known.
+Native billing remains unreconciled; token-only arithmetic is $0.144 off-peak or
+$0.288 peak under stated assumptions, not the actual bill.
 
-First two responses (45 and 10 raw leads) required JSON-wrapper/source-appendix
-parser recovery. Both were adopted from saved responses with no paid replay.
-Recovery states and code amendments are preserved under the experiment's recovery/.
-Some native billing fields remain unknown, not zero. No quality acceptance or
-production export follows from research completion. The single supervising Codex
-reviewer owns monitoring and the comparison. See implementation status and usage.
+**Decision: targeted retest; do not expand or adopt.** Dated source checks found
+useful additions, a missed known one-n-ten route, an incorrect Autumn House
+attribution, speculative/unresolved leads and a historical Family Promise claim
+that needs a current correction. All frozen essentials received an assessment;
+this is not exhaustive vetting of 104 leads or a completed novelty census.
+The four-successful-search allowance was exhausted. No follow-up has been launched.
+
+Report: [Mesa Housing comparison](docs/mesa-housing-evaluation-20260927.md).
+Runtime evidence: `data/evaluations/mesa-housing-existing-policy-20260927/`.
+49 evaluation tests pass; the earlier 25 affected existing tests passed.
+Next: a narrowly specified search-budget/source-grounding retest before an
+advancement decision. No fresh Codex control, Food/Disability expansion, production
+import or registry change has been authorized by this result.
+
+Historical operational notes below do not authorize resuming old Mesa workers.
+Production Mesa remains on its separate relevance hold.
 
 ---
 

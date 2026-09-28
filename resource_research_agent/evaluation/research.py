@@ -128,6 +128,11 @@ def _run_category(root,condition,category,*,execute=False,transport=None,fetcher
             candidates=build_candidate_manifest(store,job['runId']),usage=ledger.summarize_usage(),
             qualityJudgment=None,notice='Completed scratch research is not an approved office collection or an advancement decision.')
         write_once(directory/'summary.json',summary)
+        held=directory/'held-outcome.json'
+        if held.exists():
+            record=read(held)
+            write_once(directory/'resolved-holds'/(digest(record)+'.json'),record)
+            held.unlink()
         return summary
 
 

@@ -30,7 +30,12 @@ class OfflineTests(unittest.TestCase):
             return original(ledger,aid,body)
         with patch.object(Ledger,'record_response',interrupted):
             with self.assertRaises(KeyboardInterrupt):run_category(resumed,'existing-policy','housing',execute=True,transport=t2)
+        from resource_research_agent.evaluation.protocol import write_once
+        hold=resumed/'results/existing-policy/housing/held-outcome.json'
+        write_once(hold,{'reason':'Synthetic recovered local parser condition'})
         actual=run_category(resumed,'existing-policy','housing',execute=True,transport=t2)
+        self.assertFalse(hold.exists())
+        self.assertEqual(1,len(list((hold.parent/'resolved-holds').glob('*.json'))))
         self.assertEqual(expected['passes'],actual['passes'])
         self.assertEqual(expected['candidates'],actual['candidates'])
         for field in ['attempts','states','exposureUsd','calculatedUsd','outstandingReservedUsd']:

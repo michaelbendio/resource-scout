@@ -132,3 +132,24 @@ collections with separate reveal, dated essential-pathway judgment gates, actual
 usage CSV/JSON and a projection that leaves later unmeasured stages explicit.
 49 evaluation tests pass. Source review remains ongoing; no advancement or
 complete Housing comparison is claimed by this tooling checkpoint.
+
+## Ticket 5 pilot outcome — September 27
+
+Research completed: 104 raw leads versus 61 historical, six paid requests,
+16.75 active processing minutes and 23.18 elapsed research minutes. Three local
+format recoveries reused intact saved responses; no paid replay or uncertain
+request outcome remains. Full native billing is unknown; the report distinguishes
+illustrative token arithmetic from a bill and leaves later-stage costs unmeasured.
+
+The recorded advancement decision is **targeted-retest**, not advance. All frozen
+essential needs and named findings were audited. One-n-ten was missed; Autumn House
+attribution needs correction; an explicitly speculative candidate is uncredited.
+The historical Family Promise rent-help claim also needs current correction, with
+source timing kept separate from model error. A/B labels are not claimed blinded.
+This gate audit is not exhaustive vetting of all 104 leads or a complete novelty
+inventory. Unassessed novelty gets no credit and reduced Codex review work is not
+established. See `docs/mesa-housing-evaluation-20260927.md` and local audit evidence.
+
+49 evaluation tests pass; `git diff --check` passes. No production defaults or human
+state changed. Next is a bounded Housing search-budget/fact-grounding retest and
+subsequent gate audit, not ticket 6 expansion. No retest or extra office launched.
