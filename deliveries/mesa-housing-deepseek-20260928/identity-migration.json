@@ -1,0 +1,419 @@
+{
+  "artifactType": "scout-identity-migration",
+  "schemaVersion": 1,
+  "office": {
+    "name": "Mesa",
+    "slug": "mesa"
+  },
+  "sourceNamespace": "mesa-housing-deepseek-20260928",
+  "snapshotId": "ss_bdcfeacc1b307256cfe69914a519472a",
+  "registryNamespace": "ab607bd7-2b2c-42fc-aef6-2216dfebe9fb",
+  "aliases": [
+    {
+      "legacyId": "b01-211-arizona",
+      "resourceId": "sr_e7d764731f2e52a99399e7c04d32abf0"
+    },
+    {
+      "legacyId": "b01-anl-autumn-house",
+      "resourceId": "sr_2a995efcc70750d88378f7df307e3061"
+    },
+    {
+      "legacyId": "b01-anl-evmc",
+      "resourceId": "sr_e3cbfdb67a125211a7286ca80a8f493a"
+    },
+    {
+      "legacyId": "b01-anl-helaman-house",
+      "resourceId": "sr_3f4b8bc397d95228a40e422660f9d7e8"
+    },
+    {
+      "legacyId": "b01-anl-la-mesita-apartments",
+      "resourceId": "sr_e0f32d713de35a1dbdc688f4a3bd9483"
+    },
+    {
+      "legacyId": "b01-anl-mesacan",
+      "resourceId": "sr_64df21dc58035292b614bd02461bced5"
+    },
+    {
+      "legacyId": "b01-anl-rapid-rehousing",
+      "resourceId": "sr_a592cf82537557eebce4b24ff073a1cc"
+    },
+    {
+      "legacyId": "b01-anl-safedvs",
+      "resourceId": "sr_3cfe8f904d655ca880b2804b2b139e3b"
+    },
+    {
+      "legacyId": "b02a-ability360-housing",
+      "resourceId": "sr_a17c5782800155cb9b11fe307d3df0dc"
+    },
+    {
+      "legacyId": "b02a-affordablehousinghub-tracker",
+      "resourceId": "sr_1f2ad077ecd05bd5922d5876e07f1516"
+    },
+    {
+      "legacyId": "b02a-hopwa-care-directions",
+      "resourceId": "sr_a5fd9374371e5da4a01b1cb969790eac"
+    },
+    {
+      "legacyId": "b02a-red-cross-disaster-lodging",
+      "resourceId": "sr_3a769dcaa4da5d4d8a7cbcf23d650267"
+    },
+    {
+      "legacyId": "b02b-ahcccs-housing-program",
+      "resourceId": "sr_f30ad4f695005f7a8b3a99c56c354e6a"
+    },
+    {
+      "legacyId": "b02b-ddd-affordable-housing",
+      "resourceId": "sr_d729d647dedb5c0caf921319ae4b5b6a"
+    },
+    {
+      "legacyId": "b02b-ddd-housing-specialists",
+      "resourceId": "sr_966788ddaf015d94848df3107dd8c87e"
+    },
+    {
+      "legacyId": "b02b-stcs-family-crisis-assistance",
+      "resourceId": "sr_d389a192e73951a38ccaed463eee538c"
+    },
+    {
+      "legacyId": "b03a-adoh-811-lihtc",
+      "resourceId": "sr_a3a4c0c8c09259b2b659063bb6881f40"
+    },
+    {
+      "legacyId": "b03a-azcend",
+      "resourceId": "sr_771ee14bd164581c8e696823168089c9"
+    },
+    {
+      "legacyId": "b03a-azrha",
+      "resourceId": "sr_15e7a58f7143508187a1fe9c123bae6b"
+    },
+    {
+      "legacyId": "b03a-h2o-solari",
+      "resourceId": "sr_303f463c54da515d91337ff69e7541d9"
+    },
+    {
+      "legacyId": "b03b-avondale-resource-center",
+      "resourceId": "sr_6bed3dbabd0959e2a68da2a45232dbff"
+    },
+    {
+      "legacyId": "b03b-cass-rapid-rehousing-prevention",
+      "resourceId": "sr_5a3761c9ba6c5bc5b5f9c215b1cd593b"
+    },
+    {
+      "legacyId": "b03b-cass-single-adult-shelter",
+      "resourceId": "sr_c688376bfc405ead9f399d91dca91e83"
+    },
+    {
+      "legacyId": "b03b-my-sisters-place-dv-shelter",
+      "resourceId": "sr_140589f93d775e319d55ffd276162c7a"
+    },
+    {
+      "legacyId": "b04a-cass-the-haven",
+      "resourceId": "sr_78780ff09bb6566f9af37c9362bf2da4"
+    },
+    {
+      "legacyId": "b04a-cass-vista-colina",
+      "resourceId": "sr_ae46d292047651a090dd2de847b7304d"
+    },
+    {
+      "legacyId": "b04a-cplc-decolores",
+      "resourceId": "sr_42db8451102354059a1f983c3674d32d"
+    },
+    {
+      "legacyId": "b04a-cplc-housing",
+      "resourceId": "sr_a6a76caf6a715b19bd90af4f37a8706a"
+    },
+    {
+      "legacyId": "b04b-cca-group-home",
+      "resourceId": "sr_2d7ee6e30ce65980a135ae847f7935b5"
+    },
+    {
+      "legacyId": "b04b-cca-mesa-shelter",
+      "resourceId": "sr_33737feccc5e5a38b09473a69213f106"
+    },
+    {
+      "legacyId": "b04b-circle-the-city-respite",
+      "resourceId": "sr_56f089b3005e55f69c821c79ff63547b"
+    },
+    {
+      "legacyId": "b04b-mesa-housing-authority",
+      "resourceId": "sr_e7455c0ee9d454a78c1a82b22c7d8ee0"
+    },
+    {
+      "legacyId": "b05a-mesa-homeless-resource-line",
+      "resourceId": "sr_1a4dd5bd715f51448631258bb6a06293"
+    },
+    {
+      "legacyId": "b05a-mesa-off-the-streets",
+      "resourceId": "sr_a26416335c3d5c0487dafa0ee9427ee7"
+    },
+    {
+      "legacyId": "b05a-mesa-security-utility-deposit",
+      "resourceId": "sr_a644f60fc9665ad6acd36b3062a657a8"
+    },
+    {
+      "legacyId": "b05a-phoenix-housing-department",
+      "resourceId": "sr_61298ddc13a559c6ba050cd8ee19c687"
+    },
+    {
+      "legacyId": "b05b-hopwa-city-of-phoenix",
+      "resourceId": "sr_766178eba8615ef5a5f2f7ed638fc323"
+    },
+    {
+      "legacyId": "b05b-step-into-housing",
+      "resourceId": "sr_c09045cd220057bea6cb7dec6cb1c1a8"
+    },
+    {
+      "legacyId": "b05b-sues-espacio",
+      "resourceId": "sr_abce21463fa7514e904e559403411027"
+    },
+    {
+      "legacyId": "b05b-tempe-housing-services",
+      "resourceId": "sr_b0c534d7eaeb57a6ad9af8831afd973c"
+    },
+    {
+      "legacyId": "b06a-cbi-mesa-tbra",
+      "resourceId": "sr_6dd66ed30ec85393ace79795b81e33c8"
+    },
+    {
+      "legacyId": "b06a-coffelt-lamoreaux-ddd",
+      "resourceId": "sr_36321bbc52755d10ba52f8b8da24a0ec"
+    },
+    {
+      "legacyId": "b06a-tempe-care-hope-line",
+      "resourceId": "sr_4c3fcdb87a39551fb92f1f00cf004dcc"
+    },
+    {
+      "legacyId": "b06a-tempe-resource-village",
+      "resourceId": "sr_99f92dd70ab55c288f80e344e0bd137e"
+    },
+    {
+      "legacyId": "b06b1-cbi-ce-path-bridge-housing",
+      "resourceId": "sr_ec1f1358102a5b648648ec873e914fa2"
+    },
+    {
+      "legacyId": "b06b1-cbi-saguaro-shelter",
+      "resourceId": "sr_2d54accd4ccf503cab919d4e8bcdde2f"
+    },
+    {
+      "legacyId": "b06b2-cbi-smi-supportive-housing",
+      "resourceId": "sr_db0a3b40e4695f4da10b271e7bb11e80"
+    },
+    {
+      "legacyId": "b07a-dismas-phoenix-rrc",
+      "resourceId": "sr_25b3536105e4509c9883fc639cb511a4"
+    },
+    {
+      "legacyId": "b07a-doves-aaar1",
+      "resourceId": "sr_16ebd638505851159d5b22ec13d25a5d"
+    },
+    {
+      "legacyId": "b07a-escobedo-verde-vista-ii",
+      "resourceId": "sr_ca60a68487a2583fa2a0eeef6699deb7"
+    },
+    {
+      "legacyId": "b07b-family-promise-mesa-house",
+      "resourceId": "sr_4dcaf550bc8254bfad84499b030e174b"
+    },
+    {
+      "legacyId": "b07b-first-place-phoenix-apartments",
+      "resourceId": "sr_553d7cc87e8d5079a6514124c1ca504c"
+    },
+    {
+      "legacyId": "b07b-flocrit-uplift",
+      "resourceId": "sr_822f5184ed4e5bb991a913df9821f361"
+    },
+    {
+      "legacyId": "b07b-foster360",
+      "resourceId": "sr_11a6fd2bbdc554b483a4075fed3ec4c9"
+    },
+    {
+      "legacyId": "b08a-allthrive-365-affordable-housing",
+      "resourceId": "sr_e3477df305985e15bd8f721f54f7c790"
+    },
+    {
+      "legacyId": "b08a-gift-of-mary-home",
+      "resourceId": "sr_090801dfdaaf5534bf8ebd7fbd41bafd"
+    },
+    {
+      "legacyId": "b08a-homeward-bound-thunderbird",
+      "resourceId": "sr_70f5eebe65755cc48fde25ba41ce053c"
+    },
+    {
+      "legacyId": "b08a-umom-helping-hands-affordable-housing",
+      "resourceId": "sr_2369fff62a6352e783da4d0b45a4200f"
+    },
+    {
+      "legacyId": "b08b-hamc-housing-vouchers",
+      "resourceId": "sr_7431c0b7b49d534e9bdba232fc14474d"
+    },
+    {
+      "legacyId": "b08b-homi-housing-navigation",
+      "resourceId": "sr_1498760198ab54b9ab6d35c99bf6e17c"
+    },
+    {
+      "legacyId": "b08b-house-of-refuge-mesa",
+      "resourceId": "sr_4793d14d6d925b91b248f3cb8d1d63d1"
+    },
+    {
+      "legacyId": "b08b-keystochange-keycampus",
+      "resourceId": "sr_9b9610c5d69450aa81c207edc2a5341e"
+    },
+    {
+      "legacyId": "b09a-brian-garcia-welcome-center",
+      "resourceId": "sr_ed41f25f673351c389522106a89b9dc2"
+    },
+    {
+      "legacyId": "b09a-ihelp-mesa",
+      "resourceId": "sr_dfccb27b23bb5d0ca16f828ccc157408"
+    },
+    {
+      "legacyId": "b09a-lost-our-home-temporary-care",
+      "resourceId": "sr_57d4c9adbb58505d851c87c53857ed5d"
+    },
+    {
+      "legacyId": "b09a-respiro-shelter",
+      "resourceId": "sr_1a2f4c8242c65a90bd382fc0c4174e45"
+    },
+    {
+      "legacyId": "b09b-mag-coc-coordinated-entry-access-points",
+      "resourceId": "sr_2a8533f6a8c454a78663b3ee271c5168"
+    },
+    {
+      "legacyId": "b09b-maggies-place-hannah-house-bunkhouse",
+      "resourceId": "sr_362bc814c31a5049a2f58afd28de9a7d"
+    },
+    {
+      "legacyId": "b09b-mana-house-veteran-transitional-housing",
+      "resourceId": "sr_823a1c6a447657e89988c9f8b34a01de"
+    },
+    {
+      "legacyId": "b10a-hand-in-hand-street-outreach",
+      "resourceId": "sr_e80df0c77949520a8c72e80fb1656cbd"
+    },
+    {
+      "legacyId": "b10a-maricopa-coordinated-entry",
+      "resourceId": "sr_02029bfe0907540eb30473ae6cc23d84"
+    },
+    {
+      "legacyId": "b10a-mercy-housing-mesa-senior-meadows",
+      "resourceId": "sr_b38b544713d0572380dd0ca5887213c7"
+    },
+    {
+      "legacyId": "b10a-mesa-off-the-streets",
+      "resourceId": "sr_a26416335c3d5c0487dafa0ee9427ee7"
+    },
+    {
+      "legacyId": "b10b-cass-nrec",
+      "resourceId": "sr_dc517e3927bf5c9d82288081a48265d1"
+    },
+    {
+      "legacyId": "b10b-nac-homebase",
+      "resourceId": "sr_66f486658e7657929322ba76ee2610b9"
+    },
+    {
+      "legacyId": "b10b-new-life-center",
+      "resourceId": "sr_c2251a1ea3e25efcbacc826a51e1481a"
+    },
+    {
+      "legacyId": "b10b-oxford-house",
+      "resourceId": "sr_f1ff68b154b655dd9198399359ffe531"
+    },
+    {
+      "legacyId": "b11a-pazdecristo-copa-nav",
+      "resourceId": "sr_a47b062cd3725c98b0f5696ce7efd095"
+    },
+    {
+      "legacyId": "b11a-phoenix-dream-center-life-recovery",
+      "resourceId": "sr_05a601951faa57fba0910a2a9e312dd4"
+    },
+    {
+      "legacyId": "b11a-prm-changing-lives-center",
+      "resourceId": "sr_16ffe33e67a752b9b2deb18770e31a32"
+    },
+    {
+      "legacyId": "b11a-prm-street-outreach",
+      "resourceId": "sr_012d2088bf60568699e5b2d81b8995b1"
+    },
+    {
+      "legacyId": "b11b-safe-place-youth-crisis",
+      "resourceId": "sr_bd64f58b38575dd594a2049c99372740"
+    },
+    {
+      "legacyId": "b11b-sanctuary-recovery-centers",
+      "resourceId": "sr_0b13acc75f0f5d3c807cd1fb5092a157"
+    },
+    {
+      "legacyId": "b11b-stf-arm",
+      "resourceId": "sr_2a7048f43dc359679331019711cc3ae4"
+    },
+    {
+      "legacyId": "b11b-stf-rrh-faces",
+      "resourceId": "sr_ad8c5d6ad05c5f27bd8c2740767445db"
+    },
+    {
+      "legacyId": "b12a-ozanam-manor",
+      "resourceId": "sr_93885b628f4d53a99c16fcc8a0671b7e"
+    },
+    {
+      "legacyId": "b12a-sbh-hopwa",
+      "resourceId": "sr_e378bd1a3d9d5c73908432f2694d08da"
+    },
+    {
+      "legacyId": "b12a-sojourner-center",
+      "resourceId": "sr_6ea8a9d69e8a5cc7a3321d0f3db6a8c5"
+    },
+    {
+      "legacyId": "b12a-svdp-ce-access",
+      "resourceId": "sr_605735d084f1540ea7ca39912c946f80"
+    },
+    {
+      "legacyId": "b12b-prisma-hopwa",
+      "resourceId": "sr_a4a36a7f9a7d5ed1a57133c6a1e8cff5"
+    },
+    {
+      "legacyId": "b12b-sa-chandler",
+      "resourceId": "sr_22607b927c4c59da90cd5a1affa5f165"
+    },
+    {
+      "legacyId": "b12b-tcaa-ihelp",
+      "resourceId": "sr_2a8adbf0af7958ec815ab62d1f26455b"
+    },
+    {
+      "legacyId": "b12b-va-crrc",
+      "resourceId": "sr_1b416d1e12195620b0febce7a38ca564"
+    },
+    {
+      "legacyId": "b13a-hud-vash-va-phoenix",
+      "resourceId": "sr_195f41a33ea75655858d5b85a6bfb1ab"
+    },
+    {
+      "legacyId": "b13a-umom-family-heat-relief",
+      "resourceId": "sr_9acfbc2a0bc15b8c88f5bd45e206d492"
+    },
+    {
+      "legacyId": "b13a-umom-family-housing-hub",
+      "resourceId": "sr_1363d6df256355f486175a608fa640f7"
+    },
+    {
+      "legacyId": "b13a-usvets-phoenix",
+      "resourceId": "sr_7fc0bc2613a655c287aa8a6ef3616ee1"
+    },
+    {
+      "legacyId": "b13b-umom-family-shelter",
+      "resourceId": "sr_72048fef24a85deb9fa86402a19dde08"
+    },
+    {
+      "legacyId": "b13b-umom-halle-womens-center",
+      "resourceId": "sr_3720243638fc5e96865ce7fb64c43951"
+    },
+    {
+      "legacyId": "b13b-umom-youth-crisis-ilp",
+      "resourceId": "sr_0ec0783b96e55cfe93d1fa529bb97ea4"
+    },
+    {
+      "legacyId": "b13b-umom-youth-outreach-1824",
+      "resourceId": "sr_cf6b52fd481252eab7d1fba4a12ee1dc"
+    }
+  ],
+  "suppressedResourceIds": [],
+  "rule": "Migrate existing decisions by alias before import; preserve human edits, approvals, verification dates, deletions, drafts, pins and notes. Conflicting rows require administrator reconciliation."
+}

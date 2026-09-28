@@ -39,13 +39,15 @@ class PreparedHandoffTests(unittest.TestCase):
                 write_once(path,data)
             (root/'reports/reviewed-with-selections.html').write_text('<html>Evaluation</html>')
             write_once(root/'execution-control.json',{'curationConcurrency':2,'reviewConcurrency':1})
+            write_once(root/'recovery/import-identity-context-scope-audit.json',{'selectedPublicPrograms':20,'excludedFields':['informationText']})
+            write_once(root/'recovery/import-boundary-context-audit.json',{'additionalLegacyId':'public-program-id'})
             write_once(root/'execution-amendments/curated-collection-output.json',{'maxOutputTokens':65536,'reason':'Diagnosed exhaustion'})
             write_once(root/'results/existing-policy/housing/curated-collection/result.json',{'assemblyEvidence':{'prefixSha256':'a'*64}})
             write_once(root/'results/existing-policy/housing/reviewed-01/result.json',{'assemblyEvidence':{'kind':'echoed timestamp only'}})
             write_once(root/'results/normalized/reviewed-01.json',{'reviewFindings':[dict(resourceIds=['b01-program'],issue='Checked source',before='Draft facts',after='Supported facts retained',sourceUrls=['https://example.org'],status='no-change')]})
             ledger=Mock();ledger.config={'provider':{'endpoint':'https://api.deepseek.com/anthropic/v1/messages'}}
             ledger.summarize_usage.return_value={'attempts':1}
-            with patch('resource_research_agent.evaluation.prepared_handoff.Ledger',return_value=ledger),patch('resource_research_agent.evaluation.prepared_handoff.run_assignment',return_value={'result':resolution}):
+            with patch('resource_research_agent.evaluation.prepared_handoff.Ledger',return_value=ledger),patch('resource_research_agent.evaluation.prepared_handoff.run_assignment',return_value={'result':resolution,'assemblyEvidence':{'kind':'identity-only completion'}}):
                 for _ in range(2):
                     reconcile_and_export(root,production_registry=source,previous_artifact=root/'previous.json',destination_registry=dest,output=output)
             self.assertEqual(read(source),read(dest))
@@ -57,6 +59,9 @@ class PreparedHandoffTests(unittest.TestCase):
             self.assertEqual(execution['outputAllowanceAmendments'][0]['maxOutputTokens'],65536)
             self.assertEqual(execution['collectionAssemblies'][0]['evidence']['prefixSha256'],'a'*64)
             self.assertEqual(execution['responseNormalizations'][0]['evidence']['kind'],'echoed timestamp only')
+            self.assertEqual(execution['importReconciliationAssembly']['kind'],'identity-only completion')
+            self.assertEqual(execution['importIdentityContextAudit']['excludedFields'],['informationText'])
+            self.assertEqual(execution['importIdentityBoundaryContextAudit']['additionalLegacyId'],'public-program-id')
             page=(output/'review.html').read_text()
             self.assertIn('Services Offered',page);self.assertIn('Supported facts retained',page)
             self.assertEqual(len(read(source)['resources']),len(registry['resources']))

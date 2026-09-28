@@ -1,30 +1,32 @@
-# Housing preparation/review trial active — September 28
+# Housing DeepSeek trial delivered — September 28
 
-**10:13 UTC: Curation complete; 56/104 leads reviewed.** Code fb93687,
-`reviewed-08a`, ONE sequential DeepSeek reviewer/max. 81 evaluation tests pass.
-ETA 2–3 hours through final collection/export. Saved-response formatting recovery
-for review07b succeeded with no paid replay. Continue monitoring through delivery;
-verify live ledger/lock and active handoff. No completed importable package yet.
+DeepSeek V4.1-Flash/max curation and independent sequential review are complete.
+The 104 original Housing leads produced 100 delivered records: 92 usable reserves,
+8 administrator-only needs-resolution records, 10 starters, 90 considerations, 14 Types
+and 18 groups. Two curation batches ran concurrently; review stayed sequential.
+No office approval, agency verification, or WSRS-TSO import is claimed.
 
-Michael explicitly requested DeepSeek curation AND DeepSeek review, both at max,
-then importable Housing-only prepared-resources.json, full evaluation JSON and
-readable HTML. This supersedes the ordinary manual Codex-review handoff for this
-trial. It does not authorize a second reviewer or broader research. Housing's
-dollar cap remains removed. No Jev is used. Full production Mesa remains on hold.
+Delivery: [prepared-resources.json](deliveries/mesa-housing-deepseek-20260928/prepared-resources.json),
+[evaluation.json](deliveries/mesa-housing-deepseek-20260928/evaluation.json),
+[readable review](deliveries/mesa-housing-deepseek-20260928/review.html), and
+[results/timing](docs/mesa-housing-preparation-review-results-20260928.md).
+82 tests pass. Real package validation, gzip equality, registry preservation and
+an offline resumed export pass; all artifact hashes stayed unchanged on resume.
+384 paid preparation/review/import requests have known responses; no worker or
+unknown-outcome request remains. Native active time 359.60 minutes; including original
+research 376.35 minutes (390 requests). Actual billing is unreconciled.
 
-All completed outputs and diagnosed failures are preserved. Two output-limit
-recoveries reduced only unfinished batches; one prose-format recovery reused a
-saved response without a paid call. Current plan has26 batches. All104 original
-leads remain accounted for. 79 evaluation tests pass. The scoped engineering
-allowance is400 calls/eight active hours, without changing the sealed original
-inputs or resetting prior usage. Compact collection prompts preserve complete
-original research and exact source-member links.
+The registry now has 1923 identities: 68 existing IDs reused, 32 new IDs assigned; all
+old IDs/aliases retained and both checkout registries synchronized. Recovery,
+identity-boundary decisions, scoped output allowances and mechanical category-ID
+corrections remain evidenced. Safari accessibility confirmed the report and five
+Information sections; full visual-layout inspection is not claimed because the
+computer-use screenshot connection was unreliable.
 
-See [active handoff](docs/housing-active-handoff-20260928.md) for monitoring,
-recovery and final export commands, and [trial protocol](docs/mesa-housing-preparation-review-trial-20260928.md)
-for scope. No completed review or importable Housing package exists yet. After
-independent review freezes, use evaluation.prepared_handoff for the explicitly
-authorized registry/taxonomy reconciliation and normal production export gates.
+This is Housing-only, not the full Mesa office or an endorsement of broader
+DeepSeek production use. Known gaps/limits are in the results report. Full Mesa's
+relevance hold and other offices' existing gates remain. No Jev was used. Do not
+resume historical workers below. [Completion handoff](docs/housing-active-handoff-20260928.md).
 
 # Housing pilot complete — targeted retest before expansion
 

@@ -213,8 +213,9 @@ def _reconcile_and_export(root, *, production_registry, previous_artifact, desti
     packet=dict(assignmentId='import-reconciliation',condition='existing-policy',category='housing',stage='housing-collection',
                 passKey='import-reconciliation',task=prompt,requiresLiveSearch=False)
     ledger=Ledger(root)
-    resolution=run_assignment(packet,ledger,LiveTransport(ledger.config['provider']['endpoint']),
-                              lambda value:validate_resolution(value,report,registry,previous))['result']
+    reconciliation_result=run_assignment(packet,ledger,LiveTransport(ledger.config['provider']['endpoint']),
+                              lambda value:validate_resolution(value,report,registry,previous))
+    resolution=reconciliation_result['result']
     bundle_path=handoff/'reviewed-bundle.json'
     if not bundle_path.exists():
         bundle=build_bundle(report,resolution,registry,previous,source_namespace='mesa-housing-deepseek-20260928',
@@ -254,6 +255,12 @@ def _reconcile_and_export(root, *, production_registry, previous_artifact, desti
         'executionLimitAmendment':'execution-limit-amendment.json'}.items() if (root/path).exists()}
     evaluation['execution']['outputAllowanceAmendments']=[read(p) for p in sorted((root/'execution-amendments').glob('*-output.json'))]
     evaluation['execution']['initialTokenMeasurements']=[read(p) for p in sorted((root/'context-token-counts').glob('*.json'))]
+    if 'assemblyEvidence' in reconciliation_result:
+        evaluation['execution']['importReconciliationAssembly']=reconciliation_result['assemblyEvidence']
+    context_audit=root/'recovery/import-identity-context-scope-audit.json'
+    if context_audit.exists():evaluation['execution']['importIdentityContextAudit']=read(context_audit)
+    boundary_audit=root/'recovery/import-boundary-context-audit.json'
+    if boundary_audit.exists():evaluation['execution']['importIdentityBoundaryContextAudit']=read(boundary_audit)
     evaluation['execution']['collectionAssemblies']=[
         {'assignmentId':p.parent.name,'evidence':value['assemblyEvidence']}
         for p in sorted((root/'results/existing-policy/housing').glob('*collection*/result.json'))
