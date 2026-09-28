@@ -19,7 +19,7 @@ def fixtures():
     report={'resources':result(assignment())['resources'],'collection':collection()}
     resolution={'identities':[{'canonicalId':'b01-program','match':mapping['old-shelter'],
                               'reason':'Same distinct shelter and access route.','possibleDuplicateExistingIds':[]}],
-                'mergedResources':[], 'typeMatches':[{'proposedId':'shelter','existingId':'existing-shelter','reason':'Same service meaning.'}],
+                'mergedResources':[], 'mergeFindings':[], 'typeMatches':[{'proposedId':'shelter','existingId':'existing-shelter','reason':'Same service meaning.'}],
                 'groupMatches':[], 'preservationJudgment':'Preserved supported facts and sources; no office approval.'}
     return report,resolution,registry,previous
 
@@ -46,6 +46,10 @@ class PreparedHandoffTests(unittest.TestCase):
             if path=='identity':broken['identities'][0]['match']='invented'
             else:broken['typeMatches'][0]['existingId']='invented'
             with self.assertRaises(EvaluationError):validate_resolution(broken,report,registry,previous)
+        broken=deepcopy(resolution)
+        broken['identities'][0]['possibleDuplicateExistingIds']=[broken['identities'][0]['match']]
+        broken['identities'][0]['match']=None
+        with self.assertRaises(EvaluationError):validate_resolution(broken,report,registry,previous)
 
     def test_merge_requires_full_preserved_candidates_and_sources(self):
         report,resolution,registry,previous=fixtures()
@@ -54,6 +58,7 @@ class PreparedHandoffTests(unittest.TestCase):
         with self.assertRaises(EvaluationError):validate_resolution(resolution,report,registry,previous)
         merged=deepcopy(report['resources'][0]);resolution['mergedResources']=[merged]
         with self.assertRaises(EvaluationError):validate_resolution(resolution,report,registry,previous)
+        resolution['mergeFindings']=[dict(canonicalId='b01-program',before='Two aliases of one program.',after='All sources and lead links preserved.',sourceUrls=['https://example.org'])]
         merged['candidateIds'].append('c2')
         validate_resolution(resolution,report,registry,previous)
         merged['sources']=[]

@@ -4,6 +4,7 @@ The evaluation evidence stays immutable. Production identity/taxonomy context is
 introduced only here, after the fresh DeepSeek review has been frozen.
 """
 from copy import deepcopy
+import fcntl
 import html
 import json
 from pathlib import Path
@@ -24,6 +25,8 @@ SHAPE = {
                    'reason':'program-specific identity evidence; null match only for a distinct new program',
                    'possibleDuplicateExistingIds':[]}],
     'mergedResources':[],
+    'mergeFindings':[{'canonicalId':'each merged identity','before':'original differences or duplicate facts',
+                       'after':'how supported facts were preserved or conflicts resolved','sourceUrls':[]}],
     'typeMatches':[{'proposedId':'trial type ID','existingId':None,'reason':'same meaning or why a new meaning is needed'}],
     'groupMatches':[{'proposedId':'trial group ID','existingId':None,'reason':'same evidenced population meaning or why new'}],
     'preservationJudgment':'Explain supported fact preservation, program boundaries, unresolved conflicts and no human approval.',
@@ -45,10 +48,18 @@ def validate_resolution(resolution, report, registry, previous):
             raise EvaluationError('Unknown registry match or missing identity judgment')
         if set(d['possibleDuplicateExistingIds'])-set(registry['resources']):
             raise EvaluationError('Unknown possible duplicate identity')
+        if d['match'] is None and d['possibleDuplicateExistingIds']:
+            raise EvaluationError('Resolve the possible existing identity before allocating another ID')
     merged = resolution['mergedResources']
     required = {g['canonicalId'] for g in groups if len(g['memberIds'])>1}
     if len(merged)!=len(required) or {r['id'] for r in merged}!=required:
         raise EvaluationError('Each multi-proposal identity needs one complete consolidated resource')
+    findings=resolution['mergeFindings']
+    if len(findings)!=len(required) or {f['canonicalId'] for f in findings}!=required:
+        raise EvaluationError('Each consolidation needs a before/after finding')
+    for f in findings:
+        if not f['before'].strip() or not f['after'].strip() or not f['sourceUrls']:
+            raise EvaluationError('Consolidation finding needs evidence and before/after text')
     by_id={r['id']:r for r in report['resources']}
     schema=response_schema({'preparationPolicyVersion':POLICY_VERSION})['properties']['resources']['items']
     for r in merged:
@@ -136,7 +147,13 @@ def build_bundle(report, resolution, registry, previous, *, source_namespace, in
     return bundle
 
 
-def reconcile_and_export(root, *, production_registry, previous_artifact, destination_registry, output):
+def reconcile_and_export(root, **kwargs):
+    with (Path(root)/'runner.lock').open('a') as lock:
+        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+        return _reconcile_and_export(root,**kwargs)
+
+
+def _reconcile_and_export(root, *, production_registry, previous_artifact, destination_registry, output):
     """Call only after user explicitly requests an importable Housing handoff."""
     root=Path(root).resolve();handoff=root/'handoff';output=Path(output)
     report_path=root/'reports/reviewed-with-selections.json'
@@ -179,7 +196,7 @@ def reconcile_and_export(root, *, production_registry, previous_artifact, destin
         # Complete all structural/identity checks before touching the production registry.
         finalize(bundle,registry)
         write_once(bundle_path,bundle)
-    expected_artifact,expected_registry,_,_=finalize(read(bundle_path),registry)
+    _,expected_registry,_,_=finalize(read(bundle_path),registry)
     source_now=load_registry(Path(production_registry))
     if fingerprint(source_now) not in {fingerprint(registry),fingerprint(expected_registry)}:
         raise EvaluationError('Production registry advanced; reconcile against its current version before export')
