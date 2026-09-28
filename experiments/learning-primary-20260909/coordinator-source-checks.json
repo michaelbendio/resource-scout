@@ -1,0 +1,59 @@
+{
+  "accessedOn": "2026-09-09",
+  "reviewer": "Astra coordinator",
+  "checks": [
+    {
+      "url": "https://www.flydenver.com/business-and-community/ceea/career-pathways/new-heights-pilot-program/",
+      "status": "read",
+      "relevantExcerpt": "provide career finding services while the individual is waiting",
+      "assessmentUse": "Intermediate help while waitlisted was omitted by baseline and preserved by candidate."
+    },
+    {
+      "url": "https://stepdenver.org/apply/",
+      "status": "read",
+      "relevantExcerpt": "$15/day, $75/week, or $200/month for program fees",
+      "assessmentUse": "Fees and the separate rule restricting outside financial support are stated on the application page; candidate fallback omitted them."
+    },
+    {
+      "url": "https://djeatc68.com/apply/",
+      "status": "read",
+      "assessmentUse": "Confirmed current application window, required documents, application charge and selection process."
+    },
+    {
+      "url": "https://www.ceoworks.org/participants",
+      "status": "read",
+      "assessmentUse": "Confirmed CEO helps obtain a parole/probation referral and provides orientation/enrollment instructions."
+    },
+    {
+      "url": "https://www.emilygriffith.edu/career-services-for-job-seekers/",
+      "status": "read",
+      "assessmentUse": "Confirmed stated coaching audience and separate apprenticeship inquiry route."
+    },
+    {
+      "url": "https://www.emilygriffith.edu/careers-for-refugees-and-immigrants/",
+      "status": "read",
+      "assessmentUse": "Confirmed eligibility and long-term focus; FAQ already permits training at other colleges."
+    },
+    {
+      "url": "https://content.govdelivery.com/accounts/CODLE/bulletins/4065f78",
+      "status": "read",
+      "assessmentUse": "Confirmed dated waitlist conditions and continuing eligibility assessments."
+    },
+    {
+      "url": "https://denver.legistar.com/LegislationDetail.aspx?G=928A1C29-26D7-4A5D-8DD4-947A533B1CC6&GUID=C2549384-7B0D-4074-8F30-B120C114EBEE&ID=7974114&Options=&Search=",
+      "status": "read",
+      "assessmentUse": "Confirmed adopted 2026 ServiceSource Day Works contract extension; no inference of an available placement."
+    },
+    {
+      "url": "https://dvr.colorado.gov/contact-us/",
+      "status": "unavailable",
+      "assessmentUse": "Could not independently verify the candidate-specific contact; no comparative factual credit assigned."
+    },
+    {
+      "url": "https://servicesource.org/servicesource-launches-new-programs-in-colorado/",
+      "status": "timeout",
+      "assessmentUse": "Coordinator fetch timed out; city contract independently verifies the Day Works operator."
+    }
+  ],
+  "limitation": "Compact reviewed excerpts/notes, not full source-page snapshots or human phone verification."
+}

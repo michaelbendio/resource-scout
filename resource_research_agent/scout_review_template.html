@@ -1102,6 +1102,11 @@ textarea.information-editor { min-height:320px; resize:vertical; }
     padding-left: 14pt;
   }
 
+  .information-heading {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
   .print-resource-separator {
     border: 0;
     border-top: 1px solid #999;
@@ -1137,6 +1142,29 @@ textarea.information-editor { min-height:320px; resize:vertical; }
 .scout-priority-controls select { max-width:100%; padding:5px; font:inherit; }
 .scout-priority-curated { font-weight:600; }
 @media print { .scout-priority-note,.scout-priority-intro { display:none !important; } }
+/* BEGIN SHARED CURATOR QUESTION STYLES */
+/* Open questions are administrative handoff, not resource verification. */
+.resource-open-question-label,
+.resource-open-question-text {
+  color: #b00020;
+  font-weight: 700;
+}
+.resource-open-question-label {
+  background: #fff;
+  padding: 0 .2em;
+  border-radius: 2px;
+}
+
+#res_open_questions {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+#res_open_questions textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+/* END SHARED CURATOR QUESTION STYLES */
+
 </style>
 <!-- ===== APP CSS END ===== -->
 </head>
@@ -1910,7 +1938,8 @@ function renderInformationMarkupHTML(text){
       out.push('<div class="information-line information-blank">&nbsp;</div>');
       return;
     }
-    out.push(`<div class="information-line">${renderInformationInlineHTML(line)}</div>`);
+    const headingClass = /^\*\*[^*]+\*\*$/.test(trimmed) ? " information-heading" : "";
+    out.push(`<div class="information-line${headingClass}">${renderInformationInlineHTML(line)}</div>`);
   });
 
   flushList();
@@ -2524,6 +2553,7 @@ function validateResourcePackageData(packageData){
         warnings.push(`Resource '${id || index}' references unknown category '${categoryId}'.`);
       }
     });
+    resourceQuestionErrors(resource && resource.openQuestions).forEach(error => errors.push(`Resource '${id || index}': ${error}`));
     (Array.isArray(resource && resource.pdfs) ? resource.pdfs : []).forEach((pdf, pdfIndex) => {
       if(!pdf || typeof pdf !== "object"){
         errors.push(`Resource '${id || index}' PDF ${pdfIndex} must be an object.`);
@@ -6015,6 +6045,7 @@ async function openPDF(path){
   pdfWindow.document.title = "Loading PDF...";
   pdfWindow.document.body.textContent = "Loading PDF...";
   try{
+    if(window.scoutPreviewAssetsReady) await window.scoutPreviewAssetsReady;
     const stored = await getPDF(path);
     if(!stored){
       pdfWindow.close();
@@ -6392,9 +6423,14 @@ function mergeItemsById(localItems, incomingItems, options = {}){
     if(!id) return;
     const incomingItem = incomingById.get(id);
     const choice = chooseMergeObject(localItem, incomingItem);
-    merged.push(cloneDataObject(choice.item));
+    const mergedItem = cloneDataObject(choice.item);
+    if(options.kind === "resources"){
+      const questions = mergeResourceQuestions(localItem.openQuestions, incomingItem && incomingItem.openQuestions);
+      if(questions !== undefined) mergedItem.openQuestions = questions;
+    }
+    merged.push(mergedItem);
     seen.add(id);
-    if(incomingItem && choice.item === incomingItem && choice.changed){
+    if(incomingItem && objectsDiffer(localItem, mergedItem)){
       updated += 1;
       updatedIds.push(id);
       updatedNames.push(String(incomingItem.name || incomingItem.title || id));
@@ -6544,6 +6580,18 @@ function buildResourcePackageData(sourceData){
   return packageData;
 }
 
+// The curated ZIP is an office handoff, not a workbench checkpoint. Use an
+// allowlist at every record boundary so future Scout metadata stays here too.
+function pickOfficePackageFields(record, fields){
+  const result = {};
+  fields.forEach(field => {
+    if(Object.prototype.hasOwnProperty.call(record, field) && record[field] !== undefined){
+      result[field] = JSON.parse(JSON.stringify(record[field]));
+    }
+  });
+  return result;
+}
+
 function buildScoutReviewSelectionPackageData(sourceData, curatedResourceIds){
   const source = processResourcePackageData(sourceData || {}, {
     sourceName:"Current Scout review resource data"
@@ -6554,31 +6602,46 @@ function buildScoutReviewSelectionPackageData(sourceData, curatedResourceIds){
     .map(resource => cloneDataObject(resource));
   const pending = resources.filter(resource => !hasCurrentForGroupReview(resource, source.forGroups, source.forGroupDefinitions));
   if(pending.length) throw new Error(`Review For groups before packaging: ${pending.slice(0,5).map(resource => resource.name || resource.id).join(", ")}${pending.length > 5 ? "…" : ""}`);
+  const officeResources = resources
+    .map(resource => {
+      const result = pickOfficePackageFields(resource, [
+        "id", "name", "phone", "address", "website", "hours", "description",
+        "informationText", "verifiedOn", "categories", "categoryFilters",
+        "forGroups", "lastModified"
+      ]);
+      result.pdfs = (resource.pdfs || []).map(pdf =>
+        pickOfficePackageFields(pdf, ["id", "name", "path"]));
+      return result;
+    });
   const resourceIds = new Set(resources.map(resource => String(resource.id || "")));
-  const referencedCategoryIds = new Set(resources.flatMap(resource =>
-    Array.isArray(resource.categories) ? resource.categories.map(String) : []
-  ));
-  const referencedForGroups = new Set(resources.flatMap(resource =>
-    Array.isArray(resource.forGroups) ? resource.forGroups.map(String) : []
-  ));
+  const referencedCategoryIds = new Set(resources.flatMap(resource => resource.categories || []));
+  const referencedForGroups = new Set(resources.flatMap(resource => resource.forGroups || []));
   const scopedData = {
-    ...source,
-    categories:source.categories.filter(category => referencedCategoryIds.has(String(category && category.id || ""))),
+    resourcePackageSchemaVersion: RESOURCE_PACKAGE_SCHEMA_VERSION,
+    packageVersion: source.packageVersion,
+    lastModified: source.lastModified,
+    categories:source.categories
+      .filter(category => referencedCategoryIds.has(String(category && category.id || "")))
+      .map(category => pickOfficePackageFields(category, ["id", "label", "active", "filters", "lastModified"])),
     categoryMigrations:[],
     forGroups:source.forGroups.filter(label => referencedForGroups.has(String(label))),
-    resources,
-    changes:source.changes.filter(entry => {
-      if(resourceIds.has(String(entry && entry.targetId || ""))) return true;
-      return Array.isArray(entry && entry.resourceIds)
-        && entry.resourceIds.some(id => resourceIds.has(String(id)));
-    }),
+    resources: officeResources,
+    changes:source.changes
+      .filter(entry => resourceIds.has(String(entry && entry.targetId || "")))
+      .map(entry => pickOfficePackageFields(entry, [
+        "id", "type", "action", "targetId", "targetName", "description", "timestamp", "categoryIds"
+      ])),
     deletionRequests:[],
     deletions:[]
   };
-  scopedData.resources.forEach(resource => {
-    resource.forGroupReview.contentKey = forGroupReviewContentKey(resource, scopedData.forGroups, scopedData.forGroupDefinitions);
-  });
-  return buildResourcePackageData(scopedData);
+  const packageData = buildResourcePackageData(scopedData);
+  // buildResourcePackageData also serves full workbench drafts. Its Scout app
+  // changelog and any future top-level fields do not belong in the office ZIP.
+  return pickOfficePackageFields(packageData, [
+    "resourcePackageSchemaVersion", "packageVersion", "packageCreatedAt", "lastModified",
+    "categories", "categoryMigrations", "forGroups", "resources", "changes",
+    "deletionRequests", "deletions"
+  ]);
 }
 
 function buildScoutReviewCategoryPackageData(sourceData, config = getScoutReviewConfig()){
@@ -6781,6 +6844,7 @@ async function saveResourcePackageBlob(target, blob){
 }
 
 async function saveCurrentResourcePackage(target, options = {}){
+  if(window.scoutPreviewAssetsReady) await window.scoutPreviewAssetsReady;
   const showSuccessToast = options.showSuccessToast !== false;
   if(typeof JSZip === "undefined"){
     throw new Error("ZIP support is unavailable. Reload the app and try again.");
@@ -8038,6 +8102,7 @@ function resourceEditorDraft(){
     hours: hoursEl.value.trim(),
     description: descEl.value,
     informationText: composeInformationText(informationDraft),
+    openQuestions: resourceQuestionDraft(),
     verifiedOn,
     categories,
     categoryFilters,
@@ -8332,6 +8397,7 @@ function applyResourceDraft(idx, draft){
   res.hours = draft.hours;
   res.description = draft.description;
   res.informationText = draft.informationText;
+  applyResourceQuestions(res, draft);
   const verifiedValidation = validateVerifiedOnInput(draft.verifiedOn);
   res.verifiedOn = verifiedValidation.valid ? verifiedValidation.normalized : null;
   if("reviewedOn" in res) delete res.reviewedOn;
@@ -8477,6 +8543,7 @@ function commitPendingEditsIfChanged(){
       if(verifiedInput) verifiedInput.focus();
       return false;
     }
+    if(!validateResourceQuestions(draft)) return false;
     if(nextSnapshot !== editorSnapshot){
       if(!requireResourceEditorForGroupReview(draft)) return false;
       if(!confirmBlankUpdateDescription(draft)) return false;
@@ -9099,6 +9166,14 @@ function populateResourceBrowseOptions(sel, preferredResourceId){
     }else{
       btn.textContent = displayLabel;
     }
+    const questionLabel = resourceOpenQuestionLabel(r);
+    if(questionLabel){
+      btn.appendChild(document.createTextNode(" — "));
+      const label = document.createElement("strong");
+      label.className = "resource-open-question-label";
+      label.textContent = questionLabel;
+      btn.appendChild(label);
+    }
     sel.appendChild(btn);
   });
 
@@ -9491,6 +9566,7 @@ function renderResourceEditorMarkup(res){
     renderResourceBasicsSection(res, verifiedDisplay),
     isScoutReviewMode() && data.scoutReviewPriorities ? '<details class="scout-priority-section"><summary>Review priorities by category</summary><div id="scout-priority-editor"></div></details>' : '',
     renderResourceUpdateSection(),
+    renderResourceQuestionsSection(res),
     renderResourceForGroupsSection(renderResourceForGroupChecks(res)),
     renderForGroupReviewSection(res),
     renderResourceCategoriesSection(renderResourceCategoryChecks(res)),
@@ -9579,7 +9655,8 @@ function validateResourceEditorState(idx){
   const verifiedValidation = validateVerifiedOnInput(draft.verifiedOn);
   showResourceNameWarning(nameValidation.message);
   showResourceVerifiedWarning(verifiedValidation.message);
-  const shouldDisableDone = !(nameValidation.valid && verifiedValidation.valid);
+  const questionValidation = validateResourceQuestions(draft);
+  const shouldDisableDone = !(nameValidation.valid && verifiedValidation.valid && questionValidation);
   updateResourceEditorActionBar(shouldDisableDone);
   const doneBtn = document.getElementById("res_done_btn");
   if(doneBtn) doneBtn.disabled = shouldDisableDone;
@@ -9741,6 +9818,10 @@ function editResource(idx){
   setupResourceVerifiedControls(elements, validateEditorState);
   setupResourceEditorValidation(editor, elements, validateEditorState);
   setupForGroupReviewControls(validateEditorState);
+  editor.querySelectorAll("[data-question-note], [data-question-resolved]").forEach(field => {
+    field.addEventListener("input", validateEditorState);
+    field.addEventListener("change", validateEditorState);
+  });
   setupResourcePDFControls(idx);
 
   editorSnapshot = snapshotResourceEditor();
@@ -11176,6 +11257,145 @@ function renderSharePointPublishingModal(){
   if(closeBtn) closeBtn.addEventListener("click", closeReferenceModal);
   modal.classList.remove("hidden");
 }
+
+// BEGIN SHARED CURATOR QUESTIONS
+// Source: common application src/js/100f-admin-open-questions.js
+// SHA256: aed4a7d1bc84708e21b21db2b81f12cd3a57e652d7674d69b32d8405c0e844e2
+// Validate optional administrative data before it can replace an office package.
+function resourceQuestionErrors(questions){
+  if(questions === undefined) return [];
+  if(!Array.isArray(questions)) return ["openQuestions must be an array."];
+  const errors = [], ids = new Set();
+  const text = value => typeof value === "string" && value.trim();
+  const decision = value => value && typeof value === "object" && !Array.isArray(value)
+    && ["open", "resolved"].includes(value.status) && typeof value.resolution === "string"
+    && (value.status !== "resolved" || text(value.resolution));
+  questions.forEach((q, index) => {
+    if(!q || typeof q !== "object" || Array.isArray(q)){
+      errors.push(`Question ${index + 1} must be an object.`); return;
+    }
+    if(!text(q.id) || !text(q.question) || !text(q.explanation) || !decision(q))
+      errors.push(`Question ${index + 1} needs an id, question, explanation, valid status and resolution note.`);
+    if(ids.has(q.id)) errors.push(`Duplicate question id '${q.id}'.`);
+    ids.add(q.id);
+    if(q.history !== undefined && (!Array.isArray(q.history) || q.history.some(h => !decision(h) || !text(h.changedAt) || !Number.isFinite(Date.parse(h.changedAt)))))
+      errors.push(`Question ${index + 1} has invalid decision history.`);
+    if(q.resolutionConflict !== undefined && typeof q.resolutionConflict !== "boolean")
+      errors.push(`Question ${index + 1} has an invalid conflict flag.`);
+    if(q.decisionAlternatives !== undefined && (!Array.isArray(q.decisionAlternatives) || q.decisionAlternatives.some(h => !decision(h))))
+      errors.push(`Question ${index + 1} has invalid competing decisions.`);
+    if(q.resolutionConflict && (q.status !== "open" || !Array.isArray(q.decisionAlternatives) || q.decisionAlternatives.length < 2))
+      errors.push(`Question ${index + 1} must keep competing decisions open for the curator.`);
+  });
+  return errors;
+}
+
+function questionDecisionKey(q){ return JSON.stringify([q.status, q.resolution]); }
+function questionHistoryKey(h){ return JSON.stringify([h.changedAt, h.status, h.resolution]); }
+function mergeResourceQuestions(local, incoming){
+  if(local === undefined && incoming === undefined) return undefined;
+  const result = JSON.parse(JSON.stringify(local || []));
+  for(const q of incoming || []){
+    const index = result.findIndex(old => old.id === q.id);
+    if(index < 0){ result.push(JSON.parse(JSON.stringify(q))); continue; }
+    const old = result[index];
+    if(old.question !== q.question || old.explanation !== q.explanation)
+      throw new Error(`Question '${q.id}' has different text in these packages. Keep both original packages and settle its identity before merging.`);
+    const a = new Set((old.history || []).map(questionHistoryKey));
+    const b = new Set((q.history || []).map(questionHistoryKey));
+    const descendant = (x, y) => x.size > y.size && [...y].every(key => x.has(key));
+    // Decision ancestry is independent of a resource's unrelated lastModified.
+    let chosen = descendant(a, b) ? old : descendant(b, a) ? q : null;
+    if(!chosen && !old.resolutionConflict && !q.resolutionConflict && questionDecisionKey(old) === questionDecisionKey(q)) chosen = old;
+    const history = [...new Map([...(old.history || []), ...(q.history || [])].map(h => [questionHistoryKey(h), h])).values()]
+      .sort((x, y) => questionHistoryKey(x).localeCompare(questionHistoryKey(y)));
+    const merged = {...q, ...old};
+    if(old.history !== undefined || q.history !== undefined) merged.history = history;
+    if(chosen){
+      merged.status = chosen.status; merged.resolution = chosen.resolution;
+      delete merged.resolutionConflict; delete merged.decisionAlternatives;
+      if(chosen.resolutionConflict){ merged.resolutionConflict = true; merged.decisionAlternatives = chosen.decisionAlternatives; }
+    }else{
+      merged.status = "open"; merged.resolution = ""; merged.resolutionConflict = true;
+      const alternatives = value => value.resolutionConflict ? value.decisionAlternatives : [{status:value.status, resolution:value.resolution}];
+      merged.decisionAlternatives = [...new Map([...alternatives(old), ...alternatives(q)].map(h => [questionDecisionKey(h), h])).values()];
+    }
+    result[index] = JSON.parse(JSON.stringify(merged));
+  }
+  return result;
+}
+
+// Curator handoff travels with each resource; it never enters patron text.
+function resourceQuestions(resource){
+  return (Array.isArray(resource && resource.openQuestions) ? resource.openQuestions : [])
+    .filter(q => q && typeof q.id === "string" && typeof q.question === "string" && q.question.trim());
+}
+
+function resourceOpenQuestionLabel(resource){
+  const count = resourceQuestions(resource).filter(q => q.status !== "resolved").length;
+  return count ? (count === 1 ? "open question" : `${count} open questions`) : "";
+}
+
+function renderResourceQuestionsSection(resource){
+  const questions = resourceQuestions(resource);
+  if(!questions.length) return "";
+  const renderQuestion = q => `<div data-question-id="${escapeHTML(q.id)}" style="margin:16px 0;">
+      <strong class="${q.status === "resolved" ? "" : "resource-open-question-text"}">${escapeHTML(q.question)}</strong>
+      <p style="white-space:pre-wrap;">${escapeHTML(q.explanation || "")}</p>
+      ${q.resolutionConflict ? `<p class="resource-open-question-text">Saved decisions disagree. Review both notes and record the decision to use.</p>${q.decisionAlternatives.map(h => `<p>${escapeHTML(h.status)}: ${escapeHTML(h.resolution || "No resolution note")}</p>`).join("")}` : ""}
+      <label>What did you find out?<br><textarea data-question-note style="width:100%;min-height:60px;">${escapeHTML(q.resolution || "")}</textarea></label>
+      <p>Include how you checked and, if you contacted someone, when. Update the resource’s information or categories if needed.</p>
+      <label style="display:block;"><input type="checkbox" data-question-resolved ${q.status === "resolved" ? "checked" : ""}> Resolved</label>
+      ${Array.isArray(q.history) && q.history.length ? `<details><summary>Earlier question decisions</summary>${q.history.map(h => `<p>${escapeHTML(h.changedAt || "")} · ${escapeHTML(h.status || "")}<br>${escapeHTML(h.resolution || "")}</p>`).join("")}</details>` : ""}
+    </div>`;
+  const open = questions.filter(q => q.status !== "resolved");
+  const resolved = questions.filter(q => q.status === "resolved");
+  return `<section id="res_open_questions" style="padding:14px;border:1px solid #b7791f;border-radius:8px;margin:12px 0;">
+    <h3 style="margin-top:0;">Questions for the curator</h3>
+    <p>Scout found specific questions it could not settle. These notes do not appear in patron handouts.</p>
+    ${open.map(renderQuestion).join("")}
+    ${resolved.length ? `<details data-resolved-questions><summary>Resolved questions (${resolved.length})</summary>${resolved.map(renderQuestion).join("")}</details>` : ""}
+    <p id="res_question_warning" role="alert" style="color:#a00;"></p>
+  </section>`;
+}
+
+function resourceQuestionDraft(){
+  const resource = editing && editing.kind === "resource" ? data.resources[editing.idx] : null;
+  if(!Array.isArray(resource && resource.openQuestions)) return undefined;
+  const questions = JSON.parse(JSON.stringify(resource.openQuestions));
+  document.querySelectorAll("#res_open_questions [data-question-id]").forEach(row => {
+    const q = questions.find(q => q && q.id === row.dataset.questionId);
+    if(q){
+      q.status = row.querySelector("[data-question-resolved]").checked ? "resolved" : "open";
+      q.resolution = row.querySelector("[data-question-note]").value.trim();
+    }
+  });
+  return questions;
+}
+
+function validateResourceQuestions(draft){
+  const invalid = (draft.openQuestions || []).some(q => q && q.status === "resolved" && !String(q.resolution || "").trim());
+  const warning = document.getElementById("res_question_warning");
+  if(warning) warning.textContent = invalid ? "Add a short resolution note before marking a question resolved." : "";
+  return !invalid;
+}
+
+function applyResourceQuestions(resource, draft){
+  if(!Array.isArray(draft.openQuestions)) return;
+  const previous = Array.isArray(resource.openQuestions) ? resource.openQuestions : [];
+  resource.openQuestions = draft.openQuestions.map(q => {
+    if(!q || typeof q !== "object") return q;
+    const old = previous.find(x => x && x.id === q.id);
+    const next = JSON.parse(JSON.stringify(q));
+    if(old && ((old.status || "open") !== (q.status || "open") || (old.resolution || "") !== (q.resolution || ""))){
+      delete next.resolutionConflict; delete next.decisionAlternatives;
+      next.history = [...(Array.isArray(old.history) ? old.history : []),
+        {changedAt:nowISO(), status:q.status || "open", resolution:q.resolution || ""}];
+    }
+    return next;
+  });
+}
+// END SHARED CURATOR QUESTIONS
 
 // Source: src/js/110-shortcuts.js
 /* ---------- Application Shortcuts ---------- */

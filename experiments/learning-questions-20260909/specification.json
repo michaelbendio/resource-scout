@@ -1,0 +1,49 @@
+{
+  "name": "Denver Employment final question source-check",
+  "operator": "Astra under Michael authorization",
+  "reason": "Demonstrate the learning loop with one observed question-quality problem",
+  "modelConfig": {
+    "provider": "OpenAI Codex CLI",
+    "model": "gpt-6-astra",
+    "settings": {
+      "reasoningEffort": "high",
+      "webSearch": "live",
+      "ephemeral": true
+    }
+  },
+  "sourceSha256": "a794e84fe5f7a8f5b98ec18d792a0bbbc52769caf3fc69af2fa8b21c537f81e1",
+  "cases": [
+    {
+      "caseId": "workoptions",
+      "resourceId": "workoptions"
+    },
+    {
+      "caseId": "micasa",
+      "resourceId": "micasa"
+    },
+    {
+      "caseId": "activate",
+      "resourceId": "activate"
+    },
+    {
+      "caseId": "indian",
+      "resourceId": "indian"
+    },
+    {
+      "caseId": "secondchance",
+      "resourceId": "secondchance"
+    },
+    {
+      "caseId": "employmentfirst",
+      "resourceId": "employmentfirst"
+    }
+  ],
+  "maxAssignments": 2,
+  "maxSeconds": 1800,
+  "evaluationBasis": "{\"confirmation\": \"If promising, use a second six-lead set with unchanged guidance and the same rules before proposing activation. Do not repeat until positive; no live activation without a separate recorded review.\", \"decisionRule\": \"Promising only if avoidable question issues decrease by at least two across at least two cases, no consequential question is wrongly suppressed, and no new material factual/selection/detail error is introduced. Baseline floor means no-clear-benefit, not failure of the principle. Missing or unreliable evidence means inconclusive.\", \"isolation\": \"Send a neutral delivery packet omitting the arm label and context metadata; keep canonical packet and delivery hashes. Do not share rubric, training observations or opposing results with either respondent.\", \"limitations\": \"One model, unblinded coordinator; source availability can differ. CLI web-call trace may not expose batched page counts. No claim of statistical reliability or human curation.\", \"modelsAndBudget\": \"Same gpt-6-astra high effort, fresh ephemeral contexts, 12 minutes per process and 24 web calls / 24 source pages instructed. Archive actual elapsed time, CLI usage and timed events. Dollar cost unknown; no model purchases.\", \"primaryMeasure\": \"Count distinct avoidable question issues answered by a source that the same respondent actually cited. Split compound questions into issues; a partly answered question is not wholly avoidable. Record fully or partly source-answerable questions separately from optional or out-of-scope questions.\", \"registeredBeforeDispatch\": true, \"safetyMeasures\": [\"Retain consequential source gaps, conflicting claims and dated-information uncertainty.\", \"Do not invent an answer, eligibility rule, current opening, verification or free service.\", \"Preserve essential restrictions and the practical entry route; selection differences alone are not errors.\"], \"sample\": \"Six fresh Denver-area Employment leads, excluding all supporting/counterexample resource IDs. Purposive sample, not a whole-category run.\", \"sourceVariation\": \"Score newly discovered source answers separately from answers missed on an already cited page. Cite dated source evidence for judgments; unavailable sources remain unscored or uncertain.\"}",
+  "researchProtocol": {
+    "version": 2,
+    "maxSourcePages": 24,
+    "maxWebCalls": 24
+  }
+}

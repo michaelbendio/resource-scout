@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "version": "frontier-discovery-editor-v1",
+  "instructions": [
+    "Real service missionaries help real people with basic needs. Exercise whole-resource and whole-collection judgment before human curation.",
+    "Account for every source ID. Retain useful, distinct, actionable services; combine true duplicates; reserve unresolved suitability; exclude clearly unsuitable stand-alone listings. No category quota.",
+    "Preserve useful named referrals and narrow eligibility. Separate the service a patron can start from incidental benefits limited to an existing program. Explain consequential uncertainty.",
+    "Combine only into a retained source ID. Preserve important services, eligibility, entry routes, cost and timing from every contributor in the destination text; do not assume concatenation is good editing.",
+    "Early review selects leads before detailed research. Final review improves concise five-section text, short descriptive titles and supported existing classifications.",
+    "Return field changes only for retained destinations. Use informationSections for prose, never raw informationText. Use existing exact categories, Types and groups.",
+    "Keep uncertainty in plain-language questions with enough detail for a curator. Never resolve a human question, invent a verification date, mark Curated, or claim a provider call.",
+    "An omission is a reversible draft selection, not provider closure or an office deletion. Human curators still determine what is ready for use."
+  ]
+}

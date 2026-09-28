@@ -1,0 +1,16 @@
+{
+  "contextId": "denver-primary-20260909-candidate",
+  "fresh": true,
+  "modelConfig": {
+    "provider": "OpenAI Codex CLI",
+    "model": "gpt-6-astra",
+    "settings": {
+      "reasoningEffort": "high",
+      "webSearch": "live",
+      "ephemeral": true
+    }
+  },
+  "incrementalCostUSD": null,
+  "interventions": 0,
+  "notes": "Actual isolated CLI execution. Full response and CLI event trace preserved. Requested gpt-6-astra high; service success, no model substitution message. Process wall time recorded separately; token counts are cumulative CLI usage, not dollars. Source-page ceiling instructed; CLI trace does not expose full batched page counts."
+}

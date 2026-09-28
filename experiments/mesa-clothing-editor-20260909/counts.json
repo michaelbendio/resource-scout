@@ -1,0 +1,18 @@
+{
+  "originalFullPackageResources": 268,
+  "reviewedExistingResources": 19,
+  "unchangedUnselectedResources": 249,
+  "newUniqueResources": 2,
+  "finalPilotResources": 21,
+  "existingPatronTextChanges": 4,
+  "existingQuestionRecordsPreserved": 26,
+  "newQuestionRecords": 1,
+  "outputQuestionRecords": 27,
+  "combined": 0,
+  "reserved": 0,
+  "excluded": 0,
+  "humanApprovalsCreated": 0,
+  "providerCalls": 0,
+  "sourceSha256": "a2f4bb514c7a9e9edb414a97513d602b3cae59a52bfa09e9a3af6ef0abf41f93",
+  "pilotSha256": "929c8893cd53333dac751436a8244f77c57e0ed71ce434131840c46d4eb58ea2"
+}

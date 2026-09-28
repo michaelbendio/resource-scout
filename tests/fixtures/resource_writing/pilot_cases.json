@@ -1,0 +1,371 @@
+{
+  "purpose": "Source-only writing pilot, not current provider verification",
+  "cases": [
+    {
+      "case": "employment-reference",
+      "source": {
+        "id": "express-writing-reference",
+        "name": "Express Employment Professionals · Mesa Staffing Office",
+        "phone": "480-820-3700",
+        "address": "849 N. Dobson Rd., Suite 107, Mesa, AZ 85201",
+        "website": "https://www.expresspros.com/us-arizona-mesa/job-seekers/job-seekers",
+        "hours": "Monday–Thursday, 8 a.m.–5 p.m.; Friday, 8 a.m.–3 p.m.",
+        "description": "Immediate local staffing pathway for temporary, part-time, and full-time work across light industrial, skilled trades, office, and professional roles. Applicants may create an account, apply to a specific opening, call the office, or arrange an in-person application and interview. Area served: Mesa and employers served by the locally operated Mesa office.",
+        "informationText": "Programs and Services\nExpress Employment Professionals' Mesa office connects job seekers with local employers through one application for multiple jobs. Services include job search and placement for temporary/contract, evaluation-hire, part-time, full-time, and direct-hire roles. Job categories listed by Express include office services, light industrial, skilled trades, call center/customer service, healthcare/social assistance administrative and support roles, manufacturing, and logistics. Express also lists weekly pay, free skills training/career development resources, resume assistance, interview tips, salary-negotiation support for direct-hire placements, and benefits for eligible Express associates, such as health plan options, dental, vision, life insurance, short-term disability, 401(k), and an employee assistance program. Job seekers are not charged a placement fee.\n\nMesa Staffing Office: Immediate local staffing pathway for temporary, part-time, and full-time work across light industrial, skilled trades, office, and professional roles. Applicants may create an account, apply to a specific opening, call the office, or arrange an in-person application and interview.\n\nEligibility Requirements\nExpress does not publish a single fixed eligibility rule for all applicants on the Mesa job seeker pages. Placement depends on current client job requests, whether the applicant matches the job requirements, applicant availability, skills, and whether the applicant accepts the assignment. Available jobs vary by location and change frequently. Some benefits require eligibility criteria, and Express states associates may need to work a specified number of hours and/or weeks before qualifying for some benefits; benefits may vary by Express location. No age limit, income requirement, geographic residency rule, documentation list, or referral requirement could be confirmed from the public Mesa pages. Individual job postings may have their own requirements, schedules, pay, skills, licenses, or location requirements.\n\nHow to Best Connect\nStart by searching current openings on the Mesa Express website or using Apply Now/Create an Account. The hiring process is described as: search job openings, create an account and apply, complete interview and assessment, then job placement if matched. Applicants can also contact the Mesa office directly at 480-820-3700 or jobs.mesaaz@expresspros.com, or use the website contact form and select 'Looking for a job.' The office is at 849 North Dobson Road, Suite 107, Mesa, AZ 85201. Published office hours are Monday-Thursday 8:00 AM-5:00 PM, Friday 8:00 AM-3:00 PM, closed Saturday-Sunday. Because openings change continuously, confirm a specific job is still open before referring someone. The public pages do not clearly confirm whether walk-ins are accepted or whether appointments are required, so call ahead for in-person help.\n\nAccess\nArea served: Mesa and employers served by the locally operated Mesa office\n\nImportant Information to Know\nOpenings change continuously and should not be copied as durable resources. Confirm whether job seekers ever face testing, equipment, transportation, or other costs.",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {},
+        "forGroups": [],
+        "pdfs": []
+      },
+      "sourceProvenance": {
+        "kind": "user-supplied Scout text",
+        "date": "2026-09-05"
+      },
+      "description": "Helps people find temporary, part-time, and full-time jobs with employers in the Mesa area.",
+      "sections": {
+        "programsAndServices": "One application can connect you with several job opportunities. Work includes warehouse and manufacturing jobs, skilled trades, office work, customer service, and professional positions. Some temporary jobs may lead to permanent employment.\n\nExpress also offers job-search support, including résumé help, interview tips, and free skills training. There is no job placement fee.",
+        "eligibilityRequirements": "Requirements vary by job. Placement depends on your skills, availability, and the employer’s requirements.\n\nAsk what documents, experience, or licenses you need for the jobs that interest you. The Mesa website does not provide one document list or age requirement for all applicants.",
+        "howToBestConnect": "Call the Mesa office or search and apply through its website.\n\nWhen calling, explain what kind of work you want and when you can work. Ask how to apply and whether you need an appointment for in-person help.\n\nAfter applying, you may complete an interview and skills assessment. Placement depends on a suitable job being available.\n\nEmail: jobs.mesaaz@expresspros.com",
+        "access": "Serves job seekers seeking work with employers served by the Mesa office. Job locations vary; check where you would report to work before accepting an assignment.",
+        "importantInformationToKnow": "- Openings change often. Check that a job is still available.\n- Ask about pay, work hours, and any testing, equipment, or transportation costs.\n- Benefits vary. Ask what benefits are available and how long you must work to qualify."
+      },
+      "mustPreserve": [
+        "no placement fee",
+        "job-specific eligibility",
+        "appointments unknown",
+        "local service scope",
+        "email contact",
+        "benefits vary"
+      ],
+      "reviewNotes": [
+        "Approved prose retained; email moved from the example contact block into How to Best Connect for package compatibility.",
+        "Weekly pay and some optional benefit/support details were shortened in the user-approved reference. No new provider verification."
+      ]
+    },
+    {
+      "case": "shelter",
+      "source": {
+        "address": "230 S 12th Ave, Phoenix, AZ 85007",
+        "candidateIds": [
+          "560",
+          "561"
+        ],
+        "categories": [
+          "housing",
+          "homeless-services"
+        ],
+        "categoryFilters": {
+          "homeless-services": [
+            "Overnight Lodging",
+            "Homeless Navigation"
+          ],
+          "housing": [
+            "Emergency Shelter",
+            "Rapid Rehousing",
+            "Housing Navigation"
+          ]
+        },
+        "description": "Major regional emergency shelter and family housing/rapid-rehousing provider explicitly listed as covering all of Maricopa County. Area served: Maricopa County, including Mesa.",
+        "forGroups": [
+          "Homeless"
+        ],
+        "hours": "",
+        "id": "8d56f8448fc9b780197d3015c051f81c",
+        "informationText": "**Programs and Services**\nCentral Arizona Shelter Services (CASS) provides emergency shelter and housing-focused support throughout Maricopa County. Its Phoenix programs include a low-barrier Single Adult Shelter open 24/7/365, Vista Colina Family Shelter with private family units, and The Haven for adults age 55 and older. Depending on the program and availability, services include same-day emergency shelter placement, meals, showers, restrooms, hygiene supplies, mail service, case management, housing navigation, healthcare and behavioral-health referrals, help obtaining identification and public benefits, employment and education support, transportation assistance available through case management, and legal, tenancy, recovery, veteran, and domestic-violence referrals. Rapid Re-Housing and Prevention programs may provide short-term rent or utility assistance, security-deposit support, tenancy training, landlord mediation, benefits enrollment, budgeting assistance, and case management. Access to shelter and housing assistance depends on intake, eligibility, coordinated-entry referral, and current availability.\n\n* Family Housing Services (emergency shelter + Rapid Re-Housing): Major regional emergency shelter and family housing/rapid-rehousing provider explicitly listed as covering all of Maricopa County.\n* Single Adult Shelter, Vista Colina Family Shelter, The Haven (55+): Large, low-barrier emergency shelter with same-day placement when available, case management, housing navigation, healthcare connections, and rapid-rehousing support.\n\n**Eligibility Requirements**\nThe Single Adult Shelter pathway is for adults age 18 or older experiencing homelessness. CASS asks people to bring photo identification, medications, and critical documents if available, but says staff can help replace missing documents. The Haven is specifically designed for adults age 55 or older experiencing homelessness. Vista Colina serves parents and children; the Family Housing Hub coordinates homeless services for Maricopa County families with children under age 18. All adults in a family household seeking shelter must participate in the screening. Separate coordinated-entry pathways apply to domestic-violence survivors, veterans, and youth ages 12–17. The reviewed sources do not confirm an income limit, immigration-status requirement, mandatory identification requirement, or Mesa residency requirement for CASS shelter. The Family Housing Hub's MesaCAN access point is limited to Mesa residents who have been directed to coordinated entry or cannot call 2-1-1.\n\n**How to Best Connect**\nFor a single adult, call the Brian Garcia Welcome Center at 602-229-5155 first to confirm intake instructions and bed availability. CASS's official pages currently conflict: its Contact page says intake or information can only be obtained by calling that number, while its Get Help page directs adults age 18+ to visit the intake campus at 204 S. 12th Ave., Phoenix, AZ 85007 and then request direction to CASS. The Single Adult Shelter itself is at 230 S. 12th Ave., Phoenix, AZ 85007. Same-day placement is subject to availability. The Get Help page displays 604-256-6945 for questions, but this conflicts with CASS's documented 602 numbers and should not be used unless CASS verifies it. For a family with children, call 2-1-1 or 877-211-8661 first for assessment and referral; the current Family Housing Hub site says 2-1-1 is the fastest route and that callers generally should not visit in person unless directed. CASS and Maricopa County also list the Family Housing Hub at 602-595-8700. All adults needing shelter should join the screening and be ready to provide household names and ages, where the family will stay that night, and whether the location is safe. Mesa families directed to coordinated entry, or unable to call 2-1-1, may visit the Family Housing Hub at MesaCAN, 635 E. Broadway Rd., Mesa, on Tuesday from 9:00 a.m. to 3:00 p.m.; arrive before closing. For rental assistance or other community resources, use 2-1-1 Arizona rather than CASS's general contact form. Call 911 for immediate danger; use the county's separate coordinated-entry contacts for domestic-violence survivors, veterans, or youth.\n\n**Access**\n* Area served: Maricopa County, including Mesa; Adults age 18 and older across Maricopa County; Maricopa County; family placements generally via Family Housing Hub\n\n**Important Information to Know**\n* Primary facility is in Phoenix; Mesa-area clients typically access through Family Housing Hub/211 rather than walk-in.\n* Located in Phoenix. Same-day placement is subject to availability and intake through the Welcome Center.\n* Downtown campus pet policy is limited to service/ESA animals with vaccinations.",
+        "lastModified": "2026-09-04T20:18:19.229676+00:00",
+        "name": "Central Arizona Shelter Services (CASS)",
+        "pdfs": [],
+        "phone": "602-229-5155",
+        "verifiedOn": null,
+        "website": "https://www.cassaz.org/get-help"
+      },
+      "sourceProvenance": {
+        "kind": "archived Scout artifact",
+        "artifact": "autoMesa-enriched.html",
+        "sha256": "65f26f690534927c7c359b0c082b25e950fe996eec0b64b79a632edad89f2831",
+        "resourceId": "8d56f8448fc9b780197d3015c051f81c",
+        "date": "2026-09-04"
+      },
+      "description": "Emergency shelter and housing support for adults and families in Maricopa County, including Mesa. Shelter facilities are in Phoenix.",
+      "sections": {
+        "programsAndServices": "Offers emergency shelter, meals, basic supplies, and help finding housing. Programs include a single-adult shelter, Vista Colina Family Shelter, and The Haven for older adults. Staff may also help with identification, benefits, employment, and transportation. Housing programs may offer short-term rent or utility assistance, depending on eligibility and availability.",
+        "eligibilityRequirements": "- Single Adult Shelter: adults age 18 or older who are experiencing homelessness.\n- The Haven: adults age 55 or older who are experiencing homelessness.\n- Family shelter: families with children under 18. All adults seeking shelter must take part in the screening.\n\nBring photo ID, medications, and important documents if you have them. Staff can help replace missing documents. Do not assume missing ID rules you out.",
+        "howToBestConnect": "Single adults: call the Brian Garcia Welcome Center at the number above before traveling. Ask where to go for intake and whether beds are available. Confirm whether you should call or visit for intake. The intake campus is listed at 204 S. 12th Ave., separate from the shelter address above.\n\nFamilies with children: call 2-1-1 or 877-211-8661 for assessment and referral. Have all adults join the screening. Be ready to explain who needs shelter, where you will stay tonight, and whether that place is safe. Visit in person only if directed.\n\nMesa families directed to coordinated entry, or unable to call 2-1-1, may use MesaCAN at 635 E. Broadway Rd., Mesa, Tuesday, 9 a.m.–3 p.m. Confirm these hours before traveling. For rental assistance, start with 2-1-1.",
+        "access": "Serves Maricopa County, including Mesa. Adult and family intake routes differ; check the correct location before traveling to Phoenix.",
+        "importantInformationToKnow": "- A bed or same-day placement is not guaranteed.\n- Ask about separate intake routes for veterans, domestic-violence survivors, and youth ages 12–17.\n- The listed downtown-campus rule allows only vaccinated service or emotional-support animals. Confirm before bringing an animal.\n- For immediate danger, call 911."
+      },
+      "mustPreserve": [
+        "adult and family routes differ",
+        "18+ and 55+",
+        "all family adults screened",
+        "ID if available",
+        "intake conflict",
+        "bed availability",
+        "pet restriction"
+      ],
+      "reviewNotes": [
+        "Conflicting intake instructions are retained; the questionable 604 phone number is not offered as a usable route.",
+        "This is a historical writing sample, not a fresh shelter availability check.",
+        "Editorial revision after print review: express uncertain facts as practical checks; keep historical source conflicts in the recorded evidence."
+      ]
+    },
+    {
+      "case": "food-boundaries",
+      "source": {
+        "address": "Mesa, AZ 85204",
+        "candidateIds": [
+          "167"
+        ],
+        "categories": [
+          "food"
+        ],
+        "categoryFilters": {
+          "food": [
+            "Food Pantry"
+          ]
+        },
+        "description": "Parish-based food pantry with defined local service boundary within Mesa. Area served: Mesa (parish boundary-restricted).",
+        "forGroups": [],
+        "hours": "",
+        "id": "af848390332ec0fb5a3b60ba708457ee",
+        "informationText": "**Programs and Services**\nChrist the King's H.O.P.E. Outreach provides food distribution through The Emergency Food Assistance Program (TEFAP). Confirmed items include pre-packed food boxes/bags with fruits and vegetables, meat, shelf-stable/non-perishable goods, and toiletries/hygiene products. The location is accessible by public transit and reports parking, restrooms, seating in the waiting area, air conditioning, and wheelchair accessibility. Languages listed are English and Spanish; Vivery also links to United Food Bank language-access information. The ministry also reports seasonal supports such as Thanksgiving meal boxes and an Advent Giving Tree, but referral should focus on the confirmed pantry/TEFAP food distribution service.\n\n* Hope Program Food Pantry: Parish-based food pantry with defined local service boundary within Mesa.\n\n**Eligibility Requirements**\nClients must live in the pantry service area: Mesa residents north of Baseline Road, south of Brown Road, east of Horne, and west of Val Vista. Arizona Food Bank Network also lists ZIP codes served as 85201, 85204, and 85213, but the street-boundary rule should be used because it is more specific. Clients must bring proof of identification; Arizona Food Bank Network specifies photo ID and proof of address within the service area. A referral is not required. Vivery states clients may visit once every two weeks and service is limited to pantry capacity of 125 clients per day. TEFAP is a no-cost federal food assistance program for people with low income, but a specific income threshold for this pantry could not be confirmed from the current public listing.\n\n**How to Best Connect**\nGo during food distribution hours: Tuesday 10:30 AM-12:00 PM or Thursday 4:45 PM-6:15 PM, Mountain Time. Vivery lists the pantry address as 1616 East Broadway Road, Mesa, AZ 85204, across from Reed Park; the parish office/contact page lists the church office at 1551 E Dana Ave. Call 480-964-1719 before referring to confirm current hours, holiday closures, capacity, and whether the client address falls inside the boundary. Bring photo ID and proof of current address, such as a utility bill, lease, or rental agreement. Walk-ins are listed as served, and no referral is required. Ask for H.O.P.E. Outreach or the listed pantry contact, Deb Carstens; Vivery lists debcarstens2@gmail.com as the primary contact email.\n\n**Access**\n* Area served: Mesa (parish boundary-restricted)\n\n**Important Information to Know**\n* Service restricted to specific parish boundary; confirm current boundary and hours",
+        "lastModified": "2026-09-04T20:18:19.229676+00:00",
+        "name": "Christ the King Catholic Church · Hope Program Food Pantry",
+        "pdfs": [],
+        "phone": "480-964-1719",
+        "verifiedOn": "2026-08-26",
+        "website": "https://sites.vivery.org/hope-outreach-christ-the-king/mesa-az/6497"
+      },
+      "sourceProvenance": {
+        "kind": "archived Scout artifact",
+        "artifact": "autoMesa-enriched.html",
+        "sha256": "65f26f690534927c7c359b0c082b25e950fe996eec0b64b79a632edad89f2831",
+        "resourceId": "af848390332ec0fb5a3b60ba708457ee",
+        "date": "2026-09-04"
+      },
+      "description": "Free food boxes and bags for people living within a defined part of Mesa. Check the street boundaries below.",
+      "sections": {
+        "programsAndServices": "Provides food boxes or bags with items such as produce, meat, and shelf-stable groceries. Toiletries may also be available.",
+        "eligibilityRequirements": "You must live north of Baseline Road, south of Brown Road, east of Horne, and west of Val Vista in Mesa.\n\nBring photo ID and proof of your current address, such as a utility bill or lease. No referral is required. The program serves people with low income, but the income limit is not confirmed. Ask whether you qualify.",
+        "howToBestConnect": "Call the number above and ask for H.O.P.E. Outreach. Confirm your address is in the service area and check current hours before going.\n\nThe pantry is listed at 1616 E. Broadway Rd., Mesa, across from Reed Park. The church office has a different address.\n\nListed food distribution hours are Tuesday, 10:30 a.m.–noon, and Thursday, 4:45–6:15 p.m. Walk-ins are served. Email: debcarstens2@gmail.com",
+        "access": "Serves only the Mesa area within the street boundaries above. The listing reports English and Spanish service, wheelchair access, nearby public transit, parking, restrooms, and indoor seating.",
+        "importantInformationToKnow": "- Food is free.\n- Visits are limited to once every two weeks.\n- The listed daily capacity is 125 people. Holiday hours and available food may change."
+      },
+      "mustPreserve": [
+        "all four boundaries",
+        "ID and address proof",
+        "no referral",
+        "two-week interval",
+        "capacity125",
+        "pantry versus office address",
+        "income threshold unknown"
+      ],
+      "reviewNotes": [
+        "Street boundaries take precedence over the broader ZIP-code list in the source.",
+        "Seasonal extras omitted to keep the food-pantry route clear.",
+        "Editorial revision after print review: express uncertain facts as practical checks; keep historical source conflicts in the recorded evidence."
+      ]
+    },
+    {
+      "case": "government-program",
+      "source": {
+        "address": "Local field office serving Mesa/East Valley; state office at 1789 W. Jefferson St., Phoenix, AZ 85007",
+        "candidateIds": [
+          "419"
+        ],
+        "categories": [
+          "employment",
+          "independent-living"
+        ],
+        "categoryFilters": {
+          "employment": [
+            "Career Planning",
+            "Skills Training",
+            "Job Search & Placement",
+            "Supported Employment",
+            "Job Coaching"
+          ],
+          "independent-living": [
+            "Assistive Technology",
+            "Living Skills"
+          ]
+        },
+        "description": "State VR agency providing employment preparation, job placement, specialized equipment, transition services for youth, and independent-living services for blind/low-vision individuals. Area served: Statewide Arizona with local field offices.",
+        "forGroups": [
+          "Disabled",
+          "Youth"
+        ],
+        "hours": "",
+        "id": "6be73b6539fd16b3a6c84ffad77aace8",
+        "informationText": "**Programs and Services**\nArizona DES Rehabilitation Services Administration (RSA) helps people with disabilities work toward employment and independence. Vocational Rehabilitation (VR) can help eligible people prepare for work, find a job, and keep a job; listed services include vocational evaluations, job training, job search support, job placement, transportation help, job-site modifications, and support for self-employment or entrepreneurial activities. Pre-Employment Transition Services (Pre-ETS) are short workshops for students with disabilities covering job exploration, work-based learning, post-secondary/training options, work readiness, and self-advocacy. For people who are blind or have low vision, RSA also lists services including orientation and mobility, communication skills, personal/home management, daily living skills, assistive technology, and adjustment-to-vision-loss support. Business Enterprise Program services may be available to VR participants who are legally blind and want to run vending or food-service businesses.\n\n* Vocational Rehabilitation (VR) program, incl. Pre-Employment Transition Services and Independent Living for the Blind (ILOB): State VR agency providing employment preparation, job placement, specialized equipment, transition services for youth, and independent-living services for blind/low-vision individuals.\n\n**Eligibility Requirements**\nVR: A person may qualify if they have a physical or mental disability, the disability makes it hard to get or keep a job, they need VR services to prepare for/find/keep/return to work, and VR services can help them reach an employment goal. Pre-ETS: Arizona students with disabilities ages 14 to 22 who are enrolled in an educational program, including public, private, charter, homeschool, college, GED, or vocational program, and who have a documented disability such as an IEP or 504 plan; students do not have to be VR clients to receive Pre-ETS. Pre-ETS documentation may include an IEP or 504 plan, medical/psychological documentation with diagnosis by a licensed professional, proof of post-secondary acceptance/enrollment, and proof of guardianship if applicable. ILOB: People age 55 or older with significant vision loss that limits independence, who need ILOB services to become or remain independent, and are willing to participate. No income limit was confirmed on the DES pages reviewed. RSA is statewide; Mesa/East Valley is served through Maricopa County offices, with Chandler-Mesa listed at 125 E. Elliot Road, Chandler, AZ 85225.\n\n**How to Best Connect**\nFor VR, call the general RSA referral line at 1-800-563-1221 or contact/visit a nearby VR office to ask about services or schedule an appointment. DES says some RSA offices have limited staffing or specific in-person hours, so call ahead before visiting. The Maricopa County Chandler-Mesa VR office is listed at 125 E. Elliot Road, Chandler, AZ 85225, phone (602) 771-5949, fax (602) 250-8571; this appears to be the closest named office for Mesa/East Valley referrals. For blind/vision-impaired VR services, DES also lists a Chandler office at 125 E. Elliot Road, Chandler, AZ 85225, phone (520) 629-0225. For ILOB, call 1-888-282-9857 toll-free or 602-266-9286 in the Phoenix area. VR referrals can also be made by downloading an RSA referral form from DES and emailing it to RSA; after a referral is received, DES says it is sent to a local field office and VR staff will contact the person to set up an appointment. For Pre-ETS, review the contractor directory, complete the Pre-ETS Request Form, and submit it to the RSA Transition team mailbox listed on the DES Pre-ETS page.\n\n**Access**\n* Area served: Statewide Arizona with local field offices; East Valley office likely serves Mesa\n\n**Important Information to Know**\n* Specific Mesa-area RSA field office address/phone not verified in this search; confirm via DES office locator.",
+        "lastModified": "2026-09-04T20:18:19.229676+00:00",
+        "name": "Arizona Rehabilitation Services Administration (RSA/AZRSA), a division of DES · Vocational Rehabilitation (VR) program, incl. Pre-Employment Transition Services and Independent Living for the Blind (ILOB)",
+        "pdfs": [],
+        "phone": "Find local office via des.az.gov/rsa-contact-information",
+        "verifiedOn": null,
+        "website": "https://des.az.gov/services/employment/arizona-rehabilitation-services"
+      },
+      "sourceProvenance": {
+        "kind": "archived Scout artifact",
+        "artifact": "autoMesa-enriched.html",
+        "sha256": "65f26f690534927c7c359b0c082b25e950fe996eec0b64b79a632edad89f2831",
+        "resourceId": "6be73b6539fd16b3a6c84ffad77aace8",
+        "date": "2026-09-04"
+      },
+      "description": "Arizona programs that help people with disabilities prepare for work, find or keep a job, and live more independently. Local offices serve Mesa and the East Valley.",
+      "sections": {
+        "programsAndServices": "Vocational Rehabilitation helps eligible people prepare for, find, or keep work. Support may include training, job placement, transportation, workplace changes, and self-employment assistance.\n\nStudents with disabilities can receive short workshops on jobs, training, and workplace skills through Pre-Employment Transition Services.\n\nServices for people who are blind or have low vision may include daily-living skills, assistive technology, and mobility training. Eligible participants who are legally blind may also receive help running vending or food-service businesses.",
+        "eligibilityRequirements": "Work services: you may qualify if a physical or mental disability makes getting or keeping a job difficult and these services can help you reach an employment goal.\n\nStudent workshops: Arizona students ages 14–22 who are enrolled in an education program and have a documented disability. You do not need to be a Vocational Rehabilitation client. Ask which disability, enrollment, or guardianship records to provide.\n\nIndependent Living Older Blind program: adults age 55 or older whose vision loss limits independence and who need and are willing to take part in the services.\n\nIncome limits are not confirmed. Ask whether any apply to your program.",
+        "howToBestConnect": "For work services, call 1-800-563-1221 to ask how to apply and which office serves you. Call before visiting; staffing and in-person hours vary. After receiving a referral, staff contact the person to arrange an appointment.\n\nFor the Independent Living Older Blind program, call 1-888-282-9857 or 602-266-9286.\n\nFor student workshops, use the Pre-Employment Transition Services request form and contractor directory on the DES website.",
+        "access": "Services are available statewide in Arizona. A Chandler-Mesa office is listed at 125 E. Elliot Rd., Chandler. This address and its local contact details need confirmation; check which office to visit before traveling.",
+        "importantInformationToKnow": "Services and requirements differ by program. Ask which program fits your needs and which documents it requires. An application or referral does not guarantee services."
+      },
+      "mustPreserve": [
+        "disability employment criteria",
+        "students14to22",
+        "education and disability documentation",
+        "noVRprerequisite",
+        "olderblind55plus",
+        "localofficeuncertainty",
+        "phoneentryroutes"
+      ],
+      "reviewNotes": [
+        "Program-specific eligibility and phone routes retained; name and legacy contact fields remain available unchanged.",
+        "Local-address uncertainty is not silently resolved by the writing pass.",
+        "Editorial revision after print review: express uncertain facts as practical checks; keep historical source conflicts in the recorded evidence."
+      ]
+    },
+    {
+      "case": "family-access",
+      "source": {
+        "address": "Southwest Human Development, Maricopa County service area",
+        "candidateIds": [
+          "267",
+          "296",
+          "297",
+          "298",
+          "299",
+          "300",
+          "301",
+          "302",
+          "303"
+        ],
+        "categories": [
+          "parenting-child-development"
+        ],
+        "categoryFilters": {
+          "parenting-child-development": [
+            "Parenting Education",
+            "Home Visiting"
+          ]
+        },
+        "description": "Free, voluntary evidence-based home visiting for at-risk pregnant women and families of newborns through age five, covering prenatal education, parenting skills, and referrals — directly matches home-visiting and parenting-education priority. Area served: Maricopa County (includes Mesa).",
+        "forGroups": [
+          "Families",
+          "Pregnant/postpartum"
+        ],
+        "hours": "",
+        "id": "220a1f02f8cd1658a7e7cd4b8e2906aa",
+        "informationText": "**Programs and Services**\nSouthwest Human Development provides Healthy Families, a free, voluntary home-visiting program for expectant families and parents of newborns in Maricopa County. A family support specialist can provide prenatal education, help preparing the home for a baby, parent-child bonding and child-development activities, parenting support, individualized goal-setting, and connections to resources such as health care, child care, education, and employment. Services may begin during pregnancy and continue through the child’s first five years. Southwest Human Development also operates the free Birth to Five Helpline for Arizona families and professionals. Bilingual English/Spanish early-childhood specialists provide information and consultation about sleep, feeding and nutrition, safety, challenging behavior, toilet learning, fussiness or colic, parenting, and child development. Through the helpline, callers may also be connected with psychologists, counselors, disabilities and early-literacy specialists, therapists, and other services; counseling is an additional service accessible through the helpline, not a listed helpline topic. The free Fussy Baby Program, an extension of the helpline, supports caregivers of babies during the first year of life with concerns such as excessive crying, difficulty soothing, feeding or sleeping problems, caregiver stress, or early-development concerns. It offers home visits in Maricopa County and telephone or virtual consultation statewide.\n\n* Healthy Families Arizona home visiting: Free, voluntary evidence-based home visiting for at-risk pregnant women and families of newborns through age five, covering prenatal education, parenting skills, and referrals — directly matches home-visiting and parenting-education priority.\n* Birth to Five Helpline: Free access to early-childhood specialists for parents-to-be and families with children through age five. Useful for developmental questions, screening guidance, behavior, sleep, feeding, parenting, and referrals.\n* Birth to Five Helpline and Fussy Baby Program: Bilingual developmental/parenting consult line for pregnancy through age 5, with escalation to Fussy Baby, therapy, and local program referrals.\n* Fussy Baby Program: Specialized support for caregivers of infants in the first year who are difficult to soothe or have feeding, sleeping, crying, or early-development concerns.\n* Healthy Families: Voluntary home-visiting lead for expectant and parenting families, focused on positive parenting, child health and development, family stability, and connection to community services.\n* Healthy Families Arizona: Free voluntary home visiting for expectant and new parents with prenatal education, infant development, and resource navigation; no income requirement.\n\n**Eligibility Requirements**\nSouthwest Human Development’s Healthy Families program accepts families who live in Maricopa County and are expecting a baby or have a newborn under 90 days old. Southwest Human Development states that there are no income requirements or restrictions. The statewide Healthy Families Arizona referral page similarly accepts referrals during pregnancy or when a child is 3 months old or younger; if accepted, a parent must have legal custody within the first 90 days of services. Its referral form routes families by county and ZIP code. A provider may submit a referral, but the caregiver must know that the referral is being submitted and agree to be contacted. The Birth to Five Helpline is available throughout Arizona to parents-to-be, families and caregivers of children from birth through age 5, and professionals who work with children in that age range. The Fussy Baby Program serves parents or caregivers concerned about a baby during the first year of life. Its in-home service is limited to Maricopa County, while telephone and virtual consultations are available statewide. Public program pages do not identify required documents; confirm any documentation needs when the program contacts the family.\n\n**How to Best Connect**\nFor Southwest Human Development’s Healthy Families program, complete the live sign-up/referral form on its Healthy Families webpage, download and submit the English- or Spanish-language referral PDF available there, or call the Healthy Families team at 602-427-4725. The statewide online referral form at healthyfamiliesaz.org is another live referral route and assigns referrals using county and ZIP-code information. Before referring to Southwest Human Development, confirm Maricopa County residence and that the family is expecting a baby or has a newborn under 90 days old; providers should obtain the caregiver’s awareness and permission before submitting family information. For the Birth to Five Helpline or Fussy Baby support, call 877-705-KIDS (5437). Bilingual early-childhood specialists are available Monday through Friday, 8:00 a.m.–8:00 p.m.; callers may also leave a voicemail, submit the online contact form, text the helpline 24/7, request a virtual consultation, or use the Birth to Five Helpline app. To reach Fussy Baby services, call the helpline and specifically ask for the Fussy Baby Program. Confirm geography if requesting an in-home Fussy Baby visit. These programs provide parenting, developmental consultation, and referrals; urgent medical or safety concerns should be directed to the appropriate emergency or health-care service.\n\n**Access**\n* Area served: Maricopa County (includes Mesa); Arizona statewide, including Mesa; All Arizona families; Fussy Baby home visits described for Maricopa County\n\n**Important Information to Know**\n* This is consultation and routing, not a substitute for medical diagnosis, emergency care, or a formal AzEIP evaluation.\n* Fussy Baby in-home geographic limits should be confirmed when referring outside central Maricopa.\n* Confirm current home-visit availability and whether the concern requires pediatric or emergency medical evaluation before referral.",
+        "lastModified": "2026-09-04T20:18:19.229676+00:00",
+        "name": "Southwest Human Development",
+        "pdfs": [],
+        "phone": "602-427-4725",
+        "verifiedOn": null,
+        "website": "https://healthyfamiliesaz.org/"
+      },
+      "sourceProvenance": {
+        "kind": "archived Scout artifact",
+        "artifact": "autoMesa-enriched.html",
+        "sha256": "65f26f690534927c7c359b0c082b25e950fe996eec0b64b79a632edad89f2831",
+        "resourceId": "220a1f02f8cd1658a7e7cd4b8e2906aa",
+        "date": "2026-09-04"
+      },
+      "description": "Free parenting support for expectant families and families with young children. Home-visiting programs serve Maricopa County; phone support is available across Arizona.",
+      "sections": {
+        "programsAndServices": "Healthy Families offers voluntary home visits with pregnancy education, parenting support, child-development activities, and help connecting with other services. Support may continue through the child’s first five years.\n\nThe Birth to Five Helpline answers questions about sleep, feeding, behavior, parenting, and child development. The Fussy Baby Program offers extra support with crying, soothing, feeding, sleep, and caregiver stress during a baby’s first year.",
+        "eligibilityRequirements": "Healthy Families: live in Maricopa County and be expecting a baby or have a newborn under 90 days old. There is no income requirement. The statewide referral information says a parent must have legal custody within the first 90 days of services.\n\nBirth to Five Helpline: parents-to-be and caregivers of children from birth through age 5. Professionals working with these children may also call.\n\nFussy Baby: parents or caregivers concerned about a baby in the first year of life. Ask about any documents needed.",
+        "howToBestConnect": "For Healthy Families, call the number above or use the referral form on the website. A provider submitting a referral must have the caregiver’s agreement to be contacted.\n\nFor the Birth to Five Helpline or Fussy Baby Program, call 877-705-5437. Ask specifically for Fussy Baby if that is the help you need. English- and Spanish-speaking specialists are listed as available Monday–Friday, 8 a.m.–8 p.m. You may leave voicemail or send a text at any time.",
+        "access": "Healthy Families home visits serve Maricopa County, including Mesa. Fussy Baby home visits are also limited to Maricopa County; phone and virtual consultations are available statewide. Confirm home-visit availability for your address.",
+        "importantInformationToKnow": "These programs are free. Parenting consultation does not replace medical diagnosis or emergency care. Ask a health-care provider about medical concerns."
+      },
+      "mustPreserve": [
+        "enrollment under90days notthrough5",
+        "noincome requirement",
+        "custody90days",
+        "consent forreferral",
+        "fussybabyunder1",
+        "countyhomevisits",
+        "statewidephone",
+        "EnglishSpanishhelpline"
+      ],
+      "reviewNotes": [
+        "Distinguishes age at entry from how long support may continue.",
+        "Language service applies to the helpline; it is not generalized to every home-visiting program.",
+        "Editorial revision after print review: express uncertain facts as practical checks; keep historical source conflicts in the recorded evidence."
+      ]
+    },
+    {
+      "case": "uncertain-contact",
+      "source": {
+        "address": "Mesa, AZ",
+        "candidateIds": [
+          "169",
+          "170",
+          "171"
+        ],
+        "categories": [
+          "food"
+        ],
+        "categoryFilters": {
+          "food": [
+            "Food Pantry"
+          ]
+        },
+        "description": "Weekly (Saturday) food box distribution site serving Mesa residents. Area served: Mesa, Maricopa County.",
+        "forGroups": [],
+        "hours": "",
+        "id": "bd171f3dee49f66941dccb61f68c2dea",
+        "informationText": "**Programs and Services**\nDesert Manna Food Pantry provides free weekly grocery boxes for families in need in East Mesa. Distribution is Saturday mornings and boxes vary based on donations, but the pantry says it tries to include staples such as rice, beans, pasta, canned goods, frozen meat, bread, and bakery items. Food is donated by local stores, churches, individuals, and other sources. The pantry does not deliver groceries; clients may come in person or authorize a neighbor or family member to pick up a box for them.\n\n* Weekly (Saturday) food box distribution site serving Mesa residents.\n* Weekly Food Distribution: Independent East Mesa pantry providing weekly grocery boxes with pantry staples, meat, bread, and other donated food as available.\n* Weekly grocery box distribution: Dedicated East Mesa pantry distributing substantial weekly volumes of grocery boxes with minimal barriers; serves a defined geographic pocket of Mesa.\n\n**Eligibility Requirements**\nThe pantry focuses on serving people living in East Mesa between Power Road and Meridian, and between McKellips Road and Southern Avenue. The official website says people outside that area who need food may still receive a box, but it recommends using United Food Bank, St. Mary’s Food Bank, or Vivery to find a closer pantry. No income limits, ID/documentation requirements, age limits, or referral requirements could be confirmed from the official website. Food is available while supplies last and is first-come, first-served.\n\n**How to Best Connect**\nGo to 590 N. 96th Street, Mesa, AZ 85207, on the campus of Calvary Free Lutheran Church. The official English and Spanish pages state food distribution is every Saturday from 7:00 AM to 10:00 AM; arrive early because service is first-come, first-served and depends on available food. The Spanish official page lists phone 480-981-3993 and notes it is the church office phone. No online application or appointment process could be confirmed.\n\n**Access**\n* Area served: Mesa, Maricopa County; East Mesa; the pantry says people outside its preferred area may also receive groceries; East Mesa (primarily between Power Rd. and Meridian, McKellips to Southern)\n\n**Important Information to Know**\n* Exact address, phone, and parent affiliation uncertain\n* First-come, first-served and donation-dependent. The website does not display a readily identifiable public phone number, so current operations should be checked online before referral.\n* Service area emphasis noted; may assist outside boundary on a limited basis.",
+        "lastModified": "2026-09-04T20:18:19.229676+00:00",
+        "name": "Desert Manna Food Pantry",
+        "pdfs": [],
+        "phone": "",
+        "verifiedOn": "2026-08-26",
+        "website": "https://desertmannafoodpantry.org/"
+      },
+      "sourceProvenance": {
+        "kind": "archived Scout artifact",
+        "artifact": "autoMesa-enriched.html",
+        "sha256": "65f26f690534927c7c359b0c082b25e950fe996eec0b64b79a632edad89f2831",
+        "resourceId": "bd171f3dee49f66941dccb61f68c2dea",
+        "date": "2026-09-04"
+      },
+      "description": "Free Saturday grocery boxes in East Mesa. People outside the pantry’s usual service area may also receive food.",
+      "sections": {
+        "programsAndServices": "Provides grocery boxes with donated food such as rice, beans, pasta, canned goods, meat, and bread. Contents vary.",
+        "eligibilityRequirements": "The pantry mainly serves people between Power Road and Meridian, and between McKellips Road and Southern Avenue. It says people outside that area who need food may also receive a box.\n\nIncome, ID, and referral requirements are not confirmed. Ask whether you qualify and what to bring.",
+        "howToBestConnect": "Saturday distribution is listed from 7–10 a.m. at 590 N. 96th Street, Mesa, on the Calvary Free Lutheran Church campus. Confirm the schedule and location before traveling. Food is first-come, first-served.\n\nCheck the pantry website for current details. The church office is listed at 480-981-3993, but this number is unconfirmed. If you call, ask whether the office can confirm pantry details.",
+        "access": "Primarily serves East Mesa, with some help available outside the usual area. If travel is difficult, you may arrange for someone you authorize to collect food; the pantry does not deliver.",
+        "importantInformationToKnow": "Food is free and available only while supplies last. No online application or appointment process was confirmed."
+      },
+      "mustPreserve": [
+        "soft geographic boundary",
+        "Saturday7to10",
+        "firstcomefirstserved",
+        "authorizedpickup",
+        "nodelivery",
+        "phoneofficequalification",
+        "conflictingcontactnotes",
+        "unknownrequirements"
+      ],
+      "reviewNotes": [
+        "Retains the conflict between detailed program text and older uncertainty notes instead of inventing a resolution.",
+        "Missing phone in the dedicated field does not turn this provider into a curated directory.",
+        "Editorial revision after print review: express uncertain facts as practical checks; keep historical source conflicts in the recorded evidence."
+      ]
+    }
+  ]
+}

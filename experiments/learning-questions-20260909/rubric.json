@@ -1,0 +1,16 @@
+{
+  "registeredBeforeDispatch": true,
+  "sample": "Six fresh Denver-area Employment leads, excluding all supporting/counterexample resource IDs. Purposive sample, not a whole-category run.",
+  "primaryMeasure": "Count distinct avoidable question issues answered by a source that the same respondent actually cited. Split compound questions into issues; a partly answered question is not wholly avoidable. Record fully or partly source-answerable questions separately from optional or out-of-scope questions.",
+  "safetyMeasures": [
+    "Retain consequential source gaps, conflicting claims and dated-information uncertainty.",
+    "Do not invent an answer, eligibility rule, current opening, verification or free service.",
+    "Preserve essential restrictions and the practical entry route; selection differences alone are not errors."
+  ],
+  "decisionRule": "Promising only if avoidable question issues decrease by at least two across at least two cases, no consequential question is wrongly suppressed, and no new material factual/selection/detail error is introduced. Baseline floor means no-clear-benefit, not failure of the principle. Missing or unreliable evidence means inconclusive.",
+  "confirmation": "If promising, use a second six-lead set with unchanged guidance and the same rules before proposing activation. Do not repeat until positive; no live activation without a separate recorded review.",
+  "sourceVariation": "Score newly discovered source answers separately from answers missed on an already cited page. Cite dated source evidence for judgments; unavailable sources remain unscored or uncertain.",
+  "modelsAndBudget": "Same gpt-6-astra high effort, fresh ephemeral contexts, 12 minutes per process and 24 web calls / 24 source pages instructed. Archive actual elapsed time, CLI usage and timed events. Dollar cost unknown; no model purchases.",
+  "isolation": "Send a neutral delivery packet omitting the arm label and context metadata; keep canonical packet and delivery hashes. Do not share rubric, training observations or opposing results with either respondent.",
+  "limitations": "One model, unblinded coordinator; source availability can differ. CLI web-call trace may not expose batched page counts. No claim of statistical reliability or human curation."
+}

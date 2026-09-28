@@ -64,6 +64,12 @@ from .reconciliation import reconcile_completed_run
 from .playbooks import PLAYBOOKS, playbook_for
 from .review_export import build_review_copy
 from .storage import ResearchStore
+from .scout_improvement import ImprovementWorkflow
+from .scout_maintenance import MaintenanceWorkflow
+from .maintenance_http import handle_maintenance
+from .scout_classification import ClassificationWorkflow
+from .taxonomy_review import TaxonomyReview
+from .improvement_http import handle_improvement
 
 
 MAX_UPLOAD_BYTES = 256 * 1024 * 1024
@@ -82,6 +88,10 @@ class ResearchHTTPServer(ThreadingHTTPServer):
         self.duplicate_index = DuplicateIndex(store)
         self.web_dir = web_dir
         self.private_url = private_url
+        self.improvement = ImprovementWorkflow(store)
+        self.maintenance = MaintenanceWorkflow(store)
+        self.classification = ClassificationWorkflow(store)
+        self.taxonomy_review = TaxonomyReview(self.classification)
 
 
 class ResearchHandler(BaseHTTPRequestHandler):
@@ -93,6 +103,10 @@ class ResearchHandler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:
         parsed = urlsplit(self.path)
         try:
+            if handle_maintenance(self, parsed):
+                return
+            if handle_improvement(self, parsed):
+                return
             if parsed.path == "/api/status":
                 self._json({
                     "ok": True,
@@ -302,6 +316,8 @@ class ResearchHandler(BaseHTTPRequestHandler):
                     self._error(HTTPStatus.NOT_FOUND, "Research run not found")
             elif parsed.path in ("/", "/index.html"):
                 self._file(self.server.web_dir / "index.html", "text/html; charset=utf-8")
+            elif parsed.path == "/workflows.css":
+                self._file(self.server.web_dir / "workflows.css", "text/css; charset=utf-8")
             elif parsed.path == "/app.css":
                 self._file(self.server.web_dir / "app.css", "text/css; charset=utf-8")
             elif parsed.path == "/app.js":
@@ -316,6 +332,10 @@ class ResearchHandler(BaseHTTPRequestHandler):
     def do_POST(self) -> None:
         parsed = urlsplit(self.path)
         try:
+            if handle_maintenance(self, parsed, post=True):
+                return
+            if handle_improvement(self, parsed, post=True):
+                return
             if parsed.path == "/api/import":
                 self._import_upload()
             elif parsed.path == "/api/manual-discovery-assignment":

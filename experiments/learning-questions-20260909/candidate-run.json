@@ -1,0 +1,13 @@
+{
+  "arm": "candidate",
+  "status": "finished",
+  "returncode": 0,
+  "startedAtUnix": 1788997485.7994041,
+  "elapsedSeconds": 191.34665489196777,
+  "requestedModel": "gpt-6-astra",
+  "incrementalCostUSD": null,
+  "promptSha256": "c1f4dab57fde19e7702ab9b5c16c2fb770d6f61eac3aec0a8ce72908ac3207c2",
+  "deliverySha256": "b953039e59744368a58d8aa666c77b3a4c53017625b7dab4b2a9959bc5837a4a",
+  "isolation": "Fresh ephemeral CLI with a separate neutral empty working directory; memories, apps and delegation disabled. Canonical routing labels withheld from respondent.",
+  "budgetEnforcement": "720-second process timeout. Source/call ceilings instructed; audit what the CLI exposes. Model backend identity and page counts may not be independently exposed."
+}

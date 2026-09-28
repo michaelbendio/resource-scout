@@ -1,0 +1,636 @@
+{
+  "run": {
+    "editor": "Astra",
+    "exactModelVersion": null,
+    "date": "2026-09-09",
+    "office": "Mesa",
+    "trialMode": "informed editorial preparation",
+    "sourceFilename": "autoMesaV2-research-draft.zip",
+    "sourceSha256": "e62e012837d0fc909775e26cc21c831b30c3035c357f2ee02b1ec4171073eea0",
+    "sourceRecordCount": 460,
+    "researchScope": "Saved research only",
+    "previousResultExposure": "Editor participated in prior Scout work and authored the earlier suitability review; not blind."
+  },
+  "decisions": [
+    {
+      "resourceId": "08497e5f8c33c372d57430bc722bb639",
+      "originalName": "The Worker \u00b7 Job Help, Work Clothing and Housing",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "08497e5f8c33c372d57430bc722bb639"
+      ],
+      "reason": "Mesa walk-in job help and clothing are directly usable; keep the much narrower workforce-housing requirements separate from general assistance.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#08497e5f8c33c372d57430bc722bb639",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [
+        {
+          "field": "informationText",
+          "before": "**Programs and Services**\nFree job planning, employer referrals, resumes, interview preparation and interview clothing. Uniforms, safety shoes, tools and transportation help may be available; ask about the items and limits.\n\nThe separate Workforce Housing program offers 90 days in a private room in shared housing, weekly support and life-skills classes, followed by nine months of follow-up.\n\n**Eligibility Requirements**\nJob-search services are free for unemployed or underemployed people. Newly employed assistance generally requires permanent/direct-hire W-2 work, 25\u201340 hours weekly, at least minimum wage and a start within the past 30 days. Required screenings must be completed. Temporary, seasonal, staffing-agency and app-based jobs do not qualify for that extra assistance.\n\nWorkforce Housing has separate rules: applicants must work full time in a direct-hire job earning at least $18 an hour. Ask about current openings and any other requirements; qualifying for job-search help does not qualify someone for housing.\n\n**How to Best Connect**\nWalk into the Mesa office; no appointment is needed. Bring photo ID, a phone and a resume if available. If documents or a phone are missing, call about help getting ready.\n\n**Access**\nFor newly employed assistance, have the employer email jobs@theworkeraz.org from a company address with your full name, start date, pay and weekly hours. This requirement is separate from starting a job search. For Workforce Housing, ask to speak with a housing expert about enrollment, the housing location and costs. The Mesa address above is the office where you begin, not a promised housing unit.\n\n**Important Information to Know**\nThe newly employed resources are offered once and depend on supplies. Ask staff which clothing or equipment they can provide before purchasing it. The organization also uses the name St. Joseph the Worker. Housing is a separate program. The site describes low living costs but gives no current amount; ask about rent, deposits and other charges before agreeing to a place. Do not assume the free job-search service means free housing.",
+          "after": "**Programs and Services**\nFree job planning, employer referrals, resumes, interview preparation and interview clothing. Uniforms, safety shoes, tools and transportation help may be available; ask about the items and limits.\n\nThe separate Workforce Housing program offers 90 days in a private room in shared housing, weekly support and life-skills classes, followed by nine months of follow-up.\n\n**Eligibility Requirements**\nJob-search services are free for unemployed or underemployed people. Newly employed assistance generally requires permanent/direct-hire W-2 work, 25\u201340 hours weekly, at least minimum wage and a start within the past 30 days. Required screenings must be completed. Temporary, seasonal, staffing-agency and app-based jobs do not qualify for that extra assistance.\n\nWorkforce Housing has separate rules: applicants must work full time in a direct-hire job earning at least $18 an hour. Ask about current openings and any other requirements; qualifying for job-search help does not qualify someone for housing.\n\n**How to Best Connect**\nWalk into 1833 W. Main St., Suite 128, Mesa, Monday\u2013Friday, 9 a.m.\u2013noon or 1\u20134 p.m.; closed noon\u20131 p.m. No appointment is needed. Call 602-755-5627 with questions. Bring photo ID, a phone and a resume if available; ask for help if these are missing.\n\n**Access**\nThe office is near the Sycamore/Main Street light-rail stop. For newly employed assistance, have the employer email jobs@theworkeraz.org from a company address with your full name, start date, pay and weekly hours. This is separate from starting a job search. For Workforce Housing, ask a housing expert about enrollment, the waiting list, housing location and costs. The Mesa office is not a housing unit.\n\n**Important Information to Know**\nThe newly employed resources are offered once and depend on supplies. Ask staff which clothing or equipment they can provide before purchasing it. The organization also uses the name St. Joseph the Worker. Housing is a separate program. The site describes low living costs but gives no current amount; ask about rent, deposits and other charges before agreeing to a place. Do not assume the free job-search service means free housing.",
+          "reason": "Authored editorial change; compare complete original evidence and final entry."
+        },
+        {
+          "field": "categoryFilters",
+          "before": {
+            "clothing": [
+              "Dress Clothing",
+              "Work Clothing"
+            ],
+            "employment": [
+              "Job Search & Placement",
+              "Job Readiness"
+            ],
+            "housing": [
+              "Transitional Housing"
+            ]
+          },
+          "after": {
+            "clothing": [
+              "Dress Clothing",
+              "Work Clothing"
+            ],
+            "employment": [
+              "Job Search & Placement",
+              "Job Readiness"
+            ],
+            "housing": [
+              "Transitional Housing"
+            ],
+            "transportation": [
+              "Bus Passes"
+            ]
+          },
+          "reason": "Authored editorial change; compare complete original evidence and final entry."
+        }
+      ],
+      "serviceScopeChanges": [],
+      "questionActions": [
+        {
+          "questionId": "scout-question:ac51922ad93391b45e24133c",
+          "sourceResourceId": "08497e5f8c33c372d57430bc722bb639",
+          "action": "editorially-addressed",
+          "destinationResourceId": "08497e5f8c33c372d57430bc722bb639",
+          "reason": "Overlapping records have been combined in this edition; original records and evidence are preserved."
+        },
+        {
+          "questionId": "scout-question:8b4a4033daac0509c4b9838d",
+          "sourceResourceId": "9dfa946fc15127053ce6832817955b2d",
+          "action": "editorially-addressed",
+          "destinationResourceId": "08497e5f8c33c372d57430bc722bb639",
+          "reason": "Overlapping records have been combined in this edition; original records and evidence are preserved."
+        }
+      ],
+      "uncertainties": [
+        {
+          "questionId": "scout-question:8283c572f14667b6e013f436",
+          "question": "What does Workforce Housing cost, and what openings are available to someone starting at the Mesa office?",
+          "explanation": "The provider describes 90 days in a private room in shared housing for full-time direct-hire workers earning at least $18/hour, but only calls the living costs low. It does not publish the rent, deposit or other charges on the program page. Ask the housing expert for those amounts, current room locations and any waiting list. The handout does not label housing free or promise an available room. https://www.theworkeraz.org/what-we-do\n\nSources checked:\nhttps://www.theworkeraz.org/get-a-job\nhttps://www.theworkeraz.org/contact-us\nhttps://www.theworkeraz.org/our-mission\nhttps://www.theworkeraz.org/what-we-do",
+          "owner": "human curator"
+        }
+      ],
+      "originalRecordReference": "inputs/original-resources.json#08497e5f8c33c372d57430bc722bb639"
+    },
+    {
+      "resourceId": "27adbd6da40ba1d0325ed17d523a3e94",
+      "originalName": "City of Mesa \u00b7 HOME Rent and Deposit Assistance",
+      "disposition": "combine",
+      "targetResourceIds": [
+        "987a8b8eb5e82e8c0216ef7bb436693f",
+        "51cfce1c2944ef0453c793aba1923e08"
+      ],
+      "reason": "The deposit route is already described more usefully in entry 31 and Housing Authority entry 53; the remaining rent-help partner is unidentified. Preserve the research but do not assign a separate overlapping call.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#27adbd6da40ba1d0325ed17d523a3e94",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [],
+      "originalRecordReference": "inputs/original-resources.json#27adbd6da40ba1d0325ed17d523a3e94"
+    },
+    {
+      "resourceId": "987a8b8eb5e82e8c0216ef7bb436693f",
+      "originalName": "City of Mesa \u00b7 Rental and Utility Deposits",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "987a8b8eb5e82e8c0216ef7bb436693f"
+      ],
+      "reason": "Concrete Mesa deposit application with paper/fax/drop-box alternatives offers usable move-in help; early application and landlord participation are important preparation requirements.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#987a8b8eb5e82e8c0216ef7bb436693f",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [
+        {
+          "field": "informationText",
+          "before": "**Programs and Services**\nPays approved refundable security deposits to the landlord. Utility deposits can be requested with the security-deposit application. This is deposit help, not payment of overdue rent or ordinary monthly utility bills.\n\n**Eligibility Requirements**\nThe new rental unit must be in Mesa. Apply before signing the lease or moving in. The landlord and utility provider must accept the City\u2019s payment guarantee and program terms, and the unit must pass inspection. Ask staff to check the current household-income and residency rules.\n\n**How to Best Connect**\nCall Housing at 480-644-3536 to confirm current intake and funding, then use the program\u2019s online application or ask for a paper form. The linked form asks for photo ID for the household head, Social Security cards for household members, an unsigned proposed lease, income records and two recent full bank statements. Ask for the current checklist and help obtaining missing documents. For utility deposits, get an account and deposit letter from the utility provider.\n\nIf you cannot upload documents, the form lists fax 480-644-2923 or the secure drop box at 200 S. Center St., Building 1. Label them with your name and \u201cSecurity Deposit Application.\u201d\n\n**Access**\nOffice lobby: Monday\u2013Thursday, 7:30 a.m.\u20135 p.m.; Housing Specialist visits need an appointment. Ask for help completing the application if needed.\n\n**Important Information to Know**\nStart well before the move. The linked form asks for at least 14 days on its first page, says 10 days on its last page, and estimates 10\u201314 business days to process. Confirm the actual timeline with Housing. Approval also requires inspection; an application is not a promise of payment. Help covers approved refundable deposits, with the rental deposit capped at two months\u2019 rent on the linked form. Utility-deposit help requires rental-deposit approval.",
+          "after": "**Programs and Services**\nPays approved refundable security deposits to the landlord. Utility deposits can be requested with the security-deposit application. This is deposit help, not payment of overdue rent or ordinary monthly utility bills.\n\n**Eligibility Requirements**\nThe new rental unit must be in Mesa. Apply before signing the lease or moving in. The landlord and utility provider must accept the City\u2019s payment guarantee and program terms, and the unit must pass inspection. Ask staff to check the current household-income and residency rules.\n\n**How to Best Connect**\nCall Housing at 480-644-3536 to confirm current intake and funding, then use the program\u2019s online application or ask for a paper form. The linked form asks for photo ID for the household head, Social Security cards for household members, an unsigned proposed lease, income records and two recent full bank statements. Ask for the current checklist and help obtaining missing documents. For utility deposits, get an account and deposit letter from the utility provider.\n\nIf you cannot upload documents, the form lists fax 480-644-2923 or the secure drop box at 200 S. Center St., Building 1. Label them with your name and \u201cSecurity Deposit Application.\u201d\n\nHousing questions can also go to housing.info@mesaaz.gov.\n\n**Access**\nOffice lobby: Monday\u2013Thursday, 7:30 a.m.\u20135 p.m.; Housing Specialist visits need an appointment. Ask for help completing the application if needed.\n\n**Important Information to Know**\nStart well before the move. The linked form asks for at least 14 days on its first page, says 10 days on its last page, and estimates 10\u201314 business days to process. Confirm the actual timeline with Housing. Approval also requires inspection; an application is not a promise of payment. Help covers approved refundable deposits, with the rental deposit capped at two months\u2019 rent on the linked form. Utility-deposit help requires rental-deposit approval.",
+          "reason": "Authored editorial change; compare complete original evidence and final entry."
+        }
+      ],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [
+        {
+          "questionId": "scout-question:5bd130cfab2c820977abd17d",
+          "question": "Which income, residency and voucher rules apply now?",
+          "explanation": "The public deposit pages give an income limit of 80% of area median income and require the new rental unit to be in Mesa. The May and July 2025 City manuals give 60% and say applicants must already live in Mesa; the July manual describes the City\u2019s in-house deposit program as serving voucher households. But the linked application explains extra documents for households without Section 8. A household moving into Mesa or earning between 60% and 80% could get different answers. Ask 480-644-3536 whether these are separate funding streams or older rules, and record the current requirements here and in the broad HOME entry. https://www.mesaaz.gov/Resident-Resources/Housing/Human-Services/DepositAssistanceProgram\n\nSources checked:\nhttps://www.mesaaz.gov/Resident-Resources/Housing/Human-Services/DepositAssistanceProgram\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/final-com-secdep-tbra-policy-manual-5.13.25.pdf\nhttps://www.mesaaz.gov/Resident-Resources/Housing\nhttps://www.mesaaz.gov/Resident-Resources/Housing/Application-Wait-List\nhttps://www.mesaaz.gov/Resident-Resources/Community-Support-Programs\nhttps://www.mesaaz.gov/files/assets/public/v/4/residentresources/limited-income-programs/securityutilitydepositapplication.pdf\nhttps://www.mesaaz.gov/residents/my-utility-account/requesting-residential-utility-service\nhttps://www.mesaaz.gov/files/assets/public/v/1/residentresources/limited-income-programs/securityutilitydeposit_printableapplication_25_26.pdf\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/final-mesa-home-tbra-policies-and-procedures-7.1.25.pdf",
+          "owner": "human curator"
+        },
+        {
+          "questionId": "scout-question:594e2b8bcfc47870531a6ef0",
+          "question": "How far ahead must someone apply?",
+          "explanation": "The currently linked FY25/26 form says at least 14 days before moving on page 1, 10 days on page 3, and allows 10\u201314 business days for processing. Approval also waits for inspection. Ask Housing which lead time is required now and whether a newer form replaces this one, so a patron does not commit to a move too early. The handout says to start early and confirm timing. https://www.mesaaz.gov/files/assets/public/v/1/residentresources/limited-income-programs/securityutilitydeposit_printableapplication_25_26.pdf\n\nSources checked:\nhttps://www.mesaaz.gov/Resident-Resources/Housing/Human-Services/DepositAssistanceProgram\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/final-com-secdep-tbra-policy-manual-5.13.25.pdf\nhttps://www.mesaaz.gov/Resident-Resources/Housing\nhttps://www.mesaaz.gov/Resident-Resources/Housing/Application-Wait-List\nhttps://www.mesaaz.gov/Resident-Resources/Community-Support-Programs\nhttps://www.mesaaz.gov/files/assets/public/v/4/residentresources/limited-income-programs/securityutilitydepositapplication.pdf\nhttps://www.mesaaz.gov/residents/my-utility-account/requesting-residential-utility-service\nhttps://www.mesaaz.gov/files/assets/public/v/1/residentresources/limited-income-programs/securityutilitydeposit_printableapplication_25_26.pdf\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/final-mesa-home-tbra-policies-and-procedures-7.1.25.pdf",
+          "owner": "human curator"
+        },
+        {
+          "questionId": "scout-question:aa874a62c7997983127aac9a",
+          "question": "Which deposit eligibility rules apply now?",
+          "explanation": "The City\u2019s current public pages say income at or below80% of area median income. Its May2025 deposit manual says60%, and its July2025 HOME manual describes voucher households only. The application asks about Section8 and describes extra documents for nonparticipants. Ask480-644-3536 which current program these documents refer to and whether someone without a voucher can qualify. The manuals also require current Mesa residency, while public pages describe the prospective unit being in Mesa; confirm whether a household moving into Mesa can apply. Use the answer consistently here and in the separate deposit resource; do not turn an outside directory\u2019s five-year restriction into a verified City rule. https://www.mesaaz.gov/Resident-Resources/Housing/Human-Services/DepositAssistanceProgram\n\nSources checked:\nhttps://www.mesaaz.gov/Government/Grants/Community-Development-Grants/Apply-for-Funding\nhttps://www.mesaaz.gov/Resident-Resources/Housing/Human-Services/DepositAssistanceProgram\nhttps://www.mesaaz.gov/Resident-Resources/Community-Support-Programs\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/final-com-secdep-tbra-policy-manual-5.13.25.pdf\nhttps://www.mesaaz.gov/files/assets/public/v/4/residentresources/limited-income-programs/securityutilitydepositapplication.pdf\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/final-mesa-home-tbra-policies-and-procedures-7.1.25.pdf\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/plansreports/fy-24.25-caper.pdf\nhttps://www.findhelp.org/city-of-mesa-housing-authority--mesa-az-security-and-utility-deposit-program/5696157774905344?postal=85201\nhttps://www.mesaaz.gov/files/assets/public/v/1/residentresources/limited-income-programs/securityutilitydeposit_printableapplication_25_26.pdf\nhttps://www.mesaaz.gov/Government/Grants/Community-Development-Grants\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/annualfunding/fy2627/funded-agencies-for-fy-2026.27.pdf\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/plansreports/draft-substantial-amendment-home-arp-allocation-plan_4_16_2026.pdf\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/plansreports/draft-fy-2025.2026-caper-8.20.26.pdf\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/plansreports/final-fy-2026.2027-submitted-in-idis-6.25.26.pdf\nhttps://www.turnanewleaf.org/services/financial-empowerment/mesacan/mesacan-rent-and-utility-assistance/\nhttps://www.mesaaz.gov/Resident-Resources/Housing",
+          "owner": "human curator"
+        }
+      ],
+      "originalRecordReference": "inputs/original-resources.json#987a8b8eb5e82e8c0216ef7bb436693f"
+    },
+    {
+      "resourceId": "51cfce1c2944ef0453c793aba1923e08",
+      "originalName": "City of Mesa Housing Authority \u00b7 Vouchers and Deposit Help",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "51cfce1c2944ef0453c793aba1923e08"
+      ],
+      "reason": "Retain the local housing authority for conditional voucher routes, existing applicants and portability; its closed general waiting list must stay prominent. Coordinate deposit verification with entry 31.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#51cfce1c2944ef0453c793aba1923e08",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [
+        {
+          "field": "informationText",
+          "before": "**Programs and Services**\nHousing Choice Vouchers help pay rent to participating landlords. Project-based vouchers are tied to selected units at La Mesita and Escobedo at Verde Vista. Separate programs help eligible veterans and families or young adults involved with child welfare. The office also handles deposits and voucher transfers between housing authorities.\n\n**Eligibility Requirements**\nEach program has its own income and other rules. Project-based applicants need a homelessness and supportive-service assessment. Family Unification serves qualifying child-welfare families and former foster youth; start with a DCS caseworker. Veterans should ask the VA about eligibility for supportive-housing vouchers.\n\n**How to Best Connect**\nFor the waiting list, call and press 2, or email hcvwaitinglist@mesaaz.gov. Existing applicants should report address, income and household changes within 10 business days using the portal or change form; paper changes can be faxed to 480-644-2923 or mailed to PO Box 1466, Mesa, AZ 85211.\nFor project-based housing referrals, adults without children: 602-229-5155; families with minor children: 602-595-8700, before visiting. For veteran housing, call the VA resource center at 602-248-6040. Ask the Housing office about deposits and voucher portability.\n\n**Access**\nOffice lobby: Monday\u2013Thursday, 7:30 a.m.\u20135 p.m. Housing Specialist meetings require an appointment. Ask for translation, large print or other application help; relay service is available through 711.\n\n**Important Information to Know**\nThe general voucher waiting list is currently closed, and this is not same-day housing. The City contacts waiting-list applicants only by mail: keep a reliable mailing address and answer its notices. Deposit applications must come before lease signing or move-in; check current income rules and funding with staff. The City does not own or operate conventional public-housing units.",
+          "after": "**Programs and Services**\nHousing Choice Vouchers help pay rent to participating landlords. Project-based vouchers are tied to selected units at La Mesita and Escobedo at Verde Vista. Separate programs help eligible veterans and families or young adults involved with child welfare. The office also handles deposits and voucher transfers between housing authorities.\n\n**Eligibility Requirements**\nEach program has its own income and other rules. Project-based applicants need a homelessness and supportive-service assessment. Family Unification serves qualifying child-welfare families and former foster youth; start with a DCS caseworker. Veterans should ask the VA about eligibility for supportive-housing vouchers.\n\n**How to Best Connect**\nFor the waiting list, call and press 2, or email hcvwaitinglist@mesaaz.gov. Existing applicants should report address, income and household changes within 10 business days using the portal or change form; paper changes can be faxed to 480-644-2923 or mailed to PO Box 1466, Mesa, AZ 85211.\nFor project-based housing referrals, adults without children: 602-229-5155; families with minor children: 602-595-8700, before visiting. For veteran housing, call the VA resource center at 602-248-6040. Ask the Housing office about deposits and voucher portability.\n\n**Access**\nOffice lobby: Monday\u2013Thursday, 7:30 a.m.\u20135 p.m. Housing Specialist meetings require an appointment. Ask for translation, large print or other application help; relay service is available through 711.\n\nFor a deposit application, use the separate City of Mesa Rental and Utility Deposits resource for the document checklist and pre-move steps.\n\n**Important Information to Know**\nThe general voucher waiting list is currently closed, and this is not same-day housing. The City contacts waiting-list applicants only by mail: keep a reliable mailing address and answer its notices. Deposit applications must come before lease signing or move-in; check current income rules and funding with staff. The City does not own or operate conventional public-housing units.",
+          "reason": "Authored editorial change; compare complete original evidence and final entry."
+        }
+      ],
+      "serviceScopeChanges": [],
+      "questionActions": [
+        {
+          "questionId": "scout-question:0b53bc89f0e03ac2bd0c5153",
+          "sourceResourceId": "51cfce1c2944ef0453c793aba1923e08",
+          "action": "editorially-addressed",
+          "destinationResourceId": "51cfce1c2944ef0453c793aba1923e08",
+          "reason": "Overlapping records have been combined in this edition; original records and evidence are preserved."
+        }
+      ],
+      "uncertainties": [
+        {
+          "questionId": "scout-question:a2957df624defaed1aba120d",
+          "question": "Who currently takes applications for monthly rent help, separate from the City\u2019s deposit program?",
+          "explanation": "Claude found a prior-year draft report listing HOME-funded rental assistance through Community Bridges and Save the Family, while the FY2026/27 award list shows only the City deposit activity under HOME. Older contracts may still be running; the award list does not settle that. Ask Housing at480-644-3536 or CommunityDevelopment@mesaaz.gov which partner is taking referrals, who qualifies and how a Mesa household starts. If this entry only repeats deposit resource987a8b8eb5e82e8c0216ef7bb436693f, decide whether to combine it after recording the actual route. Do not treat the closed agency grant cycle as closed household assistance.\n\nSources checked:\nhttps://www.mesaaz.gov/Government/Grants/Community-Development-Grants/Apply-for-Funding\nhttps://www.mesaaz.gov/Resident-Resources/Housing/Human-Services/DepositAssistanceProgram\nhttps://www.mesaaz.gov/Resident-Resources/Community-Support-Programs\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/final-com-secdep-tbra-policy-manual-5.13.25.pdf\nhttps://www.mesaaz.gov/files/assets/public/v/4/residentresources/limited-income-programs/securityutilitydepositapplication.pdf\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/final-mesa-home-tbra-policies-and-procedures-7.1.25.pdf\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/plansreports/fy-24.25-caper.pdf\nhttps://www.findhelp.org/city-of-mesa-housing-authority--mesa-az-security-and-utility-deposit-program/5696157774905344?postal=85201\nhttps://www.mesaaz.gov/files/assets/public/v/1/residentresources/limited-income-programs/securityutilitydeposit_printableapplication_25_26.pdf\nhttps://www.mesaaz.gov/Government/Grants/Community-Development-Grants\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/annualfunding/fy2627/funded-agencies-for-fy-2026.27.pdf\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/plansreports/draft-substantial-amendment-home-arp-allocation-plan_4_16_2026.pdf\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/plansreports/draft-fy-2025.2026-caper-8.20.26.pdf\nhttps://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/plansreports/final-fy-2026.2027-submitted-in-idis-6.25.26.pdf\nhttps://www.turnanewleaf.org/services/financial-empowerment/mesacan/mesacan-rent-and-utility-assistance/\nhttps://www.mesaaz.gov/Resident-Resources/Housing",
+          "owner": "human curator"
+        }
+      ],
+      "originalRecordReference": "inputs/original-resources.json#51cfce1c2944ef0453c793aba1923e08"
+    },
+    {
+      "resourceId": "0e36c87d7889979a6cf7f4debff3bed7",
+      "originalName": "Family Housing Hub \u00b7 Family Shelter Intake",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "0e36c87d7889979a6cf7f4debff3bed7"
+      ],
+      "reason": "Clear family shelter assessment route with a working phone starting point; essential coverage distinct from adult-only shelters.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#0e36c87d7889979a6cf7f4debff3bed7",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [
+        {
+          "questionId": "scout-question:28a6648a8bbd0b4d8b4ea36b",
+          "sourceResourceId": "0e36c87d7889979a6cf7f4debff3bed7",
+          "action": "editorially-addressed",
+          "destinationResourceId": "0e36c87d7889979a6cf7f4debff3bed7",
+          "reason": "Overlapping records have been combined in this edition; original records and evidence are preserved."
+        },
+        {
+          "questionId": "scout-question:28a6648a8bbd0b4d8b4ea36b",
+          "sourceResourceId": "eadaaf197b67dc1d520ae55c2dc28a19",
+          "action": "editorially-addressed",
+          "destinationResourceId": "0e36c87d7889979a6cf7f4debff3bed7",
+          "reason": "Overlapping records have been combined in this edition; original records and evidence are preserved."
+        }
+      ],
+      "uncertainties": [
+        {
+          "questionId": "scout-question:8bfa1a56d236f9dae4a29ed0",
+          "question": "Do families need to check in weekly to keep their place?",
+          "explanation": "The 211 Arizona listing, last confirmed April 1, 2026, says to use a check-in number every week but does not supply it. The Hub\u2019s own current site instead says to stay reachable, report changes and call 211 to reactivate a paused place. Ask 211 or the Hub what schedule and number each family should use. Missing a required check-in could affect access to shelter.\n\nSources checked:\nhttps://www.fhhub.org/\nhttps://www.umom.org/find-help\nhttps://www.cassaz.org/contact-us\nhttps://search.211arizona.org/search/186386a4-2715-5d3e-aa4a-78735d01a64a",
+          "owner": "human curator"
+        }
+      ],
+      "originalRecordReference": "inputs/original-resources.json#0e36c87d7889979a6cf7f4debff3bed7"
+    },
+    {
+      "resourceId": "mesa-housing-house-of-refuge-family",
+      "originalName": "House of Refuge \u00b7 Family Transitional Housing",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "mesa-housing-house-of-refuge-family"
+      ],
+      "reason": "Direct affordable family-housing inquiry with explicit income/rent requirements offers a realistic option for qualifying working or benefit-supported households.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#mesa-housing-house-of-refuge-family",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [],
+      "originalRecordReference": "inputs/original-resources.json#mesa-housing-house-of-refuge-family"
+    },
+    {
+      "resourceId": "eadaaf197b67dc1d520ae55c2dc28a19",
+      "originalName": "UMOM Family Housing Hub \u00b7 Family Shelter Intake",
+      "disposition": "combine",
+      "targetResourceIds": [
+        "0e36c87d7889979a6cf7f4debff3bed7"
+      ],
+      "reason": "Duplicate of entry 58: same Family Housing Hub call, hours and household screening route.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#eadaaf197b67dc1d520ae55c2dc28a19",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [],
+      "originalRecordReference": "inputs/original-resources.json#eadaaf197b67dc1d520ae55c2dc28a19"
+    },
+    {
+      "resourceId": "f95aad04c5e72f66f324d9875d7caffd",
+      "originalName": "ARIZONA@WORK \u00b7 East Valley Career Center",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "f95aad04c5e72f66f324d9875d7caffd"
+      ],
+      "reason": "Free local workforce center provides a direct assisted intake for general job help and targeted training/reentry services; eligibility is actionable through named staff.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#f95aad04c5e72f66f324d9875d7caffd",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [
+        {
+          "field": "informationText",
+          "before": "**Programs and Services**\nFree help choosing a career, finding job openings, preparing resumes and interviews, and using computers. Ask about skills training, paid work experience, internships and apprenticeships. Training and placement depend on eligibility and available opportunities.\n\nYouth services can include GED/education support, mentoring, career planning and paid work experience. Ask about help with transportation, testing fees or training costs. Workshops cover resumes, interviews, computers, money management, office skills, workplace readiness, entrepreneurship and CPR/first aid. The CPR class is not Basic Life Support certification.\n\nSmart Justice helps eligible people with felony convictions prepare for work, discuss their background with employers and find opportunities. The center also lists DES employment, reemployment-assessment and veterans services.\n\n**Eligibility Requirements**\nCounty services generally serve Maricopa County residents outside Phoenix; Phoenix has its own program. Adult individualized career services require age 18+ and permission to work in the U.S. Training has additional eligibility checks. Priority goes to people receiving public assistance, people with low income or basic-skills needs; veterans and eligible spouses within these groups receive top priority.\n\nYouth: in-school ages 14-21 need low income and a qualifying barrier. Out-of-school ages 16-24 need a qualifying barrier. Examples include homelessness, foster care, pregnancy/parenting, disability or justice involvement; leaving school without a diploma can qualify out-of-school youth. English learners may qualify under the in-school route. Ask staff about other routes if these do not fit.\n\nSmart Justice: age 18+, authorized to work, a felony conviction, and currently on probation/parole or released within the past year. People laid off or affected by a closure, lost self-employment, displaced-homemaker or military-spouse circumstances should ask about Dislocated Worker eligibility.\n\n**How to Best Connect**\nCall the East Valley Career Center at 602-372-9700 and explain the help you need. Staff can help create an Arizona Job Connection account at the center. For individual services, use the county Client Portal at https://hsdclientportal.maricopa.gov/; staff will contact you to arrange an appointment. Call if you need help with these steps.\n\nAsk which documents to bring. The program checklist may include photo ID, Social Security card, income records for the past six months, DD214 for veterans and Selective Service records when applicable. Youth also need proof of their eligibility circumstances. Ask staff what to do if documents are missing.\n\nFor workshops: 602-506-0589 or HSDTrainingTeam@maricopa.gov. The training page also offers an online Registration Request. Office-skills assessments need an appointment.\n\nFor Smart Justice: 602-372-1839 or WDDSmartJustice@maricopa.gov. Ask about its appointment and community-site schedule.\n\n**Access**\nEast Valley Career Center: 1001 W. Southern Ave., Suite 101, Mesa. Hours: Monday-Thursday, 8 AM-7 PM; Friday, 8 AM-5 PM. Closed weekends. Relay: 711. Confirm specialist and workshop times.\n\nSome resume, financial and basic-computer workshops are offered in Spanish; ask for the next session. Disability accommodations are available on request.\n\nThe Mesa Workforce Center/MesaCAN partner is at a different address: 635 E. Broadway Rd., second floor, Mesa; 480-769-7417. The City lists Monday, Tuesday, Thursday and Friday, 8:30 AM\u20132:30 PM, with Wednesday by appointment. Confirm the specific service before visiting.\n\n**Important Information to Know**\nA referral or application does not guarantee a training grant, apprenticeship or job. Ask which costs and supports are covered before committing to training. Ask Smart Justice about transportation or interview-clothing help; availability is not guaranteed. For VR, ask whether the center provides appointments or refers you to the state rehabilitation office.\n\nUnemployment benefits are handled by DES, not awarded by the county career center. Staff can direct you to the appropriate DES application route.",
+          "after": "**Programs and Services**\nFree help choosing a career, finding job openings, preparing resumes and interviews, and using computers. Ask about skills training, paid work experience, internships and apprenticeships. Training and placement depend on eligibility and available opportunities.\n\nYouth services can include GED/education support, mentoring, career planning and paid work experience. Ask about help with transportation, testing fees or training costs. Workshops cover resumes, interviews, computers, money management, office skills, workplace readiness, entrepreneurship and CPR/first aid. The CPR class is not Basic Life Support certification.\n\nSmart Justice helps eligible people with felony convictions prepare for work, discuss their background with employers and find opportunities. The center also lists DES employment, reemployment-assessment and veterans services.\n\nDES reentry help is a separate route from county Smart Justice; its eligibility is not limited by Smart Justice\u2019s felony or recent-release rules. A free online Workforce Professional Skills course is also available to county residents.\n\n**Eligibility Requirements**\nCounty services generally serve Maricopa County residents outside Phoenix; Phoenix has its own program. Adult individualized career services require age 18+ and permission to work in the U.S. Training has additional eligibility checks. Priority goes to people receiving public assistance, people with low income or basic-skills needs; veterans and eligible spouses within these groups receive top priority.\n\nYouth: in-school ages 14-21 need low income and a qualifying barrier. Out-of-school ages 16-24 need a qualifying barrier. Examples include homelessness, foster care, pregnancy/parenting, disability or justice involvement; leaving school without a diploma can qualify out-of-school youth. English learners may qualify under the in-school route. Ask staff about other routes if these do not fit.\n\nSmart Justice: age 18+, authorized to work, a felony conviction, and currently on probation/parole or released within the past year. People laid off or affected by a closure, lost self-employment, displaced-homemaker or military-spouse circumstances should ask about Dislocated Worker eligibility.\n\n**How to Best Connect**\nCall the East Valley Career Center at 602-372-9700 and explain the help you need. Staff can help create an Arizona Job Connection account at the center. For individual services, use the county Client Portal at https://hsdclientportal.maricopa.gov/; staff will contact you to arrange an appointment. Call if you need help with these steps.\n\nAsk which documents to bring. The program checklist may include photo ID, Social Security card, income records for the past six months, DD214 for veterans and Selective Service records when applicable. Youth also need proof of their eligibility circumstances. Ask staff what to do if documents are missing.\n\nFor workshops: 602-506-0589 or HSDTrainingTeam@maricopa.gov. The training page also offers an online Registration Request. Office-skills assessments need an appointment.\n\nFor Smart Justice: 602-372-1839 or WDDSmartJustice@maricopa.gov. Ask about its appointment and community-site schedule.\n\nFor DES general or reentry employment help, call 833-762-8196 or ask this center; a remote appointment can be requested at https://workappointment.azdes.gov/. Call or visit if the online reentry form\u2019s email requirement is a barrier. Apprenticeship questions: HSDWDDApprenticeships@maricopa.gov.\n\n**Access**\nEast Valley Career Center: 1001 W. Southern Ave., Suite 101, Mesa. Hours: Monday-Thursday, 8 AM-7 PM; Friday, 8 AM-5 PM. Closed weekends. Relay: 711. Confirm specialist and workshop times.\n\nSome resume, financial and basic-computer workshops are offered in Spanish; ask for the next session. Disability accommodations are available on request.\n\nThe Mesa Workforce Center/MesaCAN partner is at a different address: 635 E. Broadway Rd., second floor, Mesa; 480-769-7417. The City lists Monday, Tuesday, Thursday and Friday, 8:30 AM\u20132:30 PM, with Wednesday by appointment. Confirm the specific service before visiting.\n\nFor the self-paced Workforce Professional Skills course, use https://www.maricopa.edu/degrees-certificates/fast-track/microcredential-pathways/workforce-professional-skills. Maricopa student enrollment is required; a noncredit option is available. Follow the emailed course link. Ask Smart Justice about appointments at 222 E. Javelina Ave., rooms 5\u20136, if easier to reach.\n\n**Important Information to Know**\nA referral or application does not guarantee a training grant, apprenticeship or job. Ask which costs and supports are covered before committing to training. Ask Smart Justice about transportation or interview-clothing help; availability is not guaranteed. For VR, ask whether the center provides appointments or refers you to the state rehabilitation office.\n\nUnemployment benefits are handled by DES, not awarded by the county career center. Staff can direct you to the appropriate DES application route.\n\nWorkforce 2 You is not a confirmed open Mesa class. The online professional-skills course does not guarantee paid work or a place in another training program.",
+          "reason": "Authored editorial change; compare complete original evidence and final entry."
+        }
+      ],
+      "serviceScopeChanges": [],
+      "questionActions": [
+        {
+          "questionId": "scout-question:dda462ac471b574eba51a2c9",
+          "sourceResourceId": "f95aad04c5e72f66f324d9875d7caffd",
+          "action": "editorially-addressed",
+          "destinationResourceId": "f95aad04c5e72f66f324d9875d7caffd",
+          "reason": "Overlapping records have been combined in this edition; original records and evidence are preserved."
+        },
+        {
+          "questionId": "scout-question:f990f1342a2efd1bc51912e4",
+          "sourceResourceId": "08a7877a32a11b9f8531fa95f2a64ade",
+          "action": "editorially-addressed",
+          "destinationResourceId": "f95aad04c5e72f66f324d9875d7caffd",
+          "reason": "Overlapping records have been combined in this edition; original records and evidence are preserved."
+        },
+        {
+          "questionId": "scout-question:89b46e15178ea30125b7a93f",
+          "sourceResourceId": "31c5097bb2e3cc1075a6851e27fb88ec",
+          "action": "editorially-addressed",
+          "destinationResourceId": "f95aad04c5e72f66f324d9875d7caffd",
+          "reason": "Overlapping records have been combined in this edition; original records and evidence are preserved."
+        },
+        {
+          "questionId": "scout-question:617b55b4bc5ac1e266e42256",
+          "sourceResourceId": "61f0dba0328b11a9ae6db84f7e5e5f81",
+          "action": "editorially-addressed",
+          "destinationResourceId": "f95aad04c5e72f66f324d9875d7caffd",
+          "reason": "Overlapping records have been combined in this edition; original records and evidence are preserved."
+        }
+      ],
+      "uncertainties": [
+        {
+          "questionId": "scout-question:ee442ff064d215ea1324a2c6",
+          "question": "Which specialist services can someone actually receive at the Southern Avenue center?",
+          "explanation": "The resource lists Smart Justice and state rehabilitation connections alongside general job help, but center opening hours do not establish that each specialist is present all day. Ask 602-372-9700 which services accept walk-ins, which need appointments and which send the person to another office. The Broadway partner site has its own shorter schedule. https://arizonaatwork.com/locations/maricopa-county/maricopa-east\n\nSources checked:\nhttps://www.maricopa.gov/658/Workforce-Development\nhttps://arizonaatwork.com/locations/maricopa-county/job-seeker-resources\nhttps://www.maricopa.gov/5226/Adult-Workforce-Services-Ages-18\nhttps://www.maricopa.gov/5227/Youth-Workforce-Services-Ages-14-24\nhttps://arizonaatwork.com/locations/maricopa-county/maricopa-east\nhttps://www.maricopa.gov/5910/Workforce-Training-Services\nhttps://www.maricopacorporate.com/training-individuals/workforce-2-you\nhttps://www.maricopa.edu/degrees-certificates/fast-track/microcredential-pathways/workforce-professional-skills\nhttps://www.maricopa.gov/3783/Smart-Justice\nhttps://arizonaatwork.com/sites/default/files/2025-04/20241023-WDD-Adult-Flyer-Print.pdf\nhttps://arizonaatwork.com/locations/maricopa-county/locations\nhttps://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa",
+          "owner": "human curator"
+        },
+        {
+          "questionId": "scout-question:6f37074a83fe2ed09df14ed2",
+          "question": "Could a Mesa resident join a future Workforce 2 You class, or should referrals use another training route?",
+          "explanation": "The college partner describes rural-community training, names Buckeye, Guadalupe and Surprise, and says every current cohort has started. It does not state whether residents of other cities may join future cohorts. Ask 602-506-0589 about eligibility and the next actual location before advertising a Mesa option. The separate countywide online Workforce Professional Skills course remains available. https://www.maricopacorporate.com/training-individuals/workforce-2-you\n\nSources checked:\nhttps://www.maricopa.gov/658/Workforce-Development\nhttps://arizonaatwork.com/locations/maricopa-county/job-seeker-resources\nhttps://www.maricopa.gov/5226/Adult-Workforce-Services-Ages-18\nhttps://www.maricopa.gov/5227/Youth-Workforce-Services-Ages-14-24\nhttps://arizonaatwork.com/locations/maricopa-county/maricopa-east\nhttps://www.maricopa.gov/5910/Workforce-Training-Services\nhttps://www.maricopacorporate.com/training-individuals/workforce-2-you\nhttps://www.maricopa.edu/degrees-certificates/fast-track/microcredential-pathways/workforce-professional-skills\nhttps://www.maricopa.gov/3783/Smart-Justice\nhttps://arizonaatwork.com/sites/default/files/2025-04/20241023-WDD-Adult-Flyer-Print.pdf\nhttps://arizonaatwork.com/locations/maricopa-county/locations\nhttps://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa\nhttps://www.maricopa.gov/m/newsflash/home/detail/3417",
+          "owner": "human curator"
+        },
+        {
+          "questionId": "scout-question:b7230527f215786261266726",
+          "question": "Which ID can someone without a driver\u2019s license bring to Smart Justice?",
+          "explanation": "The same county page first asks for photo identification with date of birth, then tells visitors to bring a valid driver\u2019s license. Someone seeking work may have a state ID or missing documents. Ask 602-372-1839 which alternatives are accepted and how staff can help with missing paperwork. Current apprenticeship openings should also be checked at referral time. https://www.maricopa.gov/3783/Smart-Justice\n\nSources checked:\nhttps://www.maricopa.gov/3783/Smart-Justice\nhttps://www.maricopa.gov/5898/Apprenticeships\nhttps://arizonaatwork.com/locations/maricopa-county/maricopa-east\nhttps://swm.maricopa.gov/Calendar.aspx?EID=12419\nhttps://www.maricopa.gov/5910/Workforce-Training-Services",
+          "owner": "human curator"
+        }
+      ],
+      "originalRecordReference": "inputs/original-resources.json#f95aad04c5e72f66f324d9875d7caffd"
+    },
+    {
+      "resourceId": "08a7877a32a11b9f8531fa95f2a64ade",
+      "originalName": "Arizona DES \u00b7 Job Search, Disability and Reentry Support",
+      "disposition": "combine",
+      "targetResourceIds": [
+        "f95aad04c5e72f66f324d9875d7caffd",
+        "6be73b6539fd16b3a6c84ffad77aace8"
+      ],
+      "reason": "General job search and VR duplicate entries 105/109. Preserve the reentry details for consolidation into those direct entry routes rather than another broad DES listing.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#08a7877a32a11b9f8531fa95f2a64ade",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [],
+      "originalRecordReference": "inputs/original-resources.json#08a7877a32a11b9f8531fa95f2a64ade"
+    },
+    {
+      "resourceId": "6ea1c2067f6e451532d3bd346cc56276",
+      "originalName": "Dress for Success \u00b7 Work Clothing, Job Help and Education",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "6ea1c2067f6e451532d3bd346cc56276"
+      ],
+      "reason": "Free women\u2019s work clothing is directly available without referral, with walk-in access; retain useful job support and separate conditional education/men\u2019s programs.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#6ea1c2067f6e451532d3bd346cc56276",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [
+        {
+          "questionId": "scout-question:326eeda6d2b104419fc6b229",
+          "question": "Which EducateHER funding routes are open to Mesa women who are not single mothers?",
+          "explanation": "The overview describes education support for women generally, while the certificate list and under-six childcare benefit emphasize Pathways for Single Moms. The application asks whether someone is a single mother, but that question alone does not prove everyone else is excluded. Ask which school partnerships and current cohorts accept other women, what aid they offer, and whether childcare rules differ. Scout keeps the broader service description while making funding conditional. https://educateherphx.org/ ; https://educateherphx.org/information/\n\nSources checked:\nhttps://dfsphoenix.org/services/\nhttps://dfsphoenix.org/contact-us/\nhttps://dfsphoenix.org/about/\nhttps://educateherphx.org/\nhttps://educateherphx.org/information/\nhttps://dfsphoenix.org/theworkforceinitiative/\nhttps://dfsphoenix.org/hopeforsuccess/\nhttps://dfsphoenix.org/2025/08/05/dress-for-success-phoenix-awarded-4-million-federal-pathway-home-6-grant-to-support-women-reentering-the-workforce-after-incarceration/\nhttps://www.dol.gov/sites/dolgov/files/ETA/grants/2025%20PDFs/Pathway%20Home%206%20FOA-ETA-25-29.pdf\nhttps://www.dol.gov/sites/dolgov/files/ETA/youth/pdfs/Pathway%20Home%20Fact%20Sheet%201.12.2026.pdf\nhttps://dfsphoenix.org/tailormadeforsuccess/",
+          "owner": "human curator"
+        },
+        {
+          "questionId": "scout-question:aca82a4019402bda2acd77e8",
+          "question": "How can an individual Mesa adult use the Mobile Career Center?",
+          "explanation": "The provider\u2019s request form is aimed at community partners, and the East Valley stops Claude found were associated with schools and the youth program. Those do not establish a walk-in mobile service for any adult. Ask whether people can join an open Mesa-area stop, how to learn its schedule, and whether each event has age or host-site restrictions. The Phoenix office remains a confirmed contact. https://dfsphoenix.org/services/\n\nSources checked:\nhttps://dfsphoenix.org/services/\nhttps://dfsphoenix.org/contact-us/\nhttps://dfsphoenix.org/about/\nhttps://educateherphx.org/\nhttps://educateherphx.org/information/\nhttps://dfsphoenix.org/theworkforceinitiative/\nhttps://dfsphoenix.org/hopeforsuccess/\nhttps://dfsphoenix.org/2025/08/05/dress-for-success-phoenix-awarded-4-million-federal-pathway-home-6-grant-to-support-women-reentering-the-workforce-after-incarceration/\nhttps://www.dol.gov/sites/dolgov/files/ETA/grants/2025%20PDFs/Pathway%20Home%206%20FOA-ETA-25-29.pdf\nhttps://www.dol.gov/sites/dolgov/files/ETA/youth/pdfs/Pathway%20Home%20Fact%20Sheet%201.12.2026.pdf\nhttps://dfsphoenix.org/tailormadeforsuccess/",
+          "owner": "human curator"
+        }
+      ],
+      "originalRecordReference": "inputs/original-resources.json#6ea1c2067f6e451532d3bd346cc56276"
+    },
+    {
+      "resourceId": "ffb70295ec3f1e3256fc1955ec7ad5c0",
+      "originalName": "Express Employment Professionals \u00b7 Mesa Staffing Office",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "ffb70295ec3f1e3256fc1955ec7ad5c0"
+      ],
+      "reason": "Local staffing has no placement fee and offers phone/in-person application help; a practical direct employment route.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#ffb70295ec3f1e3256fc1955ec7ad5c0",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [],
+      "originalRecordReference": "inputs/original-resources.json#ffb70295ec3f1e3256fc1955ec7ad5c0"
+    },
+    {
+      "resourceId": "d72b099aea9d25b5ed7f4eafa274da78",
+      "originalName": "Goodwill of Central and Northern Arizona \u00b7 Career Coaching and Job Training",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "d72b099aea9d25b5ed7f4eafa274da78"
+      ],
+      "reason": "Free general career coaching and assisted phone access offer a useful alternative to government workforce centers.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#d72b099aea9d25b5ed7f4eafa274da78",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [
+        {
+          "questionId": "scout-question:7379bbbdc2f7cf21f68bead3",
+          "question": "Where can a Mesa job seeker get in-person Goodwill career help, and can someone who is not a veteran use the Phoenix Veteran Career Center?",
+          "explanation": "The current Goodwill Career Services page directs people to a career coach and identifies the Phoenix Veteran Career Center. Its location page now lists Monday\u2013Friday 9\u20134; the older short Friday schedule is no longer used. DAV veteran-service walk-ins remain a separate Tuesday/Thursday 10\u20132 service. The useful first step for a Mesa patron is still 602-535-4444 or the online career-coach request.\n\nA Goodwill event-venue page lists \u201cMcKellips Goodwill Career Center\u201d at 106 E. McKellips Rd., Mesa, but it does not establish a current staffed career-service schedule. The location finder distinguishes self-service career centers and recruiting centers. Ask Goodwill which Mesa or East Valley location currently helps the public, whether McKellips still does, and whether someone who is not a veteran can use the Phoenix center. A store or an old event listing is not enough to send someone there for career help.\n\nGoodwill also operates The Excel Center, a separate adult high school with its own enrollment route. That was retained as a new-program lead for discovery reconciliation; it was not silently folded into this career-coaching record.\n\nCareer help: https://www.goodwillaz.org/mission-services/career-services/\nPhoenix center: https://www.goodwillaz.org/location/16th-st-indian-school-veteran-career-center/\nMcKellips venue listing: https://www.goodwillaz.org/venue/goodwill-career-center-3/\n\nSources checked:\nhttps://www.goodwillaz.org/mission-services/\nhttps://www.goodwillaz.org/mission-services/career-services/\nhttps://www.goodwillaz.org/location/16th-st-indian-school-veteran-career-center/\nhttps://www.mycareeradvisor.com/terms-and-conditions\nhttps://www.goodwillaz.org/venue/goodwill-career-center-3/\nhttps://excelcenteraz.org/\nhttps://excelcenteraz.org/our-campuses/",
+          "owner": "human curator"
+        }
+      ],
+      "originalRecordReference": "inputs/original-resources.json#d72b099aea9d25b5ed7f4eafa274da78"
+    },
+    {
+      "resourceId": "31c5097bb2e3cc1075a6851e27fb88ec",
+      "originalName": "Maricopa County Workforce \u00b7 Job Help, Training and Apprenticeships",
+      "disposition": "combine",
+      "targetResourceIds": [
+        "f95aad04c5e72f66f324d9875d7caffd"
+      ],
+      "reason": "General county workforce intake, Mesa office and training services overlap entry 105. Preserve any distinct course detail there rather than maintain another organization-level listing.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#31c5097bb2e3cc1075a6851e27fb88ec",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [],
+      "originalRecordReference": "inputs/original-resources.json#31c5097bb2e3cc1075a6851e27fb88ec"
+    },
+    {
+      "resourceId": "61f0dba0328b11a9ae6db84f7e5e5f81",
+      "originalName": "Maricopa County \u00b7 Apprenticeships and Smart Justice Job Help",
+      "disposition": "combine",
+      "targetResourceIds": [
+        "f95aad04c5e72f66f324d9875d7caffd",
+        "new-arizona-registered-apprenticeship-office"
+      ],
+      "reason": "Smart Justice already has a direct route in entry 105 and apprenticeship guidance in entry 111; consolidate the specialized team details and confirm with the same county call.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#61f0dba0328b11a9ae6db84f7e5e5f81",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [],
+      "originalRecordReference": "inputs/original-resources.json#61f0dba0328b11a9ae6db84f7e5e5f81"
+    },
+    {
+      "resourceId": "9dfa946fc15127053ce6832817955b2d",
+      "originalName": "The Worker Mesa \u00b7 Job Help, Work Clothing and Supplies",
+      "disposition": "combine",
+      "targetResourceIds": [
+        "08497e5f8c33c372d57430bc722bb639"
+      ],
+      "reason": "Same Worker Mesa walk-in/job-clothing services as entry 14. Consolidate its exact hours and employer-email instructions into the retained record.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#9dfa946fc15127053ce6832817955b2d",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [],
+      "originalRecordReference": "inputs/original-resources.json#9dfa946fc15127053ce6832817955b2d"
+    },
+    {
+      "resourceId": "73dfadc219f93cdde3c2e07d3e1045b4",
+      "originalName": "Clothes Cabin \u00b7 Clothing, Workwear, Linens and Hygiene",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "73dfadc219f93cdde3c2e07d3e1045b4"
+      ],
+      "reason": "Free public clothing/linens with no referral or appointment and a stated ID accommodation make this a strong practical clothing resource.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#73dfadc219f93cdde3c2e07d3e1045b4",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [],
+      "originalRecordReference": "inputs/original-resources.json#73dfadc219f93cdde3c2e07d3e1045b4"
+    },
+    {
+      "resourceId": "7e66c8c912ad9889aa3627405af218f3",
+      "originalName": "Friends at First \u00b7 Adult Clothing, Showers and Basic Needs",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "7e66c8c912ad9889aa3627405af218f3"
+      ],
+      "reason": "Local adult clothing/basic-needs outreach has direct phone/email access; confirming the current schedule and no-ID arrangements is a worthwhile ordinary curation call.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#7e66c8c912ad9889aa3627405af218f3",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [
+        {
+          "questionId": "scout-question:b37f8eb1602ab4492b746492",
+          "question": "How can someone check in without a state-issued ID or a phone, and which adult weekdays run during summer?",
+          "explanation": "The online sign-in requires an ID upload without explaining an in-person alternative. The church gives Monday/Thursday noon\u20133; the program labels that its October\u2013May winter schedule, while a 2025 summer page also lists Tuesday. Scout opened the current summer flyer: it confirms only the separate Sunday family evening, not weekday adult hours. Ask 480-969-5577 about current adult days and no-ID check-in. Also confirm whether children\u2019s clothing is still available separately by appointment; only the older description mentions it. Record the actual route so a family is not sent to an adults-only closet. https://www.friendsatfirst.org/\n\nSources checked:\nhttps://www.firstchurchofmesa.com/resources\nhttps://www.friendsatfirst.org/\nhttps://www.friendsatfirst.org/mercy\nhttps://www.friendsatfirst.org/2026summer\nhttps://www.firstchurchofmesa.com/ministries-and-outreach\nhttps://www.friendsatfirst.org/_files/ugd/8c9947_84228a7347e84aa2a1cd2982b92f8fcf.pdf",
+          "owner": "human curator"
+        }
+      ],
+      "originalRecordReference": "inputs/original-resources.json#7e66c8c912ad9889aa3627405af218f3"
+    },
+    {
+      "resourceId": "fbd7ac5640a1ad45864261484e2bcbf0",
+      "originalName": "Helen\u2019s Hope Chest \u00b7 Clothing, Baby and School Supplies",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "fbd7ac5640a1ad45864261484e2bcbf0"
+      ],
+      "reason": "Local free clothing covers foster and some kinship households without a DCS case, with stated accepted documents and direct appointments; offers distinct child-clothing access.",
+      "evidence": [
+        {
+          "kind": "saved-research",
+          "reference": "inputs/original-resources.json#fbd7ac5640a1ad45864261484e2bcbf0",
+          "checkedAt": null,
+          "note": "Individual editorial judgment from saved research; no new provider verification."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [
+        {
+          "questionId": "scout-question:717d64d6657d8f5a5d6cca1f",
+          "question": "Can a young adult over 18 use the clothing boutique, and what care history or paperwork is needed?",
+          "explanation": "DCS lists young-adult services ages 16\u201324 beside Helen\u2019s number, while another DCS description gives newborn\u201318. Helen\u2019s current eligibility page itself mentions young adults without an upper age. AZURA confirms that Foster360 is a separate housing and coaching program, but that does not establish the boutique\u2019s present age limit. Ask 480-969-5411 about clothing for 19\u201324-year-olds and which program handles other needs. Do not turn the older 0\u201318 description into a current denial of help. https://helenshopechest.org/who-we-serve-1\n\nSources checked:\nhttps://helenshopechest.org/who-we-serve-1\nhttps://helenshopechest.org/clothingprogram\nhttps://helenshopechest.org/essentialprogram\nhttps://helenshopechest.org/\nhttps://dcs.az.gov/foster/resources/kinship\nhttps://dcs.az.gov/resources/faqs?page=%2C%2C%2C%2C%2C%2C%2C%2C%2C%2C8\nhttps://www.azuracares.org/foster-care",
+          "owner": "human curator"
+        }
+      ],
+      "originalRecordReference": "inputs/original-resources.json#fbd7ac5640a1ad45864261484e2bcbf0"
+    }
+  ]
+}

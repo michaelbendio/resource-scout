@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "taskId": "discovery:employment",
+  "assignmentSha256": "cf9daa56836152c2f0a83cf9a402e5680d823a15438a746d193bd6b91812b7ac",
+  "evidenceSources": [
+    {
+      "url": "https://jobs.utah.gov/jobseeker/index.html",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Get free help polishing a resume"
+    },
+    {
+      "url": "https://jobs.utah.gov/jobseeker/career/apply.html",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Submit an application online or in-person"
+    },
+    {
+      "url": "https://jobs.utah.gov/ui/employer/public/UINoticePosterSpanish.aspx",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Salt Lake Metro"
+    },
+    {
+      "url": "https://uteta.org/programs/careers-inside-wire/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Earn While You Learn"
+    },
+    {
+      "url": "https://uteta.org/programs/apply-now/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Interviews take place on an as-needed basis"
+    },
+    {
+      "url": "https://uteta.org/contact/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Phone: 801-975-1945"
+    },
+    {
+      "url": "https://local.churchofjesuschrist.org/en/employment-services/us/ut/salt-lake-city/724-e-2100-s",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Appointments are encouraged, but not necessary."
+    },
+    {
+      "url": "https://locations.peopleready.com/us/ut/salt-lake-city",
+      "accessedOn": "2026-09-09",
+      "excerpt": "1081 S 300 W"
+    },
+    {
+      "url": "https://www.peopleready.com/cities/staffing-agencies-salt-lake-city-ut/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "short-term, long-term and permanent employees"
+    },
+    {
+      "url": "https://jobs.utah.gov/usor/vr/services/order.html",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Currently, the Significant Disability (SD) and Disability (D) priority categories are closed."
+    },
+    {
+      "url": "https://www.rescue.org/united-states/salt-lake-city-ut",
+      "accessedOn": "2026-09-09",
+      "excerpt": "adults become self-reliant through employment"
+    },
+    {
+      "url": "https://jobs.utah.gov/usor/vr/partners/crpapproved.pdf",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Updated September 2026"
+    }
+  ],
+  "researchNotes": "Actual September 9 official-web research by current Codex operator. Bounded pilot; no provider calls. Shared research time is not measured per task; activeMinutes=0 is unallocated, not a claim of zero effort. See pilot timing report.",
+  "items": [
+    {
+      "id": "welfare-employment-sugarhouse",
+      "status": "new",
+      "program": "Employment Services · Sugarhouse Job-Search Help",
+      "summary": "Official sources support this proposed referral; practical restrictions are retained.",
+      "fields": {
+        "name": "Employment Services · Sugarhouse Job-Search Help",
+        "description": "Work with an adviser on resumes, job leads and interviews. Phone or video coaching is also available.",
+        "phone": "801-467-6443",
+        "address": "724 E 2100 S, Suite A, Salt Lake City, UT 84106",
+        "website": "https://local.churchofjesuschrist.org/en/employment-services/us/ut/salt-lake-city/724-e-2100-s",
+        "hours": "",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {
+          "employment": [
+            "Job Search"
+          ]
+        },
+        "forGroups": [],
+        "informationSections": {
+          "programsAndServices": "Individual job-search coaching, resume help, interview practice and networking. Computers and printers are available.",
+          "eligibilityRequirements": "Everyone is welcome; Church membership is not required.",
+          "howToBestConnect": "Call the center to check current hours. Walk-ins are welcome; an appointment is encouraged. Request Assistance on the website also connects you with an adviser.",
+          "access": "Sugarhouse in Salt Lake City. Phone or video coaching is available if you cannot visit.",
+          "importantInformationToKnow": "Bring a resume or job description if you have one. You can still get help without either."
+        }
+      },
+      "evidence": [
+        6
+      ],
+      "closureEvidence": [],
+      "questions": [],
+      "nextCheckOn": "",
+      "lastEvidenceOfOperationOn": ""
+    },
+    {
+      "id": "welfare-employment-peopleready",
+      "status": "new",
+      "program": "PeopleReady · Salt Lake City Staffing",
+      "summary": "Official sources support this proposed referral; practical restrictions are retained.",
+      "fields": {
+        "name": "PeopleReady · Salt Lake City Staffing",
+        "description": "Apply for temporary and other local work. Job availability and requirements vary.",
+        "phone": "801-521-0480",
+        "address": "1081 S 300 W, Salt Lake City, UT 84115",
+        "website": "https://locations.peopleready.com/us/ut/salt-lake-city",
+        "hours": "",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {
+          "employment": [
+            "Staffing"
+          ]
+        },
+        "forGroups": [],
+        "informationSections": {
+          "programsAndServices": "Staffing for short-term, longer-term and permanent jobs in several industries.",
+          "eligibilityRequirements": "Requirements depend on the job. Ask the branch what identification, skills and work authorization documents are needed.",
+          "howToBestConnect": "Call the Salt Lake City branch for application help or use JobStack to look for assignments.",
+          "access": "Salt Lake City branch; check the actual work site and transportation before accepting a job.",
+          "importantInformationToKnow": "An application does not guarantee a shift. Confirm pay, schedule, equipment needs and any costs before accepting."
+        }
+      },
+      "evidence": [
+        7,
+        8
+      ],
+      "closureEvidence": [],
+      "questions": [],
+      "nextCheckOn": "",
+      "lastEvidenceOfOperationOn": ""
+    }
+  ],
+  "executionReceipt": {
+    "complete": true,
+    "model": null,
+    "contextId": "codex-discovery-pilot-20260909",
+    "freshContext": false,
+    "isolatedInputs": false,
+    "activeMinutes": 0,
+    "waitingMinutes": 0,
+    "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+    "remainingGaps": [
+      "This small pilot does not establish complete Employment coverage."
+    ]
+  }
+}

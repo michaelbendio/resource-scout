@@ -1,0 +1,863 @@
+{
+  "schemaVersion": 1,
+  "editorProjectId": "a62dc235e86ee47558aaf4e4a90539160a43c3f9cf9aff0e5104c564a74f2c8d",
+  "stage": "final",
+  "sourceSha256": "36bace024634a1e1bada1185a8692e105acedc65a86c5ef1c22a795d73d7708e",
+  "office": "Welfare Square Employment Pilot",
+  "configuration": {
+    "name": "Bounded Welfare Square Employment discovery pilot",
+    "editor": "Astra / Codex operator",
+    "model": null,
+    "settings": {
+      "context": "current Codex conversation; primary and editor share context"
+    },
+    "sourceScope": "partial",
+    "categoryIds": [
+      "employment"
+    ],
+    "authorityNote": "Authorized small pilot. Web research and AI editing; no human curation or office publication."
+  },
+  "instructions": [
+    "Real service missionaries help real people with basic needs. Exercise whole-resource and whole-collection judgment before human curation.",
+    "Account for every source ID. Retain useful, distinct, actionable services; combine true duplicates; reserve unresolved suitability; exclude clearly unsuitable stand-alone listings. No category quota.",
+    "Preserve useful named referrals and narrow eligibility. Separate the service a patron can start from incidental benefits limited to an existing program. Explain consequential uncertainty.",
+    "Combine only into a retained source ID. Preserve important services, eligibility, entry routes, cost and timing from every contributor in the destination text; do not assume concatenation is good editing.",
+    "Early review selects leads before detailed research. Final review improves concise five-section text, short descriptive titles and supported existing classifications.",
+    "Return field changes only for retained destinations. Use informationSections for prose, never raw informationText. Use existing exact categories, Types and groups.",
+    "Keep uncertainty in plain-language questions with enough detail for a curator. Never resolve a human question, invent a verification date, mark Curated, or claim a provider call.",
+    "An omission is a reversible draft selection, not provider closure or an office deletion. Human curators still determine what is ready for use."
+  ],
+  "writingGuidance": {
+    "schemaVersion": 1,
+    "version": "plain-language-v5",
+    "instructionsFile": "plain_language.md",
+    "sections": [
+      {
+        "key": "programsAndServices",
+        "heading": "Programs and Services"
+      },
+      {
+        "key": "eligibilityRequirements",
+        "heading": "Eligibility Requirements"
+      },
+      {
+        "key": "howToBestConnect",
+        "heading": "How to Best Connect"
+      },
+      {
+        "key": "access",
+        "heading": "Access"
+      },
+      {
+        "key": "importantInformationToKnow",
+        "heading": "Important Information to Know"
+      }
+    ],
+    "retiredHeadings": [
+      "Services Provided",
+      "Scout Findings",
+      "Verify before Referral"
+    ],
+    "instructionsText": "# Writing resources for counseling and printed handouts\n\nWrite respectfully for adults seeking practical help. A service missionary must\nbe able to scan the resource quickly. The person taking the printout home may\nneed support with reading, remembering steps, or using a computer. Use everyday\nwords, short sentences, and brief paragraphs or simple bullets. Explain an\nunavoidable acronym. Avoid agency jargon, promotional language, and research\nprocess commentary. Do not judge the person's ability or circumstances.\n\nPatron usefulness: identify what help a TSO patron can receive, who can receive\nit, and a supported way to begin obtaining it. Determine the audience and purpose\nof each source and contact route; a page about an organization does not by\nitself establish assistance for the person seeking help. Reason from the\nevidence rather than matching keywords or assuming every mentioned activity is\na service. Assess each meaningful service separately. Preserve supported help\nwhen another service is uncertain. Explain an unsuitable or unresolved lead in\nreview notes, with the missing evidence or next question. Do not silently remove\nan existing accepted record or mistake uncertainty for closure.\n\nResource title: choose one short title when the resource's identity and useful\nservices are clear. Use \"Organization · brief program or service label\" to\ndistinguish entries from the same organization. Briefly list multiple meaningful\nservice types when appropriate; do not enumerate incidental benefits or force\na single program name. Do not ask the curator to choose between equivalent\nwording options. Ordinary wording choices belong to Scout.\n\nLeave consequential decisions to the curator. If significant uncertainty about\nidentity, offered services, recipient access, or overlap would change the title\nor whether the resource belongs, preserve the existing record and state the\nspecific unresolved decision, evidence, and practical question in review notes.\nDo not invent a program, settle a disputed service boundary, or silently split,\nmerge, or remove a record. A question unrelated to a clear title need not hold\nup that title choice. An explicitly requested review title can remain visible\nwithout implying that its unresolved service claims have been verified.\n\nRespect the assignment's editable fields and stable IDs. Where names are\neditable, return the chosen title through the normal proposal/review process.\nIn writing-only work, put a straightforward title suggestion in reviewNotes.\nThis division of judgment does not bypass the existing package review gate.\n\nHours: distinguish meal, pantry, office, and other service schedules. Do not\ncollapse them into a single schedule or treat office hours as service hours.\nFlag conflicting published schedules and say which service needs confirmation.\nWhen hours are outside the assignment's editable fields, record the discrepancy\nin reviewNotes rather than changing protected fields.\n\nDescription: briefly say what help is offered and where it is available. Identify\nlocation and service area accurately; an office address does not establish an\neligibility boundary. Preserve meaningful geographic limits and uncertainty.\n\nPrograms and Services: explain specific help, combining overlapping accounts.\nPrefer useful service distinctions over a long organizational history or list\nof incidental benefits. Do not repeat the same explanation in another section.\n\nEligibility Requirements: state the relevant qualifications and required\nreferrals or documents. Preserve material age, income, location, and other\nconditions. Requirements may vary by program; never substitute an invented\nrule for missing information.\n\nHow to Best Connect: give a supported starting route and practical next steps.\nExamine service and application pages or forms, not just the home page, to\nestablish appointment or walk-in requirements, pickup options, delivery\narrangements, and useful application instructions. Reading a form is research;\ndo not submit it or enter personal information. Distinguish what the form offers\nfrom assumptions about eligibility or guaranteed access.\nWhen known, explain what happens after applying without promising placement,\nfunding, eligibility, or response times. Keep phone, address, website, and hours\nin their ordinary fields; avoid duplicating those fields in Information. There\nis no dedicated email field: include a useful email address in this section.\nDo not assume a computer or internet access. Include an offline alternative only\nwhen supported. Do not invent documents, contacts, language help, or a preferred\nintake route.\n\nAccess: describe the area served and relevant access arrangements. Distinguish\nservice area from the physical office or individual job/service locations.\n\nImportant Information to Know: give material costs, limitations, availability,\nand specific questions the person should check. Distinguish applying from\nreceiving help. Keep unknown details brief and relevant; do not add generic\nwarnings to every resource or repeat them under several headings.\n\nReturn section bodies only; Scout supplies the exact headings and their order.\nUse plain paragraphs and optional lines starting with '- ' for bullets. Do not\nreturn HTML, Markdown links, tables, or extra headings. Use full URLs when a\nlink is needed on paper. Keep necessary conditions even when shortening text;\nthere is no mandatory word count. Never append original Scout Findings to the\npublic Information. Original research stays in the assignment history.\n\nEvery claim must be supported by the provided evidence or recorded additional\nresearch. Return writingEvidence with candidateIds (contributing candidate IDs\nas strings) and sources (an array). Each newly consulted source must contain\nexactly url (full HTTP/HTTPS URL), accessedOn (YYYY-MM-DD), and excerpt (relevant\nsource text). Use an empty sources array if only the supplied evidence was used.\nEvidence storage is not human verification: leave verifiedOn null. If a material\ndetail cannot be established, say what is unknown or what to ask. Do not copy\nknown providers, contacts, or eligibility facts from a writing example.\n\n\nQuestions for the curator\n-------------------------\nWrite like a helpful coworker. Ask a direct, everyday question: “Can someone\napply before moving here?” rather than “Which programs require current residency,\nand when?” Avoid phrases such as “accountable intake route,” “justify the category,”\nand “pending confirmation” when ordinary words will do.\n\nGive the curator enough detail to understand the problem without reopening the\nresearch report. Name the program, page, flyer or local note. Explain what each\nsource actually says and how the accounts differ. Include the relevant link,\nattachment title, or recorded contact when available. Distinguish older local\nnotes, saved web research and a fresh provider answer. Do not imply that you have\nrechecked a source when you have only read earlier research.\n\nFor example, if one source allows applying before moving, another gives local\nresidents priority, and a program page says nonresidents cannot advance on its\nwaiting list, state those three claims separately. Do not reduce them to “the\nsources use different eligibility wording.” Explain why the distinction matters,\nthen give the specific question to ask staff, including the program and stage of\napplication. Use only details supported by the actual assignment; this is an\nillustration, not a housing rule to reuse elsewhere.\n\nUse a short question followed by readable paragraphs or a few bullets. Explain\nwhat remains unchanged while the question is open when that helps the curator\nmake the decision. There is no fixed word limit: retain the details needed to\nsettle the question, but omit unrelated research history and repeated caveats.\nDo not invent the missing side of a disagreement. If the evidence only says a\nsource was not found, say that; absence from a website does not disprove local\nknowledge. Keep these administrative explanations in openQuestions, separate\nfrom patron Information. A saved resolution note is not provider verification.\n",
+    "sha256": "370ce4fc05351c61cca9a03c733cb1eee0caa6c80021e3d7f9e678977f1040aa"
+  },
+  "package": {
+    "resourcePackageSchemaVersion": 3,
+    "packageVersion": 1,
+    "officeName": "AutoWelfareSquareEmploymentPilot",
+    "categories": [
+      {
+        "id": "employment",
+        "label": "Employment",
+        "filters": [
+          "Job Search",
+          "Staffing",
+          "Apprenticeships"
+        ]
+      }
+    ],
+    "forGroups": [],
+    "categoryMigrations": [],
+    "deletions": [],
+    "deletionRequests": [],
+    "changes": [],
+    "resources": [
+      {
+        "id": "scout-lead:a89109a8e8a5631794da3e55",
+        "name": "Utah Workforce Services · Job Search and Training Help",
+        "description": "Free job-search help and a way to apply for career or training assistance. Ask DWS which local office to visit.",
+        "informationText": "**Programs and Services**\nHelp with resumes, applications, interviews and finding work. Career and education assistance has a separate application and eligibility review.\n\n**Eligibility Requirements**\nGeneral job-search help is available to job seekers. Training support depends on your circumstances and the program; a counselor decides eligibility.\n\n**How to Best Connect**\nUse the website for job-search tools. For career and education assistance, apply online or at an Employment Center. Call the general DWS service number, 801-526-0950, to confirm a local starting point.\n\n**Access**\nUtah, including Salt Lake City. Online career applications need a UtahID account; in-person applications are also offered.\n\n**Important Information to Know**\nFor career assistance, a counselor should contact you within three business days to arrange an appointment. Submit required documents within 45 days. Applying does not guarantee training funding.",
+        "phone": "801-526-0950",
+        "address": "",
+        "website": "https://jobs.utah.gov/jobseeker/index.html",
+        "hours": "",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {
+          "employment": [
+            "Job Search"
+          ]
+        },
+        "forGroups": [],
+        "pdfs": [],
+        "scoutLeadEvidence": {
+          "sourceSha256": "f42bd5f2496a9c9eed94f09271afeba28e4a28729aded70f3a251019987cca79",
+          "baselineSha256": "7f54656429e868fe5c1387b76d988765cf107177177a7edc220ba497f0d49299",
+          "lead": {
+            "ordinal": 1,
+            "raw": {
+              "organization": "Utah Department of Workforce Services",
+              "program": "Salt Lake Metro Employment Center",
+              "website": "https://jobs.utah.gov/jobseeker/index.html",
+              "leadType": "access-point",
+              "locationOrServiceArea": "Salt Lake City, Utah",
+              "whyRelevant": "Public job-search help and a local route to employment services.",
+              "uncertainty": "Confirm current local contact and distinguish general job help from eligibility-screened training."
+            },
+            "organization": "Utah Department of Workforce Services",
+            "program": "Salt Lake Metro Employment Center",
+            "websiteRaw": "https://jobs.utah.gov/jobseeker/index.html",
+            "website": "https://jobs.utah.gov/jobseeker/index.html",
+            "phone": "",
+            "address": "",
+            "leadType": "access-point",
+            "locationOrServiceArea": "Salt Lake City, Utah",
+            "whyRelevant": "Public job-search help and a local route to employment services.",
+            "uncertainty": "Confirm current local contact and distinguish general job help from eligibility-screened training.",
+            "normalizedOrganization": "utah department of workforce services",
+            "normalizedProgram": "salt lake metro employment center",
+            "warnings": []
+          },
+          "providerVerificationInferred": false
+        },
+        "scoutEditorHistory": [
+          {
+            "projectId": "a62dc235e86ee47558aaf4e4a90539160a43c3f9cf9aff0e5104c564a74f2c8d",
+            "stage": "early",
+            "sourceSha256": "9f4afc640c8d5fe9c3b502582482ae4ff68e2d85294106edb5587322a53d1176",
+            "originalRecord": {
+              "id": "scout-lead:a89109a8e8a5631794da3e55",
+              "name": "Utah Department of Workforce Services · Salt Lake Metro Employment Center",
+              "description": "Public job-search help and a local route to employment services.",
+              "informationText": "Research lead; eligibility and entry route still need investigation.",
+              "phone": "",
+              "address": "",
+              "website": "https://jobs.utah.gov/jobseeker/index.html",
+              "hours": "",
+              "categories": [
+                "employment"
+              ],
+              "categoryFilters": {},
+              "forGroups": [],
+              "pdfs": [],
+              "scoutLeadEvidence": {
+                "sourceSha256": "f42bd5f2496a9c9eed94f09271afeba28e4a28729aded70f3a251019987cca79",
+                "baselineSha256": "7f54656429e868fe5c1387b76d988765cf107177177a7edc220ba497f0d49299",
+                "lead": {
+                  "ordinal": 1,
+                  "raw": {
+                    "organization": "Utah Department of Workforce Services",
+                    "program": "Salt Lake Metro Employment Center",
+                    "website": "https://jobs.utah.gov/jobseeker/index.html",
+                    "leadType": "access-point",
+                    "locationOrServiceArea": "Salt Lake City, Utah",
+                    "whyRelevant": "Public job-search help and a local route to employment services.",
+                    "uncertainty": "Confirm current local contact and distinguish general job help from eligibility-screened training."
+                  },
+                  "organization": "Utah Department of Workforce Services",
+                  "program": "Salt Lake Metro Employment Center",
+                  "websiteRaw": "https://jobs.utah.gov/jobseeker/index.html",
+                  "website": "https://jobs.utah.gov/jobseeker/index.html",
+                  "phone": "",
+                  "address": "",
+                  "leadType": "access-point",
+                  "locationOrServiceArea": "Salt Lake City, Utah",
+                  "whyRelevant": "Public job-search help and a local route to employment services.",
+                  "uncertainty": "Confirm current local contact and distinguish general job help from eligibility-screened training.",
+                  "normalizedOrganization": "utah department of workforce services",
+                  "normalizedProgram": "salt lake metro employment center",
+                  "warnings": []
+                },
+                "providerVerificationInferred": false
+              }
+            },
+            "decision": {
+              "resourceId": "scout-lead:a89109a8e8a5631794da3e55",
+              "disposition": "retain",
+              "targetResourceIds": [
+                "scout-lead:a89109a8e8a5631794da3e55"
+              ],
+              "reason": "Retain for research: a general public starting point near Welfare Square. Verify local contact and avoid implying that everyone qualifies for funded training.",
+              "evidence": [
+                "https://jobs.utah.gov/jobseeker/index.html",
+                "Initial lead, not confirmed access."
+              ],
+              "fields": {},
+              "questions": []
+            },
+            "providerVerificationInferred": false
+          }
+        ],
+        "lastModified": "2026-09-09T22:21:13.706+00:00",
+        "openQuestions": [
+          {
+            "id": "scout-question:52f5bab3c0a80228ded6e05c",
+            "question": "Which nearby DWS office should someone visit, and when?",
+            "explanation": "Older official listings name Salt Lake Metro at 720 South 200 East. The current office finder did not show readable office details during this check. Confirm a nearby address, hours and whether an appointment is needed; the listed phone is a general DWS number.\n\nSources checked:\nhttps://jobs.utah.gov/jobseeker/index.html\nhttps://jobs.utah.gov/jobseeker/career/apply.html\nhttps://jobs.utah.gov/ui/employer/public/UINoticePosterSpanish.aspx",
+            "status": "open",
+            "resolution": "",
+            "source": {
+              "kind": "maintenance",
+              "projectId": 1,
+              "taskId": "recheck:scout-lead:a89109a8e8a5631794da3e55",
+              "itemId": "scout-lead:a89109a8e8a5631794da3e55",
+              "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+              "researchRevision": 40,
+              "resultSha256": "bc17f82e655484a89d30a607ffb98ae47e2ac61f1e43209bad8bec90475b4ea0"
+            }
+          }
+        ],
+        "scoutResearch": {
+          "kind": "maintenance",
+          "projectId": 1,
+          "taskId": "recheck:scout-lead:a89109a8e8a5631794da3e55",
+          "itemId": "scout-lead:a89109a8e8a5631794da3e55",
+          "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+          "researchRevision": 40,
+          "resultSha256": "bc17f82e655484a89d30a607ffb98ae47e2ac61f1e43209bad8bec90475b4ea0",
+          "curationRequired": true,
+          "sources": [
+            "https://jobs.utah.gov/jobseeker/index.html",
+            "https://jobs.utah.gov/jobseeker/career/apply.html",
+            "https://jobs.utah.gov/ui/employer/public/UINoticePosterSpanish.aspx"
+          ]
+        }
+      },
+      {
+        "id": "scout-lead:68615d197ac8f29fb5d8c43c",
+        "name": "Utah Electrical Training Alliance · Paid Electrician Apprenticeship",
+        "description": "Apply for paid electrical work with classroom training. Selection, fees and statewide travel make this a longer-term option.",
+        "informationText": "**Programs and Services**\nPaid electrical work combined with classroom training. Apprentices pay for books, tuition and required tools.\n\n**Eligibility Requirements**\nAge 18 or older; diploma or GED; passing algebra or an accepted alternative. A valid driver’s license is required; Utah residents need a Utah license. Provide birth and school records; foreign transcripts need professional translation and notarization.\n\n**How to Best Connect**\nStart at Apply Now on the website. Upload required records within 30 days. Call 801-975-1945 or email apply@uteta.org for help before paying.\n\n**Access**\nTraining center in West Jordan. Work can be assigned anywhere in Utah, requiring reliable travel.\n\n**Important Information to Know**\nThe current Apply Now page lists a $75 application fee; confirm the amount and other starting costs. Selection includes testing and an interview, with no confirmed start date. Applying does not guarantee paid work.",
+        "phone": "801-975-1945",
+        "address": "7466 South Redwood Road, West Jordan, UT 84084",
+        "website": "https://uteta.org/programs/apply-now/",
+        "hours": "Monday–Friday, 8 AM–5 PM",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {
+          "employment": [
+            "Apprenticeships"
+          ]
+        },
+        "forGroups": [],
+        "pdfs": [],
+        "scoutLeadEvidence": {
+          "sourceSha256": "f42bd5f2496a9c9eed94f09271afeba28e4a28729aded70f3a251019987cca79",
+          "baselineSha256": "7f54656429e868fe5c1387b76d988765cf107177177a7edc220ba497f0d49299",
+          "lead": {
+            "ordinal": 2,
+            "raw": {
+              "organization": "Utah Electrical Training Alliance",
+              "program": "Inside Wireman apprenticeship",
+              "website": "https://uteta.org/programs/careers-inside-wire/",
+              "leadType": "program",
+              "locationOrServiceArea": "West Jordan training center; employers throughout Utah",
+              "whyRelevant": "Paid work combined with electrical training may offer a career path.",
+              "uncertainty": "Check entry costs, qualifications, waiting before paid work and travel requirements."
+            },
+            "organization": "Utah Electrical Training Alliance",
+            "program": "Inside Wireman apprenticeship",
+            "websiteRaw": "https://uteta.org/programs/careers-inside-wire/",
+            "website": "https://uteta.org/programs/careers-inside-wire/",
+            "phone": "",
+            "address": "",
+            "leadType": "program",
+            "locationOrServiceArea": "West Jordan training center; employers throughout Utah",
+            "whyRelevant": "Paid work combined with electrical training may offer a career path.",
+            "uncertainty": "Check entry costs, qualifications, waiting before paid work and travel requirements.",
+            "normalizedOrganization": "utah electrical training alliance",
+            "normalizedProgram": "inside wireman apprenticeship",
+            "warnings": []
+          },
+          "providerVerificationInferred": false
+        },
+        "scoutEditorHistory": [
+          {
+            "projectId": "a62dc235e86ee47558aaf4e4a90539160a43c3f9cf9aff0e5104c564a74f2c8d",
+            "stage": "early",
+            "sourceSha256": "9f4afc640c8d5fe9c3b502582482ae4ff68e2d85294106edb5587322a53d1176",
+            "originalRecord": {
+              "id": "scout-lead:68615d197ac8f29fb5d8c43c",
+              "name": "Utah Electrical Training Alliance · Inside Wireman apprenticeship",
+              "description": "Paid work combined with electrical training may offer a career path.",
+              "informationText": "Research lead; eligibility and entry route still need investigation.",
+              "phone": "",
+              "address": "",
+              "website": "https://uteta.org/programs/careers-inside-wire/",
+              "hours": "",
+              "categories": [
+                "employment"
+              ],
+              "categoryFilters": {},
+              "forGroups": [],
+              "pdfs": [],
+              "scoutLeadEvidence": {
+                "sourceSha256": "f42bd5f2496a9c9eed94f09271afeba28e4a28729aded70f3a251019987cca79",
+                "baselineSha256": "7f54656429e868fe5c1387b76d988765cf107177177a7edc220ba497f0d49299",
+                "lead": {
+                  "ordinal": 2,
+                  "raw": {
+                    "organization": "Utah Electrical Training Alliance",
+                    "program": "Inside Wireman apprenticeship",
+                    "website": "https://uteta.org/programs/careers-inside-wire/",
+                    "leadType": "program",
+                    "locationOrServiceArea": "West Jordan training center; employers throughout Utah",
+                    "whyRelevant": "Paid work combined with electrical training may offer a career path.",
+                    "uncertainty": "Check entry costs, qualifications, waiting before paid work and travel requirements."
+                  },
+                  "organization": "Utah Electrical Training Alliance",
+                  "program": "Inside Wireman apprenticeship",
+                  "websiteRaw": "https://uteta.org/programs/careers-inside-wire/",
+                  "website": "https://uteta.org/programs/careers-inside-wire/",
+                  "phone": "",
+                  "address": "",
+                  "leadType": "program",
+                  "locationOrServiceArea": "West Jordan training center; employers throughout Utah",
+                  "whyRelevant": "Paid work combined with electrical training may offer a career path.",
+                  "uncertainty": "Check entry costs, qualifications, waiting before paid work and travel requirements.",
+                  "normalizedOrganization": "utah electrical training alliance",
+                  "normalizedProgram": "inside wireman apprenticeship",
+                  "warnings": []
+                },
+                "providerVerificationInferred": false
+              }
+            },
+            "decision": {
+              "resourceId": "scout-lead:68615d197ac8f29fb5d8c43c",
+              "disposition": "retain",
+              "targetResourceIds": [
+                "scout-lead:68615d197ac8f29fb5d8c43c"
+              ],
+              "reason": "Retain for research: paid apprenticeship is a distinct option. Its length alone is not disqualifying; entry fees, selection delays and statewide travel may limit practical fit.",
+              "evidence": [
+                "https://uteta.org/programs/careers-inside-wire/",
+                "Initial lead, not confirmed access."
+              ],
+              "fields": {},
+              "questions": []
+            },
+            "providerVerificationInferred": false
+          }
+        ],
+        "lastModified": "2026-09-09T22:21:13.706+00:00",
+        "openQuestions": [
+          {
+            "id": "scout-question:f30e2f900244c26a8e1ab5f1",
+            "question": "What will an applicant need to pay before paid work starts?",
+            "explanation": "The current Apply Now and Inside Wireman pages I read list $75. Claude reported $30 from search snippets and the application portal, but I could not reproduce that portal amount. Ask the office to confirm the application charge, books, tuition and tools before someone spends money.\n\nSources checked:\nhttps://uteta.org/programs/careers-inside-wire/\nhttps://uteta.org/programs/apply-now/\nhttps://uteta.org/contact/\nhttps://uteta.org/programs-overview/\nhttps://uteta.org/programs/faqs/",
+            "status": "open",
+            "resolution": "",
+            "source": {
+              "kind": "maintenance",
+              "projectId": 1,
+              "taskId": "recheck:scout-lead:68615d197ac8f29fb5d8c43c",
+              "itemId": "scout-lead:68615d197ac8f29fb5d8c43c",
+              "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+              "researchRevision": 40,
+              "resultSha256": "1db811ca059f5c38e4dfb65f2ced03aaa3b13e7f1bc23f2253acc9c8f8d7a05e"
+            }
+          }
+        ],
+        "scoutResearch": {
+          "kind": "maintenance",
+          "projectId": 1,
+          "taskId": "recheck:scout-lead:68615d197ac8f29fb5d8c43c",
+          "itemId": "scout-lead:68615d197ac8f29fb5d8c43c",
+          "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+          "researchRevision": 40,
+          "resultSha256": "1db811ca059f5c38e4dfb65f2ced03aaa3b13e7f1bc23f2253acc9c8f8d7a05e",
+          "curationRequired": true,
+          "sources": [
+            "https://uteta.org/programs/careers-inside-wire/",
+            "https://uteta.org/programs/apply-now/",
+            "https://uteta.org/contact/",
+            "https://uteta.org/programs-overview/",
+            "https://uteta.org/programs/faqs/"
+          ]
+        }
+      },
+      {
+        "id": "welfare-employment-sugarhouse",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {
+          "employment": [
+            "Job Search"
+          ]
+        },
+        "forGroups": [],
+        "pdfs": [],
+        "name": "Employment Services · Sugarhouse Job-Search Help",
+        "description": "Work with an adviser on resumes, job leads and interviews. Phone or video coaching is also available.",
+        "phone": "801-467-6443",
+        "address": "724 E 2100 S, Suite A, Salt Lake City, UT 84106",
+        "website": "https://local.churchofjesuschrist.org/en/employment-services/us/ut/salt-lake-city/724-e-2100-s",
+        "hours": "",
+        "informationText": "**Programs and Services**\nIndividual job-search coaching, resume help, interview practice and networking. Computers and printers are available.\n\n**Eligibility Requirements**\nEveryone is welcome; Church membership is not required.\n\n**How to Best Connect**\nCall the center to check current hours. Walk-ins are welcome; an appointment is encouraged. Request Assistance on the website also connects you with an adviser.\n\n**Access**\nSugarhouse in Salt Lake City. Phone or video coaching is available if you cannot visit.\n\n**Important Information to Know**\nBring a resume or job description if you have one. You can still get help without either.",
+        "lastModified": "2026-09-09T22:21:13.706+00:00",
+        "scoutResearch": {
+          "kind": "maintenance",
+          "projectId": 1,
+          "taskId": "discovery:employment",
+          "itemId": "welfare-employment-sugarhouse",
+          "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+          "researchRevision": 40,
+          "resultSha256": "46dff646a0ed3a42e1d16bec7caf29421cc6abb7bd852528a1e080d5a2ccfce1",
+          "curationRequired": true,
+          "sources": [
+            "https://local.churchofjesuschrist.org/en/employment-services/us/ut/salt-lake-city/724-e-2100-s"
+          ]
+        }
+      },
+      {
+        "id": "welfare-employment-peopleready",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {
+          "employment": [
+            "Staffing"
+          ]
+        },
+        "forGroups": [],
+        "pdfs": [],
+        "name": "PeopleReady · Salt Lake City Staffing",
+        "description": "Apply for temporary and other local work. Job availability and requirements vary.",
+        "phone": "801-521-0480",
+        "address": "1081 S 300 W, Salt Lake City, UT 84115",
+        "website": "https://locations.peopleready.com/us/ut/salt-lake-city",
+        "hours": "",
+        "informationText": "**Programs and Services**\nStaffing for short-term, longer-term and permanent jobs in several industries.\n\n**Eligibility Requirements**\nRequirements depend on the job. Ask the branch what identification, skills and work authorization documents are needed.\n\n**How to Best Connect**\nCall the Salt Lake City branch for application help or use JobStack to look for assignments.\n\n**Access**\nSalt Lake City branch; check the actual work site and transportation before accepting a job.\n\n**Important Information to Know**\nAn application does not guarantee a shift. Confirm pay, schedule, equipment needs and any costs before accepting.",
+        "lastModified": "2026-09-09T22:21:13.706+00:00",
+        "scoutResearch": {
+          "kind": "maintenance",
+          "projectId": 1,
+          "taskId": "discovery:employment",
+          "itemId": "welfare-employment-peopleready",
+          "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+          "researchRevision": 40,
+          "resultSha256": "46dff646a0ed3a42e1d16bec7caf29421cc6abb7bd852528a1e080d5a2ccfce1",
+          "curationRequired": true,
+          "sources": [
+            "https://locations.peopleready.com/us/ut/salt-lake-city",
+            "https://www.peopleready.com/cities/staffing-agencies-salt-lake-city-ut/"
+          ]
+        }
+      },
+      {
+        "id": "scout-lead:disc-usor-vr-20260909",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {
+          "employment": [
+            "Job Search"
+          ]
+        },
+        "forGroups": [],
+        "pdfs": [],
+        "name": "Utah Vocational Rehabilitation · Disability Job Support",
+        "description": "Help getting and keeping a job for people whose disability makes working difficult. Offices around Utah including the Salt Lake area; part of the Utah Department of Workforce Services.",
+        "phone": "1-866-454-8397",
+        "website": "https://jobs.utah.gov/usor/vr/apply.html",
+        "informationText": "**Programs and Services**\nWork with a counselor on a plan to get or keep a job. Services depend on your needs, eligibility and available funding.\n\n**Eligibility Requirements**\nA disability must substantially affect work, and you must need and benefit from rehabilitation services. A counselor decides eligibility, usually within 60 days of your appointment; some cases take longer.\n\n**How to Best Connect**\nCall 866-454-8397 for your local VR office. Obtain an application and arrange a counselor appointment. Bring identification, your Social Security card and any disability records; staff can arrange an evaluation if records are missing.\n\n**Access**\nSalt Lake area and statewide. Spanish and large-print applications are available. You may bring someone to your appointment.\n\n**Important Information to Know**\nSome newly eligible applicants must wait for training or job placement; existing employment plans continue. People waiting receive information and referrals. Ask about current availability and any costs before making plans.",
+        "lastModified": "2026-09-09T22:21:13.706+00:00",
+        "scoutResearch": {
+          "kind": "maintenance",
+          "projectId": 1,
+          "taskId": "discovery:employment",
+          "itemId": "scout-lead:disc-usor-vr-20260909",
+          "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+          "researchRevision": 40,
+          "resultSha256": "46dff646a0ed3a42e1d16bec7caf29421cc6abb7bd852528a1e080d5a2ccfce1",
+          "curationRequired": true,
+          "sources": [
+            "https://jobs.utah.gov/usor/vr/services/order.html",
+            "https://jobs.utah.gov/usor/vr/apply.html"
+          ]
+        }
+      },
+      {
+        "id": "scout-lead:disc-uca-workforce-20260909",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {
+          "employment": [
+            "Job Search"
+          ]
+        },
+        "forGroups": [],
+        "pdfs": [],
+        "name": "Utah Community Action · Job Help, GED and Career Training",
+        "description": "Free classes and one-to-one help for adults who want to find work, earn more, or finish their education. For adults living in Salt Lake or Tooele counties; office on 900 West in Salt Lake City.",
+        "phone": "801-359-2444",
+        "address": "1307 S 900 W, Salt Lake City, UT",
+        "website": "https://utahca.org/workforce-development/",
+        "informationText": "**Programs and Services**\nFree job-readiness and money-management help, GED preparation and a child-care credential. Staff also refer people to English classes and other training.\n\n**Eligibility Requirements**\nAge 18 or older and living in Salt Lake or Tooele County. All income levels are welcome. The child-care credential has additional qualifications.\n\n**How to Best Connect**\nCall 801-359-2444 and ask for Workforce Development, or complete the website’s English or Spanish form. Staff follow up to finish the application by phone.\n\n**Access**\nThe listed office is at 1307 S 900 W. Ask where your classes or appointments will take place before traveling.\n\n**Important Information to Know**\nGED preparation is currently in English and includes exam fees. The child-care credential requires 120 class hours plus 480 preschool hours. Services reached through referrals may have different costs and requirements.",
+        "lastModified": "2026-09-09T22:21:13.706+00:00",
+        "scoutResearch": {
+          "kind": "maintenance",
+          "projectId": 1,
+          "taskId": "discovery:employment",
+          "itemId": "scout-lead:disc-uca-workforce-20260909",
+          "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+          "researchRevision": 40,
+          "resultSha256": "46dff646a0ed3a42e1d16bec7caf29421cc6abb7bd852528a1e080d5a2ccfce1",
+          "curationRequired": true,
+          "sources": [
+            "https://utahca.org/workforce-development/"
+          ]
+        }
+      }
+    ],
+    "scoutLeadIntake": {
+      "baselineSha256": "7f54656429e868fe5c1387b76d988765cf107177177a7edc220ba497f0d49299",
+      "leadsSha256": "f42bd5f2496a9c9eed94f09271afeba28e4a28729aded70f3a251019987cca79",
+      "warnings": []
+    },
+    "packageCreatedAt": "2026-09-09T22:21:13.706+00:00",
+    "scoutFrontierEditorial": {
+      "projectId": "a62dc235e86ee47558aaf4e4a90539160a43c3f9cf9aff0e5104c564a74f2c8d",
+      "stage": "early",
+      "sourceSha256": "9f4afc640c8d5fe9c3b502582482ae4ff68e2d85294106edb5587322a53d1176",
+      "originalCount": 2,
+      "retainedCount": 2,
+      "omissionsAreOfficeDeletions": false,
+      "humanApprovalsCreated": 0
+    },
+    "lastModified": "2026-09-09T22:21:13.706+00:00",
+    "scoutMeetingEdition": {
+      "createdAt": "2026-09-09T22:21:13.706+00:00",
+      "sourcePackageSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+      "projects": [
+        {
+          "projectId": 1,
+          "revision": 40
+        }
+      ],
+      "appliedProposals": [
+        {
+          "kind": "maintenance",
+          "projectId": 1,
+          "taskId": "recheck:scout-lead:68615d197ac8f29fb5d8c43c",
+          "itemId": "scout-lead:68615d197ac8f29fb5d8c43c",
+          "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+          "researchRevision": 40,
+          "resultSha256": "1db811ca059f5c38e4dfb65f2ced03aaa3b13e7f1bc23f2253acc9c8f8d7a05e",
+          "name": "Utah Electrical Training Alliance · Paid Electrician Apprenticeship",
+          "isNew": false,
+          "status": "changed"
+        },
+        {
+          "kind": "maintenance",
+          "projectId": 1,
+          "taskId": "recheck:scout-lead:a89109a8e8a5631794da3e55",
+          "itemId": "scout-lead:a89109a8e8a5631794da3e55",
+          "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+          "researchRevision": 40,
+          "resultSha256": "bc17f82e655484a89d30a607ffb98ae47e2ac61f1e43209bad8bec90475b4ea0",
+          "name": "Utah Workforce Services · Salt Lake Metro Job Help",
+          "isNew": false,
+          "status": "changed"
+        },
+        {
+          "kind": "maintenance",
+          "projectId": 1,
+          "taskId": "discovery:employment",
+          "itemId": "welfare-employment-sugarhouse",
+          "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+          "researchRevision": 40,
+          "resultSha256": "46dff646a0ed3a42e1d16bec7caf29421cc6abb7bd852528a1e080d5a2ccfce1",
+          "name": "Employment Services · Sugarhouse Job-Search Help",
+          "isNew": true,
+          "status": "new"
+        },
+        {
+          "kind": "maintenance",
+          "projectId": 1,
+          "taskId": "discovery:employment",
+          "itemId": "welfare-employment-peopleready",
+          "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+          "researchRevision": 40,
+          "resultSha256": "46dff646a0ed3a42e1d16bec7caf29421cc6abb7bd852528a1e080d5a2ccfce1",
+          "name": "PeopleReady · Salt Lake City Staffing",
+          "isNew": true,
+          "status": "new"
+        },
+        {
+          "kind": "maintenance",
+          "projectId": 1,
+          "taskId": "discovery:employment",
+          "itemId": "scout-lead:disc-usor-vr-20260909",
+          "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+          "researchRevision": 40,
+          "resultSha256": "46dff646a0ed3a42e1d16bec7caf29421cc6abb7bd852528a1e080d5a2ccfce1",
+          "name": "Vocational Rehabilitation",
+          "isNew": true,
+          "status": "new"
+        },
+        {
+          "kind": "maintenance",
+          "projectId": 1,
+          "taskId": "discovery:employment",
+          "itemId": "scout-lead:disc-uca-workforce-20260909",
+          "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+          "researchRevision": 40,
+          "resultSha256": "46dff646a0ed3a42e1d16bec7caf29421cc6abb7bd852528a1e080d5a2ccfce1",
+          "name": "Workforce Development",
+          "isNew": true,
+          "status": "new"
+        }
+      ],
+      "heldProposals": [],
+      "pendingTasks": [],
+      "humanApprovalsCreated": 0,
+      "kind": "uncurated-research-checkpoint",
+      "retainedExistingIds": [],
+      "counts": {
+        "existing": 2,
+        "existingWithCompletedProposals": 2,
+        "existingRetained": 0,
+        "newProposals": 4,
+        "heldProposals": 0,
+        "pendingTasks": 0
+      }
+    },
+    "scoutDiscoveryCoverage": {
+      "sourceScope": "partial",
+      "researchProjectId": 1,
+      "researchRevision": 40,
+      "categoryIds": [
+        "employment"
+      ],
+      "meaning": "Selected assignments completed; remaining gaps are not demonstrated coverage.",
+      "assignments": [
+        {
+          "taskId": "recheck:scout-lead:68615d197ac8f29fb5d8c43c",
+          "stage": "primary",
+          "researcher": "Codex",
+          "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+          "remainingGaps": [
+            "This small pilot does not establish complete Employment coverage."
+          ]
+        },
+        {
+          "taskId": "recheck:scout-lead:68615d197ac8f29fb5d8c43c",
+          "stage": "freeze",
+          "researcher": "Codex",
+          "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+          "remainingGaps": [
+            "This small pilot does not establish complete Employment coverage."
+          ]
+        },
+        {
+          "taskId": "recheck:scout-lead:68615d197ac8f29fb5d8c43c",
+          "stage": "blind:Claude",
+          "researcher": "Claude",
+          "coverageNotes": "Read Apply Now, Contact and FAQs pages directly; read the Inside Wireman, Programs Overview, apprentice info and portal pages via search excerpts only after a failed direct fetch. Confirmed operation and new contact details. No provider contacted. Minutes are my estimate, not measured. Compact rewrite after operator stopped an oversized response; no new research.",
+          "remainingGaps": [
+            "Application fee conflict ($75 vs $30) unresolved.",
+            "Classroom hours conflict (720 vs 1,000) unresolved.",
+            "Semester tuition, book and tool costs not published anywhere; no figure established.",
+            "No published timeline from application to test, interview or start date; none estimated.",
+            "Inside Wireman page never read as rendered HTML; recent edits may be missed.",
+            "Telecommunications and Construction Wireman routes not researched.",
+            "Unclear whether the DWS apprenticeship grant is open to applicants or only enrolled apprentices."
+          ]
+        },
+        {
+          "taskId": "recheck:scout-lead:68615d197ac8f29fb5d8c43c",
+          "stage": "reconcile",
+          "researcher": "Codex",
+          "coverageNotes": "Actual source-checked reconciliation. Shared operator timing is unallocated; zero values are not measured zero effort.",
+          "remainingGaps": [
+            "No provider phone verification. The pilot is not exhaustive Employment coverage.",
+            "Local DWS in-person routing and apprenticeship initial costs remain questions."
+          ]
+        },
+        {
+          "taskId": "recheck:scout-lead:a89109a8e8a5631794da3e55",
+          "stage": "primary",
+          "researcher": "Codex",
+          "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+          "remainingGaps": [
+            "This small pilot does not establish complete Employment coverage."
+          ]
+        },
+        {
+          "taskId": "recheck:scout-lead:a89109a8e8a5631794da3e55",
+          "stage": "freeze",
+          "researcher": "Codex",
+          "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+          "remainingGaps": [
+            "This small pilot does not establish complete Employment coverage."
+          ]
+        },
+        {
+          "taskId": "recheck:scout-lead:a89109a8e8a5631794da3e55",
+          "stage": "blind:Claude",
+          "researcher": "Claude",
+          "coverageNotes": "Read the job seeker landing page and Apply for Services page directly. The employment center directory could not be read; it is now a JavaScript tool serving no addresses. Established intake route, eligibility and deadlines. No contact made, no form submitted. Minutes are my estimate. Compact rewrite after operator stopped an oversized response; no new research.",
+          "remainingGaps": [
+            "Salt Lake Metro address, phone and hours unconfirmed; directory unreadable and cached snippet not treated as evidence.",
+            "No official source for employment center opening hours.",
+            "Unknown whether walk-ins are seen same day at Salt Lake Valley centers.",
+            "Refugee, veteran, youth and disability strands not researched in depth.",
+            "No published figure for what counts as a qualifying household income.",
+            "Current workshop availability in the Salt Lake Valley not checked.",
+            "Whether this record should be one named office or the statewide service is unresolved."
+          ]
+        },
+        {
+          "taskId": "recheck:scout-lead:a89109a8e8a5631794da3e55",
+          "stage": "reconcile",
+          "researcher": "Codex",
+          "coverageNotes": "Actual source-checked reconciliation. Shared operator timing is unallocated; zero values are not measured zero effort.",
+          "remainingGaps": [
+            "No provider phone verification. The pilot is not exhaustive Employment coverage.",
+            "Local DWS in-person routing and apprenticeship initial costs remain questions."
+          ]
+        },
+        {
+          "taskId": "discovery:employment",
+          "stage": "pass:public-workforce",
+          "researcher": "Codex",
+          "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+          "remainingGaps": [
+            "Which additional public pathways add distinct help beyond the Metro center?"
+          ]
+        },
+        {
+          "taskId": "discovery:employment",
+          "stage": "pass:immediate-employment",
+          "researcher": "Codex",
+          "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+          "remainingGaps": [
+            "Confirm current branch intake hours and identification requirements. Other staffing agencies were not compared."
+          ]
+        },
+        {
+          "taskId": "discovery:employment",
+          "stage": "pass:training-advancement",
+          "researcher": "Codex",
+          "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+          "remainingGaps": [
+            "What is the current selection delay and total initial expense? College and other trade programs remain outside this limited scan."
+          ]
+        },
+        {
+          "taskId": "discovery:employment",
+          "stage": "pass:supported-employment",
+          "researcher": "Codex",
+          "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+          "remainingGaps": [
+            "Confirm local application route and current priority status before drafting a patron referral."
+          ]
+        },
+        {
+          "taskId": "discovery:employment",
+          "stage": "pass:population-specific",
+          "researcher": "Codex",
+          "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+          "remainingGaps": [
+            "Can a refugee who is not already an IRC client enroll in employment help? Reentry, youth, senior and other pathways remain unsearched."
+          ]
+        },
+        {
+          "taskId": "discovery:employment",
+          "stage": "pass:community-embedded",
+          "researcher": "Codex",
+          "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+          "remainingGaps": [
+            "Confirm current center hours. Shelter and other community programs remain unsearched."
+          ]
+        },
+        {
+          "taskId": "discovery:employment",
+          "stage": "pass:non-obvious-sources",
+          "researcher": "Codex",
+          "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+          "remainingGaps": [
+            "Which registered providers offer a reachable intake route for the intended patron? Further contracts and grants were not searched."
+          ]
+        },
+        {
+          "taskId": "discovery:employment",
+          "stage": "primary",
+          "researcher": "Codex",
+          "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+          "remainingGaps": [
+            "This small pilot does not establish complete Employment coverage."
+          ]
+        },
+        {
+          "taskId": "discovery:employment",
+          "stage": "freeze",
+          "researcher": "Codex",
+          "coverageNotes": "Limited official-source scan; timing unallocated across shared searches. No exhaustive coverage or human confirmation.",
+          "remainingGaps": [
+            "This small pilot does not establish complete Employment coverage."
+          ]
+        },
+        {
+          "taskId": "discovery:employment",
+          "stage": "blind:Claude",
+          "researcher": "Claude",
+          "coverageNotes": "Limited scan, not exhaustive coverage of Salt Lake Valley employment services. Read the VR application and Order of Selection pages and the Utah Community Action Workforce Development page directly. Returned two additions rather than three; a third candidate was dropped for insufficient eligibility evidence rather than written on assumptions. No provider contacted, no form submitted. Minutes are my estimate. Compact rewrite after operator stopped an oversized response; no new research.",
+          "remainingGaps": [
+            "Year Up United Salt Lake City was dropped: its location page gives only an age range of 18 to 29, with income, education, work authorisation and any stipend unstated, and its national application pages were not read.",
+            "Whether Vocational Rehabilitation should be separate from the existing DWS record is unresolved.",
+            "VR waiting list status can change and no cost to the client is stated on the pages read.",
+            "Utah Community Action opening hours and walk-in availability unknown.",
+            "Two options on Utah Community Action's own enquiry form are undescribed and were not written into the record.",
+            "Refugee, reentry, veteran and community college training routes were not scanned at all.",
+            "Wait times to start classes or see a case manager are not published and were not estimated."
+          ]
+        },
+        {
+          "taskId": "discovery:employment",
+          "stage": "reconcile",
+          "researcher": "Codex",
+          "coverageNotes": "Actual source-checked reconciliation. Shared operator timing is unallocated; zero values are not measured zero effort.",
+          "remainingGaps": [
+            "No provider phone verification. The pilot is not exhaustive Employment coverage.",
+            "Local DWS in-person routing and apprenticeship initial costs remain questions."
+          ]
+        }
+      ]
+    }
+  },
+  "outputContract": {
+    "assignmentSha256": "copy from assignment",
+    "decisions": [
+      {
+        "resourceId": "source ID",
+        "disposition": "retain|combine|reserve|exclude",
+        "targetResourceIds": [
+          "retained ID"
+        ],
+        "reason": "specific practical judgment",
+        "evidence": [
+          "saved field or checked source supporting this decision"
+        ],
+        "fields": {},
+        "questions": []
+      }
+    ]
+  },
+  "assignmentSha256": "d82a5ff48f511c48868df5ae3bf3e8d6df4d3439f068761d6b63b8884eb44373"
+}

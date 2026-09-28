@@ -1,6 +1,8 @@
 # Scout current status
 
-Updated 28 September 2026. This is the operational handoff; historical checkpoints
+Updated 28 September 2026. The research, evaluation and application branches are
+consolidated for main. 754 tests ran successfully (4 skipped); no Scout workers were launched.
+This is the operational handoff; historical checkpoints
 are in the [archived status](docs/archive/20260928/SCOUT_STATUS.md).
 Read [orchestration](docs/scout-orchestration.md) before operating a worker and
 verify live processes/database state before acting.
@@ -10,7 +12,7 @@ verify live processes/database state before acting.
 Michael requested stopping Scout before adding rules and a fresh Welfare Square
 run. All observed workers, child tools, monitors, and dashboard/preview servers
 were terminated; the follow-up process check found none. No new run has started.
-Stop receipt: `data/scout-stop-20260928.json` (local, ignored by Git).
+Stop receipt: `~/resource-scout-pairwise/data/scout-stop-20260928.json` (local, ignored by Git).
 
 The separate Claude-checkout Housing experiment was interrupted. Preserve its
 ledger; an in-flight request can have an unknown outcome. Do not replay or resume
@@ -29,9 +31,9 @@ This cleanup does not authorize provider calls or another production launch.
 - **Mesa Housing DeepSeek trial:** complete, Housing-only. 104 leads yielded
   100 records: 92 usable reserves, 8 needs-resolution, 10 starters and 90
   considerations. DeepSeek/max performed curation and one sequential review.
-  The implementation worktree holds [the prepared file](data/evaluations/implementation/deliveries/mesa-housing-deepseek-20260928/prepared-resources.json),
-  [evaluation](data/evaluations/implementation/deliveries/mesa-housing-deepseek-20260928/evaluation.json),
-  and [readable report](data/evaluations/implementation/deliveries/mesa-housing-deepseek-20260928/review.html).
+  The merged tree holds [the prepared file](deliveries/mesa-housing-deepseek-20260928/prepared-resources.json),
+  [evaluation](deliveries/mesa-housing-deepseek-20260928/evaluation.json),
+  and [readable report](deliveries/mesa-housing-deepseek-20260928/review.html).
   Commit `362bb37` is pushed on `docs/scout-evaluation-design-20260927`.
   82 evaluation tests passed before cleanup; package validation and offline resume
   passed. No WSRS-TSO import, human approval, or agency confirmation is claimed.
@@ -44,7 +46,7 @@ This cleanup does not authorize provider calls or another production launch.
   automatic continuation and queued-office notes are not current launch authority.
   Cedar City's discussion hold remains; do not start another St. George run.
 
-The parent and Housing implementation identity registries contain 1,923 identities
+The merged and Housing implementation identity registries contain 1,923 identities
 and were synchronized at delivery. Keep stable IDs, aliases, human decisions and
 source evidence intact. Do not replace either with an older registry.
 
@@ -52,15 +54,16 @@ source evidence intact. Do not replace either with an older registry.
 
 | Checkout | Branch | Purpose |
 | --- | --- | --- |
-| `~/resource-scout-pairwise` | `pairwise-research-experiment` | Current operational checkout and office-fit policy |
-| `data/evaluations/implementation` | `docs/scout-evaluation-design-20260927` | Housing evaluation implementation and delivery; distinct Git worktree |
+| `~/resource-scout-pairwise` | `pairwise-research-experiment` | Integration checkout; current research evidence remains here |
+| `~/resource-scout-pairwise/data/evaluations/implementation` | `docs/scout-evaluation-design-20260927` | Housing evaluation implementation and delivery; distinct Git worktree |
 | `~/resource-scout-claude` | `claude-evaluation` | Separate interrupted comparison; do not resume automatically |
-| `~/resource-scout` | `main` | Main branch checkout; not synchronized by this cleanup |
+| `~/resource-scout` | `main` | Canonical application checkout; consolidated code |
 | `~/resource-scout-v1` | detached | Historical checkout; preserved |
 
 Verify `git worktree list` and branch status before any consolidation. Do not merge,
 remove or relocate worktrees merely because they appear old. The nested implementation
-checkout is inside ignored `data/` but has its own tracked commits and local evidence.
+checkout is inside ignored `data/`; its tracked work is merged but its local evidence
+remains there. Existing runtime paths have not been relocated.
 
 ## Operating rules and historical evidence
 
@@ -78,6 +81,8 @@ review uses Extra High and its [evaluation checklist](docs/archive/20260928/SCOU
 
 Cleanup preserved exact prior README/status snapshots in `docs/archive/20260928/`.
 Untracked Jev preparation was moved to the local ignored archive
-`data/repository-cleanup-20260928/`; its manifest records original paths and hashes.
+`~/resource-scout-pairwise/data/repository-cleanup-20260928/`; its manifest records original paths and hashes.
 The previously deleted proposal is preserved in the historical documentation archive;
 its old active path remains removed. No research data, resource or delivery was deleted.
+
+Repository consolidation and preservation details: [cleanup record](docs/repository-cleanup-20260928.md).

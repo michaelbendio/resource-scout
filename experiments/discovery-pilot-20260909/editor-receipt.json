@@ -1,0 +1,9 @@
+{
+  "editor": "Astra / Codex operator",
+  "model": null,
+  "settings": {
+    "context": "current Codex conversation; primary and editor share context"
+  },
+  "contextId": "codex-discovery-pilot-20260909",
+  "notes": "Actual operator judgment in current conversation; no independent editor or human verification claimed."
+}

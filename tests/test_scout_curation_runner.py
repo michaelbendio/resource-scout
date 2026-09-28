@@ -204,7 +204,7 @@ class CurationRunnerTests(unittest.TestCase):
                 result = {
                     "scoutCurationResultSchemaVersion": 1, "assignmentSha256": assignment["assignmentSha256"],
                     "categoryId": category,
-                    "resources": [{"id": category, "name": f"Direct {category}", "categories": [category], "candidateIds": prior_ids + ids,
+                    "resources": [{"id": category, "name": f"Direct {category}", "description": "Direct local service.", "categories": [category], "candidateIds": prior_ids + ids,
                                    "website": f"https://example.org/{category}"}],
                     "candidateDispositions": [{"candidateId": c, "disposition": "curated", "resourceIds": [category], "reason": ""} for c in ids],
                 }
@@ -213,6 +213,14 @@ class CurationRunnerTests(unittest.TestCase):
                         "website": "https://example.org/food", "categories": [category],
                         "name": "Duplicate placeholder remove", "description": "Duplicate placeholder",
                         "informationText": "Duplicate placeholder remove"})
+                result["scoutCurationResultSchemaVersion"] = assignment["outputContract"]["scoutCurationResultSchemaVersion"]
+                if result["scoutCurationResultSchemaVersion"] == 2:
+                    for resource in result["resources"]:
+                        resource.pop("informationText", None)
+                        resource["informationSections"] = {section["key"]: ("Duplicate placeholder remove" if resource["id"] == "stray-placeholder" else "Supported synthetic service details.") for section in assignment["writingGuidance"]["sections"]}
+                        resource["writingEvidence"] = {"candidateIds": resource["candidateIds"], "sources": []}
+                        resource["openQuestions"] = []
+                        resource["verifiedOn"] = None
                 (directory / "result.json").write_text(json.dumps(result))
             with patch("resource_research_agent.scout_curation_runner.execute_worker", side_effect=worker) as launch:
                 first = run(args)

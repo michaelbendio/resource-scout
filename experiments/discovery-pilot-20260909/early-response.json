@@ -1,0 +1,33 @@
+{
+  "assignmentSha256": "122f115b943475f99da747a53200869636a85165bee2b6d9142080d789581813",
+  "decisions": [
+    {
+      "resourceId": "scout-lead:a89109a8e8a5631794da3e55",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "scout-lead:a89109a8e8a5631794da3e55"
+      ],
+      "reason": "Retain for research: a general public starting point near Welfare Square. Verify local contact and avoid implying that everyone qualifies for funded training.",
+      "evidence": [
+        "https://jobs.utah.gov/jobseeker/index.html",
+        "Initial lead, not confirmed access."
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "scout-lead:68615d197ac8f29fb5d8c43c",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "scout-lead:68615d197ac8f29fb5d8c43c"
+      ],
+      "reason": "Retain for research: paid apprenticeship is a distinct option. Its length alone is not disqualifying; entry fees, selection delays and statewide travel may limit practical fit.",
+      "evidence": [
+        "https://uteta.org/programs/careers-inside-wire/",
+        "Initial lead, not confirmed access."
+      ],
+      "fields": {},
+      "questions": []
+    }
+  ]
+}

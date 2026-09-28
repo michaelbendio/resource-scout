@@ -1,0 +1,268 @@
+{
+  "kind": "synthetic-acceptance",
+  "outsideModelCalls": 0,
+  "productionPoliciesActivated": 0,
+  "manualEvidence": {
+    "evidenceId": "a1a829fbacbf8439b32ca05e5208bc904a331c577be2ed151ab1afb00c1af71e",
+    "active": false,
+    "sourcePath": "experiments/mesa-maintenance-editor-20260909/tool-measurements.json",
+    "sourceSha256": "74db32bf9d64d00b9a107a4ba27fe27a6d1fab8f72e7942a18896038e50ddbf0",
+    "calls": [
+      {
+        "phase": "primary",
+        "group": "employment",
+        "seconds": 0.949,
+        "requestedPages": 4
+      }
+    ],
+    "note": "One employment tool batch from a manual pilot; not a complete category benchmark or independent model experiment."
+  },
+  "trialId": "c7877c899934cb88a62cb4bc990e2cf59f6d6106b7a2c9988b362f73eda915d3",
+  "arms": {
+    "baseline": {
+      "projectId": 2,
+      "completedPasses": 7,
+      "resultId": "ac68b014da45c2b7ef6b4b639312a2524a8e098c58a28c3c9eafab1032cb02ba",
+      "executionEvidence": {
+        "projectId": 2,
+        "revision": 28,
+        "manifestSha256": "c6df6ffb9d4fa33b596255c6f3ac8cee3a8afbbb66dff6598895b9424d70da8f",
+        "stateSha256": "8de078dee8ad6be9b8da79a40dfb9c9db2814bcc2c41f15503721dc9b9a33fad",
+        "incomplete": [],
+        "remainingGaps": [],
+        "contextIds": [
+          "synthetic-acceptance-baseline"
+        ],
+        "researchers": [
+          "Codex"
+        ],
+        "reportedActiveMinutes": 0.1,
+        "reportedWaitingMinutes": 0.1,
+        "settings": {
+          "schemaVersion": 1,
+          "protocol": "astra-sampled-v1",
+          "version": "synthetic-v1",
+          "serviceArea": "Test County",
+          "sampling": {
+            "seed": "synthetic-fixed-seed",
+            "numerator": 0,
+            "denominator": 3
+          },
+          "deliberateCategoryIds": [],
+          "modelIdentities": {
+            "Codex": null,
+            "Claude": null,
+            "ChatGPT": null,
+            "Grok": null,
+            "Perplexity": null
+          }
+        },
+        "researchContextSha256": "c689a7c09de4ca23d284ea1ff70f49be902c9969303683ae89739fab61297e95",
+        "historical": true,
+        "note": "Live execution means the actual scheduler path; historical fixtures remain explicitly synthetic. Operator receipts attest model/context identity."
+      },
+      "workload": {
+        "pendingOutsideChecks": [],
+        "researcherTiming": {
+          "Codex": {
+            "activeMinutes": 0.09999999999999999,
+            "waitingMinutes": 0.09999999999999999,
+            "completedAssignments": 10
+          },
+          "Claude": {
+            "activeMinutes": 0,
+            "waitingMinutes": 0,
+            "completedAssignments": 0
+          },
+          "ChatGPT": {
+            "activeMinutes": 0,
+            "waitingMinutes": 0,
+            "completedAssignments": 0
+          },
+          "Grok": {
+            "activeMinutes": 0,
+            "waitingMinutes": 0,
+            "completedAssignments": 0
+          },
+          "Perplexity": {
+            "activeMinutes": 0,
+            "waitingMinutes": 0,
+            "completedAssignments": 0
+          }
+        },
+        "outsideWorkload": {
+          "assignments": [],
+          "uniqueAssignments": 0,
+          "categoryMemberships": 0
+        },
+        "intentionallyOmittedPasses": [],
+        "timingMeaning": "Reported effort and waiting per assignment; sums are not elapsed run time when work overlaps."
+      }
+    },
+    "candidate": {
+      "projectId": 3,
+      "completedPasses": 2,
+      "resultId": "4da031c2720b95dbdbf7f278dfec56de3d6aa5d2670eb8b04a40a49b4cb708a3",
+      "executionEvidence": {
+        "projectId": 3,
+        "revision": 14,
+        "manifestSha256": "99de65893684f40ed44299afe6415fe4bc407746d6d1c4ef395319031c0d3302",
+        "stateSha256": "d93385f53bcde23163f6e8450474610a1e1d93cb8e6d8f958930fe3859690f36",
+        "incomplete": [],
+        "remainingGaps": [],
+        "contextIds": [
+          "synthetic-acceptance-candidate"
+        ],
+        "researchers": [
+          "Codex"
+        ],
+        "reportedActiveMinutes": 0.05,
+        "reportedWaitingMinutes": 0.05,
+        "settings": {
+          "schemaVersion": 1,
+          "protocol": "astra-sampled-v1",
+          "version": "synthetic-v1",
+          "serviceArea": "Test County",
+          "sampling": {
+            "seed": "synthetic-fixed-seed",
+            "numerator": 0,
+            "denominator": 3
+          },
+          "deliberateCategoryIds": [],
+          "modelIdentities": {
+            "Codex": null,
+            "Claude": null,
+            "ChatGPT": null,
+            "Grok": null,
+            "Perplexity": null
+          }
+        },
+        "researchContextSha256": "c689a7c09de4ca23d284ea1ff70f49be902c9969303683ae89739fab61297e95",
+        "historical": true,
+        "note": "Live execution means the actual scheduler path; historical fixtures remain explicitly synthetic. Operator receipts attest model/context identity."
+      },
+      "workload": {
+        "pendingOutsideChecks": [],
+        "researcherTiming": {
+          "Codex": {
+            "activeMinutes": 0.05,
+            "waitingMinutes": 0.05,
+            "completedAssignments": 5
+          },
+          "Claude": {
+            "activeMinutes": 0,
+            "waitingMinutes": 0,
+            "completedAssignments": 0
+          },
+          "ChatGPT": {
+            "activeMinutes": 0,
+            "waitingMinutes": 0,
+            "completedAssignments": 0
+          },
+          "Grok": {
+            "activeMinutes": 0,
+            "waitingMinutes": 0,
+            "completedAssignments": 0
+          },
+          "Perplexity": {
+            "activeMinutes": 0,
+            "waitingMinutes": 0,
+            "completedAssignments": 0
+          }
+        },
+        "outsideWorkload": {
+          "assignments": [],
+          "uniqueAssignments": 0,
+          "categoryMemberships": 0
+        },
+        "intentionallyOmittedPasses": [
+          {
+            "taskId": "discovery:employment",
+            "reviewer": "Synthetic evaluator",
+            "reason": "Synthetic no-new-value test; not a real research judgment.",
+            "basis": {
+              "skippedStages": [
+                "pass:training-advancement",
+                "pass:supported-employment",
+                "pass:population-specific",
+                "pass:community-embedded",
+                "pass:non-obvious-sources"
+              ],
+              "evaluationHashes": {
+                "pass:public-workforce": "1123d2816f6c20cd43b8a1a4e6730c7e5dd1c57321b7fe53cecc241ed2ca4260",
+                "pass:immediate-employment": "6250dedc801b8d62ac9dff24d1d41a53326e707a18c738ab8b165f04cc030fb1"
+              },
+              "coveredNeeds": [
+                "Accessible direct hiring",
+                "Apprenticeship access",
+                "Barrier-removal tied directly to work",
+                "Benefits-linked employment",
+                "Career return programs",
+                "Continuing education",
+                "Contracted providers",
+                "Credentials",
+                "Disability job development",
+                "Employment inside basic-needs organizations",
+                "Grant-funded named programs",
+                "Job coaching",
+                "Partner programs",
+                "Public workforce centers",
+                "Reentry employment",
+                "Refugee employment",
+                "Registered apprenticeships",
+                "Registry-listed services",
+                "Staffing offices",
+                "Supported employment",
+                "Technical training",
+                "Temp-to-hire",
+                "Temporary and shift work",
+                "Transitional work",
+                "Veteran pathways",
+                "Veterans employment",
+                "Vocational rehabilitation",
+                "Women returning to work",
+                "Work-site skill acquisition",
+                "Workforce readiness",
+                "Youth and senior employment"
+              ],
+              "distinctRetainedFindings": 1,
+              "rule": {
+                "minPasses": 2,
+                "consecutiveNoGain": 1
+              }
+            }
+          }
+        ],
+        "timingMeaning": "Reported effort and waiting per assignment; sums are not elapsed run time when work overlaps."
+      }
+    }
+  },
+  "evaluation": {
+    "evaluationId": "bf3d514b03bd477cfaa87170309ffe80c3c75d7529e35fbe7abbb61ec3549ce3",
+    "trialId": "c7877c899934cb88a62cb4bc990e2cf59f6d6106b7a2c9988b362f73eda915d3",
+    "assessment": {
+      "reviewer": "Synthetic independent evaluator",
+      "verdict": "promising",
+      "rationale": "Synthetic state test, no real improvement claimed.",
+      "criticalErrors": [],
+      "lostNeeds": []
+    },
+    "resultIds": {
+      "baseline": "ac68b014da45c2b7ef6b4b639312a2524a8e098c58a28c3c9eafab1032cb02ba",
+      "candidate": "4da031c2720b95dbdbf7f278dfec56de3d6aa5d2670eb8b04a40a49b4cb708a3"
+    },
+    "blockers": [],
+    "distinctRetainedFindings": {
+      "baseline": 1,
+      "candidate": 1
+    }
+  },
+  "historicalOnlyApproval": "2bc4592c4bcfda23ae6068b94450c34e8bdaf06bef3723d3aa7adad758c542c0",
+  "isolatedManifestAfterRollback": {
+    "manifestId": "8a1f392d90936d372cfbed91edaa44c0dcb4add1daf3b8d250552b7045196a3b",
+    "parent": "e68d87409361bfbe97585da325144573a73175b3343f3572614a040aa7dc1b04",
+    "entries": [],
+    "reviewId": "b64913169e5bac292d0d274ede3d72328536bff041135182c09efe084ba1ec5e"
+  },
+  "conclusion": "Actual scheduler and immutable policy transitions exercised with synthetic responses. Seven versus two passes is fixture behavior, not a measured real research speedup or proof of equal quality. Saved Mesa measurements triggered no policy change."
+}

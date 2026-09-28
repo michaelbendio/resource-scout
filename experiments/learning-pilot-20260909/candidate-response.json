@@ -1,0 +1,120 @@
+{
+  "assignmentSha256": "14a54da566b35e80ed4f74ee94244c2a816b539b688c08e0dfd153488db7cae5",
+  "complete": true,
+  "cases": [
+    {
+      "caseId": "case-1",
+      "decision": "retain",
+      "reason": "Direct, named material-assistance program in Mesa with a self-initiated request form, a stated confirmation step, and fixed pickup windows. Eligibility is narrow (child-welfare involvement) but the route is concrete and actionable for the people it covers, which the guidance says to preserve rather than reject. Fits purpose-specific clothing and community-embedded material assistance.",
+      "criticalDetails": [
+        "Provides socks, underwear, hygiene products, diapers, a backpack and a food box through the Immediate Needs form; specific items depend on the request and current supplies.",
+        "Eligibility: new foster placements birth through age 18 with child-welfare involvement, and youth who have aged out of care through age 21.",
+        "Documentation required: a Notice to Provider, tribal child-welfare documentation, or proof of previous involvement for an aged-out youth; the form's income question does not determine eligibility.",
+        "Submit one request per child through Assistance > Immediate Needs on the website and upload the required proof.",
+        "Staff say they will text within 24 hours to confirm pickup; call or text 480-415-4481 for help.",
+        "Pickup in Mesa Tuesday or Thursday, 9 a.m.–6 p.m., at 7830 E. University Drive; evening, weekend or alternate days can be requested after submitting.",
+        "No cost is indicated for the goods themselves.",
+        "Beds and car seats generally require a referral to another agency; kinship caregivers needing a car seat should call after submitting."
+      ],
+      "openQuestions": [
+        "Which agency handles the referrals for beds and car seats, and how does a family reach it?",
+        "How much of the listed inventory is typically available on a given request, given the supplies caveat?",
+        "Is the separate food-request form still directing people to call or text, or has it been restored?"
+      ]
+    },
+    {
+      "caseId": "case-2",
+      "decision": "retain",
+      "reason": "A dependable free clothing closet with published client hours, no appointment or referral requirement, and an explicit workwear route. This is the strongest stand-alone starting point in the set for someone who needs clothing now; the schedule, ID requirement, frequency limit and quantity realities are all specified.",
+      "criticalDetails": [
+        "Free clothing, shoes, household linens and hygiene items through One Small Step's Clothes Cabin; no cost, no appointment and no referral needed.",
+        "Client hours: Tuesday–Wednesday 9 a.m.–3 p.m., Thursday 4–7 p.m.; these differ from donation and paid resale-shop hours.",
+        "Clothing visits are limited to once every three months, covering the person, their partner and their children under 18.",
+        "Bring current photo ID of any kind; ask about a temporary accommodation if ID is still being obtained. Staff may ask for guardianship information when collecting clothing for children.",
+        "Back to Work provides required workwear and one pair of work shoes for a new job; bring new-hire papers, an employer letter or the Back to Work request form plus the job's clothing requirements.",
+        "Unsheltered clients can also use showers, weekly laundry, lockers and mailboxes; arrive at least one hour before closing for showers and two hours before closing for laundry.",
+        "Typical FAQ limits are 4–7 clothing items plus socks and underwear, and one set of sheets, one blanket or one set of towels per visit; actual quantities depend on stock, so ask about that day's limits.",
+        "Location is 710 N. Cooper Road, Gilbert, at the back of Cottonwood Professional Plaza; contact 480-285-4111 or info@onesmallstepaz.org.",
+        "Children cannot enter the shopping area and must stay in the small playroom or lobby.",
+        "Closed for holidays, the day before Thanksgiving, the Christmas–New Year week and the last week of January."
+      ],
+      "openQuestions": [
+        "Is there any residency or service-area limit for someone traveling from Mesa to the Gilbert site?",
+        "What does the temporary ID accommodation actually require, and who approves it?"
+      ]
+    },
+    {
+      "caseId": "case-3",
+      "decision": "exclude",
+      "reason": "Clothing, furniture and household shopping is a benefit of enrollment in House of Refuge housing, arranged through a resident's caseworker, not a public material-assistance route. The listing itself states general-public access to clothing and furniture is not established, and the open food bank does not extend to non-food goods. Presenting it as a stand-alone clothing or furniture option would send people to a donation center that will not serve them.",
+      "criticalDetails": [
+        "Free clothing, furniture and household essentials are for House of Refuge program families only; items remain theirs when they leave the housing program.",
+        "Residents arrange shopping through their caseworker or Helping Hands at 480-988-9395; donationcenter@houseofrefuge.org.",
+        "Helping Hands House is at 6858 E. Ursula Avenue, Mesa, separate from the administrative office.",
+        "Housing entry has its own application, eligibility screening, rent and move-in costs; the free goods do not make the housing free. Housing intake: 480-988-9242.",
+        "Posted August–September notice lists Monday and Friday 10 a.m.–4 p.m. with weekend closure and leaves other weekdays unclear.",
+        "The separate public food bank takes people without an appointment or ID, but that access does not extend to clothing, toys or furniture."
+      ],
+      "openQuestions": [
+        "Are the current resident-shopping hours the same as the posted Monday/Friday notice, and what happens on the unspecified weekdays?",
+        "Does any non-resident pathway to the Helping Hands goods exist, for example through a partner agency referral?"
+      ]
+    },
+    {
+      "caseId": "case-4",
+      "decision": "retain",
+      "reason": "A referral route, but a named and reachable one: the person's own school nurse, counselor or family-support worker at an identified list of partner districts, with a program phone number for questions. That meets the standard for a reasonably actionable referral rather than an unidentified partner network. Purpose-specific school clothing is squarely in scope.",
+      "criticalDetails": [
+        "Formerly Assistance League of East Valley; provides school clothing, uniforms, shoes and hygiene kits at no cost to families.",
+        "Schools identify the students served; school staff arrange the referral and families cannot self-refer.",
+        "Clothing events focus on kindergarten through grade 6; students experiencing homelessness in grades 6–12 may also receive bedding, transit passes and snacks.",
+        "Partner districts: Mesa, Chandler, Gilbert, Kyrene and Tempe Elementary.",
+        "Start by asking the school nurse, counselor or family-support worker; program questions to 480-792-1600 or info@valleybloom.org.",
+        "Help is coordinated with schools and is not a confirmed walk-in giveaway at the Chandler thrift shop (2326 N. Alma School Road); thrift-shop hours are separate.",
+        "Urgent shoe, uniform or hygiene needs should be raised directly with school staff, who can ask what is available between clothing events.",
+        "Graduating seniors may ask about scholarships, which have separate selection rules and are not automatic."
+      ],
+      "openQuestions": [
+        "When is the next clothing event, and what can a school request for a student between events?",
+        "Can students in charter, private or non-partner district schools be served, and through whom?"
+      ]
+    },
+    {
+      "caseId": "case-5",
+      "decision": "reserve",
+      "reason": "The entry point is concrete only for someone who already has a participating child-serving caseworker, and fulfillment depends on an unnamed church or community partner choosing to meet the request. Agency participation is described as varying and the responding partners are not identified, so this cannot be presented as a dependable route to furniture or clothing without confirming who locally participates.",
+      "criticalDetails": [
+        "Requests cover beds, furniture, clothing, diapers and household necessities; participating agencies post the need to local churches and community partners.",
+        "A participating caseworker (DCS worker, school support worker or other child-serving worker) must approve and submit the request; families cannot submit their own.",
+        "For children and families in crisis, including child-welfare, foster, adoption and aging-out situations; religious membership is not required.",
+        "Help arrives only if a partner responds to the posted request; if none does, ask the worker about another route.",
+        "The family must give the worker permission before the need is shared, and public postings should omit name, address and other identifying details.",
+        "CarePortal operates locally including through a Mesa church partner, but agency participation varies.",
+        "Pickup or delivery is arranged with the referring worker when a partner offers help; no direct phone number for families."
+      ],
+      "openQuestions": [
+        "Which Mesa-area agencies or DCS offices actually participate, so a family can ask their worker by name?",
+        "How long does a posted request typically stay open before a family should pursue an alternative?",
+        "Is there any route for a family in crisis who has no participating caseworker?"
+      ]
+    },
+    {
+      "caseId": "case-6",
+      "decision": "exclude",
+      "reason": "Out of category. This is a paid apprenticeship and workforce-training program, not clothing, furniture or household goods, and it carries fees rather than relieving a material hardship. It also sits outside the service area's material-assistance need: the four-year commitment is the length of the program after entry, not a wait for help, and it does nothing for someone who needs clothing or household items now.",
+      "criticalDetails": [
+        "Four-year program combining paid work with classroom training; selected apprentices are assigned to a participating contractor.",
+        "Published charges are a $40 nonrefundable application fee and $187 monthly during training; costs should be confirmed as current.",
+        "Applicants must be 18 by the start and meet education and algebra requirements or approved alternatives; identification and school records are needed.",
+        "Some military service or documented electrical experience can qualify for exceptions.",
+        "Work can involve ladders, confined spaces and regular lifting of 50 pounds; ask the program about essential job requirements and accommodations.",
+        "Training centers are in Phoenix with work sites across the program area; applicants must be able to reach regional sites.",
+        "Admission is competitive and applying does not guarantee selection; check the current application deadline before paying.",
+        "Apply via How to Apply at pejatc.org; email webservices@pejatc.org for application help or to arrange use of a training-center computer."
+      ],
+      "openQuestions": [
+        "If retained under an employment category rather than clothing/household, are the $40 and $187 figures still current and is a fee waiver available?"
+      ]
+    }
+  ]
+}

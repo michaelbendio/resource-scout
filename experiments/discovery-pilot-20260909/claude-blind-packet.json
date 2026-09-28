@@ -1,0 +1,685 @@
+{
+  "purpose": "Independent blind official-web research for a small Welfare Square TSO Employment pilot. Real missionaries help people in need. No primary results are provided. Do not read other chats or use connectors. Use web search only. Research the two rechecks, plus a LIMITED discovery scan returning at most 3 useful alternatives. Not exhaustive coverage. Spend roughly 5-8 minutes total and stop with explicit gaps if sources are inaccessible. Preserve practical entry, costs, delays and travel; concise five-section writing. Each assignment outputContract is strict. Return a single JSON object {\"results\": [each exact result]} in one code block. Do not include markdown inside JSON. Model is Opus 5, contextId is claude-welfare-square-blind-20260909. Use real evidence source URLs; no fabricated timing or closure. Timings may be your estimates but say so. Every recheck needs its one assigned resource. New discovery IDs should be distinct from known resources. Recheck uses changed when fields updated; discovery uses new. Complete=true means this bounded response is complete, not exhaustive research. Mention remaining gaps in receipt. No schema version outside results.",
+  "assignments": [
+    {
+      "projectId": 1,
+      "taskId": "recheck:scout-lead:68615d197ac8f29fb5d8c43c",
+      "stage": "blind:Claude",
+      "researcher": "Claude",
+      "scope": "recheck",
+      "office": "Welfare Square Employment Pilot",
+      "runName": "Frontier discovery a62dc235e86ee475",
+      "historicalDevelopmentOnly": false,
+      "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+      "target": {
+        "id": "scout-lead:68615d197ac8f29fb5d8c43c",
+        "name": "Utah Electrical Training Alliance · Inside Wireman apprenticeship",
+        "description": "Paid work combined with electrical training may offer a career path.",
+        "informationText": "Research lead; eligibility and entry route still need investigation.",
+        "phone": "",
+        "address": "",
+        "website": "https://uteta.org/programs/careers-inside-wire/",
+        "hours": "",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {},
+        "forGroups": [],
+        "pdfs": []
+      },
+      "attachmentHashes": {},
+      "catalog": {
+        "categories": [
+          {
+            "id": "employment",
+            "label": "Employment",
+            "filters": [
+              "Job Search",
+              "Staffing",
+              "Apprenticeships"
+            ]
+          }
+        ],
+        "forGroups": []
+      },
+      "knownIdentities": [
+        {
+          "id": "scout-lead:a89109a8e8a5631794da3e55",
+          "name": "Utah Department of Workforce Services · Salt Lake Metro Employment Center",
+          "website": "https://jobs.utah.gov/jobseeker/index.html"
+        },
+        {
+          "id": "scout-lead:68615d197ac8f29fb5d8c43c",
+          "name": "Utah Electrical Training Alliance · Inside Wireman apprenticeship",
+          "website": "https://uteta.org/programs/careers-inside-wire/"
+        }
+      ],
+      "priorEvidenceWarning": "The original package and dated observations are history, not proof of current facts.",
+      "writingGuidance": {
+        "schemaVersion": 1,
+        "version": "plain-language-v5",
+        "instructionsFile": "plain_language.md",
+        "sections": [
+          {
+            "key": "programsAndServices",
+            "heading": "Programs and Services"
+          },
+          {
+            "key": "eligibilityRequirements",
+            "heading": "Eligibility Requirements"
+          },
+          {
+            "key": "howToBestConnect",
+            "heading": "How to Best Connect"
+          },
+          {
+            "key": "access",
+            "heading": "Access"
+          },
+          {
+            "key": "importantInformationToKnow",
+            "heading": "Important Information to Know"
+          }
+        ],
+        "retiredHeadings": [
+          "Services Provided",
+          "Scout Findings",
+          "Verify before Referral"
+        ],
+        "instructionsText": "# Writing resources for counseling and printed handouts\n\nWrite respectfully for adults seeking practical help. A service missionary must\nbe able to scan the resource quickly. The person taking the printout home may\nneed support with reading, remembering steps, or using a computer. Use everyday\nwords, short sentences, and brief paragraphs or simple bullets. Explain an\nunavoidable acronym. Avoid agency jargon, promotional language, and research\nprocess commentary. Do not judge the person's ability or circumstances.\n\nPatron usefulness: identify what help a TSO patron can receive, who can receive\nit, and a supported way to begin obtaining it. Determine the audience and purpose\nof each source and contact route; a page about an organization does not by\nitself establish assistance for the person seeking help. Reason from the\nevidence rather than matching keywords or assuming every mentioned activity is\na service. Assess each meaningful service separately. Preserve supported help\nwhen another service is uncertain. Explain an unsuitable or unresolved lead in\nreview notes, with the missing evidence or next question. Do not silently remove\nan existing accepted record or mistake uncertainty for closure.\n\nResource title: choose one short title when the resource's identity and useful\nservices are clear. Use \"Organization · brief program or service label\" to\ndistinguish entries from the same organization. Briefly list multiple meaningful\nservice types when appropriate; do not enumerate incidental benefits or force\na single program name. Do not ask the curator to choose between equivalent\nwording options. Ordinary wording choices belong to Scout.\n\nLeave consequential decisions to the curator. If significant uncertainty about\nidentity, offered services, recipient access, or overlap would change the title\nor whether the resource belongs, preserve the existing record and state the\nspecific unresolved decision, evidence, and practical question in review notes.\nDo not invent a program, settle a disputed service boundary, or silently split,\nmerge, or remove a record. A question unrelated to a clear title need not hold\nup that title choice. An explicitly requested review title can remain visible\nwithout implying that its unresolved service claims have been verified.\n\nRespect the assignment's editable fields and stable IDs. Where names are\neditable, return the chosen title through the normal proposal/review process.\nIn writing-only work, put a straightforward title suggestion in reviewNotes.\nThis division of judgment does not bypass the existing package review gate.\n\nHours: distinguish meal, pantry, office, and other service schedules. Do not\ncollapse them into a single schedule or treat office hours as service hours.\nFlag conflicting published schedules and say which service needs confirmation.\nWhen hours are outside the assignment's editable fields, record the discrepancy\nin reviewNotes rather than changing protected fields.\n\nDescription: briefly say what help is offered and where it is available. Identify\nlocation and service area accurately; an office address does not establish an\neligibility boundary. Preserve meaningful geographic limits and uncertainty.\n\nPrograms and Services: explain specific help, combining overlapping accounts.\nPrefer useful service distinctions over a long organizational history or list\nof incidental benefits. Do not repeat the same explanation in another section.\n\nEligibility Requirements: state the relevant qualifications and required\nreferrals or documents. Preserve material age, income, location, and other\nconditions. Requirements may vary by program; never substitute an invented\nrule for missing information.\n\nHow to Best Connect: give a supported starting route and practical next steps.\nExamine service and application pages or forms, not just the home page, to\nestablish appointment or walk-in requirements, pickup options, delivery\narrangements, and useful application instructions. Reading a form is research;\ndo not submit it or enter personal information. Distinguish what the form offers\nfrom assumptions about eligibility or guaranteed access.\nWhen known, explain what happens after applying without promising placement,\nfunding, eligibility, or response times. Keep phone, address, website, and hours\nin their ordinary fields; avoid duplicating those fields in Information. There\nis no dedicated email field: include a useful email address in this section.\nDo not assume a computer or internet access. Include an offline alternative only\nwhen supported. Do not invent documents, contacts, language help, or a preferred\nintake route.\n\nAccess: describe the area served and relevant access arrangements. Distinguish\nservice area from the physical office or individual job/service locations.\n\nImportant Information to Know: give material costs, limitations, availability,\nand specific questions the person should check. Distinguish applying from\nreceiving help. Keep unknown details brief and relevant; do not add generic\nwarnings to every resource or repeat them under several headings.\n\nReturn section bodies only; Scout supplies the exact headings and their order.\nUse plain paragraphs and optional lines starting with '- ' for bullets. Do not\nreturn HTML, Markdown links, tables, or extra headings. Use full URLs when a\nlink is needed on paper. Keep necessary conditions even when shortening text;\nthere is no mandatory word count. Never append original Scout Findings to the\npublic Information. Original research stays in the assignment history.\n\nEvery claim must be supported by the provided evidence or recorded additional\nresearch. Return writingEvidence with candidateIds (contributing candidate IDs\nas strings) and sources (an array). Each newly consulted source must contain\nexactly url (full HTTP/HTTPS URL), accessedOn (YYYY-MM-DD), and excerpt (relevant\nsource text). Use an empty sources array if only the supplied evidence was used.\nEvidence storage is not human verification: leave verifiedOn null. If a material\ndetail cannot be established, say what is unknown or what to ask. Do not copy\nknown providers, contacts, or eligibility facts from a writing example.\n\n\nQuestions for the curator\n-------------------------\nWrite like a helpful coworker. Ask a direct, everyday question: “Can someone\napply before moving here?” rather than “Which programs require current residency,\nand when?” Avoid phrases such as “accountable intake route,” “justify the category,”\nand “pending confirmation” when ordinary words will do.\n\nGive the curator enough detail to understand the problem without reopening the\nresearch report. Name the program, page, flyer or local note. Explain what each\nsource actually says and how the accounts differ. Include the relevant link,\nattachment title, or recorded contact when available. Distinguish older local\nnotes, saved web research and a fresh provider answer. Do not imply that you have\nrechecked a source when you have only read earlier research.\n\nFor example, if one source allows applying before moving, another gives local\nresidents priority, and a program page says nonresidents cannot advance on its\nwaiting list, state those three claims separately. Do not reduce them to “the\nsources use different eligibility wording.” Explain why the distinction matters,\nthen give the specific question to ask staff, including the program and stage of\napplication. Use only details supported by the actual assignment; this is an\nillustration, not a housing rule to reuse elsewhere.\n\nUse a short question followed by readable paragraphs or a few bullets. Explain\nwhat remains unchanged while the question is open when that helps the curator\nmake the decision. There is no fixed word limit: retain the details needed to\nsettle the question, but omit unrelated research history and repeated caveats.\nDo not invent the missing side of a disagreement. If the evidence only says a\nsource was not found, say that; absence from a website does not disprove local\nknowledge. Keep these administrative explanations in openQuestions, separate\nfrom patron Information. A saved resolution note is not provider verification.\n",
+        "sha256": "370ce4fc05351c61cca9a03c733cb1eee0caa6c80021e3d7f9e678977f1040aa"
+      },
+      "instructions": [
+        "Independently research this original resource or category using authoritative sources in a fresh, isolated conversation.",
+        "Do not seek Scout playbooks, other research sessions, prior research outputs or newly proposed resources.",
+        "Use the original package identities, office taxonomy, category scope and common writing guidance. Discover useful additions or recheck the exact program as assigned.",
+        "Document access, eligibility, services, costs and uncertainties. A broken page does not prove closure. Do not contact providers.",
+        "Report the complete independent result with dated sources. Agreement is not proof."
+      ],
+      "editableFields": [
+        "name",
+        "description",
+        "phone",
+        "website",
+        "address",
+        "hours",
+        "categories",
+        "categoryFilters",
+        "forGroups",
+        "informationSections"
+      ],
+      "outputContract": {
+        "schemaVersion": 1,
+        "taskId": "recheck:scout-lead:68615d197ac8f29fb5d8c43c",
+        "assignmentSha256": "copy from assignment",
+        "evidenceSources": [],
+        "researchNotes": "",
+        "items": [],
+        "executionReceipt": {
+          "complete": true,
+          "model": null,
+          "contextId": "",
+          "freshContext": false,
+          "isolatedInputs": false,
+          "activeMinutes": 0,
+          "waitingMinutes": 0,
+          "coverageNotes": "",
+          "remainingGaps": []
+        }
+      },
+      "itemContract": {
+        "id": "scout-lead:68615d197ac8f29fb5d8c43c",
+        "status": "one of: current, changed, moved, renamed, paused, possibly-closed, reopened, inconclusive, identity, new",
+        "program": "Exact named program",
+        "summary": "What changed or remains uncertain",
+        "fields": {},
+        "evidence": [
+          0
+        ],
+        "closureEvidence": [],
+        "questions": [],
+        "nextCheckOn": "",
+        "lastEvidenceOfOperationOn": ""
+      },
+      "auditFindingContract": {
+        "id": "finding-id",
+        "summary": "Issue or useful correction",
+        "severity": "material"
+      },
+      "closureNoticeContract": {
+        "sourceIndex": 0,
+        "kind": "official-program-closure",
+        "program": "Exact named program",
+        "statement": "Exact closure words from the cited excerpt"
+      },
+      "closureCheckContract": {
+        "itemId": "closed-item-id",
+        "notice": {
+          "sourceIndex": 0,
+          "kind": "official-program-closure",
+          "program": "Exact named program",
+          "statement": "Exact closure words from the cited excerpt"
+        }
+      },
+      "resolutionContract": {
+        "findingId": "researcher:finding-id",
+        "status": "resolved or needs-review",
+        "reason": "Disposition"
+      },
+      "protocol": "astra-sampled-v1",
+      "serviceArea": "Welfare Square TSO context: Salt Lake City and reachable Salt Lake Valley services, Utah",
+      "configuredModel": "Opus 5",
+      "fieldFormats": {
+        "categories": {
+          "type": "array of category IDs",
+          "values": "Use catalog.categories IDs."
+        },
+        "categoryFilters": {
+          "type": "object",
+          "example": {
+            "category-id": [
+              "Exact Type label"
+            ]
+          },
+          "rule": "Keys are category IDs in this resource; each value is an array of that category’s exact catalog filters. Never return a flat array."
+        },
+        "forGroups": {
+          "type": "array of strings",
+          "values": "Use exact catalog.forGroups labels."
+        },
+        "informationSections": {
+          "programsAndServices": "text",
+          "eligibilityRequirements": "text",
+          "howToBestConnect": "text",
+          "access": "text",
+          "importantInformationToKnow": "text"
+        },
+        "otherEditableFields": "Text strings; omit fields you are not proposing to change."
+      },
+      "statusFieldRules": {
+        "current, inconclusive, identity, possibly-closed": "fields must be the empty object {}.",
+        "changed": "Use for updates to an existing resource; fields contains the proposed replacements.",
+        "new, reopened": "Discovery additions require name, description, all five informationSections and categories including the assigned category."
+      },
+      "receiptInstructions": [
+        "Return complete=true only for the whole assignment, never a partial transport packet.",
+        "Record the actual model when known, otherwise null. Record actual active and waiting minutes.",
+        "Record context identity and whether it was fresh and isolated. These are operator attestations, not automatic proof.",
+        "Explain coverage and remaining gaps. A budget stop is not complete coverage. Never invent a provider call."
+      ],
+      "categoryScope": {
+        "employment": {
+          "include": [
+            "Immediate job search, placement, staffing, and hiring pathways",
+            "Training, credentials, apprenticeships, education, and career advancement",
+            "Supported employment and help with disability, reentry, language, transportation, or documentation barriers",
+            "Work clothing, tools, childcare, transportation, and other employment supports",
+            "The actual enrollment path, costs, schedules, placement claims, and availability"
+          ],
+          "exclude": [
+            "Generic job boards without a local support, placement, or verified hiring pathway",
+            "Commercial training whose cost or outcomes cannot be established",
+            "Stale job openings presented as durable resources"
+          ]
+        }
+      },
+      "dispatchContext": {
+        "status": "available",
+        "contextId": "claude-welfare-square-blind-20260909",
+        "checkedAt": "2026-09-09T22:05:50.205+00:00"
+      },
+      "assignmentSha256": "6a3d019cd4c059d34b6e3802d78c3756a408388ceddd8a440581f89f8e731767"
+    },
+    {
+      "projectId": 1,
+      "taskId": "recheck:scout-lead:a89109a8e8a5631794da3e55",
+      "stage": "blind:Claude",
+      "researcher": "Claude",
+      "scope": "recheck",
+      "office": "Welfare Square Employment Pilot",
+      "runName": "Frontier discovery a62dc235e86ee475",
+      "historicalDevelopmentOnly": false,
+      "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+      "target": {
+        "id": "scout-lead:a89109a8e8a5631794da3e55",
+        "name": "Utah Department of Workforce Services · Salt Lake Metro Employment Center",
+        "description": "Public job-search help and a local route to employment services.",
+        "informationText": "Research lead; eligibility and entry route still need investigation.",
+        "phone": "",
+        "address": "",
+        "website": "https://jobs.utah.gov/jobseeker/index.html",
+        "hours": "",
+        "categories": [
+          "employment"
+        ],
+        "categoryFilters": {},
+        "forGroups": [],
+        "pdfs": []
+      },
+      "attachmentHashes": {},
+      "catalog": {
+        "categories": [
+          {
+            "id": "employment",
+            "label": "Employment",
+            "filters": [
+              "Job Search",
+              "Staffing",
+              "Apprenticeships"
+            ]
+          }
+        ],
+        "forGroups": []
+      },
+      "knownIdentities": [
+        {
+          "id": "scout-lead:a89109a8e8a5631794da3e55",
+          "name": "Utah Department of Workforce Services · Salt Lake Metro Employment Center",
+          "website": "https://jobs.utah.gov/jobseeker/index.html"
+        },
+        {
+          "id": "scout-lead:68615d197ac8f29fb5d8c43c",
+          "name": "Utah Electrical Training Alliance · Inside Wireman apprenticeship",
+          "website": "https://uteta.org/programs/careers-inside-wire/"
+        }
+      ],
+      "priorEvidenceWarning": "The original package and dated observations are history, not proof of current facts.",
+      "writingGuidance": {
+        "schemaVersion": 1,
+        "version": "plain-language-v5",
+        "instructionsFile": "plain_language.md",
+        "sections": [
+          {
+            "key": "programsAndServices",
+            "heading": "Programs and Services"
+          },
+          {
+            "key": "eligibilityRequirements",
+            "heading": "Eligibility Requirements"
+          },
+          {
+            "key": "howToBestConnect",
+            "heading": "How to Best Connect"
+          },
+          {
+            "key": "access",
+            "heading": "Access"
+          },
+          {
+            "key": "importantInformationToKnow",
+            "heading": "Important Information to Know"
+          }
+        ],
+        "retiredHeadings": [
+          "Services Provided",
+          "Scout Findings",
+          "Verify before Referral"
+        ],
+        "instructionsText": "# Writing resources for counseling and printed handouts\n\nWrite respectfully for adults seeking practical help. A service missionary must\nbe able to scan the resource quickly. The person taking the printout home may\nneed support with reading, remembering steps, or using a computer. Use everyday\nwords, short sentences, and brief paragraphs or simple bullets. Explain an\nunavoidable acronym. Avoid agency jargon, promotional language, and research\nprocess commentary. Do not judge the person's ability or circumstances.\n\nPatron usefulness: identify what help a TSO patron can receive, who can receive\nit, and a supported way to begin obtaining it. Determine the audience and purpose\nof each source and contact route; a page about an organization does not by\nitself establish assistance for the person seeking help. Reason from the\nevidence rather than matching keywords or assuming every mentioned activity is\na service. Assess each meaningful service separately. Preserve supported help\nwhen another service is uncertain. Explain an unsuitable or unresolved lead in\nreview notes, with the missing evidence or next question. Do not silently remove\nan existing accepted record or mistake uncertainty for closure.\n\nResource title: choose one short title when the resource's identity and useful\nservices are clear. Use \"Organization · brief program or service label\" to\ndistinguish entries from the same organization. Briefly list multiple meaningful\nservice types when appropriate; do not enumerate incidental benefits or force\na single program name. Do not ask the curator to choose between equivalent\nwording options. Ordinary wording choices belong to Scout.\n\nLeave consequential decisions to the curator. If significant uncertainty about\nidentity, offered services, recipient access, or overlap would change the title\nor whether the resource belongs, preserve the existing record and state the\nspecific unresolved decision, evidence, and practical question in review notes.\nDo not invent a program, settle a disputed service boundary, or silently split,\nmerge, or remove a record. A question unrelated to a clear title need not hold\nup that title choice. An explicitly requested review title can remain visible\nwithout implying that its unresolved service claims have been verified.\n\nRespect the assignment's editable fields and stable IDs. Where names are\neditable, return the chosen title through the normal proposal/review process.\nIn writing-only work, put a straightforward title suggestion in reviewNotes.\nThis division of judgment does not bypass the existing package review gate.\n\nHours: distinguish meal, pantry, office, and other service schedules. Do not\ncollapse them into a single schedule or treat office hours as service hours.\nFlag conflicting published schedules and say which service needs confirmation.\nWhen hours are outside the assignment's editable fields, record the discrepancy\nin reviewNotes rather than changing protected fields.\n\nDescription: briefly say what help is offered and where it is available. Identify\nlocation and service area accurately; an office address does not establish an\neligibility boundary. Preserve meaningful geographic limits and uncertainty.\n\nPrograms and Services: explain specific help, combining overlapping accounts.\nPrefer useful service distinctions over a long organizational history or list\nof incidental benefits. Do not repeat the same explanation in another section.\n\nEligibility Requirements: state the relevant qualifications and required\nreferrals or documents. Preserve material age, income, location, and other\nconditions. Requirements may vary by program; never substitute an invented\nrule for missing information.\n\nHow to Best Connect: give a supported starting route and practical next steps.\nExamine service and application pages or forms, not just the home page, to\nestablish appointment or walk-in requirements, pickup options, delivery\narrangements, and useful application instructions. Reading a form is research;\ndo not submit it or enter personal information. Distinguish what the form offers\nfrom assumptions about eligibility or guaranteed access.\nWhen known, explain what happens after applying without promising placement,\nfunding, eligibility, or response times. Keep phone, address, website, and hours\nin their ordinary fields; avoid duplicating those fields in Information. There\nis no dedicated email field: include a useful email address in this section.\nDo not assume a computer or internet access. Include an offline alternative only\nwhen supported. Do not invent documents, contacts, language help, or a preferred\nintake route.\n\nAccess: describe the area served and relevant access arrangements. Distinguish\nservice area from the physical office or individual job/service locations.\n\nImportant Information to Know: give material costs, limitations, availability,\nand specific questions the person should check. Distinguish applying from\nreceiving help. Keep unknown details brief and relevant; do not add generic\nwarnings to every resource or repeat them under several headings.\n\nReturn section bodies only; Scout supplies the exact headings and their order.\nUse plain paragraphs and optional lines starting with '- ' for bullets. Do not\nreturn HTML, Markdown links, tables, or extra headings. Use full URLs when a\nlink is needed on paper. Keep necessary conditions even when shortening text;\nthere is no mandatory word count. Never append original Scout Findings to the\npublic Information. Original research stays in the assignment history.\n\nEvery claim must be supported by the provided evidence or recorded additional\nresearch. Return writingEvidence with candidateIds (contributing candidate IDs\nas strings) and sources (an array). Each newly consulted source must contain\nexactly url (full HTTP/HTTPS URL), accessedOn (YYYY-MM-DD), and excerpt (relevant\nsource text). Use an empty sources array if only the supplied evidence was used.\nEvidence storage is not human verification: leave verifiedOn null. If a material\ndetail cannot be established, say what is unknown or what to ask. Do not copy\nknown providers, contacts, or eligibility facts from a writing example.\n\n\nQuestions for the curator\n-------------------------\nWrite like a helpful coworker. Ask a direct, everyday question: “Can someone\napply before moving here?” rather than “Which programs require current residency,\nand when?” Avoid phrases such as “accountable intake route,” “justify the category,”\nand “pending confirmation” when ordinary words will do.\n\nGive the curator enough detail to understand the problem without reopening the\nresearch report. Name the program, page, flyer or local note. Explain what each\nsource actually says and how the accounts differ. Include the relevant link,\nattachment title, or recorded contact when available. Distinguish older local\nnotes, saved web research and a fresh provider answer. Do not imply that you have\nrechecked a source when you have only read earlier research.\n\nFor example, if one source allows applying before moving, another gives local\nresidents priority, and a program page says nonresidents cannot advance on its\nwaiting list, state those three claims separately. Do not reduce them to “the\nsources use different eligibility wording.” Explain why the distinction matters,\nthen give the specific question to ask staff, including the program and stage of\napplication. Use only details supported by the actual assignment; this is an\nillustration, not a housing rule to reuse elsewhere.\n\nUse a short question followed by readable paragraphs or a few bullets. Explain\nwhat remains unchanged while the question is open when that helps the curator\nmake the decision. There is no fixed word limit: retain the details needed to\nsettle the question, but omit unrelated research history and repeated caveats.\nDo not invent the missing side of a disagreement. If the evidence only says a\nsource was not found, say that; absence from a website does not disprove local\nknowledge. Keep these administrative explanations in openQuestions, separate\nfrom patron Information. A saved resolution note is not provider verification.\n",
+        "sha256": "370ce4fc05351c61cca9a03c733cb1eee0caa6c80021e3d7f9e678977f1040aa"
+      },
+      "instructions": [
+        "Independently research this original resource or category using authoritative sources in a fresh, isolated conversation.",
+        "Do not seek Scout playbooks, other research sessions, prior research outputs or newly proposed resources.",
+        "Use the original package identities, office taxonomy, category scope and common writing guidance. Discover useful additions or recheck the exact program as assigned.",
+        "Document access, eligibility, services, costs and uncertainties. A broken page does not prove closure. Do not contact providers.",
+        "Report the complete independent result with dated sources. Agreement is not proof."
+      ],
+      "editableFields": [
+        "name",
+        "description",
+        "phone",
+        "website",
+        "address",
+        "hours",
+        "categories",
+        "categoryFilters",
+        "forGroups",
+        "informationSections"
+      ],
+      "outputContract": {
+        "schemaVersion": 1,
+        "taskId": "recheck:scout-lead:a89109a8e8a5631794da3e55",
+        "assignmentSha256": "copy from assignment",
+        "evidenceSources": [],
+        "researchNotes": "",
+        "items": [],
+        "executionReceipt": {
+          "complete": true,
+          "model": null,
+          "contextId": "",
+          "freshContext": false,
+          "isolatedInputs": false,
+          "activeMinutes": 0,
+          "waitingMinutes": 0,
+          "coverageNotes": "",
+          "remainingGaps": []
+        }
+      },
+      "itemContract": {
+        "id": "scout-lead:a89109a8e8a5631794da3e55",
+        "status": "one of: current, changed, moved, renamed, paused, possibly-closed, reopened, inconclusive, identity, new",
+        "program": "Exact named program",
+        "summary": "What changed or remains uncertain",
+        "fields": {},
+        "evidence": [
+          0
+        ],
+        "closureEvidence": [],
+        "questions": [],
+        "nextCheckOn": "",
+        "lastEvidenceOfOperationOn": ""
+      },
+      "auditFindingContract": {
+        "id": "finding-id",
+        "summary": "Issue or useful correction",
+        "severity": "material"
+      },
+      "closureNoticeContract": {
+        "sourceIndex": 0,
+        "kind": "official-program-closure",
+        "program": "Exact named program",
+        "statement": "Exact closure words from the cited excerpt"
+      },
+      "closureCheckContract": {
+        "itemId": "closed-item-id",
+        "notice": {
+          "sourceIndex": 0,
+          "kind": "official-program-closure",
+          "program": "Exact named program",
+          "statement": "Exact closure words from the cited excerpt"
+        }
+      },
+      "resolutionContract": {
+        "findingId": "researcher:finding-id",
+        "status": "resolved or needs-review",
+        "reason": "Disposition"
+      },
+      "protocol": "astra-sampled-v1",
+      "serviceArea": "Welfare Square TSO context: Salt Lake City and reachable Salt Lake Valley services, Utah",
+      "configuredModel": "Opus 5",
+      "fieldFormats": {
+        "categories": {
+          "type": "array of category IDs",
+          "values": "Use catalog.categories IDs."
+        },
+        "categoryFilters": {
+          "type": "object",
+          "example": {
+            "category-id": [
+              "Exact Type label"
+            ]
+          },
+          "rule": "Keys are category IDs in this resource; each value is an array of that category’s exact catalog filters. Never return a flat array."
+        },
+        "forGroups": {
+          "type": "array of strings",
+          "values": "Use exact catalog.forGroups labels."
+        },
+        "informationSections": {
+          "programsAndServices": "text",
+          "eligibilityRequirements": "text",
+          "howToBestConnect": "text",
+          "access": "text",
+          "importantInformationToKnow": "text"
+        },
+        "otherEditableFields": "Text strings; omit fields you are not proposing to change."
+      },
+      "statusFieldRules": {
+        "current, inconclusive, identity, possibly-closed": "fields must be the empty object {}.",
+        "changed": "Use for updates to an existing resource; fields contains the proposed replacements.",
+        "new, reopened": "Discovery additions require name, description, all five informationSections and categories including the assigned category."
+      },
+      "receiptInstructions": [
+        "Return complete=true only for the whole assignment, never a partial transport packet.",
+        "Record the actual model when known, otherwise null. Record actual active and waiting minutes.",
+        "Record context identity and whether it was fresh and isolated. These are operator attestations, not automatic proof.",
+        "Explain coverage and remaining gaps. A budget stop is not complete coverage. Never invent a provider call."
+      ],
+      "categoryScope": {
+        "employment": {
+          "include": [
+            "Immediate job search, placement, staffing, and hiring pathways",
+            "Training, credentials, apprenticeships, education, and career advancement",
+            "Supported employment and help with disability, reentry, language, transportation, or documentation barriers",
+            "Work clothing, tools, childcare, transportation, and other employment supports",
+            "The actual enrollment path, costs, schedules, placement claims, and availability"
+          ],
+          "exclude": [
+            "Generic job boards without a local support, placement, or verified hiring pathway",
+            "Commercial training whose cost or outcomes cannot be established",
+            "Stale job openings presented as durable resources"
+          ]
+        }
+      },
+      "dispatchContext": {
+        "status": "available",
+        "contextId": "claude-welfare-square-blind-20260909",
+        "checkedAt": "2026-09-09T22:05:50.205+00:00"
+      },
+      "assignmentSha256": "4918bd57fc63e0f32c0360026514a79e6dbb55539cd9d5b907d8677ee7a374fd"
+    },
+    {
+      "projectId": 1,
+      "taskId": "discovery:employment",
+      "stage": "blind:Claude",
+      "researcher": "Claude",
+      "scope": "discovery",
+      "office": "Welfare Square Employment Pilot",
+      "runName": "Frontier discovery a62dc235e86ee475",
+      "historicalDevelopmentOnly": false,
+      "baseSha256": "68b6f1313f98ef57f77c0126493e5fbf691ecf537944564edcaac24b55ec2758",
+      "target": {
+        "id": "employment",
+        "label": "Employment",
+        "filters": [
+          "Job Search",
+          "Staffing",
+          "Apprenticeships"
+        ]
+      },
+      "attachmentHashes": {},
+      "catalog": {
+        "categories": [
+          {
+            "id": "employment",
+            "label": "Employment",
+            "filters": [
+              "Job Search",
+              "Staffing",
+              "Apprenticeships"
+            ]
+          }
+        ],
+        "forGroups": []
+      },
+      "knownIdentities": [
+        {
+          "id": "scout-lead:a89109a8e8a5631794da3e55",
+          "name": "Utah Department of Workforce Services · Salt Lake Metro Employment Center",
+          "website": "https://jobs.utah.gov/jobseeker/index.html"
+        },
+        {
+          "id": "scout-lead:68615d197ac8f29fb5d8c43c",
+          "name": "Utah Electrical Training Alliance · Inside Wireman apprenticeship",
+          "website": "https://uteta.org/programs/careers-inside-wire/"
+        }
+      ],
+      "priorEvidenceWarning": "The original package and dated observations are history, not proof of current facts.",
+      "writingGuidance": {
+        "schemaVersion": 1,
+        "version": "plain-language-v5",
+        "instructionsFile": "plain_language.md",
+        "sections": [
+          {
+            "key": "programsAndServices",
+            "heading": "Programs and Services"
+          },
+          {
+            "key": "eligibilityRequirements",
+            "heading": "Eligibility Requirements"
+          },
+          {
+            "key": "howToBestConnect",
+            "heading": "How to Best Connect"
+          },
+          {
+            "key": "access",
+            "heading": "Access"
+          },
+          {
+            "key": "importantInformationToKnow",
+            "heading": "Important Information to Know"
+          }
+        ],
+        "retiredHeadings": [
+          "Services Provided",
+          "Scout Findings",
+          "Verify before Referral"
+        ],
+        "instructionsText": "# Writing resources for counseling and printed handouts\n\nWrite respectfully for adults seeking practical help. A service missionary must\nbe able to scan the resource quickly. The person taking the printout home may\nneed support with reading, remembering steps, or using a computer. Use everyday\nwords, short sentences, and brief paragraphs or simple bullets. Explain an\nunavoidable acronym. Avoid agency jargon, promotional language, and research\nprocess commentary. Do not judge the person's ability or circumstances.\n\nPatron usefulness: identify what help a TSO patron can receive, who can receive\nit, and a supported way to begin obtaining it. Determine the audience and purpose\nof each source and contact route; a page about an organization does not by\nitself establish assistance for the person seeking help. Reason from the\nevidence rather than matching keywords or assuming every mentioned activity is\na service. Assess each meaningful service separately. Preserve supported help\nwhen another service is uncertain. Explain an unsuitable or unresolved lead in\nreview notes, with the missing evidence or next question. Do not silently remove\nan existing accepted record or mistake uncertainty for closure.\n\nResource title: choose one short title when the resource's identity and useful\nservices are clear. Use \"Organization · brief program or service label\" to\ndistinguish entries from the same organization. Briefly list multiple meaningful\nservice types when appropriate; do not enumerate incidental benefits or force\na single program name. Do not ask the curator to choose between equivalent\nwording options. Ordinary wording choices belong to Scout.\n\nLeave consequential decisions to the curator. If significant uncertainty about\nidentity, offered services, recipient access, or overlap would change the title\nor whether the resource belongs, preserve the existing record and state the\nspecific unresolved decision, evidence, and practical question in review notes.\nDo not invent a program, settle a disputed service boundary, or silently split,\nmerge, or remove a record. A question unrelated to a clear title need not hold\nup that title choice. An explicitly requested review title can remain visible\nwithout implying that its unresolved service claims have been verified.\n\nRespect the assignment's editable fields and stable IDs. Where names are\neditable, return the chosen title through the normal proposal/review process.\nIn writing-only work, put a straightforward title suggestion in reviewNotes.\nThis division of judgment does not bypass the existing package review gate.\n\nHours: distinguish meal, pantry, office, and other service schedules. Do not\ncollapse them into a single schedule or treat office hours as service hours.\nFlag conflicting published schedules and say which service needs confirmation.\nWhen hours are outside the assignment's editable fields, record the discrepancy\nin reviewNotes rather than changing protected fields.\n\nDescription: briefly say what help is offered and where it is available. Identify\nlocation and service area accurately; an office address does not establish an\neligibility boundary. Preserve meaningful geographic limits and uncertainty.\n\nPrograms and Services: explain specific help, combining overlapping accounts.\nPrefer useful service distinctions over a long organizational history or list\nof incidental benefits. Do not repeat the same explanation in another section.\n\nEligibility Requirements: state the relevant qualifications and required\nreferrals or documents. Preserve material age, income, location, and other\nconditions. Requirements may vary by program; never substitute an invented\nrule for missing information.\n\nHow to Best Connect: give a supported starting route and practical next steps.\nExamine service and application pages or forms, not just the home page, to\nestablish appointment or walk-in requirements, pickup options, delivery\narrangements, and useful application instructions. Reading a form is research;\ndo not submit it or enter personal information. Distinguish what the form offers\nfrom assumptions about eligibility or guaranteed access.\nWhen known, explain what happens after applying without promising placement,\nfunding, eligibility, or response times. Keep phone, address, website, and hours\nin their ordinary fields; avoid duplicating those fields in Information. There\nis no dedicated email field: include a useful email address in this section.\nDo not assume a computer or internet access. Include an offline alternative only\nwhen supported. Do not invent documents, contacts, language help, or a preferred\nintake route.\n\nAccess: describe the area served and relevant access arrangements. Distinguish\nservice area from the physical office or individual job/service locations.\n\nImportant Information to Know: give material costs, limitations, availability,\nand specific questions the person should check. Distinguish applying from\nreceiving help. Keep unknown details brief and relevant; do not add generic\nwarnings to every resource or repeat them under several headings.\n\nReturn section bodies only; Scout supplies the exact headings and their order.\nUse plain paragraphs and optional lines starting with '- ' for bullets. Do not\nreturn HTML, Markdown links, tables, or extra headings. Use full URLs when a\nlink is needed on paper. Keep necessary conditions even when shortening text;\nthere is no mandatory word count. Never append original Scout Findings to the\npublic Information. Original research stays in the assignment history.\n\nEvery claim must be supported by the provided evidence or recorded additional\nresearch. Return writingEvidence with candidateIds (contributing candidate IDs\nas strings) and sources (an array). Each newly consulted source must contain\nexactly url (full HTTP/HTTPS URL), accessedOn (YYYY-MM-DD), and excerpt (relevant\nsource text). Use an empty sources array if only the supplied evidence was used.\nEvidence storage is not human verification: leave verifiedOn null. If a material\ndetail cannot be established, say what is unknown or what to ask. Do not copy\nknown providers, contacts, or eligibility facts from a writing example.\n\n\nQuestions for the curator\n-------------------------\nWrite like a helpful coworker. Ask a direct, everyday question: “Can someone\napply before moving here?” rather than “Which programs require current residency,\nand when?” Avoid phrases such as “accountable intake route,” “justify the category,”\nand “pending confirmation” when ordinary words will do.\n\nGive the curator enough detail to understand the problem without reopening the\nresearch report. Name the program, page, flyer or local note. Explain what each\nsource actually says and how the accounts differ. Include the relevant link,\nattachment title, or recorded contact when available. Distinguish older local\nnotes, saved web research and a fresh provider answer. Do not imply that you have\nrechecked a source when you have only read earlier research.\n\nFor example, if one source allows applying before moving, another gives local\nresidents priority, and a program page says nonresidents cannot advance on its\nwaiting list, state those three claims separately. Do not reduce them to “the\nsources use different eligibility wording.” Explain why the distinction matters,\nthen give the specific question to ask staff, including the program and stage of\napplication. Use only details supported by the actual assignment; this is an\nillustration, not a housing rule to reuse elsewhere.\n\nUse a short question followed by readable paragraphs or a few bullets. Explain\nwhat remains unchanged while the question is open when that helps the curator\nmake the decision. There is no fixed word limit: retain the details needed to\nsettle the question, but omit unrelated research history and repeated caveats.\nDo not invent the missing side of a disagreement. If the evidence only says a\nsource was not found, say that; absence from a website does not disprove local\nknowledge. Keep these administrative explanations in openQuestions, separate\nfrom patron Information. A saved resolution note is not provider verification.\n",
+        "sha256": "370ce4fc05351c61cca9a03c733cb1eee0caa6c80021e3d7f9e678977f1040aa"
+      },
+      "instructions": [
+        "Independently research this original resource or category using authoritative sources in a fresh, isolated conversation.",
+        "Do not seek Scout playbooks, other research sessions, prior research outputs or newly proposed resources.",
+        "Use the original package identities, office taxonomy, category scope and common writing guidance. Discover useful additions or recheck the exact program as assigned.",
+        "Document access, eligibility, services, costs and uncertainties. A broken page does not prove closure. Do not contact providers.",
+        "Report the complete independent result with dated sources. Agreement is not proof."
+      ],
+      "editableFields": [
+        "name",
+        "description",
+        "phone",
+        "website",
+        "address",
+        "hours",
+        "categories",
+        "categoryFilters",
+        "forGroups",
+        "informationSections"
+      ],
+      "outputContract": {
+        "schemaVersion": 1,
+        "taskId": "discovery:employment",
+        "assignmentSha256": "copy from assignment",
+        "evidenceSources": [],
+        "researchNotes": "",
+        "items": [],
+        "executionReceipt": {
+          "complete": true,
+          "model": null,
+          "contextId": "",
+          "freshContext": false,
+          "isolatedInputs": false,
+          "activeMinutes": 0,
+          "waitingMinutes": 0,
+          "coverageNotes": "",
+          "remainingGaps": []
+        }
+      },
+      "itemContract": {
+        "id": "stable-lead-id",
+        "status": "one of: current, changed, moved, renamed, paused, possibly-closed, reopened, inconclusive, identity, new",
+        "program": "Exact named program",
+        "summary": "What changed or remains uncertain",
+        "fields": {},
+        "evidence": [
+          0
+        ],
+        "closureEvidence": [],
+        "questions": [],
+        "nextCheckOn": "",
+        "lastEvidenceOfOperationOn": ""
+      },
+      "auditFindingContract": {
+        "id": "finding-id",
+        "summary": "Issue or useful correction",
+        "severity": "material"
+      },
+      "closureNoticeContract": {
+        "sourceIndex": 0,
+        "kind": "official-program-closure",
+        "program": "Exact named program",
+        "statement": "Exact closure words from the cited excerpt"
+      },
+      "closureCheckContract": {
+        "itemId": "closed-item-id",
+        "notice": {
+          "sourceIndex": 0,
+          "kind": "official-program-closure",
+          "program": "Exact named program",
+          "statement": "Exact closure words from the cited excerpt"
+        }
+      },
+      "resolutionContract": {
+        "findingId": "researcher:finding-id",
+        "status": "resolved or needs-review",
+        "reason": "Disposition"
+      },
+      "protocol": "astra-sampled-v1",
+      "serviceArea": "Welfare Square TSO context: Salt Lake City and reachable Salt Lake Valley services, Utah",
+      "configuredModel": "Opus 5",
+      "fieldFormats": {
+        "categories": {
+          "type": "array of category IDs",
+          "values": "Use catalog.categories IDs."
+        },
+        "categoryFilters": {
+          "type": "object",
+          "example": {
+            "category-id": [
+              "Exact Type label"
+            ]
+          },
+          "rule": "Keys are category IDs in this resource; each value is an array of that category’s exact catalog filters. Never return a flat array."
+        },
+        "forGroups": {
+          "type": "array of strings",
+          "values": "Use exact catalog.forGroups labels."
+        },
+        "informationSections": {
+          "programsAndServices": "text",
+          "eligibilityRequirements": "text",
+          "howToBestConnect": "text",
+          "access": "text",
+          "importantInformationToKnow": "text"
+        },
+        "otherEditableFields": "Text strings; omit fields you are not proposing to change."
+      },
+      "statusFieldRules": {
+        "current, inconclusive, identity, possibly-closed": "fields must be the empty object {}.",
+        "changed": "Use for updates to an existing resource; fields contains the proposed replacements.",
+        "new, reopened": "Discovery additions require name, description, all five informationSections and categories including the assigned category."
+      },
+      "receiptInstructions": [
+        "Return complete=true only for the whole assignment, never a partial transport packet.",
+        "Record the actual model when known, otherwise null. Record actual active and waiting minutes.",
+        "Record context identity and whether it was fresh and isolated. These are operator attestations, not automatic proof.",
+        "Explain coverage and remaining gaps. A budget stop is not complete coverage. Never invent a provider call."
+      ],
+      "categoryScope": {
+        "employment": {
+          "include": [
+            "Immediate job search, placement, staffing, and hiring pathways",
+            "Training, credentials, apprenticeships, education, and career advancement",
+            "Supported employment and help with disability, reentry, language, transportation, or documentation barriers",
+            "Work clothing, tools, childcare, transportation, and other employment supports",
+            "The actual enrollment path, costs, schedules, placement claims, and availability"
+          ],
+          "exclude": [
+            "Generic job boards without a local support, placement, or verified hiring pathway",
+            "Commercial training whose cost or outcomes cannot be established",
+            "Stale job openings presented as durable resources"
+          ]
+        }
+      },
+      "dispatchContext": {
+        "status": "available",
+        "contextId": "claude-welfare-square-blind-20260909",
+        "checkedAt": "2026-09-09T22:05:50.205+00:00"
+      },
+      "assignmentSha256": "0eb05411b43e7775e6f1f39ccde75c9411169dfb50c20c6459c6456ea46b2144"
+    }
+  ]
+}

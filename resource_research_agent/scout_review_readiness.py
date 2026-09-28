@@ -8,7 +8,7 @@ INFORMATION_HEADINGS = (
 )
 
 
-def validate_ready_seed(seed: dict[str, Any]) -> dict[str, int]:
+def validate_ready_seed(seed: dict[str, Any], *, information_headings=INFORMATION_HEADINGS) -> dict[str, int]:
     categories = {c['id']: set(c.get('filters') or []) for c in seed['categories']}
     missing = [cid for cid, types in categories.items() if not types]
     if missing:
@@ -18,9 +18,9 @@ def validate_ready_seed(seed: dict[str, Any]) -> dict[str, int]:
     for r in seed['resources']:
         text = r.get('informationText', '')
         matches = list(re.finditer(r'^\*\*(.+?)\*\*\s*$', text, re.M))
-        if tuple(m[1] for m in matches) != INFORMATION_HEADINGS or text[:matches[0].start()].strip():
-            raise ScoutCurationError(f"{r['id']}: Information needs the four standalone bold headings")
-        if any(not text[m.end():matches[i+1].start() if i<3 else len(text)].strip() for i,m in enumerate(matches)):
+        if tuple(m[1] for m in matches) != tuple(information_headings) or text[:matches[0].start()].strip():
+            raise ScoutCurationError(f"{r['id']}: Information needs the assigned standalone bold headings")
+        if any(not text[m.end():matches[i+1].start() if i+1<len(matches) else len(text)].strip() for i,m in enumerate(matches)):
             raise ScoutCurationError(f"{r['id']}: Information has an empty section")
         for cid in r['categories']:
             choices = r.get('categoryFilters', {}).get(cid, [])
@@ -34,6 +34,17 @@ def validate_ready_seed(seed: dict[str, Any]) -> dict[str, int]:
             'resourcesWithoutGroups':len(seed['resources'])-assigned}
 
 
+def information_headings_for_job(job):
+    headings = {
+        tuple(section["heading"] for section in category["assignment"]["writingGuidance"]["sections"])
+        for category in job["categories"]
+        if category["assignment"].get("outputContract", {}).get("scoutCurationResultSchemaVersion") == 2
+    }
+    if len(headings) > 1:
+        raise ScoutCurationError("Resolve competing sealed Information contracts before handoff")
+    return next(iter(headings), INFORMATION_HEADINGS)
+
+
 def require_review_ready(store, job: dict[str, Any]) -> dict[str, int]:
     compilation = store.latest_taxonomy_compilation_for_curation_job(job['id'])
     if compilation and job.get('reviewNavigationSha256'):
@@ -41,7 +52,7 @@ def require_review_ready(store, job: dict[str, Any]) -> dict[str, int]:
     if not job.get('reviewNavigationSha256') and not compilation:
         raise ScoutCurationError('Complete the Types and For-group review, including explicit no-group decisions, before handoff')
     seed = compilation['seed'] if compilation else build_scout_review_seed(store, job['id'])
-    summary = validate_ready_seed(seed)
+    summary = validate_ready_seed(seed, information_headings=information_headings_for_job(job))
     from .scout_review_priorities import apply_priorities
     reviewed = apply_priorities(store, job, seed, required=True)
     summary['priorityAssignments'] = len(reviewed['scoutReviewPriorities']['assignments'])

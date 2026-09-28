@@ -1,0 +1,837 @@
+{
+  "projectId": 3,
+  "taskId": "discovery:clothing",
+  "stage": "reconcile",
+  "researcher": "Codex",
+  "scope": "discovery",
+  "office": "Mesa",
+  "runName": "Real Clothing comparison candidate",
+  "historicalDevelopmentOnly": false,
+  "baseSha256": "072afc6dfa33c04710f1ae361c91bac1d0e87a53a496f9f54ed05385dbfe88db",
+  "target": {
+    "id": "clothing",
+    "label": "Clothing",
+    "filters": []
+  },
+  "attachmentHashes": {},
+  "catalog": {
+    "categories": [
+      {
+        "id": "clothing",
+        "label": "Clothing",
+        "filters": []
+      }
+    ],
+    "forGroups": []
+  },
+  "knownIdentities": [],
+  "priorChecks": [],
+  "priorEvidenceWarning": "The original package and dated observations are history, not proof of current facts.",
+  "writingGuidance": {
+    "schemaVersion": 1,
+    "version": "plain-language-v5",
+    "instructionsFile": "plain_language.md",
+    "sections": [
+      {
+        "key": "programsAndServices",
+        "heading": "Programs and Services"
+      },
+      {
+        "key": "eligibilityRequirements",
+        "heading": "Eligibility Requirements"
+      },
+      {
+        "key": "howToBestConnect",
+        "heading": "How to Best Connect"
+      },
+      {
+        "key": "access",
+        "heading": "Access"
+      },
+      {
+        "key": "importantInformationToKnow",
+        "heading": "Important Information to Know"
+      }
+    ],
+    "retiredHeadings": [
+      "Services Provided",
+      "Scout Findings",
+      "Verify before Referral"
+    ],
+    "instructionsText": "# Writing resources for counseling and printed handouts\n\nWrite respectfully for adults seeking practical help. A service missionary must\nbe able to scan the resource quickly. The person taking the printout home may\nneed support with reading, remembering steps, or using a computer. Use everyday\nwords, short sentences, and brief paragraphs or simple bullets. Explain an\nunavoidable acronym. Avoid agency jargon, promotional language, and research\nprocess commentary. Do not judge the person's ability or circumstances.\n\nPatron usefulness: identify what help a TSO patron can receive, who can receive\nit, and a supported way to begin obtaining it. Determine the audience and purpose\nof each source and contact route; a page about an organization does not by\nitself establish assistance for the person seeking help. Reason from the\nevidence rather than matching keywords or assuming every mentioned activity is\na service. Assess each meaningful service separately. Preserve supported help\nwhen another service is uncertain. Explain an unsuitable or unresolved lead in\nreview notes, with the missing evidence or next question. Do not silently remove\nan existing accepted record or mistake uncertainty for closure.\n\nResource title: choose one short title when the resource's identity and useful\nservices are clear. Use \"Organization · brief program or service label\" to\ndistinguish entries from the same organization. Briefly list multiple meaningful\nservice types when appropriate; do not enumerate incidental benefits or force\na single program name. Do not ask the curator to choose between equivalent\nwording options. Ordinary wording choices belong to Scout.\n\nLeave consequential decisions to the curator. If significant uncertainty about\nidentity, offered services, recipient access, or overlap would change the title\nor whether the resource belongs, preserve the existing record and state the\nspecific unresolved decision, evidence, and practical question in review notes.\nDo not invent a program, settle a disputed service boundary, or silently split,\nmerge, or remove a record. A question unrelated to a clear title need not hold\nup that title choice. An explicitly requested review title can remain visible\nwithout implying that its unresolved service claims have been verified.\n\nRespect the assignment's editable fields and stable IDs. Where names are\neditable, return the chosen title through the normal proposal/review process.\nIn writing-only work, put a straightforward title suggestion in reviewNotes.\nThis division of judgment does not bypass the existing package review gate.\n\nHours: distinguish meal, pantry, office, and other service schedules. Do not\ncollapse them into a single schedule or treat office hours as service hours.\nFlag conflicting published schedules and say which service needs confirmation.\nWhen hours are outside the assignment's editable fields, record the discrepancy\nin reviewNotes rather than changing protected fields.\n\nDescription: briefly say what help is offered and where it is available. Identify\nlocation and service area accurately; an office address does not establish an\neligibility boundary. Preserve meaningful geographic limits and uncertainty.\n\nPrograms and Services: explain specific help, combining overlapping accounts.\nPrefer useful service distinctions over a long organizational history or list\nof incidental benefits. Do not repeat the same explanation in another section.\n\nEligibility Requirements: state the relevant qualifications and required\nreferrals or documents. Preserve material age, income, location, and other\nconditions. Requirements may vary by program; never substitute an invented\nrule for missing information.\n\nHow to Best Connect: give a supported starting route and practical next steps.\nExamine service and application pages or forms, not just the home page, to\nestablish appointment or walk-in requirements, pickup options, delivery\narrangements, and useful application instructions. Reading a form is research;\ndo not submit it or enter personal information. Distinguish what the form offers\nfrom assumptions about eligibility or guaranteed access.\nWhen known, explain what happens after applying without promising placement,\nfunding, eligibility, or response times. Keep phone, address, website, and hours\nin their ordinary fields; avoid duplicating those fields in Information. There\nis no dedicated email field: include a useful email address in this section.\nDo not assume a computer or internet access. Include an offline alternative only\nwhen supported. Do not invent documents, contacts, language help, or a preferred\nintake route.\n\nAccess: describe the area served and relevant access arrangements. Distinguish\nservice area from the physical office or individual job/service locations.\n\nImportant Information to Know: give material costs, limitations, availability,\nand specific questions the person should check. Distinguish applying from\nreceiving help. Keep unknown details brief and relevant; do not add generic\nwarnings to every resource or repeat them under several headings.\n\nReturn section bodies only; Scout supplies the exact headings and their order.\nUse plain paragraphs and optional lines starting with '- ' for bullets. Do not\nreturn HTML, Markdown links, tables, or extra headings. Use full URLs when a\nlink is needed on paper. Keep necessary conditions even when shortening text;\nthere is no mandatory word count. Never append original Scout Findings to the\npublic Information. Original research stays in the assignment history.\n\nEvery claim must be supported by the provided evidence or recorded additional\nresearch. Return writingEvidence with candidateIds (contributing candidate IDs\nas strings) and sources (an array). Each newly consulted source must contain\nexactly url (full HTTP/HTTPS URL), accessedOn (YYYY-MM-DD), and excerpt (relevant\nsource text). Use an empty sources array if only the supplied evidence was used.\nEvidence storage is not human verification: leave verifiedOn null. If a material\ndetail cannot be established, say what is unknown or what to ask. Do not copy\nknown providers, contacts, or eligibility facts from a writing example.\n\n\nQuestions for the curator\n-------------------------\nWrite like a helpful coworker. Ask a direct, everyday question: “Can someone\napply before moving here?” rather than “Which programs require current residency,\nand when?” Avoid phrases such as “accountable intake route,” “justify the category,”\nand “pending confirmation” when ordinary words will do.\n\nGive the curator enough detail to understand the problem without reopening the\nresearch report. Name the program, page, flyer or local note. Explain what each\nsource actually says and how the accounts differ. Include the relevant link,\nattachment title, or recorded contact when available. Distinguish older local\nnotes, saved web research and a fresh provider answer. Do not imply that you have\nrechecked a source when you have only read earlier research.\n\nFor example, if one source allows applying before moving, another gives local\nresidents priority, and a program page says nonresidents cannot advance on its\nwaiting list, state those three claims separately. Do not reduce them to “the\nsources use different eligibility wording.” Explain why the distinction matters,\nthen give the specific question to ask staff, including the program and stage of\napplication. Use only details supported by the actual assignment; this is an\nillustration, not a housing rule to reuse elsewhere.\n\nUse a short question followed by readable paragraphs or a few bullets. Explain\nwhat remains unchanged while the question is open when that helps the curator\nmake the decision. There is no fixed word limit: retain the details needed to\nsettle the question, but omit unrelated research history and repeated caveats.\nDo not invent the missing side of a disagreement. If the evidence only says a\nsource was not found, say that; absence from a website does not disprove local\nknowledge. Keep these administrative explanations in openQuestions, separate\nfrom patron Information. A saved resolution note is not provider verification.\n",
+    "sha256": "370ce4fc05351c61cca9a03c733cb1eee0caa6c80021e3d7f9e678977f1040aa"
+  },
+  "instructions": [
+    "Reconcile the primary research with every independent audit. Resolve every finding explicitly; leave unsupported facts uncertain.",
+    "Keep closure separate from temporary pause, moves, renamed programs, changed coverage, and failed contact. Preserve local information and exact existing identities.",
+    "Return the full reconciled item list; additions omitted after an audit need an explanation in researchNotes. No evidence or human verification may be invented.",
+    "For each needs-review finding, use its reason as a self-contained explanation for the office curator. For questions left to the curator, write in everyday language and include enough detail to act: what each named source or local note says, the specific difference or missing fact, why it matters, and what to ask or check. Include a useful source link, attachment title, or recorded contact when available. Do not merely say the sources conflict. Distinguish older notes from fresh checks, and never invent details to fill a gap. Keep the explanation beside the question and out of patron Information; use readable paragraphs without a fixed word limit.",
+    "The reconciled item questions and summary will travel together to the resource editor. Make sure the summary explains each remaining question with specific evidence and a practical next step.",
+    "Reconcile the frozen Astra-only result with the outside checks actually supplied. Do not invent an absent audit.",
+    "Resolve every challenger finding and every blind-result item. Retain the complete final item list, explaining exclusions and source-checked contributions.",
+    "Primary-only and assisted results remain separate. No final result is human curated merely because research finished."
+  ],
+  "editableFields": [
+    "name",
+    "description",
+    "phone",
+    "website",
+    "address",
+    "hours",
+    "categories",
+    "categoryFilters",
+    "forGroups",
+    "informationSections"
+  ],
+  "outputContract": {
+    "schemaVersion": 1,
+    "taskId": "discovery:clothing",
+    "assignmentSha256": "copy from assignment",
+    "evidenceSources": [],
+    "researchNotes": "",
+    "items": [],
+    "resolutions": [],
+    "executionReceipt": {
+      "complete": true,
+      "model": null,
+      "contextId": "",
+      "freshContext": false,
+      "isolatedInputs": false,
+      "activeMinutes": 0,
+      "waitingMinutes": 0,
+      "coverageNotes": "",
+      "remainingGaps": []
+    }
+  },
+  "itemContract": {
+    "id": "stable-lead-id",
+    "status": "one of: current, changed, moved, renamed, paused, possibly-closed, reopened, inconclusive, identity, new",
+    "program": "Exact named program",
+    "summary": "What changed or remains uncertain",
+    "fields": {},
+    "evidence": [
+      0
+    ],
+    "closureEvidence": [],
+    "questions": [],
+    "nextCheckOn": "",
+    "lastEvidenceOfOperationOn": ""
+  },
+  "auditFindingContract": {
+    "id": "finding-id",
+    "summary": "Issue or useful correction",
+    "severity": "material"
+  },
+  "closureNoticeContract": {
+    "sourceIndex": 0,
+    "kind": "official-program-closure",
+    "program": "Exact named program",
+    "statement": "Exact closure words from the cited excerpt"
+  },
+  "closureCheckContract": {
+    "itemId": "closed-item-id",
+    "notice": {
+      "sourceIndex": 0,
+      "kind": "official-program-closure",
+      "program": "Exact named program",
+      "statement": "Exact closure words from the cited excerpt"
+    }
+  },
+  "resolutionContract": {
+    "findingId": "researcher:finding-id",
+    "status": "resolved or needs-review",
+    "reason": "Disposition"
+  },
+  "primaryResult": {
+    "schemaVersion": 1,
+    "taskId": "discovery:clothing",
+    "assignmentSha256": "98b0617bfc6b4c77ff8e10aa5bb4cb108c16aba558843191e6f0b17d8bdfa433",
+    "evidenceSources": [
+      {
+        "url": "https://www.cityhopeaz.org/centers",
+        "accessedOn": "2026-09-09",
+        "excerpt": "Our Mesa Center provides food only."
+      },
+      {
+        "url": "https://pazdecristo.org/what-we-do/get-help-original/",
+        "accessedOn": "2026-09-09",
+        "excerpt": "Clothing Vouchers: Service is temporarily unavailable"
+      },
+      {
+        "url": "https://pazdecristo.org/what-we-do/clothe/",
+        "accessedOn": "2026-09-09",
+        "excerpt": "Clothing vouchers for Deseret Industries are available by appointment only."
+      },
+      {
+        "url": "https://www.cityhopeaz.org/",
+        "accessedOn": "2026-09-09",
+        "excerpt": "Food and clothing items—free of charge—to all our guests."
+      },
+      {
+        "url": "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa?OC_EA_EmergencyAnnouncementList_Dismiss=be8b6523-3ca8-4bcf-8cb7-189157fd8ca8",
+        "accessedOn": "2026-09-09",
+        "excerpt": "Professional clothing boutique"
+      },
+      {
+        "url": "https://des.az.gov/node/24106",
+        "accessedOn": "2026-09-09",
+        "excerpt": "When an application for Nutrition Assistance and Cash Assistance is received DES sends a notice to the household to complete the mandatory interview."
+      },
+      {
+        "url": "https://des.az.gov/services/child-and-family/cash-assistance/cash-assistance-ca-income-eligibility-guidelines",
+        "accessedOn": "2026-09-09",
+        "excerpt": "Cash Assistance (CA) benefits may only be provided for an assistance unit that resides in a needy family."
+      },
+      {
+        "url": "https://www.azafap.org/joses-closet/",
+        "accessedOn": "2026-09-09",
+        "excerpt": "You will complete a membership application packet at your first visit, and update it each year to keep your membership current."
+      },
+      {
+        "url": "https://lamesaministries.org/services/",
+        "accessedOn": "2026-09-09",
+        "excerpt": "We give away clothing and hygiene items between 4:30 and 6:00"
+      },
+      {
+        "url": "https://lamesaministries.org/mobile-loaves-help/",
+        "accessedOn": "2026-09-09",
+        "excerpt": "Serve With Us"
+      },
+      {
+        "url": "https://www.mesaaz.gov/Government/Grants/Community-Development-Grants",
+        "accessedOn": "2026-09-09",
+        "excerpt": "The Mesa City Council approved the FY 2026/2027 Funding Allocations"
+      },
+      {
+        "url": "https://www.mesaaz.gov/Environment-Sustainability/Living-Green/Mesa-Youth-Climate-Action-Fund?OC_EA_EmergencyAnnouncementList_Dismiss=be8b6523-3ca8-4bcf-8cb7-189157fd8ca8",
+        "accessedOn": "2026-09-09",
+        "excerpt": "The Girl Up team at Red Mountain HS organized “Rewear Revolution”"
+      }
+    ],
+    "researchNotes": "Synthesis of all four actual passes, limited to three written leads. La Mesa gatherings and Workforce professional boutique remain useful notes in pass history, not additional fully written proposals. Attempted linked MesaCAN fact sheet during synthesis: 404. Followed La Mesa Need Help: embedded form not exposed; no recipient intake inferred. Total 13 web calls, 7 queries, 16 opens/clicks including failures; page ceiling reached. Benefits, grant/registry/PDF and accommodations gaps retained. Fresh web observations are not provider verification. Initial first-two-pass minute estimates were too high; immutable receipts preserved; final transport accounting separately corrects using timestamps. No verifiedOn mutation.",
+    "items": [
+      {
+        "id": "city-hope-gilbert-clothing",
+        "status": "new",
+        "program": "City Hope · Gilbert Center",
+        "summary": "Gilbert clothing supported. Homepage broadly promises clothing, but Centers explicitly limits Mesa to food; do not treat Mesa as clothing location. No known identities in sealed package.",
+        "fields": {
+          "name": "City Hope · Gilbert clothing",
+          "description": "Free clothing in Gilbert.",
+          "phone": "480-900-5422",
+          "website": "https://www.cityhopeaz.org/centers",
+          "address": "1120 S Gilbert Rd, Suite 101, Gilbert, AZ 85296",
+          "hours": "Monday, Wednesday and Saturday: 9–11:30am",
+          "categories": [
+            "clothing"
+          ],
+          "categoryFilters": {},
+          "forGroups": [],
+          "informationSections": {
+            "programsAndServices": "Choose clothing at no cost.",
+            "eligibilityRequirements": "Bring a driver license or government-issued ID each time.",
+            "howToBestConnect": "Visit without an appointment. Arrive at least 15 minutes before closing.",
+            "access": "This clothing location is in Gilbert. The provider’s Mesa location is listed as food only.",
+            "importantInformationToKnow": "One visit to each center per calendar month. Distribution may close early when 80 guests have been reached."
+          }
+        },
+        "evidence": [
+          0,
+          3
+        ],
+        "closureEvidence": [],
+        "questions": [
+          "Does Mesa offer clothing? https://www.cityhopeaz.org/ says clothing for all guests, but https://www.cityhopeaz.org/centers says Mesa provides food only. Gilbert remains the supported nearby clothing location."
+        ],
+        "nextCheckOn": "2026-10-09",
+        "lastEvidenceOfOperationOn": "2026-09-09"
+      },
+      {
+        "id": "paz-de-cristo-clothing-closet",
+        "status": "new",
+        "program": "Paz de Cristo · Clothing Closet",
+        "summary": "Direct adult closet supported independently of vouchers. Get Help service list says vouchers temporarily unavailable; Clothe says appointment only. Both accounts preserved; no closure inferred.",
+        "fields": {
+          "name": "Paz de Cristo · Clothing Closet",
+          "description": "Adult everyday and interview clothing in Mesa.",
+          "phone": "480-464-2370",
+          "website": "https://pazdecristo.org/what-we-do/clothe/",
+          "address": "424 W Broadway Rd, Mesa, AZ 85210",
+          "hours": "Clothing Closet: Monday and Friday, 1–2pm. Showers: Wednesday, 9am–1pm.",
+          "categories": [
+            "clothing"
+          ],
+          "categoryFilters": {},
+          "forGroups": [],
+          "informationSections": {
+            "programsAndServices": "Ask for everyday or interview clothes. Shower guests also receive fresh clothing and hygiene items.",
+            "eligibilityRequirements": "The closet serves adults and has no children’s clothing.",
+            "howToBestConnect": "Visit the campus during closet hours. Ask staff for the sizes and items you need.",
+            "access": "Clothing is distributed at the Mesa campus.",
+            "importantInformationToKnow": "Available sizes and seasonal items depend on donations. Call before seeking a Deseret Industries voucher; published availability is unclear."
+          }
+        },
+        "evidence": [
+          1,
+          2
+        ],
+        "closureEvidence": [],
+        "questions": [
+          "Are Deseret Industries vouchers currently available? https://pazdecristo.org/what-we-do/get-help-original/ lists them as temporarily unavailable, while its overview and https://pazdecristo.org/what-we-do/clothe/ say appointment only. Keep the supported adult closet entry while this is checked.",
+          "What documents or repeat-visit limits apply, and is clothing free? The reviewed clothing pages do not state these rules."
+        ],
+        "nextCheckOn": "2026-10-09",
+        "lastEvidenceOfOperationOn": "2026-09-09"
+      },
+      {
+        "id": "joses-closet",
+        "status": "new",
+        "program": "Jose’s Closet",
+        "summary": "Named program and membership access supported by current AZAFAP page. Donor no-appointment wording was not applied to patrons.",
+        "fields": {
+          "name": "Jose’s Closet",
+          "description": "Free children’s clothing for foster, kinship and adoptive households in Mesa.",
+          "phone": "480-309-1743",
+          "website": "https://www.azafap.org/joses-closet/",
+          "address": "6515 E Main St, Suite 120, Mesa, AZ 85205",
+          "hours": "Tuesday–Saturday: 11am–3pm",
+          "categories": [
+            "clothing"
+          ],
+          "categoryFilters": {},
+          "forGroups": [],
+          "informationSections": {
+            "programsAndServices": "Monthly shopping provides a week of clothing and seasonal essentials per child.",
+            "eligibilityRequirements": "For foster, kinship and adoptive families, and youth in extended foster care. Membership includes household children up to age 21.",
+            "howToBestConnect": "Bring caregiver photo ID; placement or guardianship documents; adoption papers if applicable; and birth certificates for biological children. Complete membership paperwork at the first visit and renew yearly. Call or email info@josescloset.org about a first visit.",
+            "access": "The boutique is in Mesa and supports Arizona families.",
+            "importantInformationToKnow": "Clothing is free. First-visit appointment requirements are not stated."
+          }
+        },
+        "evidence": [
+          7
+        ],
+        "closureEvidence": [],
+        "questions": [
+          "Is an appointment needed for the first shopping visit? https://www.azafap.org/joses-closet/ explains membership documents, but its no-appointment statement concerns donation drop-off.",
+          "Can kinship caregivers without placement or guardianship papers receive help? The membership section asks for those records."
+        ],
+        "nextCheckOn": "2026-10-09",
+        "lastEvidenceOfOperationOn": "2026-09-09"
+      }
+    ],
+    "executionReceipt": {
+      "complete": true,
+      "model": "gpt-6-astra",
+      "contextId": "astra-clothing-20260909-candidate",
+      "freshContext": true,
+      "isolatedInputs": true,
+      "activeMinutes": 1.02,
+      "waitingMinutes": 0.04,
+      "coverageNotes": "Combined bounded examinations from all assigned passes. Three proposals; no claim of exhaustive category coverage.",
+      "remainingGaps": [
+        "City Hope Mesa clothing contradiction.",
+        "Paz vouchers conflicting; clothing costs/documents/repeat limits unestablished.",
+        "Jose recipient appointment and informal kinship document exception unknown.",
+        "Workforce boutique intake, documents, cost and hours; linked fact sheet failed.",
+        "Mobile Loaves meeting route and La Mesa embedded intake contents unresolved.",
+        "DES clothing pathway, funded-provider award details, registry entries and primary PDFs unestablished.",
+        "Language and physical accommodations not established."
+      ]
+    }
+  },
+  "audits": {},
+  "protocol": "astra-sampled-v1",
+  "serviceArea": "Mesa, Arizona and practical nearby East Valley access. Bounded new-discovery comparison; at most three fully written leads. Exclude these prior-pilot example providers: One Small Step / Clothes Cabin / PINCH; Helen's Hope Chest; Friends at First; Dress for Success Phoenix / EducateHER; Express Employment Professionals; Goodwill; Smart Justice; The Worker; Mesa Housing Authority / deposit assistance; Family Housing Hub; House of Refuge",
+  "configuredModel": "gpt-6-astra",
+  "modelIdentityRequired": true,
+  "fieldFormats": {
+    "categories": {
+      "type": "array of category IDs",
+      "values": "Use catalog.categories IDs."
+    },
+    "categoryFilters": {
+      "type": "object",
+      "example": {
+        "category-id": [
+          "Exact Type label"
+        ]
+      },
+      "rule": "Keys are category IDs in this resource; each value is an array of that category’s exact catalog filters. Never return a flat array."
+    },
+    "forGroups": {
+      "type": "array of strings",
+      "values": "Use exact catalog.forGroups labels."
+    },
+    "informationSections": {
+      "programsAndServices": "text",
+      "eligibilityRequirements": "text",
+      "howToBestConnect": "text",
+      "access": "text",
+      "importantInformationToKnow": "text"
+    },
+    "otherEditableFields": "Text strings; omit fields you are not proposing to change."
+  },
+  "statusFieldRules": {
+    "current, inconclusive, identity, possibly-closed": "fields must be the empty object {}.",
+    "changed": "Use for updates to an existing resource; fields contains the proposed replacements.",
+    "new, reopened": "Discovery additions require name, description, all five informationSections and categories including the assigned category."
+  },
+  "receiptInstructions": [
+    "Return complete=true only for the whole assignment, never a partial transport packet.",
+    "Record the actual model when known, otherwise null. Record actual active and waiting minutes.",
+    "Record context identity and whether it was fresh and isolated. These are operator attestations, not automatic proof.",
+    "Explain coverage and remaining gaps. A budget stop is not complete coverage. Never invent a provider call.",
+    "Use short supporting excerpts in evidenceSources, not full-page copies. Keep resource prose concise while preserving consequential eligibility, fees, delays, travel and uncertainty. Return the assigned JSON without extra narrative; do not repeat the same explanation in every field. There is no fixed resource-text length limit: preserve details needed for a safe, useful referral."
+  ],
+  "playbooks": {
+    "clothing": {
+      "category_id": "clothing",
+      "label": "Clothing",
+      "default_assignment": "Discover credible clothing resource leads for people in Mesa, Arizona and practical nearby East Valley access. Bounded new-discovery comparison; at most three fully written leads. Exclude these prior-pilot example providers: One Small Step / Clothes Cabin / PINCH; Helen's Hope Chest; Friends at First; Dress for Success Phoenix / EducateHER; Express Employment Professionals; Goodwill; Smart Justice; The Worker; Mesa Housing Authority / deposit assistance; Family Housing Hub; House of Refuge. Prioritize distinct providers, named programs, and practical ways to begin receiving help.",
+      "scope": [
+        "Direct and practical clothing help",
+        "Public, nonprofit, and credible private clothing programs",
+        "Programs that credibly serve the selected area"
+      ],
+      "exclusions": [
+        "Directories with no specific useful provider or program behind the listing",
+        "Organizations with no credible indication that the relevant service is available",
+        "Ordinary commercial options that do not materially improve access for people facing hardship"
+      ],
+      "aliases": [],
+      "library_version": "codex-first-v1",
+      "source": "generated fallback",
+      "focused_research": {
+        "version": "category-focused-v1",
+        "alternative_vocabulary": [
+          "assistance",
+          "support",
+          "access",
+          "stabilization",
+          "navigation",
+          "eligibility",
+          "intake",
+          "direct service"
+        ],
+        "source_channels": [
+          "Official provider and named-program pages",
+          "State, county, city, and special-district pages",
+          "Current government contracts, grants, registries, and partner lists",
+          "Current primary-source PDFs and referral materials"
+        ],
+        "focuses": [
+          {
+            "key": "direct-service-landscape",
+            "label": "Direct-service landscape",
+            "direction": "Find distinct, currently operating clothing providers and named programs with a practical way to begin receiving help.",
+            "coverage": [
+              "Direct and practical clothing help",
+              "Public, nonprofit, and credible private clothing programs",
+              "Programs that credibly serve the selected area"
+            ],
+            "vocabulary": [
+              "apply",
+              "enroll",
+              "appointment",
+              "walk-in",
+              "intake"
+            ],
+            "source_channels": [
+              "Official provider pages",
+              "Named-program pages"
+            ]
+          },
+          {
+            "key": "public-system-pathways",
+            "label": "Public-system pathways",
+            "direction": "Search government agencies, contracted providers, public benefits, and publicly funded clothing pathways that credibly serve the selected area.",
+            "coverage": [
+              "Public programs",
+              "Contracted providers",
+              "Benefits and eligibility pathways"
+            ],
+            "vocabulary": [
+              "program eligibility",
+              "contracted provider",
+              "public benefit",
+              "service area"
+            ],
+            "source_channels": [
+              "Government program pages",
+              "Contracts and provider registries"
+            ]
+          },
+          {
+            "key": "community-population-pathways",
+            "label": "Community and population-specific pathways",
+            "direction": "Find substantial clothing programs embedded in community organizations and programs designed for populations facing defined access barriers.",
+            "coverage": [
+              "Community-embedded programs",
+              "Population-specific services",
+              "Barrier-aware access"
+            ],
+            "vocabulary": [
+              "community program",
+              "specialized services",
+              "culturally responsive",
+              "accessible services"
+            ],
+            "source_channels": [
+              "Community organization program pages",
+              "Population-specific provider pages"
+            ]
+          },
+          {
+            "key": "non-obvious-primary-sources",
+            "label": "Non-obvious primary sources",
+            "direction": "Search grants, contracts, board materials, partner announcements, registries, catalogs, and current primary-source PDFs for named clothing programs missed by ordinary web searches.",
+            "coverage": [
+              "Grant-funded programs",
+              "Registry-listed services",
+              "Partner programs",
+              "Programs documented in primary-source PDFs"
+            ],
+            "vocabulary": [
+              "grant award",
+              "service contract",
+              "provider list",
+              "program catalog",
+              "partner program"
+            ],
+            "source_channels": [
+              "Government contracts and grants",
+              "Public meeting materials",
+              "Provider registries",
+              "Primary-source PDFs"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "passPlan": [
+    {
+      "key": "direct-service-landscape",
+      "label": "Direct-service landscape",
+      "direction": "Find distinct, currently operating clothing providers and named programs with a practical way to begin receiving help. When an overview leaves the practical first step, referral requirement or access conditions unclear, follow one linked, dedicated intake, eligibility or named-program page before moving to another organization. Record the actionable starting point and consequential conditions; preserve contradictions instead of assuming the detailed page supersedes the overview. Use the same source allowance; do not trade away an assigned population or pathway to do this.",
+      "coverage": [
+        "Direct and practical clothing help",
+        "Public, nonprofit, and credible private clothing programs",
+        "Programs that credibly serve the selected area"
+      ],
+      "vocabulary": [
+        "apply",
+        "enroll",
+        "appointment",
+        "walk-in",
+        "intake"
+      ],
+      "sourceChannels": [
+        "Official provider pages",
+        "Named-program pages"
+      ],
+      "reason": "Find distinct, currently operating clothing providers and named programs with a practical way to begin receiving help. When an overview leaves the practical first step, referral requirement or access conditions unclear, follow one linked, dedicated intake, eligibility or named-program page before moving to another organization. Record the actionable starting point and consequential conditions; preserve contradictions instead of assuming the detailed page supersedes the overview. Use the same source allowance; do not trade away an assigned population or pathway to do this."
+    },
+    {
+      "key": "public-system-pathways",
+      "label": "Public-system pathways",
+      "direction": "Search government agencies, contracted providers, public benefits, and publicly funded clothing pathways that credibly serve the selected area. When an overview leaves the practical first step, referral requirement or access conditions unclear, follow one linked, dedicated intake, eligibility or named-program page before moving to another organization. Record the actionable starting point and consequential conditions; preserve contradictions instead of assuming the detailed page supersedes the overview. Use the same source allowance; do not trade away an assigned population or pathway to do this.",
+      "coverage": [
+        "Public programs",
+        "Contracted providers",
+        "Benefits and eligibility pathways"
+      ],
+      "vocabulary": [
+        "program eligibility",
+        "contracted provider",
+        "public benefit",
+        "service area"
+      ],
+      "sourceChannels": [
+        "Government program pages",
+        "Contracts and provider registries"
+      ],
+      "reason": "Search government agencies, contracted providers, public benefits, and publicly funded clothing pathways that credibly serve the selected area. When an overview leaves the practical first step, referral requirement or access conditions unclear, follow one linked, dedicated intake, eligibility or named-program page before moving to another organization. Record the actionable starting point and consequential conditions; preserve contradictions instead of assuming the detailed page supersedes the overview. Use the same source allowance; do not trade away an assigned population or pathway to do this."
+    },
+    {
+      "key": "community-population-pathways",
+      "label": "Community and population-specific pathways",
+      "direction": "Find substantial clothing programs embedded in community organizations and programs designed for populations facing defined access barriers. When an overview leaves the practical first step, referral requirement or access conditions unclear, follow one linked, dedicated intake, eligibility or named-program page before moving to another organization. Record the actionable starting point and consequential conditions; preserve contradictions instead of assuming the detailed page supersedes the overview. Use the same source allowance; do not trade away an assigned population or pathway to do this.",
+      "coverage": [
+        "Community-embedded programs",
+        "Population-specific services",
+        "Barrier-aware access"
+      ],
+      "vocabulary": [
+        "community program",
+        "specialized services",
+        "culturally responsive",
+        "accessible services"
+      ],
+      "sourceChannels": [
+        "Community organization program pages",
+        "Population-specific provider pages"
+      ],
+      "reason": "Find substantial clothing programs embedded in community organizations and programs designed for populations facing defined access barriers. When an overview leaves the practical first step, referral requirement or access conditions unclear, follow one linked, dedicated intake, eligibility or named-program page before moving to another organization. Record the actionable starting point and consequential conditions; preserve contradictions instead of assuming the detailed page supersedes the overview. Use the same source allowance; do not trade away an assigned population or pathway to do this."
+    },
+    {
+      "key": "non-obvious-primary-sources",
+      "label": "Non-obvious primary sources",
+      "direction": "Search grants, contracts, board materials, partner announcements, registries, catalogs, and current primary-source PDFs for named clothing programs missed by ordinary web searches. When an overview leaves the practical first step, referral requirement or access conditions unclear, follow one linked, dedicated intake, eligibility or named-program page before moving to another organization. Record the actionable starting point and consequential conditions; preserve contradictions instead of assuming the detailed page supersedes the overview. Use the same source allowance; do not trade away an assigned population or pathway to do this.",
+      "coverage": [
+        "Grant-funded programs",
+        "Registry-listed services",
+        "Partner programs",
+        "Programs documented in primary-source PDFs"
+      ],
+      "vocabulary": [
+        "grant award",
+        "service contract",
+        "provider list",
+        "program catalog",
+        "partner program"
+      ],
+      "sourceChannels": [
+        "Government contracts and grants",
+        "Public meeting materials",
+        "Provider registries",
+        "Primary-source PDFs"
+      ],
+      "reason": "Search grants, contracts, board materials, partner announcements, registries, catalogs, and current primary-source PDFs for named clothing programs missed by ordinary web searches. When an overview leaves the practical first step, referral requirement or access conditions unclear, follow one linked, dedicated intake, eligibility or named-program page before moving to another organization. Record the actionable starting point and consequential conditions; preserve contradictions instead of assuming the detailed page supersedes the overview. Use the same source allowance; do not trade away an assigned population or pathway to do this."
+    }
+  ],
+  "operatingPolicyIds": [
+    "67072748ae1135605caf847035e5030dffa516a9808a69af47b36dc3e05a6a64"
+  ],
+  "frozenResult": {
+    "schemaVersion": 1,
+    "taskId": "discovery:clothing",
+    "assignmentSha256": "28accada7cefdd5d7e07eb61a40a36f19186c11e2eff9de764d6d4011b7daf4f",
+    "evidenceSources": [
+      {
+        "url": "https://www.cityhopeaz.org/centers",
+        "accessedOn": "2026-09-09",
+        "excerpt": "Our Mesa Center provides food only."
+      },
+      {
+        "url": "https://pazdecristo.org/what-we-do/get-help-original/",
+        "accessedOn": "2026-09-09",
+        "excerpt": "Clothing Vouchers: Service is temporarily unavailable"
+      },
+      {
+        "url": "https://pazdecristo.org/what-we-do/clothe/",
+        "accessedOn": "2026-09-09",
+        "excerpt": "Clothing vouchers for Deseret Industries are available by appointment only."
+      },
+      {
+        "url": "https://www.cityhopeaz.org/",
+        "accessedOn": "2026-09-09",
+        "excerpt": "Food and clothing items—free of charge—to all our guests."
+      },
+      {
+        "url": "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa?OC_EA_EmergencyAnnouncementList_Dismiss=be8b6523-3ca8-4bcf-8cb7-189157fd8ca8",
+        "accessedOn": "2026-09-09",
+        "excerpt": "Professional clothing boutique"
+      },
+      {
+        "url": "https://des.az.gov/node/24106",
+        "accessedOn": "2026-09-09",
+        "excerpt": "When an application for Nutrition Assistance and Cash Assistance is received DES sends a notice to the household to complete the mandatory interview."
+      },
+      {
+        "url": "https://des.az.gov/services/child-and-family/cash-assistance/cash-assistance-ca-income-eligibility-guidelines",
+        "accessedOn": "2026-09-09",
+        "excerpt": "Cash Assistance (CA) benefits may only be provided for an assistance unit that resides in a needy family."
+      },
+      {
+        "url": "https://www.azafap.org/joses-closet/",
+        "accessedOn": "2026-09-09",
+        "excerpt": "You will complete a membership application packet at your first visit, and update it each year to keep your membership current."
+      },
+      {
+        "url": "https://lamesaministries.org/services/",
+        "accessedOn": "2026-09-09",
+        "excerpt": "We give away clothing and hygiene items between 4:30 and 6:00"
+      },
+      {
+        "url": "https://lamesaministries.org/mobile-loaves-help/",
+        "accessedOn": "2026-09-09",
+        "excerpt": "Serve With Us"
+      },
+      {
+        "url": "https://www.mesaaz.gov/Government/Grants/Community-Development-Grants",
+        "accessedOn": "2026-09-09",
+        "excerpt": "The Mesa City Council approved the FY 2026/2027 Funding Allocations"
+      },
+      {
+        "url": "https://www.mesaaz.gov/Environment-Sustainability/Living-Green/Mesa-Youth-Climate-Action-Fund?OC_EA_EmergencyAnnouncementList_Dismiss=be8b6523-3ca8-4bcf-8cb7-189157fd8ca8",
+        "accessedOn": "2026-09-09",
+        "excerpt": "The Girl Up team at Red Mountain HS organized “Rewear Revolution”"
+      }
+    ],
+    "researchNotes": "Synthesis of all four actual passes, limited to three written leads. La Mesa gatherings and Workforce professional boutique remain useful notes in pass history, not additional fully written proposals. Attempted linked MesaCAN fact sheet during synthesis: 404. Followed La Mesa Need Help: embedded form not exposed; no recipient intake inferred. Total 13 web calls, 7 queries, 16 opens/clicks including failures; page ceiling reached. Benefits, grant/registry/PDF and accommodations gaps retained. Fresh web observations are not provider verification. Initial first-two-pass minute estimates were too high; immutable receipts preserved; final transport accounting separately corrects using timestamps. No verifiedOn mutation. Self-review freeze: checked all three identities, evidence indexes, adult-only versus household-child eligibility, intake audience, and conflicting voucher/location statements. Added cost/document uncertainty to Paz patron information. Kept all three items and empty resolutions; no outside review or new research.",
+    "items": [
+      {
+        "id": "city-hope-gilbert-clothing",
+        "status": "new",
+        "program": "City Hope · Gilbert Center",
+        "summary": "Gilbert clothing supported. Homepage broadly promises clothing, but Centers explicitly limits Mesa to food; do not treat Mesa as clothing location. No known identities in sealed package.",
+        "fields": {
+          "name": "City Hope · Gilbert clothing",
+          "description": "Free clothing in Gilbert.",
+          "phone": "480-900-5422",
+          "website": "https://www.cityhopeaz.org/centers",
+          "address": "1120 S Gilbert Rd, Suite 101, Gilbert, AZ 85296",
+          "hours": "Monday, Wednesday and Saturday: 9–11:30am",
+          "categories": [
+            "clothing"
+          ],
+          "categoryFilters": {},
+          "forGroups": [],
+          "informationSections": {
+            "programsAndServices": "Choose clothing at no cost.",
+            "eligibilityRequirements": "Bring a driver license or government-issued ID each time.",
+            "howToBestConnect": "Visit without an appointment. Arrive at least 15 minutes before closing.",
+            "access": "This clothing location is in Gilbert. The provider’s Mesa location is listed as food only.",
+            "importantInformationToKnow": "One visit to each center per calendar month. Distribution may close early when 80 guests have been reached."
+          }
+        },
+        "evidence": [
+          0,
+          3
+        ],
+        "closureEvidence": [],
+        "questions": [
+          "Does Mesa offer clothing? https://www.cityhopeaz.org/ says clothing for all guests, but https://www.cityhopeaz.org/centers says Mesa provides food only. Gilbert remains the supported nearby clothing location."
+        ],
+        "nextCheckOn": "2026-10-09",
+        "lastEvidenceOfOperationOn": "2026-09-09"
+      },
+      {
+        "id": "paz-de-cristo-clothing-closet",
+        "status": "new",
+        "program": "Paz de Cristo · Clothing Closet",
+        "summary": "Direct adult closet supported independently of vouchers. Get Help service list says vouchers temporarily unavailable; Clothe says appointment only. Both accounts preserved. The reviewed pages do not state clothing costs, required documents or repeat limits; ask the front desk. No closure inferred.",
+        "fields": {
+          "name": "Paz de Cristo · Clothing Closet",
+          "description": "Adult everyday and interview clothing in Mesa.",
+          "phone": "480-464-2370",
+          "website": "https://pazdecristo.org/what-we-do/clothe/",
+          "address": "424 W Broadway Rd, Mesa, AZ 85210",
+          "hours": "Clothing Closet: Monday and Friday, 1–2pm. Showers: Wednesday, 9am–1pm.",
+          "categories": [
+            "clothing"
+          ],
+          "categoryFilters": {},
+          "forGroups": [],
+          "informationSections": {
+            "programsAndServices": "Ask for everyday or interview clothes. Shower guests also receive fresh clothing and hygiene items.",
+            "eligibilityRequirements": "The closet serves adults and has no children’s clothing.",
+            "howToBestConnect": "Visit the campus during closet hours. Ask staff for the sizes and items you need.",
+            "access": "Clothing is distributed at the Mesa campus.",
+            "importantInformationToKnow": "Available sizes and seasonal items depend on donations. Ask about any cost or required documents. Call before seeking a Deseret Industries voucher; published availability is unclear."
+          }
+        },
+        "evidence": [
+          1,
+          2
+        ],
+        "closureEvidence": [],
+        "questions": [
+          "Are Deseret Industries vouchers currently available? https://pazdecristo.org/what-we-do/get-help-original/ lists them as temporarily unavailable, while its overview and https://pazdecristo.org/what-we-do/clothe/ say appointment only. Keep the supported adult closet entry while this is checked.",
+          "What documents or repeat-visit limits apply, and is clothing free? The reviewed clothing pages do not state these rules."
+        ],
+        "nextCheckOn": "2026-10-09",
+        "lastEvidenceOfOperationOn": "2026-09-09"
+      },
+      {
+        "id": "joses-closet",
+        "status": "new",
+        "program": "Jose’s Closet",
+        "summary": "The AZAFAP Jose’s Closet membership section lists first-visit documents and annual renewal, but does not say whether recipients need an appointment or whether informal kinship families without placement/guardianship papers qualify. Its no-appointment wording concerns donors. Call Jose’s Closet about those two recipient questions.",
+        "fields": {
+          "name": "Jose’s Closet",
+          "description": "Free children’s clothing for foster, kinship and adoptive households in Mesa.",
+          "phone": "480-309-1743",
+          "website": "https://www.azafap.org/joses-closet/",
+          "address": "6515 E Main St, Suite 120, Mesa, AZ 85205",
+          "hours": "Tuesday–Saturday: 11am–3pm",
+          "categories": [
+            "clothing"
+          ],
+          "categoryFilters": {},
+          "forGroups": [],
+          "informationSections": {
+            "programsAndServices": "Monthly shopping provides a week of clothing and seasonal essentials per child.",
+            "eligibilityRequirements": "For foster, kinship and adoptive families, and youth in extended foster care. Membership includes household children up to age 21.",
+            "howToBestConnect": "Bring caregiver photo ID; placement or guardianship documents; adoption papers if applicable; and birth certificates for biological children. Complete membership paperwork at the first visit and renew yearly. Call or email info@josescloset.org about a first visit.",
+            "access": "The boutique is in Mesa and supports Arizona families.",
+            "importantInformationToKnow": "Clothing is free. First-visit appointment requirements are not stated."
+          }
+        },
+        "evidence": [
+          7
+        ],
+        "closureEvidence": [],
+        "questions": [
+          "Is an appointment needed for the first shopping visit? https://www.azafap.org/joses-closet/ explains membership documents, but its no-appointment statement concerns donation drop-off.",
+          "Can kinship caregivers without placement or guardianship papers receive help? The membership section asks for those records."
+        ],
+        "nextCheckOn": "2026-10-09",
+        "lastEvidenceOfOperationOn": "2026-09-09"
+      }
+    ],
+    "executionReceipt": {
+      "complete": true,
+      "model": "gpt-6-astra",
+      "contextId": "astra-clothing-20260909-candidate",
+      "freshContext": true,
+      "isolatedInputs": true,
+      "activeMinutes": 0.59,
+      "waitingMinutes": 0,
+      "coverageNotes": "Complete self-review of three primary proposals using existing own-arm evidence; no independent verification.",
+      "remainingGaps": [
+        "City Hope Mesa clothing contradiction.",
+        "Paz vouchers conflicting; clothing costs/documents/repeat limits unestablished.",
+        "Jose recipient appointment and informal kinship document exception unknown.",
+        "Workforce boutique intake, documents, cost and hours; linked fact sheet failed.",
+        "Mobile Loaves meeting route and La Mesa embedded intake contents unresolved.",
+        "DES clothing pathway, funded-provider award details, registry entries and primary PDFs unestablished.",
+        "Language and physical accommodations not established."
+      ]
+    },
+    "resolutions": []
+  },
+  "primaryFreeze": {
+    "manifestSha256": "2f5d7ad2f80fe3c393491afd4abc8e80fb5d012307f726da2c75854084205b04",
+    "research": {
+      "pass:direct-service-landscape": {
+        "assignmentSha256": "e8c3afdacfe07025a6556212b325cf4882b8be29132b38780ff5757b58a78d30",
+        "resultSha256": "98d2c5ed50690e2d3f72d7d3b2b4e56de41c2eb9a779cc731a135a5a21ba6ff3"
+      },
+      "pass:public-system-pathways": {
+        "assignmentSha256": "099f7d9fbaf31b20012cf1df3cb6429326eeada104b16d4fd41322c6c7fa9792",
+        "resultSha256": "f1bd6d99d7b8c956955fbd10a3f8a8387491c7e0ee2073e5edbabf4789ada0c3"
+      },
+      "pass:community-population-pathways": {
+        "assignmentSha256": "57f8af7d8f7345c163edecd50f9ecdc8470ccc02de5000b5fba52b4a18f98727",
+        "resultSha256": "322e354b01952266ef28ce5a2b166c088d4317b66714d908cc310828ae9e195c"
+      },
+      "pass:non-obvious-primary-sources": {
+        "assignmentSha256": "40b6daf61b394fe930eddf8731b5a6f1335d7b2c125d39823fd08c6ce9d3749b",
+        "resultSha256": "4702597a7b6c29a309d6a5d63e3213b24fc0e3ed8cfade5cb8d8de8b13387ae6"
+      },
+      "primary": {
+        "assignmentSha256": "98b0617bfc6b4c77ff8e10aa5bb4cb108c16aba558843191e6f0b17d8bdfa433",
+        "resultSha256": "36d0f047978b028ab18f45feb902fc2a5327c38a0a6ab385f46db43853a12fdd"
+      },
+      "freeze": {
+        "assignmentSha256": "28accada7cefdd5d7e07eb61a40a36f19186c11e2eff9de764d6d4011b7daf4f",
+        "resultSha256": "b3dcfd9ed1b4be2111c7c7d1448704ccde95090f9f537e60f84dd8d8582e2a5c"
+      }
+    }
+  },
+  "blindResults": {},
+  "assignmentSha256": "32d4352b3e7c6e7e81dbd005c67fe0952cfb8d028924bfec72cbf5151f8cad64"
+}

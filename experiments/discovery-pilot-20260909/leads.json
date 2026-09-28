@@ -1,0 +1,22 @@
+{
+  "leads": [
+    {
+      "organization": "Utah Department of Workforce Services",
+      "program": "Salt Lake Metro Employment Center",
+      "website": "https://jobs.utah.gov/jobseeker/index.html",
+      "leadType": "access-point",
+      "locationOrServiceArea": "Salt Lake City, Utah",
+      "whyRelevant": "Public job-search help and a local route to employment services.",
+      "uncertainty": "Confirm current local contact and distinguish general job help from eligibility-screened training."
+    },
+    {
+      "organization": "Utah Electrical Training Alliance",
+      "program": "Inside Wireman apprenticeship",
+      "website": "https://uteta.org/programs/careers-inside-wire/",
+      "leadType": "program",
+      "locationOrServiceArea": "West Jordan training center; employers throughout Utah",
+      "whyRelevant": "Paid work combined with electrical training may offer a career path.",
+      "uncertainty": "Check entry costs, qualifications, waiting before paid work and travel requirements."
+    }
+  ]
+}

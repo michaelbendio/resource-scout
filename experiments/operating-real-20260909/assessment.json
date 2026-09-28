@@ -1,0 +1,7 @@
+{
+  "reviewer": "Astra coordinator, post-freeze source verification; not blinded",
+  "verdict": "inconclusive",
+  "rationale": "No clear benefit demonstrated by the added instruction. Both arms produced the same three usable research drafts; neither completed broad category coverage. One pair with retrieval failures does not establish equal general performance. Keep existing guidance. Retain this negative/inconclusive result so the same unproven instruction is not repeatedly proposed without new evidence. A later trial should isolate one demonstrated recurring failure on matched cases; do not add another broad rule or launch another full category simply to obtain activation.",
+  "criticalErrors": [],
+  "lostNeeds": []
+}

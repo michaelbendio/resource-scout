@@ -57,7 +57,8 @@ operational action; this cleanup leaves Scout stopped.
 - `docs/`, `schemas/`, `registry/`: policies, contracts and committed identities.
 - `deliveries/`: versioned handoffs; check scope and acceptance status before import.
 - `data/`: ignored local research databases, responses, runtime evidence and previews.
-  It also currently contains a separate Git worktree at `data/evaluations/implementation`.
+  The `resource-scout-pairwise` checkout also contains a separate Git worktree at
+  `data/evaluations/implementation`.
   Do not bulk-delete this directory or use `git clean -fdx` to tidy the repository.
 
 Git pushes do not back up ignored runtime evidence. Connected source packages,
@@ -72,6 +73,10 @@ python3 -m unittest discover -s tests
 
 Use focused checks for a scoped change and the appropriate delivery validators.
 Passing structural tests does not establish resource quality or office approval.
+
+Branch integration preserves the main application workflows and the research/evaluation
+branches. See the [consolidation record](docs/repository-cleanup-20260928.md) for
+validation and the original runtime locations. Nothing starts automatically.
 
 Older version notes and workflow descriptions are preserved in the
 [pre-cleanup README](docs/archive/20260928/README.md). Historical operational

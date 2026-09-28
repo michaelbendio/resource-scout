@@ -1,0 +1,36 @@
+{
+  "reviewer": "Astra coordinator",
+  "reviewType": "Post-freeze primary-source verification; evaluator knows arm labels and hypothesis",
+  "conclusion": "No clear benefit demonstrated by the added instruction. Both arms produced the same three usable research drafts; neither completed broad category coverage. One pair with retrieval failures does not establish equal general performance.",
+  "supportedDraftPrograms": ["City Hope Gilbert clothing", "Paz de Cristo Clothing Closet", "Jose's Closet"],
+  "newToExistingMesaCollectionEstablished": false,
+  "commonRetainedUnits": [
+    {"key":"city.location","program":"City Hope Gilbert clothing","finding":"Use Gilbert for clothing; the location-specific page excludes clothing at Mesa.","sources":["https://www.cityhopeaz.org/centers"]},
+    {"key":"city.intake","program":"City Hope Gilbert clothing","finding":"No-cost walk-in route with ID, monthly visit limit and early-arrival/capacity cautions.","sources":["https://www.cityhopeaz.org/centers"]},
+    {"key":"city.contact","program":"City Hope Gilbert clothing","finding":"Both drafts preserve the Gilbert address, phone and distribution schedule.","sources":["https://www.cityhopeaz.org/centers"]},
+    {"key":"paz.audience","program":"Paz de Cristo Clothing Closet","finding":"Adult everyday/interview clothing; no children's clothing. Availability depends on inventory.","sources":["https://pazdecristo.org/what-we-do/clothe/"]},
+    {"key":"paz.intake","program":"Paz de Cristo Clothing Closet","finding":"Both drafts preserve the campus starting point, contact and separate closet/shower schedules.","sources":["https://pazdecristo.org/what-we-do/clothe/","https://pazdecristo.org/what-we-do/get-help-original/"]},
+    {"key":"paz.vouchers","program":"Paz de Cristo Clothing Closet","finding":"Conflicting voucher availability remains a question; direct closet help is retained separately.","sources":["https://pazdecristo.org/what-we-do/clothe/","https://pazdecristo.org/what-we-do/get-help-original/"]},
+    {"key":"jose.audience","program":"Jose's Closet","finding":"Both drafts preserve the defined foster/kinship/adoptive audience and household age scope.","sources":["https://www.azafap.org/joses-closet/"]},
+    {"key":"jose.intake","program":"Jose's Closet","finding":"Both preserve first-visit membership paperwork, document requirements and renewal, without confusing donor walk-ins with recipient access.","sources":["https://www.azafap.org/joses-closet/"]},
+    {"key":"jose.clothing","program":"Jose's Closet","finding":"Both preserve monthly clothing allowance. Current provider text describes clothing at no charge.","sources":["https://www.azafap.org/joses-closet/"]},
+    {"key":"jose.contact","program":"Jose's Closet","finding":"Both preserve the current Mesa location, phone and hours.","sources":["https://www.azafap.org/joses-closet/"]}
+  ],
+  "unitMeaning": "Ten matched program/issue groups in the final three drafts, counted identically in both arms. These are not ten independent research cases, nor all useful notes in either run. Agent-authored differently grouped finding lists are preserved separately; their unequal lengths are not a quality score.",
+  "differences": [
+    {"program":"City Hope","baseline":"Uses the location-specific restriction in the referral; asks only about a possible no-ID alternative.","candidate":"Adds a curator question asking whether Mesa offers clothing because the homepage is broader.","judgment":"The specific location notice is sufficient for the conservative referral. Treating this as a contradiction requiring a curator answer adds unnecessary work in this sample. This is evaluator judgment, not proof the instruction always causes it.","sources":["https://www.cityhopeaz.org/centers","https://www.cityhopeaz.org/"]},
+    {"program":"Paz de Cristo","baseline":"Preserves the voucher conflict and unknown documentation/fee details.","candidate":"Preserves those cautions and also explicitly asks about repeat-visit limits.","judgment":"Minor wording/scope difference, no demonstrated material improvement in the supported referral.","sources":["https://pazdecristo.org/what-we-do/clothe/","https://pazdecristo.org/what-we-do/get-help-original/"]},
+    {"program":"Jose's Closet","baseline":"Flags possible membership fees from a directory still showing the former address.","candidate":"Uses the current provider's no-cost description and leaves recipient appointment/documents exceptions open.","judgment":"Current provider text supports no-cost clothing. The older-address directory is weak evidence of a current fee and cannot establish one. The baseline's extra question is not a proven benefit; no claim is made that all possible membership charges were disproved.","sources":["https://www.azafap.org/joses-closet/","https://azfamilyresources.org/local"]}
+  ],
+  "criticalErrorsInVerifiedDraftClaims": [],
+  "lostSelectedPrograms": [],
+  "limitations": [
+    "Only three written programs per arm; additional notes were not turned into accepted resources or independently exhaustively checked.",
+    "Scope was an empty starting package, not a deduplication against the 268-resource office collection.",
+    "Both used source ceilings and retained real unresolved gaps. Failed page retrieval and different searches are confounders.",
+    "Candidate fetched no usable primary PDF in its fourth pass; its coveredNeeds list describes attempted examination, not established complete coverage.",
+    "No provider calls, human curation or production policy activation. Dollar costs and metered model compute are unknown.",
+    "One baseline schema retry and imprecise initial timing estimates are preserved, not silently repaired in accepted research records."
+  ],
+  "recommendedNextStep": "Keep existing guidance. Retain this negative/inconclusive result so the same unproven instruction is not repeatedly proposed without new evidence. A later trial should isolate one demonstrated recurring failure on matched cases; do not add another broad rule or launch another full category simply to obtain activation."
+}

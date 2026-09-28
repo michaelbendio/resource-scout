@@ -1,0 +1,44 @@
+{
+  "name": "Mesa practical-entry saved-case pilot 2026-09-09",
+  "operator": "Astra operator under Michael’s requested limited test",
+  "reason": "Evaluate an inactive method distilled from editorial evidence; no production research or provider verification.",
+  "modelConfig": {
+    "provider": "Claude desktop",
+    "model": "Opus 5",
+    "settings": {
+      "effort": "High",
+      "tools": "none requested",
+      "context": "fresh chat per arm; account-level personalization not controlled"
+    }
+  },
+  "sourceSha256": "e62e012837d0fc909775e26cc21c831b30c3035c357f2ee02b1ec4171073eea0",
+  "cases": [
+    {
+      "caseId": "case-1",
+      "resourceId": "mesa-clothing-asa-now"
+    },
+    {
+      "caseId": "case-2",
+      "resourceId": "73dfadc219f93cdde3c2e07d3e1045b4"
+    },
+    {
+      "caseId": "case-3",
+      "resourceId": "5359125c3611d817c5b9511c96a017fa"
+    },
+    {
+      "caseId": "case-4",
+      "resourceId": "4ea93a335a4945322184f2ce0e01feb5"
+    },
+    {
+      "caseId": "case-5",
+      "resourceId": "mesa-household-careportal"
+    },
+    {
+      "caseId": "case-6",
+      "resourceId": "mesa-employment-pejatc"
+    }
+  ],
+  "maxAssignments": 2,
+  "maxSeconds": 3600,
+  "evaluationBasis": "Controller assesses exact saved facts after both replies. Five clothing cases plus one exploratory employment transfer case. Prior whole-corpus editorial judgments exist; only explicit lesson-example IDs are held out. This is not an unseen-office or blinded human evaluation."
+}

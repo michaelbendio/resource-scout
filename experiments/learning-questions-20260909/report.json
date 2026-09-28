@@ -1,0 +1,178 @@
+{
+  "trialId": "1be1b5dca474f56ef9b46c974d70fa929cb6480ef7766864ed044f87cfc45ff6",
+  "lessonId": "2814ddeb5179a8c7c86a3ff10db503ea8e0836ec7dca68de19caadaef646bb5e",
+  "name": "Denver Employment final question source-check",
+  "status": "evaluated",
+  "active": false,
+  "lessonStatus": "evaluated",
+  "caseCount": 6,
+  "dispatches": 2,
+  "modelConfig": {
+    "provider": "OpenAI Codex CLI",
+    "model": "gpt-6-astra",
+    "settings": {
+      "reasoningEffort": "high",
+      "webSearch": "live",
+      "ephemeral": true
+    }
+  },
+  "responses": {
+    "baseline": {
+      "complete": true,
+      "elapsedSeconds": 283.52385687828064,
+      "late": false,
+      "incrementalCostUSD": null,
+      "interventions": 0
+    },
+    "candidate": {
+      "complete": true,
+      "elapsedSeconds": 283.52576994895935,
+      "late": false,
+      "incrementalCostUSD": null,
+      "interventions": 0
+    }
+  },
+  "assessment": {
+    "trialId": "1be1b5dca474f56ef9b46c974d70fa929cb6480ef7766864ed044f87cfc45ff6",
+    "assessment": {
+      "reviewer": "Codex coordinator, unblinded",
+      "method": "Entry-by-entry question review against respondent-cited sources; distinguish partial answers, new retrieval and optional outcome notes. See question-review.json. Predeclared threshold not met even with favorable credit for the sole partial-answer issue.",
+      "caseJudgments": [
+        {
+          "caseId": "workoptions",
+          "evidence": "At most one partially answered meal-support issue improves numerically, but the candidate drops that subject rather than carrying the published partial answer into the resource. Older application retrieval adds useful cautions. No two-case primary benefit. Sources and entry-level judgments: question-review.json; https://workoptions.neonccm.com/index.php?action=application_new&section=clients_application ; https://workoptions.org/job-training/ ; https://workoptions.org/programs/ ; https://workoptions.org/wp-content/uploads/2024/01/WO-Student-Application-Updated-JAN-2024.pdf",
+          "baseline": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "No demonstrated material error in this bounded question-quality comparison; false means not detected, not comprehensive verification. At most one partially answered meal-support issue improves numerically, but the candidate drops that subject rather than carrying the published partial answer into the resource. Older application retrieval adds useful cautions. No two-case primary benefit."
+          },
+          "candidate": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "No demonstrated material error in this bounded question-quality comparison; false means not detected, not comprehensive verification. At most one partially answered meal-support issue improves numerically, but the candidate drops that subject rather than carrying the published partial answer into the resource. Older application retrieval adds useful cautions. No two-case primary benefit."
+          }
+        },
+        {
+          "caseId": "micasa",
+          "evidence": "Arms chose different upcoming courses and different pages. Candidate removes a generic outcome note but leaves admission/technology questions answered on an uncited general page. No demonstrated same-source improvement. Sources and entry-level judgments: question-review.json; https://micasaresourcecenter.org/calendar/ ; https://micasaresourcecenter.org/calendar/healthcare-administration-training-online/ ; https://micasaresourcecenter.org/calendar/human-resources-online/ ; https://micasaresourcecenter.org/healthcareadmin/ ; https://micasaresourcecenter.org/stackable-credentials/ ; https://micasaresourcecenter.tfaforms.net/5061059",
+          "baseline": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "No demonstrated material error in this bounded question-quality comparison; false means not detected, not comprehensive verification. Arms chose different upcoming courses and different pages. Candidate removes a generic outcome note but leaves admission/technology questions answered on an uncited general page. No demonstrated same-source improvement."
+          },
+          "candidate": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "No demonstrated material error in this bounded question-quality comparison; false means not detected, not comprehensive verification. Arms chose different upcoming courses and different pages. Candidate removes a generic outcome note but leaves admission/technology questions answered on an uncited general page. No demonstrated same-source improvement."
+          }
+        },
+        {
+          "caseId": "activate",
+          "evidence": "Candidate retrieves partner FAQ/application, retains a GED conflict and explains loan versus grant. Those are useful observations, but new retrieval cannot prove that baseline ignored an already reviewed answer. Sources and entry-level judgments: question-review.json; https://activatework.org/learn/programs/ ; https://activatework.org/learn/programs/ai-enabled-it-support/ ; https://activatework.org/learn/tuition-free-tech-training/ ; https://perscholas.org/about-per-scholas/unlock-your-potential/ ; https://perscholas.org/eligibility/ ; https://perscholas.org/faqs/ ; https://perscholas.org/pre-training-income-policy/",
+          "baseline": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "No demonstrated material error in this bounded question-quality comparison; false means not detected, not comprehensive verification. Candidate retrieves partner FAQ/application, retains a GED conflict and explains loan versus grant. Those are useful observations, but new retrieval cannot prove that baseline ignored an already reviewed answer."
+          },
+          "candidate": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "No demonstrated material error in this bounded question-quality comparison; false means not detected, not comprehensive verification. Candidate retrieves partner FAQ/application, retains a GED conflict and explains loan versus grant. Those are useful observations, but new retrieval cannot prove that baseline ignored an already reviewed answer."
+          }
+        },
+        {
+          "caseId": "indian",
+          "evidence": "Both preserve appointment access and unspecified eligibility/costs. Candidate removes an optional outcomes note. No primary-measure improvement. Sources and entry-level judgments: question-review.json; https://www.denverindiancenter.org/ ; https://www.denverindiancenter.org/nwp ; https://www.denverlibrary.org/job-guide/equitable-employment-resources",
+          "baseline": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "No demonstrated material error in this bounded question-quality comparison; false means not detected, not comprehensive verification. Both preserve appointment access and unspecified eligibility/costs. Candidate removes an optional outcomes note. No primary-measure improvement."
+          },
+          "candidate": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "No demonstrated material error in this bounded question-quality comparison; false means not detected, not comprehensive verification. Both preserve appointment access and unspecified eligibility/costs. Candidate removes an optional outcomes note. No primary-measure improvement."
+          }
+        },
+        {
+          "caseId": "secondchance",
+          "evidence": "Candidate removes some outcome research but leaves construction credentials/connections less complete after citing fewer program details. No demonstrated same-source improvement; no claim of a comprehensive fact audit. Sources and entry-level judgments: question-review.json; https://scccolorado.org/ ; https://scccolorado.org/calendar/category/programming-events/ ; https://scccolorado.org/contact-us/ ; https://scccolorado.org/services-all/",
+          "baseline": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "No demonstrated material error in this bounded question-quality comparison; false means not detected, not comprehensive verification. Candidate removes some outcome research but leaves construction credentials/connections less complete after citing fewer program details. No demonstrated same-source improvement; no claim of a comprehensive fact audit."
+          },
+          "candidate": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "No demonstrated material error in this bounded question-quality comparison; false means not detected, not comprehensive verification. Candidate removes some outcome research but leaves construction credentials/connections less complete after citing fewer program details. No demonstrated same-source improvement; no claim of a comprehensive fact audit."
+          }
+        },
+        {
+          "caseId": "employmentfirst",
+          "evidence": "Source access differs materially. Candidate conservatively retains an actionable lead for checking. Neither a failed URL nor a development page establishes closure or current eligibility. Local unresolved facts cannot be fully graded from accessible evidence. Sources and entry-level judgments: question-review.json; https://cdhs.nxt-dev.colorado.gov/colorado-employment-first ; https://docs.google.com/spreadsheets/d/1wLzO2z1A_xFPO1OWzg9NZjad9LNQ-POIyQbOYwaa7us/edit ; https://us.openforms.com/Form/a639bd61-39cf-4db2-8be5-68946a663e3b ; https://www.denvergov.org/Government/Agencies-Departments-Offices/Denver-Human-Services/Be-Supported/SNAP-to-Success-Job-Training ; https://www.denvergov.org/SNAPtoSuccess ; https://www.denvergov.org/files/assets/public/v/3/denver-human-services/documents/strategic-roadmap/dhs-strategic-roadmap-2025-2027.pdf ; https://www.rmhumanservices.org/resources/community-resources/",
+          "baseline": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "No demonstrated material error in this bounded question-quality comparison; false means not detected, not comprehensive verification. Source access differs materially. Candidate conservatively retains an actionable lead for checking. Neither a failed URL nor a development page establishes closure or current eligibility. Local unresolved facts cannot be fully graded from accessible evidence."
+          },
+          "candidate": {
+            "criticalError": false,
+            "missedUsefulResource": false,
+            "lostCriticalDetail": false,
+            "unsupportedPromise": false,
+            "reason": "No demonstrated material error in this bounded question-quality comparison; false means not detected, not comprehensive verification. Source access differs materially. Candidate conservatively retains an actionable lead for checking. Neither a failed URL nor a development page establishes closure or current eligibility. Local unresolved facts cannot be fully graded from accessible evidence."
+          }
+        }
+      ],
+      "conclusion": "no-clear-benefit",
+      "limitations": "Six purposively selected leads; same model; one pair; unblinded coordinator; differing sources and source access; no human verification. No-error flags mean no demonstrated material error in this bounded comparison, not comprehensive correctness. Page counts and dollar cost unavailable. Fewer question entries do not establish fewer unresolved issues or reduced curator time."
+    },
+    "responseIds": {
+      "baseline": "fe62bddf09de8df450b17bcefd09cf29621ae6edc3b727f9d4f7a255ce877cac",
+      "candidate": "86f2dbfa2bce6876dcb0315b562b34d9644d76b98638a1bc6b6e63daa3670cc0"
+    },
+    "status": "evaluated",
+    "active": false,
+    "providerVerificationInferred": false
+  },
+  "quality": {
+    "baseline": {
+      "criticalError": 0,
+      "missedUsefulResource": 0,
+      "lostCriticalDetail": 0,
+      "unsupportedPromise": 0,
+      "casesWithAnyFlag": 0
+    },
+    "candidate": {
+      "criticalError": 0,
+      "missedUsefulResource": 0,
+      "lostCriticalDetail": 0,
+      "unsupportedPromise": 0,
+      "casesWithAnyFlag": 0
+    }
+  },
+  "limits": "Bounded primary research from fresh leads; not human verification. Timing includes operator handoff. Evaluation alone does not activate guidance."
+}

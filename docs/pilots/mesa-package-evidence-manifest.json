@@ -1,0 +1,54 @@
+{
+  "sources": [
+    {
+      "path": "/Users/michaelbendio/Documents/TSO/auto-mesa-resource-package-before-stephanie.zip",
+      "evidence": {
+        "id": "9a0dc303eddc65b906e609ef123a56b002aa422477e8714b75de58211e6834d0",
+        "collectionId": "mesa-stephanie-historical",
+        "kind": "package",
+        "recordedAt": "2026-09-06T21:34:14.898+00:00",
+        "sha256": "df54989217fea50740af08cdde4a4b5eafdf9e528c383f2b53f6dadc7e98995f",
+        "semanticSha256": "17ef03366d7ff86abc86c28a794d5d7b1f93e61add96c7fcfe0eefd13e68dab9",
+        "scope": "unknown",
+        "packageVersion": "2",
+        "historical": true,
+        "intakeWarnings": [
+          "Legacy packageVersion is text; original value and ZIP bytes retained."
+        ]
+      },
+      "createdAt": "2026-09-02T02:50:28.289183+00:00",
+      "resourceCount": 333
+    },
+    {
+      "path": "/Users/michaelbendio/Documents/TSO/auto-mesa-resource-package.zip",
+      "evidence": {
+        "id": "db2eaceb693b25d9db941f642b7dd6fb86d8833d997c136329b2e02d932607b6",
+        "collectionId": "mesa-stephanie-historical",
+        "kind": "package",
+        "recordedAt": "2026-09-06T21:34:14.936+00:00",
+        "sha256": "e8519a6b905158a4d76af719c9f25d3c6503510cc9e9d21a0e9e4e1f4795ce0d",
+        "semanticSha256": "9d20819ef42c75eb76e32f62a220485369ced86bf8203ff7b3e99aa4f7474b31",
+        "scope": "unknown",
+        "packageVersion": 3,
+        "historical": true,
+        "intakeWarnings": []
+      },
+      "createdAt": "2026-09-04T20:18:19.229676+00:00",
+      "resourceCount": 333
+    }
+  ],
+  "fieldCounts": {
+    "description": 333,
+    "informationText": 333
+  },
+  "comparisonId": "3532dcd2a0271b1b6e95fc58579a1ee5e8b1e42e313c47d626a209c799715c30",
+  "summary": {
+    "observedChanges": 666,
+    "linkedAdoptions": 0,
+    "explicitFieldVerifications": 0,
+    "resourceVettingInferred": 0,
+    "activeLessons": 0,
+    "learningReadiness": "Not evaluated; field evidence is not a terminal resource-vetting count."
+  },
+  "status": "Historical observation only; lineage is operator-selected, not independently proven."
+}

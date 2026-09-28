@@ -1,0 +1,34 @@
+{
+  "pilot": "Synthetic evidence ledger demonstration",
+  "historicalDevelopmentOnly": true,
+  "realHumanDecisions": 0,
+  "activeLessons": 0,
+  "officeResourcesChanged": 0,
+  "reviewCopy": "/Users/michaelbendio/Library/Mobile Documents/com~apple~CloudDocs/Documents/TSO/autoScoutEvidencePilot.html",
+  "reviewSha256": "166b060f48d5a4eee4d5df63f616f63801c17386160f01e8038bb5860ded109b",
+  "copiedBytesVerified": true,
+  "softwareTests": {
+    "ran": 291,
+    "passed": 290,
+    "skipped": 1
+  },
+  "browserChecks": {
+    "viewports": [
+      390,
+      768,
+      1200
+    ],
+    "expandableEvidenceSummaries": 5,
+    "noOverflow": true,
+    "pageErrors": []
+  },
+  "visualReviewPassed": true,
+  "artifactSha256": {
+    "resource_research_agent/learning_evidence.py": "1fcc463dd16c0800890162c767e533a8a5a3997c5bf3a6416cd65ddcca0f2c2b",
+    "resource_research_agent/evidence_cli.py": "5b9c6f76cc4f13ecda4299272089843c2927c91dde3fed1a21a10a73655a71da",
+    "resource_research_agent/cli.py": "82bc45542cf77e55a7ad1e8ea48f0573e87b6d10af58f2044f323eadf69395ce",
+    "tests/test_learning_evidence.py": "67d4ff556d1ec4599487cfa2ce8b66fd87e1ac78d182bd6044bb904761ea8bdd",
+    "scripts/build_evidence_pilot.py": "db2da39fd1836d44193f465717126472d92df8ca68c299a7d35ea200ea89322e"
+  },
+  "pilotEvidenceSha256": "9060ce1abe17048975a807910010617e8a58793dd986b7037d720be108ce711d"
+}

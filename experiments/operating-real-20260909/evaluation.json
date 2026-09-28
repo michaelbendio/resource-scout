@@ -1,0 +1,25 @@
+{
+  "evaluationId": "e30beeae5df85a73fbed7722ce729dc47701309a57951c26552c9c32fc4202c0",
+  "trialId": "2063ebce87abd3716421232a66235c91ddb2c24466f29ec9f3668dd157e864d3",
+  "assessment": {
+    "reviewer": "Astra coordinator, post-freeze source verification; not blinded",
+    "verdict": "inconclusive",
+    "rationale": "No clear benefit demonstrated by the added instruction. Both arms produced the same three usable research drafts; neither completed broad category coverage. One pair with retrieval failures does not establish equal general performance. Keep existing guidance. Retain this negative/inconclusive result so the same unproven instruction is not repeatedly proposed without new evidence. A later trial should isolate one demonstrated recurring failure on matched cases; do not add another broad rule or launch another full category simply to obtain activation.",
+    "criticalErrors": [],
+    "lostNeeds": []
+  },
+  "resultIds": {
+    "baseline": "16b901cf8d6c7760c172a3413a1aad020cedd1f9a1a3f8a419cadc4456c73ebb",
+    "candidate": "b99d70ebed4e05087dcd012b5ee10c797646019389d2c06e95882f342ad80126"
+  },
+  "blockers": [
+    "baseline: incomplete, limited, late or unresolved",
+    "baseline: execution incomplete or has unresolved gaps",
+    "candidate: incomplete, limited, late or unresolved",
+    "candidate: execution incomplete or has unresolved gaps"
+  ],
+  "distinctRetainedFindings": {
+    "baseline": 10,
+    "candidate": 10
+  }
+}

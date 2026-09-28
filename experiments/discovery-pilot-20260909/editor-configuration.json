@@ -1,0 +1,13 @@
+{
+  "name": "Bounded Welfare Square Employment discovery pilot",
+  "editor": "Astra / Codex operator",
+  "model": null,
+  "settings": {
+    "context": "current Codex conversation; primary and editor share context"
+  },
+  "sourceScope": "partial",
+  "categoryIds": [
+    "employment"
+  ],
+  "authorityNote": "Authorized small pilot. Web research and AI editing; no human curation or office publication."
+}

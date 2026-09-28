@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "status": "Separate working draft; not merged into the live office",
+  "baselineSelection": "Michael: Provo August 12",
+  "baseSha256": "dc883d19eff7a30e78d33df580ea8408a50788eade33647c40ec6a23f0201a49",
+  "workingSha256": "fc3350159bde41ef6213022ac1bf05ff4b1c2ac179be9cb9c393f0053b3d7a0c",
+  "packageVersion": 43,
+  "resourceCount": 183,
+  "changedResourceCount": 5,
+  "pdfCount": 93,
+  "selectedFields": {
+    "classification": {
+      "83cef4c7ca6a62e9bf4ab6d694f78bd9": {
+        "categories": "proposed",
+        "categoryFilters": "proposed",
+        "forGroups": "proposed"
+      },
+      "provo-city-housing-authority": {
+        "categories": "proposed",
+        "categoryFilters": "proposed",
+        "forGroups": "proposed"
+      },
+      "be263f34ffef82d605bccabb5a29bec3": {
+        "categories": "proposed",
+        "categoryFilters": "proposed",
+        "forGroups": "proposed"
+      },
+      "facc": {
+        "categories": "proposed",
+        "categoryFilters": "proposed",
+        "forGroups": "proposed"
+      }
+    },
+    "writing": {
+      "83cef4c7ca6a62e9bf4ab6d694f78bd9": {
+        "description": "proposed",
+        "informationText": "proposed"
+      },
+      "provo-city-housing-authority": {
+        "description": "proposed",
+        "informationText": "current"
+      },
+      "4e2aee885b2126ae255d187c8496758b": {
+        "description": "proposed",
+        "informationText": "proposed"
+      }
+    }
+  },
+  "freshResearchPerformed": false,
+  "providerVerificationInferred": false,
+  "historicalResearchPreserved": true,
+  "activeLessons": 0,
+  "deferred": [
+    "Housing Information and eligibility questions",
+    "Financial Learning group additions and dedicated website",
+    "DWS Veteran Services proposed changes pending local reentry handoff",
+    "Seniors/Veterans category retirement and schema-4 reader rollout",
+    "Maintenance proposals with unresolved operational questions",
+    "Remaining resources outside this accepted first batch"
+  ],
+  "changedFields": [
+    {
+      "resourceId": "facc",
+      "name": "Food and Care Coalition",
+      "field": "categories"
+    },
+    {
+      "resourceId": "facc",
+      "name": "Food and Care Coalition",
+      "field": "categoryFilters"
+    },
+    {
+      "resourceId": "facc",
+      "name": "Food and Care Coalition",
+      "field": "forGroups"
+    },
+    {
+      "resourceId": "provo-city-housing-authority",
+      "name": "Provo City Housing Authority",
+      "field": "categories"
+    },
+    {
+      "resourceId": "provo-city-housing-authority",
+      "name": "Provo City Housing Authority",
+      "field": "categoryFilters"
+    },
+    {
+      "resourceId": "provo-city-housing-authority",
+      "name": "Provo City Housing Authority",
+      "field": "description"
+    },
+    {
+      "resourceId": "provo-city-housing-authority",
+      "name": "Provo City Housing Authority",
+      "field": "forGroups"
+    },
+    {
+      "resourceId": "83cef4c7ca6a62e9bf4ab6d694f78bd9",
+      "name": "Utah Food Bank - Commodity Supplemental Food Program",
+      "field": "categoryFilters"
+    },
+    {
+      "resourceId": "83cef4c7ca6a62e9bf4ab6d694f78bd9",
+      "name": "Utah Food Bank - Commodity Supplemental Food Program",
+      "field": "description"
+    },
+    {
+      "resourceId": "83cef4c7ca6a62e9bf4ab6d694f78bd9",
+      "name": "Utah Food Bank - Commodity Supplemental Food Program",
+      "field": "forGroups"
+    },
+    {
+      "resourceId": "83cef4c7ca6a62e9bf4ab6d694f78bd9",
+      "name": "Utah Food Bank - Commodity Supplemental Food Program",
+      "field": "informationText"
+    },
+    {
+      "resourceId": "be263f34ffef82d605bccabb5a29bec3",
+      "name": "Department of Workforce Services - Overview",
+      "field": "categories"
+    },
+    {
+      "resourceId": "be263f34ffef82d605bccabb5a29bec3",
+      "name": "Department of Workforce Services - Overview",
+      "field": "categoryFilters"
+    },
+    {
+      "resourceId": "be263f34ffef82d605bccabb5a29bec3",
+      "name": "Department of Workforce Services - Overview",
+      "field": "forGroups"
+    },
+    {
+      "resourceId": "4e2aee885b2126ae255d187c8496758b",
+      "name": "Community Actions Services - Financial Literacy Classes",
+      "field": "description"
+    },
+    {
+      "resourceId": "4e2aee885b2126ae255d187c8496758b",
+      "name": "Community Actions Services - Financial Literacy Classes",
+      "field": "informationText"
+    }
+  ],
+  "exports": [
+    {
+      "kind": "classification",
+      "packageSha256": "44c553b2cf02669417504c22f0b9810f12e83b0361a422a5db56310a5de4287d",
+      "exportKey": "2b35408c4a5c814353f6d58ae76f0ecd99445fd36e84d7d1242b27767f95fcbb"
+    },
+    {
+      "kind": "writing",
+      "packageSha256": "a63ceb257825010096c17f187f10136b4e71a45b48dae805a3df39cf7de2d077",
+      "exportKey": "9ddd0f4c9e58e3b694e1b8e413aa303148de66996f3101ac8d2146320433e50b"
+    }
+  ],
+  "priorAcceptanceArtifacts": {
+    "writing": "a8b917bda97754c70e5b10b0c0e56a25514fba9915151ade61699380f13bb60a",
+    "classification": "d173762ddaf917435c13152fc69b6f307531940f854685f8161d445efa6046d2"
+  },
+  "deliveredFiles": {
+    "autoProvoWorkingSummary.html": "4162b22a937318f67a344b51b1ae7cb840750e558a455ae5c3ebb582736f3cb4",
+    "autoProvoWorkingResources.html": "045e561ab7edf4280436044830772356391d6e1e48bb3fabe79ec8c7b95ac831",
+    "provo-scout-working-resource-package.zip": "fc3350159bde41ef6213022ac1bf05ff4b1c2ac179be9cb9c393f0053b3d7a0c"
+  }
+}

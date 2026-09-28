@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 2,
+  "modelConfig": {
+    "provider": "OpenAI Codex CLI",
+    "model": "gpt-6-astra",
+    "settings": {
+      "reasoningEffort": "high",
+      "webSearch": "live",
+      "ephemeral": true
+    }
+  },
+  "instructions": "Research each lead for practical TSO usefulness using the supplied guidance and public primary sources. TSO service missionaries help people in need find practical services. Use fresh source evidence; do not read other chats, local project files, or prior assessments. Do not contact providers. Respect the supplied source-page and web-call ceilings across this assignment. Return JSON only with assignmentSha256, complete (boolean), and cases. Each case needs caseId, decision (retain/reserve/exclude/needs-check), reason, criticalDetails (array of strings), and openQuestions (array of strings). Include supporting source URLs with the factual details. Account for every case. Distinguish source facts from uncertainty; do not invent facts or human approval. If evidence or time runs out, explain gaps in the affected cases.",
+  "guidance": "{\n  \"categoryId\": \"employment\",\n  \"label\": \"Employment\",\n  \"aliases\": [],\n  \"assignment\": \"Discover realistic employment resources for people in {service_area} who need work, better work, training, or help overcoming barriers to employment. Follow useful relationships from workforce organizations to specific placement programs, employers, training, credentials, apprenticeships, and supported-employment services. Verify costs, eligibility, schedules, and the practical enrollment path.\",\n  \"include\": [\n    \"Immediate job search, placement, staffing, and hiring pathways\",\n    \"Training, credentials, apprenticeships, education, and career advancement\",\n    \"Supported employment and help with disability, reentry, language, transportation, or documentation barriers\",\n    \"Work clothing, tools, childcare, transportation, and other employment supports\",\n    \"The actual enrollment path, costs, schedules, placement claims, and availability\"\n  ],\n  \"exclude\": [\n    \"Generic job boards without a local support, placement, or verified hiring pathway\",\n    \"Commercial training whose cost or outcomes cannot be established\",\n    \"Stale job openings presented as durable resources\"\n  ],\n  \"focusedResearch\": {\n    \"version\": \"employment-focused-v2\",\n    \"alternativeVocabulary\": [\n      \"economic empowerment\",\n      \"workforce readiness\",\n      \"career pathways\",\n      \"self-sufficiency\",\n      \"reentry stabilization\",\n      \"vocational development\",\n      \"job retention\",\n      \"family economic mobility\"\n    ],\n    \"sourceChannels\": [\n      \"Official provider and named-program pages\",\n      \"State, county, city, and workforce-board pages\",\n      \"Registered apprenticeship and credential registries\",\n      \"College continuing-education and technical-training catalogs\",\n      \"Government contracts, grants, partner lists, and public announcements\",\n      \"Current community referral documents and primary-source PDFs\"\n    ],\n    \"focuses\": [\n      {\n        \"key\": \"public-workforce\",\n        \"label\": \"Public workforce infrastructure\",\n        \"direction\": \"Find public workforce centers and named government programs that provide placement, counseling, benefits-linked employment, vocational rehabilitation, veterans services, bonding, employer incentives, or apprenticeship access.\",\n        \"coverage\": [\"Public workforce centers\", \"Vocational rehabilitation\", \"Veterans employment\", \"Benefits-linked employment\", \"Apprenticeship access\"],\n        \"vocabulary\": [\"one-stop workforce\", \"vocational rehabilitation\", \"federal bonding\", \"work opportunity tax credit\"],\n        \"sourceChannels\": [\"Government program pages\", \"Workforce board pages\", \"Public program registries\"]\n      },\n      {\n        \"key\": \"immediate-employment\",\n        \"label\": \"Immediate employment and staffing\",\n        \"direction\": \"Find credible local staffing, temporary, shift-work, day-labor, temp-to-hire, and unusually accessible direct hiring pathways with a durable public intake route.\",\n        \"coverage\": [\"Staffing offices\", \"Temporary and shift work\", \"Temp-to-hire\", \"Accessible direct hiring\"],\n        \"vocabulary\": [\"daily pay\", \"same day work\", \"job seeker intake\", \"temp to hire\"],\n        \"sourceChannels\": [\"Official local office pages\", \"Employer hiring program pages\"]\n      },\n      {\n        \"key\": \"training-advancement\",\n        \"label\": \"Training, credentials, apprenticeships, and advancement\",\n        \"direction\": \"Find concrete career training, registered apprenticeships, credentials, returnships, technical-college programs, and short university or employer training with a practical enrollment path.\",\n        \"coverage\": [\"Registered apprenticeships\", \"Technical training\", \"Credentials\", \"Career return programs\", \"Continuing education\"],\n        \"vocabulary\": [\"earn and learn\", \"returnship\", \"career training\", \"industry credential\"],\n        \"sourceChannels\": [\"Apprenticeship registries\", \"College catalogs\", \"Official training-program pages\"]\n      },\n      {\n        \"key\": \"supported-employment\",\n        \"label\": \"Disability and supported employment\",\n        \"direction\": \"Find disability-specific supported employment, job development, placement, coaching, and workplace skill-acquisition programs that credibly serve the area.\",\n        \"coverage\": [\"Supported employment\", \"Job coaching\", \"Disability job development\", \"Work-site skill acquisition\"],\n        \"vocabulary\": [\"supported employment\", \"job development\", \"employment coaching\", \"vocational services\"],\n        \"sourceChannels\": [\"Official disability-provider pages\", \"State vocational-rehabilitation provider information\"]\n      },\n      {\n        \"key\": \"population-specific\",\n        \"label\": \"Population-specific employment pathways\",\n        \"direction\": \"Find employment programs designed for refugees, immigrants, people returning from incarceration, women returning to work, youth, seniors, veterans, single parents, or other populations facing defined barriers.\",\n        \"coverage\": [\"Refugee employment\", \"Reentry employment\", \"Women returning to work\", \"Youth and senior employment\", \"Veteran pathways\"],\n        \"vocabulary\": [\"workforce re-entry\", \"refugee employment\", \"economic mobility\", \"reentry employment\", \"career return\"],\n        \"sourceChannels\": [\"Official resettlement-provider pages\", \"Corrections and reentry partner lists\", \"Population-specific nonprofit pages\"]\n      },\n      {\n        \"key\": \"community-embedded\",\n        \"label\": \"Employment inside broader community services\",\n        \"direction\": \"Find substantial named employment, transitional-work, or workforce-readiness programs embedded in shelters, food providers, community-action agencies, family services, reentry organizations, and faith-based organizations.\",\n        \"coverage\": [\"Transitional work\", \"Workforce readiness\", \"Employment inside basic-needs organizations\", \"Barrier-removal tied directly to work\"],\n        \"vocabulary\": [\"transitional work\", \"workforce readiness\", \"job opportunities\", \"economic empowerment\"],\n        \"sourceChannels\": [\"Official program pages\", \"Community service program reports\", \"Provider annual reports\"]\n      },\n      {\n        \"key\": \"non-obvious-sources\",\n        \"label\": \"Non-obvious source channels\",\n        \"direction\": \"Search current contracts, grants, public partner lists, board materials, catalogs, registries, and primary-source PDFs for named employment providers or programs not readily visible through general service searches.\",\n        \"coverage\": [\"Contracted providers\", \"Grant-funded named programs\", \"Partner programs\", \"Registry-listed services\"],\n        \"vocabulary\": [\"contracted provider\", \"workforce grant\", \"employment partner\", \"program catalog\"],\n        \"sourceChannels\": [\"Government contracts and grants\", \"Partner announcements\", \"Public meeting materials\", \"Primary-source PDFs\"]\n      }\n    ]\n  }\n}\n",
+  "cases": [
+    {
+      "caseId": "workoptions",
+      "resourceId": "workoptions",
+      "resource": {
+        "name": "Work Options \u2014 culinary training",
+        "website": "https://workoptions.org/"
+      }
+    },
+    {
+      "caseId": "micasa",
+      "resourceId": "micasa",
+      "resource": {
+        "name": "Mi Casa Resource Center \u2014 Career Pathways",
+        "website": "https://micasaresourcecenter.org/careerpathways/"
+      }
+    },
+    {
+      "caseId": "activate",
+      "resourceId": "activate",
+      "resource": {
+        "name": "ActivateWork \u2014 technical training",
+        "website": "https://activatework.org/learn/tuition-free-tech-training/"
+      }
+    },
+    {
+      "caseId": "indian",
+      "resourceId": "indian",
+      "resource": {
+        "name": "Denver Indian Center \u2014 employment and training",
+        "website": "https://www.denverindiancenter.org/"
+      }
+    },
+    {
+      "caseId": "secondchance",
+      "resourceId": "secondchance",
+      "resource": {
+        "name": "Second Chance Center \u2014 employment support",
+        "website": "https://scccolorado.org/"
+      }
+    },
+    {
+      "caseId": "employmentfirst",
+      "resourceId": "employmentfirst",
+      "resource": {
+        "name": "Colorado Employment First \u2014 Denver access",
+        "website": "https://cdhs.colorado.gov/employment-first"
+      }
+    }
+  ],
+  "researchProtocol": {
+    "version": 2,
+    "maxSourcePages": 24,
+    "maxWebCalls": 24
+  },
+  "scope": {
+    "office": "Denver",
+    "category": "employment",
+    "stage": "research"
+  },
+  "assignmentSha256": "657650b094d1b12839920fafe9c3682de2bb00128985ee126f97ecc04c4d20cd"
+}

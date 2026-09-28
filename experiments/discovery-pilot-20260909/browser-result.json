@@ -1,0 +1,10 @@
+{
+  "fixture": "real pilot output with synthetic edits in disposable context only",
+  "resources": 5,
+  "categoryNavigation": true,
+  "editor": true,
+  "questionResolutionSaveAndMerge": true,
+  "coverageRoundTrip": true,
+  "humanApprovalsInDelivery": 0,
+  "runtimeErrors": []
+}

@@ -1,0 +1,23 @@
+{
+  "toolCalls": 2,
+  "openRequests": 6,
+  "inPageFinds": 4,
+  "toolSeconds": 1.716,
+  "records": [
+    {
+      "file": "output/operating-real-20260909/evaluator/web-01.json",
+      "sha256": "a45ccf4482f4226a55d3b56320ce336913fcfd463ed589263f074f68df866b78",
+      "seconds": 0.88,
+      "openRequests": 6,
+      "inPageFinds": 0
+    },
+    {
+      "file": "output/operating-real-20260909/evaluator/web-02.json",
+      "sha256": "c28e9a74311a90f7013a8be7197a373e74ec0ee18cfbbfd19c77952ae3f8eb49",
+      "seconds": 0.836,
+      "openRequests": 0,
+      "inPageFinds": 4
+    }
+  ],
+  "scope": "Post-freeze verification only; outside respondent timing and source allowances."
+}

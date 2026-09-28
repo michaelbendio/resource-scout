@@ -1,0 +1,260 @@
+{
+  "arm": "baseline",
+  "model": "gpt-6-astra",
+  "contextId": "astra-clothing-20260909-baseline",
+  "complete": true,
+  "supportedCandidates": [
+    {
+      "id": "city-hope-gilbert-clothing",
+      "program": "City Hope \u00b7 Gilbert clothing center",
+      "url": "https://www.cityhopeaz.org/centers"
+    },
+    {
+      "id": "paz-de-cristo-clothing-closet",
+      "program": "Paz de Cristo \u00b7 Clothing Closet",
+      "url": "https://pazdecristo.org/what-we-do/clothe/"
+    },
+    {
+      "id": "joses-closet-azafap",
+      "program": "Jose\u2019s Closet",
+      "url": "https://www.azafap.org/joses-closet/"
+    }
+  ],
+  "usefulMaterialFindings": [
+    {
+      "key": "city-hope.clothing-location",
+      "summary": "Gilbert is the practical clothing destination; the Mesa center is explicitly food-only.",
+      "evidence": [
+        0
+      ]
+    },
+    {
+      "key": "city-hope.gilbert-intake",
+      "summary": "Free walk-in clothing; government ID each visit, once per calendar month per center, arrive 15 minutes early; capacity 80 may end distribution early.",
+      "evidence": [
+        0
+      ]
+    },
+    {
+      "key": "city-hope.gilbert-contact",
+      "summary": "1120 S Gilbert Rd Suite 101, Gilbert; 480-900-5422; Monday/Wednesday/Saturday 9\u201311:30 am.",
+      "evidence": [
+        0
+      ]
+    },
+    {
+      "key": "paz.closet-audience-service",
+      "summary": "Adult casual and interview clothing; no children\u2019s clothing; specific sizes and seasonal goods depend on donations.",
+      "evidence": [
+        2
+      ]
+    },
+    {
+      "key": "paz.clothing-access",
+      "summary": "424 W Broadway Rd, Mesa; 480-464-2370; closet Monday/Friday 1\u20132 pm; separate Wednesday shower clothing 9 am\u20131 pm.",
+      "evidence": [
+        1,
+        2
+      ]
+    },
+    {
+      "key": "paz.voucher-conflict",
+      "summary": "Appointment-only voucher statements conflict with temporarily unavailable notice; no voucher promise in proposal.",
+      "evidence": [
+        1,
+        2
+      ]
+    },
+    {
+      "key": "jose.membership-audience",
+      "summary": "Foster, kinship, adoptive and extended foster-care households; household children up to 21.",
+      "evidence": [
+        5
+      ]
+    },
+    {
+      "key": "jose.membership-intake",
+      "summary": "First-visit membership packet renewed yearly; caregiver photo ID, placement/guardianship documents, adoption records if applicable, biological children\u2019s birth certificates. Recipient appointment rule remains unknown.",
+      "evidence": [
+        5
+      ]
+    },
+    {
+      "key": "jose.clothing-entitlement",
+      "summary": "Monthly shopping for roughly a week of clothing per child; provider describes free items.",
+      "evidence": [
+        5
+      ]
+    },
+    {
+      "key": "jose.location-contact",
+      "summary": "Current provider lists 6515 E Main St Suite 120 Mesa, 480-309-1743 and info@josescloset.org; Tuesday\u2013Saturday 11 am\u20133 pm.",
+      "evidence": [
+        5
+      ]
+    },
+    {
+      "key": "jose.fee-discrepancy",
+      "summary": "Provider describes free items; third-party Arizona Family Resources still lists a membership fee and an older Apache Junction address. Membership cost remains a question.",
+      "evidence": [
+        5,
+        12
+      ]
+    },
+    {
+      "key": "casa.clothing-route",
+      "summary": "Additional note: Casa de Amor clothing at 819 S MacDonald Mesa, Monday\u2013Wednesday 9\u201311 am, 480-464-2877. Food-box limits are not clothing rules; cost/documents remain gaps.",
+      "evidence": [
+        6
+      ]
+    },
+    {
+      "key": "workforce.boutique-currentness",
+      "summary": "Additional note: 2022 county announcement identifies professional clothing boutique at 635 E Broadway. Current workforce partner listing corroborates site but not boutique operation or clothing intake.",
+      "evidence": [
+        3,
+        4
+      ]
+    },
+    {
+      "key": "affcf.reimbursement-conditions",
+      "summary": "Additional note: supplemental clothing approval precedes purchase; $200 ages 0\u201313, $250 ages 14+; one yearly reimbursement batch, receipts within 60 days and by December 15. Application eligibility not examined.",
+      "evidence": [
+        10
+      ]
+    },
+    {
+      "key": "school.swaps-and-closets-currentness",
+      "summary": "Additional notes: city report identifies Rewear Revolution, Red Mountain Care Closet and Prom Pop-Up Shop. College bulletin swap date April 20\u201323 2026 has passed; current recipient routes not established.",
+      "evidence": [
+        9,
+        11
+      ]
+    }
+  ],
+  "evidenceSources": [
+    {
+      "url": "https://www.cityhopeaz.org/centers",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Our Mesa Center provides food only."
+    },
+    {
+      "url": "https://pazdecristo.org/what-we-do/get-help-original/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Clothing Vouchers: Service is temporarily unavailable"
+    },
+    {
+      "url": "https://pazdecristo.org/what-we-do/clothe/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Our Clothing Closet is geared toward adults, and we do not have children\u2019s clothing available."
+    },
+    {
+      "url": "https://www.esd.maricopa.gov/m/newsflash/home/detail/2631",
+      "accessedOn": "2026-09-09",
+      "excerpt": "a professional clothing boutique where career seekers can go to select from gently used professional attire"
+    },
+    {
+      "url": "https://www.maricopa.gov/5226/Adult-Workforce-Services-Ages-18",
+      "accessedOn": "2026-09-09",
+      "excerpt": "MesaCAN, 635 E. Broadway Rd., Mesa, AZ 85204"
+    },
+    {
+      "url": "https://www.azafap.org/joses-closet/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Membership includes all children in your household up to age 21."
+    },
+    {
+      "url": "https://riovistacenter.com/casa-de-amor/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Question for Casa de Amor, please call (480) 464-2877"
+    },
+    {
+      "url": "https://azresourcecenters.com/locations/casa-de-amor/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Clothing"
+    },
+    {
+      "url": "https://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/list-of-funded-agencies-25-26.pdf",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Funded Agencies for 2025/2026"
+    },
+    {
+      "url": "https://www.mesaaz.gov/Environment-Sustainability/Living-Green/Mesa-Youth-Climate-Action-Fund?lang_update=639168908320441190",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Clothing left after the swaps was donated to schools, community closets, Red Mountain Care Closet, and the Prom Pop-Up Shop."
+    },
+    {
+      "url": "https://www.affcf.org/what-we-fund/supplemental-clothing/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "We can process one reimbursement"
+    },
+    {
+      "url": "https://sites.google.com/mesacc.edu/tbirdtimes/home",
+      "accessedOn": "2026-09-09",
+      "excerpt": "All donated clothing will be available for FREE in the Saguaro Lobby from April 20-23."
+    },
+    {
+      "url": "https://azfamilyresources.org/local",
+      "accessedOn": "2026-09-09",
+      "excerpt": "There is a small annual membership fee for Jose\u2019s Closet that covers ALL children in the home."
+    }
+  ],
+  "coveredNeeds": [
+    "Barrier-aware access",
+    "Benefits and eligibility pathways",
+    "Community-embedded programs",
+    "Contracted providers",
+    "Direct and practical clothing help",
+    "Grant-funded programs",
+    "Partner programs",
+    "Population-specific services",
+    "Programs documented in primary-source PDFs",
+    "Programs that credibly serve the selected area",
+    "Public programs",
+    "Public, nonprofit, and credible private clothing programs",
+    "Registry-listed services"
+  ],
+  "coverageMeaning": "Exact need labels examined through assigned passes; breadth of examination varies and no exhaustive discovery is claimed.",
+  "remainingGaps": [
+    "Other direct-service providers were not investigated beyond search leads.",
+    "Paz clothing voucher availability conflicts within the official site.",
+    "City Hope clothing stock and accommodations are not established.",
+    "Current operation and clothing-specific intake at Workforce Center @ Mesa boutique unresolved.",
+    "School clothing pathway not established in this limited search.",
+    "Other public benefits and contract instruments remain unexamined.",
+    "Jose recipient appointment rule and informal kinship access unknown.",
+    "Jose explicit page opens failed; available official search text used.",
+    "Casa clothing-specific documents, cost and limits unresolved.",
+    "Disability and language accommodations not established for these providers.",
+    "Red Mountain closet and upcoming swap intake unestablished.",
+    "AFFCF application eligibility and upfront-cost alternative unexamined.",
+    "Other grants, board materials and registries remain unexamined.",
+    "Jose first-visit appointment, informal kinship documentation and membership fee unresolved.",
+    "Paz vouchers conflict; fee/document rules not clearly specified.",
+    "City Hope no-ID alternative unknown.",
+    "Other leads and language/disability/travel arrangements remain unverified."
+  ],
+  "limitHit": [
+    "searchQueriesPerArm:8",
+    "writtenLeadsPerArm:3"
+  ],
+  "activeMinutes": 7.77,
+  "waitingMinutes": 0.267,
+  "toolUsage": {
+    "webCalls": 12,
+    "searchQueries": 8,
+    "pageOpens": 14,
+    "failedPageOpens": 3
+  },
+  "incrementalCostUSD": null,
+  "limitations": [
+    "Bounded discovery sample, not exhaustive clothing-category or population coverage.",
+    "No provider contact, phone verification, human curation, independent audit, outside paid model, publication or policy activation.",
+    "Search-results text supported Jose; both explicit page opens failed. A third failed open was City of Mesa workforce URL.",
+    "Accepted primary initially rejected only for extra writingEvidence keys; corrected response accepted. Original response and corrected file preserved.",
+    "Source evidence excerpts are deliberately short; actual complete returned tool outputs are in web-01.json through web-12.json.",
+    "Covered needs mean examined in this sample; contracted-provider search did not establish a clothing contract, and registry coverage was limited to a foundation provider list.",
+    "Estimated active time is elapsed wall time minus measured web-call latency; includes local transport, reading, writing and validation overhead, not a metered thinking-time measure.",
+    "All prior accepted receipt estimates remain immutable; corrected total is separately reported."
+  ]
+}

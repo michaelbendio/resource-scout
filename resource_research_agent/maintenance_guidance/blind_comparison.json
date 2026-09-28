@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "version": "maintenance-required-blind-v1",
+  "freeze": [
+    "Reconcile the primary research and all three challengers using their source evidence. Return the complete proposed result and a disposition for every finding. This result will be frozen before the independent blind research starts.",
+    "Keep consequential uncertainty visible. Include the source evidence supporting the reconciled text, classifications, identities, and access conditions. Do not invent human verification."
+  ],
+  "blind": [
+    "Independently research the assigned original resource or category using current authoritative sources. You have not been given other researchers' findings or proposed text. Do not seek their conversations or results.",
+    "For a resource recheck, report the named program's current services, operation, access, eligibility, costs, contact routes, and appropriate service classifications. Preserve useful original local notes and flag material uncertainties. For category discovery, search the neutral scope and distinguish useful additions from identities already in the original package.",
+    "Use the supplied five-section writing guidance and exact office taxonomy. Return the item contract with dated source evidence. A failed page does not prove closure. Do not contact providers."
+  ],
+  "reconcile": [
+    "Compare the frozen primary-plus-challenger result with the independent blind results. The frozen result is immutable evidence of what Scout concluded before seeing those results.",
+    "Address every challenger finding and every blind-result item in resolutions. For each blind item, explain any useful additions, agreement, duplicates, unsupported claims, or remaining questions, with concrete evidence. If there are no blind items, explain what that means for coverage in researchNotes.",
+    "Only after recording that comparison, incorporate supported contributions into the final items. Agreement is not proof. Keep the full original source provenance and leave significant unresolved decisions for the office curator."
+  ]
+}

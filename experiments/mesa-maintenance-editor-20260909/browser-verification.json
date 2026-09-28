@@ -1,0 +1,12 @@
+{
+  "actualEditorSaveReload": true,
+  "curatedSelectionExport": true,
+  "partialMergeRetains268Resources": true,
+  "newQuestionsAndEditsSurviveOlderPackageMerge": true,
+  "syntheticAnswerSurvivesMerge": true,
+  "cleanDraftHasNoHumanApprovals": true,
+  "reviewExactChangesExpandable": true,
+  "horizontalOverflowAt820And390": false,
+  "pageErrors": [],
+  "syntheticTestsNeverWrittenToDelivery": true
+}

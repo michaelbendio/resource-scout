@@ -1,0 +1,19 @@
+{
+  "pythonSuite": {
+    "run": 379,
+    "skipped": 1,
+    "result": "passed",
+    "command": "python3 -m unittest discover -s tests -q"
+  },
+  "finalTargetedSuite": {
+    "run": 29,
+    "result": "passed",
+    "command": "python3 -m unittest tests.test_frontier_editor tests.test_research_execution -q"
+  },
+  "browser": "passed; real delivery with synthetic edits only in disposable context",
+  "evidenceReplay": "passed; 19 sealed results, exact editorial data, paired learning responses and assessment",
+  "activeLessons": 0,
+  "productionOfficeFilesChanged": false,
+  "retainedResources": 5,
+  "reservedResources": 1
+}

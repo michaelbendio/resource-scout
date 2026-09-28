@@ -1,0 +1,374 @@
+{
+  "arms": {
+    "baseline": {
+      "perPassUsage": [
+        {
+          "stage": "pass:direct-service-landscape",
+          "webCalls": 3,
+          "queries": 1,
+          "pageOpens": 4
+        },
+        {
+          "stage": "pass:public-system-pathways",
+          "webCalls": 3,
+          "queries": 2,
+          "pageOpens": 3
+        },
+        {
+          "stage": "pass:community-population-pathways",
+          "webCalls": 2,
+          "queries": 2,
+          "pageOpens": 4
+        },
+        {
+          "stage": "pass:non-obvious-primary-sources",
+          "webCalls": 3,
+          "queries": 2,
+          "pageOpens": 3
+        }
+      ],
+      "projectId": 2,
+      "manifestSha256": "12e760b20f5fa6225ddf880774e0bfffd9977258577e8d6024272d0280474037",
+      "historical": false,
+      "contextId": "astra-clothing-20260909-baseline",
+      "completedStages": [
+        "pass:direct-service-landscape",
+        "pass:public-system-pathways",
+        "pass:community-population-pathways",
+        "pass:non-obvious-primary-sources",
+        "primary",
+        "freeze",
+        "reconcile"
+      ],
+      "remainingStages": [],
+      "resultHashes": {
+        "pass:direct-service-landscape": "fc4790b648e6f77dc156295fdfec956d7fcf7291879cdf81b1e51c6576ec99c8",
+        "pass:public-system-pathways": "28abc5ae7dc57c7cf57a06f83a3562b46e391dad63b07ff70a118f71b9d533f6",
+        "pass:community-population-pathways": "d89125f44011461bdd68e1be7e602474ff4bfafb52db8d7e00a02139baabc55e",
+        "pass:non-obvious-primary-sources": "e821d32f822d828ed6a38283c5ec436d8a5beff8d13b203320add873877d4d72",
+        "primary": "2e23ec5cca94de690189c836dbcfb45954890f6c21b4ac6d7dbc6716409f8961",
+        "freeze": "810656d729b3fa1ef4e332263b15118cf7f180377b996883258c5013f68c2f71",
+        "reconcile": "25f56f17bf56ba693592ce52603342697a7a96d67f368ca078a4e17f9d8cbe30"
+      },
+      "originalReceiptMinutes": {
+        "activeMinutes": 5.06,
+        "waitingMinutes": 0.26
+      },
+      "webCalls": 12,
+      "queries": 8,
+      "pageOpens": 14,
+      "webToolSeconds": 16.039,
+      "transportRecords": [
+        {
+          "file": "web-01.json",
+          "sha256": "3140638416a5c9f350f43ef4d5780bcaf46b0610056dd8dc0928d86e46b50ada",
+          "queries": 1,
+          "pageOpens": 0,
+          "fileTimestampUnix": 1789007128.1017237,
+          "toolSeconds": 1.078
+        },
+        {
+          "file": "web-02.json",
+          "sha256": "c4bec5e79c6554c9c1d57b716e79a99d83764060bf15d43c2a53a2a83d4b2ef8",
+          "queries": 0,
+          "pageOpens": 2,
+          "fileTimestampUnix": 1789007137.7823217,
+          "toolSeconds": 1.754
+        },
+        {
+          "file": "web-03.json",
+          "sha256": "b46e3305447e307196f2ba2950d8eb345045f927b15d5cce399868ae85762d7e",
+          "queries": 0,
+          "pageOpens": 2,
+          "fileTimestampUnix": 1789007146.1513615,
+          "toolSeconds": 0.874
+        },
+        {
+          "file": "web-04.json",
+          "sha256": "e3a7d2ca695afb5d084ef7cc463dbf082018115c37d788754d1a5c7d761861f6",
+          "queries": 2,
+          "pageOpens": 0,
+          "fileTimestampUnix": 1789007191.9915416,
+          "toolSeconds": 1.1
+        },
+        {
+          "file": "web-05.json",
+          "sha256": "57ccf7db71a7c37e08c51d7ee1a185b6dcb4d0e097846aa09fbb7669236aac56",
+          "queries": 0,
+          "pageOpens": 2,
+          "fileTimestampUnix": 1789007200.3961728,
+          "toolSeconds": 0.84
+        },
+        {
+          "file": "web-06.json",
+          "sha256": "e8d7e6b28da311641568e2df19c5511b711360381069fbe18e5ca6a0c24daee8",
+          "queries": 0,
+          "pageOpens": 1,
+          "fileTimestampUnix": 1789007208.6763396,
+          "toolSeconds": 1.492
+        },
+        {
+          "file": "web-07.json",
+          "sha256": "e16fdfb1a28edb3c0c2aee3016a1a48f2b62fa1411edea4fc0d1275958c2c51b",
+          "queries": 2,
+          "pageOpens": 1,
+          "fileTimestampUnix": 1789007252.6045296,
+          "toolSeconds": 1.965
+        },
+        {
+          "file": "web-08.json",
+          "sha256": "fc8166352fa4286232534c5f8631fe16654a2ed937bae188420af0b410c97ebe",
+          "queries": 0,
+          "pageOpens": 3,
+          "fileTimestampUnix": 1789007261.9674568,
+          "toolSeconds": 0.991
+        },
+        {
+          "file": "web-09.json",
+          "sha256": "f5fb83dbdfbcd600d72db16bac8a43f6a006f751394e2c920784d7bf746ae53d",
+          "queries": 2,
+          "pageOpens": 0,
+          "fileTimestampUnix": 1789007309.1407192,
+          "toolSeconds": 3.168
+        },
+        {
+          "file": "web-10.json",
+          "sha256": "3b7c13b6b0c092d5fae451c326055423760c7bb33d6f9a853c4ab00c0eaa44ec",
+          "queries": 0,
+          "pageOpens": 2,
+          "fileTimestampUnix": 1789007318.8876646,
+          "toolSeconds": 0.944
+        },
+        {
+          "file": "web-11.json",
+          "sha256": "75a3f9df029adcfdfe63a22a663fe7675ed011fd2010f5b12016eb191979f55f",
+          "queries": 0,
+          "pageOpens": 1,
+          "fileTimestampUnix": 1789007330.598026,
+          "toolSeconds": 0.693
+        },
+        {
+          "file": "web-12.json",
+          "sha256": "d08fa676fd19a681048ba150bc5088dfbb53060969cb3676258750cf728301b0",
+          "queries": 1,
+          "pageOpens": 0,
+          "fileTimestampUnix": 1789007387.2750916,
+          "toolSeconds": 1.14
+        }
+      ],
+      "settings": {
+        "schemaVersion": 1,
+        "protocol": "astra-sampled-v1",
+        "version": "bounded-clothing-goals-20260909",
+        "serviceArea": "Mesa, Arizona and practical nearby East Valley access. Bounded new-discovery comparison; at most three fully written leads. Exclude these prior-pilot example providers: One Small Step / Clothes Cabin / PINCH; Helen's Hope Chest; Friends at First; Dress for Success Phoenix / EducateHER; Express Employment Professionals; Goodwill; Smart Justice; The Worker; Mesa Housing Authority / deposit assistance; Family Housing Hub; House of Refuge",
+        "sampling": {
+          "seed": "4164f8adb6d9aa002dda201ea94c7690",
+          "numerator": 0,
+          "denominator": 3
+        },
+        "deliberateCategoryIds": [],
+        "modelIdentities": {
+          "Codex": "gpt-6-astra",
+          "Claude": null,
+          "ChatGPT": null,
+          "Grok": null,
+          "Perplexity": null
+        }
+      },
+      "withinTotalSourceAllowance": true
+    },
+    "candidate": {
+      "perPassUsage": [
+        {
+          "stage": "pass:direct-service-landscape",
+          "webCalls": 3,
+          "queries": 1,
+          "pageOpens": 3
+        },
+        {
+          "stage": "pass:public-system-pathways",
+          "webCalls": 3,
+          "queries": 2,
+          "pageOpens": 4
+        },
+        {
+          "stage": "pass:community-population-pathways",
+          "webCalls": 3,
+          "queries": 2,
+          "pageOpens": 3
+        },
+        {
+          "stage": "pass:non-obvious-primary-sources",
+          "webCalls": 3,
+          "queries": 2,
+          "pageOpens": 4
+        }
+      ],
+      "projectId": 3,
+      "manifestSha256": "2f5d7ad2f80fe3c393491afd4abc8e80fb5d012307f726da2c75854084205b04",
+      "historical": false,
+      "contextId": "astra-clothing-20260909-candidate",
+      "completedStages": [
+        "pass:direct-service-landscape",
+        "pass:public-system-pathways",
+        "pass:community-population-pathways",
+        "pass:non-obvious-primary-sources",
+        "primary",
+        "freeze",
+        "reconcile"
+      ],
+      "remainingStages": [],
+      "resultHashes": {
+        "pass:direct-service-landscape": "98d2c5ed50690e2d3f72d7d3b2b4e56de41c2eb9a779cc731a135a5a21ba6ff3",
+        "pass:public-system-pathways": "f1bd6d99d7b8c956955fbd10a3f8a8387491c7e0ee2073e5edbabf4789ada0c3",
+        "pass:community-population-pathways": "322e354b01952266ef28ce5a2b166c088d4317b66714d908cc310828ae9e195c",
+        "pass:non-obvious-primary-sources": "4702597a7b6c29a309d6a5d63e3213b24fc0e3ed8cfade5cb8d8de8b13387ae6",
+        "primary": "36d0f047978b028ab18f45feb902fc2a5327c38a0a6ab385f46db43853a12fdd",
+        "freeze": "b3dcfd9ed1b4be2111c7c7d1448704ccde95090f9f537e60f84dd8d8582e2a5c",
+        "reconcile": "d9def8946d50f07648abf90b9b1c78695565d86db89741f6a264412ca5d0de0d"
+      },
+      "originalReceiptMinutes": {
+        "activeMinutes": 9.84,
+        "waitingMinutes": 0.16
+      },
+      "webCalls": 13,
+      "queries": 7,
+      "pageOpens": 16,
+      "webToolSeconds": 13.848,
+      "transportRecords": [
+        {
+          "file": "web-01.json",
+          "sha256": "0626665ae5e0e2be17ea8be4f37e12682237c88f067d307139089d3a77018121",
+          "queries": 1,
+          "pageOpens": 0,
+          "fileTimestampUnix": 1789007156.7712302,
+          "toolSeconds": 0.962
+        },
+        {
+          "file": "web-02.json",
+          "sha256": "2bf92846b8685a5b0f3724d45964d9a2d91693736f85bcdc71b3f5f71c1302e0",
+          "queries": 0,
+          "pageOpens": 2,
+          "fileTimestampUnix": 1789007164.5595593,
+          "toolSeconds": 0.89
+        },
+        {
+          "file": "web-03.json",
+          "sha256": "b4a2a2241725c54e95454f08cb450d74f4e527cba2afde1a4fc69548e4bc3f95",
+          "queries": 0,
+          "pageOpens": 1,
+          "fileTimestampUnix": 1789007172.176724,
+          "toolSeconds": 0.7
+        },
+        {
+          "file": "web-04.json",
+          "sha256": "4ba987984f4c8faefadbe08ae05d77559c6d6ffba878a7ba238e3894f45cc249",
+          "queries": 2,
+          "pageOpens": 0,
+          "fileTimestampUnix": 1789007223.8402996,
+          "toolSeconds": 1.175
+        },
+        {
+          "file": "web-05.json",
+          "sha256": "9474a002f04c42460466cbf53ba2b48f4dfe07b66b6952baa950e5bd8b64ce5f",
+          "queries": 0,
+          "pageOpens": 2,
+          "fileTimestampUnix": 1789007237.5971012,
+          "toolSeconds": 1.119
+        },
+        {
+          "file": "web-06.json",
+          "sha256": "8a457a85916b1e65044a5af3f0a7b7e1f6ce3bf43d9102ae966f555d5fa0f848",
+          "queries": 0,
+          "pageOpens": 2,
+          "fileTimestampUnix": 1789007247.58397,
+          "toolSeconds": 0.926
+        },
+        {
+          "file": "web-07.json",
+          "sha256": "a613798e9fbe6b297cf30fa3ab5dd36c022d6af7d106f9efea1b2b5c638ee96c",
+          "queries": 2,
+          "pageOpens": 0,
+          "fileTimestampUnix": 1789007300.2455213,
+          "toolSeconds": 0.994
+        },
+        {
+          "file": "web-08.json",
+          "sha256": "49e52f8ae9647baf02c3045c81132f6433051fb289d3e014b1f78f9359e54e50",
+          "queries": 0,
+          "pageOpens": 2,
+          "fileTimestampUnix": 1789007310.1588273,
+          "toolSeconds": 0.714
+        },
+        {
+          "file": "web-09.json",
+          "sha256": "c1ba812360daa12e48a35c6356955fba60bc1725471b2e8cc4da616e9bd08a90",
+          "queries": 0,
+          "pageOpens": 1,
+          "fileTimestampUnix": 1789007317.3345938,
+          "toolSeconds": 0.703
+        },
+        {
+          "file": "web-10.json",
+          "sha256": "637eb696c5cb3b5ba3ac97edf9e2f140af16cfc402cdd9b2bfb5a2dccccdca1c",
+          "queries": 2,
+          "pageOpens": 0,
+          "fileTimestampUnix": 1789007371.7141376,
+          "toolSeconds": 1.392
+        },
+        {
+          "file": "web-11.json",
+          "sha256": "1a3a1392a497fc93137fe2044394fd51d4fae52aa017a4edcd329360030db32d",
+          "queries": 0,
+          "pageOpens": 2,
+          "fileTimestampUnix": 1789007380.9974275,
+          "toolSeconds": 0.788
+        },
+        {
+          "file": "web-12.json",
+          "sha256": "cb6c87f4ac35ad7bf089cdf244c9385fb70fe546caefa37b17304fdae78b6c77",
+          "queries": 0,
+          "pageOpens": 2,
+          "fileTimestampUnix": 1789007394.7073326,
+          "toolSeconds": 1.022
+        },
+        {
+          "file": "web-13.json",
+          "sha256": "b4acabb63a74bb2feb28f0bfc37b9bbd16477da46b65af34bca8e6c4184a63e6",
+          "queries": 0,
+          "pageOpens": 2,
+          "fileTimestampUnix": 1789007448.5764592,
+          "toolSeconds": 2.463
+        }
+      ],
+      "settings": {
+        "schemaVersion": 1,
+        "protocol": "astra-sampled-v1",
+        "version": "bounded-clothing-goals-20260909",
+        "serviceArea": "Mesa, Arizona and practical nearby East Valley access. Bounded new-discovery comparison; at most three fully written leads. Exclude these prior-pilot example providers: One Small Step / Clothes Cabin / PINCH; Helen's Hope Chest; Friends at First; Dress for Success Phoenix / EducateHER; Express Employment Professionals; Goodwill; Smart Justice; The Worker; Mesa Housing Authority / deposit assistance; Family Housing Hub; House of Refuge",
+        "sampling": {
+          "seed": "4164f8adb6d9aa002dda201ea94c7690",
+          "numerator": 0,
+          "denominator": 3
+        },
+        "deliberateCategoryIds": [],
+        "modelIdentities": {
+          "Codex": "gpt-6-astra",
+          "Claude": null,
+          "ChatGPT": null,
+          "Grok": null,
+          "Perplexity": null
+        }
+      },
+      "withinTotalSourceAllowance": true
+    }
+  },
+  "activeManifest": {
+    "manifestId": "a50bef4a7f16c2a5575ab20efc15b6d0a5c126edc266e7236a59d9a96657ac05",
+    "parent": null,
+    "entries": [],
+    "reviewId": null
+  },
+  "productionActivation": false,
+  "note": "Raw web logs remain in local output and are hashed here. Counts are explicit tool requests, not all pages exposed in search results. Receipt minutes are original attributed estimates, not measured model compute time."
+}

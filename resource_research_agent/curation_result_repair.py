@@ -15,8 +15,16 @@ def canonical(value: Any) -> str:
 
 def is_explicit_placeholder(row: dict) -> bool:
     markers = {"placeholder", "placeholder remove", "duplicate placeholder", "duplicate placeholder remove"}
-    return all(" ".join(str(row.get(k, "")).casefold().split()) in markers
-               for k in ("name", "description", "informationText"))
+    def marker(value):
+        return isinstance(value, str) and " ".join(value.casefold().split()) in markers
+    if not all(marker(row.get(key)) for key in ("name", "description")):
+        return False
+    if "informationSections" in row:
+        sections = row["informationSections"]
+        return ("informationText" not in row and isinstance(sections, dict) and bool(sections)
+                and all(marker(value) for value in sections.values())
+                and not (row.get("writingEvidence") or {}).get("sources"))
+    return marker(row.get("informationText"))
 
 
 def enforce_structural_changes(original: dict, corrected: dict, assignment: dict) -> None:

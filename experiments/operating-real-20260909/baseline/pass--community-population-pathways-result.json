@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "taskId": "discovery:clothing",
+  "assignmentSha256": "e242d5ec610c8f18a72054408be6e18208bb87d58830b3a228e38d603b7074f0",
+  "evidenceSources": [
+    {
+      "url": "https://www.azafap.org/joses-closet/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Membership includes all children in your household up to age 21."
+    },
+    {
+      "url": "https://riovistacenter.com/casa-de-amor/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Question for Casa de Amor, please call (480) 464-2877"
+    },
+    {
+      "url": "https://azresourcecenters.com/locations/casa-de-amor/",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Clothing"
+    }
+  ],
+  "researchNotes": "Community ministries and foster/kinship barriers examined. Jose official source returned rich search text but both explicit opens failed; use the currently searched source with that transport limitation. Donation-door no-appointment wording does not prove recipient walk-in access. Historic Jose fees/address found in search are not current rules. Two web calls, two queries, four opens including two failures.",
+  "executionReceipt": {
+    "complete": true,
+    "model": "gpt-6-astra",
+    "contextId": "astra-clothing-20260909-baseline",
+    "freshContext": true,
+    "isolatedInputs": true,
+    "activeMinutes": 0.62,
+    "waitingMinutes": 0.05,
+    "coverageNotes": "Examined Community-embedded programs; Population-specific services; Barrier-aware access for family-placement documentation. Bounded two-provider sample; no exhaustive disability/language or all population search.",
+    "remainingGaps": [
+      "Jose recipient appointment rule and informal kinship access unknown.",
+      "Jose explicit page opens failed; available official search text used.",
+      "Casa clothing-specific documents, cost and limits unresolved.",
+      "Disability and language accommodations not established for these providers."
+    ]
+  },
+  "observations": [
+    {
+      "summary": "Jose’s Closet (AZAFAP oversight since 2025) serves foster, kinship, adoptive families and extended foster-care youth. Official searched text gives 6515 E Main St Suite 120 Mesa 85205, 480-309-1743, info@josescloset.org; Tuesday–Saturday 11 am–3 pm. Membership covers household children up to 21. First visit: caregiver photo ID, DCS placement or guardianship records, adoption records if applicable, and biological children’s birth certificates; complete packet then renew annually. Monthly clothing shopping provides roughly one week of outfits per child, at no charge. Recipient appointment requirement not stated.",
+      "evidence": [
+        0
+      ],
+      "questions": [
+        "Is an appointment needed for a family’s first membership visit?",
+        "Can informal kinship caregivers without guardianship or DCS paperwork join?"
+      ]
+    },
+    {
+      "summary": "Casa de Amor offers community clothing help at 819 S MacDonald, Mesa 85210, Monday–Wednesday 9–11 am; questions route 480-464-2877. Two ministry pages corroborate clothing and site hours. Recipient documents, clothing cost and ages/sizes are not established by these pages. The daily first-come limit refers specifically to food boxes, not clothing. Do not conflate co-located pregnancy-center or church schedules with clothing hours.",
+      "evidence": [
+        1,
+        2
+      ],
+      "questions": [
+        "What should someone bring to receive clothing, and are there clothing fees or visit limits?"
+      ]
+    }
+  ]
+}

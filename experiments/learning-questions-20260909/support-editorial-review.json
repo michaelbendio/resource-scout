@@ -1,0 +1,37 @@
+{
+  "formatVersion": 1,
+  "run": {
+    "sourceSha256": "75513007ce4531c60c92125a69aa8189b195af78626d89ae275530c9d0ccd48c",
+    "sourceRecordCount": 3,
+    "editor": "Astra coordinator, question-quality review only",
+    "sourceExperiment": "experiments/learning-primary-20260909",
+    "sourceResponseHashes": {
+      "baseline": "c8828bf95c522cf5fe5877b37eaa77e56d9fb8a09fdb361fc3f362cf19382ef7",
+      "candidate": "8cf9598faecd1e1c82dfd720c2bf4f3f6fc011e6ca1dd60bbb3dd809ba190922"
+    }
+  },
+  "decisions": [
+    {
+      "resourceId": "step",
+      "disposition": "unreviewed",
+      "targetResourceIds": [],
+      "reason": "AI question review of the prior paired trial: a candidate question requested fee information already published on its cited Step application page; bed availability in the same question remained a real current gap. No overall resource selection or human provider verification is asserted."
+    },
+    {
+      "resourceId": "egcareers",
+      "disposition": "unreviewed",
+      "targetResourceIds": [],
+      "reason": "AI question review of the prior paired trial: both versions asked about studying outside Emily Griffith although the cited CAREERS FAQ says that is allowed. Individual eligibility can still require clarification. No human provider verification is asserted."
+    },
+    {
+      "resourceId": "dvr",
+      "disposition": "unreviewed",
+      "targetResourceIds": [],
+      "reason": "Counterevidence: the dated DVR waitlist notice did not establish present availability for a particular applicant. Do not remove a consequential current-status question merely because a historical page discusses the topic."
+    }
+  ],
+  "newOutputResources": [],
+  "output": {
+    "finalUniqueResources": 0
+  }
+}

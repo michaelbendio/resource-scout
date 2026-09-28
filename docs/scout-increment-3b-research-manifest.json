@@ -1,0 +1,134 @@
+{
+  "date": "2026-09-06",
+  "threads": {
+    "ChatGPT": [
+      "https://chatgpt.com/c/6a9d5fef-e340-83e8-9215-d7115f8a4332",
+      "https://chatgpt.com/c/6a9d6387-ad20-83e8-a9bf-04ebfd261c88"
+    ],
+    "Grok": [
+      "https://grok.com/c/f82b1812-ee5b-4f69-8995-f4f9d6a47979",
+      "https://grok.com/c/1100f30d-5091-48a1-9b37-99feea4b5523"
+    ],
+    "Perplexity": [
+      "https://www.perplexity.ai/search/47fab30a-919a-4f05-9080-a4173012ce2c",
+      "https://www.perplexity.ai/search/bb3e41e6-a79d-4d99-a956-fa3662a4b4c1"
+    ]
+  },
+  "verification": {
+    "additionalResearchRecords": 21,
+    "externalAudits": 63,
+    "auditFindings": 126,
+    "findingResolutions": 126,
+    "findingsStillNeedingHumanReview": 37,
+    "affectedResources": 25,
+    "affectedResearchComplete": 25,
+    "totalOfficeResources": 183,
+    "totalResearchedResources": 27,
+    "acceptedSixRecordsExactlyPreserved": true,
+    "guidanceExactlyPreserved": true,
+    "sourceAndLatestPackageHashesPreserved": true,
+    "newHumanApprovals": 0,
+    "reviewedMigrationMappings": 0,
+    "legacyAliasExportStillBlocked": true,
+    "originalPDFs": [
+      {
+        "path": "pdfs/1ecf0f7480ee19491767881733e224fc/53ed3fa52be8ab6d5dcddceaa21bbcf5-Advocates-for-Independence.pdf",
+        "sha256": "8eb8f00c6840136d763002af9a6c8a2e7b46695c69090002d7e05ad528355b7c"
+      },
+      {
+        "path": "pdfs/4eef614c75ba0b7b8b55ae7d723a404a/560681c34f9010f6d97c63a1d9f92601-MAG-Aging-and-Family-ALL-Services.pdf",
+        "sha256": "ca9f8bb015cc9287d88b2637f974b8f31c534fdbb5eda5a27f594f7077058216"
+      },
+      {
+        "path": "pdfs/4eef614c75ba0b7b8b55ae7d723a404a/fd8f12442275ad1c171de5dfd69526a4-MAG-Aging-Caregiver-Support.pdf",
+        "sha256": "b7a378892bbb140fe9c3bc51e13b3ac63d2dba5ebdbf8373a86c62105f2c6efc"
+      },
+      {
+        "path": "pdfs/4eef614c75ba0b7b8b55ae7d723a404a/13694a977e40073388402e14c5faad5c-MAG-Aging-In-Home-Programs.pdf",
+        "sha256": "ffd67709f3bed3cc87dcf8b77cd6a4a75c4037c0fc88f9f9cc460a583a3a8b93"
+      },
+      {
+        "path": "pdfs/4eef614c75ba0b7b8b55ae7d723a404a/d8af6c9d2cd15bca8f15831367e779f5-MAG-Aging-and-Family-Services---Overview.pdf",
+        "sha256": "101cf6170345977eda2fa561a5b6f168e3ff11a4b9eef3ccbf39a0a0cf5b6764"
+      },
+      {
+        "path": "pdfs/661078e51085af3560689630868b4608/7849e575518871248ba96247ba1359b7-One-New-Light-Senior-Shared-Room-Housing.pdf",
+        "sha256": "ae134a4bfc2745d5f5df993cebf5f2bb3658a5e381ed5642dabc61c36cf86cc9"
+      },
+      {
+        "path": "pdfs/bed4c01286156e6aa79e843375a3dbe4/5ce23b3c99f491e6d670df34ea43897d-Supporting-Older-Americans-Fact-Sheet-March-2025.pdf",
+        "sha256": "ecc83d6dd375908c06445274b3efb6307190c270e25191417b175928795de3e7"
+      },
+      {
+        "path": "pdfs/c386d3b481499baeaeec4edaca8f8551/b7b2782fc86286fa74e1b24e0c0b7c0f-Valor-House.pdf",
+        "sha256": "41182a87ee8c9dfe2f2db257809916752065f458cdbe07e2c3ffe127c451269f"
+      },
+      {
+        "path": "pdfs/casfb/b56bf6b52008577887d6034ebfdbacba-Community-Action-Financial-Classes.pdf",
+        "sha256": "8a5fbbe7352ac29ec39000b597b28f84696fda8a27d498b42139f9c15f900886"
+      },
+      {
+        "path": "pdfs/casfb/7942a2f5802a5bf079c0dd9fbb577344-Community-Action-Services.pdf",
+        "sha256": "a57aef980f53205fed27e108223b772d285075782a47e5b2c45b31983438e241"
+      },
+      {
+        "path": "pdfs/easterseals-goodwill-senior-employment-program-scsep/ba9c1e778ef20147f38c4eae2d4ebd71-Easter-Seals---Goodwill-Senior-Citizen-Employment.pdf",
+        "sha256": "2dfaa63c4dbf4a8ee4dc8a370f0a20f413b54b9f57e5a40337dec31690d37655"
+      },
+      {
+        "path": "pdfs/f1b08e5efdc0152deebfa5853a50e34b/06a94f6d9af06508b42a9538d6ead73c-Utah-Housing-Corporation.pdf",
+        "sha256": "9a6f3508de8692b53d3631746f6080ad381a7e43c0f7d567630e580922b4ac50"
+      }
+    ],
+    "attachmentPagesInspected": 24,
+    "HTMLRegenerated": false
+  },
+  "rawCaptures": {
+    "ChatGPT-batch-1.raw.json": "047fd61928148f112cf47c031316c0b5b387581b97c095801ca48f24bce75cb6",
+    "ChatGPT-batch-1.wrong-primary-hashes.raw.json": "c097f0340707ce434141ec803cf35bb95eef4e8d6929727e3ff112a9a1dec9db",
+    "ChatGPT-remaining-14.raw.json": "eba7e57a7e2b0121b1c9bba56d6482666d741ca36cf6b6108a741c5db373f43a",
+    "Grok-batch-1.raw.json": "7fd1cfd38f9f36d559e49dee1866eb324d9ebf33b2cd1231c7a0b486019a2613",
+    "Grok-remaining-14.raw.json": "76b86f181ef4d29bada441c6ef8453f70c3c89f4392ec226abcb892cf13c1928",
+    "Perplexity-batch-1.raw.json": "8a508c2edcc1bf24a108c3e3ed73fb4d82945db8cb4f81948d3427e408b119a0",
+    "Perplexity-remaining-14.raw.json": "b081322076a6d3b29cac26091f2b9cbdf5e4047cca40a4a7eaa5ddc40aa9bc0d"
+  },
+  "hashCorrection": "ChatGPT initially copied primaryResult hashes. The service returned corrected audit hashes in the same thread. Both raw responses are preserved; the incorrect one was rejected by import.",
+  "mappingProposalSha256": "e32452bd2ef2321b89f8c0075abbd317cd0294b6ef9ed45ac99ea932c4d381bb",
+  "groupCounts": [
+    {
+      "group": "Exiting corrections",
+      "current": 1,
+      "proposed": 4
+    },
+    {
+      "group": "Families with children",
+      "current": 4,
+      "proposed": 8
+    },
+    {
+      "group": "Medically vulnerable",
+      "current": 0,
+      "proposed": 0
+    },
+    {
+      "group": "Seniors",
+      "current": 3,
+      "proposed": 15
+    },
+    {
+      "group": "Spanish speaking",
+      "current": 3,
+      "proposed": 10
+    },
+    {
+      "group": "Veterans",
+      "current": 1,
+      "proposed": 11
+    },
+    {
+      "group": "Women",
+      "current": 0,
+      "proposed": 2
+    }
+  ]
+}

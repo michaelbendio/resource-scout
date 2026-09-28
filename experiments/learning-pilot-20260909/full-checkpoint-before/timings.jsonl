@@ -1,0 +1,15 @@
+{"schemaVersion": 1, "phase": "checkpoint.database_read", "status": "ok", "seconds": 0.20967899996321648, "recordedAt": "2026-09-09T19:52:58.447773+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.5460136659676209, "recordedAt": "2026-09-09T19:52:58.994061+00:00", "counters": {"characters": 812799240}}
+{"schemaVersion": 1, "phase": "checkpoint.decompress", "status": "ok", "seconds": 2.114516708999872, "recordedAt": "2026-09-09T19:53:01.108664+00:00", "counters": {"outputBytes": 1816249104}}
+{"schemaVersion": 1, "phase": "checkpoint.inner_json_decode", "status": "ok", "seconds": 3.7387091249693185, "recordedAt": "2026-09-09T19:53:04.847477+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "research.execution_validation", "status": "ok", "seconds": 5.938744749990292, "recordedAt": "2026-09-09T19:53:10.786338+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_encode", "status": "ok", "seconds": 4.954521958017722, "recordedAt": "2026-09-09T19:53:16.551099+00:00", "counters": {"characters": 1813675401}}
+{"schemaVersion": 1, "phase": "checkpoint.compress", "status": "ok", "seconds": 10.096713833045214, "recordedAt": "2026-09-09T19:53:26.647936+00:00", "counters": {"inputBytes": 1816249104, "outputBytes": 609599379}}
+{"schemaVersion": 1, "phase": "checkpoint.envelope_encode", "status": "ok", "seconds": 1.5796754169277847, "recordedAt": "2026-09-09T19:53:28.227723+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.database_write", "status": "ok", "seconds": 0.1971561670070514, "recordedAt": "2026-09-09T19:53:28.424964+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "database.commit", "status": "ok", "seconds": 1.8749968148767948e-05, "recordedAt": "2026-09-09T19:53:28.425059+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "benchmark.save_total", "status": "ok", "seconds": 16.82844795798883, "recordedAt": "2026-09-09T19:53:28.425073+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "checkpoint.json_decode", "status": "ok", "seconds": 0.5120122499065474, "recordedAt": "2026-09-09T19:53:28.948379+00:00", "counters": {"characters": 812799240}}
+{"schemaVersion": 1, "phase": "checkpoint.decompress", "status": "ok", "seconds": 1.886305582942441, "recordedAt": "2026-09-09T19:53:30.834766+00:00", "counters": {"outputBytes": 1816249104}}
+{"schemaVersion": 1, "phase": "checkpoint.inner_json_decode", "status": "ok", "seconds": 5.511166208074428, "recordedAt": "2026-09-09T19:53:36.346053+00:00", "counters": {}}
+{"schemaVersion": 1, "phase": "benchmark.roundtrip_verify", "status": "ok", "seconds": 9.183991833007894, "recordedAt": "2026-09-09T19:53:37.620398+00:00", "counters": {}}

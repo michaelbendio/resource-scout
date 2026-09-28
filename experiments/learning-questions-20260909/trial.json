@@ -1,0 +1,8 @@
+{
+  "trialId": "1be1b5dca474f56ef9b46c974d70fa929cb6480ef7766864ed044f87cfc45ff6",
+  "status": "approved-for-experiment",
+  "active": false,
+  "caseCount": 6,
+  "maxAssignments": 2,
+  "maxSeconds": 1800
+}

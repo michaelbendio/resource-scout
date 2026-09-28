@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "taskId": "discovery:clothing",
+  "assignmentSha256": "dfe45fc4eea94a7d5d8f6b2c3affeb376ce7bfbb4a912766afd7ba6ba0c3ecc9",
+  "evidenceSources": [
+    {
+      "url": "https://www.esd.maricopa.gov/m/newsflash/home/detail/2631",
+      "accessedOn": "2026-09-09",
+      "excerpt": "a professional clothing boutique where career seekers can go to select from gently used professional attire"
+    },
+    {
+      "url": "https://www.maricopa.gov/5226/Adult-Workforce-Services-Ages-18",
+      "accessedOn": "2026-09-09",
+      "excerpt": "MesaCAN, 635 E. Broadway Rd., Mesa, AZ 85204"
+    }
+  ],
+  "researchNotes": "Government school and workforce searches examined public programs and benefits routes. School results did not establish a clothing pathway. One City of Mesa URL failed; county alternative was read. No closure inferred. Current workforce eligibility cannot automatically be applied to an independently operated clothing boutique.",
+  "executionReceipt": {
+    "complete": true,
+    "model": "gpt-6-astra",
+    "contextId": "astra-clothing-20260909-baseline",
+    "freshContext": true,
+    "isolatedInputs": true,
+    "activeMinutes": 0.66,
+    "waitingMinutes": 0.05,
+    "coverageNotes": "Examined Public programs; Contracted providers; Benefits and eligibility pathways through government school and county workforce sources. Three web calls, two queries, three opens including one failure. Contract instruments and broad benefit programs not exhaustively examined.",
+    "remainingGaps": [
+      "Current operation and clothing-specific intake at Workforce Center @ Mesa boutique unresolved.",
+      "School clothing pathway not established in this limited search.",
+      "Other public benefits and contract instruments remain unexamined."
+    ]
+  },
+  "observations": [
+    {
+      "summary": "Workforce Center @ Mesa professional clothing boutique is supported by a December 8, 2022 county announcement at 635 E Broadway Rd. Current county Adult Workforce Services still lists MesaCAN there as a partner career center, but does not expressly reaffirm the boutique. Keep as research note until present operation, appointment rules, hours and whether job-service enrollment is required are checked.",
+      "evidence": [
+        0,
+        1
+      ],
+      "questions": [
+        "Is the professional clothing boutique at 635 E Broadway still available, and can a job seeker use it without enrolling in workforce services?"
+      ]
+    },
+    {
+      "summary": "County career-service pathway is free for eligible adults 18+ legally able to work; individualized services require more documentation. Arizona Job Connection account may be created at a center; portal staff schedule an appointment. Driver’s license requested; disability aids available on request. This establishes workforce access only, not clothing eligibility.",
+      "evidence": [
+        1
+      ],
+      "questions": [
+        "Which clothing-specific eligibility and document rules apply at the Mesa boutique?"
+      ]
+    }
+  ]
+}

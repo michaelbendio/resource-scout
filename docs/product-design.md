@@ -4,7 +4,7 @@
 
 The [prepared-resources design](scout-prepared-resources-design-20260925.md) and
 [implemented contract](scout-prepared-resources-contract.md) govern the new WSRS-TSO
-data mode. Research remains broad; preparation makes the reserve useful; requested
+data mode. Research and preparation follow office-fit policy; requested
 review proposes 7–10 complementary starters per category and a reason to consider
 every remaining exported membership. No tiers or three-item opening set. Types and
 groups are reconciled from the collection for useful filtering without erasing
@@ -16,11 +16,12 @@ never human approval or verification dates. The first delivery is the four-categ
 Mesa trial extended to production data; other offices and categories remain outside
 that scope. Ordinary `[location].html` enhancements were explicitly withdrawn.
 
-The proposed next design is [prepared resources, starter sets, and the WSRS-TSO handoff](scout-prepared-resources-design-20260925.md),
-informed by [WSRS-TSO's artifact feedback and the September 25 discussion constraints](wsrs-tso-scout-artifact-reference-20260925.md).
-It is a discussion draft, not an implemented change. The historical design below
-predates several current features; verify active code and review contracts before
-treating it as a statement of present behavior.
+The prepared-resource contract is implemented. The historical descriptions below
+and the separate [writing workflow design](scout-next-design.md) remain useful for
+the retained HTML and structured-writing workflows; they do not override current
+[office-fit policy](office-fit-rules-20260928.md). Main's writing, maintenance,
+classification and learning implementation was retained during September 28
+branch consolidation. Existing sealed assignments retain their original contracts.
 
 ## Product boundary
 

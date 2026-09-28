@@ -1,0 +1,73 @@
+{
+  "calls": [
+    {
+      "phase": "primary",
+      "group": "clothing",
+      "seconds": 1.232,
+      "requestedPages": 4
+    },
+    {
+      "phase": "primary",
+      "group": "clothing-followlinks",
+      "seconds": 1.319,
+      "requestedPages": 2,
+      "searchQueries": 2
+    },
+    {
+      "phase": "primary",
+      "group": "employment",
+      "seconds": 0.949,
+      "requestedPages": 4
+    },
+    {
+      "phase": "primary",
+      "group": "housing",
+      "seconds": 0.687,
+      "requestedPages": 4
+    },
+    {
+      "phase": "primary",
+      "group": "support",
+      "seconds": 0.758,
+      "requestedPages": 4
+    },
+    {
+      "phase": "primary",
+      "group": "remainingchecks",
+      "seconds": 1.086,
+      "requestedPages": 2,
+      "searchQueries": 4
+    },
+    {
+      "phase": "primary",
+      "group": "final",
+      "seconds": 0.761,
+      "requestedPages": 4
+    },
+    {
+      "phase": "targeted",
+      "group": "worker-pinch-manual",
+      "seconds": 0.777,
+      "requestedPages": 4
+    },
+    {
+      "phase": "targeted",
+      "group": "remaining",
+      "seconds": 0.869,
+      "requestedPages": 4
+    },
+    {
+      "phase": "targeted",
+      "group": "manual-excerpt",
+      "seconds": 0.792,
+      "requestedPages": 0,
+      "existingDocumentExcerptReads": 1
+    }
+  ],
+  "explicitNewOrRepeatedPageRequests": 32,
+  "searchQueries": 6,
+  "webToolSeconds": 9.23,
+  "incrementalCostUSD": null,
+  "modelServiceSeconds": null,
+  "notes": "Actual coordinator web-tool wall measurements. Requested pages count explicit open/click requests including retries; search results expose additional pages. One excerpt reread is counted separately. PDF page totals are not source-document counts. Same context, no isolated model experiment."
+}

@@ -1,0 +1,84 @@
+{
+  "source": "/Users/michaelbendio/resource-scout-v2/output/autoMesaV2-astra/research.sqlite3",
+  "sourceProject": 2,
+  "sourceRevision": 2681,
+  "sourceReadOnly": true,
+  "writeCodec": "automatic-sharing",
+  "inputStoredCharacters": 812799240,
+  "outputStoredCharacters": 11562611,
+  "repetitions": 1,
+  "roundtripEqual": true,
+  "phases": {
+    "checkpoint.database_read": {
+      "count": 1,
+      "seconds": 0.21230249991640449,
+      "errors": 0
+    },
+    "checkpoint.json_decode": {
+      "count": 2,
+      "seconds": 0.48351849999744445,
+      "errors": 0
+    },
+    "checkpoint.decompress": {
+      "count": 2,
+      "seconds": 2.189013583934866,
+      "errors": 0
+    },
+    "checkpoint.inner_json_decode": {
+      "count": 2,
+      "seconds": 3.6585877500474453,
+      "errors": 0
+    },
+    "research.execution_validation": {
+      "count": 1,
+      "seconds": 6.04391729098279,
+      "errors": 0
+    },
+    "checkpoint.share_repeated_context": {
+      "count": 1,
+      "seconds": 6.232802042039111,
+      "errors": 0
+    },
+    "checkpoint.json_encode": {
+      "count": 1,
+      "seconds": 0.1145464169094339,
+      "errors": 0
+    },
+    "checkpoint.compress": {
+      "count": 1,
+      "seconds": 0.15515125007368624,
+      "errors": 0
+    },
+    "checkpoint.envelope_encode": {
+      "count": 1,
+      "seconds": 0.02207987499423325,
+      "errors": 0
+    },
+    "checkpoint.database_write": {
+      "count": 1,
+      "seconds": 0.11137558298651129,
+      "errors": 0
+    },
+    "database.commit": {
+      "count": 1,
+      "seconds": 0.006270000012591481,
+      "errors": 0
+    },
+    "benchmark.save_total": {
+      "count": 1,
+      "seconds": 6.64648212492466,
+      "errors": 0
+    },
+    "checkpoint.expand_shared_context": {
+      "count": 1,
+      "seconds": 4.107078499975614,
+      "errors": 0
+    },
+    "benchmark.roundtrip_verify": {
+      "count": 1,
+      "seconds": 4.664523792103864,
+      "errors": 0
+    }
+  },
+  "note": "Phases can be nested; do not add their durations as total wall time. No provider time or cost is inferred."
+}

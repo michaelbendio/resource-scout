@@ -34,6 +34,8 @@ const elements={res_for_groups_reviewed:checkbox,res_for_groups_review_label:lab
 const document={getElementById(id){return elements[id] || null},createElement:element};
 let alerts=[], writes=0, renders=0, persistedIds=[];
 function alert(message){alerts.push(message)}
+function validateResourceQuestions(){return true}
+function resourceOpenQuestionLabel(){return ""}
 let data={resources:[{id:'r1',name:'Test resource'}]};
 let scoutReviewState={curatedResourceIds:[]};
 function isScoutReviewMode(){return true}

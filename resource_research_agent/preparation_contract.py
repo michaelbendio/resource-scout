@@ -83,7 +83,15 @@ def prepared_assignment(assignment):
         "humanApproval": "Separate office action; no AI approval or verification date.",
     }
     result["instructions"] = preparation_instructions()
+    # Prepared JSON retains its sealed five-section draft contract. The separate
+    # structured-writing workflow must not change its schema or section policy.
+    result.pop("writingGuidance", None)
+    result.pop("curationContractVersion", None)
+    result["outputContract"]["scoutCurationResultSchemaVersion"] = 1
     resource = result["outputContract"]["resources"][0]
+    for field in ("informationSections", "writingEvidence", "openQuestions"):
+        resource.pop(field, None)
+    resource["informationText"] = ""
     resource.update(id="provisional proposal reference; reuse a prior draft reference only for the same program",
                     email="", researchedAt=None, sources=[], state="usable", resolutionReason="",
                     taxonomySuggestions=[])

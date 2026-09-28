@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 2,
+  "version": "required-blind-roster-v2",
+  "researchers": [
+    {"name": "Codex", "role": "primary"},
+    {"name": "ChatGPT", "role": "challenger"},
+    {"name": "Grok", "role": "challenger"},
+    {"name": "Perplexity", "role": "challenger"},
+    {"name": "Claude", "role": "blind"}
+  ]
+}

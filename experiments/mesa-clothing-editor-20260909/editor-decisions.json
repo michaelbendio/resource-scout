@@ -1,0 +1,306 @@
+{
+  "assignmentSha256": "c34f8e4ca9d9a5890cd22986329c8fc1b981f15ac0aad93c9ae2013b4f706eaa",
+  "decisions": [
+    {
+      "resourceId": "08497e5f8c33c372d57430bc722bb639",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "08497e5f8c33c372d57430bc722bb639"
+      ],
+      "reason": "Retain an accessible Mesa employment/workwear starting point. The separate housing rules, waiting period, shared accommodation and costs are now clearly qualified; retain both services in one existing identity without presenting housing as immediate or generally free.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://www.theworkeraz.org/get-a-job, https://www.theworkeraz.org/get-housing, https://www.theworkeraz.org/contact-us"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "08a26b747ffe8b1ea284e491a62d39e7",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "08a26b747ffe8b1ea284e491a62d39e7"
+      ],
+      "reason": "Retain substantial direct adult clothing and other basic-needs services. Different service windows and the voucher uncertainty are already explicit. Preserve every existing question ID even where older questions overlap; do not manufacture resolutions.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://pazdecristo.org/what-we-do/get-help-original/, https://pazdecristo.org/what-we-do/clothe/"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "c3ab0f1578b4ec24df452d8eee4c9ce6",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "c3ab0f1578b4ec24df452d8eee4c9ce6"
+      ],
+      "reason": "Retain practical workforce intake and professional clothing. Existing boutique-access questions remain appropriate. Other education/employment classifications are preserved, not freshly certified by a Clothing-only run.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "6ea1c2067f6e451532d3bd346cc56276",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "6ea1c2067f6e451532d3bd346cc56276"
+      ],
+      "reason": "Retain the actual no-referral clothing route and distinct women’s, men’s and education programs. An online appointment option is not proof of a new barrier. Do not make a curator revisit the FAQ answer unnecessarily.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://dfsphoenix.org/services/, https://dfsphoenix.org/about/, https://dfsphoenix.org/contact-us/"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "89a928c6f5bbdc65de87c3fecbbcae79",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "89a928c6f5bbdc65de87c3fecbbcae79"
+      ],
+      "reason": "Retain a nearby route with named ZIP coverage and service-specific cutoffs. Clothing repeat frequency is a useful question, not a reason to exclude a program someone can start with directly.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://bccmesa.com/missions-outreach/nhcc/, https://search.211arizona.org/search/c89ca2ed-dfb1-5910-9552-4c3a1d7dc953, https://www.findhelp.org/broadway-christian-church--mesa-az--new-hope-community-center/5746510185889792?postal=85201"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "aeed9f6c57cf87a109315fe1590a12d2",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "aeed9f6c57cf87a109315fe1590a12d2"
+      ],
+      "reason": "Retain the Phoenix alternative because its schedules and adult basic-needs combination can be useful when local options differ. Preserve travel, queue, laundry capacity and ID qualifications.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://andrehouse.org/what-we-do/, https://andrehouse.org/ways-to-give/"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "73dfadc219f93cdde3c2e07d3e1045b4",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "73dfadc219f93cdde3c2e07d3e1045b4"
+      ],
+      "reason": "Retain strong no-referral access, workwear and useful unsheltered services. Keep the ID accommodation, household rules and child-waiting arrangements; those details can determine whether a visit succeeds.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://www.onesmallstepaz.org/pages/faq"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "7e66c8c912ad9889aa3627405af218f3",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "7e66c8c912ad9889aa3627405af218f3"
+      ],
+      "reason": "Retain local adult help. The seasonal family service stays explicitly separate, and unresolved adult summer access stays visible.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://www.friendsatfirst.org/, https://www.friendsatfirst.org/2026summer"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "fbd7ac5640a1ad45864261484e2bcbf0",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "fbd7ac5640a1ad45864261484e2bcbf0"
+      ],
+      "reason": "Retain foster/kinship clothing with a usable appointment and document route. Keep separate from Jose’s Closet: providers, intake documents and visit intervals differ; useful alternatives are not duplicate records.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://helenshopechest.org/who-we-serve-1, https://helenshopechest.org/clothingprogram, https://helenshopechest.org/, https://search.211arizona.org/search/9b2e34f5-771e-578e-8894-6a2f33f4a33f"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "48635b5d3545aa10e94ee5ef9259b840",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "48635b5d3545aa10e94ee5ef9259b840"
+      ],
+      "reason": "Retain neighborhood clothing/food assistance through a concrete callback route. Preserve address screening and existing questions; avoid importing donation eligibility or an old food schedule as clothing rules.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://holycrossmesa.org/svdp/, https://container.parishesonline.com/bulletins/05/0416/20250907B.pdf"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "de5e0aa4a6c2164fb8b4a9fcfdcdac9b",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "de5e0aa4a6c2164fb8b4a9fcfdcdac9b"
+      ],
+      "reason": "Retain an uncomplicated local option with a short, clearly stated Friday service window. Do not lengthen already clear prose.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://fpcmesa.org/"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "c74ea9adad61a6ff3fd9e49ae50d61d2",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "c74ea9adad61a6ff3fd9e49ae50d61d2"
+      ],
+      "reason": "Retain provisionally as a call-first route with the existing nonresident-intake question. The public page names broader people in need; it neither guarantees open shopping nor proves residents-only eligibility.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://www.streetsofjoy.com/clothing-center.php"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "4ea93a335a4945322184f2ce0e01feb5",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "4ea93a335a4945322184f2ce0e01feb5"
+      ],
+      "reason": "Retain targeted school clothing because the child’s school offers a named, reachable intermediary. No speculative public walk-in thrift-store access. Preserve exact school/grade scope.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://www.valleybloom.org/valley-bloom-students"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "2bf6edeedd27a167fa3b1ba584d2c7c4",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "2bf6edeedd27a167fa3b1ba584d2c7c4"
+      ],
+      "reason": "Retain the current combined record with distinct Mesa/Phoenix instructions. The prior question about splitting programs remains for curation; this Clothing pilot does not invent an identity migration.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://riovistacenter.com/casa-de-amor/, https://azresourcecenters.com/locations/, https://azresourcecenters.com/locations/casa-de-amor/, https://abcs.org/location/casa-de-amor/"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "da047755bc1b7958186bd4dbcea9c8cb",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "da047755bc1b7958186bd4dbcea9c8cb"
+      ],
+      "reason": "Retain the student clothing pathway and separate public food events. Clarify the short description so free weekly pantry supplies cannot be read as weekly public clothing or Red Mountain clothing access.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://www.mesacc.edu/students/student-care-services/mesa-market, https://www.justserve.org/projects/66f5e6ea-bb99-4fcc-a09c-e51831f1f2ef"
+      ],
+      "fields": {
+        "description": "Food and hygiene supplies for MCC students, with clothing at Southern/Dobson. Separate monthly food distributions also serve the public."
+      },
+      "questions": []
+    },
+    {
+      "resourceId": "f05e5c2c63d27e8c03ce7ed46003ae31",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "f05e5c2c63d27e8c03ce7ed46003ae31"
+      ],
+      "reason": "Retain food, clothing and household items as a usable option with the service-specific $5 fee and waiver question visible. Keep existing language/local classifications; a translated flyer alone would not justify a new language group.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://nourishphx.org/our-services/, https://nourishphx.org/wp-content/uploads/2025/05/NourishPHX-Program-Flyer-2025.pdf, https://nourishphx.org/contact/"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "c39b7edce7fd22875fba8558aa17172c",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "c39b7edce7fd22875fba8558aa17172c"
+      ],
+      "reason": "Retain twice-monthly basic-needs access with a named contact for vans and guest arrangements. Do not advertise daily service.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://www.centralaz.com/ACTS"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "ed9cec6557722e44984887fb41637d6e",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "ed9cec6557722e44984887fb41637d6e"
+      ],
+      "reason": "Retain parenting-linked baby supplies with the direct Mesa enrollment route and clear earned-credit requirement. The existing emergency-supplies question remains; do not promise immediate gear or prenatal care.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://choicesaz.com/baby-boutique/, https://choicesaz.com/get-involved/volunteer/, https://choicesaz.com/appointment/, https://choicesaz.com/get-care/free-lifepath-classes-for-women-and-men/"
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "5bfda48463f45755a59145fa7d226906",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "5bfda48463f45755a59145fa7d226906"
+      ],
+      "reason": "Retain the combined gatherings and Resource Center entry, with distinct schedules. Make clothing and meals visible in the title and short description so missionaries browsing Clothing can recognize its relevance; preserve mail, document, benefits and ride details in Information.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://lamesaministries.org/services/, https://lamesaministries.org/, https://lamesaministries.org/resource-center/, https://lamesaministries.org/giving/"
+      ],
+      "fields": {
+        "name": "La Mesa Ministries · Clothing, Meals, IDs, Benefits and Bus Passes",
+        "description": "Clothing, meals and daily bus passes at weekly gatherings, plus help with IDs, mail and benefit applications at the Mesa Resource Center."
+      },
+      "questions": []
+    },
+    {
+      "resourceId": "mesa-clothing-city-hope-gilbert",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "mesa-clothing-city-hope-gilbert"
+      ],
+      "reason": "Retain as a distinct Gilbert clothing starting point. The existing City Hope Mesa site provides food only; sharing the organization does not justify combining distinct site instructions. Keep ID, each-center monthly visits and capacity cutoff explicit. No new targeted group is supported simply by general public availability.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://www.cityhopeaz.org/centers"
+      ],
+      "fields": {
+        "description": "Free clothing and food at the Gilbert center. Walk in with government-issued ID; one visit to this center per calendar month."
+      },
+      "questions": []
+    },
+    {
+      "resourceId": "mesa-clothing-joses-closet",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "mesa-clothing-joses-closet"
+      ],
+      "reason": "Retain free foster/kinship/adoption clothing with a practical first-visit membership route. Keep monthly clothing/diapers, weekly food and documentation distinctions. Families and Youth groups fit the actual program; use supported General Clothing, Baby Supplies and Food Pantry types. Do not infer school-specific clothing or paid membership requirements.",
+      "evidence": [
+        "Sealed final editor package: 4b7ce7747a2510e775ac42f8efcd839802f43d379ede1077dcb7bdf9d18beb1b",
+        "Reconciled source URLs: https://www.cityhopeaz.org/centers, https://www.azafap.org/joses-closet/, https://www.findhelp.org/jose's-closet-inc--queen-creek-az--jose's-closet/5971550251515904?postal=85140"
+      ],
+      "fields": {},
+      "questions": []
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "arm": "baseline",
+  "status": "finished",
+  "returncode": 0,
+  "startedAtUnix": 1788994298.364218,
+  "elapsedSeconds": 217.58572506904602,
+  "requestedModel": "gpt-6-astra",
+  "incrementalCostUSD": null,
+  "isolation": "fresh ephemeral CLI, separate empty working directory, memories/apps/multi_agent disabled; read-only permissions",
+  "budgetEnforcement": "Elapsed timeout enforced by runner; source and web ceilings instructed and must be audited in trace."
+}

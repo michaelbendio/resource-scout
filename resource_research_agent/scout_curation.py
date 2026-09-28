@@ -10,10 +10,13 @@ from typing import Any
 from .candidate_package import build_candidate_package
 from .storage import ResearchStore
 from .focused_research import CODEX_FIRST_EXPERIMENT_MODE
+from .resource_writing import (
+    ResourceWritingError, compose_information, load_writing_guidance, normalize_written_resource,
+)
 
 
-SCOUT_CURATION_ASSIGNMENT_VERSION = "codex-curation-v2-direct-service"
-SCOUT_CURATION_RESULT_SCHEMA_VERSION = 1
+SCOUT_CURATION_ASSIGNMENT_VERSION = "codex-curation-v3-writing"
+SCOUT_CURATION_RESULT_SCHEMA_VERSION = 2
 
 
 class ScoutCurationError(ValueError):
@@ -96,13 +99,16 @@ def _assignment(
     candidate_package: dict[str, Any],
     category: dict[str, Any],
     run_payload: dict[str, Any],
+    writing_guidance: dict[str, Any],
 ) -> dict[str, Any]:
     run = run_payload["run"]
     durable_run = _durable_run_payloads([run_payload])[0]
     candidates = durable_run.get("candidates") or []
     return {
         "assignmentSchemaVersion": 1,
-        "assignmentVersion": SCOUT_CURATION_ASSIGNMENT_VERSION,
+        "assignmentVersion": f"{SCOUT_CURATION_ASSIGNMENT_VERSION}:{writing_guidance['sha256']}",
+        "curationContractVersion": SCOUT_CURATION_ASSIGNMENT_VERSION,
+        "writingGuidance": deepcopy(writing_guidance),
         "role": "Codex-controlled Resource Scout curation",
         "location": deepcopy(candidate_package["location"]),
         "sourcePackage": deepcopy(candidate_package["sourcePackage"]),
@@ -162,6 +168,9 @@ def _assignment(
             "Assign another category only when the same named program directly and independently provides a substantial service in that category; barrier removal, referrals, and likely client overlap are not enough.",
             "Apply only clearly evidenced existing For groups. Do not create or suggest a missing For group.",
             "Prefer the smallest high-confidence proposal set; there is no target count or coverage quota.",
+            "Follow writingGuidance.instructionsText and return section bodies using its assigned keys. Scout composes the headings.",
+            "Record supporting candidate IDs and newly consulted source material in writingEvidence; never set a human verifiedOn date.",
+            "Use openQuestions for specific unresolved curator questions, each with question and explanation. Use an empty array when none remain. This does not replace full curation or put administrative questions in patron Information. Never resolve a curator question yourself.",
             "Return only one JSON object matching outputContract.",
         ],
         "outputContract": {
@@ -176,7 +185,12 @@ def _assignment(
                 "website": "",
                 "hours": "",
                 "description": "",
-                "informationText": "",
+                "informationSections": {section["key"]: "" for section in writing_guidance["sections"]},
+                "openQuestions": [],
+                "writingEvidence": {
+                    "candidateIds": ["contributing candidate ID"],
+                    "sources": [],
+                },
                 "verifiedOn": None,
                 "categories": [category["id"]],
                 "categoryFilters": {},
@@ -200,6 +214,7 @@ def prepare_scout_curation_job(
     *, prepared: bool = False,
     reviewed_context: dict[str, Any] | None = None,
     all_research_runs: bool = False,
+    writing_guidance_path: str | None = None,
 ) -> dict[str, Any]:
     from .preparation_contract import ASSIGNMENT_VERSION, prepared_assignment
     assignment_version = ASSIGNMENT_VERSION if prepared else SCOUT_CURATION_ASSIGNMENT_VERSION
@@ -261,6 +276,11 @@ def prepare_scout_curation_job(
             raise ScoutCurationError('Supplement references an unknown Category')
         package_fingerprint['supplements'] = supplements
     candidate_package_sha256 = _sha256(package_fingerprint)
+    try:
+        writing_guidance = load_writing_guidance(writing_guidance_path)
+    except ResourceWritingError as error:
+        raise ScoutCurationError(str(error)) from error
+    assignment_version = ASSIGNMENT_VERSION if prepared else f"{SCOUT_CURATION_ASSIGNMENT_VERSION}:{writing_guidance['sha256']}"
     existing = next((
         job for job in store.list_scout_curation_jobs(int(selected_import_id))
         if job["assignmentVersion"] == assignment_version
@@ -283,7 +303,7 @@ def prepare_scout_curation_job(
         if not runs:
             continue
         canonical = _combined_runs(runs) if all_research_runs else _canonical_run(runs)
-        assignment = _assignment(package_data, category, canonical)
+        assignment = _assignment(package_data, category, canonical, writing_guidance)
         if all_research_runs:
             assignment['category']['researchRunIds'] = canonical['researchRunIds']
         if prepared:
@@ -338,6 +358,16 @@ def _completed_resources(job: dict[str, Any]) -> list[dict[str, Any]]:
     for category in job["categories"]:
         result = category.get("result") or {}
         for resource in result.get("resources") or []:
+            if result.get("scoutCurationResultSchemaVersion") == 2:
+                try:
+                    metadata = result["writing"][resource["id"]]
+                    expected_text = compose_information(
+                        metadata["informationSections"], category["assignment"]["writingGuidance"]
+                    )
+                    if resource.get("informationText") != expected_text:
+                        raise ResourceWritingError("Stored Information differs from its structured writing result")
+                except (KeyError, ResourceWritingError) as error:
+                    raise ScoutCurationError(str(error)) from error
             resource_id = str(resource.get("id") or "")
             if not resource_id:
                 continue
@@ -372,6 +402,8 @@ def _completed_resources(job: dict[str, Any]) -> list[dict[str, Any]]:
             next_resource["candidateIds"] = _unique_text(
                 (previous.get("candidateIds") or []) + (resource.get("candidateIds") or [])
             )
+            from .open_questions import attach_questions
+            attach_questions(next_resource, previous.get("openQuestions", []))
             merged[resource_id] = next_resource
     return [merged[resource_id] for resource_id in order]
 
@@ -470,6 +502,7 @@ def _normalize_resource(
         "categoryFilters": normalized_filters,
         "forGroups": _unique_text(resource.get("forGroups")),
         "pdfs": deepcopy(resource.get("pdfs") if isinstance(resource.get("pdfs"), list) else []),
+        **({"openQuestions": deepcopy(resource["openQuestions"])} if "openQuestions" in resource else {}),
         "candidateIds": candidate_ids,
         "lastModified": _text(resource.get("lastModified")) or now,
     }
@@ -494,8 +527,11 @@ def validate_scout_curation_result(
         raise ScoutCurationError("Assign this category to Codex before saving its result")
     if not isinstance(result, dict):
         raise ScoutCurationError("Codex curation result must be one JSON object")
-    if result.get("scoutCurationResultSchemaVersion") != SCOUT_CURATION_RESULT_SCHEMA_VERSION:
-        raise ScoutCurationError("Unsupported Resource Scout curation result schema version")
+    expected_schema = category["assignment"].get("outputContract", {}).get("scoutCurationResultSchemaVersion", 1)
+    if (type(result.get("scoutCurationResultSchemaVersion")) is not int
+            or expected_schema not in (1, 2)
+            or result["scoutCurationResultSchemaVersion"] != expected_schema):
+        raise ScoutCurationError("Result schema does not match the assigned curation contract")
     if str(result.get("assignmentSha256") or "") != category["assignmentSha256"]:
         raise ScoutCurationError("Codex result does not match the assigned curation snapshot")
     if str(result.get("categoryId") or "") != category_id:
@@ -537,6 +573,39 @@ def validate_scout_curation_result(
         # Subsequent validation/revisions retain removals already durably reviewed.
         reviewed_removals.update(rid for rid, r in previous.items() if category_id not in r["categories"])
     now = datetime.now(timezone.utc).isoformat()
+    raw_resources = result.get("resources")
+    if not isinstance(raw_resources, list):
+        raise ScoutCurationError("Curation result resources must be an array")
+    writing_metadata = {}
+    if expected_schema == 2:
+        written_resources = []
+        try:
+            for resource in raw_resources:
+                if "writing" in result:
+                    resource = deepcopy(resource)
+                    metadata = result["writing"][resource["id"]]
+                    guidance = category["assignment"]["writingGuidance"]
+                    if (metadata["guidanceSha256"] != guidance["sha256"]
+                            or compose_information(metadata["informationSections"], guidance)
+                            != resource.get("informationText")):
+                        raise ResourceWritingError("Stored Information differs from its structured writing result")
+                    resource.pop("informationText", None)
+                    resource["informationSections"] = deepcopy(metadata["informationSections"])
+                    resource["writingEvidence"] = deepcopy(metadata["evidence"])
+                    # These questions have already been normalized and retain IDs.
+                    saved_questions = resource.pop("openQuestions", None)
+                else:
+                    saved_questions = None
+                written, metadata = normalize_written_resource(
+                    resource, category["assignment"]["writingGuidance"]
+                )
+                if saved_questions is not None:
+                    written["openQuestions"] = saved_questions
+                written_resources.append(written)
+                writing_metadata[_text(written.get("id"))] = metadata
+        except (ResourceWritingError, KeyError) as error:
+            raise ScoutCurationError(str(error)) from error
+        raw_resources = written_resources
     resources = [
         _normalize_resource(
             resource,
@@ -546,7 +615,7 @@ def validate_scout_curation_result(
             reviewed_origin_removal=isinstance(resource, dict) and resource.get("id") in reviewed_removals,
             prepared=bool(category["assignment"].get("preparationPolicyVersion")),
         )
-        for resource in result.get("resources") or []
+        for resource in raw_resources
     ]
     resource_ids = [resource["id"] for resource in resources]
     if len(resource_ids) != len(set(resource_ids)):
@@ -634,12 +703,14 @@ def validate_scout_curation_result(
         )
 
     normalized = {
-        "scoutCurationResultSchemaVersion": SCOUT_CURATION_RESULT_SCHEMA_VERSION,
+        "scoutCurationResultSchemaVersion": expected_schema,
         "assignmentSha256": category["assignmentSha256"],
         "categoryId": category_id,
         "resources": resources,
         "candidateDispositions": normalized_dispositions,
     }
+    if expected_schema == 2:
+        normalized["writing"] = writing_metadata
     return normalized
 
 

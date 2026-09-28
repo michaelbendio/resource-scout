@@ -1,0 +1,11 @@
+{
+  "axis": "goals",
+  "researchMode": "live",
+  "evaluationRule": "Promising only if the candidate adds supported, actionable findings without critical errors, lost required needs or material loss of useful options, within equal allowances. Treat inability to establish coverage or limited evidence as inconclusive. One pair cannot justify rollout.",
+  "maxSeconds": 1800,
+  "maxCostUSD": null,
+  "subscriptionAllowance": "Existing subscription use; incremental dollar cost unknown. No outside paid models or purchases.",
+  "caseIds": [
+    "discovery:clothing"
+  ]
+}

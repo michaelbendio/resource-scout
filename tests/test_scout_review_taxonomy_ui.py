@@ -102,6 +102,7 @@ forGroupMatchMode="all";
 const child={name:"Hearing aid program",categories:["education"],forGroups:["Deaf & hard of hearing"]};
 if(!matchesSelectedForGroupKeys(child,["for:deaf & hard of hearing","for:people with disabilities"])) throw Error("Approved parent missing from search");
 const nowISO=()=>"2026-09-20T10:00:00Z";
+const RESOURCE_PACKAGE_SCHEMA_VERSION=3;
 if(hasCurrentForGroupReview(child,data.forGroups)) throw Error("Unreviewed child appears reviewed");
 recordForGroupReview(child,data.forGroups);
 if(!child.forGroups.includes("People with disabilities") || !hasCurrentForGroupReview(child,data.forGroups)) throw Error("Confirmed review missing");
@@ -121,15 +122,16 @@ if(effectiveForGroups(["Deaf & hard of hearing"],["Deaf & hard of hearing"]).len
         self.assertEqual(0, completed.returncode, completed.stderr)
 
 
-    def test_curated_export_requires_current_review_and_preserves_review_date(self):
+    def test_curated_export_requires_review_and_keeps_internal_review_out_of_office_package(self):
         source = TEMPLATE.read_text(encoding="utf-8")
         start = source.index("/* ---------- For-group matching and explicit editor review")
         end = source.index("function makeCategorySpecificFilterKey", start)
         functions = source[start:end] + "\n" + "\n".join(self._function(source, name) for name in (
-            "canonicalizeTaxonomyLabel", "normalizeTaxonomyLabels", "buildScoutReviewSelectionPackageData"))
+            "canonicalizeTaxonomyLabel", "normalizeTaxonomyLabels", "pickOfficePackageFields", "buildScoutReviewSelectionPackageData"))
         script = functions + """
 const assert=require('assert');
 const nowISO=()=>"2026-09-20T10:00:00Z";
+const RESOURCE_PACKAGE_SCHEMA_VERSION=3;
 const cloneDataObject=x=>JSON.parse(JSON.stringify(x));
 const processResourcePackageData=x=>({data:cloneDataObject(x)});
 const buildResourcePackageData=x=>cloneDataObject(x);
@@ -141,8 +143,8 @@ const reviewedAt=source.resources[0].forGroupReview.reviewedAt;
 const packet=buildScoutReviewSelectionPackageData(source,['hearing']);
 assert.strictEqual(packet.resources.length,1);
 assert.strictEqual(packet.forGroups.length,2);
-assert(hasCurrentForGroupReview(packet.resources[0],packet.forGroups));
-assert.strictEqual(packet.resources[0].forGroupReview.reviewedAt,reviewedAt);
+assert.strictEqual(packet.resources[0].forGroupReview,undefined);
+assert.strictEqual(source.resources[0].forGroupReview.reviewedAt,reviewedAt);
 assert(hasCurrentForGroupReview(source.resources[0],source.forGroups)); // export did not mutate source stamp
 packet.resources[0].informationText='Changed eligibility';
 assert.throws(()=>buildScoutReviewSelectionPackageData(packet,['hearing']),/Review For groups/);

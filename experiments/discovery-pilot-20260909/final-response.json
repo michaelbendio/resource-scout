@@ -1,0 +1,87 @@
+{
+  "assignmentSha256": "d82a5ff48f511c48868df5ae3bf3e8d6df4d3439f068761d6b63b8884eb44373",
+  "decisions": [
+    {
+      "resourceId": "scout-lead:a89109a8e8a5631794da3e55",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "scout-lead:a89109a8e8a5631794da3e55"
+      ],
+      "reason": "Retain as a distinct practical route. Public job tools and a training-application route remain useful. Use the statewide service title and keep the local-office question visible instead of printing an unconfirmed address.",
+      "evidence": [
+        "https://jobs.utah.gov/jobseeker/index.html",
+        "Reconciled official-source research and its documented uncertainty."
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "scout-lead:68615d197ac8f29fb5d8c43c",
+      "disposition": "reserve",
+      "targetResourceIds": [],
+      "reason": "Reserve this researched option for a patron specifically seeking electrical training who can meet its travel and entry requirements. Statewide assignments, a license, school prerequisites, uncertain initial costs and an unconfirmed start delay make it a poor default referral for this small collection. Paid training itself is useful; the multi-year duration is not the reason for reserving it. Preserve the facts and question in the evidence package.",
+      "evidence": [
+        "https://uteta.org/programs/apply-now/",
+        "Reconciled official-source research and its documented uncertainty."
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "welfare-employment-sugarhouse",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "welfare-employment-sugarhouse"
+      ],
+      "reason": "Retain as a distinct practical route. Personal adviser help, walk-ins and remote support offer a useful way to start without requiring Church membership.",
+      "evidence": [
+        "https://local.churchofjesuschrist.org/en/employment-services/us/ut/salt-lake-city/724-e-2100-s",
+        "Reconciled official-source research and its documented uncertainty."
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "welfare-employment-peopleready",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "welfare-employment-peopleready"
+      ],
+      "reason": "Retain as a distinct practical route. A local staffed application route to actual paid assignments complements job-search advice; no shift is promised.",
+      "evidence": [
+        "https://locations.peopleready.com/us/ut/salt-lake-city",
+        "Reconciled official-source research and its documented uncertainty."
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "scout-lead:disc-usor-vr-20260909",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "scout-lead:disc-usor-vr-20260909"
+      ],
+      "reason": "Retain as a distinct practical route. Disability-specific eligibility and support differ from ordinary DWS help. Preserve restrictions while keeping the named route useful for eligible patrons.",
+      "evidence": [
+        "https://jobs.utah.gov/usor/vr/apply.html",
+        "Reconciled official-source research and its documented uncertainty."
+      ],
+      "fields": {},
+      "questions": []
+    },
+    {
+      "resourceId": "scout-lead:disc-uca-workforce-20260909",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "scout-lead:disc-uca-workforce-20260909"
+      ],
+      "reason": "Retain as a distinct practical route. Free adult job help and education support have direct intake, broad income eligibility and useful local reach.",
+      "evidence": [
+        "https://utahca.org/workforce-development/",
+        "Reconciled official-source research and its documented uncertainty."
+      ],
+      "fields": {},
+      "questions": []
+    }
+  ]
+}

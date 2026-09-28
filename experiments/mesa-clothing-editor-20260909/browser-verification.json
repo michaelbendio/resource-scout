@@ -1,0 +1,17 @@
+{
+  "resources": 21,
+  "editorSaveReload": true,
+  "selectedCuratedPackageExport": true,
+  "partialMergePreservesUnselected249Records": true,
+  "syntheticAnswerSurvivesOldPackageReplay": true,
+  "newQuestionIdTested": "scout-question:f67856726c8fa4d6079d7a9c",
+  "newQuestionCreatedByThisRunSurvivesMergeAndOlderPackageReplay": true,
+  "cleanDeliveryContainsNoSyntheticAnswersOrNewHumanApprovals": true,
+  "pageErrors": [],
+  "responsiveReportWidths": [
+    820,
+    390
+  ],
+  "mergedFullOfficeCount": 270,
+  "attachmentsInSource": 0
+}

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "taskId": "discovery:clothing",
+  "assignmentSha256": "099f7d9fbaf31b20012cf1df3cb6429326eeada104b16d4fd41322c6c7fa9792",
+  "evidenceSources": [
+    {
+      "url": "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa?OC_EA_EmergencyAnnouncementList_Dismiss=be8b6523-3ca8-4bcf-8cb7-189157fd8ca8",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Professional clothing boutique"
+    },
+    {
+      "url": "https://des.az.gov/node/24106",
+      "accessedOn": "2026-09-09",
+      "excerpt": "When an application for Nutrition Assistance and Cash Assistance is received DES sends a notice to the household to complete the mandatory interview."
+    },
+    {
+      "url": "https://des.az.gov/services/child-and-family/cash-assistance/cash-assistance-ca-income-eligibility-guidelines",
+      "accessedOn": "2026-09-09",
+      "excerpt": "Cash Assistance (CA) benefits may only be provided for an assistance unit that resides in a needy family."
+    }
+  ],
+  "researchNotes": "Examined government workforce partnership and public-benefit eligibility pathways. Mesa canonical URL returned 403; searched URL with query succeeded. DES old URL redirected to search; followed actual Apply for Cash Assistance link, but returned long navigation without relevant body in visible excerpt. These are transport limits, not closure. Workforce linked form expressly serves employers; do not tell clothing clients to submit it. Pass ceiling reached before linked MesaCAN fact sheet could be examined. Contracted-provider search limited to published partnership, not a contract award. No clothing-specific CA entitlement established. Active approximately 3 minutes reading and composing; web waiting approximately 0.04 minutes from tool elapsed time.",
+  "executionReceipt": {
+    "complete": true,
+    "model": "gpt-6-astra",
+    "contextId": "astra-clothing-20260909-candidate",
+    "freshContext": true,
+    "isolatedInputs": true,
+    "activeMinutes": 3,
+    "waitingMinutes": 0.04,
+    "coverageNotes": "Examined Public programs; Contracted providers; Benefits and eligibility pathways through city partnership and DES eligibility materials, not exhaustive. Contract itself remains unexamined.",
+    "remainingGaps": [
+      "Workforce boutique-specific appointment, referral, documents and clothing costs not established; linked fact sheet remains to examine.",
+      "DES cash assistance clothing connection and complete application route remain unresolved.",
+      "Public service contracts not examined."
+    ]
+  },
+  "observations": [
+    {
+      "summary": "Workforce Center @ Mesa lists professional clothing boutique for job seekers at 635 E Broadway Rd Mesa AZ 85204; no Mesa residency requirement. Listed populations include adults 18+, citizens or noncitizens authorized to work, veterans with priority, people with disabilities and housing insecurity. Center contact Lorraine Alvarez 480-594-2501 or LaTonya Eaton 480-572-1429; center hours Mon/Tue/Thu/Fri 8:30am–2:30pm, Wednesday appointment only. These are center hours, not confirmed boutique hours. Linked interest form is for employers, not clothing recipients. City partnership includes A New Leaf and Arizona at Work; separate from excluded Smart Justice service.",
+      "evidence": [
+        0
+      ],
+      "questions": [
+        "Can a job seeker get interview clothes without enrolling in another program, and when is the boutique open? The city lists the boutique but only center-wide hours."
+      ]
+    },
+    {
+      "summary": "DES Cash Assistance eligibility and required-document search examined a benefits pathway. Eligibility depends on family and financial circumstances; application requires a mandatory interview and supporting verification. No reviewed source established a clothing-specific benefit or immediate clothing referral, so retain as research gap, not a written clothing lead.",
+      "evidence": [
+        1,
+        2
+      ],
+      "questions": [
+        "Is there an explicit current DES clothing-support pathway serving Mesa, with an intake route?"
+      ]
+    }
+  ]
+}

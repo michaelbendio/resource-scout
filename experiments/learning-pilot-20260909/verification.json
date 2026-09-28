@@ -1,0 +1,46 @@
+{
+  "date": "2026-09-09",
+  "branch": "v2.0",
+  "python": "3.14.7",
+  "unitSuite": {
+    "command": "python3 -m unittest discover -s tests",
+    "tests": 378,
+    "skipped": 1,
+    "result": "passed",
+    "seconds": 29.968,
+    "skipReason": "Optional live Provo-package test requires PROVO_RESOURCE_PACKAGE; synthetic package and real saved Mesa checks ran."
+  },
+  "browserQA": {
+    "syntheticOnly": true,
+    "adminEditor": true,
+    "curatedExport": true,
+    "answerAndEditorialHistoryPreserved": true,
+    "pdfBytesPreserved": true,
+    "runtimeErrors": []
+  },
+  "historicalReplay": {
+    "result": "passed",
+    "modelCalls": 0,
+    "activeGuidanceChanges": 0
+  },
+  "liveTrial": {
+    "provider": "Claude desktop",
+    "visibleModel": "Opus 5",
+    "effort": "High",
+    "freshChats": 2,
+    "casesPerChat": 6,
+    "modelFollowups": 0,
+    "conclusion": "no-clear-benefit",
+    "incrementalCostUSD": null
+  },
+  "productionDataModified": false,
+  "wholeOfficeResearchStarted": false,
+  "newDiscoveryWorkflowLivePilot": "not run; synthetic pipeline and browser checks only",
+  "providerComparison": "Grok comparison not run",
+  "finalCodeCheckpointBenchmark": {
+    "saveSeconds": 6.662593666929752,
+    "storedCharacters": 11562611,
+    "exactEquality": true,
+    "sourceReadOnly": true
+  }
+}

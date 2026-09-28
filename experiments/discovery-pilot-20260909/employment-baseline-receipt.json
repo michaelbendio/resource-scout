@@ -1,0 +1,16 @@
+{
+  "contextId": "claude-employment-baseline-20260909",
+  "fresh": true,
+  "modelConfig": {
+    "provider": "Claude web",
+    "model": "Opus 5",
+    "settings": {
+      "effort": "High",
+      "tools": "none requested",
+      "context": "separate incognito chat per arm; service isolation not independently audited"
+    }
+  },
+  "incrementalCostUSD": null,
+  "interventions": 0,
+  "notes": "Actual Claude browser response in separate new incognito tab. UI showed Opus 5 High. No tools requested or observed for this saved-case test. Source packet supplied once; no follow-up. Exact JSON copied through local chunked textarea. Application paste reported timeout but the attachment loaded; no duplicate prompt. Service isolation not independently audited. Operational elapsed includes other work and capture, not a provider-speed measurement."
+}

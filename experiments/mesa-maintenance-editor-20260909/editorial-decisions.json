@@ -1,0 +1,517 @@
+{
+  "formatVersion": 1,
+  "run": {
+    "editor": "Codex coordinator",
+    "exactModelVersion": null,
+    "date": "2026-09-09",
+    "office": "Mesa",
+    "trialMode": "Operator-led maintenance and editorial review, same context",
+    "sourceFilename": "source-package.zip",
+    "sourceSha256": "6655c6056b5c56caa3a1bcb0f2993f420df96333ccaa18b71e276dfc6ed8e1c7",
+    "sourceRecordCount": 12,
+    "researchScope": "Partial twelve-resource recheck; source attempts and unresolved gaps recorded separately",
+    "previousResultExposure": "Saw saved editorial decisions and curator questions; not blind; no outside researcher."
+  },
+  "decisions": [
+    {
+      "resourceId": "73dfadc219f93cdde3c2e07d3e1045b4",
+      "originalName": "Clothes Cabin · Clothing, Workwear, Linens and Hygiene",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "73dfadc219f93cdde3c2e07d3e1045b4"
+      ],
+      "reason": "Retain: useful service with a reachable starting point; preserve its specific eligibility and open questions. FAQ and Back to Work agree with saved access/eligibility. Search surfaced PINCH provider pickup, potentially useful for patrons unable to travel; investigate before adding.",
+      "evidence": [
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://www.onesmallstepaz.org/pages/pinch",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        }
+      ],
+      "fieldChanges": [
+        {
+          "field": "informationText",
+          "before": "**Programs and Services**\nOne Small Step’s Clothes Cabin gives free clothing, shoes, household linens and hygiene items. Back to Work helps with required workwear and a pair of work shoes for a new job. Unsheltered clients can also use showers, weekly laundry, lockers and mailboxes.\n\n**Eligibility Requirements**\nFor anyone who cannot afford the items needed. Clothing visits are once every three months, for yourself, your partner and your children under 18. Bring current photo ID of any kind; ask about a temporary accommodation if you are obtaining ID. Work items require new-hire papers, an employer letter or the Back to Work request form. Staff may ask for guardianship information when you collect clothing for children.\n\n**How to Best Connect**\nVisit during client hours; no appointment or referral is needed. For a new job, bring its clothing requirements and employment evidence. For help, call 480-285-4111 or email info@onesmallstepaz.org.\n\n**Access**\nThe building is at the back of the business park. Children cannot enter the shopping area; if they come, they must stay in the small playroom or lobby. Arrive at least one hour before closing for showers and two hours before closing for laundry.\n\n**Important Information to Know**\nQuantities depend on stock. The FAQ usually allows 4–7 clothing items plus socks and underwear, and one set of sheets, one blanket or one set of towels per visit; ask about that day’s limits. Clothes Cabin closes for holidays, the day before Thanksgiving, the Christmas–New Year week and the last week of January. Donation and paid resale-shop hours differ from free client hours.",
+          "after": "**Programs and Services**\nOne Small Step’s Clothes Cabin gives free clothing, shoes, household linens and hygiene items. Back to Work helps with required workwear and a pair of work shoes for a new job. Unsheltered clients can also use showers, weekly laundry, lockers and mailboxes.\n\n**Eligibility Requirements**\nFor anyone who cannot afford the items needed. Clothing visits are once every three months, for yourself, your partner and your children under 18. Bring current photo ID of any kind; ask about a temporary accommodation if you are obtaining ID. Work items require new-hire papers, an employer letter or the Back to Work request form. Staff may ask for guardianship information when you collect clothing for children.\n\n**How to Best Connect**\nVisit during client hours; no appointment or referral is needed. For a new job, bring its clothing requirements and employment evidence. For help, call 480-285-4111 or email info@onesmallstepaz.org. If you cannot visit because of a crisis or transportation problem, ask your service provider about PINCH pickup. Clothes Cabin accepts requests from local service providers; your helper should confirm they can use it. Work shoes still require a new job.\n\n**Access**\nThe building is at the back of the business park. Children cannot enter the shopping area; if they come, they must stay in the small playroom or lobby. Arrive at least one hour before closing for showers and two hours before closing for laundry.\n\n**Important Information to Know**\nQuantities depend on stock. The FAQ usually allows 4–7 clothing items plus socks and underwear, and one set of sheets, one blanket or one set of towels per visit; ask about that day’s limits. Clothes Cabin closes for holidays, the day before Thanksgiving, the Christmas–New Year week and the last week of January. Donation and paid resale-shop hours differ from free client hours.",
+          "reason": "Source-supported maintenance draft; existing questions, answers and verification fields preserved."
+        },
+        {
+          "field": "openQuestions",
+          "before": [],
+          "after": [
+            {
+              "id": "scout-question:c57c298baac7e5cede5b0021",
+              "question": "Can TSO missionaries use PINCH to collect items for someone who cannot visit?",
+              "explanation": "Clothes Cabin invites local service providers to request small emergency orders for people in crisis, without transportation, or otherwise unable to visit. Providers collect under their agency information; the page does not name TSO or explain whether its missionaries qualify. Call 480-285-4111 to confirm who can request and collect an order, using https://www.onesmallstepaz.org/pages/pinch. Do not promise pickup until that is settled. The ordinary walk-in service remains available without a referral.",
+              "status": "open",
+              "resolution": "",
+              "source": {
+                "kind": "operator-maintenance-pilot",
+                "date": "2026-09-09",
+                "sourcePackageSha256": "6655c6056b5c56caa3a1bcb0f2993f420df96333ccaa18b71e276dfc6ed8e1c7",
+                "providerVerificationInferred": false
+              }
+            }
+          ],
+          "reason": "Source-supported maintenance draft; existing questions, answers and verification fields preserved."
+        }
+      ],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [
+        "Can TSO missionaries use PINCH to collect items for someone who cannot visit?"
+      ],
+      "originalRecordReference": "source-resources.json#73dfadc219f93cdde3c2e07d3e1045b4"
+    },
+    {
+      "resourceId": "fbd7ac5640a1ad45864261484e2bcbf0",
+      "originalName": "Helen’s Hope Chest · Clothing, Baby and School Supplies",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "fbd7ac5640a1ad45864261484e2bcbf0"
+      ],
+      "reason": "Retain: useful service with a reachable starting point; preserve its specific eligibility and open questions. Current eligibility page supports foster/kinship documentation and direct appointment phone. Young-adult age limit remains unspecified. Clothing subpage extraction yielded no usable body; no new limit inferred.",
+      "evidence": [
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://helenshopechest.org/who-we-serve-1",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [
+        {
+          "questionId": "scout-question:717d64d6657d8f5a5d6cca1f",
+          "action": "preserved",
+          "reason": "No human resolution or authoritative settlement established."
+        }
+      ],
+      "uncertainties": [
+        "Can a young adult over 18 use the clothing boutique, and what care history or paperwork is needed?"
+      ],
+      "originalRecordReference": "source-resources.json#fbd7ac5640a1ad45864261484e2bcbf0"
+    },
+    {
+      "resourceId": "7e66c8c912ad9889aa3627405af218f3",
+      "originalName": "Friends at First · Adult Clothing, Showers and Basic Needs",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "7e66c8c912ad9889aa3627405af218f3"
+      ],
+      "reason": "Retain: useful service with a reachable starting point; preserve its specific eligibility and open questions. Adult service and October-May schedule supported. Summer subpage extraction did not expose the flyer. Keep existing summer/no-ID uncertainties and previously sourced details explicitly not reverified.",
+      "evidence": [
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://www.friendsatfirst.org/",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [
+        {
+          "questionId": "scout-question:b37f8eb1602ab4492b746492",
+          "action": "preserved",
+          "reason": "No human resolution or authoritative settlement established."
+        }
+      ],
+      "uncertainties": [
+        "How can someone check in without a state-issued ID or a phone, and which adult weekdays run during summer?"
+      ],
+      "originalRecordReference": "source-resources.json#7e66c8c912ad9889aa3627405af218f3"
+    },
+    {
+      "resourceId": "6ea1c2067f6e451532d3bd346cc56276",
+      "originalName": "Dress for Success · Work Clothing, Job Help and Education",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "6ea1c2067f6e451532d3bd346cc56276"
+      ],
+      "reason": "Retain: useful service with a reachable starting point; preserve its specific eligibility and open questions. Saved services URL failed twice. Preserve useful saved entry and questions; no closure inference. One alternate-host attempt allocated to follow-up.",
+      "evidence": [
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://educateherphx.org/information/",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        },
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://www.dfsphoenix.org/services/",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [
+        {
+          "questionId": "scout-question:326eeda6d2b104419fc6b229",
+          "action": "preserved",
+          "reason": "No human resolution or authoritative settlement established."
+        },
+        {
+          "questionId": "scout-question:aca82a4019402bda2acd77e8",
+          "action": "preserved",
+          "reason": "No human resolution or authoritative settlement established."
+        }
+      ],
+      "uncertainties": [
+        "Which EducateHER funding routes are open to Mesa women who are not single mothers?",
+        "How can an individual Mesa adult use the Mobile Career Center?"
+      ],
+      "originalRecordReference": "source-resources.json#6ea1c2067f6e451532d3bd346cc56276"
+    },
+    {
+      "resourceId": "ffb70295ec3f1e3256fc1955ec7ad5c0",
+      "originalName": "Express Employment Professionals · Mesa Staffing Office",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "ffb70295ec3f1e3256fc1955ec7ad5c0"
+      ],
+      "reason": "Retain: useful service with a reachable starting point; preserve its specific eligibility and open questions. Local contact, staffing route, no placement fee and variable assignments supported. No need to invent a curator question or copy ephemeral vacancies.",
+      "evidence": [
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://www.expresspros.com/us-arizona-mesa/job-seekers/job-seekers",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [],
+      "originalRecordReference": "source-resources.json#ffb70295ec3f1e3256fc1955ec7ad5c0"
+    },
+    {
+      "resourceId": "f95aad04c5e72f66f324d9875d7caffd",
+      "originalName": "ARIZONA@WORK · East Valley Career Center",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "f95aad04c5e72f66f324d9875d7caffd"
+      ],
+      "reason": "Retain: useful service with a reachable starting point; preserve its specific eligibility and open questions. Center contact/hours supported. Smart Justice still uses both photo ID and driver-license language on the same page; retain conflict and specialist-location uncertainty.",
+      "evidence": [
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://arizonaatwork.com/locations/maricopa-county/maricopa-east",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [
+        {
+          "questionId": "scout-question:ee442ff064d215ea1324a2c6",
+          "action": "preserved",
+          "reason": "No human resolution or authoritative settlement established."
+        },
+        {
+          "questionId": "scout-question:6f37074a83fe2ed09df14ed2",
+          "action": "preserved",
+          "reason": "No human resolution or authoritative settlement established."
+        },
+        {
+          "questionId": "scout-question:b7230527f215786261266726",
+          "action": "preserved",
+          "reason": "No human resolution or authoritative settlement established."
+        }
+      ],
+      "uncertainties": [
+        "Which specialist services can someone actually receive at the Southern Avenue center?",
+        "Could a Mesa resident join a future Workforce 2 You class, or should referrals use another training route?",
+        "Which ID can someone without a driver’s license bring to Smart Justice?"
+      ],
+      "originalRecordReference": "source-resources.json#f95aad04c5e72f66f324d9875d7caffd"
+    },
+    {
+      "resourceId": "d72b099aea9d25b5ed7f4eafa274da78",
+      "originalName": "Goodwill of Central and Northern Arizona · Career Coaching and Job Training",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "d72b099aea9d25b5ed7f4eafa274da78"
+      ],
+      "reason": "Retain: useful service with a reachable starting point; preserve its specific eligibility and open questions. Career-coach form/phone and separate veteran-center hours supported. No new evidence that a Mesa store is a staffed general career center; existing question remains.",
+      "evidence": [
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://www.goodwillaz.org/mission-services/",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [
+        {
+          "questionId": "scout-question:7379bbbdc2f7cf21f68bead3",
+          "action": "preserved",
+          "reason": "No human resolution or authoritative settlement established."
+        }
+      ],
+      "uncertainties": [
+        "Where can a Mesa job seeker get in-person Goodwill career help, and can someone who is not a veteran use the Phoenix Veteran Career Center?"
+      ],
+      "originalRecordReference": "source-resources.json#d72b099aea9d25b5ed7f4eafa274da78"
+    },
+    {
+      "resourceId": "08497e5f8c33c372d57430bc722bb639",
+      "originalName": "The Worker · Job Help, Work Clothing and Housing",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "08497e5f8c33c372d57430bc722bb639"
+      ],
+      "reason": "Retain: useful service with a reachable starting point; preserve its specific eligibility and open questions. Job-entry and new-hire support rules supported. Official get-housing search result differs from saved what-we-do account: shared apartment, one year follow-up, saving requirement, tenure/paystubs and advertised wait. Open dedicated page and compare before editing.",
+      "evidence": [
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://www.theworkeraz.org/get-housing",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        },
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://www.theworkeraz.org/what-we-do",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        }
+      ],
+      "fieldChanges": [
+        {
+          "field": "informationText",
+          "before": "**Programs and Services**\nFree job planning, employer referrals, resumes, interview preparation and interview clothing. Uniforms, safety shoes, tools and transportation help may be available; ask about the items and limits.\n\nThe separate Workforce Housing program offers 90 days in a private room in shared housing, weekly support and life-skills classes, followed by nine months of follow-up.\n\n**Eligibility Requirements**\nJob-search services are free for unemployed or underemployed people. Newly employed assistance generally requires permanent/direct-hire W-2 work, 25–40 hours weekly, at least minimum wage and a start within the past 30 days. Required screenings must be completed. Temporary, seasonal, staffing-agency and app-based jobs do not qualify for that extra assistance.\n\nWorkforce Housing has separate rules: applicants must work full time in a direct-hire job earning at least $18 an hour. Ask about current openings and any other requirements; qualifying for job-search help does not qualify someone for housing.\n\n**How to Best Connect**\nWalk into 1833 W. Main St., Suite 128, Mesa, Monday–Friday, 9 a.m.–noon or 1–4 p.m.; closed noon–1 p.m. No appointment is needed. Call 602-755-5627 with questions. Bring photo ID, a phone and a resume if available; ask for help if these are missing.\n\n**Access**\nThe office is near the Sycamore/Main Street light-rail stop. For newly employed assistance, have the employer email jobs@theworkeraz.org from a company address with your full name, start date, pay and weekly hours. This is separate from starting a job search. For Workforce Housing, ask a housing expert about enrollment, the waiting list, housing location and costs. The Mesa office is not a housing unit.\n\n**Important Information to Know**\nThe newly employed resources are offered once and depend on supplies. Ask staff which clothing or equipment they can provide before purchasing it. The organization also uses the name St. Joseph the Worker. Housing is a separate program. The site describes low living costs but gives no current amount; ask about rent, deposits and other charges before agreeing to a place. Do not assume the free job-search service means free housing.",
+          "after": "**Programs and Services**\nFree job planning, employer referrals, resumes, interview preparation and interview clothing. Uniforms, safety shoes, tools and transportation help may be available; ask about the items and limits.\n\nThe separate Workforce Housing program offers 90 days in shared housing, weekly support, life-skills classes and follow-up after moving out. Ask about room privacy and the length of follow-up; the provider’s pages give different descriptions.\n\n**Eligibility Requirements**\nJob-search services are free for unemployed or underemployed people. Newly employed assistance generally requires permanent/direct-hire W-2 work, 25–40 hours weekly, at least minimum wage and a start within the past 30 days. Required screenings must be completed. Temporary, seasonal, staffing-agency and app-based jobs do not qualify for that extra assistance.\n\nWorkforce Housing has separate rules. Its housing page requires full-time, direct-hire W-2 work paying at least $18 an hour, plus 30–45 days on the job or at least two pay stubs. Participants commit to saving 80% of take-home pay, weekly meetings and first-month workshops. Some felonies are considered individually. Job-search eligibility does not establish housing eligibility.\n\n**How to Best Connect**\nWalk into 1833 W. Main St., Suite 128, Mesa, Monday–Friday, 9 a.m.–noon or 1–4 p.m.; closed noon–1 p.m. No appointment is needed. Call 602-755-5627 with questions. Bring photo ID, a phone and a resume if available; ask for help if these are missing.\n\n**Access**\nThe office is near the Sycamore/Main Street light-rail stop. For newly employed assistance, have the employer email jobs@theworkeraz.org from a company address with your full name, start date, pay and weekly hours. This is separate from starting a job search. For Workforce Housing, use the Apply to Workforce Housing link at https://www.theworkeraz.org/get-housing or ask staff for application help. The page advertised a two-to-three-month wait when checked September 9, 2026; confirm today’s estimate. Ask about location and costs. The Mesa office is not a housing unit.\n\n**Important Information to Know**\nThe newly employed resources are offered once and depend on supplies. Ask staff which clothing or equipment they can provide before purchasing it. The organization also uses the name St. Joseph the Worker. Housing is a separate program. The site describes low living costs but gives no current amount; ask about rent, deposits and other charges before agreeing to a place. Do not assume the free job-search service means free housing.",
+          "reason": "Source-supported maintenance draft; existing questions, answers and verification fields preserved."
+        },
+        {
+          "field": "openQuestions",
+          "before": [
+            {
+              "id": "scout-question:8283c572f14667b6e013f436",
+              "question": "What does Workforce Housing cost, and what openings are available to someone starting at the Mesa office?",
+              "explanation": "The provider describes 90 days in a private room in shared housing for full-time direct-hire workers earning at least $18/hour, but only calls the living costs low. It does not publish the rent, deposit or other charges on the program page. Ask the housing expert for those amounts, current room locations and any waiting list. The handout does not label housing free or promise an available room. https://www.theworkeraz.org/what-we-do\n\nSources checked:\nhttps://www.theworkeraz.org/get-a-job\nhttps://www.theworkeraz.org/contact-us\nhttps://www.theworkeraz.org/our-mission\nhttps://www.theworkeraz.org/what-we-do",
+              "status": "open",
+              "resolution": "",
+              "source": {
+                "kind": "maintenance",
+                "projectId": 2,
+                "taskId": "recheck:08497e5f8c33c372d57430bc722bb639",
+                "itemId": "08497e5f8c33c372d57430bc722bb639",
+                "baseSha256": "e8519a6b905158a4d76af719c9f25d3c6503510cc9e9d21a0e9e4e1f4795ce0d",
+                "researchRevision": 2681,
+                "resultSha256": "b76313cd417acd8a64901a40adea15d41e45b97aedfdbb3c5f22427461ad2046"
+              }
+            }
+          ],
+          "after": [
+            {
+              "id": "scout-question:8283c572f14667b6e013f436",
+              "question": "What does Workforce Housing cost, and what openings are available to someone starting at the Mesa office?",
+              "explanation": "The provider describes 90 days in a private room in shared housing for full-time direct-hire workers earning at least $18/hour, but only calls the living costs low. It does not publish the rent, deposit or other charges on the program page. Ask the housing expert for those amounts, current room locations and any waiting list. The handout does not label housing free or promise an available room. https://www.theworkeraz.org/what-we-do\n\nSources checked:\nhttps://www.theworkeraz.org/get-a-job\nhttps://www.theworkeraz.org/contact-us\nhttps://www.theworkeraz.org/our-mission\nhttps://www.theworkeraz.org/what-we-do",
+              "status": "open",
+              "resolution": "",
+              "source": {
+                "kind": "maintenance",
+                "projectId": 2,
+                "taskId": "recheck:08497e5f8c33c372d57430bc722bb639",
+                "itemId": "08497e5f8c33c372d57430bc722bb639",
+                "baseSha256": "e8519a6b905158a4d76af719c9f25d3c6503510cc9e9d21a0e9e4e1f4795ce0d",
+                "researchRevision": 2681,
+                "resultSha256": "b76313cd417acd8a64901a40adea15d41e45b97aedfdbb3c5f22427461ad2046"
+              }
+            },
+            {
+              "id": "scout-question:bfe930e586ab1888de3399e7",
+              "question": "What room arrangement and follow-up does Workforce Housing offer now?",
+              "explanation": "The overview still describes a private room in a shared unit and nine months of follow-up. The dedicated housing page describes a shared one-bedroom apartment and one year of follow-up. Neither page explains which description applies now. Ask 602-755-5627 about room privacy, the current stay and follow-up, and whether these are different arrangements. Also settle the costs and locations in the existing housing question. The draft now avoids promising a private room or a specific follow-up period.\n\nhttps://www.theworkeraz.org/what-we-do\nhttps://www.theworkeraz.org/get-housing",
+              "status": "open",
+              "resolution": "",
+              "source": {
+                "kind": "operator-maintenance-pilot",
+                "date": "2026-09-09",
+                "sourcePackageSha256": "6655c6056b5c56caa3a1bcb0f2993f420df96333ccaa18b71e276dfc6ed8e1c7",
+                "providerVerificationInferred": false
+              }
+            }
+          ],
+          "reason": "Source-supported maintenance draft; existing questions, answers and verification fields preserved."
+        }
+      ],
+      "serviceScopeChanges": [],
+      "questionActions": [
+        {
+          "questionId": "scout-question:8283c572f14667b6e013f436",
+          "action": "preserved",
+          "reason": "No human resolution or authoritative settlement established."
+        }
+      ],
+      "uncertainties": [
+        "What does Workforce Housing cost, and what openings are available to someone starting at the Mesa office?",
+        "What room arrangement and follow-up does Workforce Housing offer now?"
+      ],
+      "originalRecordReference": "source-resources.json#08497e5f8c33c372d57430bc722bb639"
+    },
+    {
+      "resourceId": "51cfce1c2944ef0453c793aba1923e08",
+      "originalName": "City of Mesa Housing Authority · Vouchers and Deposit Help",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "51cfce1c2944ef0453c793aba1923e08"
+      ],
+      "reason": "Retain: useful service with a reachable starting point; preserve its specific eligibility and open questions. Official waiting-list page still says closed and mail contact; existing-applicant support remains useful. Distinct voucher versus deposit entry routes justify retaining two records, not combining merely because phone/address match.",
+      "evidence": [
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://www.mesaaz.gov/Resident-Resources/Housing",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [
+        {
+          "questionId": "scout-question:a2957df624defaed1aba120d",
+          "action": "preserved",
+          "reason": "No human resolution or authoritative settlement established."
+        }
+      ],
+      "uncertainties": [
+        "Who currently takes applications for monthly rent help, separate from the City’s deposit program?"
+      ],
+      "originalRecordReference": "source-resources.json#51cfce1c2944ef0453c793aba1923e08"
+    },
+    {
+      "resourceId": "987a8b8eb5e82e8c0216ef7bb436693f",
+      "originalName": "City of Mesa · Rental and Utility Deposits",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "987a8b8eb5e82e8c0216ef7bb436693f"
+      ],
+      "reason": "Retain: useful service with a reachable starting point; preserve its specific eligibility and open questions. Public page says 80% AMI and new unit in Mesa; saved curator questions document conflicting City manuals and application. Initial coordinator thought of replacing the question was withdrawn after reading its evidence. Blueink form lacks readable body. Inspect older manual and form; do not overwrite conflict.",
+      "evidence": [
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://www.mesaaz.gov/Resident-Resources/Housing/Human-Services/DepositAssistanceProgram",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        },
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://www.mesaaz.gov/files/assets/public/v/1/government/grants/communitydev/final-com-secdep-tbra-policy-manual-5.13.25.pdf",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        },
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://www.mesaaz.gov/files/assets/public/v/1/residentresources/limited-income-programs/securityutilitydeposit_printableapplication_25_26.pdf",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        }
+      ],
+      "fieldChanges": [
+        {
+          "field": "informationText",
+          "before": "**Programs and Services**\nPays approved refundable security deposits to the landlord. Utility deposits can be requested with the security-deposit application. This is deposit help, not payment of overdue rent or ordinary monthly utility bills.\n\n**Eligibility Requirements**\nThe new rental unit must be in Mesa. Apply before signing the lease or moving in. The landlord and utility provider must accept the City’s payment guarantee and program terms, and the unit must pass inspection. Ask staff to check the current household-income and residency rules.\n\n**How to Best Connect**\nCall Housing at 480-644-3536 to confirm current intake and funding, then use the program’s online application or ask for a paper form. The linked form asks for photo ID for the household head, Social Security cards for household members, an unsigned proposed lease, income records and two recent full bank statements. Ask for the current checklist and help obtaining missing documents. For utility deposits, get an account and deposit letter from the utility provider.\n\nIf you cannot upload documents, the form lists fax 480-644-2923 or the secure drop box at 200 S. Center St., Building 1. Label them with your name and “Security Deposit Application.”\n\nHousing questions can also go to housing.info@mesaaz.gov.\n\n**Access**\nOffice lobby: Monday–Thursday, 7:30 a.m.–5 p.m.; Housing Specialist visits need an appointment. Ask for help completing the application if needed.\n\n**Important Information to Know**\nStart well before the move. The linked form asks for at least 14 days on its first page, says 10 days on its last page, and estimates 10–14 business days to process. Confirm the actual timeline with Housing. Approval also requires inspection; an application is not a promise of payment. Help covers approved refundable deposits, with the rental deposit capped at two months’ rent on the linked form. Utility-deposit help requires rental-deposit approval.",
+          "after": "**Programs and Services**\nPays approved refundable security deposits to the landlord. Utility deposits can be requested with the security-deposit application. This is deposit help, not payment of overdue rent or ordinary monthly utility bills.\n\n**Eligibility Requirements**\nThe new rental unit must be in Mesa. Apply before signing the lease or moving in. The landlord and utility provider must accept the City’s payment guarantee and program terms, and the unit must pass inspection. Ask staff to check the current household-income and residency rules.\n\n**How to Best Connect**\nCall Housing at 480-644-3536 to confirm current intake and funding, then use the program’s online application or ask for a paper form. The saved FY25/26 paper form asks for photo ID for the household head, Social Security cards for household members, an unsigned proposed lease, income records and two recent full bank statements. Ask for the current form and checklist, and help obtaining missing documents. The current online application could not be read during this check. For utility deposits, get an account and deposit letter from the utility provider.\n\nIf you cannot upload documents, that paper form lists fax 480-644-2923 or the secure drop box at 200 S. Center St., Building 1. Label them with your name and “Security Deposit Application.”\n\nHousing questions can also go to housing.info@mesaaz.gov.\n\n**Access**\nOffice lobby: Monday–Thursday, 7:30 a.m.–5 p.m.; Housing Specialist visits need an appointment. Ask for help completing the application if needed.\n\n**Important Information to Know**\nStart well before the move. The saved FY25/26 paper form asks for at least 14 days on its first page, says 10 days on its last page, and estimates 10–14 business days to process. Confirm the actual timeline with Housing. Approval also requires inspection; an application is not a promise of payment. Help covers approved refundable deposits, with the rental deposit capped at two months’ rent on that paper form. Utility-deposit help requires rental-deposit approval.",
+          "reason": "Source-supported maintenance draft; existing questions, answers and verification fields preserved."
+        }
+      ],
+      "serviceScopeChanges": [],
+      "questionActions": [
+        {
+          "questionId": "scout-question:5bd130cfab2c820977abd17d",
+          "action": "preserved",
+          "reason": "No human resolution or authoritative settlement established."
+        },
+        {
+          "questionId": "scout-question:594e2b8bcfc47870531a6ef0",
+          "action": "preserved",
+          "reason": "No human resolution or authoritative settlement established."
+        },
+        {
+          "questionId": "scout-question:aa874a62c7997983127aac9a",
+          "action": "preserved",
+          "reason": "No human resolution or authoritative settlement established."
+        }
+      ],
+      "uncertainties": [
+        "Which income, residency and voucher rules apply now?",
+        "How far ahead must someone apply?",
+        "Which deposit eligibility rules apply now?"
+      ],
+      "originalRecordReference": "source-resources.json#987a8b8eb5e82e8c0216ef7bb436693f"
+    },
+    {
+      "resourceId": "0e36c87d7889979a6cf7f4debff3bed7",
+      "originalName": "Family Housing Hub · Family Shelter Intake",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "0e36c87d7889979a6cf7f4debff3bed7"
+      ],
+      "reason": "Retain: useful service with a reachable starting point; preserve its specific eligibility and open questions. Family entry via 211, all adults on call, MesaCAN schedule and need-based queue supported. Saved weekly-check-in conflict with 211 listing still requires comparison.",
+      "evidence": [
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://search.211arizona.org/search/186386a4-2715-5d3e-aa4a-78735d01a64a",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        },
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://www.fhhub.org/",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [
+        {
+          "questionId": "scout-question:8bfa1a56d236f9dae4a29ed0",
+          "action": "preserved",
+          "reason": "No human resolution or authoritative settlement established."
+        }
+      ],
+      "uncertainties": [
+        "Do families need to check in weekly to keep their place?"
+      ],
+      "originalRecordReference": "source-resources.json#0e36c87d7889979a6cf7f4debff3bed7"
+    },
+    {
+      "resourceId": "mesa-housing-house-of-refuge-family",
+      "originalName": "House of Refuge · Family Transitional Housing",
+      "disposition": "retain",
+      "targetResourceIds": [
+        "mesa-housing-house-of-refuge-family"
+      ],
+      "reason": "Retain: useful service with a reachable starting point; preserve its specific eligibility and open questions. Direct current page supports family/Arizona eligibility, documented income, rent/deposit, employment deadline and no immediate shelter. Preserve this useful specialized resource; restrictions alone do not disqualify it.",
+      "evidence": [
+        {
+          "kind": "web-and-saved-research",
+          "reference": "https://houseofrefuge.org/need-housing/",
+          "checkedAt": "2026-09-09",
+          "note": "See primary and targeted findings for actual retrieval limits; this is not a provider call."
+        }
+      ],
+      "fieldChanges": [],
+      "serviceScopeChanges": [],
+      "questionActions": [],
+      "uncertainties": [],
+      "originalRecordReference": "source-resources.json#mesa-housing-house-of-refuge-family"
+    }
+  ],
+  "newOutputResources": [],
+  "suggestions": [],
+  "output": {
+    "filename": "mesa-maintenance-editor-draft.zip",
+    "sha256": "3a1a906d904fa005a82fb418f230cbe892182a4977d4c44729e4bb0565362814",
+    "finalUniqueResources": 12
+  }
+}

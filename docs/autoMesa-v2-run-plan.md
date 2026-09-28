@@ -1,0 +1,181 @@
+# autoMesaV2 run
+
+## Current protocol — September 7, 2026
+
+After two Claude usage-limit holds, Michael instructed: "I don't want to use
+Claud then." Continue with **Codex researching and ChatGPT, Grok and Perplexity
+challenging the results**. Those three outside services remain required. Do not
+send further assignments to Claude or wait for its availability. This explicitly
+supersedes the four-service requirement in the original plan below.
+
+Keep actual Claude results already received, their finding dispositions and
+immutable category freezes. Missing Claude checks are stopped, not completed
+blind reviews. The current checkpoint is `output/autoMesaV2/run.json`.
+
+New category projects use standard maintenance without `--blind-comparison`.
+For unfinished projects created under the original protocol, use
+`maintain stop-blind PROJECT --revision REVISION --researcher Claude --operator Michael --reason REASON`.
+This records who changed the protocol and why, preserves sealed work, and keeps
+the existing category freeze and all three challengers ahead of reconciliation.
+Every received Claude finding still needs a disposition. No new Claude
+assignment or result is accepted, and an unperformed stopped check is shown
+separately from a completed one. The command cannot stop primary or challenger
+research and never grants curator approval. Completed categories retain their
+original protocol and results. Re-estimate time using the new workflow's pace.
+
+## Original plan and historical start checks
+
+The following records the original September 6 plan and early checkpoints;
+Claude requirements and initial timing estimates are superseded above.
+
+Working name approved by Michael: **autoMesaV2**, with review file
+`autoMesaV2.html`. Preserve the existing autoMesa files.
+
+Status: all four services passed live attachment and source checks at
+2026-09-07 05:27 UTC (September 6, 11:27 PM MDT). Research began at 05:45 UTC.
+Caregiving completed at approximately 07:07 UTC: eight existing-resource rechecks,
+six proposed additions, all 27 challenger task results and all nine Claude task
+results, with 95 explicit final finding dispositions. No curator approvals or
+production publication occurred. Addiction has six of 27 primary rechecks saved;
+21 rechecks plus discovery remain before its challengers. Michael's September 6 instruction
+requires ChatGPT, Grok, Claude and Perplexity to be online and available. All four
+are mandatory participants alongside Codex. Claude remains an independent blind
+comparison, not a fourth challenger. Its participation is required.
+
+## Availability gate
+
+Before creating or dispatching the research run, confirm a working signed-in
+session for each required service, the intended research mode, ability to accept
+the assignment/attachments, and a fresh response demonstrating live source
+access. Record the actual model/mode, check time and result. An open app, an old
+successful conversation, a service status page or a model's unsupported claim
+that it can browse is insufficient.
+
+If any service is unavailable, signed out, rate-limited, unable to browse or
+unable to process its assignment, do not begin research. During the run, stop
+new research dispatches at a failure; retain work already returned or in flight,
+and resume only when the required service is available again. Never substitute
+another provider, omit an audit, use historical output as a fresh check, or
+mark an incomplete batch complete.
+
+Implementation prerequisite: keep ChatGPT, Grok and Perplexity as challengers and
+Claude as a required blind researcher. The existing shadow assignment is not a
+valid blind protocol: it includes Codex's candidate list, and completion does not
+wait for it. Correct and test this before use. Claude receives the same category,
+area and neutral task scope but no Codex/challenger findings or new draft text.
+Keep its response out of Codex's context until the primary plus challenger result
+is saved with its source evidence and hash. Only then reveal and compare Claude's
+results. Record the comparison before incorporating supported additional findings.
+The opt-in maintenance workflow now implements this gate. Use one project per
+category batch so every selected resource and the category discovery result are
+frozen before any Claude assignment is exposed. Preserve old frozen projects.
+
+## Proposed scope
+
+A full Mesa refresh and rewrite of the current autoMesa text. Local source
+inspection identified `auto-mesa-resource-package.zip`, version 3, September 4,
+2026, with 333 resources and 20 categories. SHA-256:
+`e8519a6b905158a4d76af719c9f25d3c6503510cc9e9d21a0e9e4e1f4795ce0d`.
+Use this as the proposal/research starting collection, not as proof of human
+verification. `mesa-resource-package.zip` is an August 20 empty starter package.
+Retain existing dates and local content as evidence, without inventing verification.
+Keep current autoMesa files intact; deliver rewritten text in a new v2 review copy.
+Confirm source, version, resource/category counts and attachments before fixing
+the run scope. Do not mistake a blank location HTML seed for the office inventory
+or treat an earlier AI-generated collection as human-vetted ground truth.
+
+Work category by category. Recheck existing programs, improve writing, review
+service categories/Types/groups, and search for useful missing resources.
+Recheck a resource once across its multiple categories and preserve its stable
+identity, useful local knowledge, attachments and existing curator decisions.
+
+Codex performs the initial research and targeted gap searches using each
+category's playbook. ChatGPT, Grok and Perplexity independently investigate
+missed resources and challenge the evidence and proposed content. Codex combines
+the supported findings, checks identities and resolves disagreements using
+sources. Save that reconciled result before revealing Claude. Compare the blind
+result, then include supported contributions from every researcher; agreement
+is not proof and a lead is not automatically an appropriate resource. Significant unresolved questions belong to office
+curators, not Michael as design reviewer.
+
+Use the approved five Information sections, concise program-specific titles,
+plain writing that retains consequential details, and supported service
+categories/Types/groups. Curator questions explain the concrete evidence,
+uncertainty and next check in everyday language. Administrative explanations
+stay out of patron handouts. A failed link alone does not establish closure;
+retirement remains a proposed office decision, and research never sets human
+verification.
+
+## Pacing and delivery
+
+Complete all required checks for every batch. Bound optional follow-up by
+remaining gaps and marginal useful findings, without claiming that adaptive
+playbook learning is implemented. Honor the established random 10–20 minute
+baseline between ChatGPT category assignments and adapt to throttling. Announce
+waits, checkpoint progress, and give granular updates: each provider preflight,
+category start, primary/gap research, each external dispatch and return, validation,
+reconciliation freeze, Claude reveal/comparison and category completion. Report
+concrete counts and blockers; send a brief update at least every minute while
+actively working, including during waits. Do not report queued work as completed.
+
+Deliver an isolated v2 autoMesa review file and mergeable package proposals,
+with a short coverage summary, bold changes in comparisons, and specific open
+questions. Verify that the generated review file includes the updated common
+application's question behavior; an older bundled renderer is not sufficient.
+The office's live resource collection is updated through its normal curator
+review and merge workflow. Archive source evidence, all actual AI responses,
+reconciliation decisions and before/after data for later learning. Research
+acceptance and question resolution do not establish phone-vetted outcomes.
+
+Fresh check evidence is archived in the ignored run folder
+`output/autoMesaV2/preflight/status.json`, with packet and response hashes.
+ChatGPT used GPT-5.6 Sol / High; Grok used Expert; Perplexity used Search /
+Sonar 2; Claude used Opus 5 / High. All four read the unique attachment
+nonce and returned a current National Park Service source citation.
+
+The Caregiving Claude turn hit a tool-use limit and was continued in the same
+blind conversation. Its incomplete first response was archived and not accepted.
+The corrected response completed all nine tasks. A documented import adapter
+preserved a narrow FCRP application-closure notice in research notes rather than
+encoding closure of the aggregate DES resource. Original returned files remain
+unchanged. The current run checkpoint is `output/autoMesaV2/progress.md`.
+
+After Caregiving, Claude warned that 90% of its session allowance was used but
+had not blocked further work. Keep later Claude transport packets smaller while
+preserving the whole-category freeze and independent original-only context.
+Provider batching observations are saved in this run's JSON; they are not
+activated as global research lessons. The first provisional remaining-work
+estimate is 30–50 active hours plus provider waits, to be revised after Addiction.
+
+
+## Start-check status
+
+Chrome browser-connector access still reports unavailable, but AppleScript
+control now works, including file attachment, DOM interactions and source-result
+capture. VNC Viewer is not part of this working connection. The earlier
+AppleScript timeout and Automation denial were resolved before the live checks.
+
+## Required blind workflow
+
+Create each category batch with `maintain prepare ... --blind-comparison` (or
+HTTP prepare query `blindComparison=1`). Keep the office name `AutoMesa` for
+source identity and use `autoMesaV2` in the run name and deliverable filenames.
+The required stages are Codex primary, three challengers, Codex freeze, Claude
+blind research, then Codex final reconciliation. Every task must freeze before
+Claude can receive any assignment in that batch. The immutable manifest hashes
+the source package, assignments and pre-blind results. Each Claude result item
+requires a disposition, and Claude must check explicit closure evidence before
+a final closure proposal is allowed. Empty discovery results still require a
+completed Claude response and final coverage explanation.
+
+Blind assignments contain original package data and taxonomy only; they omit
+new proposals, other researchers' findings and previous run outcomes. Dispatch
+Claude in a fresh conversation after the freeze. Final review rows preserve the
+frozen result, comparison hash, Claude evidence and dispositions. Legacy shadow
+runs keep their original semantics and cannot be used for this blind protocol.
+
+Validation: 312 Python tests passed (one existing skip), including six synthetic
+blind-protocol tests and the HTTP opt-in check; JavaScript syntax passed. A
+synthetic iPad-size browser check confirmed Claude's evidence and comparison
+appear and Claude is selectable, with no page errors. No synthetic result is
+Mesa research or provider evidence.
