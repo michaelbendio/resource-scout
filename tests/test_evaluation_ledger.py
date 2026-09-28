@@ -92,6 +92,23 @@ class LedgerTests(unittest.TestCase):
         with self.assertRaises(BudgetHold):maximum_charge(self.config['provider'],pricing)
         l=self.ledger();p=self.exp/'inputs/pricing.json';p.write_text('{}')
         with self.assertRaises(BudgetHold):self.reserve(l)
+    def test_explicit_housing_uncapped_preserves_unknowns_and_call_limit(self):
+        from resource_research_agent.evaluation.protocol import read
+        import json
+        self.config['pricing']['searchPerUse']=None
+        self.config['limits']['callsPerCategory']=1
+        self.exp=self.root/'uncapped'
+        init_experiment(self.config,self.exp);seal_protocol(self.exp)
+        authorize(self.exp,total=None,stage=None)
+        path=self.exp/'authorization.json';a=read(path)
+        path.write_text(json.dumps({**a,'dollarCapMode':'none-authorized'}))
+        ledger=Ledger(self.exp,simulation=True)
+        self.reserve(ledger);self.response(ledger)
+        self.assertIsNone(ledger.summarize_usage()['exposureUsd'])
+        self.assertEqual(1,ledger.summarize_usage()['unknownUsageAttempts'])
+        with self.assertRaisesRegex(BudgetHold,'call cap'):self.reserve(ledger,'attempt-2')
+        path.write_text(json.dumps(a))
+        with self.assertRaises(BudgetHold):self.reserve(ledger,'attempt-2')
     def test_diagnosed_not_sent_failure_releases_only_unused_reservation(self):
         l=self.ledger();self.reserve(l);l.record_failure('attempt-1',not_sent=True,diagnosis='Local credential preflight failed before transport')
         self.assertEqual('0',l.summarize_usage()['exposureUsd'])

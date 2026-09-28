@@ -104,3 +104,17 @@ Prepare a concrete bounded launch for Michael's spending authorization; only the
 execute and monitor Housing. Build the blinded audit and initial measured-research /
 unmeasured-preparation projection. The exact gated execute command and reconstruction
 configuration are in `docs/scout-evaluation-usage.md`. Later tickets remain evidence-gated.
+
+## Housing launch authorized — September 27
+
+Michael: "Run the test when you're ready. Take the $3 limit off first."
+This supersedes the proposed Housing dollar ceiling. Authorization is limited to
+the existing-policy Housing comparison, not later categories or production changes.
+Explicit `none-authorized` dollar-cap mode retains the 60-call, 3,600-active-second,
+24-turn and two-diagnosed-recovery limits. It may record unknown price/reservation
+amounts as null; it cannot silently turn missing native billing details into zero.
+Ordinary capped experiments still reject unpriced dispatch. Native-search/cache
+billing is incompletely documented; raw usage is retained for later reconciliation.
+44 evaluation tests pass, including removal of the dollar limit without removal of
+the category call limit. The credential is available; no credential is in artifacts.
+Next: seal the authorized protocol and execute the supervised Housing comparison.

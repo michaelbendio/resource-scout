@@ -57,7 +57,7 @@ def normalize_usage(usage, pricing):
             if values['input'] < 0:
                 raise EvaluationError('Cache counters exceed total input')
     elif pricing.get('inputAccounting') != 'exclusive':
-        raise EvaluationError('Unknown input/cache accounting convention')
+        return values, None
     tool = usage.get('server_tool_use')
     searches = tool.get('web_search_requests') if isinstance(tool,dict) else None
     if searches is None and 'web_search_requests' in pricing.get('absentMeansZero',[]):
@@ -65,9 +65,11 @@ def normalize_usage(usage, pricing):
     values['searches'] = searches if type(searches) is int and searches >= 0 else None
     values['reasoning'] = counter('reasoning_tokens')
     if pricing.get('reasoningIncludedInOutput') is not True:
-        raise BudgetHold('Reasoning billing must be explicitly defined before dispatch')
+        return values, None
     # Reasoning is diagnostic only when already included in output.
     if any(values[k] is None for k in ['input','cacheHit','cacheWrite','output','searches']):
+        return values, None
+    if any(pricing.get(k) is None for k in ['inputPerMillion','cacheHitPerMillion','cacheWritePerMillion','outputPerMillion','searchPerUse']):
         return values, None
     cost = sum(money(pricing[p]) * values[v] / 1_000_000 for v,p in [
         ('input','inputPerMillion'),('cacheHit','cacheHitPerMillion'),('cacheWrite','cacheWritePerMillion'),('output','outputPerMillion')])
@@ -123,8 +125,9 @@ class Ledger:
         for key in ['approvedBy','approvedAt','approvalText','billingOwner','billingAccount']:
             if not isinstance(a.get(key),str) or not a[key].strip():raise BudgetHold(f'Authorization needs {key}')
         if a.get('provider')!='deepseek':raise BudgetHold('Wrong authorized billing provider')
+        uncapped = self.uncapped(a)
         if not self.simulation:
-            if a.get('simulationOnly') is not False or self.pricing.get('verified') is not True:
+            if a.get('simulationOnly') is not False or (not uncapped and self.pricing.get('verified') is not True):
                 raise BudgetHold('Simulation authorization or unverified pricing cannot dispatch live work')
             if self.config['provider']['maxInputTokens'] < self.pricing.get('providerContextLimitTokens',float('inf')):
                 raise BudgetHold('Input reservation must cover the provider context limit, including native tools')
@@ -139,9 +142,18 @@ class Ledger:
         return a,auth_sha
 
     @staticmethod
+    def uncapped(a):
+        if a.get('dollarCapMode') != 'none-authorized':
+            return False
+        if (a.get('totalUsd') is not None or a.get('stageCapsUsd') != {'housing-research': None}
+                or a.get('categories') != ['housing'] or not a.get('approvalText')):
+            raise BudgetHold('Uncapped authorization must explicitly cover only Housing')
+        return True
+
+    @staticmethod
     def exposure(rows):
         return sum((money(r['billed'] if r['billed'] is not None else r['calculated'] if r['calculated'] is not None else r['reservation'])
-                    for r in rows if r['state']!='failed-not-sent'),Decimal(0))
+                    for r in rows if r['state']!='failed-not-sent' and any(r[k] is not None for k in ['billed','calculated','reservation'])),Decimal(0))
 
     def reserve_attempt(self, attempt_id, *, condition, category, stage, pass_key, request,
                         timeout_seconds, recovery_of=None, diagnosis=None):
@@ -150,7 +162,10 @@ class Ledger:
         if category not in a['categories'] or stage not in a['stageCapsUsd']:
             raise BudgetHold('Category/stage outside the authorized envelope')
         if condition!=self.config['condition']:raise BudgetHold('Unsealed experimental condition')
-        amount=maximum_charge(self.config['provider'],self.pricing)
+        try:amount=maximum_charge(self.config['provider'],self.pricing)
+        except BudgetHold:
+            if not self.uncapped(a):raise
+            amount=None
         request_sha=digest(request)
         with self.transaction() as db:
             prior=db.execute('SELECT * FROM attempts WHERE id=?',(attempt_id,)).fetchone()
@@ -175,14 +190,15 @@ class Ledger:
                 raise BudgetHold('Category active-time cap reached')
             if timeout_seconds<=0 or timeout_seconds>self.config['provider']['timeoutSeconds']:
                 raise BudgetHold('Request timeout exceeds sealed bound')
-            if self.exposure(rows)+amount>money(a['totalUsd']):raise BudgetHold('Experiment dollar cap reached')
-            if self.exposure([r for r in rows if r['stage']==stage])+amount>money(a['stageCapsUsd'][stage]):
-                raise BudgetHold('Stage dollar cap reached')
+            if not self.uncapped(a):
+                if self.exposure(rows)+amount>money(a['totalUsd']):raise BudgetHold('Experiment dollar cap reached')
+                if self.exposure([r for r in rows if r['stage']==stage])+amount>money(a['stageCapsUsd'][stage]):
+                    raise BudgetHold('Stage dollar cap reached')
             db.execute('''INSERT INTO attempts(id,condition,category,stage,pass_key,request_sha,requested_model,state,
                 reservation,pricing_sha,authorization_sha,created_at,timeout_seconds,recovery_of,diagnosis)
                 VALUES (?,?,?,?,?,?,?,'reserved',?,?,?,?,?,?,?)''',
-                (attempt_id,condition,category,stage,pass_key,request_sha,request['model'],str(amount),digest(self.pricing),auth_sha,now(),timeout_seconds,recovery_of,diagnosis))
-            self.event(db,attempt_id,'reserved',{'maximumUsd':str(amount)})
+                (attempt_id,condition,category,stage,pass_key,request_sha,request['model'],str(amount) if amount is not None else None,digest(self.pricing),auth_sha,now(),timeout_seconds,recovery_of,diagnosis))
+            self.event(db,attempt_id,'reserved',{'maximumUsd':str(amount) if amount is not None else None,'uncappedAuthorized':self.uncapped(a)})
         return self.attempt(attempt_id)
 
     @staticmethod
@@ -231,7 +247,7 @@ class Ledger:
             self.event(db,attempt_id,'responded',{'usageComplete':cost is not None,'chargeIsCalculated':True,
                 'activeTimeBasis':'observed' if timing else 'bounded-by-request-timeout',
                 'responseAdoptionDelaySeconds':max(0,time.time()-timing['receivedAt']) if timing else None})
-        if cost is not None and cost>money(row['reservation']):
+        if cost is not None and row['reservation'] is not None and cost>money(row['reservation']):
             write_once(self.root/'accounting-hold.json',{'attemptId':attempt_id,'reason':'Observed charge exceeded the sealed upper bound; review billing before any further dispatch.'})
             raise BudgetHold('Provider usage exceeded the reserved bound; all further dispatch held')
 
@@ -249,8 +265,9 @@ class Ledger:
 
     def summarize_usage(self):
         with self.connect() as db:rows=[dict(r) for r in db.execute('SELECT * FROM attempts')]
+        unknown_bound=any(r['reservation'] is None and r['calculated'] is None and r['state']!='failed-not-sent' for r in rows)
         return dict(attempts=len(rows),states={s:sum(r['state']==s for r in rows) for s in ['reserved','sent','responded','failed-not-sent','unknown-outcome']},
-            exposureUsd=str(self.exposure(rows)),calculatedUsd=str(sum((money(r['calculated']) for r in rows if r['calculated'] is not None),Decimal(0))),
+            exposureUsd=None if unknown_bound else str(self.exposure(rows)),calculatedUsd=str(sum((money(r['calculated']) for r in rows if r['calculated'] is not None),Decimal(0))),
             knownBilledUsd=None,unknownUsageAttempts=sum(r['state']=='responded' and r['calculated'] is None for r in rows),
-            outstandingReservedUsd=str(sum((money(r['reservation']) for r in rows if r['state'] in ['reserved','sent','unknown-outcome'] or (r['state']=='responded' and r['calculated'] is None)),Decimal(0))),
+            outstandingReservedUsd=None if unknown_bound else str(sum((money(r['reservation']) for r in rows if r['state'] in ['reserved','sent','unknown-outcome'] or (r['state']=='responded' and r['calculated'] is None)),Decimal(0))),
             activeSeconds=sum(r['elapsed'] for r in rows),activeTimeUnknownAttempts=sum(r['state'] in ['sent','unknown-outcome'] for r in rows),accountBalanceAttribution='Not used; other account activity cannot be attributed to this experiment.')

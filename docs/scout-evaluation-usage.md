@@ -83,3 +83,10 @@ Only Housing is eligible for paid execution at M0/M1. Research completion remain
 `completed-research-awaiting-source-audit`, with no quality or adoption approval.
 Resume with the same command; immutable responses and ledger entries prevent
 replaying completed calls. Uncertain paid outcomes remain held for reconciliation.
+
+An explicit user removal of the Housing dollar cap is recorded as
+`dollarCapMode: "none-authorized"`, `totalUsd: null`,
+`stageCapsUsd: {"housing-research": null}`, and `categories: ["housing"]`,
+with the actual approval text. This narrow override permits unknown billing bounds
+to remain null; it does not waive call/time/retry limits, frozen criteria, source
+isolation or uncertain-request holds. It does not authorize any other stage.
