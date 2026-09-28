@@ -107,8 +107,8 @@ def validate_config(config):
     if set(provider) - {'endpoint','model','acceptedModels','thinking','effort','maxOutputTokens',
                         'maxInputTokens','maxSearchUses','maxFetchesPerTurn','timeoutSeconds'}:
         raise EvaluationError('Unknown provider configuration; never store credentials here')
-    if provider['endpoint'] != 'https://api.deepseek.com/anthropic/v1/messages':
-        raise EvaluationError('This adapter only sends credentials to the official DeepSeek endpoint')
+    from .providers import provider_name
+    provider_name(provider['endpoint'])  # DeepSeek's official endpoint or Claude Code on the Church account
     if provider['model'] not in provider['acceptedModels']:
         raise EvaluationError('Requested model must be in the sealed alias allowlist')
     for key in ['maxOutputTokens', 'maxInputTokens', 'maxSearchUses', 'maxFetchesPerTurn', 'timeoutSeconds']:

@@ -11,6 +11,7 @@ from .protocol import (EvaluationError, verify_protocol, read, write_once, check
 from .baseline import readonly
 from .ledger import Ledger, BudgetHold
 from .deepseek import LiveTransport, run_assignment
+from .providers import make_transport, provider_label
 from ..storage import ResearchStore
 from ..importer import ResourcePackageImporter
 from ..focused_research import (prepare_focused_research_job,next_focused_research_assignment,
@@ -81,8 +82,8 @@ def _run_category(root,condition,category,*,execute=False,transport=None,fetcher
         if roster:
             # Label the actual provider while leaving source policy untouched.
             for worker in roster.get('researchers',[]):
-                if worker.get('role')=='primary':worker['name']='DeepSeek'
-        else:roster={'researchers':[{'name':'DeepSeek','role':'primary'}]}
+                if worker.get('role')=='primary':worker['name']=provider_label(config['provider']['endpoint'])
+        else:roster={'researchers':[{'name':provider_label(config['provider']['endpoint']),'role':'primary'}]}
         job=prepare_focused_research_job(store,import_id,category_id=category,
             experiment_mode=config['baseline']['experimentMode'],redact_recovery_targets=config['baseline']['redactRecoveryTargets'],
             researcher_roster=roster)
@@ -105,7 +106,7 @@ def _run_category(root,condition,category,*,execute=False,transport=None,fetcher
             return report
         ledger=Ledger(root,simulation=transport is not None and getattr(transport,'is_live',True) is False)
         ledger.authorization()  # No paid call or result import before the explicit gate.
-        if transport is None:transport=LiveTransport(config['provider']['endpoint'])
+        if transport is None:transport=make_transport(config['provider']['endpoint'])
         while True:
             job=store.get_focused_research_job(job['id'])
             if job['status']=='completed':break

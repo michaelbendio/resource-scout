@@ -2,6 +2,7 @@
 import json
 import random
 from pathlib import Path
+from .providers import experiment_label
 from .protocol import EvaluationError, verify_protocol, read, write_once, file_hash, digest, identifier
 
 
@@ -34,7 +35,7 @@ def build_audit_packet(root, category='housing'):
                     'Raw lead counts are not unique useful routes or quality scores.'],
         protocolSha256=file_hash(root/'manifest.json'),resultSha256=file_hash(summary_path))
     write_once(root/'audit'/f'{category}-packet.json',packet)
-    write_once(root/'reference'/f'{category}-audit-reveal.json',dict(labels={labels[0]:'historical-primary',labels[1]:'deepseek-existing-policy'},newEvidence=evidence))
+    write_once(root/'reference'/f'{category}-audit-reveal.json',dict(labels={labels[0]:'historical-primary',labels[1]:experiment_label(root).lower()+'-existing-policy'},newEvidence=evidence))
     return packet
 
 

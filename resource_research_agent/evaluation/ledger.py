@@ -131,7 +131,8 @@ class Ledger:
             raise BudgetHold('Authorization does not match this sealed experiment')
         for key in ['approvedBy','approvedAt','approvalText','billingOwner','billingAccount']:
             if not isinstance(a.get(key),str) or not a[key].strip():raise BudgetHold(f'Authorization needs {key}')
-        if a.get('provider')!='deepseek':raise BudgetHold('Wrong authorized billing provider')
+        from .providers import provider_name
+        if a.get('provider')!=provider_name(self.config['provider']['endpoint']):raise BudgetHold('Wrong authorized billing provider')
         uncapped = self.uncapped(a)
         if not self.simulation:
             if a.get('simulationOnly') is not False or (not uncapped and self.pricing.get('verified') is not True):
