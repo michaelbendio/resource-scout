@@ -165,6 +165,27 @@ class Ledger:
         return sum((money(r['billed'] if r['billed'] is not None else r['calculated'] if r['calculated'] is not None else r['reservation'])
                     for r in rows if r['state']!='failed-not-sent' and any(r[k] is not None for k in ['billed','calculated','reservation'])),Decimal(0))
 
+    def execution_limits(self, category, stage):
+        """Recorded operational amendment; never a financial-cap or scope override."""
+        limits=dict(self.config['limits']);path=self.root/'execution-limit-amendment.json'
+        if not path.exists() or stage is None:return limits,None
+        amendment=read(path);a=read(self.root/'authorization.json')
+        allowed={'housing-preparation','housing-review','housing-collection'}
+        stages=amendment.get('stages',[])
+        if (amendment.get('protocolSha256')!=self.manifest_sha or amendment.get('categories')!=['housing']
+                or not stages or set(stages)-allowed or set(stages)-set(a.get('stageCapsUsd',{}))
+                or not self.uncapped(a) or not amendment.get('reason') or not amendment.get('recordedBy')):
+            raise BudgetHold('Invalid scoped execution-limit amendment')
+        replacements=amendment.get('limits',{})
+        ceilings={'callsPerCategory':600,'activeSecondsPerCategory':43200}
+        if set(replacements)!=set(ceilings) or any(type(replacements[k]) is not int or not 0<replacements[k]<=ceilings[k] for k in ceilings):
+            raise BudgetHold('Execution amendment may change only bounded call/time stops')
+        if category!='housing' or stage not in stages:return limits,None
+        sha=file_hash(path)
+        write_once(self.root/'authorizations'/('execution-limits-'+sha+'.json'),amendment)
+        limits.update(replacements)
+        return limits,sha
+
     def reserve_attempt(self, attempt_id, *, condition, category, stage, pass_key, request,
                         timeout_seconds, recovery_of=None, diagnosis=None):
         identifier(attempt_id);identifier(category)
@@ -172,6 +193,7 @@ class Ledger:
         if category not in a['categories'] or stage not in a['stageCapsUsd']:
             raise BudgetHold('Category/stage outside the authorized envelope')
         if condition!=self.config['condition']:raise BudgetHold('Unsealed experimental condition')
+        execution_limits,limit_amendment_sha=self.execution_limits(category,stage)
         try:amount=maximum_charge(self.config['provider'],self.pricing)
         except BudgetHold:
             if not self.uncapped(a):raise
@@ -197,10 +219,10 @@ class Ledger:
                     raise BudgetHold('Recovery needs diagnosed evidence of a request not sent')
                 if sum(r['recovery_of'] is not None for r in cat)>=self.config['limits']['maxRecoveries']:
                     raise BudgetHold('Diagnosed transport recovery limit reached')
-            if sum(r['state']!='failed-not-sent' for r in cat)>=self.config['limits']['callsPerCategory']:
+            if sum(r['state']!='failed-not-sent' for r in cat)>=execution_limits['callsPerCategory']:
                 raise BudgetHold('Category call cap reached')
             pending_seconds=sum(r['timeout_seconds'] for r in pending if r['category']==category)
-            if sum(r['elapsed'] for r in cat)+pending_seconds+timeout_seconds>self.config['limits']['activeSecondsPerCategory']:
+            if sum(r['elapsed'] for r in cat)+pending_seconds+timeout_seconds>execution_limits['activeSecondsPerCategory']:
                 raise BudgetHold('Category active-time cap reached')
             if timeout_seconds<=0 or timeout_seconds>self.config['provider']['timeoutSeconds']:
                 raise BudgetHold('Request timeout exceeds sealed bound')
@@ -212,7 +234,8 @@ class Ledger:
                 reservation,pricing_sha,authorization_sha,created_at,timeout_seconds,recovery_of,diagnosis)
                 VALUES (?,?,?,?,?,?,?,'reserved',?,?,?,?,?,?,?)''',
                 (attempt_id,condition,category,stage,pass_key,request_sha,request['model'],str(amount) if amount is not None else None,digest(self.pricing),auth_sha,now(),timeout_seconds,recovery_of,diagnosis))
-            self.event(db,attempt_id,'reserved',{'maximumUsd':str(amount) if amount is not None else None,'uncappedAuthorized':self.uncapped(a)})
+            self.event(db,attempt_id,'reserved',{'maximumUsd':str(amount) if amount is not None else None,'uncappedAuthorized':self.uncapped(a),
+                'executionLimitAmendmentSha256':limit_amendment_sha,'executionLimits':execution_limits})
             self._owned_attempts.add(attempt_id)
         return self.attempt(attempt_id)
 
@@ -273,10 +296,11 @@ class Ledger:
             db.execute('UPDATE attempts SET elapsed=elapsed+? WHERE id=?',(elapsed,attempt_id))
             self.event(db,attempt_id,event,{'elapsedSeconds':elapsed})
 
-    def remaining_seconds(self,category):
+    def remaining_seconds(self,category,*,stage=None):
         with self.connect() as db:
             used=sum(r[0] for r in db.execute('SELECT elapsed FROM attempts WHERE category=?',(category,)))
-        return max(0,self.config['limits']['activeSecondsPerCategory']-used)
+        limits,_=self.execution_limits(category,stage)
+        return max(0,limits['activeSecondsPerCategory']-used)
 
     def summarize_usage(self):
         with self.connect() as db:rows=[dict(r) for r in db.execute('SELECT * FROM attempts')]
@@ -285,4 +309,6 @@ class Ledger:
             exposureUsd=None if unknown_bound else str(self.exposure(rows)),calculatedUsd=str(sum((money(r['calculated']) for r in rows if r['calculated'] is not None),Decimal(0))),
             knownBilledUsd=None,unknownUsageAttempts=sum(r['state']=='responded' and r['calculated'] is None for r in rows),
             outstandingReservedUsd=None if unknown_bound else str(sum((money(r['reservation']) for r in rows if r['state'] in ['reserved','sent','unknown-outcome'] or (r['state']=='responded' and r['calculated'] is None)),Decimal(0))),
-            activeSeconds=sum(r['elapsed'] for r in rows),activeTimeUnknownAttempts=sum(r['state'] in ['sent','unknown-outcome'] for r in rows),accountBalanceAttribution='Not used; other account activity cannot be attributed to this experiment.')
+            activeSeconds=sum(r['elapsed'] for r in rows),activeTimeUnknownAttempts=sum(r['state'] in ['sent','unknown-outcome'] for r in rows),
+            executionLimitAmendment=read(self.root/'execution-limit-amendment.json') if (self.root/'execution-limit-amendment.json').exists() else None,
+            accountBalanceAttribution='Not used; other account activity cannot be attributed to this experiment.')

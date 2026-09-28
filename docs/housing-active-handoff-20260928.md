@@ -2,6 +2,27 @@
 
 Operational checkpoint, not completion. Verify live state before acting.
 
+**Latest, 07:12 UTC:** 44 of104 leads are prepared. Two curation batches
+are live (`06b`, `07a`); verify the ledger. One sequential review follows. Current
+unified exec session **71128** runs code **1ccc549**. The original `03b` response
+contained a prose prelude then valid JSON. The parser now preserves that prelude
+and safely reads the uniquely identifiable result. Offline adoption reused the
+saved response without a paid request; evidence is in `recovery/03b-*`.
+Latest user ETA: curation 30–60 minutes, total 3–5 hours remaining.
+
+69 evaluation tests pass, including scoped execution-limit amendment tests.
+`execution-limit-amendment.json` records supervisor engineering stops of400 calls
+and28,800 active seconds for the SAME authorized Housing preparation/review/import
+scope. Original sealed150-call/four-hour configuration and every prior charge
+remain intact. The running process still has old modules loaded; the next clean
+restart will apply the amendment. Do not interrupt an in-flight request to reload.
+Michael removed the dollar cap; he did not specify these engineering limits.
+
+Michael authorized two parallel curation batches, with one sequential review.
+The ledger permits only two current-coordinator preparation requests, accounts
+for combined reserved time, and rejects orphaned/unknown outcomes or parallel
+review. `execution-control.json` records authorization. No Jev is used or run.
+
 ## User decisions
 
 - DeepSeek curates its 104 original Housing leads and then reviews them in fresh

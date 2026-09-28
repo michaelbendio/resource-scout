@@ -19,10 +19,14 @@ file AS WELL AS the evaluation file and readable review. After the independent
 review freezes, use `evaluation.prepared_handoff` for production identity/taxonomy
 reconciliation and the standard export gates; see the trial document amendment.
 DeepSeek remains V4.1-Flash/max; the Housing dollar cap removal remains in force.
-64 evaluation tests pass. Current recovery code is `6310c91`; live runner was
-restarted after the diagnosed stop. See `docs/housing-active-handoff-20260928.md`
-for monitoring and the authorized final export command. No importable Housing
-package or completed DeepSeek review exists yet.
+Michael explicitly authorized **two parallel curation batches**, with one
+sequential review. At 07:12 UTC, 44 leads are prepared; `06b` and `07a` are
+in flight in session71128 (code1ccc549). 69 evaluation tests pass. A recorded
+supervisor execution-limit amendment accommodates the smaller batches while
+preserving sealed inputs, max effort, original charges and scope; it takes effect
+on the next clean restart. See `docs/housing-active-handoff-20260928.md` for
+monitoring, recovery and the authorized final export command. No importable
+Housing package or completed DeepSeek review exists yet.
 
 # Housing pilot complete — targeted retest before expansion
 

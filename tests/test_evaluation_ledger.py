@@ -44,6 +44,25 @@ class LedgerTests(unittest.TestCase):
         l.config['limits']['activeSecondsPerCategory']=3
         self.preparation_reserve(l,'prep-1',timeout=2)
         with self.assertRaisesRegex(BudgetHold,'active-time'):self.preparation_reserve(l,'prep-2',timeout=2)
+    def test_scoped_execution_amendment_preserves_protocol_and_cannot_override_money_caps(self):
+        from resource_research_agent.evaluation.protocol import verify_protocol
+        l=self.parallel_ledger();a=read(self.exp/'authorization.json')
+        a.update(dollarCapMode='none-authorized',totalUsd=None,
+                 stageCapsUsd={s:None for s in ['housing-preparation','housing-review','housing-collection']})
+        (self.exp/'authorization.json').write_text(json.dumps(a))
+        original=dict(l.config['limits'])
+        amendment=dict(protocolSha256=l.manifest_sha,categories=['housing'],stages=list(a['stageCapsUsd']),
+            limits={'callsPerCategory':400,'activeSecondsPerCategory':28800},recordedBy='Test supervisor',reason='Complete the same explicitly authorized uncapped Housing scope.')
+        path=self.exp/'execution-limit-amendment.json';path.write_text(json.dumps(amendment))
+        limits,sha=l.execution_limits('housing','housing-preparation')
+        self.assertEqual(limits['callsPerCategory'],400);self.assertTrue(sha)
+        self.assertEqual(l.config['limits'],original);verify_protocol(self.exp)
+        self.assertEqual(l.execution_limits('housing','housing-research')[0],original)
+        amendment['limits']['maxTurns']=100;path.write_text(json.dumps(amendment))
+        with self.assertRaises(BudgetHold):l.execution_limits('housing','housing-preparation')
+        amendment['limits'].pop('maxTurns');path.write_text(json.dumps(amendment))
+        a.pop('dollarCapMode');a['totalUsd']='10';(self.exp/'authorization.json').write_text(json.dumps(a))
+        with self.assertRaises(BudgetHold):l.execution_limits('housing','housing-preparation')
     def response(self,l,aid='attempt-1',usage=None):
         l.mark_sent(aid)
         body=dict(model='deepseek-flash',usage=usage or dict(input_tokens=100,cache_read_input_tokens=10,cache_creation_input_tokens=5,output_tokens=20,server_tool_use={'web_search_requests':1}))

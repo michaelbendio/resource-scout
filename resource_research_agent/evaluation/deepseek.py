@@ -146,7 +146,7 @@ def run_assignment(packet, ledger, transport, output_contract, *, fetcher=fetch_
             else:
                 if saved and saved['state'] in ['sent','unknown-outcome','responded']:
                     raise BudgetHold('Sent request has no saved response; reconcile rather than replay')
-                timeout=min(provider['timeoutSeconds'],ledger.remaining_seconds(packet['category']))
+                timeout=min(provider['timeoutSeconds'],ledger.remaining_seconds(packet['category'],stage=packet['stage']))
                 ledger.reserve_attempt(attempt_id,condition=packet['condition'],category=packet['category'],stage=packet['stage'],
                     pass_key=packet['passKey'],request=payload,timeout_seconds=timeout)
                 try:
@@ -205,7 +205,7 @@ def run_assignment(packet, ledger, transport, output_contract, *, fetcher=fetch_
                         if call.get('name')!='open_url' or set(call.get('input',{}))!={'url'} or not isinstance(call['input']['url'],str):
                             result={'errorType':'UnsupportedTool','notice':'Only public URL fetching is available.'}
                         else:
-                            remaining=ledger.remaining_seconds(packet['category'])
+                            remaining=ledger.remaining_seconds(packet['category'],stage=packet['stage'])
                             if remaining<=0:raise BudgetHold('Category time cap reached before source fetch')
                             result=fetcher(call['input']['url'],min(remaining,provider['timeoutSeconds']))
                         evidence=dict(call=call,result=result,contentSha256=digest(result),elapsedSeconds=time.monotonic()-start)
