@@ -34,6 +34,15 @@ def final():return dict(type='text',text='{"leads": []}')
 
 
 class AdapterTests(unittest.TestCase):
+    def test_context_bound_counts_decoded_prompt_bytes_not_http_escaping(self):
+        from resource_research_agent.evaluation.deepseek import input_token_bound
+        text='"\\\n雪'*10000
+        payload={'model':'deepseek-flash','messages':[{'role':'user','content':text}]}
+        bound=input_token_bound(payload)
+        self.assertGreater(bound,len(text.encode('utf-8')))
+        self.assertLess(bound,len(text.encode('utf-8'))+2000)
+        self.assertGreater(len(json.dumps(payload).encode()),bound)
+
     def test_context_bound_uses_native_prefix_and_keeps_new_content_conservative(self):
         from resource_research_agent.evaluation.deepseek import input_token_bound
         old={'model':'deepseek-flash','messages':[{'role':'user','content':'x'*100000}]}

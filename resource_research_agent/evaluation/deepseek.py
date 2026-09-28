@@ -114,7 +114,13 @@ def input_token_bound(payload, previous_request=None, previous_response=None):
     then charge each new UTF-8 byte as a token, plus framing allowance. Never use
     a characters/token heuristic or discard reasoning/source messages.
     """
-    bound=len(encoded(payload))+512*(len(payload.get('messages',[]))+1)
+    def message_bound(message):
+        if isinstance(message.get('content'),str):
+            # HTTP JSON escaping is decoded before this string reaches the model.
+            return len(message['content'].encode('utf-8'))+len(encoded({k:v for k,v in message.items() if k!='content'}))+512
+        return len(encoded(message))+512
+    metadata={k:v for k,v in payload.items() if k!='messages'}
+    bound=sum(message_bound(m) for m in payload.get('messages',[]))+len(encoded(metadata))+512
     if not previous_request or not previous_response:return bound
     old=previous_request.get('messages',[]);new=payload.get('messages',[])
     if not old or new[:len(old)]!=old or previous_request.get('model')!=payload.get('model'):
@@ -123,8 +129,7 @@ def input_token_bound(payload, previous_request=None, previous_response=None):
     counters=[usage.get(k) for k in ['input_tokens','cache_read_input_tokens','cache_creation_input_tokens']]
     if any(type(v) is not int or v<0 for v in counters) or not sum(counters):return bound
     added=new[len(old):]
-    metadata={k:v for k,v in payload.items() if k!='messages'}
-    native=sum(counters)+len(encoded(added))+len(encoded(metadata))+512*(len(added)+1)
+    native=sum(counters)+sum(message_bound(m) for m in added)+len(encoded(metadata))+512
     return min(bound,native)
 
 
