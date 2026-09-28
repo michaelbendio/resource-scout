@@ -19,9 +19,12 @@ class PreparationContractTests(unittest.TestCase):
         for text in ("**Services Offered** inline", "", "**Population Served**\n\nAll people."):
             with self.assertRaises(ValueError): information_sections(text)
 
-    def test_policy_preserves_reserve_and_disallows_ai_verification(self):
+    def test_policy_narrows_to_office_fit_and_disallows_ai_verification(self):
+        # Until 28 September 2026 this required "including useful reserve options".
+        # Michael then asked for the conflict with the office-fit rules to be
+        # settled "in the way that most narrows the output".
         instructions = " ".join(preparation_instructions())
-        self.assertIn("including useful reserve options", instructions)
+        self.assertIn("Retain only distinct, supported, actionable resources that pass the office-fit rules", instructions)
         self.assertIn("verifiedOn must be null", instructions)
         self.assertIn("registry", instructions)
 

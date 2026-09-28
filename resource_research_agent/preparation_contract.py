@@ -5,6 +5,8 @@ import re
 from copy import deepcopy
 
 
+from .office_fit import office_fit_lines
+
 POLICY_VERSION = "prepared-resources-v1-five-sections"
 ASSIGNMENT_VERSION = "codex-preparation-v4-source-checks"
 PREPARED_ASSIGNMENT_VERSIONS = frozenset(("codex-preparation-v3-reserve", ASSIGNMENT_VERSION))
@@ -52,7 +54,8 @@ def migrate_reviewed_information(resource, *, services, population):
 
 def preparation_instructions():
     return [
-        "Retain each distinct, supported, actionable resource, including useful reserve options. Do not minimize the collection or fill a numerical quota.",
+        "\n".join(office_fit_lines("Omit a candidate that fails any of these office-fit rules, naming the rule in its disposition:")),
+        "Retain only distinct, supported, actionable resources that pass the office-fit rules; ten right resources beat a hundred plausible ones. Do not fill a numerical quota.",
         "Assess every candidate; explain omissions and unresolved facts. Distinguish a generic directory from a service that directly assists people with navigation or intake.",
         "Preserve specific services, eligibility, costs, hours, service area, remote access and source URLs. Broader labels must not erase search-relevant details.",
         "Preparation includes bounded primary-source research, not just summarizing submissions. For a retained program, establish its identity, relevant direct service, service area and actionable contact/intake route. Use live official pages to fill material gaps or resolve stale/conflicting facts; do not leave an ordinary public lookup for the final reviewer. Recent matching reviewed evidence may support facts that are already adequate and unconflicted. Do not repeat broad discovery.",

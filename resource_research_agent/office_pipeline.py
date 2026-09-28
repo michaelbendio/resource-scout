@@ -12,6 +12,7 @@ import sqlite3
 import subprocess
 import time
 
+from .office_fit import office_fit_lines
 from .deepseek_challenger_runner import now, read, write
 from .curation_supervisor import load_launch, notify_local
 from .runner_lock import research_runner_lock
@@ -50,6 +51,7 @@ def review_prompt(config, job_id, session):
     office = config.get('officeName', 'Las Vegas')
     area = config.get('serviceArea', 'Las Vegas Valley')
     run_document = config.get('runDocument', 'docs/las-vegas-run-20260923.md')
+    office_fit = '\n'.join(office_fit_lines('Check every retained resource against these office-fit rules; remove or correct each one that fails, and record the rule:'))
     return f'''Michael explicitly authorized this {office} review after curation:
 {config['authorization']}
 This supersedes the prior wait-for-a-new-review-request gate for this office only.
@@ -66,6 +68,8 @@ docs/scout-orchestration.md, docs/scout-workbench-readiness.md, and
 {run_document} before acting. Complete the FULL requested review,
 not just resource content or structural validation. Keep reads/output bounded.
 
+{office_fit}
+
 Audit all category candidate dispositions, identity/merges, consequential omissions,
 geography for {area}, eligibility/access/source conflicts and cross-category
 consistency. Verify doubtful consequential facts from official sources. Broken
@@ -78,7 +82,7 @@ Review Stephanie's four rendered Information sections, useful per-category Types
 with complete supported assignments, a corpus-derived proposed For-group design
 with literal evidence and explicit per-resource no-group decisions, and per-category
 human review priorities with reasons/evidence. Judgment is yours; deterministic
-coverage alone is insufficient. Preserve all resources and all human Curated flags.
+coverage alone is insufficient. Preserve all human Curated flags; a resource that fails an office-fit rule is removed, with the rule recorded.
 This review authorizes proposed navigation taxonomy for this empty-seed {office}
 workbench; it does not approve canonical office taxonomy or human group reviews.
 Use the navigation/priority APIs and fingerprint safeguards described in the docs.

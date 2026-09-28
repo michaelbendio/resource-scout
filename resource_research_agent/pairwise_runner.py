@@ -24,12 +24,13 @@ from .grok_execution import GrokAuthenticationError, GrokUsageExhaustedError, ru
 from .worker_metrics import model_counter, optional_counter
 from .runner_lock import research_runner_lock
 from .challenger_routing import load_challenger_routing
+from .office_fit import office_fit_lines
 from .worker_policy import assert_worker_enabled, WorkerDisabledError
 
 
 SCHEMA_PATH = Path(__file__).with_name("codex_replay_response.schema.json")
 DEFAULT_CODEX_MODEL = "gpt-5.5"
-RESEARCH_PROMPT_VERSION = "scout-research-2026-09-18-v4"
+RESEARCH_PROMPT_VERSION = "scout-research-2026-09-28-v5-office-fit"
 
 
 class WorkerLimitError(RuntimeError):
@@ -68,6 +69,7 @@ def _research_prompt(
         "For ambiguous place or organization names, verify the source's state, address and service area. Do not dismiss conflicting geography as a typo or invent local sites; an out-of-area provider needs evidence that it serves the requested area.",
         "Official government or contracting-agency corroboration can establish a pathway even when the provider website is sparse.",
         "Within the assigned scope, check distinct access mechanisms as well as provider names: eligibility-specific benefits, accessible formats, and remote or faith/community programs when relevant. A general directory or another program at the same organization does not establish coverage of a distinct practical route. Do not add rows merely to increase the count.",
+        *office_fit_lines("Return only leads a missionary at the assignment's office would hand to someone across the desk. A lead that fails any of these office-fit rules is not returned:"),
         *(
             [
                 "Do not try to use Bash, shell commands, local-file tools, curl, or pdftotext.",
