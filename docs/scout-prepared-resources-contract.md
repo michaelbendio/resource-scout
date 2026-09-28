@@ -10,8 +10,11 @@ and `prepared_resources.validate_artifact` define structural and semantic checks
 
 New curation jobs explicitly select `scout_curation_runner --prepared`. This seals
 policy `prepared-resources-v1-five-sections` into assignment version
-`codex-preparation-v4-source-checks`, distinct from existing jobs. It retains useful
-reserve proposals rather than minimizing their count. The closed worker response
+`codex-preparation-v5-office-fit` (from 28 September 2026; earlier jobs used
+`codex-preparation-v4-source-checks`), distinct from existing jobs. It retains only
+proposals that pass the [office-fit rules](office-fit-rules-20260928.md); until that
+date it retained "useful reserve proposals rather than minimizing their count", which
+Michael reversed ("settle the conflict in the way that most narrows the output"). The closed worker response
 schema and normalizer preserve email, sources, research date, preparation state,
 resolution reason and evidenced taxonomy suggestions. IDs are provisional draft
 references. Workers cannot allocate production `sr_` IDs or supply `verifiedOn`.

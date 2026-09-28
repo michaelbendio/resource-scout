@@ -4,8 +4,9 @@
 
 New `scout_curation_runner --prepared` jobs use the
 [prepared delivery contract](scout-prepared-resources-contract.md). Their goal is
-usable reserve preparation followed by starter selection, not the smallest proposal
-collection. The worker writes the five sections, source pages, research date and
+preparation of the resources that pass the [office-fit rules](office-fit-rules-20260928.md),
+followed by starter selection. (Until 28 September 2026 this read "usable reserve
+preparation ... not the smallest proposal collection".) The worker writes the five sections, source pages, research date and
 resolution state; suggested Types/groups retain meaning and evidence for collection
 review. Code preserves those fields and assigns production IDs only during export.
 Worker proposal IDs remain provisional, and `verifiedOn` must be null.
@@ -88,7 +89,8 @@ base and any saved edits rather than duplicated in package history.
 
 ## Curation contract
 
-On `v2.0`, new assignments use `codex-curation-v3-writing` plus the SHA-256 of
+On `v2.0`, new assignments use `codex-curation-v4-writing-office-fit` (until 28 September
+2026, `codex-curation-v3-writing`) plus the SHA-256 of
 their complete writing guidance. Result schema 2 replaces free-form
 `informationText` input with five nonempty `informationSections` bodies:
 `programsAndServices`, `eligibilityRequirements`, `howToBestConnect`, `access`,

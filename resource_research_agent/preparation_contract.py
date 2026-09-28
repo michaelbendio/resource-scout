@@ -8,8 +8,8 @@ from copy import deepcopy
 from .office_fit import office_fit_lines
 
 POLICY_VERSION = "prepared-resources-v1-five-sections"
-ASSIGNMENT_VERSION = "codex-preparation-v4-source-checks"
-PREPARED_ASSIGNMENT_VERSIONS = frozenset(("codex-preparation-v3-reserve", ASSIGNMENT_VERSION))
+ASSIGNMENT_VERSION = "codex-preparation-v5-office-fit"
+PREPARED_ASSIGNMENT_VERSIONS = frozenset(("codex-preparation-v3-reserve", "codex-preparation-v4-source-checks", ASSIGNMENT_VERSION))
 INFORMATION_HEADINGS = (
     "Services Offered", "Eligibility Requirements", "Population Served",
     "How to Best Connect", "Important Information to Know",
@@ -60,7 +60,7 @@ def preparation_instructions():
         "Preserve specific services, eligibility, costs, hours, service area, remote access and source URLs. Broader labels must not erase search-relevant details.",
         "Preparation includes bounded primary-source research, not just summarizing submissions. For a retained program, establish its identity, relevant direct service, service area and actionable contact/intake route. Use live official pages to fill material gaps or resolve stale/conflicting facts; do not leave an ordinary public lookup for the final reviewer. Recent matching reviewed evidence may support facts that are already adequate and unconflicted. Do not repeat broad discovery.",
         "usable means credible program identity, relevant service and a practical way for a client in the office's service area to inquire or apply are supported. It does not mean office approval, guaranteed eligibility or an available place. Unknown hours, exact costs, insurance participation, schedules, funding or capacity alone do not make a resource needs-resolution; state those limits and give the supported contact route.",
-        "needs-resolution is for a consequential unresolved identity, existence, service scope, geography or access conflict that prevents a responsible referral even with a clear warning. Attempt a targeted primary-source check first and state the actual remaining obstacle. An unavailable webpage alone is not evidence of closure. Keep useful unresolved leads for administrators rather than inventing facts.",
+        "needs-resolution is for a consequential unresolved identity, existence, service scope, geography or access conflict that prevents a responsible referral even with a clear warning. Attempt a targeted primary-source check first and state the actual remaining obstacle. An unavailable webpage alone is not evidence of closure. Keep an unresolved lead for administrators only if it would pass the office-fit rules once resolved; never invent facts.",
         "Write five standalone bold Information headings in this exact order: " + ", ".join(f"**{h}**" for h in INFORMATION_HEADINGS) + ". Each must have relevant text beneath it.",
         "Services Offered describes the actual help; Eligibility Requirements states qualification rules; Population Served states evidenced populations without inferring identity. Put hours, appointments, location and access limits in How to Best Connect. Important Information to Know preserves costs, conflicts and uncertainties.",
         "Write description and Information for missionaries and clients. Say the supported fact or a clear uncertainty directly; do not describe saved evidence, assigned candidates, source-only records or other Scout workflow. Keep preparation reasoning in dispositions and resolutionReason.",
@@ -79,7 +79,7 @@ def prepared_assignment(assignment):
     result["assignmentVersion"] = ASSIGNMENT_VERSION
     result["preparationPolicyVersion"] = POLICY_VERSION
     result["curationPolicy"] = {
-        "objective": "Prepare every distinct supported resource for starter selection and reserve search.",
+        "objective": "Prepare only the distinct supported resources that pass the office-fit rules, for starter selection and reserve search.",
         "humanApproval": "Separate office action; no AI approval or verification date.",
     }
     result["instructions"] = preparation_instructions()
