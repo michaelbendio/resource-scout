@@ -1,0 +1,36 @@
+{
+  "accountBalanceAttribution": "Not used; other account activity cannot be attributed to this experiment.",
+  "activeSeconds": 21576.128372668987,
+  "activeTimeUnknownAttempts": 0,
+  "attempts": 384,
+  "calculatedUsd": "0",
+  "executionLimitAmendment": {
+    "categories": [
+      "housing"
+    ],
+    "limits": {
+      "activeSecondsPerCategory": 28800,
+      "callsPerCategory": 400
+    },
+    "protocolSha256": "bb30524d589cf39c6fbdfd2821ef1ca6c6254425e88ec528718fcda12ffd7184",
+    "reason": "Complete the same user-authorized 104-lead curation, sequential review and import handoff after recovery split batches. These are revised supervisory engineering stops, not user budget decisions. The explicitly removed Housing dollar cap stays removed. No research expansion, effort change or financial-cap override. Preserve every prior request and charge.",
+    "recordedAt": "2026-09-28T07:11:52.988439+00:00",
+    "recordedBy": "Codex supervisor",
+    "stages": [
+      "housing-preparation",
+      "housing-review",
+      "housing-collection"
+    ]
+  },
+  "exposureUsd": null,
+  "knownBilledUsd": null,
+  "outstandingReservedUsd": null,
+  "states": {
+    "failed-not-sent": 0,
+    "reserved": 0,
+    "responded": 384,
+    "sent": 0,
+    "unknown-outcome": 0
+  },
+  "unknownUsageAttempts": 384
+}

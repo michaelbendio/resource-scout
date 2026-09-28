@@ -1,0 +1,47 @@
+{
+  "activeTiming": {
+    "curation": {
+      "activeSeconds": 10001.263266582042,
+      "requests": 196
+    },
+    "import-reconciliation": {
+      "activeSeconds": 2371.540573918959,
+      "requests": 15
+    },
+    "review": {
+      "activeSeconds": 9203.324532167986,
+      "requests": 173
+    }
+  },
+  "agencyConfirmation": false,
+  "browser": "Safari report opened through localhost; accessibility confirmed title, starter explanations and all five Information headings plus review findings. Screenshot capture returned another active tab after a long connection delay; complete visual-layout inspection is not claimed.",
+  "checkedAt": "2026-09-28T13:10:49.552424+00:00",
+  "considerations": 90,
+  "evaluationSha256": "ed54957c44089a72f95b83b51904dff0baf1553e74318952942847ac95c129d8",
+  "evaluationTestsPassed": 82,
+  "finalRegistryResources": 1923,
+  "firstRequestAt": "2026-09-28T06:09:51.078145+00:00",
+  "forGroups": 18,
+  "gzipMatchesJson": true,
+  "humanApproval": false,
+  "knownBilledUsd": null,
+  "lastResponseAt": "2026-09-28T12:30:27.053167+00:00",
+  "maxResourceBytes": 6726,
+  "needsResolution": 8,
+  "oldAliasesPreserved": true,
+  "oldRegistryResources": 1891,
+  "originalResearchActiveSeconds": 1005.0,
+  "paidWorkflowElapsedSeconds": 22835.97502207756,
+  "preparedResourcesSha256": "9b1962ece767693212315667cfd6a95f19d86a5c68e4e8992bd2e95310d43d6e",
+  "registryCopiesIdentical": true,
+  "resources": 100,
+  "scope": {
+    "categoryIds": [
+      "housing"
+    ],
+    "completeOffice": false
+  },
+  "starterResources": 10,
+  "types": 14,
+  "usable": 92
+}

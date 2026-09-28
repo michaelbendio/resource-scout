@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-09-28T13:13:09.131926+00:00",
+  "files": {
+    "evaluation-notes.md": "ea9148fde9d32cd82895264a5aafbaf0d5cb0dd1de88721639dc7b001ec507a2",
+    "evaluation-review.html": "190ed53744df6d19eb5bf7c9d89b990fe6d0e7f963cc3ff8cc8077d23966651c",
+    "evaluation.json": "ed54957c44089a72f95b83b51904dff0baf1553e74318952942847ac95c129d8",
+    "identity-migration.json": "bea77d8285d02d7487486a662481071f92fd307e0daf9819c0b51a02073614c0",
+    "prepared-resources.json": "9b1962ece767693212315667cfd6a95f19d86a5c68e4e8992bd2e95310d43d6e",
+    "prepared-resources.json.gz": "fb191cf645ce4c52c852b98d724f5e70c91af579ab3c171b56eaaeb289ca055f",
+    "receipt.json": "bbd86cdc0aab0ac2b3f3c5a11eb19c576949d05c4e7c2bc1ff5505c8ef8c5cec",
+    "review.html": "7b113dc99fabb792f85e767ad926947b11a2fe9b7852da45acedbf8036d52ef6",
+    "starter-summary.md": "4b5b6886989d8aef279f92150ccae061d1442c9fe8b09dce417be6c8023deaca",
+    "usage.json": "ddb55e21b3afb455ccb15ddb4b262e16a04dff8779b377f930962be7abbb80c7",
+    "validation.json": "f7305d3ff04ca63b3138857210eb4ce0984279b8add6352d3b792a8b075682f4"
+  },
+  "newPaidRequests": 0,
+  "note": "Evaluation notes received whitespace-only number formatting after the successful resume; core export hashes unchanged.",
+  "sameFileHashes": true
+}

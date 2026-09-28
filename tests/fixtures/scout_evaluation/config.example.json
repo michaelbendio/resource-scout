@@ -1,0 +1,69 @@
+{
+  "experimentId": "mesa-housing-existing-policy",
+  "codeCommit": "REPLACE_WITH_IMPLEMENTATION_COMMIT",
+  "condition": "existing-policy",
+  "categories": [
+    "housing"
+  ],
+  "selectionReason": "Choose one chronological primary run before inspecting outcomes; record its identity here.",
+  "sampleSeed": 927,
+  "baseline": {
+    "sourceDb": "/absolute/path/to/original/research.sqlite3",
+    "originalPackage": "/absolute/path/to/original-office-package.zip",
+    "importId": 0,
+    "jobIds": {
+      "housing": 0
+    },
+    "expectedSourceSha256": "REPLACE_WITH_VERIFIED_ORIGINAL_PACKAGE_SHA256",
+    "experimentMode": "codex-first-v1",
+    "redactRecoveryTargets": false,
+    "playbookVersions": {
+      "housing": "housing-focused-v1"
+    },
+    "historicalModel": null,
+    "historicalModelUnknownReason": "Fixture has no provider execution."
+  },
+  "provider": {
+    "endpoint": "https://api.deepseek.com/anthropic/v1/messages",
+    "model": "deepseek-flash",
+    "acceptedModels": [
+      "deepseek-flash"
+    ],
+    "thinking": {
+      "type": "enabled"
+    },
+    "effort": "max",
+    "maxOutputTokens": 1000,
+    "maxInputTokens": 100000,
+    "maxSearchUses": 2,
+    "maxFetchesPerTurn": 3,
+    "timeoutSeconds": 10
+  },
+  "limits": {
+    "callsPerCategory": 60,
+    "activeSecondsPerCategory": 3600,
+    "maxTurns": 24,
+    "maxRecoveries": 2
+  },
+  "pricing": {
+    "version": "synthetic-v1",
+    "verified": false,
+    "reference": "synthetic fixture, not live pricing",
+    "inputPerMillion": "1",
+    "cacheHitPerMillion": "0.1",
+    "cacheWritePerMillion": "1",
+    "outputPerMillion": "2",
+    "searchPerUse": "0.01",
+    "inputAccounting": "exclusive",
+    "reasoningIncludedInOutput": true,
+    "inputBoundCoversToolContext": true
+  },
+  "criteria": {
+    "status": "draft",
+    "version": "housing-needs-v1",
+    "essentialNeeds": [
+      "Replace with the frozen reviewer-approved generic needs."
+    ],
+    "frozenBy": "Pending reviewer judgment"
+  }
+}
