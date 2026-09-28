@@ -249,6 +249,15 @@ def _reconcile_and_export(root, *, production_registry, previous_artifact, desti
         originalAssignment=read(root/'inputs/assignment.json'),curated=read(root/'reports/curated-with-selections.json'),
         reviewed=report,importReconciliation=resolution,independentReviewInputWarning='Legacy office identity context was introduced only AFTER the fresh DeepSeek review was frozen.')
     evaluation['batchReviews']=[read(p).get('reviewFindings',[]) for p in sorted((root/'results/normalized').glob('reviewed-*.json'))]
+    evaluation['execution']={name:read(root/path) for name,path in {
+        'executionPlan':'execution-plan.json','executionControl':'execution-control.json',
+        'executionLimitAmendment':'execution-limit-amendment.json'}.items() if (root/path).exists()}
+    evaluation['execution']['outputAllowanceAmendments']=[read(p) for p in sorted((root/'execution-amendments').glob('*-output.json'))]
+    evaluation['execution']['collectionAssemblies']=[
+        {'assignmentId':p.parent.name,'evidence':value['assemblyEvidence']}
+        for p in sorted((root/'results/existing-policy/housing').glob('*collection*/result.json'))
+        if 'assemblyEvidence' in (value:=read(p))]
+    evaluation['execution']['note']='Recorded recovery and scheduling changes are part of this trial; all prior usage is retained. Raw native responses remain in the Scout audit.'
     write_once(output/'evaluation.json',evaluation)
     markdown,page=render_review(read(output/'prepared-resources.json'),evaluation)
     write_bytes_once(output/'review.html',page.encode())

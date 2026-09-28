@@ -1,10 +1,14 @@
 # Housing preparation/review trial active — September 28
 
-**07:35 UTC:** 64 of104 original Housing leads are prepared. Session56181 stopped cleanly for a context-accounting fix; resume from
-saved checkpoints in the isolated implementation checkout; two curation batches run in
-parallel, then ONE sequential DeepSeek review. Verify `progress.json`, ledger and
-runner.log under `data/evaluations/mesa-housing-preparation-review-20260928-r3/`.
-Do not start another coordinator. The supervising session owns recovery.
+**08:35 UTC: Curation complete; single sequential DeepSeek review active.**
+All104 leads assessed,101 batch proposals,100 collection identities and10 starter
+suggestions. Session67927, codefe0adfa, `reviewed-01` running at max.77 evaluation
+tests pass. Curation processing totaled166.69 active minutes, including failed
+responses (about142.3elapsed minutes). The truncated collection JSON was completed
+by DeepSeek in its same conversation, preserving98 finished assignments and every
+identity/taxonomy judgment with assembly hashes. No Codex judgment was inserted.
+Verify live state; no duplicate coordinator. No completed review or importable
+Housing package yet. Full details/final export command are in the active handoff.
 
 Michael explicitly requested DeepSeek curation AND DeepSeek review, both at max,
 then importable Housing-only prepared-resources.json, full evaluation JSON and
@@ -15,7 +19,7 @@ dollar cap remains removed. No Jev is used. Full production Mesa remains on hold
 All completed outputs and diagnosed failures are preserved. Two output-limit
 recoveries reduced only unfinished batches; one prose-format recovery reused a
 saved response without a paid call. Current plan has26 batches. All104 original
-leads remain accounted for. 71 evaluation tests pass. The scoped engineering
+leads remain accounted for. 77 evaluation tests pass. The scoped engineering
 allowance is400 calls/eight active hours, without changing the sealed original
 inputs or resetting prior usage. Compact collection prompts preserve complete
 original research and exact source-member links.

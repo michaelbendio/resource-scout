@@ -2,26 +2,56 @@
 
 Operational checkpoint, not completion. Verify live state before acting.
 
-**Latest, 07:35 UTC:** 64 of104 leads are prepared. Coordinator56181 stopped
-cleanly after08b hit the conservative input guard and09a completed.08b is pending
-at turn10: NO sent request needs replay. Code now uses native saved-prefix token
-counts plus a byte upper bound for appended messages.218,647 native input/cache
-tokens became a257,082 next-input upper bound, plus32,768 output allowance, under
-the unchanged one-million limit. Messages, source evidence and thinking remain
-unchanged. Recovery: `recovery/08b-context-accounting.json`.71 tests pass.
+**Latest, 08:35 UTC:** CURATION COMPLETE. All104 original leads were assessed:
+101 batch proposals (93usable,8needs-resolution),3omissions,100 collection
+identities,14 Types,18 groups and10 suggested starters. These remain drafts.
+The single sequential DeepSeek review is now active in session **67927**, code
+**fe0adfa**, assignment `reviewed-01`. Actual initial review input bound911,989
+plus32,768 output fits the unchanged one-million context limit. Review workers
+remain max; no second reviewer or Jev. Overall ETA2–4hours until review pace is known.
 
-Earlier06b output recovery split four leads into two (both finished). Current
-plan has26 batches; all104 leads remain accounted for. Max thinking stays.
-The recorded400-call/eight-active-hour engineering amendment is loaded; all prior
-charges and original sealed configuration remain. Compact collection input uses
-complete research replies plus exact source-member mappings. No completed review
-or importable package exists. Resume from checkpoints, do not start duplicate
-coordinators. Latest ETA: curation25–50 minutes, overall3–5hours, provisional.
+Curation consumed **166.69 active minutes** (155.60 preparation +11.09 collection,
+192+4 paid requests), including failed responses. First dispatch06:09:51UTC to
+collection completion08:32:08UTC: about142.3 elapsed minutes, including recovery
+and supervision delays. Original research remains separate:16.75 active minutes.
+The ledger is authoritative; never reset past charges.
 
-Michael explicitly requested DeepSeek curation AND review; this overrides the
-ordinary manual Codex handoff for this trial. One review, two curation batches.
-The earlier automatic approval rejection was resolved by citing this exact
-conversation authorization. No Jev is used or run.
+The original whole-collection request was stopped BEFORE dispatch for an input
+accounting overcount. Fixes count decoded strings and use exact native saved
+prefix counts plus conservative bounds for appended messages, framing and output.
+A resume bug involved only JSON object-key order inside HTML details. Original
+preview bytes are preserved after semantic-only key-order comparison; other
+changes still fail. Normalized result ordering is now stable on first run/resume.
+
+Collection v2 first produced two32,768-token thinking-only responses; its scoped
+65,536-token continuation produced a truncated final JSON. That response contained
+ALL100 identity judgments,14 Types,18 groups and98 complete assignments. The
+bounded recovery script `recovery/complete-collection.py` preserved those exact
+fields and asked for only the missing2 assignments and starter/finding fields in
+the SAME saved conversation. Response03 completed successfully. The result stores
+`assemblyEvidence` hashes. Full collection validation passed; no Codex judgment
+was inserted. Original partial response, held states, prefix and unfinished tail
+remain in recovery/attempt files. The imported evaluation will include scheduling,
+allowance and assembly metadata, without dumping raw model reasoning.
+
+**77 evaluation tests pass**; the subsequently expanded handoff evidence assertions
+pass all5 handoff tests. Curation previews:
+`reports/curated.json`, `reports/curated.html`, and
+`reports/curated-with-selections.json/html`. Review is NOT completed. Main runner
+now handles all26 fresh review batches sequentially, then reviewed collection.
+After it finishes, run the separate import handoff below; do not call Codex review
+completion or overwrite the full Mesa delivery.
+
+Current plan26batches preserves every original lead. Recorded total engineering
+limits:400calls/eight active hours. Whole-collection input `source-index-v1` keeps
+complete original research replies and exact source-member mappings. Known Codex
+pilot findings and legacy prepared resources are NOT supplied to independent
+review. Legacy identity/taxonomy context enters only AFTER review for import.
+
+Michael explicitly requested DeepSeek curation AND paid review; this overrides
+the default manual Codex handoff for this trial. Automatic approval once missed
+this; reconsideration quoting “And then I'd like DeepSeek to do the review too”
+approved the exact workflow. No new permission is needed for this scope.
 
 ## User decisions
 

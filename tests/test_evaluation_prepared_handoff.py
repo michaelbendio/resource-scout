@@ -38,6 +38,9 @@ class PreparedHandoffTests(unittest.TestCase):
                 (root/'reports/curated-with-selections.json',report),(root/'reports/reviewed-with-selections.json',report)]:
                 write_once(path,data)
             (root/'reports/reviewed-with-selections.html').write_text('<html>Evaluation</html>')
+            write_once(root/'execution-control.json',{'curationConcurrency':2,'reviewConcurrency':1})
+            write_once(root/'execution-amendments/curated-collection-output.json',{'maxOutputTokens':65536,'reason':'Diagnosed exhaustion'})
+            write_once(root/'results/existing-policy/housing/curated-collection/result.json',{'assemblyEvidence':{'prefixSha256':'a'*64}})
             write_once(root/'results/normalized/reviewed-01.json',{'reviewFindings':[dict(resourceIds=['b01-program'],issue='Checked source',before='Draft facts',after='Supported facts retained',sourceUrls=['https://example.org'],status='no-change')]})
             ledger=Mock();ledger.config={'provider':{'endpoint':'https://api.deepseek.com/anthropic/v1/messages'}}
             ledger.summarize_usage.return_value={'attempts':1}
@@ -48,6 +51,10 @@ class PreparedHandoffTests(unittest.TestCase):
             artifact=read(output/'prepared-resources.json')
             self.assertEqual(validate_artifact(artifact,read(source))['resources'],1)
             self.assertTrue(read(output/'evaluation.json')['evaluationOnly'])
+            execution=read(output/'evaluation.json')['execution']
+            self.assertEqual(execution['executionControl']['reviewConcurrency'],1)
+            self.assertEqual(execution['outputAllowanceAmendments'][0]['maxOutputTokens'],65536)
+            self.assertEqual(execution['collectionAssemblies'][0]['evidence']['prefixSha256'],'a'*64)
             page=(output/'review.html').read_text()
             self.assertIn('Services Offered',page);self.assertIn('Supported facts retained',page)
             self.assertEqual(len(read(source)['resources']),len(registry['resources']))
