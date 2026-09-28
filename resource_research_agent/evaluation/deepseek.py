@@ -90,6 +90,12 @@ def final_parts(body):
         text=text[start:]
         result,end=json.JSONDecoder().raw_decode(text)
     appendix=text[end:].strip()
+    opening=re.search(r'(?:^|\n)```(?:json)?\s*$',prelude)
+    if opening:
+        closing=re.match(r'^```(?:\r?\n|$)',appendix)
+        if not closing:raise EvaluationError('Unclosed preparation JSON fence')
+        prelude=prelude[:opening.start()].rstrip()
+        appendix=appendix[closing.end():].strip()
     if appendix and not re.match(r'^Source notes(?: \([^\n]*\))?:',appendix):
         raise EvaluationError('Unexpected content after final JSON')
     if prelude:
