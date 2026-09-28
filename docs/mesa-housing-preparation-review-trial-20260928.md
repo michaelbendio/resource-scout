@@ -1,5 +1,31 @@
 # DeepSeek Housing preparation and review trial
 
+## September 28 delivery amendment
+
+Michael subsequently requested **both** the complete evaluation JSON and an
+importable `prepared-resources.json` for WSRS-TSO, plus a readable review.
+The independent DeepSeek trial stays evaluation-only. After it is frozen, a
+separate DeepSeek reconciliation receives Mesa's existing identity/taxonomy
+context. It consolidates affirmed aliases with full provenance and preserved
+facts, reuses established program and taxonomy IDs where supported, and records
+ambiguous legacy duplicates. This later context is never fed into the earlier
+independent review.
+
+The import handoff uses the production `prepared_export.finalize` gates, five
+Information sections, complete non-starter considerations and stable registry IDs.
+Scope is `housing`, `completeOffice: false`; non-observation does not remove old
+resources or other category memberships. Office approvals, hides, verification
+dates and edits remain office-owned. Registry updates preserve the full current
+1,891-identity registry from the production checkout, with optimistic concurrency
+checks, and are synchronized to that authoritative file for future Scout runs.
+The resource delivery itself does not replace the previous full Mesa export.
+
+Artifacts: `prepared-resources.json`, `evaluation.json`, `review.html`, evaluation
+review HTML, identity migration, receipt and usage. The reviewer is explicitly
+DeepSeek; no Codex content-review completion is recorded. The descriptions below
+of an evaluation-only deliverable describe the initial scope, now supplemented
+by this explicitly authorized import handoff.
+
 Michael requested the after-curation candidates from the completed Housing pilot,
 with DeepSeek doing curation and then review using Codex's substantive instructions.
 This authorizes a Housing-only early preparation trial. It does not complete the

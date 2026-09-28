@@ -2,11 +2,18 @@
 
 Michael requested DeepSeek curation of its 104 Housing leads, followed by a fresh
 DeepSeek review with the substantive Codex checklist. The new trial runner is
-implemented and tested; no curation/review request has been dispatched yet.
+implemented and tested. The live runner is processing curation batch 1/13 in
+`data/evaluations/mesa-housing-preparation-review-20260928-r3/`; inspect its
+`runner.log`, `progress.json` and ledger before acting. The supervising session
+owns monitoring/recovery. Do not start a duplicate coordinator.
 See [trial protocol](docs/mesa-housing-preparation-review-trial-20260928.md).
 This scoped trial supersedes the earlier proposed research retest as the immediate
 next action. Do not expand research or change production Mesa. Outputs must remain
 evaluation-only, with original, curated and DeepSeek-reviewed evidence separate.
+Michael then explicitly requested an importable Housing-only prepared-resources
+file AS WELL AS the evaluation file and readable review. After the independent
+review freezes, use `evaluation.prepared_handoff` for production identity/taxonomy
+reconciliation and the standard export gates; see the trial document amendment.
 DeepSeek remains V4.1-Flash/max; the Housing dollar cap removal remains in force.
 
 # Housing pilot complete — targeted retest before expansion
