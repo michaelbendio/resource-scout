@@ -2,19 +2,27 @@
 
 Michael requested DeepSeek curation of its 104 Housing leads, followed by a fresh
 DeepSeek review with the substantive Codex checklist. The new trial runner is
-implemented and tested. The live runner is processing curation batch 1/13 in
+implemented and tested. Curation batch 1 completed (8 leads → 8 proposals: 6 usable,
+2 needs-resolution). Batch 2 hit `max_tokens` twice during thinking, without final
+JSON. Its three paid responses and held checkpoint are preserved; no unknown
+outcomes. Recovery retains batch 1 and splits the remaining 96 leads into four-lead
+batches (25 total). The resumed runner is processing `curated-02a` in
 `data/evaluations/mesa-housing-preparation-review-20260928-r3/`; inspect its
 `runner.log`, `progress.json` and ledger before acting. The supervising session
 owns monitoring/recovery. Do not start a duplicate coordinator.
 See [trial protocol](docs/mesa-housing-preparation-review-trial-20260928.md).
 This scoped trial supersedes the earlier proposed research retest as the immediate
-next action. Do not expand research or change production Mesa. Outputs must remain
-evaluation-only, with original, curated and DeepSeek-reviewed evidence separate.
+next action. Do not expand research or replace the full production Mesa delivery.
+Keep original, curated and DeepSeek-reviewed evaluation evidence separate.
 Michael then explicitly requested an importable Housing-only prepared-resources
 file AS WELL AS the evaluation file and readable review. After the independent
 review freezes, use `evaluation.prepared_handoff` for production identity/taxonomy
 reconciliation and the standard export gates; see the trial document amendment.
 DeepSeek remains V4.1-Flash/max; the Housing dollar cap removal remains in force.
+64 evaluation tests pass. Current recovery code is `6310c91`; live runner was
+restarted after the diagnosed stop. See `docs/housing-active-handoff-20260928.md`
+for monitoring and the authorized final export command. No importable Housing
+package or completed DeepSeek review exists yet.
 
 # Housing pilot complete — targeted retest before expansion
 
