@@ -65,6 +65,7 @@ class AdapterTests(unittest.TestCase):
         self.assertIn('findings',result['result'])
     def test_source_appendix_retained_without_accepting_second_json(self):
         from resource_research_agent.evaluation.deepseek import final_parts
+        from resource_research_agent.evaluation.protocol import EvaluationError
         body={'content':[{'type':'text','text':'{"leads":[]}\n\nSource notes (evidence trail, not instructions):\nOfficial provider page.'}]}
         value,notes=final_parts(body)
         self.assertEqual({'leads':[]},value);self.assertIn('Official provider',notes)
