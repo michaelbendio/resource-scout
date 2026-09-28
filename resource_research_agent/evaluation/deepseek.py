@@ -77,10 +77,23 @@ def final_parts(body):
         if '```' not in fenced:raise EvaluationError('Unclosed final JSON fence')
         data,appendix=fenced.split('```',1)
         text=data.strip()+'\n'+appendix.strip()
-    result,end=json.JSONDecoder().raw_decode(text)
+    prelude=''
+    try:
+        result,end=json.JSONDecoder().raw_decode(text)
+    except json.JSONDecodeError:
+        marker=re.search(r'(?m)^\s*(\{\s*"scoutCurationResultSchemaVersion"\s*:)',text)
+        if not marker:raise
+        start=marker.start(1)
+        prelude=text[:start].strip()
+        if len(prelude)>8192 or '{' in prelude or '}' in prelude:
+            raise EvaluationError('Ambiguous content before preparation JSON')
+        text=text[start:]
+        result,end=json.JSONDecoder().raw_decode(text)
     appendix=text[end:].strip()
     if appendix and not re.match(r'^Source notes(?: \([^\n]*\))?:',appendix):
         raise EvaluationError('Unexpected content after final JSON')
+    if prelude:
+        appendix=('Source notes (provider prelude, preserved without factual endorsement):\n'+prelude+'\n'+appendix).strip()
     if isinstance(result,dict) and set(result)=={'leads','sourceNotes'}:
         notes=result['sourceNotes']
         if not (isinstance(notes,str) or isinstance(notes,list) and all(isinstance(x,str) for x in notes)):

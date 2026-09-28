@@ -34,6 +34,16 @@ def final():return dict(type='text',text='{"leads": []}')
 
 
 class AdapterTests(unittest.TestCase):
+    def test_preparation_prelude_is_preserved_without_changing_json(self):
+        from resource_research_agent.evaluation.deepseek import final_parts
+        from resource_research_agent.evaluation.protocol import EvaluationError
+        original={'scoutCurationResultSchemaVersion':1,'resources':[{'name':'Exact saved fact'}]}
+        raw=json.dumps(original)
+        value,notes=final_parts({'content':[{'type':'text','text':'Verification notes.\n\n'+raw}]})
+        self.assertEqual(value,original);self.assertIn('Verification notes.',notes)
+        for text in ['Other object {}\n'+raw,raw+'\n'+raw]:
+            with self.assertRaises(EvaluationError):final_parts({'content':[{'type':'text','text':text}]})
+
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name);self.config,self.db=fixture(self.root)
         self.exp=self.root/'experiment';init_experiment(self.config,self.exp);seal_protocol(self.exp);authorize(self.exp)
