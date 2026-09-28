@@ -8,7 +8,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from resource_research_agent.evaluation.preparation import (
-    batch_assignment, normalize, collection_contract, preview, run, REVIEW, include_source_only,ordered_batches,collection_research_context,assemble_collection_completion,review_collection_index,review_batch_payload,
+    batch_assignment, normalize, collection_contract, preview, run, REVIEW, include_source_only,ordered_batches,collection_research_context,assemble_collection_completion,review_collection_index,review_batch_payload,remaining_batch_minutes,
 )
 from resource_research_agent.evaluation.ledger import Ledger, BudgetHold
 from resource_research_agent.evaluation.protocol import EvaluationError, read, write_once
@@ -42,6 +42,12 @@ def collection():
 
 
 class PreparationEvaluationTests(unittest.TestCase):
+    def test_eta_reads_recovery_timing_names_and_missing_data_does_not_stop_work(self):
+        rows=[{'candidates':5,'seconds':120},{'assignedCandidates':5,'elapsedSeconds':180}]
+        self.assertEqual(remaining_batch_minutes(rows,20,4,1),[4,8])
+        self.assertIsNone(remaining_batch_minutes(rows+[{}],20,4,1))
+        self.assertIsNone(remaining_batch_minutes(rows,10,2,1))
+
     def test_assigned_review_payload_keeps_all_facts_without_server_timestamp(self):
         batch=result(assignment());original=deepcopy(batch)
         batch['resources'][0]['lastModified']='2026-09-28T00:00:00+00:00'

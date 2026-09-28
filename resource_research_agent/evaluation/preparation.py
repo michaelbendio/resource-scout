@@ -7,6 +7,7 @@ from copy import deepcopy
 import fcntl
 import html
 import json
+import math
 import re
 from pathlib import Path
 import sqlite3
@@ -192,6 +193,17 @@ def review_batch_payload(batch):
     result=deepcopy(batch)
     for resource in result['resources']:resource.pop('lastModified',None)
     return result
+
+
+def remaining_batch_minutes(timings, total_candidates, total_batches, concurrency):
+    """Missing reporting data must not stop an already-saved review result."""
+    rows=[(t.get('candidates',t.get('assignedCandidates')),t.get('seconds',t.get('elapsedSeconds'))) for t in timings]
+    if len(rows)<2 or any(type(n) is not int or n<=0 or type(s) not in (int,float) or not math.isfinite(s) or s<0 for n,s in rows):return None
+    completed=sum(n for n,_ in rows);remaining=total_candidates-completed
+    workers=min(concurrency,total_batches-len(rows))
+    if remaining<=0 or workers<=0:return None
+    rate=sum(s for _,s in rows)/completed/workers
+    return [max(1,round(remaining*rate*.7/60)),max(2,round(remaining*rate*1.6/60))]
 
 
 def ordered_batches(worker, items, concurrency):
@@ -459,12 +471,7 @@ def run(root):
                     elapsed=round(db.execute('SELECT COALESCE(SUM(elapsed),0) FROM attempts WHERE id LIKE ?', (aid+'-%',)).fetchone()[0])
                 write_once(root/'results/timing'/f'{aid}.json',dict(seconds=elapsed,candidates=len(candidates_batch)))
                 timings = [read(p) for p in sorted((root/'results/timing').glob(stage+'-*.json'))]
-                remaining = len(candidates)-sum(t['candidates'] for t in timings)
-                eta = None
-                if len(timings)>=2 and remaining:
-                    rate = sum(t['seconds'] for t in timings)/sum(t['candidates'] for t in timings)
-                    rate/=min(concurrency if stage=='curated' else 1,len(batches)-len(timings))
-                    eta = [max(1,round(remaining*rate*.7/60)),max(2,round(remaining*rate*1.6/60))]
+                eta=remaining_batch_minutes(timings,len(candidates),len(batches),concurrency if stage=='curated' else 1)
                 with progress_lock:
                     print(json.dumps(dict(event='batch-completed',stage=stage,batch=len(timings),batchKey=key,total=len(batches),
                                           resources=len(normalized['resources']),seconds=elapsed,remainingBatchMinutes=eta,at=now())),flush=True)
