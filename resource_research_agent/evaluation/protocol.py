@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import re
+import tempfile
 from datetime import datetime, timezone
 
 
@@ -44,10 +45,18 @@ def write_once(path, value):
         if path.read_bytes() != raw:
             raise EvaluationError(f'Immutable evidence differs: {path.name}')
         return
-    with path.open('xb') as stream:
-        stream.write(raw)
-        stream.flush()
-        os.fsync(stream.fileno())
+    # Publish complete bytes atomically; concurrent identical writers are idempotent.
+    fd, temporary = tempfile.mkstemp(prefix='.evidence-', dir=path.parent)
+    try:
+        with os.fdopen(fd, 'wb') as stream:
+            stream.write(raw); stream.flush(); os.fsync(stream.fileno())
+        try:
+            os.link(temporary, path)
+        except FileExistsError:
+            if path.read_bytes() != raw:
+                raise EvaluationError(f'Immutable evidence differs: {path.name}')
+    finally:
+        os.unlink(temporary)
 
 
 def checkpoint(path, value):

@@ -33,3 +33,18 @@ original/current package mismatch, incompatible redaction, and symlink escape).
 Config example and usage instructions are committed; examples contain synthetic
 prices and no credentials. No live baseline or provider launch yet. Spend: $0.
 Next: ticket 2, transactional reservations, native usage and resume accounting.
+
+## Ticket 2 — transactional cost controls complete
+
+Added durable per-attempt reservations, explicit stage/experiment/account
+approval checks, conservative native-search generation bounds, exclusive cache
+accounting, missing-usage holds, saved-response adoption, response/model metadata,
+category call/time limits and diagnosed recovery controls. Unknown sent outcomes
+cannot be automatically replayed or have their reservations released. Account
+balance is never used to attribute unrelated account activity to this run.
+A concurrency test exposed an immutable-file publication race; evidence writes
+now publish complete bytes atomically and accept only identical competing writes.
+Checks: all 16 baseline/protocol/ledger tests pass, including exact-cap races,
+missing usage, changed rates, unknown tool charges and response adoption once.
+No API calls; spend $0; no granted live envelope. Next: ticket 3 adapter and fake
+native-search/fetch/resume tests. Live pricing and account identity remain preflight gates.

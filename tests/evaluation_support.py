@@ -41,3 +41,14 @@ def fixture(root):
             inputAccounting='exclusive',reasoningIncludedInOutput=True,inputBoundCoversToolContext=True),
         criteria=dict(version='synthetic-v1',essentialNeeds=['emergency shelter'],frozenBy='synthetic fixture'))
     return config,db
+
+
+def authorize(root, total='10', stage='10', simulation=True):
+    from resource_research_agent.evaluation.protocol import file_hash,write_once,read
+    root=Path(root)
+    value=dict(experimentId=read(root/'manifest.json')['experimentId'],protocolSha256=file_hash(root/'manifest.json'),
+        approvedBy='Synthetic test operator',approvedAt='2026-09-27T00:00:00Z',approvalText='Synthetic tests only; no live calls.',
+        billingOwner='Synthetic fixture',billingAccount='No paid account',provider='deepseek',simulationOnly=simulation,
+        totalUsd=total,stageCapsUsd={'housing-research':stage},categories=['housing'])
+    write_once(root/'authorization.json',value)
+    return value

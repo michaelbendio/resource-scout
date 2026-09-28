@@ -22,6 +22,9 @@ def main(argv=None):
         else:
             m = verify_protocol(args.experiment)
             result = dict(experimentId=m['experimentId'], sealed=True, evaluationOnly=True, importable=False)
+            if (args.experiment/'ledger.sqlite3').exists():
+                from .ledger import Ledger
+                result['usage'] = Ledger(args.experiment).summarize_usage()
         print(json.dumps(result, sort_keys=True))
     except (EvaluationError, OSError, KeyError) as error:
         parser.exit(2, f'Evaluation held: {error}\n')
