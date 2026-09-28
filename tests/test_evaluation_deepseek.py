@@ -34,6 +34,17 @@ def final():return dict(type='text',text='{"leads": []}')
 
 
 class AdapterTests(unittest.TestCase):
+    def test_native_complete_response_is_not_double_counted_as_transport_bytes(self):
+        from resource_research_agent.evaluation.deepseek import input_token_bound
+        old={'model':'deepseek-flash','messages':[{'role':'user','content':'p'*800000}]}
+        blocks=[{'type':'thinking','thinking':'t'*200000},{'type':'text','text':'answer'}]
+        response={'content':blocks,'usage':{'input_tokens':40000,'cache_read_input_tokens':740000,'cache_creation_input_tokens':0,'output_tokens':50000}}
+        new={**old,'messages':old['messages']+[{'role':'assistant','content':blocks},{'role':'user','content':'Continue.'}]}
+        bound=input_token_bound(new,old,response)
+        self.assertGreater(bound,830000);self.assertLess(bound,835000)
+        changed={**response,'content':[{'type':'text','text':'different'}]}
+        self.assertGreater(input_token_bound(new,old,changed),950000)
+
     def test_context_bound_counts_decoded_prompt_bytes_not_http_escaping(self):
         from resource_research_agent.evaluation.deepseek import input_token_bound
         text='"\\\n雪'*10000

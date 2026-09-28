@@ -180,6 +180,13 @@ def collection_research_context(base):
     return dict(sourceResponses=deepcopy(sources),candidateIndex=index)
 
 
+def review_collection_index(batches):
+    """Cross-batch boundary/omission index; assigned batches retain full facts."""
+    fields=['id','name','description','phone','address','website','categories','state','resolutionReason','candidateIds','sources']
+    return {'resources':[{k:deepcopy(r[k]) for k in fields if k in r} for b in batches for r in b['resources']],
+            'candidateDispositions':[deepcopy(d) for b in batches for d in b['candidateDispositions']]}
+
+
 def ordered_batches(worker, items, concurrency):
     """Parallel independent preparation, deterministic collection order, fail closed."""
     if concurrency not in (1,2):raise EvaluationError('Only one or two preparation workers are authorized')
@@ -418,7 +425,10 @@ def run(root):
                 if stage == 'reviewed':
                     prompt += '\nCurrent review standards. Apply content checks to this assigned batch; report collection issues for the later collection pass. Trial scope supersedes production delivery mechanics; do not claim Codex review or office approval:\n'+policy
                     prompt = REVIEW+'\n'+prompt+'\nFrozen curated batch:\n'+json.dumps(curated[n-1],ensure_ascii=False)
-                    prompt += '\nWhole curated collection (for program boundaries and omissions):\n'+json.dumps(curated,ensure_ascii=False)
+                    if plan[n-1].get('reviewContextFormat')=='collection-index-v1':
+                        prompt += '\nComplete collection index for cross-batch program boundaries, source links and omissions. The assigned batch above retains its full facts; the subsequent whole-collection review receives every full reviewed record:\n'+json.dumps(review_collection_index(curated),ensure_ascii=False,separators=(',',':'))
+                    else:
+                        prompt += '\nWhole curated collection (for program boundaries and omissions):\n'+json.dumps(curated,ensure_ascii=False)
                     prompt += '\nAdd a top-level reviewFindings array: each entry has resourceIds, issue, before, after, sourceUrls, and status (corrected, unresolved, or no-change). Return the complete revised batch plus these findings.'
                 def contract(result):
                     validate_schema(result,schema)

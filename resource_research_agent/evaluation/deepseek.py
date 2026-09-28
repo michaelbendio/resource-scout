@@ -130,6 +130,14 @@ def input_token_bound(payload, previous_request=None, previous_response=None):
     if any(type(v) is not int or v<0 for v in counters) or not sum(counters):return bound
     added=new[len(old):]
     native=sum(counters)+sum(message_bound(m) for m in added)+len(encoded(metadata))+512
+    output=usage.get('output_tokens')
+    if (added and added[0]=={'role':'assistant','content':previous_response.get('content')}
+            and type(output) is int and output>0):
+        # Native input/cache counters include server-search context; output counts
+        # include the exact appended assistant response. Charge that response once,
+        # not again as transport bytes on top of its already-counted native tokens.
+        completed=sum(counters)+output+sum(message_bound(m) for m in added[1:])+len(encoded(metadata))+1024
+        native=min(native,completed)
     return min(bound,native)
 
 
@@ -165,8 +173,12 @@ def run_assignment(packet, ledger, transport, output_contract, *, fetcher=fetch_
         bound=input_token_bound(payload,prior_request,prior_response)
         if bound+payload['max_tokens']>provider['maxInputTokens']:
             raise BudgetHold('Serialized input exceeds conservative token bound')
-        write_once(attempt_dir/'context-bound.json',dict(inputTokenUpperBound=bound,outputAllowance=payload['max_tokens'],
-            contextLimit=provider['maxInputTokens'],basis='native saved prefix plus byte upper bound' if prior_response else 'byte upper bound'))
+        bound_record=dict(inputTokenUpperBound=bound,outputAllowance=payload['max_tokens'],
+            contextLimit=provider['maxInputTokens'],basis='native saved prefix plus byte upper bound' if prior_response else 'byte upper bound')
+        bound_path=attempt_dir/'context-bound.json'
+        if bound_path.exists() and read(bound_path)!=bound_record:
+            write_once(attempt_dir/'context-bound-rechecks'/(digest(bound_record)+'.json'),bound_record)
+        else:write_once(bound_path,bound_record)
         write_once(attempt_dir/'request.json',payload)
         raw_path=attempt_dir/'response.raw';body_path=attempt_dir/'response.json'
         saved=ledger.attempt(attempt_id)

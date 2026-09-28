@@ -8,7 +8,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from resource_research_agent.evaluation.preparation import (
-    batch_assignment, normalize, collection_contract, preview, run, REVIEW, include_source_only,ordered_batches,collection_research_context,assemble_collection_completion,
+    batch_assignment, normalize, collection_contract, preview, run, REVIEW, include_source_only,ordered_batches,collection_research_context,assemble_collection_completion,review_collection_index,
 )
 from resource_research_agent.evaluation.ledger import Ledger, BudgetHold
 from resource_research_agent.evaluation.protocol import EvaluationError, read, write_once
@@ -42,6 +42,17 @@ def collection():
 
 
 class PreparationEvaluationTests(unittest.TestCase):
+    def test_review_index_keeps_every_program_source_and_disposition(self):
+        batch=result(assignment());before=deepcopy(batch)
+        batch['candidateDispositions'].append({'candidateId':'omitted','disposition':'omitted','resourceIds':[],'reason':'Not offered locally'})
+        index=review_collection_index([batch])
+        self.assertEqual(index['candidateDispositions'],batch['candidateDispositions'])
+        row=index['resources'][0]
+        for key in ['id','name','description','phone','address','website','categories','state','resolutionReason','candidateIds','sources']:
+            self.assertEqual(row[key],batch['resources'][0][key])
+        self.assertNotIn('informationText',row)
+        self.assertEqual(batch['resources'],before['resources'])
+
     def test_collection_completion_cannot_replace_saved_judgments(self):
         full=collection();resources=result(assignment())['resources']
         frozen={k:deepcopy(full[k]) for k in ['identities','types','forGroups','assignments']}
