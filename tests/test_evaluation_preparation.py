@@ -46,6 +46,15 @@ class PreparationEvaluationTests(unittest.TestCase):
         self.assertEqual(expanded['candidates'][1]['candidate']['members'],[{'original':'lead'}])
         self.assertEqual(len(a['candidates']),1)
 
+    def test_compact_batch_keeps_assigned_original_evidence_and_removes_other_leads(self):
+        base=assignment();base.update(sourceResponses=[{'rawText':'Other leads'}],sourceOnlyRecords=[{'unassigned':'source'}])
+        candidates=[{'id':'c1','candidate':{'originalSource':'preserved evidence'}}]
+        compact=batch_assignment(base,candidates,'b02a-',compact=True)
+        self.assertEqual(compact['candidates'],candidates)
+        self.assertEqual(compact['sourceResponses'],[])
+        self.assertEqual(compact['sourceOnlyRecords'],[])
+        self.assertTrue(base['sourceResponses'])
+
     def test_full_candidate_coverage_and_five_sections(self):
         a=assignment();r=result(a)
         self.assertEqual(len(normalize(a,r)['resources']),1)

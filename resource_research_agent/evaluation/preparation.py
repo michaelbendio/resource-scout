@@ -157,11 +157,17 @@ def readable_evidence(value):
     return value
 
 
-def batch_assignment(base, candidates, prefix):
+def batch_assignment(base, candidates, prefix, *, compact=False):
     assignment = deepcopy(base)
     assignment['candidates'] = candidates
     assignment['previouslyCuratedResources'] = []
     assignment['instructions'] += [f'Use provisional IDs beginning {prefix} for new resources. Every assigned candidate needs exactly one disposition.']
+    if compact:
+        # Each assigned candidate retains its original discovery provenance. The
+        # complete research corpus stays frozen for the collection-level passes.
+        assignment['sourceResponses']=[]
+        assignment['sourceOnlyRecords']=[]
+        assignment['instructions'] += ['Your ONLY task is to prepare the assigned candidates in this batch. Registry, final taxonomy, starter selection, considerations and exports are later separate steps. Do not perform those steps or assess unassigned leads here.']
     assignment['assignmentSha256'] = _assignment_sha256(assignment)
     return assignment
 
@@ -275,7 +281,16 @@ def run(root):
         transport = LiveTransport(ledger.config['provider']['endpoint'])
         base = read(root/'inputs/assignment.json')
         candidates = sorted(base['candidates'], key=lambda c: (str(c.get('name','')).casefold(),c['id']))
-        batches = [candidates[i:i+8] for i in range(0,len(candidates),8)]
+        if (root/'execution-plan.json').exists():
+            plan=read(root/'execution-plan.json')['batches']
+            by_id={c['id']:c for c in candidates}
+            ids=[cid for b in plan for cid in b['candidateIds']]
+            if len(ids)!=len(set(ids)) or set(ids)!=set(by_id):
+                raise EvaluationError('Execution plan must cover all original leads exactly once')
+            batches=[[by_id[cid] for cid in b['candidateIds']] for b in plan]
+        else:
+            batches = [candidates[i:i+8] for i in range(0,len(candidates),8)]
+            plan=[{'key':f'{n:02}','compact':False} for n in range(1,len(batches)+1)]
         evidence = [readable_evidence(read(p)) for p in sorted((root/'inputs/research-evidence').glob('*/*.json'))]
         policy = (root/'inputs/policies/scout-prepared-resources-contract.md').read_text()
         orchestration = (root/'inputs/policies/scout-orchestration.md').read_text()
@@ -292,11 +307,15 @@ def run(root):
 
         for stage, destination in [('curated',curated),('reviewed',reviewed)]:
             for n, candidates_batch in enumerate(batches,1):
-                aid = f'{stage}-{n:02}'
+                key=plan[n-1]['key']
+                aid = f'{stage}-{key}'
                 path = root/'results/normalized'/f'{aid}.json'
-                assignment = batch_assignment(base,candidates_batch,f'b{n:02}-')
+                assignment = batch_assignment(base,candidates_batch,f'b{key}-',compact=plan[n-1].get('compact',False))
                 if path.exists():
-                    destination.append(read(path)); continue
+                    saved=read(path)
+                    if saved['assignmentSha256']!=assignment['assignmentSha256'] or {d['candidateId'] for d in saved['candidateDispositions']}!={c['id'] for c in candidates_batch}:
+                        raise EvaluationError('Saved batch does not match execution plan; preserve and diagnose')
+                    destination.append(saved); continue
                 schema = response_schema(assignment)
                 if stage == 'reviewed':
                     schema = deepcopy(schema)
@@ -309,8 +328,8 @@ def run(root):
                 prompt = prompt.replace('prior-resources.json', 'the embedded previouslyCuratedResources array')
                 prompt += '\nNo local files are available; all evidence and full prior records are embedded. Required JSON schema:\n'+json.dumps(schema)
                 prompt += '\nOriginal native source evidence:\n'+json.dumps(evidence,ensure_ascii=False)
-                prompt += '\nCurrent preparation and review standards. Trial envelope and scope supersede production delivery mechanics; do not claim Codex review or office approval:\n'+policy
                 if stage == 'reviewed':
+                    prompt += '\nCurrent review standards. Apply content checks to this assigned batch; report collection issues for the later collection pass. Trial scope supersedes production delivery mechanics; do not claim Codex review or office approval:\n'+policy
                     prompt = REVIEW+'\n'+prompt+'\nFrozen curated batch:\n'+json.dumps(curated[n-1],ensure_ascii=False)
                     prompt += '\nWhole curated collection (for program boundaries and omissions):\n'+json.dumps(curated,ensure_ascii=False)
                     prompt += '\nAdd a top-level reviewFindings array: each entry has resourceIds, issue, before, after, sourceUrls, and status (corrected, unresolved, or no-change). Return the complete revised batch plus these findings.'
