@@ -149,6 +149,31 @@ def input_token_bound(payload, previous_request=None, previous_response=None):
     return min(bound,native)
 
 
+OFFICIAL_V41_TOKENIZER_SHA256 = '81f64d1248a68ce3663e07ab3ee48b851e5df0e32d27cb98e4c9a268151e8d99'
+
+
+def measured_initial_allowance(payload, proof):
+    """Scoped offline measurement, with 25% headroom and byte-counted metadata.
+
+    This is a recorded engineering allowance, not API billing or a mathematical
+    upper bound. Opaque/server tool context continues to use native counters.
+    The receipt is made locally with the pinned official V4.1 tokenizer.
+    """
+    messages=payload.get('messages',[])
+    if (payload.get('model')!='deepseek-flash' or len(messages)!=1
+            or messages[0].get('role')!='user' or not isinstance(messages[0].get('content'),str)
+            or proof.get('requestSha256')!=digest(payload)
+            or proof.get('tokenizerSha256')!=OFFICIAL_V41_TOKENIZER_SHA256
+            or proof.get('method')!='official-v41-plain-text-with-headroom'
+            or not proof.get('recordedBy') or not proof.get('reason')):
+        raise BudgetHold('Invalid initial tokenizer measurement')
+    count=proof.get('textTokens');text=messages[0]['content']
+    if type(count) is not int or not 0<count<=len(text.encode('utf-8')):
+        raise BudgetHold('Invalid measured token count')
+    metadata={k:v for k,v in payload.items() if k!='messages'}
+    return (count*5+3)//4+len(encoded(metadata))+8192
+
+
 def run_assignment(packet, ledger, transport, output_contract, *, fetcher=fetch_public, result_assembler=None):
     """Validate an original assignment; all paid calls go through the ledger first."""
     allowed={'assignmentId','condition','category','stage','passKey','task','requiresLiveSearch'}
@@ -179,10 +204,24 @@ def run_assignment(packet, ledger, transport, output_contract, *, fetcher=fetch_
         prior_request=read(previous/'request.json') if previous and (previous/'request.json').exists() else None
         prior_response=read(previous/'response.json') if previous and (previous/'response.json').exists() else None
         bound=input_token_bound(payload,prior_request,prior_response)
+        basis='native saved prefix plus byte upper bound' if prior_response else 'byte upper bound'
+        proof_path=ledger.root/'context-token-counts'/(packet['assignmentId']+'.json')
+        proof=None
+        if turn==0 and proof_path.exists():
+            if packet['stage']!='housing-collection' or packet['assignmentId'] not in ['reviewed-collection','import-reconciliation']:
+                raise BudgetHold('Offline token measurement is scoped to final Housing collection/import')
+            proof=read(proof_path)
+            bound=min(bound,measured_initial_allowance(payload,proof))
+            basis='official V4.1 text measurement plus 25% headroom, byte-counted metadata and 8192 framing tokens'
+        # Preserve a rejected oversized request too; no dispatch has occurred.
+        write_once(attempt_dir/'request.json',payload)
         if bound+payload['max_tokens']>provider['maxInputTokens']:
             raise BudgetHold('Serialized input exceeds conservative token bound')
         bound_record=dict(inputTokenUpperBound=bound,outputAllowance=payload['max_tokens'],
-            contextLimit=provider['maxInputTokens'],basis='native saved prefix plus byte upper bound' if prior_response else 'byte upper bound')
+            contextLimit=provider['maxInputTokens'],basis=basis)
+        if proof is not None:
+            bound_record.update(inputTokenAllowance=bound,measurementSha256=digest(proof))
+            del bound_record['inputTokenUpperBound']
         bound_path=attempt_dir/'context-bound.json'
         if bound_path.exists() and read(bound_path)!=bound_record:
             write_once(attempt_dir/'context-bound-rechecks'/(digest(bound_record)+'.json'),bound_record)

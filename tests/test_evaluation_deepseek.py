@@ -34,6 +34,21 @@ def final():return dict(type='text',text='{"leads": []}')
 
 
 class AdapterTests(unittest.TestCase):
+    def test_official_initial_measurement_is_bound_to_exact_plain_request(self):
+        from resource_research_agent.evaluation.deepseek import measured_initial_allowance,OFFICIAL_V41_TOKENIZER_SHA256
+        from resource_research_agent.evaluation.protocol import digest
+        payload={'model':'deepseek-flash','messages':[{'role':'user','content':'word '*10000}],'system':'rules','max_tokens':32768}
+        proof=dict(requestSha256=digest(payload),tokenizerSha256=OFFICIAL_V41_TOKENIZER_SHA256,
+                   method='official-v41-plain-text-with-headroom',textTokens=10000,recordedBy='supervisor',reason='retained evidence')
+        allowance=measured_initial_allowance(payload,proof)
+        self.assertGreater(allowance,12500+8192)
+        self.assertLess(allowance,22000)
+        for invalid in [{**proof,'requestSha256':'stale'},{**proof,'tokenizerSha256':'wrong'},
+                        {**proof,'textTokens':True},{**proof,'textTokens':0},{**proof,'textTokens':50001}]:
+            with self.assertRaises(BudgetHold):measured_initial_allowance(payload,invalid)
+        changed={**payload,'messages':payload['messages']+[{'role':'assistant','content':'opaque'}]}
+        with self.assertRaises(BudgetHold):measured_initial_allowance(changed,{**proof,'requestSha256':digest(changed)})
+
     def test_native_complete_response_is_not_double_counted_as_transport_bytes(self):
         from resource_research_agent.evaluation.deepseek import input_token_bound
         old={'model':'deepseek-flash','messages':[{'role':'user','content':'p'*800000}]}

@@ -253,6 +253,7 @@ def _reconcile_and_export(root, *, production_registry, previous_artifact, desti
         'executionPlan':'execution-plan.json','executionControl':'execution-control.json',
         'executionLimitAmendment':'execution-limit-amendment.json'}.items() if (root/path).exists()}
     evaluation['execution']['outputAllowanceAmendments']=[read(p) for p in sorted((root/'execution-amendments').glob('*-output.json'))]
+    evaluation['execution']['initialTokenMeasurements']=[read(p) for p in sorted((root/'context-token-counts').glob('*.json'))]
     evaluation['execution']['collectionAssemblies']=[
         {'assignmentId':p.parent.name,'evidence':value['assemblyEvidence']}
         for p in sorted((root/'results/existing-policy/housing').glob('*collection*/result.json'))

@@ -1,14 +1,10 @@
 # Housing preparation/review trial active — September 28
 
-**08:35 UTC: Curation complete; single sequential DeepSeek review active.**
-All104 leads assessed,101 batch proposals,100 collection identities and10 starter
-suggestions. Session67927, codefe0adfa, `reviewed-01` running at max.77 evaluation
-tests pass. Curation processing totaled166.69 active minutes, including failed
-responses (about142.3elapsed minutes). The truncated collection JSON was completed
-by DeepSeek in its same conversation, preserving98 finished assignments and every
-identity/taxonomy judgment with assembly hashes. No Codex judgment was inserted.
-Verify live state; no duplicate coordinator. No completed review or importable
-Housing package yet. Full details/final export command are in the active handoff.
+**10:13 UTC: Curation complete; 56/104 leads reviewed.** Code fb93687,
+`reviewed-08a`, ONE sequential DeepSeek reviewer/max. 81 evaluation tests pass.
+ETA 2–3 hours through final collection/export. Saved-response formatting recovery
+for review07b succeeded with no paid replay. Continue monitoring through delivery;
+verify live ledger/lock and active handoff. No completed importable package yet.
 
 Michael explicitly requested DeepSeek curation AND DeepSeek review, both at max,
 then importable Housing-only prepared-resources.json, full evaluation JSON and
@@ -19,7 +15,7 @@ dollar cap remains removed. No Jev is used. Full production Mesa remains on hold
 All completed outputs and diagnosed failures are preserved. Two output-limit
 recoveries reduced only unfinished batches; one prose-format recovery reused a
 saved response without a paid call. Current plan has26 batches. All104 original
-leads remain accounted for. 77 evaluation tests pass. The scoped engineering
+leads remain accounted for. 79 evaluation tests pass. The scoped engineering
 allowance is400 calls/eight active hours, without changing the sealed original
 inputs or resetting prior usage. Compact collection prompts preserve complete
 original research and exact source-member links.
