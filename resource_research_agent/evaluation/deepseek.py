@@ -133,7 +133,7 @@ def input_token_bound(payload, previous_request=None, previous_response=None):
     return min(bound,native)
 
 
-def run_assignment(packet, ledger, transport, output_contract, *, fetcher=fetch_public):
+def run_assignment(packet, ledger, transport, output_contract, *, fetcher=fetch_public, result_assembler=None):
     """Validate an original assignment; all paid calls go through the ledger first."""
     allowed={'assignmentId','condition','category','stage','passKey','task','requiresLiveSearch'}
     if set(packet)!=allowed or not isinstance(packet['task'],str):
@@ -255,12 +255,18 @@ def run_assignment(packet, ledger, transport, output_contract, *, fetcher=fetch_
             elif stop=='end_turn':
                 if packet['requiresLiveSearch'] and not state['successfulSearch']:
                     raise EvaluationError('Research lacks successful live search evidence')
-                result,appendix=final_parts(body);output_contract(result)
+                result,appendix=final_parts(body)
+                assembly=None
+                if result_assembler is not None:
+                    result,assembly=result_assembler(result)
+                    if not isinstance(assembly,dict) or not assembly:raise EvaluationError('Result assembly needs preserved evidence references')
+                output_contract(result)
                 if appendix:
                     write_once(directory/'provider-source-notes.json',dict(text=appendix,
                         responseSha256=digest(body),notice='Provider appendix, preserved without factual endorsement.'))
                 output=dict(evaluationOnly=True,importable=False,result=result,assignmentSha256=digest(packet),
                     requestedModel=provider['model'],returnedModel=body['model'])
+                if assembly is not None:output['assemblyEvidence']=assembly
                 write_once(directory/'result.json',output)
                 state.update(status='completed',turn=turn+1);checkpoint(state_path,state)
                 return output

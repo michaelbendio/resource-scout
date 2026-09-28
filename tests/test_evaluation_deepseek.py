@@ -97,6 +97,17 @@ class AdapterTests(unittest.TestCase):
         t=FakeTransport([response([dict(type='text',text='{"findings": []}')])])
         result=run_assignment(self.packet,self.ledger,t,lambda r:self.assertEqual({'findings':[]},r))
         self.assertIn('findings',result['result'])
+    def test_explicit_result_assembly_keeps_raw_response_and_provenance(self):
+        from resource_research_agent.evaluation.protocol import read
+        self.packet['requiresLiveSearch']=False
+        transport=FakeTransport([response([{'type':'text','text':'{"remaining": []}'}])])
+        def assemble(value):
+            self.assertEqual(value,{'remaining':[]})
+            return {'leads':[]},{'savedPrefixSha256':'a'*64}
+        output=run_assignment(self.packet,self.ledger,transport,validate_result,result_assembler=assemble)
+        self.assertEqual(output['assemblyEvidence']['savedPrefixSha256'],'a'*64)
+        raw=read(self.exp/'attempts/housing-focus-00/response.json')
+        self.assertEqual(raw['content'][0]['text'],'{"remaining": []}')
     def test_source_appendix_retained_without_accepting_second_json(self):
         from resource_research_agent.evaluation.deepseek import final_parts
         from resource_research_agent.evaluation.protocol import EvaluationError

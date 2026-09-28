@@ -8,7 +8,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from resource_research_agent.evaluation.preparation import (
-    batch_assignment, normalize, collection_contract, preview, run, REVIEW, include_source_only,ordered_batches,collection_research_context,
+    batch_assignment, normalize, collection_contract, preview, run, REVIEW, include_source_only,ordered_batches,collection_research_context,assemble_collection_completion,
 )
 from resource_research_agent.evaluation.ledger import Ledger, BudgetHold
 from resource_research_agent.evaluation.protocol import EvaluationError, read, write_once
@@ -42,6 +42,19 @@ def collection():
 
 
 class PreparationEvaluationTests(unittest.TestCase):
+    def test_collection_completion_cannot_replace_saved_judgments(self):
+        full=collection();resources=result(assignment())['resources']
+        frozen={k:deepcopy(full[k]) for k in ['identities','types','forGroups','assignments']}
+        frozen['assignments']=[]
+        completion={k:deepcopy(full[k]) for k in ['assignments','starters','rationale','gaps','sizeException','findings']}
+        before=deepcopy(frozen)
+        self.assertEqual(assemble_collection_completion(frozen,completion,resources),full)
+        self.assertEqual(frozen,before)
+        completion['identities']=full['identities']
+        with self.assertRaises(EvaluationError):assemble_collection_completion(frozen,completion,resources)
+        completion.pop('identities');completion['assignments']*=2
+        with self.assertRaises(EvaluationError):assemble_collection_completion(frozen,completion,resources)
+
     def test_preview_resume_preserves_bytes_when_only_json_key_order_changes(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);batch=result(assignment());judgments=collection()

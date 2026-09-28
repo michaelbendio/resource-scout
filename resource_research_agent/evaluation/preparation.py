@@ -279,6 +279,22 @@ COLLECTION_SHAPE = {
     'findings':[{'resourceIds':[],'issue':'collection finding','evidence':['source URL'],'resolution':'correction or explicit unresolved limitation'}],
 }
 
+def assemble_collection_completion(frozen, completion, resources):
+    """Append missing model judgments; never rewrite a completed prefix."""
+    if set(frozen)!={'identities','types','forGroups','assignments'}:
+        raise EvaluationError('Unexpected frozen collection prefix')
+    if set(completion)!={'assignments','starters','rationale','gaps','sizeException','findings'}:
+        raise EvaluationError('Completion must contain only the unfinished collection fields')
+    expected={g['canonicalId'] for g in frozen['identities']}-{a['resourceId'] for a in frozen['assignments']}
+    added=[a['resourceId'] for a in completion['assignments']]
+    if len(added)!=len(set(added)) or set(added)!=expected:
+        raise EvaluationError('Completion must fill exactly the missing assignments')
+    result=deepcopy(frozen)
+    result.update({k:deepcopy(v) for k,v in completion.items() if k!='assignments'})
+    result['assignments']+=deepcopy(completion['assignments'])
+    collection_contract(result,resources)
+    return result
+
 
 def preview(root, stage, batches, collection=None):
     """Read-only escaped HTML: no office editor, import controls or approval claims."""
