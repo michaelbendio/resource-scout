@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from resource_research_agent.evaluation.preparation import (
-    batch_assignment, normalize, collection_contract, preview, run, REVIEW,
+    batch_assignment, normalize, collection_contract, preview, run, REVIEW, include_source_only,
 )
 from resource_research_agent.evaluation.ledger import Ledger, BudgetHold
 from resource_research_agent.evaluation.protocol import EvaluationError, read, write_once
@@ -39,6 +39,13 @@ def collection():
 
 
 class PreparationEvaluationTests(unittest.TestCase):
+    def test_routing_sources_receive_explicit_dispositions_too(self):
+        a={'candidates':[{'id':1}], 'sourceOnlyRecords':[{'groupKey':'routing', 'displayName':'Referral line','members':[{'original':'lead'}]}]}
+        expanded=include_source_only(a)
+        self.assertEqual([c['id'] for c in expanded['candidates']],['1','source-only-routing'])
+        self.assertEqual(expanded['candidates'][1]['candidate']['members'],[{'original':'lead'}])
+        self.assertEqual(len(a['candidates']),1)
+
     def test_full_candidate_coverage_and_five_sections(self):
         a=assignment();r=result(a)
         self.assertEqual(len(normalize(a,r)['resources']),1)

@@ -93,6 +93,7 @@ def initialize(source, root, commit):
     if len(runs) != 1:
         raise EvaluationError('Expected one completed Housing collection')
     assignment = prepared_assignment(_assignment(package, category, runs[0]))
+    assignment = include_source_only(assignment)
     if len(assignment['candidates']) != 104:
         raise EvaluationError('Authorized Housing trial expects exactly 104 leads')
     assignment['availableCategories'] = [category]
@@ -132,6 +133,18 @@ def initialize(source, root, commit):
         stageCapsUsd={s:None for s in ['housing-preparation','housing-review','housing-collection']})
     write_once(root/'authorization.json', authorization)
     return root
+
+
+def include_source_only(assignment):
+    """A routing-source classification must not silently escape the requested audit."""
+    assignment = deepcopy(assignment)
+    for record in assignment.get('sourceOnlyRecords', []):
+        assignment['candidates'].append(dict(id='source-only-'+record['groupKey'],
+            name=record['displayName'], origin='original-research-source-only',
+            candidate=deepcopy(record), notes='Originally routed as a source, not a resource. Assess practical referral value independently; source-only is not an omission decision.'))
+    for candidate in assignment['candidates']:
+        candidate['id'] = str(candidate['id'])
+    return assignment
 
 
 def batch_assignment(base, candidates, prefix):
