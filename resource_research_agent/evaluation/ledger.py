@@ -78,8 +78,15 @@ def normalize_usage(usage, pricing):
 
 
 class Ledger:
-    def __init__(self, root, *, simulation=False):
+    def __init__(self, root, *, simulation=False, concurrent_preparation=1):
         self.root = Path(root).resolve(); self.simulation = simulation
+        self.concurrent_preparation=concurrent_preparation
+        self._owned_attempts=set()
+        if concurrent_preparation not in (1,2):raise BudgetHold('At most two preparation requests are supported')
+        if concurrent_preparation==2:
+            control=read(self.root/'execution-control.json')
+            if control.get('curationConcurrency')!=2 or control.get('reviewConcurrency')!=1 or not control.get('approvalText'):
+                raise BudgetHold('Two preparation requests need explicit recorded authorization')
         self.manifest = verify_protocol(self.root)
         self.manifest_sha = file_hash(self.root/'manifest.json')
         self.config = read(self.root/'config.json'); self.pricing = read(self.root/'inputs/pricing.json')
@@ -175,11 +182,14 @@ class Ledger:
             if prior:
                 if (prior['request_sha'],prior['category'],prior['stage'],prior['pass_key'])!=(request_sha,category,stage,pass_key):
                     raise EvaluationError('Attempt ID reused for different work')
+                if prior['state']=='reserved':self._owned_attempts.add(attempt_id)
                 return dict(prior)
             rows=list(db.execute('SELECT * FROM attempts'));cat=[r for r in rows if r['category']==category]
-            if any(r['state'] in ['sent','unknown-outcome'] for r in rows):
+            if any(r['state']=='unknown-outcome' or r['state']=='sent' and r['id'] not in self._owned_attempts for r in rows):
                 raise BudgetHold('Uncertain paid outcome requires saved-response reconciliation before new dispatch')
-            if any(r['state']=='reserved' for r in rows):
+            pending=[r for r in rows if r['state'] in ['sent','reserved']]
+            limit=self.concurrent_preparation if stage=='housing-preparation' and all(r['stage']=='housing-preparation' for r in pending) else 1
+            if any(r['id'] not in self._owned_attempts for r in pending) or len(pending)>=limit:
                 raise BudgetHold('One evaluation worker/reservation at a time')
             if recovery_of:
                 source=db.execute('SELECT * FROM attempts WHERE id=?',(recovery_of,)).fetchone()
@@ -189,7 +199,8 @@ class Ledger:
                     raise BudgetHold('Diagnosed transport recovery limit reached')
             if sum(r['state']!='failed-not-sent' for r in cat)>=self.config['limits']['callsPerCategory']:
                 raise BudgetHold('Category call cap reached')
-            if sum(r['elapsed'] for r in cat)+timeout_seconds>self.config['limits']['activeSecondsPerCategory']:
+            pending_seconds=sum(r['timeout_seconds'] for r in pending if r['category']==category)
+            if sum(r['elapsed'] for r in cat)+pending_seconds+timeout_seconds>self.config['limits']['activeSecondsPerCategory']:
                 raise BudgetHold('Category active-time cap reached')
             if timeout_seconds<=0 or timeout_seconds>self.config['provider']['timeoutSeconds']:
                 raise BudgetHold('Request timeout exceeds sealed bound')
@@ -202,6 +213,7 @@ class Ledger:
                 VALUES (?,?,?,?,?,?,?,'reserved',?,?,?,?,?,?,?)''',
                 (attempt_id,condition,category,stage,pass_key,request_sha,request['model'],str(amount) if amount is not None else None,digest(self.pricing),auth_sha,now(),timeout_seconds,recovery_of,diagnosis))
             self.event(db,attempt_id,'reserved',{'maximumUsd':str(amount) if amount is not None else None,'uncappedAuthorized':self.uncapped(a)})
+            self._owned_attempts.add(attempt_id)
         return self.attempt(attempt_id)
 
     @staticmethod

@@ -1,4 +1,5 @@
 from concurrent.futures import ThreadPoolExecutor
+import json
 from decimal import Decimal
 import tempfile
 import unittest
@@ -19,6 +20,30 @@ class LedgerTests(unittest.TestCase):
         authorize(self.exp,total=cap,stage=cap);return Ledger(self.exp,simulation=simulation)
     def reserve(self,l,aid='attempt-1',**extra):
         return l.reserve_attempt(aid,condition='existing-policy',category='housing',stage='housing-research',pass_key='shelter',request={'model':'deepseek-flash'},timeout_seconds=1,**extra)
+    def parallel_ledger(self):
+        from resource_research_agent.evaluation.protocol import write_once
+        authorize(self.exp,total='10',stage='10')
+        a=read(self.exp/'authorization.json');a['stageCapsUsd'].update({'housing-preparation':'10','housing-review':'10'})
+        (self.exp/'authorization.json').write_text(json.dumps(a))
+        write_once(self.exp/'execution-control.json',{'curationConcurrency':2,'reviewConcurrency':1,'approvalText':'User requests two curation batches.'})
+        return Ledger(self.exp,simulation=True,concurrent_preparation=2)
+    def preparation_reserve(self,l,aid,stage='housing-preparation',timeout=1):
+        return l.reserve_attempt(aid,condition='existing-policy',category='housing',stage=stage,pass_key=aid,request={'model':'deepseek-flash'},timeout_seconds=timeout)
+    def test_two_known_owned_curation_requests_but_no_orphan_or_third_request(self):
+        l=self.parallel_ledger();self.preparation_reserve(l,'prep-1');l.mark_sent('prep-1')
+        other=Ledger(self.exp,simulation=True,concurrent_preparation=2)
+        with self.assertRaisesRegex(BudgetHold,'Uncertain'):self.preparation_reserve(other,'prep-2')
+        self.preparation_reserve(l,'prep-2');l.mark_sent('prep-2')
+        with self.assertRaises(BudgetHold):self.preparation_reserve(l,'prep-3')
+        l.record_failure('prep-1',diagnosis='Unknown network outcome')
+        with self.assertRaisesRegex(BudgetHold,'Uncertain'):self.preparation_reserve(l,'prep-3')
+    def test_review_stays_serial_and_parallel_time_reservations_are_bounded(self):
+        l=self.parallel_ledger();self.preparation_reserve(l,'review-1',stage='housing-review')
+        with self.assertRaises(BudgetHold):self.preparation_reserve(l,'review-2',stage='housing-review')
+        l.record_failure('review-1',not_sent=True,diagnosis='Test preflight')
+        l.config['limits']['activeSecondsPerCategory']=3
+        self.preparation_reserve(l,'prep-1',timeout=2)
+        with self.assertRaisesRegex(BudgetHold,'active-time'):self.preparation_reserve(l,'prep-2',timeout=2)
     def response(self,l,aid='attempt-1',usage=None):
         l.mark_sent(aid)
         body=dict(model='deepseek-flash',usage=usage or dict(input_tokens=100,cache_read_input_tokens=10,cache_creation_input_tokens=5,output_tokens=20,server_tool_use={'web_search_requests':1}))

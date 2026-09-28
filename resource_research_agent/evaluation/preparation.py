@@ -299,13 +299,13 @@ def run(root):
     verify_protocol(root)
     with (root/'runner.lock').open('a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        ledger = Ledger(root)
         control=read(root/'execution-control.json') if (root/'execution-control.json').exists() else {}
         concurrency=control.get('curationConcurrency',1)
         if concurrency not in (1,2) or control.get('reviewConcurrency',1)!=1:
             raise EvaluationError('Curation supports at most two workers; review stays sequential')
         if concurrency==2 and not control.get('approvalText'):
             raise EvaluationError('Parallel curation requires recorded user authorization')
+        ledger = Ledger(root,concurrent_preparation=concurrency)
         progress_lock=threading.Lock()
         active=set()
         base = read(root/'inputs/assignment.json')
@@ -336,6 +336,10 @@ def run(root):
                 print(json.dumps(dict(event='starting',assignment=aid,at=now())),flush=True)
             try:
                 return run_assignment(packet,ledger,LiveTransport(ledger.config['provider']['endpoint']),contract)['result']
+            except BaseException as error:
+                with progress_lock:
+                    print(json.dumps(dict(event='assignment-stopped',assignment=aid,errorType=type(error).__name__,reason=str(error),at=now())),flush=True)
+                raise
             finally:
                 with progress_lock:
                     active.discard(aid)
