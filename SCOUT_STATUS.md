@@ -16,7 +16,10 @@ Earlier Welfare Square research, curation, DeepSeek and Jev evidence is now at
 Do not read that archive into fresh worker assignments. Old absolute runtime paths
 are historical; no redirect or symlink exposes them through the fresh directory.
 
-The launch is prepared; verify `launch.json` and live processes before acting.
+The launch is running: primary PID 93965, DeepSeek PID 93986, dashboard PID 93959,
+research watchdog PID 93999, pipeline PID 94003. Verify `launch.json` and live
+process/database state before acting; PIDs can change on supervised recovery.
+The first Addiction pass is assigned; watchdog reports no issues.
 The dashboard is assigned port 8770. Automatic High **prepared-mode** curation
 follows completed research; no previous reviewed context is supplied. It stops at
 **Ready for Codex review** and launches no paid review worker. The pipeline's

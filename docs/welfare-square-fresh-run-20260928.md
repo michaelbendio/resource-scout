@@ -49,3 +49,8 @@ Preparation confirmed 21 new jobs, no completed jobs and zero pre-existing resea
 or curation rows. Twenty-seven focused tests passed for prepared pipeline selection,
 review gating, preparation contracts and office-fit rules. Actual launch/process
 and first-progress details are recorded in `launch.json` and `SCOUT_STATUS.md`.
+
+Initial launch verified: new database, 21 jobs, first Addiction pass assigned,
+DeepSeek waiting for its fresh packet, watchdog monitoring with no issues, and
+pipeline waiting for research. Dashboard returned the new database’s progress.
+Code checkpoint: `523282c`. No old evidence was supplied.
