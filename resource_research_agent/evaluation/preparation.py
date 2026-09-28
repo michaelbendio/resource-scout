@@ -159,6 +159,26 @@ def readable_evidence(value):
     return value
 
 
+def collection_research_context(base):
+    """Original research once, with exact candidate-to-source member mappings.
+
+    Avoid repeating the derived discovery checks and HTML resource drafts in a
+    whole-collection prompt. Full original inputs remain sealed on disk.
+    """
+    sources=base['sourceResponses']
+    labels={s['sourceLabel'] for s in sources}
+    index=[]
+    for candidate in base['candidates']:
+        value=candidate['candidate']
+        members=value.get('manualDiscoveryProvenance',value).get('members',[])
+        if not members or any(m.get('sourceLabel') not in labels for m in members):
+            raise EvaluationError('Collection source index requires every original member and source')
+        row={k:deepcopy(v) for k,v in candidate.items() if k not in ['candidate','resourceDraft','createdAt','updatedAt']}
+        row['originalMembers']=deepcopy(members)
+        index.append(row)
+    return dict(sourceResponses=deepcopy(sources),candidateIndex=index)
+
+
 def ordered_batches(worker, items, concurrency):
     """Parallel independent preparation, deterministic collection order, fail closed."""
     if concurrency not in (1,2):raise EvaluationError('Only one or two preparation workers are authorized')
@@ -416,7 +436,11 @@ def run(root):
                 'The first stage is curation selection; the second stage is fresh review of the revised collection. State unresolved source conflicts and missing pathways. '
                 'Return JSON in this exact shape, replacing examples with the complete judgments:\n'+json.dumps(COLLECTION_SHAPE)+
                 '\nAuthoritative standards:\n'+policy+'\nCollection:\n'+json.dumps(destination,ensure_ascii=False))
-            prompt += '\nOriginal leads:\n'+json.dumps(base['candidates'],ensure_ascii=False)+'\nOriginal native evidence:\n'+json.dumps(evidence,ensure_ascii=False)
+            if control.get('collectionEvidenceFormat')=='source-index-v1':
+                original='\nComplete original research replies and exact candidate/source-member index (mechanical discovery checks and derived drafts are omitted, not original evidence):\n'+json.dumps(collection_research_context(base),ensure_ascii=False,separators=(',',':'))
+            else:
+                original='\nOriginal leads:\n'+json.dumps(base['candidates'],ensure_ascii=False)
+            prompt += original+'\nOriginal native evidence:\n'+json.dumps(evidence,ensure_ascii=False)
             if stage=='reviewed':
                 prompt += '\nFrozen curation selections to independently review:\n'+json.dumps(read(root/'reports/curated-with-selections.json')['collection'],ensure_ascii=False)
             collection = call(stage+'-collection','housing-collection',prompt,lambda x:collection_contract(x,resources))

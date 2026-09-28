@@ -7,7 +7,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from resource_research_agent.evaluation.preparation import (
-    batch_assignment, normalize, collection_contract, preview, run, REVIEW, include_source_only,ordered_batches,
+    batch_assignment, normalize, collection_contract, preview, run, REVIEW, include_source_only,ordered_batches,collection_research_context,
 )
 from resource_research_agent.evaluation.ledger import Ledger, BudgetHold
 from resource_research_agent.evaluation.protocol import EvaluationError, read, write_once
@@ -41,6 +41,23 @@ def collection():
 
 
 class PreparationEvaluationTests(unittest.TestCase):
+    def test_collection_source_index_preserves_original_text_and_member_links(self):
+        member={'sourceLabel':'Original','sourceOrdinal':1,'uncertainty':'Do not infer eligibility.'}
+        base={'sourceResponses':[{'sourceLabel':'Original','rawText':'Exact original facts.'}],
+              'candidates':[{'id':'c1','name':'Program','notes':'Keep this note.',
+                             'candidate':{'manualDiscoveryChecks':{'derived':True},
+                                          'manualDiscoveryProvenance':{'members':[member]}},
+                             'resourceDraft':{'description':'Derived draft'}},
+                            {'id':'routing','name':'Navigator','candidate':{'members':[member]}}]}
+        original=deepcopy(base);context=collection_research_context(base)
+        self.assertEqual(context['sourceResponses'],base['sourceResponses'])
+        self.assertEqual([c['originalMembers'] for c in context['candidateIndex']],[[member],[member]])
+        self.assertEqual(context['candidateIndex'][0]['notes'],'Keep this note.')
+        self.assertNotIn('resourceDraft',context['candidateIndex'][0])
+        self.assertEqual(base,original)
+        base['sourceResponses']=[]
+        with self.assertRaises(EvaluationError):collection_research_context(base)
+
     def test_parallel_batches_retain_order_and_stop_pending_work_on_failure(self):
         barrier=threading.Barrier(2)
         def worker(n):
