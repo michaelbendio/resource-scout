@@ -48,3 +48,19 @@ Checks: all 16 baseline/protocol/ledger tests pass, including exact-cap races,
 missing usage, changed rates, unknown tool charges and response adoption once.
 No API calls; spend $0; no granted live envelope. Next: ticket 3 adapter and fake
 native-search/fetch/resume tests. Live pricing and account identity remain preflight gates.
+
+## Ticket 3 — evaluation-only DeepSeek adapter complete
+
+Added Anthropic-format native search/public fetch loop, injected transport,
+immutable requests/sanitized raw responses/source records, model allowlist,
+search-limit handling, pause/one bounded length continuation, and resumable
+response/tool adoption. Research requires successful native search evidence;
+evidence-only contracts can complete without a new search. All outputs remain
+non-importable. The production challenger module is imported only for its public
+URL/parser/credential utilities; its orchestration/import functions are not invoked.
+Explicitly closed SQLite connections after Python 3.14 exposed resource warnings.
+Checks: 27 evaluation tests pass, including interruptions after response/fetch,
+zero leads, prefatory commentary, model mismatch and uncertain paid timeouts.
+Official API compatibility documentation checked; real pricing/billing bounds
+and actual account authorization remain required before live use. API spend $0.
+Next: ticket 4 scratch focused/gap execution and offline whole-category recovery.

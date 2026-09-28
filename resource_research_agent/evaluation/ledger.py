@@ -95,8 +95,14 @@ class Ledger:
             if row and row[0]!=self.manifest_sha:raise EvaluationError('Ledger belongs to another protocol')
             db.execute("INSERT OR IGNORE INTO meta VALUES ('protocol',?)",(self.manifest_sha,))
 
+    @contextmanager
     def connect(self):
-        db=sqlite3.connect(self.path,timeout=30);db.row_factory=sqlite3.Row;return db
+        db=sqlite3.connect(self.path,timeout=30);db.row_factory=sqlite3.Row
+        try:
+            with db:
+                yield db
+        finally:
+            db.close()
 
     @contextmanager
     def transaction(self):
@@ -216,6 +222,18 @@ class Ledger:
         if cost is not None and cost>money(row['reservation']):
             write_once(self.root/'accounting-hold.json',{'attemptId':attempt_id,'reason':'Observed charge exceeded the sealed upper bound; review billing before any further dispatch.'})
             raise BudgetHold('Provider usage exceeded the reserved bound; all further dispatch held')
+
+    def record_tool_work(self,attempt_id,tool_key,elapsed):
+        with self.transaction() as db:
+            event='fetch:'+tool_key
+            if db.execute('SELECT 1 FROM events WHERE attempt_id=? AND event=?',(attempt_id,event)).fetchone():return
+            db.execute('UPDATE attempts SET elapsed=elapsed+? WHERE id=?',(elapsed,attempt_id))
+            self.event(db,attempt_id,event,{'elapsedSeconds':elapsed})
+
+    def remaining_seconds(self,category):
+        with self.connect() as db:
+            used=sum(r[0] for r in db.execute('SELECT elapsed FROM attempts WHERE category=?',(category,)))
+        return max(0,self.config['limits']['activeSecondsPerCategory']-used)
 
     def summarize_usage(self):
         with self.connect() as db:rows=[dict(r) for r in db.execute('SELECT * FROM attempts')]

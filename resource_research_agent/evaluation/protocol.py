@@ -38,9 +38,12 @@ def read(path):
 
 
 def write_once(path, value):
+    write_bytes_once(path, encoded(value))
+
+
+def write_bytes_once(path, raw):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    raw = encoded(value)
     if path.exists():
         if path.read_bytes() != raw:
             raise EvaluationError(f'Immutable evidence differs: {path.name}')

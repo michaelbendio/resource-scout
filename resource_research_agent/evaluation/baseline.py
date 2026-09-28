@@ -1,6 +1,7 @@
 """Export a coherent historical primary baseline through SQLite read-only backup."""
 from __future__ import annotations
 import json
+from contextlib import contextmanager, closing
 from pathlib import Path
 import shutil
 import sqlite3
@@ -8,8 +9,13 @@ from urllib.parse import quote
 from .protocol import EvaluationError, file_hash, write_once, now
 
 
+@contextmanager
 def readonly(path):
-    return sqlite3.connect('file:' + quote(str(Path(path).resolve())) + '?mode=ro', uri=True)
+    db = sqlite3.connect('file:' + quote(str(Path(path).resolve())) + '?mode=ro', uri=True)
+    try:
+        yield db
+    finally:
+        db.close()
 
 
 def export_baseline(source_db, config, destination):
@@ -22,7 +28,7 @@ def export_baseline(source_db, config, destination):
     if snapshot.exists() or root in source_db.parents:
         raise EvaluationError('Source and fresh experiment evidence must remain separate')
     # Backup reads a consistent committed view including WAL; no ResearchStore on either DB.
-    with readonly(source_db) as source, sqlite3.connect(snapshot) as target:
+    with readonly(source_db) as source, closing(sqlite3.connect(snapshot)) as target:
         source.backup(target)
     with readonly(snapshot) as db:
         db.row_factory = sqlite3.Row
