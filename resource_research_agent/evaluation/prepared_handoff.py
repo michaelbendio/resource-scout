@@ -11,6 +11,7 @@ from pathlib import Path
 
 from .protocol import EvaluationError, read, write_once, write_bytes_once, file_hash, digest, now
 from .deepseek import run_assignment, LiveTransport
+from .providers import experiment_label, make_transport
 from .ledger import Ledger
 from .preparation import collection_contract, validate_schema
 from ..scout_curation_runner import response_schema
@@ -147,14 +148,14 @@ def build_bundle(report, resolution, registry, previous, *, source_namespace, in
     return bundle
 
 
-def render_review(artifact, evaluation):
+def render_review(artifact, evaluation, label='DeepSeek'):
     from ..prepared_preview import render_preview
     markdown,page=render_preview(artifact)
     esc=lambda value:html.escape(str(value))
     sources={s['id']:s for s in artifact['sources']}
     types={t['id']:t['label'] for t in artifact['taxonomy']['types']}
     groups={g['id']:g['label'] for g in artifact['taxonomy']['forGroups']}
-    sections=['<section><h2>All resource details</h2><p>DeepSeek-reviewed Housing proposals. Office approval and agency verification remain separate.</p>']
+    sections=['<section><h2>All resource details</h2><p>'+esc(label)+'-reviewed Housing proposals. Office approval and agency verification remain separate.</p>']
     for r in sorted(artifact['resources'],key=lambda r:r['name'].casefold()):
         sections.append('<details id="'+esc(r['id'])+'"><summary>'+esc(r['name'])+' — '+esc(r['state'])+'</summary>')
         sections.append('<p>'+esc(r['description'])+'</p><p class="muted">Kinds of help: '+esc(', '.join(types[t] for t in r['types']))+'; Groups: '+esc(', '.join(groups[g] for g in r['forGroups']) or 'No group assigned')+'</p>')
@@ -163,7 +164,7 @@ def render_review(artifact, evaluation):
         for heading,text in information_sections(r['informationText']).items():
             sections.append('<h4>'+esc(heading)+'</h4><p>'+esc(text).replace('\n','<br>')+'</p>')
         sections.append('<p>Sources: '+' · '.join('<a href="'+esc(sources[s]['url'])+'">'+esc(sources[s]['title'])+'</a>' for s in r['sourceIds'])+'</p></details>')
-    sections.append('</section><section><h2>DeepSeek review findings</h2>')
+    sections.append('</section><section><h2>'+esc(label)+' review findings</h2>')
     for n,findings in enumerate(evaluation['batchReviews'],1):
         for f in findings:
             sections.append('<article><h3>'+esc(f['issue'])+'</h3><p class="muted">Batch '+str(n)+' · '+esc(f['status'])+'</p><p><strong>Before:</strong> '+esc(f['before'])+'</p><p><strong>After:</strong> '+esc(f['after'])+'</p>')
@@ -192,12 +193,15 @@ def _reconcile_and_export(root, *, production_registry, previous_artifact, desti
     for name,path in [('registry.json',production_registry),('previous-artifact.json',previous_artifact)]:
         if not (handoff/name).exists():write_bytes_once(handoff/name,Path(path).read_bytes())
     registry=load_registry(handoff/'registry.json');previous=read(handoff/'previous-artifact.json')
-    write_once(handoff/'authorization.json',dict(approvedBy='Michael',scope='Importable Mesa Housing prepared-resources.json plus separate evaluation JSON and readable review',
-        approvalText='"I’d like WSRS-TSO to import it." "Both formats, please--evaluation file as weell as prepared-resources."',
+    label=experiment_label(root)
+    approval=('"I’d like WSRS-TSO to import it." "Both formats, please--evaluation file as weell as prepared-resources."' if label=='DeepSeek' else
+        '"Let’s use Claude. Change Scout accordingly. Just research Housing, curate it, then review it." "We’re doing an apples-to-apples comparison here." Exported for comparison with the DeepSeek Housing file; not an import request.')
+    write_once(handoff/'authorization.json',dict(approvedBy='Michael',scope='Mesa Housing prepared-resources.json plus separate evaluation JSON and readable review',
+        approvalText=approval,
         evaluationReportSha256=file_hash(report_path),registrySha256=file_hash(handoff/'registry.json'),
         previousArtifactSha256=file_hash(handoff/'previous-artifact.json')))
     existing=[{k:r.get(k,'') for k in ['id','name','website','address','phone']} for r in previous['resources']]
-    prompt=('You are DeepSeek completing the explicitly requested import reconciliation AFTER your independent Housing review is frozen. '
+    prompt=('You are '+label+' completing the explicitly requested import reconciliation AFTER your independent Housing review is frozen. '
         'The legacy Mesa records below are identity/taxonomy context only, not an answer key or authority for resource facts. '
         'Match each reviewed distinct program to an existing registry ID only when program-specific evidence supports it. '
         'Never merge different programs merely because they share an agency/domain/contact. Record ambiguous legacy duplicates explicitly; do not delete or suppress them. '
@@ -213,12 +217,12 @@ def _reconcile_and_export(root, *, production_registry, previous_artifact, desti
     packet=dict(assignmentId='import-reconciliation',condition='existing-policy',category='housing',stage='housing-collection',
                 passKey='import-reconciliation',task=prompt,requiresLiveSearch=False)
     ledger=Ledger(root)
-    reconciliation_result=run_assignment(packet,ledger,LiveTransport(ledger.config['provider']['endpoint']),
+    reconciliation_result=run_assignment(packet,ledger,make_transport(ledger.config['provider']['endpoint']),
                               lambda value:validate_resolution(value,report,registry,previous))
     resolution=reconciliation_result['result']
     bundle_path=handoff/'reviewed-bundle.json'
     if not bundle_path.exists():
-        bundle=build_bundle(report,resolution,registry,previous,source_namespace='mesa-housing-deepseek-20260928',
+        bundle=build_bundle(report,resolution,registry,previous,source_namespace='mesa-housing-'+label.lower()+'-20260928',
             input_hashes={'evaluationReport':file_hash(report_path),'candidateAssignment':file_hash(root/'inputs/assignment.json'),
                          'registry':file_hash(handoff/'registry.json'),'legacyIdentityContext':file_hash(handoff/'previous-artifact.json'),
                          'reconciliation':digest(resolution)},reviewed_at=now())
@@ -271,7 +275,7 @@ def _reconcile_and_export(root, *, production_registry, previous_artifact, desti
         if 'collection' not in p.parent.name and 'assemblyEvidence' in (value:=read(p))]
     evaluation['execution']['note']='Recorded recovery and scheduling changes are part of this trial; all prior usage is retained. Raw native responses remain in the Scout audit.'
     write_once(output/'evaluation.json',evaluation)
-    markdown,page=render_review(read(output/'prepared-resources.json'),evaluation)
+    markdown,page=render_review(read(output/'prepared-resources.json'),evaluation,label)
     write_bytes_once(output/'review.html',page.encode())
     write_bytes_once(output/'starter-summary.md',markdown.encode())
     write_bytes_once(output/'evaluation-review.html',(root/'reports/reviewed-with-selections.html').read_bytes())
