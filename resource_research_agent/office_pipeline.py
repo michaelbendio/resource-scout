@@ -13,6 +13,7 @@ import subprocess
 import time
 
 from .office_fit import office_fit_lines
+from .prepared_pipeline import prepared_review_prompt, validate_submission, export_reviewed_submission
 from .deepseek_challenger_runner import now, read, write
 from .curation_supervisor import load_launch, notify_local
 from .runner_lock import research_runner_lock
@@ -47,6 +48,8 @@ def review_command(config, directory):
 
 
 def review_prompt(config, job_id, session):
+    if config.get('preparedMode'):
+        return prepared_review_prompt(config, job_id, session)
     root = Path(config['runDirectory'])
     office = config.get('officeName', 'Las Vegas')
     area = config.get('serviceArea', 'Las Vegas Valley')
@@ -138,8 +141,12 @@ def supervise(config_path):
     config = read(config_path)
     automatic_review = config.get('automaticReview', True)
     prepared_mode = config.get('preparedMode', False)
-    if prepared_mode and automatic_review:
+    if prepared_mode and automatic_review and not config.get('preparedReviewAuthorized'):
         raise ValueError('Prepared delivery requires the separate requested Codex review; disable automaticReview')
+    if prepared_mode and automatic_review:
+        for key in ('registryPath', 'sourceSeedPath', 'sourceSeedSha256', 'sourceNamespace', 'officeSlug', 'preparedOutputDirectory'):
+            if not config.get(key):
+                raise ValueError(f'Prepared review requires {key}')
     if config.get('curationEffort') not in {'high', 'xhigh'} or (automatic_review and config.get('reviewEffort') != 'xhigh') or not config.get('authorization'):
         raise ValueError('Explicit High/xhigh curation authorization and, when enabled, xhigh review are required')
     root = Path(config['runDirectory'])
@@ -269,8 +276,22 @@ def supervise(config_path):
                 notice('Las Vegas review stopped; saved events/checkpoints need diagnosis.')
                 return
             store = ResearchStore(database)
-            native = review_handoff(store.get_scout_curation_job(state['jobId']), store.list_scout_curation_progress(state['jobId']))
-            outcome, digest = review_outcome(read(review_dir / 'STATUS.json'), review_dir, state.get('reviewCheckpointSha256'), native['status'] == 'reviewed')
+            review_state = read(review_dir / 'STATUS.json')
+            job = store.get_scout_curation_job(state['jobId'])
+            if prepared_mode:
+                native_reviewed = False
+                if review_state.get('status') == 'review-complete':
+                    validate_submission(config, job)
+                    native_reviewed = True
+            else:
+                native = review_handoff(job, store.list_scout_curation_progress(state['jobId']))
+                native_reviewed = native['status'] == 'reviewed'
+            outcome, digest = review_outcome(review_state, review_dir, state.get('reviewCheckpointSha256'), native_reviewed)
+            if prepared_mode and outcome == 'review-complete':
+                delivery = export_reviewed_submission(config, job)
+                checkpoint('prepared-delivery-ready', reviewCheckpointSha256=digest, delivery=delivery)
+                notice('Las Vegas prepared file validated; registry commit and final handoff remain.')
+                return
             checkpoint('ready-review' if outcome == 'continue' else outcome, reviewCheckpointSha256=digest)
             if outcome != 'continue':
                 notice('Las Vegas review: ' + outcome.replace('-', ' '))

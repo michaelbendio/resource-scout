@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import re
+import json
+from pathlib import Path
 from typing import Any
 
 from .storage import ResearchStore
@@ -26,6 +28,32 @@ def _location_name(summary: dict[str, Any]) -> str:
 def _review_filename(location_name: str) -> str:
     token = "".join(character for character in location_name if character.isalnum())
     return f"auto{token or 'Location'}.html"
+
+
+def prepared_delivery_context(store, import_id):
+    """Use only the pipeline belonging to this exact database/import."""
+    database = getattr(store, 'path', None)
+    if not isinstance(database, (str, Path)):
+        return None
+    database = Path(database).resolve()
+    path = database.parent / 'pipeline.json'
+    if not path.is_file():
+        return None
+    config = json.loads(path.read_text())
+    if (not config.get('preparedMode') or config.get('importId') != import_id
+            or Path(config['database']).resolve() != database):
+        return None
+    state_path = path.parent / 'pipeline-status.json'
+    state = json.loads(state_path.read_text()) if state_path.exists() else {}
+    date_format = 'YY-MM-DD' if config.get('shortDeliveryDate') else 'YYYY-MM-DD'
+    slug = config.get('officeSlug') or re.sub(r'[^a-z0-9]+', '-', config['officeName'].lower()).strip('-')
+    artifact = state.get('delivery', {}).get('artifactFile')
+    return dict(kind='prepared-resources', filename=Path(artifact).name if artifact else
+                f'scout-{slug}-prepared-resources-<{date_format}>.json',
+                phase=state.get('phase'), automaticReview=bool(config.get('automaticReview')),
+                artifactFile=artifact, artifactSha256=state.get('delivery', {}).get('artifactSha256'),
+                counts=state.get('delivery', {}).get('counts', {}),
+                readyForSave=state.get('phase') == 'prepared-delivery-complete')
 
 
 def _newer_event(*events: dict[str, Any] | None) -> dict[str, Any] | None:
@@ -118,6 +146,8 @@ def build_scout_progress(
         "total": research_total,
     }
     location_name = _location_name(summary)
+    prepared = prepared_delivery_context(store, selected_import_id)
+    target_filename = prepared['filename'] if prepared else _review_filename(location_name)
 
     # A completed research plan must not hide the newer curation/review phase.
     if codex_jobs and (codex_plan_in_progress or not job):
@@ -218,7 +248,7 @@ def build_scout_progress(
         message = (
             "Codex-controlled curation is in progress."
             if job.get("status") != "completed"
-            else f"Curation is complete. {_review_filename(location_name)} is ready."
+            else f"Curation is complete. {target_filename} is awaiting review."
         )
         updated_at = job.get("updatedAt")
 
@@ -246,7 +276,7 @@ def build_scout_progress(
         None,
     )
     review_file = None
-    if job and job.get("status") == "completed":
+    if job and job.get("status") == "completed" and not prepared:
         resource_ids = {
             str(resource.get("id") or "")
             for category in job.get("categories") or []
@@ -286,12 +316,27 @@ def build_scout_progress(
     if curation_eta:
         message = f"{message.rstrip('. ')}, {curation_eta['label']}."
 
+    if prepared and job and job.get('status') == 'completed':
+        phase = prepared['phase'] or 'ready-for-codex-review'
+        message = {
+            'review': 'Curation is complete. Codex is reviewing the prepared resources.',
+            'ready-review': 'Curation is complete. The authorized Codex review is starting.',
+            'prepared-delivery-ready': 'The prepared JSON is generated and validated. Final registry checkpoint remains.',
+            'prepared-delivery-complete': 'The prepared-resources JSON is complete and ready to save.',
+            'needs-attention': 'Prepared delivery needs diagnosis. Saved research and review work are preserved.',
+        }.get(phase, 'Curation is complete. Prepared-resource review remains.')
+        if prepared['readyForSave']:
+            review_file = dict(status='created', filename=target_filename, readyForSave=True,
+                resourceCount=prepared['counts'].get('resources', 0),
+                categoryCount=len(job['categories']), downloadUrl=f'/api/scout-prepared-resources?importId={selected_import_id}')
+
     return {
         "importId": selected_import_id,
         "sourceName": summary.get("sourceName"),
         "officeName": summary.get("officeName"),
         "locationName": location_name,
-        "targetReviewFilename": _review_filename(location_name),
+        "targetReviewFilename": target_filename,
+        "workProduct": prepared,
         "phase": phase,
         "message": message,
         "categoryId": category_id or None,

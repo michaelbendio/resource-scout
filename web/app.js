@@ -140,6 +140,10 @@ function friendlyProgressPhase(value) {
     'curation-start': 'Curation',
     'awaiting-codex-review': 'Ready for Codex review',
     'codex-review-completed': 'Ready to save',
+    'review': 'Reviewing prepared resources',
+    'ready-review': 'Starting prepared-resource review',
+    'prepared-delivery-ready': 'Finalizing prepared JSON',
+    'prepared-delivery-complete': 'Prepared JSON ready to save',
     'curation-awaiting-effort-review': 'Paused for effort discussion',
     'codex-curation-started': 'Curation',
     'codex-curation-active': 'Curation',
@@ -321,7 +325,8 @@ function renderScoutProgress(progress) {
   const effortReview = progress.phase === 'curation-awaiting-effort-review';
   const curationStopped = progress.phase === 'codex-curation-stopped';
   const nextStep = document.querySelector('#curation-next-step');
-  nextStep.hidden = !!progress.reviewFile || !(readyForCuration || effortReview || curationStopped);
+  nextStep.hidden = !!progress.reviewFile || (progress.workProduct?.automaticReview && readyForCuration)
+    || !(readyForCuration || effortReview || curationStopped);
   document.querySelector('#curation-next-step-title').textContent = curationStopped
     ? 'Curation stopped — correction needed'
     : effortReview
@@ -332,7 +337,9 @@ function renderScoutProgress(progress) {
     : effortReview
     ? 'Completed work is saved. Review the category comparison with Codex and agree on effort before continuing.'
     : 'Discuss curation effort with Codex before starting. During validation, Scout waits for that decision.';
-  document.querySelector('#scout-progress-title').textContent = progress.reviewFile
+  document.querySelector('#scout-progress-title').textContent = progress.workProduct
+    ? `${progress.workProduct.phase === 'needs-attention' ? 'Needs attention:' : progress.workProduct.readyForSave ? 'Ready:' : 'Creating'} ${reviewFilename}`
+    : progress.reviewFile
     ? awaitingReview ? 'Curation complete — ready for Codex review' : `${reviewFilename} is ready`
     : curationStopped ? 'Curation stopped — needs attention'
     : effortReview ? 'Curation paused for an effort discussion'

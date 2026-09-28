@@ -52,6 +52,18 @@ assert.equal(nodes.get('#review-file-download').hidden, false);
 assert.equal(nodes.get('#review-file-download').textContent, 'Save autoWelfareSquare.html');
 assert.equal(nodes.get('#review-file-download').download, 'autoWelfareSquare.html');
 assert.equal(nodes.get('#review-file-download').href, '/api/scout-curation-jobs/7/review-file');
+const jsonName = 'scout-welfare-square-prepared-resources-<YY-MM-DD>.json';
+renderScoutProgress({...base, targetReviewFilename:jsonName,
+ workProduct:{kind:'prepared-resources',automaticReview:true,readyForSave:false,phase:'waiting-research'}});
+assert.equal(nodes.get('#scout-progress-title').textContent, `Creating ${jsonName}`);
+assert.equal(nodes.get('#curation-next-step').hidden, true);
+assert.equal(nodes.get('#review-file-ready').hidden, true);
+renderScoutProgress({...base, phase:'prepared-delivery-complete', targetReviewFilename:jsonName,
+ workProduct:{kind:'prepared-resources',readyForSave:true,phase:'prepared-delivery-complete'},
+ reviewFile:{filename:'scout-welfare-square-prepared-resources-26-09-28.json', readyForSave:true,
+ downloadUrl:'/api/scout-prepared-resources?importId=1',categoryCount:21,resourceCount:250}});
+assert.equal(nodes.get('#review-file-download').download, 'scout-welfare-square-prepared-resources-26-09-28.json');
+assert.equal(nodes.get('#review-file-download').href, '/api/scout-prepared-resources?importId=1');
 """
         result = subprocess.run(["node", "-e", script], capture_output=True, text=True)
         self.assertEqual(0, result.returncode, result.stderr)

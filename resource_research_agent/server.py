@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 import re
 import tempfile
@@ -39,7 +40,7 @@ from .scout_curation import (
 )
 from .scout_review import build_scout_review_file
 from .scout_review_handoff import review_handoff
-from .scout_progress import build_scout_progress
+from .scout_progress import build_scout_progress, prepared_delivery_context
 from .candidate_package import CandidatePackageError, build_candidate_package
 from .contact_lookup import apply_contact_lookup_results, build_contact_lookup_request
 from .duplicates import DuplicateIndex
@@ -168,6 +169,17 @@ class ResearchHandler(BaseHTTPRequestHandler):
                 query = parse_qs(parsed.query)
                 import_id = int(query["importId"][0]) if query.get("importId") else None
                 self._json(build_scout_progress(self.server.store, import_id))
+            elif parsed.path == "/api/scout-prepared-resources":
+                query = parse_qs(parsed.query)
+                import_id = int(query['importId'][0]) if query.get('importId') else self.server.store.latest_import_id()
+                delivery = prepared_delivery_context(self.server.store, import_id)
+                if not delivery or not delivery['readyForSave']:
+                    raise ValueError('Prepared delivery is not complete')
+                artifact = Path(delivery['artifactFile'])
+                raw = artifact.read_bytes()
+                if hashlib.sha256(raw).hexdigest() != delivery['artifactSha256']:
+                    raise ValueError('Prepared delivery changed after validation')
+                self._download(raw, 'application/json', artifact.name)
             elif parsed.path == "/api/focused-research-jobs":
                 query = parse_qs(parsed.query)
                 import_id = int(query["importId"][0]) if query.get("importId") else None

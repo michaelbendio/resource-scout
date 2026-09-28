@@ -16,16 +16,27 @@ Earlier Welfare Square research, curation, DeepSeek and Jev evidence is now at
 Do not read that archive into fresh worker assignments. Old absolute runtime paths
 are historical; no redirect or symlink exposes them through the fresh directory.
 
-The launch is running: primary PID 93965, DeepSeek PID 93986, dashboard PID 93959,
-research watchdog PID 93999, pipeline PID 94003. Verify `launch.json` and live
+The launch is running: primary PID 93965, DeepSeek PID 93986, dashboard PID 96687,
+research watchdog PID 93999, pipeline PID 96688. Verify `launch.json` and live
 process/database state before acting; PIDs can change on supervised recovery.
-The first Addiction pass is assigned; watchdog reports no issues.
+At the full-delivery amendment, 20 research passes and three categories were complete;
+Disability was active. The watchdog reported no issues.
 The dashboard is assigned port 8770. Automatic High **prepared-mode** curation
-follows completed research; no previous reviewed context is supplied. It stops at
-**Ready for Codex review** and launches no paid review worker. The pipeline's
-prepared-mode transition is covered by 27 focused preflight tests. Persistent
+follows completed research; no previous reviewed context is supplied. Michael then
+explicitly requested the complete run, including the final work product. The pipeline
+now continues through **one sequential Extra High prepared-resource review** and
+validated export: `scout-welfare-square-prepared-resources-<YY-MM-DD>.json`, dated
+when generated, under `deliveries/welfare-square-fresh-20260928/`. The dashboard
+shows that JSON target, not autoWelfareSquare.html. All 773 tests passed (4 skipped).
+The original config/status and new authorization are preserved under
+`complete-delivery-amendment-001/` in the run directory; research was not restarted.
+Persistent
 research and curation supervisors own bounded recovery and preserve every attempt.
 See [fresh-run record](docs/welfare-square-fresh-run-20260928.md).
+After `prepared-delivery-ready`, verify the JSON/receipts, commit the registry and
+scoped delivery, record the commit in pipeline status, then set
+`prepared-delivery-complete` to enable its download. This last handoff remains the
+supervising assistant's responsibility. No legacy HTML review gate applies.
 All unrelated earlier runs remain stopped; this authorization is for Welfare Square.
 
 ## Repository consolidation and previous stop record

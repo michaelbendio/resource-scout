@@ -19,7 +19,32 @@ changing, or supervising any Scout worker. User instructions override this file.
 `SCOUT_STATUS.md` identifies the current database, phase, effort, processes and
 pending work; verify those facts live. This document describes how to operate.
 
+## Fresh Welfare Square full prepared delivery — September 28
+
+Michael explicitly requested the complete fresh run: research, curation and
+`scout-welfare-square-prepared-resources-<YY-MM-DD>.json`. This authorizes the
+single sequential Extra High Codex review needed after High prepared curation.
+The office pipeline requires `preparedReviewAuthorized:true` before that transition.
+Research remains Codex High with DeepSeek/max as the sole challenger.
+Earlier Welfare Square research stays archived outside the run and is never an
+input to research, curation or content review. After fresh content is frozen, the
+existing registry is consulted only for identity reconciliation.
+
+Prepared review submits a reviewed bundle, all candidate/category dispositions,
+all draft-resource assessments, a frozen content checkpoint and a readable report.
+The supervisor checks curation/seed/draft hashes, exact coverage, schema, identity
+and export readback. It then generates the dated JSON, compressed copy, receipts
+and read-only previews; it never uses the legacy HTML completion gate. The date
+comes from final snapshot generation. Other deliveries keep their default YYYY date.
+`prepared-delivery-ready` means validated files exist but the registry commit and
+final handoff remain. The supervising assistant must commit the registry and scoped
+delivery, verify their receipts, record the commit and then set
+`prepared-delivery-complete`. Only that state exposes the JSON download. A pipeline
+configuration amendment must preserve its previous config/status and be applied
+with that supervisor stopped; never change sealed research inputs or restart research.
+
 ## Las Vegas automatic continuation authorized
+
 
 Michael explicitly instructed: "When the research passes are done, start curation.
 When curation is finished I am authorizing you to begin your review. Can you set

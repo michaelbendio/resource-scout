@@ -83,7 +83,7 @@ def finalize(bundle, registry, *, previous=None):
     return artifact, updated, migration, receipt
 
 
-def delivery_name(artifact):
+def delivery_name(artifact, *, short_date=False):
     """scout-<office>-prepared-resources-<YYYY-MM-DD>.json, agreed with WSRS-TSO on
     26 September 2026 so a person can tell deliveries apart, on a USB stick included.
     The date is the snapshot's generation date."""
@@ -91,14 +91,14 @@ def delivery_name(artifact):
     day = str(artifact.get("snapshot", {}).get("generatedAt", ""))[:10]
     require(re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug) is not None, f"Office slug cannot name a delivery file: {slug!r}")
     require(re.fullmatch(r"\d{4}-\d{2}-\d{2}", day) is not None, f"Snapshot date cannot name a delivery file: {day!r}")
-    return f"scout-{slug}-prepared-resources-{day}.json"
+    return f"scout-{slug}-prepared-resources-{day[2:] if short_date else day}.json"
 
 
 def encoded(value):
     return (json.dumps(value, ensure_ascii=False, indent=2) + "\n").encode()
 
 
-def export_bundle(bundle_path, registry_path, output, *, initialize_registry=False, previous_path=None):
+def export_bundle(bundle_path, registry_path, output, *, initialize_registry=False, previous_path=None, short_date=False):
     bundle = json.loads(bundle_path.read_text())
     if initialize_registry:
         require(not registry_path.exists(), "Registry already exists; initialization is never a reset")
@@ -110,7 +110,7 @@ def export_bundle(bundle_path, registry_path, output, *, initialize_registry=Fal
     artifact, updated, migration, receipt = finalize(bundle, registry, previous=previous)
     artifact_bytes = encoded(artifact)
     receipt["artifactSha256"] = hashlib.sha256(artifact_bytes).hexdigest()
-    name = delivery_name(artifact)
+    name = delivery_name(artifact, short_date=short_date)
     receipt["artifactFile"] = name
     files = {name: artifact_bytes,
              name + ".gz": gzip.compress(artifact_bytes, mtime=0),
@@ -137,10 +137,11 @@ def main():
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--previous", type=Path)
     parser.add_argument("--initialize-registry", action="store_true")
+    parser.add_argument("--short-date", action="store_true", help="Use YY-MM-DD in the delivery filename when requested")
     args = parser.parse_args()
     try:
         receipt = export_bundle(args.bundle, args.registry, args.output,
-            initialize_registry=args.initialize_registry, previous_path=args.previous)
+            initialize_registry=args.initialize_registry, previous_path=args.previous, short_date=args.short_date)
     except (ValueError, KeyError) as exc:
         parser.exit(2, f"Prepared export refused: {exc}\n")
     print(json.dumps(receipt["counts"], sort_keys=True))

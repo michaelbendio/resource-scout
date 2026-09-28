@@ -33,8 +33,22 @@ is $5 for this run; no account credit purchase or unlimited retry is authorized.
 After all research completes, the persistent pipeline starts High preparation with
 `--prepared`, bounded at 30 candidates/60,000 characters per batch. Its schema and
 five Information headings remain separate from legacy HTML writing. No old reviewed
-context is attached. Curation stops **Ready for Codex review**; no automatic paid
-reviewer, human Curated status or agency-verification date is supplied.
+context is attached. Michael subsequently explicitly requested the **complete** run,
+including `scout-welfare-square-prepared-resources-<YY-MM-DD>.json`. The amended
+pipeline continues into one sequential Extra High Codex prepared-resource review,
+then validated JSON export. No human Curated status or agency-verification date is
+supplied. Earlier research remains excluded. Existing registry identities are
+reconciled only after fresh content review is frozen. The actual generation date
+replaces YY-MM-DD; research start date does not determine the filename.
+
+The review must account for every draft and original candidate/category disposition,
+apply the office-fit rules, consolidate identities, review taxonomy and select
+explained starters and alternatives for all research categories. Code checks the
+sealed inputs, full coverage, schema and final file readback. The JSON, compressed
+copy, receipts and readable previews are generated under
+`deliveries/welfare-square-fresh-20260928/`. The registry must be committed before
+final handoff; a generated file alone is not a completed delivery. Supervisor
+amendment evidence is preserved in the run directory. Research is not restarted.
 
 The dashboard is configured for localhost port **8770**. Launch, freshness and
 archive receipts live in the run directory. Research watchdog and curation
