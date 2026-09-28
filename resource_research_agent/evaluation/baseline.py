@@ -5,6 +5,7 @@ from contextlib import contextmanager, closing
 from pathlib import Path
 import shutil
 import sqlite3
+import zipfile
 from urllib.parse import quote
 from .protocol import EvaluationError, file_hash, write_once, now
 
@@ -21,8 +22,9 @@ def readonly(path):
 def export_baseline(source_db, config, destination):
     root = Path(destination).resolve(); source_db = Path(source_db).resolve()
     selected = config['baseline']
-    package = Path(selected['originalPackage']).resolve()
-    if not source_db.is_file() or not package.is_file():
+    package = Path(selected['originalPackage']).resolve() if selected.get('originalPackage') else None
+    reconstruct = selected.get('reconstructOriginalSnapshot') is True
+    if not source_db.is_file() or (not reconstruct and (package is None or not package.is_file())):
         raise EvaluationError('Original database/package evidence missing; do not substitute current office data')
     snapshot = root/'reference/source.sqlite3'
     if snapshot.exists() or root in source_db.parents:
@@ -34,7 +36,12 @@ def export_baseline(source_db, config, destination):
         db.row_factory = sqlite3.Row
         record = db.execute('SELECT * FROM imports WHERE id=?', (selected['importId'],)).fetchone()
         expected = selected['expectedSourceSha256']
-        if not record or record['source_sha256'] != expected or file_hash(package) != expected:
+        if not record or record['source_sha256'] != expected:
+            raise EvaluationError('Original package does not match the selected historical import')
+        reconstruction = None
+        if reconstruct:
+            reconstruction = reconstruct_original(db, dict(record), root/'inputs/office-package.zip', selected['expectedContentSha256'])
+        elif file_hash(package) != expected:
             raise EvaluationError('Original package does not match the selected historical import')
         categories = {}; policies = set()
         for category in config['categories']:
@@ -66,11 +73,14 @@ def export_baseline(source_db, config, destination):
                 selectedBecause=config['selectionReason'])
         if len(policies) != 1:
             raise EvaluationError('Do not pool incompatible primary research policies')
-    shutil.copyfile(package, root/'inputs/office-package.zip')
+    if not reconstruct:
+        shutil.copyfile(package, root/'inputs/office-package.zip')
     write_once(root/'reference/baseline.json', dict(categories=categories, originalImport=dict(record)))
     # No resource names or later-pass answers are copied into a model-visible summary.
     summary = dict(exportedAt=now(), sourceDb=str(source_db), sourceSnapshotSha256=file_hash(snapshot),
-        originalPackageSha256=expected, originalImportId=selected['importId'],
+        originalPackageSha256=expected, frozenPackageSha256=file_hash(root/'inputs/office-package.zip'),
+        inputReconstruction=reconstruction, sourceName=dict(record).get('source_name', package.name if package else None),
+        originalImportId=selected['importId'],
         categories={cat:dict(jobId=data['job']['id'],runId=data['job']['run_id'],
             playbookVersion=data['job']['playbook_version'],experimentMode=data['job']['experiment_mode']) for cat,data in categories.items()},
         historicalModel=selected.get('historicalModel'),
@@ -78,3 +88,25 @@ def export_baseline(source_db, config, destination):
     if not summary['historicalModel'] and not summary['historicalModelUnknownReason']:
         raise EvaluationError('Unknown historical model/settings require an explicit reason')
     return summary
+
+
+def reconstruct_original(db,record,destination,expected_content_sha):
+    """Repack original raw import rows only after their canonical content hash matches."""
+    from ..importer import package_content_sha256
+    from .protocol import encoded
+    if record['resource_path']!='resources' or record['category_path']!='categories':
+        raise EvaluationError('Snapshot reconstruction only supports original root resource/category arrays')
+    resources=[json.loads(row[0]) for row in db.execute('SELECT raw_json FROM imported_resources WHERE import_id=?',(record['id'],))]
+    categories=[dict(id=row[0],label=row[1],raw=json.loads(row[2])) for row in db.execute('SELECT category_id,label,raw_json FROM categories WHERE import_id=?',(record['id'],))]
+    groups=json.loads(record['for_groups_json'])
+    content_sha=package_content_sha256(resources,categories,groups,record['office_name'],record['service_area'])
+    if content_sha!=record['content_sha256'] or content_sha!=expected_content_sha or len(resources)!=record['resource_count']:
+        raise EvaluationError('Original raw package content cannot be established from the snapshot')
+    payload={**json.loads(record['metadata_json']), 'resources':resources,'categories':[c['raw'] for c in categories],'forGroups':groups}
+    # Package identity is restored from the original source name at scratch import.
+    with zipfile.ZipFile(destination,'x',compression=zipfile.ZIP_DEFLATED) as archive:
+        entry=zipfile.ZipInfo('tso-resources.json',date_time=(1980,1,1,0,0,0));entry.compress_type=zipfile.ZIP_DEFLATED
+        archive.writestr(entry,encoded(payload))
+    return dict(method='repack-original-import-snapshot',sourceImportId=record['id'],originalArchiveSha256=record['source_sha256'],
+        canonicalContentSha256=content_sha,resourceCount=len(resources),categoryCount=len(categories),
+        limitation='Original ZIP bytes were not found. Raw original resource/category/group content matches the stored canonical hash; packaging bytes differ. Compare the original known-resource manifest as an additional gate before paid dispatch.')

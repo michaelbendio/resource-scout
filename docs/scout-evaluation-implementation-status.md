@@ -64,3 +64,43 @@ zero leads, prefatory commentary, model mismatch and uncertain paid timeouts.
 Official API compatibility documentation checked; real pricing/billing bounds
 and actual account authorization remain required before live use. API spend $0.
 Next: ticket 4 scratch focused/gap execution and offline whole-category recovery.
+
+## Ticket 4 — M0 offline foundation complete
+
+Implemented scratch-only original-policy execution, sequential focused passes and
+one existing gap pass, CLI dry-run/explicit execute, Housing-only stage eligibility,
+owned-path checks, and resumable whole-category output. Source/reference database
+aliases, including hardlinks, are rejected. Original known-resource and policy
+hashes are checked before dispatch; historical discoveries never enter exclusions.
+Held outcomes preserve partial evidence. Late response adoption uses saved or
+bounded request timing rather than counting the review pause as processing time.
+Live execution additionally requires reviewer-frozen essential coverage criteria.
+
+Checks: **43 evaluation tests pass**, including interrupted versus uninterrupted
+whole-category results/charges, zero leads, invalid results, shared category caps,
+draft-criteria rejection, and original-input reconstruction. **25 affected existing
+tests pass** (`test_focused_research`, `test_codex_first_research`,
+`test_worker_metrics`); local socket fixtures required running outside the sandbox.
+`git diff --check` passes. No provider requests; actual spend/reservations **$0**.
+
+Real offline preflight: `data/evaluations/mesa-housing-m0-preflight-20260927/`.
+The earliest completed original Mesa Housing primary was selected before examining
+its findings. The original ZIP was unavailable. An explicit reconstruction from
+its preserved raw import rows matches the original canonical content hash; the
+scratch original-known-resource manifest and five-focus policy independently match
+the historical primary. ZIP container bytes differ and that limitation is recorded.
+This is a justified original-input recovery, not a substitution of today's package.
+Original records and hidden historical outputs remain in ignored local evidence.
+
+**Not launchable:** that offline preflight freezes draft criteria, incomplete pricing
+and the preceding code commit. It has no spending authorization. The proposed $20
+total and $3 Housing cap remain proposals, not granted envelopes. No research quality
+comparison, review, policy adoption or production change has been completed by M0.
+
+**Next: ticket 5 / M1.** Resolve native-search/cache billing and usage conventions,
+verify credential availability without exposing credentials, finish generic essential
+coverage criteria, then seal a fresh Housing protocol at the committed code revision.
+Prepare a concrete bounded launch for Michael's spending authorization; only then
+execute and monitor Housing. Build the blinded audit and initial measured-research /
+unmeasured-preparation projection. The exact gated execute command and reconstruction
+configuration are in `docs/scout-evaluation-usage.md`. Later tickets remain evidence-gated.

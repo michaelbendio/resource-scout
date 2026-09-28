@@ -125,7 +125,9 @@ def run_assignment(packet, ledger, transport, output_contract, *, fetcher=fetch_
                     raise EvaluationError('Credential/transport preflight failed before dispatch') from None
                 ledger.mark_sent(attempt_id)
                 try:
+                    started=time.monotonic()
                     raw=transport(payload,timeout)
+                    write_once(attempt_dir/'response-timing.json',{'receivedAt':time.time(),'elapsedSeconds':time.monotonic()-started})
                     if isinstance(raw,dict):raw=encoded(raw)
                     write_bytes_once(raw_path,raw)
                     if len(raw)>8_000_000:raise EvaluationError('Response exceeds retained-body limit')

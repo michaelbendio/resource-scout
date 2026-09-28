@@ -23,6 +23,21 @@ class LedgerTests(unittest.TestCase):
         l.mark_sent(aid)
         body=dict(model='deepseek-flash',usage=usage or dict(input_tokens=100,cache_read_input_tokens=10,cache_creation_input_tokens=5,output_tokens=20,server_tool_use={'web_search_requests':1}))
         l.record_response(aid,body);return body
+    def test_ledger_hardlink_to_source_is_rejected_before_schema_writes(self):
+        import os
+        os.link(self.root/'source.sqlite3',self.exp/'ledger.sqlite3')
+        from resource_research_agent.evaluation.protocol import EvaluationError
+        with self.assertRaisesRegex(EvaluationError,'protected'):Ledger(self.exp,simulation=True)
+        self.assertIsNone(self.source.execute("SELECT name FROM sqlite_master WHERE name='attempts'").fetchone())
+
+    def test_late_saved_response_adoption_does_not_count_review_pause_as_worker_time(self):
+        from unittest.mock import patch
+        l=self.ledger();self.reserve(l);l.mark_sent('attempt-1')
+        body=dict(model='deepseek-flash',usage={})
+        with patch('resource_research_agent.evaluation.ledger.time.time',return_value=9999999999):
+            l.record_response('attempt-1',body)
+        self.assertEqual(1,l.summarize_usage()['activeSeconds'])
+
     def test_exact_boundary_and_reservation_race(self):
         l=self.ledger(str(self.bound))
         def reserve(n):
@@ -41,6 +56,19 @@ class LedgerTests(unittest.TestCase):
         with self.assertRaises(BudgetHold):self.reserve(l,'attempt-2')
         with self.assertRaises(BudgetHold):l.mark_sent('attempt-1')
         self.assertEqual(str(self.bound),l.summarize_usage()['outstandingReservedUsd'])
+    def test_draft_criteria_block_live_reservation_before_dispatch(self):
+        self.config['pricing'].update(verified=True,providerContextLimitTokens=self.config['provider']['maxInputTokens'])
+        self.exp=self.root/'draft-live-gate'
+        init_experiment(self.config,self.exp);seal_protocol(self.exp)
+        authorize(self.exp,simulation=False)
+        ledger=Ledger(self.exp)
+        with self.assertRaisesRegex(BudgetHold,'reviewer-frozen'):self.reserve(ledger)
+        self.assertEqual(0,ledger.summarize_usage()['attempts'])
+        self.config['criteria'].update(status='frozen',frozenAt='2026-09-27T00:00:00Z')
+        self.exp=self.root/'frozen-live-gate'
+        init_experiment(self.config,self.exp);seal_protocol(self.exp)
+        authorize(self.exp,simulation=False)
+        self.assertEqual('reserved',self.reserve(Ledger(self.exp))['state'])
     def test_response_adopted_once_after_interruption(self):
         l=self.ledger();self.reserve(l);body=self.response(l);before=l.summarize_usage()
         l.record_response('attempt-1',body)

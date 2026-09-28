@@ -13,10 +13,23 @@ def main(argv=None):
     initialize.add_argument('--out', required=True, type=Path)
     for name in ['seal','status']:
         sub = commands.add_parser(name); sub.add_argument('--experiment', required=True, type=Path)
+    run = commands.add_parser('run', help='Preview or explicitly execute isolated Housing passes')
+    run.add_argument('--experiment',required=True,type=Path)
+    run.add_argument('--condition',required=True,choices=['existing-policy'])
+    run.add_argument('--category',required=True)
+    mode=run.add_mutually_exclusive_group()
+    mode.add_argument('--dry-run',action='store_true')
+    mode.add_argument('--execute',action='store_true')
     args = parser.parse_args(argv)
     try:
         if args.command == 'init':
             result = {'experiment':str(init_experiment(read(args.config),args.out)), 'sealed':False}
+        elif args.command == 'run':
+            from .research import run_category
+            result = run_category(args.experiment,args.condition,args.category,execute=args.execute)
+            if result.get('dryRun'):
+                result = {k:v for k,v in result.items() if k!='nextAssignment'}
+                result['assignmentFile'] = str(args.experiment/'results'/args.condition/args.category/'dry-run.json')
         elif args.command == 'seal':
             result = seal_protocol(args.experiment)
         else:

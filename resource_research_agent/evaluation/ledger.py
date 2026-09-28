@@ -82,6 +82,9 @@ class Ledger:
         self.manifest_sha = file_hash(self.root/'manifest.json')
         self.config = read(self.root/'config.json'); self.pricing = read(self.root/'inputs/pricing.json')
         self.path = inside(self.root,'ledger.sqlite3')
+        for protected in [Path(self.config['baseline']['sourceDb']).resolve(), self.root/'reference/source.sqlite3']:
+            if self.path.exists() and protected.exists() and self.path.samefile(protected):
+                raise EvaluationError('Ledger aliases protected source evidence')
         with self.connect() as db:
             db.executescript('''CREATE TABLE IF NOT EXISTS meta(key TEXT PRIMARY KEY,value TEXT NOT NULL);
               CREATE TABLE IF NOT EXISTS attempts(
@@ -125,6 +128,11 @@ class Ledger:
                 raise BudgetHold('Simulation authorization or unverified pricing cannot dispatch live work')
             if self.config['provider']['maxInputTokens'] < self.pricing.get('providerContextLimitTokens',float('inf')):
                 raise BudgetHold('Input reservation must cover the provider context limit, including native tools')
+            criteria=read(self.root/'audit/criteria.json')
+            if (criteria.get('status')!='frozen' or not criteria.get('essentialNeeds')
+                    or any(not isinstance(criteria.get(k),str) or not criteria[k].strip()
+                           for k in ['frozenBy','frozenAt'])):
+                raise BudgetHold('Live research requires reviewer-frozen essential coverage criteria')
         if file_hash(self.root/'manifest.json')!=self.manifest_sha or digest(self.pricing)!=digest(read(self.root/'inputs/pricing.json')):
             raise BudgetHold('Protocol or pricing changed')
         write_once(self.root/'authorizations'/(auth_sha+'.json'),a)
@@ -215,10 +223,14 @@ class Ledger:
                 if row['response_sha']!=file_hash(path):raise EvaluationError('Changed saved response')
                 return
             usage,cost=normalize_usage(body.get('usage',{}),self.pricing)
-            elapsed=max(0,time.time()-row['sent_at'])
+            timing_path=path.parent/'response-timing.json'
+            timing=read(timing_path) if timing_path.exists() else {}
+            elapsed=timing.get('elapsedSeconds',min(row['timeout_seconds'],max(0,time.time()-row['sent_at'])))
             db.execute("UPDATE attempts SET state='responded',returned_model=?,calculated=?,response_sha=?,usage_json=?,elapsed=? WHERE id=?",
                 (body.get('model'),str(cost) if cost is not None else None,file_hash(path),json.dumps(usage),elapsed,attempt_id))
-            self.event(db,attempt_id,'responded',{'usageComplete':cost is not None,'chargeIsCalculated':True})
+            self.event(db,attempt_id,'responded',{'usageComplete':cost is not None,'chargeIsCalculated':True,
+                'activeTimeBasis':'observed' if timing else 'bounded-by-request-timeout',
+                'responseAdoptionDelaySeconds':max(0,time.time()-timing['receivedAt']) if timing else None})
         if cost is not None and cost>money(row['reservation']):
             write_once(self.root/'accounting-hold.json',{'attemptId':attempt_id,'reason':'Observed charge exceeded the sealed upper bound; review billing before any further dispatch.'})
             raise BudgetHold('Provider usage exceeded the reserved bound; all further dispatch held')
@@ -241,4 +253,4 @@ class Ledger:
             exposureUsd=str(self.exposure(rows)),calculatedUsd=str(sum((money(r['calculated']) for r in rows if r['calculated'] is not None),Decimal(0))),
             knownBilledUsd=None,unknownUsageAttempts=sum(r['state']=='responded' and r['calculated'] is None for r in rows),
             outstandingReservedUsd=str(sum((money(r['reservation']) for r in rows if r['state'] in ['reserved','sent','unknown-outcome'] or (r['state']=='responded' and r['calculated'] is None)),Decimal(0))),
-            activeSeconds=sum(r['elapsed'] for r in rows),accountBalanceAttribution='Not used; other account activity cannot be attributed to this experiment.')
+            activeSeconds=sum(r['elapsed'] for r in rows),activeTimeUnknownAttempts=sum(r['state'] in ['sent','unknown-outcome'] for r in rows),accountBalanceAttribution='Not used; other account activity cannot be attributed to this experiment.')

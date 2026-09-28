@@ -16,6 +16,14 @@ python3 -m resource_research_agent.evaluation status --experiment data/evaluatio
 
 Initialization reads the source through SQLite `mode=ro` and the backup API.
 The copied original package must have the selected import's exact checksum.
+If the archive is unavailable, explicitly set `baseline.originalPackage` to null,
+`baseline.reconstructOriginalSnapshot` to true, and `baseline.expectedContentSha256`
+to the original import's canonical content hash. This fallback accepts only the
+original raw resource/category/group rows whose recomputed hash matches both the
+stored import and configured hash. It preserves the original source filename for
+legacy office inference and independently requires the scratch known-resource
+manifest to match the original primary job. The manifest records that the ZIP
+container bytes differ; this does not recover or claim the original ZIP bytes.
 Historical answers remain reviewer-only. Sealing binds original inputs, baseline,
 criteria, system instructions and provider/pricing settings. Changed inputs need
 another experiment; initialization and evidence files are not reset operations.
@@ -45,3 +53,33 @@ owner/account, approval text/date, total cap, explicit stage caps and categories
 Each native request reserves its worst-case charge before dispatch. Unknown usage
 retains the reservation; a timeout after sending does not permit automatic replay.
 Never copy the synthetic test authorization into a paid experiment.
+
+Live dispatch also requires coverage criteria with `status: "frozen"`, nonempty
+`essentialNeeds`, `frozenBy`, and `frozenAt`. These record a completed reviewer
+judgment; sealing a draft or entering a spending approval cannot substitute for it.
+
+## Existing-policy execution
+
+```
+python3 -m resource_research_agent.evaluation run --experiment EXPERIMENT --condition existing-policy --category housing --dry-run
+```
+
+This imports only frozen original inputs into an owned scratch database and checks
+the original known-resource baseline and focused policy. The full next assignment
+is saved locally; later assignments depend on the condition's own findings.
+Omitting both execution flags also defaults to dry-run. No production store,
+office delivery, identity registry or human curation state is changed.
+
+After the launch gates above are actually satisfied, the exact paid command is:
+
+```
+python3 -m resource_research_agent.evaluation run --experiment EXPERIMENT --condition existing-policy --category housing --execute
+```
+
+Do not use the offline Mesa preflight as a live experiment: its criteria are draft,
+pricing is incomplete, and its recorded commit predates the final ticket-4 code.
+Create and seal a new experiment at the committed code revision for a real launch.
+Only Housing is eligible for paid execution at M0/M1. Research completion remains
+`completed-research-awaiting-source-audit`, with no quality or adoption approval.
+Resume with the same command; immutable responses and ledger entries prevent
+replaying completed calls. Uncertain paid outcomes remain held for reconciliation.

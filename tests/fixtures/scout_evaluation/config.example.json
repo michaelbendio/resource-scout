@@ -59,6 +59,7 @@
     "inputBoundCoversToolContext": true
   },
   "criteria": {
+    "status": "draft",
     "version": "housing-needs-v1",
     "essentialNeeds": [
       "Replace with the frozen reviewer-approved generic needs."
