@@ -1,3 +1,25 @@
+# Active isolated Housing evaluation — September 27, 2026
+
+This checkout implements the evaluation plan on `docs/scout-evaluation-design-20260927`.
+The historical operational notes below are superseded for this checkout: do not
+resume their Mesa workers. Production Mesa remains on its separate relevance hold.
+
+Michael authorized the Housing comparison and removed its proposed $3 cap.
+Active experiment: `data/evaluations/mesa-housing-existing-policy-20260927/`.
+DeepSeek V4.1-Flash, max effort; 60 calls, 3,600 active seconds, 24 turns per
+assignment and two diagnosed paid-recovery attempts remain the limits. Research
+uses only an isolated scratch store. Inspect ledger/request state and runner.log
+before resuming; never resend a request with an uncertain paid outcome.
+
+First two responses (45 and 10 raw leads) required JSON-wrapper/source-appendix
+parser recovery. Both were adopted from saved responses with no paid replay.
+Recovery states and code amendments are preserved under the experiment's recovery/.
+Some native billing fields remain unknown, not zero. No quality acceptance or
+production export follows from research completion. The single supervising Codex
+reviewer owns monitoring and the comparison. See implementation status and usage.
+
+---
+
 # Scout Current Status
 
 Read this file and [orchestration instructions](docs/scout-orchestration.md)

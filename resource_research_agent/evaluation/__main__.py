@@ -20,6 +20,11 @@ def main(argv=None):
     mode=run.add_mutually_exclusive_group()
     mode.add_argument('--dry-run',action='store_true')
     mode.add_argument('--execute',action='store_true')
+    for name in ['audit-packet','record-audit','report']:
+        sub=commands.add_parser(name,help='Offline reviewer evidence; never dispatches provider requests')
+        sub.add_argument('--experiment',required=True,type=Path)
+        if name!='report':sub.add_argument('--category',default='housing')
+        if name=='record-audit':sub.add_argument('--judgment',required=True,type=Path)
     args = parser.parse_args(argv)
     try:
         if args.command == 'init':
@@ -32,6 +37,17 @@ def main(argv=None):
                 result['assignmentFile'] = str(args.experiment/'results'/args.condition/args.category/'dry-run.json')
         elif args.command == 'seal':
             result = seal_protocol(args.experiment)
+        elif args.command == 'audit-packet':
+            from .audit import build_audit_packet
+            packet=build_audit_packet(args.experiment,args.category)
+            result=dict(packetFile=str(args.experiment/'audit'/f'{args.category}-packet.json'),
+                leadCounts={label:len(leads) for label,leads in packet['collections'].items()})
+        elif args.command == 'record-audit':
+            from .audit import record_stage_decision
+            result=record_stage_decision(args.experiment,args.category,read(args.judgment))
+        elif args.command == 'report':
+            from .cost_report import write_actuals
+            result=write_actuals(args.experiment)['usage']
         else:
             m = verify_protocol(args.experiment)
             result = dict(experimentId=m['experimentId'], sealed=True, evaluationOnly=True, importable=False)

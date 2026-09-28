@@ -118,3 +118,17 @@ billing is incompletely documented; raw usage is retained for later reconciliati
 44 evaluation tests pass, including removal of the dollar limit without removal of
 the category call limit. The credential is available; no credential is in artifacts.
 Next: seal the authorized protocol and execute the supervised Housing comparison.
+
+## Ticket 5 — live comparison in progress; offline review tools available
+
+Housing is running under Michael's explicit cap-removal authorization. The first
+responses required source-appendix/fenced-JSON handling, recovered from immutable
+responses without replay. Runtime amendments retain pre-recovery states and exact
+code commits; the original sealed protocol is unchanged. Native max-uses errors
+are evidence of a limited search, not successful extra searches.
+
+Added offline `audit-packet`, `record-audit` and `report` commands, anonymous A/B
+collections with separate reveal, dated essential-pathway judgment gates, actual
+usage CSV/JSON and a projection that leaves later unmeasured stages explicit.
+49 evaluation tests pass. Source review remains ongoing; no advancement or
+complete Housing comparison is claimed by this tooling checkpoint.

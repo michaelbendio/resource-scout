@@ -90,3 +90,21 @@ An explicit user removal of the Housing dollar cap is recorded as
 with the actual approval text. This narrow override permits unknown billing bounds
 to remain null; it does not waive call/time/retry limits, frozen criteria, source
 isolation or uncertain-request holds. It does not authorize any other stage.
+
+## Offline comparison artifacts
+
+After all original-policy passes complete:
+
+```
+python3 -m resource_research_agent.evaluation audit-packet --experiment EXPERIMENT --category housing
+python3 -m resource_research_agent.evaluation report --experiment EXPERIMENT
+python3 -m resource_research_agent.evaluation record-audit --experiment EXPERIMENT --category housing --judgment AUDIT.json
+```
+
+A/B labels separate explicit provider attribution; recognizability must still be
+acknowledged. `record-audit` records supplied reviewer judgments and cannot perform
+source review. Advancement needs every frozen essential need addressed with dated
+evidence, consequential errors resolved, no repeated consequential error awaiting
+retest, all claimed unique additions audited, and useful reduction in Codex work.
+The initial projection explicitly leaves unmeasured preparation/reconciliation
+stages unmeasured. These commands never start paid requests.
