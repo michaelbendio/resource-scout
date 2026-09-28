@@ -96,6 +96,8 @@ def final_parts(body):
         if not closing:raise EvaluationError('Unclosed preparation JSON fence')
         prelude=prelude[:opening.start()].rstrip()
         appendix=appendix[closing.end():].strip()
+    elif appendix=='```' and isinstance(result,dict) and result.get('scoutCurationResultSchemaVersion')==1:
+        appendix=''  # A length continuation can finish a fence opened earlier.
     if appendix and not re.match(r'^Source notes(?: \([^\n]*\))?:',appendix):
         raise EvaluationError('Unexpected content after final JSON')
     if prelude:

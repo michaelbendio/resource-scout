@@ -76,9 +76,10 @@ class AdapterTests(unittest.TestCase):
         raw=json.dumps(original)
         value,notes=final_parts({'content':[{'type':'text','text':'Verification notes.\n\n'+raw}]})
         self.assertEqual(value,original);self.assertIn('Verification notes.',notes)
+        self.assertEqual(final_parts({'content':[{'type':'text','text':raw+'\n```'}]})[0],original)
         value,notes=final_parts({'content':[{'type':'text','text':'Verification notes.\n\n```json\n'+raw+'\n```'}]})
         self.assertEqual(value,original);self.assertIn('Verification notes.',notes)
-        for text in ['Other object {}\n'+raw,raw+'\n'+raw,'Notes.\n```json\n'+raw,'Notes.\n```json\n'+raw+'\n```\nUnrecognized extra content']:
+        for text in ['Other object {}\n'+raw,raw+'\n'+raw,'Notes.\n```json\n'+raw,'Notes.\n```json\n'+raw+'\n```\nUnrecognized extra content',raw+'\n```\nAnother answer']:
             with self.assertRaises(EvaluationError):final_parts({'content':[{'type':'text','text':text}]})
 
     def setUp(self):
