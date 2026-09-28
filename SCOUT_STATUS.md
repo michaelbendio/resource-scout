@@ -1,3 +1,14 @@
+# Housing preparation/review trial authorized — September 28
+
+Michael requested DeepSeek curation of its 104 Housing leads, followed by a fresh
+DeepSeek review with the substantive Codex checklist. The new trial runner is
+implemented and tested; no curation/review request has been dispatched yet.
+See [trial protocol](docs/mesa-housing-preparation-review-trial-20260928.md).
+This scoped trial supersedes the earlier proposed research retest as the immediate
+next action. Do not expand research or change production Mesa. Outputs must remain
+evaluation-only, with original, curated and DeepSeek-reviewed evidence separate.
+DeepSeek remains V4.1-Flash/max; the Housing dollar cap removal remains in force.
+
 # Housing pilot complete — targeted retest before expansion
 
 September 27, 2026. This isolated implementation checkout is on

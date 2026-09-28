@@ -145,7 +145,10 @@ class Ledger:
     def uncapped(a):
         if a.get('dollarCapMode') != 'none-authorized':
             return False
-        if (a.get('totalUsd') is not None or a.get('stageCapsUsd') != {'housing-research': None}
+        stages = a.get('stageCapsUsd')
+        allowed = {'housing-research', 'housing-preparation', 'housing-review', 'housing-collection'}
+        if (a.get('totalUsd') is not None or not isinstance(stages, dict) or not stages
+                or set(stages) - allowed or any(value is not None for value in stages.values())
                 or a.get('categories') != ['housing'] or not a.get('approvalText')):
             raise BudgetHold('Uncapped authorization must explicitly cover only Housing')
         return True
