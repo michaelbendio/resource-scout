@@ -21,3 +21,15 @@ provider/service-level alternatives are recorded recommendations, not production
 
 Next: ticket 1 — immutable protocol, read-only baseline export, original-input
 checks, model-visible allowlist, CLI init/seal and synthetic tests.
+
+## Ticket 1 — baseline and protocol complete
+
+Added read-only WAL-aware baseline export, explicit original-package and primary
+run/policy checks, immutable protocol verification, provider input allowlist,
+path confinement and init/seal/status CLI. Original historical answers are held
+in reviewer-only evidence; unknown model metadata needs a reason.
+Checks: 7 protocol/baseline tests pass (including WAL, tampering, hidden canary,
+original/current package mismatch, incompatible redaction, and symlink escape).
+Config example and usage instructions are committed; examples contain synthetic
+prices and no credentials. No live baseline or provider launch yet. Spend: $0.
+Next: ticket 2, transactional reservations, native usage and resume accounting.
