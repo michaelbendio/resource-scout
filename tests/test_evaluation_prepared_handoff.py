@@ -51,7 +51,7 @@ class PreparedHandoffTests(unittest.TestCase):
                 for _ in range(2):
                     reconcile_and_export(root,production_registry=source,previous_artifact=root/'previous.json',destination_registry=dest,output=output)
             self.assertEqual(read(source),read(dest))
-            artifact=read(output/'prepared-resources.json')
+            artifact=read(next(output.glob('scout-*-prepared-resources-*.json')))
             self.assertEqual(validate_artifact(artifact,read(source))['resources'],1)
             self.assertTrue(read(output/'evaluation.json')['evaluationOnly'])
             execution=read(output/'evaluation.json')['execution']

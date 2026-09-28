@@ -1,13 +1,14 @@
 from copy import deepcopy
 from pathlib import Path
 import tempfile
+import json
 import unittest
 
 from resource_research_agent.preparation_contract import assemble_information, INFORMATION_HEADINGS, POLICY_VERSION
 from resource_research_agent.resource_identity import new_registry, fingerprint
 from resource_research_agent.prepared_resources import (build_snapshot, validate_artifact,
     source_catalog, source_id, revision, compare_snapshots)
-from resource_research_agent.prepared_export import finalize, review_fingerprint, export_bundle, encoded
+from resource_research_agent.prepared_export import finalize, review_fingerprint, export_bundle, encoded, delivery_name
 
 
 def fixture():
@@ -171,13 +172,33 @@ class PreparedResourceTests(unittest.TestCase):
             first = export_bundle(bundle, registry, output, initialize_registry=True)
             second = export_bundle(bundle, registry, output)
             self.assertEqual(first, second)
-            self.assertEqual((output/'prepared-resources.json').read_bytes(), gzip.decompress((output/'prepared-resources.json.gz').read_bytes()))
+            name = first['artifactFile']
+            self.assertEqual((output/name).read_bytes(), gzip.decompress((output/(name+'.gz')).read_bytes()))
             with self.assertRaisesRegex(ValueError, 'already exists'):
                 export_bundle(bundle, registry, output, initialize_registry=True)
-            (output/'prepared-resources.json').write_text('modified')
+            (output/name).write_text('modified')
             before = registry.read_bytes()
             with self.assertRaisesRegex(ValueError, 'Refusing to replace'): export_bundle(bundle, registry, output)
             self.assertEqual(before, registry.read_bytes())
+
+    def test_delivery_file_is_named_for_its_office_and_date(self):
+        # Agreed 26 September 2026: scout-<office>-prepared-resources-<YYYY-MM-DD>.json(.gz).
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); bundle = root/'bundle.json'; bundle.write_bytes(encoded(self.bundle))
+            receipt = export_bundle(bundle, root/'registry.json', root/'delivery', initialize_registry=True)
+            artifact = json.loads((root/'delivery'/receipt['artifactFile']).read_text())
+            slug, day = artifact['office']['slug'], artifact['snapshot']['generatedAt'][:10]
+            self.assertEqual(receipt['artifactFile'], f'scout-{slug}-prepared-resources-{day}.json')
+            self.assertTrue((root/'delivery'/(receipt['artifactFile']+'.gz')).exists())
+            self.assertFalse((root/'delivery'/'prepared-resources.json').exists())
+
+    def test_the_name_follows_the_agreed_pattern(self):
+        artifact = {'office': {'slug': 'welfare-square'}, 'snapshot': {'generatedAt': '2026-09-28T17:04:00Z'}}
+        self.assertEqual(delivery_name(artifact), 'scout-welfare-square-prepared-resources-2026-09-28.json')
+        for bad in [{'office': {'slug': 'Welfare Square'}, 'snapshot': {'generatedAt': '2026-09-28T00:00:00Z'}},
+                    {'office': {'slug': 'mesa'}, 'snapshot': {'generatedAt': '28/09/2026'}}]:
+            with self.assertRaises(ValueError):
+                delivery_name(bad)
 
 
 if __name__ == '__main__': unittest.main()

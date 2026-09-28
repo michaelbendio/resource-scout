@@ -6,6 +6,15 @@ contract. [Design and decisions](scout-prepared-resources-design-20260925.md) ex
 the policy; the [JSON Schema](../schemas/scout-prepared-resources-v1.schema.json)
 and `prepared_resources.validate_artifact` define structural and semantic checks.
 
+## Delivery file name
+
+From 28 September 2026 `prepared_export` writes
+`scout-<office>-prepared-resources-<YYYY-MM-DD>.json` and its `.json.gz` copy, where
+`<office>` is the office slug and the date is the snapshot's generation date, for example
+`scout-welfare-square-prepared-resources-2026-09-28.json`. Agreed with WSRS-TSO on
+26 September so deliveries can be told apart; the receipt records it as `artifactFile`.
+Earlier deliveries keep their plain `prepared-resources.json` names.
+
 ## Preparation and review
 
 New curation jobs explicitly select `scout_curation_runner --prepared`. This seals

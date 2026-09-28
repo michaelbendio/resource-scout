@@ -1,13 +1,14 @@
 """Finalize a reviewed preparation bundle through the code-owned identity gate.
 
 No model calls, identity guesses, taxonomy inference, or human approval changes.
-Review bundles are internal; only prepared-resources.json is the import payload.
+Review bundles are internal; only scout-<office>-prepared-resources-<YYYY-MM-DD>.json is the import payload.
 """
 from __future__ import annotations
 
 import argparse
 from copy import deepcopy
 import gzip
+import re
 import hashlib
 import json
 from pathlib import Path
@@ -82,6 +83,17 @@ def finalize(bundle, registry, *, previous=None):
     return artifact, updated, migration, receipt
 
 
+def delivery_name(artifact):
+    """scout-<office>-prepared-resources-<YYYY-MM-DD>.json, agreed with WSRS-TSO on
+    26 September 2026 so a person can tell deliveries apart, on a USB stick included.
+    The date is the snapshot's generation date."""
+    slug = str(artifact.get("office", {}).get("slug", ""))
+    day = str(artifact.get("snapshot", {}).get("generatedAt", ""))[:10]
+    require(re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug) is not None, f"Office slug cannot name a delivery file: {slug!r}")
+    require(re.fullmatch(r"\d{4}-\d{2}-\d{2}", day) is not None, f"Snapshot date cannot name a delivery file: {day!r}")
+    return f"scout-{slug}-prepared-resources-{day}.json"
+
+
 def encoded(value):
     return (json.dumps(value, ensure_ascii=False, indent=2) + "\n").encode()
 
@@ -98,8 +110,10 @@ def export_bundle(bundle_path, registry_path, output, *, initialize_registry=Fal
     artifact, updated, migration, receipt = finalize(bundle, registry, previous=previous)
     artifact_bytes = encoded(artifact)
     receipt["artifactSha256"] = hashlib.sha256(artifact_bytes).hexdigest()
-    files = {"prepared-resources.json": artifact_bytes,
-             "prepared-resources.json.gz": gzip.compress(artifact_bytes, mtime=0),
+    name = delivery_name(artifact)
+    receipt["artifactFile"] = name
+    files = {name: artifact_bytes,
+             name + ".gz": gzip.compress(artifact_bytes, mtime=0),
              "identity-migration.json": encoded(migration), "receipt.json": encoded(receipt)}
     # Validate everything before any durable write; retries reuse assigned IDs.
     for name, raw in files.items():

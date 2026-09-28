@@ -244,11 +244,11 @@ def _reconcile_and_export(root, *, production_registry, previous_artifact, desti
         # Explicitly preserve the full current registry from the production checkout.
         from ..resource_identity import save_registry
         save_registry(destination_registry,registry,expected_fingerprint=fingerprint(current))
-    export_bundle(bundle_path,destination_registry,output)
+    delivered=output/export_bundle(bundle_path,destination_registry,output)['artifactFile']
     if Path(production_registry).resolve()!=destination_registry.resolve():
         from ..resource_identity import save_registry
         save_registry(Path(production_registry),load_registry(destination_registry),expected_fingerprint=fingerprint(source_now))
-    validate_artifact(read(output/'prepared-resources.json'),load_registry(destination_registry),
+    validate_artifact(read(delivered),load_registry(destination_registry),
                       office_category_ids=[c['id'] for c in previous['taxonomy']['categories']])
     evaluation=dict(artifactType='scout-housing-evaluation',evaluationOnly=True,importable=False,
         originalAssignment=read(root/'inputs/assignment.json'),curated=read(root/'reports/curated-with-selections.json'),
@@ -275,7 +275,7 @@ def _reconcile_and_export(root, *, production_registry, previous_artifact, desti
         if 'collection' not in p.parent.name and 'assemblyEvidence' in (value:=read(p))]
     evaluation['execution']['note']='Recorded recovery and scheduling changes are part of this trial; all prior usage is retained. Raw native responses remain in the Scout audit.'
     write_once(output/'evaluation.json',evaluation)
-    markdown,page=render_review(read(output/'prepared-resources.json'),evaluation,label)
+    markdown,page=render_review(read(delivered),evaluation,label)
     write_bytes_once(output/'review.html',page.encode())
     write_bytes_once(output/'starter-summary.md',markdown.encode())
     write_bytes_once(output/'evaluation-review.html',(root/'reports/reviewed-with-selections.html').read_bytes())
