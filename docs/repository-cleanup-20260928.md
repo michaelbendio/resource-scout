@@ -68,3 +68,14 @@ pre-merge bytes, and the archived-file manifest hashes match. All original branc
 tips are required ancestors of the final integration; main advances by fast-forward.
 Main’s five pre-existing untracked files have preservation hashes for the final check. No actual WSRS-TSO import or new
 resource-content review is implied by this repository merge.
+
+## Concurrent activity observed at the final check
+
+All committed Claude-branch work is included in main. Two new **uncommitted** edits
+(`evaluation/claude_code.py` and its test) appeared in the separate Claude checkout
+during integration. They are preserved there and in the local backup
+`claude-concurrent-draft.patch`; they were not silently included in the tested merge.
+The restarted Housing worker exited before the final stop signal. Its monitor was
+terminated, and the following process check found no Scout work remaining. The
+receipt is `data/repository-cleanup-20260928/final-stop.json` in the pairwise checkout.
+A future comparison must inspect its actual ledger/results before any replay.

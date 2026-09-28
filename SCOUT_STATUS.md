@@ -17,6 +17,13 @@ Stop receipt: `~/resource-scout-pairwise/data/scout-stop-20260928.json` (local, 
 The separate Claude-checkout Housing experiment was interrupted. Preserve its
 ledger; an in-flight request can have an unknown outcome. Do not replay or resume
 it automatically. The stop applies to all historical continuation authorizations.
+A later cleanup check saw the separate Claude run active again; its worker exited
+before termination, its monitor was stopped, and a final check found no Scout
+processes. The latest receipt is
+`~/resource-scout-pairwise/data/repository-cleanup-20260928/final-stop.json`.
+Two uncommitted Claude adapter/test edits appeared during integration; they remain
+in that checkout and in `claude-concurrent-draft.patch` beside the receipt. They
+are not part of the tested merge; inspect them before any future comparison run.
 
 The [four office-fit rules](docs/office-fit-rules-20260928.md) are now present in
 this checkout at `dfe6fb2`, including Michael's decision that phone and online
