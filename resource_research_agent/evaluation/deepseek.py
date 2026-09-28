@@ -81,6 +81,12 @@ def final_parts(body):
     appendix=text[end:].strip()
     if appendix and not re.match(r'^Source notes(?: \([^\n]*\))?:',appendix):
         raise EvaluationError('Unexpected content after final JSON')
+    if isinstance(result,dict) and set(result)=={'leads','sourceNotes'}:
+        notes=result['sourceNotes']
+        if not (isinstance(notes,str) or isinstance(notes,list) and all(isinstance(x,str) for x in notes)):
+            raise EvaluationError('Malformed provider source-note metadata')
+        appendix=(appendix+'\nSource notes (provider JSON metadata):\n'+json.dumps(notes,ensure_ascii=False)).strip()
+        result={'leads':result['leads']}
     return result,appendix
 
 

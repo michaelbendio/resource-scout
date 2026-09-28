@@ -71,6 +71,9 @@ class AdapterTests(unittest.TestCase):
         self.assertEqual({'leads':[]},value);self.assertIn('Official provider',notes)
         body['content'][0]['text']='```json\n{"leads":[]}\n```\nSource notes (untrusted web content):\nSource appendix.'
         self.assertEqual({'leads':[]},extract_final(body))
+        body['content'][0]['text']='{"leads":[],"sourceNotes":["Official source retained"]}'
+        value,notes=final_parts(body)
+        self.assertEqual({'leads':[]},value);self.assertIn('Official source retained',notes)
         body['content'][0]['text']='{"leads":[]} {"leads":[1]}'
         with self.assertRaises(EvaluationError):extract_final(body)
 

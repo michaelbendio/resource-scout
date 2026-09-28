@@ -24,8 +24,11 @@ def build_audit_packet(root, category='housing'):
         value=read(path);fresh.extend(value['result']['leads'])
         evidence.append(dict(path=str(path.relative_to(root)),sha256=file_hash(path)))
     labels=['A','B'];random.Random(read(root/'config.json')['sampleSeed']).shuffle(labels)
+    from ..importer import ResourcePackageImporter
+    baseline=ResourcePackageImporter(category).read(root/'inputs/office-package.zip')
     packet=dict(category=category,evaluationOnly=True,importable=False,
         criteria=read(root/'audit/criteria.json'),
+        commonKnownResources=baseline.target_resources,
         collections={labels[0]:original,labels[1]:fresh},
         limitations=['Labels conceal explicit provider attribution only; a reviewer may recognize historical examples.',
                     'Raw lead counts are not unique useful routes or quality scores.'],
