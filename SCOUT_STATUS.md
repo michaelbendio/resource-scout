@@ -4,6 +4,25 @@ Read this file and [orchestration instructions](docs/scout-orchestration.md)
 before operating or supervising Scout. Verify live process/database state;
 a monitor process is not a research worker.
 
+## Housing DeepSeek trial delivered — September 28
+
+The separately authorized trial is complete:104 original leads, 100 delivered records
+(92 usable reserves,8 needs-resolution), 10 starters. DeepSeek/max did curation and the
+single independent review; two curation batches ran concurrently, review sequentially.
+No office approval, agency verification or WSRS-TSO import is claimed.
+
+Files in `data/evaluations/implementation/deliveries/mesa-housing-deepseek-20260928/`:
+prepared-resources.json, evaluation.json, review.html and validation/usage receipts.
+[Results and timing](data/evaluations/implementation/docs/mesa-housing-preparation-review-results-20260928.md).
+82 tests pass; actual package/registry checks and offline resume passed. Registry
+synchronized with implementation:1923 identities, all old IDs/aliases retained.
+No paid worker remains; all 384 trial request outcomes are known. Including original
+research: 376.35 active minutes,390 requests. Actual billing remains unreconciled.
+
+Full Mesa's relevance hold remains; this is a separate Housing-only trial. Do not
+resume old production workers below. No Jev was used. The unrelated deleted proposal
+and untracked Jev files were preserved.
+
 ## Mesa relevance review reopened — September 27
 
 **Current acceptance status: hold broad missionary exposure of the full reserve.**
@@ -69,7 +88,7 @@ The original assembly is retained as the evidence basis of those judgments.
 
 The later identity pass is now complete for all 41 exact-name and 236 shared-website
 cases. A separate `review/assembly/consolidated/` layer applies the reviewed joins:
-**1,903 current identities**, 2,863 source occurrences, six historical-only groups,
+**1, 903 current identities**, 2,863 source occurrences, six historical-only groups,
 20 suppressed identities and zero conflicting established-ID unions. These remain
 staging counts. RSM food assistance and veteran rides are explicitly separate;
 the initial transitive join was corrected with its prior decision retained.
@@ -101,14 +120,14 @@ tax-year 2026/2027 veteran exemptions, Ozanam intake, MANA CRRC-only referrals,
 AZPVA equipment access and purpose-based DD214 copy fees.
 The later CPLC utility copy is now explicitly joined to its held existing canonical
 in a separate `review/assembly/final-source/` layer; Terri Cruz remains separate.
-This leaves **1,902 current identities**, plus six historical-only identities.
+This leaves **1, 902 current identities**, plus six historical-only identities.
 All 2,863 source occurrences and all 20 suppression decisions survive.
 
 Public-version selection now has **521 explicit hash-bound decisions** (queue cases
 0–519 plus one separately reviewed single-copy food resource), with **zero overlapping
 version sets pending**. A further 1,381 identities have a single source or
 identical public values, mechanically staged without a new semantic approval.
-The assembled-copy count is therefore 1,902; it is not an importable-resource count or completion claim.
+The assembled-copy count is therefore 1, 902; it is not an importable-resource count or completion claim.
 `verify-assembly-public-versions.py` passes two byte-identical regenerations and
 checks source preservation, holds, prior evidence and registry immutability.
 Programme-specific corrections include MFAC therapy separate from its parent,
@@ -186,7 +205,7 @@ DeepSeek remains the sole challenger. Public-push approval is still pending.
 Veterans batch3/8 is running (verify live state). Utilities review covers all149
 batch versions,125 drafts,171 dispositions,23 aggregate deltas and55 source-only
 groups/58members. Working ledgers have24 duplicate groups/30overlaps,93 membership
-reasons,13 Types,ten starters,18 usable reserve restorations,four cross-category
+reasons,13 Types,ten starters, 18 usable reserve restorations,four cross-category
 additions and68 content patches. Apply18 scoped programme/identity corrections
 before registry binding. Important resolutions include closed ConnectArizona phone
 navigators versus its current directory, frozen SRP medical-credit enrollment,
@@ -243,7 +262,7 @@ Public publication approval remains unanswered: do not push local commits/status
 Seniors batch5/7 is running (verify live state). Coordinator35515 and supervisor35517
 are live at High; current worker execution totals about978minutes. Root's single
 Extra High review has now checkpointed all159 Mental Health original versions,
-122aggregate drafts,188dispositions and61source-only groups. Working proposals have
+122aggregate drafts, 188dispositions and61source-only groups. Working proposals have
 14duplicate groups/16overlaps, six category removals, one scoped Terros composite,
 99retained reasons with13Types and explicit group/no-group decisions, ten starters,
 24reserve proposals (22usable/two administrator holds),28content patches and one
@@ -337,7 +356,7 @@ he answers. DeepSeek-only code4a5e523 was already successfully pushed earlier.
 Current-run worker execution totals about791minutes. Housing working review covers
 all231batch versions,191aggregate drafts,262candidate dispositions and56source-only
 groups/58members. Proposals include39duplicate groups/47overlaps,one Colorado
-not-offered record,143retained-membership reasons,12Types,explicit groups/no-group
+not-offered record, 143retained-membership reasons,12Types,explicit groups/no-group
 decisions,ten starters andten reserve additions/matches (nine usable,one hold).
 All13 earlier sealed category snapshots matched live result payloads and hashes;
 ID Recovery has now also completed and its root review is starting. These are
@@ -358,7 +377,7 @@ retries are exhausted. Any later failure needs diagnosis, not an unchanged retry
 At 18:40 UTC, twelve of21 research categories are prepared; Housing is on
 batch3/9. Current-run accumulated worker execution is about691.7minutes,
 plus the preserved initial attempt. The root reviewer has read all126 Homeless
-Services batch versions,77 aggregate drafts,144 candidate decisions and49
+Services batch versions,77 aggregate drafts, 144 candidate decisions and49
 source-only groups/members. Working proposals include two duplicate groups,
 two category removals,73 retained-category reasons,12 Types with explicit
 assignments,group/no-group decisions,ten starters and14 reserve proposals
@@ -475,7 +494,7 @@ details when later drafts shorten descriptions or omit contacts.
 
 Medical/Dental/Vision has working review decisions for all164 batch versions,
 124 aggregate drafts,177 candidate dispositions and64 source-only groups/65 members.
-Proposals contain22 duplicate groups/23 overlaps,100 retained-category reasons,
+Proposals contain22 duplicate groups/23 overlaps, 100 retained-category reasons,
 14 Types,explicit For-group/no-group decisions,ten starters and22 reserve additions
 or matches (21 usable,one administrator intake hold). These remain unapplied and
 unsigned. Preserve Sun Life Mesa services established by the full primary HTML,
@@ -848,7 +867,7 @@ Its unfinished local files remain outside the Las Vegas change scope.
 **Requested Codex review and actual Save/download verification are complete.**
 Do not restart this review or rerun installed proposal/completion mutations.
 
-- Final corpus: **1,096 resources, 21 Categories, 2,146 memberships, 470 Types,
+- Final corpus: **1,096 resources, 21 Categories, 2, 146 memberships, 470 Types,
   26 For groups**. Every resource/group partition and Type/priority decision is
   reviewed. No human Curated or human For-review approvals were added.
 - Audit root `data/welfare-square-curation-20260921/audit/final-navigation-review-001`.
@@ -910,7 +929,7 @@ counts and pending-item lists below. Las Vegas remains queued after actual revie
 browser verification and Save/download, at the previously authorized High effort.
 
 Final uninstalled decisions: **549/1,096** resource/all26-group reviews through
-`for-reviewed-043-v2.json`, and **710/2,145** category Type/priority reviews through030.
+`for-reviewed-043-v2.json`, and **710/2, 145** category Type/priority reviews through030.
 Next: For044 and Type/priority031. Use **corpus-snapshot-004.json**, **v4 helpers** and
 **catalog-decision-002.json**. Current curation fingerprint:
 `c933f246610b4552e64ec1da89be1672f7e3f1a070c6ddcd656f56031650761c`.
@@ -997,7 +1016,7 @@ resource/all26-group judgments (through029;020-v2 and026-v2 preserve validation
 repairs) and **297** per-category Type/priority judgments (through016). They are
 uninstalled. There are84 resources without earlier provisional For judgments left
 in the new-record queue; prior634 judgments still need final-body reconciliation.
-Full coverage remains1,096 resources /2,141 category memberships.
+Full coverage remains1,096 resources /2, 141 category memberships.
 
 `content-followups-001`–`005` remain unapplied: Habitat/Valley descriptions,
 two incidental Seniors memberships (GAU private guardianship and County Library
@@ -1023,7 +1042,7 @@ through `-016.json` contain213 explicit resource/all26-group judgments. Earlier
 634 provisional resource judgments still require final-body/catalog reconciliation.
 `navigation-priority-reviewed-001.json` through `-003.json` contain63 explicitly
 reviewed category/resource pairs with Types, priorities, reasons and evidence.
-They are uninstalled; full coverage is2,141 current category memberships.
+They are uninstalled; full coverage is2, 141 current category memberships.
 
 Primary dental source confirms dedicated geriatric dentistry: retain University
 of Utah Dental's Seniors membership/group (source-clarifications002). Two new
@@ -1083,7 +1102,7 @@ boundary. **Do not resume or start Las Vegas until he asks to resume.** Read the
 for exact pending retention/membership decisions. This supersedes earlier active
 continuation language below. Native research/curation21/21 are complete; no paid
 worker remains. Monitor-only6391/8770 was left running. Preservation06:25:52UTC
-passes37 research tables/146 original batch hashes;1,096unique IDs,328 shared-body
+passes37 research tables/146 original batch hashes;1,096unique IDs, 328 shared-body
 comparisons complete and115 applied field corrections. No database change since
 06:14:48UTC. Navigation, priorities, browser checks, completion and Save remain
 unfinished. Las Vegas is authorized later but has not been created or started.
@@ -1188,7 +1207,7 @@ complete, review still needed and no Save control. No workbench tab was open in
 the inspected two-tab window; browser-local storage has not been reset or declared
 empty. Rendered final workbench checks remain outstanding.
 
-Global audit `audit/global-review-001/` has reduced **1,101 to 1,096** unique IDs
+Global audit `audit/global-review-001/` has reduced **1, 101 to 1,096** unique IDs
 through source-backed identity consolidation: HCM Promotora, Housing Connect
 public/supportive pathways, and Utah Legal Services general intake. Named ULS
 special units, Housing Connect VAWA/FYI and other distinct pathways remain.
@@ -1244,7 +1263,7 @@ Pacific Islander pathways and Whole Health's LGBTQ+ group when finalizing groups
 No navigation/priority proposal or review-completion event is installed.
 
 Preservation at **05:13:10 UTC** passes **37 research tables / 146 reviewed original
-batch hashes**. Current completed-category IDs total **1,101**, not the final count.
+batch hashes**. Current completed-category IDs total **1, 101**, not the final count.
 Global identities, category fit, shared facts, remaining navigation, rendered
 reader/editor/filters/priorities and monitor Save remain unfinished. Preserve the
 unrelated tracked deletion and all source evidence. Zero human Curated approvals.
@@ -2802,7 +2821,7 @@ superseded by this completed Children/Pregnancy checkpoint comparison.
   worker minutes plus 4.4 minutes for the failed whole-category attempt;
   dispositions 134 curated / 106 merged / 24 omitted. Nine batches are validated.
 - Native successful-work input/output tokens: High 399,417 / 35,655;
-  Extra High 4,691,586 / 216,688. These are not dollar or quota figures.
+  Extra High 4,691,586 / 216, 688. These are not dollar or quota figures.
 - At the checkpoint, Clothing/Household and the other 18 categories were pending.
 
 The comparison is observational: both categories have the same four historical

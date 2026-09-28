@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "namespace": "ab607bd7-2b2c-42fc-aef6-2216dfebe9fb",
-  "nextSequence": 1892,
+  "nextSequence": 1924,
   "resources": {
     "sr_0ca1cfd158935bb2bc9a547de0c15520": {
       "sequence": 1,
@@ -7566,6 +7566,134 @@
     "sr_dbcd640be5e15234a282cac5c71a57cd": {
       "sequence": 1891,
       "initialLabel": "Connect Arizona — Internet and technology resource directory"
+    },
+    "sr_3cfe8f904d655ca880b2804b2b139e3b": {
+      "sequence": 1892,
+      "initialLabel": "A New Leaf · SAFEDVS 24-hour domestic violence hotline (former countywide screening line)"
+    },
+    "sr_1f2ad077ecd05bd5922d5876e07f1516": {
+      "sequence": 1893,
+      "initialLabel": "AffordableHousingHub.org (unofficial third-party) - waitlist & affordable-housing tracker for Mesa and Maricopa County"
+    },
+    "sr_d729d647dedb5c0caf921319ae4b5b6a": {
+      "sequence": 1894,
+      "initialLabel": "DDD Affordable Housing Program — Section 811 PRA, Coffelt-Lamoreaux and housing voucher referrals (DES Division of Developmental Disabilities)"
+    },
+    "sr_966788ddaf015d94848df3107dd8c87e": {
+      "sequence": 1895,
+      "initialLabel": "DDD Housing Specialists — referral route into the AHCCCS Housing Program and H2O"
+    },
+    "sr_a3a4c0c8c09259b2b659063bb6881f40": {
+      "sequence": 1896,
+      "initialLabel": "Arizona Department of Housing (ADOH) — Section 811 PRA (DDD referral) + statewide affordable-housing/LIHTC information"
+    },
+    "sr_6bed3dbabd0959e2a68da2a45232dbff": {
+      "sequence": 1897,
+      "initialLabel": "Arizona Complete Health Avondale Resource Center (city resource center & coordinated entry access point)"
+    },
+    "sr_a6a76caf6a715b19bd90af4f37a8706a": {
+      "sequence": 1898,
+      "initialLabel": "Chicanos Por La Causa (CPLC) - Housing & Community Development (income-restricted affordable housing communities)"
+    },
+    "sr_61298ddc13a559c6ba050cd8ee19c687": {
+      "sequence": 1899,
+      "initialLabel": "City of Phoenix Housing Department · Public Housing & Section 8 Housing Choice Voucher programs"
+    },
+    "sr_abce21463fa7514e904e559403411027": {
+      "sequence": 1900,
+      "initialLabel": "Sue's Espacio bridge shelter — City of Tempe (Mercy House case management)"
+    },
+    "sr_c09045cd220057bea6cb7dec6cb1c1a8": {
+      "sequence": 1901,
+      "initialLabel": "Step Into Housing — City of Tempe / Tempe Community Action Agency shelter-to-housing pathway"
+    },
+    "sr_b0c534d7eaeb57a6ad9af8831afd973c": {
+      "sequence": 1902,
+      "initialLabel": "Tempe Housing Services / Tempe Housing Authority — Section 8 HCV (waitlist closed), HOME TBRA and special-purpose vouchers"
+    },
+    "sr_99f92dd70ab55c288f80e344e0bd137e": {
+      "sequence": 1903,
+      "initialLabel": "Tempe River Bottom – Resource Village (City of Tempe with nonprofit/agency partners)"
+    },
+    "sr_36321bbc52755d10ba52f8b8da24a0ec": {
+      "sequence": 1904,
+      "initialLabel": "Coffelt-Lamoreaux Apartment Homes — 30 units reserved for DDD members"
+    },
+    "sr_6dd66ed30ec85393ace79795b81e33c8": {
+      "sequence": 1905,
+      "initialLabel": "Community Bridges, Inc. (CBI) — Mesa Tenant-Based Rental Assistance (TBRA)"
+    },
+    "sr_2d54accd4ccf503cab919d4e8bcdde2f": {
+      "sequence": 1906,
+      "initialLabel": "Community Bridges, Inc. (CBI) - Saguaro Shelter"
+    },
+    "sr_25b3536105e4509c9883fc639cb511a4": {
+      "sequence": 1907,
+      "initialLabel": "Dismas Charities, Inc. · Phoenix Residential Reentry Center"
+    },
+    "sr_ca60a68487a2583fa2a0eeef6699deb7": {
+      "sequence": 1908,
+      "initialLabel": "Escobedo at Verde Vista Phase II (LIHTC and project-based voucher community)"
+    },
+    "sr_e3477df305985e15bd8f721f54f7c790": {
+      "sequence": 1909,
+      "initialLabel": "AllThrive 365 (formerly Foundation for Senior Living / FSL) — Affordable Housing Communities"
+    },
+    "sr_090801dfdaaf5534bf8ebd7fbd41bafd": {
+      "sequence": 1910,
+      "initialLabel": "Gift of Mary Home (Missionaries of Charity) — Emergency Shelter for Women"
+    },
+    "sr_1498760198ab54b9ab6d35c99bf6e17c": {
+      "sequence": 1911,
+      "initialLabel": "House of Miracles, Inc. (HOMI) · Transitional & supportive housing navigation and basic-needs referrals"
+    },
+    "sr_2a8533f6a8c454a78663b3ee271c5168": {
+      "sequence": 1912,
+      "initialLabel": "Maricopa Association of Governments (MAG) / Maricopa Regional Continuum of Care · Coordinated Entry Access Points list (PDF)"
+    },
+    "sr_a47b062cd3725c98b0f5696ce7efd095": {
+      "sequence": 1913,
+      "initialLabel": "Paz de Cristo (COPA Health) · Mesa coordinated-entry access point"
+    },
+    "sr_05a601951faa57fba0910a2a9e312dd4": {
+      "sequence": 1914,
+      "initialLabel": "Phoenix Dream Center · Life Recovery Program (residential recovery for men and women)"
+    },
+    "sr_0b13acc75f0f5d3c807cd1fb5092a157": {
+      "sequence": 1915,
+      "initialLabel": "Sanctuary Recovery Centers / Sanctuary Sober Living — Residential Treatment and Recovery Housing, North Phoenix"
+    },
+    "sr_2a7048f43dc359679331019711cc3ae4": {
+      "sequence": 1916,
+      "initialLabel": "ARM of Save the Family — Affordable Rental Housing (Mesa and Maricopa County)"
+    },
+    "sr_605735d084f1540ea7ca39912c946f80": {
+      "sequence": 1917,
+      "initialLabel": "Society of St. Vincent de Paul (Phoenix) · Coordinated Entry Access Point and Charitable Assistance"
+    },
+    "sr_e378bd1a3d9d5c73908432f2694d08da": {
+      "sequence": 1918,
+      "initialLabel": "Southwest Behavioral & Health Services (SB&H) · HOPWA Housing Programs (HIV/AIDS)"
+    },
+    "sr_a4a36a7f9a7d5ed1a57133c6a1e8cff5": {
+      "sequence": 1919,
+      "initialLabel": "Prisma Community Care (formerly Southwest Center for HIV/AIDS) – HIV housing assistance (HOPWA)"
+    },
+    "sr_22607b927c4c59da90cd5a1affa5f165": {
+      "sequence": 1920,
+      "initialLabel": "The Salvation Army – Chandler Corps Community Center – Emergency rent and utility assistance"
+    },
+    "sr_195f41a33ea75655858d5b85a6bfb1ab": {
+      "sequence": 1921,
+      "initialLabel": "HUD-VASH (HUD-VA Supportive Housing) — VA Phoenix Health Care System"
+    },
+    "sr_9acfbc2a0bc15b8c88f5bd45e206d492": {
+      "sequence": 1922,
+      "initialLabel": "UMOM Summer Family Heat Relief — heat respite and hotel stays for families (City of Phoenix partnership)"
+    },
+    "sr_cf6b52fd481252eab7d1fba4a12ee1dc": {
+      "sequence": 1923,
+      "initialLabel": "UMOM Youth Outreach (ages 18-24)"
     }
   },
   "aliases": {
@@ -15312,7 +15440,108 @@
     "[\"mesa-legacy-resource\",\"ic_ff8661a076cfc18de4a8408c\"]": "sr_1b0113d7520451699356240e12b34901",
     "[\"mesa-legacy-resource\",\"ic_ffef86157adcca93fb038926\"]": "sr_dbcd640be5e15234a282cac5c71a57cd",
     "[\"mesa-legacy-resource\",\"restoration:utilities-phone-internet-reserve-restorations-working/review-addition:mesa-connect-arizona-directory\"]": "sr_dbcd640be5e15234a282cac5c71a57cd",
-    "[\"mesa-legacy-resource\",\"review-addition:mesa-connect-arizona-directory\"]": "sr_dbcd640be5e15234a282cac5c71a57cd"
+    "[\"mesa-legacy-resource\",\"review-addition:mesa-connect-arizona-directory\"]": "sr_dbcd640be5e15234a282cac5c71a57cd",
+    "[\"mesa-housing-deepseek-20260928\",\"b01-211-arizona\"]": "sr_e7d764731f2e52a99399e7c04d32abf0",
+    "[\"mesa-housing-deepseek-20260928\",\"b01-anl-autumn-house\"]": "sr_2a995efcc70750d88378f7df307e3061",
+    "[\"mesa-housing-deepseek-20260928\",\"b01-anl-evmc\"]": "sr_e3cbfdb67a125211a7286ca80a8f493a",
+    "[\"mesa-housing-deepseek-20260928\",\"b01-anl-helaman-house\"]": "sr_3f4b8bc397d95228a40e422660f9d7e8",
+    "[\"mesa-housing-deepseek-20260928\",\"b01-anl-mesacan\"]": "sr_64df21dc58035292b614bd02461bced5",
+    "[\"mesa-housing-deepseek-20260928\",\"b01-anl-rapid-rehousing\"]": "sr_a592cf82537557eebce4b24ff073a1cc",
+    "[\"mesa-housing-deepseek-20260928\",\"b01-anl-safedvs\"]": "sr_3cfe8f904d655ca880b2804b2b139e3b",
+    "[\"mesa-housing-deepseek-20260928\",\"b01-anl-la-mesita-apartments\"]": "sr_e0f32d713de35a1dbdc688f4a3bd9483",
+    "[\"mesa-housing-deepseek-20260928\",\"b02a-ability360-housing\"]": "sr_a17c5782800155cb9b11fe307d3df0dc",
+    "[\"mesa-housing-deepseek-20260928\",\"b02a-affordablehousinghub-tracker\"]": "sr_1f2ad077ecd05bd5922d5876e07f1516",
+    "[\"mesa-housing-deepseek-20260928\",\"b02a-red-cross-disaster-lodging\"]": "sr_3a769dcaa4da5d4d8a7cbcf23d650267",
+    "[\"mesa-housing-deepseek-20260928\",\"b02a-hopwa-care-directions\"]": "sr_a5fd9374371e5da4a01b1cb969790eac",
+    "[\"mesa-housing-deepseek-20260928\",\"b02b-ahcccs-housing-program\"]": "sr_f30ad4f695005f7a8b3a99c56c354e6a",
+    "[\"mesa-housing-deepseek-20260928\",\"b02b-stcs-family-crisis-assistance\"]": "sr_d389a192e73951a38ccaed463eee538c",
+    "[\"mesa-housing-deepseek-20260928\",\"b02b-ddd-affordable-housing\"]": "sr_d729d647dedb5c0caf921319ae4b5b6a",
+    "[\"mesa-housing-deepseek-20260928\",\"b02b-ddd-housing-specialists\"]": "sr_966788ddaf015d94848df3107dd8c87e",
+    "[\"mesa-housing-deepseek-20260928\",\"b03a-adoh-811-lihtc\"]": "sr_a3a4c0c8c09259b2b659063bb6881f40",
+    "[\"mesa-housing-deepseek-20260928\",\"b03a-h2o-solari\"]": "sr_303f463c54da515d91337ff69e7541d9",
+    "[\"mesa-housing-deepseek-20260928\",\"b03a-azrha\"]": "sr_15e7a58f7143508187a1fe9c123bae6b",
+    "[\"mesa-housing-deepseek-20260928\",\"b03a-azcend\"]": "sr_771ee14bd164581c8e696823168089c9",
+    "[\"mesa-housing-deepseek-20260928\",\"b03b-avondale-resource-center\"]": "sr_6bed3dbabd0959e2a68da2a45232dbff",
+    "[\"mesa-housing-deepseek-20260928\",\"b03b-my-sisters-place-dv-shelter\"]": "sr_140589f93d775e319d55ffd276162c7a",
+    "[\"mesa-housing-deepseek-20260928\",\"b03b-cass-single-adult-shelter\"]": "sr_c688376bfc405ead9f399d91dca91e83",
+    "[\"mesa-housing-deepseek-20260928\",\"b03b-cass-rapid-rehousing-prevention\"]": "sr_5a3761c9ba6c5bc5b5f9c215b1cd593b",
+    "[\"mesa-housing-deepseek-20260928\",\"b04a-cass-the-haven\"]": "sr_78780ff09bb6566f9af37c9362bf2da4",
+    "[\"mesa-housing-deepseek-20260928\",\"b04a-cass-vista-colina\"]": "sr_ae46d292047651a090dd2de847b7304d",
+    "[\"mesa-housing-deepseek-20260928\",\"b04a-cplc-decolores\"]": "sr_42db8451102354059a1f983c3674d32d",
+    "[\"mesa-housing-deepseek-20260928\",\"b04a-cplc-housing\"]": "sr_a6a76caf6a715b19bd90af4f37a8706a",
+    "[\"mesa-housing-deepseek-20260928\",\"b04b-cca-group-home\"]": "sr_2d7ee6e30ce65980a135ae847f7935b5",
+    "[\"mesa-housing-deepseek-20260928\",\"b04b-cca-mesa-shelter\"]": "sr_33737feccc5e5a38b09473a69213f106",
+    "[\"mesa-housing-deepseek-20260928\",\"b04b-circle-the-city-respite\"]": "sr_56f089b3005e55f69c821c79ff63547b",
+    "[\"mesa-housing-deepseek-20260928\",\"b04b-mesa-housing-authority\"]": "sr_e7455c0ee9d454a78c1a82b22c7d8ee0",
+    "[\"mesa-housing-deepseek-20260928\",\"b05a-mesa-security-utility-deposit\"]": "sr_a644f60fc9665ad6acd36b3062a657a8",
+    "[\"mesa-housing-deepseek-20260928\",\"b05a-mesa-homeless-resource-line\"]": "sr_1a4dd5bd715f51448631258bb6a06293",
+    "[\"mesa-housing-deepseek-20260928\",\"b05a-mesa-off-the-streets\"]": "sr_a26416335c3d5c0487dafa0ee9427ee7",
+    "[\"mesa-housing-deepseek-20260928\",\"b10a-mesa-off-the-streets\"]": "sr_a26416335c3d5c0487dafa0ee9427ee7",
+    "[\"mesa-housing-deepseek-20260928\",\"b05a-phoenix-housing-department\"]": "sr_61298ddc13a559c6ba050cd8ee19c687",
+    "[\"mesa-housing-deepseek-20260928\",\"b05b-hopwa-city-of-phoenix\"]": "sr_766178eba8615ef5a5f2f7ed638fc323",
+    "[\"mesa-housing-deepseek-20260928\",\"b05b-sues-espacio\"]": "sr_abce21463fa7514e904e559403411027",
+    "[\"mesa-housing-deepseek-20260928\",\"b05b-step-into-housing\"]": "sr_c09045cd220057bea6cb7dec6cb1c1a8",
+    "[\"mesa-housing-deepseek-20260928\",\"b05b-tempe-housing-services\"]": "sr_b0c534d7eaeb57a6ad9af8831afd973c",
+    "[\"mesa-housing-deepseek-20260928\",\"b06a-tempe-resource-village\"]": "sr_99f92dd70ab55c288f80e344e0bd137e",
+    "[\"mesa-housing-deepseek-20260928\",\"b06a-tempe-care-hope-line\"]": "sr_4c3fcdb87a39551fb92f1f00cf004dcc",
+    "[\"mesa-housing-deepseek-20260928\",\"b06a-coffelt-lamoreaux-ddd\"]": "sr_36321bbc52755d10ba52f8b8da24a0ec",
+    "[\"mesa-housing-deepseek-20260928\",\"b06a-cbi-mesa-tbra\"]": "sr_6dd66ed30ec85393ace79795b81e33c8",
+    "[\"mesa-housing-deepseek-20260928\",\"b06b1-cbi-ce-path-bridge-housing\"]": "sr_ec1f1358102a5b648648ec873e914fa2",
+    "[\"mesa-housing-deepseek-20260928\",\"b06b1-cbi-saguaro-shelter\"]": "sr_2d54accd4ccf503cab919d4e8bcdde2f",
+    "[\"mesa-housing-deepseek-20260928\",\"b06b2-cbi-smi-supportive-housing\"]": "sr_db0a3b40e4695f4da10b271e7bb11e80",
+    "[\"mesa-housing-deepseek-20260928\",\"b07a-dismas-phoenix-rrc\"]": "sr_25b3536105e4509c9883fc639cb511a4",
+    "[\"mesa-housing-deepseek-20260928\",\"b07a-doves-aaar1\"]": "sr_16ebd638505851159d5b22ec13d25a5d",
+    "[\"mesa-housing-deepseek-20260928\",\"b07a-escobedo-verde-vista-ii\"]": "sr_ca60a68487a2583fa2a0eeef6699deb7",
+    "[\"mesa-housing-deepseek-20260928\",\"b07b-family-promise-mesa-house\"]": "sr_4dcaf550bc8254bfad84499b030e174b",
+    "[\"mesa-housing-deepseek-20260928\",\"b07b-first-place-phoenix-apartments\"]": "sr_553d7cc87e8d5079a6514124c1ca504c",
+    "[\"mesa-housing-deepseek-20260928\",\"b07b-flocrit-uplift\"]": "sr_822f5184ed4e5bb991a913df9821f361",
+    "[\"mesa-housing-deepseek-20260928\",\"b07b-foster360\"]": "sr_11a6fd2bbdc554b483a4075fed3ec4c9",
+    "[\"mesa-housing-deepseek-20260928\",\"b08a-allthrive-365-affordable-housing\"]": "sr_e3477df305985e15bd8f721f54f7c790",
+    "[\"mesa-housing-deepseek-20260928\",\"b08a-gift-of-mary-home\"]": "sr_090801dfdaaf5534bf8ebd7fbd41bafd",
+    "[\"mesa-housing-deepseek-20260928\",\"b08a-umom-helping-hands-affordable-housing\"]": "sr_2369fff62a6352e783da4d0b45a4200f",
+    "[\"mesa-housing-deepseek-20260928\",\"b08a-homeward-bound-thunderbird\"]": "sr_70f5eebe65755cc48fde25ba41ce053c",
+    "[\"mesa-housing-deepseek-20260928\",\"b08b-homi-housing-navigation\"]": "sr_1498760198ab54b9ab6d35c99bf6e17c",
+    "[\"mesa-housing-deepseek-20260928\",\"b08b-house-of-refuge-mesa\"]": "sr_4793d14d6d925b91b248f3cb8d1d63d1",
+    "[\"mesa-housing-deepseek-20260928\",\"b08b-hamc-housing-vouchers\"]": "sr_7431c0b7b49d534e9bdba232fc14474d",
+    "[\"mesa-housing-deepseek-20260928\",\"b08b-keystochange-keycampus\"]": "sr_9b9610c5d69450aa81c207edc2a5341e",
+    "[\"mesa-housing-deepseek-20260928\",\"b09a-brian-garcia-welcome-center\"]": "sr_ed41f25f673351c389522106a89b9dc2",
+    "[\"mesa-housing-deepseek-20260928\",\"b09a-respiro-shelter\"]": "sr_1a2f4c8242c65a90bd382fc0c4174e45",
+    "[\"mesa-housing-deepseek-20260928\",\"b09a-lost-our-home-temporary-care\"]": "sr_57d4c9adbb58505d851c87c53857ed5d",
+    "[\"mesa-housing-deepseek-20260928\",\"b09a-ihelp-mesa\"]": "sr_dfccb27b23bb5d0ca16f828ccc157408",
+    "[\"mesa-housing-deepseek-20260928\",\"b09b-maggies-place-hannah-house-bunkhouse\"]": "sr_362bc814c31a5049a2f58afd28de9a7d",
+    "[\"mesa-housing-deepseek-20260928\",\"b09b-mana-house-veteran-transitional-housing\"]": "sr_823a1c6a447657e89988c9f8b34a01de",
+    "[\"mesa-housing-deepseek-20260928\",\"b09b-mag-coc-coordinated-entry-access-points\"]": "sr_2a8533f6a8c454a78663b3ee271c5168",
+    "[\"mesa-housing-deepseek-20260928\",\"b10a-hand-in-hand-street-outreach\"]": "sr_e80df0c77949520a8c72e80fb1656cbd",
+    "[\"mesa-housing-deepseek-20260928\",\"b10a-maricopa-coordinated-entry\"]": "sr_02029bfe0907540eb30473ae6cc23d84",
+    "[\"mesa-housing-deepseek-20260928\",\"b10a-mercy-housing-mesa-senior-meadows\"]": "sr_b38b544713d0572380dd0ca5887213c7",
+    "[\"mesa-housing-deepseek-20260928\",\"b10b-nac-homebase\"]": "sr_66f486658e7657929322ba76ee2610b9",
+    "[\"mesa-housing-deepseek-20260928\",\"b10b-new-life-center\"]": "sr_c2251a1ea3e25efcbacc826a51e1481a",
+    "[\"mesa-housing-deepseek-20260928\",\"b10b-cass-nrec\"]": "sr_dc517e3927bf5c9d82288081a48265d1",
+    "[\"mesa-housing-deepseek-20260928\",\"b10b-oxford-house\"]": "sr_f1ff68b154b655dd9198399359ffe531",
+    "[\"mesa-housing-deepseek-20260928\",\"b11a-pazdecristo-copa-nav\"]": "sr_a47b062cd3725c98b0f5696ce7efd095",
+    "[\"mesa-housing-deepseek-20260928\",\"b11a-phoenix-dream-center-life-recovery\"]": "sr_05a601951faa57fba0910a2a9e312dd4",
+    "[\"mesa-housing-deepseek-20260928\",\"b11a-prm-changing-lives-center\"]": "sr_16ffe33e67a752b9b2deb18770e31a32",
+    "[\"mesa-housing-deepseek-20260928\",\"b11a-prm-street-outreach\"]": "sr_012d2088bf60568699e5b2d81b8995b1",
+    "[\"mesa-housing-deepseek-20260928\",\"b11b-safe-place-youth-crisis\"]": "sr_bd64f58b38575dd594a2049c99372740",
+    "[\"mesa-housing-deepseek-20260928\",\"b11b-sanctuary-recovery-centers\"]": "sr_0b13acc75f0f5d3c807cd1fb5092a157",
+    "[\"mesa-housing-deepseek-20260928\",\"b11b-stf-arm\"]": "sr_2a7048f43dc359679331019711cc3ae4",
+    "[\"mesa-housing-deepseek-20260928\",\"b11b-stf-rrh-faces\"]": "sr_ad8c5d6ad05c5f27bd8c2740767445db",
+    "[\"mesa-housing-deepseek-20260928\",\"b12a-svdp-ce-access\"]": "sr_605735d084f1540ea7ca39912c946f80",
+    "[\"mesa-housing-deepseek-20260928\",\"b12a-ozanam-manor\"]": "sr_93885b628f4d53a99c16fcc8a0671b7e",
+    "[\"mesa-housing-deepseek-20260928\",\"b12a-sojourner-center\"]": "sr_6ea8a9d69e8a5cc7a3321d0f3db6a8c5",
+    "[\"mesa-housing-deepseek-20260928\",\"b12a-sbh-hopwa\"]": "sr_e378bd1a3d9d5c73908432f2694d08da",
+    "[\"mesa-housing-deepseek-20260928\",\"b12b-prisma-hopwa\"]": "sr_a4a36a7f9a7d5ed1a57133c6a1e8cff5",
+    "[\"mesa-housing-deepseek-20260928\",\"b12b-tcaa-ihelp\"]": "sr_2a8adbf0af7958ec815ab62d1f26455b",
+    "[\"mesa-housing-deepseek-20260928\",\"b12b-sa-chandler\"]": "sr_22607b927c4c59da90cd5a1affa5f165",
+    "[\"mesa-housing-deepseek-20260928\",\"b12b-va-crrc\"]": "sr_1b416d1e12195620b0febce7a38ca564",
+    "[\"mesa-housing-deepseek-20260928\",\"b13a-hud-vash-va-phoenix\"]": "sr_195f41a33ea75655858d5b85a6bfb1ab",
+    "[\"mesa-housing-deepseek-20260928\",\"b13a-usvets-phoenix\"]": "sr_7fc0bc2613a655c287aa8a6ef3616ee1",
+    "[\"mesa-housing-deepseek-20260928\",\"b13a-umom-family-housing-hub\"]": "sr_1363d6df256355f486175a608fa640f7",
+    "[\"mesa-housing-deepseek-20260928\",\"b13a-umom-family-heat-relief\"]": "sr_9acfbc2a0bc15b8c88f5bd45e206d492",
+    "[\"mesa-housing-deepseek-20260928\",\"b13b-umom-family-shelter\"]": "sr_72048fef24a85deb9fa86402a19dde08",
+    "[\"mesa-housing-deepseek-20260928\",\"b13b-umom-halle-womens-center\"]": "sr_3720243638fc5e96865ce7fb64c43951",
+    "[\"mesa-housing-deepseek-20260928\",\"b13b-umom-youth-crisis-ilp\"]": "sr_0ec0783b96e55cfe93d1fa529bb97ea4",
+    "[\"mesa-housing-deepseek-20260928\",\"b13b-umom-youth-outreach-1824\"]": "sr_cf6b52fd481252eab7d1fba4a12ee1dc"
   },
   "events": [
     {
@@ -41427,6 +41656,1007 @@
       ],
       "label": "Connect Arizona — Internet and technology resource directory",
       "reason": "Reviewed programme identity: Connect Arizona — Internet and technology resource directory. Consolidate 1 source occurrence(s) under the documented programme boundary; preserve distinct services and all prior boundary decisions."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_e7d764731f2e52a99399e7c04d32abf0",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b01-211-arizona"
+      ],
+      "label": "211 Arizona Helpline (2-1-1)",
+      "reason": "Statewide referral helpline; distinct from local routing lines and provider records. Registry reconciliation: Same program: Arizona's statewide 211 helpline (Solari) providing live shelter/housing/rent/utility referral navigation; existing record '211 Arizona — Community-resource navigation' matches on name, service and contacts."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_2a995efcc70750d88378f7df307e3061",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b01-anl-autumn-house"
+      ],
+      "label": "A New Leaf · Autumn House Domestic Violence Shelter (East Valley/Mesa)",
+      "reason": "East Valley DV shelter; distinct from the SAFEDVS screening-line record and other DV shelters; the misattribution of Autumn House to Sojourner is corrected in the Sojourner record. Registry reconciliation: Same program: A New Leaf's Autumn House DV shelter/transitional housing, East Valley; existing record matches on name and operator."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_e3cbfdb67a125211a7286ca80a8f493a",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b01-anl-evmc"
+      ],
+      "label": "A New Leaf · East Valley Men's Center (EVMC)",
+      "reason": "Mesa single-men's shelter; distinct from A New Leaf's other programs. Registry reconciliation: Same program: A New Leaf East Valley Men's Center, 2345 N Country Club Dr, Mesa; existing record matches program name and operator."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_3f4b8bc397d95228a40e422660f9d7e8",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b01-anl-helaman-house"
+      ],
+      "label": "A New Leaf · Helaman House (bridge/transitional housing, Mesa)",
+      "reason": "Unresolved bridge-housing lead; the name collides with an unrelated recovery home; kept for administrator verification. Registry reconciliation: Same program: A New Leaf Helaman House bridge housing at 1311 E University Dr (unresolved operation); existing record matches the same named lead."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_64df21dc58035292b614bd02461bced5",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b01-anl-mesacan"
+      ],
+      "label": "A New Leaf · MesaCAN Rent and Utility Assistance",
+      "reason": "MesaCAN rent/utility aid; distinct from the state STCS program it helps administer; appointment-window conflict preserved. Registry reconciliation: Same program: A New Leaf/MesaCAN rent, mortgage and utility assistance at 635 E Broadway Rd; existing record matches name, address and phone."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_a592cf82537557eebce4b24ff073a1cc",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b01-anl-rapid-rehousing"
+      ],
+      "label": "A New Leaf · Rapid ReHousing (rental subsidy and case management)",
+      "reason": "Distinct rental-subsidy program; coordinated-entry-only intake preserved. Registry reconciliation: Same program: A New Leaf Rapid ReHousing (rental subsidy and case management, coordinated-entry intake); existing record matches program name."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_3cfe8f904d655ca880b2804b2b139e3b",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b01-anl-safedvs"
+      ],
+      "label": "A New Leaf · SAFEDVS 24-hour domestic violence hotline (former countywide screening line)",
+      "reason": "Former countywide DV screening line; separate from Autumn House; May 2026 closure conflict preserved as needs-resolution. Registry reconciliation: Distinct from sr_4cc86f9b659556d89a2844c15ced0ca0 (DVSTOP): this record is the A New Leaf domestic-violence access/screening line itself — historically the countywide SAFEDVS line that assessed callers and matched them to shelter openings — while DVSTOP is one downstream placement program the line screens into (short-term hotel/overflow placement when Maricopa County DV shelters are full), alongside Autumn House and other A New Leaf DV services. 480-890-3039 is the shared A New Leaf DV entry number (Autumn House also lists it), so the same-number legacy record describes a different program/function, not an alternative identity for the line; the pending staffing/scope question is operational, not an identity duplication. No genuine unresolved same-program alternative remains, so the possible-duplicate list is emptied."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_e0f32d713de35a1dbdc688f4a3bd9483",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b01-anl-la-mesita-apartments"
+      ],
+      "label": "A New Leaf · La Mesita Apartments (affordable housing and project-based vouchers, Mesa)",
+      "reason": "Specific property, separate from the Mesa Housing Authority and Escobedo Phase II; open-waitlist vs Referral Only conflict preserved. Registry reconciliation: Same program: A New Leaf La Mesita Apartments, 2254 W Main St, Mesa; existing record matches the property and leasing route."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_a17c5782800155cb9b11fe307d3df0dc",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b02a-ability360-housing"
+      ],
+      "label": "Ability360 (formerly Arizona Bridge to Independent Living) - housing information & referral, home modifications, Mainstream voucher partnership",
+      "reason": "Disability housing information and home-modification service; current Mainstream voucher status unconfirmed. Registry reconciliation: Same program: Ability360 Center for Independent Living information & referral (housing questions) with the home-modification program and Mainstream partnership; existing CIL record matches the organization's access route."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_1f2ad077ecd05bd5922d5876e07f1516",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b02a-affordablehousinghub-tracker"
+      ],
+      "label": "AffordableHousingHub.org (unofficial third-party) - waitlist & affordable-housing tracker for Mesa and Maricopa County",
+      "reason": "Unofficial tracker kept as a monitoring lead, not merged with the authorities it mirrors (data unverifiable, no intake role). Registry reconciliation: Distinct new program: an unofficial third-party waitlist/affordable-housing tracker with no intake role; no existing registry record for this site, and it must not be merged with the housing authorities it mirrors."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_3a769dcaa4da5d4d8a7cbcf23d650267",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b02a-red-cross-disaster-lodging"
+      ],
+      "label": "American Red Cross - Disaster Services, Phoenix (emergency lodging/shelter for people displaced by home fires & other disasters)",
+      "reason": "Disaster-triggered program only; not a general hotel-voucher route; outdated phone premise resolved. Registry reconciliation: Same program: American Red Cross disaster relief/recovery (Phoenix/Central Arizona), including emergency lodging for disaster displacement; existing record matches the program and contacts."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_a5fd9374371e5da4a01b1cb969790eac",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b02a-hopwa-care-directions"
+      ],
+      "label": "Area Agency on Aging, Region One - HOPWA Housing Information Services (HIV Care Directions)",
+      "reason": "HOPWA housing-information access point; separate from the grantee/central intake and provider records. Registry reconciliation: Same program: HIV Care Directions (Area Agency on Aging, Region One) HOPWA Housing Information Services at 1366 E Thomas Rd, 602-264-2273; existing record matches name, service and phone."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_f30ad4f695005f7a8b3a99c56c354e6a",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b02b-ahcccs-housing-program"
+      ],
+      "label": "AHCCCS Housing Program (AHP) — Statewide Permanent Supportive Housing (administrator: Arizona Behavioral Health Corporation with HOM, Inc.)",
+      "reason": "State permanent supportive housing program; distinct from H2O and the DDD referral route. Registry reconciliation: Same program: state AHCCCS Housing Program (AHP) administered by ABC/HOM; existing record matches program identity and administrator."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_d389a192e73951a38ccaed463eee538c",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b02b-stcs-family-crisis-assistance"
+      ],
+      "label": "Short-Term Crisis Services (STCS) — Arizona DES emergency housing help for families with children",
+      "reason": "State family crisis fund; distinct from MesaCAN's own programs; income-ceiling wording discrepancy preserved. Registry reconciliation: Same program: Arizona DES Short-Term Crisis Services (STCS) family emergency assistance applied through local Community Action Agencies/MesaCAN; existing record covers this program's Mesa intake route."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_d729d647dedb5c0caf921319ae4b5b6a",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b02b-ddd-affordable-housing"
+      ],
+      "label": "DDD Affordable Housing Program — Section 811 PRA, Coffelt-Lamoreaux and housing voucher referrals (DES Division of Developmental Disabilities)",
+      "reason": "DDD referral umbrella (811 PRA, Coffelt, vouchers); distinct from the specialists function, the property record and ADOH's administration. Registry reconciliation: Distinct new program: DES/DDD affordable-housing referral lanes (811 PRA, Coffelt-Lamoreaux set-aside, voucher referrals); no existing registry record covers this DDD housing program."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_966788ddaf015d94848df3107dd8c87e",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b02b-ddd-housing-specialists"
+      ],
+      "label": "DDD Housing Specialists — referral route into the AHCCCS Housing Program and H2O",
+      "reason": "DDD referral function into AHP/H2O; distinct from those programs. Registry reconciliation: Distinct new identity: the internal DDD Housing Specialist referral function into AHP/H2O; no existing record, and it must stay separate from the destination programs."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_a3a4c0c8c09259b2b659063bb6881f40",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b03a-adoh-811-lihtc"
+      ],
+      "label": "Arizona Department of Housing (ADOH) — Section 811 PRA (DDD referral) + statewide affordable-housing/LIHTC information",
+      "reason": "State agency 811 PRA administration plus statewide affordable-housing search; not an open waitlist. Registry reconciliation: Distinct from sr_c778fdb8d23753c8b7fe0266419febfd (HousingSearch.AZ.gov): the new identity is the state housing agency itself — ADOH as HUD's Section 811 PRA grantee for the DDD referral pathway plus its statewide affordable-housing/LIHTC information and public-question functions — while the legacy record is only a free rental-listing search tool/call center that the ADOH record references as one public search route. A search tool is not the same program as the agency's 811 PRA administration (different scope and service function; the agency record is not an umbrella that absorbs the tool). No genuine unresolved same-program alternative remains."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_303f463c54da515d91337ff69e7541d9",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b03a-h2o-solari"
+      ],
+      "label": "AHCCCS Housing and Health Opportunities (H2O) Demonstration — Solari Program Administrator",
+      "reason": "Medicaid H2O demonstration; distinct from AHP; external referrals currently not accepted. Registry reconciliation: Same program: AHCCCS H2O demonstration administered by Solari (support line 1-855-814-4673); existing record matches program and administrator."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_15e7a58f7143508187a1fe9c123bae6b",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b03a-azrha"
+      ],
+      "label": "Arizona Recovery Housing Association (AzRHA) — certified recovery residence search",
+      "reason": "Certification body and search tool; not a provider; per-home fees unknown. Registry reconciliation: Same program: Arizona Recovery Housing Association certified-home search; existing record matches name and search tool."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_771ee14bd164581c8e696823168089c9",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b03a-azcend"
+      ],
+      "label": "AZCEND — East Valley shelter (I-HELP), rent & utility assistance, senior home sharing",
+      "reason": "East Valley services; CAP excludes Mesa while Senior Home Sharing includes it - both preserved. Registry reconciliation: Same organization's flagged core program: AZCEND I-HELP East Valley shelter; the reviewed umbrella also bundles the rent/utility and home-sharing services whose separate legacy entries are flagged for reconciliation rather than merged."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_6bed3dbabd0959e2a68da2a45232dbff",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b03b-avondale-resource-center"
+      ],
+      "label": "Arizona Complete Health Avondale Resource Center (city resource center & coordinated entry access point)",
+      "reason": "Southwest Valley coordinated entry/resource center; older name, address and number corrected. Registry reconciliation: Distinct from both considered legacy IDs: sr_3482231e7e2c55bb80af5caf607d0978 is the Community Action financial-assistance program (limited utility/mortgage/rental help) and sr_47c699bd9e8452fe823ca85dc50f8ce8 is the SONAR municipal street-outreach/navigation program; the new identity is the resource center/coordinated-entry access point at 995 E. Riley Dr. that hosts or coordinates such services for the Southwest Valley (the record itself gives SONAR's separate outreach number, 623-333-2713). The shared legacy phone 623-333-2703 and co-location are access conventions, not program identity — the center is an assessment and referral point, not the financial-assistance program or the outreach program. No genuine unresolved same-program alternative remains."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_140589f93d775e319d55ffd276162c7a",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b03b-my-sisters-place-dv-shelter"
+      ],
+      "label": "My Sisters' Place — confidential domestic-violence shelter (Catholic Charities Community Services)",
+      "reason": "East Valley DV shelter; distinct from Autumn House (separate operator); related-name check preserved. Registry reconciliation: Same program: Catholic Charities My Sisters' Place confidential East Valley DV shelter, 480-821-1024; existing record matches the shelter."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_c688376bfc405ead9f399d91dca91e83",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b03b-cass-single-adult-shelter"
+      ],
+      "label": "Central Arizona Shelter Services (CASS) — Single Adult Shelter (main campus)",
+      "reason": "CASS single-adult shelter; distinct from CASS's other programs and campus-level records. Registry reconciliation: Same program: CASS single-adult shelter with Welcome Center intake; existing record matches the shelter and case management."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_5a3761c9ba6c5bc5b5f9c215b1cd593b",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b03b-cass-rapid-rehousing-prevention"
+      ],
+      "label": "Central Arizona Shelter Services (CASS) — Rapid Re-Housing & Prevention (housing programs)",
+      "reason": "CASS housing program; distinct from CASS shelters; historical name flagged. Registry reconciliation: Same program: CASS Rapid Re-Housing and Prevention (coordinated entry via 211); existing record matches name and routing."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_78780ff09bb6566f9af37c9362bf2da4",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b04a-cass-the-haven"
+      ],
+      "label": "The Haven (Central Arizona Shelter Services) - emergency shelter for adults 55+",
+      "reason": "55+ shelter; distinct CASS program; capacity (130 units vs about 170 beds) preserved. Registry reconciliation: Same program: CASS The Haven 55+ shelter near I-17/Northern; existing record matches the program."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_ae46d292047651a090dd2de847b7304d",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b04a-cass-vista-colina"
+      ],
+      "label": "Vista Colina Family Shelter (Central Arizona Shelter Services)",
+      "reason": "Family shelter; distinct CASS program; unit-count and stay-limit conflicts preserved. Registry reconciliation: Same program: CASS Vista Colina family shelter, 1050 W Mountain View Rd; existing record matches name and location."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_42db8451102354059a1f983c3674d32d",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b04a-cplc-decolores"
+      ],
+      "label": "De Colores (Chicanos Por La Causa) - domestic and sexual violence shelter and services",
+      "reason": "DV program; distinct from CPLC's housing development arm. Registry reconciliation: Same program: Chicanos Por La Causa De Colores domestic and sexual violence services, 24-hour hotline 602-269-1515; existing record matches program and contacts."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_a6a76caf6a715b19bd90af4f37a8706a",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b04a-cplc-housing"
+      ],
+      "label": "Chicanos Por La Causa (CPLC) - Housing & Community Development (income-restricted affordable housing communities)",
+      "reason": "CPLC housing development; distinct from De Colores; per-property details unverified. Registry reconciliation: Distinct new program: CPLC Housing & Community Development (LIHTC portfolio incl. Ascent on Broadway and planned Mesa Royale); no existing registry record for the development arm - CPLC counseling entries are separate programs."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_2d7ee6e30ce65980a135ae847f7935b5",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b04b-cca-group-home"
+      ],
+      "label": "Child Crisis Arizona · Group home for teen boys in foster care (ages 11–17, Mesa)",
+      "reason": "Teen boys' group home; distinct from the CCA children's shelter; age wording preserved. Registry reconciliation: Same program: Child Crisis Arizona group home for teen boys in foster care (Mesa, placement via DCS/tribal services); existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_33737feccc5e5a38b09473a69213f106",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b04b-cca-mesa-shelter"
+      ],
+      "label": "Child Crisis Arizona · Emergency children's shelter — Mesa (Whiteman's Safe Haven, ages 2–10)",
+      "reason": "Children's shelter ages 2-10; distinct from the group home; also known as Whiteman's Safe Haven. Registry reconciliation: Same program: Child Crisis Arizona emergency children's shelter (ages 2-10, Mesa); existing record matches the shelter."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_56f089b3005e55f69c821c79ff63547b",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b04b-circle-the-city-respite"
+      ],
+      "label": "Circle the City · Medical respite centers and care for adults experiencing homelessness",
+      "reason": "Medical respite and mobile care; coordinated admission, not walk-in. Registry reconciliation: Same program: Circle the City medical respite centers and mobile medical care; existing record matches the respite service and routing."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_e7455c0ee9d454a78c1a82b22c7d8ee0",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b04b-mesa-housing-authority"
+      ],
+      "label": "City of Mesa Housing Authority · Section 8 HCV, project-based, Mainstream, VASH, FUP, EHV and TBRA/deposit assistance",
+      "reason": "Mesa PHA; separate from the specific PBV properties and the deposit record; closed HCV list preserved. Registry reconciliation: Same program: City of Mesa Housing Authority umbrella (HCV, PBV, FUP, HUD-VASH, deposit assistance) at 200 S Center St; existing umbrella record matches, with split legacy program records flagged."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_a644f60fc9665ad6acd36b3062a657a8",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b05a-mesa-security-utility-deposit"
+      ],
+      "label": "City of Mesa Housing Authority · Security and Utility Deposit Program",
+      "reason": "Deposit help; distinct from authority vouchers and MesaCAN; 2026 suspension note preserved. Registry reconciliation: Same program: City of Mesa Security and Utility Deposit Assistance Program administered by the Mesa Housing Authority; existing record matches name and office."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_1a4dd5bd715f51448631258bb6a06293",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b05a-mesa-homeless-resource-line"
+      ],
+      "label": "City of Mesa - Office of Homeless Solutions · Mesa Homeless Resource Line (480-644-HOPE)",
+      "reason": "Mesa staffed routing line; distinct from Off the Streets and 211; hours unposted. Registry reconciliation: Same program: City of Mesa Office of Homeless Solutions Homeless Resource Line, 480-644-HOPE; existing record matches the staffed line."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_a26416335c3d5c0487dafa0ee9427ee7",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b05a-mesa-off-the-streets",
+        "b10a-mesa-off-the-streets"
+      ],
+      "label": "City of Mesa - Office of Homeless Solutions · Off the Streets emergency shelter (Windermere Hotel site)",
+      "reason": "Aliases of one program (b05a + b10a): b10a carried the Windermere site and Mercy House operator transition (Sunaire never opened; may be sold); b05a carried wait/outcome details (about 6 weeks and 109 singles waiting; 65 rooms/111 beds; about 86% positive exits). All differing supported facts preserved; consolidated to one identity. Registry reconciliation: Same program: City of Mesa Off the Streets emergency shelter (Windermere Hotel site, referral-only via 480-644-HOPE); this canonical identity consolidates the two reviewed proposals (29 and 66) and matches the existing Off the Streets record."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_61298ddc13a559c6ba050cd8ee19c687",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b05a-phoenix-housing-department"
+      ],
+      "label": "City of Phoenix Housing Department · Public Housing & Section 8 Housing Choice Voucher programs",
+      "reason": "Phoenix PHA; distinct from Mesa/Tempe/HAMC; public-housing list status unconfirmed. Registry reconciliation: Distinct from sr_ee8764943b48562b9d2e4185f206fb85 (Phoenix HUD-VASH): the legacy record covers only the department's HUD-VASH voucher subset (homeless-veteran vouchers with VA case management and a VA-referral route), while the new identity is the City of Phoenix Housing Department (PHA) itself, administering public housing, the Section 8 HCV program and multiple special-purpose vouchers. A specific voucher subset is not the same program as the department umbrella — voucher subsets are tracked as distinct service records (e.g., the separate VA-side HUD-VASH identity) — so the legacy record is flagged as related, not merged. No genuine unresolved same-program alternative remains."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_766178eba8615ef5a5f2f7ed638fc323",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b05b-hopwa-city-of-phoenix"
+      ],
+      "label": "HOPWA (Housing Opportunities for Persons with AIDS) — STRMU, Permanent Housing Placement, TBRA and supportive housing (City of Phoenix)",
+      "reason": "HOPWA grantee with central intake; distinct from provider records and the Housing Department. Registry reconciliation: Same program: City of Phoenix HOPWA grantee housing and utility assistance (Central Intake 602-534-2433); existing record matches the HOPWA program."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_abce21463fa7514e904e559403411027",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b05b-sues-espacio"
+      ],
+      "label": "Sue's Espacio bridge shelter — City of Tempe (Mercy House case management)",
+      "reason": "Tempe bridge shelter; distinct from other Tempe programs; HOPE-team referral. Registry reconciliation: Distinct new program: City of Tempe Sue's Espacio bridge shelter, 2101 E. Apache Blvd (Mercy House case management, CARE & HOPE referral); no existing registry record."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_c09045cd220057bea6cb7dec6cb1c1a8",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b05b-step-into-housing"
+      ],
+      "label": "Step Into Housing — City of Tempe / Tempe Community Action Agency shelter-to-housing pathway",
+      "reason": "Tempe/TCAA pathway; distinct from I-HELP intake and Sue's Espacio; current operation unconfirmed. Registry reconciliation: Distinct new program: City of Tempe/TCAA Step Into Housing shelter-to-housing pathway; no existing registry record, kept separate from TCAA I-HELP and Tempe housing records."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_b0c534d7eaeb57a6ad9af8831afd973c",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b05b-tempe-housing-services"
+      ],
+      "label": "Tempe Housing Services / Tempe Housing Authority — Section 8 HCV (waitlist closed), HOME TBRA and special-purpose vouchers",
+      "reason": "Tempe PHA; waitlist closed; address/suite corrected. Registry reconciliation: Distinct new program: Tempe Housing Services/Tempe Housing Authority (HCV waitlist closed, HOME TBRA, special vouchers); no existing registry record for the authority."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_99f92dd70ab55c288f80e344e0bd137e",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b06a-tempe-resource-village"
+      ],
+      "label": "Tempe River Bottom – Resource Village (City of Tempe with nonprofit/agency partners)",
+      "reason": "Historical village; own identity with a historical warning; not merged with the CARE & HOPE line it points to. Registry reconciliation: Distinct historical identity: Tempe River Bottom Resource Village (2022-2023, needs-resolution); no existing registry record and it must not be merged with the current CARE & HOPE line."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_4c3fcdb87a39551fb92f1f00cf004dcc",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b06a-tempe-care-hope-line"
+      ],
+      "label": "City of Tempe CARE & HOPE Line / HOPE Street Outreach Team",
+      "reason": "Tempe outreach line; current program. Registry reconciliation: Same program: City of Tempe HOPE outreach team and CARE & HOPE Line, 480-350-8004; existing record matches name, line and role."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_36321bbc52755d10ba52f8b8da24a0ec",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b06a-coffelt-lamoreaux-ddd"
+      ],
+      "label": "Coffelt-Lamoreaux Apartment Homes — 30 units reserved for DDD members",
+      "reason": "Property record; separate from the DDD umbrella; unit-size wording preserved. Registry reconciliation: Distinct new program: Coffelt-Lamoreaux Apartment Homes 30-unit DDD set-aside property; no existing registry record for this property-level DDD program."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_6dd66ed30ec85393ace79795b81e33c8",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b06a-cbi-mesa-tbra"
+      ],
+      "label": "Community Bridges, Inc. (CBI) — Mesa Tenant-Based Rental Assistance (TBRA)",
+      "reason": "CBI TBRA; distinct from CBI's other records. Registry reconciliation: Distinct from sr_40b988302a2f5860b199c3f90a1b53a1 (City of Mesa HOME TBRA): that legacy record is the City of Mesa's HOME TBRA funding program — the municipality's program that supports nonprofit subrecipient TBRA programs plus its own limited city-administered deposit route tied to Housing Choice Voucher households — while the new identity is Community Bridges, Inc.'s Mesa TBRA service line, a subrecipient-administered program delivered through CBI's navigators and 24/7 access line (funded by City HOME TBRA/CDBG). Different administering entity, program role and referral route (City deposit route vs CBI navigator access), so the City record is not the same program as CBI TBRA. No genuine unresolved same-program alternative remains."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_ec1f1358102a5b648648ec873e914fa2",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b06b1-cbi-ce-path-bridge-housing"
+      ],
+      "label": "Community Bridges, Inc. (CBI) - Coordinated Entry, PATH Outreach & Hotel Bridge Housing",
+      "reason": "CBI coordinated entry/PATH/bridge; distinct from CBI SMI housing and TBRA. Registry reconciliation: Same program cluster: CBI coordinated entry/PATH outreach and shelter navigation; existing record matches CBI's shelters/outreach/PATH entry, with the Rio Fresco bridge-housing legacy entry flagged."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_2d54accd4ccf503cab919d4e8bcdde2f",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b06b1-cbi-saguaro-shelter"
+      ],
+      "label": "Community Bridges, Inc. (CBI) - Saguaro Shelter",
+      "reason": "Saguaro site; distinct CBI shelter; intake unpublished. Registry reconciliation: Distinct site record: CBI Saguaro Shelter, 8101 N Black Canyon Hwy; no existing registry record for this shelter site, kept separate from other CBI programs."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_db0a3b40e4695f4da10b271e7bb11e80",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b06b2-cbi-smi-supportive-housing"
+      ],
+      "label": "Community Bridges, Inc. (CBI) · Supportive Housing for Adults with Serious Mental Illness",
+      "reason": "CBI SMI supportive housing; Mercy Care coordination is not a named program. Registry reconciliation: Same program line: CBI permanent supportive housing and rapid rehousing service line (Mesa/Phoenix sites, 877-931-9142); existing record matches the supportive-housing services that the SMI record documents."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_25b3536105e4509c9883fc639cb511a4",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b07a-dismas-phoenix-rrc"
+      ],
+      "label": "Dismas Charities, Inc. · Phoenix Residential Reentry Center",
+      "reason": "Unresolved reentry lead; Tucson is the verified Arizona site. Registry reconciliation: Different program, so the flag resolves as distinct rather than merged: sr_94f097363b98559d89808b3146b6c91a (Behavioral Systems Southwest · Phoenix Residential Re-Entry Center, 2846 E. Roosevelt Rd.) is BSS's BOP/U.S. Probation-contracted program, while Dismas Charities' only verified Arizona residential reentry center is in Tucson and no Dismas-operated Phoenix facility or contract could be confirmed. The 'Phoenix RRC' name overlap is generic service-type wording, not identity (program-specific evidence: operator, contract, location), and a different operator's program is not a same-program alternative; no existing Dismas record exists to match. The record's genuine unresolved element (whether any Dismas Phoenix facility exists at all) is retained in its own needs-resolution state with the supported contact route (dismas.com; BOP/probation/corrections; 211 Arizona) and is not transferred into the duplicate field; no genuine duplicate found."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_16ebd638505851159d5b22ec13d25a5d",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b07a-doves-aaar1"
+      ],
+      "label": "DOVES (Area Agency on Aging, Region One) - domestic violence services for older adults (50+)",
+      "reason": "Older-adult DV program; distinct from Care Directions HOPWA at the same agency. Registry reconciliation: Same program: Area Agency on Aging, Region One DOVES (late-life DV services, 24-hour Senior HELP LINE 602-264-4357); existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_ca60a68487a2583fa2a0eeef6699deb7",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b07a-escobedo-verde-vista-ii"
+      ],
+      "label": "Escobedo at Verde Vista Phase II (LIHTC and project-based voucher community)",
+      "reason": "Property record; distinct from La Mesita and the authority; Referral Only status preserved. Registry reconciliation: Distinct entity and function, so the flag resolves as not-a-duplicate: this identity is the property itself (Escobedo at Verde Vista Phase II, 435 N. Hibbert — 62 LIHTC units, some assisted with project-based vouchers), while the considered sr_9f7f515389eb5bbaad5d98b969085dfd is the City of Mesa Housing Authority's referral-only Project-Based Voucher program — a subsidy/referral mechanism covering multiple sites (La Mesita and this property). A voucher program that references a property is not the same program as the property; the relationship is a different service/referral function (and a Phase I/Phase II boundary on the same site), so nothing is retained as a same-program alternative, no merge is made, and no genuine duplicate found."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_4dcaf550bc8254bfad84499b030e174b",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b07b-family-promise-mesa-house"
+      ],
+      "label": "Family Promise of Greater Phoenix – Mesa House family shelter (plus congregation-network shelter)",
+      "reason": "Mesa family shelter; 60 vs 90-day conflict preserved. Registry reconciliation: Same program: Family Promise of Greater Phoenix family shelter/stabilization; existing record matches the shelter, with the prevention and graduate-support legacy entries flagged."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_553d7cc87e8d5079a6514124c1ca504c",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b07b-first-place-phoenix-apartments"
+      ],
+      "label": "First Place AZ – First Place–Phoenix Apartments (supportive apartments; residential Transition Academy with SARRC)",
+      "reason": "Supportive apartments plus academy; distinct from DDD and property records; costs uncertain. Registry reconciliation: Same program: First Place-Phoenix Apartments and Transition Academy, 3001 N Third St; existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_822f5184ed4e5bb991a913df9821f361",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b07b-flocrit-uplift"
+      ],
+      "label": "Florence Crittenton Services of Arizona – UPLIFT permanent supportive housing",
+      "reason": "Small permanent supportive housing program; homepage fetch failure disclosed, not closure. Registry reconciliation: Same program: Florence Crittenton Services of Arizona permanent supportive housing at 715 W Mariposa St (UPLIFT); existing record matches the agency's PSH program."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_11a6fd2bbdc554b483a4075fed3ec4c9",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b07b-foster360"
+      ],
+      "label": "Foster360 – housing and wraparound services for youth aging out of foster care",
+      "reason": "Aged-out foster youth housing; age conflict (18-23 vs 18-24) preserved. Registry reconciliation: Same program: Foster360 housing and wraparound services for youth aging out of foster care, 137 E University Dr, Mesa; existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_e3477df305985e15bd8f721f54f7c790",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b08a-allthrive-365-affordable-housing"
+      ],
+      "label": "AllThrive 365 (formerly Foundation for Senior Living / FSL) — Affordable Housing Communities",
+      "reason": "Portfolio record; rebrand from Foundation for Senior Living clarified. Registry reconciliation: Distinct new program: AllThrive 365 (formerly Foundation for Senior Living) affordable-housing communities; no existing registry record for the housing portfolio - existing AllThrive entries cover other services."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_090801dfdaaf5534bf8ebd7fbd41bafd",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b08a-gift-of-mary-home"
+      ],
+      "label": "Gift of Mary Home (Missionaries of Charity) — Emergency Shelter for Women",
+      "reason": "Small women's shelter; no official intake page; call-first cautions. Registry reconciliation: Distinct new program: Gift of Mary Home (Missionaries of Charity) small women's emergency shelter, 1406 S 17th Ave; no existing registry record."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_2369fff62a6352e783da4d0b45a4200f",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b08a-umom-helping-hands-affordable-housing"
+      ],
+      "label": "UMOM New Day Centers / Helping Hands Housing Services — Permanent Affordable Housing Communities",
+      "reason": "Affordable communities; distinct from UMOM shelters; current list replaced older description. Registry reconciliation: Same program: UMOM/Helping Hands Housing Services permanent affordable housing communities; existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_70f5eebe65755cc48fde25ba41ce053c",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b08a-homeward-bound-thunderbird"
+      ],
+      "label": "Homeward Bound — Thunderbird Apartments (A New Leaf)",
+      "reason": "Thunderbird Apartments; Mesa contracting detail preserved as a limit. Registry reconciliation: Same program: the former Homeward Bound campus repositioned as A New Leaf Thunderbird Apartments, 2302 W Colter St; existing unresolved-status record matches the same property."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_1498760198ab54b9ab6d35c99bf6e17c",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b08b-homi-housing-navigation"
+      ],
+      "label": "House of Miracles, Inc. (HOMI) · Transitional & supportive housing navigation and basic-needs referrals",
+      "reason": "Navigation nonprofit; own units unconfirmed. Registry reconciliation: Distinct new program: House of Miracles (HOMI) transitional/supportive housing navigation; no existing registry record."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_4793d14d6d925b91b248f3cb8d1d63d1",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b08b-house-of-refuge-mesa"
+      ],
+      "label": "House of Refuge · Transitional housing program for families experiencing homelessness (Mesa, AZ)",
+      "reason": "Transitional program; rent/deposit/screening conditions preserved. Registry reconciliation: Same program: House of Refuge Mesa family transitional housing; existing record matches the program and supports."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_7431c0b7b49d534e9bdba232fc14474d",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b08b-hamc-housing-vouchers"
+      ],
+      "label": "Housing Authority of Maricopa County (HAMC) · Housing Choice Vouchers & special voucher programs (Emergency Housing Vouchers winding down)",
+      "reason": "County PHA; jurisdiction excludes most of Mesa; list statuses preserved. Registry reconciliation: Same program: Housing Authority of Maricopa County rental assistance programs and wait list; existing record matches the authority's voucher programs, with split special-voucher records flagged."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_9b9610c5d69450aa81c207edc2a5341e",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b08b-keystochange-keycampus"
+      ],
+      "label": "Keys to Change (Human Services Campus) · Key Campus emergency shelter & nightly overflow - Brian Garcia Welcome Center (single adults, Phoenix)",
+      "reason": "Campus hub; distinct from the Welcome Center, CASS shelter and Respiro; overflow reduction preserved. Registry reconciliation: Supported match: sr_9b9610c5d69450aa81c207edc2a5341e is the broader campus-services legacy identity for the same operator (Keys to Change), same Key Campus site (204/206 S. 12th Ave.), same single-adult population, and same walk-in intake route, and its scope runs past the coordinated-entry front door into the campus service array (diversion, screening, shelter referrals, mail, showers, storage, ID, benefits, medical/dental, employment, heat relief, legal, pets, campus partners) that constitutes this hub - so it supports matching the campus hub rather than remaining only a possible overlap. No distinction is invented between these descriptions of the same campus front door, and the separately frozen Welcome Center keeps its own coordinated-entry match sr_ed41f25f673351c389522106a89b9dc2. sr_9903ee1ba4415ae488305aee2c4a36e4 (CASS/Keys to Change campus benefits and ID case management) stays genuinely ambiguous as a possible program within the hub's service array, so it is retained as a possible duplicate; this match deletes and merges nothing."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_ed41f25f673351c389522106a89b9dc2",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b09a-brian-garcia-welcome-center"
+      ],
+      "label": "Brian Garcia Welcome Center – single adult coordinated entry (Keys to Change)",
+      "reason": "Single-adult coordinated entry; distinct access point; phone variants and hours guidance preserved. Registry reconciliation: Same program: Brian Garcia Welcome Center single-adult coordinated entry at Key Campus (602-883-4509/602-229-5155); existing record matches the entrance point."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_1a2f4c8242c65a90bd382fc0c4174e45",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b09a-respiro-shelter"
+      ],
+      "label": "Respiro Emergency Shelter (Keys to Change · Key Campus)",
+      "reason": "95-bed shelter; distinct program; pet policy preserved. Registry reconciliation: Same program: Respiro Emergency Shelter on Key Campus (95 beds, pets allowed); existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_57d4c9adbb58505d851c87c53857ed5d",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b09a-lost-our-home-temporary-care"
+      ],
+      "label": "Lost Our Home Pet Rescue – Temporary Care Program",
+      "reason": "Pet care only; no human housing. Registry reconciliation: Same program: Lost Our Home Pet Rescue Temporary Care Program (up to 90/120 days of pet care); existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_dfccb27b23bb5d0ca16f828ccc157408",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b09a-ihelp-mesa"
+      ],
+      "label": "I-HELP Mesa – Interfaith Homeless Emergency Lodging Program",
+      "reason": "Mesa I-HELP lead; operator largely resolved to Lutheran Social Services of the Southwest serving adult women; current operation and intake unresolved; separate from the TCAA and AZCEND I-HELP chapters. Registry reconciliation: Same program: LSS-SW I-HELP emergency housing (Mesa), intake 480-684-0645, current operation unresolved; existing record matches, with the second legacy I-HELP lead record flagged."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_362bc814c31a5049a2f58afd28de9a7d",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b09b-maggies-place-hannah-house-bunkhouse"
+      ],
+      "label": "Maggie's Place · Shelter services at The Hannah House and Bunkhouse",
+      "reason": "Maternity home; stay-length variations preserved. Registry reconciliation: Same program: Maggie's Place maternity homes and resident support (Hannah House/Bunkhouse, centralized intake 602-246-3724); existing record matches, with the Family Success Center legacy entry flagged."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_823a1c6a447657e89988c9f8b34a01de",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b09b-mana-house-veteran-transitional-housing"
+      ],
+      "label": "MANA House · Veteran transitional housing",
+      "reason": "Veteran transitional program; CRRC-only referral. Registry reconciliation: Same program: Catholic Charities MANA House veteran transitional housing, 2422 W Holly St, CRRC-referral only; existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_2a8533f6a8c454a78663b3ee271c5168",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b09b-mag-coc-coordinated-entry-access-points"
+      ],
+      "label": "Maricopa Association of Governments (MAG) / Maricopa Regional Continuum of Care · Coordinated Entry Access Points list (PDF)",
+      "reason": "CoC access-points artifact; distinct from the County page; fetch limitation disclosed. Registry reconciliation: Cleared as a distinct companion artifact, not claimed or merged: sr_02029bfe0907540eb30473ae6cc23d84 (Maricopa County's Help with Homelessness routing page) is a separate official resource — different publisher, format and role — from the CoC's access-points list, and it is already the identifier for the frozen county-navigation identity (b10a-maricopa-coordinated-entry), so it must not be claimed here. The acknowledged cross-batch overlap is a companion cross-reference/collection-review note rather than a genuinely unresolved same-program alternative, so nothing is retained in the duplicate field; no genuine same-program duplicate was found, and the list stands as its own navigation resource."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_e80df0c77949520a8c72e80fb1656cbd",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b10a-hand-in-hand-street-outreach"
+      ],
+      "label": "Hand in Hand Street Outreach – Maricopa County Human Services Department",
+      "reason": "County outreach; historical jail framing flagged; Mesa excluded. Registry reconciliation: Same program: Maricopa County Hand in Hand Street Outreach (602-506-0589); existing street-outreach record matches, with the older justice-involved collaborative record flagged as the historical alias thread."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_02029bfe0907540eb30473ae6cc23d84",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b10a-maricopa-coordinated-entry"
+      ],
+      "label": "Maricopa County – Help with Homelessness (Coordinated Entry Access Points)",
+      "reason": "County routing page; distinct artifact from the MAG access-points list. Registry reconciliation: Same program: Maricopa County Help with Homelessness coordinated-entry routing page; existing county directory record matches the routing artifact."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_b38b544713d0572380dd0ca5887213c7",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b10a-mercy-housing-mesa-senior-meadows"
+      ],
+      "label": "Mercy Housing – Mesa Senior Meadows (Mesa, AZ)",
+      "reason": "Mesa senior property; unverified third-party listing flagged. Registry reconciliation: Same program: Mercy Housing Mesa Senior Meadows, 333 E 6th St, Mesa (62+, accepting applications); existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_66f486658e7657929322ba76ee2610b9",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b10b-nac-homebase"
+      ],
+      "label": "Native American Connections · HomeBase / youth and Native-adult coordinated entry",
+      "reason": "NAC youth/Native coordinated entry and shelters; age disagreements preserved. Registry reconciliation: Same program cluster: Native American Connections HomeBase youth shelter/youth housing (602-263-5531); existing record matches the HomeBase services, with the NAC Native-adult coordinated-entry legacy record flagged."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_c2251a1ea3e25efcbacc826a51e1481a",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b10b-new-life-center"
+      ],
+      "label": "New Life Center · Emergency domestic-violence shelter",
+      "reason": "110-bed DV shelter; confidential West Valley location. Registry reconciliation: Same program: New Life Center DV shelter and survivor advocacy (623-932-4404, confidential Goodyear/West Valley); existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_dc517e3927bf5c9d82288081a48265d1",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b10b-cass-nrec"
+      ],
+      "label": "Central Arizona Shelter Services · Norton & Ramsey Social Justice Empowerment Center (Glendale coordinated entry access point)",
+      "reason": "Glendale access point; walk-in status conflicted; needs-resolution. Registry reconciliation: Same program: CASS Norton & Ramsey Social Justice Empowerment Center (formerly NREC) Glendale access point, 623-207-8902; existing record matches the site."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_f1ff68b154b655dd9198399359ffe531",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b10b-oxford-house"
+      ],
+      "label": "Oxford House, Inc. · Oxford House sober-living residences (self-run recovery housing)",
+      "reason": "Sober-living network; vacancy locator preserved. Registry reconciliation: Same program: Oxford House sober-living network, Mesa-area houses; existing record matches the organization and locator route."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_a47b062cd3725c98b0f5696ce7efd095",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b11a-pazdecristo-copa-nav"
+      ],
+      "label": "Paz de Cristo (COPA Health) · Mesa coordinated-entry access point",
+      "reason": "Mesa coordinated-entry site; distinct from the list records that include it. Registry reconciliation: Distinct new program: COPA Health community navigation office (Mesa coordinated-entry access point) at Paz de Cristo, 424 W Broadway Rd; no existing record for the navigation office."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_05a601951faa57fba0910a2a9e312dd4",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b11a-phoenix-dream-center-life-recovery"
+      ],
+      "label": "Phoenix Dream Center · Life Recovery Program (residential recovery for men and women)",
+      "reason": "Residential recovery; unpublished rules preserved. Registry reconciliation: Distinct new program: Phoenix Dream Center Life Recovery residential recovery (3210 Grand Ave); no existing record - Where Hope Lives is a separate trafficking program already in the registry."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_16ffe33e67a752b9b2deb18770e31a32",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b11a-prm-changing-lives-center"
+      ],
+      "label": "Phoenix Rescue Mission · Changing Lives Center (women and children residential recovery)",
+      "reason": "Women/children recovery campus; appointment-only intake. Registry reconciliation: Same program: Phoenix Rescue Mission Transformations Recovery Program run at the Changing Lives Center for Women & Children, 338 N 15th Ave; existing record matches, with the short-term residential legacy record flagged."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_012d2088bf60568699e5b2d81b8995b1",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b11a-prm-street-outreach"
+      ],
+      "label": "Phoenix Rescue Mission · Street Outreach Hotline (Hope Coach) and Get Help line",
+      "reason": "Outreach hotline; distinct from PRM's residential programs. Registry reconciliation: Same program: Phoenix Rescue Mission Hope Coach street outreach / Get Help line (602-346-3361; 602-233-3000); existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_bd64f58b38575dd594a2049c99372740",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b11b-safe-place-youth-crisis"
+      ],
+      "label": "Safe Place — Youth Crisis Entry (Ages 12–17), Maricopa County",
+      "reason": "Youth crisis entry; 44357 text code current, 69866 legacy; Child Crisis Arizona operator. Registry reconciliation: Same program: Safe Place youth crisis entry (ages 12-17), Child Crisis Arizona operator, 602-841-5799 / text 44357; existing Child Crisis Arizona record matches, with the older MAG directory listing flagged."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_0b13acc75f0f5d3c807cd1fb5092a157",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b11b-sanctuary-recovery-centers"
+      ],
+      "label": "Sanctuary Recovery Centers / Sanctuary Sober Living — Residential Treatment and Recovery Housing, North Phoenix",
+      "reason": "Treatment-linked housing; coverage signals conflict. Registry reconciliation: Distinct new program: Sanctuary Recovery Centers/Sanctuary Sober Living residential treatment and recovery housing (North Phoenix sites); no existing registry record."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_2a7048f43dc359679331019711cc3ae4",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b11b-stf-arm"
+      ],
+      "label": "ARM of Save the Family — Affordable Rental Housing (Mesa and Maricopa County)",
+      "reason": "Affordable portfolio; distinct from STF's RRH/FACES. Registry reconciliation: Distinct affiliated program: ARM (Affordable Rental Movement) is Save the Family's separate affordable-housing nonprofit (170+ scattered homes; its own eligibility rules and a temporarily closed waitlist), while the considered sr_ad8c5d6ad05c5f27bd8c2740767445db is the Save-the-Family umbrella family-housing/supportive-services record — which itself separates the 'related ARM affordable rentals [with] separate eligibility and waitlist rules' — and it is already assigned to the frozen RRH/FACES identity (b11b-stf-rrh-faces), so it cannot be claimed. Sharing the umbrella organization's office address/phone (125 E. University Dr.; 480-898-0228) is not same-program evidence; the flag is cleared, no merge is made, and no genuine duplicate for ARM was found."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_ad8c5d6ad05c5f27bd8c2740767445db",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b11b-stf-rrh-faces"
+      ],
+      "label": "Save the Family — Rapid Rehousing and FACES Supportive Services (Mesa)",
+      "reason": "RRH/FACES; distinct from ARM; Hub screening. Registry reconciliation: Same program: Save the Family family housing and supportive services (rapid rehousing, TBRA, FACES supports, Family Housing Hub intake); existing record matches the family housing/supportive services scope."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_605735d084f1540ea7ca39912c946f80",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b12a-svdp-ce-access"
+      ],
+      "label": "Society of St. Vincent de Paul (Phoenix) · Coordinated Entry Access Point and Charitable Assistance",
+      "reason": "Campus coordinated entry/charity; distinct from Ozanam Manor; hours conflict preserved. Registry reconciliation: Distinct access-point identity; the three considered records are separate St. Vincent de Paul service/function entries, not the same program as this campus coordinated-entry identity (420 W. Watkins Rd.; 602-266-4673). sr_00f4e6afacd959c88c9a3df46f15b5cd is the neighborhood-conference Rent, Mortgage and Utility Assistance program (financial-assistance routing); sr_2ab4521b60fd500fb69faec398a58826 is the Watkins Resource Center day-services access point at 320 W. Watkins Rd. with its own phone (602-261-6883) and showers/clothing/haircuts/ID/referral services; sr_cf9251e242215208bb6ee1b87c9c73d7 is the parish-conference thrift gift-card/Mesa assistance routing function. Each differs in service or referral function from the campus coordinated-entry identity; sharing the SVdP agency, the Watkins-area campus and the HOPE line does not merge them. Cleared - no genuinely unresolved same-program alternative."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_93885b628f4d53a99c16fcc8a0671b7e",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b12a-ozanam-manor"
+      ],
+      "label": "Society of St. Vincent de Paul (Phoenix) · Ozanam Manor (Interim/Transitional Housing)",
+      "reason": "Interim housing; 55+ resolved to current materials with the older 50+ note. Registry reconciliation: Same program: SVdP Ozanam Manor interim/transitional housing, 320 W Watkins Rd, screening 602-850-6900; existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_6ea8a9d69e8a5cc7a3321d0f3db6a8c5",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b12a-sojourner-center"
+      ],
+      "label": "Sojourner Center · Emergency Domestic-Violence Shelter and 24/7 Hotline",
+      "reason": "DV shelter and hotline; Autumn House misattribution corrected. Registry reconciliation: Same program: Sojourner Center emergency shelter, transitional housing and pet companion services, 24-hour hotline 602-244-0089; existing record matches, with the second shelter/outreach legacy record flagged."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_e378bd1a3d9d5c73908432f2694d08da",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b12a-sbh-hopwa"
+      ],
+      "label": "Southwest Behavioral & Health Services (SB&H) · HOPWA Housing Programs (HIV/AIDS)",
+      "reason": "HOPWA provider; legacy phone numbers preserved. Registry reconciliation: Distinct program; the considered legacy entry is not the same identity. sr_85bf9730c545566683f63781df561678 is Southwest Behavioral & Health Services' voluntary In Home Permanent Supportive Housing service - support delivered in a person's home and community to help maintain housing of choice - whereas this record is SB&H's HOPWA-funded housing program for people living with HIV/AIDS: up to 24 months of transitional housing in leased or agency-owned units, income-based resident contribution, intensive supportive services, and referral through Care Directions (602-264-2273). Different funding (City of Phoenix HOPWA), eligibility (HIV/AIDS diagnosis, income at or below 80% AMI, Maricopa/Pinal counties) and service model (unit-based transitional housing vs in-home PSH support) separate the two; the shared SB&H name, main office and phone numbers are not identity evidence. No existing SB&H HOPWA record exists, so no genuinely unresolved same-program alternative remains."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_a4a36a7f9a7d5ed1a57133c6a1e8cff5",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b12b-prisma-hopwa"
+      ],
+      "label": "Prisma Community Care (formerly Southwest Center for HIV/AIDS) – HIV housing assistance (HOPWA)",
+      "reason": "HOPWA-affiliated provider (renamed from Southwest Center for HIV/AIDS); exact housing service to confirm. Registry reconciliation: Distinct service; the considered legacy entry is not the same identity. sr_972e77146d395742a6eaa962a3fa58a5 is Prisma Community Care's health clinic and PrEP record (primary care, mental health care, HIV/STI testing and treatment, PrEP/PEP, HIV care, gender-affirming care, navigation and social support); this record is the HIV housing assistance/HOPWA linkage identity, reached through the City of Phoenix HOPWA system (602-534-2433 option 3; phoenix.gov/HOPWA). Same organization, address and phone, but a different service and access route - the clinic's navigation/social-support scope is not the HOPWA housing program. Cleared - no genuinely unresolved same-program alternative."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_2a8adbf0af7958ec815ab62d1f26455b",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b12b-tcaa-ihelp"
+      ],
+      "label": "Tempe Community Action Agency (TCAA) – I-HELP Emergency Shelter",
+      "reason": "Tempe I-HELP; distinct from the Mesa lead and AZCEND's Chandler chapter. Registry reconciliation: Same program: Tempe Community Action Agency I-HELP emergency shelter, 2146 E Apache Blvd (480-389-1277 / 480-590-5514); existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_22607b927c4c59da90cd5a1affa5f165",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b12b-sa-chandler"
+      ],
+      "label": "The Salvation Army – Chandler Corps Community Center – Emergency rent and utility assistance",
+      "reason": "Chandler financial aid; reported motel-voucher service not found. Registry reconciliation: Distinct service; the considered legacy entry is not the same identity. sr_a23fee480dab5fd6b552df0f8f2a0380 documents the site's seasonal heat respite/basic daytime support listing (city phone 480-782-4349); this record is the Salvation Army Chandler Corps' emergency rent/utility assistance program - Chandler/Gilbert/Sun Lakes service area, 24-month no-repeat rule, phone-message intake at 480-963-2041, funding not guaranteed. Same site and organization, but a different service, eligibility set and contact route; the new record's cooling-center reference is a site feature, not the heat-respite program. Cleared - no genuinely unresolved same-program alternative."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_1b416d1e12195620b0febce7a38ca564",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b12b-va-crrc"
+      ],
+      "label": "VA Community Resource & Referral Center (CRRC) – Phoenix (veteran housing and coordinated entry)",
+      "reason": "Veterans' access point; distinct from the HUD-VASH program record. Registry reconciliation: Same program: Phoenix VA Community Resource and Referral Center (veteran coordinated entry/one-stop), 1500 E Thomas Rd, 602-248-6040; existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_195f41a33ea75655858d5b85a6bfb1ab",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b13a-hud-vash-va-phoenix"
+      ],
+      "label": "HUD-VASH (HUD-VA Supportive Housing) — VA Phoenix Health Care System",
+      "reason": "Voucher program; distinct from the CRRC referral point. Registry reconciliation: Distinct VA-operated role, not another description of the same authority-administered service: the VA side of HUD-VASH is eligibility, intake/referral, and VA case management and clinical support, entered only through VA (Phoenix VA CRRC 602-248-6040, walk-in; National Call Center 877-424-3838, 24/7), and veterans cannot obtain a HUD-VASH voucher directly from a housing authority. Each suggested authority record administers the voucher for its own jurisdiction under the same federal program: sr_b5a92afb4bba5e06bc77cc1eee7e001b (Housing Authority of Maricopa County, 602-744-4500), sr_ed044f6234995b03af76a5f64c1fea7e (Mesa Housing Authority, 480-644-3536; routes access through the VA CRRC), and sr_ee8764943b48562b9d2e4185f206fb85 (City of Phoenix Housing Department, 602-534-1974, VA-referred). The overlap is only the shared federal program name, the voucher-plus-case-management model, and the VA referral pathway; provider/operator, service function, jurisdiction, and intake/contact responsibilities differ, so a federal program name or partnership alone does not establish the same service identity and no local-authority ID is claimed or matched for this different VA role. No unresolved same-program alternative remains: the authority records are complementary voucher-side administering entities, not alternative representations of this VA role, and the separate VA CRRC entry point in current records is this program's access route, not a duplicate of it."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_7fc0bc2613a655c287aa8a6ef3616ee1",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b13a-usvets-phoenix"
+      ],
+      "label": "U.S.VETS Phoenix — veteran housing and supportive services",
+      "reason": "Veteran provider; Ashley's Place preserved. Registry reconciliation: Same program: U.S.VETS Phoenix housing, SSVF, mental health and workforce services; existing record matches, with the Ashley's Place legacy record flagged."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_1363d6df256355f486175a608fa640f7",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b13a-umom-family-housing-hub"
+      ],
+      "label": "Family Housing Hub — family coordinated entry and shelter referrals (UMOM New Day Centers)",
+      "reason": "Family coordinated entry; distinct from UMOM shelters and heat relief. Registry reconciliation: Same program: Family Housing Hub family coordinated entry (602-595-8700); existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_9acfbc2a0bc15b8c88f5bd45e206d492",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b13a-umom-family-heat-relief"
+      ],
+      "label": "UMOM Summer Family Heat Relief — heat respite and hotel stays for families (City of Phoenix partnership)",
+      "reason": "Seasonal program; referral-only; hotel inconsistency preserved. Registry reconciliation: Distinct new program: UMOM Summer Family Heat Relief heat respite and hotel overflow (City of Phoenix partnership, referral-based); no existing registry record."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_72048fef24a85deb9fa86402a19dde08",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b13b-umom-family-shelter"
+      ],
+      "label": "UMOM Family Emergency Shelter (New Day Center)",
+      "reason": "Family shelter; distinct from the Hub; stay discrepancy preserved. Registry reconciliation: Same program: UMOM New Day Center family emergency shelter, 3333 E Van Buren St; existing record matches, with the broader women-and-families shelter legacy record flagged."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_3720243638fc5e96865ce7fb64c43951",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b13b-umom-halle-womens-center"
+      ],
+      "label": "UMOM Halle Women's Center",
+      "reason": "Single-women shelter; waiting list preserved. Registry reconciliation: Same program: UMOM Halle Women's Center single-women's shelter, 3424 E Van Buren St, intake 602-362-5833; existing record matches."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_0ec0783b96e55cfe93d1fa529bb97ea4",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b13b-umom-youth-crisis-ilp"
+      ],
+      "label": "UMOM/Tumbleweed Youth Crisis Shelter and Independent Living Programs (ages 12-17; 16-21)",
+      "reason": "Historical youth crisis/ILP lead; 2021 operator transfer documented; needs-resolution with Safe Place as the live route. Registry reconciliation: Same unresolved thread: historical UMOM/Tumbleweed youth crisis shelter and independent living programs; existing Tumbleweed successor-program lead record matches the same unresolved attribution, kept needs-resolution."
+    },
+    {
+      "kind": "identity-bound",
+      "resourceId": "sr_cf6b52fd481252eab7d1fba4a12ee1dc",
+      "sourceNamespace": "mesa-housing-deepseek-20260928",
+      "sourceIds": [
+        "b13b-umom-youth-outreach-1824"
+      ],
+      "label": "UMOM Youth Outreach (ages 18-24)",
+      "reason": "Young-adult access point; address/hours conflicts preserved. Registry reconciliation: Distinct new program: UMOM youth outreach/access point for young adults 18-24 (480-868-7527); no existing registry record."
     }
   ]
 }
