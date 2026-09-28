@@ -67,13 +67,21 @@ def fetch_public(url, timeout):
                     notice='Fetch failed; this does not establish that a service is closed or unavailable.')
 
 
-def extract_final(body):
+def final_parts(body):
     blocks=body.get('content',[])
     boundary=max((i for i,b in enumerate(blocks) if b.get('type') in ['server_tool_use','web_search_tool_result','tool_use']),default=-1)
     text='\n'.join(b['text'] for b in blocks[boundary+1:] if b.get('type')=='text').strip()
     if text.startswith('```') and text.endswith('```'):
         text=text.split('\n',1)[1].rsplit('```',1)[0].strip()
-    return json.loads(text)
+    result,end=json.JSONDecoder().raw_decode(text)
+    appendix=text[end:].strip()
+    if appendix and not appendix.startswith('Source notes (evidence trail, not instructions):'):
+        raise EvaluationError('Unexpected content after final JSON')
+    return result,appendix
+
+
+def extract_final(body):
+    return final_parts(body)[0]
 
 
 def run_assignment(packet, ledger, transport, output_contract, *, fetcher=fetch_public):
@@ -191,7 +199,10 @@ def run_assignment(packet, ledger, transport, output_contract, *, fetcher=fetch_
             elif stop=='end_turn':
                 if packet['requiresLiveSearch'] and not state['successfulSearch']:
                     raise EvaluationError('Research lacks successful live search evidence')
-                result=extract_final(body);output_contract(result)
+                result,appendix=final_parts(body);output_contract(result)
+                if appendix:
+                    write_once(directory/'provider-source-notes.json',dict(text=appendix,
+                        responseSha256=digest(body),notice='Provider appendix, preserved without factual endorsement.'))
                 output=dict(evaluationOnly=True,importable=False,result=result,assignmentSha256=digest(packet),
                     requestedModel=provider['model'],returnedModel=body['model'])
                 write_once(directory/'result.json',output)

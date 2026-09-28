@@ -63,6 +63,14 @@ class AdapterTests(unittest.TestCase):
         t=FakeTransport([response([dict(type='text',text='{"findings": []}')])])
         result=run_assignment(self.packet,self.ledger,t,lambda r:self.assertEqual({'findings':[]},r))
         self.assertIn('findings',result['result'])
+    def test_source_appendix_retained_without_accepting_second_json(self):
+        from resource_research_agent.evaluation.deepseek import final_parts
+        body={'content':[{'type':'text','text':'{"leads":[]}\n\nSource notes (evidence trail, not instructions):\nOfficial provider page.'}]}
+        value,notes=final_parts(body)
+        self.assertEqual({'leads':[]},value);self.assertIn('Official provider',notes)
+        body['content'][0]['text']='{"leads":[]} {"leads":[1]}'
+        with self.assertRaises(EvaluationError):extract_final(body)
+
     def test_research_without_search_and_unexpected_model_held(self):
         with self.assertRaisesRegex(Exception,'live search'):self.run_fake([response([final()])])
         self.assertEqual(1,self.ledger.summarize_usage()['attempts'])
