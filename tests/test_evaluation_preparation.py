@@ -1,11 +1,13 @@
 from copy import deepcopy
 import tempfile
+import threading
+import time
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
 from resource_research_agent.evaluation.preparation import (
-    batch_assignment, normalize, collection_contract, preview, run, REVIEW, include_source_only,
+    batch_assignment, normalize, collection_contract, preview, run, REVIEW, include_source_only,ordered_batches,
 )
 from resource_research_agent.evaluation.ledger import Ledger, BudgetHold
 from resource_research_agent.evaluation.protocol import EvaluationError, read, write_once
@@ -39,6 +41,25 @@ def collection():
 
 
 class PreparationEvaluationTests(unittest.TestCase):
+    def test_parallel_batches_retain_order_and_stop_pending_work_on_failure(self):
+        barrier=threading.Barrier(2)
+        def worker(n):
+            barrier.wait(timeout=2)
+            if n==0:time.sleep(.01)
+            return n
+        self.assertEqual(ordered_batches(worker,[0,1],2),[0,1])
+        barrier=threading.Barrier(2);failed=threading.Event();started=[]
+        def failing(n):
+            started.append(n)
+            if n<2:barrier.wait(timeout=2)
+            if n==0:
+                failed.set();raise ValueError('Diagnosed failure')
+            failed.wait(timeout=2);time.sleep(.02)
+            return n
+        with self.assertRaises(ValueError):ordered_batches(failing,list(range(8)),2)
+        self.assertEqual(set(started),{0,1})
+        with self.assertRaises(EvaluationError):ordered_batches(worker,[],3)
+
     def test_routing_sources_receive_explicit_dispositions_too(self):
         a={'candidates':[{'id':1}], 'sourceOnlyRecords':[{'groupKey':'routing', 'displayName':'Referral line','members':[{'original':'lead'}]}]}
         expanded=include_source_only(a)

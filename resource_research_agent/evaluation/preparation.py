@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor, CancelledError
 from copy import deepcopy
 import fcntl
 import html
@@ -9,6 +10,7 @@ import json
 from pathlib import Path
 import sqlite3
 import time
+import threading
 
 from .protocol import (EvaluationError, read, write_once, write_bytes_once, checkpoint,
                        digest, file_hash, seal_protocol, verify_protocol, now)
@@ -157,6 +159,26 @@ def readable_evidence(value):
     return value
 
 
+def ordered_batches(worker, items, concurrency):
+    """Parallel independent preparation, deterministic collection order, fail closed."""
+    if concurrency not in (1,2):raise EvaluationError('Only one or two preparation workers are authorized')
+    if concurrency==1:return [worker(item) for item in items]
+    stopped=threading.Event()
+    def guarded(item):
+        if stopped.is_set():raise CancelledError('Another batch stopped the coordinator')
+        try:return worker(item)
+        except BaseException:
+            stopped.set()
+            raise
+    with ThreadPoolExecutor(max_workers=concurrency) as pool:
+        futures=[pool.submit(guarded,item) for item in items]
+        try:return [future.result() for future in futures]
+        except BaseException:
+            stopped.set()
+            for future in futures:future.cancel()
+            raise
+
+
 def batch_assignment(base, candidates, prefix, *, compact=False):
     assignment = deepcopy(base)
     assignment['candidates'] = candidates
@@ -278,7 +300,14 @@ def run(root):
     with (root/'runner.lock').open('a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         ledger = Ledger(root)
-        transport = LiveTransport(ledger.config['provider']['endpoint'])
+        control=read(root/'execution-control.json') if (root/'execution-control.json').exists() else {}
+        concurrency=control.get('curationConcurrency',1)
+        if concurrency not in (1,2) or control.get('reviewConcurrency',1)!=1:
+            raise EvaluationError('Curation supports at most two workers; review stays sequential')
+        if concurrency==2 and not control.get('approvalText'):
+            raise EvaluationError('Parallel curation requires recorded user authorization')
+        progress_lock=threading.Lock()
+        active=set()
         base = read(root/'inputs/assignment.json')
         candidates = sorted(base['candidates'], key=lambda c: (str(c.get('name','')).casefold(),c['id']))
         if (root/'execution-plan.json').exists():
@@ -301,12 +330,20 @@ def run(root):
         def call(aid, stage, prompt, contract):
             packet = dict(assignmentId=aid, condition='existing-policy',category='housing',stage=stage,
                           passKey=aid,task=prompt,requiresLiveSearch=False)
-            checkpoint(root/'progress.json',dict(stage=stage,assignment=aid,status='running',at=now()))
-            print(json.dumps(dict(event='starting',assignment=aid,at=now())),flush=True)
-            return run_assignment(packet,ledger,transport,contract)['result']
+            with progress_lock:
+                active.add(aid)
+                checkpoint(root/'progress.json',dict(stage=stage,assignment=aid,activeAssignments=sorted(active),status='running',at=now()))
+                print(json.dumps(dict(event='starting',assignment=aid,at=now())),flush=True)
+            try:
+                return run_assignment(packet,ledger,LiveTransport(ledger.config['provider']['endpoint']),contract)['result']
+            finally:
+                with progress_lock:
+                    active.discard(aid)
+                    checkpoint(root/'progress.json',dict(stage=stage,activeAssignments=sorted(active),status='running',at=now()))
 
         for stage, destination in [('curated',curated),('reviewed',reviewed)]:
-            for n, candidates_batch in enumerate(batches,1):
+            def process_one(item):
+                n,candidates_batch=item
                 key=plan[n-1]['key']
                 aid = f'{stage}-{key}'
                 path = root/'results/normalized'/f'{aid}.json'
@@ -315,7 +352,7 @@ def run(root):
                     saved=read(path)
                     if saved['assignmentSha256']!=assignment['assignmentSha256'] or {d['candidateId'] for d in saved['candidateDispositions']}!={c['id'] for c in candidates_batch}:
                         raise EvaluationError('Saved batch does not match execution plan; preserve and diagnose')
-                    destination.append(saved); continue
+                    return saved
                 schema = response_schema(assignment)
                 if stage == 'reviewed':
                     schema = deepcopy(schema)
@@ -349,17 +386,22 @@ def run(root):
                 body = {k:v for k,v in result.items() if k!='reviewFindings'}
                 normalized = normalize(assignment,body)
                 if 'reviewFindings' in result: normalized['reviewFindings'] = result['reviewFindings']
-                write_once(path,normalized); destination.append(normalized)
-                elapsed = round(time.monotonic()-started)
+                write_once(path,normalized)
+                with ledger.connect() as db:
+                    elapsed=round(db.execute('SELECT COALESCE(SUM(elapsed),0) FROM attempts WHERE id LIKE ?', (aid+'-%',)).fetchone()[0])
                 write_once(root/'results/timing'/f'{aid}.json',dict(seconds=elapsed,candidates=len(candidates_batch)))
                 timings = [read(p) for p in sorted((root/'results/timing').glob(stage+'-*.json'))]
-                remaining = sum(len(b) for b in batches[n:])
+                remaining = len(candidates)-sum(t['candidates'] for t in timings)
                 eta = None
                 if len(timings)>=2 and remaining:
                     rate = sum(t['seconds'] for t in timings)/sum(t['candidates'] for t in timings)
+                    rate/=min(concurrency if stage=='curated' else 1,len(batches)-len(timings))
                     eta = [max(1,round(remaining*rate*.7/60)),max(2,round(remaining*rate*1.6/60))]
-                print(json.dumps(dict(event='batch-completed',stage=stage,batch=n,total=len(batches),
-                                      resources=len(normalized['resources']),seconds=elapsed,remainingBatchMinutes=eta,at=now())),flush=True)
+                with progress_lock:
+                    print(json.dumps(dict(event='batch-completed',stage=stage,batch=len(timings),batchKey=key,total=len(batches),
+                                          resources=len(normalized['resources']),seconds=elapsed,remainingBatchMinutes=eta,at=now())),flush=True)
+                return normalized
+            destination.extend(ordered_batches(process_one,list(enumerate(batches,1)),concurrency if stage=='curated' else 1))
             preview(root,stage,destination)
             resources = [r for b in destination for r in b['resources']]
             role = REVIEW if stage=='reviewed' else 'You are the DeepSeek curator selecting and organizing this complete Housing collection. Apply the supplied prepared-resource standards.'
