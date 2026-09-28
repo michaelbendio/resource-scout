@@ -1,5 +1,32 @@
 # Scout current status
 
+## Fresh Welfare Square run — September 28
+
+Michael authorized a blank-sheet Welfare Square run, with earlier research archived
+apart. The fresh database is `data/welfare-square-fresh-20260928/research.sqlite3`.
+Only office scope and category IDs/labels are supplied: zero resources, Types,
+For groups, imported discoveries or review context. Twenty-one new research jobs
+are sealed for Codex High primary plus DeepSeek V4.1-Flash/max challenger only.
+The service area remains Salt Lake County, including eligible phone/online routes.
+Current office-fit rules apply. No completed category or old run is reused.
+
+Earlier Welfare Square research, curation, DeepSeek and Jev evidence is now at
+`~/resource-scout-archive/welfare-square-before-20260928-fresh/`: 6,686 files,
+6,684,105,581 bytes, with original paths and SHA-256 hashes in `manifest.json`.
+Do not read that archive into fresh worker assignments. Old absolute runtime paths
+are historical; no redirect or symlink exposes them through the fresh directory.
+
+The launch is prepared; verify `launch.json` and live processes before acting.
+The dashboard is assigned port 8770. Automatic High **prepared-mode** curation
+follows completed research; no previous reviewed context is supplied. It stops at
+**Ready for Codex review** and launches no paid review worker. The pipeline's
+prepared-mode transition is covered by 27 focused preflight tests. Persistent
+research and curation supervisors own bounded recovery and preserve every attempt.
+See [fresh-run record](docs/welfare-square-fresh-run-20260928.md).
+All unrelated earlier runs remain stopped; this authorization is for Welfare Square.
+
+## Repository consolidation and previous stop record
+
 Updated 28 September 2026. The research, evaluation and application branches are
 consolidated for main. 754 tests ran successfully (4 skipped); no Scout workers were launched.
 This is the operational handoff; historical checkpoints
@@ -7,7 +34,7 @@ are in the [archived status](docs/archive/20260928/SCOUT_STATUS.md).
 Read [orchestration](docs/scout-orchestration.md) before operating a worker and
 verify live processes/database state before acting.
 
-## Stopped; next work is Welfare Square policy and run preparation
+## Previous stop and policy preparation (superseded for the fresh run above)
 
 Michael requested stopping Scout before adding rules and a fresh Welfare Square
 run. All observed workers, child tools, monitors, and dashboard/preview servers

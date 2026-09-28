@@ -137,6 +137,9 @@ def review_outcome(checkpoint, review_dir, prior_digest, native_reviewed):
 def supervise(config_path):
     config = read(config_path)
     automatic_review = config.get('automaticReview', True)
+    prepared_mode = config.get('preparedMode', False)
+    if prepared_mode and automatic_review:
+        raise ValueError('Prepared delivery requires the separate requested Codex review; disable automaticReview')
     if config.get('curationEffort') not in {'high', 'xhigh'} or (automatic_review and config.get('reviewEffort') != 'xhigh') or not config.get('authorization'):
         raise ValueError('Explicit High/xhigh curation authorization and, when enabled, xhigh review are required')
     root = Path(config['runDirectory'])
@@ -174,12 +177,14 @@ def supervise(config_path):
             if finished and not workers_alive:
                 with research_runner_lock(database):
                     store = ResearchStore(database)
-                    job = prepare_scout_curation_job(store, config['importId'])
+                    job = prepare_scout_curation_job(store, config['importId'], prepared=prepared_mode)
                 curation.mkdir(exist_ok=True)
                 command = [config['pythonBinary'], '-m', 'resource_research_agent.scout_curation_runner',
                            '--database', str(database), '--import-id', str(config['importId']), '--output', str(curation),
                            '--model', config['model'], '--effort', config['curationEffort'], '--batch-candidates', '30',
                            '--batch-chars', '60000', '--compact-prior-index', '--max-categories', str(config['expectedCategories'])]
+                if prepared_mode:
+                    command.append('--prepared')
                 manifest = dict(command=command, authorization=config['authorization'], jobId=job['id'], status='prepared',
                                 automaticRestartAuthorized=True, reviewAuthorized=automatic_review, startedAt=now())
                 write(curation / 'launch.json', manifest)

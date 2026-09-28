@@ -121,3 +121,28 @@ class OfficePipelineTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'Canonical curation'):
                 pipeline.supervise(self.config_path)
         launch.assert_not_called()
+
+    def test_prepared_pipeline_uses_fresh_prepared_jobs_and_stops_before_review(self):
+        self.config.update(preparedMode=True, automaticReview=False)
+        pipeline.write(self.config_path, self.config)
+        curation = self.root / 'curation'
+        curation.mkdir()
+        pipeline.write(curation / 'supervisor-status.json', {'status':'ready-for-codex-review'})
+        store = Mock()
+        store.get_scout_curation_job.return_value = dict(status='completed', categories=[{'status':'completed'}]*2)
+        with patch.object(pipeline, 'all_research_complete', return_value=True), patch.object(pipeline, 'alive', return_value=False), patch.object(pipeline, 'ResearchStore', return_value=store), patch.object(pipeline, 'prepare_scout_curation_job', return_value={'id':1}) as prepare, patch.object(pipeline.subprocess, 'Popen', return_value=Mock(pid=999)) as launch, patch.object(pipeline.subprocess, 'run'), patch.object(pipeline, 'notify_local', return_value={}):
+            pipeline.supervise(self.config_path)
+        prepare.assert_called_once_with(store, 1, prepared=True)
+        self.assertEqual(launch.call_count, 1)
+        command = pipeline.read(curation / 'launch.json')['command']
+        self.assertIn('--prepared', command)
+        self.assertNotIn('--reviewed-context', command)
+        self.assertEqual(pipeline.read(self.root / 'pipeline-status.json')['phase'], 'ready-for-codex-review')
+
+    def test_prepared_pipeline_cannot_launch_legacy_automatic_reviewer(self):
+        self.config.update(preparedMode=True, automaticReview=True)
+        pipeline.write(self.config_path, self.config)
+        with patch.object(pipeline.subprocess, 'Popen') as launch:
+            with self.assertRaisesRegex(ValueError, 'separate requested Codex review'):
+                pipeline.supervise(self.config_path)
+        launch.assert_not_called()
