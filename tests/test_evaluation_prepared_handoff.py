@@ -1,9 +1,12 @@
 from copy import deepcopy
+import tempfile
 import unittest
+from pathlib import Path
+from unittest.mock import patch,Mock
 
 from tests.test_evaluation_preparation import assignment,result,collection
-from resource_research_agent.evaluation.prepared_handoff import build_bundle,validate_resolution
-from resource_research_agent.evaluation.protocol import EvaluationError
+from resource_research_agent.evaluation.prepared_handoff import build_bundle,validate_resolution,reconcile_and_export
+from resource_research_agent.evaluation.protocol import EvaluationError,write_once,read
 from resource_research_agent.prepared_export import finalize
 from resource_research_agent.prepared_resources import validate_artifact
 from resource_research_agent.resource_identity import new_registry,register_reviewed
@@ -25,6 +28,30 @@ def fixtures():
 
 
 class PreparedHandoffTests(unittest.TestCase):
+    def test_full_handoff_and_resume_preserve_registry_and_both_deliveries(self):
+        report,resolution,registry,previous=fixtures()
+        previous['resources']=[]
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);output=root/'delivery';source=root/'production-registry.json';dest=root/'checkout-registry.json'
+            for path,data in [(source,registry),(dest,registry),(root/'previous.json',previous),
+                (root/'progress.json',{'status':'completed'}),(root/'inputs/assignment.json',{'candidates':[]}),
+                (root/'reports/curated-with-selections.json',report),(root/'reports/reviewed-with-selections.json',report)]:
+                write_once(path,data)
+            (root/'reports/reviewed-with-selections.html').write_text('<html>Evaluation</html>')
+            write_once(root/'results/normalized/reviewed-01.json',{'reviewFindings':[dict(resourceIds=['b01-program'],issue='Checked source',before='Draft facts',after='Supported facts retained',sourceUrls=['https://example.org'],status='no-change')]})
+            ledger=Mock();ledger.config={'provider':{'endpoint':'https://api.deepseek.com/anthropic/v1/messages'}}
+            ledger.summarize_usage.return_value={'attempts':1}
+            with patch('resource_research_agent.evaluation.prepared_handoff.Ledger',return_value=ledger),patch('resource_research_agent.evaluation.prepared_handoff.run_assignment',return_value={'result':resolution}):
+                for _ in range(2):
+                    reconcile_and_export(root,production_registry=source,previous_artifact=root/'previous.json',destination_registry=dest,output=output)
+            self.assertEqual(read(source),read(dest))
+            artifact=read(output/'prepared-resources.json')
+            self.assertEqual(validate_artifact(artifact,read(source))['resources'],1)
+            self.assertTrue(read(output/'evaluation.json')['evaluationOnly'])
+            page=(output/'review.html').read_text()
+            self.assertIn('Services Offered',page);self.assertIn('Supported facts retained',page)
+            self.assertEqual(len(read(source)['resources']),len(registry['resources']))
+
     def test_import_payload_reuses_registry_and_type_ids_and_limits_scope(self):
         report,resolution,registry,previous=fixtures()
         bundle=build_bundle(report,resolution,registry,previous,source_namespace='housing-trial',

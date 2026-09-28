@@ -14,7 +14,7 @@ from .deepseek import run_assignment, LiveTransport
 from .ledger import Ledger
 from .preparation import collection_contract, validate_schema
 from ..scout_curation_runner import response_schema
-from ..preparation_contract import POLICY_VERSION, normalize_preparation_fields
+from ..preparation_contract import POLICY_VERSION, normalize_preparation_fields, information_sections
 from ..prepared_resources import source_catalog, source_id, validate_artifact
 from ..prepared_export import finalize, review_fingerprint, export_bundle
 from ..resource_identity import load_registry, fingerprint
@@ -147,6 +147,34 @@ def build_bundle(report, resolution, registry, previous, *, source_namespace, in
     return bundle
 
 
+def render_review(artifact, evaluation):
+    from ..prepared_preview import render_preview
+    markdown,page=render_preview(artifact)
+    esc=lambda value:html.escape(str(value))
+    sources={s['id']:s for s in artifact['sources']}
+    types={t['id']:t['label'] for t in artifact['taxonomy']['types']}
+    groups={g['id']:g['label'] for g in artifact['taxonomy']['forGroups']}
+    sections=['<section><h2>All resource details</h2><p>DeepSeek-reviewed Housing proposals. Office approval and agency verification remain separate.</p>']
+    for r in sorted(artifact['resources'],key=lambda r:r['name'].casefold()):
+        sections.append('<details id="'+esc(r['id'])+'"><summary>'+esc(r['name'])+' — '+esc(r['state'])+'</summary>')
+        sections.append('<p>'+esc(r['description'])+'</p><p class="muted">Kinds of help: '+esc(', '.join(types[t] for t in r['types']))+'; Groups: '+esc(', '.join(groups[g] for g in r['forGroups']) or 'No group assigned')+'</p>')
+        for key in ['phone','address','website','email','hours','resolutionReason']:
+            if r.get(key):sections.append('<p><strong>'+esc(key)+':</strong> '+esc(r[key])+'</p>')
+        for heading,text in information_sections(r['informationText']).items():
+            sections.append('<h4>'+esc(heading)+'</h4><p>'+esc(text).replace('\n','<br>')+'</p>')
+        sections.append('<p>Sources: '+' · '.join('<a href="'+esc(sources[s]['url'])+'">'+esc(sources[s]['title'])+'</a>' for s in r['sourceIds'])+'</p></details>')
+    sections.append('</section><section><h2>DeepSeek review findings</h2>')
+    for n,findings in enumerate(evaluation['batchReviews'],1):
+        for f in findings:
+            sections.append('<article><h3>'+esc(f['issue'])+'</h3><p class="muted">Batch '+str(n)+' · '+esc(f['status'])+'</p><p><strong>Before:</strong> '+esc(f['before'])+'</p><p><strong>After:</strong> '+esc(f['after'])+'</p>')
+            sections.append('<p>'+' · '.join('<a href="'+esc(url)+'">'+esc(url)+'</a>' for url in f['sourceUrls'] if url.startswith(('https://','http://')))+'</p></article>')
+    sections.append('<h3>Import reconciliation</h3><p>'+esc(evaluation['importReconciliation']['preservationJudgment'])+'</p>')
+    for f in evaluation['importReconciliation']['mergeFindings']:
+        sections.append('<p><strong>'+esc(f['canonicalId'])+':</strong> '+esc(f['before'])+' → '+esc(f['after'])+'</p>')
+    sections.append('</section>')
+    return markdown,page.replace('</html>','\n'.join(sections)+'</html>')
+
+
 def reconcile_and_export(root, **kwargs):
     with (Path(root)/'runner.lock').open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
@@ -222,11 +250,9 @@ def _reconcile_and_export(root, *, production_registry, previous_artifact, desti
         reviewed=report,importReconciliation=resolution,independentReviewInputWarning='Legacy office identity context was introduced only AFTER the fresh DeepSeek review was frozen.')
     evaluation['batchReviews']=[read(p).get('reviewFindings',[]) for p in sorted((root/'results/normalized').glob('reviewed-*.json'))]
     write_once(output/'evaluation.json',evaluation)
-    from ..prepared_preview import render_preview
-    page=render_preview(read(output/'prepared-resources.json'))
-    findings='<section><h2>DeepSeek review findings</h2><p>AI-reviewed; not human-curated or agency-verified. Housing only.</p><pre style="white-space:pre-wrap">'+html.escape(json.dumps(evaluation['batchReviews'],ensure_ascii=False,indent=2))+'</pre></section>'
-    page=page.replace('</body>',findings+'</body>') if '</body>' in page else page+findings
+    markdown,page=render_review(read(output/'prepared-resources.json'),evaluation)
     write_bytes_once(output/'review.html',page.encode())
+    write_bytes_once(output/'starter-summary.md',markdown.encode())
     write_bytes_once(output/'evaluation-review.html',(root/'reports/reviewed-with-selections.html').read_bytes())
     write_once(output/'usage.json',ledger.summarize_usage())
     return read(output/'receipt.json')
