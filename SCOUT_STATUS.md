@@ -1,32 +1,30 @@
-# Housing preparation/review trial authorized — September 28
+# Housing preparation/review trial active — September 28
 
-Michael requested DeepSeek curation of its 104 Housing leads, followed by a fresh
-DeepSeek review with the substantive Codex checklist. The new trial runner is
-implemented and tested. Curation batch 1 completed (8 leads → 8 proposals: 6 usable,
-2 needs-resolution). Batch 2 hit `max_tokens` twice during thinking, without final
-JSON. Its three paid responses and held checkpoint are preserved; no unknown
-outcomes. Recovery retains batch 1 and splits the remaining 96 leads into four-lead
-batches (25 total). The resumed runner is processing `curated-02a` in
-`data/evaluations/mesa-housing-preparation-review-20260928-r3/`; inspect its
-`runner.log`, `progress.json` and ledger before acting. The supervising session
-owns monitoring/recovery. Do not start a duplicate coordinator.
-See [trial protocol](docs/mesa-housing-preparation-review-trial-20260928.md).
-This scoped trial supersedes the earlier proposed research retest as the immediate
-next action. Do not expand research or replace the full production Mesa delivery.
-Keep original, curated and DeepSeek-reviewed evaluation evidence separate.
-Michael then explicitly requested an importable Housing-only prepared-resources
-file AS WELL AS the evaluation file and readable review. After the independent
-review freezes, use `evaluation.prepared_handoff` for production identity/taxonomy
-reconciliation and the standard export gates; see the trial document amendment.
-DeepSeek remains V4.1-Flash/max; the Housing dollar cap removal remains in force.
-Michael explicitly authorized **two parallel curation batches**, with one
-sequential review. At 07:12 UTC, 44 leads are prepared; `06b` and `07a` are
-in flight in session71128 (code1ccc549). 69 evaluation tests pass. A recorded
-supervisor execution-limit amendment accommodates the smaller batches while
-preserving sealed inputs, max effort, original charges and scope; it takes effect
-on the next clean restart. See `docs/housing-active-handoff-20260928.md` for
-monitoring, recovery and the authorized final export command. No importable
-Housing package or completed DeepSeek review exists yet.
+**07:35 UTC:** 64 of104 original Housing leads are prepared. Session56181 stopped cleanly for a context-accounting fix; resume from
+saved checkpoints in the isolated implementation checkout; two curation batches run in
+parallel, then ONE sequential DeepSeek review. Verify `progress.json`, ledger and
+runner.log under `data/evaluations/mesa-housing-preparation-review-20260928-r3/`.
+Do not start another coordinator. The supervising session owns recovery.
+
+Michael explicitly requested DeepSeek curation AND DeepSeek review, both at max,
+then importable Housing-only prepared-resources.json, full evaluation JSON and
+readable HTML. This supersedes the ordinary manual Codex-review handoff for this
+trial. It does not authorize a second reviewer or broader research. Housing's
+dollar cap remains removed. No Jev is used. Full production Mesa remains on hold.
+
+All completed outputs and diagnosed failures are preserved. Two output-limit
+recoveries reduced only unfinished batches; one prose-format recovery reused a
+saved response without a paid call. Current plan has26 batches. All104 original
+leads remain accounted for. 71 evaluation tests pass. The scoped engineering
+allowance is400 calls/eight active hours, without changing the sealed original
+inputs or resetting prior usage. Compact collection prompts preserve complete
+original research and exact source-member links.
+
+See [active handoff](docs/housing-active-handoff-20260928.md) for monitoring,
+recovery and final export commands, and [trial protocol](docs/mesa-housing-preparation-review-trial-20260928.md)
+for scope. No completed review or importable Housing package exists yet. After
+independent review freezes, use evaluation.prepared_handoff for the explicitly
+authorized registry/taxonomy reconciliation and normal production export gates.
 
 # Housing pilot complete — targeted retest before expansion
 

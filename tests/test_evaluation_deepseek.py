@@ -34,6 +34,21 @@ def final():return dict(type='text',text='{"leads": []}')
 
 
 class AdapterTests(unittest.TestCase):
+    def test_context_bound_uses_native_prefix_and_keeps_new_content_conservative(self):
+        from resource_research_agent.evaluation.deepseek import input_token_bound
+        old={'model':'deepseek-flash','messages':[{'role':'user','content':'x'*100000}]}
+        new={**old,'messages':old['messages']+[{'role':'assistant','content':'y'*1000}]}
+        body={'usage':{'input_tokens':100,'cache_read_input_tokens':20000,'cache_creation_input_tokens':0}}
+        measured=input_token_bound(new,old,body)
+        self.assertGreater(measured,21100)
+        self.assertLess(measured,25000)
+        fallback=input_token_bound(new)
+        mutated={**old,'messages':[{'role':'user','content':'changed'}]}
+        self.assertEqual(input_token_bound(new,mutated,body),fallback)
+        self.assertEqual(input_token_bound(new,old,{'usage':{'input_tokens':100}}),fallback)
+        body['usage']['cache_read_input_tokens']=-1
+        self.assertEqual(input_token_bound(new,old,body),fallback)
+
     def test_preparation_prelude_is_preserved_without_changing_json(self):
         from resource_research_agent.evaluation.deepseek import final_parts
         from resource_research_agent.evaluation.protocol import EvaluationError

@@ -2,26 +2,26 @@
 
 Operational checkpoint, not completion. Verify live state before acting.
 
-**Latest, 07:12 UTC:** 44 of104 leads are prepared. Two curation batches
-are live (`06b`, `07a`); verify the ledger. One sequential review follows. Current
-unified exec session **71128** runs code **1ccc549**. The original `03b` response
-contained a prose prelude then valid JSON. The parser now preserves that prelude
-and safely reads the uniquely identifiable result. Offline adoption reused the
-saved response without a paid request; evidence is in `recovery/03b-*`.
-Latest user ETA: curation 30–60 minutes, total 3–5 hours remaining.
+**Latest, 07:35 UTC:** 64 of104 leads are prepared. Coordinator56181 stopped
+cleanly after08b hit the conservative input guard and09a completed.08b is pending
+at turn10: NO sent request needs replay. Code now uses native saved-prefix token
+counts plus a byte upper bound for appended messages.218,647 native input/cache
+tokens became a257,082 next-input upper bound, plus32,768 output allowance, under
+the unchanged one-million limit. Messages, source evidence and thinking remain
+unchanged. Recovery: `recovery/08b-context-accounting.json`.71 tests pass.
 
-69 evaluation tests pass, including scoped execution-limit amendment tests.
-`execution-limit-amendment.json` records supervisor engineering stops of400 calls
-and28,800 active seconds for the SAME authorized Housing preparation/review/import
-scope. Original sealed150-call/four-hour configuration and every prior charge
-remain intact. The running process still has old modules loaded; the next clean
-restart will apply the amendment. Do not interrupt an in-flight request to reload.
-Michael removed the dollar cap; he did not specify these engineering limits.
+Earlier06b output recovery split four leads into two (both finished). Current
+plan has26 batches; all104 leads remain accounted for. Max thinking stays.
+The recorded400-call/eight-active-hour engineering amendment is loaded; all prior
+charges and original sealed configuration remain. Compact collection input uses
+complete research replies plus exact source-member mappings. No completed review
+or importable package exists. Resume from checkpoints, do not start duplicate
+coordinators. Latest ETA: curation25–50 minutes, overall3–5hours, provisional.
 
-Michael authorized two parallel curation batches, with one sequential review.
-The ledger permits only two current-coordinator preparation requests, accounts
-for combined reserved time, and rejects orphaned/unknown outcomes or parallel
-review. `execution-control.json` records authorization. No Jev is used or run.
+Michael explicitly requested DeepSeek curation AND review; this overrides the
+ordinary manual Codex handoff for this trial. One review, two curation batches.
+The earlier automatic approval rejection was resolved by citing this exact
+conversation authorization. No Jev is used or run.
 
 ## User decisions
 

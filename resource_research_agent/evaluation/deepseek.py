@@ -107,6 +107,27 @@ def extract_final(body):
     return final_parts(body)[0]
 
 
+def input_token_bound(payload, previous_request=None, previous_response=None):
+    """Conservative bytes bound, refined only by an exact saved input prefix.
+
+    Sum all native input/cache counters (safe even if a provider overlaps them),
+    then charge each new UTF-8 byte as a token, plus framing allowance. Never use
+    a characters/token heuristic or discard reasoning/source messages.
+    """
+    bound=len(encoded(payload))+512*(len(payload.get('messages',[]))+1)
+    if not previous_request or not previous_response:return bound
+    old=previous_request.get('messages',[]);new=payload.get('messages',[])
+    if not old or new[:len(old)]!=old or previous_request.get('model')!=payload.get('model'):
+        return bound
+    usage=previous_response.get('usage',{})
+    counters=[usage.get(k) for k in ['input_tokens','cache_read_input_tokens','cache_creation_input_tokens']]
+    if any(type(v) is not int or v<0 for v in counters) or not sum(counters):return bound
+    added=new[len(old):]
+    metadata={k:v for k,v in payload.items() if k!='messages'}
+    native=sum(counters)+len(encoded(added))+len(encoded(metadata))+512*(len(added)+1)
+    return min(bound,native)
+
+
 def run_assignment(packet, ledger, transport, output_contract, *, fetcher=fetch_public):
     """Validate an original assignment; all paid calls go through the ledger first."""
     allowed={'assignmentId','condition','category','stage','passKey','task','requiresLiveSearch'}
@@ -132,8 +153,14 @@ def run_assignment(packet, ledger, transport, output_contract, *, fetcher=fetch_
             tools.insert(0,dict(type='web_search_20250305',name='web_search',max_uses=provider['maxSearchUses']))
         payload=dict(model=provider['model'],max_tokens=provider['maxOutputTokens'],thinking=provider['thinking'],
             output_config={'effort':provider['effort']},system=safe['system']['text'],tools=tools,messages=state['messages'])
-        if len(encoded(payload))>provider['maxInputTokens']:
+        previous=inside(ledger.root,'attempts/'+packet['assignmentId']+'-'+str(turn-1).zfill(2)) if turn else None
+        prior_request=read(previous/'request.json') if previous and (previous/'request.json').exists() else None
+        prior_response=read(previous/'response.json') if previous and (previous/'response.json').exists() else None
+        bound=input_token_bound(payload,prior_request,prior_response)
+        if bound+payload['max_tokens']>provider['maxInputTokens']:
             raise BudgetHold('Serialized input exceeds conservative token bound')
+        write_once(attempt_dir/'context-bound.json',dict(inputTokenUpperBound=bound,outputAllowance=payload['max_tokens'],
+            contextLimit=provider['maxInputTokens'],basis='native saved prefix plus byte upper bound' if prior_response else 'byte upper bound'))
         write_once(attempt_dir/'request.json',payload)
         raw_path=attempt_dir/'response.raw';body_path=attempt_dir/'response.json'
         saved=ledger.attempt(attempt_id)
