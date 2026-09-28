@@ -72,6 +72,10 @@ def final_parts(body):
     blocks=body.get('content',[])
     boundary=max((i for i,b in enumerate(blocks) if b.get('type') in ['server_tool_use','web_search_tool_result','tool_use']),default=-1)
     text='\n'.join(b['text'] for b in blocks[boundary+1:] if b.get('type')=='text').strip()
+    if 'claudeCode' in body:
+        # Claude Code's web search appends a "Sources" list; relabel it as source notes.
+        from .claude_code import normalize_final
+        text=normalize_final(text).strip()
     if text.startswith('```'):
         _,fenced=text.split('\n',1)
         if '```' not in fenced:raise EvaluationError('Unclosed final JSON fence')

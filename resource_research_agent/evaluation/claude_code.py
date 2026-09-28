@@ -112,8 +112,12 @@ def normalize_final(text):
     except json.JSONDecodeError:
         return text
     head, tail = body[:end], body[end:].strip()
-    if tail.startswith('Sources:'):
+    if tail.startswith('Source notes'):
+        pass  # Already relabelled.
+    elif tail.startswith('Sources:'):
         tail = 'Source notes (Claude Code web-search citations):' + tail[len('Sources:'):]
+    elif re.match(r'Sources?\b', tail):
+        tail = 'Source notes (Claude Code web-search citations):\n' + tail
     return head + ('\n' + tail if tail else '')
 
 

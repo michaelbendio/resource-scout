@@ -78,6 +78,19 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(result, {'leads': [{'organization': 'A'}]})
         self.assertTrue(appendix.startswith('Source notes (Claude Code web-search citations):'))
 
+    def test_a_sources_heading_with_a_note_becomes_source_notes(self):
+        final = '{"leads": []}\nSources ("snippet" means only a search-result snippet was seen):\n- [A](https://a.org)'
+        result, appendix = final_parts(claude_code.convert_stream(stream(final), 'claude-opus-5-5'))
+        self.assertEqual(result, {'leads': []})
+        self.assertTrue(appendix.startswith('Source notes (Claude Code web-search citations):\nSources ("snippet"'))
+
+    def test_a_saved_answer_is_relabelled_when_the_harness_rereads_it(self):
+        body = claude_code.convert_stream(stream('{"leads": []}'), 'claude-opus-5-5')
+        body['content'][-1]['text'] = '{"leads": []}\nSources (snippet only):\n- x'
+        result, appendix = final_parts(body)
+        self.assertEqual(result, {'leads': []})
+        self.assertTrue(appendix.startswith('Source notes (Claude Code web-search citations):'))
+
     def test_a_fenced_answer_keeps_its_json(self):
         final = '```json\n{"leads": []}\n```\nSources:\n- x'
         result, _ = final_parts(claude_code.convert_stream(stream(final), 'claude-opus-5-5'))
