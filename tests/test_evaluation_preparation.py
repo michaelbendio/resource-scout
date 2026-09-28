@@ -1,4 +1,5 @@
 from copy import deepcopy
+import json
 import tempfile
 import threading
 import time
@@ -41,6 +42,16 @@ def collection():
 
 
 class PreparationEvaluationTests(unittest.TestCase):
+    def test_preview_resume_preserves_bytes_when_only_json_key_order_changes(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);batch=result(assignment());judgments=collection()
+            preview(root,'curated',[batch],judgments)
+            path=root/'reports/curated.html';original=path.read_bytes()
+            preview(root,'curated',json.loads(json.dumps([batch],sort_keys=True)),json.loads(json.dumps(judgments,sort_keys=True)))
+            self.assertEqual(path.read_bytes(),original)
+            path.write_bytes(original.replace(b'Mesa Housing',b'Changed Housing'))
+            with self.assertRaises(EvaluationError):preview(root,'curated',[batch],judgments)
+
     def test_collection_source_index_preserves_original_text_and_member_links(self):
         member={'sourceLabel':'Original','sourceOrdinal':1,'uncertainty':'Do not infer eligibility.'}
         base={'sourceResponses':[{'sourceLabel':'Original','rawText':'Exact original facts.'}],

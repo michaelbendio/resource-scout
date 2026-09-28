@@ -7,6 +7,7 @@ from copy import deepcopy
 import fcntl
 import html
 import json
+import re
 from pathlib import Path
 import sqlite3
 import time
@@ -311,7 +312,16 @@ def preview(root, stage, batches, collection=None):
         lines.append('</article>')
     lines.append('<details><summary>All lead dispositions</summary><pre>'+esc(json.dumps(dispositions,ensure_ascii=False,indent=2))+'</pre></details>')
     if collection: lines.append('<details><summary>Collection judgments and findings</summary><pre>'+esc(json.dumps(collection,ensure_ascii=False,indent=2))+'</pre></details>')
-    write_bytes_once(root/'reports'/f'{stage}.html', '\n'.join(lines).encode())
+    page='\n'.join(lines).encode();path=root/'reports'/f'{stage}.html'
+    if path.exists() and path.read_bytes()!=page:
+        def canonical_details(raw):
+            def replace(match):
+                value=json.loads(html.unescape(match.group(2)))
+                return match.group(1)+html.escape(json.dumps(value,ensure_ascii=False,indent=2,sort_keys=True))+match.group(3)
+            return re.sub(r'(<details><summary>(?:All lead dispositions|Collection judgments and findings)</summary><pre>)(.*?)(</pre></details>)',replace,raw.decode(),flags=re.S)
+        if canonical_details(path.read_bytes())==canonical_details(page):
+            return  # Preserve the original bytes; only object-key order differs.
+    write_bytes_once(path,page)
 
 
 def run(root):
@@ -424,7 +434,7 @@ def run(root):
                 with progress_lock:
                     print(json.dumps(dict(event='batch-completed',stage=stage,batch=len(timings),batchKey=key,total=len(batches),
                                           resources=len(normalized['resources']),seconds=elapsed,remainingBatchMinutes=eta,at=now())),flush=True)
-                return normalized
+                return read(path)  # Identical key ordering on first execution and resume.
             destination.extend(ordered_batches(process_one,list(enumerate(batches,1)),concurrency if stage=='curated' else 1))
             preview(root,stage,destination)
             resources = [r for b in destination for r in b['resources']]
@@ -443,7 +453,8 @@ def run(root):
             prompt += original+'\nOriginal native evidence:\n'+json.dumps(evidence,ensure_ascii=False)
             if stage=='reviewed':
                 prompt += '\nFrozen curation selections to independently review:\n'+json.dumps(read(root/'reports/curated-with-selections.json')['collection'],ensure_ascii=False)
-            collection = call(stage+'-collection','housing-collection',prompt,lambda x:collection_contract(x,resources))
+            aid=control.get('collectionAssignmentIds',{}).get(stage,stage+'-collection')
+            collection = call(aid,'housing-collection',prompt,lambda x:collection_contract(x,resources))
             preview(root,stage+'-with-selections',destination,collection)
         checkpoint(root/'progress.json',dict(status='completed',at=now(),reviewer='DeepSeek',evaluationOnly=True,importable=False))
         write_once(root/'reports/usage.json',ledger.summarize_usage())
