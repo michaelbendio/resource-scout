@@ -39,6 +39,11 @@ class OfficeFitRuleTests(unittest.TestCase):
         self.assertNotIn("Preserve all resources", prompt)
         self.assertIn("human Curated flags", prompt)
 
+    def test_phone_and_online_resources_count(self):
+        # Michael, 28 September 2026: "Phone and online resources count."
+        self.assertIn("phone or online", OFFICE_FIT_RULES[0])
+        self.assertIn("passes", OFFICE_FIT_RULES[0].split("phone or online", 1)[1][:200])
+
     def test_the_rules_name_no_office(self):
         for rule in OFFICE_FIT_RULES:
             for place in ["Mesa", "Provo", "Las Vegas", "Albuquerque", "Arizona", "Utah"]:

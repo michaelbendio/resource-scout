@@ -4,16 +4,17 @@ Michael, 28 September 2026. The measure of a resource is whether a missionary wo
 hand it to someone across the desk, not how many resources Scout finds. His random
 sample of 20 Food resources from the complete Mesa delivery passed 4. The rules are
 written relative to the office, so they apply to every office unchanged; nothing in
-them is Mesa-specific.
+them is Mesa-specific. They are Scout's policy, not an experiment (Michael, same day).
 """
 from __future__ import annotations
 
-OFFICE_FIT_VERSION = "office-fit-2026-09-28-v1"
+OFFICE_FIT_VERSION = "office-fit-2026-09-28-v2"
 
 OFFICE_FIT_RULES = (
     "Reach from the office: an in-person service must be in, or reasonably reachable from, the office's own "
     "city or service area. A countywide or statewide front door (coordinated entry, a hotline that is the real "
     "way in, a shelter at a confidential site) passes wherever its office is, because it is the actual route. "
+    "A service reached by phone or online passes when the office's residents can use it. "
     "A program limited to residents of another city or area fails.",
     "Main service: place a resource in a category only when that category is its main service, not a service "
     "it mentions among others.",

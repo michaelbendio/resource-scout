@@ -1,6 +1,6 @@
 # Office-fit rules — 28 September 2026
 
-**Decision (Michael):** add four rules to Scout's research, curation and review, for the
+**Decision (Michael):** these rules are Scout's policy, not an experiment. Add four rules to Scout's research, curation and review, for the
 Codex primary researcher and every challenger alike. When they conflict with existing
 instructions, settle it "in the way that most narrows the output."
 
@@ -15,8 +15,9 @@ way, kept about 8. The failures fell into four patterns, which became the rules.
 1. **Reach from the office.** An in-person service must be in, or reasonably reachable
    from, the office's own city or service area. A countywide or statewide front door
    (coordinated entry, a hotline that is the real way in, a shelter at a confidential
-   site) passes wherever its office is. A programme limited to another city's residents
-   fails.
+   site) passes wherever its office is. **A service reached by phone or online passes**
+   when the office's residents can use it. A programme limited to another city's
+   residents fails.
 2. **Main service.** A resource goes in a category only when that category is its main
    service, not something it mentions among others.
 3. **Direct contact.** A person must be able to contact or apply to it themselves.
@@ -50,7 +51,8 @@ They are written relative to the office, so they apply to every office unchanged
 
 - **The evaluation harness** (`resource_research_agent/evaluation/`) keeps its frozen
   prompts, so the DeepSeek and Claude Housing comparisons stay like for like.
-- **Remote (phone or online) resources.** Michael rejected these for Food, but whether
-  they count as reachable may depend on the category. That is still to be decided.
+- *(Settled the same day.)* This note first left open whether phone and online
+  resources count, because Michael had rejected two in the Food sample. His decision:
+  **"Phone and online resources count."** Rule 1 now says so.
 
 Tests: `tests/test_office_fit.py`.
