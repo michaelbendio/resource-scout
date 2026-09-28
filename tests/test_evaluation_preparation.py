@@ -8,7 +8,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from resource_research_agent.evaluation.preparation import (
-    batch_assignment, normalize, collection_contract, preview, run, REVIEW, include_source_only,ordered_batches,collection_research_context,assemble_collection_completion,review_collection_index,
+    batch_assignment, normalize, collection_contract, preview, run, REVIEW, include_source_only,ordered_batches,collection_research_context,assemble_collection_completion,review_collection_index,review_batch_payload,
 )
 from resource_research_agent.evaluation.ledger import Ledger, BudgetHold
 from resource_research_agent.evaluation.protocol import EvaluationError, read, write_once
@@ -42,6 +42,12 @@ def collection():
 
 
 class PreparationEvaluationTests(unittest.TestCase):
+    def test_assigned_review_payload_keeps_all_facts_without_server_timestamp(self):
+        batch=result(assignment());original=deepcopy(batch)
+        batch['resources'][0]['lastModified']='2026-09-28T00:00:00+00:00'
+        self.assertEqual(review_batch_payload(batch),original)
+        self.assertIn('lastModified',batch['resources'][0])
+
     def test_review_index_keeps_every_program_source_and_disposition(self):
         batch=result(assignment());before=deepcopy(batch)
         batch['candidateDispositions'].append({'candidateId':'omitted','disposition':'omitted','resourceIds':[],'reason':'Not offered locally'})

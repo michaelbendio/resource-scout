@@ -257,6 +257,10 @@ def _reconcile_and_export(root, *, production_registry, previous_artifact, desti
         {'assignmentId':p.parent.name,'evidence':value['assemblyEvidence']}
         for p in sorted((root/'results/existing-policy/housing').glob('*collection*/result.json'))
         if 'assemblyEvidence' in (value:=read(p))]
+    evaluation['execution']['responseNormalizations']=[
+        {'assignmentId':p.parent.name,'evidence':value['assemblyEvidence']}
+        for p in sorted((root/'results/existing-policy/housing').glob('reviewed-*/result.json'))
+        if 'collection' not in p.parent.name and 'assemblyEvidence' in (value:=read(p))]
     evaluation['execution']['note']='Recorded recovery and scheduling changes are part of this trial; all prior usage is retained. Raw native responses remain in the Scout audit.'
     write_once(output/'evaluation.json',evaluation)
     markdown,page=render_review(read(output/'prepared-resources.json'),evaluation)

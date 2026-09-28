@@ -41,6 +41,7 @@ class PreparedHandoffTests(unittest.TestCase):
             write_once(root/'execution-control.json',{'curationConcurrency':2,'reviewConcurrency':1})
             write_once(root/'execution-amendments/curated-collection-output.json',{'maxOutputTokens':65536,'reason':'Diagnosed exhaustion'})
             write_once(root/'results/existing-policy/housing/curated-collection/result.json',{'assemblyEvidence':{'prefixSha256':'a'*64}})
+            write_once(root/'results/existing-policy/housing/reviewed-01/result.json',{'assemblyEvidence':{'kind':'echoed timestamp only'}})
             write_once(root/'results/normalized/reviewed-01.json',{'reviewFindings':[dict(resourceIds=['b01-program'],issue='Checked source',before='Draft facts',after='Supported facts retained',sourceUrls=['https://example.org'],status='no-change')]})
             ledger=Mock();ledger.config={'provider':{'endpoint':'https://api.deepseek.com/anthropic/v1/messages'}}
             ledger.summarize_usage.return_value={'attempts':1}
@@ -55,6 +56,7 @@ class PreparedHandoffTests(unittest.TestCase):
             self.assertEqual(execution['executionControl']['reviewConcurrency'],1)
             self.assertEqual(execution['outputAllowanceAmendments'][0]['maxOutputTokens'],65536)
             self.assertEqual(execution['collectionAssemblies'][0]['evidence']['prefixSha256'],'a'*64)
+            self.assertEqual(execution['responseNormalizations'][0]['evidence']['kind'],'echoed timestamp only')
             page=(output/'review.html').read_text()
             self.assertIn('Services Offered',page);self.assertIn('Supported facts retained',page)
             self.assertEqual(len(read(source)['resources']),len(registry['resources']))

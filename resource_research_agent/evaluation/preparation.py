@@ -187,6 +187,13 @@ def review_collection_index(batches):
             'candidateDispositions':[deepcopy(d) for b in batches for d in b['candidateDispositions']]}
 
 
+def review_batch_payload(batch):
+    """Keep all assigned facts; server revision timestamps are not model fields."""
+    result=deepcopy(batch)
+    for resource in result['resources']:resource.pop('lastModified',None)
+    return result
+
+
 def ordered_batches(worker, items, concurrency):
     """Parallel independent preparation, deterministic collection order, fail closed."""
     if concurrency not in (1,2):raise EvaluationError('Only one or two preparation workers are authorized')
@@ -424,7 +431,8 @@ def run(root):
                 prompt += '\nOriginal native source evidence:\n'+json.dumps(evidence,ensure_ascii=False)
                 if stage == 'reviewed':
                     prompt += '\nCurrent review standards. Apply content checks to this assigned batch; report collection issues for the later collection pass. Trial scope supersedes production delivery mechanics; do not claim Codex review or office approval:\n'+policy
-                    prompt = REVIEW+'\n'+prompt+'\nFrozen curated batch:\n'+json.dumps(curated[n-1],ensure_ascii=False)
+                    frozen_batch=review_batch_payload(curated[n-1]) if plan[n-1].get('omitReviewServerMetadata') else curated[n-1]
+                    prompt = REVIEW+'\n'+prompt+'\nFrozen curated batch:\n'+json.dumps(frozen_batch,ensure_ascii=False)
                     if plan[n-1].get('reviewContextFormat')=='collection-index-v1':
                         prompt += '\nComplete collection index for cross-batch program boundaries, source links and omissions. The assigned batch above retains its full facts; the subsequent whole-collection review receives every full reviewed record:\n'+json.dumps(review_collection_index(curated),ensure_ascii=False,separators=(',',':'))
                     else:
