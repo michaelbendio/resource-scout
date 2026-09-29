@@ -1,9 +1,48 @@
 # Scout current status
 
-## September 29 review instructions and Mesa hold
+## Current focus — Mesa re-curation, September 29
 
-Michael explicitly said **do not start Mesa curation yet**. Inspecting policy and
-adding review instructions does not lift that hold. He approved consolidating the
+Michael superseded the earlier Mesa hold: **pause Welfare Square curation and
+start new Mesa curation and review**. Welfare Square is now paused at 13/21 saved
+categories, including Housing; its automatic review is stopped. Its dashboard on
+8770 remains available (PID 19899). The category-limited finisher reused the active
+paid worker, saved Housing, then exited without assigning another category. Prior
+category hashes were verified unchanged. Pause receipts and original continuation
+settings are in `data/welfare-square-fresh-20260928/pause-for-mesa-20260929/`.
+Do not resume Welfare Square without Michael's instruction.
+
+**Mesa is running on port 8771:** `data/mesa-recuration-20260929/research.sqlite3`,
+import 4, fresh prepared job 6, policy `codex-preparation-v5-office-fit`. High curation
+uses all preserved research: 3,920 candidate/category entries across 21 researched
+categories. These are screening inputs, not an assertion of useful resource count.
+Old prepared text, starter choices and reviewed context are not supplied. Each new
+assignment contains all four office-fit rules. The source database snapshot and
+office category IDs are frozen; all older research and deliveries remain untouched.
+Seven human-suppressed identities and prior identity aliases are separately preserved,
+with an export gate against resurrecting those identities. Meaningfully distinct
+programs do not inherit an old parent's suppression automatically.
+
+Mesa's curation coordinator is PID 19906, curation supervisor 19901, pipeline 19902,
+local dashboard 20294 and Tailscale dashboard 20295. Verify live manifests/status
+because PIDs and progress can change. Both listeners use port 8771; the private
+Tailscale address is recorded in the ignored run's `launch.json`.
+Initial progress is Addiction batch 1/10. One sequential Extra High Codex review
+and validated prepared export follow automatically. Review covers the 21 service
+categories and explicitly assesses Miscellaneous from assigned evidence; no new
+broad discovery. Output target: `scout-mesa-prepared-resources-<YYYY-MM-DD>.json`
+under `deliveries/mesa-recuration-20260929/`, dated at generation. Registry commit
+and final handoff still follow the prepared-delivery gate. 778 tests passed, 4 skipped.
+The dashboard shows review stages and completed category checks from saved review
+checkpoints, including content, taxonomy and selections. Identity and validation
+are collection-wide stages. Counts are reviewer-reported, not an acceptance gate;
+no percentage is inferred from elapsed time. Both dashboard APIs were checked live
+without restarting curation; Welfare Square still reports paused.
+See [current Mesa run](docs/mesa-recuration-20260929.md).
+
+## September 29 review instructions
+
+Michael initially held Mesa curation while inspecting policy, then explicitly
+authorized the new run above. He approved consolidating the
 review guidance: 7–10 explained starters, then AI-selected ordered complements
 considering uncovered Types and other evidenced practical benefits, then searchable
 usable reserves. Apply the four office-fit rules throughout; no filler quota,
@@ -11,9 +50,10 @@ invented benefit or unsupported capacity claim. The consolidated instructions ar
 in the prepared-resource contract and prepared review prompt, with a pointer in
 AGENTS.md. Complementary selections are recorded in the review ledger/report;
 export/import support for that explicit order remains pending. Frozen Housing
-comparisons retain their original protocol. No Mesa curation was launched here.
+comparisons retain their original protocol. The separate Church-account Claude
+Housing experiment is not this full-Mesa Codex run.
 
-## Fresh Welfare Square run — September 28
+## Fresh Welfare Square run — September 28 (now paused)
 
 Michael authorized a blank-sheet Welfare Square run, with earlier research archived
 apart. The fresh database is `data/welfare-square-fresh-20260928/research.sqlite3`.
@@ -39,7 +79,7 @@ Four completed category result hashes were preserved. New batch response schemas
 now require the exact assigned checksum/category; existing schemas remain sealed.
 775 tests passed (4 skipped). No research or completed curation was repeated.
 
-Curation resumed at 2026-09-29 03:04 UTC: worker PID 12564, curation supervisor
+Historical recovery: curation resumed at 2026-09-29 03:04 UTC: worker PID 12564, curation supervisor
 12566, full-delivery pipeline 12567; dashboard remains 96687 on port 8770.
 Verify `launch.json`, curation launch/status and live database state before acting;
 PIDs and progress can change. The existing coordinator restart budget was preserved.
@@ -61,7 +101,7 @@ After `prepared-delivery-ready`, verify the JSON/receipts, commit the registry a
 scoped delivery, record the commit in pipeline status, then set
 `prepared-delivery-complete` to enable its download. This last handoff remains the
 supervising assistant's responsibility. No legacy HTML review gate applies.
-All unrelated earlier runs remain stopped; this authorization is for Welfare Square.
+The current Mesa authorization and Welfare Square pause above supersede continuation here.
 
 ## Repository consolidation and previous stop record
 

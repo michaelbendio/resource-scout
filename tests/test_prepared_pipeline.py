@@ -142,6 +142,25 @@ class PreparedPipelineTests(unittest.TestCase):
         self.assertIn('One sequential Codex reviewer', prompt)
         self.assertNotIn('Do not use review-complete unless the native handoff reports reviewed', prompt)
 
+    def test_preserved_research_review_keeps_human_suppression(self):
+        result = export_reviewed_submission(self.config, self.job)
+        artifact = json.loads(Path(result['artifactFile']).read_text())
+        (self.root / 'source-snapshot').mkdir()
+        self.write('source-snapshot/research-manifest.json', {'source': 'frozen research'})
+        self.write('source-snapshot/preservation.json', {'suppressedResourceIds': [artifact['resources'][0]['id']]})
+        self.config.update(researchOrigin='preserved',
+            researchManifestSha256=sha(self.root / 'source-snapshot/research-manifest.json'),
+            preservationSha256=sha(self.root / 'source-snapshot/preservation.json'))
+        self.bundle['inputs'].update({k:self.config[k] for k in ['researchManifestSha256', 'preservationSha256']})
+        seal(self.bundle)
+        self.write('review/reviewed-bundle.json', self.bundle)
+        with self.assertRaisesRegex(ValueError, 'human-suppressed'):
+            validate_submission(self.config, self.job)
+        prompt = prepared_review_prompt(self.config, 1, 1)
+        self.assertIn('REUSES PRESERVED RESEARCH', prompt)
+        self.assertNotIn('This is a BLANK-SHEET run', prompt)
+        self.assertIn('No new broad discovery', prompt)
+
     def test_dashboard_names_json_before_curation_and_never_borrows_another_import(self):
         self.write('pipeline.json', self.config)
         store = Mock(path=Path(self.config['database']))

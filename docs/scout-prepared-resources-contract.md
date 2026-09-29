@@ -123,6 +123,43 @@ features. Existing JSON and read-only previews still use the behavior below; do 
 claim that they already display the AI's complementary order. Frozen comparison
 experiments retain their original instructions.
 
+## Live review progress — September 29
+
+The reviewer initializes `review/progress.json` and replaces it atomically after
+each completed category check and major stage, across all sessions. This file is
+for the progress dashboard, not import or human approval. Use the actual category
+IDs in the run's review scope, with one row for every category:
+
+```json
+{
+  "updatedAt": "actual UTC timestamp",
+  "stage": "content",
+  "summary": "Specific completed work and current task",
+  "checkpointFile": "/absolute/run/path/review/decision-ledger.md",
+  "identityStatus": "pending",
+  "validationStatus": "pending",
+  "categories": [
+    {"categoryId": "housing", "content": "in-progress", "taxonomy": "pending", "selection": "pending"}
+  ]
+}
+```
+
+`stage` is `content`, `identity`, `taxonomy`, `selection`, or `validation`.
+Each status is `pending`, `in-progress`, or `complete`. The checkpoint must be a
+nonempty saved file inside this run's review directory, documenting the decisions.
+Content completion means the category's candidate dispositions and retained facts
+were assessed. Taxonomy completion means supported Types/groups and no-group
+decisions were reviewed. Selection completion means starters, ordered complements,
+consideration reasons and gaps are authored. Identity and validation are
+collection-wide stages. Reopen a completed status when later findings require work.
+Update the file before ending a session and at final completion.
+
+Counts represent completed judgments, never files read, elapsed time or native
+heartbeats. The dashboard labels them reviewer-reported checkpoints. They do not
+replace the full input, preservation, schema and export gates; a completed progress
+file alone never makes a delivery ready. The dashboard deliberately shows separate
+stage counts rather than inventing an overall percentage or review ETA.
+
 ## Non-starter considerations — Michael/Claude change order
 
 Every exported non-starter resource/category pair now has exactly one:

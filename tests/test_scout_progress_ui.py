@@ -41,6 +41,13 @@ assert.match(nodes.get('#curation-next-step-detail').textContent, /1648/);
 renderScoutProgress({...base, phase:'codex-curation-repair-active'});
 assert.equal(nodes.get('#curation-next-step').hidden, true);
 assert.equal(nodes.get('#scout-progress-phase').textContent, 'Correcting saved curation result');
+renderScoutProgress({...base, phase:'review', workProduct:{reviewProgress:{stage:'selection', summary:'Choosing Food complements',
+ checkpointAvailable:true, contentCompleted:22,taxonomyCompleted:20,selectionCompleted:9,totalCategories:22,
+ identityStatus:'complete',validationStatus:'pending',updatedAt:'2026-09-29T07:00:00Z',session:2}}});
+assert.equal(nodes.get('#scout-review-progress').hidden, false);
+assert.match(nodes.get('#scout-review-stage').textContent, /Starters and complementary/);
+assert.match(nodes.get('#scout-review-counts').textContent, /Selections 9\/22/);
+assert.match(nodes.get('#scout-review-checkpoint').textContent, /Reviewer-reported/);
 renderScoutProgress({...base, phase:'awaiting-codex-review', reviewFile:{readyForSave:false,filename:'autoWelfareSquare.html'}});
 assert.equal(nodes.get('#review-file-download').hidden, true);
 assert.match(nodes.get('#scout-progress-title').textContent, /ready for Codex review/);
@@ -64,6 +71,11 @@ renderScoutProgress({...base, phase:'prepared-delivery-complete', targetReviewFi
  downloadUrl:'/api/scout-prepared-resources?importId=1',categoryCount:21,resourceCount:250}});
 assert.equal(nodes.get('#review-file-download').download, 'scout-welfare-square-prepared-resources-26-09-28.json');
 assert.equal(nodes.get('#review-file-download').href, '/api/scout-prepared-resources?importId=1');
+renderScoutProgress({...base, phase:'paused', targetReviewFilename:jsonName,
+ workProduct:{kind:'prepared-resources',phase:'paused',pauseFinished:true,readyForSave:false}});
+assert.equal(nodes.get('#scout-progress-title').textContent, `Paused: ${jsonName}`);
+assert.equal(nodes.get('#scout-progress-phase').textContent, 'Paused');
+assert.equal(nodes.get('#curation-next-step').hidden, true);
 """
         result = subprocess.run(["node", "-e", script], capture_output=True, text=True)
         self.assertEqual(0, result.returncode, result.stderr)

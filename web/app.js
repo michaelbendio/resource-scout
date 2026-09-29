@@ -144,6 +144,7 @@ function friendlyProgressPhase(value) {
     'ready-review': 'Starting prepared-resource review',
     'prepared-delivery-ready': 'Finalizing prepared JSON',
     'prepared-delivery-complete': 'Prepared JSON ready to save',
+    'paused': 'Paused',
     'curation-awaiting-effort-review': 'Paused for effort discussion',
     'codex-curation-started': 'Curation',
     'codex-curation-active': 'Curation',
@@ -325,7 +326,7 @@ function renderScoutProgress(progress) {
   const effortReview = progress.phase === 'curation-awaiting-effort-review';
   const curationStopped = progress.phase === 'codex-curation-stopped';
   const nextStep = document.querySelector('#curation-next-step');
-  nextStep.hidden = !!progress.reviewFile || (progress.workProduct?.automaticReview && readyForCuration)
+  nextStep.hidden = !!progress.reviewFile || progress.workProduct?.phase === 'paused' || (progress.workProduct?.automaticReview && readyForCuration)
     || !(readyForCuration || effortReview || curationStopped);
   document.querySelector('#curation-next-step-title').textContent = curationStopped
     ? 'Curation stopped — correction needed'
@@ -338,7 +339,7 @@ function renderScoutProgress(progress) {
     ? 'Completed work is saved. Review the category comparison with Codex and agree on effort before continuing.'
     : 'Discuss curation effort with Codex before starting. During validation, Scout waits for that decision.';
   document.querySelector('#scout-progress-title').textContent = progress.workProduct
-    ? `${progress.workProduct.phase === 'needs-attention' ? 'Needs attention:' : progress.workProduct.readyForSave ? 'Ready:' : 'Creating'} ${reviewFilename}`
+    ? `${progress.workProduct.phase === 'paused' ? (progress.workProduct.pauseFinished ? 'Paused:' : 'Pausing:') : progress.workProduct.phase === 'needs-attention' ? 'Needs attention:' : progress.workProduct.readyForSave ? 'Ready:' : 'Creating'} ${reviewFilename}`
     : progress.reviewFile
     ? awaitingReview ? 'Curation complete — ready for Codex review' : `${reviewFilename} is ready`
     : curationStopped ? 'Curation stopped — needs attention'
@@ -352,6 +353,19 @@ function renderScoutProgress(progress) {
   document.querySelector('#scout-research-progress').textContent = `${progress.research.completed} of ${progress.research.total} categories`;
   const curationFailures = Number(progress.curation.failed || 0);
   document.querySelector('#scout-curation-progress').textContent = `${progress.curation.completed} of ${progress.curation.total} categories${curationFailures ? ` · ${curationFailures} need attention` : ''}`;
+  const reviewProgress = progress.workProduct?.reviewProgress;
+  document.querySelector('#scout-review-progress').hidden = !reviewProgress;
+  if (reviewProgress) {
+    const stages = {waiting:'Waiting for curation', content:'Resource and source checks', identity:'Agency and program consolidation', taxonomy:'Types and groups', selection:'Starters and complementary suggestions', validation:'Final validation and export'};
+    document.querySelector('#scout-review-stage').textContent = `Codex review · ${stages[reviewProgress.stage] || reviewProgress.stage}`;
+    document.querySelector('#scout-review-summary').textContent = reviewProgress.summary;
+    document.querySelector('#scout-review-counts').textContent = reviewProgress.checkpointAvailable
+      ? `Categories checked: content ${reviewProgress.contentCompleted}/${reviewProgress.totalCategories} · Types/groups ${reviewProgress.taxonomyCompleted}/${reviewProgress.totalCategories} · Selections ${reviewProgress.selectionCompleted}/${reviewProgress.totalCategories}. Identity: ${reviewProgress.identityStatus}. Validation: ${reviewProgress.validationStatus}.`
+      : 'No completed review checkpoint yet.';
+    document.querySelector('#scout-review-checkpoint').textContent = reviewProgress.updatedAt
+      ? `Last saved checkpoint: ${formatWhen(reviewProgress.updatedAt)} · session ${reviewProgress.session}. Reviewer-reported progress; final delivery checks are separate.`
+      : 'Progress will update from saved review decisions, not elapsed time.';
+  }
   const focused = progress.focusedResearch;
   const focusedMetric = document.querySelector('#scout-focused-research-metric');
   focusedMetric.hidden = !focused;

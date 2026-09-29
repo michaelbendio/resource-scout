@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 from .office_fit import office_fit_lines
-from .prepared_export import export_bundle
+from .prepared_export import export_bundle, finalize
 from .prepared_preview import render_preview
 from .prepared_resources import require, text, validate_artifact
 from .resource_identity import fingerprint, load_registry
@@ -28,6 +28,32 @@ def content_view(bundle):
 def prepared_review_prompt(config, job_id, session):
     root = Path(config['runDirectory'])
     rules = '\n'.join(office_fit_lines('Apply every office-fit rule:'))
+    scope_instruction = ('Scope covers every research category; do not add unresearched Miscellaneous candidates.'
+        if not config.get('reviewCategoryIds') else
+        'Scope covers exactly these category IDs: ' + ', '.join(config['reviewCategoryIds']) +
+        '. Assess Miscellaneous explicitly using only assigned candidate evidence; record an empty-set explanation if none qualify. Do not invent additions.')
+    if config.get('researchOrigin', 'fresh') == 'preserved':
+        evidence_scope = f'''This run REUSES PRESERVED RESEARCH and performs fresh curation and review.
+Use the research copied into this run's database and its newly prepared curation job.
+The source manifest is {root}/source-snapshot/research-manifest.json. Old curation
+jobs in the copied database are historical evidence, not accepted decisions or a
+source of prepared text. Do not reuse old starters, taxonomy or review conclusions.
+Read {root}/source-snapshot/preservation.json for existing human suppression IDs and
+identity aliases only. After independently reviewing the new content, reconcile
+those decisions against the registry; never resurrect a human-suppressed identity.
+For a matching suppressed identity, record a suppressed assessment and its evidence,
+then refreeze the final content view. Do not suppress a genuinely distinct program
+merely because it shared a parent or an old bundled entry. Preserve unresolved
+identity conflicts explicitly; human decisions are never inferred from AI omissions.
+No new broad discovery is authorized; targeted official-source checks are required
+where existing research is insufficient. Do not consult unrelated office archives.
+Bind inputs.researchManifestSha256 and inputs.preservationSha256 to the byte hashes
+of those two source-snapshot files. They are sealed inputs, not editable decisions.'''
+    else:
+        evidence_scope = '''This is a BLANK-SHEET run. Use only this run's research, curation, and independently
+checked official sources as resource evidence. Do not consult old office deliveries,
+old research, prior review findings, archived databases, or archived Welfare Square
+evidence.'''
     return f'''Complete the explicitly requested {config['officeName']} prepared-resource review.
 Authorization: {config['authorization']}
 One sequential Codex reviewer, xhigh, session {session}; no subagents or other paid workers.
@@ -44,10 +70,8 @@ Use the prepared JSON contract, not legacy HTML/tier/four-section completion gat
 Read the exporter, validator and identity registry API to construct the exact schema.
 Keep output and reads bounded. Resume review/STATUS.json and decision checkpoints.
 
-This is a BLANK-SHEET run. Use only this run's research, curation, and independently
-checked official sources as resource evidence. Do not consult old office deliveries,
-old research, prior review findings, archived databases, or archived Welfare Square
-evidence. Current policy/code is allowed. Only AFTER the fresh content review is
+{evidence_scope}
+Current policy/code is allowed. Only AFTER the fresh content review is
 finished and frozen may you read {config['registryPath']} for identity-only matching.
 Do not copy resource content from it. Record uncertain matches explicitly; code owns IDs.
 
@@ -88,9 +112,9 @@ Provide one curator-facing consideration for EVERY non-starter resource/category
 check comparisons against actual starters. Preserve rich searchable facts in reserves.
 Usable and needs-resolution records export; excluded/raw leads stay in Scout's audit.
 No human Curated/deleted/verified dates or client notes. researchedAt is research only.
-Full office category catalog must exactly match the fresh seed IDs (including the
-Miscellaneous catalog entry); scope covers every research category, with completeScope
-and completeOffice true. No unresearched Miscellaneous candidate additions.
+Full office category catalog must exactly match the source seed IDs (including the
+Miscellaneous catalog entry), with completeScope and completeOffice true.
+{scope_instruction}
 
 Internal submission: {root}/review/reviewed-bundle.json, using
 prepared_export.finalize's scout-reviewed-preparation schema. Keep provisional draft
@@ -116,6 +140,13 @@ does not substitute for your content/identity/taxonomy/starter judgment.
 
 Maintain individual decisions, cross-category reconciliation, citations and a readable
 review/report.md. No legacy workbench or browser gate is needed for JSON delivery.
+Follow the live-review-progress section of the prepared-resource contract: initialize
+review/progress.json, then update it atomically after each completed category check
+and major stage. Link a nonempty saved decision checkpoint; counts mean completed
+judgments, not records read, elapsed time, or worker heartbeats. Reopen statuses when
+decisions need revision. Include content, taxonomy and selection status for every
+scope category, plus collection identity/validation status, current stage, summary
+and updatedAt. Keep it current across sessions and before final completion.
 Preserve raw findings; scripts may compile authored judgments, never invent them.
 Before ending EVERY session, write {root}/review/STATUS.json:
 {{"status":"continue|needs-attention|review-complete",
@@ -133,6 +164,15 @@ def validate_submission(config, job):
     root = Path(config['runDirectory'])
     review = root / 'review'
     bundle = read(review / 'reviewed-bundle.json')
+    if config.get('researchOrigin') == 'preserved':
+        for field, filename in [('researchManifestSha256', 'research-manifest.json'), ('preservationSha256', 'preservation.json')]:
+            require(bundle['inputs'].get(field) == sha(root / 'source-snapshot' / filename) == config[field],
+                    'Preserved research or human-state input changed')
+        artifact, _, _, _ = finalize(bundle, load_registry(Path(config['registryPath'])))
+        hidden = set(read(root / 'source-snapshot/preservation.json')['suppressedResourceIds'])
+        require(not hidden.intersection(r['id'] for r in artifact['resources']), 'Export would resurrect a human-suppressed identity')
+        if config.get('previousPreparedPath'):
+            require(sha(config['previousPreparedPath']) == config['previousPreparedSha256'], 'Previous delivery changed')
     drafts_path = root / 'curation/prepared-drafts.json'
     drafts = read(drafts_path)
     curation_receipt = read(root / 'curation/curation-summary.json')
@@ -155,8 +195,11 @@ def validate_submission(config, job):
     require(bundle['sourceNamespace'] == config['sourceNamespace'], 'Wrong fresh source namespace')
     require(payload['office']['slug'] == config['officeSlug'], 'Wrong office')
     scope = payload['scope']
+    researched = {c['categoryId'] for c in job['categories']}
+    reviewed = set(config.get('reviewCategoryIds', researched))
+    require(researched <= reviewed <= researched | {'miscellaneous'}, 'Review scope omits research or adds an unsupported category')
     require(scope.get('completeOffice') is True and scope.get('completeScope') is True
-            and set(scope['categoryIds']) == {c['categoryId'] for c in job['categories']}, 'Incomplete review scope')
+            and set(scope['categoryIds']) == reviewed, 'Incomplete review scope')
     expected = {(c['categoryId'], str(r['id'])) for c in job['categories'] for r in c['assignment']['candidates']}
     rows = bundle['candidateReview']
     pairs = [(r['categoryId'], str(r['candidateId'])) for r in rows]
@@ -187,7 +230,9 @@ def export_reviewed_submission(config, job):
     bundle_path = validate_submission(config, job)
     output = Path(config['preparedOutputDirectory'])
     registry_path = Path(config['registryPath'])
-    receipt = export_bundle(bundle_path, registry_path, output, short_date=config.get('shortDeliveryDate', False))
+    previous = Path(config['previousPreparedPath']) if config.get('previousPreparedPath') else None
+    receipt = export_bundle(bundle_path, registry_path, output, previous_path=previous,
+                            short_date=config.get('shortDeliveryDate', False))
     artifact_path = output / receipt['artifactFile']
     artifact = read(artifact_path)
     registry = load_registry(registry_path)
