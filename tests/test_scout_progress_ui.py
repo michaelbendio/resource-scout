@@ -59,6 +59,18 @@ assert.match(nodes.get('#scout-review-categories').innerHTML, /In Progress/);
 assert.match(nodes.get('#scout-review-findings').innerHTML, /&lt;img/);
 assert.doesNotMatch(nodes.get('#scout-review-findings').innerHTML, /<img/);
 assert.match(nodes.get('#scout-review-activity').textContent, /Activity does not count/);
+renderScoutProgress({...base, phase:'review', workProduct:{reviewProgress:{stage:'content', summary:'Checking Food',
+ estimate:{status:'estimated',confidence:'Early estimate',earliestCompletion:'2026-09-30T04:30:00Z',latestCompletion:'2026-09-30T20:30:00Z',
+ lowerSeconds:3600,upperSeconds:7200,updatedAt:'checkpoint',basis:'Observed content; planning allowances for later stages',
+ stages:[{label:'Cross-category consolidation',lowerSeconds:1800,upperSeconds:3600,basis:'Planning allowance'},
+ {label:'Final validation and supervisor audit',lowerSeconds:1800,upperSeconds:3600,basis:'Planning allowance'}]}}}});
+assert.match(nodes.get('#scout-review-eta').textContent, /Estimated review completion:/);
+assert.match(nodes.get('#scout-review-eta-stages').innerHTML, /Cross-category consolidation/);
+assert.match(nodes.get('#scout-review-eta-stages').innerHTML, /Final validation/);
+assert.match(nodes.get('#scout-review-eta-basis').textContent, /Early estimate/);
+renderScoutProgress({...base, phase:'paused', workProduct:{reviewProgress:{stage:'content',estimate:{status:'inactive',label:'Review is paused'}}}});
+assert.equal(nodes.get('#scout-review-eta').textContent, 'Review is paused');
+assert.equal(nodes.get('#scout-review-eta-detail').hidden, true);
 renderScoutProgress({...base, phase:'awaiting-codex-review', reviewFile:{readyForSave:false,filename:'autoWelfareSquare.html'}});
 assert.equal(nodes.get('#review-file-download').hidden, true);
 assert.match(nodes.get('#scout-progress-title').textContent, /ready for Codex review/);

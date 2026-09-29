@@ -33,6 +33,11 @@ import it as an accepted delivery.
   polling every 15 seconds. The live reviewer instructions include
   `review/UI_PROGRESS_CONTRACT.md`; future prepared-review prompts include the same
   checkpoint fields. Only the dashboard server was reloaded for the UI update.
+- Michael also requested a full-review completion estimate. The dashboard now
+  includes content pace plus explicit planning allowances for cross-category
+  consolidation, taxonomy, selections and final validation/supervisor audit.
+  See the prepared-resource contract's estimate section. Checkpoint observations
+  persist in `review-estimate-history.json`; superseded session timing is excluded.
 
 ## Current focus — parallel Welfare Square and Mesa, September 29
 

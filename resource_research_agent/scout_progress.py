@@ -10,6 +10,7 @@ from .scout_review_handoff import review_handoff
 from .focused_research import CODEX_FIRST_EXPERIMENT_MODE
 from .curation_eta import ACTIVE_PHASES, estimate_curation
 from .review_progress import review_progress
+from .review_eta import estimate_review
 
 
 def _effective_import_id(run: dict[str, Any]) -> int | None:
@@ -58,6 +59,7 @@ def prepared_delivery_context(store, import_id):
         labels = {c['id']: c.get('label', c['id']) for c in seed_categories}
         for row in review['categories']:
             row['label'] = labels.get(row['categoryId'], row['categoryId'])
+        review['estimate'] = estimate_review(path.parent, database, state.get('jobId'), review, state)
     return dict(kind='prepared-resources', filename=Path(artifact).name if artifact else
                 f'scout-{slug}-prepared-resources-<{date_format}>.json',
                 phase=state.get('phase'), automaticReview=bool(config.get('automaticReview')),

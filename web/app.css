@@ -301,5 +301,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; background:
 .review-check-pending { color: #59656b; }
 #scout-review-progress > div { min-width: 0; width: 100%; }
 #scout-review-activity, #scout-review-checkpoint { font-size: .85rem; }
+.review-estimate { padding: .75rem 1rem; margin: .8rem 0; background: #fff; border: 1px solid #b6cfc5; border-radius: .5rem; }
+.review-estimate p { margin: .4rem 0; }
 @media (max-width: 600px) { .candidate-facts { grid-template-columns: 1fr; } .form-actions { display: block; } .form-actions span { margin-top: .8rem; } }
 @media (max-width: 700px) { .standalone-fields, .manual-identity-pair, #manual-group-list { grid-template-columns: 1fr; } }

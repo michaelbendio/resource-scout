@@ -161,7 +161,7 @@ category's actual scoped resource records and original candidates. Reviewed coun
 require individually authored saved judgments, linked by `checkpointFile`; loading,
 reading or triaging a record does not count. Add `recentFindings` as up to five concise
 strings describing concrete findings and implications. Update these fields atomically
-with the category statuses. Do not invent an overall percentage or review ETA.
+with the category statuses. Do not invent an overall percentage or supply a model-guessed ETA.
 
 The Scout UI shows the category checklist, saved record counts, findings and current
 task. Native reviewer messages and last log activity are displayed separately as
@@ -171,7 +171,7 @@ Counts represent completed judgments, never files read, elapsed time or native
 heartbeats. The dashboard labels them reviewer-reported checkpoints. They do not
 replace the full input, preservation, schema and export gates; a completed progress
 file alone never makes a delivery ready. The dashboard deliberately shows separate
-stage counts rather than inventing an overall percentage or review ETA.
+stage counts rather than inventing an overall percentage.
 
 ## Non-starter considerations — Michael/Claude change order
 
@@ -268,3 +268,30 @@ Removed fields or changed meaning require a new major version, rejected clearly 
 older consumers. Scout tests the export contract, not Dataverse implementation:
 real import idempotence, human-edit preservation, reserve warnings, Ask and printing
 must be demonstrated by WSRS-TSO before phase 5 is called complete.
+
+## Estimated review completion — Michael, September 29
+
+Michael requested a full-review completion estimate, including consolidation,
+taxonomy, selections and final validation. The dashboard now calculates a broad
+finish window from saved decision checkpoints and the current rerun's native session
+timing. It counts candidate plus draft-resource/category records for content work;
+category counts measure taxonomy and selections. Startup time is included in the
+initial sample. Gaps between sessions are excluded from measured active work.
+
+Until a stage has timed progress, explicit planning allowances relative to projected
+whole-content time are used: consolidation 10–25%, taxonomy 10–25%, selections
+20–40%, final validation/supervisor audit 5–15% (at least 30 minutes–2 hours).
+These are adjustable planning assumptions, not measured historical rates. Observed
+stage pace replaces its allowance when available. Content pacing uses a wider range
+until three categories have completed content review. Cross-category consolidation
+is represented by the collection identity checkpoint, which must include actual
+agency/program and cross-category reconciliation, not just registry assignment.
+
+The estimate includes supervisor acceptance work but assumes continued operation;
+it excludes office import/publication. No polling heartbeat advances completed work.
+The completion window is anchored to the saved checkpoint rather than sliding on
+every refresh. Overdue windows are labeled for recalibration. Pauses/stops suppress
+running estimates. Reopened judgments reset pace learning. A new review workspace
+with a new first session resets timing so superseded reviews cannot inflate pace.
+Dashboard observations persist under `review-estimate-history.json` outside the
+worker's review directory. This forecast is never a review acceptance gate.

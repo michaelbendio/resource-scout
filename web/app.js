@@ -367,6 +367,20 @@ function renderScoutProgress(progress) {
       : 'Progress will update from saved review decisions, not elapsed time.';
     const label = value => String(value).replaceAll('-', ' ').replace(/\b\w/g, letter => letter.toUpperCase());
     const safe = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[char]));
+    const estimate = reviewProgress.estimate;
+    const duration = seconds => seconds < 3600 ? `${Math.ceil(seconds / 60)} min` : `${(seconds / 3600).toFixed(1)} hr`;
+    const finish = value => new Date(value).toLocaleString(undefined, {weekday:'short', month:'short', day:'numeric', hour:'numeric', minute:'2-digit', timeZoneName:'short'});
+    document.querySelector('#scout-review-eta').textContent = estimate?.earliestCompletion
+      ? estimate.status === 'overdue' ? 'Review estimate needs recalibration — the previous completion window has passed.'
+        : `Estimated review completion: ${finish(estimate.earliestCompletion)} – ${finish(estimate.latestCompletion)}`
+      : estimate?.label || 'Learning review pace — awaiting timed checkpoints.';
+    document.querySelector('#scout-review-eta-basis').textContent = estimate?.earliestCompletion
+      ? `${estimate.confidence}. ${duration(estimate.lowerSeconds)}–${duration(estimate.upperSeconds)} of work estimated at ${formatWhen(estimate.updatedAt)}. ${estimate.basis}`
+      : estimate?.basis || '';
+    document.querySelector('#scout-review-eta-detail').hidden = !estimate?.stages;
+    document.querySelector('#scout-review-eta-stages').innerHTML = (estimate?.stages || []).map(s =>
+      `<li><strong>${safe(s.label)}:</strong> ${s.upperSeconds ? `${duration(s.lowerSeconds)}–${duration(s.upperSeconds)}` : 'Saved checks complete'} · ${safe(s.basis)}</li>`).join('');
+    document.querySelector('#scout-review-eta-assumptions').textContent = estimate?.assumptions || '';
     const records = reviewProgress.recordProgress;
     document.querySelector('#scout-review-records').textContent = records
       ? `${label(records.categoryId)} saved judgments: ${records.resourcesReviewed} of ${records.resourcesTotal} resource records · ${records.candidatesReviewed} of ${records.candidatesTotal} candidate decisions.`
