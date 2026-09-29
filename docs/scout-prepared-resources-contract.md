@@ -84,7 +84,44 @@ Bottom-up taxonomy review considers selectivity, overlapping meanings, useful ra
 pathways, definitions, evidence for each assignment and explicit no-group decisions.
 Counts cannot perform that judgment. Seven to ten complementary starter choices per
 category have contribution and limitation explanations; justified exceptions are explicit.
-No tiers, opening set of three, or total ranking of the reserve are introduced.
+No opening set of three or total ranking of the reserve is introduced.
+
+## Starter sets, selected complements and reserve — Michael, September 29
+
+During whole-collection review, after facts, office fit, identity and taxonomy have
+been reviewed, apply this sequence to every category:
+
+1. Select **7–10 starters**, with individual contribution and limitation explanations.
+   Record an evidenced size exception when fewer suitable resources are available.
+2. **Select and order the strongest complementary additions.** Explicitly consider
+   **uncovered Types** (kinds of help not yet represented), different eligibility,
+   locations, languages, access arrangements, and useful alternative providers that
+   help spread referrals. Compare each addition against both the starters and the
+   complements already selected. Reassess remaining gaps after every selection.
+3. Keep the other usable, uncurated resources in the **searchable reserve**. Failure
+   to make either selected list is not itself a reason to exclude a resource.
+
+An uncovered Type merits consideration, not automatic selection. Sharing a Type
+does not make a resource redundant. Distinguish useful alternatives from duplicates
+through evidenced differences that matter to a client. For every selected complement,
+explain its practical contribution and limitations relative to what is already
+selected. Do not invent benefits, claim available capacity without evidence, or fill
+a numerical quota. Stop when further additions lack a clear complementary benefit;
+record remaining gaps and why selection stopped, including when none are justified.
+
+All four [office-fit rules](office-fit-rules-20260928.md) apply to **every retained
+resource**, including reserves. Preserve evidence and record the reason for omissions.
+Needs-resolution records remain administrator-only; selection never confers human
+Curated approval or agency verification. Retain a consideration reason for every
+exported non-starter membership, including selected complements.
+
+Record each category's ordered complements, reasons, limitations and stopping reason
+in the review ledger and report. **Export/import follow-up remains:** an explicit
+complementary-selection field and corresponding WSRS-TSO reader support are needed
+to carry this order into the app. This instruction change does not implement those
+features. Existing JSON and read-only previews still use the behavior below; do not
+claim that they already display the AI's complementary order. Frozen comparison
+experiments retain their original instructions.
 
 ## Non-starter considerations — Michael/Claude change order
 
@@ -104,7 +141,7 @@ Reasons for needs-resolution records explain why resolving the record could be u
 they do not make it available to missionaries. Merged/excluded/hidden records are not
 exported, so they do not get separate consideration entries.
 
-There is no reserve rank. WSRS-TSO chooses five at a time, prioritizing a Type not
+There is no reserve rank. In the current export/reader contract, WSRS-TSO chooses five at a time, prioritizing a Type not
 yet covered by curated resources, then alphabetical order. Scout's read-only
 preview assumes the starter Types are covered only to make this next step testable.
 `considerations` is an optional addition to major version 1 for compatibility with

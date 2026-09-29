@@ -66,6 +66,24 @@ without destroying meaningful selectivity. Each category membership needs a supp
 Type. Record group evidence and explicit reasons for no-group decisions in the ledger.
 Select 7–10 complementary starters per category with resource-specific contributions
 and limitations; record an evidenced size exception when fewer are supportable.
+Then select and order the strongest additional resources that complement those
+starters. Explicitly consider uncovered Types (kinds of help not yet represented),
+different eligibility, locations, languages, access arrangements, and useful alternative
+providers that help spread referrals. Compare each proposed addition with the starters
+AND the complements already selected; reassess remaining gaps after each selection.
+An uncovered Type is a reason to consider a resource, not an automatic selection.
+Sharing a Type does not make a resource redundant: distinguish useful alternatives
+from duplicates using evidenced, client-meaningful differences. Explain each addition's
+practical contribution and limitations; never invent a benefit or claim available
+capacity without evidence. There is no quota for complements. Stop when further
+additions lack a clear complementary benefit, and record the remaining gaps and why
+selection stopped, including when no complements are justified.
+Apply all four office-fit rules to EVERY retained resource, including the uncurated
+reserve. Not being selected as a starter or complement is not itself an exclusion:
+keep the remaining usable resources searchable, with their facts and limitations.
+Record the ordered complements, individual reasons/limitations and selection stopping
+reason per category in the review ledger/report. The current export does not yet
+carry a separate complementary order; do not imply that WSRS-TSO displays this order.
 Provide one curator-facing consideration for EVERY non-starter resource/category pair;
 check comparisons against actual starters. Preserve rich searchable facts in reserves.
 Usable and needs-resolution records export; excluded/raw leads stay in Scout's audit.

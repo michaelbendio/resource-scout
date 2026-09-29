@@ -1,5 +1,18 @@
 # Scout current status
 
+## September 29 review instructions and Mesa hold
+
+Michael explicitly said **do not start Mesa curation yet**. Inspecting policy and
+adding review instructions does not lift that hold. He approved consolidating the
+review guidance: 7–10 explained starters, then AI-selected ordered complements
+considering uncovered Types and other evidenced practical benefits, then searchable
+usable reserves. Apply the four office-fit rules throughout; no filler quota,
+invented benefit or unsupported capacity claim. The consolidated instructions are
+in the prepared-resource contract and prepared review prompt, with a pointer in
+AGENTS.md. Complementary selections are recorded in the review ledger/report;
+export/import support for that explicit order remains pending. Frozen Housing
+comparisons retain their original protocol. No Mesa curation was launched here.
+
 ## Fresh Welfare Square run — September 28
 
 Michael authorized a blank-sheet Welfare Square run, with earlier research archived

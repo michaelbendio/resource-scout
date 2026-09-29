@@ -22,6 +22,12 @@ For prepared-resource JSON delivery, follow
 Michael's September 25 decisions require Stephanie's **five** Information sections,
 reserve preparation of resources that pass the office-fit rules, 7–10 complementary starter choices with explanations,
 and a consideration reason for every non-starter resource/category membership.
+Michael's September 29 review instructions also require selecting and ordering
+the strongest complements after the starters, explicitly considering uncovered
+Types and other evidenced client benefits. Reassess gaps after each addition;
+keep the remaining usable resources searchable. Follow the consolidated sequence
+and safeguards in the prepared-resource contract. Complementary order is currently
+recorded in the review ledger/report; its export/import support is still pending.
 Review Types/groups across the collection, preserve human state, and use only
 code-assigned registry IDs for delivery. Complete the data/fingerprint gates;
 do not apply the legacy four-section/tier gate to JSON delivery. Existing sealed
