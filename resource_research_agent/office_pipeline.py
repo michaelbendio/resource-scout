@@ -48,6 +48,14 @@ def review_command(config, directory):
 
 
 def review_prompt(config, job_id, session):
+    prompt = _base_review_prompt(config, job_id, session)
+    recovery = Path(config['runDirectory']) / 'review/AUTOMATIC_RECOVERY.md'
+    if recovery.is_file():
+        prompt += '\nMandatory recovery instructions (preserve all original acceptance gates):\n' + recovery.read_text()
+    return prompt
+
+
+def _base_review_prompt(config, job_id, session):
     if config.get('preparedMode'):
         return prepared_review_prompt(config, job_id, session)
     root = Path(config['runDirectory'])

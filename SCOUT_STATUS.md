@@ -1,5 +1,27 @@
 # Scout current status
 
+## Routine review recovery enabled — September 29
+
+Michael requested automatic handling of issues like the Welfare Square context
+failure. Session 011 exhausted context in Food, after saving four groups covering
+60/69 draft resources and 63/74 original candidate dispositions. The worker exited
+with code 1, not a timeout. Session 012 is now running at the same Extra High effort;
+nine prior categories and all four Food groups are preserved. Recovery evidence:
+`data/welfare-square-fresh-20260928/review-context-recovery-20260929T232950Z/`.
+Next sessions cap content work at two bounded groups and separate taxonomy/selection
+when needed. Depth and the final supervising-assistant acceptance gate remain.
+
+Persistent review-recovery monitors are attached to both pipelines: Welfare Square
+PID 78888 and Mesa PID 78889. Verify live receipts/status before using those PIDs.
+Each run has `review-recovery-launch.json`, `review-recovery-status.json`, and a
+separate supervisor log. Native context exhaustion with new saved decisions and
+bounded transient failures resume in a fresh session automatically. Repeated
+no-progress, account, unknown and acceptance failures remain explicit rather than
+triggering unlimited paid retries. Original attempts and retry budgets are durable.
+Welfare Square's exact acceptance-wrapper command is retained on every restart.
+Mesa remains in curation (19/21 complete at this checkpoint); its review monitor
+will cover the automatically started review. See orchestration's recovery section.
+
 ## Welfare Square thorough review rerun — September 29, 12:43 Mountain
 
 Michael requested: **"Run the review again. I want a thorough job."** This supersedes

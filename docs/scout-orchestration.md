@@ -189,6 +189,33 @@ resource links before saving it. Only then advance the category count. Preserve
 already-completed batches if a later batch fails. Do not trade away evidence or
 silently omit candidates to fit a context window.
 
+## Automatic review recovery — September 29
+
+Michael requested that the assistant handle routine failures instead of leaving
+Scout stopped. Attach `python3 -m resource_research_agent.review_recovery_supervisor
+--launch RUN/review-recovery-launch.json` to each authorized office pipeline.
+The manifest records the exact existing pipeline command, including Welfare Square's
+thorough-review acceptance wrapper. The monitor checks every 30 seconds and holds
+a per-run lock. It never interrupts a live pipeline/reviewer or resumes a pause.
+
+After a confirmed failed review session, native context errors may resume only from
+new nonempty decision checkpoints inside the review workspace. Fresh sessions use
+at most two 15-resource content groups and bounded source reads; depth, effort and
+all acceptance gates remain unchanged. Connection/service errors allow bounded
+retries, including only one retry without new saved progress. Original native
+sessions and prior STATUS/progress files remain preserved under `review-recovery/`.
+Budgets persist on disk: three context recoveries, three transport recoveries, and
+the existing total review-session limit. No unlimited retries or fabricated
+completion. Usage/authentication errors, timeouts, unknown failures, intentional
+acceptance gates and missing/new-progress failures remain needs-attention, with a
+local notification and exact diagnosis. The supervising assistant owns follow-up;
+notifications are not evidence of completed review or final acceptance.
+
+The monitor can attach to an already-running old pipeline. After a recoverable
+failure it relaunches the exact original command, loading the updated prompt
+recovery instructions, without rerunning research or curation. Keep the monitor
+running through review; its status and log are saved separately from the pipeline.
+
 ## Diagnose and recover
 
 Read the native error before deciding on recovery. Never treat every timeout as
