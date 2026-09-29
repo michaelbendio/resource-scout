@@ -48,6 +48,17 @@ assert.equal(nodes.get('#scout-review-progress').hidden, false);
 assert.match(nodes.get('#scout-review-stage').textContent, /Starters and complementary/);
 assert.match(nodes.get('#scout-review-counts').textContent, /Selections 9\/22/);
 assert.match(nodes.get('#scout-review-checkpoint').textContent, /Reviewer-reported/);
+renderScoutProgress({...base, phase:'review', workProduct:{reviewProgress:{stage:'content', summary:'Checking Food',
+ checkpointAvailable:true, contentCompleted:0,taxonomyCompleted:0,selectionCompleted:0,totalCategories:1,
+ identityStatus:'pending',validationStatus:'pending',session:1,
+ recordProgress:{categoryId:'food',resourcesReviewed:2,resourcesTotal:20,candidatesReviewed:3,candidatesTotal:30,currentTask:'Checking intake'},
+ categories:[{categoryId:'food',content:'in-progress',taxonomy:'pending',selection:'pending'}],
+ recentFindings:['<img src=x onerror=alert(1)>'],activity:{message:'Checking a public front door.',eventAgeSeconds:10}}}});
+assert.match(nodes.get('#scout-review-records').textContent, /2 of 20 resource records/);
+assert.match(nodes.get('#scout-review-categories').innerHTML, /In Progress/);
+assert.match(nodes.get('#scout-review-findings').innerHTML, /&lt;img/);
+assert.doesNotMatch(nodes.get('#scout-review-findings').innerHTML, /<img/);
+assert.match(nodes.get('#scout-review-activity').textContent, /Activity does not count/);
 renderScoutProgress({...base, phase:'awaiting-codex-review', reviewFile:{readyForSave:false,filename:'autoWelfareSquare.html'}});
 assert.equal(nodes.get('#review-file-download').hidden, true);
 assert.match(nodes.get('#scout-progress-title').textContent, /ready for Codex review/);

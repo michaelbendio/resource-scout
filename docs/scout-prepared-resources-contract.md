@@ -154,6 +154,19 @@ consideration reasons and gaps are authored. Identity and validation are
 collection-wide stages. Reopen a completed status when later findings require work.
 Update the file before ending a session and at final completion.
 
+For progress within a category, after each saved bounded group optionally add
+`recordProgress` with `categoryId`, `resourcesReviewed`, `resourcesTotal`,
+`candidatesReviewed`, `candidatesTotal`, and `currentTask`. Totals describe that
+category's actual scoped resource records and original candidates. Reviewed counts
+require individually authored saved judgments, linked by `checkpointFile`; loading,
+reading or triaging a record does not count. Add `recentFindings` as up to five concise
+strings describing concrete findings and implications. Update these fields atomically
+with the category statuses. Do not invent an overall percentage or review ETA.
+
+The Scout UI shows the category checklist, saved record counts, findings and current
+task. Native reviewer messages and last log activity are displayed separately as
+activity, never evidence of completed checks. The dashboard polls every 15 seconds.
+
 Counts represent completed judgments, never files read, elapsed time or native
 heartbeats. The dashboard labels them reviewer-reported checkpoints. They do not
 replace the full input, preservation, schema and export gates; a completed progress

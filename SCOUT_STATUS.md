@@ -28,6 +28,11 @@ import it as an accepted delivery.
   `deliveries/welfare-square-fresh-20260928-r2/`. Registry allocations from the first
   export are preserved; do not roll back the shared registry or disturb Mesa.
 - Mesa continues independently under its existing authorization and supervisor.
+- Welfare Square's dashboard at http://127.0.0.1:8770 now shows category checks,
+  optional saved record counts/findings and separate native reviewer activity,
+  polling every 15 seconds. The live reviewer instructions include
+  `review/UI_PROGRESS_CONTRACT.md`; future prepared-review prompts include the same
+  checkpoint fields. Only the dashboard server was reloaded for the UI update.
 
 ## Current focus — parallel Welfare Square and Mesa, September 29
 

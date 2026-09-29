@@ -149,6 +149,13 @@ decisions need revision. Include content, taxonomy and selection status for ever
 scope category, plus collection identity/validation status, current stage, summary
 and updatedAt. Keep it current across sessions and before final completion.
 Preserve raw findings; scripts may compile authored judgments, never invent them.
+For meaningful live browser progress, after each saved bounded group optionally add
+recordProgress: {{categoryId,resourcesReviewed,resourcesTotal,candidatesReviewed,
+candidatesTotal,currentTask}} and recentFindings: [up to five concise findings] to
+progress.json. Use actual category totals and counts of individually authored saved
+judgments, never records merely read or triaged. Update currentTask with concrete
+work and resource names as useful. The UI displays native activity separately;
+activity is not completion. See the live-review-progress contract for details.
 Before ending EVERY session, write {root}/review/STATUS.json:
 {{"status":"continue|needs-attention|review-complete",
 "checkpointFile":"absolute path to a nonempty review checkpoint",

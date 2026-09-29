@@ -50,15 +50,21 @@ def prepared_delivery_context(store, import_id):
     slug = config.get('officeSlug') or re.sub(r'[^a-z0-9]+', '-', config['officeName'].lower()).strip('-')
     artifact = state.get('delivery', {}).get('artifactFile')
     review_ids = config.get('reviewCategoryIds')
+    seed_categories = json.loads(Path(config['sourceSeedPath']).read_text())['categories'] if config.get('sourceSeedPath') else []
     if review_ids is None and config.get('sourceSeedPath'):
-        review_ids = [c['id'] for c in json.loads(Path(config['sourceSeedPath']).read_text())['categories'] if c['id'] != 'miscellaneous']
+        review_ids = [c['id'] for c in seed_categories if c['id'] != 'miscellaneous']
+    review = review_progress(path.parent, review_ids, state) if review_ids else None
+    if review:
+        labels = {c['id']: c.get('label', c['id']) for c in seed_categories}
+        for row in review['categories']:
+            row['label'] = labels.get(row['categoryId'], row['categoryId'])
     return dict(kind='prepared-resources', filename=Path(artifact).name if artifact else
                 f'scout-{slug}-prepared-resources-<{date_format}>.json',
                 phase=state.get('phase'), automaticReview=bool(config.get('automaticReview')),
                 artifactFile=artifact, artifactSha256=state.get('delivery', {}).get('artifactSha256'),
                 counts=state.get('delivery', {}).get('counts', {}),
                 pauseFinished=bool(state.get('pauseFinishedAt')),
-                reviewProgress=review_progress(path.parent, review_ids, state) if review_ids else None,
+                reviewProgress=review,
                 readyForSave=state.get('phase') == 'prepared-delivery-complete')
 
 

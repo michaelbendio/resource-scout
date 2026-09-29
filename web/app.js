@@ -365,6 +365,26 @@ function renderScoutProgress(progress) {
     document.querySelector('#scout-review-checkpoint').textContent = reviewProgress.updatedAt
       ? `Last saved checkpoint: ${formatWhen(reviewProgress.updatedAt)} · session ${reviewProgress.session}. Reviewer-reported progress; final delivery checks are separate.`
       : 'Progress will update from saved review decisions, not elapsed time.';
+    const label = value => String(value).replaceAll('-', ' ').replace(/\b\w/g, letter => letter.toUpperCase());
+    const safe = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[char]));
+    const records = reviewProgress.recordProgress;
+    document.querySelector('#scout-review-records').textContent = records
+      ? `${label(records.categoryId)} saved judgments: ${records.resourcesReviewed} of ${records.resourcesTotal} resource records · ${records.candidatesReviewed} of ${records.candidatesTotal} candidate decisions.`
+      : 'Record counts will appear when the reviewer saves individual decision checkpoints.';
+    document.querySelector('#scout-review-task').textContent = records?.currentTask || '';
+    const findings = reviewProgress.recentFindings || [];
+    document.querySelector('#scout-review-findings').innerHTML = findings.length
+      ? `<strong>Recent findings</strong><ul>${findings.map(f => `<li>${safe(f)}</li>`).join('')}</ul>` : '';
+    const checks = reviewProgress.categories || [];
+    document.querySelector('#scout-review-category-detail').hidden = !checks.length;
+    document.querySelector('#scout-review-categories').innerHTML = checks.map(row =>
+      `<tr><th scope="row">${safe(row.label || label(row.categoryId))}</th>${['content', 'taxonomy', 'selection'].map(key =>
+        `<td class="review-check-${safe(row[key])}">${safe(label(row[key]))}</td>`).join('')}</tr>`).join('');
+    const activity = reviewProgress.activity;
+    document.querySelector('#scout-review-activity').textContent = activity
+      ? `Worker activity: last log event ${activity.eventAgeSeconds < 60 ? 'less than a minute' : `${Math.floor(activity.eventAgeSeconds / 60)} minute${activity.eventAgeSeconds < 120 ? '' : 's'}`} ago · session ${reviewProgress.session}. Activity does not count as completed review. Auto-refreshes every 15 seconds.`
+      : 'Auto-refreshes every 15 seconds. Completed checks come from saved judgments.';
+    document.querySelector('#scout-review-worker-update').textContent = activity?.message ? `Latest reviewer update: ${activity.message}` : '';
   }
   const focused = progress.focusedResearch;
   const focusedMetric = document.querySelector('#scout-focused-research-metric');
@@ -417,7 +437,7 @@ function renderScoutProgress(progress) {
 
   const updated = document.querySelector('#scout-progress-updated');
   updated.hidden = !progress.updatedAt;
-  updated.textContent = progress.updatedAt ? `Latest update: ${formatWhen(progress.updatedAt)}` : '';
+  updated.textContent = progress.updatedAt ? `${reviewProgress ? 'Last research/curation update' : 'Latest update'}: ${formatWhen(progress.updatedAt)}` : '';
 
   const review = progress.reviewFile;
   const reviewPanel = document.querySelector('#review-file-ready');

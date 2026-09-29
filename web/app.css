@@ -292,5 +292,14 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; background:
   .manual-funnel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 520px) { .section-head { display: block; } }
+.review-category-scroll { overflow-x: auto; max-height: 24rem; margin-top: .6rem; }
+.review-category-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.review-category-table th, .review-category-table td { padding: .4rem .7rem; text-align: left; border-bottom: 1px solid #d7e0dd; }
+.review-category-table thead { position: sticky; top: 0; background: #f4f8f6; }
+.review-check-complete { color: #166534; font-weight: 600; }
+.review-check-in-progress { color: #854d0e; font-weight: 600; }
+.review-check-pending { color: #59656b; }
+#scout-review-progress > div { min-width: 0; width: 100%; }
+#scout-review-activity, #scout-review-checkpoint { font-size: .85rem; }
 @media (max-width: 600px) { .candidate-facts { grid-template-columns: 1fr; } .form-actions { display: block; } .form-actions span { margin-top: .8rem; } }
 @media (max-width: 700px) { .standalone-fields, .manual-identity-pair, #manual-group-list { grid-template-columns: 1fr; } }
