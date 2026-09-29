@@ -13,6 +13,7 @@ from resource_research_agent.scout_curation_runner import (
     compact_assignment, execute_worker, validate_links, write_once,
     run, candidate_batches, read_worker_result, write_evidence_once, encode,
     validate_worker_result,
+    response_schema, sealed_response_schema,
 )
 from resource_research_agent.storage import ResearchStore
 from resource_research_agent.importer import ResourcePackageImporter
@@ -21,6 +22,49 @@ from resource_research_agent.manual_consolidation import consolidate_manual_disc
 
 
 class CurationRunnerTests(unittest.TestCase):
+    def test_new_schema_binds_identity_and_old_sealed_schema_is_preserved(self):
+        assignment = {'assignmentSha256': 'sealed', 'category': {'id': 'food'}}
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            self.assertEqual(['sealed'], sealed_response_schema(root, assignment)['properties']['assignmentSha256']['enum'])
+            prior = encode(response_schema(assignment, bind_identity=False))
+            (root / 'schema.json').write_text(prior)
+            self.assertEqual(json.loads(prior), sealed_response_schema(root, assignment))
+            self.assertEqual(prior, (root / 'schema.json').read_text())
+            (root / 'schema.json').write_text('{}')
+            with self.assertRaisesRegex(ValueError, 'changed sealed'):
+                sealed_response_schema(root, assignment)
+
+    def test_reviewed_hash_typo_repair_cannot_change_content_or_assignment(self):
+        from resource_research_agent.scout_curation import _assignment_sha256
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            assignment = {'category': {'id': 'food'}, 'candidates': []}
+            assignment['assignmentSha256'] = _assignment_sha256(assignment)
+            sealed = encode(assignment)
+            (root / 'assignment.json').write_text(sealed)
+            original = dict(assignmentSha256=assignment['assignmentSha256'][:-5], categoryId='food',
+                scoutCurationResultSchemaVersion=1, resources=[], candidateDispositions=[])
+            raw = encode(original)
+            (root / 'result.json').write_text(raw)
+            corrected = {**original, 'assignmentSha256': assignment['assignmentSha256']}
+            receipt = dict(repairType='assignment-hash-copy-error', reviewer='supervising-codex', reviewedAt='2026-09-29',
+                reason='Five-character checksum copy omission; content unchanged', evidence=['assignment.json', 'result.json'],
+                originalSha256=hashlib.sha256(raw.encode()).hexdigest(), assignmentFileSha256=hashlib.sha256(sealed.encode()).hexdigest())
+            def save(value):
+                (root / 'reviewed-result-repair.json').write_text(encode({**receipt, 'result': value,
+                    'resultSha256': hashlib.sha256(encode(value).encode()).hexdigest()}))
+            save(corrected)
+            self.assertEqual(corrected, read_worker_result(root))
+            self.assertEqual(raw, (root / 'result.json').read_text())
+            save({**corrected, 'resources': [{'id': 'added'}]})
+            with self.assertRaisesRegex(ValueError, 'changes content'):
+                read_worker_result(root)
+            save(corrected)
+            (root / 'assignment.json').write_text(sealed+' ')
+            with self.assertRaisesRegex(ValueError, 'sealed assignment'):
+                read_worker_result(root)
+
     def test_non_link_defects_do_not_launch_an_incapable_paid_repair(self):
         assignment = {"category": {"id": "food", "label": "Food"}, "assignmentSha256": "sealed"}
         job = {"categories": [{"categoryId": "food"}]}

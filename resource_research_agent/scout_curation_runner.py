@@ -104,7 +104,7 @@ def compact_assignment(assignment: dict[str, Any]) -> dict[str, Any]:
     return view
 
 
-def response_schema(assignment=None) -> dict[str, Any]:
+def response_schema(assignment=None, *, bind_identity=True) -> dict[str, Any]:
     string = {"type": "string"}
     strings = {"type": "array", "items": string}
     def obj(properties: dict[str, Any]) -> dict[str, Any]:
@@ -141,7 +141,8 @@ def response_schema(assignment=None) -> dict[str, Any]:
         resource["required"] = list(resource["properties"])
     return obj({
         "scoutCurationResultSchemaVersion": {"type": "integer", "enum": [version]},
-        "assignmentSha256": string, "categoryId": string,
+        "assignmentSha256": {"type": "string", "enum": [assignment['assignmentSha256']]} if bind_identity and assignment and assignment.get('assignmentSha256') else string,
+        "categoryId": {"type": "string", "enum": [assignment['category']['id']]} if bind_identity and assignment and assignment.get('category', {}).get('id') else string,
         "resources": {"type": "array", "items": resource},
         "candidateDispositions": {"type": "array", "items": obj({
             "candidateId": string,
@@ -149,6 +150,18 @@ def response_schema(assignment=None) -> dict[str, Any]:
             "resourceIds": strings, "reason": string,
         })},
     })
+
+
+def sealed_response_schema(directory, assignment):
+    """Bind new outputs to exact identities without rewriting existing schemas."""
+    path = directory / 'schema.json'
+    current = response_schema(assignment)
+    if path.exists():
+        saved = json.loads(path.read_text())
+        if saved not in (current, response_schema(assignment, bind_identity=False)):
+            raise ValueError(f'Refusing changed sealed response schema: {path}')
+        return saved
+    return current
 
 
 def worker_prompt(view: dict[str, Any], source_audit: str) -> str:
@@ -273,6 +286,22 @@ def read_worker_result(directory: Path) -> dict[str, Any]:
             raise ValueError(f"Invalid reviewed result repair: {repair_path}")
         for key in ("assignmentSha256", "categoryId", "scoutCurationResultSchemaVersion"):
             if corrected.get(key) != result.get(key):
+                if repair.get('repairType') == 'assignment-hash-copy-error':
+                    from difflib import SequenceMatcher
+                    assignment_bytes = (directory / 'assignment.json').read_bytes()
+                    assignment = json.loads(assignment_bytes)
+                    expected = assignment.get('assignmentSha256', '')
+                    original_hash = str(result.get('assignmentSha256') or '')
+                    edits = [op for op in SequenceMatcher(None, expected, original_hash, autojunk=False).get_opcodes() if op[0] != 'equal']
+                    pure_hash_correction = {**result, 'assignmentSha256': expected}
+                    if (key != 'assignmentSha256' or corrected != pure_hash_correction
+                            or len(edits) != 1 or max(edits[0][2]-edits[0][1], edits[0][4]-edits[0][3]) > 8
+                            or repair.get('assignmentFileSha256') != hashlib.sha256(assignment_bytes).hexdigest()
+                            or expected != _assignment_sha256(assignment)
+                            or result.get('categoryId') != assignment['category']['id']
+                            or result.get('scoutCurationResultSchemaVersion') != assignment.get('outputContract', {}).get('scoutCurationResultSchemaVersion', 1)):
+                        raise ValueError('Reviewed hash-copy repair is not bound to the sealed assignment or changes content')
+                    continue
                 # A native empty envelope contains no assignment identity or
                 # decisions to repair. A human-requested supervising review may
                 # reconstruct that batch, bound to its actual immutable input.
@@ -440,7 +469,7 @@ def complete_batched_category(job: dict[str, Any], assignment: dict[str, Any], d
             write_evidence_once(folder / "prior-resource-index.json", prior_index)
         for name, value in {"assignment.json": part, "view.json": view,
                             "prior-resources.json": prior, "source-only.json": part.get("sourceOnlyRecords", []),
-                            "excluded.json": part.get("excludedCandidates", []), "schema.json": response_schema(part)}.items():
+                            "excluded.json": part.get("excludedCandidates", []), "schema.json": sealed_response_schema(folder, part)}.items():
             write_evidence_once(folder / name, value)
         if part.get('reviewedContext'):
             write_evidence_once(folder / 'reviewed-resources.json', part['reviewedContext'])
@@ -533,7 +562,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                         "assignment.json": assignment, "view.json": view,
                         "prior-resources.json": assignment.get("previouslyCuratedResources", []),
                         "source-only.json": assignment.get("sourceOnlyRecords", []),
-                        "excluded.json": assignment.get("excludedCandidates", []), "schema.json": response_schema(assignment),
+                        "excluded.json": assignment.get("excludedCandidates", []), "schema.json": sealed_response_schema(directory, assignment),
                     }.items():
                         write_evidence_once(directory / name, value)
                     if assignment.get('reviewedContext'):

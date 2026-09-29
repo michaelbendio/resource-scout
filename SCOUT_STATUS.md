@@ -16,11 +16,22 @@ Earlier Welfare Square research, curation, DeepSeek and Jev evidence is now at
 Do not read that archive into fresh worker assignments. Old absolute runtime paths
 are historical; no redirect or symlink exposes them through the fresh directory.
 
-The launch is running: primary PID 93965, DeepSeek PID 93986, dashboard PID 96687,
-research watchdog PID 93999, pipeline PID 96688. Verify `launch.json` and live
-process/database state before acting; PIDs can change on supervised recovery.
-At the full-delivery amendment, 20 research passes and three categories were complete;
-Disability was active. The watchdog reported no issues.
+Research is complete for all 21 categories. On September 28 evening, curation
+stopped in Domestic Violence batch 3 because the native result omitted five
+consecutive characters from its assignment checksum. All 15 candidate dispositions
+and 12 resources passed full validation after restoring only that checksum.
+The native output remains untouched; the separately sealed reviewed repair and
+recovery audit are under `curation/recovery-hash-copy-001/` and the original batch.
+Four completed category result hashes were preserved. New batch response schemas
+now require the exact assigned checksum/category; existing schemas remain sealed.
+775 tests passed (4 skipped). No research or completed curation was repeated.
+
+Curation resumed at 2026-09-29 03:04 UTC: worker PID 12564, curation supervisor
+12566, full-delivery pipeline 12567; dashboard remains 96687 on port 8770.
+Verify `launch.json`, curation launch/status and live database state before acting;
+PIDs and progress can change. The existing coordinator restart budget was preserved.
+Domestic Violence then completed with 55 resources (five categories complete);
+Education batch 1/4 is now active.
 The dashboard is assigned port 8770. Automatic High **prepared-mode** curation
 follows completed research; no previous reviewed context is supplied. Michael then
 explicitly requested the complete run, including the final work product. The pipeline

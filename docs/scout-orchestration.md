@@ -468,6 +468,14 @@ sealed assignment/category identity; it still runs all normal validation. This
 supports repair of unfinished batches without overwriting native output. Completed
 category corrections continue to use `scout_curation_result_revisions`.
 
+An explicitly reviewed `assignment-hash-copy-error` repair may restore a checksum
+copy typo only: one edit span of at most eight characters, the exact sealed
+assignment/file hashes, unchanged category/schema, and byte-equivalent parsed
+content except `assignmentSha256`. The original output and repair receipt remain
+separate; link and full curation validation still apply. This is not an automatic
+identity reassignment. New worker schemas constrain checksum and category to their
+exact assigned values; existing sealed schemas retain their original bytes.
+
 The Education batch-3 correction removed only `res-duplicate-placeholder-remove`;
 all 30 decisions and the actual SUU tutoring entry were unchanged. It used no new
 AI call. Its audit record is `audit/education-batch3-placeholder-repair.json` under
