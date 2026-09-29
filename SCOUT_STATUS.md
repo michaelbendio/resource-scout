@@ -1,5 +1,34 @@
 # Scout current status
 
+## Welfare Square thorough review rerun — September 29, 12:43 Mountain
+
+Michael requested: **"Run the review again. I want a thorough job."** This supersedes
+the first review's completion and delivery-ready status. All 21 original curation
+categories remain complete and unchanged. The first 21-minute review relied on
+heuristic-generated taxonomy, selections and blanket assessments; structural checks
+did not substantiate the required individual judgments. Its delivery is provisional
+and marked `deliveries/welfare-square-fresh-20260928/SUPERSEDED.md`; do not commit or
+import it as an accepted delivery.
+
+- Original review, config/status, registry snapshot and SHA-256 manifest are preserved
+  under `data/welfare-square-fresh-20260928/thorough-review-restart-20260929T184336Z/`.
+- Fresh sequential gpt-5.5/xhigh review uses the same completed job/database and fresh
+  `review/` directory. Read `review/RERUN_INSTRUCTIONS.md`: individual evidence-backed
+  four-rule decisions, original candidate omissions, bounded groups of at most 15,
+  at most one completed category per session, collection reconciliation, authored
+  taxonomy/selections and evidence-based complement stopping. No heuristic compiler.
+- Persistent supervisor retains native logs/checkpoints and bounded continuation
+  (64 sessions maximum, 90-minute per-session safety timeout; checkpoint before
+  75 minutes). New instruction requests a final `needs-attention` checkpoint for
+  assistant acceptance; the run-specific supervisor independently blocks autoexport.
+- Launch entrypoint is the preserved amendment's `supervise_thorough_review.py`,
+  with this run's `pipeline.json`. Verify live status/PIDs before operating it.
+- Supervising assistant must audit the actual authored decisions and coverage, then
+  perform locked registry/export validation and commit/handoff. New delivery target:
+  `deliveries/welfare-square-fresh-20260928-r2/`. Registry allocations from the first
+  export are preserved; do not roll back the shared registry or disturb Mesa.
+- Mesa continues independently under its existing authorization and supervisor.
+
 ## Current focus — parallel Welfare Square and Mesa, September 29
 
 Michael explicitly requested: restart Welfare Square curation alongside Mesa,
