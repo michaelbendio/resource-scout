@@ -1,6 +1,38 @@
 # Scout current status
 
-## Current focus — Mesa re-curation, September 29
+## Current focus — parallel Welfare Square and Mesa, September 29
+
+Michael explicitly requested: restart Welfare Square curation alongside Mesa,
+verify separate databases/output folders, and automatically start both Codex reviews.
+This supersedes every Welfare Square pause/hold in the historical notes below.
+
+- **Welfare Square:** resumed job 1 from 13/21 completed categories; ID Recovery
+  batch 1/3 is active. Database `data/welfare-square-fresh-20260928/research.sqlite3`;
+  curation and review directories are under that run; final output is
+  `deliveries/welfare-square-fresh-20260928/`. Curation supervisor 35589,
+  coordinator 35599, pipeline 35590; dashboard remains port 8770.
+- **Mesa:** job 6 remains active, 8/21 complete and Reentry Support active at this
+  checkpoint. Database `data/mesa-recuration-20260929/research.sqlite3`; curation
+  and review directories are under that run; final output is
+  `deliveries/mesa-recuration-20260929/`. Original curation supervisor 19901 and
+  coordinator 19906 were preserved; pipeline supervisor reloaded as 35593.
+  Dashboard remains port 8771.
+- Both configs retain `automaticReview:true`, `preparedReviewAuthorized:true`,
+  High curation and `gpt-5.5`/Extra High review. Each review follows its own office's
+  curation automatically; neither waits for the other office. Persistent supervisors
+  perform bounded monitoring/recovery. Final registry commit and delivery handoff
+  remain the supervising assistant's responsibility.
+- The identity registry is intentionally shared. Both pipeline supervisors now
+  load the registry export lock: only final validation/allocation/export/readback
+  takes turns; curation and reviews can proceed concurrently. Review workers must
+  not write the registry themselves. Do not launch a separate unguarded exporter.
+- Resume evidence, prior manifests/status and hashes of all 13 completed Welfare
+  Square categories are preserved in
+  `data/welfare-square-fresh-20260928/resume-parallel-20260929T141759Z/`.
+  No research was restarted and no sealed assignment was changed. Verify live
+  process/status/database state before acting; the counts and PIDs above are a checkpoint.
+
+## Earlier Mesa launch checkpoint — September 29
 
 Michael superseded the earlier Mesa hold: **pause Welfare Square curation and
 start new Mesa curation and review**. Welfare Square is now paused at 13/21 saved

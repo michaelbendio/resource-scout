@@ -1,4 +1,6 @@
+from concurrent.futures import ThreadPoolExecutor, TimeoutError
 from copy import deepcopy
+import fcntl
 import json
 from pathlib import Path
 import tempfile
@@ -69,6 +71,32 @@ class PreparedPipelineTests(unittest.TestCase):
         self.assertTrue(result['registryCommitRequired'])
         self.assertTrue((artifact.parent / 'preview.html').is_file())
         self.assertEqual(result, export_reviewed_submission(self.config, self.job))
+
+    def test_export_waits_for_shared_registry_lease(self):
+        registry = Path(self.config['registryPath'])
+        lock = registry.with_name(registry.name + '.export.lock')
+        with lock.open('a+') as lease, ThreadPoolExecutor(max_workers=1) as pool:
+            fcntl.flock(lease, fcntl.LOCK_EX)
+            future = pool.submit(export_reviewed_submission, self.config, self.job)
+            try:
+                with self.assertRaises(TimeoutError):
+                    future.result(timeout=0.2)
+                self.assertFalse(Path(self.config['preparedOutputDirectory']).exists())
+            finally:
+                fcntl.flock(lease, fcntl.LOCK_UN)
+            result = future.result(timeout=10)
+        self.assertTrue(Path(result['artifactFile']).is_file())
+
+    def test_failed_export_releases_shared_registry_lease(self):
+        with patch('resource_research_agent.prepared_pipeline.validate_submission',
+                   side_effect=ValueError('invalid review')):
+            with self.assertRaisesRegex(ValueError, 'invalid review'):
+                export_reviewed_submission(self.config, self.job)
+        registry = Path(self.config['registryPath'])
+        with registry.with_name(registry.name + '.export.lock').open('a+') as lease:
+            fcntl.flock(lease, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            fcntl.flock(lease, fcntl.LOCK_UN)
+        self.assertTrue(Path(export_reviewed_submission(self.config, self.job)['artifactFile']).is_file())
 
     def test_cannot_drop_candidate_or_draft_even_with_new_review_fingerprint(self):
         self.bundle['candidateReview'].pop()

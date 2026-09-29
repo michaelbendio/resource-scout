@@ -19,6 +19,19 @@ changing, or supervising any Scout worker. User instructions override this file.
 `SCOUT_STATUS.md` identifies the current database, phase, effort, processes and
 pending work; verify those facts live. This document describes how to operate.
 
+## Concurrent office pipelines — September 29
+
+Michael authorized Welfare Square to resume alongside Mesa with automatic Codex
+review for each. Use each office's existing distinct database, run directory,
+curation/review folders and delivery directory. Preserve completed categories.
+The shared identity registry stays one lineage; do not fork it per office.
+`prepared_pipeline.export_reviewed_submission` holds a blocking registry-specific
+`.export.lock` through final validation, allocation, export and receipt readback.
+Only that short final phase is serialized. Reviews remain independent and may not
+write the registry. All concurrent pipelines must load this safeguard before export;
+reloading a pipeline during its curation phase does not restart its detached worker.
+The registry commit and final delivery gate still require supervising-assistant work.
+
 ## Fresh Welfare Square full prepared delivery — September 28
 
 Michael explicitly requested the complete fresh run: research, curation and

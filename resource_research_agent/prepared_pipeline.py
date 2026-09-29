@@ -1,6 +1,7 @@
 """Fresh-run prepared review instructions and an independently checked export gate."""
 from __future__ import annotations
 
+import fcntl
 import hashlib
 import json
 from pathlib import Path
@@ -227,6 +228,16 @@ def validate_submission(config, job):
 
 
 def export_reviewed_submission(config, job):
+    # Office reviews are independent, but production IDs share one registry.
+    # Keep validation, allocation and receipt readback inside the same lease.
+    registry_path = Path(config['registryPath']).resolve()
+    lock_path = registry_path.with_name(registry_path.name + '.export.lock')
+    with lock_path.open('a+') as lease:
+        fcntl.flock(lease, fcntl.LOCK_EX)
+        return _export_reviewed_submission(config, job)
+
+
+def _export_reviewed_submission(config, job):
     bundle_path = validate_submission(config, job)
     output = Path(config['preparedOutputDirectory'])
     registry_path = Path(config['registryPath'])
