@@ -1,0 +1,41 @@
+{
+  "artifactType": "scout-preparation-receipt",
+  "schemaVersion": 1,
+  "snapshotId": "ss_1fec8f8d3694578412ccb58c5ce2570d",
+  "contentFingerprint": "1fec8f8d3694578412ccb58c5ce2570dc2e60cc2890ffb5e4e6c718141cb31ac",
+  "reviewFingerprint": "66ed238c5154da0c96a2b7c4e4b147ed8de8876056e24ff239ff9db9b306dd89",
+  "registryFingerprint": "2a3f255afd2dd5ce372bbcc7ea85d3f0f8692e3f746f5420f0b09d8b5f1f19b3",
+  "inputHashes": {
+    "draftsSha256": "1adcfe8b6649b9ab413b3a411b9753d0421d4b24eaf91e746050b3ccfcf1f86b",
+    "curationFingerprint": "7cf737616f768b57f6530067e18dacb419d4191010765b040f581dffb0178f25",
+    "sourceSeedSha256": "a02b07eb2a338fbb63cc7c53dac98d0944a6162fbe0e9350e8d1138b27ba326b",
+    "contentReviewSha256": "fae1f95ae7cf5d3ec48dde116ef8edf1c66ba8cd9fd985f30527a2f0b2170ac0",
+    "supervisorGroupDecisionsSha256": "8f2d0ae0d0af8197117dfbeb3941aaf269460df471db1b637b10f355b31f3f46",
+    "supervisorConsolidationSha256": "6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471",
+    "supervisorVeteransSelectionSha256": "46ce10eaf3a0d6e1bb9a88fe9241e032eb3536b5777fe6f1e02dabf920d23bf9",
+    "supervisorClientWordingSha256": "5635b9bbc7636316049810eb2da71b3ba24f1d3db0b6ceee0bae8790e2b41129",
+    "supervisorAccessSha256": "dcdb13f76618d79172e11d2277e064d6728651d9bfbee962ac0f2c50b5a3120e",
+    "supervisorFinalContactSha256": "0822c61c0e845a0abae4d18fcf141ad336a155d610258983064638ae731fe15a"
+  },
+  "counts": {
+    "resources": 1085,
+    "usable": 1045,
+    "needsResolution": 40,
+    "considerations": 1073,
+    "starterMemberships": 209,
+    "uniqueStarterResources": 181
+  },
+  "review": {
+    "reviewedAt": "2026-09-30T14:43:29Z",
+    "reviewer": "Codex sequential Extra High review plus supervising-assistant acceptance corrections",
+    "identity": "Identity decisions were built only after the repaired content view was frozen; merge groups use saved assembly-repair decisions, the explicitly approved registry migrations are respected, and the rejected Safe at Home local-helper/statewide merge is preserved as distinct identities.",
+    "content": "Repaired assembly applies authored field/content dispositions, category removals, needs-resolution states and merged assessments from all 21 finalizations plus collection reconciliation, amended by the session 80 identity-gate correction.",
+    "taxonomy": "Types come from category-normalized finalizations; For groups use the supervising assistant's explicit population mappings and definitions, with no substring inference. Decisions and evidence are in supervisor-group-audit/approved-group-mappings.json and assembly-audit.json.",
+    "starterSets": "Starter sets, ordered complements, stopping reasons and non-starter considerations are compiled from the authored category finalization ledgers, with complement order preserved in the audit/report rather than the export schema.",
+    "preservation": "Human office state is not exported; usable and needs-resolution records remain searchable/importable, while excluded and merged drafts remain in assessments and candidateReview audit rows.",
+    "inputFingerprint": "66ed238c5154da0c96a2b7c4e4b147ed8de8876056e24ff239ff9db9b306dd89"
+  },
+  "supervisorAcceptanceSha256": "1421dc56c80755eb709e7835b52b8fadb68a7efb9ada618535e1bf58530d7ec4",
+  "artifactSha256": "19c43670ba33f43b0e3f49039474662f6bdfd88929a63e4d6026040d3e882f9b",
+  "artifactFile": "scout-welfare-square-prepared-resources-26-09-30.json"
+}

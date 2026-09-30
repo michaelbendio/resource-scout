@@ -1,0 +1,143 @@
+{
+  "migrationId": "welfare-square-supervisor-consolidation-20260930",
+  "sourceNamespace": "welfare-square-fresh-20260928",
+  "contentReviewSha256": "beaa9b6bd52bd8dabb28acbeba4c7cf7b48cde99c0dbc0b0c24a20294eebc690",
+  "registryBeforeFingerprint": "0a76fae638446eb13b7e280d11e342e687e61e1cb9ba493ecd5e52a10728d105",
+  "decisions": [
+    {
+      "fromResourceId": "sr_93a58e94b1c3565c98c97939ce722333",
+      "toResourceId": "sr_0150ec15813a55c38d74684d7b90b6dd",
+      "reason": "One Bishop Weigand day-center intake and address; the retained center already includes its clothing-room days and hours.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_c3b76d964e365531a2b63a94302cc0d3",
+      "toResourceId": "sr_be53362cc7b45b1b80a4a1a4a61b546c",
+      "reason": "One Central Compassion Center Saturday distribution: food and clothing share the same site and one-hour access window.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_35e79ba66f6b5313b77fdb9647165fd3",
+      "toResourceId": "sr_53e9d98771585b5d96f05d654934275a",
+      "reason": "Cherish Families legal referrals are part of the same population-specific wraparound intake, not a separate law practice.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_b53a9aeae4f45573b912c3d733326818",
+      "toResourceId": "sr_a646295ad9c55e278247722584c82679",
+      "reason": "Fourth Street behavioral health uses the same homeless-clinic appointment intake and is already described in the retained integrated clinic record.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_2a8bf2ca97485890b3025aeed9d1d13c",
+      "toResourceId": "sr_a646295ad9c55e278247722584c82679",
+      "reason": "These Fourth Street records describe the identical clinic, population, appointment number, address and clinical services.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_18c1c0f2ebc45e00a64b19bc8b134634",
+      "toResourceId": "sr_b30c3350e2a5548e82153bb001515c29",
+      "reason": "Journey of Hope survivor case management duplicates HER Empowerment case management; retain the record that also explains its prison-mentoring pathway.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_87ff687314645c248df6e24ad5ea2f8e",
+      "toResourceId": "sr_478a0e18e17a5e9895ed67140f76e562",
+      "reason": "Magna FACT pantry and clothing are the same resident basic-needs front door; DHHS 211 lists both with Tuesday-Friday hours.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_1d72e1be28585f94b18975574c0e503c",
+      "toResourceId": "sr_a246509178f052408b3c45b665b6f55d",
+      "reason": "Midtown South Salt Lake substance-use care is a service at the same integrated clinic and public appointment route; preserve its medication-service qualification explicitly.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_759d1d23004e5f10a53311784dd3fa9e",
+      "toResourceId": "sr_3f34ee2731455b76a72bd862975f57e0",
+      "reason": "Nomad Alliance ID vouchers are part of the retained mobile outreach service, with the same outreach contact and no separate regular intake calendar.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_91b7d2e1dedf5b8c970d63e11a8c4e6a",
+      "toResourceId": "sr_88f9fd815eb85afa8cc0bbd1160b2c00",
+      "reason": "The Rescue Mission women's clothing entry is the same women's shelter and intake; preserve uncertainty about non-guest clothing access.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_01a8c9d454665823b2ab421d5674931e",
+      "toResourceId": "sr_a153d8801040567893b460d856f14f89",
+      "reason": "Rescue Mission meals and family food boxes are explicitly included in the same emergency-services front desk.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_d520233c29c25eee80bc09f8c2ed0e7e",
+      "toResourceId": "sr_a153d8801040567893b460d856f14f89",
+      "reason": "The Rescue Mission men's clothing entry is the same homeless service center and intake, with no separate clothing program hours.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_8c10f18b1ca75e0397c3b010c19a011a",
+      "toResourceId": "sr_116c5b3fdfa257a8afd9b29728d2092b",
+      "reason": "Sacred Circle behavioral health and psychiatry are integrated services of the same Salt Lake clinic, address and booking route.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_a23c87772f69513cb8455a95fba1eab8",
+      "toResourceId": "sr_7eaa48f1b3da5b4fb8c918b7e9a62b5b",
+      "reason": "Same VA regional benefits office, benefits scope, hotline and VERA appointment route; category split alone is not another resource.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_923b75b0898e56b2a590f95e6146b304",
+      "toResourceId": "sr_36eb3ebd87d9558eb6187ca76e05603c",
+      "reason": "THRIVE's asylum legal support and clinical care use the same survivor eligibility, referral form and integrated program.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_8967159081555870aa52be189b31d676",
+      "toResourceId": "sr_ada4c996c4875efd89b42a0bfb7f6221",
+      "reason": "Same Other Side Academy residential admission interview, campus and personally requested long-term program.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_66b72486e10458ed910bf77f782713a8",
+      "toResourceId": "sr_805c7ee8581350c89edc520c51e54e31",
+      "reason": "Identical Salvation Army utility assistance, application, utility-specific eligibility and HEAT prerequisite.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_a60a2181c5f55e658196b73760492ccc",
+      "toResourceId": "sr_b72088e7d9645738805a129b33c56313",
+      "reason": "UICSL outpatient substance-use care is part of this integrated behavioral-health program and shared new-patient intake.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_5684df4131c65694a53fce7c017bb800",
+      "toResourceId": "sr_b72088e7d9645738805a129b33c56313",
+      "reason": "UICSL domestic-violence advocacy is part of the same behavioral-health program and shared patient intake, not a separate crisis shelter.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_7536281e4b99503b95f64c42232924f5",
+      "toResourceId": "sr_9452ee54179d59fca484ab7cddbf6c65",
+      "reason": "Identical Utah winter moratorium protection and Salt Lake County HEAT application route.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_473437cb163457409a85f70b48a831d1",
+      "toResourceId": "sr_c553bdd13d6a5c91bae522bb7ad8e17d",
+      "reason": "The broader VA addiction entry already includes SOAR. Preserve SOAR and SARRTP as explicitly distinguished services and add the separate SARRTP admissions extension.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "fromResourceId": "sr_8ab8f87ca1475156a0024ebbeab49fc6",
+      "toResourceId": "sr_a153d8801040567893b460d856f14f89",
+      "reason": "The Rescue Mission men's facility and emergency services are the same 463 S 400 W homeless service center and front desk; preserve both the men's overnight/recovery limits and family food-box access.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    }
+  ],
+  "preservation": "Keep retired canonical records as redirects, preserve prior events and every source alias; WSRS-TSO must reconcile human rows without automatic overwrite. No new IDs allocated.",
+  "preparedDeliveryAccepted": false,
+  "registryAfterFingerprint": "2a3f255afd2dd5ce372bbcc7ea85d3f0f8692e3f746f5420f0b09d8b5f1f19b3"
+}

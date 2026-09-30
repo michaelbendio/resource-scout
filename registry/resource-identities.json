@@ -7817,7 +7817,8 @@
     },
     "sr_8c10f18b1ca75e0397c3b010c19a011a": {
       "sequence": 1954,
-      "initialLabel": "Sacred Circle Healthcare Behavioral Health and Psychiatry"
+      "initialLabel": "Sacred Circle Healthcare Behavioral Health and Psychiatry",
+      "redirectTo": "sr_116c5b3fdfa257a8afd9b29728d2092b"
     },
     "sr_3f5c4a20b9505d33a14a3469bacd7257": {
       "sequence": 1955,
@@ -8110,7 +8111,8 @@
     },
     "sr_8ab8f87ca1475156a0024ebbeab49fc6": {
       "sequence": 2027,
-      "initialLabel": "Rescue Mission of Salt Lake Men's Facility and Homeless Service Center"
+      "initialLabel": "Rescue Mission of Salt Lake Men's Facility and Homeless Service Center",
+      "redirectTo": "sr_a153d8801040567893b460d856f14f89"
     },
     "sr_4d23cca989aa5555ab5eb2e70585c4e5": {
       "sequence": 2028,
@@ -8142,7 +8144,8 @@
     },
     "sr_759d1d23004e5f10a53311784dd3fa9e": {
       "sequence": 2035,
-      "initialLabel": "Nomad Alliance Free ID Vouchers and DMV Appointment Support"
+      "initialLabel": "Nomad Alliance Free ID Vouchers and DMV Appointment Support",
+      "redirectTo": "sr_3f34ee2731455b76a72bd862975f57e0"
     },
     "sr_63ccb4b0b55c58dbaf876b2146b2ce1a": {
       "sequence": 2036,
@@ -8362,7 +8365,8 @@
     },
     "sr_923b75b0898e56b2a590f95e6146b304": {
       "sequence": 2090,
-      "initialLabel": "THRIVE Legal Representation and Integrated Support for Torture Survivors Seeking Asylum"
+      "initialLabel": "THRIVE Legal Representation and Integrated Support for Torture Survivors Seeking Asylum",
+      "redirectTo": "sr_36eb3ebd87d9558eb6187ca76e05603c"
     },
     "sr_ac13031d8f675397bf971c95bf3c2a5f": {
       "sequence": 2091,
@@ -8390,7 +8394,8 @@
     },
     "sr_b53a9aeae4f45573b912c3d733326818": {
       "sequence": 2097,
-      "initialLabel": "Fourth Street Clinic Behavioral Health Clinic"
+      "initialLabel": "Fourth Street Clinic Behavioral Health Clinic",
+      "redirectTo": "sr_a646295ad9c55e278247722584c82679"
     },
     "sr_e82ff49e57bd5c8380257862fc6495d1": {
       "sequence": 2098,
@@ -8531,7 +8536,8 @@
     },
     "sr_7536281e4b99503b95f64c42232924f5": {
       "sequence": 2132,
-      "initialLabel": "Utah Utility Moratorium / Shut-Off Protection"
+      "initialLabel": "Utah Utility Moratorium / Shut-Off Protection",
+      "redirectTo": "sr_9452ee54179d59fca484ab7cddbf6c65"
     },
     "sr_7a8412da872c5bd8a8235c505d561870": {
       "sequence": 2133,
@@ -9347,7 +9353,8 @@
     },
     "sr_18c1c0f2ebc45e00a64b19bc8b134634": {
       "sequence": 2336,
-      "initialLabel": "Journey of Hope Survivor Case Management and Advocacy"
+      "initialLabel": "Journey of Hope Survivor Case Management and Advocacy",
+      "redirectTo": "sr_b30c3350e2a5548e82153bb001515c29"
     },
     "sr_479f9e8741995cd2baaa81f4352f996c": {
       "sequence": 2337,
@@ -9979,7 +9986,8 @@
     },
     "sr_1d72e1be28585f94b18975574c0e503c": {
       "sequence": 2494,
-      "initialLabel": "Midtown Community Health Center South Salt Lake Substance Use Disorder Treatment"
+      "initialLabel": "Midtown Community Health Center South Salt Lake Substance Use Disorder Treatment",
+      "redirectTo": "sr_a246509178f052408b3c45b665b6f55d"
     },
     "sr_71c73f3cec9b5c348308562083b86920": {
       "sequence": 2495,
@@ -10251,7 +10259,8 @@
     },
     "sr_c3b76d964e365531a2b63a94302cc0d3": {
       "sequence": 2562,
-      "initialLabel": "Central Compassion Center food distribution"
+      "initialLabel": "Central Compassion Center food distribution",
+      "redirectTo": "sr_be53362cc7b45b1b80a4a1a4a61b546c"
     },
     "sr_0ffdf3af63735e5d9ad7a00fba622e1f": {
       "sequence": 2563,
@@ -10299,7 +10308,8 @@
     },
     "sr_473437cb163457409a85f70b48a831d1": {
       "sequence": 2574,
-      "initialLabel": "VA Salt Lake City Services for Outpatient Addiction Recovery (SOAR)"
+      "initialLabel": "VA Salt Lake City Services for Outpatient Addiction Recovery (SOAR)",
+      "redirectTo": "sr_c553bdd13d6a5c91bae522bb7ad8e17d"
     },
     "sr_8fb46e67bdc757a2a5b3e315d8a65788": {
       "sequence": 2575,
@@ -10363,7 +10373,8 @@
     },
     "sr_91b7d2e1dedf5b8c970d63e11a8c4e6a": {
       "sequence": 2590,
-      "initialLabel": "Rescue Mission of Salt Lake Center for Women clothing and basic needs"
+      "initialLabel": "Rescue Mission of Salt Lake Center for Women clothing and basic needs",
+      "redirectTo": "sr_88f9fd815eb85afa8cc0bbd1160b2c00"
     },
     "sr_d7d51e772ea85668ac513bcaa550ee08": {
       "sequence": 2591,
@@ -10463,7 +10474,8 @@
     },
     "sr_87ff687314645c248df6e24ad5ea2f8e": {
       "sequence": 2615,
-      "initialLabel": "Magna FACT food pantry"
+      "initialLabel": "Magna FACT food pantry",
+      "redirectTo": "sr_478a0e18e17a5e9895ed67140f76e562"
     },
     "sr_cf1223d65c835699bbb597b1d453417a": {
       "sequence": 2616,
@@ -10723,7 +10735,8 @@
     },
     "sr_d520233c29c25eee80bc09f8c2ed0e7e": {
       "sequence": 2680,
-      "initialLabel": "Rescue Mission of Salt Lake Men's Facility clothing and basic needs"
+      "initialLabel": "Rescue Mission of Salt Lake Men's Facility clothing and basic needs",
+      "redirectTo": "sr_a153d8801040567893b460d856f14f89"
     },
     "sr_b0667ae04ceb539db413736ff0ec2689": {
       "sequence": 2681,
@@ -10739,7 +10752,8 @@
     },
     "sr_a60a2181c5f55e658196b73760492ccc": {
       "sequence": 2684,
-      "initialLabel": "Urban Indian Center Behavioral Health Substance Use Services"
+      "initialLabel": "Urban Indian Center Behavioral Health Substance Use Services",
+      "redirectTo": "sr_b72088e7d9645738805a129b33c56313"
     },
     "sr_cab2b58ede29541986d2c90ae8f7cf40": {
       "sequence": 2685,
@@ -10847,7 +10861,8 @@
     },
     "sr_2a8bf2ca97485890b3025aeed9d1d13c": {
       "sequence": 2711,
-      "initialLabel": "Fourth Street Clinic Homeless Health Care Clinic"
+      "initialLabel": "Fourth Street Clinic Homeless Health Care Clinic",
+      "redirectTo": "sr_a646295ad9c55e278247722584c82679"
     },
     "sr_bfc7d86c48725e9b90aadeeab5ee3fa9": {
       "sequence": 2712,
@@ -11115,7 +11130,8 @@
     },
     "sr_66b72486e10458ed910bf77f782713a8": {
       "sequence": 2778,
-      "initialLabel": "The Salvation Army Salt Lake City Corps Utility Assistance Program"
+      "initialLabel": "The Salvation Army Salt Lake City Corps Utility Assistance Program",
+      "redirectTo": "sr_805c7ee8581350c89edc520c51e54e31"
     },
     "sr_cc821193c6425781b71ad341e80bd61e": {
       "sequence": 2779,
@@ -11211,7 +11227,8 @@
     },
     "sr_35e79ba66f6b5313b77fdb9647165fd3": {
       "sequence": 2802,
-      "initialLabel": "Cherish Families Legal Support Referrals and Protective Order / MyPaperwork Help"
+      "initialLabel": "Cherish Families Legal Support Referrals and Protective Order / MyPaperwork Help",
+      "redirectTo": "sr_53e9d98771585b5d96f05d654934275a"
     },
     "sr_8f9423725d1b5357970910df52ab279a": {
       "sequence": 2803,
@@ -11271,7 +11288,8 @@
     },
     "sr_a23c87772f69513cb8455a95fba1eab8": {
       "sequence": 2817,
-      "initialLabel": "Salt Lake City VA Regional Benefit Office"
+      "initialLabel": "Salt Lake City VA Regional Benefit Office",
+      "redirectTo": "sr_7eaa48f1b3da5b4fb8c918b7e9a62b5b"
     },
     "sr_0b0733a248a65095815233ee6f1db692": {
       "sequence": 2818,
@@ -11307,7 +11325,8 @@
     },
     "sr_93a58e94b1c3565c98c97939ce722333": {
       "sequence": 2826,
-      "initialLabel": "Bishop Weigand Resource Center clothing room"
+      "initialLabel": "Bishop Weigand Resource Center clothing room",
+      "redirectTo": "sr_0150ec15813a55c38d74684d7b90b6dd"
     },
     "sr_177bd04e1e54552e8f20d9757d331769": {
       "sequence": 2827,
@@ -11499,7 +11518,8 @@
     },
     "sr_01a8c9d454665823b2ab421d5674931e": {
       "sequence": 2874,
-      "initialLabel": "Rescue Mission of Salt Lake Emergency Services Meals and Family Food Boxes"
+      "initialLabel": "Rescue Mission of Salt Lake Emergency Services Meals and Family Food Boxes",
+      "redirectTo": "sr_a153d8801040567893b460d856f14f89"
     },
     "sr_fd2c007f176057db87bd113803da2753": {
       "sequence": 2875,
@@ -11551,7 +11571,8 @@
     },
     "sr_8967159081555870aa52be189b31d676": {
       "sequence": 2887,
-      "initialLabel": "The Other Side Academy Salt Lake City Residential Vocational and Life Skills Program"
+      "initialLabel": "The Other Side Academy Salt Lake City Residential Vocational and Life Skills Program",
+      "redirectTo": "sr_ada4c996c4875efd89b42a0bfb7f6221"
     },
     "sr_e298603949795e96a74c618bfabdb164": {
       "sequence": 2888,
@@ -11943,7 +11964,8 @@
     },
     "sr_5684df4131c65694a53fce7c017bb800": {
       "sequence": 2985,
-      "initialLabel": "Urban Indian Center of Salt Lake Behavioral Health - Domestic Violence Advocacy and Support"
+      "initialLabel": "Urban Indian Center of Salt Lake Behavioral Health - Domestic Violence Advocacy and Support",
+      "redirectTo": "sr_b72088e7d9645738805a129b33c56313"
     },
     "sr_0af6b5353489538ea5f589bf6fcc6362": {
       "sequence": 2986,
@@ -21799,7 +21821,7 @@
     "[\"welfare-square-fresh-20260928\",\"0618d512aef55b10a03bff5a86e14eb6\"]": "sr_7f1d8315bd2b5f65bc22de8abc1a7459",
     "[\"welfare-square-fresh-20260928\",\"0642025ebb5d5981b3bea73ecee471ae\"]": "sr_87e71f3a59045ae3aa1ef5ec9b86b1db",
     "[\"welfare-square-fresh-20260928\",\"0661e1df81f65322ba2f9ed0c1d6d112\"]": "sr_9c04f9f03de85e5bb48e274871e03b72",
-    "[\"welfare-square-fresh-20260928\",\"066a203221e95c98b944276dc346de3b\"]": "sr_8c10f18b1ca75e0397c3b010c19a011a",
+    "[\"welfare-square-fresh-20260928\",\"066a203221e95c98b944276dc346de3b\"]": "sr_116c5b3fdfa257a8afd9b29728d2092b",
     "[\"welfare-square-fresh-20260928\",\"06c9647167735e1b9a36afad356fdddb\"]": "sr_3f5c4a20b9505d33a14a3469bacd7257",
     "[\"welfare-square-fresh-20260928\",\"0703eec5a415531e8ac88a15e6ae0c91\"]": "sr_b9443ade3458507293b31b139cc71d06",
     "[\"welfare-square-fresh-20260928\",\"071e8cfd5d565c20a3f080a2e5478482\"]": "sr_b10f65573c385d629fc044b53512de73",
@@ -21873,7 +21895,7 @@
     "[\"welfare-square-fresh-20260928\",\"16f2b8f95bbe50bda3c3117a88d949f1\"]": "sr_8346b648b80c5437b424235d9d558f05",
     "[\"welfare-square-fresh-20260928\",\"1710de95e9f854fd8e25789a02ee0fe4\"]": "sr_88f9fd815eb85afa8cc0bbd1160b2c00",
     "[\"welfare-square-fresh-20260928\",\"17c0e31bc97d599ea8c997d481d9bfe4\"]": "sr_c543165c13c35e2aa441672b472a87ce",
-    "[\"welfare-square-fresh-20260928\",\"17d5e99985295625bc585809ca7f0fa4\"]": "sr_8ab8f87ca1475156a0024ebbeab49fc6",
+    "[\"welfare-square-fresh-20260928\",\"17d5e99985295625bc585809ca7f0fa4\"]": "sr_a153d8801040567893b460d856f14f89",
     "[\"welfare-square-fresh-20260928\",\"182b95df7a53532ea99ba5ce0bd1234a\"]": "sr_4d23cca989aa5555ab5eb2e70585c4e5",
     "[\"welfare-square-fresh-20260928\",\"182e79c36cf7504dbde723b463e13fcc\"]": "sr_82f9970c7864523aa4faffa9adea89f4",
     "[\"welfare-square-fresh-20260928\",\"1853efe4db0a5ca48edac04d87bc305b\"]": "sr_d33dc3b96c2b58efa27a5ca8a1307587",
@@ -21881,7 +21903,7 @@
     "[\"welfare-square-fresh-20260928\",\"1887fcb94c3952c890f39f487d051957\"]": "sr_a48a22b9425459458744e41e265cbfed",
     "[\"welfare-square-fresh-20260928\",\"18a46a9f3746540c8b8e66687a3526ff\"]": "sr_3b35d30e1d265c9ea0fd230108b6584a",
     "[\"welfare-square-fresh-20260928\",\"18aa1f29ec9953a6a80946758cb58a1b\"]": "sr_bb74ed7e0d9a5a68a13be86debb24580",
-    "[\"welfare-square-fresh-20260928\",\"18adaa5c09655e009e818f6ee46ad02c\"]": "sr_759d1d23004e5f10a53311784dd3fa9e",
+    "[\"welfare-square-fresh-20260928\",\"18adaa5c09655e009e818f6ee46ad02c\"]": "sr_3f34ee2731455b76a72bd862975f57e0",
     "[\"welfare-square-fresh-20260928\",\"18dbf38c2c4f5ea0b88138302c728fca\"]": "sr_63ccb4b0b55c58dbaf876b2146b2ce1a",
     "[\"welfare-square-fresh-20260928\",\"18ff526075485879a05aecb609d20bd3\"]": "sr_f0caaa08fd4c5b2489d3a341f75879ac",
     "[\"welfare-square-fresh-20260928\",\"19360d165a0b5adf847d1741414d3186\"]": "sr_c25b7dfd577859afb3c4a71db8cfce05",
@@ -21936,14 +21958,14 @@
     "[\"welfare-square-fresh-20260928\",\"22e9a30cc0bc5cf2baf8bc77b9f4285b\"]": "sr_a7b1e43aebc3556cbb64d40953035d3d",
     "[\"welfare-square-fresh-20260928\",\"2317ec3e5d0651f883254fd259e12dee\"]": "sr_efe9488d22b454a594a8da080d9a8d2d",
     "[\"welfare-square-fresh-20260928\",\"235874930bbc5853af5315597a3622be\"]": "sr_bfd60e5e3e565711a3c796c28925db48",
-    "[\"welfare-square-fresh-20260928\",\"236a75f37da25218ae6e6c9a2122139b\"]": "sr_923b75b0898e56b2a590f95e6146b304",
+    "[\"welfare-square-fresh-20260928\",\"236a75f37da25218ae6e6c9a2122139b\"]": "sr_36eb3ebd87d9558eb6187ca76e05603c",
     "[\"welfare-square-fresh-20260928\",\"2375a0c00e1a5b76a3ee963adc8eeb69\"]": "sr_ac13031d8f675397bf971c95bf3c2a5f",
     "[\"welfare-square-fresh-20260928\",\"239384dd48d15f04a0de4df4def45964\"]": "sr_8f54ee0c1c475bcd942bf437b4ea28e0",
     "[\"welfare-square-fresh-20260928\",\"23c91ac3d15d5d37b0a82792b13727f4\"]": "sr_f9a365f498275a71821edc3df2b68988",
     "[\"welfare-square-fresh-20260928\",\"23d6872c910e56599c98149f725f3a53\"]": "sr_52d3749fe3e7548e897b9b80874ba5a3",
     "[\"welfare-square-fresh-20260928\",\"2471a11edd095ae28ad725a72743fc0b\"]": "sr_afd7fa8897685436bcc4fd281e8ff38f",
     "[\"welfare-square-fresh-20260928\",\"24e73727cabf5bf7a9def76d6e1a3963\"]": "sr_22172bb3972f592fa8ba5d51f48183cd",
-    "[\"welfare-square-fresh-20260928\",\"25085698a8ce54b19bfdc08942cfbffd\"]": "sr_b53a9aeae4f45573b912c3d733326818",
+    "[\"welfare-square-fresh-20260928\",\"25085698a8ce54b19bfdc08942cfbffd\"]": "sr_a646295ad9c55e278247722584c82679",
     "[\"welfare-square-fresh-20260928\",\"257f5a63e3f956ca8546903c728daa81\"]": "sr_e82ff49e57bd5c8380257862fc6495d1",
     "[\"welfare-square-fresh-20260928\",\"259bf6b644615154a17b90eff7bd31b5\"]": "sr_b7c437db145259468c582ae9d39123d9",
     "[\"welfare-square-fresh-20260928\",\"25a30890e3a25adda0d32119955fed9c\"]": "sr_0d5578ce37e5552db261eaf000155e6f",
@@ -21979,7 +22001,7 @@
     "[\"welfare-square-fresh-20260928\",\"2df27dde426855dba62f71fbcf717cf6\"]": "sr_d5750f78741e54c1a7d1fe425be225f6",
     "[\"welfare-square-fresh-20260928\",\"2e2a8ef3c2d453418a56170aabc7c341\"]": "sr_a646295ad9c55e278247722584c82679",
     "[\"welfare-square-fresh-20260928\",\"2e9ff88ee236534dba315124ad4850f6\"]": "sr_f63d9a8bbf565f899e1aa4990148fbfe",
-    "[\"welfare-square-fresh-20260928\",\"2ed0d64e781f5f11bae379a0987c52fc\"]": "sr_7536281e4b99503b95f64c42232924f5",
+    "[\"welfare-square-fresh-20260928\",\"2ed0d64e781f5f11bae379a0987c52fc\"]": "sr_9452ee54179d59fca484ab7cddbf6c65",
     "[\"welfare-square-fresh-20260928\",\"2f0aba62863c5a6fbc63b115a22531a4\"]": "sr_7a8412da872c5bd8a8235c505d561870",
     "[\"welfare-square-fresh-20260928\",\"2f2366e4e1055f9da14674147ca2f6c5\"]": "sr_a074a1e0e46f587e9dbf247c41a37885",
     "[\"welfare-square-fresh-20260928\",\"2f3b0e18fd925284a32f74653d168c9b\"]": "sr_58ea5d012dbd582a86e9f13abb01dd4c",
@@ -22186,7 +22208,7 @@
     "[\"welfare-square-fresh-20260928\",\"5985aa87847450c0bfc0b8ccf6546493\"]": "sr_9703b0599fe35ba092617b6ce6cf05c6",
     "[\"welfare-square-fresh-20260928\",\"5a250a3bdd4852a28c6f4a2ad30e3a94\"]": "sr_f2c05a9c466756b6aa8e8738a447f385",
     "[\"welfare-square-fresh-20260928\",\"5af064cdbc3b5f99a23a3453107ec405\"]": "sr_c91692cd963252a6bde5fd405df4b99f",
-    "[\"welfare-square-fresh-20260928\",\"5b1452dceb0a52558661a054669e501d\"]": "sr_18c1c0f2ebc45e00a64b19bc8b134634",
+    "[\"welfare-square-fresh-20260928\",\"5b1452dceb0a52558661a054669e501d\"]": "sr_b30c3350e2a5548e82153bb001515c29",
     "[\"welfare-square-fresh-20260928\",\"5b3ef3127a635996b84bf0dcd5ace356\"]": "sr_479f9e8741995cd2baaa81f4352f996c",
     "[\"welfare-square-fresh-20260928\",\"5b7d7708b3db5e58898cdb95f55792e8\"]": "sr_2e4783cf49165050a700dc7f534d615f",
     "[\"welfare-square-fresh-20260928\",\"5b81e5f5f31553bd9e5a81d128847b93\"]": "sr_829e5983e51853b9a41d3d8cdc1895f8",
@@ -22344,7 +22366,7 @@
     "[\"welfare-square-fresh-20260928\",\"7e6487f22fc654a9bed394aed5c7de9e\"]": "sr_f2d68ef38f9b5ff09ab5716196ba6569",
     "[\"welfare-square-fresh-20260928\",\"7e72e51189535ed5ba98b3267374f218\"]": "sr_aaaa3ae2f633552fa0e750e261335280",
     "[\"welfare-square-fresh-20260928\",\"7e898ab1c0f155e997b91cf316d72107\"]": "sr_a718afdc2c0453769a11a851c0245ea1",
-    "[\"welfare-square-fresh-20260928\",\"7eab121bd1565383b0dd300c8d50bbb4\"]": "sr_1d72e1be28585f94b18975574c0e503c",
+    "[\"welfare-square-fresh-20260928\",\"7eab121bd1565383b0dd300c8d50bbb4\"]": "sr_a246509178f052408b3c45b665b6f55d",
     "[\"welfare-square-fresh-20260928\",\"7f2637375d39543facfea94f9dac6b98\"]": "sr_71c73f3cec9b5c348308562083b86920",
     "[\"welfare-square-fresh-20260928\",\"7f870862f7df5a7f8e377d876eef2f9b\"]": "sr_e0827aa5307f57a28bba2a4c1eb14ae9",
     "[\"welfare-square-fresh-20260928\",\"7fad96dccbcb578487289f86e0452755\"]": "sr_b70759d216f35285b6dd9db36ef4a6d0",
@@ -22412,7 +22434,7 @@
     "[\"welfare-square-fresh-20260928\",\"925e0f490c99527cb1cca9d440637edf\"]": "sr_753f965ce2465ccd97c90ba5a10bad57",
     "[\"welfare-square-fresh-20260928\",\"92c621ea40cf5eb6a5309b21ab7e9916\"]": "sr_e51027ea353c54ac906bb8657776d28a",
     "[\"welfare-square-fresh-20260928\",\"92d6a17237dd55e19e46be293e006474\"]": "sr_6f5e35225532513fb8ce6018a6d498a0",
-    "[\"welfare-square-fresh-20260928\",\"92d9164ec86e5db68fb9a8a999c51ef3\"]": "sr_c3b76d964e365531a2b63a94302cc0d3",
+    "[\"welfare-square-fresh-20260928\",\"92d9164ec86e5db68fb9a8a999c51ef3\"]": "sr_be53362cc7b45b1b80a4a1a4a61b546c",
     "[\"welfare-square-fresh-20260928\",\"939c884443925cc68f170e5e2e3a7d25\"]": "sr_0ffdf3af63735e5d9ad7a00fba622e1f",
     "[\"welfare-square-fresh-20260928\",\"93a5cb06913f5f88af349b750e68f98f\"]": "sr_3427414cba6c56a191600183669e482b",
     "[\"welfare-square-fresh-20260928\",\"93ec97261c8a5c8c9bd5777e198e3262\"]": "sr_93f3ed0e18b258388837f0f26ac6dca1",
@@ -22424,7 +22446,7 @@
     "[\"welfare-square-fresh-20260928\",\"9595abbc3fec52c8aa6b98c54cc47ea1\"]": "sr_d567bec0163e52749f0d2fd73b5174f7",
     "[\"welfare-square-fresh-20260928\",\"95b9dd5ecbe45ff1a4c69bd3104e4225\"]": "sr_e62dd5bf9eaa56a18d880d4bafb30cf1",
     "[\"welfare-square-fresh-20260928\",\"95c80a3056e558f6a55bf020086f7e2d\"]": "sr_528aee6a5e195a36b25a05a61827ebdb",
-    "[\"welfare-square-fresh-20260928\",\"960e6eaa4a5f595f801eb3042cda60d4\"]": "sr_473437cb163457409a85f70b48a831d1",
+    "[\"welfare-square-fresh-20260928\",\"960e6eaa4a5f595f801eb3042cda60d4\"]": "sr_c553bdd13d6a5c91bae522bb7ad8e17d",
     "[\"welfare-square-fresh-20260928\",\"976676be7bf85e2b9283ac5c0208ed86\"]": "sr_8fb46e67bdc757a2a5b3e315d8a65788",
     "[\"welfare-square-fresh-20260928\",\"978e85abb9d9503a9600227cbfa351d5\"]": "sr_527ac6f69936543b92453342d20ee0c0",
     "[\"welfare-square-fresh-20260928\",\"97fb2389432d52c8960c3e49aac50552\"]": "sr_4c2fec5599af508bb959a4f99ca81662",
@@ -22441,7 +22463,7 @@
     "[\"welfare-square-fresh-20260928\",\"9a457051b9c55192aa2f31bd23a22348\"]": "sr_e2740b7ee8585ee89f6b255ada1d19fc",
     "[\"welfare-square-fresh-20260928\",\"9a4d463586e2504799fc95a944a62ac0\"]": "sr_c7c1f435a3095ba6a79944bc5e9ff09f",
     "[\"welfare-square-fresh-20260928\",\"9a63be2266095dbdbb43b0b6da501416\"]": "sr_5f4d829c067e5acf8193de493c3f69ef",
-    "[\"welfare-square-fresh-20260928\",\"9a8c27c09e3059cabe5c6574b49c075f\"]": "sr_91b7d2e1dedf5b8c970d63e11a8c4e6a",
+    "[\"welfare-square-fresh-20260928\",\"9a8c27c09e3059cabe5c6574b49c075f\"]": "sr_88f9fd815eb85afa8cc0bbd1160b2c00",
     "[\"welfare-square-fresh-20260928\",\"9a9eb60ce7b3502f99a03235c04a0f7a\"]": "sr_d7d51e772ea85668ac513bcaa550ee08",
     "[\"welfare-square-fresh-20260928\",\"9b22160a4ad65751902b38d54ff1b13c\"]": "sr_74d554c383245d90800f542c45523a63",
     "[\"welfare-square-fresh-20260928\",\"9b50e5cd95f652ec823e59167cdfe4e6\"]": "sr_eb0cfbecc6ff5d20893b49b0ea7b0e5b",
@@ -22467,7 +22489,7 @@
     "[\"welfare-square-fresh-20260928\",\"a181353272455a348bdbd2b7c239372d\"]": "sr_93a05d6e418e5183aa4852e741908f7b",
     "[\"welfare-square-fresh-20260928\",\"a18244b85a285e87b890ef4922277c32\"]": "sr_3c6e77231b375495b1e6138c7910a49f",
     "[\"welfare-square-fresh-20260928\",\"a1eadfc4299b54db8836a14fb32a3b92\"]": "sr_f73636efd508507fb2972e89243a1ce5",
-    "[\"welfare-square-fresh-20260928\",\"a1fb643e25e75eb9bba1dfe353f72d99\"]": "sr_87ff687314645c248df6e24ad5ea2f8e",
+    "[\"welfare-square-fresh-20260928\",\"a1fb643e25e75eb9bba1dfe353f72d99\"]": "sr_478a0e18e17a5e9895ed67140f76e562",
     "[\"welfare-square-fresh-20260928\",\"a28fe42454bd51a2b9c9d9770dbe0c92\"]": "sr_cf1223d65c835699bbb597b1d453417a",
     "[\"welfare-square-fresh-20260928\",\"a295a5cf0acb5d27ab85498ea8ad7a8e\"]": "sr_146b0bf96585503f891e243062cf3329",
     "[\"welfare-square-fresh-20260928\",\"a2d1ae3a70a2505bb8e2939f7e6af37c\"]": "sr_ea7c87839332550ca87b225e6b3d387e",
@@ -22534,11 +22556,11 @@
     "[\"welfare-square-fresh-20260928\",\"b0a24b052e21531fbf9f00ec022c906d\"]": "sr_6047ef04c2355a5d9d7b1ee0385ad503",
     "[\"welfare-square-fresh-20260928\",\"b11e643b5b0a526d9ad1b8445f29b985\"]": "sr_83edca9e8e4752fba1e468e98f02c73e",
     "[\"welfare-square-fresh-20260928\",\"b12f6083de00543b90b3fea112c5a902\"]": "sr_33907174359b54739588ffd0136df131",
-    "[\"welfare-square-fresh-20260928\",\"b1305023a7035c929988df8ff15a9998\"]": "sr_d520233c29c25eee80bc09f8c2ed0e7e",
+    "[\"welfare-square-fresh-20260928\",\"b1305023a7035c929988df8ff15a9998\"]": "sr_a153d8801040567893b460d856f14f89",
     "[\"welfare-square-fresh-20260928\",\"b1426028700950e393c67119838c061d\"]": "sr_b0667ae04ceb539db413736ff0ec2689",
     "[\"welfare-square-fresh-20260928\",\"b1577c460113571181fafbd7dc245a5a\"]": "sr_f3c02859a5ca52e2bbbbe72cdb1082f0",
     "[\"welfare-square-fresh-20260928\",\"b17fe018545d5641a7a0cbef56022d1a\"]": "sr_d62214a8ceed5858a5fa52372cf000b7",
-    "[\"welfare-square-fresh-20260928\",\"b1d74c672917593cb5293ab10d5c6ade\"]": "sr_a60a2181c5f55e658196b73760492ccc",
+    "[\"welfare-square-fresh-20260928\",\"b1d74c672917593cb5293ab10d5c6ade\"]": "sr_b72088e7d9645738805a129b33c56313",
     "[\"welfare-square-fresh-20260928\",\"b1d7e1592eac5469b1aa3e1e6f3e820d\"]": "sr_cab2b58ede29541986d2c90ae8f7cf40",
     "[\"welfare-square-fresh-20260928\",\"b1f5b28b16cf50ef9a29c0880675c5a4\"]": "sr_9452ee54179d59fca484ab7cddbf6c65",
     "[\"welfare-square-fresh-20260928\",\"b1f94f338e4a5121a883465382d46c40\"]": "sr_9575eab8d93459aeaf77d143228442bb",
@@ -22565,7 +22587,7 @@
     "[\"welfare-square-fresh-20260928\",\"b6b2e66e81da5735bca58980d7b0c86a\"]": "sr_4ebecb67dead5627b1c1010068d9d350",
     "[\"welfare-square-fresh-20260928\",\"b6bd810951c3567c81ce2803cdd80334\"]": "sr_97528f168477543f8a5cbff31ea724af",
     "[\"welfare-square-fresh-20260928\",\"b6c342ade1885a3b8e8e8338c1fff601\"]": "sr_976c3fa0cb175294b40deb33f907b6b2",
-    "[\"welfare-square-fresh-20260928\",\"b7428a037041520ea7b82326341a5bda\"]": "sr_2a8bf2ca97485890b3025aeed9d1d13c",
+    "[\"welfare-square-fresh-20260928\",\"b7428a037041520ea7b82326341a5bda\"]": "sr_a646295ad9c55e278247722584c82679",
     "[\"welfare-square-fresh-20260928\",\"b75cfa7f88755b1eadee199dd0fcbb4d\"]": "sr_bfc7d86c48725e9b90aadeeab5ee3fa9",
     "[\"welfare-square-fresh-20260928\",\"b76d7cfef2235c388ce8facab8d48fdb\"]": "sr_c425554713ee5239b398c7f2f0812329",
     "[\"welfare-square-fresh-20260928\",\"b78780dd0e095c08867e5bbebd13e8e8\"]": "sr_589506d3d4dd50e79b6722bc2831e6f4",
@@ -22633,7 +22655,7 @@
     "[\"welfare-square-fresh-20260928\",\"c7a9229369355ff194ade0efbe5fcd09\"]": "sr_dd6fe2e1bd1c5fa3a14e89df577ace5f",
     "[\"welfare-square-fresh-20260928\",\"c7e31655fc1b56279a8c592e5ce01cd5\"]": "sr_0be0fd22fbb05f7589f69b553de73cca",
     "[\"welfare-square-fresh-20260928\",\"c7e736728ddb562ea415ef851b489b00\"]": "sr_f869264c7c5153c1bccc771fd592c64c",
-    "[\"welfare-square-fresh-20260928\",\"c7e81e22e5365886b0926506ce181308\"]": "sr_66b72486e10458ed910bf77f782713a8",
+    "[\"welfare-square-fresh-20260928\",\"c7e81e22e5365886b0926506ce181308\"]": "sr_805c7ee8581350c89edc520c51e54e31",
     "[\"welfare-square-fresh-20260928\",\"c810a577d8d656fe8047eff834e467c5\"]": "sr_cc821193c6425781b71ad341e80bd61e",
     "[\"welfare-square-fresh-20260928\",\"c81649e89a18581aa5f4cf3b525d2d1b\"]": "sr_7eaa48f1b3da5b4fb8c918b7e9a62b5b",
     "[\"welfare-square-fresh-20260928\",\"c835c666d42251d59968f83bf2f8c43a\"]": "sr_7941a72535dc5490a99b44d511f7f44c",
@@ -22657,7 +22679,7 @@
     "[\"welfare-square-fresh-20260928\",\"cbd443a85c6751ffbeb8d51cf3ac59aa\"]": "sr_0a4faea2ffbc5045ac5735f87b187131",
     "[\"welfare-square-fresh-20260928\",\"cc11651a48c758ef86cf79084d0ec16e\"]": "sr_203761d10dd05e29a3299769640b43c4",
     "[\"welfare-square-fresh-20260928\",\"cc33c8bcc07b5c35be21635b42e07269\"]": "sr_d1aaced161085b4ca800ad5208c60f16",
-    "[\"welfare-square-fresh-20260928\",\"cc58d92bff785fdba5293798bd8cbb13\"]": "sr_35e79ba66f6b5313b77fdb9647165fd3",
+    "[\"welfare-square-fresh-20260928\",\"cc58d92bff785fdba5293798bd8cbb13\"]": "sr_53e9d98771585b5d96f05d654934275a",
     "[\"welfare-square-fresh-20260928\",\"ccb1d8d8ad1653fd80009530ea4ab380\"]": "sr_8f9423725d1b5357970910df52ab279a",
     "[\"welfare-square-fresh-20260928\",\"cce11926092f53afb8efcd7797ea1acf\"]": "sr_83d4a0c0c0165029a893660525241255",
     "[\"welfare-square-fresh-20260928\",\"ccfda0cc668354e681873f1310da5074\"]": "sr_026b2f8d66825003b6923d9668fa12c8",
@@ -22673,7 +22695,7 @@
     "[\"welfare-square-fresh-20260928\",\"cf1c8310b8a25b7d9a76a35f7bac3287\"]": "sr_1cd57211a8085163862e66584dfd03f1",
     "[\"welfare-square-fresh-20260928\",\"cf4da164aeeb5050890a7f2608e1ed6b\"]": "sr_583d6049298d535189f02976a2457bec",
     "[\"welfare-square-fresh-20260928\",\"cf5cb898bfe6526eb6dd96b3c76ae8e6\"]": "sr_8e9bc95602af5d2682c4d599d7d9b1af",
-    "[\"welfare-square-fresh-20260928\",\"cf8cf988b0dd5ab4bdcad271b5f5d64c\"]": "sr_a23c87772f69513cb8455a95fba1eab8",
+    "[\"welfare-square-fresh-20260928\",\"cf8cf988b0dd5ab4bdcad271b5f5d64c\"]": "sr_7eaa48f1b3da5b4fb8c918b7e9a62b5b",
     "[\"welfare-square-fresh-20260928\",\"cf9da39f4948561db22c29044b43c35f\"]": "sr_0b0733a248a65095815233ee6f1db692",
     "[\"welfare-square-fresh-20260928\",\"cfbbef7f1f275f12987a0c120b183dd4\"]": "sr_5d1e9fb6ffcb58739f91434dccba0d7c",
     "[\"welfare-square-fresh-20260928\",\"d00803d467e05b8d826ab7a7f14e240a\"]": "sr_8312cb46ad63522aa50ab5d6e44e605a",
@@ -22682,7 +22704,7 @@
     "[\"welfare-square-fresh-20260928\",\"d08dbf29c9185587b36e0de6cc1a1f46\"]": "sr_f8c03fe5e03c598698ab1bcd2949f336",
     "[\"welfare-square-fresh-20260928\",\"d0b7d33af4c152b1ab90e6e1a6a02153\"]": "sr_4a9d3bd4772155a3b4557fc7ca314864",
     "[\"welfare-square-fresh-20260928\",\"d0d35376de375c36a171e0dfa79821dd\"]": "sr_c59548e310c05c2fbd6934d74e68defe",
-    "[\"welfare-square-fresh-20260928\",\"d16046055166578fb01f5796e1309e2c\"]": "sr_93a58e94b1c3565c98c97939ce722333",
+    "[\"welfare-square-fresh-20260928\",\"d16046055166578fb01f5796e1309e2c\"]": "sr_0150ec15813a55c38d74684d7b90b6dd",
     "[\"welfare-square-fresh-20260928\",\"d174e66211d35c82ab10ffe459973faa\"]": "sr_177bd04e1e54552e8f20d9757d331769",
     "[\"welfare-square-fresh-20260928\",\"d18b879f707c5d45a818d5af7826b26b\"]": "sr_f73a9c2ba16156b1b2d82254bbfe0dd0",
     "[\"welfare-square-fresh-20260928\",\"d1f5791cfd4551168fa2fc8eda48a625\"]": "sr_94859491e2e0541ea3b9851313163610",
@@ -22732,7 +22754,7 @@
     "[\"welfare-square-fresh-20260928\",\"d93d7bb4ccd959f78ae4ee0ba0632b42\"]": "sr_2572c83ccba15d49b7f78dafaca2e76c",
     "[\"welfare-square-fresh-20260928\",\"d9428cb992c05f14ab3b7c61b765305f\"]": "sr_d6f7e29171e9584a9ac2f572db687f55",
     "[\"welfare-square-fresh-20260928\",\"d9514bbcc17c53ca9a765d0a2e7bf84f\"]": "sr_db42537e569e52e18369f01266b10ea7",
-    "[\"welfare-square-fresh-20260928\",\"d9aff20f668f5fae81de3a8c8e021c1a\"]": "sr_01a8c9d454665823b2ab421d5674931e",
+    "[\"welfare-square-fresh-20260928\",\"d9aff20f668f5fae81de3a8c8e021c1a\"]": "sr_a153d8801040567893b460d856f14f89",
     "[\"welfare-square-fresh-20260928\",\"d9f138b9923a586b98b37bed45815283\"]": "sr_fd2c007f176057db87bd113803da2753",
     "[\"welfare-square-fresh-20260928\",\"da1a747d66a65c229561487aef3610f5\"]": "sr_110f1b35e4f2556d826c4ba40d69d106",
     "[\"welfare-square-fresh-20260928\",\"e274d9c5f29259c2babf4bc4a793f224\"]": "sr_110f1b35e4f2556d826c4ba40d69d106",
@@ -22746,7 +22768,7 @@
     "[\"welfare-square-fresh-20260928\",\"dc238334042d5f9391442e81ba67d38c\"]": "sr_5e1dfffff9385b6ca9982a6abd26345a",
     "[\"welfare-square-fresh-20260928\",\"dc42d8006f755e26976e6a233a41a66b\"]": "sr_1a13088a3368518d942e5454ea4d17b1",
     "[\"welfare-square-fresh-20260928\",\"dca0f1129a255eca84ec50c7888850cc\"]": "sr_d409845a9161523fadaac32cc1f193d7",
-    "[\"welfare-square-fresh-20260928\",\"dccd02c118145c85b4868f75f4e02c7a\"]": "sr_8967159081555870aa52be189b31d676",
+    "[\"welfare-square-fresh-20260928\",\"dccd02c118145c85b4868f75f4e02c7a\"]": "sr_ada4c996c4875efd89b42a0bfb7f6221",
     "[\"welfare-square-fresh-20260928\",\"dcdfd773982d5817a0093be36b3037db\"]": "sr_e298603949795e96a74c618bfabdb164",
     "[\"welfare-square-fresh-20260928\",\"dce5151c40125462b501606d5f9000e5\"]": "sr_6dd2c63ce40f5afeabd204cc5e9ebf68",
     "[\"welfare-square-fresh-20260928\",\"dceea5fff7075e788f3f39af8baead06\"]": "sr_08d9258d57a55026a371b607dd16848b",
@@ -22844,7 +22866,7 @@
     "[\"welfare-square-fresh-20260928\",\"f24bb90dcf115c3592c9dec318df192b\"]": "sr_bc756faef8295bc980a4ec49a75a8a70",
     "[\"welfare-square-fresh-20260928\",\"f27c5f5a5eeb5d28898ccb65a85282e6\"]": "sr_e77e6c6e7a2d5e64a595c09eda0228b0",
     "[\"welfare-square-fresh-20260928\",\"f2afaf55edd55bda93c79eb842d7740e\"]": "sr_85fa88be7079574dac832b860ec08a32",
-    "[\"welfare-square-fresh-20260928\",\"f2b78dad841f5947b1a71839cd46a13a\"]": "sr_5684df4131c65694a53fce7c017bb800",
+    "[\"welfare-square-fresh-20260928\",\"f2b78dad841f5947b1a71839cd46a13a\"]": "sr_b72088e7d9645738805a129b33c56313",
     "[\"welfare-square-fresh-20260928\",\"f2e8148c37ca5a5f806269c30988b59e\"]": "sr_0af6b5353489538ea5f589bf6fcc6362",
     "[\"welfare-square-fresh-20260928\",\"f32fc4d1a8db5f999ce629633252cba1\"]": "sr_f28d76dbbfe65df6894aae738d05f446",
     "[\"welfare-square-fresh-20260928\",\"f391e69a457a538b9114a8e2bbfd496c\"]": "sr_e75bb7806d8f59608ba87b8b749c9874",
@@ -75865,6 +75887,248 @@
       ],
       "reason": "Reviewed general clinic and appointment pages describe the same Charis Salt Lake City clinic, address, contact routes and pregnancy-support services. Keep the existing appointment-specific canonical ID and preserve the general-clinic ID as a historical redirect.",
       "evidence": "Session 079 conflict proposal and frozen review b81e64cf75c061ef7c20b09a591c95456ea04eefa909bc6a35f9984238b8259e; supervisor decision recorded in registry/migrations/welfare-square-supervisor-identity-20260930.json"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_93a58e94b1c3565c98c97939ce722333",
+      "toResourceId": "sr_0150ec15813a55c38d74684d7b90b6dd",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"d16046055166578fb01f5796e1309e2c\"]"
+      ],
+      "reason": "One Bishop Weigand day-center intake and address; the retained center already includes its clothing-room days and hours.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_c3b76d964e365531a2b63a94302cc0d3",
+      "toResourceId": "sr_be53362cc7b45b1b80a4a1a4a61b546c",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"92d9164ec86e5db68fb9a8a999c51ef3\"]"
+      ],
+      "reason": "One Central Compassion Center Saturday distribution: food and clothing share the same site and one-hour access window.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_35e79ba66f6b5313b77fdb9647165fd3",
+      "toResourceId": "sr_53e9d98771585b5d96f05d654934275a",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"cc58d92bff785fdba5293798bd8cbb13\"]"
+      ],
+      "reason": "Cherish Families legal referrals are part of the same population-specific wraparound intake, not a separate law practice.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_b53a9aeae4f45573b912c3d733326818",
+      "toResourceId": "sr_a646295ad9c55e278247722584c82679",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"25085698a8ce54b19bfdc08942cfbffd\"]"
+      ],
+      "reason": "Fourth Street behavioral health uses the same homeless-clinic appointment intake and is already described in the retained integrated clinic record.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_2a8bf2ca97485890b3025aeed9d1d13c",
+      "toResourceId": "sr_a646295ad9c55e278247722584c82679",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"b7428a037041520ea7b82326341a5bda\"]"
+      ],
+      "reason": "These Fourth Street records describe the identical clinic, population, appointment number, address and clinical services.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_18c1c0f2ebc45e00a64b19bc8b134634",
+      "toResourceId": "sr_b30c3350e2a5548e82153bb001515c29",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"5b1452dceb0a52558661a054669e501d\"]"
+      ],
+      "reason": "Journey of Hope survivor case management duplicates HER Empowerment case management; retain the record that also explains its prison-mentoring pathway.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_87ff687314645c248df6e24ad5ea2f8e",
+      "toResourceId": "sr_478a0e18e17a5e9895ed67140f76e562",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"a1fb643e25e75eb9bba1dfe353f72d99\"]"
+      ],
+      "reason": "Magna FACT pantry and clothing are the same resident basic-needs front door; DHHS 211 lists both with Tuesday-Friday hours.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_1d72e1be28585f94b18975574c0e503c",
+      "toResourceId": "sr_a246509178f052408b3c45b665b6f55d",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"7eab121bd1565383b0dd300c8d50bbb4\"]"
+      ],
+      "reason": "Midtown South Salt Lake substance-use care is a service at the same integrated clinic and public appointment route; preserve its medication-service qualification explicitly.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_759d1d23004e5f10a53311784dd3fa9e",
+      "toResourceId": "sr_3f34ee2731455b76a72bd862975f57e0",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"18adaa5c09655e009e818f6ee46ad02c\"]"
+      ],
+      "reason": "Nomad Alliance ID vouchers are part of the retained mobile outreach service, with the same outreach contact and no separate regular intake calendar.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_91b7d2e1dedf5b8c970d63e11a8c4e6a",
+      "toResourceId": "sr_88f9fd815eb85afa8cc0bbd1160b2c00",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"9a8c27c09e3059cabe5c6574b49c075f\"]"
+      ],
+      "reason": "The Rescue Mission women's clothing entry is the same women's shelter and intake; preserve uncertainty about non-guest clothing access.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_01a8c9d454665823b2ab421d5674931e",
+      "toResourceId": "sr_a153d8801040567893b460d856f14f89",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"d9aff20f668f5fae81de3a8c8e021c1a\"]"
+      ],
+      "reason": "Rescue Mission meals and family food boxes are explicitly included in the same emergency-services front desk.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_d520233c29c25eee80bc09f8c2ed0e7e",
+      "toResourceId": "sr_a153d8801040567893b460d856f14f89",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"b1305023a7035c929988df8ff15a9998\"]"
+      ],
+      "reason": "The Rescue Mission men's clothing entry is the same homeless service center and intake, with no separate clothing program hours.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_8c10f18b1ca75e0397c3b010c19a011a",
+      "toResourceId": "sr_116c5b3fdfa257a8afd9b29728d2092b",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"066a203221e95c98b944276dc346de3b\"]"
+      ],
+      "reason": "Sacred Circle behavioral health and psychiatry are integrated services of the same Salt Lake clinic, address and booking route.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_a23c87772f69513cb8455a95fba1eab8",
+      "toResourceId": "sr_7eaa48f1b3da5b4fb8c918b7e9a62b5b",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"cf8cf988b0dd5ab4bdcad271b5f5d64c\"]"
+      ],
+      "reason": "Same VA regional benefits office, benefits scope, hotline and VERA appointment route; category split alone is not another resource.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_923b75b0898e56b2a590f95e6146b304",
+      "toResourceId": "sr_36eb3ebd87d9558eb6187ca76e05603c",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"236a75f37da25218ae6e6c9a2122139b\"]"
+      ],
+      "reason": "THRIVE's asylum legal support and clinical care use the same survivor eligibility, referral form and integrated program.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_8967159081555870aa52be189b31d676",
+      "toResourceId": "sr_ada4c996c4875efd89b42a0bfb7f6221",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"dccd02c118145c85b4868f75f4e02c7a\"]"
+      ],
+      "reason": "Same Other Side Academy residential admission interview, campus and personally requested long-term program.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_66b72486e10458ed910bf77f782713a8",
+      "toResourceId": "sr_805c7ee8581350c89edc520c51e54e31",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"c7e81e22e5365886b0926506ce181308\"]"
+      ],
+      "reason": "Identical Salvation Army utility assistance, application, utility-specific eligibility and HEAT prerequisite.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_a60a2181c5f55e658196b73760492ccc",
+      "toResourceId": "sr_b72088e7d9645738805a129b33c56313",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"b1d74c672917593cb5293ab10d5c6ade\"]"
+      ],
+      "reason": "UICSL outpatient substance-use care is part of this integrated behavioral-health program and shared new-patient intake.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_5684df4131c65694a53fce7c017bb800",
+      "toResourceId": "sr_b72088e7d9645738805a129b33c56313",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"f2b78dad841f5947b1a71839cd46a13a\"]"
+      ],
+      "reason": "UICSL domestic-violence advocacy is part of the same behavioral-health program and shared patient intake, not a separate crisis shelter.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_7536281e4b99503b95f64c42232924f5",
+      "toResourceId": "sr_9452ee54179d59fca484ab7cddbf6c65",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"2ed0d64e781f5f11bae379a0987c52fc\"]"
+      ],
+      "reason": "Identical Utah winter moratorium protection and Salt Lake County HEAT application route.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_473437cb163457409a85f70b48a831d1",
+      "toResourceId": "sr_c553bdd13d6a5c91bae522bb7ad8e17d",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"960e6eaa4a5f595f801eb3042cda60d4\"]"
+      ],
+      "reason": "The broader VA addiction entry already includes SOAR. Preserve SOAR and SARRTP as explicitly distinguished services and add the separate SARRTP admissions extension.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
+    },
+    {
+      "kind": "identity-merged",
+      "migrationId": "welfare-square-supervisor-consolidation-20260930",
+      "fromResourceId": "sr_8ab8f87ca1475156a0024ebbeab49fc6",
+      "toResourceId": "sr_a153d8801040567893b460d856f14f89",
+      "reassignedAliases": [
+        "[\"welfare-square-fresh-20260928\",\"17d5e99985295625bc585809ca7f0fa4\"]"
+      ],
+      "reason": "The Rescue Mission men's facility and emergency services are the same 463 S 400 W homeless service center and front desk; preserve both the men's overnight/recovery limits and family food-box access.",
+      "evidence": "Individual supervisor comparison in data/welfare-square-fresh-20260928/review/supervisor-consolidation-audit/decisions.json sha256 6cc22b91bea10214d2fc72f252abce63762f9808f96800a3b1309e9df1018471"
     }
   ]
 }

@@ -1,5 +1,28 @@
 # Scout current status
 
+## Welfare Square supervisor acceptance complete — September 30
+
+The corrected fresh-run bundle passed substantive supervisor acceptance and locked
+export. See [audit and handoff](docs/welfare-square-supervisor-acceptance-20260930.md).
+Delivery: `deliveries/welfare-square-fresh-20260928-r2/`, dated JSON September 30.
+1,085 resources (1,045 usable / 40 administrator-only), 209 starter memberships
+across 21 categories, 1,073 consideration reasons. Nine starters in Clothing/Household;
+ten in every other category. Source research and curation are unchanged.
+
+Supervisor corrections replaced substring population mapping with 634 explicit
+label decisions, consolidated 22 further duplicate entries, excluded 17 internal
+school/campus resources, and corrected contact/client-facing wording. All old IDs,
+source assessments and review evidence are preserved. Twenty-four total audited
+canonical redirects are included in the migration artifact. Separate acceptance
+binds the exact bundle and 176 evidence files; receipt/gzip/registry readback passed.
+
+Ordered complements are in `review.md`; JSON v1 does not yet transport that order
+to WSRS-TSO. No import or human Curated approval is claimed. The scoped registry/delivery commit is recorded in the runtime completion receipt;
+Save is exposed only at `prepared-delivery-complete`. Do not restart Welfare Square
+workers.
+Mesa continues independently on port 8771; its original source/curation is preserved.
+
+
 
 ## Shared acceptance remedy; Mesa review restarted — September 30
 
