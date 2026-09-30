@@ -1,7 +1,7 @@
 """Finalize a reviewed preparation bundle through the code-owned identity gate.
 
 No model calls, identity guesses, taxonomy inference, or human approval changes.
-Review bundles are internal; only scout-<office>-prepared-resources-<YYYY-MM-DD>.json is the import payload.
+Review bundles are internal; only scout-<office>-prepared-resources-<YY-MM-DD>.json is the import payload.
 """
 from __future__ import annotations
 
@@ -94,10 +94,12 @@ def finalize(bundle, registry, *, previous=None):
     return artifact, updated, migration, receipt
 
 
-def delivery_name(artifact, *, short_date=False):
-    """scout-<office>-prepared-resources-<YYYY-MM-DD>.json, agreed with WSRS-TSO on
-    26 September 2026 so a person can tell deliveries apart, on a USB stick included.
-    The date is the snapshot's generation date."""
+def delivery_name(artifact, *, short_date=True):
+    """scout-<office>-prepared-resources-<YY-MM-DD>.json, so a person can tell
+    deliveries apart, on a USB stick included. The date is the snapshot's
+    generation date. Agreed with WSRS-TSO on 26 September 2026 with a four-digit
+    year; Michael, 30 September 2026: "Expect a 2-digit year in the import file."
+    `short_date=False` still gives YYYY-MM-DD."""
     slug = str(artifact.get("office", {}).get("slug", ""))
     day = str(artifact.get("snapshot", {}).get("generatedAt", ""))[:10]
     require(re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug) is not None, f"Office slug cannot name a delivery file: {slug!r}")
@@ -109,7 +111,7 @@ def encoded(value):
     return (json.dumps(value, ensure_ascii=False, indent=2) + "\n").encode()
 
 
-def export_bundle(bundle_path, registry_path, output, *, initialize_registry=False, previous_path=None, short_date=False, acceptance_path=None):
+def export_bundle(bundle_path, registry_path, output, *, initialize_registry=False, previous_path=None, short_date=True, acceptance_path=None):
     from .review_acceptance import verify_acceptance
     acceptance = verify_acceptance(bundle_path, acceptance_path)
     bundle = json.loads(bundle_path.read_text())
@@ -152,11 +154,12 @@ def main():
     parser.add_argument("--previous", type=Path)
     parser.add_argument("--acceptance", required=True, type=Path, help="Supervisor receipt outside the review workspace")
     parser.add_argument("--initialize-registry", action="store_true")
-    parser.add_argument("--short-date", action="store_true", help="Use YY-MM-DD in the delivery filename when requested")
+    parser.add_argument("--short-date", action="store_true", help="YY-MM-DD in the delivery filename (the default; kept for older commands)")
+    parser.add_argument("--long-date", action="store_true", help="YYYY-MM-DD in the delivery filename instead")
     args = parser.parse_args()
     try:
         receipt = export_bundle(args.bundle, args.registry, args.output,
-            initialize_registry=args.initialize_registry, previous_path=args.previous, short_date=args.short_date,
+            initialize_registry=args.initialize_registry, previous_path=args.previous, short_date=not args.long_date,
             acceptance_path=args.acceptance)
     except (ValueError, KeyError) as exc:
         parser.exit(2, f"Prepared export refused: {exc}\n")

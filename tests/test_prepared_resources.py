@@ -186,20 +186,23 @@ class PreparedResourceTests(unittest.TestCase):
             self.assertEqual(before, registry.read_bytes())
 
     def test_delivery_file_is_named_for_its_office_and_date(self):
-        # Agreed 26 September 2026: scout-<office>-prepared-resources-<YYYY-MM-DD>.json(.gz).
+        # Michael, 30 September 2026: "Expect a 2-digit year in the import file."
+        # scout-<office>-prepared-resources-<YY-MM-DD>.json(.gz), by default.
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary); bundle = root/'bundle.json'; bundle.write_bytes(encoded(self.bundle))
             acceptance = accept_fixture(self, bundle)
             receipt = export_bundle(bundle, root/'registry.json', root/'delivery', initialize_registry=True, acceptance_path=acceptance)
             artifact = json.loads((root/'delivery'/receipt['artifactFile']).read_text())
             slug, day = artifact['office']['slug'], artifact['snapshot']['generatedAt'][:10]
-            self.assertEqual(receipt['artifactFile'], f'scout-{slug}-prepared-resources-{day}.json')
+            self.assertEqual(receipt['artifactFile'], f'scout-{slug}-prepared-resources-{day[2:]}.json')
             self.assertTrue((root/'delivery'/(receipt['artifactFile']+'.gz')).exists())
             self.assertFalse((root/'delivery'/'prepared-resources.json').exists())
 
     def test_the_name_follows_the_agreed_pattern(self):
         artifact = {'office': {'slug': 'welfare-square'}, 'snapshot': {'generatedAt': '2026-09-28T17:04:00Z'}}
-        self.assertEqual(delivery_name(artifact), 'scout-welfare-square-prepared-resources-2026-09-28.json')
+        self.assertEqual(delivery_name(artifact), 'scout-welfare-square-prepared-resources-26-09-28.json')
+        # The four-digit year agreed on 26 September stays available, but only when asked for.
+        self.assertEqual(delivery_name(artifact, short_date=False), 'scout-welfare-square-prepared-resources-2026-09-28.json')
         for bad in [{'office': {'slug': 'Welfare Square'}, 'snapshot': {'generatedAt': '2026-09-28T00:00:00Z'}},
                     {'office': {'slug': 'mesa'}, 'snapshot': {'generatedAt': '28/09/2026'}}]:
             with self.assertRaises(ValueError):

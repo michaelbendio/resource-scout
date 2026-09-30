@@ -277,7 +277,7 @@ def _export_reviewed_submission(config, job):
     registry_path = Path(config['registryPath'])
     previous = Path(config['previousPreparedPath']) if config.get('previousPreparedPath') else None
     receipt = export_bundle(bundle_path, registry_path, output, previous_path=previous,
-                            short_date=config.get('shortDeliveryDate', False),
+                            short_date=config.get('shortDeliveryDate', True),
                             acceptance_path=config.get('supervisorAcceptancePath',
                                 str(Path(config['runDirectory']) / 'supervisor-acceptance.json')))
     artifact_path = output / receipt['artifactFile']
