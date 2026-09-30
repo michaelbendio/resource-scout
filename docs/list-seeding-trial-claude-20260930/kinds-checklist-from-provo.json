@@ -1,0 +1,185 @@
+{
+  "source": "Derived by Claude on 30 September 2026 from Provo's 191 curated resources (419 category memberships), as the kinds of help an office needs; each kind names a Provo example. Scout categories; Provo's extra categories folded in (Aging -> seniors; Children/Youth -> children-pregnancy; Suicide Prevention -> mental-health; ID Replacement -> id-recovery; Case Management and Major Agency Programs spread across).",
+  "everyOffice": [
+    ["Information and referral line (211)", "211 (United Way)"],
+    ["Online resource directory", "Find Help.org"]
+  ],
+  "categories": {
+    "addiction": [
+      ["Public/county substance-use treatment authority", "Wasatch Behavioral Health - SUD Services"],
+      ["Nonprofit treatment continuum (outpatient to residential)", "Odyssey House of Utah"],
+      ["Free long-term residential programme", "The Other Side Academy"],
+      ["Detox or psychiatric hospital", "Salt Lake Behavioral Health"],
+      ["Peer recovery coaching", "USARA"],
+      ["Sober community and support groups", "Utah Valley Alano Club"],
+      ["Free naloxone", "Utah DHHS Opidemic - Free Naloxone"],
+      ["Tobacco quitline", "Way to Quit"]
+    ],
+    "children-pregnancy": [
+      ["WIC", "WIC - Overview and Application Assistance"],
+      ["Children's health insurance (CHIP/Medicaid) help", "CHIP Overview and Application Assistance"],
+      ["Head Start / free pre-school", "Early Learning Essentials (Head Start)"],
+      ["Early intervention for developmental delays", "Kids on the Move"],
+      ["Family information and referral (Help Me Grow)", "Help Me Grow (United Way)"],
+      ["Parent support and training, incl. special needs", "Utah Parent Center"],
+      ["Child abuse and trauma services", "Family Haven"],
+      ["Children's mental health centre", "The Children's Center Utah"],
+      ["Grief support for children", "The Sharing Place"],
+      ["Pregnancy clinic or pregnancy resources", "Charis Pregnancy Clinic"]
+    ],
+    "clothing-household": [
+      ["Deseret Industries", "2026 Deseret Industries Locations"],
+      ["Free furniture, beds and household goods", "Furniture, Beds and More (Free Goods)"],
+      ["Clothing at a homeless day centre", "Food and Care Coalition"]
+    ],
+    "disability": [
+      ["Independent living centre", "Ability 1st"],
+      ["Vocational rehabilitation", "DWS - Vocational Rehabilitation"],
+      ["Disability legal advocacy", "Disability Law Center"],
+      ["SSI / Social Security Disability", "Social Security Disability Benefits"],
+      ["State or county disability services", "Disability Services - Utah County"],
+      ["Medical equipment loans", "Ability 1st - Equipment Loan Program"],
+      ["Services for blind and visually impaired people", "Hadley Helps"]
+    ],
+    "domestic-violence": [
+      ["Domestic-violence shelter", "Domestic Violence Shelters - Utah"],
+      ["Family justice centre", "Family Justice Center"],
+      ["Police or prosecutor victim services", "Provo Police Victim Services"],
+      ["Crisis hotlines", "Hotline Numbers"],
+      ["Sexual-assault and survivor services", "The Refuge"]
+    ],
+    "education": [
+      ["Adult education: GED / high-school diploma", "Adult Education - GED/HS Diploma"],
+      ["English as a second language", "ESL Programs"],
+      ["Adult literacy tutoring", "Project Read"],
+      ["Technical college", "Mountainland Technical College"],
+      ["College scholarships (first-generation, single parents)", "UVU Hope Scholarship; Live Your Dream"],
+      ["Church education (BYU Pathway, Ensign College)", "BYU Pathway"],
+      ["Job Corps", "Job Corps"],
+      ["Financial literacy and life-skills classes", "Community Action - Financial Literacy; Circles"]
+    ],
+    "employment": [
+      ["State workforce / employment centre", "DWS - Provo Employment Center"],
+      ["Church employment services", "LDS Employment Services"],
+      ["Deseret Industries job training", "2026 Deseret Industries Locations"],
+      ["Senior employment (SCSEP)", "Easterseals-Goodwill SCSEP"],
+      ["Apprenticeships and trades", "Utah Women in Trades; Dev Pipeline"],
+      ["Temp agencies and day labour", "People Ready"],
+      ["Felon-friendly employers", "Felon Friendly Employers"],
+      ["Small business development", "Small Business Development"]
+    ],
+    "financial-assistance": [
+      ["Community action agency emergency help", "Community Action Services and Food Bank"],
+      ["Rent and deposit assistance", "Rental deposit assistance"],
+      ["Utility assistance", "Utilities Assistance"],
+      ["State public assistance (cash, SNAP, Medicaid)", "DWS - Overview"],
+      ["Help for cancer patients", "Needs Beyond Medicine"],
+      ["First-time homebuyer help", "Utah Housing Corporation"]
+    ],
+    "food": [
+      ["Bishops' storehouse", "2026 Bishops Storehouse Locations"],
+      ["Food pantries and mobile food bank list", "2026 Food Pantries and Mobile Food Banks"],
+      ["Community food bank", "Community Action Services and Food Bank"],
+      ["SNAP application help", "SNAP Overview and Application Assistance"],
+      ["WIC", "WIC - Overview and Application Assistance"],
+      ["Senior food boxes (CSFP)", "Utah Food Bank - CSFP"],
+      ["Free hot meals", "Food and Care Coalition"],
+      ["Pet food pantry", "Celestial Zoo Pet Pantry"]
+    ],
+    "homeless-services": [
+      ["Homeless response system and bed availability", "End Utah Homelessness"],
+      ["Main emergency shelter", "Lantern House"],
+      ["Winter / warming centre", "Warming Center - Utah County"],
+      ["Family shelter network", "Family Promise"],
+      ["Day or resource centre (showers, laundry, mail)", "Weigand Resource Center"],
+      ["Medical respite", "The INN Between"],
+      ["Faith-based rescue mission", "Rescue Mission of Salt Lake"]
+    ],
+    "housing": [
+      ["Public housing authority", "Housing Authority of Utah County; Provo City Housing Authority"],
+      ["Rent and deposit assistance", "Community Action Services"],
+      ["Transitional housing", "HomeInn"],
+      ["Home repair (Habitat, Fuller Center)", "Habitat for Humanity of Utah County"],
+      ["Homebuying help", "Utah Housing Corporation; NeighborWorks"],
+      ["Veterans' housing", "Homeless Veterans Fellowship; Valor House"],
+      ["Low-cost shared housing for fixed incomes", "One New Light"],
+      ["Rental listings and extended-stay hotels", "Rental Properties; Extended Stay Hotels"],
+      ["Crisis sheltering for pets", "Ruff Haven"]
+    ],
+    "id-recovery": [
+      ["Driver licence office ID for homeless people", "Driver License Division (ID for homeless persons)"],
+      ["Help paying for ID documents", "Food and Care Coalition"],
+      ["Identity theft help", "Identity Theft and Fraud"]
+    ],
+    "immigration": [
+      ["Immigration legal services", "IMMI; Elevate Utah"],
+      ["Immigrant resource centre or list", "Immigrant Resources-Utah County"],
+      ["Catholic Community Services immigration help", "Weigand Resource Center (CCS)"]
+    ],
+    "legal": [
+      ["Legal aid / self-represented litigant help", "Timpanogos Legal Center"],
+      ["List of free or low-cost legal help", "Legal Resources"],
+      ["Expungement", "Clean Slate Utah"],
+      ["Disability legal advocacy", "Disability Law Center"],
+      ["Victims' legal help", "Family Justice Center"]
+    ],
+    "medical-dental-vision": [
+      ["Community health centre (FQHC)", "Mountainlands Community Health Centers"],
+      ["Free clinic for the uninsured", "Volunteer Care Clinic; Bingham Family Clinic"],
+      ["Medicaid / insurance enrolment help", "Take Care Utah"],
+      ["Low-cost dental", "Dental Services"],
+      ["Vision care, incl. children's glasses", "Eye Care 4 Kids"],
+      ["University teaching clinics (speech, therapy, eye)", "BYU Speech and Language Clinic"],
+      ["County health department services", "Utah County Health Department"],
+      ["Mobile health screenings", "The Wellness Bus"]
+    ],
+    "mental-health": [
+      ["988 Suicide and Crisis Lifeline", "988"],
+      ["State crisis line", "Utah Crisis Line (Huntsman)"],
+      ["County mental health authority, incl. crisis services", "Wasatch Behavioral Health"],
+      ["NAMI support groups", "NAMI Utah"],
+      ["Low-cost university clinic", "BYU Comprehensive Clinic"],
+      ["Psychiatric hospital", "Aspen Grove Behavioral Hospital"],
+      ["Suicide-loss and grief support", "Healing Conversations"]
+    ],
+    "reentry-support": [
+      ["Expungement", "Clean Slate Utah"],
+      ["Felon-friendly employers", "Felon Friendly Employers"],
+      ["Housing that takes people leaving prison", "One New Light"],
+      ["Church class for ex-offenders", "Sunday School Class for Ex-Offenders"],
+      ["Long-term residential programme", "The Other Side Academy"]
+    ],
+    "seniors": [
+      ["Area Agency on Aging", "MAG Aging and Family Services"],
+      ["Senior housing through the housing authority", "Housing Authority of Utah County"],
+      ["Social Security and Medicare", "Social Security Benefits"],
+      ["Senior food boxes (CSFP)", "Utah Food Bank - CSFP"],
+      ["Senior employment (SCSEP)", "Easterseals-Goodwill SCSEP"],
+      ["Senior companions and volunteer programmes", "Senior Companion Program"],
+      ["Rides for seniors", "Utah Valley Rides"],
+      ["Free senior-care placement advice", "Care Patrol of Utah"]
+    ],
+    "transportation": [
+      ["Public transit information", "UTA - Contact"],
+      ["Reduced-fare card", "UTA Reduced Fare FAREPAY Card"],
+      ["ADA paratransit", "UTA Paratransit"],
+      ["Volunteer or subsidised ride programme", "Utah Valley Rides"],
+      ["Bus passes through a public agency", "DWS - Overview"],
+      ["Car repair help", "Knight Motor Auto Repair"],
+      ["Long-distance bus tickets", "Weigand Resource Center (Greyhound passes)"]
+    ],
+    "utilities-phone-internet": [
+      ["Utility bill assistance (HEAT/LIHEAP, weatherization)", "Utilities Assistance"],
+      ["Low-cost phone and internet (Lifeline)", "Telephone and Internet Providers"]
+    ],
+    "veterans": [
+      ["State veterans affairs department", "Utah Department of Veterans and Military Affairs"],
+      ["Vet Centers", "Veterans Centers (Utah County)"],
+      ["VA transitional housing", "Valor House"],
+      ["Homeless veterans' housing (SSVF)", "Homeless Veterans Fellowship"],
+      ["State veterans' home", "Central Utah Veterans Home"],
+      ["Workforce veteran representatives", "DWS - Veteran Services"],
+      ["Campus veterans centre", "UVU Military-Affiliated Student Hub"]
+    ]
+  }
+}
