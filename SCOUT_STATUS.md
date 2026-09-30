@@ -1,5 +1,19 @@
 # Scout current status
 
+## Mesa dashboard activity restored — September 30
+
+The review was active; both port-8771 dashboard processes were still serving an
+older Python module without live reviewer activity or per-category/record details.
+Reloaded only the local and Tailscale HTTP listeners (new PIDs 18740 / 18742).
+Verified both APIs show live native-event age, all 22 review-scope category rows,
+saved record counts and the current 15-second-refresh UI script. Pipeline 12570,
+recovery monitor 12589 and reviewer 17645/session 007 continued without restart.
+Addiction has complete content/taxonomy/selections: 97 draft resources and 263
+candidate dispositions; the next category is Children/Pregnancy. Verify live state
+before relying on these counts/PIDs. Dashboard: http://100.69.49.114:8771.
+Evidence: `data/mesa-recuration-20260929/dashboard-reload-20260930T153700Z/`.
+
+
 ## Welfare Square supervisor acceptance complete — September 30
 
 The corrected fresh-run bundle passed substantive supervisor acceptance and locked
