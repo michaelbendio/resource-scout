@@ -1,0 +1,838 @@
+{
+ "housing": [
+  {
+   "name": "A New Leaf - La Mesita Apartments",
+   "website": "https://www.turnanewleaf.org/services/housing-and-shelter/la-mesita-apartments",
+   "address": "2254 W Main St, Mesa, AZ 85201",
+   "sources": [
+    "https://search.211arizona.org/search?query=low%20income%20housing&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Long-term family apartments with income limits; takes housing choice vouchers.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_e0f32d713de35a1dbdc688f4a3bd9483",
+    "scoutName": "A New Leaf - La Mesita Apartments"
+   },
+   "category": "housing"
+  },
+  {
+   "name": "City of Mesa Security and Utility Deposit Assistance Program",
+   "website": "https://www.mesaaz.gov/Resident-Resources/Housing/Human-Services/DepositAssistanceProgram",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Housing",
+    "https://www.mesaaz.gov/files/assets/public/v/1/residentresources/housing/manufactured-home-resources.pdf"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Pays security and utility deposits for Mesa renters moving into housing.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a644f60fc9665ad6acd36b3062a657a8",
+    "scoutName": "City of Mesa Housing Authority - Security and Utility Deposit Assistance Program"
+   },
+   "category": "housing"
+  },
+  {
+   "name": "HousingSearch.AZ.gov (My Housing Search)",
+   "website": "https://housingsearch.az.gov",
+   "address": "Online",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Housing",
+    "https://search.211arizona.org/search?query=low%20income%20housing&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "online and phone",
+   "listingSays": "Free search of low-cost and market-rate rentals by location.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_c778fdb8d23753c8b7fe0266419febfd",
+    "scoutName": "HousingSearch.AZ.gov — free rental-housing search"
+   },
+   "category": "housing"
+  },
+  {
+   "name": "Arizona Department of Housing - eviction prevention and homeowner assistance",
+   "website": "https://housing.az.gov",
+   "address": "Phoenix, AZ (statewide)",
+   "sources": [
+    "https://www.mesaaz.gov/files/assets/public/v/1/residentresources/housing/manufactured-home-resources.pdf"
+   ],
+   "rule": "pass",
+   "ruleNote": "statewide, reached by phone or online",
+   "listingSays": "Home buyer programme, eviction prevention and homeowner assistance.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_246812445c455dc497e824fa62d8c356",
+    "scoutName": "Arizona Department of Housing — Weatherization programme and local-provider finder"
+   },
+   "category": "housing"
+  },
+  {
+   "name": "Helping Hands for Freedom",
+   "website": "https://www.helpinghandsforfreedom.org",
+   "address": "326 E Coronado Rd, Phoenix, AZ 85004",
+   "sources": [
+    "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "veteran and Gold Star families with children",
+   "listingSays": "Rent and utility help for veteran and Gold Star families with children under 18.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_c05533162273503c8c88b7cef515758c",
+    "scoutName": "Helping Hands for Freedom - Financial Assistance for Veteran and Gold Star Families"
+   },
+   "category": "housing"
+  },
+  {
+   "name": "U.S. VETS Phoenix - Supportive Services for Veteran Families",
+   "website": "https://usvets.org/locations/phoenix",
+   "address": "3400 NW Grand Ave, Phoenix, AZ 85017",
+   "sources": [
+    "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=low%20income%20housing&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "veterans; regional",
+   "listingSays": "Rent and housing help for low-income veterans who are homeless or about to be.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_832a284bc6ed55829b4f3cef5946ddca",
+    "scoutName": "U.S.VETS Phoenix - Supportive Services for Veteran Families (SSVF)"
+   },
+   "category": "housing"
+  },
+  {
+   "name": "Arizona Association of Manufactured Home Owners",
+   "website": "https://aamho.org",
+   "address": "Arizona (480 phone)",
+   "sources": [
+    "https://www.mesaaz.gov/files/assets/public/v/1/residentresources/housing/manufactured-home-resources.pdf"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Help and advocacy for manufactured-home owners.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_c5bc2e1a23a35abcbe37ad0165bb7589",
+    "scoutName": "Arizona Association of Manufactured Home Owners - Housing Stability Certified Community Legal Advocate"
+   },
+   "category": "housing"
+  },
+  {
+   "name": "A New Leaf - MesaCAN rent and utility assistance",
+   "website": "https://www.turnanewleaf.org/services/financial-empowerment/mesacan/",
+   "address": "635 E Broadway Rd, Mesa, AZ 85204",
+   "sources": [
+    "https://www.mesaaz.gov/files/assets/public/v/1/residentresources/housing/manufactured-home-resources.pdf",
+    "https://www.mesaaz.gov/Resident-Resources/Housing/Human-Services/Homeless-Resources",
+    "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ",
+    "https://www.azhumane.org/wp-content/uploads/Eviction-Rent-and-Utility-Assistance-Resource-Sheet.pdf"
+   ],
+   "rule": "pass",
+   "ruleNote": "Mesa residents; named on four lists",
+   "listingSays": "Rent help for Mesa households facing eviction, and utility help before shut-off.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_64df21dc58035292b614bd02461bced5",
+    "scoutName": "A New Leaf / MesaCAN - Rent, Mortgage, and Utility Assistance"
+   },
+   "category": "housing"
+  },
+  {
+   "name": "Veterans First Limited",
+   "website": "https://veteransfirstltd.org",
+   "address": "8433 N Black Canyon Hwy, Phoenix, AZ 85021",
+   "sources": [
+    "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "veterans and families",
+   "listingSays": "Homelessness prevention and stabilisation for veterans.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_a7565403eda55e7aa344629bd9cc820f",
+    "scoutName": "Veterans First LTD - Women Veterans and Veteran Family Assistance"
+   },
+   "category": "housing"
+  },
+  {
+   "name": "City of Mesa Emergency Rehabilitation Program",
+   "website": "https://www.mesaaz.gov/Resident-Resources/Housing/Emergency-Rehab-Program",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Housing"
+   ],
+   "rule": "pass",
+   "ruleNote": "Mesa homeowners apply directly; different intake from Section 8",
+   "listingSays": "Emergency repairs for Mesa homeowners whose home has become unlivable.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   },
+   "category": "housing"
+  }
+ ],
+ "legal": [
+  {
+   "name": "ASU Law Civil Litigation Clinic",
+   "website": "https://law.asu.edu/civillegalasst",
+   "address": "Phoenix, AZ; online intake",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/"
+   ],
+   "rule": "pass",
+   "ruleNote": "Online intake form",
+   "listingSays": "Student clinic taking consumer fraud, contract and tenant-rights cases.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_2d2619d660a159ebb33bf3d3cb14ac23",
+    "scoutName": "ASU Law Civil Litigation Clinic"
+   },
+   "category": "legal"
+  },
+  {
+   "name": "Family Lawyers Assistance Project",
+   "website": "https://clsaz.org/flap/",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+    "https://www.nesthealth.com/maricopa-legal-aid"
+   ],
+   "rule": "pass",
+   "ruleNote": "Own phone 602-506-7948 and intake",
+   "listingSays": "30-minute consultations with volunteer family-law attorneys.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_93bcc4304d705e87b275d5ec79af70e0",
+    "scoutName": "Community Legal Services / Maricopa County Superior Court - Family Lawyers Assistance Project"
+   },
+   "category": "legal"
+  },
+  {
+   "name": "Disability Rights Arizona (Arizona Center for Disability Law)",
+   "website": "https://disabilityrightsaz.org",
+   "address": "5025 E Washington St #202, Phoenix, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "Statewide phone intake; listed twice under both names, merged",
+   "listingSays": "Legal advocacy protecting the rights of people with disabilities.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_2d4cf31ea7d85587b27a9fb705d410aa",
+    "scoutName": "Disability Rights Arizona - Protection and Advocacy for Beneficiaries of Social Security (PABSS)"
+   },
+   "category": "legal"
+  },
+  {
+   "name": "Maricopa County Superior Court Law Library Resource Center",
+   "website": "https://superiorcourt.maricopa.gov/llrc/",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://www.nesthealth.com/maricopa-legal-aid"
+   ],
+   "rule": "pass",
+   "ruleNote": "Countywide court self-help; walk-in, online and phone",
+   "listingSays": "Court forms, self-help tools, workshops and Lawyers in the Library consultations.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_eff45f0db70e5fb593e2e9e011b6e23b",
+    "scoutName": "Maricopa County Law Library Resource Center - Southeast Justice Center"
+   },
+   "category": "legal"
+  },
+  {
+   "name": "Arizona Senior Citizens Law Project",
+   "website": "https://asclp.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://www.nesthealth.com/maricopa-legal-aid"
+   ],
+   "rule": "pass",
+   "ruleNote": "Maricopa County residents over 60; phone 602-252-6710",
+   "listingSays": "Free legal services for people over 60.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5f07e39894ec569c8893a6daf266a4a0",
+    "scoutName": "Arizona Senior Citizens Law Project · Free legal assistance for Maricopa County seniors"
+   },
+   "category": "legal"
+  },
+  {
+   "name": "Western States Pension Assistance Project",
+   "website": "https://lsnc.net/pension",
+   "address": "Sacramento, CA",
+   "sources": [
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Phone/online advice serving Arizona",
+   "listingSays": "Advice on pension and retirement-plan problems.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   },
+   "category": "legal"
+  },
+  {
+   "name": "Arizona Free Legal Answers",
+   "website": "https://az.freelegalanswers.org",
+   "address": "online",
+   "sources": [
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/"
+   ],
+   "rule": "pass",
+   "ruleNote": "Online",
+   "listingSays": "Volunteer lawyers answer civil legal questions online.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_73083c0747435f2eab3263f6b2dceae5",
+    "scoutName": "Arizona Free Legal Answers"
+   },
+   "category": "legal"
+  },
+  {
+   "name": "Probate Lawyers Assistance Project",
+   "website": "http://www.maricopabar.org/?pg=PLAP",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/"
+   ],
+   "rule": "pass",
+   "ruleNote": "Phone 602-732-2834",
+   "listingSays": "Free probate advice for low-income people.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Family Lawyers Assistance Project at 0.75; a different project, corrected to none"
+   },
+   "category": "legal"
+  },
+  {
+   "name": "Modest Means Project",
+   "website": "https://azlawhelp.org",
+   "address": "Phoenix, AZ (confidential)",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+    "https://www.nesthealth.com/maricopa-legal-aid",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Own eligibility (moderate income) though same phone as AZLawHelp",
+   "listingSays": "Reduced-cost lawyers for people over the legal-aid income limit.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_c2077ea94f8f52349bbc67126b28772d",
+    "scoutName": "State Bar of Arizona and Arizona Foundation for Legal Services and Education - Modest Means Project"
+   },
+   "category": "legal"
+  },
+  {
+   "name": "Defenders of Children",
+   "website": "https://www.defendersofchildren.org",
+   "address": "3800 N Central Ave Ste 200, Phoenix, AZ 85012",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Phone 602-710-1903; narrow eligibility",
+   "listingSays": "Free legal advocacy for protective parents in child abuse cases.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5223cf7bd6b8510380de1d3159da8bcf",
+    "scoutName": "Defenders of Children - Legal Services for Children, Survivors and Protective Caregivers"
+   },
+   "category": "legal"
+  }
+ ],
+ "employment": [
+  {
+   "name": "ARIZONA@WORK Maricopa County East Valley Career Center",
+   "website": "https://arizonaatwork.com/locations/maricopa-county/maricopa-east",
+   "address": "1001 W Southern Ave Ste 101, Mesa, AZ 85210",
+   "sources": [
+    "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa",
+    "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free job search and job readiness help, training funds, DES employment and veterans services.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5228cd0c74355d97ab79e60d2d7e491d",
+    "scoutName": "ARIZONA@WORK Maricopa County - East Valley Career Center / DES Veterans Services"
+   },
+   "category": "employment"
+  },
+  {
+   "name": "Arizona Apprenticeship Program",
+   "website": "",
+   "address": "Statewide",
+   "sources": [
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "State registry of paid apprenticeships.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched DP Electric's apprenticeship at 1.0 - a private employer, not the state programme; corrected to none"
+   },
+   "category": "employment"
+  },
+  {
+   "name": "St. Joseph the Worker - Mesa",
+   "website": "https://www.theworkeraz.org/",
+   "address": "1833 W Main St #128, Mesa, AZ 85201",
+   "sources": [
+    "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free job coaching, resumes, bus passes for interviews, work clothes and boots.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a3106934008255a09a41f6f6ca47b5d8",
+    "scoutName": "The Worker / St. Joseph the Worker - Mesa Employment Services"
+   },
+   "category": "employment"
+  },
+  {
+   "name": "Goodwill of Central and Northern Arizona Career Services",
+   "website": "https://goodwillaz.org/mission-services/career-services/",
+   "address": "Phoenix metro (several East Valley centres)",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "regional; career centres and virtual coaching",
+   "listingSays": "Free skills training, career coaching, resume review and certifications.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_072a2aa818185aaf8eb9ab0aa3ce4336",
+    "scoutName": "Goodwill of Central and Northern Arizona - Career Services and Career Pathways"
+   },
+   "category": "employment"
+  },
+  {
+   "name": "Saavi Services for the Blind Employment Services",
+   "website": "",
+   "address": "2920 N 7th St, Phoenix, AZ 85014",
+   "sources": [
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "regional specialist for visually impaired",
+   "listingSays": "Job readiness for people with visual impairments.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_ca3e043aaeb35a5f8b28ef3758623a09",
+    "scoutName": "SAAVI Services for the Blind — adult training, education and employment"
+   },
+   "category": "employment"
+  },
+  {
+   "name": "A New Leaf Workforce Services",
+   "website": "https://turnanewleaf.org/services/financial-empowerment/workforce/",
+   "address": "868 E University Dr, Mesa, AZ 85203",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources",
+    "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Helps job seekers re-enter the job market and plan for stable work.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_3caf76ab22b45b96a095324a74fa5f98",
+    "scoutName": "A New Leaf - Freedom Through Housing Reentry Housing Assistance",
+    "note": "matched a different A New Leaf programme (reentry housing) that Scout tags employment; the workforce programme itself may not be a separate Scout entry"
+   },
+   "category": "employment"
+  },
+  {
+   "name": "ARIZONA@WORK Mesa Youth Hub",
+   "website": "",
+   "address": "64 E 1st St, Mesa, AZ 85201",
+   "sources": [
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "ages 16-24",
+   "listingSays": "Job help and skills training for young people 16-24.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_ddd3903f9de7557b9d507d489a8207d4",
+    "scoutName": "ARIZONA@WORK Maricopa County - Youth Workforce Services, East Valley Career Center",
+    "note": "score 0.67; matched Scout's East Valley youth workforce services - plausibly the same programme, Mesa hub address not confirmed"
+   },
+   "category": "employment"
+  },
+  {
+   "name": "Arizona Job Connection",
+   "website": "https://www.azjobconnection.gov/",
+   "address": "Online, statewide",
+   "sources": [
+    "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa",
+    "https://www.mesachamber.org/workforce-development-and-jobs/"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "State's free online job bank.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_fdda77dc040358e98f8ea43171f0ff63",
+    "scoutName": "Arizona Job Connection — Jobs and Approved Training Search"
+   },
+   "category": "employment"
+  },
+  {
+   "name": "Ability360 Ticket to Work Program",
+   "website": "",
+   "address": "5025 E Washington St Ste 200, Phoenix, AZ 85034",
+   "sources": [
+    "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "phone-reachable; for SSI/SSDI recipients",
+   "listingSays": "Job help for people on disability benefits.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_bdcd4da38a6e5842aa93a58d0676ccdf",
+    "scoutName": "Ability360 - Ticket to Work Program and Employment Services"
+   },
+   "category": "employment"
+  },
+  {
+   "name": "AARP Senior Community Service Employment Program",
+   "website": "",
+   "address": "4520 N Central Ave Ste 575, Phoenix, AZ 85012",
+   "sources": [
+    "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "age 55+, low income",
+   "listingSays": "Paid job training for people 55 and older.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_59ec2979c0b45e00a866f536617fc43e",
+    "scoutName": "AARP Foundation - Senior Community Service Employment Program, Arizona"
+   },
+   "category": "employment"
+  }
+ ],
+ "transportation": [
+  {
+   "name": "Valley Metro RideChoice (East Valley)",
+   "website": "valleymetro.org/ridechoice",
+   "address": "Phoenix, AZ (serves Mesa)",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Public-Transit",
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Separate intake and eligibility from paratransit, so a separate entry.",
+   "listingSays": "Discounted taxi/Uber rides for seniors 65+ and ADA-certified residents of participating cities.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_cdb04d9a3e3357c784df10654346658c",
+    "scoutName": "Valley Metro - RideChoice"
+   },
+   "category": "transportation"
+  },
+  {
+   "name": "DAV Transportation Network - Phoenix VA",
+   "website": "",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Veterans only; countywide.",
+   "listingSays": "Volunteer rides for veterans to Phoenix VA appointments.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_86839af4b8b65f7797f162ea1b66cd9d",
+    "scoutName": "Disabled American Veterans - DAV Transportation Network at Phoenix VA"
+   },
+   "category": "transportation"
+  },
+  {
+   "name": "American Cancer Society Road to Recovery",
+   "website": "cancer.org",
+   "address": "National (phone)",
+   "sources": [
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Phone front door.",
+   "listingSays": "Volunteer rides to cancer treatment.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_85a23de1fd3d50738a09a6801665b710",
+    "scoutName": "American Cancer Society - Road To Recovery"
+   },
+   "category": "transportation"
+  },
+  {
+   "name": "Valley Metro Mobility Center (ADA certification, ADA Platinum Pass, travel training)",
+   "website": "valleymetro.org",
+   "address": "4600 E Washington St, Phoenix, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Public-Transit",
+    "https://www.southwestnetwork.org/help-book-en/transportation"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free fixed-route pass for ADA-eligible riders, plus travel training.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_f333cf84e2675accb5e9b52950730cb9",
+    "scoutName": "Valley Metro - ADA Platinum Pass Program"
+   },
+   "category": "transportation"
+  },
+  {
+   "name": "Valley Metro ADA Paratransit (East Valley Dial-a-Ride)",
+   "website": "valleymetro.org/accessibility/ada-paratransit",
+   "address": "Phoenix, AZ (serves Mesa)",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Public-Transit",
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://www.nesthealth.com/maricopa-transportation"
+   ],
+   "rule": "pass",
+   "ruleNote": "Needs ADA certification, which the person applies for directly.",
+   "listingSays": "Door-to-door shared-ride van service for ADA-certified people with disabilities.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_cce0c9a97c675e25be7a48c8e3a90523",
+    "scoutName": "Valley Metro - ADA Paratransit / East Valley Paratransit"
+   },
+   "category": "transportation"
+  },
+  {
+   "name": "Valley Metro bus and light rail (reduced fare)",
+   "website": "valleymetro.org",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Public-Transit",
+    "https://www.southwestnetwork.org/help-book-en/transportation",
+    "https://www.nesthealth.com/maricopa-transportation",
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Regional bus and light rail; reduced fare for seniors 65+, people with disabilities and youth.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_beb8e716a4fc59249f3282f042942709",
+    "scoutName": "Valley Metro - Reduced Fare Program"
+   },
+   "category": "transportation"
+  },
+  {
+   "name": "Resurrection Street Ministry Veterans Transportation",
+   "website": "rsmaz.org/veterans-programs",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free rides for East Valley homeless, low-income and disabled veterans to VA and veteran offices.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_35b909ca0abc539387413af25ba06a97",
+    "scoutName": "Resurrection Street Ministry - Veterans Transportation"
+   },
+   "category": "transportation"
+  },
+  {
+   "name": "GoGoGrandparent",
+   "website": "gogograndparent.com",
+   "address": "National (phone)",
+   "sources": [
+    "https://www.nesthealth.com/maricopa-transportation"
+   ],
+   "rule": "pass",
+   "ruleNote": "Paid concierge service; phone reach.",
+   "listingSays": "On-demand rides for seniors by phone, no smartphone needed.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   },
+   "category": "transportation"
+  }
+ ],
+ "utilities-phone-internet": [
+  {
+   "name": "SRP limited-income programmes (Economy Price Plan, Project SHARE)",
+   "website": "srpnet.com",
+   "address": "1500 N Mill Ave, Tempe, AZ",
+   "sources": [
+    "https://211arizona.org/preventing-utility-shut-offs/",
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://www.nesthealth.com/maricopa-low-income-energy-assistance"
+   ],
+   "rule": "pass",
+   "ruleNote": "One entry for SRP's customer programmes (same counsellor line).",
+   "listingSays": "$23/month discount for limited-income customers; one-time emergency help via SHARE.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_0c6f95cc273f5109a0e9a39f1fdf7131",
+    "scoutName": "Salt River Project (SRP) - Weatherization Assistance Program (agency matched; Scout's entry is weatherization, not the bill discount)"
+   },
+   "category": "utilities-phone-internet"
+  },
+  {
+   "name": "City of Mesa Limited Income Senior Rate Program",
+   "website": "mesaaz.gov",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/residents/my-utility-account/need-assistance-paying-your-utility-bill?locale=en",
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "30% off the water service rate for account holders 60+ under 200% FPL.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_9f2596e64e195a71b19dfd3624f62300",
+    "scoutName": "City of Mesa Utilities - Limited Income Senior Rate Program"
+   },
+   "category": "utilities-phone-internet"
+  },
+  {
+   "name": "AZ StRUT Internet Lending Program",
+   "website": "",
+   "address": "3025 S 48th St, Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "No eligibility limits stated.",
+   "listingSays": "Low-cost high-speed internet.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_8bce0da7ea3a5d4f9e1c05f8a9dcf26b",
+    "scoutName": "AZ StRUT Internet Lending Program"
+   },
+   "category": "utilities-phone-internet"
+  },
+  {
+   "name": "City of Mesa Summer Electric Assistance (SEA) Program",
+   "website": "mesaaz.gov",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/residents/my-utility-account/need-assistance-paying-your-utility-bill?locale=en",
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "pass",
+   "ruleNote": "Only for City of Mesa electric customers.",
+   "listingSays": "Waives service charge and first 80 kWh in July-September for income-qualified customers.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_f9d37491adcf58ccaa9decd1815c71aa",
+    "scoutName": "City of Mesa - Limited-Income Utility Programs"
+   },
+   "category": "utilities-phone-internet"
+  },
+  {
+   "name": "Southwest Gas Bill Assistance and LIRA discount",
+   "website": "swgas.com",
+   "address": "Arizona",
+   "sources": [
+    "https://211arizona.org/preventing-utility-shut-offs/",
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://www.swgas.com/en/arizona-bill-assistance",
+    "https://www.nesthealth.com/maricopa-low-income-energy-assistance"
+   ],
+   "rule": "pass",
+   "ruleNote": "Bill assistance is applied for through MesaCAN; LIRA directly with Southwest Gas.",
+   "listingSays": "30% discount for low-income customers; deferred payment; bill assistance.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_28d2dfebd7c45475bb9458be59b36f57",
+    "scoutName": "Southwest Gas — Weatherization and energy-efficiency assistance (agency matched; Scout's entry is weatherization)"
+   },
+   "category": "utilities-phone-internet"
+  },
+  {
+   "name": "A New Leaf - MesaCAN Rent and Utility Assistance",
+   "website": "turnanewleaf.org",
+   "address": "635 E Broadway Rd, Mesa, AZ 85204",
+   "sources": [
+    "https://www.mesaaz.gov/residents/my-utility-account/need-assistance-paying-your-utility-bill?locale=en",
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs",
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://www.swgas.com/en/arizona-bill-assistance",
+    "https://www.nesthealth.com/maricopa-low-income-energy-assistance"
+   ],
+   "rule": "pass",
+   "ruleNote": "Mesa's designated community action agency for City, SRP and Southwest Gas funds.",
+   "listingSays": "Pays past-due utility bills for Mesa residents; weatherization; orientation required.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_64df21dc58035292b614bd02461bced5",
+    "scoutName": "A New Leaf / MesaCAN - Rent, Mortgage, and Utility Assistance"
+   },
+   "category": "utilities-phone-internet"
+  },
+  {
+   "name": "TruConnect",
+   "website": "truconnect.com",
+   "address": "Online",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free SIM and free or low-cost wireless service for eligible people.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_08acc1b9aa845c3d8c3d9e3f2be20d30",
+    "scoutName": "TruConnect — Arizona Lifeline mobile service"
+   },
+   "category": "utilities-phone-internet"
+  },
+  {
+   "name": "Lifeline phone and internet discount",
+   "website": "lifelinesupport.org",
+   "address": "Nationwide (online)",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Monthly discount on phone or internet service for eligible households.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_c886d7cef0f3522889a860c536b1df8c",
+    "scoutName": "Universal Service Administrative Company / FCC - Lifeline"
+   },
+   "category": "utilities-phone-internet"
+  }
+ ]
+}

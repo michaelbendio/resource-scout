@@ -1,0 +1,546 @@
+{
+ "category": "financial-assistance",
+ "lists": [
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs",
+   "title": "City of Mesa - Community Resources and Support Programs (Utilities & Financial Assistance)",
+   "kind": "official",
+   "note": "current; Mesa-specific, mostly city utility programmes plus MesaCAN"
+  },
+  {
+   "url": "https://www.maricopa.gov/5581/Utility-Assistance",
+   "title": "Maricopa County Human Services - Utility Assistance",
+   "kind": "official",
+   "note": "current; says Mesa residents go to Mesa's own programmes, not the county's"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ",
+   "title": "211 Arizona search: rent payment assistance near Mesa",
+   "kind": "211",
+   "note": "current; readable; heavy on veteran-only and out-of-area programmes"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ",
+   "title": "211 Arizona search: utility assistance near Mesa",
+   "kind": "211",
+   "note": "current; readable; mixed, includes tribal and Glendale-only programmes"
+  },
+  {
+   "url": "https://www.nesthealth.com/maricopa-financial-assistance",
+   "title": "Nest Health - Rent & Utility Help in Maricopa County",
+   "kind": "aggregator",
+   "note": "partly stale: lists ERA programmes that have largely ended"
+  },
+  {
+   "url": "https://www.tempecommunitycouncil.org/get-help/",
+   "title": "Tempe Community Council - Get Help (emergency financial assistance)",
+   "kind": "network",
+   "note": "current; short; Tempe-centred"
+  }
+ ],
+ "seeds": [
+  {
+   "name": "A New Leaf - MesaCAN rent and utility assistance",
+   "website": "https://turnanewleaf.org/services/financial-empowerment/mesacan/",
+   "address": "635 E Broadway Rd, Mesa, AZ 85204",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs",
+    "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ",
+    "https://www.mesaaz.gov/files/assets/public/v/3/residentresources/housing/homelessness/off-the-streets-brochures/ohs-resource-list-2025.pdf",
+    "https://www.maricopa.gov/5581/Utility-Assistance"
+   ],
+   "rule": "pass",
+   "ruleNote": "Mesa's community action agency; appointment line 480-750-9228, general 480-833-9200",
+   "listingSays": "Rent help for people facing eviction and utility help for shut-offs, for low-income Mesa residents.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_64df21dc58035292b614bd02461bced5",
+    "scoutName": "A New Leaf / MesaCAN - Rent, Mortgage, and Utility Assistance",
+    "note": "tool picked MesaCAN's SOAR (SSI) record; corrected to its rent and utility record"
+   }
+  },
+  {
+   "name": "A New Leaf - Housing",
+   "website": "https://turnanewleaf.org",
+   "address": "868 E University Dr, Mesa, AZ",
+   "sources": [
+    "https://www.nesthealth.com/maricopa-financial-assistance"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "A New Leaf's admin office; its financial help is MesaCAN",
+   "listingSays": "Housing, shelter and financial empowerment services.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_64df21dc58035292b614bd02461bced5",
+    "scoutName": "A New Leaf / MesaCAN - Rent, Mortgage, and Utility Assistance"
+   }
+  },
+  {
+   "name": "City of Mesa Summer Electric Assistance Program",
+   "website": "https://www.mesaaz.gov",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Utility-bill help; may belong in Utilities rather than Financial Assistance",
+   "listingSays": "Summer electric-bill help for income-qualified Mesa Electric customers.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_f9d37491adcf58ccaa9decd1815c71aa",
+    "scoutName": "City of Mesa - Limited-Income Utility Programs"
+   }
+  },
+  {
+   "name": "City of Mesa Security and Utility Deposit Program (Mesa Housing Authority)",
+   "website": "https://www.mesaaz.gov/residents/housing",
+   "address": "200 S Center St Bldg 1, Mesa, AZ 85210",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs",
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Mesa city programme a person applies to",
+   "listingSays": "Pays security and utility deposits for eligible low-income households.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a644f60fc9665ad6acd36b3062a657a8",
+    "scoutName": "City of Mesa Housing Authority - Security and Utility Deposit Assistance Program",
+    "note": "tool score 0.83; checked by eye, same programme"
+   }
+  },
+  {
+   "name": "City of Mesa Limited Income Senior Rate Program",
+   "website": "https://www.mesaaz.gov",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "unclear",
+   "ruleNote": "A rate discount; likely Utilities rather than Financial Assistance",
+   "listingSays": "30% water-rate discount for limited-income seniors.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_9f2596e64e195a71b19dfd3624f62300",
+    "scoutName": "City of Mesa Utilities - Limited Income Senior Rate Program"
+   }
+  },
+  {
+   "name": "Aster Aging - benefits help",
+   "website": "https://asteraz.org/services/benefits.html",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Benefits navigation for seniors, not payment",
+   "listingSays": "Helps adults 60+ enrol in benefits, including utility-bill help.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_b1ffdda9830d554db5c65566d7246c22",
+    "scoutName": "Aster Aging - Benefits Enrollment Center and Outreach/Social Services"
+   }
+  },
+  {
+   "name": "Maricopa County Human Services - Rental, Utility and Community Action Program assistance",
+   "website": "https://www.maricopa.gov/5582/Rental-Assistance",
+   "address": "Maricopa County",
+   "sources": [
+    "https://www.maricopa.gov/5581/Utility-Assistance",
+    "https://www.nesthealth.com/maricopa-financial-assistance",
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "County programmes exclude Mesa, Phoenix and Glendale residents (the page says so); ERA and HSRUA2 entries merged",
+   "listingSays": "Rent and utility payments for county residents outside Mesa, Phoenix and Glendale.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_938cfc6a16755111af68111a7c25ca5e",
+    "scoutName": "Maricopa County Human Services - Rental assistance for non-Mesa county areas"
+   }
+  },
+  {
+   "name": "City of Mesa Emergency Rental Assistance (ERA)",
+   "website": "https://www.mesaaz.gov",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.nesthealth.com/maricopa-financial-assistance"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Listed by an aggregator; the pandemic ERA programme appears to have ended",
+   "listingSays": "Past-due and future rent or utility help for Mesa residents.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_40b988302a2f5860b199c3f90a1b53a1",
+    "scoutName": "City of Mesa Housing and Community Development - HOME Tenant-Based Rental Assistance",
+    "note": "probably a different programme (HOME TBRA, not ERA); same department"
+   }
+  },
+  {
+   "name": "City of Phoenix Crisis Assistance",
+   "website": "https://www.phoenix.gov",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://www.maricopa.gov/5581/Utility-Assistance",
+    "https://www.nesthealth.com/maricopa-financial-assistance"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Phoenix residents only; Phoenix ERA entry merged",
+   "listingSays": "Crisis help with rent and utilities for Phoenix residents.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_88f2687c11c4542a9b70e96c9ea37808",
+    "scoutName": "City of Phoenix Human Services - Community Services Program / Family Services Centers Crisis Assistance"
+   }
+  },
+  {
+   "name": "City of Glendale Community Assistance",
+   "website": "https://www.glendaleaz.gov",
+   "address": "Glendale, AZ",
+   "sources": [
+    "https://www.maricopa.gov/5581/Utility-Assistance",
+    "https://www.nesthealth.com/maricopa-financial-assistance"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Glendale residents only",
+   "listingSays": "Rent and utility help for Glendale residents.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_1a675cd311355fa7b874fb703b7c08de",
+    "scoutName": "City of Glendale — Community Action Program"
+   }
+  },
+  {
+   "name": "The Salvation Army Mesa Citadel Corps",
+   "website": "https://mesa.salvationarmy.org",
+   "address": "241 E 6th St Bldg 3, Mesa, AZ 85201",
+   "sources": [
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ",
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "pass",
+   "ruleNote": "In Mesa; direct",
+   "listingSays": "Emergency help with electric and gas bills for families with past-due notices; rent help.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_67f3f61ed3b950ada4597ec6122c7fea",
+    "scoutName": "The Salvation Army Mesa Corps Community Center - Project SHARE / Utility Crisis Aid Inquiry",
+    "note": "tool score 0.75; checked by eye, same corps"
+   }
+  },
+  {
+   "name": "Society of St. Vincent de Paul - Diocese of Phoenix",
+   "website": "https://www.stvincentdepaul.net",
+   "address": "420 W Watkins Rd, Phoenix, AZ (Mesa dining room at 49 W Broadway Rd)",
+   "sources": [
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Rent and utility help is one of many services, given through parishes",
+   "listingSays": "Rent and utility help, food boxes and shelter.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_cf9251e242215208bb6ee1b87c9c73d7",
+    "scoutName": "Society of St. Vincent de Paul of Arizona - Parish Conference Thrift Gift Cards and Mesa Assistance Routing"
+   }
+  },
+  {
+   "name": "Operation Homefront - Critical Financial Assistance",
+   "website": "https://operationhomefront.org/critical-financial-assistance",
+   "address": "San Antonio, TX (online)",
+   "sources": [
+    "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Online application; military and veteran families only",
+   "listingSays": "Emergency help with rent, utilities, food and car repair for military families.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a33ff5987a8152d09886a9b617c57fbc",
+    "scoutName": "Operation Homefront - Critical Financial Assistance Program"
+   }
+  },
+  {
+   "name": "U.S.VETS - Phoenix",
+   "website": "https://usvets.org/locations/phoenix",
+   "address": "3507 N Central Ave Ste 200, Phoenix, AZ 85012",
+   "sources": [
+    "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Housing and services for homeless veterans; rent help is part of it",
+   "listingSays": "Rent help, deposits and counselling for low-income and homeless veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_7fc0bc2613a655c287aa8a6ef3616ee1",
+    "scoutName": "U.S.VETS Phoenix - Housing, SSVF, Mental Health and Workforce Development"
+   }
+  },
+  {
+   "name": "Veterans First Limited",
+   "website": "https://veteransfirstltd.org",
+   "address": "8433 N Black Canyon Hwy Ste 164, Phoenix, AZ 85021",
+   "sources": [
+    "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Homelessness prevention for veterans; not clear whether cash help is its main service",
+   "listingSays": "Help with rent, utilities, food and bus passes for veterans.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Maricopa County Assessor exemptions at 0.6; wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Helping Hands for Freedom",
+   "website": "https://helpinghandsforfreedom.org",
+   "address": "326 E Coronado Rd Ste 103, Phoenix, AZ 85004",
+   "sources": [
+    "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Phone/online; veteran and Gold Star families with children",
+   "listingSays": "Pays rent, mortgage and utilities for veteran and Gold Star families with children.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_c05533162273503c8c88b7cef515758c",
+    "scoutName": "Helping Hands for Freedom - Financial Assistance for Veteran and Gold Star Families"
+   }
+  },
+  {
+   "name": "Pascua Yaqui Housing Department",
+   "website": "https://pascuayaqui-nsn.gov/housing/",
+   "address": "Tucson, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Tribal members, Tucson",
+   "listingSays": "Housing help for tribal members.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Tohono O'odham Department of Health & Human Services",
+   "website": "",
+   "address": "Sells, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Tribal, Sells",
+   "listingSays": "Utility payments for Tohono O'odham members.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Dsquared Homes for the Homeless",
+   "website": "https://dsquared4homeless.org",
+   "address": "Chandler, AZ (confidential)",
+   "sources": [
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Chandler is near Mesa; narrow eligibility (employed, serious mental illness)",
+   "listingSays": "Temporary rent help up to $1,000 for employed people with serious mental illness.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Maggie's Place at 0.6; wrong, corrected to none"
+   }
+  },
+  {
+   "name": "National Community Health Partners - SSVF (Tempe)",
+   "website": "https://nchponline.org",
+   "address": "1232 E Broadway Rd Ste 211, Tempe, AZ 85282",
+   "sources": [
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Tempe; homeless or at-risk veterans",
+   "listingSays": "Time-limited rent and utility deposits and payments for homeless veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_f3f8ec7f99385027b1b350db05a2974d",
+    "scoutName": "National Community Health Partners - Housing for Heroes: Supportive Services for Veteran Families (SSVF)"
+   }
+  },
+  {
+   "name": "Melabiz Community Hub",
+   "website": "https://melabizcommunityhub.org",
+   "address": "1414 W Broadway Ste 234, Tempe, AZ 85282",
+   "sources": [
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Youth and family support; not clear cash help is its main service",
+   "listingSays": "Housing crisis stabilisation and utility help for youth and families.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_089c6c52a64f5ff380d14307156a8882",
+    "scoutName": "Melabiz Community Hub - youth drop-in, MYGuard and community support services"
+   }
+  },
+  {
+   "name": "APS Crisis Bill Assistance",
+   "website": "https://www.aps.com",
+   "address": "",
+   "sources": [
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "APS does not serve most of Mesa (SRP and City of Mesa utilities do); utility company",
+   "listingSays": "Electric utility with seasonal disconnection protection.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_fbd483ddce365bb4962e0b58e0f30fea",
+    "scoutName": "Arizona Public Service (APS) - Crisis Bill Assistance"
+   }
+  },
+  {
+   "name": "Glendale Elementary School District System of Care Center",
+   "website": "",
+   "address": "7677 W Bethany Home Rd, Glendale, AZ 85303",
+   "sources": [
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Glendale families",
+   "listingSays": "Food boxes, rent and utility help for Glendale residents.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Save the Family - rental assistance / eviction prevention",
+   "website": "https://savethefamily.org/arm/",
+   "address": "125 E University Dr, Mesa, AZ 85201",
+   "sources": [
+    "https://www.tempecommunitycouncil.org/get-help/"
+   ],
+   "rule": "unclear",
+   "ruleNote": "In Mesa; main service may be family housing rather than cash help",
+   "listingSays": "Rental assistance with support for working-poor families; eviction prevention for Mesa and Gilbert.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_3786a060bc065331a833ada6c8745027",
+    "scoutName": "Family Promise of Greater Phoenix - Homelessness Prevention and Diversion Support",
+    "note": "tool score 0.6; checked by eye, looks right"
+   }
+  },
+  {
+   "name": "Labor's Community Service Agency - SHIFT",
+   "website": "http://lcsaphx.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://www.tempecommunitycouncil.org/get-help/"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Financial coaching, not payments",
+   "listingSays": "Financial coaching and workforce help for low-income families.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_3f7319a818ad57e6b8b4b348c15b4ebe",
+    "scoutName": "Labor's Community Service Agency - Affordable Housing for Families in Need"
+   }
+  },
+  {
+   "name": "HIV Care Directions",
+   "website": "https://aaaphx.org",
+   "address": "1366 E Thomas Rd Ste 200, Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Case management for people with HIV",
+   "listingSays": "Case management and housing search for adults with HIV/AIDS.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a5fd9374371e5da4a01b1cb969790eac",
+    "scoutName": "HIV Care Directions - Housing Information Services / HOPWA-related Housing and Supportive Services"
+   }
+  },
+  {
+   "name": "one n ten - POND Housing Navigation",
+   "website": "https://onenten.org/housing-program",
+   "address": "1101 N Central Ave Ste 104, Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Housing navigation for LGBTQ+ youth",
+   "listingSays": "Housing navigation and homelessness prevention for LGBTQ+ youth 18-24.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_b1fb648ed17d54409e232a97fed9dc37",
+    "scoutName": "one-n-ten - LGBTQ Youth and Young-Adult Support"
+   }
+  },
+  {
+   "name": "Paz de Cristo Community Center",
+   "website": "https://pazdecristo.org",
+   "address": "424 W Broadway Rd, Mesa, AZ 85210",
+   "sources": [
+    "https://www.tempecommunitycouncil.org/get-help/",
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "unclear",
+   "ruleNote": "In Mesa; rent and utility support listed, but main service is food",
+   "listingSays": "Food, clothing, ID help, and rent and utility support.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_fd71f70538d756259994ec5ce07c2610",
+    "scoutName": "Paz de Cristo Community Center - Meals, Basic Needs and Empowerment"
+   }
+  },
+  {
+   "name": "City of Mesa Section 8 Housing Choice Voucher",
+   "website": "https://www.mesaaz.gov",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Housing subsidy; belongs in Housing",
+   "listingSays": "Rent subsidy vouchers from the Mesa Housing Authority.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5969296f32d65cb78301dfbef799a32c",
+    "scoutName": "City of Mesa Housing Authority - Section 8 Housing Choice Voucher Program"
+   }
+  },
+  {
+   "name": "Community Legal Services",
+   "website": "https://clsaz.org",
+   "address": "305 S 2nd Ave, Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Legal aid",
+   "listingSays": "Civil legal help including eviction prevention.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_f3cbf3dcb0805ef0a815fc5c4731c61a",
+    "scoutName": "Community Legal Services - Public Benefits Legal Assistance"
+   }
+  }
+ ],
+ "thin": "Financial assistance lists were mostly utility-bill and rent programmes; no list names a general emergency-cash source in Mesa beyond MesaCAN, the Salvation Army and (by mention) St. Vincent de Paul and Paz de Cristo. 211 results were padded with veteran-only, tribal and other-city programmes, the aggregator carries ended pandemic ERA programmes, and church and congregation help is missing from every list. The Arizona Department of Housing's Maricopa page and findhelp refused to load."
+}

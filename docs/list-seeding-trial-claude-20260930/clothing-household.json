@@ -1,0 +1,359 @@
+{
+ "category": "clothing-household",
+ "lists": [
+  {
+   "url": "https://search.211arizona.org/search?query=BM-6500.1500&query_label=Clothing&query_type=taxonomy&location=Mesa%2C+AZ",
+   "title": "2-1-1 Arizona - Clothing near Mesa",
+   "kind": "211",
+   "note": "current; 8 results"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=BM-3000&query_label=Household+Goods&query_type=taxonomy&location=Mesa%2C+AZ",
+   "title": "2-1-1 Arizona - Household Goods near Mesa",
+   "kind": "211",
+   "note": "current; 8 results, mostly Phoenix/Peoria"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=BM-6500.1500-120&query_label=Children%27s+Clothing&query_type=taxonomy&location=Mesa%2C+AZ",
+   "title": "2-1-1 Arizona - Children's Clothing",
+   "kind": "211",
+   "note": "current; only one Mesa entry"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs",
+   "title": "City of Mesa - Community Resources and Support Programs",
+   "kind": "official",
+   "note": "current; one clothing entry"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources",
+   "title": "City of Mesa - Mesa Vets Connect",
+   "kind": "official",
+   "note": "current; furniture bank and a thrift store"
+  },
+  {
+   "url": "https://www.compudopt.org/mesa-resources",
+   "title": "Compudopt - Mesa Community Resources",
+   "kind": "network",
+   "note": "partial"
+  },
+  {
+   "url": "https://familyforfamilies.org/additional-resources/arizona/mesa/",
+   "title": "Family for Families - Mesa, Arizona",
+   "kind": "aggregator",
+   "note": "partial; one clothing entry"
+  },
+  {
+   "url": "https://www.lighthousehelpsaz.org/clothing-resource-centers",
+   "title": "Lighthouse Social Services - Clothing Resource Centers",
+   "kind": "network",
+   "note": "partial; two Mesa entries"
+  },
+  {
+   "url": "https://www.needhelppayingbills.com/html/maricopa_county_clothing_close.html",
+   "title": "NeedHelpPayingBills - Maricopa County free clothing and furniture",
+   "kind": "aggregator",
+   "note": "403 on fetch; entries taken from the search-engine summary only"
+  }
+ ],
+ "seeds": [
+  {
+   "name": "Helen's Hope Chest",
+   "website": "helenshopechest.org",
+   "address": "126 E University Dr, Mesa, AZ 85201",
+   "sources": [
+    "https://search.211arizona.org/search?query=BM-6500.1500&query_label=Clothing&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://search.211arizona.org/search?query=BM-6500.1500-120&query_label=Children%27s+Clothing&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://www.lighthousehelpsaz.org/clothing-resource-centers",
+    "https://www.needhelppayingbills.com/html/maricopa_county_clothing_close.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "Foster and kinship families only.",
+   "listingSays": "Free clothing, toiletries, books and toys for foster children and kinship families.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_d1de8b34f4075e4e8bde138dbe422ba6",
+    "scoutName": "Helen's Hope Chest - Clothing Boutique and Back to School"
+   }
+  },
+  {
+   "name": "First Presbyterian Church of Mesa Community Services",
+   "website": "",
+   "address": "161 N Mesa Dr, Mesa, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BM-6500.1500&query_label=Clothing&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Food and clothing together; main service not clear.",
+   "listingSays": "Food boxes and clothes for people in need.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5b625d75c217572194798ce8885c9869",
+    "scoutName": "First Presbyterian Church of Mesa - Mesa Mercy Market and Community Dinner"
+   }
+  },
+  {
+   "name": "Paz de Cristo Community Center",
+   "website": "pazdecristo.org",
+   "address": "424 W Broadway Rd, Mesa, AZ 85210",
+   "sources": [
+    "https://search.211arizona.org/search?query=BM-6500.1500&query_label=Clothing&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Main service is meals; clothing closet may be a distinct programme.",
+   "listingSays": "Clothing and vouchers alongside meals and showers for unhoused people.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5cfbda5bf970506eab4facfcf8efc8cc",
+    "scoutName": "Paz de Cristo Community Center - Clothing Closet / Clothe Program"
+   }
+  },
+  {
+   "name": "A New Leaf - MesaCAN",
+   "website": "turnanewleaf.org",
+   "address": "635 E Broadway Rd, Mesa, AZ 85204",
+   "sources": [
+    "https://search.211arizona.org/search?query=BM-6500.1500&query_label=Clothing&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://search.211arizona.org/search?query=BM-3000&query_label=Household+Goods&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Financial assistance, not goods.",
+   "listingSays": "Financial assistance and case management.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_dff9be19ea9b5feb8ee4980c887ba2fc",
+    "scoutName": "A New Leaf / MesaCAN — Weatherization assistance"
+   }
+  },
+  {
+   "name": "Casa de Amor Community Resource Center (Rio Vista Center)",
+   "website": "",
+   "address": "819 S Macdonald, Mesa, AZ 85210",
+   "sources": [
+    "https://search.211arizona.org/search?query=BM-6500.1500&query_label=Clothing&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://familyforfamilies.org/additional-resources/arizona/mesa/",
+    "https://www.lighthousehelpsaz.org/clothing-resource-centers",
+    "https://www.needhelppayingbills.com/html/maricopa_county_clothing_close.html"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Food and clothing together.",
+   "listingSays": "Food and clothing for people in need, Mon-Wed mornings.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_3dae3e88d43b56bd8c3af470f4d84fda",
+    "scoutName": "Casa de Amor Community Resource Center - Clothing Assistance (tool score 0.6; checked, correct)"
+   }
+  },
+  {
+   "name": "New Life Pregnancy Center - Mesa",
+   "website": "",
+   "address": "819 S MacDonald, Mesa, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BM-6500.1500&query_label=Clothing&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Pregnancy centre.",
+   "listingSays": "Baby clothes and diapers with pregnancy services.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_b679f0c13724588d960e7df8fa89b05a",
+    "scoutName": "New Life Pregnancy Center, Mesa - Pregnancy Tests, Material Assistance, Classes and Counseling"
+   }
+  },
+  {
+   "name": "St. Joseph the Worker - Mesa",
+   "website": "sjwjobs.org",
+   "address": "1833 W Main St, Mesa, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BM-6500.1500&query_label=Clothing&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Employment agency; work clothes are part of job help.",
+   "listingSays": "Work uniforms and professional clothing as part of job support.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a3106934008255a09a41f6f6ca47b5d8",
+    "scoutName": "The Worker / St. Joseph the Worker - Mesa Employment Services"
+   }
+  },
+  {
+   "name": "The Porch",
+   "website": "",
+   "address": "2051 E University Dr, Mesa, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BM-6500.1500&query_label=Clothing&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Mixed food, clothing and hygiene hub.",
+   "listingSays": "Clothing, food, hygiene products and programmes for people in hardship.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_97badac9536c5414b4c0e4b28ea5e963",
+    "scoutName": "The Porch / One Life Church — community resource hub"
+   }
+  },
+  {
+   "name": "One Small Step, Inc (Clothes Cabin)",
+   "website": "clothescabin.org",
+   "address": "Gilbert, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BM-3000&query_label=Household+Goods&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://www.needhelppayingbills.com/html/maricopa_county_clothing_close.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "Gilbert, next to Mesa; no residency or income limit stated. Merged: Scout treats One Small Step and Clothes Cabin as one agency.",
+   "listingSays": "Free clothing, shoes, linens and hygiene items; laundry and showers for homeless people.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_9ebf4231a408567fad1c07edd788dc0f",
+    "scoutName": "One Small Step / Clothes Cabin - Back to Work"
+   }
+  },
+  {
+   "name": "Sleep in Heavenly Peace - Phoenix",
+   "website": "shpbeds.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BM-3000&query_label=Household+Goods&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Apply online.",
+   "listingSays": "Volunteers build and deliver beds for children who need them.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_6102a3cb8c0c5dd5a418cbef31915d05",
+    "scoutName": "Sleep in Heavenly Peace - AZ-Phoenix Chapter / Apply for a Bed"
+   }
+  },
+  {
+   "name": "Maricopa County Weatherization Program",
+   "website": "maricopa.gov",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BM-3000&query_label=Household+Goods&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Home repair, and county programmes exclude Mesa.",
+   "listingSays": "AC and water heater replacement for low-income homeowners.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "(corrected: tool matched MesaCAN weatherization at 1.0, a different agency)"
+   }
+  },
+  {
+   "name": "Beyond the Hurt Assistance for Single Mothers",
+   "website": "",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BM-3000&query_label=Household+Goods&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Phoenix; items given after safety classes.",
+   "listingSays": "Household items, hygiene products, car seats for single mothers.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a3e5f12923b65540ba118d9fe7433cd1",
+    "scoutName": "Beyond the Hurt - Household Goods and Basic Needs for Single Mothers"
+   }
+  },
+  {
+   "name": "Thrive AZ (Reunification, Prevention, Aged Out)",
+   "website": "thriveaz.org",
+   "address": "Peoria, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BM-3000&query_label=Household+Goods&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: direct contact",
+   "ruleNote": "DCS-involved families and former foster youth; three programmes merged.",
+   "listingSays": "Beds, furniture and household goods for families working with child protective services.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_dbe6dc3544fe59b39557bf72afa1d732",
+    "scoutName": "Thrive AZ - Beds, Furniture, Household Items, and DCS Referral Support"
+   }
+  },
+  {
+   "name": "St. Mark's Episcopal Church thrift store",
+   "website": "stmarksmesa.org",
+   "address": "322 N Horne, Mesa, AZ 85203",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "A thrift store (sells); free help not shown.",
+   "listingSays": "On-site thrift store next to its food pantry.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_7bc668fcc7fd55b99832c7de9a38cbf9",
+    "scoutName": "St. Mark's Episcopal Church - Food Pantry"
+   }
+  },
+  {
+   "name": "Christian Assistance Network (Church of the Master)",
+   "website": "",
+   "address": "6659 E University Dr, Mesa, AZ 85205",
+   "sources": [
+    "https://www.needhelppayingbills.com/html/maricopa_county_clothing_close.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "Mesa residents.",
+   "listingSays": "Clothing, hygiene products, cleaning supplies and limited utility help.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_6d1e8368ecc059909f7b459096ab945a",
+    "scoutName": "Church of the Master - Christian Assistance Network"
+   }
+  },
+  {
+   "name": "East Mesa Baptist Church Clothing Ministry",
+   "website": "",
+   "address": "752 S Ellsworth Rd, Mesa, AZ 85208",
+   "sources": [
+    "https://www.needhelppayingbills.com/html/maricopa_county_clothing_close.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free clothes, shoes, underwear and sleeping bags from a clothes closet.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_e2d3b34eb35556ad9df88a874cb7dd7d",
+    "scoutName": "East Mesa Baptist Church - East Mesa Food Bank (clothing ministry absent; corrected from tool's 0.68 match to New Life Pregnancy Center)"
+   }
+  },
+  {
+   "name": "Bridging AZ Furniture Bank",
+   "website": "bridgingaz.org",
+   "address": "25 N Extension Rd, Mesa, AZ 85201",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Scout's entry says agency-referred, which would fail direct contact.",
+   "listingSays": "Furniture for veterans and families in need.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_621dfd70329b56aabd625ea4085bcf2f",
+    "scoutName": "Bridging AZ Furniture Bank - Agency-Referred Furniture Services"
+   }
+  },
+  {
+   "name": "S.T.U.F.F. Thrift (Resurrection Street Ministry)",
+   "website": "rsmaz.org/s-t-u-f-f-thrift",
+   "address": "1135 E Main St, Mesa, AZ 85203",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Listed as a thrift store; free hardship help not shown on the list.",
+   "listingSays": "Thrift store supporting veteran programmes.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_ec673abecf6c58eeafac1b71def6c2be",
+    "scoutName": "Resurrection Street Ministry / S.T.U.F.F. - Hardship Clothing and Household Items (corrected: tool first matched St. Vincent de Paul at 1.0)"
+   }
+  }
+ ],
+ "thin": "No official list covers clothing or household goods: the City of Mesa names only Paz de Cristo and Bridging AZ. 211 returns 8 clothing and 8 household-goods results, and the household ones are mostly Phoenix/Peoria. Furniture for the general public is the thinnest: the only Mesa furniture source (Bridging AZ) is agency-referred. findhelp and NeedHelpPayingBills returned 403."
+}

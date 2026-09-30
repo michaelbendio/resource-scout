@@ -1,0 +1,487 @@
+{
+ "category": "utilities-phone-internet",
+ "lists": [
+  {
+   "url": "https://www.mesaaz.gov/residents/my-utility-account/need-assistance-paying-your-utility-bill?locale=en",
+   "title": "City of Mesa - Need assistance paying your utility bill",
+   "kind": "official",
+   "note": "current"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs",
+   "title": "City of Mesa - Community Resources and Support Programs",
+   "kind": "official",
+   "note": "current; same four utility entries"
+  },
+  {
+   "url": "https://www.maricopa.gov/5581/Utility-Assistance",
+   "title": "Maricopa County - Utility Assistance",
+   "kind": "official",
+   "note": "current; says Mesa residents go to the City of Mesa"
+  },
+  {
+   "url": "https://211arizona.org/preventing-utility-shut-offs/",
+   "title": "2-1-1 Arizona - Preventing Utility Shut-Offs",
+   "kind": "211",
+   "note": "stale (published Feb 2021); statewide utility programmes"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ",
+   "title": "2-1-1 Arizona - Utility Assistance near Mesa",
+   "kind": "211",
+   "note": "current; 18 results, many statewide or out of area"
+  },
+  {
+   "url": "https://www.swgas.com/en/arizona-bill-assistance",
+   "title": "Southwest Gas - Arizona Bill Assistance",
+   "kind": "official",
+   "note": "current; utility's own partner-agency list"
+  },
+  {
+   "url": "https://www.nesthealth.com/maricopa-low-income-energy-assistance",
+   "title": "Nest Health - Energy & Utility Bill Help",
+   "kind": "aggregator",
+   "note": "current-looking"
+  }
+ ],
+ "seeds": [
+  {
+   "name": "A New Leaf - MesaCAN Rent and Utility Assistance",
+   "website": "turnanewleaf.org",
+   "address": "635 E Broadway Rd, Mesa, AZ 85204",
+   "sources": [
+    "https://www.mesaaz.gov/residents/my-utility-account/need-assistance-paying-your-utility-bill?locale=en",
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs",
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://www.swgas.com/en/arizona-bill-assistance",
+    "https://www.nesthealth.com/maricopa-low-income-energy-assistance"
+   ],
+   "rule": "pass",
+   "ruleNote": "Mesa's designated community action agency for City, SRP and Southwest Gas funds.",
+   "listingSays": "Pays past-due utility bills for Mesa residents; weatherization; orientation required.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_64df21dc58035292b614bd02461bced5",
+    "scoutName": "A New Leaf / MesaCAN - Rent, Mortgage, and Utility Assistance"
+   }
+  },
+  {
+   "name": "City of Mesa Summer Electric Assistance (SEA) Program",
+   "website": "mesaaz.gov",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/residents/my-utility-account/need-assistance-paying-your-utility-bill?locale=en",
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "pass",
+   "ruleNote": "Only for City of Mesa electric customers.",
+   "listingSays": "Waives service charge and first 80 kWh in July-September for income-qualified customers.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_f9d37491adcf58ccaa9decd1815c71aa",
+    "scoutName": "City of Mesa - Limited-Income Utility Programs"
+   }
+  },
+  {
+   "name": "City of Mesa Limited Income Senior Rate Program",
+   "website": "mesaaz.gov",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/residents/my-utility-account/need-assistance-paying-your-utility-bill?locale=en",
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "30% off the water service rate for account holders 60+ under 200% FPL.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_9f2596e64e195a71b19dfd3624f62300",
+    "scoutName": "City of Mesa Utilities - Limited Income Senior Rate Program"
+   }
+  },
+  {
+   "name": "City of Mesa Security and Utility Deposit Assistance Program",
+   "website": "mesaaz.gov",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/residents/my-utility-account/need-assistance-paying-your-utility-bill?locale=en"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Pays rental and utility deposits; main service may be Housing.",
+   "listingSays": "Pays the refundable part of security and utility deposits for low-income households.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a644f60fc9665ad6acd36b3062a657a8",
+    "scoutName": "City of Mesa Housing Authority - Security and Utility Deposit Assistance Program"
+   }
+  },
+  {
+   "name": "Aster Aging benefits and utility help",
+   "website": "asteraz.org",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/residents/my-utility-account/need-assistance-paying-your-utility-bill?locale=en",
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Benefits enrollment for 60+; utility help is one part.",
+   "listingSays": "Helps older adults enrol in benefits, including utility bill support.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_b1ffdda9830d554db5c65566d7246c22",
+    "scoutName": "Aster Aging - Benefits Enrollment Center and Outreach/Social Services"
+   }
+  },
+  {
+   "name": "SRP limited-income programmes (Economy Price Plan, Project SHARE)",
+   "website": "srpnet.com",
+   "address": "1500 N Mill Ave, Tempe, AZ",
+   "sources": [
+    "https://211arizona.org/preventing-utility-shut-offs/",
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://www.nesthealth.com/maricopa-low-income-energy-assistance"
+   ],
+   "rule": "pass",
+   "ruleNote": "One entry for SRP's customer programmes (same counsellor line).",
+   "listingSays": "$23/month discount for limited-income customers; one-time emergency help via SHARE.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_0c6f95cc273f5109a0e9a39f1fdf7131",
+    "scoutName": "Salt River Project (SRP) - Weatherization Assistance Program (agency matched; Scout's entry is weatherization, not the bill discount)"
+   }
+  },
+  {
+   "name": "APS Energy Support and Crisis Bill Assistance",
+   "website": "aps.com",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://211arizona.org/preventing-utility-shut-offs/",
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://www.nesthealth.com/maricopa-low-income-energy-assistance"
+   ],
+   "rule": "unclear",
+   "ruleNote": "APS serves little or none of Mesa (City of Mesa and SRP do).",
+   "listingSays": "25-60% bill discount; up to $800/yr crisis bill help.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_b1c23ceb81355b26876fd5ab7520498c",
+    "scoutName": "APS — Assistance programme navigation"
+   }
+  },
+  {
+   "name": "APS Safety Net",
+   "website": "aps.com",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "A bill-copy notification option within APS, not a separate front door.",
+   "listingSays": "Lets a customer name a partner to receive bill copies.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_9dea08a9095d51998f98f6dc10efb957",
+    "scoutName": "Arizona Public Service - Safety Net"
+   }
+  },
+  {
+   "name": "Southwest Gas Bill Assistance and LIRA discount",
+   "website": "swgas.com",
+   "address": "Arizona",
+   "sources": [
+    "https://211arizona.org/preventing-utility-shut-offs/",
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://www.swgas.com/en/arizona-bill-assistance",
+    "https://www.nesthealth.com/maricopa-low-income-energy-assistance"
+   ],
+   "rule": "pass",
+   "ruleNote": "Bill assistance is applied for through MesaCAN; LIRA directly with Southwest Gas.",
+   "listingSays": "30% discount for low-income customers; deferred payment; bill assistance.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_28d2dfebd7c45475bb9458be59b36f57",
+    "scoutName": "Southwest Gas — Weatherization and energy-efficiency assistance (agency matched; Scout's entry is weatherization)"
+   }
+  },
+  {
+   "name": "The Salvation Army Mesa Citadel Corps (utility assistance)",
+   "website": "",
+   "address": "241 E 6th St, Mesa, AZ 85201",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Utility help is one of several emergency services.",
+   "listingSays": "Emergency electric and gas help for families with past-due or shut-off notices.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_9c54b6a99771579d800dc3628487a979",
+    "scoutName": "The Salvation Army Mesa Citadel Corps - Basic and Emergency Assistance"
+   }
+  },
+  {
+   "name": "Maricopa County Human Services Utility Assistance",
+   "website": "maricopa.gov",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://www.maricopa.gov/5581/Utility-Assistance",
+    "https://www.swgas.com/en/arizona-bill-assistance",
+    "https://www.nesthealth.com/maricopa-low-income-energy-assistance"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Excludes residents of Mesa, Glendale and Phoenix.",
+   "listingSays": "Utility deposits and payments for county residents outside the three cities.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_f98791a6ca8c5f99bcd58f43330f7e33",
+    "scoutName": "Maricopa County Human Services Department - Utility Assistance"
+   }
+  },
+  {
+   "name": "Arizona DES LIHEAP",
+   "website": "des.az.gov/liheap",
+   "address": "1789 W Jefferson St, Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://www.nesthealth.com/maricopa-low-income-energy-assistance"
+   ],
+   "rule": "unclear",
+   "ruleNote": "In Mesa, LIHEAP is applied for through MesaCAN, so DES may not be the front door.",
+   "listingSays": "Home energy bill payment help (LIHEAP, Power AZ).",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_fadb025e21495131ab88821976f1f1c5",
+    "scoutName": "Arizona Department of Economic Security - LIHEAP and Power AZ Status"
+   }
+  },
+  {
+   "name": "Wildfire Home Energy Assistance Fund (HEAF)",
+   "website": "wildfireaz.org",
+   "address": "340 E Palm Ln, Phoenix, AZ",
+   "sources": [
+    "https://www.nesthealth.com/maricopa-low-income-energy-assistance"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Funds flow through local agencies; direct application not shown.",
+   "listingSays": "Energy bill assistance fund.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_940e54bef9bf5daa99125861c4200d9c",
+    "scoutName": "Wildfire - Home Energy Assistance Fund (HEAF)"
+   }
+  },
+  {
+   "name": "Society of St. Vincent de Paul - Phoenix",
+   "website": "stvincentdepaul.net",
+   "address": "420 W Watkins Rd, Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Food, shelter, rent and utility among many services.",
+   "listingSays": "Food boxes, rental and utility assistance, shelter.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_00f4e6afacd959c88c9a3df46f15b5cd",
+    "scoutName": "Society of St. Vincent de Paul Phoenix - Rent, Mortgage, and Utility Assistance"
+   }
+  },
+  {
+   "name": "Helping Hands for Freedom",
+   "website": "helpinghandsforfreedom.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Veteran/Gold Star families; general financial help.",
+   "listingSays": "Utility, rent and car payment help for veteran and Gold Star families.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_c05533162273503c8c88b7cef515758c",
+    "scoutName": "Helping Hands for Freedom - Financial Assistance for Veteran and Gold Star Families"
+   }
+  },
+  {
+   "name": "U.S.VETS Phoenix (homelessness prevention)",
+   "website": "usvets.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Veterans housing agency.",
+   "listingSays": "Rent and utility help for veterans at risk of homelessness.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_7fc0bc2613a655c287aa8a6ef3616ee1",
+    "scoutName": "U.S.VETS Phoenix - Housing, SSVF, Mental Health and Workforce Development"
+   }
+  },
+  {
+   "name": "Veterans First Limited",
+   "website": "",
+   "address": "8433 N Black Canyon Hwy, Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Veterans agency.",
+   "listingSays": "Rent and utility help for veterans.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_a7565403eda55e7aa344629bd9cc820f",
+    "scoutName": "Veterans First LTD - Women Veterans and Veteran Family Assistance (corrected: tool matched Veterans Medical Leadership Council at 0.6)"
+   }
+  },
+  {
+   "name": "Operation Homefront Critical Financial Assistance",
+   "website": "operationhomefront.org",
+   "address": "San Antonio, TX (online)",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Active-duty military families only; general financial help.",
+   "listingSays": "Emergency help with utility bills for military families.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a33ff5987a8152d09886a9b617c57fbc",
+    "scoutName": "Operation Homefront - Critical Financial Assistance Program"
+   }
+  },
+  {
+   "name": "AZ StRUT Internet Lending Program",
+   "website": "",
+   "address": "3025 S 48th St, Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "No eligibility limits stated.",
+   "listingSays": "Low-cost high-speed internet.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_8bce0da7ea3a5d4f9e1c05f8a9dcf26b",
+    "scoutName": "AZ StRUT Internet Lending Program"
+   }
+  },
+  {
+   "name": "TruConnect",
+   "website": "truconnect.com",
+   "address": "Online",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free SIM and free or low-cost wireless service for eligible people.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_08acc1b9aa845c3d8c3d9e3f2be20d30",
+    "scoutName": "TruConnect — Arizona Lifeline mobile service"
+   }
+  },
+  {
+   "name": "Lifeline phone and internet discount",
+   "website": "lifelinesupport.org",
+   "address": "Nationwide (online)",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Monthly discount on phone or internet service for eligible households.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_c886d7cef0f3522889a860c536b1df8c",
+    "scoutName": "Universal Service Administrative Company / FCC - Lifeline"
+   }
+  },
+  {
+   "name": "Tribal Lands Link Up",
+   "website": "",
+   "address": "Statewide",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Tribal lands residents only.",
+   "listingSays": "Discount on phone installation or activation on tribal lands.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "(corrected: tool matched Saddleback Communications Tribal Lifeline at 0.67, a different provider)"
+   }
+  },
+  {
+   "name": "Tohono O'odham Department of Health and Human Services",
+   "website": "",
+   "address": "Sells, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Tohono O'odham Nation only.",
+   "listingSays": "Utility help including water, electric, propane, firewood.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Mesa Public Housing Authority",
+   "website": "mesaaz.gov",
+   "address": "200 S Center St, Mesa, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Public housing and Section 8, not utility help.",
+   "listingSays": "Public housing and Section 8 rent subsidies.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_a644f60fc9665ad6acd36b3062a657a8",
+    "scoutName": "(tool matched the Housing Authority's deposit programme at 1.67; the PHA's housing itself was not checked)"
+   }
+  },
+  {
+   "name": "City of Phoenix Human Services crisis assistance",
+   "website": "phoenix.gov",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://www.maricopa.gov/5581/Utility-Assistance",
+    "https://www.swgas.com/en/arizona-bill-assistance",
+    "https://www.nesthealth.com/maricopa-low-income-energy-assistance"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Phoenix residents only.",
+   "listingSays": "Crisis utility assistance for Phoenix residents.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_1d33df7d8a43503f954aff946b6bb390",
+    "scoutName": "City of Phoenix Human Services Department - Targeted One-Time Crisis Assistance"
+   }
+  },
+  {
+   "name": "City of Glendale Community Action Program",
+   "website": "glendaleaz.gov",
+   "address": "7677 W Bethany Home Rd, Glendale, AZ",
+   "sources": [
+    "https://www.maricopa.gov/5581/Utility-Assistance",
+    "https://www.swgas.com/en/arizona-bill-assistance",
+    "https://www.nesthealth.com/maricopa-low-income-energy-assistance"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Glendale residents only.",
+   "listingSays": "Utility assistance for Glendale residents.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_1a675cd311355fa7b874fb703b7c08de",
+    "scoutName": "City of Glendale — Community Action Program"
+   }
+  }
+ ],
+ "thin": "Utility bill help is well listed and consistent (every list sends Mesa residents to MesaCAN and the City's own programmes). Phone and internet are thin: only 211 names any (Lifeline, TruConnect, one Phoenix internet lender); no official Mesa page lists low-cost internet offers such as Cox ConnectAssist, which Scout has only as Cox Lifeline."
+}

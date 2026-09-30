@@ -1,0 +1,684 @@
+{
+ "category": "children-pregnancy",
+ "lists": [
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs",
+   "title": "City of Mesa - Community Resources and Support Programs",
+   "kind": "official",
+   "note": "current; short, links to city programmes"
+  },
+  {
+   "url": "https://mesaaz.gov/residents/education-workforce-office/mesa-family-resource-center",
+   "title": "City of Mesa - Mesa Family Resource Center and partners",
+   "kind": "official",
+   "note": "current (opened Sept 2024); partner names only, no addresses"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - pregnancy near Mesa (first 25 of 70)",
+   "kind": "211",
+   "note": "current; readable; Valley-wide"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - parenting near Mesa",
+   "kind": "211",
+   "note": "current; readable"
+  },
+  {
+   "url": "https://www.compudopt.org/mesa-resources",
+   "title": "Compudopt - Mesa Community Resources (Children/Pregnancy/Parenting)",
+   "kind": "network",
+   "note": "undated; short"
+  },
+  {
+   "url": "https://wildfireaz.org/find-help/arizona-diaper-pilot-program/",
+   "title": "Wildfire AZ - Arizona Diaper Pilot Program distribution partners",
+   "kind": "network",
+   "note": "current; one Mesa partner"
+  }
+ ],
+ "seeds": [
+  {
+   "name": "Mesa Family Resource Center",
+   "website": "https://mesaaz.gov/residents/education-workforce-office/mesa-family-resource-center",
+   "address": "64 E 1st St (Main Library lower level), Mesa, AZ 85201",
+   "sources": [
+    "https://mesaaz.gov/residents/education-workforce-office/mesa-family-resource-center",
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "pass",
+   "ruleNote": "families with children 0-5",
+   "listingSays": "Free parenting classes, play activities, diapers and referrals for families with young children.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Southwest Autism Research & Resource Center family resource team - wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Choices Pregnancy Center of Mesa",
+   "website": "https://choicesaz.com",
+   "address": "3155 E Southern Ave 2nd Floor, Mesa, AZ 85204",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free pregnancy tests, ultrasounds, parenting classes, maternity clothes and baby supplies.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_424908b8206857be91de500ec23f2eeb",
+    "scoutName": "Choices Pregnancy Centers of Greater Phoenix - Mesa Center"
+   }
+  },
+  {
+   "name": "Choices Pregnancy Center Mobile Unit - Tempe",
+   "website": "",
+   "address": "1034 S Mill Ave, Tempe, AZ 85281",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "same agency as Choices Mesa",
+   "listingSays": "Mobile pregnancy services in Tempe.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "New Life Pregnancy Center - Mesa",
+   "website": "",
+   "address": "819 S MacDonald, Mesa, AZ 85210",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Pregnancy services, parenting education, baby clothing and diapers.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_b679f0c13724588d960e7df8fa89b05a",
+    "scoutName": "New Life Pregnancy Center, Mesa - Pregnancy Tests, Material Assistance, Classes and Counseling"
+   }
+  },
+  {
+   "name": "New Life Pregnancy Center - Tempe",
+   "website": "",
+   "address": "1001 E Southern Ave, Tempe, AZ 85282",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "same agency as New Life Mesa",
+   "listingSays": "Pregnancy services and baby supplies in Tempe.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_b679f0c13724588d960e7df8fa89b05a",
+    "scoutName": "New Life Pregnancy Center, Mesa - Pregnancy Tests, Material Assistance, Classes and Counseling",
+    "note": "matched Scout's New Life Mesa entry - same agency"
+   }
+  },
+  {
+   "name": "Aid to Women Center - Apache Center",
+   "website": "",
+   "address": "3029 N Alma School Rd Ste 130, Chandler, AZ 85224",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Chandler, bordering Mesa",
+   "listingSays": "Pregnancy help with points earned in classes for baby supplies.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_c12571eb0b625ab093c369ba04f6d1d8",
+    "scoutName": "Aid to Women Center - Prenatal Care and Pregnancy Support"
+   }
+  },
+  {
+   "name": "Joining Hearts Pregnancy Counseling",
+   "website": "",
+   "address": "Phoenix; by phone or chat",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "phone/chat",
+   "listingSays": "Phone or chat counselling for an unexpected pregnancy.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_91fa07d9bbc6596282ca89529a59656b",
+    "scoutName": "Joining Hearts - Pregnancy Support and Resource Connections"
+   }
+  },
+  {
+   "name": "Nurse-Family Partnership",
+   "website": "",
+   "address": "4041 N Central Ave Ste 700, Phoenix, AZ 85012",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "home visits countywide; first-time low-income mothers",
+   "listingSays": "Free home nurse visits for first-time pregnant mothers.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_62c13825509f5a2485ed9deee688c062",
+    "scoutName": "Southwest Human Development - Nurse-Family Partnership"
+   }
+  },
+  {
+   "name": "Hope Women's Center",
+   "website": "",
+   "address": "252 N Ironwood Dr, Apache Junction, AZ 85120 (also Phoenix)",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Apache Junction site is next to east Mesa",
+   "listingSays": "Faith-based pregnancy tests, parenting classes and material help for women.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Community Bridges Center for Hope - wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Spence-Chapin",
+   "website": "",
+   "address": "2025 N 3rd St Ste B300, Phoenix, AZ 85004",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "counselling by phone",
+   "listingSays": "Free options counselling on parenting and adoption.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "ADHS Pregnancy and Breastfeeding Hotline",
+   "website": "",
+   "address": "Statewide phone line",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "State phone line for pregnancy and breastfeeding questions.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Southwest Human Development Birth to Five Helpline",
+   "website": "",
+   "address": "Phone line, Phoenix",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ",
+    "https://mesaaz.gov/residents/education-workforce-office/mesa-family-resource-center"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free phone help on child development, behaviour and maternal mental health.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_d4d947530f8c53aeadb2c645e62becc5",
+    "scoutName": "Southwest Human Development - Birth to Five Helpline"
+   }
+  },
+  {
+   "name": "MotherToBaby Arizona",
+   "website": "",
+   "address": "Tucson; phone",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "phone",
+   "listingSays": "Answers about medicines and exposures in pregnancy.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_97c4063e0ed65508a5f272f7c7770e08",
+    "scoutName": "MotherToBaby Arizona / Arizona Poison and Drug Information Center - Pregnancy and Breastfeeding Exposure Information Service"
+   }
+  },
+  {
+   "name": "With Child Center",
+   "website": "",
+   "address": "2625 E Greenway Pkwy Ste 104, Phoenix, AZ 85032",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: reach from the office",
+   "ruleNote": "north Phoenix in-person",
+   "listingSays": "Pregnancy tests and baby supplies.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Arizona Youth Partnership AIM 4 Teen Moms - wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Native Health Healthy Start",
+   "website": "",
+   "address": "4041 N Central Ave Bldg C, Phoenix, AZ 85012",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "may be limited to its service area",
+   "listingSays": "Prenatal care, case management and birth classes.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Maricopa County Public Health South Phoenix Healthy Start (different agency) - wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Maricopa County SHIFT Program",
+   "website": "",
+   "address": "4041 N Central Ave Ste 1400, Phoenix, AZ 85012",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "may be referral-based",
+   "listingSays": "Help for pregnant women with substance use disorders.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_64a064f7bea3508f83322c222235a782",
+    "scoutName": "Maricopa SHIFT - Safe, Healthy Infants, and Families Thrive"
+   }
+  },
+  {
+   "name": "Christian Family Care",
+   "website": "",
+   "address": "2346 N Central Ave, Phoenix, AZ 85004",
+   "sources": [
+    "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "main service may be foster care and adoption",
+   "listingSays": "Pregnancy counselling alongside foster care and adoption.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched NOAH Cholla Health Center - wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Maricopa County WIC - Mesa",
+   "website": "",
+   "address": "635 E Broadway Rd, Mesa, AZ 85204",
+   "sources": [
+    "https://mesaaz.gov/residents/education-workforce-office/mesa-family-resource-center"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free healthy food, nutrition and breastfeeding help for pregnant women and young children.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_36830445c3fc5ec582fbc0bc7daea9ba",
+    "scoutName": "Arizona WIC \u2014 Statewide clinic finder",
+    "note": "matched Scout's statewide Arizona WIC clinic finder - same programme, not the Mesa clinic"
+   }
+  },
+  {
+   "name": "Head Start",
+   "website": "",
+   "address": "Mesa area",
+   "sources": [
+    "https://mesaaz.gov/residents/education-workforce-office/mesa-family-resource-center"
+   ],
+   "rule": "unclear",
+   "ruleNote": "main service may be Education; operator in Mesa not named",
+   "listingSays": "Free preschool for low-income families.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_70824aaf59bc5cc29275832ddbc5efdf",
+    "scoutName": "Child Crisis Arizona - Early Education Services: Early Head Start and Preschool",
+    "note": "matched Child Crisis Arizona's Early Head Start - one Mesa Head Start operator, plausible"
+   }
+  },
+  {
+   "name": "Mesa Public Schools Preschool",
+   "website": "",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://mesaaz.gov/residents/education-workforce-office/mesa-family-resource-center"
+   ],
+   "rule": "unclear",
+   "ruleNote": "main service may be Education",
+   "listingSays": "District preschool.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Mesa Public Schools Special Education Department - wrong, corrected to none"
+   }
+  },
+  {
+   "name": "First Things First",
+   "website": "",
+   "address": "Statewide",
+   "sources": [
+    "https://mesaaz.gov/residents/education-workforce-office/mesa-family-resource-center"
+   ],
+   "rule": "fail: direct contact",
+   "ruleNote": "a funder; families reach its funded programmes",
+   "listingSays": "State early-childhood funder.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_591f3e68db9b598db08a10a991829df0",
+    "scoutName": "Southwest Human Development / First Things First - Parent Partners Plus",
+    "note": "matched a First Things First-funded programme (Parent Partners Plus), not the funder"
+   }
+  },
+  {
+   "name": "Read On Mesa",
+   "website": "",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://mesaaz.gov/residents/education-workforce-office/mesa-family-resource-center"
+   ],
+   "rule": "unclear",
+   "ruleNote": "early-literacy coalition; main service may be education",
+   "listingSays": "Early reading initiative.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Arizona Talking Book Library - wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Kids Need to Read",
+   "website": "",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://mesaaz.gov/residents/education-workforce-office/mesa-family-resource-center"
+   ],
+   "rule": "unclear",
+   "ruleNote": "book distribution through partners",
+   "listingSays": "Free books for children.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Child Crisis Arizona",
+   "website": "https://childcrisisaz.org",
+   "address": "817 N Country Club Dr, Mesa, AZ 85201 (family resources 424 W Rio Salado Pkwy)",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources",
+    "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ",
+    "https://mesaaz.gov/residents/education-workforce-office/mesa-family-resource-center"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Emergency children's shelter, parenting classes, counselling and family support.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_d7deac5b98c2524bb85a8281a4b30270",
+    "scoutName": "Child Crisis Arizona \u2014 ORR unaccompanied-child residential program",
+    "note": "same agency, but Scout's entry is its ORR residential programme, not family resources"
+   }
+  },
+  {
+   "name": "Child Care Resource & Referral",
+   "website": "https://azccrr.com",
+   "address": "3910 S Rural Rd Ste E, Tempe, AZ 85282",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "phone/online",
+   "listingSays": "Free help finding childcare and childcare assistance.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Arizona Families F.I.R.S.T. substance-use referral pathway - wrong, corrected to none"
+   }
+  },
+  {
+   "name": "A New Leaf Family Support Services",
+   "website": "https://turnanewleaf.org/services/family-support/",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources",
+    "https://mesaaz.gov/residents/education-workforce-office/mesa-family-resource-center"
+   ],
+   "rule": "unclear",
+   "ruleNote": "may be referral-based (child welfare)",
+   "listingSays": "Help and education so families can recover.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_70f5eebe65755cc48fde25ba41ce053c",
+    "scoutName": "A New Leaf / Homeward Bound - Current Family Shelter or Thunderbird Apartments Status Unresolved",
+    "note": "same agency, different programme (Homeward Bound shelter, marked unresolved)"
+   }
+  },
+  {
+   "name": "Arizona Diaper Pilot Program - A New Leaf/MesaCAN",
+   "website": "https://wildfireaz.org/find-help/arizona-diaper-pilot-program/",
+   "address": "635 E Broadway Rd, Mesa, AZ 85204",
+   "sources": [
+    "https://wildfireaz.org/find-help/arizona-diaper-pilot-program/"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Up to 150 free diapers a month per child, third full week of each month.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a1fb2bf5160959268fc519f084b84559",
+    "scoutName": "A New Leaf / MesaCAN - Arizona Diaper Distribution Pilot Program"
+   }
+  },
+  {
+   "name": "Native American Fatherhood and Families Association",
+   "website": "https://nativeamericanfathers.org",
+   "address": "525 W Southern Ave Ste 100, Mesa, AZ 85210",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources",
+    "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Parenting classes and family support involving fathers and mothers.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_76fc388e6e42557ebc76b9010b895198",
+    "scoutName": "Native American Fatherhood and Families Association - NAFFA Wellness Re-Entry / Recovery Modality",
+    "note": "same agency, Scout has it under reentry/recovery"
+   }
+  },
+  {
+   "name": "Azura Vets Coalition",
+   "website": "https://azuravets.org",
+   "address": "165 N Centennial Way #101, Mesa, AZ 85201",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "veterans resource centre",
+   "listingSays": "Resource centre for veterans and their families.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Lutheran Social Services of the Southwest - Mesa",
+   "website": "",
+   "address": "142 N Date St and 612 S Ellsworth Rd, Mesa, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "parenting programme details not shown",
+   "listingSays": "Parenting services at two Mesa sites.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_8fe4a7b748a0543895d656c9435b29ce",
+    "scoutName": "Lutheran Social Services of the Southwest \u00b7 Refugee Women's Empowerment Program",
+    "note": "same agency, different programme"
+   }
+  },
+  {
+   "name": "CPLC Parenting Arizona - Guadalupe",
+   "website": "",
+   "address": "5840 E Calle Santos Bravo, Guadalupe, AZ 85283",
+   "sources": [
+    "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Guadalupe, near Tempe",
+   "listingSays": "Parenting classes.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_6b7d64c2f71c598aad33e01af1c1749f",
+    "scoutName": "Chicanos Por La Causa - Parenting Arizona / Guadalupe Family Resource Center"
+   }
+  },
+  {
+   "name": "Arizona's Children Association",
+   "website": "",
+   "address": "Various locations, Phoenix",
+   "sources": [
+    "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "many programmes are referral-based",
+   "listingSays": "Child and family services.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_4751b6381c315097bf634d02f2c75410",
+    "scoutName": "Arizona's Children Association \u00b7 Young Adult Services / Successful Transition to Adulthood",
+    "note": "same agency, different programme (young adult services)"
+   }
+  },
+  {
+   "name": "Jewish Family & Children's Service",
+   "website": "",
+   "address": "Confidential, Phoenix",
+   "sources": [
+    "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "",
+   "listingSays": "Parenting support (details not shown).",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_c01fce1ffc7655e7833034ffad7b833e",
+    "scoutName": "Jewish Family & Children\u2019s Service \u2014 Integrated Health and Substance-Use Care",
+    "note": "same agency, different programme (integrated health)"
+   }
+  },
+  {
+   "name": "Parenting in Two Worlds",
+   "website": "",
+   "address": "4041 N Central Ave Bldg B, Phoenix, AZ 85012",
+   "sources": [
+    "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Native Health programme; delivery location unclear",
+   "listingSays": "Parenting classes for urban American Indian families.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Lutheran Social Services Mesa family resource centres - wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Car Seat Safety (Mesa)",
+   "website": "",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://mesaaz.gov/residents/education-workforce-office/mesa-family-resource-center"
+   ],
+   "rule": "unclear",
+   "ruleNote": "provider not named",
+   "listingSays": "Car seat checks and education.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Phoenix Children's car seat classes (provider on the list is unnamed, so no match can be claimed) - wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Rooted in Grace Foundation",
+   "website": "",
+   "address": "unknown",
+   "sources": [
+    "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "",
+   "listingSays": "Parenting support (details not shown).",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "i.d.e.a. Museum WIC family membership",
+   "website": "https://www.ideamuseum.org/",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "museum discount",
+   "listingSays": "$20 family membership for WIC cardholders.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Arizona Museum of Natural History EBT discount",
+   "website": "https://www.azmnh.org/",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "museum discount",
+   "listingSays": "$2 admission for EBT cardholders.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  }
+ ],
+ "thin": "No official Mesa list of pregnancy centres; the city's Family Resource Center page names partners without addresses. 211 carried most names, heavy on faith-based pregnancy centres and Phoenix sites; free diapers, formula and baby gear had only one Mesa distributor on any list."
+}

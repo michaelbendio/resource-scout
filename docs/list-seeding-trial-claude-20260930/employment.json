@@ -1,0 +1,556 @@
+{
+ "category": "employment",
+ "lists": [
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs",
+   "title": "City of Mesa - Community Resources and Support Programs",
+   "kind": "official",
+   "note": "current; short, links to city programmes"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa",
+   "title": "City of Mesa - Workforce Center @ Mesa",
+   "kind": "official",
+   "note": "current; names only a handful of partners"
+  },
+  {
+   "url": "https://www.compudopt.org/mesa-resources",
+   "title": "Compudopt - Mesa Community Resources (Employment section)",
+   "kind": "network",
+   "note": "undated; partial, mixes Phoenix and statewide"
+  },
+  {
+   "url": "https://www.mesachamber.org/workforce-development-and-jobs/",
+   "title": "Mesa Chamber of Commerce - Workforce Development and Jobs",
+   "kind": "network",
+   "note": "current; online job platforms only"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - employment near Mesa",
+   "kind": "211",
+   "note": "current; readable; mostly Phoenix and statewide, sorted loosely"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - job training near Mesa",
+   "kind": "211",
+   "note": "current; readable; mostly Phoenix"
+  }
+ ],
+ "seeds": [
+  {
+   "name": "Workforce Center @ Mesa",
+   "website": "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa",
+   "address": "635 E Broadway Rd, Mesa, AZ 85204",
+   "sources": [
+    "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa",
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "City-run walk-in job centre: resumes, job search, workshops, computers.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_3c343db52b82585598d9840d09024604",
+    "scoutName": "Workforce Center @ Mesa"
+   }
+  },
+  {
+   "name": "ARIZONA@WORK Maricopa County East Valley Career Center",
+   "website": "https://arizonaatwork.com/locations/maricopa-county/maricopa-east",
+   "address": "1001 W Southern Ave Ste 101, Mesa, AZ 85210",
+   "sources": [
+    "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa",
+    "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free job search and job readiness help, training funds, DES employment and veterans services.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5228cd0c74355d97ab79e60d2d7e491d",
+    "scoutName": "ARIZONA@WORK Maricopa County - East Valley Career Center / DES Veterans Services"
+   }
+  },
+  {
+   "name": "ARIZONA@WORK Mesa Youth Hub",
+   "website": "",
+   "address": "64 E 1st St, Mesa, AZ 85201",
+   "sources": [
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "ages 16-24",
+   "listingSays": "Job help and skills training for young people 16-24.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_ddd3903f9de7557b9d507d489a8207d4",
+    "scoutName": "ARIZONA@WORK Maricopa County - Youth Workforce Services, East Valley Career Center",
+    "note": "score 0.67; matched Scout's East Valley youth workforce services - plausibly the same programme, Mesa hub address not confirmed"
+   }
+  },
+  {
+   "name": "A New Leaf Workforce Services",
+   "website": "https://turnanewleaf.org/services/financial-empowerment/workforce/",
+   "address": "868 E University Dr, Mesa, AZ 85203",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources",
+    "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Helps job seekers re-enter the job market and plan for stable work.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_3caf76ab22b45b96a095324a74fa5f98",
+    "scoutName": "A New Leaf - Freedom Through Housing Reentry Housing Assistance",
+    "note": "matched a different A New Leaf programme (reentry housing) that Scout tags employment; the workforce programme itself may not be a separate Scout entry"
+   }
+  },
+  {
+   "name": "St. Joseph the Worker - Mesa",
+   "website": "https://www.theworkeraz.org/",
+   "address": "1833 W Main St #128, Mesa, AZ 85201",
+   "sources": [
+    "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free job coaching, resumes, bus passes for interviews, work clothes and boots.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a3106934008255a09a41f6f6ca47b5d8",
+    "scoutName": "The Worker / St. Joseph the Worker - Mesa Employment Services"
+   }
+  },
+  {
+   "name": "Goodwill of Central and Northern Arizona Career Services",
+   "website": "https://goodwillaz.org/mission-services/career-services/",
+   "address": "Phoenix metro (several East Valley centres)",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "regional; career centres and virtual coaching",
+   "listingSays": "Free skills training, career coaching, resume review and certifications.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_072a2aa818185aaf8eb9ab0aa3ce4336",
+    "scoutName": "Goodwill of Central and Northern Arizona - Career Services and Career Pathways"
+   }
+  },
+  {
+   "name": "Mesa Community College Career Services",
+   "website": "https://www.mesacc.edu",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "may be limited to MCC students",
+   "listingSays": "College resources for career decision-making.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_d1fe746a04a856eab72c71288cd59f97",
+    "scoutName": "Mesa Community College \u00b7 Career and Technical Education Programs",
+    "note": "matched MCC career and technical education programmes, not career services"
+   }
+  },
+  {
+   "name": "Maricopa County Human Services Career Services",
+   "website": "https://www.maricopa.gov/5226/Find-A-Job-Through-Our-Career-Services",
+   "address": "301 W Jefferson St, Phoenix, AZ 85003",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources",
+    "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "same front door as ARIZONA@WORK Maricopa County",
+   "listingSays": "County career guidance and work experience.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_489427875dcc58279537c92b471016a9",
+    "scoutName": "Maricopa County Human Services Department \u00b7 Workforce 2 You accelerated job training"
+   }
+  },
+  {
+   "name": "Arizona DES TANF Jobs Program",
+   "website": "https://des.az.gov/services/employment/job-seekers/tanf-jobs-program",
+   "address": "Statewide",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "fail: direct contact",
+   "ruleNote": "already-enrolled (TANF recipients only)",
+   "listingSays": "Mandatory work and training programme for people on TANF cash aid.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_319514ac1716587ab28475e5c6ede705",
+    "scoutName": "Arizona Department of Economic Security - TANF Jobs Program"
+   }
+  },
+  {
+   "name": "Arizona DES Unemployment Insurance",
+   "website": "https://des.az.gov/services/employment/unemployment-individual",
+   "address": "Statewide, online and phone 877-600-2722",
+   "sources": [
+    "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa"
+   ],
+   "rule": "unclear",
+   "ruleNote": "direct and statewide; main service arguably financial help rather than employment",
+   "listingSays": "Apply for unemployment benefits.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_3803aa4fc1df5b78bd4a72a61e6d4b60",
+    "scoutName": "Arizona Department of Economic Security - Unemployment Insurance Benefits"
+   }
+  },
+  {
+   "name": "Arizona Job Connection",
+   "website": "https://www.azjobconnection.gov/",
+   "address": "Online, statewide",
+   "sources": [
+    "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa",
+    "https://www.mesachamber.org/workforce-development-and-jobs/"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "State's free online job bank.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_fdda77dc040358e98f8ea43171f0ff63",
+    "scoutName": "Arizona Job Connection \u2014 Jobs and Approved Training Search"
+   }
+  },
+  {
+   "name": "Job Connect Mesa",
+   "website": "https://jobconnectmesa.pipelineaz.com/",
+   "address": "Online",
+   "sources": [
+    "https://www.mesachamber.org/workforce-development-and-jobs/",
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa job search and career exploration website.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_697c0dc696fd5d379c2ba34afa4cf4ee",
+    "scoutName": "Job Connect Mesa \u2014 Career Exploration and Job Search"
+   }
+  },
+  {
+   "name": "Mesa Chamber Job Postings",
+   "website": "https://business.mesachamber.org/jobs/",
+   "address": "Online",
+   "sources": [
+    "https://www.mesachamber.org/workforce-development-and-jobs/"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Job postings from Mesa Chamber members.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched City of Phoenix apprenticeship programmes - wrong agency, corrected to none"
+   }
+  },
+  {
+   "name": "Pipeline Connects",
+   "website": "https://pipelineconnects.org/",
+   "address": "Online, statewide",
+   "sources": [
+    "https://www.mesachamber.org/workforce-development-and-jobs/"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "parent platform of Job Connect Mesa",
+   "listingSays": "Statewide workforce and education platform.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Copa Health Employment Related Services - Mesa",
+   "website": "",
+   "address": "924 N Country Club Dr Bldg 3, Mesa, AZ 85201",
+   "sources": [
+    "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "likely for behavioral-health or disability clients enrolled with Copa",
+   "listingSays": "Employment services at Copa Health's Mesa site.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_3ac01a2f69cc55a99ff2331e746096a7",
+    "scoutName": "Copa Health \u2014 Disability living, in-home, day and employment supports"
+   }
+  },
+  {
+   "name": "The Opportunity Tree Employment Services",
+   "website": "",
+   "address": "3146 E Windsor Ave, Phoenix, AZ 85008",
+   "sources": [
+    "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "disability supported employment, often via DDD referral",
+   "listingSays": "Supported employment for people with disabilities.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_ce73ff65a9d25e44b499e829aed0f2ea",
+    "scoutName": "The Opportunity Tree - SEEDS Supported Employment, Tree Fort Youth Program, LEAF Adult Day Program, Community Living and Fireslammers Special Olympics"
+   }
+  },
+  {
+   "name": "Arizona DES Pre-Employment Transition Services",
+   "website": "",
+   "address": "Statewide",
+   "sources": [
+    "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "students with disabilities, through school or VR",
+   "listingSays": "Job preparation for students with disabilities.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_2e3fe71d0b5e526aa691ab31af6a866c",
+    "scoutName": "DES Rehabilitation Services Administration - Pre-Employment Transition Services"
+   }
+  },
+  {
+   "name": "Ability360 Ticket to Work Program",
+   "website": "",
+   "address": "5025 E Washington St Ste 200, Phoenix, AZ 85034",
+   "sources": [
+    "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "phone-reachable; for SSI/SSDI recipients",
+   "listingSays": "Job help for people on disability benefits.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_bdcd4da38a6e5842aa93a58d0676ccdf",
+    "scoutName": "Ability360 - Ticket to Work Program and Employment Services"
+   }
+  },
+  {
+   "name": "AARP Senior Community Service Employment Program",
+   "website": "",
+   "address": "4520 N Central Ave Ste 575, Phoenix, AZ 85012",
+   "sources": [
+    "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "age 55+, low income",
+   "listingSays": "Paid job training for people 55 and older.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_59ec2979c0b45e00a866f536617fc43e",
+    "scoutName": "AARP Foundation - Senior Community Service Employment Program, Arizona"
+   }
+  },
+  {
+   "name": "St Mary's Skills Center",
+   "website": "",
+   "address": "2831 N 31st Ave, Phoenix, AZ 85009",
+   "sources": [
+    "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "west Phoenix, in-person; reach from Mesa doubtful",
+   "listingSays": "Nine-week food service job training.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_034c54d443fb51649f65877a96fa6f8b",
+    "scoutName": "St. Mary's Food Bank Skills Center - Community Kitchen"
+   }
+  },
+  {
+   "name": "AZ Common Ground",
+   "website": "",
+   "address": "1522 E Southern Ave, Phoenix, AZ 85042",
+   "sources": [
+    "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "reentry services in south Phoenix; main service may be reentry",
+   "listingSays": "Reentry workshops and job help after prison.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_67ec3f61efa85ec195ef663295ef789b",
+    "scoutName": "Arizona Common Ground - Prison Reentry Workshop and Post-Release Services"
+   }
+  },
+  {
+   "name": "Saavi Services for the Blind Employment Services",
+   "website": "",
+   "address": "2920 N 7th St, Phoenix, AZ 85014",
+   "sources": [
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "regional specialist for visually impaired",
+   "listingSays": "Job readiness for people with visual impairments.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_ca3e043aaeb35a5f8b28ef3758623a09",
+    "scoutName": "SAAVI Services for the Blind \u2014 adult training, education and employment"
+   }
+  },
+  {
+   "name": "Arizona DES SNAP Career Advancement Network",
+   "website": "",
+   "address": "Statewide",
+   "sources": [
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: direct contact",
+   "ruleNote": "SNAP recipients only",
+   "listingSays": "Job help for people on SNAP.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_023a1727adf35334a8332129285e4ab7",
+    "scoutName": "Arizona Department of Economic Security - Supplemental Nutrition Assistance Program Career Advancement Network (SNAP CAN)"
+   }
+  },
+  {
+   "name": "Goodwill Veteran and Military Family Career Center",
+   "website": "",
+   "address": "4005 N 16th St Ste B, Phoenix, AZ 85016",
+   "sources": [
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "a Goodwill career centre; could be separate only as veterans' intake",
+   "listingSays": "Career coaching and job leads for veterans and military families.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Rally Point Arizona at 0.6 - wrong agency, corrected to none"
+   }
+  },
+  {
+   "name": "Arizona Opportunities Industrialization Center",
+   "website": "",
+   "address": "701 S Central Ave, Phoenix, AZ 85004",
+   "sources": [
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "downtown Phoenix in-person",
+   "listingSays": "Pre-employment job-search and job-keeping course.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Fresh Start Career & Education Support",
+   "website": "",
+   "address": "1130 E McDowell Rd, Phoenix, AZ 85006",
+   "sources": [
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "women only; central Phoenix",
+   "listingSays": "Career assessments, resume and interview help (Fresh Start Women's Foundation).",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_832efd443dcc5cf9a0bbe08859d94383",
+    "scoutName": "Fresh Start Women's Foundation - Woman Veterans Support",
+    "note": "same agency (Fresh Start Women's Foundation), different programme entry"
+   }
+  },
+  {
+   "name": "US Vets Career Center",
+   "website": "",
+   "address": "3400 NW Grand Ave, Phoenix, AZ 85017",
+   "sources": [
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "veterans; main service may be veterans",
+   "listingSays": "Job help for veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_0d2350ef5fae58c695c2c9924e1c4f32",
+    "scoutName": "U.S.VETS Phoenix - Phoenix Career Center and Workforce Development"
+   }
+  },
+  {
+   "name": "Arizona Apprenticeship Program",
+   "website": "",
+   "address": "Statewide",
+   "sources": [
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "State registry of paid apprenticeships.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched DP Electric's apprenticeship at 1.0 - a private employer, not the state programme; corrected to none"
+   }
+  },
+  {
+   "name": "Arizona@Work Tempe Youth Hub",
+   "website": "",
+   "address": "2150 E Orange St, Tempe, AZ 85281",
+   "sources": [
+    "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "Mesa Youth Hub serves the same youth",
+   "listingSays": "Job training for young people in Tempe.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Arizona Advanced Manufacturing Institute (AzAMI)",
+   "website": "",
+   "address": "Mesa Community College, Mesa, AZ",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "main service may be education (tuition-based training)",
+   "listingSays": "Short manufacturing training (CNC, 3D printing) at MCC.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a526f0eb713d5180be307f01f731e691",
+    "scoutName": "Mesa Community College \u00b7 Arizona Advanced Manufacturing Institute (AzAMI)"
+   }
+  },
+  {
+   "name": "Equal Employment Opportunity Commission - Phoenix",
+   "website": "",
+   "address": "3300 N Central Ave Ste 690, Phoenix, AZ 85012",
+   "sources": [
+    "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "job discrimination complaints, closer to Legal",
+   "listingSays": "Files workplace discrimination complaints.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  }
+ ],
+ "thin": "No official Mesa list of local employment nonprofits beyond the city's own centre; Mesa Public Library's jobseeker page was blocked (403) and ARIZONA@WORK's resource page too, so 211 carried most names and those skew to Phoenix."
+}

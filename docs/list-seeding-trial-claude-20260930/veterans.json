@@ -1,0 +1,661 @@
+{
+ "category": "veterans",
+ "lists": [
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources",
+   "title": "City of Mesa - Mesa Vets Connect",
+   "kind": "official",
+   "note": "current; long list, many non-veteran agencies and national links"
+  },
+  {
+   "url": "https://www.maricopa.gov/1400/Additional-Support",
+   "title": "Maricopa County - Veterans Resources: Additional Support",
+   "kind": "official",
+   "note": "current; statewide and national links"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=veterans&location=Mesa%2C+AZ",
+   "title": "2-1-1 Arizona - veterans search near Mesa",
+   "kind": "211",
+   "note": "current; first 25 of 106, mostly VA clinics and national bodies"
+  },
+  {
+   "url": "https://www.compudopt.org/mesa-resources",
+   "title": "Compudopt - Mesa Community Resources",
+   "kind": "network",
+   "note": "partial; Azura only"
+  },
+  {
+   "url": "https://www.nesthealth.com/maricopa-veteran-support",
+   "title": "Nest Health - Veterans Services & Support",
+   "kind": "aggregator",
+   "note": "current-looking; Phoenix-centred"
+  }
+ ],
+ "seeds": [
+  {
+   "name": "Mesa Vet Center (VA)",
+   "website": "va.gov/mesa-vet-center",
+   "address": "1303 S Longmore Ste 5, Mesa, AZ 85202",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free readjustment counselling for combat veterans, no insurance needed.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_d1e4d84cb00f5fbc81c86c0e482fbc13",
+    "scoutName": "Mesa Vet Center - Readjustment Counseling and Referral Services"
+   }
+  },
+  {
+   "name": "Azura Vets Coalition / Mesa Veteran Resource Center",
+   "website": "mesavrc.org",
+   "address": "165 N Centennial Way #101, Mesa, AZ 85201",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources",
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Walk-in help with benefits claims, jobs, housing, rent and utility help for veterans.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "(Scout has Azura only as a VITA tax site; tool matched the Phoenix CRRC under the other name, which is wrong)"
+   }
+  },
+  {
+   "name": "Azura Solutions veteran tax and benefit guidance",
+   "website": "azuracares.org",
+   "address": "137 E University Dr, Mesa, AZ 85201",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Tax preparation.",
+   "listingSays": "Tax preparation and financial/benefit guidance for veterans.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_d38309688e6653bc8e875f0e8bf7b04b",
+    "scoutName": "Azura / Mesa United Way - Volunteer Income Tax Assistance (VITA)"
+   }
+  },
+  {
+   "name": "Disabled American Veterans East Valley Chapter 8",
+   "website": "azdav08.org",
+   "address": "655 N Gilbert Rd, Mesa, AZ 85203",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Listing says volunteer and job opportunities; claims help not shown.",
+   "listingSays": "Resources and volunteer opportunities for disabled veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_87f44e61a05052a29ca45eacd980116f",
+    "scoutName": "Disabled American Veterans East Valley Chapter 8 - Claims Assistance and Medical Appointment Rides"
+   }
+  },
+  {
+   "name": "Disabled American Veterans Service Office - Phoenix",
+   "website": "dav.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=veterans&location=Mesa%2C+AZ",
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources",
+    "https://www.maricopa.gov/1400/Additional-Support"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free claims help for veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_ee51497c3b685aeab7adbb4b6fbb864c",
+    "scoutName": "Disabled American Veterans - National Service Office at Phoenix VA Regional Office"
+   }
+  },
+  {
+   "name": "American Legion Post 26 (Mesa)",
+   "website": "",
+   "address": "505 W 2nd Ave, Mesa, AZ 85210",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Membership organisation; services not stated.",
+   "listingSays": "Veterans service organisation.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "(corrected: tool matched the Department of Arizona service officer at 0.67)"
+   }
+  },
+  {
+   "name": "American Legion James Witkowski Post 138",
+   "website": "",
+   "address": "1264 W University Dr, Mesa, AZ 85201",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Membership organisation.",
+   "listingSays": "Veterans service organisation.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "American Legion Department of Arizona (service officers)",
+   "website": "",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=veterans&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Accredited service officers for veterans' claims.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_ad7becad82f4522faa0ffd2b2dd826ec",
+    "scoutName": "The American Legion Department of Arizona Accredited Service Officer"
+   }
+  },
+  {
+   "name": "VFW Dode Morris Post 1760",
+   "website": "mesavfw.org",
+   "address": "65 S MacDonald, Mesa, AZ 85210",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Membership organisation.",
+   "listingSays": "Veterans service organisation.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_1cebcb19594e5f449e1be51c5d770246",
+    "scoutName": "VFW Dode Morris Post 1760 - Medical Equipment Loan Program"
+   }
+  },
+  {
+   "name": "Mesa Community College Office of Veteran Services",
+   "website": "mesacc.edu/veteran-services",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "For MCC students; education.",
+   "listingSays": "One-stop help for veteran students and military families.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_6b0c5572d59159f09ab3d9e1659ff9bf",
+    "scoutName": "Mesa Community College - Office of Veteran Services / Veteran Resource Center"
+   }
+  },
+  {
+   "name": "Resurrection Street Ministry Veteran Ride Service",
+   "website": "rsmaz.org/veterans-programs",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Main service is transportation (for veterans); better filed under Transportation.",
+   "listingSays": "Free rides for homeless, low-income and disabled veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_35b909ca0abc539387413af25ba06a97",
+    "scoutName": "Resurrection Street Ministry - Veterans Transportation"
+   }
+  },
+  {
+   "name": "Be Connected (Arizona Coalition for Military Families)",
+   "website": "beconnectedaz.org",
+   "address": "2929 N Central Ave, Phoenix, AZ (phone)",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources",
+    "https://www.maricopa.gov/1400/Additional-Support"
+   ],
+   "rule": "pass",
+   "ruleNote": "Statewide support line; ACMF and Be Connected merged as one front door.",
+   "listingSays": "Support line that navigates service members, veterans and families to resources.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_8ec8dc410d4658c1b50d7d5804c55568",
+    "scoutName": "Be Connected — Arizona military and veteran support (filed in mental-health; tool score 0.68, checked, correct)"
+   }
+  },
+  {
+   "name": "Veterans Crisis Line",
+   "website": "veteranscrisisline.net",
+   "address": "National (phone/text)",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "24/7 crisis support for veterans and families.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_2a9ce280df4a55dca4ae8d962e70be35",
+    "scoutName": "Veterans Crisis Line"
+   }
+  },
+  {
+   "name": "VA National Call Center for Homeless Veterans",
+   "website": "va.gov/homeless",
+   "address": "National (phone)",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "24/7 line for veterans homeless or at risk.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_e181f3c4d13156e19f8ee53bf4225020",
+    "scoutName": "VA National Call Center for Homeless Veterans"
+   }
+  },
+  {
+   "name": "Arizona Department of Veterans' Services",
+   "website": "dvs.az.gov",
+   "address": "Phoenix, AZ (19 offices)",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources",
+    "https://www.maricopa.gov/1400/Additional-Support",
+    "https://search.211arizona.org/search?query=veterans&location=Mesa%2C+AZ",
+    "https://www.nesthealth.com/maricopa-veteran-support"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Benefits counselling, education and advocacy for veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_981fbc49589850d3b4e56cc1bb7347d6",
+    "scoutName": "Arizona Department of Veterans' Services - Veteran Benefits Counselors"
+   }
+  },
+  {
+   "name": "Phoenix VA Health Care System",
+   "website": "va.gov/phoenix-health-care",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources",
+    "https://search.211arizona.org/search?query=veterans&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Health care for eligible veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_1b416d1e12195620b0febce7a38ca564",
+    "scoutName": "Phoenix VA Health Care System - Community Resource and Referral Center (CRRC) / Homeless Veteran Care (only the CRRC entry matched; a general VA health-care entry was not found)"
+   }
+  },
+  {
+   "name": "Southeast VA Health Care Clinic (Gilbert)",
+   "website": "va.gov/phoenix-health-care",
+   "address": "Gilbert, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=veterans&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Nearest VA clinic to Mesa.",
+   "listingSays": "VA outpatient clinic.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_7f1242bc27ff57ed9daefa672bd6d5e0",
+    "scoutName": "Staff Sergeant Alexander W. Conrad VA Health Care Clinic"
+   }
+  },
+  {
+   "name": "Phoenix VA Community Resource and Referral Center",
+   "website": "va.gov",
+   "address": "1500 E Thomas Rd Ste 106, Phoenix, AZ 85014",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources",
+    "https://search.211arizona.org/search?query=veterans&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "County front door for homeless veterans.",
+   "listingSays": "One-stop centre for homeless veterans: housing, HUD-VASH, benefits, meals and hygiene.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_1b416d1e12195620b0febce7a38ca564",
+    "scoutName": "Phoenix VA Health Care System - Community Resource and Referral Center (CRRC) / Homeless Veteran Care"
+   }
+  },
+  {
+   "name": "Phoenix VA Regional Benefit Office",
+   "website": "benefits.va.gov/phoenix",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources",
+    "https://www.maricopa.gov/1400/Additional-Support"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Compensation, pension, home loans, education, vocational rehabilitation.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_6fd073d64c355aeda901efb31066064f",
+    "scoutName": "Phoenix VA Regional Benefit Office (tool score 0.72; checked, correct)"
+   }
+  },
+  {
+   "name": "U.S.VETS Phoenix",
+   "website": "usvets.org/locations/phoenix",
+   "address": "3400 NW Grand Ave, Phoenix, AZ",
+   "sources": [
+    "https://www.nesthealth.com/maricopa-veteran-support",
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Veteran-specific housing and services, reachable countywide.",
+   "listingSays": "Housing, counselling and employment for veterans leaving homelessness.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_7fc0bc2613a655c287aa8a6ef3616ee1",
+    "scoutName": "U.S.VETS Phoenix - Housing, SSVF, Mental Health and Workforce Development"
+   }
+  },
+  {
+   "name": "Veterans First Ltd",
+   "website": "",
+   "address": "8433 N Black Canyon Hwy, Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Delivers essentials and homelessness-prevention help to vulnerable veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a7565403eda55e7aa344629bd9cc820f",
+    "scoutName": "Veterans First LTD - Women Veterans and Veteran Family Assistance (tool score 0.67; checked, correct)"
+   }
+  },
+  {
+   "name": "Catholic Charities MANA House",
+   "website": "manahouseaz.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://www.maricopa.gov/1400/Additional-Support",
+    "https://www.nesthealth.com/maricopa-veteran-support"
+   ],
+   "rule": "pass",
+   "ruleNote": "Catholic Charities' veteran services merged here.",
+   "listingSays": "Transitional housing and peer support for homeless veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_823a1c6a447657e89988c9f8b34a01de",
+    "scoutName": "Catholic Charities MANA House - Transitional Housing for Homeless Veterans"
+   }
+  },
+  {
+   "name": "Save the Family veteran family support",
+   "website": "savethefamily.org",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Veteran programme inside a family housing agency.",
+   "listingSays": "Support services for low-income veteran families.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_824f0c9010ce5a8e83ab891b56b2418f",
+    "scoutName": "Save the Family · Veteran Family Support and Housing Navigation"
+   }
+  },
+  {
+   "name": "Mesa Veterans Treatment Court",
+   "website": "mesaaz.gov",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "fail: direct contact",
+   "ruleNote": "Court-referred.",
+   "listingSays": "Problem-solving court favouring treatment over punishment.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_9ff99f74013951979e79857d2193021a",
+    "scoutName": "City of Mesa Municipal Court - Veterans Treatment Court"
+   }
+  },
+  {
+   "name": "Mesa Arts Center - Arts in Service",
+   "website": "mesaartscenter.com/artsinservice",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Recreation rather than a need.",
+   "listingSays": "Free studio art classes for veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_bf247ca5d6df5d24bf098dd10ee1bfc6",
+    "scoutName": "Mesa Arts Center - Arts in Service"
+   }
+  },
+  {
+   "name": "Arizona DES / ARIZONA@WORK veterans employment (East Valley)",
+   "website": "des.az.gov/services/employment/veterans",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Employment.",
+   "listingSays": "Job services with priority for veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5228cd0c74355d97ab79e60d2d7e491d",
+    "scoutName": "ARIZONA@WORK Maricopa County - East Valley Career Center / DES Veterans Services"
+   }
+  },
+  {
+   "name": "ASU Veterans Upward Bound",
+   "website": "",
+   "address": "Tempe, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Education.",
+   "listingSays": "College preparation for first-generation, low-income or disabled veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_4e9d76fbbee7501eb0b9756cc1d9a1dc",
+    "scoutName": "Arizona State University - Veterans Upward Bound"
+   }
+  },
+  {
+   "name": "Military OneSource",
+   "website": "militaryonesource.mil",
+   "address": "National (phone/online)",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources",
+    "https://www.maricopa.gov/1400/Additional-Support"
+   ],
+   "rule": "pass",
+   "ruleNote": "Serves service members and recently separated veterans.",
+   "listingSays": "24/7 support for service members and families.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Hire Heroes USA",
+   "website": "hireheroesusa.org",
+   "address": "Online",
+   "sources": [
+    "https://www.maricopa.gov/1400/Additional-Support",
+    "https://search.211arizona.org/search?query=veterans&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Employment.",
+   "listingSays": "Job-search help for veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_587c3832e3dd5ae29d179e9db4830b93",
+    "scoutName": "Hire Heroes USA — Career support"
+   }
+  },
+  {
+   "name": "Helping Hands for Freedom",
+   "website": "helpinghandsforfreedom.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources",
+    "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Financial help for military families with deployed, injured or fallen members.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_c05533162273503c8c88b7cef515758c",
+    "scoutName": "Helping Hands for Freedom - Financial Assistance for Veteran and Gold Star Families"
+   }
+  },
+  {
+   "name": "Veteran Alliance USA",
+   "website": "",
+   "address": "Chandler, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=veterans&location=Mesa%2C+AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Services not shown in listing.",
+   "listingSays": "Veterans organisation in Chandler.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "(corrected: tool matched Arizona Veterans StandDown Alliance at 0.6)"
+   }
+  },
+  {
+   "name": "Paralyzed Veterans of America - Arizona Chapter",
+   "website": "",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=veterans&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Benefits help, medical equipment and advocacy for paralysed veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_4282c9db629b581a8f6c6028dcc4a708",
+    "scoutName": "Paralyzed Veterans of America Arizona Chapter - Veteran Benefits Assistance, Medical Equipment, and Accessibility Advocacy"
+   }
+  },
+  {
+   "name": "VA Health Care for Re-Entry Veterans",
+   "website": "",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=veterans&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: direct contact",
+   "ruleNote": "For incarcerated veterans before release.",
+   "listingSays": "Re-entry planning for veterans leaving prison.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "(corrected: tool matched the Phoenix CRRC at 0.68)"
+   }
+  },
+  {
+   "name": "Law for Veterans",
+   "website": "lawforveterans.org",
+   "address": "Online",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Legal information.",
+   "listingSays": "Legal and benefits information clearinghouse.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "(corrected: tool matched UA Veterans' Advocacy Law Clinic at 1.0, a different organisation)"
+   }
+  },
+  {
+   "name": "Veterans Medical Leadership Council",
+   "website": "arizonavmlc.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Medical, mental health, housing, transportation and job help for veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_1cf7ea9b6900548eb220a72db6a8caa4",
+    "scoutName": "Veterans Medical Leadership Council - Returning Warrior Veteran Crisis Assistance"
+   }
+  },
+  {
+   "name": "HELP NOW AZ - Veterans",
+   "website": "helpnowaz.org/veterans",
+   "address": "Online",
+   "sources": [
+    "https://www.nesthealth.com/maricopa-veteran-support"
+   ],
+   "rule": "unclear",
+   "ruleNote": "A resource portal.",
+   "listingSays": "Homeless veteran housing and mental health links.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "(corrected: tool matched ADVS at 0.6)"
+   }
+  },
+  {
+   "name": "Maricopa County Attorney's Office - Veterans StandDown",
+   "website": "maricopacountyattorney.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://www.nesthealth.com/maricopa-veteran-support"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Legal help at an annual event.",
+   "listingSays": "Legal aid for homeless veterans at StandDown.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "(corrected: tool matched the Public Defender's StandDown outreach at 0.68, a different office)"
+   }
+  },
+  {
+   "name": "A New Leaf, COPA Health, Paz de Cristo, Native American Fatherhood and Families Association, Laundry Love, Streets of Joy",
+   "website": "",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "General agencies on the veterans page; not veteran services.",
+   "listingSays": "Housing, behavioural health, meals, fatherhood, laundry and recovery services.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "",
+    "scoutName": "(not matched individually)"
+   }
+  }
+ ],
+ "thin": "Lists are plentiful but diluted: the City of Mesa page mixes veteran services with general agencies and national links, and 211 returns mostly VA clinics and national bodies. The main local gap is that no list gives a Mesa walk-in benefits office other than Azura/Mesa VRC and the Vet Center; the ADVS office finder and the Maricopa Community Colleges page returned 403."
+}

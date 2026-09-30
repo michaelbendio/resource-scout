@@ -1,0 +1,490 @@
+{
+ "category": "education",
+ "lists": [
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs",
+   "title": "City of Mesa - Community Resources and Support Programs",
+   "kind": "official",
+   "note": "current; short, links to city programmes"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=GED&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - GED near Mesa",
+   "kind": "211",
+   "note": "current; readable; mostly Phoenix"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=HH-0500.8000-150&query_label=ESL+Classes&query_type=taxonomy&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - ESL classes near Mesa",
+   "kind": "211",
+   "note": "current; readable"
+  },
+  {
+   "url": "https://winter.mcldaz.org/en-US/Info/adult-literacy-resources",
+   "title": "Maricopa County Library District - Adult Literacy Resources",
+   "kind": "official",
+   "note": "current (2025-26 reading programme); countywide, few Mesa entries"
+  },
+  {
+   "url": "https://www.compudopt.org/mesa-resources",
+   "title": "Compudopt - Mesa Community Resources (Education section)",
+   "kind": "network",
+   "note": "undated; mostly children's enrichment, Phoenix addresses"
+  },
+  {
+   "url": "https://www.mesalibrary.org/research/adult-education-resources/adult-basic-education-and-literacy",
+   "title": "Mesa Public Library - Adult Basic Education and Literacy (seen only through search snippets; page returned 403)",
+   "kind": "official",
+   "note": "partial - names taken from search-result text, not read directly"
+  }
+ ],
+ "seeds": [
+  {
+   "name": "Mesa Public Schools Adult Education (Mesa Community Education Programs)",
+   "website": "https://communityed.mpsaz.org/page/adulted",
+   "address": "855 W 8th Ave, Mesa, AZ 85210 (also listed at 155 N Center and 1731 N Country Club Dr)",
+   "sources": [
+    "https://search.211arizona.org/search?query=GED&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=HH-0500.8000-150&query_label=ESL+Classes&query_type=taxonomy&location=Mesa%2C%20AZ",
+    "https://www.mesalibrary.org/research/adult-education-resources/adult-basic-education-and-literacy"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free GED prep and English classes for adults 16+, online or in person.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_ee6f14e19f2c56669582a837a9b19a7b",
+    "scoutName": "Mesa Public Schools Community Education \u00b7 Mesa Adult Education and Family Literacy"
+   }
+  },
+  {
+   "name": "Frank X. Gordon (FXG) Education Center - Mesa",
+   "website": "",
+   "address": "222 E Javelina Ave, Mesa, AZ 85210 (probation office also listed at 245 N Centennial Way)",
+   "sources": [
+    "https://search.211arizona.org/search?query=GED&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=HH-0500.8000-150&query_label=ESL+Classes&query_type=taxonomy&location=Mesa%2C%20AZ",
+    "https://winter.mcldaz.org/en-US/Info/adult-literacy-resources",
+    "https://www.mesalibrary.org/research/adult-education-resources/adult-basic-education-and-literacy"
+   ],
+   "rule": "pass",
+   "ruleNote": "run by Adult Probation but open to the public per listing",
+   "listingSays": "Free GED prep, basic education and English classes year-round.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5fd50606b0d553d3bac4dc00d650507f",
+    "scoutName": "Frank X. Gordon Education Center \u00b7 Adult Basic Education, GED/HSE, ESOL, and Workforce Preparation"
+   }
+  },
+  {
+   "name": "Mesa Adult Literacy Council (Laubach Literacy Council of Mesa)",
+   "website": "",
+   "address": "161 N Mesa Dr, Mesa, AZ 85201",
+   "sources": [
+    "https://www.mesalibrary.org/research/adult-education-resources/adult-basic-education-and-literacy"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free volunteer tutoring in reading, English, math and citizenship.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Rio Salado College Adult Education",
+   "website": "https://www.riosalado.edu/start-rio/adult-education",
+   "address": "Multiple Maricopa County sites (Southern Ave site in Tempe)",
+   "sources": [
+    "https://winter.mcldaz.org/en-US/Info/adult-literacy-resources",
+    "https://www.mesalibrary.org/research/adult-education-resources/adult-basic-education-and-literacy"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free adult basic education, GED prep and English classes.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_9b8d2491e82e5cce909a447627b65806",
+    "scoutName": "Rio Salado College \u00b7 Adult Education: GED/HSE, ESL, Career Training, and Virtual Learning"
+   }
+  },
+  {
+   "name": "Gilbert Adult Learning Program",
+   "website": "https://www.gilbertschools.net/adulted",
+   "address": "55 N Greenfield Rd, Gilbert, AZ 85234",
+   "sources": [
+    "https://winter.mcldaz.org/en-US/Info/adult-literacy-resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Gilbert, next to Mesa; may be open to all",
+   "listingSays": "Adult education and GED classes in Gilbert.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_b86ccb4c966b55cf99ceccadc29fbc81",
+    "scoutName": "Gilbert Public Schools \u00b7 Gilbert Adult Learning Program"
+   }
+  },
+  {
+   "name": "Smart Schools",
+   "website": "https://smartschoolsusa.org/mcld/",
+   "address": "Valley-wide / online",
+   "sources": [
+    "https://winter.mcldaz.org/en-US/Info/adult-literacy-resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "may be a paid or library-sponsored online course",
+   "listingSays": "Adult education programme offered through the county library.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_1bdfac339f095d3290bc346714c8e0b2",
+    "scoutName": "Smart Schools \u00b7 Arizona Adult Workforce Diploma Program and HUB Student Resource Centers"
+   }
+  },
+  {
+   "name": "Excel Adult High School",
+   "website": "https://excelhighschool.org/library/az",
+   "address": "Online",
+   "sources": [
+    "https://winter.mcldaz.org/en-US/Info/adult-literacy-resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "online, via library",
+   "listingSays": "Online accredited high school diploma for adults through the library.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched The Excel Center Arizona (Goodwill's in-person charter school) - a different programme from Excel High School's online diploma; corrected to none"
+   }
+  },
+  {
+   "name": "Lutheran Social Services of the Southwest - GED programme",
+   "website": "https://www.lss-sw.org",
+   "address": "142 N Date St, Mesa, AZ 85201",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "agency's main service is broader social services",
+   "listingSays": "GED study and testing help in English and Spanish.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_8fe4a7b748a0543895d656c9435b29ce",
+    "scoutName": "Lutheran Social Services of the Southwest \u00b7 Refugee Women's Empowerment Program",
+    "note": "same agency, different programme (refugee women's empowerment)"
+   }
+  },
+  {
+   "name": "Grad Solutions",
+   "website": "https://iwantmydiploma.com",
+   "address": "1555 N Fiesta Blvd, Gilbert, AZ 85233",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Diploma-completion school with mentors for students who left high school.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_23a421d17b8958668c9bd8c10d0a221f",
+    "scoutName": "Grad Solutions \u00b7 Free Arizona Dropout Recovery High School Completion Program"
+   }
+  },
+  {
+   "name": "Spark Community Schools",
+   "website": "https://sparkcommunityschools.org",
+   "address": "2355 E Camelback Rd Ste 320, Phoenix, AZ 85016",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "school operator; Mesa reach not shown",
+   "listingSays": "No-cost schooling to state standards.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Big Brothers Big Sisters of Central Arizona",
+   "website": "https://bbbsaz.org",
+   "address": "1615 E Osborn Rd, Phoenix, AZ 85016",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "mentoring, not education",
+   "listingSays": "Matches adult volunteers with children 6-18.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_7bd451a4585e5eeb86f9251de94a70cd",
+    "scoutName": "Big Brothers Big Sisters of Central Arizona \u2014 youth mentoring"
+   }
+  },
+  {
+   "name": "Candelen",
+   "website": "https://candelen.org",
+   "address": "777 E Thomas Rd Ste 200, Phoenix, AZ 85014",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "early-childhood education programmes; direct access not shown",
+   "listingSays": "Educational programmes for young children.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_e9af836e925d5badbc00e590c0b85e25",
+    "scoutName": "Candelen - Arizona Kith & Kin Project"
+   }
+  },
+  {
+   "name": "Future for Kids",
+   "website": "https://futureforkids.org/our-programs/",
+   "address": "1425 W Southern Ave Ste 10A, Tempe, AZ 85282",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "mostly school-based mentoring",
+   "listingSays": "Academic, sports and character programmes for ages 8-14.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Act One",
+   "website": "https://act1az.org",
+   "address": "910 E Osborn Rd Ste B1, Phoenix, AZ 85014",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "fail: direct contact",
+   "ruleNote": "arts field trips arranged through schools",
+   "listingSays": "Arts experiences for children.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Bricks 4 Kidz East Valley",
+   "website": "https://www.bricks4kidz.com/arizona-phoenix-eastvalley/",
+   "address": "East Valley",
+   "sources": [
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "commercial paid enrichment classes",
+   "listingSays": "Paid LEGO classes and camps.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Friendly House Adult Education",
+   "website": "",
+   "address": "723 S 1st Ave, Phoenix, AZ 85003",
+   "sources": [
+    "https://search.211arizona.org/search?query=HH-0500.8000-150&query_label=ESL+Classes&query_type=taxonomy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "central Phoenix in-person",
+   "listingSays": "Adult English classes.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_8ed72709487c5410aeb5b3458e905a6a",
+    "scoutName": "Friendly House \u00b7 Adult Education and Workforce Development"
+   }
+  },
+  {
+   "name": "Downtown Learning Center",
+   "website": "",
+   "address": "1150 E Jefferson St, Phoenix, AZ 85034",
+   "sources": [
+    "https://search.211arizona.org/search?query=GED&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=HH-0500.8000-150&query_label=ESL+Classes&query_type=taxonomy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "downtown Phoenix; Rio Salado site, so duplicates Rio Salado adult ed",
+   "listingSays": "GED and English classes.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Sunnyslope Learning Center",
+   "website": "",
+   "address": "729 E Hatcher Rd, Phoenix, AZ 85020",
+   "sources": [
+    "https://search.211arizona.org/search?query=GED&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=HH-0500.8000-150&query_label=ESL+Classes&query_type=taxonomy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: reach from the office",
+   "ruleNote": "north Phoenix in-person",
+   "listingSays": "GED and English classes.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Hope Women's Center - Apache Junction",
+   "website": "",
+   "address": "252 N Ironwood Dr, Apache Junction, AZ 85120",
+   "sources": [
+    "https://search.211arizona.org/search?query=HH-0500.8000-150&query_label=ESL+Classes&query_type=taxonomy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "women's centre, main service unclear",
+   "listingSays": "English classes among women's support services.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_8b26c6241cf85f73b7c3ea5c5f068e1b",
+    "scoutName": "Hope Women's Center \u00b7 Apache Junction Education and Literacy Classes"
+   }
+  },
+  {
+   "name": "LifeBridge Community Alliance",
+   "website": "",
+   "address": "14240 N 43rd Ave, Glendale, AZ 85306",
+   "sources": [
+    "https://search.211arizona.org/search?query=GED&location=Mesa%2C%20AZ",
+    "https://search.211arizona.org/search?query=HH-0500.8000-150&query_label=ESL+Classes&query_type=taxonomy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: reach from the office",
+   "ruleNote": "",
+   "listingSays": "GED classes and testing, job training (Glendale).",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "GateWay Community College",
+   "website": "",
+   "address": "108 N 40th St, Phoenix, AZ 85034",
+   "sources": [
+    "https://winter.mcldaz.org/en-US/Info/adult-literacy-resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Phoenix; college rather than adult literacy",
+   "listingSays": "Community college adult education.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_fceb4f49277958d1926d694949352aa8",
+    "scoutName": "GateWay Community College - Trade and Technical Training Clock Programs"
+   }
+  },
+  {
+   "name": "Arizona Department of Education Adult Education Services",
+   "website": "https://www.azed.gov/adultedservices",
+   "address": "1535 W Jefferson St, Phoenix, AZ 85007",
+   "sources": [
+    "https://search.211arizona.org/search?query=GED&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "statewide front door: class finder and GED records, phone 602-258-2410",
+   "listingSays": "State directory of adult education classes and GED transcripts.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_ca5f15df23ea507283f6605f02822218",
+    "scoutName": "Arizona Department of Education \u2014 Adult Education and HSE Pathways"
+   }
+  },
+  {
+   "name": "Mosaic Center",
+   "website": "",
+   "address": "Confidential, Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=HH-0500.8000-150&query_label=ESL+Classes&query_type=taxonomy&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "",
+   "listingSays": "English classes (details not shown).",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_1cc52bbde99957afaa47874d66cdc92a",
+    "scoutName": "Area Agency on Aging, Region One - MOSAIC Elder Refugee Program",
+    "note": "doubtful: matched Area Agency on Aging's MOSAIC Elder Refugee Program; may be the same programme, not confirmed"
+   }
+  },
+  {
+   "name": "Phoenix Public Library College Depot",
+   "website": "",
+   "address": "1221 N Central Ave, Phoenix, AZ 85004",
+   "sources": [
+    "https://search.211arizona.org/search?query=GED&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Phoenix library; help may be virtual",
+   "listingSays": "Help applying to college and for financial aid.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_7faa4c99dd815c178461a0d9d8e2a6b2",
+    "scoutName": "Phoenix Public Library \u00b7 College Depot"
+   }
+  },
+  {
+   "name": "Children of the Night Online Tutoring Program",
+   "website": "",
+   "address": "Los Angeles, CA (online)",
+   "sources": [
+    "https://search.211arizona.org/search?query=GED&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: direct contact",
+   "ruleNote": "for sexually exploited youth in its programme",
+   "listingSays": "Online tutoring for exploited youth.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Mesa College Promise",
+   "website": "https://www.mesaaz.gov/Workforce-Education-Development/Mesa-College-Promise",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "pass",
+   "ruleNote": "Mesa residents",
+   "listingSays": "City programme covering community college tuition for Mesa graduates and residents.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Maricopa Community Colleges Foundation Dreamer Promise - a different programme; corrected to none"
+   }
+  },
+  {
+   "name": "City of Mesa GED Classes",
+   "website": "https://www.mesaaz.gov/Workforce-Education-Development/GED-Classes",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "unclear",
+   "ruleNote": "city page likely points to Mesa Public Schools Adult Education; may be the same front door",
+   "listingSays": "Free GED classes page run by the city.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Grace Adult Learning Center - a different provider; corrected to none"
+   }
+  }
+ ],
+ "thin": "Mesa Public Library's adult education pages and the Arizona Department of Education provider list both returned 403, so no official Mesa list was read directly; children's education (tutoring, after-school) had no usable local list at all - the one list found was enrichment programmes in Phoenix."
+}

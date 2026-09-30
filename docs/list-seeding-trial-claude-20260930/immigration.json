@@ -1,0 +1,508 @@
+{
+ "category": "immigration",
+ "lists": [
+  {
+   "url": "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ",
+   "title": "Immigration Advocates Network - National Immigration Legal Services Directory, Arizona",
+   "kind": "network",
+   "note": "current; nonprofit and DOJ-recognized providers statewide, 20 entries, only one in Mesa"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ",
+   "title": "211 Arizona search: immigration near Mesa",
+   "kind": "211",
+   "note": "current; readable; padded with federal agencies and national websites"
+  },
+  {
+   "url": "https://www.phoenix.gov/humanservicessite/Pages/ResettlementInformation.aspx",
+   "title": "City of Phoenix Human Services - Information about Immigrants & Refugees",
+   "kind": "official",
+   "note": "current; names the four resettlement agencies, no contact details; Phoenix city page, not Mesa"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ",
+   "title": "211 Arizona search: legal aid near Mesa (immigration entries)",
+   "kind": "211",
+   "note": "current; partial for immigration"
+  },
+  {
+   "url": "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+   "title": "Maricopa County Justice Courts - Find Legal/Community Resources (immigration entries)",
+   "kind": "official",
+   "note": "current; partial, one immigration provider"
+  }
+ ],
+ "seeds": [
+  {
+   "name": "Immigrant Hope - Mesa",
+   "website": "https://www.immigranthopemesa.org",
+   "address": "1818 E Southern Ave Ste 4A, Mesa, AZ 85204",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "In Mesa; DOJ-recognized low-cost clinic",
+   "listingSays": "Low-cost immigration legal help: DACA, family petitions, citizenship, TPS, U/T visas, VAWA.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_1f06e6e74a865b8ebe658593f378d218",
+    "scoutName": "Immigrant Hope - Mesa low-cost immigration legal aid clinic"
+   }
+  },
+  {
+   "name": "Friendly House - Immigration Legal Services",
+   "website": "http://www.friendlyhouse.org",
+   "address": "113 W Sherman St / 802 S 1st Ave Ste 2, Phoenix, AZ",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ",
+    "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Phoenix, phone 602-257-1870; two addresses merged",
+   "listingSays": "Immigration counselling and form help: DACA, family petitions, citizenship, VAWA.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_c0df346fba835ec288d060576bc4b1d9",
+    "scoutName": "Friendly House - Immigration and Legal Services Department"
+   }
+  },
+  {
+   "name": "Arizona Immigrant and Refugee Services (AIRS)",
+   "website": "http://airsaz.org",
+   "address": "10240 N 31st Ave Ste 112, Phoenix, AZ 85051",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ",
+    "https://www.phoenix.gov/humanservicessite/Pages/ResettlementInformation.aspx"
+   ],
+   "rule": "pass",
+   "ruleNote": "Phoenix; resettlement agency and immigration legal services",
+   "listingSays": "Immigration help (asylum, citizenship, family petitions) and refugee resettlement.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_8b965a8ba1215c889c0695bdda301442",
+    "scoutName": "Arizona Immigrant and Refugee Services - Immigration Specialist and Refugee Resettlement"
+   }
+  },
+  {
+   "name": "Arizona Legal Women and Youth Services (ALWAYS)",
+   "website": "http://alwaysaz.org",
+   "address": "Phoenix, AZ 85013",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Main service is legal help for trafficking survivors and youth; immigration is part of it",
+   "listingSays": "DACA, U/T visas, VAWA and other legal help for survivors and youth.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_279f96c2ab20550f9265d7a46cbb7ab7",
+    "scoutName": "Arizona Legal Women and Youth Services (ALWAYS) · Legal services"
+   }
+  },
+  {
+   "name": "ASU Law Immigration Clinic",
+   "website": "http://www.law.asu.edu",
+   "address": "111 E Taylor St, Phoenix, AZ 85004",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Student clinic; listing names only Special Immigrant Juvenile status",
+   "listingSays": "Help with Special Immigrant Juvenile status.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a8184a3c807a556b8c86917e50f45a12",
+    "scoutName": "Arizona State University Sandra Day O'Connor College of Law - Immigration Clinic"
+   }
+  },
+  {
+   "name": "Catholic Charities Community Services - Familias Unidas",
+   "website": "https://www.catholiccharitiesaz.org",
+   "address": "5151 N 19th Ave, Phoenix, AZ 85015",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ",
+    "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ",
+    "https://www.phoenix.gov/humanservicessite/Pages/ResettlementInformation.aspx"
+   ],
+   "rule": "pass",
+   "ruleNote": "Phoenix; immigration legal programme with its own intake",
+   "listingSays": "Immigration legal services (adjustment, asylum, DACA, court) and family reunification.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_448dcae2c6e25961a4cafa5d45577c28",
+    "scoutName": "Catholic Charities Community Services Arizona - Familias Unidas Immigration Legal Services"
+   }
+  },
+  {
+   "name": "Catholic Community Services of Southern Arizona",
+   "website": "",
+   "address": "140 W Speedway Blvd Ste 130, Tucson, AZ 85705",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Tucson",
+   "listingSays": "Immigration legal help including removal hearings.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Chicanos Por La Causa - Family Immigration Services",
+   "website": "https://cplc.org",
+   "address": "Tucson and Somerton offices listed",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ",
+    "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ",
+    "https://www.tempecommunitycouncil.org/get-help/"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Listed immigration offices are Tucson and Somerton (Scout holds a Phoenix office, not on these lists)",
+   "listingSays": "DACA, family petitions, citizenship, work permits.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_79c4953d6dfc53fd9380c05e05da3457",
+    "scoutName": "Chicanos Por La Causa - CPLC Family Immigration Services, Phoenix",
+    "note": "same agency; Scout has the Phoenix office"
+   }
+  },
+  {
+   "name": "University of Arizona Domestic Violence Law Clinic",
+   "website": "https://law.arizona.edu/academics/clinics/domestic-violence-law-clinic",
+   "address": "1145 N Mountain Ave, Tucson, AZ 85719",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Tucson",
+   "listingSays": "T/U visas and VAWA petitions.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched The New Frontier Foundation at 0.68; wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Florence Immigrant & Refugee Rights Project",
+   "website": "http://www.firrp.org",
+   "address": "Phoenix, AZ (PO Box)",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ",
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Serves detained people and unaccompanied children; a Mesa client would rarely be eligible",
+   "listingSays": "Free legal help for immigrants in ICE detention.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_6dc17ecf754756bba1a3766f8dc9e244",
+    "scoutName": "Florence Immigrant & Refugee Rights Project - Legal and social services for detained adults and unaccompanied children"
+   }
+  },
+  {
+   "name": "Global Family Legal Services",
+   "website": "",
+   "address": "29 Tubac Plaza, Tubac, AZ",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Tubac, southern Arizona",
+   "listingSays": "Asylum, DACA, family petitions, VAWA.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Immigrant Hope - Mesa at 0.6; wrong, corrected to none"
+   }
+  },
+  {
+   "name": "International Rescue Committee in Phoenix",
+   "website": "http://www.rescue.org/us-program/us-phoenix-az",
+   "address": "4425 W Olive Ave #400, Glendale, AZ 85302",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ",
+    "https://www.phoenix.gov/humanservicessite/Pages/ResettlementInformation.aspx"
+   ],
+   "rule": "pass",
+   "ruleNote": "Glendale office serving the metro; Tucson office on the same list merged out",
+   "listingSays": "Refugee resettlement and immigration legal help: asylum, work permits, court.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a44f5de1447456e3843598ab3bb7bfdb",
+    "scoutName": "International Rescue Committee in Phoenix - Refugee Cash Assistance and Case Coordination"
+   }
+  },
+  {
+   "name": "Lutheran Social Services of the Southwest",
+   "website": "http://www.lss-sw.org",
+   "address": "2502 E University Dr 125, Phoenix, AZ 85034",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ",
+    "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ",
+    "https://www.phoenix.gov/humanservicessite/Pages/ResettlementInformation.aspx"
+   ],
+   "rule": "pass",
+   "ruleNote": "Phoenix; Tucson office merged out",
+   "listingSays": "Refugee resettlement and immigration help: adjustment, family petitions, citizenship.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_b71ef057db465695809fe99b1dfc6045",
+    "scoutName": "Lutheran Social Services of the Southwest · Refugee Employment Services"
+   }
+  },
+  {
+   "name": "Northern Arizona Immigration Legal Services",
+   "website": "https://thinkliteracy.org/nails",
+   "address": "2500 N Rose St Ste 102, Flagstaff, AZ",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Flagstaff",
+   "listingSays": "DACA, asylum, family petitions, T/U visas.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Immigrant Hope - Mesa at 0.67; wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Promise Arizona",
+   "website": "http://www.promiseaz.org",
+   "address": "410 E Southern Ave, Phoenix, AZ 85040",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "South Phoenix",
+   "listingSays": "Citizenship and naturalization help.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_17e77f9bb68c583ba51034f90e97a2d9",
+    "scoutName": "Promise Arizona - Immigration Services and Citizenship Workshops"
+   }
+  },
+  {
+   "name": "Southern Arizona Legal Aid",
+   "website": "http://www.sazlegalaid.org",
+   "address": "2343 E Broadway Blvd Ste 200, Tucson, AZ",
+   "sources": [
+    "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Southern Arizona counties",
+   "listingSays": "Immigration help for victims: T/U visas, VAWA.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Immigrant Hope - Mesa at 0.67; wrong, corrected to none"
+   }
+  },
+  {
+   "name": "U.S. Immigration Court - Phoenix (EOIR)",
+   "website": "https://www.justice.gov/eoir",
+   "address": "250 N 7th Ave Ste 300, Phoenix, AZ 85007",
+   "sources": [
+    "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "A court, not help; Florence, Eloy and EOIR headquarters entries merged in",
+   "listingSays": "Hears deportation and asylum cases.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_7a3b9c861e5152a391b1abb724f89e9b",
+    "scoutName": "Executive Office for Immigration Review - Phoenix Immigration Court",
+    "note": "tool found none for the court name; corrected to Scout's EOIR Phoenix record"
+   }
+  },
+  {
+   "name": "U.S. Immigration and Customs Enforcement",
+   "website": "https://www.ice.gov",
+   "address": "Washington, DC",
+   "sources": [
+    "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Enforcement agency",
+   "listingSays": "Enforces immigration and customs law.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_4d59ef1dff655bb8aa6afc717ad2dd87",
+    "scoutName": "ICE Phoenix Field Office - Enforcement and Removal Operations check-in and detention inquiries"
+   }
+  },
+  {
+   "name": "USCIS (Phoenix Field Office and Contact Center)",
+   "website": "https://www.uscis.gov",
+   "address": "1330 S 16th St, Phoenix, AZ 85034",
+   "sources": [
+    "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Government agency a person applies to; field office by appointment",
+   "listingSays": "Handles immigration applications; interviews and fingerprinting in Phoenix.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_53620bdb3ed25c748f776349416c12b2",
+    "scoutName": "USCIS — document, appointment and case assistance"
+   }
+  },
+  {
+   "name": "Center for Information and Assistance to Mexicans (CIAM)",
+   "website": "",
+   "address": "3915 E Broadway Blvd, Tucson, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Mexican consular help line; address is Tucson",
+   "listingSays": "Helps Mexican nationals with deportation and family reunification questions.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Phoenix Office of Refugee and Immigrant Support at 0.6; wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Modest Means Project",
+   "website": "https://azlawhelp.org",
+   "address": "Phoenix, AZ 85016",
+   "sources": [
+    "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "General reduced-cost legal help",
+   "listingSays": "Reduced-cost legal help, immigration among other areas.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_c2077ea94f8f52349bbc67126b28772d",
+    "scoutName": "State Bar of Arizona and Arizona Foundation for Legal Services and Education - Modest Means Project"
+   }
+  },
+  {
+   "name": "Arizona Foundation for Legal Services & Education / AZCourtHelp",
+   "website": "https://azcourthelp.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "General legal information sites; two 211 entries merged",
+   "listingSays": "Online legal information, immigration among other topics.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_7e4876cfce465e6985d32e9355b8b63b",
+    "scoutName": "AZCourtHelp"
+   }
+  },
+  {
+   "name": "Immigration Advocates Network",
+   "website": "https://www.immigrationadvocates.org",
+   "address": "New York, NY",
+   "sources": [
+    "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "A national directory of providers",
+   "listingSays": "Online directory and programmes for immigrants.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_c064ca559a275c928e8f10f4f693e820",
+    "scoutName": "Immigration Advocates Network — nonprofit legal-services directory"
+   }
+  },
+  {
+   "name": "Immi.org",
+   "website": "https://www.immi.org",
+   "address": "New York, NY",
+   "sources": [
+    "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Online, free",
+   "listingSays": "Free online immigration information and referrals.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Preserving African Connections",
+   "website": "",
+   "address": "1141 E Jefferson St, Phoenix, AZ 85034",
+   "sources": [
+    "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Serves African refugees; not clear whether immigration help is its main service",
+   "listingSays": "Helps African refugees with paperwork and appointments.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Community Legal Services",
+   "website": "https://clsaz.org",
+   "address": "305 S 2nd Ave, Phoenix, AZ 85003",
+   "sources": [
+    "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ",
+    "https://www.tempecommunitycouncil.org/get-help/"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "General civil legal aid",
+   "listingSays": "Civil legal services; listed under immigration by 211 and Tempe Community Council.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_5cdba0160688536cafd083bd61454b85",
+    "scoutName": "Community Legal Services - Set Aside and Reentry Legal Assistance",
+    "note": "tool matched FIRRP at 1.0; wrong, corrected to CLS's own Scout record (in Legal)"
+   }
+  },
+  {
+   "name": "Mountain Park Health Center Medical-Legal Partnership",
+   "website": "http://mountainparkhealth.org",
+   "address": "Tempe, AZ",
+   "sources": [
+    "https://www.tempecommunitycouncil.org/get-help/"
+   ],
+   "rule": "fail: direct contact",
+   "ruleNote": "For the health centre's own patients",
+   "listingSays": "Free legal help for patients, including immigration.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_c6dfb45235805189b218bbd4dd20be34",
+    "scoutName": "Mountain Park Health Center - Tempe / East Valley access"
+   }
+  },
+  {
+   "name": "City of Phoenix Human Services - Office of Refugee and Immigrant Support",
+   "website": "https://www.phoenix.gov",
+   "address": "200 W Washington St, Phoenix, AZ 85003",
+   "sources": [
+    "https://www.phoenix.gov/humanservicessite/Pages/ResettlementInformation.aspx"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Phoenix city programme",
+   "listingSays": "Coordinates refugee and immigrant support in Phoenix.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_589f7cbffda95df6b517fa7146849d4e",
+    "scoutName": "Phoenix Office of Refugee and Immigrant Support — Resource Navigation"
+   }
+  }
+ ],
+ "thin": "Only one immigration provider on any list is in Mesa (Immigrant Hope - Mesa); everything else is in Phoenix or Glendale, and the statewide directory pads the count with Tucson, Flagstaff and southern-border offices. No City of Mesa or Maricopa County page lists immigration help; the Mesa library page and the state refugee-programme pages refused to load (403)."
+}

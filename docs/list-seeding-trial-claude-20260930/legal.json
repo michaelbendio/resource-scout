@@ -1,0 +1,977 @@
+{
+ "category": "legal",
+ "lists": [
+  {
+   "url": "https://www.mesaaz.gov/Government/City-Attorney/Legal-Resources",
+   "title": "City of Mesa City Attorney - Legal Resources",
+   "kind": "official",
+   "note": "current; short (6 entries)"
+  },
+  {
+   "url": "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+   "title": "Maricopa County Justice Courts - Find Legal/Community Resources",
+   "kind": "official",
+   "note": "current; long, countywide and statewide, includes some Tucson/tribal providers"
+  },
+  {
+   "url": "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+   "title": "Maricopa County Superior Court Law Library Resource Center - Lawyer and Legal Service Providers",
+   "kind": "official",
+   "note": "current; 22 entries, countywide"
+  },
+  {
+   "url": "https://www.mesaaz.gov/files/assets/public/v/3/residentresources/housing/homelessness/off-the-streets-brochures/ohs-resource-list-2025.pdf",
+   "title": "City of Mesa Office of Homeless Solutions resource list 2025 (Legal Services section)",
+   "kind": "official",
+   "note": "current (2025); 3 legal entries"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ",
+   "title": "211 Arizona search: legal aid near Mesa",
+   "kind": "211",
+   "note": "current; readable; mixes information websites and programmes"
+  },
+  {
+   "url": "https://www.nesthealth.com/maricopa-legal-aid",
+   "title": "Nest Health - Free & Low-Cost Legal Help in Maricopa County",
+   "kind": "aggregator",
+   "note": "current; 6 entries"
+  }
+ ],
+ "seeds": [
+  {
+   "name": "Community Legal Services",
+   "website": "https://clsaz.org",
+   "address": "305 S 2nd Ave, Phoenix, AZ 85003",
+   "sources": [
+    "https://www.mesaaz.gov/Government/City-Attorney/Legal-Resources",
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+    "https://www.nesthealth.com/maricopa-legal-aid",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ",
+    "https://www.mesaaz.gov/files/assets/public/v/3/residentresources/housing/homelessness/off-the-streets-brochures/ohs-resource-list-2025.pdf",
+    "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Countywide civil legal aid front door; phone intake 602-258-3434",
+   "listingSays": "Free civil legal help for low-income people: housing, family, employment, consumer, benefits.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5cdba0160688536cafd083bd61454b85",
+    "scoutName": "Community Legal Services - Set Aside and Reentry Legal Assistance"
+   }
+  },
+  {
+   "name": "Community Legal Services - Tenant Eviction Assistance line",
+   "website": "https://clsaz.org",
+   "address": "Phoenix, AZ (also offered at Native Health, 4041 N Central Ave)",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs",
+    "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Separate phone (602-385-8880) and intake from CLS general, so kept as its own entry",
+   "listingSays": "No-cost legal help for tenants facing eviction.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5cdba0160688536cafd083bd61454b85",
+    "scoutName": "Community Legal Services - Set Aside and Reentry Legal Assistance"
+   }
+  },
+  {
+   "name": "Legal Aid of Arizona",
+   "website": "https://legalaidaz.com",
+   "address": "",
+   "sources": [
+    "https://www.mesaaz.gov/Government/City-Attorney/Legal-Resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Listing says discounted representation; may be a private firm rather than legal aid",
+   "listingSays": "Discounted legal representation; phone 480-389-6718.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Immigrant Hope - Mesa at 1.0; wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Arizona Attorney General's Office - Consumer Protection",
+   "website": "https://www.azag.gov",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Government/City-Attorney/Legal-Resources",
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Takes consumer-fraud complaints; enforcement agency rather than legal help for the person",
+   "listingSays": "Consumer protection and civil-rights enforcement; consumer complaint portal; 602-542-5025.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_8abaa1b2be4b53b48b7d401aca63af2c",
+    "scoutName": "Arizona Attorney General's Office - Elder Affairs / TASA Helpline",
+    "note": "same agency, different programme (Scout lists Elder Affairs, not consumer complaints)"
+   }
+  },
+  {
+   "name": "State Bar of Arizona",
+   "website": "https://www.azbar.org",
+   "address": "4201 N 24th St, Phoenix, AZ 85016",
+   "sources": [
+    "https://www.mesaaz.gov/Government/City-Attorney/Legal-Resources",
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Attorney regulator and member directory; its free-help programme is Modest Means (separate seed)",
+   "listingSays": "Attorney directory, complaints about lawyers, fee arbitration.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Modest Means (a State Bar programme, listed separately); the State Bar itself is not in Scout"
+   }
+  },
+  {
+   "name": "Maricopa County Bar Association Lawyer Referral Service",
+   "website": "http://maricopalawyers.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Government/City-Attorney/Legal-Resources",
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Direct phone line, but it refers to paid attorneys ($50 referral fee)",
+   "listingSays": "Matches callers with an attorney by specialty; 602-257-4434.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_eaf2fee2237f5718850458c1f9705fc3",
+    "scoutName": "Maricopa County Bar — Lawyer Referral Service"
+   }
+  },
+  {
+   "name": "AZCourtHelp",
+   "website": "https://azcourthelp.org",
+   "address": "online",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Online statewide self-help with live chat to law librarians",
+   "listingSays": "Court information, self-help, forms and free virtual clinics.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_7e4876cfce465e6985d32e9355b8b63b",
+    "scoutName": "AZCourtHelp"
+   }
+  },
+  {
+   "name": "AZLawHelp.org",
+   "website": "https://azlawhelp.org",
+   "address": "online; 866-637-5341",
+   "sources": [
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Online statewide legal information and screening",
+   "listingSays": "Legal information on many issues and a screening line to legal aid.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a2feb4dbcae350b58566ad78817cf623",
+    "scoutName": "AZLawHelp — statewide legal-aid screening"
+   }
+  },
+  {
+   "name": "Modest Means Project",
+   "website": "https://azlawhelp.org",
+   "address": "Phoenix, AZ (confidential)",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+    "https://www.nesthealth.com/maricopa-legal-aid",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Own eligibility (moderate income) though same phone as AZLawHelp",
+   "listingSays": "Reduced-cost lawyers for people over the legal-aid income limit.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_c2077ea94f8f52349bbc67126b28772d",
+    "scoutName": "State Bar of Arizona and Arizona Foundation for Legal Services and Education - Modest Means Project"
+   }
+  },
+  {
+   "name": "Law for Seniors",
+   "website": "http://lawforseniors.org",
+   "address": "online",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "Arizona Foundation for Legal Services & Education information site; same phone as AZLawHelp",
+   "listingSays": "Legal information for older adults.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_3604f78fc2695c69a0e3b5c4453be6c8",
+    "scoutName": "Law for Seniors — Arizona legal information"
+   }
+  },
+  {
+   "name": "Law for Veterans",
+   "website": "http://lawforveterans.org",
+   "address": "online",
+   "sources": [
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "AFLSE information site; same phone as AZLawHelp",
+   "listingSays": "Legal information for veterans.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_f616237965c35591a2006373177bab96",
+    "scoutName": "Law for Veterans — Arizona legal resources"
+   }
+  },
+  {
+   "name": "Law for Kids",
+   "website": "http://lawforkids.org",
+   "address": "online; 602-340-7366",
+   "sources": [
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/"
+   ],
+   "rule": "unclear",
+   "ruleNote": "AFLSE information site, but its own phone number",
+   "listingSays": "Legal information for young people.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Arizona Foundation for Legal Services & Education",
+   "website": "https://azbf.org",
+   "address": "4201 N 24th St Ste 210, Phoenix, AZ 85016",
+   "sources": [
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Funder and parent of the AZLawHelp sites, not a service",
+   "listingSays": "Supports justice-system access with funding and technical help.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_dd208cf2f5e85fd49ce3bcab94a27fea",
+    "scoutName": "Arizona Bar Foundation Domestic Violence Legal Assistance Project (DVLAP)",
+    "note": "same agency, different programme"
+   }
+  },
+  {
+   "name": "Maricopa County Superior Court Law Library Resource Center",
+   "website": "https://superiorcourt.maricopa.gov/llrc/",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://www.nesthealth.com/maricopa-legal-aid"
+   ],
+   "rule": "pass",
+   "ruleNote": "Countywide court self-help; walk-in, online and phone",
+   "listingSays": "Court forms, self-help tools, workshops and Lawyers in the Library consultations.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_eff45f0db70e5fb593e2e9e011b6e23b",
+    "scoutName": "Maricopa County Law Library Resource Center - Southeast Justice Center"
+   }
+  },
+  {
+   "name": "Superior Court Unbundled Limited Attorney Services roster",
+   "website": "https://superiorcourt.maricopa.gov",
+   "address": "",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/"
+   ],
+   "rule": "unclear",
+   "ruleNote": "A roster of private attorneys, not a service",
+   "listingSays": "Attorneys who take on single limited tasks for a fee.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_3ca53821e9475defa784c27ce8ed3bba",
+    "scoutName": "Maricopa County court — limited-service attorney roster"
+   }
+  },
+  {
+   "name": "2-1-1 Arizona",
+   "website": "https://211arizona.org",
+   "address": "statewide; dial 211",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "General directory of services, not legal help",
+   "listingSays": "Directory of government and social services.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_e7d764731f2e52a99399e7c04d32abf0",
+    "scoutName": "211 Arizona — Community-resource navigation"
+   }
+  },
+  {
+   "name": "ACLU of Arizona",
+   "website": "https://www.acluaz.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Civil-liberties litigation; takes complaints but individual help is selective",
+   "listingSays": "Legal action to protect civil rights and liberties.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_1c1f11c2055c592d85de7b1a4eb242b9",
+    "scoutName": "ACLU of Arizona - civil-liberties legal assistance complaint intake"
+   }
+  },
+  {
+   "name": "Area Agency on Aging, Region One",
+   "website": "http://aaaphx.org",
+   "address": "Phoenix, AZ; 602-264-4357",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Aging services agency; legal referral is one of many services",
+   "listingSays": "Services and advocacy for Maricopa County residents 60+.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_391ebb93dfa2583dba021d8264f183b2",
+    "scoutName": "Area Agency on Aging, Region One — legal-service referrals"
+   }
+  },
+  {
+   "name": "Disability Rights Arizona (Arizona Center for Disability Law)",
+   "website": "https://disabilityrightsaz.org",
+   "address": "5025 E Washington St #202, Phoenix, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "Statewide phone intake; listed twice under both names, merged",
+   "listingSays": "Legal advocacy protecting the rights of people with disabilities.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_2d4cf31ea7d85587b27a9fb705d410aa",
+    "scoutName": "Disability Rights Arizona - Protection and Advocacy for Beneficiaries of Social Security (PABSS)"
+   }
+  },
+  {
+   "name": "Arizona Justice Center",
+   "website": "https://www.azjusticecenter.org",
+   "address": "5585 W Glenn Dr, Glendale, AZ 85301",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Glendale is across the metro from Mesa; mixes legal help with SNAP, housing and ID help",
+   "listingSays": "Free legal consultations for working poor and homeless people; help with benefits and IDs.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_65dc25f5cb5d5ab9a1966d3d381b3f7f",
+    "scoutName": "Arizona Justice Center Legal Assistance, Social Services, and Life Coaching"
+   }
+  },
+  {
+   "name": "Arizona Justice Project",
+   "website": "",
+   "address": "4001 N 3rd St #401, Phoenix, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Represents inmates claiming innocence; narrow, unlikely client at a transitional office",
+   "listingSays": "Case review for prisoners claiming innocence or manifest injustice.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_919d634a26ae536fb0ac9b6fab7b338e",
+    "scoutName": "Arizona Justice Project — actual innocence and manifest-injustice case review"
+   }
+  },
+  {
+   "name": "Arizona Legal Center",
+   "website": "https://arizonalegalcenter.org",
+   "address": "111 E Taylor St, Phoenix, AZ 85004",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+    "https://www.nesthealth.com/maricopa-legal-aid",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Free consultations; phone 480-727-0127",
+   "listingSays": "Free legal advice consultations (family, juvenile, landlord/tenant) and low-cost services.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_9ba6c51695fc5270954ab6a90c59a82b",
+    "scoutName": "Arizona Legal Center · Free legal consultations and limited legal advocacy"
+   }
+  },
+  {
+   "name": "ASU Law Civil Litigation Clinic",
+   "website": "https://law.asu.edu/civillegalasst",
+   "address": "Phoenix, AZ; online intake",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/"
+   ],
+   "rule": "pass",
+   "ruleNote": "Online intake form",
+   "listingSays": "Student clinic taking consumer fraud, contract and tenant-rights cases.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_2d2619d660a159ebb33bf3d3cb14ac23",
+    "scoutName": "ASU Law Civil Litigation Clinic"
+   }
+  },
+  {
+   "name": "Defenders of Children",
+   "website": "https://www.defendersofchildren.org",
+   "address": "3800 N Central Ave Ste 200, Phoenix, AZ 85012",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Phone 602-710-1903; narrow eligibility",
+   "listingSays": "Free legal advocacy for protective parents in child abuse cases.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5223cf7bd6b8510380de1d3159da8bcf",
+    "scoutName": "Defenders of Children - Legal Services for Children, Survivors and Protective Caregivers"
+   }
+  },
+  {
+   "name": "DNA People's Legal Services",
+   "website": "https://dnalegalservices.org",
+   "address": "Window Rock, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Serves the Navajo Nation and northern Arizona",
+   "listingSays": "Legal aid in tribal and state courts for low-income people.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched East Valley NAACP at 0.6; wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Florence Immigrant & Refugee Rights Project",
+   "website": "https://firrp.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Immigration (detained people); belongs in Immigration",
+   "listingSays": "Represents detained immigrants.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_6dc17ecf754756bba1a3766f8dc9e244",
+    "scoutName": "Florence Immigrant & Refugee Rights Project - Legal and social services for detained adults and unaccompanied children"
+   }
+  },
+  {
+   "name": "Homeless Legal Assistance Project (ASU)",
+   "website": "https://www.asufoundation.org/empower-community-resilience/homeless-legal-assistance-project-CA104385.html",
+   "address": "ASU Fulton Center, 300 E University Dr, Tempe, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "Tempe borders Mesa",
+   "listingSays": "Free legal services for people experiencing homelessness.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_09ac24251828540d981f9a562649772d",
+    "scoutName": "ASU Law Unhoused Legal Assistance Project (ULAP)",
+    "note": "tool score 0.9; looks like the same ASU programme renamed"
+   }
+  },
+  {
+   "name": "Legal Services for Crime Victims in Arizona",
+   "website": "https://lscva.org",
+   "address": "Sun City, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "Statewide by phone 623-471-6401",
+   "listingSays": "Legal representation for crime victims.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_784f3d4f506d5061b5cd64e6c18b8057",
+    "scoutName": "Legal Services for Crime Victims in Arizona - free legal and social services"
+   }
+  },
+  {
+   "name": "Probate Lawyers Assistance Project",
+   "website": "http://www.maricopabar.org/?pg=PLAP",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/"
+   ],
+   "rule": "pass",
+   "ruleNote": "Phone 602-732-2834",
+   "listingSays": "Free probate advice for low-income people.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Family Lawyers Assistance Project at 0.75; a different project, corrected to none"
+   }
+  },
+  {
+   "name": "Scharf-Norton Center for Constitutional Litigation (Goldwater Institute)",
+   "website": "https://www.goldwaterinstitute.org/litigation/",
+   "address": "500 E Coronado Rd, Phoenix, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Policy litigation, not help for individuals",
+   "listingSays": "Constitutional litigation on free speech, property and school choice.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Arizona Senior Citizens Law Project",
+   "website": "https://asclp.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://www.nesthealth.com/maricopa-legal-aid"
+   ],
+   "rule": "pass",
+   "ruleNote": "Maricopa County residents over 60; phone 602-252-6710",
+   "listingSays": "Free legal services for people over 60.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5f07e39894ec569c8893a6daf266a4a0",
+    "scoutName": "Arizona Senior Citizens Law Project · Free legal assistance for Maricopa County seniors"
+   }
+  },
+  {
+   "name": "Southern Arizona Legal Aid",
+   "website": "https://www.sazlegalaid.org",
+   "address": "2343 E Broadway Blvd, Tucson, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Southern Arizona counties, not Maricopa",
+   "listingSays": "Legal aid across southern Arizona.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Immigrant Hope - Mesa at 0.67; wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Step Up To Justice",
+   "website": "https://www.stepuptojustice.org",
+   "address": "320 N Commerce Park Loop #100, Tucson, AZ",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Pima County residents only",
+   "listingSays": "Civil legal help for low-income Pima County residents.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Administer Justice",
+   "website": "",
+   "address": "phone 855-818-4554",
+   "sources": [
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/"
+   ],
+   "rule": "pass",
+   "ruleNote": "Phone appointment line; $30 fee",
+   "listingSays": "Legal appointments for a $30 fee.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_288e59052a2a5bdab59465d9b3c8f202",
+    "scoutName": "Administer Justice - Gospel Justice Center legal coaching appointments"
+   }
+  },
+  {
+   "name": "AZCourtCare.org",
+   "website": "https://azcourtcare.org",
+   "address": "online",
+   "sources": [
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Listing says only 'legal information and resources'",
+   "listingSays": "Legal information and resources.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Family Lawyers Assistance Project",
+   "website": "https://clsaz.org/flap/",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+    "https://www.nesthealth.com/maricopa-legal-aid"
+   ],
+   "rule": "pass",
+   "ruleNote": "Own phone 602-506-7948 and intake",
+   "listingSays": "30-minute consultations with volunteer family-law attorneys.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_93bcc4304d705e87b275d5ec79af70e0",
+    "scoutName": "Community Legal Services / Maricopa County Superior Court - Family Lawyers Assistance Project"
+   }
+  },
+  {
+   "name": "Arizona Free Legal Answers",
+   "website": "https://az.freelegalanswers.org",
+   "address": "online",
+   "sources": [
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/"
+   ],
+   "rule": "pass",
+   "ruleNote": "Online",
+   "listingSays": "Volunteer lawyers answer civil legal questions online.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_73083c0747435f2eab3263f6b2dceae5",
+    "scoutName": "Arizona Free Legal Answers"
+   }
+  },
+  {
+   "name": "Legal Document Preparer Program (Arizona Supreme Court)",
+   "website": "https://www.azcourts.gov/cld/Legal-Document-Preparer-Program",
+   "address": "",
+   "sources": [
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Licensing programme, not a service",
+   "listingSays": "Certifies legal document preparers.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched a CLS programme at 0.67; wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Legal Paraprofessional Program (Arizona Supreme Court)",
+   "website": "https://www.azcourts.gov/cld/Legal-Paraprofessional",
+   "address": "",
+   "sources": [
+    "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Licensing programme, not a service",
+   "listingSays": "Licenses legal paraprofessionals.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched De Novo Law, a private paraprofessional firm; not the programme, corrected to none"
+   }
+  },
+  {
+   "name": "Volunteer Lawyers Program (Community Legal Services)",
+   "website": "https://vlpmaricopa.org",
+   "address": "305 S 2nd Ave, Phoenix, AZ 85003",
+   "sources": [
+    "https://www.nesthealth.com/maricopa-legal-aid",
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "Part of CLS, same phone 602-258-3434",
+   "listingSays": "Volunteer attorneys give free advice and representation.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_be05db624a0158c0af7ffc13f8069fd2",
+    "scoutName": "Community Legal Services Volunteer Lawyers Program - HIV/AIDS Law Project"
+   }
+  },
+  {
+   "name": "Father Matters",
+   "website": "https://fathermatters.org",
+   "address": "3146 E Wier Ave Ste 26, Phoenix, AZ 85040",
+   "sources": [
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Parenting services; family law one of several",
+   "listingSays": "Parenting classes, support groups and family-law help for fathers.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_8099717be0075778b2778d670eddaecd",
+    "scoutName": "Father Matters - Reentry Mentoring / Family Law Assistance / Job & Training Institute"
+   }
+  },
+  {
+   "name": "Child Crisis Arizona Family Resources",
+   "website": "https://childcrisisaz.org",
+   "address": "424 W Rio Salado Pkwy, Mesa, AZ 85201",
+   "sources": [
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Parenting classes; a family law clinic is one of several",
+   "listingSays": "Parenting workshops and a family law clinic.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Scottsdale Family Advocacy Center at 0.9; wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Arizona League to End Regional Trafficking (IRC)",
+   "website": "https://rescue.org",
+   "address": "4425 W Olive Ave Ste 400, Glendale, AZ 85302",
+   "sources": [
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Trafficking case management with legal referrals",
+   "listingSays": "Case management for trafficking victims, with legal referrals.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_98811dde6a8d5262b18ed7b7c2d4e728",
+    "scoutName": "IRC Phoenix — Immigration, Civics and English/Education Services",
+    "note": "same agency (IRC), different programme"
+   }
+  },
+  {
+   "name": "Fresh Start Family Law Support Services",
+   "website": "https://freshstartwomen.org",
+   "address": "1130 E McDowell Rd, Phoenix, AZ 85006",
+   "sources": [
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Programme whose main service is family-law document help",
+   "listingSays": "Certified legal document preparers for divorce and custody paperwork.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_b07693082b855c4dab1f1ae29ba9487f",
+    "scoutName": "Fresh Start Women's Foundation - Family Law Support Services and Law Day for Women"
+   }
+  },
+  {
+   "name": "Arizona Residential Landlord and Tenant Act booklet (Arizona Department of Housing)",
+   "website": "https://housing.az.gov",
+   "address": "1110 W Washington St Ste 280, Phoenix, AZ 85007",
+   "sources": [
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "A booklet, not a service a person contacts",
+   "listingSays": "Information booklet on landlord-tenant law.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_ef8cf71a3a7257adbb1412dcbe8887af",
+    "scoutName": "Arizona Department of Housing — homeless assistance referrals"
+   }
+  },
+  {
+   "name": "Arizona Eviction Help",
+   "website": "https://azevictionhelp.org",
+   "address": "online",
+   "sources": [
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Online",
+   "listingSays": "Information on Arizona's eviction process.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_c2b519b9633b5f85bbcb6e07664b9726",
+    "scoutName": "AZEvictionHelp — tenant eviction information"
+   }
+  },
+  {
+   "name": "Community Legal Services - HIV/AIDS Law Project",
+   "website": "https://clsaz.org",
+   "address": "305 S 2nd Ave, Phoenix, AZ 85003",
+   "sources": [
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Same agency as CLS; separate eligibility, phone not shown",
+   "listingSays": "Civil legal help for people affected by HIV/AIDS.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_be05db624a0158c0af7ffc13f8069fd2",
+    "scoutName": "Community Legal Services Volunteer Lawyers Program - HIV/AIDS Law Project"
+   }
+  },
+  {
+   "name": "Community Legal Services - Farmworker Program",
+   "website": "https://clsaz.org/legal-practice-areas/farmworker-program",
+   "address": "305 S 2nd Ave, Phoenix, AZ 85003",
+   "sources": [
+    "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Same agency as CLS; separate eligibility, phone not shown",
+   "listingSays": "Civil legal help for farmworkers, including eviction.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_0d2ddb8888415666bb05b0f67cf8573b",
+    "scoutName": "Community Legal Services - Civil Legal Aid and MesaCAN Intake"
+   }
+  },
+  {
+   "name": "Western States Pension Assistance Project",
+   "website": "https://lsnc.net/pension",
+   "address": "Sacramento, CA",
+   "sources": [
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Phone/online advice serving Arizona",
+   "listingSays": "Advice on pension and retirement-plan problems.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Arizona Legal Women and Youth Services (ALWAYS)",
+   "website": "http://alwaysaz.org",
+   "address": "Phoenix, AZ 85013",
+   "sources": [
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Legal services are its main service",
+   "listingSays": "Legal services for trafficking survivors and youth, including family and immigration law.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_94a6559ec9c352158ef8fc333f970b3a",
+    "scoutName": "Arizona Legal Women and Youth Services (ALWAYS) - New Roads to Success"
+   }
+  },
+  {
+   "name": "Arizona Immigrant and Refugee Services",
+   "website": "http://airsaz.org",
+   "address": "10240 N 31st Ave Ste 112, Phoenix, AZ 85051",
+   "sources": [
+    "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Immigration; belongs in Immigration",
+   "listingSays": "Immigration help: asylum, citizenship, family reunification.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_8b965a8ba1215c889c0695bdda301442",
+    "scoutName": "Arizona Immigrant and Refugee Services - Immigration Specialist and Refugee Resettlement",
+    "note": "tool matched FIRRP at 1.0; wrong, corrected to AIRS's own Scout record (in Immigration)"
+   }
+  },
+  {
+   "name": "Arizona Fair Housing Center",
+   "website": "",
+   "address": "phone 602-548-1599",
+   "sources": [
+    "https://www.mesaaz.gov/files/assets/public/v/3/residentresources/housing/homelessness/off-the-streets-brochures/ohs-resource-list-2025.pdf"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Fair-housing advocacy; may belong in Housing",
+   "listingSays": "Education, advocacy and support for fair housing.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched City of Mesa Fair Housing Coordinator; a different agency, corrected to none"
+   }
+  },
+  {
+   "name": "Arizona Tenants Advocates",
+   "website": "",
+   "address": "phone 480-557-8905",
+   "sources": [
+    "https://www.mesaaz.gov/files/assets/public/v/3/residentresources/housing/homelessness/off-the-streets-brochures/ohs-resource-list-2025.pdf"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Tenant advocacy; not clear it is legal help",
+   "listingSays": "Renter resources and advocacy to resolve housing issues.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Mountain Park Health Center Medical-Legal Partnership",
+   "website": "http://mountainparkhealth.org",
+   "address": "Tempe, AZ",
+   "sources": [
+    "https://www.tempecommunitycouncil.org/get-help/"
+   ],
+   "rule": "fail: direct contact",
+   "ruleNote": "For the health centre's own patients",
+   "listingSays": "Free legal help for patients on evictions, job loss and immigration.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_c6dfb45235805189b218bbd4dd20be34",
+    "scoutName": "Mountain Park Health Center - Tempe / East Valley access"
+   }
+  },
+  {
+   "name": "Maricopa County Community Services",
+   "website": "https://www.maricopa.gov/3787/Community-Services",
+   "address": "",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Utility and rental assistance, not legal",
+   "listingSays": "Utility and rental assistance for families.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  }
+ ],
+ "thin": "Legal lists were plentiful but repetitive: the official county court lists and 211 name the same countywide Phoenix-based providers (CLS, Arizona Legal Center, AZLawHelp family), and none names a legal-aid office physically in Mesa other than Child Crisis Arizona's clinic; Mesa's own pages are short and point to CLS."
+}
