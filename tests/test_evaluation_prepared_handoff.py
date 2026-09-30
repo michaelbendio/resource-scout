@@ -5,6 +5,7 @@ from pathlib import Path
 from unittest.mock import patch,Mock
 
 from tests.test_evaluation_preparation import assignment,result,collection
+from tests.review_acceptance_fixture import accept_fixture
 from resource_research_agent.evaluation.prepared_handoff import build_bundle,validate_resolution,reconcile_and_export
 from resource_research_agent.evaluation.protocol import EvaluationError,write_once,read
 from resource_research_agent.prepared_export import finalize
@@ -48,8 +49,15 @@ class PreparedHandoffTests(unittest.TestCase):
             ledger=Mock();ledger.config={'provider':{'endpoint':'https://api.deepseek.com/anthropic/v1/messages'}}
             ledger.summarize_usage.return_value={'attempts':1}
             with patch('resource_research_agent.evaluation.prepared_handoff.Ledger',return_value=ledger),patch('resource_research_agent.evaluation.prepared_handoff.run_assignment',return_value={'result':resolution,'assemblyEvidence':{'kind':'identity-only completion'}}):
-                for _ in range(2):
+                before_source, before_dest = source.read_bytes(), dest.read_bytes()
+                with self.assertRaisesRegex(EvaluationError, 'Supervisor acceptance required'):
                     reconcile_and_export(root,production_registry=source,previous_artifact=root/'previous.json',destination_registry=dest,output=output)
+                self.assertEqual(before_source, source.read_bytes())
+                self.assertEqual(before_dest, dest.read_bytes())
+                self.assertFalse((output/'receipt.json').exists())
+                acceptance = accept_fixture(self, root/'handoff/reviewed-bundle.json')
+                for _ in range(2):
+                    reconcile_and_export(root,production_registry=source,previous_artifact=root/'previous.json',destination_registry=dest,output=output,acceptance_path=acceptance)
             self.assertEqual(read(source),read(dest))
             artifact=read(next(output.glob('scout-*-prepared-resources-*.json')))
             self.assertEqual(validate_artifact(artifact,read(source))['resources'],1)

@@ -298,9 +298,10 @@ def supervise(config_path):
                 native_reviewed = native['status'] == 'reviewed'
             outcome, digest = review_outcome(review_state, review_dir, state.get('reviewCheckpointSha256'), native_reviewed)
             if prepared_mode and outcome == 'review-complete':
-                delivery = export_reviewed_submission(config, job)
-                checkpoint('prepared-delivery-ready', reviewCheckpointSha256=digest, delivery=delivery)
-                notice('Las Vegas prepared file validated; registry commit and final handoff remain.')
+                checkpoint('needs-attention', reviewCheckpointSha256=digest,
+                           reason='Review submission validated; substantive supervisor acceptance is required before export.',
+                           supervisorAcceptanceRequired=True)
+                notice(config.get('officeName', 'Office') + ' review submitted; supervisor acceptance required before export.')
                 return
             checkpoint('ready-review' if outcome == 'continue' else outcome,
                        reviewCheckpointSha256=digest,

@@ -1,5 +1,15 @@
 # Scout orchestration and supervision
 
+## Mandatory supervisor acceptance — September 30
+
+New reviews use [explicit bounded review decisions](scout-review-decisions-v1.md).
+The compiler must apply authored corrections and taxonomy/selection decisions exactly.
+Worker completion stops for substantive supervisor acceptance; it never triggers
+automatic export. All export routes require an outside-review acceptance receipt
+bound to the exact bundle and evidence, before registry allocation or delivery writes.
+Historical sealed work requires an explicit audited adapter, not automatic acceptance.
+This supersedes older automatic-export wording below.
+
 **September 25 prepared-resource mode:** the
 [prepared delivery contract](scout-prepared-resources-contract.md) supersedes the
 four-section/minimum-volume/tier instructions below for new `--prepared` jobs and

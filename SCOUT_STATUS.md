@@ -1,5 +1,44 @@
 # Scout current status
 
+
+## Shared acceptance remedy; Mesa review restarted — September 30
+
+Michael authorized implementing the common review remedy, restarting Mesa review,
+and working on Mesa and Welfare Square concurrently. Welfare Square's substantive
+acceptance audit is a separate supervising-assistant task; do not restart its
+research, curation or completed category work from this Mesa entry.
+
+The shared pipeline now stops a worker's completed prepared review for substantive
+supervisor acceptance. All prepared exports, including evaluation handoffs, require
+an outside-review receipt bound to the exact bundle and authored evidence before
+registry/delivery writes. Structured decisions compile exact reviewed corrections,
+Type/group evidence, candidate dispositions and category selections without inferred
+fallbacks. See [exact contract](docs/scout-review-decisions-v1.md). The 809-test suite
+passes (4 skipped). Structural checks do not establish substantive review quality.
+
+Mesa's inadequate one-session provisional review is superseded. Original review,
+config/status, timing and delivery bytes plus SHA-256 inventory are preserved under
+`data/mesa-recuration-20260929/structured-review-restart-20260930T141506Z/`.
+The old delivery remains marked `SUPERSEDED.md`; earlier registry allocations are
+preserved. Completed research and all 21 curation categories/job 6 are unchanged.
+Prior consumed review time is retained in `superseded-review-history.json` and the
+archive; the replacement has a fresh explicit finite budget, not erased usage.
+
+- New review: same run/database and source namespace, fresh `review/`,
+  `reviewDecisionContract:1`, one sequential gpt-5.5/xhigh reviewer, 90 sessions
+  maximum, 90-minute safety timeout. Checkpoint before 75 minutes/context pressure.
+- Resource batches contain at most 15 authored decisions; candidate batches at
+  most 30. Sessions cap at two resource/four linked candidate batches OR one
+  category finalization. No heuristic classification, scoring or generated reasons.
+- New output target: `deliveries/mesa-recuration-20260929-r2/`. It remains blocked
+  until this supervisor audits judgments and compiled output and records acceptance.
+- Pipeline 12070, reviewer 12074, recovery monitor 12078 were launched; verify live
+  process/status before acting. Persistent monitor checks every 30 seconds and
+  preserves the existing bounded context/transport recovery policy. Port **8771**.
+- Welfare Square still uses its preserved authored review with an explicit audited
+  compatibility adapter; the new policy never silently accepts historical results.
+
+
 ## Welfare Square identity gate resolved — September 30
 
 Session 079 finished the category assembly repairs, collection reconciliation and

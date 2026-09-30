@@ -11,6 +11,9 @@ from resource_research_agent.prepared_resources import (build_snapshot, validate
 from resource_research_agent.prepared_export import finalize, review_fingerprint, export_bundle, encoded, delivery_name
 
 
+from tests.review_acceptance_fixture import accept_fixture
+
+
 def fixture():
     resource = dict(id='old-a', state='usable', name='Housing and legal intake',
         description='Help for a parent facing eviction; children and housing needs considered.',
@@ -168,24 +171,26 @@ class PreparedResourceTests(unittest.TestCase):
         import gzip
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary); bundle = root/'bundle.json'; bundle.write_bytes(encoded(self.bundle))
+            acceptance = accept_fixture(self, bundle)
             registry = root/'registry.json'; output = root/'delivery'
-            first = export_bundle(bundle, registry, output, initialize_registry=True)
-            second = export_bundle(bundle, registry, output)
+            first = export_bundle(bundle, registry, output, initialize_registry=True, acceptance_path=acceptance)
+            second = export_bundle(bundle, registry, output, acceptance_path=acceptance)
             self.assertEqual(first, second)
             name = first['artifactFile']
             self.assertEqual((output/name).read_bytes(), gzip.decompress((output/(name+'.gz')).read_bytes()))
             with self.assertRaisesRegex(ValueError, 'already exists'):
-                export_bundle(bundle, registry, output, initialize_registry=True)
+                export_bundle(bundle, registry, output, initialize_registry=True, acceptance_path=acceptance)
             (output/name).write_text('modified')
             before = registry.read_bytes()
-            with self.assertRaisesRegex(ValueError, 'Refusing to replace'): export_bundle(bundle, registry, output)
+            with self.assertRaisesRegex(ValueError, 'Refusing to replace'): export_bundle(bundle, registry, output, acceptance_path=acceptance)
             self.assertEqual(before, registry.read_bytes())
 
     def test_delivery_file_is_named_for_its_office_and_date(self):
         # Agreed 26 September 2026: scout-<office>-prepared-resources-<YYYY-MM-DD>.json(.gz).
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary); bundle = root/'bundle.json'; bundle.write_bytes(encoded(self.bundle))
-            receipt = export_bundle(bundle, root/'registry.json', root/'delivery', initialize_registry=True)
+            acceptance = accept_fixture(self, bundle)
+            receipt = export_bundle(bundle, root/'registry.json', root/'delivery', initialize_registry=True, acceptance_path=acceptance)
             artifact = json.loads((root/'delivery'/receipt['artifactFile']).read_text())
             slug, day = artifact['office']['slug'], artifact['snapshot']['generatedAt'][:10]
             self.assertEqual(receipt['artifactFile'], f'scout-{slug}-prepared-resources-{day}.json')

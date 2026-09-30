@@ -1,5 +1,15 @@
 # Prepared-resource delivery contract
 
+## Mandatory supervisor acceptance — September 30
+
+New reviews use [explicit bounded review decisions](scout-review-decisions-v1.md).
+The compiler must apply authored corrections and taxonomy/selection decisions exactly.
+Worker completion stops for substantive supervisor acceptance; it never triggers
+automatic export. All export routes require an outside-review acceptance receipt
+bound to the exact bundle and evidence, before registry allocation or delivery writes.
+Historical sealed work requires an explicit audited adapter, not automatic acceptance.
+This supersedes older automatic-export wording below.
+
 Implemented first delivery: [Mesa, four categories](mesa-wsrs-tso-handoff-20260925.md).
 This is the data delivery mode approved September 25, not the older HTML workbench
 contract. [Design and decisions](scout-prepared-resources-design-20260925.md) explain

@@ -14,6 +14,7 @@ from resource_research_agent.resource_identity import new_registry
 from resource_research_agent.scout_review_handoff import curation_fingerprint
 from resource_research_agent.scout_progress import prepared_delivery_context
 from tests.test_prepared_resources import fixture, seal
+from tests.review_acceptance_fixture import accept_fixture
 
 
 class PreparedPipelineTests(unittest.TestCase):
@@ -51,6 +52,7 @@ class PreparedPipelineTests(unittest.TestCase):
             draftSha256=sha(self.root / 'curation/prepared-drafts.json')))
         (self.root / 'review/report.md').write_text('Reviewed every candidate; no supported additional starters.')
         self.save_bundle()
+        self.config['supervisorAcceptancePath'] = str(accept_fixture(self, self.root / 'review/reviewed-bundle.json'))
 
     def write(self, relative, value):
         (self.root / relative).write_text(json.dumps(value))
@@ -160,8 +162,9 @@ class PreparedPipelineTests(unittest.TestCase):
             pipeline.supervise(self.root / 'pipeline.json')
         legacy.assert_not_called()
         state = json.loads((self.root / 'pipeline-status.json').read_text())
-        self.assertEqual(state['phase'], 'prepared-delivery-ready')
-        self.assertTrue(Path(state['delivery']['artifactFile']).exists())
+        self.assertEqual(state['phase'], 'needs-attention')
+        self.assertTrue(state['supervisorAcceptanceRequired'])
+        self.assertFalse(Path(self.config['preparedOutputDirectory']).exists())
 
     def test_prompt_is_fresh_and_prepared_not_legacy(self):
         prompt = prepared_review_prompt(self.config, 1, 1)

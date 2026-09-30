@@ -109,7 +109,9 @@ def encoded(value):
     return (json.dumps(value, ensure_ascii=False, indent=2) + "\n").encode()
 
 
-def export_bundle(bundle_path, registry_path, output, *, initialize_registry=False, previous_path=None, short_date=False):
+def export_bundle(bundle_path, registry_path, output, *, initialize_registry=False, previous_path=None, short_date=False, acceptance_path=None):
+    from .review_acceptance import verify_acceptance
+    acceptance = verify_acceptance(bundle_path, acceptance_path)
     bundle = json.loads(bundle_path.read_text())
     if initialize_registry:
         require(not registry_path.exists(), "Registry already exists; initialization is never a reset")
@@ -119,6 +121,7 @@ def export_bundle(bundle_path, registry_path, output, *, initialize_registry=Fal
         before = fingerprint(registry)
     previous = json.loads(previous_path.read_text()) if previous_path else None
     artifact, updated, migration, receipt = finalize(bundle, registry, previous=previous)
+    receipt['supervisorAcceptanceSha256'] = hashlib.sha256(Path(acceptance_path).read_bytes()).hexdigest()
     artifact_bytes = encoded(artifact)
     receipt["artifactSha256"] = hashlib.sha256(artifact_bytes).hexdigest()
     name = delivery_name(artifact, short_date=short_date)
@@ -147,12 +150,14 @@ def main():
     parser.add_argument("--registry", type=Path, default=Path("registry/resource-identities.json"))
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--previous", type=Path)
+    parser.add_argument("--acceptance", required=True, type=Path, help="Supervisor receipt outside the review workspace")
     parser.add_argument("--initialize-registry", action="store_true")
     parser.add_argument("--short-date", action="store_true", help="Use YY-MM-DD in the delivery filename when requested")
     args = parser.parse_args()
     try:
         receipt = export_bundle(args.bundle, args.registry, args.output,
-            initialize_registry=args.initialize_registry, previous_path=args.previous, short_date=args.short_date)
+            initialize_registry=args.initialize_registry, previous_path=args.previous, short_date=args.short_date,
+            acceptance_path=args.acceptance)
     except (ValueError, KeyError) as exc:
         parser.exit(2, f"Prepared export refused: {exc}\n")
     print(json.dumps(receipt["counts"], sort_keys=True))

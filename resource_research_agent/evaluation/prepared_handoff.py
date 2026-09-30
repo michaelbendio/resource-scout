@@ -182,7 +182,7 @@ def reconcile_and_export(root, **kwargs):
         return _reconcile_and_export(root,**kwargs)
 
 
-def _reconcile_and_export(root, *, production_registry, previous_artifact, destination_registry, output):
+def _reconcile_and_export(root, *, production_registry, previous_artifact, destination_registry, output, acceptance_path=None):
     """Call only after user explicitly requests an importable Housing handoff."""
     root=Path(root).resolve();handoff=root/'handoff';output=Path(output)
     report_path=root/'reports/reviewed-with-selections.json'
@@ -229,6 +229,11 @@ def _reconcile_and_export(root, *, production_registry, previous_artifact, desti
         # Complete all structural/identity checks before touching the production registry.
         finalize(bundle,registry)
         write_once(bundle_path,bundle)
+    if acceptance_path is None:
+        # Preparation is resumable; no registry/output mutation precedes the supervisor audit.
+        raise EvaluationError('Supervisor acceptance required; inspect handoff/reviewed-bundle.json, author report.md and an outside-handoff receipt, then resume with acceptance_path')
+    from ..review_acceptance import verify_acceptance
+    verify_acceptance(bundle_path, acceptance_path)
     _,expected_registry,_,_=finalize(read(bundle_path),registry)
     source_now=load_registry(Path(production_registry))
     if fingerprint(source_now) not in {fingerprint(registry),fingerprint(expected_registry)}:
@@ -244,7 +249,7 @@ def _reconcile_and_export(root, *, production_registry, previous_artifact, desti
         # Explicitly preserve the full current registry from the production checkout.
         from ..resource_identity import save_registry
         save_registry(destination_registry,registry,expected_fingerprint=fingerprint(current))
-    delivered=output/export_bundle(bundle_path,destination_registry,output)['artifactFile']
+    delivered=output/export_bundle(bundle_path,destination_registry,output,acceptance_path=acceptance_path)['artifactFile']
     if Path(production_registry).resolve()!=destination_registry.resolve():
         from ..resource_identity import save_registry
         save_registry(Path(production_registry),load_registry(destination_registry),expected_fingerprint=fingerprint(source_now))

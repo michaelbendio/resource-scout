@@ -55,6 +55,29 @@ of those two source-snapshot files. They are sealed inputs, not editable decisio
 checked official sources as resource evidence. Do not consult old office deliveries,
 old research, prior review findings, archived databases, or archived Welfare Square
 evidence.'''
+    decision_instruction = '''
+Structured review decisions are mandatory for this run (reviewDecisionContract=1).
+Read docs/scout-review-decisions-v1.md for the exact file schema and compiler.
+Author resource decisions in batches of at most 15, candidate/category decisions in
+batches of at most 30. Work on at most TWO resource batches and FOUR candidate batches
+per session, or one category taxonomy/selection finalization. Prefer linked candidate
+dispositions alongside their resource decisions. Checkpoint and continue before
+75 minutes or sooner if context is becoming tight; never fill a session quota. Continue
+before context exhaustion; completed judgments must not be repeated in later sessions.
+Scripts may extract input slices, validate, hash and compile only. Never generate
+judgments, reasons, Types/groups or selections using keyword rules, scores, templates,
+or catch-all defaults. Every required judgment must be authored from evidence.
+Compile decision-manifest.json with resource_research_agent.review_decisions.
+Use its exact content output for content-reviewed.json and the final bundle; do not
+maintain a separate heuristic assembler. Bind inputs.decisionManifestSha256.
+If content changes during reconciliation, amend the specific decisions, recompile and
+refreeze. Do not patch only the delivered bundle. The compiler must reject missing
+decisions or unapplied corrections; structural checks do not prove substantive quality.
+The worker may not create acceptance receipts or invoke export. review-complete means
+submitted for substantive supervisor acceptance, never permission to allocate registry
+IDs, export or publish. The supervisor audits the actual decisions and compiled output
+and issues an outside-review receipt bound to the exact bundle and evidence files.
+''' if config.get('reviewDecisionContract') == 1 else ''
     return f'''Complete the explicitly requested {config['officeName']} prepared-resource review.
 Authorization: {config['authorization']}
 One sequential Codex reviewer, xhigh, session {session}; no subagents or other paid workers.
@@ -72,6 +95,7 @@ Read the exporter, validator and identity registry API to construct the exact sc
 Keep output and reads bounded. Resume review/STATUS.json and decision checkpoints.
 
 {evidence_scope}
+{decision_instruction}
 Current policy/code is allowed. Only AFTER the fresh content review is
 finished and frozen may you read {config['registryPath']} for identity-only matching.
 Do not copy resource content from it. Record uncertain matches explicitly; code owns IDs.
@@ -163,7 +187,7 @@ Before ending EVERY session, write {root}/review/STATUS.json:
 Use continue after durable new progress, before context exhaustion; the supervisor
 starts the next sequential xhigh session. Use review-complete only for a fully reviewed,
 coverage-complete, validated bundle and report. Supervisor checks inputs/coverage and
-exports; it never treats your status alone as proof. Do not call legacy complete_codex_review.
+requires substantive supervisor acceptance before export; it never treats your status alone as proof. Do not call legacy complete_codex_review.
 Do not claim WSRS-TSO import or publication. Registry commit is required before handoff.
 '''
 
@@ -231,6 +255,9 @@ def validate_submission(config, job):
                     for cid in candidates), 'Restored provenance disagrees with candidate review')
     report = review / 'report.md'
     require(report.is_file() and bool(report.read_text().strip()), 'Readable review report missing')
+    if config.get('reviewDecisionContract') == 1:
+        from .review_decisions import verify_bundle
+        verify_bundle(bundle, review / 'decision-manifest.json', drafts_path)
     return review / 'reviewed-bundle.json'
 
 
@@ -250,7 +277,9 @@ def _export_reviewed_submission(config, job):
     registry_path = Path(config['registryPath'])
     previous = Path(config['previousPreparedPath']) if config.get('previousPreparedPath') else None
     receipt = export_bundle(bundle_path, registry_path, output, previous_path=previous,
-                            short_date=config.get('shortDeliveryDate', False))
+                            short_date=config.get('shortDeliveryDate', False),
+                            acceptance_path=config.get('supervisorAcceptancePath',
+                                str(Path(config['runDirectory']) / 'supervisor-acceptance.json')))
     artifact_path = output / receipt['artifactFile']
     artifact = read(artifact_path)
     registry = load_registry(registry_path)

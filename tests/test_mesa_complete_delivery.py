@@ -149,10 +149,14 @@ class MesaCompleteDeliveryTests(unittest.TestCase):
         self.assertEqual(review_fingerprint(bundle), self.attestation['reviewFingerprint'])
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp)
+            from tests.review_acceptance_fixture import accept_fixture
+            review = target/'review'; review.mkdir()
+            copied_bundle = review/'bundle.json'; copied_bundle.write_bytes(bundle_path.read_bytes())
+            acceptance = accept_fixture(self, copied_bundle)
             registry = target/'registry.json'
             registry.write_bytes((P/'registry-before-full-mesa.json').read_bytes())
             for _ in range(2):
-                export_bundle(bundle_path, registry, target/'out',
+                export_bundle(copied_bundle, registry, target/'out', acceptance_path=acceptance,
                     previous_path=ROOT/'deliveries/mesa-four-categories-20260925/prepared-resources.json')
                 # The delivery predates the agreed file name; a re-export writes the same
                 # bytes under scout-<office>-prepared-resources-<date>.json.
@@ -162,6 +166,7 @@ class MesaCompleteDeliveryTests(unittest.TestCase):
                     self.assertEqual((D/old).read_bytes(), (target/'out'/new).read_bytes(), old)
                 receipt = load(target/'out'/'receipt.json')
                 self.assertEqual(receipt.pop('artifactFile'), named.name)
+                self.assertEqual(receipt.pop('supervisorAcceptanceSha256'), hashlib.sha256(acceptance.read_bytes()).hexdigest())
                 self.assertEqual(receipt, load(D/'receipt.json'))
 
     @unittest.skipUnless(importlib.util.find_spec('jsonschema'), 'Optional independent JSON Schema validator')
