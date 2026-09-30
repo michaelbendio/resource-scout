@@ -1,0 +1,465 @@
+{
+ "category": "seniors",
+ "lists": [
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs",
+   "title": "City of Mesa - Community Resources and Support Programs",
+   "kind": "official",
+   "note": "current; only two senior entries"
+  },
+  {
+   "url": "https://www.aaaphx.org/area-agency-on-aging-programs/",
+   "title": "Area Agency on Aging, Region One - Programs",
+   "kind": "network",
+   "note": "current; its own programmes only"
+  },
+  {
+   "url": "https://www.asteraz.org/services/seniorcenters.html",
+   "title": "Aster Aging - Senior Centers and services",
+   "kind": "network",
+   "note": "current; one agency's own sites"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=seniors&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - seniors near Mesa",
+   "kind": "211",
+   "note": "current; readable; Valley-wide, heavy on senior housing"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=senior%20center&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - senior centers near Mesa",
+   "kind": "211",
+   "note": "current; five entries"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Activities-Culture/Parks-Recreation-and-Community-Facilities/Recreational-Facilities/Red-Mountain-Center",
+   "title": "City of Mesa - Red Mountain Center (search-result text only)",
+   "kind": "official",
+   "note": "not read directly; one entry"
+  },
+  {
+   "url": "https://www.mesaartscenter.com/creative-aging",
+   "title": "Mesa Arts Center - Creative Aging (search-result text only)",
+   "kind": "official",
+   "note": "not read directly; one entry"
+  }
+ ],
+ "seeds": [
+  {
+   "name": "Aster Aging - Senior Center at Mesa Downtown",
+   "website": "https://www.asteraz.org/services/seniorcenters.html",
+   "address": "247 N Macdonald St, Mesa, AZ 85201",
+   "sources": [
+    "https://www.asteraz.org/services/seniorcenters.html",
+    "https://search.211arizona.org/search?query=senior%20center&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "60+ for meals, 55+ for activities",
+   "listingSays": "Daily lunch, activities, exercise and social services for older adults.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_28516432c5af58a2945dd6ef50ef8443",
+    "scoutName": "Aster Aging \u2014 senior-center meals and Meals on Wheels",
+    "note": "Scout has one combined Aster senior-centre-meals entry, not per site"
+   }
+  },
+  {
+   "name": "Aster Aging - Senior Center at Mesa Red Mountain",
+   "website": "https://www.asteraz.org/services/seniorcenters.html",
+   "address": "7550 E Adobe St, Mesa, AZ 85207",
+   "sources": [
+    "https://www.asteraz.org/services/seniorcenters.html",
+    "https://search.211arizona.org/search?query=senior%20center&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "a different site and phone from Downtown, so kept separate",
+   "listingSays": "Daily lunch, activities and outreach for older adults in east Mesa.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_28516432c5af58a2945dd6ef50ef8443",
+    "scoutName": "Aster Aging \u2014 senior-center meals and Meals on Wheels",
+    "note": "same combined Aster entry as Downtown; no separate Red Mountain site entry"
+   }
+  },
+  {
+   "name": "Aster Aging - Meals on Wheels",
+   "website": "https://www.asteraz.org",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.asteraz.org/services/seniorcenters.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "distinct intake from the centres",
+   "listingSays": "Home-delivered meals for homebound older adults.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_28516432c5af58a2945dd6ef50ef8443",
+    "scoutName": "Aster Aging \u2014 senior-center meals and Meals on Wheels"
+   }
+  },
+  {
+   "name": "Aster Aging - Benefits Enrollment and Resource Navigation",
+   "website": "https://www.asteraz.org/services/benefits.html",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs",
+    "https://www.asteraz.org/services/seniorcenters.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Help for people 60+ applying for benefits and utility, food and health help.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_b1ffdda9830d554db5c65566d7246c22",
+    "scoutName": "Aster Aging - Benefits Enrollment Center and Outreach/Social Services"
+   }
+  },
+  {
+   "name": "Aster Aging - Home Care and In-Home Support",
+   "website": "https://www.asteraz.org",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.asteraz.org/services/seniorcenters.html"
+   ],
+   "rule": "unclear",
+   "ruleNote": "may be private-pay or AAA-referred",
+   "listingSays": "Non-medical home care and respite.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_0cade8ba5bdd5a1d85ab96e27097387c",
+    "scoutName": "Aster Aging - Safe at Home Community of Care"
+   }
+  },
+  {
+   "name": "City of Mesa Limited Income Senior Rate Program",
+   "website": "https://www.mesaaz.gov/Utilities/Limited-Income-Senior-Rate-Program",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "a utility discount, belongs in Utilities",
+   "listingSays": "30% off the water service rate for Mesa seniors 60+ on limited income.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_9f2596e64e195a71b19dfd3624f62300",
+    "scoutName": "City of Mesa Utilities - Limited Income Senior Rate Program"
+   }
+  },
+  {
+   "name": "Area Agency on Aging Region One - 24-Hour Senior HELP LINE",
+   "website": "https://www.aaaphx.org",
+   "address": "Phone 602-264-4357, Phoenix",
+   "sources": [
+    "https://www.aaaphx.org/area-agency-on-aging-programs/"
+   ],
+   "rule": "pass",
+   "ruleNote": "countywide front door",
+   "listingSays": "24-hour phone line for older adults and caregivers: benefits, in-home help, referrals.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_60dfd9e048785bc3ba25c5ea2a2543f5",
+    "scoutName": "Area Agency on Aging, Region One - Benefits Assistance Program / SHIP Counseling",
+    "note": "same agency; Scout's entry is its Benefits Assistance/SHIP programme, and the HELP LINE may appear there only as a phone number"
+   }
+  },
+  {
+   "name": "Area Agency on Aging - Family Caregiver Support",
+   "website": "https://www.aaaphx.org",
+   "address": "Phoenix; countywide",
+   "sources": [
+    "https://www.aaaphx.org/area-agency-on-aging-programs/"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "reached through the HELP LINE",
+   "listingSays": "Support and respite for family caregivers.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_8f48efc8cc785e30903ad0efd9b975ca",
+    "scoutName": "Area Agency on Aging, Region One - Family Caregiver Support Program"
+   }
+  },
+  {
+   "name": "Area Agency on Aging - Benefits Assistance / SHIP Medicare counselling",
+   "website": "https://www.aaaphx.org",
+   "address": "Phoenix; countywide",
+   "sources": [
+    "https://www.aaaphx.org/area-agency-on-aging-programs/"
+   ],
+   "rule": "unclear",
+   "ruleNote": "may have its own phone intake, which would justify a separate entry",
+   "listingSays": "Help with Medicare and senior benefits.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_60dfd9e048785bc3ba25c5ea2a2543f5",
+    "scoutName": "Area Agency on Aging, Region One - Benefits Assistance Program / SHIP Counseling"
+   }
+  },
+  {
+   "name": "Area Agency on Aging - Long-Term Care Ombudsman",
+   "website": "https://www.aaaphx.org",
+   "address": "Phoenix; countywide",
+   "sources": [
+    "https://www.aaaphx.org/area-agency-on-aging-programs/"
+   ],
+   "rule": "unclear",
+   "ruleNote": "distinct purpose; separate intake not shown",
+   "listingSays": "Advocates for residents of nursing and assisted-living homes.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_4a87a8e4085a5e7d9beaa8ce7192e3ac",
+    "scoutName": "Area Agency on Aging, Region One - Health Promotion Program",
+    "note": "same agency, wrong programme (Health Promotion); no Ombudsman entry found"
+   }
+  },
+  {
+   "name": "Senior and Adult Independent Living (SAIL) Program",
+   "website": "",
+   "address": "1366 E Thomas Rd Ste 108, Phoenix, AZ 85014",
+   "sources": [
+    "https://search.211arizona.org/search?query=seniors&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "Area Agency on Aging programme reached via HELP LINE",
+   "listingSays": "Case management and in-home services for seniors and disabled adults.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_39168d1221975748b8ffdff26ba3c334",
+    "scoutName": "Maricopa County Human Services Department - Senior & Adult Independent Living Program (SAIL)"
+   }
+  },
+  {
+   "name": "Area Agency on Aging Elder Resource Guide",
+   "website": "",
+   "address": "1366 E Thomas Rd Ste 108, Phoenix, AZ 85014",
+   "sources": [
+    "https://search.211arizona.org/search?query=seniors&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "",
+   "listingSays": "Printed guide to senior resources in Maricopa County.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Inter Tribal Council of Arizona's Area Agency on Aging (a different agency) - wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Area Agency on Aging Health Promotion",
+   "website": "",
+   "address": "1366 E Thomas Rd Ste 108, Phoenix, AZ 85014",
+   "sources": [
+    "https://search.211arizona.org/search?query=seniors&location=Mesa%2C%20AZ",
+    "https://www.aaaphx.org/area-agency-on-aging-programs/"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "",
+   "listingSays": "Health classes for seniors.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_4a87a8e4085a5e7d9beaa8ce7192e3ac",
+    "scoutName": "Area Agency on Aging, Region One - Health Promotion Program"
+   }
+  },
+  {
+   "name": "Maricopa County Human Services Senior and Adult Services Division",
+   "website": "",
+   "address": "234 N Central Ave Ste 3000, Phoenix, AZ 85004",
+   "sources": [
+    "https://search.211arizona.org/search?query=seniors&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "case management; direct intake not shown",
+   "listingSays": "Case management for seniors, disabled adults and caregivers.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_39168d1221975748b8ffdff26ba3c334",
+    "scoutName": "Maricopa County Human Services Department - Senior & Adult Independent Living Program (SAIL)",
+    "note": "matched the division's SAIL programme - same front door, plausible"
+   }
+  },
+  {
+   "name": "Arizona Senior Farmers Market Nutrition Program",
+   "website": "",
+   "address": "484 W Chandler Blvd, Chandler, AZ 85225",
+   "sources": [
+    "https://search.211arizona.org/search?query=seniors&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "main service arguably Food",
+   "listingSays": "$100 coupon booklet for Arizona-grown produce for eligible seniors.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_3752ed28cf9c51a983948792d53830ba",
+    "scoutName": "Arizona Senior Farmers Market Nutrition Program (SFMNP)"
+   }
+  },
+  {
+   "name": "Resurrection Street Ministry (RSM) Food Pantry",
+   "website": "",
+   "address": "1021 E Main St, Mesa, AZ 85203",
+   "sources": [
+    "https://search.211arizona.org/search?query=seniors&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "food pantry for seniors and veterans, belongs in Food",
+   "listingSays": "Weekly food box for seniors 60+ and veterans.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_7c92324d01a550e0a85a98c4036c20a9",
+    "scoutName": "Resurrection Street Ministry - Food Assistance, Mobile Pantry and Senior/Veterans Food Program"
+   }
+  },
+  {
+   "name": "Law for Seniors",
+   "website": "https://lawforseniors.org",
+   "address": "Phoenix; online",
+   "sources": [
+    "https://search.211arizona.org/search?query=seniors&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "legal information, belongs in Legal",
+   "listingSays": "Online legal information for older adults.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Arizona Senior Citizens Law Project (a different agency) - wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Arizona Attorney General Taskforce Against Senior Abuse",
+   "website": "",
+   "address": "2005 N Central Ave, Phoenix, AZ 85004",
+   "sources": [
+    "https://search.211arizona.org/search?query=seniors&location=Mesa%2C%20AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "phone hotline",
+   "listingSays": "Takes complaints of senior fraud, abuse and exploitation.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_8abaa1b2be4b53b48b7d401aca63af2c",
+    "scoutName": "Arizona Attorney General's Office - Elder Affairs / TASA Helpline",
+    "note": "score 0.6 but correct: Scout's AG Elder Affairs / TASA helpline"
+   }
+  },
+  {
+   "name": "Seniors EyeCare Program",
+   "website": "",
+   "address": "San Francisco, CA (national)",
+   "sources": [
+    "https://search.211arizona.org/search?query=seniors&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "national, online; main service arguably Health",
+   "listingSays": "Free eye exams for qualifying seniors 65+.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "The Citadel Senior Living",
+   "website": "",
+   "address": "520 S Higley Rd, Mesa, AZ 85206",
+   "sources": [
+    "https://search.211arizona.org/search?query=seniors&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "senior housing, belongs in Housing",
+   "listingSays": "Low-income assisted and independent living for seniors.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched Maricopa County SAIL programme - wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Mosaic Center (AAA MOSAIC Elder Refugee)",
+   "website": "",
+   "address": "Confidential, Phoenix",
+   "sources": [
+    "https://search.211arizona.org/search?query=senior%20center&location=Mesa%2C%20AZ",
+    "https://www.aaaphx.org/area-agency-on-aging-programs/"
+   ],
+   "rule": "unclear",
+   "ruleNote": "refugee elders; Area Agency on Aging programme",
+   "listingSays": "Senior centre for elder refugees.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_1cc52bbde99957afaa47874d66cdc92a",
+    "scoutName": "Area Agency on Aging, Region One - MOSAIC Elder Refugee Program"
+   }
+  },
+  {
+   "name": "CPLC Senior Services",
+   "website": "",
+   "address": "1617 N 45th Ave, Phoenix, AZ 85035",
+   "sources": [
+    "https://search.211arizona.org/search?query=senior%20center&location=Mesa%2C%20AZ"
+   ],
+   "rule": "fail: reach from the office",
+   "ruleNote": "west Phoenix senior centre",
+   "listingSays": "Senior centre in west Phoenix.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_f2fe91c01ec05723af334efb58bd0d97",
+    "scoutName": "Chicanos Por La Causa - CPLC Healthy Aging / Senior Services"
+   }
+  },
+  {
+   "name": "AllThrive365 Adult Day Health Services",
+   "website": "",
+   "address": "1201 E Thomas Rd, Phoenix, AZ 85014",
+   "sources": [
+    "https://search.211arizona.org/search?query=seniors&location=Mesa%2C%20AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "central Phoenix day programme",
+   "listingSays": "Day programme and respite for seniors.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "",
+    "note": "tool matched HonorHealth Desert Mission adult day care - wrong, corrected to none"
+   }
+  },
+  {
+   "name": "Red Mountain Multigenerational Center (City of Mesa / Mesa Seniors Inc.)",
+   "website": "https://www.mesaaz.gov/Activities-Culture/Parks-Recreation-and-Community-Facilities/Recreational-Facilities/Red-Mountain-Center",
+   "address": "7550 E Adobe St, Mesa, AZ 85207",
+   "sources": [
+    "https://www.mesaaz.gov/Activities-Culture/Parks-Recreation-and-Community-Facilities/Recreational-Facilities/Red-Mountain-Center"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "same building as Aster Red Mountain; recreation",
+   "listingSays": "City recreation centre with senior outreach specialists.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_1f0b49aabda35531a3005020e1e53328",
+    "scoutName": "City of Mesa - Red Mountain Center Active-Retiree Recreation and Fitness Access"
+   }
+  },
+  {
+   "name": "Mesa Arts Center Creative Aging / Lifelong Learning",
+   "website": "https://www.mesaartscenter.com/creative-aging",
+   "address": "1 E Main St, Mesa, AZ",
+   "sources": [
+    "https://www.mesaartscenter.com/creative-aging"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "recreation, not a need",
+   "listingSays": "Free arts classes for adults 55+.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_8a8242bd108f5c108875a68a0bfab9dc",
+    "scoutName": "Mesa Arts Center - Creative Aging Lifelong Learning"
+   }
+  }
+ ],
+ "thin": "No single official Mesa senior resource list; the city names only Aster and a water discount, and the Area Agency on Aging lists only its own programmes. 211's senior results are mostly housing and out-of-area programmes; nothing listed in-home help, transport or caregiver respite from Mesa-based agencies other than Aster."
+}

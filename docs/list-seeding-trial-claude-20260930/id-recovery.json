@@ -1,0 +1,99 @@
+{
+ "category": "id-recovery",
+ "lists": [
+  {
+   "url": "https://www.homelessidproject.org/programs/",
+   "title": "Homeless ID Project - Maricopa & Pima service locations",
+   "kind": "network",
+   "note": "current; the provider's own list of partner sites, including a Mesa site at SVDP (49 W Broadway) 2nd and 4th Tuesdays"
+  },
+  {
+   "url": "https://commonladder.org/blog/id-recovery-phoenix.html",
+   "title": "Common Ladder - How to replace a lost ID in Phoenix when homeless",
+   "kind": "aggregator",
+   "note": "current; 3 providers"
+  },
+  {
+   "url": "https://www.tempecommunitycouncil.org/get-help/",
+   "title": "Tempe Community Council - Get Help (identification)",
+   "kind": "network",
+   "note": "current; one ID provider"
+  },
+  {
+   "url": "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+   "title": "Maricopa County Justice Courts - Find Legal/Community Resources (ID entry)",
+   "kind": "official",
+   "note": "current; partial, one provider mentions ID cards"
+  }
+ ],
+ "seeds": [
+  {
+   "name": "Homeless ID Project",
+   "website": "https://www.homelessidproject.org",
+   "address": "1125 W Jackson St, Phoenix, AZ 85007; Mesa site at SVDP Mesa Dining Room, 49 W Broadway Rd, 2nd & 4th Tue 1-3:30pm",
+   "sources": [
+    "https://www.homelessidproject.org/programs/",
+    "https://commonladder.org/blog/id-recovery-phoenix.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "Has a Mesa site; free; one entry for all its sites",
+   "listingSays": "Free help replacing Arizona IDs and driver's licences, birth certificates and Social Security cards.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_4790f0d6c90f5ea0b26425476d40c227",
+    "scoutName": "Homeless ID Project - Mesa and Phoenix replacement ID services"
+   }
+  },
+  {
+   "name": "Paz de Cristo Community Center - ID and birth certificate help",
+   "website": "https://pazdecristo.org",
+   "address": "424 W Broadway Rd, Mesa, AZ 85210",
+   "sources": [
+    "https://commonladder.org/blog/id-recovery-phoenix.html",
+    "https://www.tempecommunitycouncil.org/get-help/"
+   ],
+   "rule": "unclear",
+   "ruleNote": "In Mesa; ID vouchers are a named programme, but the centre's main service is food and basic needs",
+   "listingSays": "Arizona ID vouchers and birth-certificate help, free.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_fd71f70538d756259994ec5ce07c2610",
+    "scoutName": "Paz de Cristo Community Center - Meals, Basic Needs and Empowerment"
+   }
+  },
+  {
+   "name": "Maricopa County Vital Records",
+   "website": "https://www.maricopa.gov/2770/Vital-Records",
+   "address": "Maricopa County (Scout holds its East Valley office)",
+   "sources": [
+    "https://commonladder.org/blog/id-recovery-phoenix.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "County office that issues the document; direct walk-in",
+   "listingSays": "Issues replacement Arizona birth certificates; fee usually charged.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a3b3ec98dcad5c28bda37b546efd5eb6",
+    "scoutName": "Maricopa County Department of Public Health - Office of Vital Registration East Valley office"
+   }
+  },
+  {
+   "name": "Arizona Justice Center",
+   "website": "https://www.azjusticecenter.org",
+   "address": "5585 W Glenn Dr, Glendale, AZ 85301",
+   "sources": [
+    "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+    "https://www.homelessidproject.org/programs/"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Glendale, across the metro; ID help is one of several services (and a Homeless ID Project host site)",
+   "listingSays": "Help with ID cards, SNAP, housing and legal documents.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_65dc25f5cb5d5ab9a1966d3d381b3f7f",
+    "scoutName": "Arizona Justice Center Legal Assistance, Social Services, and Life Coaching"
+   }
+  }
+ ],
+ "thin": "ID recovery is the thinnest category: no City of Mesa, Maricopa County or state page lists ID help (Mesa's homeless resource list has none), 211 Arizona returned no results for Mesa, and findhelp refused to load. The only lists are the Homeless ID Project's own site list and two small community pages, which between them name four providers; Scout's own search has to do the work here (e.g. MVD, SSA, ADHS fee waivers, shelters' ID help)."
+}

@@ -1,0 +1,589 @@
+{
+ "category": "transportation",
+ "lists": [
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Public-Transit",
+   "title": "City of Mesa - Public Transit",
+   "kind": "official",
+   "note": "current; Valley Metro services only, no senior/volunteer programmes"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ",
+   "title": "2-1-1 Arizona - Local Transportation near Mesa",
+   "kind": "211",
+   "note": "current; 18 results, half are AHCCCS health plans (members only)"
+  },
+  {
+   "url": "https://www.southwestnetwork.org/help-book-en/transportation",
+   "title": "Southwest Network Help Book - Transportation",
+   "kind": "network",
+   "note": "stale (old azdes.gov links, undated 'Jul 7'); Phoenix-centric"
+  },
+  {
+   "url": "https://www.nesthealth.com/maricopa-transportation",
+   "title": "Nest Health - Transportation Help & Free Rides in Maricopa County",
+   "kind": "aggregator",
+   "note": "current-looking; countywide, mostly Phoenix/north Valley"
+  },
+  {
+   "url": "https://seniorsmobility.org/free-transportation/free-transportation-for-seniors-in-arizona/",
+   "title": "SeniorsMobility - Free Transportation for Seniors in Arizona",
+   "kind": "aggregator",
+   "note": "partial; three East Valley volunteer-driver groups"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources",
+   "title": "City of Mesa - Mesa Vets Connect",
+   "kind": "official",
+   "note": "current; one veterans ride service"
+  },
+  {
+   "url": "https://www.compudopt.org/mesa-resources",
+   "title": "Compudopt - Mesa Community Resources",
+   "kind": "network",
+   "note": "partial; Valley Metro only"
+  }
+ ],
+ "seeds": [
+  {
+   "name": "Valley Metro bus and light rail (reduced fare)",
+   "website": "valleymetro.org",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Public-Transit",
+    "https://www.southwestnetwork.org/help-book-en/transportation",
+    "https://www.nesthealth.com/maricopa-transportation",
+    "https://www.compudopt.org/mesa-resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Regional bus and light rail; reduced fare for seniors 65+, people with disabilities and youth.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_beb8e716a4fc59249f3282f042942709",
+    "scoutName": "Valley Metro - Reduced Fare Program"
+   }
+  },
+  {
+   "name": "Valley Metro ADA Paratransit (East Valley Dial-a-Ride)",
+   "website": "valleymetro.org/accessibility/ada-paratransit",
+   "address": "Phoenix, AZ (serves Mesa)",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Public-Transit",
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://www.nesthealth.com/maricopa-transportation"
+   ],
+   "rule": "pass",
+   "ruleNote": "Needs ADA certification, which the person applies for directly.",
+   "listingSays": "Door-to-door shared-ride van service for ADA-certified people with disabilities.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_cce0c9a97c675e25be7a48c8e3a90523",
+    "scoutName": "Valley Metro - ADA Paratransit / East Valley Paratransit"
+   }
+  },
+  {
+   "name": "Valley Metro RideChoice (East Valley)",
+   "website": "valleymetro.org/ridechoice",
+   "address": "Phoenix, AZ (serves Mesa)",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Public-Transit",
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Separate intake and eligibility from paratransit, so a separate entry.",
+   "listingSays": "Discounted taxi/Uber rides for seniors 65+ and ADA-certified residents of participating cities.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_cdb04d9a3e3357c784df10654346658c",
+    "scoutName": "Valley Metro - RideChoice"
+   }
+  },
+  {
+   "name": "Valley Metro Mobility Center (ADA certification, ADA Platinum Pass, travel training)",
+   "website": "valleymetro.org",
+   "address": "4600 E Washington St, Phoenix, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Public-Transit",
+    "https://www.southwestnetwork.org/help-book-en/transportation"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free fixed-route pass for ADA-eligible riders, plus travel training.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_f333cf84e2675accb5e9b52950730cb9",
+    "scoutName": "Valley Metro - ADA Platinum Pass Program"
+   }
+  },
+  {
+   "name": "Mesa Downtown Buzz and Fiesta Buzz circulators",
+   "website": "valleymetro.org/maps-schedules/DBUZ",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://www.mesaaz.gov/Resident-Resources/Public-Transit"
+   ],
+   "rule": "fail: one entry per agency",
+   "ruleNote": "Free Valley Metro routes; covered by the Valley Metro bus entry.",
+   "listingSays": "Free neighbourhood circulator buses in downtown Mesa and the Fiesta district.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_472ce904a6555b06a4ecae701edac179",
+    "scoutName": "Valley Metro — Bus, rail, trip planning and fare access"
+   }
+  },
+  {
+   "name": "Aster Aging (Neighbors volunteer rides)",
+   "website": "asteraz.org",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://seniorsmobility.org/free-transportation/free-transportation-for-seniors-in-arizona/"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Transportation is one of several in-home senior services; main service may be Seniors.",
+   "listingSays": "Volunteer rides for East Valley seniors to medical visits, groceries and pharmacy.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5344baaffd245fb2b7a9ffea054aefc0",
+    "scoutName": "Aster Aging — Neighbors volunteer support"
+   }
+  },
+  {
+   "name": "Resurrection Street Ministry Veterans Transportation",
+   "website": "rsmaz.org/veterans-programs",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ",
+    "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Free rides for East Valley homeless, low-income and disabled veterans to VA and veteran offices.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_35b909ca0abc539387413af25ba06a97",
+    "scoutName": "Resurrection Street Ministry - Veterans Transportation"
+   }
+  },
+  {
+   "name": "Community Bridges Hand in Hand Street Outreach",
+   "website": "",
+   "address": "Mesa, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Street outreach; transport is incidental.",
+   "listingSays": "Outreach to homeless people countywide, including transportation.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_e80df0c77949520a8c72e80fb1656cbd",
+    "scoutName": "Maricopa County Human Services Department - Hand in Hand Street Outreach"
+   }
+  },
+  {
+   "name": "Arizona Complete Health (AHCCCS) medical transportation",
+   "website": "",
+   "address": "Tempe, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: direct contact",
+   "ruleNote": "Members only (already enrolled).",
+   "listingSays": "Non-emergency medical rides for AHCCCS plan members.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_b598c5f015e3575abdd06701b73128d9",
+    "scoutName": "Arizona Complete Health-Complete Care Plan - AHCCCS Member Transportation"
+   }
+  },
+  {
+   "name": "Molina Healthcare (AHCCCS) medical transportation",
+   "website": "",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: direct contact",
+   "ruleNote": "Members only.",
+   "listingSays": "Non-emergency medical rides for plan members.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_240b71528b6758c5b844093461f73490",
+    "scoutName": "Molina Healthcare of Arizona - Non-Emergency Medical Transportation through MTM/Veyo"
+   }
+  },
+  {
+   "name": "Mercy Care ACC-RBHA medical transportation",
+   "website": "",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: direct contact",
+   "ruleNote": "Members only.",
+   "listingSays": "Non-emergency medical rides for plan members.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_e3238f9fe84f5f7293b2a3ed15c98d0c",
+    "scoutName": "Mercy Care ACC-RBHA Behavioral-Health Access"
+   }
+  },
+  {
+   "name": "Health Choice Arizona medical transportation",
+   "website": "",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: direct contact",
+   "ruleNote": "Members only.",
+   "listingSays": "Non-emergency medical rides for plan members.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_7e8131223cf250a485686a6fd3d71b1e",
+    "scoutName": "Blue Cross Blue Shield of Arizona Health Choice - Medicaid Transportation Assistance"
+   }
+  },
+  {
+   "name": "UnitedHealthcare Community Plan medical transportation",
+   "website": "",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: direct contact",
+   "ruleNote": "Members only.",
+   "listingSays": "Non-emergency medical rides for plan members.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_fbd6e0be01a55fd393ddbaed9258e654",
+    "scoutName": "UnitedHealthcare Community Plan Arizona - AHCCCS Complete Care Transportation"
+   }
+  },
+  {
+   "name": "Arizona Center for the Blind and Visually Impaired",
+   "website": "",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Blindness services; transport is one item.",
+   "listingSays": "Transportation for people with visual impairments plus training.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_5470449b5cc45937a12c656388147abd",
+    "scoutName": "Arizona Center for the Blind and Visually Impaired (ACBVI) - Employment Support"
+   }
+  },
+  {
+   "name": "DAV Transportation Network - Phoenix VA",
+   "website": "",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Veterans only; countywide.",
+   "listingSays": "Volunteer rides for veterans to Phoenix VA appointments.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_86839af4b8b65f7797f162ea1b66cd9d",
+    "scoutName": "Disabled American Veterans - DAV Transportation Network at Phoenix VA"
+   }
+  },
+  {
+   "name": "American Cancer Society Road to Recovery",
+   "website": "cancer.org",
+   "address": "National (phone)",
+   "sources": [
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "pass",
+   "ruleNote": "Phone front door.",
+   "listingSays": "Volunteer rides to cancer treatment.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_85a23de1fd3d50738a09a6801665b710",
+    "scoutName": "American Cancer Society - Road To Recovery"
+   }
+  },
+  {
+   "name": "True to Care LLC",
+   "website": "",
+   "address": "Glendale, AZ",
+   "sources": [
+    "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Private lift-assist transport in Glendale; cost and service area not shown.",
+   "listingSays": "Non-emergency transportation with lift assist.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Arizona Spinal Cord Injury Association",
+   "website": "azspinal.org",
+   "address": "5025 E Washington St, Phoenix, AZ",
+   "sources": [
+    "https://www.southwestnetwork.org/help-book-en/transportation"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Peer support organisation.",
+   "listingSays": "Accessible transportation plus peer and family support.",
+   "scout": {
+    "match": "other-category",
+    "scoutId": "sr_3cb334f931bc5c4aa72b42fa911ee9a2",
+    "scoutName": "Arizona Spinal Cord Injury Association - Resource Facilitation, Peer Mentoring and Support Groups"
+   }
+  },
+  {
+   "name": "Benevilla",
+   "website": "benevilla.org",
+   "address": "Surprise, AZ",
+   "sources": [
+    "https://www.southwestnetwork.org/help-book-en/transportation"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "West Valley only.",
+   "listingSays": "Volunteer rides and home support.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_d18135e17e495f52b22f948d10fe9390",
+    "scoutName": "Benevilla Bridges - Free Home Services Transportation"
+   }
+  },
+  {
+   "name": "Foothills Caring Corps",
+   "website": "foothillscaringcorps.com",
+   "address": "Carefree, AZ",
+   "sources": [
+    "https://www.southwestnetwork.org/help-book-en/transportation",
+    "https://www.nesthealth.com/maricopa-transportation"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "North Scottsdale / Cave Creek only.",
+   "listingSays": "Free volunteer rides for seniors.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_f0bc7cb2ec9157c89bf7859814099c23",
+    "scoutName": "Foothills Caring Corps - Neighbor Support Services"
+   }
+  },
+  {
+   "name": "City of Phoenix Senior Cab and ADA Cab",
+   "website": "phoenix.gov",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://www.southwestnetwork.org/help-book-en/transportation"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Phoenix residents only.",
+   "listingSays": "Discounted taxi coupons for Phoenix seniors and ADA riders.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": "(corrected: tool matched Phoenix Dial-a-Ride, score 1.3, a different programme)"
+   }
+  },
+  {
+   "name": "The Salvation Army (transportation costs)",
+   "website": "salvationarmyusa.org",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://www.southwestnetwork.org/help-book-en/transportation"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "",
+   "listingSays": "Emergency assistance including transportation costs.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Fry's Mercado grocery ride home",
+   "website": "frysfood.com",
+   "address": "4230 W McDowell Rd, Phoenix, AZ",
+   "sources": [
+    "https://www.southwestnetwork.org/help-book-en/transportation"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "One Phoenix store; not a transport service.",
+   "listingSays": "Free ride home with a grocery purchase.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Ranch Market shuttle",
+   "website": "",
+   "address": "Phoenix area",
+   "sources": [
+    "https://www.southwestnetwork.org/help-book-en/transportation"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "",
+   "listingSays": "Free shuttle with $25+ grocery purchase.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "GoGoGrandparent",
+   "website": "gogograndparent.com",
+   "address": "National (phone)",
+   "sources": [
+    "https://www.nesthealth.com/maricopa-transportation"
+   ],
+   "rule": "pass",
+   "ruleNote": "Paid concierge service; phone reach.",
+   "listingSays": "On-demand rides for seniors by phone, no smartphone needed.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "ELAINE AZ",
+   "website": "elaineaz.org",
+   "address": "1075 W Jackson St, Phoenix, AZ",
+   "sources": [
+    "https://www.nesthealth.com/maricopa-transportation"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Service area not stated.",
+   "listingSays": "Rides connecting underserved people to health care, jobs and food.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_9352be04f79d5df18d2eee0f9ce9b790",
+    "scoutName": "ELAINE - Transportation Assistance Program"
+   }
+  },
+  {
+   "name": "MAG Connect-A-Ride",
+   "website": "azmag.gov",
+   "address": "Maricopa County (online)",
+   "sources": [
+    "https://www.nesthealth.com/maricopa-transportation"
+   ],
+   "rule": "unclear",
+   "ruleNote": "A directory of providers rather than a ride service.",
+   "listingSays": "Online directory of transportation providers for seniors, disabled and low-income residents.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_8faba72ad9dd5a1aad86cad00bfe9443",
+    "scoutName": "MAG Connect-A-Ride — transportation directory"
+   }
+  },
+  {
+   "name": "Area Agency on Aging Region One (volunteer drivers)",
+   "website": "aaaphx.org",
+   "address": "1366 E Thomas Rd, Phoenix, AZ",
+   "sources": [
+    "https://www.nesthealth.com/maricopa-transportation"
+   ],
+   "rule": "unclear",
+   "ruleNote": "Agency's main service is aging services; volunteer rides one programme.",
+   "listingSays": "Volunteer drivers for seniors' medical appointments and errands.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_f9671d3b8c1a5607b1b067612b8f8a80",
+    "scoutName": "Area Agency on Aging, Region One - Caring Circles AmeriCorps"
+   }
+  },
+  {
+   "name": "Neighbors Who Care",
+   "website": "neighborswhocare.com",
+   "address": "Sun Lakes, AZ",
+   "sources": [
+    "https://seniorsmobility.org/free-transportation/free-transportation-for-seniors-in-arizona/"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Sun Lakes / South Chandler only.",
+   "listingSays": "Volunteer rides to appointments and errands.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_3f7a306d8f005b04b7b27fcc80908424",
+    "scoutName": "Neighbors Who Care - Volunteer Transportation and Free Van Service"
+   }
+  },
+  {
+   "name": "About Care",
+   "website": "aboutcare.org",
+   "address": "Chandler, AZ",
+   "sources": [
+    "https://seniorsmobility.org/free-transportation/free-transportation-for-seniors-in-arizona/"
+   ],
+   "rule": "fail: reach",
+   "ruleNote": "Chandler, Gilbert, Queen Creek residents.",
+   "listingSays": "Volunteer rides for seniors to medical and social appointments.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_2795dc2cc6ed56b0ad5bc8d71efbde9d",
+    "scoutName": "About Care - Volunteer Transportation and Support Services"
+   }
+  },
+  {
+   "name": "2-1-1 Arizona",
+   "website": "211arizona.org",
+   "address": "Phoenix, AZ (phone)",
+   "sources": [
+    "https://www.southwestnetwork.org/help-book-en/transportation",
+    "https://www.nesthealth.com/maricopa-transportation"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "Information line, not a ride service.",
+   "listingSays": "Information and referral, including transportation options.",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_9febf729294e53928bb450c8c0ae5520",
+    "scoutName": "2-1-1 Arizona Transportation Hotline and Ride United essential rides"
+   }
+  },
+  {
+   "name": "HelpMeAZ",
+   "website": "helpmeaz.com",
+   "address": "Statewide (online)",
+   "sources": [
+    "https://www.nesthealth.com/maricopa-transportation"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "",
+   "listingSays": "Free bus passes for homeless people plus other resources.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Community Pharmacy medication delivery",
+   "website": "",
+   "address": "Phoenix, AZ",
+   "sources": [
+    "https://www.southwestnetwork.org/help-book-en/transportation"
+   ],
+   "rule": "fail: main service",
+   "ruleNote": "",
+   "listingSays": "Free medication delivery within 5 miles.",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  }
+ ],
+ "thin": "No list names a Mesa-only senior ride programme: the City of Mesa page lists only Valley Metro, and the 'Coupons for Cabs / Mesa Mileage Reimbursement' mentioned in search snippets could not be traced to a live page. 211's list is half AHCCCS member-only rides; the network and aggregator lists are Phoenix and north/west Valley. Valley Metro, findhelp and the DES and azorna pages returned 403."
+}

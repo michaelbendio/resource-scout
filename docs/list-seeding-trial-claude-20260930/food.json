@@ -1,0 +1,410 @@
+{
+ "category": "food",
+ "lists": [
+  {
+   "url": "https://www.foodpantries.org/ci/az-mesa",
+   "title": "foodpantries.org — Mesa",
+   "kind": "aggregator",
+   "note": "current listing, 19 pantries"
+  },
+  {
+   "url": "https://freshfoodnetwork.org/locations/az/mesa",
+   "title": "Fresh Food Network — Mesa",
+   "kind": "aggregator",
+   "note": "broad, includes schools and non-food businesses"
+  },
+  {
+   "url": "https://www.freefood.org/c/az-mesa",
+   "title": "freefood.org — Mesa",
+   "kind": "aggregator",
+   "note": "9 providers"
+  },
+  {
+   "url": "https://food-banks.org/assistance/mesa_az.html",
+   "title": "food-banks.org — Mesa",
+   "kind": "aggregator",
+   "note": "9 providers"
+  }
+ ],
+ "seeds": [
+  {
+   "name": "United Food Bank",
+   "website": "",
+   "address": "",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa",
+    "https://www.freefood.org/c/az-mesa",
+    "https://food-banks.org/assistance/mesa_az.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_8dae3ac6e07f50a492e3e0375400e606",
+    "scoutName": "United Food Bank - Find Food and Senior Food Programme"
+   }
+  },
+  {
+   "name": "Broadway Christian Church / New Hope Community Center",
+   "website": "",
+   "address": "",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa",
+    "https://www.freefood.org/c/az-mesa",
+    "https://food-banks.org/assistance/mesa_az.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "St. Mark's Episcopal Church Food Pantry",
+   "website": "",
+   "address": "322 N Horne St",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa",
+    "https://food-banks.org/assistance/mesa_az.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_7bc668fcc7fd55b99832c7de9a38cbf9",
+    "scoutName": "St. Mark's Episcopal Church - Food Pantry"
+   }
+  },
+  {
+   "name": "Red Mountain United Methodist Church Food Pantry",
+   "website": "",
+   "address": "",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_b881e9f34d40554581306f8956bd6093",
+    "scoutName": "Red Mountain United Methodist Church — Power Road and Velda Rose pantries"
+   }
+  },
+  {
+   "name": "Paz de Cristo Community Center",
+   "website": "",
+   "address": "",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_fd71f70538d756259994ec5ce07c2610",
+    "scoutName": "Paz de Cristo Community Center - Meals, Basic Needs and Empowerment"
+   }
+  },
+  {
+   "name": "Lutheran Social Services of the Southwest Food Pantry",
+   "website": "",
+   "address": "",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa",
+    "https://freshfoodnetwork.org/locations/az/mesa",
+    "https://www.freefood.org/c/az-mesa"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_982e4b4e5ec251a2b29c6f98821f0b12",
+    "scoutName": "Lutheran Social Services of the Southwest - Mesa Family Resource Centers, Pantries and Benefits Help"
+   }
+  },
+  {
+   "name": "Salvation Army Mesa",
+   "website": "",
+   "address": "",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_72872f5e734d5841b19fd1ad3203c18f",
+    "scoutName": "The Salvation Army Mesa Corps — Food assistance and seasonal cooling"
+   }
+  },
+  {
+   "name": "Holy Cross - Society of St. Vincent de Paul",
+   "website": "",
+   "address": "1244 S Power Rd",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa",
+    "https://www.freefood.org/c/az-mesa",
+    "https://food-banks.org/assistance/mesa_az.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_cf9251e242215208bb6ee1b87c9c73d7",
+    "scoutName": "Society of St. Vincent de Paul of Arizona - Parish Conference Thrift Gift Cards and Mesa Assistance Routing"
+   }
+  },
+  {
+   "name": "Gateway Bible Church",
+   "website": "",
+   "address": "1621 N Pasadena",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa",
+    "https://freshfoodnetwork.org/locations/az/mesa",
+    "https://www.freefood.org/c/az-mesa",
+    "https://food-banks.org/assistance/mesa_az.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_366ba4f88f635c638bb766e66946ae74",
+    "scoutName": "Gateway Bible Church - Monthly TEFAP / Food Program Drive-Through Food Boxes"
+   }
+  },
+  {
+   "name": "First Presbyterian Church Deacons' Pantry",
+   "website": "",
+   "address": "161 N Mesa Dr",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa",
+    "https://freshfoodnetwork.org/locations/az/mesa",
+    "https://www.freefood.org/c/az-mesa",
+    "https://food-banks.org/assistance/mesa_az.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5b625d75c217572194798ce8885c9869",
+    "scoutName": "First Presbyterian Church of Mesa - Mesa Mercy Market and Community Dinner"
+   }
+  },
+  {
+   "name": "East Mesa Food Bank (East Mesa Baptist Church)",
+   "website": "",
+   "address": "",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa",
+    "https://freshfoodnetwork.org/locations/az/mesa"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_e2d3b34eb35556ad9df88a874cb7dd7d",
+    "scoutName": "East Mesa Baptist Church - East Mesa Food Bank"
+   }
+  },
+  {
+   "name": "Christ the King Catholic Church HOPE Outreach",
+   "website": "",
+   "address": "",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa",
+    "https://freshfoodnetwork.org/locations/az/mesa",
+    "https://www.freefood.org/c/az-mesa"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_4d93cf531fc25acc9ba79b656838eaf6",
+    "scoutName": "Christ the King Catholic Church - H.O.P.E. Outreach Food Pantry"
+   }
+  },
+  {
+   "name": "Canaan Missionary Baptist Church",
+   "website": "",
+   "address": "931 S Stapley Dr",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa",
+    "https://freshfoodnetwork.org/locations/az/mesa"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Desert Manna Food Pantry - Calvary Free Lutheran",
+   "website": "",
+   "address": "590 N 96th St",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa",
+    "https://freshfoodnetwork.org/locations/az/mesa",
+    "https://www.freefood.org/c/az-mesa",
+    "https://food-banks.org/assistance/mesa_az.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_ebbe6ca2c14f5d5d84c64a3cbfab72e0",
+    "scoutName": "Desert Manna Food Pantry - Saturday Grocery Box Distribution"
+   }
+  },
+  {
+   "name": "Resurrection Street Ministry",
+   "website": "",
+   "address": "",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_7c92324d01a550e0a85a98c4036c20a9",
+    "scoutName": "Resurrection Street Ministry - Food Assistance, Mobile Pantry and Senior/Veterans Food Program"
+   }
+  },
+  {
+   "name": "NATIVE HEALTH Mesa Food Pantry",
+   "website": "",
+   "address": "777 W Southern Ave",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa",
+    "https://freshfoodnetwork.org/locations/az/mesa",
+    "https://www.freefood.org/c/az-mesa"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_ce653a09ce2e5ae68ac01663cc1794ac",
+    "scoutName": "NATIVE HEALTH Mesa — food pantry, nutrition programmes and WIC"
+   }
+  },
+  {
+   "name": "The Lord's Pantry - St. Peter Lutheran Church",
+   "website": "",
+   "address": "1844 E Dana Ave",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Heart of Mesa Food Pantry",
+   "website": "",
+   "address": "851 N Stapley Dr",
+   "sources": [
+    "https://www.foodpantries.org/ci/az-mesa",
+    "https://freshfoodnetwork.org/locations/az/mesa"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_a853cd39203457298aa700c253b818d1",
+    "scoutName": "Heart of Mesa - Food Pantry"
+   }
+  },
+  {
+   "name": "Christian Assistance Network (Church of the Master)",
+   "website": "",
+   "address": "6659 E University Dr",
+   "sources": [
+    "https://freshfoodnetwork.org/locations/az/mesa",
+    "https://food-banks.org/assistance/mesa_az.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_5a6b500073845e3586a133a5cedeab7c",
+    "scoutName": "Church of the Master PC(USA) / Christian Assistance Network - C.A.N. Food Pantry and Crisis Assistance"
+   }
+  },
+  {
+   "name": "Without Walls Christian Center - Manna Food Bank",
+   "website": "",
+   "address": "1135 E Main St",
+   "sources": [
+    "https://food-banks.org/assistance/mesa_az.html"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Community Fridge - Mesa",
+   "website": "",
+   "address": "659 E Main St",
+   "sources": [
+    "https://freshfoodnetwork.org/locations/az/mesa"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "none",
+    "scoutId": "",
+    "scoutName": ""
+   }
+  },
+  {
+   "name": "Mesa WIC (Main and Valle del Sol sites)",
+   "website": "",
+   "address": "",
+   "sources": [
+    "https://freshfoodnetwork.org/locations/az/mesa"
+   ],
+   "rule": "pass",
+   "ruleNote": "",
+   "listingSays": "Mesa food provider",
+   "scout": {
+    "match": "this-category",
+    "scoutId": "sr_fb89d8a073ab55adaa2b3ee0f652c8ec",
+    "scoutName": "Valle del Sol — WIC nutrition services"
+   }
+  }
+ ],
+ "thin": "No official City or County food list was readable; all four lists are aggregators. Two of Michael's four yes resources (Fountain of Life Mission Kitchen 153; Chandler-Gilbert CC Coyote Cupboard) are on no list."
+}
