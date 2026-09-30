@@ -1,0 +1,100 @@
+{
+  "baselineSha256": "19c43670ba33f43b0e3f49039474662f6bdfd88929a63e4d6026040d3e882f9b",
+  "baselineDelivered": 53,
+  "baselineUsable": 52,
+  "baselineNeedsResolution": 1,
+  "baselineResearchRawRows": 85,
+  "baselineConsolidatedCandidates": 72,
+  "baselineResearchContributions": 7,
+  "baselineResearchModelCalls": null,
+  "baselineTotalModelCalls": null,
+  "baselineTotalCostUsd": null,
+  "baselineResearchElapsedSeconds": 18297.853765,
+  "baselineCurationCategoryElapsedSeconds": 1298.531653,
+  "baselineHousingReviewElapsedSeconds": null,
+  "baselineTotalWallSeconds": null,
+  "baselineStarterKindsCovered": 2,
+  "baselineClockNote": "Read-only SQLite research run 13 and curation job 1/Housing; category intervals include waiting and are not active model compute. Final review was part of an office-wide run with recovery; no sound Housing-only cost/time allocation is available.",
+  "baselineStarterMapping": [
+    {
+      "position": 1,
+      "resourceId": "sr_6e20f9e5858f53b7a53328c32e988aba",
+      "name": "Housing Connect Affordable Housing Waitlists and Properties",
+      "originalKinds": [
+        1
+      ],
+      "basis": "Delivered starter provides this kind."
+    },
+    {
+      "position": 2,
+      "resourceId": "sr_527ac6f69936543b92453342d20ee0c0",
+      "name": "Housing Authority of Salt Lake City Subsidized and Affordable Housing Waitlists",
+      "originalKinds": [
+        1
+      ],
+      "basis": "Delivered starter provides this kind."
+    },
+    {
+      "position": 3,
+      "resourceId": "sr_e9f4357984905be6825a54857af455ce",
+      "name": "Utah Community Action Case Management and Housing / Emergency Rental Assistance",
+      "originalKinds": [
+        2
+      ],
+      "basis": "Delivered starter provides this kind."
+    },
+    {
+      "position": 4,
+      "resourceId": "sr_e6e74f69e1965062aa7cf6a13dd6641f",
+      "name": "Salt Lake City Tenant Resource Center and RAFT Relocation Assistance",
+      "originalKinds": [
+        2
+      ],
+      "basis": "Delivered starter provides this kind."
+    },
+    {
+      "position": 5,
+      "resourceId": "sr_1b76e793ab70501784faf0c1db4d6720",
+      "name": "The Road Home Gail Miller Resource Center",
+      "originalKinds": [],
+      "basis": "Emergency-shelter entry; no specific checklist housing kind is established by its starter contribution."
+    },
+    {
+      "position": 6,
+      "resourceId": "sr_496204fbaa7751b5b717e4f733baed0f",
+      "name": "The Road Home Connie Crosby Family Resource Center",
+      "originalKinds": [],
+      "basis": "Emergency-shelter entry; no specific checklist housing kind is established by its starter contribution."
+    },
+    {
+      "position": 7,
+      "resourceId": "sr_1a13088a3368518d942e5454ea4d17b1",
+      "name": "Volunteers of America, Utah Geraldine E. King Women's Resource Center",
+      "originalKinds": [],
+      "basis": "Emergency-shelter entry; no specific checklist housing kind is established by its starter contribution."
+    },
+    {
+      "position": 8,
+      "resourceId": "sr_576db2fe1e6b5ce193330c80e953c996",
+      "name": "Volunteers of America, Utah Youth Resource Center",
+      "originalKinds": [],
+      "basis": "Emergency-shelter entry; no specific checklist housing kind is established by its starter contribution."
+    },
+    {
+      "position": 9,
+      "resourceId": "sr_b45fbcb442345d4fabf6cf867e90cbc6",
+      "name": "YWCA Utah Domestic Violence Emergency Shelter and Salt Lake Area Family Justice Center",
+      "originalKinds": [],
+      "basis": "Emergency-shelter entry; no specific checklist housing kind is established by its starter contribution."
+    },
+    {
+      "position": 10,
+      "resourceId": "sr_f8d32ea710d053da93171c1349c7521a",
+      "name": "Utah DWS Emergency Assistance",
+      "originalKinds": [
+        2
+      ],
+      "basis": "Delivered starter provides this kind."
+    }
+  ]
+}

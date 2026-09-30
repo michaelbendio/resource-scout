@@ -1,0 +1,185 @@
+{
+  "researchFinishedAt": "2026-09-30T16:40:14.126273+00:00",
+  "method": "Codex-led bounded trial using Scout's live preparation and review contracts; no production worker, database import or identity allocation.",
+  "listPages": [
+    {
+      "key": "city-guide",
+      "publisher": "Salt Lake City",
+      "url": "https://www.slc.gov/access-belonging/wp-content/uploads/sites/57/2026/01/2025-07_CommunityResourceGuide-WebReady_01-26-1.pdf",
+      "seeds": [
+        "Utah Community Action rent/deposit",
+        "Utah Community Action mediation",
+        "Housing Authority of Salt Lake City",
+        "Tenant Resource Center"
+      ],
+      "caution": "Provider pages supersede old URLs and hours in the guide."
+    },
+    {
+      "key": "county-list",
+      "publisher": "Salt Lake County",
+      "url": "https://www.saltlakecounty.gov/regional-development/housing-community-development/resources/Housing-Stability-Resources/",
+      "seeds": [
+        "Housing Connect",
+        "HASLC",
+        "Utah Community Action",
+        "The Road Home",
+        "NeighborWorks Salt Lake",
+        "Habitat"
+      ],
+      "caution": "County funding/administration is not itself an application for a home."
+    },
+    {
+      "key": "county-assistance",
+      "publisher": "Salt Lake County",
+      "url": "https://www.saltlakecounty.gov/assistance-programs-services/",
+      "seeds": [
+        "Utah Community Action",
+        "Housing repair programs"
+      ],
+      "caution": "Same publisher as county-list; not an independent fifth list publisher."
+    },
+    {
+      "key": "211-list",
+      "publisher": "Utah 211",
+      "url": "https://211utah.org/wp-content/uploads/2025/03/Salt-Lake-County-General-Resource-List-2024-2025.pdf",
+      "seeds": [
+        "Housing Connect",
+        "HASLC",
+        "Utah Community Action",
+        "CDCU",
+        "Utah Housing Corporation",
+        "Habitat"
+      ],
+      "caution": "Used for seeds, not current capacity or loan terms."
+    },
+    {
+      "key": "south-salt-lake-list",
+      "publisher": "South Salt Lake City",
+      "url": "https://www.sslc.gov/519/Housing-Resources",
+      "seeds": [
+        "ASSIST",
+        "CDCU",
+        "Habitat",
+        "NeighborWorks Salt Lake",
+        "Utah Housing Corporation"
+      ],
+      "caution": "An old statewide COVID assistance link is not proof of an open program."
+    }
+  ],
+  "seedBoundary": "Extracted relevant program names for the nine kinds, not every organization mentioned in the full general-purpose lists. Repeated seeds merged before investigation. Generic 211 navigation, utility-only HEAT/REACH, development funding and ordinary emergency shelters were screened out at the list stage. Other named providers were not automatically promoted into leads when a kind already had sufficient direct routes.",
+  "additionalSeedRoutes": {
+    "checklist-gap": "Named Provo exemplars (HomeInn, Ruff Haven) or targeted searches for transitional housing, fixed-income shared housing and extended-stay lodging.",
+    "official-list-followup": "Salt Lake City housing-stability pages reached while finding its official resources.",
+    "county-list-followup": "The Road Home was a county seed; followed its veteran housing program and public outreach flyer.",
+    "official-authority-link": "Housing Connect's official application link led to AffordableHousing.com, then its Salt Lake City rental search."
+  },
+  "notSelected": [
+    {
+      "key": "neighborworks",
+      "name": "NeighborWorks Salt Lake down-payment assistance",
+      "disposition": "not-selected",
+      "reason": "Current program page says no Salt Lake City down-payment funds, with a limited Midvale option. CDCU already provides a homebuyer route. This bounded trial does not label NeighborWorks closed or unsuitable in every program.",
+      "rule": "current availability and bounded selection; no agency-wide failure",
+      "sources": [
+        "https://www.nwsaltlake.org/down-payment-assistance"
+      ]
+    },
+    {
+      "key": "uhc",
+      "name": "Utah Housing Corporation homebuyer loan programs",
+      "disposition": "deferred",
+      "reason": "Local lists and an official 2023 loan guide identify the program, but the consumer landing page returned 403. Did not carry old loan terms into a fresh record; the kind has a current local counseling route. No closure is inferred.",
+      "rule": "current consumer access evidence incomplete in this bounded pass",
+      "sources": [
+        "https://utahhousingcorp.org/homebuyer",
+        "https://utahhousingcorp.org/pdf/realtorDPA.pdf"
+      ]
+    },
+    {
+      "key": "aspen",
+      "name": "Aspen Living Utah shared housing",
+      "disposition": "needs-resolution-outside-trial-export",
+      "reason": "Provider search-index pages offer direct conversations but also tie placement to HRSS/Medicaid and describe a referral network. No clear rent or ordinary fixed-income eligibility was established. A targeted page open failed. Do not claim affordable general self-referral housing from those fragments.",
+      "rule": "3: distinguish a public inquiry from admission limited to an enrolled/referral pathway",
+      "sources": [
+        "https://aspenlivingutah.com/contact",
+        "https://aspenlivingutah.com/services/supportive-living",
+        "https://aspenlivingutah.com/"
+      ]
+    },
+    {
+      "key": "one-new-light",
+      "name": "One New Light (Provo checklist example)",
+      "disposition": "unresolved-identity",
+      "reason": "Exact-name searches did not establish a matching provider or Salt Lake County service. A checklist example is not evidence of local availability.",
+      "rule": "1: local identity/reach unestablished",
+      "sources": []
+    },
+    {
+      "key": "road-home-shared",
+      "name": "The Road Home shared-housing program",
+      "disposition": "deferred",
+      "reason": "A 2019 launch article and an older provider success story describe shared housing, but no current standalone self-application route was established. SSVF is a distinct, evidenced public route and is retained.",
+      "rule": "3: current direct access to this specific program unestablished",
+      "sources": [
+        "https://www.deseret.com/2019/3/21/20668950/salt-lake-city-uses-new-sales-tax-money-to-launch-program-to-pair-house-50-homeless-roommates/",
+        "https://theroadhome.org/housingstory/randall/"
+      ]
+    }
+  ],
+  "churchChecks": [
+    {
+      "service": "Bishops' storehouses / welfare locations",
+      "url": "https://www.churchofjesuschrist.org/maps/welfare?lang=eng",
+      "finding": "Official locator attempted but inaccessible to this reader. The official locations index routed Welfare Locations to Home Storage Centers. No direct Housing program established; no local housing record invented."
+    },
+    {
+      "service": "Deseret Industries",
+      "url": "https://www.deseretindustries.org/locations",
+      "finding": "Official store locator inspected; thrift/employment route, no evidenced Housing offering."
+    },
+    {
+      "service": "Employment and self-reliance",
+      "url": "https://www.churchofjesuschrist.org/life/employment-centers?lang=eng",
+      "finding": "Official locator entry and services describe job coaching, not a Housing program."
+    },
+    {
+      "service": "Family Services",
+      "url": "https://www.churchofjesuschrist.org/life/family-services?lang=eng",
+      "finding": "Official office-finder entry describes mental-health support and leader referrals, not direct housing."
+    },
+    {
+      "service": "Church education",
+      "url": "https://www.churchofjesuschrist.org/learn/locations?lang=eng",
+      "finding": "Official index points to Institutes; no direct Housing program established."
+    }
+  ],
+  "gaps": [
+    {
+      "kind": 7,
+      "label": "Low-cost shared housing for fixed incomes",
+      "status": "not-established",
+      "tried": [
+        "Four publishers' local lists",
+        "Exact-name One New Light searches",
+        "Salt Lake shared housing/fixed-income search",
+        "Road Home historical shared-housing evidence",
+        "Aspen Living targeted check after the baseline comparison surfaced its name"
+      ],
+      "reason": "No currently evidenced low-cost fixed-income shared-housing admission route passed the direct-access check. HomeInn has low-cost rooms and shared amenities, but neither that nor Aspen proves this specific kind. This is a research gap, not proof that no local service exists."
+    }
+  ],
+  "additions": [
+    {
+      "kind": 10,
+      "label": "Tenant support and eviction prevention",
+      "reason": "One-to-one rental navigation and landlord–tenant mediation help preserve a tenancy even when no rent grant or new unit is offered.",
+      "members": [
+        "tenant-center",
+        "uca-mediation"
+      ],
+      "status": "proposed checklist addition; not an office taxonomy migration"
+    }
+  ],
+  "stopReason": "Each original kind has an evidenced local route or a documented gap; no more leads were sought to reach the expected 20–30. Three transitional options address single-room adults, young adults and single-parent families. HomeInn was a final checklist-named check because the first two transitional options did not cover an ordinary adult."
+}

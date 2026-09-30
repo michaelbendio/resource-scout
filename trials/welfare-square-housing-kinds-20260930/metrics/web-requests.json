@@ -1,0 +1,501 @@
+[
+  {
+    "name": "initial-list-search"
+  },
+  {
+    "name": "official-lists-open"
+  },
+  {
+    "args": {
+      "search_query": [
+        {
+          "q": "site.211utah.org Salt Lake housing"
+        },
+        {
+          "q": "Salt Lake housing resource list ASSIST Habitat NeighborWorks Ruff Haven"
+        }
+      ],
+      "open": [
+        {
+          "ref_id": "https://www.slc.gov/housingstability/resources/"
+        }
+      ],
+      "response_length": "short"
+    },
+    "at": "2026-09-30T16:27:04.678Z"
+  },
+  {
+    "args": {
+      "open": [
+        {
+          "ref_id": "turn1667search1"
+        },
+        {
+          "ref_id": "turn1667search12"
+        },
+        {
+          "ref_id": "turn1667search2"
+        },
+        {
+          "ref_id": "https://www.churchofjesuschrist.org/locations?lang=eng"
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:27:13.233Z"
+  },
+  {
+    "args": {
+      "open": [
+        {
+          "ref_id": "https://housingconnect.org/housing-options/"
+        },
+        {
+          "ref_id": "https://haslcutah.org/"
+        },
+        {
+          "ref_id": "https://utahca.org/housing/"
+        },
+        {
+          "ref_id": "https://www.assistutah.org/"
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:27:24.111Z"
+  },
+  {
+    "args": {
+      "search_query": [
+        {
+          "q": "site.utahca.org rent deposit housing case management"
+        },
+        {
+          "q": "site.housingconnect.org apply housing"
+        },
+        {
+          "q": "site.onenewlight.org shared housing apply"
+        },
+        {
+          "q": "site.ruffhaven.org crisis sheltering apply"
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:27:45.433Z"
+  },
+  {
+    "args": {
+      "search_query": [
+        {
+          "q": "\"One New Light\" housing Utah"
+        },
+        {
+          "q": "site:saltlakecounty.gov Milestone transitional living apply 18 21"
+        },
+        {
+          "q": "site:familysupportcenter.org LifeStart Village apply"
+        },
+        {
+          "q": "site:theroadhome.org supportive services veteran families SSVF contact"
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:27:55.577Z"
+  },
+  {
+    "args": {
+      "open": [
+        {
+          "ref_id": "https://housingconnect.org/"
+        },
+        {
+          "ref_id": "https://www.nwsaltlake.org/"
+        },
+        {
+          "ref_id": "https://habitatsaltlake.org/home-repair"
+        },
+        {
+          "ref_id": "https://utahhousingcorp.org/homebuyer"
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:28:10.352Z"
+  },
+  {
+    "args": {
+      "search_query": [
+        {
+          "q": "\"Salt Lake\" \"shared housing\" \"fixed income\""
+        },
+        {
+          "q": "\"One New Light\" housing"
+        },
+        {
+          "q": "site:jobs.utah.gov housing rental search"
+        },
+        {
+          "q": "site:habitatsaltlake.org critical home repair apply"
+        }
+      ],
+      "open": [
+        {
+          "ref_id": "turn1671search2"
+        },
+        {
+          "ref_id": "turn1668view3",
+          "lineno": 0
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:28:25.861Z"
+  },
+  {
+    "args": {
+      "click": [
+        {
+          "ref_id": "turn1669view3",
+          "id": 5
+        },
+        {
+          "ref_id": "turn1672view1",
+          "id": 1
+        },
+        {
+          "ref_id": "turn1669view1",
+          "id": 27
+        }
+      ],
+      "open": [
+        {
+          "ref_id": "https://www.slc.gov/housingstability/fix-your-home/"
+        },
+        {
+          "ref_id": "https://www.slc.gov/can/renters/"
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:28:40.973Z"
+  },
+  {
+    "args": {
+      "search_query": [
+        {
+          "q": "site:jobs.utah.gov housing rental listings Utah"
+        },
+        {
+          "q": "site:cdcutah.org homebuyer down payment assistance apply"
+        },
+        {
+          "q": "site:utahhousingcorp.org homebuyer down payment participating lender"
+        },
+        {
+          "q": "site:theroadhome.org \"shared housing\""
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:28:52.481Z"
+  },
+  {
+    "args": {
+      "open": [
+        {
+          "ref_id": "https://cdcutah.org/"
+        },
+        {
+          "ref_id": "https://www.utahhousingsearch.org/"
+        },
+        {
+          "ref_id": "https://www.ruffhaven.org/crisis-sheltering"
+        },
+        {
+          "ref_id": "https://www.churchofjesuschrist.org/learn/locations?lang=eng",
+          "lineno": 13
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:29:03.269Z"
+  },
+  {
+    "args": {
+      "click": [
+        {
+          "ref_id": "turn1676view0",
+          "id": 10
+        },
+        {
+          "ref_id": "turn1676view0",
+          "id": 14
+        },
+        {
+          "ref_id": "turn1672view0",
+          "id": 28
+        },
+        {
+          "ref_id": "turn1676view3",
+          "id": 17
+        },
+        {
+          "ref_id": "turn1676view3",
+          "id": 7
+        },
+        {
+          "ref_id": "turn1676view3",
+          "id": 15
+        },
+        {
+          "ref_id": "turn1676view3",
+          "id": 10
+        }
+      ],
+      "open": [
+        {
+          "ref_id": "turn1670search0"
+        },
+        {
+          "ref_id": "turn1671search0"
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:29:20.777Z"
+  },
+  {
+    "args": {
+      "search_query": [
+        {
+          "q": "Utah affordable rental listings search Salt Lake site:utah.gov",
+          "domains": [
+            "utah.gov"
+          ]
+        },
+        {
+          "q": "\"Salt Lake City\" \"extended stay\" site:woodspring.com",
+          "domains": [
+            "woodspring.com"
+          ]
+        }
+      ],
+      "click": [
+        {
+          "ref_id": "turn1677view1",
+          "id": 3
+        },
+        {
+          "ref_id": "turn1670search1",
+          "id": 0
+        }
+      ],
+      "open": [
+        {
+          "ref_id": "turn1677view0",
+          "lineno": 89
+        },
+        {
+          "ref_id": "turn1674view4",
+          "lineno": 63
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:29:32.530Z"
+  },
+  {
+    "args": {
+      "find": [
+        {
+          "ref_id": "turn1677view0",
+          "pattern": "Eligibility"
+        },
+        {
+          "ref_id": "turn1674view4",
+          "pattern": "application"
+        },
+        {
+          "ref_id": "turn1671search2",
+          "pattern": "Contact"
+        },
+        {
+          "ref_id": "turn1677view4",
+          "pattern": "Browse"
+        }
+      ],
+      "open": [
+        {
+          "ref_id": "https://www.affordablehousing.com/salt-lake-city-ut/"
+        },
+        {
+          "ref_id": "https://www.ruffhaven.org/programs"
+        },
+        {
+          "ref_id": "https://utahhousingcorp.org/homebuyer/"
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:29:55.175Z"
+  },
+  {
+    "args": {
+      "open": [
+        {
+          "ref_id": "https://providentliving.churchofjesuschrist.org/bishops-storehouse/find-a-bishops-storehouse?lang=eng"
+        },
+        {
+          "ref_id": "https://www.churchofjesuschrist.org/maps/welfare?lang=eng"
+        },
+        {
+          "ref_id": "turn1677view6"
+        },
+        {
+          "ref_id": "turn1677view7"
+        },
+        {
+          "ref_id": "turn1677view8"
+        },
+        {
+          "ref_id": "turn1676view3"
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:30:08.845Z"
+  },
+  {
+    "args": {
+      "search_query": [
+        {
+          "q": "\"Salt Lake\" shared housing low income apply Aspen Living"
+        },
+        {
+          "q": "site:utahhousingcorp.org \"Participating Lenders\" homebuyer"
+        },
+        {
+          "q": "site:familysupportcenter.org \"LifeStart\" \"801\""
+        },
+        {
+          "q": "site:ruffhaven.org \"Crisis Sheltering\" \"60\""
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:30:47.272Z"
+  },
+  {
+    "args": {
+      "open": [
+        {
+          "ref_id": "https://www.ruffhaven.org/apply"
+        },
+        {
+          "ref_id": "https://www.affordablehousing.com/salt-lake-city-ut/",
+          "lineno": 140
+        }
+      ],
+      "search_query": [
+        {
+          "q": "site:familysupportcenter.org/services/lifestart-village contact apply phone"
+        },
+        {
+          "q": "site:utahhousingcorp.org \"homebuyer\" \"Lenders\""
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:30:58.896Z"
+  },
+  {
+    "args": {
+      "open": [
+        {
+          "ref_id": "https://habitatsaltlake.org/our-programs/critical-home-repairs"
+        },
+        {
+          "ref_id": "https://theroadhome.org/wp-content/uploads/2025/12/SSVF-Outreach-Flyer-5.2025.pdf"
+        },
+        {
+          "ref_id": "https://utahhousingcorp.org/pdf/realtorDPA.pdf"
+        },
+        {
+          "ref_id": "https://www.affordablehousing.com/salt-lake-city-ut/"
+        }
+      ],
+      "find": [
+        {
+          "ref_id": "turn1679view1",
+          "pattern": "Crisis Sheltering"
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:31:35.681Z"
+  },
+  {
+    "args": {
+      "find": [
+        {
+          "ref_id": "turn1679view0",
+          "pattern": "Contact"
+        },
+        {
+          "ref_id": "turn1679view0",
+          "pattern": "Premium"
+        },
+        {
+          "ref_id": "turn1681search3",
+          "pattern": "eligible"
+        }
+      ],
+      "open": [
+        {
+          "ref_id": "https://aspenlivingutah.com/services/supportive-living"
+        }
+      ],
+      "response_length": "long"
+    },
+    "at": "2026-09-30T16:35:51.993Z"
+  },
+  {
+    "args": {
+      "search_query": [
+        {
+          "q": "HomeInn Salt Lake A Tall Order Foundation transitional housing apply",
+          "domains": [
+            "atallorder.org",
+            "atallorderfoundation.org",
+            "homeinn.org",
+            "211utah.org"
+          ]
+        }
+      ],
+      "response_length": "short"
+    },
+    "at": "2026-09-30T16:36:09.683Z"
+  },
+  {
+    "args": {
+      "open": [
+        {
+          "ref_id": "https://www.atallorder.org/foundation"
+        },
+        {
+          "ref_id": "https://www.atallorder.org/rates"
+        },
+        {
+          "ref_id": "https://www.atallorder.org/contact"
+        },
+        {
+          "ref_id": "https://www-media.woodspring.com/extended-stay-hotels/locations/utah/bluffdale/woodspring-suites-bluffdale-salt-lake-city"
+        }
+      ],
+      "response_length": "short"
+    },
+    "at": "2026-09-30T16:37:16.128Z"
+  }
+]

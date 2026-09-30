@@ -1,0 +1,772 @@
+[
+  {
+    "resourceId": "trial_60e21627020dd86e4cd82ecc",
+    "key": "housing-connect",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "Salt Lake County; phone and online intake",
+      "mainService": "Subsidized rental housing and applications for Housing Connect properties.",
+      "directContact": "Call or follow Apply Online on the official website to check current waiting lists.",
+      "agencyDeduplication": "Distinct agency and direct program intake."
+    },
+    "kindNumbers": [
+      1
+    ],
+    "typeEvidence": "Subsidized rental housing and applications for Housing Connect properties.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": true,
+        "reason": "Income and household rules depend on the property or voucher program; some properties target older adults or people with disabilities. Salt Lake County households needing affordable housing."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": true,
+        "reason": "Income and household rules depend on the property or voucher program; some properties target older adults or people with disabilities. Salt Lake County households needing affordable housing."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": false,
+        "reason": "No dedicated young adults pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": false,
+        "reason": "No dedicated single parents pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": false,
+        "reason": "No dedicated veterans pathway is established in this scoped record; general availability alone is insufficient."
+      }
+    ],
+    "limitations": "Waiting-list admission is not an offer of housing. Published announcements do not establish current availability; confirm each waiting list directly.",
+    "sourceIds": [
+      "src_ef140c061cf308a9c014ef07",
+      "src_b754f3c9b3cc12bda149d350"
+    ],
+    "consideration": "Provides the county housing-authority route, covering subsidized rentals without listing every property separately."
+  },
+  {
+    "resourceId": "trial_cb14cce280fa16d65ead9304",
+    "key": "haslc",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "Salt Lake City / Salt Lake valley; phone and online intake",
+      "mainService": "Applications for public, subsidized and affordable rental housing.",
+      "directContact": "Call the authority or use its Apply for Housing page to identify an eligible waiting list.",
+      "agencyDeduplication": "Distinct agency and direct program intake."
+    },
+    "kindNumbers": [
+      1
+    ],
+    "typeEvidence": "Applications for public, subsidized and affordable rental housing.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": false,
+        "reason": "No dedicated seniors pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": false,
+        "reason": "No dedicated people with disabilities pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": false,
+        "reason": "No dedicated young adults pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": false,
+        "reason": "No dedicated single parents pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": false,
+        "reason": "No dedicated veterans pathway is established in this scoped record; general availability alone is insufficient."
+      }
+    ],
+    "limitations": "Some lists are closed, and waits can last years. This is not emergency placement; some specialized programs require referrals.",
+    "sourceIds": [
+      "src_f452165ac509f634f3a90c99",
+      "src_759a12b056385019408c836c"
+    ],
+    "consideration": "Adds a separate authority and property portfolio alongside Housing Connect; compare eligible lists rather than submitting duplicate applications."
+  },
+  {
+    "resourceId": "trial_6d2ab7784c65282360b0d7cd",
+    "key": "uca-rent",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "Salt Lake County; start online or by phone",
+      "mainService": "Help with rent or a rental deposit after a financial crisis.",
+      "directContact": "Apply online; call intake for questions. Phone hours: weekdays 9–5.",
+      "agencyDeduplication": "Separate from UCA mediation: financial screening and rental-assistance intake use 801-359-2444."
+    },
+    "kindNumbers": [
+      2
+    ],
+    "typeEvidence": "Help with rent or a rental deposit after a financial crisis.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": false,
+        "reason": "No dedicated seniors pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": false,
+        "reason": "No dedicated people with disabilities pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": false,
+        "reason": "No dedicated young adults pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": false,
+        "reason": "No dedicated single parents pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": false,
+        "reason": "No dedicated veterans pathway is established in this scoped record; general availability alone is insufficient."
+      }
+    ],
+    "limitations": "Payments go to landlords. Mortgage, family and roommate payments are excluded. Appointments may take weeks; assistance is not guaranteed.",
+    "sourceIds": [
+      "src_c6048f5ec8ccebcc1c94ae28",
+      "src_431d4a71a6c92535813ec425"
+    ],
+    "consideration": "Covers emergency rent and deposit help through a direct local application."
+  },
+  {
+    "resourceId": "trial_de0942bfb761e275dd2452e2",
+    "key": "tenant-center",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "501 East 1700 South, Salt Lake City, UT",
+      "mainService": "One-to-one rental housing navigation and screening for relocation assistance.",
+      "directContact": "Call CDCU or use Get Help with Housing on the city page. In-person hours: Monday–Thursday 9–5; Friday 9–noon.",
+      "agencyDeduplication": "CDCU also has a homebuyer record: this city-funded renter service has different eligibility and phone (801-893-3779 versus 801-994-7222)."
+    },
+    "kindNumbers": [
+      10,
+      2
+    ],
+    "typeEvidence": "One-to-one rental housing navigation and screening for relocation assistance.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": false,
+        "reason": "No dedicated seniors pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": false,
+        "reason": "No dedicated people with disabilities pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": false,
+        "reason": "No dedicated young adults pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": false,
+        "reason": "No dedicated single parents pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": false,
+        "reason": "No dedicated veterans pathway is established in this scoped record; general availability alone is insufficient."
+      }
+    ],
+    "limitations": "RAFT is not general rent assistance. The navigator cannot guarantee funding, a rental or legal representation.",
+    "sourceIds": [
+      "src_3c712c5d14925e1071a0b021"
+    ],
+    "consideration": "Adds a human navigator for renters whose situation does not fit a single application; RAFT covers a specific displacement problem."
+  },
+  {
+    "resourceId": "trial_8349fd6e1cce3eefc41194d9",
+    "key": "milestone",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "Salt Lake County; contact program before visiting",
+      "mainService": "Transitional housing with employment and independent-living support.",
+      "directContact": "Contact the program manager directly or follow the county page’s Milestone Referral Application link; ask about screening and openings.",
+      "agencyDeduplication": "Distinct agency and direct program intake."
+    },
+    "kindNumbers": [
+      3
+    ],
+    "typeEvidence": "Transitional housing with employment and independent-living support.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": false,
+        "reason": "No dedicated seniors pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": false,
+        "reason": "No dedicated people with disabilities pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": true,
+        "reason": "Young adults ages 18–21 at risk of homelessness or without housing; participants must follow program rules and pay program fees. Young adults preparing to live independently."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": false,
+        "reason": "No dedicated single parents pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": false,
+        "reason": "No dedicated veterans pathway is established in this scoped record; general availability alone is insufficient."
+      }
+    ],
+    "limitations": "Fees start at $200 monthly and increase over time. Substance-free living, random drug testing and no pets are stated conditions. No immediate vacancy is promised.",
+    "sourceIds": [
+      "src_1786bcec2d23310baf314060",
+      "src_a6e162e0bf23ecac56eb7ed7"
+    ],
+    "consideration": "Adds an age-specific transitional route for young adults who cannot use the single-parent starter."
+  },
+  {
+    "resourceId": "trial_cfb81734f37fe70aee6b6661",
+    "key": "lifestart",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "Salt Lake County; administrative contact in Taylorsville",
+      "mainService": "Apartments with case management and practical support toward independent housing.",
+      "directContact": "Call the Family Support Center’s main number and ask for LifeStart admissions, or use its program page.",
+      "agencyDeduplication": "Distinct agency and direct program intake."
+    },
+    "kindNumbers": [
+      3
+    ],
+    "typeEvidence": "Apartments with case management and practical support toward independent housing.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": false,
+        "reason": "No dedicated seniors pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": false,
+        "reason": "No dedicated people with disabilities pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": false,
+        "reason": "No dedicated young adults pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": true,
+        "reason": "Single-parent families; contact LifeStart for the full admissions requirements and current availability. Single parents and their children rebuilding housing stability."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": false,
+        "reason": "No dedicated veterans pathway is established in this scoped record; general availability alone is insufficient."
+      }
+    ],
+    "limitations": "The program describes stays of up to five years. It is not an emergency shelter; rent, screening, waiting time and the visit address need confirmation.",
+    "sourceIds": [
+      "src_8fbd229bef3e16c41cb1dde0",
+      "src_31115e854a0e536765b15d3a",
+      "src_c462a4a9afd6f6156a546ea5"
+    ],
+    "consideration": "Covers a sustained housing program for single-parent families, rather than another overnight shelter."
+  },
+  {
+    "resourceId": "trial_cb8b6596335b44d976f78f6b",
+    "key": "assist",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "218 E 500 S, Salt Lake City, UT 84111",
+      "mainService": "Repairs to serious home safety problems, including plumbing, heating, electrical and accessibility problems.",
+      "directContact": "Call with the repair problem, city, household size, income and ownership information. Preferred calling times are weekdays 8–9 am or 1–2 pm.",
+      "agencyDeduplication": "Distinct agency and direct program intake."
+    },
+    "kindNumbers": [
+      4
+    ],
+    "typeEvidence": "Repairs to serious home safety problems, including plumbing, heating, electrical and accessibility problems.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": false,
+        "reason": "No dedicated seniors pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": false,
+        "reason": "No dedicated people with disabilities pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": false,
+        "reason": "No dedicated young adults pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": false,
+        "reason": "No dedicated single parents pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": false,
+        "reason": "No dedicated veterans pathway is established in this scoped record; general availability alone is insufficient."
+      }
+    ],
+    "limitations": "Staff check location, documents and eligibility before arranging work; not all repairs or county municipalities qualify.",
+    "sourceIds": [
+      "src_978a4d380083156f0b27edf4",
+      "src_e0a9cabc510c07fcd8002ecf"
+    ],
+    "consideration": "Adds a practical repair route so an unsafe home does not automatically become a move or shelter problem."
+  },
+  {
+    "resourceId": "trial_c50f69df73a4aff8a39c2a4e",
+    "key": "habitat-repair",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "1276 South 500 West, Salt Lake City, UT 84101",
+      "mainService": "Critical roof, plumbing, electrical, heating and accessibility repairs.",
+      "directContact": "Use the Critical Home Repair application or call extension 211 about eligibility.",
+      "agencyDeduplication": "Distinct agency and direct program intake."
+    },
+    "kindNumbers": [
+      4
+    ],
+    "typeEvidence": "Critical roof, plumbing, electrical, heating and accessibility repairs.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": false,
+        "reason": "No dedicated seniors pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": false,
+        "reason": "No dedicated people with disabilities pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": false,
+        "reason": "No dedicated young adults pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": false,
+        "reason": "No dedicated single parents pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": false,
+        "reason": "No dedicated veterans pathway is established in this scoped record; general availability alone is insufficient."
+      }
+    ],
+    "limitations": "Assistance can involve grants or a deferred loan due when ownership changes; confirm the terms and project availability.",
+    "sourceIds": [
+      "src_2ffeb99d0a1528478da463c5"
+    ],
+    "consideration": "Adds another repair provider with a broader three-county area and grant/deferred-loan options when ASSIST is not a fit."
+  },
+  {
+    "resourceId": "trial_6456410301a82ea2727fc081",
+    "key": "slc-repair",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "451 S State Street, Room 445, Salt Lake City, UT 84111",
+      "mainService": "City funding for minor repairs and larger health, safety or structural home repairs.",
+      "directContact": "Use the city’s Minor Repairs or Home Repairs application, or call for help choosing.",
+      "agencyDeduplication": "One repair-agency record; minor and major repair choices explained together. Separate from CDCU-operated Tenant Resource Center with different intake and eligibility."
+    },
+    "kindNumbers": [
+      4
+    ],
+    "typeEvidence": "City funding for minor repairs and larger health, safety or structural home repairs.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": true,
+        "reason": "Low-income Salt Lake City households; the minor-repair grant specifically serves seniors or people with disabilities. Eligible city homeowners, with a targeted minor-repair option for older or disabled residents."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": true,
+        "reason": "Low-income Salt Lake City households; the minor-repair grant specifically serves seniors or people with disabilities. Eligible city homeowners, with a targeted minor-repair option for older or disabled residents."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": false,
+        "reason": "No dedicated young adults pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": false,
+        "reason": "No dedicated single parents pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": false,
+        "reason": "No dedicated veterans pathway is established in this scoped record; general availability alone is insufficient."
+      }
+    ],
+    "limitations": "Major repairs may use a loan. Fix the Bricks is closed; do not apply expecting seismic-retrofit funding. Confirm available funding and terms.",
+    "sourceIds": [
+      "src_50670957ddd8b42fa8e8bc22"
+    ],
+    "consideration": "Adds city repair financing and a targeted minor-repair grant when the nonprofit repair options do not fit."
+  },
+  {
+    "resourceId": "trial_c0f5f662b4cb07fb0c15c2dd",
+    "key": "cdcu-homebuyer",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "501 East 1700 South, Salt Lake City, UT 84105",
+      "mainService": "Homebuyer education, individual housing counseling and assessment for down-payment assistance.",
+      "directContact": "Call CDCU for counseling or follow its registration/intake links. Ask about the next class rather than relying on past advertised dates.",
+      "agencyDeduplication": "One CDCU homebuyer record. Its renter center remains separate because clients encounter different phone, intake and city eligibility."
+    },
+    "kindNumbers": [
+      5
+    ],
+    "typeEvidence": "Homebuyer education, individual housing counseling and assessment for down-payment assistance.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": false,
+        "reason": "No dedicated seniors pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": false,
+        "reason": "No dedicated people with disabilities pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": false,
+        "reason": "No dedicated young adults pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": false,
+        "reason": "No dedicated single parents pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": false,
+        "reason": "No dedicated veterans pathway is established in this scoped record; general availability alone is insufficient."
+      }
+    ],
+    "limitations": "Financial assistance is limited and can be a repayable deferred loan. Coaching does not guarantee a loan, grant or home.",
+    "sourceIds": [
+      "src_3972d7237ede4f0876fdf372",
+      "src_db9d7764edc1743898e4d880"
+    ],
+    "consideration": "Covers homebuying readiness and assistance screening through a local housing counselor."
+  },
+  {
+    "resourceId": "trial_897d3b56843a8a2117da6021",
+    "key": "ssvf",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "Salt Lake County; direct outreach contact",
+      "mainService": "Veteran housing-stability assessment, homelessness prevention and rehousing support.",
+      "directContact": "Call or email the SSVF outreach team directly to arrange a meeting. Ask which community walk-in location is appropriate.",
+      "agencyDeduplication": "Distinct agency and direct program intake."
+    },
+    "kindNumbers": [
+      6
+    ],
+    "typeEvidence": "Veteran housing-stability assessment, homelessness prevention and rehousing support.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": false,
+        "reason": "No dedicated seniors pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": false,
+        "reason": "No dedicated people with disabilities pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": false,
+        "reason": "No dedicated young adults pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": false,
+        "reason": "No dedicated single parents pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": true,
+        "reason": "Veterans facing homelessness; the provider limits prevention assistance to Salt Lake County residents and screens other program criteria. Veterans and their households needing housing help."
+      }
+    ],
+    "limitations": "Some outreach sessions are residents-only, but the flyer also offers public sessions and appointments. Ask about alternate documents if identification or income paperwork is missing.",
+    "sourceIds": [
+      "src_9add6a34885ea9cfc2d183af",
+      "src_79e3da44b81c6f035c3f0b7f"
+    ],
+    "consideration": "Adds veteran-specific housing help with a public outreach route, without requiring a veteran already to live in a shelter."
+  },
+  {
+    "resourceId": "trial_9c9013223cf72b11587a4974",
+    "key": "rental-search",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "Online; Salt Lake City listings",
+      "mainService": "Searchable rental listings and property contact routes.",
+      "directContact": "Open the Salt Lake City search and contact the listed property about rent, eligibility and availability.",
+      "agencyDeduplication": "Distinct agency and direct program intake."
+    },
+    "kindNumbers": [
+      8
+    ],
+    "typeEvidence": "Searchable rental listings and property contact routes.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": false,
+        "reason": "No dedicated seniors pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": false,
+        "reason": "No dedicated people with disabilities pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": false,
+        "reason": "No dedicated young adults pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": false,
+        "reason": "No dedicated single parents pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": false,
+        "reason": "No dedicated veterans pathway is established in this scoped record; general availability alone is insufficient."
+      }
+    ],
+    "limitations": "A listing is not a vacancy guarantee or a subsidy award. Confirm fees and terms directly; the site also promotes optional paid features.",
+    "sourceIds": [
+      "src_b2032c75611006473822fc0d",
+      "src_b754f3c9b3cc12bda149d350"
+    ],
+    "consideration": "Covers self-directed rental searching, distinct from applying to a housing-authority waiting list."
+  },
+  {
+    "resourceId": "trial_41e36c38acb6b03d5a3ec82e",
+    "key": "woodspring",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "1478 West 14000 South, Bluffdale, UT 84065",
+      "mainService": "Paid extended-stay rooms with a kitchen, including weekly and longer stays.",
+      "directContact": "Call the hotel for a complete quote and booking terms before traveling to Bluffdale.",
+      "agencyDeduplication": "Distinct agency and direct program intake."
+    },
+    "kindNumbers": [
+      8
+    ],
+    "typeEvidence": "Paid extended-stay rooms with a kitchen, including weekly and longer stays.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": false,
+        "reason": "No dedicated seniors pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": false,
+        "reason": "No dedicated people with disabilities pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": false,
+        "reason": "No dedicated young adults pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": false,
+        "reason": "No dedicated single parents pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": false,
+        "reason": "No dedicated veterans pathway is established in this scoped record; general availability alone is insufficient."
+      }
+    ],
+    "limitations": "Commercial lodging, not rental assistance or free shelter. Upfront payment, transportation and pet charges can make it unsuitable; prices vary.",
+    "sourceIds": [
+      "src_b5c5ef1b259658066b957534",
+      "src_81863249969211fd9c5493d2"
+    ],
+    "consideration": "Adds a directly bookable temporary lodging option for someone who can pay and reach Bluffdale while seeking a rental."
+  },
+  {
+    "resourceId": "trial_1c2593fbb00919f77ce6098f",
+    "key": "ruff-haven",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "264 S Glendale Street, Suite 100, Salt Lake City, UT 84104",
+      "mainService": "Temporary care for dogs and cats while their owners face a crisis.",
+      "directContact": "Apply online; text the sheltering number with questions. Intake and visits require appointments.",
+      "agencyDeduplication": "Distinct agency and direct program intake."
+    },
+    "kindNumbers": [
+      9
+    ],
+    "typeEvidence": "Temporary care for dogs and cats while their owners face a crisis.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": false,
+        "reason": "No dedicated seniors pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": false,
+        "reason": "No dedicated people with disabilities pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": false,
+        "reason": "No dedicated young adults pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": false,
+        "reason": "No dedicated single parents pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": false,
+        "reason": "No dedicated veterans pathway is established in this scoped record; general availability alone is insufficient."
+      }
+    ],
+    "limitations": "No required sheltering fee. Published durations differ; agree the stay and reunification plan with staff. This shelters pets, not people, and acceptance is not guaranteed.",
+    "sourceIds": [
+      "src_06f292b5ec604b8f657a6e36",
+      "src_fb193757206f1653f4bc9057",
+      "src_26e4ae2aa656dbdfe517f4e5",
+      "src_49e4f357c26fd5625caae203"
+    ],
+    "consideration": "Addresses a housing barrier the human-housing providers do not solve: keeping a pet safe during displacement."
+  },
+  {
+    "resourceId": "trial_7005dfd4b080a9088e06ef9e",
+    "key": "uca-mediation",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "Salt Lake County residents may contact the statewide service",
+      "mainService": "Mediation to help landlords and tenants resolve housing disputes.",
+      "directContact": "Call the mediation line or use the tenant application linked on UCA’s housing page.",
+      "agencyDeduplication": "Separate UCA program justified by distinct mediation intake and phone, not another listing of rental aid."
+    },
+    "kindNumbers": [
+      10
+    ],
+    "typeEvidence": "Mediation to help landlords and tenants resolve housing disputes.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": false,
+        "reason": "No dedicated seniors pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": false,
+        "reason": "No dedicated people with disabilities pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": false,
+        "reason": "No dedicated young adults pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": false,
+        "reason": "No dedicated single parents pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": false,
+        "reason": "No dedicated veterans pathway is established in this scoped record; general availability alone is insufficient."
+      }
+    ],
+    "limitations": "Mediation is not legal advice or representation and does not itself extend a deadline.",
+    "sourceIds": [
+      "src_c6048f5ec8ccebcc1c94ae28",
+      "src_431d4a71a6c92535813ec425"
+    ],
+    "consideration": "Adds direct dispute resolution to the starter navigator and rent-help routes."
+  },
+  {
+    "resourceId": "trial_b5710877980768902ddc1b0f",
+    "key": "homeinn",
+    "decision": "retain-usable-trial",
+    "officeFit": {
+      "reach": "Outreach: 428 W 300 S, Salt Lake City, UT 84101",
+      "mainService": "Low-cost single-room transitional housing with shared kitchen and common facilities.",
+      "directContact": "Call or contact the downtown outreach office for an application conversation and current openings.",
+      "agencyDeduplication": "Distinct agency and direct program intake."
+    },
+    "kindNumbers": [
+      3
+    ],
+    "typeEvidence": "Low-cost single-room transitional housing with shared kitchen and common facilities.",
+    "groupDecisions": [
+      {
+        "groupId": "seniors",
+        "assigned": false,
+        "reason": "No dedicated seniors pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "disabilities",
+        "assigned": false,
+        "reason": "No dedicated people with disabilities pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "young-adults",
+        "assigned": false,
+        "reason": "No dedicated young adults pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "single-parents",
+        "assigned": false,
+        "reason": "No dedicated single parents pathway is established in this scoped record; general availability alone is insufficient."
+      },
+      {
+        "groupId": "veterans",
+        "assigned": false,
+        "reason": "No dedicated veterans pathway is established in this scoped record; general availability alone is insufficient."
+      }
+    ],
+    "limitations": "The website publishes entry rent of $510 including utilities; confirm current rent, extra fees and availability. This is paid transitional housing, not emergency shelter or a verified fixed-income shared-housing program.",
+    "sourceIds": [
+      "src_1c13b24b7fdbee232d2f69bc",
+      "src_247d805d28f25482f3f919e7",
+      "src_6dabae2f98486459961868c2"
+    ],
+    "consideration": "Adds a low-cost single-room route for adults, materially different from LifeStart’s single-parent family apartments."
+  }
+]

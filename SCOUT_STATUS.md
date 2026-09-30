@@ -1,5 +1,14 @@
 # Scout current status
 
+## Branch-local Housing checklist trial — September 30
+
+`codex/welfare-square-housing-kinds-trial-20260930` contains a completed Welfare Square
+Housing-only evaluation: 16 resources, 10 starters, 8/9 original kinds covered.
+[Report and artifacts](trials/welfare-square-housing-kinds-20260930/README.md).
+No Claude calls, imports or production identity writes. Six trial checks passed;
+Michael's judging remains pending. This experiment does not change the operational
+Mesa/Welfare Square production state described below; verify those live as usual.
+
 
 ## Shared acceptance remedy; Mesa review restarted — September 30
 

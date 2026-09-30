@@ -1,0 +1,904 @@
+{
+  "artifactType": "scout-prepared-resources",
+  "schemaVersion": 1,
+  "evaluationOnly": true,
+  "importable": false,
+  "note": "TRIAL — NOT FOR IMPORT. Welfare Square Housing kinds-checklist evaluation, with provisional identities. No office approval or agency verification is implied.",
+  "snapshot": {
+    "id": "trial-welfare-square-housing-kinds-20260930",
+    "predecessorId": null,
+    "generatedAt": "2026-09-30T16:40:14.333346+00:00",
+    "contentFingerprint": "72466c93cd3f4e6c77dd5524ae12bb25d40b8d207b19e5decc2f5f6d99b61677"
+  },
+  "office": {
+    "slug": "welfare-square",
+    "name": "Welfare Square"
+  },
+  "scope": {
+    "categoryIds": [
+      "housing"
+    ],
+    "completeScope": false,
+    "completeOffice": false
+  },
+  "taxonomy": {
+    "categories": [
+      {
+        "id": "housing",
+        "label": "Housing"
+      }
+    ],
+    "types": [
+      {
+        "id": "housing-kind-01",
+        "categoryId": "housing",
+        "label": "Public housing authority",
+        "definition": "Public housing authority applications for subsidized or affordable rental homes."
+      },
+      {
+        "id": "housing-kind-02",
+        "categoryId": "housing",
+        "label": "Rent and deposit assistance",
+        "definition": "Financial help with rent, rental deposits or qualifying tenant relocation costs."
+      },
+      {
+        "id": "housing-kind-03",
+        "categoryId": "housing",
+        "label": "Transitional housing",
+        "definition": "Time-limited housing intended to help residents move toward independent housing."
+      },
+      {
+        "id": "housing-kind-04",
+        "categoryId": "housing",
+        "label": "Home repair (Habitat, Fuller Center)",
+        "definition": "Essential home repairs and accessibility or safety improvements."
+      },
+      {
+        "id": "housing-kind-05",
+        "categoryId": "housing",
+        "label": "Homebuying help",
+        "definition": "Homebuyer education, counseling or purchase financing assistance."
+      },
+      {
+        "id": "housing-kind-06",
+        "categoryId": "housing",
+        "label": "Veterans' housing",
+        "definition": "Housing stabilization or housing programs specifically for veterans."
+      },
+      {
+        "id": "housing-kind-08",
+        "categoryId": "housing",
+        "label": "Rental listings and extended-stay hotels",
+        "definition": "Rental search tools or directly bookable extended-stay lodging."
+      },
+      {
+        "id": "housing-kind-09",
+        "categoryId": "housing",
+        "label": "Crisis sheltering for pets",
+        "definition": "Temporary care for pets when a housing crisis prevents an owner from keeping them safely."
+      },
+      {
+        "id": "housing-kind-10",
+        "categoryId": "housing",
+        "label": "Tenant support and eviction prevention",
+        "definition": "Personal rental navigation or landlord–tenant mediation to address tenancy problems."
+      }
+    ],
+    "forGroups": [
+      {
+        "id": "seniors",
+        "label": "Seniors",
+        "definition": "A documented program or property specifically targets older adults."
+      },
+      {
+        "id": "disabilities",
+        "label": "People with disabilities",
+        "definition": "A documented program or property specifically targets people with disabilities."
+      },
+      {
+        "id": "young-adults",
+        "label": "Young adults",
+        "definition": "A housing program specifically serves young adults within stated ages."
+      },
+      {
+        "id": "single-parents",
+        "label": "Single parents",
+        "definition": "Housing specifically for a parent raising children without a partner in the household."
+      },
+      {
+        "id": "veterans",
+        "label": "Veterans",
+        "definition": "A housing pathway specifically for veterans or their households."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "src_06f292b5ec604b8f657a6e36",
+      "url": "https://www.ruffhaven.org/apply",
+      "title": "Ruff Haven — crisis sheltering for pets — apply"
+    },
+    {
+      "id": "src_1786bcec2d23310baf314060",
+      "url": "https://www.saltlakecounty.gov/youth/youth-programs/transitional-living/",
+      "title": "Salt Lake County Milestone Transitional Living — "
+    },
+    {
+      "id": "src_1c13b24b7fdbee232d2f69bc",
+      "url": "https://www.atallorder.org/foundation",
+      "title": "A Tall Order Foundation / HomeInn — transitional rooms — foundation"
+    },
+    {
+      "id": "src_247d805d28f25482f3f919e7",
+      "url": "https://www.atallorder.org/rates",
+      "title": "A Tall Order Foundation / HomeInn — transitional rooms — rates"
+    },
+    {
+      "id": "src_26e4ae2aa656dbdfe517f4e5",
+      "url": "https://www.ruffhaven.org/programs",
+      "title": "Ruff Haven — crisis sheltering for pets — programs"
+    },
+    {
+      "id": "src_2ffeb99d0a1528478da463c5",
+      "url": "https://habitatsaltlake.org/our-programs/critical-home-repairs",
+      "title": "Habitat for Humanity Greater Salt Lake Area — Critical Home Repairs — critical-home-repairs"
+    },
+    {
+      "id": "src_31115e854a0e536765b15d3a",
+      "url": "https://familysupportcenter.org/services",
+      "title": "Family Support Center — LifeStart Village — services"
+    },
+    {
+      "id": "src_3972d7237ede4f0876fdf372",
+      "url": "https://cdcutah.org/i-want-to/homestart",
+      "title": "CDCU — homebuyer coaching and down-payment assistance — homestart"
+    },
+    {
+      "id": "src_3c712c5d14925e1071a0b021",
+      "url": "https://www.slc.gov/can/renters/",
+      "title": "Salt Lake City Tenant Resource Center — "
+    },
+    {
+      "id": "src_431d4a71a6c92535813ec425",
+      "url": "https://www.slc.gov/access-belonging/wp-content/uploads/sites/57/2026/01/2025-07_CommunityResourceGuide-WebReady_01-26-1.pdf",
+      "title": "Utah Community Action — rent and deposit help — 2025-07_CommunityResourceGuide-WebReady_01-26-1.pdf"
+    },
+    {
+      "id": "src_49e4f357c26fd5625caae203",
+      "url": "https://www.ruffhaven.org/what-we-do",
+      "title": "Ruff Haven — crisis sheltering for pets — what-we-do"
+    },
+    {
+      "id": "src_50670957ddd8b42fa8e8bc22",
+      "url": "https://www.slc.gov/housingstability/fix-your-home/",
+      "title": "Salt Lake City — Fix Your Home — "
+    },
+    {
+      "id": "src_6dabae2f98486459961868c2",
+      "url": "https://www.atallorder.org/contact",
+      "title": "A Tall Order Foundation / HomeInn — transitional rooms — contact"
+    },
+    {
+      "id": "src_759a12b056385019408c836c",
+      "url": "https://haslcutah.org/apply-for-housing/",
+      "title": "Housing Authority of Salt Lake City — housing applications — "
+    },
+    {
+      "id": "src_79e3da44b81c6f035c3f0b7f",
+      "url": "https://theroadhome.org/wp-content/uploads/2025/12/SSVF-Outreach-Flyer-5.2025.pdf",
+      "title": "The Road Home — Supportive Services for Veteran Families — SSVF-Outreach-Flyer-5.2025.pdf"
+    },
+    {
+      "id": "src_81863249969211fd9c5493d2",
+      "url": "https://www.woodspring.com/extended-stay-hotels/locations/utah/salt-lake-city/hotels",
+      "title": "WoodSpring Suites Bluffdale Salt Lake City — extended stay — hotels"
+    },
+    {
+      "id": "src_8fbd229bef3e16c41cb1dde0",
+      "url": "https://familysupportcenter.org/services/lifestart-village",
+      "title": "Family Support Center — LifeStart Village — lifestart-village"
+    },
+    {
+      "id": "src_978a4d380083156f0b27edf4",
+      "url": "https://assistutah.org/services/emergency-home-repair",
+      "title": "ASSIST — Emergency Home Repair — emergency-home-repair"
+    },
+    {
+      "id": "src_9add6a34885ea9cfc2d183af",
+      "url": "https://theroadhome.org/ssvf-referral/",
+      "title": "The Road Home — Supportive Services for Veteran Families — "
+    },
+    {
+      "id": "src_a6e162e0bf23ecac56eb7ed7",
+      "url": "https://www.saltlakecounty.gov/globalassets/1-site-files/youth-services/youth-programs/milestone-transitional-living-program/milestone-overview-2026.pdf",
+      "title": "Salt Lake County Milestone Transitional Living — milestone-overview-2026.pdf"
+    },
+    {
+      "id": "src_b2032c75611006473822fc0d",
+      "url": "https://www.affordablehousing.com/salt-lake-city-ut/",
+      "title": "AffordableHousing.com — Salt Lake City rental search — "
+    },
+    {
+      "id": "src_b5c5ef1b259658066b957534",
+      "url": "https://www-media.woodspring.com/extended-stay-hotels/locations/utah/bluffdale/woodspring-suites-bluffdale-salt-lake-city",
+      "title": "WoodSpring Suites Bluffdale Salt Lake City — extended stay — woodspring-suites-bluffdale-salt-lake-city"
+    },
+    {
+      "id": "src_b754f3c9b3cc12bda149d350",
+      "url": "https://www.affordablehousing.com/housing-authority-ut/housing-connect-348/",
+      "title": "Housing Connect — affordable housing applications — "
+    },
+    {
+      "id": "src_c462a4a9afd6f6156a546ea5",
+      "url": "https://www.familysupportcenter.org/services-1",
+      "title": "Family Support Center — LifeStart Village — services-1"
+    },
+    {
+      "id": "src_c6048f5ec8ccebcc1c94ae28",
+      "url": "https://utahca.org/case-management-housing/",
+      "title": "Utah Community Action — rent and deposit help — "
+    },
+    {
+      "id": "src_db9d7764edc1743898e4d880",
+      "url": "https://cdcutah.org/i-want-to/seek-down-payment-assistance",
+      "title": "CDCU — homebuyer coaching and down-payment assistance — seek-down-payment-assistance"
+    },
+    {
+      "id": "src_e0a9cabc510c07fcd8002ecf",
+      "url": "https://www.sslc.gov/519/Housing-Resources",
+      "title": "ASSIST — Emergency Home Repair — Housing-Resources"
+    },
+    {
+      "id": "src_ef140c061cf308a9c014ef07",
+      "url": "https://housingconnect.org/",
+      "title": "Housing Connect — affordable housing applications — "
+    },
+    {
+      "id": "src_f452165ac509f634f3a90c99",
+      "url": "https://haslcutah.org/",
+      "title": "Housing Authority of Salt Lake City — housing applications — "
+    },
+    {
+      "id": "src_fb193757206f1653f4bc9057",
+      "url": "https://www.ruffhaven.org/faqs",
+      "title": "Ruff Haven — crisis sheltering for pets — faqs"
+    }
+  ],
+  "resources": [
+    {
+      "id": "trial_60e21627020dd86e4cd82ecc",
+      "revision": "696bf3dff129ef001b395da700bd7a94203859900676670423f93dab2b54d811",
+      "state": "usable",
+      "name": "Housing Connect — affordable housing applications",
+      "description": "Subsidized rental housing and applications for Housing Connect properties.",
+      "phone": "801-284-4400",
+      "address": "",
+      "locationDescription": "Salt Lake County; phone and online intake",
+      "website": "https://housingconnect.org/",
+      "email": "info@housingconnect.org",
+      "hours": "",
+      "informationText": "**Services Offered**\n\nSubsidized rental housing and applications for Housing Connect properties.\n\n**Eligibility Requirements**\n\nIncome and household rules depend on the property or voucher program; some properties target older adults or people with disabilities.\n\n**Population Served**\n\nSalt Lake County households needing affordable housing.\n\n**How to Best Connect**\n\nCall or follow Apply Online on the official website to check current waiting lists.\n\n**Important Information to Know**\n\nWaiting-list admission is not an offer of housing. Published announcements do not establish current availability; confirm each waiting list directly.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-01"
+      ],
+      "forGroups": [
+        "seniors",
+        "disabilities"
+      ],
+      "sourceIds": [
+        "src_ef140c061cf308a9c014ef07",
+        "src_b754f3c9b3cc12bda149d350"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Public web evidence; no provider contact or live capacity check."
+    },
+    {
+      "id": "trial_cb14cce280fa16d65ead9304",
+      "revision": "a8c70fef9f2c8ff17d4aec91e964cee068f98f01b026e4fa0f0a459d6d6f3bee",
+      "state": "usable",
+      "name": "Housing Authority of Salt Lake City — housing applications",
+      "description": "Applications for public, subsidized and affordable rental housing.",
+      "phone": "801-487-2161",
+      "address": "",
+      "locationDescription": "Salt Lake City / Salt Lake valley; phone and online intake",
+      "website": "https://haslcutah.org/apply-for-housing/",
+      "email": "contact@haslcutah.org",
+      "hours": "",
+      "informationText": "**Services Offered**\n\nApplications for public, subsidized and affordable rental housing.\n\n**Eligibility Requirements**\n\nEach property or program sets income and household requirements; use the options open to direct applicants.\n\n**Population Served**\n\nLow-income households seeking housing in the Salt Lake valley.\n\n**How to Best Connect**\n\nCall the authority or use its Apply for Housing page to identify an eligible waiting list.\n\n**Important Information to Know**\n\nSome lists are closed, and waits can last years. This is not emergency placement; some specialized programs require referrals.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-01"
+      ],
+      "forGroups": [],
+      "sourceIds": [
+        "src_f452165ac509f634f3a90c99",
+        "src_759a12b056385019408c836c"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Public web evidence; no provider contact or live capacity check."
+    },
+    {
+      "id": "trial_6d2ab7784c65282360b0d7cd",
+      "revision": "66cd9555e480c448796d5a8accaa0765125056843f4fd7a40599aeb5b52ea16e",
+      "state": "usable",
+      "name": "Utah Community Action — rent and deposit help",
+      "description": "Help with rent or a rental deposit after a financial crisis.",
+      "phone": "801-359-2444",
+      "address": "",
+      "locationDescription": "Salt Lake County; start online or by phone",
+      "website": "https://utahca.org/case-management-housing/",
+      "email": "housingintake@utahca.org",
+      "hours": "Monday–Friday 9 am–5 pm",
+      "informationText": "**Services Offered**\n\nHelp with rent or a rental deposit after a financial crisis.\n\n**Eligibility Requirements**\n\nAn unexpected financial crisis and an existing or obtainable lease; staff determine funding eligibility.\n\n**Population Served**\n\nHouseholds in the local service area facing housing instability.\n\n**How to Best Connect**\n\nApply online; call intake for questions. Phone hours: weekdays 9–5.\n\n**Important Information to Know**\n\nPayments go to landlords. Mortgage, family and roommate payments are excluded. Appointments may take weeks; assistance is not guaranteed.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-02"
+      ],
+      "forGroups": [],
+      "sourceIds": [
+        "src_c6048f5ec8ccebcc1c94ae28",
+        "src_431d4a71a6c92535813ec425"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Public web evidence; no provider contact or live capacity check."
+    },
+    {
+      "id": "trial_de0942bfb761e275dd2452e2",
+      "revision": "62183b9f1b173724c36c59606858e9ff0abe815addecf47585d712303861e31e",
+      "state": "usable",
+      "name": "Salt Lake City Tenant Resource Center",
+      "description": "One-to-one rental housing navigation and screening for relocation assistance.",
+      "phone": "801-893-3779",
+      "address": "501 East 1700 South, Salt Lake City, UT",
+      "locationDescription": "501 East 1700 South, Salt Lake City, UT",
+      "website": "https://www.slc.gov/can/renters/",
+      "email": "",
+      "hours": "Monday–Thursday 9 am–5 pm; Friday 9 am–noon",
+      "informationText": "**Services Offered**\n\nOne-to-one rental housing navigation and screening for relocation assistance.\n\n**Eligibility Requirements**\n\nSalt Lake City renters. RAFT assistance concerns displacement from repairs, demolition or changes to income restrictions.\n\n**Population Served**\n\nCity tenants who need help understanding housing options or a qualifying forced move.\n\n**How to Best Connect**\n\nCall CDCU or use Get Help with Housing on the city page. In-person hours: Monday–Thursday 9–5; Friday 9–noon.\n\n**Important Information to Know**\n\nRAFT is not general rent assistance. The navigator cannot guarantee funding, a rental or legal representation.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-10",
+        "housing-kind-02"
+      ],
+      "forGroups": [],
+      "sourceIds": [
+        "src_3c712c5d14925e1071a0b021"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Public web evidence; no provider contact or live capacity check."
+    },
+    {
+      "id": "trial_8349fd6e1cce3eefc41194d9",
+      "revision": "1a2baf9236b3fee6621a5457e7b5835b67f37ecce6cbf8b085e2863c107fcfca",
+      "state": "usable",
+      "name": "Salt Lake County Milestone Transitional Living",
+      "description": "Transitional housing with employment and independent-living support.",
+      "phone": "801-518-0292",
+      "address": "",
+      "locationDescription": "Salt Lake County; contact program before visiting",
+      "website": "https://www.saltlakecounty.gov/youth/youth-programs/transitional-living/",
+      "email": "",
+      "hours": "",
+      "informationText": "**Services Offered**\n\nTransitional housing with employment and independent-living support.\n\n**Eligibility Requirements**\n\nYoung adults ages 18–21 at risk of homelessness or without housing; participants must follow program rules and pay program fees.\n\n**Population Served**\n\nYoung adults preparing to live independently.\n\n**How to Best Connect**\n\nContact the program manager directly or follow the county page’s Milestone Referral Application link; ask about screening and openings.\n\n**Important Information to Know**\n\nFees start at $200 monthly and increase over time. Substance-free living, random drug testing and no pets are stated conditions. No immediate vacancy is promised.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-03"
+      ],
+      "forGroups": [
+        "young-adults"
+      ],
+      "sourceIds": [
+        "src_1786bcec2d23310baf314060",
+        "src_a6e162e0bf23ecac56eb7ed7"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Public web evidence; no provider contact or live capacity check."
+    },
+    {
+      "id": "trial_cfb81734f37fe70aee6b6661",
+      "revision": "4045bed7ecde0d396239950f3ffd00a2f517e4e36dd33480bffc834c1d8ae3d7",
+      "state": "usable",
+      "name": "Family Support Center — LifeStart Village",
+      "description": "Apartments with case management and practical support toward independent housing.",
+      "phone": "801-955-9110",
+      "address": "",
+      "locationDescription": "Salt Lake County; administrative contact in Taylorsville",
+      "website": "https://familysupportcenter.org/services/lifestart-village",
+      "email": "info@familysupportcenter.org",
+      "hours": "",
+      "informationText": "**Services Offered**\n\nApartments with case management and practical support toward independent housing.\n\n**Eligibility Requirements**\n\nSingle-parent families; contact LifeStart for the full admissions requirements and current availability.\n\n**Population Served**\n\nSingle parents and their children rebuilding housing stability.\n\n**How to Best Connect**\n\nCall the Family Support Center’s main number and ask for LifeStart admissions, or use its program page.\n\n**Important Information to Know**\n\nThe program describes stays of up to five years. It is not an emergency shelter; rent, screening, waiting time and the visit address need confirmation.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-03"
+      ],
+      "forGroups": [
+        "single-parents"
+      ],
+      "sourceIds": [
+        "src_8fbd229bef3e16c41cb1dde0",
+        "src_31115e854a0e536765b15d3a",
+        "src_c462a4a9afd6f6156a546ea5"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Program details were available in the public search index; the program page opened with no parsed text. Contact details were also available in the official services page search index."
+    },
+    {
+      "id": "trial_cb8b6596335b44d976f78f6b",
+      "revision": "6edd341b278e23a8e6ed13447b5b6c2b10128a7a1a6e85d8bb77f80e24378e60",
+      "state": "usable",
+      "name": "ASSIST — Emergency Home Repair",
+      "description": "Repairs to serious home safety problems, including plumbing, heating, electrical and accessibility problems.",
+      "phone": "801-355-7085",
+      "address": "218 E 500 S, Salt Lake City, UT 84111",
+      "locationDescription": "218 E 500 S, Salt Lake City, UT 84111",
+      "website": "https://assistutah.org/services/emergency-home-repair",
+      "email": "",
+      "hours": "Preferred phone times Monday–Friday 8–9 am or 1–2 pm",
+      "informationText": "**Services Offered**\n\nRepairs to serious home safety problems, including plumbing, heating, electrical and accessibility problems.\n\n**Eligibility Requirements**\n\nGenerally homeowners below 80% of area median income in participating Salt Lake County jurisdictions; renters only in very limited hazardous situations.\n\n**Population Served**\n\nLow-income residents whose housing needs urgent safety repairs.\n\n**How to Best Connect**\n\nCall with the repair problem, city, household size, income and ownership information. Preferred calling times are weekdays 8–9 am or 1–2 pm.\n\n**Important Information to Know**\n\nStaff check location, documents and eligibility before arranging work; not all repairs or county municipalities qualify.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-04"
+      ],
+      "forGroups": [],
+      "sourceIds": [
+        "src_978a4d380083156f0b27edf4",
+        "src_e0a9cabc510c07fcd8002ecf"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Public web evidence; no provider contact or live capacity check."
+    },
+    {
+      "id": "trial_c50f69df73a4aff8a39c2a4e",
+      "revision": "15c6b8bf9ba736c1ab19db4bd46bcf3bda53d9d212989989072bc24450b0ab5c",
+      "state": "usable",
+      "name": "Habitat for Humanity Greater Salt Lake Area — Critical Home Repairs",
+      "description": "Critical roof, plumbing, electrical, heating and accessibility repairs.",
+      "phone": "801-263-0136 ext. 211",
+      "address": "1276 South 500 West, Salt Lake City, UT 84101",
+      "locationDescription": "1276 South 500 West, Salt Lake City, UT 84101",
+      "website": "https://habitatsaltlake.org/our-programs/critical-home-repairs",
+      "email": "",
+      "hours": "",
+      "informationText": "**Services Offered**\n\nCritical roof, plumbing, electrical, heating and accessibility repairs.\n\n**Eligibility Requirements**\n\nLow-to-moderate income owners of homes on permanent foundations in Salt Lake, Davis or Tooele counties; citizenship or legal residency required.\n\n**Population Served**\n\nHomeowners who need essential safety repairs.\n\n**How to Best Connect**\n\nUse the Critical Home Repair application or call extension 211 about eligibility.\n\n**Important Information to Know**\n\nAssistance can involve grants or a deferred loan due when ownership changes; confirm the terms and project availability.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-04"
+      ],
+      "forGroups": [],
+      "sourceIds": [
+        "src_2ffeb99d0a1528478da463c5"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Public web evidence; no provider contact or live capacity check."
+    },
+    {
+      "id": "trial_6456410301a82ea2727fc081",
+      "revision": "11bf32d433708427c6c8900188e4943d8c5fdfb2dfe97b98a5c0dccc91468f19",
+      "state": "usable",
+      "name": "Salt Lake City — Fix Your Home",
+      "description": "City funding for minor repairs and larger health, safety or structural home repairs.",
+      "phone": "801-535-7233",
+      "address": "451 S State Street, Room 445, Salt Lake City, UT 84111",
+      "locationDescription": "451 S State Street, Room 445, Salt Lake City, UT 84111",
+      "website": "https://www.slc.gov/housingstability/fix-your-home/",
+      "email": "",
+      "hours": "",
+      "informationText": "**Services Offered**\n\nCity funding for minor repairs and larger health, safety or structural home repairs.\n\n**Eligibility Requirements**\n\nLow-income Salt Lake City households; the minor-repair grant specifically serves seniors or people with disabilities.\n\n**Population Served**\n\nEligible city homeowners, with a targeted minor-repair option for older or disabled residents.\n\n**How to Best Connect**\n\nUse the city’s Minor Repairs or Home Repairs application, or call for help choosing.\n\n**Important Information to Know**\n\nMajor repairs may use a loan. Fix the Bricks is closed; do not apply expecting seismic-retrofit funding. Confirm available funding and terms.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-04"
+      ],
+      "forGroups": [
+        "seniors",
+        "disabilities"
+      ],
+      "sourceIds": [
+        "src_50670957ddd8b42fa8e8bc22"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Public web evidence; no provider contact or live capacity check."
+    },
+    {
+      "id": "trial_c0f5f662b4cb07fb0c15c2dd",
+      "revision": "16b9b628f4996688b1b40f2db5481ccaf636bdad1899010476e506fe5e0af280",
+      "state": "usable",
+      "name": "CDCU — homebuyer coaching and down-payment assistance",
+      "description": "Homebuyer education, individual housing counseling and assessment for down-payment assistance.",
+      "phone": "801-994-7222",
+      "address": "501 East 1700 South, Salt Lake City, UT 84105",
+      "locationDescription": "501 East 1700 South, Salt Lake City, UT 84105",
+      "website": "https://cdcutah.org/i-want-to/homestart",
+      "email": "",
+      "hours": "",
+      "informationText": "**Services Offered**\n\nHomebuyer education, individual housing counseling and assessment for down-payment assistance.\n\n**Eligibility Requirements**\n\nCoaching is available to people preparing to buy; assistance has additional first-time buyer, income, occupancy and contribution requirements.\n\n**Population Served**\n\nPeople planning a home purchase, including households not yet ready for a mortgage.\n\n**How to Best Connect**\n\nCall CDCU for counseling or follow its registration/intake links. Ask about the next class rather than relying on past advertised dates.\n\n**Important Information to Know**\n\nFinancial assistance is limited and can be a repayable deferred loan. Coaching does not guarantee a loan, grant or home.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-05"
+      ],
+      "forGroups": [],
+      "sourceIds": [
+        "src_3972d7237ede4f0876fdf372",
+        "src_db9d7764edc1743898e4d880"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Public web evidence; no provider contact or live capacity check."
+    },
+    {
+      "id": "trial_897d3b56843a8a2117da6021",
+      "revision": "0b874de34b42dfedc0160e53efe9448afc99c984b9f6e45af2c087c5826f8326",
+      "state": "usable",
+      "name": "The Road Home — Supportive Services for Veteran Families",
+      "description": "Veteran housing-stability assessment, homelessness prevention and rehousing support.",
+      "phone": "385-977-2920",
+      "address": "",
+      "locationDescription": "Salt Lake County; direct outreach contact",
+      "website": "https://theroadhome.org/ssvf-referral/",
+      "email": "veterans@theroadhome.org",
+      "hours": "",
+      "informationText": "**Services Offered**\n\nVeteran housing-stability assessment, homelessness prevention and rehousing support.\n\n**Eligibility Requirements**\n\nVeterans facing homelessness; the provider limits prevention assistance to Salt Lake County residents and screens other program criteria.\n\n**Population Served**\n\nVeterans and their households needing housing help.\n\n**How to Best Connect**\n\nCall or email the SSVF outreach team directly to arrange a meeting. Ask which community walk-in location is appropriate.\n\n**Important Information to Know**\n\nSome outreach sessions are residents-only, but the flyer also offers public sessions and appointments. Ask about alternate documents if identification or income paperwork is missing.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-06"
+      ],
+      "forGroups": [
+        "veterans"
+      ],
+      "sourceIds": [
+        "src_9add6a34885ea9cfc2d183af",
+        "src_79e3da44b81c6f035c3f0b7f"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Public web evidence; no provider contact or live capacity check."
+    },
+    {
+      "id": "trial_9c9013223cf72b11587a4974",
+      "revision": "23e3b4b87271bc990c5289859ae4ead3d668fe375b06e2013cbb20fdce309ef8",
+      "state": "usable",
+      "name": "AffordableHousing.com — Salt Lake City rental search",
+      "description": "Searchable rental listings and property contact routes.",
+      "phone": "",
+      "address": "",
+      "locationDescription": "Online; Salt Lake City listings",
+      "website": "https://www.affordablehousing.com/salt-lake-city-ut/",
+      "email": "",
+      "hours": "",
+      "informationText": "**Services Offered**\n\nSearchable rental listings and property contact routes.\n\n**Eligibility Requirements**\n\nAnyone may browse; landlords and individual housing programs set their own screening and application requirements.\n\n**Population Served**\n\nPeople comparing available rental options in Salt Lake City.\n\n**How to Best Connect**\n\nOpen the Salt Lake City search and contact the listed property about rent, eligibility and availability.\n\n**Important Information to Know**\n\nA listing is not a vacancy guarantee or a subsidy award. Confirm fees and terms directly; the site also promotes optional paid features.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-08"
+      ],
+      "forGroups": [],
+      "sourceIds": [
+        "src_b2032c75611006473822fc0d",
+        "src_b754f3c9b3cc12bda149d350"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Public web evidence; no provider contact or live capacity check."
+    },
+    {
+      "id": "trial_41e36c38acb6b03d5a3ec82e",
+      "revision": "184433008b9bd4c15c009751550f92351dbb62ad4d615c99f4f4138fe82fecc2",
+      "state": "usable",
+      "name": "WoodSpring Suites Bluffdale Salt Lake City — extended stay",
+      "description": "Paid extended-stay rooms with a kitchen, including weekly and longer stays.",
+      "phone": "385-243-1064",
+      "address": "1478 West 14000 South, Bluffdale, UT 84065",
+      "locationDescription": "1478 West 14000 South, Bluffdale, UT 84065",
+      "website": "https://www-media.woodspring.com/extended-stay-hotels/locations/utah/bluffdale/woodspring-suites-bluffdale-salt-lake-city",
+      "email": "",
+      "hours": "",
+      "informationText": "**Services Offered**\n\nPaid extended-stay rooms with a kitchen, including weekly and longer stays.\n\n**Eligibility Requirements**\n\nGuests must meet the hotel’s booking and payment conditions; ask about identification, deposits and total charges.\n\n**Population Served**\n\nPeople able to pay for temporary lodging in southern Salt Lake County.\n\n**How to Best Connect**\n\nCall the hotel for a complete quote and booking terms before traveling to Bluffdale.\n\n**Important Information to Know**\n\nCommercial lodging, not rental assistance or free shelter. Upfront payment, transportation and pet charges can make it unsuitable; prices vary.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-08"
+      ],
+      "forGroups": [],
+      "sourceIds": [
+        "src_b5c5ef1b259658066b957534",
+        "src_81863249969211fd9c5493d2"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Public web evidence; no provider contact or live capacity check."
+    },
+    {
+      "id": "trial_1c2593fbb00919f77ce6098f",
+      "revision": "67493229b7df3c6a5a9cde78ef5110e56da846b0f191bed36137bd9c4e9727d7",
+      "state": "usable",
+      "name": "Ruff Haven — crisis sheltering for pets",
+      "description": "Temporary care for dogs and cats while their owners face a crisis.",
+      "phone": "801-251-6765",
+      "address": "264 S Glendale Street, Suite 100, Salt Lake City, UT 84104",
+      "locationDescription": "264 S Glendale Street, Suite 100, Salt Lake City, UT 84104",
+      "website": "https://www.ruffhaven.org/apply",
+      "email": "info@ruffhaven.org",
+      "hours": "By appointment; not a 24-hour facility",
+      "informationText": "**Services Offered**\n\nTemporary care for dogs and cats while their owners face a crisis.\n\n**Eligibility Requirements**\n\nUtah pet owners with an unexpected crisis such as eviction, homelessness, hospitalization or domestic violence; apply for screening.\n\n**Population Served**\n\nPeople who risk losing their pets while resolving an emergency.\n\n**How to Best Connect**\n\nApply online; text the sheltering number with questions. Intake and visits require appointments.\n\n**Important Information to Know**\n\nNo required sheltering fee. Published durations differ; agree the stay and reunification plan with staff. This shelters pets, not people, and acceptance is not guaranteed.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-09"
+      ],
+      "forGroups": [],
+      "sourceIds": [
+        "src_06f292b5ec604b8f657a6e36",
+        "src_fb193757206f1653f4bc9057",
+        "src_26e4ae2aa656dbdfe517f4e5",
+        "src_49e4f357c26fd5625caae203"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Public web evidence; no provider contact or live capacity check."
+    },
+    {
+      "id": "trial_7005dfd4b080a9088e06ef9e",
+      "revision": "c2a2081f815315acf07ea6fa39f57d0d40f141b30bf78cf7b51448c12fe6849a",
+      "state": "usable",
+      "name": "Utah Community Action — landlord–tenant mediation",
+      "description": "Mediation to help landlords and tenants resolve housing disputes.",
+      "phone": "801-214-3109",
+      "address": "",
+      "locationDescription": "Salt Lake County residents may contact the statewide service",
+      "website": "https://utahca.org/case-management-housing/",
+      "email": "mediation@utahca.org",
+      "hours": "",
+      "informationText": "**Services Offered**\n\nMediation to help landlords and tenants resolve housing disputes.\n\n**Eligibility Requirements**\n\nTenants or landlords can request help; tenants with a three-day pay-or-vacate notice can use the tenant application.\n\n**Population Served**\n\nRenters and landlords seeking to preserve a tenancy.\n\n**How to Best Connect**\n\nCall the mediation line or use the tenant application linked on UCA’s housing page.\n\n**Important Information to Know**\n\nMediation is not legal advice or representation and does not itself extend a deadline.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-10"
+      ],
+      "forGroups": [],
+      "sourceIds": [
+        "src_c6048f5ec8ccebcc1c94ae28",
+        "src_431d4a71a6c92535813ec425"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Public web evidence; no provider contact or live capacity check."
+    },
+    {
+      "id": "trial_b5710877980768902ddc1b0f",
+      "revision": "9fbe1079bf666d635f5bf35f501b3ef8370f1368b28ab35b20335593e789e2f6",
+      "state": "usable",
+      "name": "A Tall Order Foundation / HomeInn — transitional rooms",
+      "description": "Low-cost single-room transitional housing with shared kitchen and common facilities.",
+      "phone": "801-965-8628",
+      "address": "428 W 300 S, Salt Lake City, UT 84101 (outreach office)",
+      "locationDescription": "Outreach: 428 W 300 S, Salt Lake City, UT 84101",
+      "website": "https://www.atallorder.org/foundation",
+      "email": "atallorderfoundation@gmail.com",
+      "hours": "",
+      "informationText": "**Services Offered**\n\nLow-cost single-room transitional housing with shared kitchen and common facilities.\n\n**Eligibility Requirements**\n\nGuests must qualify through HomeInn and follow housing rules; ask about screening and suitability before visiting.\n\n**Population Served**\n\nPeople moving out of homelessness who can pay rent and live in a single-room setting.\n\n**How to Best Connect**\n\nCall or contact the downtown outreach office for an application conversation and current openings.\n\n**Important Information to Know**\n\nThe website publishes entry rent of $510 including utilities; confirm current rent, extra fees and availability. This is paid transitional housing, not emergency shelter or a verified fixed-income shared-housing program.",
+      "categories": [
+        "housing"
+      ],
+      "types": [
+        "housing-kind-03"
+      ],
+      "forGroups": [],
+      "sourceIds": [
+        "src_1c13b24b7fdbee232d2f69bc",
+        "src_247d805d28f25482f3f919e7",
+        "src_6dabae2f98486459961868c2"
+      ],
+      "researchedAt": "2026-09-30",
+      "identityStatus": "provisional-trial",
+      "sourceAccessNote": "Public web evidence; no provider contact or live capacity check."
+    }
+  ],
+  "starterSets": [
+    {
+      "categoryId": "housing",
+      "rationale": "Cover eight evidenced original kinds plus tenant support. Two transitional starters are justified by a client-noticeable difference: single-room adult accommodation versus apartments for single-parent families. No emergency-shelter-only starter.",
+      "gaps": "No currently evidenced low-cost fixed-income shared-housing admission route passed the direct-access check. HomeInn has low-cost rooms and shared amenities, but neither that nor Aspen proves this specific kind. This is a research gap, not proof that no local service exists.",
+      "members": [
+        {
+          "resourceId": "trial_60e21627020dd86e4cd82ecc",
+          "position": 1,
+          "contribution": "Provides the county housing-authority route, covering subsidized rentals without listing every property separately.",
+          "limitation": "Waiting-list admission is not an offer of housing. Published announcements do not establish current availability; confirm each waiting list directly."
+        },
+        {
+          "resourceId": "trial_6d2ab7784c65282360b0d7cd",
+          "position": 2,
+          "contribution": "Covers emergency rent and deposit help through a direct local application.",
+          "limitation": "Payments go to landlords. Mortgage, family and roommate payments are excluded. Appointments may take weeks; assistance is not guaranteed."
+        },
+        {
+          "resourceId": "trial_b5710877980768902ddc1b0f",
+          "position": 3,
+          "contribution": "Adds a low-cost single-room route for adults, materially different from LifeStart’s single-parent family apartments.",
+          "limitation": "The website publishes entry rent of $510 including utilities; confirm current rent, extra fees and availability. This is paid transitional housing, not emergency shelter or a verified fixed-income shared-housing program."
+        },
+        {
+          "resourceId": "trial_cfb81734f37fe70aee6b6661",
+          "position": 4,
+          "contribution": "Covers a sustained housing program for single-parent families, rather than another overnight shelter.",
+          "limitation": "The program describes stays of up to five years. It is not an emergency shelter; rent, screening, waiting time and the visit address need confirmation."
+        },
+        {
+          "resourceId": "trial_cb8b6596335b44d976f78f6b",
+          "position": 5,
+          "contribution": "Adds a practical repair route so an unsafe home does not automatically become a move or shelter problem.",
+          "limitation": "Staff check location, documents and eligibility before arranging work; not all repairs or county municipalities qualify."
+        },
+        {
+          "resourceId": "trial_c0f5f662b4cb07fb0c15c2dd",
+          "position": 6,
+          "contribution": "Covers homebuying readiness and assistance screening through a local housing counselor.",
+          "limitation": "Financial assistance is limited and can be a repayable deferred loan. Coaching does not guarantee a loan, grant or home."
+        },
+        {
+          "resourceId": "trial_897d3b56843a8a2117da6021",
+          "position": 7,
+          "contribution": "Adds veteran-specific housing help with a public outreach route, without requiring a veteran already to live in a shelter.",
+          "limitation": "Some outreach sessions are residents-only, but the flyer also offers public sessions and appointments. Ask about alternate documents if identification or income paperwork is missing."
+        },
+        {
+          "resourceId": "trial_9c9013223cf72b11587a4974",
+          "position": 8,
+          "contribution": "Covers self-directed rental searching, distinct from applying to a housing-authority waiting list.",
+          "limitation": "A listing is not a vacancy guarantee or a subsidy award. Confirm fees and terms directly; the site also promotes optional paid features."
+        },
+        {
+          "resourceId": "trial_1c2593fbb00919f77ce6098f",
+          "position": 9,
+          "contribution": "Addresses a housing barrier the human-housing providers do not solve: keeping a pet safe during displacement.",
+          "limitation": "No required sheltering fee. Published durations differ; agree the stay and reunification plan with staff. This shelters pets, not people, and acceptance is not guaranteed."
+        },
+        {
+          "resourceId": "trial_de0942bfb761e275dd2452e2",
+          "position": 10,
+          "contribution": "Adds a human navigator for renters whose situation does not fit a single application; RAFT covers a specific displacement problem.",
+          "limitation": "RAFT is not general rent assistance. The navigator cannot guarantee funding, a rental or legal representation."
+        }
+      ]
+    }
+  ],
+  "considerations": [
+    {
+      "resourceId": "trial_cb14cce280fa16d65ead9304",
+      "categoryId": "housing",
+      "reason": "Adds a separate authority and property portfolio alongside Housing Connect; compare eligible lists rather than submitting duplicate applications."
+    },
+    {
+      "resourceId": "trial_8349fd6e1cce3eefc41194d9",
+      "categoryId": "housing",
+      "reason": "Adds an age-specific transitional route for young adults who cannot use the single-parent starter."
+    },
+    {
+      "resourceId": "trial_c50f69df73a4aff8a39c2a4e",
+      "categoryId": "housing",
+      "reason": "Adds another repair provider with a broader three-county area and grant/deferred-loan options when ASSIST is not a fit."
+    },
+    {
+      "resourceId": "trial_6456410301a82ea2727fc081",
+      "categoryId": "housing",
+      "reason": "Adds city repair financing and a targeted minor-repair grant when the nonprofit repair options do not fit."
+    },
+    {
+      "resourceId": "trial_41e36c38acb6b03d5a3ec82e",
+      "categoryId": "housing",
+      "reason": "Adds a directly bookable temporary lodging option for someone who can pay and reach Bluffdale while seeking a rental."
+    },
+    {
+      "resourceId": "trial_7005dfd4b080a9088e06ef9e",
+      "categoryId": "housing",
+      "reason": "Adds direct dispute resolution to the starter navigator and rent-help routes."
+    }
+  ],
+  "trialChecklist": {
+    "originalKindCount": 9,
+    "coveredOriginalKinds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      8,
+      9
+    ],
+    "gaps": [
+      {
+        "kind": 7,
+        "label": "Low-cost shared housing for fixed incomes",
+        "status": "not-established",
+        "tried": [
+          "Four publishers' local lists",
+          "Exact-name One New Light searches",
+          "Salt Lake shared housing/fixed-income search",
+          "Road Home historical shared-housing evidence",
+          "Aspen Living targeted check after the baseline comparison surfaced its name"
+        ],
+        "reason": "No currently evidenced low-cost fixed-income shared-housing admission route passed the direct-access check. HomeInn has low-cost rooms and shared amenities, but neither that nor Aspen proves this specific kind. This is a research gap, not proof that no local service exists."
+      }
+    ],
+    "additions": [
+      {
+        "kind": 10,
+        "label": "Tenant support and eviction prevention",
+        "reason": "One-to-one rental navigation and landlord–tenant mediation help preserve a tenancy even when no rent grant or new unit is offered.",
+        "members": [
+          "tenant-center",
+          "uca-mediation"
+        ],
+        "status": "proposed checklist addition; not an office taxonomy migration"
+      }
+    ]
+  },
+  "trialComplements": [
+    {
+      "resourceId": "trial_8349fd6e1cce3eefc41194d9",
+      "reason": "Adds an age-specific transitional route for young adults who cannot use the single-parent starter."
+    },
+    {
+      "resourceId": "trial_cb14cce280fa16d65ead9304",
+      "reason": "Adds a separate authority and property portfolio alongside Housing Connect; compare eligible lists rather than submitting duplicate applications."
+    },
+    {
+      "resourceId": "trial_c50f69df73a4aff8a39c2a4e",
+      "reason": "Adds another repair provider with a broader three-county area and grant/deferred-loan options when ASSIST is not a fit."
+    },
+    {
+      "resourceId": "trial_7005dfd4b080a9088e06ef9e",
+      "reason": "Adds direct dispute resolution to the starter navigator and rent-help routes."
+    },
+    {
+      "resourceId": "trial_6456410301a82ea2727fc081",
+      "reason": "Adds city repair financing and a targeted minor-repair grant when the nonprofit repair options do not fit."
+    },
+    {
+      "resourceId": "trial_41e36c38acb6b03d5a3ec82e",
+      "reason": "Adds a directly bookable temporary lodging option for someone who can pay and reach Bluffdale while seeking a rental."
+    }
+  ],
+  "review": {
+    "status": "reviewed-for-evaluation",
+    "reviewer": "Codex",
+    "scope": "All 16 prepared trial records, taxonomy, sources, office fit and selection; human judging pending.",
+    "contentFingerprint": "72466c93cd3f4e6c77dd5524ae12bb25d40b8d207b19e5decc2f5f6d99b61677"
+  }
+}

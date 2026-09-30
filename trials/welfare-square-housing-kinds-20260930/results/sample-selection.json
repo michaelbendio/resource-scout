@@ -1,0 +1,23 @@
+{
+  "seed": 20260930,
+  "algorithm": "Python random.Random(seed).shuffle over keys sorted lexically; first min(20,N)",
+  "population": 16,
+  "resourceIds": [
+    "trial_1c2593fbb00919f77ce6098f",
+    "trial_de0942bfb761e275dd2452e2",
+    "trial_c0f5f662b4cb07fb0c15c2dd",
+    "trial_c50f69df73a4aff8a39c2a4e",
+    "trial_60e21627020dd86e4cd82ecc",
+    "trial_cb8b6596335b44d976f78f6b",
+    "trial_8349fd6e1cce3eefc41194d9",
+    "trial_41e36c38acb6b03d5a3ec82e",
+    "trial_9c9013223cf72b11587a4974",
+    "trial_b5710877980768902ddc1b0f",
+    "trial_7005dfd4b080a9088e06ef9e",
+    "trial_cb14cce280fa16d65ead9304",
+    "trial_897d3b56843a8a2117da6021",
+    "trial_6456410301a82ea2727fc081",
+    "trial_cfb81734f37fe70aee6b6661",
+    "trial_6d2ab7784c65282360b0d7cd"
+  ]
+}
