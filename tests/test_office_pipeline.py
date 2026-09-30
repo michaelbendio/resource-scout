@@ -69,6 +69,9 @@ class OfficePipelineTests(unittest.TestCase):
         checkpoint = review / 'checkpoint.md'
         checkpoint.write_text('All non-UI checks complete; browser verification remains.')
         pipeline.write(review / 'STATUS.json', dict(status='needs-browser-verification', checkpointFile=str(checkpoint)))
+        pipeline.write(self.root / 'pipeline-status.json', dict(
+            phase='waiting-research', reviewSessions=0,
+            reason='Old context exhaustion; now recovered'))
         store = Mock()
         store.get_scout_curation_job.return_value = dict(status='completed', categories=[{'status':'completed'}]*2)
         process = Mock(pid=999, returncode=0)
@@ -82,6 +85,8 @@ class OfficePipelineTests(unittest.TestCase):
         review_command = launch.call_args_list[1].args[0]
         self.assertIn('model_reasoning_effort="xhigh"', review_command)
         self.assertEqual('needs-browser-verification', pipeline.read(self.root / 'pipeline-status.json')['phase'])
+        self.assertEqual('Reviewer checkpoint: needs-browser-verification',
+                         pipeline.read(self.root / 'pipeline-status.json')['reason'])
         self.assertEqual(1, len(pipeline.read(self.root / 'review-time-sessions.json')))
 
     def test_xhigh_curation_is_not_silently_lowered(self):

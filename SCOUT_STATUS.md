@@ -1,5 +1,37 @@
 # Scout current status
 
+## Welfare Square acceptance rejected; assembly repair — September 30
+
+Michael reported that Welfare Square needed attention. Session 054 exited normally
+at the required supervising-assistant acceptance gate. Its old context-failure
+reason was stale, not the cause of this stop. Substantive acceptance **failed**:
+all eight contact/content fields in all 1,124 retained records still equaled the
+curation drafts despite explicit reviewed corrections; the compiler ignored the
+normalized taxonomy (991 Types, 763 groups); 865/1,089 considerations used generic
+fallbacks; two saved candidate-decision shapes were ignored; and identity/merge
+decisions need reconciliation instead of generic alias-based assertions.
+
+The original 54 sessions and all category judgments remain preserved. A finite
+assembly-repair continuation started at session 055, same single sequential
+gpt-5.5/xhigh reviewer, no research/curation restart. Read the mandatory
+`review/ASSEMBLY_REPAIR_INSTRUCTIONS.md` inside the Welfare Square run. It requires
+explicit finalization decisions, actual application of corrections, normalized
+taxonomy and faithful considerations, complete authored candidate dispositions,
+collection identity reconciliation, fail-closed compilation and a new acceptance
+audit. This is not permission to repeat the whole review or invent missing judgments.
+The total session ceiling was amended from 64 to 90 for the newly diagnosed work;
+all 54 consumed sessions and automatic recovery budgets are preserved. The custom
+acceptance wrapper still prevents automatic export or registry writes by the worker.
+
+Evidence and the rejected bundle/ledgers/compiler/config are preserved under
+`data/welfare-square-fresh-20260928/supervisor-acceptance-repair-20260930T082830Z/`.
+Pipeline 97987, reviewer 98007 and recovery monitor 98139 were verified at startup;
+check live state before relying on these PIDs. Dashboard port remains 8770.
+The pipeline now clears stale failure reasons on phase transitions and records
+the reviewer's current checkpoint summary. Mesa and its delivery/registry changes
+are outside this repair; preserve them. See
+[acceptance repair](docs/welfare-square-acceptance-repair-20260930.md).
+
 ## Routine review recovery enabled — September 29
 
 Michael requested automatic handling of issues like the Welfare Square context

@@ -168,6 +168,8 @@ def supervise(config_path):
         raise ValueError('Pipeline configuration changed; preserve and diagnose before resume')
     state.update(configSha256=config_digest, supervisorPid=os.getpid(), at=now())
     def checkpoint(phase=None, **fields):
+        if phase and 'reason' not in fields:
+            state.pop('reason', None)
         state.update(at=now(), **fields)
         if phase:
             state['phase'] = phase
@@ -300,7 +302,9 @@ def supervise(config_path):
                 checkpoint('prepared-delivery-ready', reviewCheckpointSha256=digest, delivery=delivery)
                 notice('Las Vegas prepared file validated; registry commit and final handoff remain.')
                 return
-            checkpoint('ready-review' if outcome == 'continue' else outcome, reviewCheckpointSha256=digest)
+            checkpoint('ready-review' if outcome == 'continue' else outcome,
+                       reviewCheckpointSha256=digest,
+                       reason=review_state.get('summary') or 'Reviewer checkpoint: ' + outcome)
             if outcome != 'continue':
                 notice('Las Vegas review: ' + outcome.replace('-', ' '))
         if state['phase'] == 'review':
