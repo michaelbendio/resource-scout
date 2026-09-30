@@ -26,6 +26,21 @@ def fingerprint(value):
     return hashlib.sha256(canonical(value).encode()).hexdigest()
 
 
+def resolve_identity(registry, resource_id):
+    """Follow explicit reviewed redirects while retaining every historical record."""
+    seen = set()
+    while True:
+        if resource_id in seen or resource_id not in registry['resources']:
+            raise IdentityError('Cyclic or dangling identity redirect')
+        seen.add(resource_id)
+        target = registry['resources'][resource_id].get('redirectTo')
+        if target is None:
+            return resource_id
+        if not isinstance(target, str):
+            raise IdentityError('Invalid identity redirect')
+        resource_id = target
+
+
 def new_registry():
     return dict(schemaVersion=1, namespace=str(uuid.uuid4()), nextSequence=1,
                 resources={}, aliases={}, events=[])
@@ -50,6 +65,8 @@ def validate_registry(registry):
         raise IdentityError("Invalid identity sequence")
     if registry["nextSequence"] <= max(sequences, default=0):
         raise IdentityError("Registry sequence would reuse an identity")
+    for rid in resources:
+        resolve_identity(registry, rid)
     for alias, rid in aliases.items():
         try:
             parts = json.loads(alias)
@@ -89,12 +106,12 @@ def register_reviewed(registry, *, source_namespace, decisions):
             if not isinstance(decision.get(key), str) or not decision[key].strip():
                 raise IdentityError("Identity decisions require a label and reason")
         keys = [alias_key(source_namespace, member) for member in members]
-        known = {result["aliases"][key] for key in keys if key in result["aliases"]}
+        known = {resolve_identity(result, result["aliases"][key]) for key in keys if key in result["aliases"]}
         match = decision.get("match")
         if match is not None:
             if match not in result["resources"]:
                 raise IdentityError("Unknown proposed match; model IDs cannot allocate identities")
-            known.add(match)
+            known.add(resolve_identity(result, match))
         if len(known) > 1:
             raise IdentityError("Conflicting existing identities require an explicit migration")
         if known:
@@ -113,6 +130,40 @@ def register_reviewed(registry, *, source_namespace, decisions):
                 sourceNamespace=source_namespace, sourceIds=added, label=decision["label"], reason=decision["reason"]))
     validate_registry(result)
     return result, mapping
+
+
+def migrate_reviewed_identities(registry, *, migration_id, decisions):
+    """Apply an explicit supervisor-reviewed merge plan; never guess or delete IDs.
+
+    Call under the export lock and save with an expected registry fingerprint.
+    Human decisions remain consumer-owned and require alias reconciliation.
+    """
+    validate_registry(registry)
+    if not isinstance(migration_id, str) or not migration_id.strip() or not decisions:
+        raise IdentityError('Migration needs an identifier and explicit decisions')
+    if any(e.get('migrationId') == migration_id for e in registry['events']):
+        raise IdentityError('Identity migration already applied')
+    result = deepcopy(registry)
+    seen = set()
+    for decision in decisions:
+        old, target = decision.get('fromResourceId'), decision.get('toResourceId')
+        if old == target or old in seen or old not in result['resources'] or target not in result['resources']:
+            raise IdentityError('Migration needs distinct known identities and unique sources')
+        if resolve_identity(result, old) != old or resolve_identity(result, target) != target:
+            raise IdentityError('Migration must name active identities')
+        for field in ('reason', 'evidence'):
+            if not isinstance(decision.get(field), str) or not decision[field].strip():
+                raise IdentityError('Migration needs an explicit reason and evidence')
+        seen.add(old)
+        aliases = sorted(key for key, rid in result['aliases'].items() if rid == old)
+        result['resources'][old]['redirectTo'] = target
+        for key in aliases:
+            result['aliases'][key] = target
+        result['events'].append(dict(kind='identity-merged', migrationId=migration_id,
+            fromResourceId=old, toResourceId=target, reassignedAliases=aliases,
+            reason=decision['reason'], evidence=decision['evidence']))
+    validate_registry(result)
+    return result
 
 
 def load_registry(path: Path):

@@ -1,5 +1,32 @@
 # Scout current status
 
+## Welfare Square identity gate resolved — September 30
+
+Session 079 finished the category assembly repairs, collection reconciliation and
+content refreeze, then correctly stopped on three conflicting canonical-ID groups.
+The supervisor accepted two explicit consolidations: Humanitarian Center English
+instruction into its work-training entry, and the duplicate Charis clinic records.
+Historical records/IDs are preserved as redirects with audited alias changes; no
+consumer human state was changed. See
+`registry/migrations/welfare-square-supervisor-identity-20260930.json`.
+
+The proposed Herriman local application helper / statewide Safe at Home identity
+merge was **rejected**: different provider/intake identities are not made identical
+by directory presentation. Both IDs remain. Session 080 must resolve that bounded
+presentation decision, correct the statewide assessment's copied local rationale,
+refreeze if necessary, rebuild and validate, then return for supervisor acceptance.
+Read `review/IDENTITY_SUPERVISOR_DECISION.md`; prior repairs remain authoritative.
+No research, curation or completed category review was restarted. Ceiling 90 and
+automatic recovery budgets are unchanged; automatic export remains blocked.
+
+Audit: `data/welfare-square-fresh-20260928/supervisor-identity-resolution-20260930T134425Z/`.
+Pipeline 10715 and monitor 10717 were launched; verify live state. Dashboard 8770.
+The last content audit had 1,123 resources, 323 Types and 51 groups; these are still
+provisional until the remaining correction and acceptance audit finish. Identity
+migration/rediscovery/history/export safeguards passed the 800-test suite (4 skipped).
+The shared registry preserves all earlier allocations, including Mesa; this registry
+checkpoint does not accept either office's pending delivery or claim WSRS-TSO import.
+
 ## Welfare Square acceptance rejected; assembly repair — September 30
 
 Michael reported that Welfare Square needed attention. Session 054 exited normally

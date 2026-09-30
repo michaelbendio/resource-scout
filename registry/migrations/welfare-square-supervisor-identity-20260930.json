@@ -1,0 +1,37 @@
+{
+  "migrationId": "welfare-square-supervisor-identity-20260930",
+  "reviewer": "Codex supervising assistant",
+  "createdAt": "20260930T134425Z",
+  "sourceNamespace": "welfare-square-fresh-20260928",
+  "contentReviewSha256": "b81e64cf75c061ef7c20b09a591c95456ea04eefa909bc6a35f9984238b8259e",
+  "registryBeforeFingerprint": "0ffcfb47d4530c8b73593c61e1139a6acb7807b9ed3bc7f64d6a6721f529ca8a",
+  "registryAfterFingerprint": "0a76fae638446eb13b7e280d11e342e687e61e1cb9ba493ecd5e52a10728d105",
+  "decisions": [
+    {
+      "fromResourceId": "sr_d0c2f1460cf554cda05d235025b2d0e4",
+      "toResourceId": "sr_19b3eb84a34c5706956f25cc913caf35",
+      "reason": "Reviewed employee-only English instruction is part of the retained Humanitarian Center work-training program; the survivor preserves both work and English-class contacts and eligibility. Consolidate the client-facing program identity while retaining the historical class record.",
+      "evidence": "Session 079 conflict proposal and frozen review b81e64cf75c061ef7c20b09a591c95456ea04eefa909bc6a35f9984238b8259e; supervisor decision recorded in registry/migrations/welfare-square-supervisor-identity-20260930.json"
+    },
+    {
+      "fromResourceId": "sr_24060ab167475f5c9522e35a1ef3c687",
+      "toResourceId": "sr_b7c437db145259468c582ae9d39123d9",
+      "reason": "Reviewed general clinic and appointment pages describe the same Charis Salt Lake City clinic, address, contact routes and pregnancy-support services. Keep the existing appointment-specific canonical ID and preserve the general-clinic ID as a historical redirect.",
+      "evidence": "Session 079 conflict proposal and frozen review b81e64cf75c061ef7c20b09a591c95456ea04eefa909bc6a35f9984238b8259e; supervisor decision recorded in registry/migrations/welfare-square-supervisor-identity-20260930.json"
+    }
+  ],
+  "rejectedMerge": {
+    "memberDraftIds": [
+      "429e832ac9485cb5be78a1ff641adc22",
+      "94c4d638b1c45c6eb10cdb332db9f3f9"
+    ],
+    "resourceIds": [
+      "sr_777ab3059cf1553daca0ecf5aed6e001",
+      "sr_a56fca799f985a7da2f4764ae5661b2e"
+    ],
+    "reason": "A local certified application helper and the statewide program have distinct provider/intake identities. Directory consolidation is not proof of canonical identity equivalence; retain both historical canonical IDs and reassess the local access entry explicitly."
+  },
+  "preservation": "All registry records, sequence values, unrelated aliases and prior event history are retained. Retired canonical IDs redirect explicitly and are included in delivery identity-migration aliases. No consumer human decisions were changed; conflicting consumer rows require reconciliation, never blind overwrite.",
+  "wsrsTsoImported": false,
+  "preparedDeliveryAccepted": false
+}

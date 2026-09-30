@@ -24,3 +24,17 @@ For a rename, retain the canonical ID and change the resource text. For rediscov
 under a new source ID, use a reviewed `match` to the existing canonical ID. For
 ambiguous merges/splits, stop and preserve both histories until an explicit migration
 also reconciles affected human decisions. Never silently recycle or delete IDs.
+
+Explicit supervisor-reviewed consolidations use `migrate_reviewed_identities`
+under the same export lock, with an expected registry fingerprint on save. Each
+decision names existing source/survivor IDs, reason and evidence. Preserve the old
+record and sequence with `redirectTo`, rebind aliases, and append an `identity-merged`
+event. Retired IDs resolve to the survivor on future matches, including chained
+consolidations; cycles and dangling targets fail validation. The operation does not
+change consumer approvals, edits or deletions. Plans/receipts belong in `migrations/`.
+
+The exporter includes relevant retired canonical IDs in `identity-migration.json`
+`aliases`, and identifies those entries as `canonicalMerges`. The consumer must
+reconcile existing canonical references as well as legacy source references before
+import. Conflicting human records require administrator reconciliation; no overwrite
+or loss of a hidden decision is authorized. Verify that consumer behavior at handoff.

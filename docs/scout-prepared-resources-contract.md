@@ -220,6 +220,12 @@ exports can reuse the already allocated aliases without inventing new identities
 Files: `prepared-resources.json`, deterministic `.json.gz`, `identity-migration.json`,
 and `receipt.json`. Compression is transport only. The migration contains full legacy
 IDs, canonical IDs and saved human suppressions. Apply it before importing candidates.
+Explicit reviewed registry consolidations additionally include retired canonical
+IDs in `aliases` and identify them in `canonicalMerges`. Their historical registry
+records remain as redirects. Consumers must reconcile saved canonical references
+and any conflicting human decisions before import; an alias update is not permission
+to overwrite edits, approval or suppression. Consumer migration support must be
+verified at handoff; file validation alone does not establish it.
 The receipt binds reviewed inputs, review fingerprint, registry fingerprint, semantic
 snapshot fingerprint, output byte hash and counts. It is not human Curated approval.
 

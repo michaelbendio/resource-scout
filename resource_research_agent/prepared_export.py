@@ -15,7 +15,7 @@ from pathlib import Path
 
 from .preparation_contract import POLICY_VERSION
 from .prepared_resources import build_snapshot, validate_artifact, require, text
-from .resource_identity import (fingerprint, new_registry, load_registry,
+from .resource_identity import (fingerprint, new_registry, load_registry, resolve_identity,
                                 register_reviewed, save_registry)
 
 
@@ -76,6 +76,17 @@ def finalize(bundle, registry, *, previous=None):
         aliases=[dict(legacyId=old, resourceId=new) for old, new in sorted(mapping.items())],
         suppressedResourceIds=sorted(hidden),
         rule="Migrate existing decisions by alias before import; preserve human edits, approvals, verification dates, deletions, drafts, pins and notes. Conflicting rows require administrator reconciliation.")
+    # Include retired canonical references as aliases too, so previously saved
+    # decisions can be reconciled without recycling or forgetting the old ID.
+    destinations = set(mapping.values())
+    canonical_merges = [dict(legacyId=rid, resourceId=resolve_identity(updated, rid))
+                        for rid, record in sorted(updated['resources'].items())
+                        if record.get('redirectTo') and resolve_identity(updated, rid) in destinations]
+    if canonical_merges:
+        require(not set(mapping).intersection(r['legacyId'] for r in canonical_merges),
+                'Legacy source ID collides with a retired canonical identity')
+        migration['aliases'].extend(canonical_merges)
+        migration['canonicalMerges'] = canonical_merges
     receipt = dict(artifactType="scout-preparation-receipt", schemaVersion=1,
         snapshotId=artifact["snapshot"]["id"], contentFingerprint=artifact["snapshot"]["contentFingerprint"],
         reviewFingerprint=review["inputFingerprint"], registryFingerprint=fingerprint(updated),
