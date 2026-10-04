@@ -1,3 +1,125 @@
+# LSScout: list-seeding Scout
+
+Concept as of 4 October 2026, for the TSO managers' meeting of 5 October. The 30 September
+trial that started it is kept below as the evidence.
+
+## Why
+
+Running Scout on Claude is not viable (Michael, 3 October 2026): a Claude Scout run for
+one category of one office cost about $450 at API prices, and most of the cost goes on
+curating and reviewing a very wide net (Mesa: 1,867 prepared resources, of which Michael
+would hand out about one in five). **LSScout** replaces it. It starts from the lists local
+people already keep and checks a short list carefully, instead of researching broadly and
+filtering afterwards. The goal is the same: about 10 to 30 resources a category that a
+missionary would hand out. For now it is called LSScout to avoid confusion; the plan is to
+call it simply Scout.
+
+## How it works
+
+1. **Find the office's lists.** For each of the 21 categories, 3 to 5 lists of local
+   providers, preferring official ones (city, county, state), then 211, then regional
+   networks (food-bank partners, legal-aid referral lists, aging agencies), then
+   aggregator directories only where those are thin. Some official directories cover
+   many categories at once (Clark County's Royal Pages, Washington County's health
+   department sheet, Salt Lake's 211 resource list). The lists are saved per office in
+   [`office-lists/`](../office-lists/), and state and national ones once for everyone.
+2. **Collect every name the lists give.** All of them, not a sample: a county pantry list
+   of 57 gives 57 names. Merge the same agency at the same address.
+3. **Apply the four office-fit rules** ([office-fit-rules](office-fit-rules-20260928.md)):
+   reachable from the office (phone and online count), the category is its main service,
+   a person can contact it directly, one entry per agency.
+4. **Check each one that passes on a real page.** The provider's own page, or where it has
+   none or it will not load, an official or 211 entry giving its phone and address.
+   Record the page. **No page read, no pass.** Never take a phone, address or hours from
+   a search snippet. A name no list gave is left out, however good it looks.
+5. **Write the candidate from the provider's pages**: the five template sections
+   (Services Offered, Eligibility Requirements, Population Served, How to Best Connect,
+   Important Information to Know) and a one-sentence summary. Every statement comes from
+   a page read.
+6. **Choose Types and For groups from a standard vocabulary**, never invent them (see
+   below). A For group is tagged only when the provider's page names it or the service
+   is designed for it, with the phrase that justified it recorded. When no Type fits,
+   leave it blank and note what it would have been called; that note is how the
+   vocabulary grows, reviewed by a person.
+7. **Load into WSRS-TSO as unreviewed candidates**, where an office curator reviews and
+   curates them as with Scout's. Until curated they print only with the warning "Not yet
+   reviewed by the office. Call the provider to verify this information."
+8. **Re-read the lists every month or two.** A new name is a lead; a name that drops off
+   may be a closure. A few page reads, not a run.
+
+## The standard vocabulary
+
+Michael's idea (3 October 2026): instead of inferring Types and For groups office by
+office, LSScout chooses from one standard set, with more Types per category than any
+office needs and a very large set of For groups.
+
+- **Start from what Scout already wrote**: Mesa's 263 Types and 25 groups, Welfare
+  Square's 323 Types and 56 groups, all with definitions, plus Provo's and Albuquerque's
+  own. Merged and de-duplicated, roughly 15 to 25 Types a category and 60-odd groups.
+- **Definitions matter more than the list's size.** Scout's say what does not count
+  ("Other uses of the word survivor do not qualify"), which keeps a large group list from
+  being over-tagged.
+- **WSRS-TSO needs no change.** An office's Types and groups are created only when a
+  resource that uses them is curated, so a big vocabulary never clutters an office.
+- One vocabulary across offices also makes cross-office reporting possible.
+
+## What it has produced so far
+
+Demo offices in production, 3 and 4 October 2026, pure list seeding with no Scout data:
+
+| Office | Candidates | Notes |
+| --- | --- | --- |
+| Mesa (list-seeding) | 230 | Food's 20 written up in full (steps 5 and 6); 19 marked curated for the demo |
+| Ogden (list-seeding) | 148 | Steps 1 to 4 only |
+| St. George (list-seeding) | 161 | Steps 1 to 4 only |
+| Las Vegas (list-seeding) | 283 | Steps 1 to 4; food 56 from Clark County's 57-pantry list |
+| Welfare Square (list-seeding) | in progress | |
+
+An office takes about 15 to 30 minutes with three research agents on Claude Sonnet.
+
+## Quality: the first test
+
+Ten Mesa food providers that both Scout and LSScout had, written up by each and shown to
+Michael blind, side by side: **Scout better 6, about the same 4, LSScout better 0**
+(`~/scout-claude/lsscout-trial-mesa-food/RESULT.md`). LSScout did not yet match Scout. Its
+writing and length were equal; it lost on three things, all fixable:
+
+- **Eligibility.** 4 of 10 said "None stated; call to confirm" where Scout found photo ID,
+  proof of address and visit limits. LSScout read 2 to 4 pages a provider; it needs to
+  look for eligibility, what to bring and visit limits specifically.
+- **The whole agency.** The trial held LSScout to the food category. Scout files a
+  provider under every category it serves (Paz de Cristo: 7 categories, 18 Types).
+- **Other programmes.** Scout caught a monthly community dinner LSScout missed.
+
+The next round repeats the comparison with those three fixed, on Sonnet first and then on
+Opus if needed, to learn whether the gap is the method or the model.
+
+## What was learned building it
+
+- **Depth must be asked for.** The first Las Vegas pass recorded 4 to 10 names a category
+  and 50 passes; told to record every name, the same lists gave 283.
+- **Lists go stale and websites go bad.** Several providers' sites were parked, for sale
+  or hijacked by spam; closures and moves turned up in every office. Checking each entry
+  on a page catches them.
+- **Some lists cannot be read by machine**: Nevada 211's provider search, Three Square's
+  map, and many official pages that refuse automated reading.
+- **Thin everywhere**: reentry, ID recovery, clothing and immigration have few or no
+  local lists in any office tried. List seeding cannot fill them; a narrow search, need
+  by need, still has to (not yet built).
+- **List seeding gives contact details, not the handout.** Steps 1 to 4 find and check
+  who to send people to. The handout text is step 5's job, which is where Scout's
+  quality has to be matched.
+
+## Open
+
+- Run quality round two (above).
+- Build the standard vocabulary from the existing taxonomies, and show Michael the counts.
+- The gap search for thin categories.
+- Michael's judging of the shortlist sample below was set aside as too much work; the
+  side-by-side comparison replaced it as the quality measure.
+
+---
+
 # List-seeding trial, all Mesa categories — Claude, 30 September 2026
 
 Done by Claude at Michael's request ("Go ahead and do it too"), following
