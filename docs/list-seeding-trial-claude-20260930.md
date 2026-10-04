@@ -73,7 +73,7 @@ Demo offices in production, 3 and 4 October 2026, pure list seeding with no Scou
 | Ogden (list-seeding) | 148 | Steps 1 to 4 only |
 | St. George (list-seeding) | 161 | Steps 1 to 4 only |
 | Las Vegas (list-seeding) | 283 | Steps 1 to 4; food 56 from Clark County's 57-pantry list |
-| Welfare Square (list-seeding) | in progress | |
+| Welfare Square (list-seeding) | 304 | Steps 1 to 4; mental health 32, food 29; thin on reentry 4 and clothing 5 |
 
 An office takes about 15 to 30 minutes with three research agents on Claude Sonnet.
 
