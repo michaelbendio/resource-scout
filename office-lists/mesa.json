@@ -1,0 +1,1757 @@
+{
+ "office": {
+  "slug": "mesa",
+  "name": "Mesa"
+ },
+ "about": "Lists of local providers found by list seeding, for seeding and re-checking Scout runs. Notes are the trial's own words; namesFound counts the trial's seeds citing the list.",
+ "lists": [
+  {
+   "url": "https://search.211arizona.org/search?query=BM-6500.1500-120&query_label=Children%27s+Clothing&query_type=taxonomy&location=Mesa%2C+AZ",
+   "title": "2-1-1 Arizona - Children's Clothing",
+   "kind": "211",
+   "categories": [
+    "clothing-household"
+   ],
+   "notes": {
+    "clothing-household": "current; only one Mesa entry"
+   },
+   "namesFound": {
+    "clothing-household": 1
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=BM-6500.1500&query_label=Clothing&query_type=taxonomy&location=Mesa%2C+AZ",
+   "title": "2-1-1 Arizona - Clothing near Mesa",
+   "kind": "211",
+   "categories": [
+    "clothing-household"
+   ],
+   "notes": {
+    "clothing-household": "current; 8 results"
+   },
+   "namesFound": {
+    "clothing-household": 8
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=BM-3000&query_label=Household+Goods&query_type=taxonomy&location=Mesa%2C+AZ",
+   "title": "2-1-1 Arizona - Household Goods near Mesa",
+   "kind": "211",
+   "categories": [
+    "clothing-household"
+   ],
+   "notes": {
+    "clothing-household": "current; 8 results, mostly Phoenix/Peoria"
+   },
+   "namesFound": {
+    "clothing-household": 6
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=BT-4500&query_label=Local+Transportation&query_type=taxonomy&location=Mesa%2C+AZ",
+   "title": "2-1-1 Arizona - Local Transportation near Mesa",
+   "kind": "211",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current; 18 results, half are AHCCCS health plans (members only)"
+   },
+   "namesFound": {
+    "transportation": 14
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://211arizona.org/preventing-utility-shut-offs/",
+   "title": "2-1-1 Arizona - Preventing Utility Shut-Offs",
+   "kind": "211",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "stale (published Feb 2021); statewide utility programmes"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 3
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=BV-8900&query_label=Utility+Assistance&query_type=taxonomy&location=Mesa%2C+AZ",
+   "title": "2-1-1 Arizona - Utility Assistance near Mesa",
+   "kind": "211",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current; 18 results, many statewide or out of area"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 18
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=veterans&location=Mesa%2C+AZ",
+   "title": "2-1-1 Arizona - veterans search near Mesa",
+   "kind": "211",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current; first 25 of 106, mostly VA clinics and national bodies"
+   },
+   "namesFound": {
+    "veterans": 10
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=employment&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - employment near Mesa",
+   "kind": "211",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "current; readable; mostly Phoenix and statewide, sorted loosely"
+   },
+   "namesFound": {
+    "employment": 10
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=HH-0500.8000-150&query_label=ESL+Classes&query_type=taxonomy&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - ESL classes near Mesa",
+   "kind": "211",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "current; readable"
+   },
+   "namesFound": {
+    "education": 8
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=GED&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - GED near Mesa",
+   "kind": "211",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "current; readable; mostly Phoenix"
+   },
+   "namesFound": {
+    "education": 8
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=job%20training&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - job training near Mesa",
+   "kind": "211",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "current; readable; mostly Phoenix"
+   },
+   "namesFound": {
+    "employment": 12
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=parenting&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - parenting near Mesa",
+   "kind": "211",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "current; readable"
+   },
+   "namesFound": {
+    "children-pregnancy": 14
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=pregnancy&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - pregnancy near Mesa (first 25 of 70)",
+   "kind": "211",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "current; readable; Valley-wide"
+   },
+   "namesFound": {
+    "children-pregnancy": 16
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=senior%20center&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - senior centers near Mesa",
+   "kind": "211",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current; five entries"
+   },
+   "namesFound": {
+    "seniors": 4
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=seniors&location=Mesa%2C%20AZ",
+   "title": "211 Arizona - seniors near Mesa",
+   "kind": "211",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current; readable; Valley-wide, heavy on senior housing"
+   },
+   "namesFound": {
+    "seniors": 11
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=community%20health%20center&location=Mesa%2C%20AZ",
+   "title": "211 Arizona search: community health center near Mesa",
+   "kind": "211",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "current; one entry has a Phoenix address labelled Mesa"
+   },
+   "namesFound": {
+    "medical-dental-vision": 2
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=dental&location=Mesa%2C%20AZ",
+   "title": "211 Arizona search: dental near Mesa",
+   "kind": "211",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "current, readable; mostly Phoenix, few Mesa"
+   },
+   "namesFound": {
+    "medical-dental-vision": 12
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=disability&location=Mesa%2C%20AZ",
+   "title": "211 Arizona search: disability near Mesa",
+   "kind": "211",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "current; four Mesa/East Valley entries, rest Phoenix/statewide"
+   },
+   "namesFound": {
+    "disability": 7
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=immigration&location=Mesa%2C%20AZ",
+   "title": "211 Arizona search: immigration near Mesa",
+   "kind": "211",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "current; readable; padded with federal agencies and national websites"
+   },
+   "namesFound": {
+    "immigration": 14
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=legal%20aid&location=Mesa%2C%20AZ",
+   "title": "211 Arizona search: legal aid near Mesa (immigration entries)",
+   "kind": "211",
+   "categories": [
+    "immigration",
+    "legal"
+   ],
+   "notes": {
+    "immigration": "current; partial for immigration",
+    "legal": "current; readable; mixes information websites and programmes"
+   },
+   "namesFound": {
+    "immigration": 3,
+    "legal": 23
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=mental%20health&location=Mesa%2C%20AZ",
+   "title": "211 Arizona search: mental health near Mesa",
+   "kind": "211",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "current; only one Mesa provider, much statewide/national"
+   },
+   "namesFound": {
+    "mental-health": 9
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=rent%20payment%20assistance&location=Mesa%2C%20AZ",
+   "title": "211 Arizona search: rent payment assistance near Mesa",
+   "kind": "211",
+   "categories": [
+    "financial-assistance",
+    "housing"
+   ],
+   "notes": {
+    "financial-assistance": "current; readable; heavy on veteran-only and out-of-area programmes",
+    "housing": "current; partial, mostly veteran-only, statewide and legal entries, one Mesa provider"
+   },
+   "namesFound": {
+    "financial-assistance": 7,
+    "housing": 9
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=substance%20use%20treatment&location=Mesa%2C%20AZ",
+   "title": "211 Arizona search: substance use treatment near Mesa",
+   "kind": "211",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "current; one Mesa provider (Copa)"
+   },
+   "namesFound": {
+    "addiction": 5
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=utility%20assistance&location=Mesa%2C%20AZ",
+   "title": "211 Arizona search: utility assistance near Mesa",
+   "kind": "211",
+   "categories": [
+    "financial-assistance"
+   ],
+   "notes": {
+    "financial-assistance": "current; readable; mixed, includes tribal and Glendale-only programmes"
+   },
+   "namesFound": {
+    "financial-assistance": 16
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=vision&location=Mesa%2C%20AZ",
+   "title": "211 Arizona search: vision near Mesa",
+   "kind": "211",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "current; no Mesa provider; 'eye exam glasses' returned 0 results"
+   },
+   "namesFound": {
+    "medical-dental-vision": 8
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=domestic%20violence%20shelter&location=Mesa%2C%20AZ",
+   "title": "211 Arizona: domestic violence shelter near Mesa",
+   "kind": "211",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "current; valley-wide confidential shelters"
+   },
+   "namesFound": {
+    "domestic-violence": 9
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=homeless%20shelter&location=Mesa%2C%20AZ",
+   "title": "211 Arizona: homeless shelter near Mesa (read for homeless-services)",
+   "kind": "211",
+   "categories": [
+    "domestic-violence",
+    "homeless-services"
+   ],
+   "notes": {
+    "domestic-violence": "current; cited here only for Family Renewal Center",
+    "homeless-services": "current; mostly Phoenix transitional programmes"
+   },
+   "namesFound": {
+    "domestic-violence": 1,
+    "homeless-services": 13
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=low%20income%20housing&location=Mesa%2C%20AZ",
+   "title": "211 Arizona: low income housing near Mesa",
+   "kind": "211",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "current; mostly Phoenix senior complexes, few in Mesa"
+   },
+   "namesFound": {
+    "housing": 15
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://search.211arizona.org/search?query=reentry&location=Mesa%2C%20AZ",
+   "title": "211 Arizona: reentry near Mesa",
+   "kind": "211",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "current; 14 results, none in Mesa, several national websites"
+   },
+   "namesFound": {
+    "reentry-support": 11
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://commonladder.org/blog/id-recovery-phoenix.html",
+   "title": "Common Ladder - How to replace a lost ID in Phoenix when homeless",
+   "kind": "aggregator",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "current; 3 providers"
+   },
+   "namesFound": {
+    "id-recovery": 3
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.detoxlocal.com/detox-centers/arizona/mesa-az/",
+   "title": "DetoxLocal: Detox Centers near Mesa",
+   "kind": "aggregator",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "undated; mostly private Scottsdale and out-of-area centres, only New Hope in Mesa used here"
+   },
+   "namesFound": {
+    "addiction": 1
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.domesticshelters.org/help/az/mesa",
+   "title": "DomesticShelters.org: Mesa, AZ",
+   "kind": "aggregator",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "current; only three entries, sparse detail"
+   },
+   "namesFound": {
+    "domestic-violence": 3
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://familyforfamilies.org/additional-resources/arizona/mesa/",
+   "title": "Family for Families - Mesa, Arizona",
+   "kind": "aggregator",
+   "categories": [
+    "clothing-household"
+   ],
+   "notes": {
+    "clothing-household": "partial; one clothing entry"
+   },
+   "namesFound": {
+    "clothing-household": 1
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://feedam.org/health-centers/az/mesa",
+   "title": "Feed America: FQHC Health Centers in Mesa, AZ (15 sites, HRSA data)",
+   "kind": "aggregator",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "current HRSA-derived; site names only, no operator for school sites"
+   },
+   "namesFound": {
+    "medical-dental-vision": 10
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://food-banks.org/assistance/mesa_az.html",
+   "title": "food-banks.org — Mesa",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "9 providers"
+   },
+   "namesFound": {
+    "food": 9
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.foodpantries.org/ci/az-mesa",
+   "title": "foodpantries.org — Mesa",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "current listing, 19 pantries"
+   },
+   "namesFound": {
+    "food": 18
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.freeclinics.com/cit/az-mesa",
+   "title": "FreeClinics.com: Mesa, AZ",
+   "kind": "aggregator",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "partial, 4 Mesa entries"
+   },
+   "namesFound": {
+    "medical-dental-vision": 4
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.freefood.org/c/az-mesa",
+   "title": "freefood.org — Mesa",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "9 providers"
+   },
+   "namesFound": {
+    "food": 9
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://freshfoodnetwork.org/locations/az/mesa",
+   "title": "Fresh Food Network — Mesa",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "broad, includes schools and non-food businesses"
+   },
+   "namesFound": {
+    "food": 12
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.needhelppayingbills.com/html/maricopa_county_clothing_close.html",
+   "title": "NeedHelpPayingBills - Maricopa County free clothing and furniture",
+   "kind": "aggregator",
+   "categories": [
+    "clothing-household"
+   ],
+   "notes": {
+    "clothing-household": "403 on fetch; entries taken from the search-engine summary only"
+   },
+   "namesFound": {
+    "clothing-household": 5
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.nesthealth.com/maricopa-low-income-energy-assistance",
+   "title": "Nest Health - Energy & Utility Bill Help",
+   "kind": "aggregator",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current-looking"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 9
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.nesthealth.com/maricopa-legal-aid",
+   "title": "Nest Health - Free & Low-Cost Legal Help in Maricopa County",
+   "kind": "aggregator",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "current; 6 entries"
+   },
+   "namesFound": {
+    "legal": 7
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.nesthealth.com/maricopa-financial-assistance",
+   "title": "Nest Health - Rent & Utility Help in Maricopa County",
+   "kind": "aggregator",
+   "categories": [
+    "financial-assistance"
+   ],
+   "notes": {
+    "financial-assistance": "partly stale: lists ERA programmes that have largely ended"
+   },
+   "namesFound": {
+    "financial-assistance": 5
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.nesthealth.com/maricopa-transportation",
+   "title": "Nest Health - Transportation Help & Free Rides in Maricopa County",
+   "kind": "aggregator",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current-looking; countywide, mostly Phoenix/north Valley"
+   },
+   "namesFound": {
+    "transportation": 9
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.nesthealth.com/maricopa-veteran-support",
+   "title": "Nest Health - Veterans Services & Support",
+   "kind": "aggregator",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current-looking; Phoenix-centred"
+   },
+   "namesFound": {
+    "veterans": 5
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.nesthealth.com/maricopa-disability-access",
+   "title": "Nest Health: Disability Rights & Services in Maricopa County",
+   "kind": "aggregator",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "undated, six entries"
+   },
+   "namesFound": {
+    "disability": 6
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.nesthealth.com/maricopa-mental-health-substance-use",
+   "title": "Nest Health: Mental Health, Crisis Lines, and Addiction Help (Maricopa)",
+   "kind": "aggregator",
+   "categories": [
+    "addiction",
+    "mental-health"
+   ],
+   "notes": {
+    "addiction": "undated; addresses missing",
+    "mental-health": "undated; many entries lack phone or address"
+   },
+   "namesFound": {
+    "addiction": 11,
+    "mental-health": 19
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.probationinfo.org/reentry-resources/arizona/",
+   "title": "Probation Information Network: Reentry Resources Arizona",
+   "kind": "aggregator",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "undated; 20 Phoenix-area names, many general employment or recovery"
+   },
+   "namesFound": {
+    "reentry-support": 14
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://rehabs.org/centers/arizona/mesa/",
+   "title": "Rehabs.org: Free & Low-Cost Drug Rehabs in Mesa",
+   "kind": "aggregator",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "undated; 21 Mesa addresses, mixes nonprofit, AHCCCS and private-pay"
+   },
+   "namesFound": {
+    "addiction": 20
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://seniorsmobility.org/free-transportation/free-transportation-for-seniors-in-arizona/",
+   "title": "SeniorsMobility - Free Transportation for Seniors in Arizona",
+   "kind": "aggregator",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "partial; three East Valley volunteer-driver groups"
+   },
+   "namesFound": {
+    "transportation": 3
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.azahcccs.gov/Members/BehavioralHealthServices/OpioidUseDisorderAndTreatment/Locating_Treatment.html",
+   "title": "AHCCCS: Accessing and Locating Treatment (opioid use disorder)",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "current; names 24/7 OTPs, none in Mesa, and the state locator"
+   },
+   "namesFound": {
+    "addiction": 3
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Community-Support-Programs",
+   "title": "City of Mesa - Community Resources and Support Programs",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy",
+    "clothing-household",
+    "education",
+    "employment",
+    "financial-assistance",
+    "medical-dental-vision",
+    "seniors",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "children-pregnancy": "current; short, links to city programmes",
+    "clothing-household": "current; one clothing entry",
+    "education": "current; short, links to city programmes",
+    "employment": "current; short, links to city programmes",
+    "financial-assistance": "current; Mesa-specific, mostly city utility programmes plus MesaCAN",
+    "medical-dental-vision": "current; health section names only a prescription discount card",
+    "seniors": "current; only two senior entries",
+    "utilities-phone-internet": "current; same four utility entries"
+   },
+   "namesFound": {
+    "children-pregnancy": 3,
+    "clothing-household": 1,
+    "education": 2,
+    "employment": 2,
+    "financial-assistance": 8,
+    "medical-dental-vision": 1,
+    "seniors": 2,
+    "utilities-phone-internet": 4
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://mesaaz.gov/residents/education-workforce-office/mesa-family-resource-center",
+   "title": "City of Mesa - Mesa Family Resource Center and partners",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "current (opened Sept 2024); partner names only, no addresses"
+   },
+   "namesFound": {
+    "children-pregnancy": 11
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Veterans-Resources",
+   "title": "City of Mesa - Mesa Vets Connect",
+   "kind": "official",
+   "categories": [
+    "clothing-household",
+    "transportation",
+    "veterans"
+   ],
+   "notes": {
+    "clothing-household": "current; furniture bank and a thrift store",
+    "transportation": "current; one veterans ride service",
+    "veterans": "current; long list, many non-veteran agencies and national links"
+   },
+   "namesFound": {
+    "clothing-household": 2,
+    "transportation": 1,
+    "veterans": 26
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/residents/my-utility-account/need-assistance-paying-your-utility-bill?locale=en",
+   "title": "City of Mesa - Need assistance paying your utility bill",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 5
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Public-Transit",
+   "title": "City of Mesa - Public Transit",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current; Valley Metro services only, no senior/volunteer programmes"
+   },
+   "namesFound": {
+    "transportation": 5
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Activities-Culture/Parks-Recreation-and-Community-Facilities/Recreational-Facilities/Red-Mountain-Center",
+   "title": "City of Mesa - Red Mountain Center (search-result text only)",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "not read directly; one entry"
+   },
+   "namesFound": {
+    "seniors": 1
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Workforce-Education-Development/Workforce-Center-Mesa",
+   "title": "City of Mesa - Workforce Center @ Mesa",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "current; names only a handful of partners"
+   },
+   "namesFound": {
+    "employment": 6
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Government/City-Attorney/Legal-Resources",
+   "title": "City of Mesa City Attorney - Legal Resources",
+   "kind": "official",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "current; short (6 entries)"
+   },
+   "namesFound": {
+    "legal": 5
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Housing/Human-Services/Homeless-Resources",
+   "title": "City of Mesa Homeless Resources (Domestic Violence section)",
+   "kind": "official",
+   "categories": [
+    "domestic-violence",
+    "homeless-services",
+    "housing"
+   ],
+   "notes": {
+    "domestic-violence": "partly stale: still gives 1-844-SAFEDVS, the centralized hotline that closed 15 May 2026",
+    "homeless-services": "current; short, mostly phone lines",
+    "housing": "current; partial, names only phone lines for housing"
+   },
+   "namesFound": {
+    "domestic-violence": 4,
+    "homeless-services": 4,
+    "housing": 3
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Housing",
+   "title": "City of Mesa Housing (Housing Authority programmes)",
+   "kind": "official",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "current; City programmes only, plus one outside link"
+   },
+   "namesFound": {
+    "housing": 7
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/files/assets/public/v/1/residentresources/housing/manufactured-home-resources.pdf",
+   "title": "City of Mesa Manufactured Home Resources",
+   "kind": "official",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "current (Rev. 05/2025); short, mixes housing with legal, food and pet help"
+   },
+   "namesFound": {
+    "housing": 13
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Housing/Human-Services/Office-of-Homeless-Solutions/Off-the-Streets",
+   "title": "City of Mesa Off the Streets",
+   "kind": "official",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "current; City programme and its partners only"
+   },
+   "namesFound": {
+    "homeless-services": 3
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Resident-Resources/Housing/Human-Services/Office-of-Homeless-Solutions",
+   "title": "City of Mesa Office of Homeless Solutions",
+   "kind": "official",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "current; partial, names partners without contacts"
+   },
+   "namesFound": {
+    "homeless-services": 3
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/files/assets/public/v/3/residentresources/housing/homelessness/off-the-streets-brochures/ohs-resource-list-2025.pdf",
+   "title": "City of Mesa Office of Homeless Solutions Resource List 2025",
+   "kind": "official",
+   "categories": [
+    "addiction",
+    "legal",
+    "mental-health"
+   ],
+   "notes": {
+    "addiction": "current; same names as the web page, not independent",
+    "legal": "current (2025); 3 legal entries",
+    "mental-health": "current (2025); same three behavioral health names as the web page, so not independent of it"
+   },
+   "namesFound": {
+    "addiction": 1,
+    "legal": 3,
+    "mental-health": 3
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Public-Safety/City-Prosecutor/City-Prosecutor-Victim-Services",
+   "title": "City of Mesa Prosecutor Victim Services",
+   "kind": "official",
+   "categories": [
+    "domestic-violence",
+    "homeless-services"
+   ],
+   "notes": {
+    "domestic-violence": "current; the fullest list, mixes national hotlines, Phoenix shelters, legal and mental health",
+    "homeless-services": "current; cited here only for Family Promise"
+   },
+   "namesFound": {
+    "domestic-violence": 21,
+    "homeless-services": 1
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Activities-Culture/Parks-Recreation-and-Community-Facilities/Adaptive-Recreation",
+   "title": "City of Mesa: Adaptive Recreation",
+   "kind": "official",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "current; recreation only"
+   },
+   "namesFound": {
+    "disability": 4
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/residents/community-development/reducing-homelessness/resources-information",
+   "title": "City of Mesa: Reducing Homelessness, Resources and Information",
+   "kind": "official",
+   "categories": [
+    "addiction",
+    "mental-health"
+   ],
+   "notes": {
+    "addiction": "current; names Community Bridges, 988 and Copa for alcohol/drug concerns",
+    "mental-health": "current; behavioral health section names 4"
+   },
+   "namesFound": {
+    "addiction": 2,
+    "mental-health": 4
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/government/diversity-office/accessibility/resources-for-the-disabled",
+   "title": "City of Mesa: Resources for the Disabled",
+   "kind": "official",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "current; ADA grievance procedure, names almost no outside services"
+   },
+   "namesFound": {
+    "disability": 2
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.phoenix.gov/humanservicessite/Pages/ResettlementInformation.aspx",
+   "title": "City of Phoenix Human Services - Information about Immigrants & Refugees",
+   "kind": "official",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "current; names the four resettlement agencies, no contact details; Phoenix city page, not Mesa"
+   },
+   "namesFound": {
+    "immigration": 5
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.maricopa.gov/1400/Additional-Support",
+   "title": "Maricopa County - Veterans Resources: Additional Support",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current; statewide and national links"
+   },
+   "namesFound": {
+    "veterans": 7
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.maricopa.gov/5581/Utility-Assistance",
+   "title": "Maricopa County Human Services - Utility Assistance",
+   "kind": "official",
+   "categories": [
+    "financial-assistance",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "financial-assistance": "current; says Mesa residents go to Mesa's own programmes, not the county's",
+    "utilities-phone-internet": "current; says Mesa residents go to the City of Mesa"
+   },
+   "namesFound": {
+    "financial-assistance": 4,
+    "utilities-phone-internet": 3
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://justicecourts.maricopa.gov/i-want-to/find-legalcommunity-resources",
+   "title": "Maricopa County Justice Courts - Find Legal/Community Resources (ID entry)",
+   "kind": "official",
+   "categories": [
+    "id-recovery",
+    "immigration",
+    "legal"
+   ],
+   "notes": {
+    "id-recovery": "current; partial, one provider mentions ID cards",
+    "immigration": "current; partial, one immigration provider",
+    "legal": "current; long, countywide and statewide, includes some Tucson/tribal providers"
+   },
+   "namesFound": {
+    "id-recovery": 1,
+    "immigration": 1,
+    "legal": 28
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://winter.mcldaz.org/en-US/Info/adult-literacy-resources",
+   "title": "Maricopa County Library District - Adult Literacy Resources",
+   "kind": "official",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "current (2025-26 reading programme); countywide, few Mesa entries"
+   },
+   "namesFound": {
+    "education": 6
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mcso.org/Community/CommunityResources",
+   "title": "Maricopa County Sheriff's Office Community Resources (reentry)",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "current; names and websites only, no addresses"
+   },
+   "namesFound": {
+    "reentry-support": 10
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.maricopa.gov/3783/Smart-Justice",
+   "title": "Maricopa County Smart Justice",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "current; one programme, not a list"
+   },
+   "namesFound": {
+    "reentry-support": 1
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://superiorcourt.maricopa.gov/llrc/lawyer-and-legal-service-providers/",
+   "title": "Maricopa County Superior Court Law Library Resource Center - Lawyer and Legal Service Providers",
+   "kind": "official",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "current; 22 entries, countywide"
+   },
+   "namesFound": {
+    "legal": 22
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.fountainhillsaz.gov/DocumentCenter/View/7271/Homeless-Resources",
+   "title": "Maricopa Regional Continuum of Care Homelessness Resources",
+   "kind": "official",
+   "categories": [
+    "domestic-violence",
+    "homeless-services"
+   ],
+   "notes": {
+    "domestic-violence": "stale; names SAFEDVS as the way into DV shelter",
+    "homeless-services": "stale (COVID-era wording, says East and West Valley hub sites closed); the front doors it names still appear on current lists"
+   },
+   "namesFound": {
+    "domestic-violence": 1,
+    "homeless-services": 16
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaartscenter.com/creative-aging",
+   "title": "Mesa Arts Center - Creative Aging (search-result text only)",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "not read directly; one entry"
+   },
+   "namesFound": {
+    "seniors": 1
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Public-Safety/Mesa-Police/About-Mesa-Police/Mesa-Family-Advocacy-Center/Victim-Services",
+   "title": "Mesa Police Victim Services (Mesa Family Advocacy Center)",
+   "kind": "official",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "current; largely the same list as the prosecutor's, plus Mesa courts"
+   },
+   "namesFound": {
+    "domestic-violence": 16
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesaaz.gov/Public-Safety/Mesa-Police/Community/Mental-Health",
+   "title": "Mesa Police: Mental Health",
+   "kind": "official",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "current; names only 988 and Solari"
+   },
+   "namesFound": {
+    "mental-health": 2
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesalibrary.org/research/adult-education-resources/adult-basic-education-and-literacy",
+   "title": "Mesa Public Library - Adult Basic Education and Literacy (seen only through search snippets; page returned 403)",
+   "kind": "official",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "partial - names taken from search-result text, not read directly"
+   },
+   "namesFound": {
+    "education": 4
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.azdhs.gov/documents/preparedness/epidemiology-disease-control/disease-integrated-services/refugee-health/community-dental-clinics.pdf",
+   "title": "Reduced Fee and Community Dental Clinics in Arizona (AZ Dept of Health Services / AZ Dental Foundation)",
+   "kind": "official",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "stale: footer says 'ADF rvsd 9/1/13'; old MIHS clinic names"
+   },
+   "namesFound": {
+    "medical-dental-vision": 10
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.swgas.com/en/arizona-bill-assistance",
+   "title": "Southwest Gas - Arizona Bill Assistance",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current; utility's own partner-agency list"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 5
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.acluaz.org/formerly-incarcerated/",
+   "title": "ACLU of Arizona: Formerly Incarcerated",
+   "kind": "regional",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "stale (cites Mercy Maricopa, which ended in 2018); Tucson and Yavapai only, nothing seeded from it"
+   },
+   "namesFound": {
+    "reentry-support": 0
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.aaaphx.org/area-agency-on-aging-programs/",
+   "title": "Area Agency on Aging, Region One - Programs",
+   "kind": "regional",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current; its own programmes only"
+   },
+   "namesFound": {
+    "seniors": 6
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://aachc.org/stores/valleywise-mesa-2/",
+   "title": "Arizona Alliance for Community Health Centers clinic locator (Mesa sites: Native Health Mesa, Valleywise Mesa, Valle del Sol East Valley)",
+   "kind": "regional",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "current; seen through search results only, locator not read in full"
+   },
+   "namesFound": {
+    "medical-dental-vision": 3
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.azhumane.org/wp-content/uploads/Eviction-Rent-and-Utility-Assistance-Resource-Sheet.pdf",
+   "title": "Arizona Humane Society Eviction, Rent and Utility Assistance Resource Sheet (read for housing)",
+   "kind": "regional",
+   "categories": [
+    "homeless-services",
+    "housing"
+   ],
+   "notes": {
+    "homeless-services": "stale (COVID-era); cited here only for the Family Housing Hub",
+    "housing": "stale (COVID-19 era programmes); only MesaCAN is Mesa-specific"
+   },
+   "namesFound": {
+    "homeless-services": 1,
+    "housing": 1
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.asteraz.org/services/seniorcenters.html",
+   "title": "Aster Aging - Senior Centers and services",
+   "kind": "regional",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current; one agency's own sites"
+   },
+   "namesFound": {
+    "seniors": 5
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://bchain.coffee/unhousedhelp/mesa/",
+   "title": "Beanchain Coffee: Help in Mesa",
+   "kind": "regional",
+   "categories": [
+    "homeless-services",
+    "reentry-support"
+   ],
+   "notes": {
+    "homeless-services": "community-maintained, checked 2026-08-05; short, Mesa-specific",
+    "reentry-support": "community-maintained, checked 2026-08-05; one reentry entry"
+   },
+   "namesFound": {
+    "homeless-services": 6,
+    "reentry-support": 1
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.compudopt.org/mesa-resources",
+   "title": "Compudopt - Mesa Community Resources (Children/Pregnancy/Parenting)",
+   "kind": "regional",
+   "categories": [
+    "children-pregnancy",
+    "clothing-household",
+    "education",
+    "employment",
+    "transportation",
+    "veterans"
+   ],
+   "notes": {
+    "children-pregnancy": "undated; short",
+    "clothing-household": "partial",
+    "education": "undated; mostly children's enrichment, Phoenix addresses",
+    "employment": "undated; partial, mixes Phoenix and statewide",
+    "transportation": "partial; Valley Metro only",
+    "veterans": "partial; Azura only"
+   },
+   "namesFound": {
+    "children-pregnancy": 5,
+    "clothing-household": 1,
+    "education": 8,
+    "employment": 6,
+    "transportation": 1,
+    "veterans": 2
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.deltadentalaz.com/foundation/low-cost-dental-clinics/",
+   "title": "Delta Dental of Arizona Foundation: Low Cost Dental Clinics",
+   "kind": "regional",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "undated, short"
+   },
+   "namesFound": {
+    "medical-dental-vision": 4
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.homelessidproject.org/programs/",
+   "title": "Homeless ID Project - Maricopa & Pima service locations",
+   "kind": "regional",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "current; the provider's own list of partner sites, including a Mesa site at SVDP (49 W Broadway) 2nd and 4th Tuesdays"
+   },
+   "namesFound": {
+    "id-recovery": 2
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.immigrationadvocates.org/nonprofit/legaldirectory/search?state=AZ",
+   "title": "Immigration Advocates Network - National Immigration Legal Services Directory, Arizona",
+   "kind": "regional",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "current; nonprofit and DOJ-recognized providers statewide, 20 entries, only one in Mesa"
+   },
+   "namesFound": {
+    "immigration": 16
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.lighthousehelpsaz.org/clothing-resource-centers",
+   "title": "Lighthouse Social Services - Clothing Resource Centers",
+   "kind": "regional",
+   "categories": [
+    "clothing-household"
+   ],
+   "notes": {
+    "clothing-household": "partial; two Mesa entries"
+   },
+   "namesFound": {
+    "clothing-household": 2
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.healthyazyouth.org/wp-content/uploads/2023/07/Mercy-Care-RBHA-flier-1.14.2021.pdf",
+   "title": "Mercy Maricopa Behavioral Health Referrals (Mental/Behavioral Health Resources in Maricopa County)",
+   "kind": "regional",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "stale: dated 1/14/2021, COVID notes; Bayless has since become Denova"
+   },
+   "namesFound": {
+    "mental-health": 13
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.mesachamber.org/workforce-development-and-jobs/",
+   "title": "Mesa Chamber of Commerce - Workforce Development and Jobs",
+   "kind": "regional",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "current; online job platforms only"
+   },
+   "namesFound": {
+    "employment": 4
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.nativeconnections.org/housing/coordinated-entry-access-points/",
+   "title": "Native American Connections: Coordinated Entry Access Points",
+   "kind": "regional",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "undated but consistent with current county coordinated entry; countywide"
+   },
+   "namesFound": {
+    "homeless-services": 13
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://phxautism.org/wp-content/uploads/resources-services-disabled-adults-maricopa-county.pdf",
+   "title": "Resources and Services for Adults with Disabilities in Maricopa County (Autism Society of Greater Phoenix / AZ Assist)",
+   "kind": "regional",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "stale: about 2016 (ESA dates, old mercymaricopa and azdes URLs); links only, no addresses"
+   },
+   "namesFound": {
+    "disability": 13
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.southwestnetwork.org/help-book-en/transportation",
+   "title": "Southwest Network Help Book - Transportation",
+   "kind": "regional",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "stale (old azdes.gov links, undated 'Jul 7'); Phoenix-centric"
+   },
+   "namesFound": {
+    "transportation": 11
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://www.tempecommunitycouncil.org/get-help/",
+   "title": "Tempe Community Council - Get Help (emergency financial assistance)",
+   "kind": "regional",
+   "categories": [
+    "financial-assistance",
+    "id-recovery"
+   ],
+   "notes": {
+    "financial-assistance": "current; short; Tempe-centred",
+    "id-recovery": "current; one ID provider"
+   },
+   "namesFound": {
+    "financial-assistance": 3,
+    "id-recovery": 1
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  },
+  {
+   "url": "https://wildfireaz.org/find-help/arizona-diaper-pilot-program/",
+   "title": "Wildfire AZ - Arizona Diaper Pilot Program distribution partners",
+   "kind": "regional",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "current; one Mesa partner"
+   },
+   "namesFound": {
+    "children-pregnancy": 1
+   },
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30"
+  }
+ ],
+ "gaps": {
+  "addiction": "No official or 211 list names more than one or two Mesa addiction providers; the only Mesa-specific list of any length is an aggregator (rehabs.org) that mixes nonprofit, AHCCCS and private-pay centres. Match corrections by eye: Mountain Valley Counseling (0.9 to Crossroads), Spero House (0.75 to AZ Fearless Recovery) and National Rehab Hotline (0.67 to a DV hotline) set to none.",
+  "children-pregnancy": "No official Mesa list of pregnancy centres; the city's Family Resource Center page names partners without addresses. 211 carried most names, heavy on faith-based pregnancy centres and Phoenix sites; free diapers, formula and baby gear had only one Mesa distributor on any list.",
+  "clothing-household": "No official list covers clothing or household goods: the City of Mesa names only Paz de Cristo and Bridging AZ. 211 returns 8 clothing and 8 household-goods results, and the household ones are mostly Phoenix/Peoria. Furniture for the general public is the thinnest: the only Mesa furniture source (Bridging AZ) is agency-referred. findhelp and NeedHelpPayingBills returned 403.",
+  "disability": "Disability was the thinnest: City of Mesa pages cover only adaptive recreation and ADA grievances, DES office pages returned 403, and the one regional list is a link sheet from about 2016. Local front doors (DES DDD and VR Mesa offices, Ability360's East Valley office, Mesa ARC-type day programmes) came only from search snippets, not from lists. Match corrections by eye: Maricopa County Disability Services (1.0 to Copa Health), Mesa ADA Coordinator (1.45 to paratransit), Medicare (0.9 to Ability360 Ticket to Work), MCAO Victim Services (0.67 to AG Civil Rights), NFB Arizona (0.67 to iCanConnect) and Southwestern Blind Rehab (0.67 to ACBVI) set to none. Raising Special Kids (0.9 to Encircle Families) was kept but not verified as a rename.",
+  "domestic-violence": "DV lists are rich but not Mesa-specific: the City's own two victim-services pages are the fullest and mostly name national hotlines and Phoenix shelters. The biggest finding is staleness: Mesa's homeless-resources page and the CoC sheet still send people to SAFEDVS (1-844-SAFEDVS), which closed 15 May 2026, and the lists give Chrysalis and CPLC the same number. Scout already had nearly everything here; it lacked only love is respect, RedRover, the Family Renewal Center and a separate Mesa Family Advocacy Center entry. Hand corrections: SAFEDVS (tool matched the Deaf Hotline) and Mesa Family Advocacy Center (tool matched the Southwest one) set to none.",
+  "education": "Mesa Public Library's adult education pages and the Arizona Department of Education provider list both returned 403, so no official Mesa list was read directly; children's education (tutoring, after-school) had no usable local list at all - the one list found was enrichment programmes in Phoenix.",
+  "employment": "No official Mesa list of local employment nonprofits beyond the city's own centre; Mesa Public Library's jobseeker page was blocked (403) and ARIZONA@WORK's resource page too, so 211 carried most names and those skew to Phoenix.",
+  "financial-assistance": "Financial assistance lists were mostly utility-bill and rent programmes; no list names a general emergency-cash source in Mesa beyond MesaCAN, the Salvation Army and (by mention) St. Vincent de Paul and Paz de Cristo. 211 results were padded with veteran-only, tribal and other-city programmes, the aggregator carries ended pandemic ERA programmes, and church and congregation help is missing from every list. The Arizona Department of Housing's Maricopa page and findhelp refused to load.",
+  "food": "No official City or County food list was readable; all four lists are aggregators. Two of Michael's four yes resources (Fountain of Life Mission Kitchen 153; Chandler-Gilbert CC Coyote Cupboard) are on no list.",
+  "homeless-services": "Mesa's official pages name only the City's own line and shelter plus a few phone numbers, and 211's shelter results near Mesa are mostly Phoenix transitional programmes; the only list naming Mesa day services (Streets of Joy, Mesa House, Salvation Army) is a coffee shop's community page. Day centres, meal-and-shower sites and East Valley shelters beyond the Men's Center and I-HELP are where Scout's own search still has to work. Matches corrected by hand: Helaman House (tool picked Autumn House), Tempe HOPE (picked an unrelated outreach), Set Free (none), 211 (re-matched), Safe Place (Scout has two Safe Place entries, Lifeology AZ and Child Crisis Arizona; operator not checked).",
+  "housing": "No list names more than a handful of Mesa housing providers: the City's pages cover only its own Housing Authority programmes, and 211's housing results for Mesa are mostly Phoenix senior complexes, veteran-only programmes and legal aid; affordable apartments and non-City rent help in Mesa itself are where Scout's search still has to do the work. Scout's matcher needed eight hand corrections to none here (Emergency Rehab, Fair Housing Center, Housing for Hope, Citadel, Kivel, Retirement Housing Foundation, HUD locator and Pet Housing Help were false matches at 0.6-1.0), and Salvation Army, DES and Veterans First were re-matched to the right agency by hand.",
+  "id-recovery": "ID recovery is the thinnest category: no City of Mesa, Maricopa County or state page lists ID help (Mesa's homeless resource list has none), 211 Arizona returned no results for Mesa, and findhelp refused to load. The only lists are the Homeless ID Project's own site list and two small community pages, which between them name four providers; Scout's own search has to do the work here (e.g. MVD, SSA, ADHS fee waivers, shelters' ID help).",
+  "immigration": "Only one immigration provider on any list is in Mesa (Immigrant Hope - Mesa); everything else is in Phoenix or Glendale, and the statewide directory pads the count with Tucson, Flagstaff and southern-border offices. No City of Mesa or Maricopa County page lists immigration help; the Mesa library page and the state refugee-programme pages refused to load (403).",
+  "legal": "Legal lists were plentiful but repetitive: the official county court lists and 211 name the same countywide Phoenix-based providers (CLS, Arizona Legal Center, AZLawHelp family), and none names a legal-aid office physically in Mesa other than Child Crisis Arizona's clinic; Mesa's own pages are short and point to CLS.",
+  "medical-dental-vision": "City of Mesa's own pages name almost no medical, dental or vision providers, and the only state dental list is from 2013; vision was thinnest, with no Mesa provider on any list and 211 returning nothing for eye exams. Match corrections by eye: CARE Partnership (0.67 to Prisma Community Care), New Horizons Dental (0.6 to Donated Dental Services), Healthy Senior Smiles (0.67 to CPLC Healthy Aging), Community Dental Foundation (0.9 to AzDA Give Kids A Smile) and the Mesa prescription card (1.0 to the state AZRx card) were set to none.",
+  "mental-health": "City of Mesa lists only four behavioral health names and 211 returned one Mesa provider; the only list naming many East Valley clinics is a 2021 Mercy Care flier. Valleywise Behavioral Health Center Mesa and the East Valley urgent psychiatric centre (CPEC) were on no list read. Match corrections by eye: Crisis Text Line (to Teen Lifeline), Mental Health Guild (0.83 to MHA Arizona), NAZCARE (0.67 to Solari warm line) and Center for Health and Recovery (1.0 to SRPMIC) set to none; Bayless (0.6 to Denova Dobson) was kept because Bayless is now Denova at the same address.",
+  "reentry-support": "Reentry lists are the thinnest of the four: no Mesa or East Valley list exists, the County and Sheriff pages give names only, 211 returned nothing in Mesa, the ADCRR reentry page returned 403, and the only Mesa provider any list named (The Mesa House) came from a coffee shop's community page and is missing from Scout. Most names on the lists are Phoenix programmes or general employment and sober-living agencies that fail the main-service rule. Hand corrections: Mesa House, New Horizons, CareerOneStop and Traditions were false matches set to none.",
+  "seniors": "No single official Mesa senior resource list; the city names only Aster and a water discount, and the Area Agency on Aging lists only its own programmes. 211's senior results are mostly housing and out-of-area programmes; nothing listed in-home help, transport or caregiver respite from Mesa-based agencies other than Aster.",
+  "transportation": "No list names a Mesa-only senior ride programme: the City of Mesa page lists only Valley Metro, and the 'Coupons for Cabs / Mesa Mileage Reimbursement' mentioned in search snippets could not be traced to a live page. 211's list is half AHCCCS member-only rides; the network and aggregator lists are Phoenix and north/west Valley. Valley Metro, findhelp and the DES and azorna pages returned 403.",
+  "utilities-phone-internet": "Utility bill help is well listed and consistent (every list sends Mesa residents to MesaCAN and the City's own programmes). Phone and internet are thin: only 211 names any (Lifeline, TruConnect, one Phoenix internet lender); no official Mesa page lists low-cost internet offers such as Cox ConnectAssist, which Scout has only as Cox Lifeline.",
+  "veterans": "Lists are plentiful but diluted: the City of Mesa page mixes veteran services with general agencies and national links, and 211 returns mostly VA clinics and national bodies. The main local gap is that no list gives a Mesa walk-in benefits office other than Azura/Mesa VRC and the Vet Center; the ADVS office finder and the Maricopa Community Colleges page returned 403."
+ }
+}

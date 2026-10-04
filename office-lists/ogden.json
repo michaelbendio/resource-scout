@@ -1,0 +1,1522 @@
+{
+ "office": {
+  "slug": "ogden",
+  "name": "Ogden"
+ },
+ "about": "Lists of local providers found by list seeding, for seeding and re-checking Scout runs. Notes are the trial's own words; namesFound counts the trial's seeds citing the list.",
+ "lists": [
+  {
+   "url": "https://utahdhhs.211utah.org/node/323981",
+   "title": "211 Utah (DHHS directory): Ex-Offender Reentry Programs",
+   "kind": "211",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "current but names one provider (Foundation for Family Life, Salt Lake/Utah County houses); no Weber listing"
+   },
+   "namesFound": {
+    "reentry-support": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/node/318239",
+   "title": "211 Utah (DHHS directory): Ex-Offender Reentry Programs",
+   "kind": "211",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "marked Archived; names one provider (Fresh Start Ventures, Provo), whose website now returns 404"
+   },
+   "namesFound": {
+    "reentry-support": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/northern-utah-community-correctional-center",
+   "title": "211 Utah (DHHS directory): Northern Utah Community Correctional Center",
+   "kind": "211",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "current single-provider page; the only Ogden reentry entry found in 211's readable pages"
+   },
+   "namesFound": {
+    "reentry-support": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/davis-morgan-and-weber-heat-programs",
+   "title": "211 Utah (DHHS portal): Davis, Morgan, and Weber HEAT Programs",
+   "kind": "211",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current provider page; the related service record (node/324283) is marked Archived"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/community-search?title=transportation",
+   "title": "211 Utah (DHHS) community search: transportation near 84401",
+   "kind": "211",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "unreadable for this purpose: returns DSPD-contracted support providers statewide, unsorted by distance, none of them a transport service"
+   },
+   "namesFound": {
+    "transportation": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/utah-transit-authority",
+   "title": "211 Utah (DHHS) provider page: Utah Transit Authority",
+   "kind": "211",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current; UTA's programmes (paratransit, discount passes, bus, rail), Salt Lake address only"
+   },
+   "namesFound": {
+    "transportation": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/weber-morgan-area-agency-aging",
+   "title": "211 Utah (DHHS) provider page: Weber-Morgan Area Agency on Aging",
+   "kind": "211",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current; one provider listing the AAA's programmes (ride, ombudsman, SHIP, caregiver support, Meals on Wheels, case management)"
+   },
+   "namesFound": {
+    "seniors": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/eye-care-kids-foundation-ogden",
+   "title": "211 Utah (DHHS) provider pages: Eye Care For Kids Ogden, Midtown CHC Ogden, Weber-Morgan Health Department",
+   "kind": "211",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "readable one provider at a time; 211's search page for 'dental' near Ogden returned no results, so it cannot be read as a list"
+   },
+   "namesFound": {
+    "medical-dental-vision": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2024/09/2021-2022-weber-morgan-County-General-Resource-List-1-English-Final.pdf",
+   "title": "211 Utah / United Way: Weber-Morgan County General Resource List 2021-2022, Substance Abuse section",
+   "kind": "211",
+   "categories": [
+    "addiction",
+    "children-pregnancy",
+    "clothing-household",
+    "disability",
+    "education",
+    "housing",
+    "immigration",
+    "legal",
+    "seniors",
+    "transportation",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "addiction": "stale (2022); names and phones only; the same entries as the 2024-2025 list except AA (Salt Lake line 801-484-7871), ISAT (801-866-8900) and New Horizons (a 435 number)",
+    "children-pregnancy": "stale (last update February 2022); names and phones only; Pregnancy section still useful for the Pregnancy Care Center (now Journey Clinic) and Pregnancy Riskline (now MotherToBaby).",
+    "clothing-household": "stale (last update Feb 2022); adds Ogden Rescue Mission Bargain Center, Lantern House and YCC",
+    "disability": "stale (2021-2022); same names as 2024-25 plus 711 Relay Utah and the Disability Law Center; some phone numbers differ from the 2024-25 list",
+    "education": "stale (2021-22); same Employment/Job Training/Education entries as the 2024-25 list, adds nothing new for education",
+    "housing": "stale (2021-2022); ten entries, mostly utilities, names and phones only",
+    "immigration": "stale (February 2022); 'Ethnic / Minority Groups' heading with phone numbers only",
+    "legal": "stale (2021-2022); has a Legal Information / Consultation section: Consumer Protection, Disability Law Center, Utah Legal Services, Self Help Center, State Law Library, court clinic link; plus victim entries",
+    "seniors": "stale (last update February 2022); five entries, Meals on Wheels listed under Food",
+    "transportation": "stale (February 2022); one transport line, Utah Transit Authority",
+    "utilities-phone-internet": "stale (last update February 2022); Housing / Utilities section names Cottages of Hope (Utilities), HEAT, Utah Community Action weatherization and UTAP-Lifeline"
+   },
+   "namesFound": {
+    "addiction": 10,
+    "children-pregnancy": 19,
+    "clothing-household": 8,
+    "disability": 8,
+    "education": 17,
+    "housing": 10,
+    "immigration": 2,
+    "legal": 6,
+    "seniors": 6,
+    "transportation": 1,
+    "utilities-phone-internet": 7
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/search/node?keys=clothing+Ogden",
+   "title": "211 Utah online database (DHHS-hosted), searches for clothing, furniture, household, thrift and beds in Ogden, Weber, Roy, Clearfield and Layton",
+   "kind": "211",
+   "categories": [
+    "clothing-household"
+   ],
+   "notes": {
+    "clothing-household": "current and readable; per-service records with hours and an operational status, several marked Archived or Temporary Non-Operational"
+   },
+   "namesFound": {
+    "clothing-household": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://211utah.findhelp.com/search_results/84401?terms=job%20search",
+   "title": "211 Utah online search (findhelp), Ogden 84401",
+   "kind": "211",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "unreadable: results load only with JavaScript. Individual 211 provider pages on utahdhhs.211utah.org can be read and were used to check providers."
+   },
+   "namesFound": {
+    "employment": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/search?query=immigration&location=Ogden%2C%20UT",
+   "title": "211 Utah search: immigration near Ogden",
+   "kind": "211",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "unreadable: the search returned no results; individual 211 provider pages are readable"
+   },
+   "namesFound": {
+    "immigration": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/node/319223",
+   "title": "211 Utah: Birth Certificate Fee Payment Assistance (Lantern House)",
+   "kind": "211",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "readable, marked Operational; for Lantern House guests via case manager"
+   },
+   "namesFound": {
+    "id-recovery": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/node/323115",
+   "title": "211 Utah: Cottages of Hope utility payment assistance (Weber County)",
+   "kind": "211",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "record marked Temporary Non-Operational"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/node/318350",
+   "title": "211 Utah: Identification Card Fee Payment Assistance",
+   "kind": "211",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "readable; only The Road Home, marked Archived"
+   },
+   "namesFound": {
+    "id-recovery": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/node/318351",
+   "title": "211 Utah: Identification Cards",
+   "kind": "211",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "readable; only The Road Home (Salt Lake), marked Temporary Non-Operational; nothing in Weber or Davis"
+   },
+   "namesFound": {
+    "id-recovery": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/lifeline-discounted-telephone-and-internet-service-program",
+   "title": "211 Utah: Lifeline Discounted Telephone and Internet Service Program",
+   "kind": "211",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current statewide record"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/node/317909",
+   "title": "211 Utah: Rent Payment Assistance (Weber Housing Authority) and related 211 service pages (nodes 323115, 355873, 355874)",
+   "kind": "211",
+   "categories": [
+    "financial-assistance"
+   ],
+   "notes": {
+    "financial-assistance": "current records but two of four Weber entries marked Temporary Non-Operational (Weber Housing Authority rent payment, Cottages of Hope utility payment); Salvation Army Connection Center covers select zip codes only"
+   },
+   "namesFound": {
+    "financial-assistance": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/node/355874",
+   "title": "211 Utah: Salvation Army Connection Center utility payment assistance",
+   "kind": "211",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current; statewide record for select ZIP codes, does not say whether Ogden ZIPs are included"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2025/03/Weber-Morgan-Resource-List-2024-2025.pdf",
+   "title": "211 Utah: Weber-Morgan Resource List 2024-2025, Substance Abuse section",
+   "kind": "211",
+   "categories": [
+    "addiction",
+    "children-pregnancy",
+    "clothing-household",
+    "disability",
+    "domestic-violence",
+    "education",
+    "employment",
+    "financial-assistance",
+    "food",
+    "homeless-services",
+    "housing",
+    "id-recovery",
+    "immigration",
+    "legal",
+    "medical-dental-vision",
+    "mental-health",
+    "seniors",
+    "transportation",
+    "utilities-phone-internet",
+    "veterans"
+   ],
+   "notes": {
+    "addiction": "fairly current (last update September 2024); names and phone numbers only, no addresses; mixes support groups with treatment",
+    "children-pregnancy": "fairly current (last update September 2024); names and phones only, no addresses; some phones are wrong (1-800-822-2229 is labelled Pregnancy Care Center of Ogden but is the old Pregnancy Riskline; Children's Service Society shares DCFS's number).",
+    "clothing-household": "current (last update September 2024); names and phones only, no addresses; section mixes thrift stores with housing and migrant programmes",
+    "disability": "current (last update Sept 2024); six names with phone numbers only, no addresses; Roads to Independence's number is printed as 801-621-3215, the provider's site says 801-612-3215",
+    "domestic-violence": "current (updated September 2024); names and phones only; its 'Domestic Violence Information Line' number is the national hotline, and its 'Crisis Line' is YCC's",
+    "education": "current (last update September 2024); names only, no addresses; education is mixed into an Employment/Job Training/Education column, mostly employment agencies",
+    "employment": "fairly current (last update September 2024); 11 names with phone numbers only, no addresses. A 2021-2022 edition also exists at 211utah.org; the newer one was used.",
+    "financial-assistance": "current (Sept 2024); names and phone numbers only; no financial-assistance heading, money help appears only under Housing/Utilities (HEAT) and Employment (OWCAP, Cottages of Hope, DWS)",
+    "food": "dated September 2024; 13 food entries with phone numbers only, no addresses or hours",
+    "homeless-services": "current (updated Sept 2024); Homeless Services heading names five providers, phone only. Supersedes the Feb 2022 sheet at 211utah.org/wp-content/uploads/2024/09/...",
+    "housing": "current (last update September 2024); names and phone numbers only, six entries under Housing / Utilities",
+    "id-recovery": "Sept 2024; has no ID or documents section at all",
+    "immigration": "updated September 2024; no immigration heading, only 'Ethnic / Minority Groups Assistance' with phone numbers, no addresses; drops the Welcome Center for Immigrants that the 2021-2022 sheet listed",
+    "legal": "last update September 2024; has no legal section; only Utah Legal Services appears, under domestic violence",
+    "medical-dental-vision": "fairly current (2024-25), names and phones only, no addresses; at least two phone numbers misaligned (VA clinic shown with 801-479-4105, Weber Midtown Dental with Midtown's main number) and still lists the Primary Care Network, which ended in 2019",
+    "mental-health": "fairly current (last update September 2024); names and phones only, no addresses; 211's live search (211utah.org) did not render results to a page read",
+    "seniors": "current (last update September 2024); only four senior entries: AARP, WHS Senior Services, Morgan Senior Center, Golden Hours",
+    "transportation": "current (September 2024) but has no transportation heading or entry at all",
+    "utilities-phone-internet": "current (last update September 2024); one-line phone list; its Housing / Utilities section names only HEAT for utilities, nothing for phone or internet",
+    "veterans": "dated September 2024; general list with only two veteran entries (VA clinic, Homeless Veterans Fellowship)"
+   },
+   "namesFound": {
+    "addiction": 9,
+    "children-pregnancy": 25,
+    "clothing-household": 5,
+    "disability": 6,
+    "domestic-violence": 9,
+    "education": 16,
+    "employment": 12,
+    "financial-assistance": 9,
+    "food": 13,
+    "homeless-services": 7,
+    "housing": 6,
+    "id-recovery": 0,
+    "immigration": 4,
+    "legal": 6,
+    "medical-dental-vision": 15,
+    "mental-health": 7,
+    "seniors": 6,
+    "transportation": 0,
+    "utilities-phone-internet": 3,
+    "veterans": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/ogden-weber-community-action-partnership",
+   "title": "Utah DHHS / 211 provider page: Ogden-Weber Community Action Partnership",
+   "kind": "211",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "current; one provider's 211 record, lists landlord/tenant dispute resolution but not its rent help"
+   },
+   "namesFound": {
+    "housing": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.domesticshelters.org/help/ut/ogden?page=1",
+   "title": "DomesticShelters.org: Ogden, UT",
+   "kind": "aggregator",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "current; finds only one programme in Ogden (YCC)"
+   },
+   "namesFound": {
+    "domestic-violence": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://feedam.org/food-pantry/ut/ogden",
+   "title": "Feed America: food pantries in Ogden, UT",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "17 entries with many duplicates; marks OWCAP closed; addresses and phones conflict with other lists"
+   },
+   "namesFound": {
+    "food": 12
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://freeclinics.us/utah/ogden/",
+   "title": "FreeClinics.us: Free & Low-Cost Clinics in Ogden, UT",
+   "kind": "aggregator",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "says verified 2026-05-01; 8 names and addresses only, no phones; mixes real low-cost clinics with ordinary Intermountain practices and the VA clinic"
+   },
+   "namesFound": {
+    "medical-dental-vision": 6
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://helpforfelons.org/?p=16874",
+   "title": "Help for Felons: Utah Reentry Resources",
+   "kind": "aggregator",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "updated 28 April 2026; statewide, almost all Salt Lake/Utah County; its NUCCC phone (801 627 7856) is the centre's fax per 211 and UDC"
+   },
+   "namesFound": {
+    "reentry-support": 12
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.homelessshelterdirectory.org/city/ut-ogden",
+   "title": "HomelessShelterDirectory: Ogden, UT",
+   "kind": "aggregator",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "three Ogden entries, the rest Salt Lake; no phones"
+   },
+   "namesFound": {
+    "homeless-services": 7
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/print/211_-_Ogden_434426.pdf",
+   "title": "ICP: 211 - Ogden (United Way of Ogden)",
+   "kind": "aggregator",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "stale (April 2024); a pointer to the 2021-2022 Weber-Morgan 211 list, no entries of its own"
+   },
+   "namesFound": {
+    "id-recovery": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.needhelppayingbills.com/html/weber_county_assistance_progra.html",
+   "title": "Need Help Paying Bills: Weber County assistance programs",
+   "kind": "aggregator",
+   "categories": [
+    "clothing-household",
+    "financial-assistance",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "clothing-household": "unreadable (HTTP 403); search snippets name St. Vincent dePaul and Genesis Project Serve Center, not verified",
+    "financial-assistance": "unreadable (403); only search snippets seen, which name St. Anne's Center, Salvation Army and Catholic Community Services/St. Vincent de Paul emergency rent and utility grants",
+    "utilities-phone-internet": "stale and unreadable (403); search snippets still name St. Anne's Center, which is now Lantern House"
+   },
+   "namesFound": {
+    "clothing-household": 0,
+    "financial-assistance": 2,
+    "utilities-phone-internet": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://directory.plentiful.org/utah/ogden",
+   "title": "Plentiful: Food Pantries in Ogden, UT",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "18 entries with addresses, no hours; mixes shelters, youth programmes and senior centres in with pantries"
+   },
+   "namesFound": {
+    "food": 17
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.probationinfo.org/reentry-resources/utah/",
+   "title": "Probation Information Network: Reentry Resources, Utah",
+   "kind": "aggregator",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "undated; generic statewide agencies, only Lantern House for Ogden"
+   },
+   "namesFound": {
+    "reentry-support": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.standard.net/news/2026/may/11/new-grant-programs-help-expand-housing-support-services-for-weber-county-families/",
+   "title": "Standard-Examiner, 11 May 2026: grant programmes expand housing support for Weber County families",
+   "kind": "aggregator",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "news article, not a directory; the only source naming OWCAP's TANF Housing Assistance Program"
+   },
+   "namesFound": {
+    "housing": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://warriorsfund.org/city/ut/ogden",
+   "title": "Warriors Fund veteran resource directory: Ogden, UT",
+   "kind": "aggregator",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "stale: gives two old Vet Center addresses and an old VA clinic address; mixes in general housing authorities; its Weber County VSO page now returns 410 Gone"
+   },
+   "namesFound": {
+    "veterans": 8
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://jobs.utah.gov/homelessness/grantee/feewaiver.html",
+   "title": "DWS Office of Homeless Services: Fee Waivers",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "current; explains the HB0352 (2021) fee waiver for Utah ID and birth certificates; names no providers"
+   },
+   "namesFound": {
+    "id-recovery": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.ogdencity.gov/3035/Community-Assistance-Programs",
+   "title": "Ogden City Community Assistance Programs",
+   "kind": "official",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "current; the City's own programmes plus Weber Housing Authority vouchers and DWS TANF / Homeless Prevention, no phones"
+   },
+   "namesFound": {
+    "housing": 7
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://bids.ogdencity.com/257/Programs",
+   "title": "Ogden City Community Development - Housing Programs",
+   "kind": "official",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "current; Ogden City's own loan and homebuyer programmes only, no outside agencies"
+   },
+   "namesFound": {
+    "housing": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.ogdencity.gov/3038/Employment",
+   "title": "Ogden City Employment resources",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "current; short, aimed at displaced (federal) workers; names DWS, OTECH, OWCAP Community Support, Weber Human Services and city business help, with links but no phone numbers or addresses"
+   },
+   "namesFound": {
+    "employment": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://bids.ogdencity.com/3016/Homeless-Services-Advocacy",
+   "title": "Ogden City Police Homeless Services Advocacy: community partners",
+   "kind": "official",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "undated, current-looking; partners named with websites only, mixes shelters with housing authorities, clinics and DWS"
+   },
+   "namesFound": {
+    "homeless-services": 14
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.ogdencity.gov/DocumentCenter/View/8630/Community-Resource-Guide-Updated-Information-Feb-2019",
+   "title": "Ogden City Resource Guide (Education: preschool and afterschool; Health: WIC)",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy",
+    "clothing-household",
+    "disability",
+    "education",
+    "financial-assistance",
+    "housing",
+    "id-recovery"
+   ],
+   "notes": {
+    "children-pregnancy": "dated February 2022; a few child entries (Head Start, YMCA, Boys and Girls Club, WIC); some phones superseded.",
+    "clothing-household": "dated February 2022; no clothing section; mentions clothing only under YCC",
+    "disability": "stale (dated 17 Feb 2022 inside, filename says 2019); names only EnableUtah for disability",
+    "education": "partly stale: cover dated 17 February 2022; Education section is the longest list found (WSU, OTECH, library ESL, preschool and afterschool programmes) but names several WSU sub-programmes and summer activities that may have changed",
+    "financial-assistance": "stale (2019); names Weber HEAT for utility bills, Cottages of Hope for money management, Ogden Housing Authority vouchers, YCC family assistance",
+    "housing": "stale (2019); names the City's home repair loans and the Ogden Housing Authority only",
+    "id-recovery": "stale (2019); no ID, birth certificate or Social Security entries"
+   },
+   "namesFound": {
+    "children-pregnancy": 7,
+    "clothing-household": 1,
+    "disability": 1,
+    "education": 16,
+    "financial-assistance": 5,
+    "housing": 3,
+    "id-recovery": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://bids.ogdencity.com/1500/Mental-Health-Resources",
+   "title": "Ogden City: Mental Health Resources in Ogden City",
+   "kind": "official",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "undated; five providers with address and phone; short"
+   },
+   "namesFound": {
+    "mental-health": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://bids.ogdencity.com/2646/Ogdens-Citizenship-Path",
+   "title": "Ogden City: Ogden's Path to Citizenship",
+   "kind": "official",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "current; one city pilot programme (applications open 1 November 2026) and its partners (Weber County Library, CCS, My Hometown)"
+   },
+   "namesFound": {
+    "immigration": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.rideuta.com/Rider-Info/Accessibility/Accessible-UTA/Coordinated-Mobility/Community-Resources",
+   "title": "UTA Coordinated Mobility: Community Resources (transportation providers by county)",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current; names four providers serving Weber County plus UTA's referral line; mostly disability and 60+ programmes"
+   },
+   "namesFound": {
+    "transportation": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.utcourts.gov/en/self-help/legal-help/finding-legal-help/legal-clinics/organizations.html",
+   "title": "Utah Courts: Free legal services organizations",
+   "kind": "official",
+   "categories": [
+    "immigration",
+    "legal"
+   ],
+   "notes": {
+    "immigration": "undated; four immigration entries, all Salt Lake City or Moab",
+    "legal": "undated, statewide; 19 organisations, almost all Salt Lake City based or limited to other regions; nothing Ogden-specific"
+   },
+   "namesFound": {
+    "immigration": 3,
+    "legal": 16
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://commerce.utah.gov/?p=15501",
+   "title": "Utah Department of Commerce, Office of Consumer Services: Energy Assistance Programs",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current; statewide energy programmes (HEAT, weatherization, Rocky Mountain Power HELP, Enbridge Gas Energy Assistance Fund); no phone or internet"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://commerce.utah.gov/ocs/assistance-programs/telecommunication-assistance",
+   "title": "Utah Department of Commerce, Office of Consumer Services: Telecommunication Assistance Programs",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current; Lifeline only; nothing on low-cost internet"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://veterans.utah.gov/regional-offices/",
+   "title": "Utah Dept. of Veterans and Military Affairs: Regional Offices (Northern Utah region)",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current; names the two Northern Utah VSOs serving Weber and Davis with phones, no street office"
+   },
+   "namesFound": {
+    "veterans": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://familyhealth.utah.gov/wp-content/uploads/Office_EC/pdf/BabyWatch/program_list.pdf",
+   "title": "Utah DHHS Baby Watch Early Intervention program list",
+   "kind": "official",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "current (27 Aug 2025); statewide list of early intervention (birth to 3) programs, one for Weber-Morgan plus USDB parent-infant programs"
+   },
+   "namesFound": {
+    "disability": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/legal-assistance-integration-support",
+   "title": "Utah DHHS Maternal and Infant Health resource guide: Legal assistance and integration support",
+   "kind": "official",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "current (updated 08/18/2026); the best list found: statewide entries plus a Morgan and Weber Counties section naming three Ogden providers"
+   },
+   "namesFound": {
+    "immigration": 20
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://dld.utah.gov/office-locations-and-hours/",
+   "title": "Utah Driver License Division: Office Locations and Hours",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "current; Ogden (South Ogden) and Farmington are the offices serving Weber and Davis; none in Layton, Roy or Clearfield"
+   },
+   "namesFound": {
+    "id-recovery": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://veterans.utah.gov/employment",
+   "title": "Utah DVMA Veteran Employment",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current; statewide and federal programmes only, no Ogden office, phone or address"
+   },
+   "namesFound": {
+    "veterans": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://jobs.utah.gov/refugee/resources/legal.html",
+   "title": "Utah DWS Refugee Services: legal resources",
+   "kind": "official",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "undated; names only, no phone numbers, no Ogden locations"
+   },
+   "namesFound": {
+    "immigration": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/childcare-and-parenting-resources",
+   "title": "Utah Maternal Resource Guide: Childcare and Parenting Resources (Ogden/Weber section)",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "current (updated 03/04/2026); State of Utah (DHHS maternal and infant health); short Ogden section plus statewide lines."
+   },
+   "namesFound": {
+    "children-pregnancy": 12
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/food-formula-diapers",
+   "title": "Utah Maternal Resource Guide: Food, Formula and Diapers (Ogden/Weber section)",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "current (updated 11/28/25); mostly food pantries; only Catholic Community Services gives baby items and WIC."
+   },
+   "namesFound": {
+    "children-pregnancy": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/accessible-healthcare",
+   "title": "Utah Maternal Resource Guide: Healthcare (Ogden/Weber section)",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "current (updated 08/10/2026); mostly general clinics; gives prenatal and nurse home-visiting entries."
+   },
+   "namesFound": {
+    "children-pregnancy": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://vitalrecords.utah.gov/homeless-service-providers",
+   "title": "Utah Office of Vital Records: homeless service providers (free birth certificate partners)",
+   "kind": "official",
+   "categories": [
+    "homeless-services",
+    "id-recovery"
+   ],
+   "notes": {
+    "homeless-services": "current (updated 15 Jul 2025); names only, statewide; Weber entries mostly agencies, not front doors; Lantern House absent",
+    "id-recovery": "current (updated 7/15/2025); names only, no addresses or phones; these agencies sign the homeless fee-waiver form, they do not issue or pay for ID themselves"
+   },
+   "namesFound": {
+    "homeless-services": 13,
+    "id-recovery": 15
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://schools.utah.gov/adulteducation/_adult_education_/frequentlyaskedquestions/ProgramDirectory.pdf",
+   "title": "Utah State Board of Education, Adult Education Program Directory",
+   "kind": "official",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "current (2025-26 fees and dates); names the three Weber/Ogden adult education programs (Ogden Adult Education, Weber Adult Education, OWCAP site) and Morgan's, with addresses, phones and class hours"
+   },
+   "namesFound": {
+    "education": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.utcourts.gov/en/self-help/legal-help/legal-clinics.html",
+   "title": "Utah State Courts: free legal clinics",
+   "kind": "official",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "undated, still mentions masks (likely not fully updated since COVID); only one Weber clinic (Timpanogos Legal Center at YCC Ogden), none in Davis County, plus two statewide virtual clinics"
+   },
+   "namesFound": {
+    "legal": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.webercountyutah.gov/Attorney/Victim_Witness/dv.php",
+   "title": "Weber County Attorney Victim/Witness: Domestic Violence",
+   "kind": "official",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "undated; phone list of statewide lines and victim-service offices, few of them DV-specific; no addresses"
+   },
+   "namesFound": {
+    "domestic-violence": 12
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.webercountyutah.gov/Attorney/Victim_Witness/resources.php",
+   "title": "Weber County Attorney Victim/Witness: Resources (shelters, police, legal, financial help)",
+   "kind": "official",
+   "categories": [
+    "domestic-violence",
+    "legal"
+   ],
+   "notes": {
+    "domestic-violence": "undated; current enough in shape but still names St. Anne's Center (renamed Lantern House); shelters list mixes DV shelters in four counties with homeless shelters; phones only, no addresses",
+    "legal": "undated; four legal entries: Utah State Bar, Community Legal Center, Utah Legal Clinic, Utah State Courts legal clinics (the number given is the Ogden district court's)"
+   },
+   "namesFound": {
+    "domestic-violence": 10,
+    "legal": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.webercountyutah.gov/homeless-council/",
+   "title": "Weber County Local Homeless Council",
+   "kind": "official",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "names no providers and no coordinated-entry door; only the United Way coordinator's contact"
+   },
+   "namesFound": {
+    "homeless-services": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://webercountyutah.gov/sheriff/corrections/reentry.php",
+   "title": "Weber County Sheriff's Office: Reentry Success Services",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "current (last reviewed 20 July 2026); describes the programme and the weekly Community Reentry Fair and names about 34 partner agencies, but gives names only, no phones or addresses for partners"
+   },
+   "namesFound": {
+    "reentry-support": 34
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://webercountyutah.gov/veterans/",
+   "title": "Weber County Veterans page",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current; short: points to the Ogden Veterans Home, the state department and the VA, plus county veteran tax relief; names no county service officer"
+   },
+   "namesFound": {
+    "veterans": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.weberhsaging.net/advocacy-ombudsman",
+   "title": "Weber Human Services Area Agency on Aging: Advocacy & Ombudsman",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current; names the ombudsman, Senior Legal Services (Utah Legal Services) and the elder-abuse coalition"
+   },
+   "namesFound": {
+    "seniors": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.weberhsaging.net/community-resources",
+   "title": "Weber Human Services Area Agency on Aging: Community Resources",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current but thin; mostly state and national websites"
+   },
+   "namesFound": {
+    "seniors": 6
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.weberhsaging.net/senior-centers",
+   "title": "Weber Human Services Area Agency on Aging: Senior Centers",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current; the nine senior centres in Weber and Morgan counties, with meal times; notes Riverdale is no longer WHS-funded (after the 2025 four-centre decision)"
+   },
+   "namesFound": {
+    "seniors": 9
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.weberhsaging.net/transportation",
+   "title": "Weber Human Services Area Agency on Aging: The RIDE",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current; one programme page"
+   },
+   "namesFound": {
+    "transportation": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.webermorganhealth.gov/wp-content/uploads/sites/60/2026/04/2026-Referal-Flyer-English.pdf",
+   "title": "Weber-Morgan Health Department Referral Flyer (Weber and Morgan County Resources)",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy",
+    "employment",
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "children-pregnancy": "current (updated April 2026); the best single list for this category, with a Child Development/Education, Parent Support/Education and Pregnancy/Breastfeeding column. Replaces the May 2025 edition.",
+    "employment": "current (updated April 2026); 9 employment entries with address, phone and a one-line description; the best list found. Elsewhere on the sheet it still prints the retired 1-800-273-8255 suicide line.",
+    "medical-dental-vision": "current (Updated April 2026); about 12 health entries with address, phone and one line each; the best list for this category"
+   },
+   "namesFound": {
+    "children-pregnancy": 33,
+    "employment": 9,
+    "medical-dental-vision": 14
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.webermorganhealth.gov/wp-content/uploads/sites/60/2025/05/Resource-PDF-English-May-2025.pdf",
+   "title": "Weber-Morgan Health Department resource sheet, May 2025",
+   "kind": "official",
+   "categories": [
+    "disability",
+    "education",
+    "homeless-services",
+    "id-recovery",
+    "legal",
+    "medical-dental-vision",
+    "mental-health"
+   ],
+   "notes": {
+    "disability": "current; no disability section, but names Roads to Independence (under Transportation), RISE Services (Employment), Early Intervention and both districts' special education",
+    "education": "current; Employment/Education and Child Development/Education columns name adult education, Give Me a Chance, Head Start, school-district special education, Waterford Upstart",
+    "homeless-services": "current (May 2025); four shelters with address, phone and a one-line description; the best list found",
+    "id-recovery": "current; only ID-related line is its own Vital Records number",
+    "legal": "current (May 2025); Legal Services section names only Utah Legal Services (Ogden) and the Utah State Courts Self Help Center",
+    "medical-dental-vision": "superseded by the April 2026 flyer; identical medical column except Seager Clinic's old address (2775 Wall Ave, before its November 2025 move)",
+    "mental-health": "current (Updated May 2025); mixes mental health with addiction and quit lines; addresses and websites given"
+   },
+   "namesFound": {
+    "disability": 5,
+    "education": 13,
+    "homeless-services": 7,
+    "id-recovery": 1,
+    "legal": 2,
+    "medical-dental-vision": 0,
+    "mental-health": 11
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/wp-content/uploads/Weber-Morgan-SUD-Resources_1.31.25.pdf",
+   "title": "Weber-Morgan Health Department: Substance use disorder resources (via Utah Medical Home Portal)",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "current (V 1.31.25); 9 Ogden-area treatment providers with phone, address, website and services, plus statewide links; the best list found"
+   },
+   "namesFound": {
+    "addiction": 10
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/print/Homeless_Services_434426.pdf",
+   "title": "Church ICP Homeless Services (Utah)",
+   "kind": "regional",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "undated; mostly Salt Lake County; Ogden section has three providers with phone"
+   },
+   "namesFound": {
+    "homeless-services": 13
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/felon_employment_srp",
+   "title": "Church ICP: Felon Assistance (Felon Resources directory)",
+   "kind": "regional",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "current (2026); short, Ogden and Salt Lake mixed; the only list naming an Ogden reentry provider with full contact (Cottages of Hope)"
+   },
+   "namesFound": {
+    "reentry-support": 6
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://prod.intermountainhealth.org/-/media/files/intermountain-health/services/behavioral-health/vending-machines/ogden-community-resources.ashx",
+   "title": "Intermountain Health: Ogden Community Resources (behavioral health handout)",
+   "kind": "regional",
+   "categories": [
+    "addiction",
+    "clothing-household",
+    "employment"
+   ],
+   "notes": {
+    "addiction": "undated but current-looking (lists 988); broadest list: MAT, detox, treatment centres, sober living, recovery community, 12-step lines; many entries are Salt Lake or Davis County, phone only",
+    "clothing-household": "undated; three names under Food & Clothing, all of which are mainly food or general basic-needs providers",
+    "employment": "September 2025; three entries: DWS and two private staffing agencies"
+   },
+   "namesFound": {
+    "addiction": 36,
+    "clothing-household": 3,
+    "employment": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.otech.edu/?p=23281",
+   "title": "Ogden-Weber Technical College: Immigration Assistance",
+   "kind": "regional",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "undated; short, names CCS, Weber County Library citizenship classes and 211"
+   },
+   "namesFound": {
+    "immigration": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.otech.edu/?p=23279",
+   "title": "OTECH Weber County Community Resources",
+   "kind": "regional",
+   "categories": [
+    "education",
+    "employment",
+    "mental-health"
+   ],
+   "notes": {
+    "education": "undated; names only Weber County Library classes under education, refers to 211 for the rest",
+    "employment": "undated; links only, no phone or address; employment entries are OWCAP, Cottages of Hope and library classes",
+    "mental-health": "undated; three mental health entries, links only, no phones or addresses"
+   },
+   "namesFound": {
+    "education": 1,
+    "employment": 3,
+    "mental-health": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://uploads-ssl.webflow.com/5ec7191c61b6ee3dc35c6c52/63e1de0877ff37a00d741fc1_2nd%20District%20Victim%20Resources%202023.pdf",
+   "title": "Timpanogos Legal Center: Supportive Resources - Second Judicial District (Davis, Morgan, Weber)",
+   "kind": "regional",
+   "categories": [
+    "domestic-violence",
+    "financial-assistance",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "domestic-violence": "dated February 2023; has addresses and phones; DV section names YCC, Safe Harbor and UDVC, plus victim-advocate offices",
+    "financial-assistance": "Feb 2023, somewhat stale; addresses and phones; one Credit/Financial Assistance entry (American Credit Foundation, Midvale), HEAT and OWCAP elsewhere",
+    "utilities-phone-internet": "2023; seen only in a search snippet (Cottages of Hope utility assistance, United Way of Northern Utah); not read in full"
+   },
+   "namesFound": {
+    "domestic-violence": 11,
+    "financial-assistance": 9,
+    "utilities-phone-internet": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahlegalservices.org/node/77/resources",
+   "title": "Utah Legal Services resources: utility, internet and phone",
+   "kind": "regional",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "partly stale: still lists the Affordable Connectivity Program (ended June 2024) and a COVID-19 DWS page"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahparentcenter.org/wp-content/uploads/2025/01/Weber_Davis-Resource-Guide.pdf",
+   "title": "Utah Parent Center: Weber/Davis Resource Guide",
+   "kind": "regional",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "current (Jan 2025); the richest list, but aimed at parents of children with disabilities, mixes Davis-only and Salt Lake providers, private-pay clinics, private tutors and national information websites"
+   },
+   "namesFound": {
+    "disability": 36
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://saweb.weber.edu/app/referralbook/SubstanceAbuse.aspx",
+   "title": "Weber State University Counseling (CPSC) referral book: Substance Abuse",
+   "kind": "regional",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "stale: old addresses for Weber Human Services (2650 Lincoln Ave), Clinical Consultants and Midtown; half the entries are Salt Lake City; the page's date is only the server clock"
+   },
+   "namesFound": {
+    "addiction": 15
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.weber.edu/CounselingCenter/community.html",
+   "title": "Weber State University Counseling Center: Community Resources",
+   "kind": "regional",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "undated; Ogden/Layton/Davis counselling agencies plus paid online therapy apps; aimed at students"
+   },
+   "namesFound": {
+    "mental-health": 15
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://saweb.weber.edu/app/Referralbook/DomesticViolenceSG.aspx",
+   "title": "Weber State University Counseling referral book: Domestic Violence support groups",
+   "kind": "regional",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "stale (no date; several entries are Salt Lake counselling offices and substance-treatment programmes); not a DV-services list in practice"
+   },
+   "namesFound": {
+    "domestic-violence": 7
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://saweb.weber.edu/app/referralbook/LegalAdvocates.aspx",
+   "title": "Weber State University CPSC referral book: Legal Advocates",
+   "kind": "regional",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "undated; five entries, one of them (Disability Law Center Weber County office) no longer shown on the provider's own contact page"
+   },
+   "namesFound": {
+    "legal": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://saweb.weber.edu/app/Referralbook/VocRehab_JobService.aspx",
+   "title": "Weber State University referral book, Voc Rehab/Job Service",
+   "kind": "regional",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "stale: undated, links to a retired jobs.utah.gov address and gives older DWS phone numbers; lists three DWS centers and WSU Career Services"
+   },
+   "namesFound": {
+    "employment": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.weber.edu/WSUToday/052422_LegalServices.html",
+   "title": "Weber State University: Community Education Center offers free legal immigration services",
+   "kind": "regional",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "stale (May 2022 article); one clinic, run with No More A Stranger"
+   },
+   "namesFound": {
+    "immigration": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://weber.edu/student-access-success/help.html",
+   "title": "Weber State University: Resources for Help With Basic Needs",
+   "kind": "regional",
+   "categories": [
+    "financial-assistance"
+   ],
+   "notes": {
+    "financial-assistance": "current; links only, no phones; OWCAP, Weber Housing Authority, Davis Community Housing Authority, HEAT (Futures Through Training), Catholic Community Services"
+   },
+   "namesFound": {
+    "financial-assistance": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  }
+ ],
+ "gaps": {
+  "addiction": "Not thin for treatment: the Weber-Morgan Health Department list (January 2025) is current and names the core Ogden providers, and its phones mostly matched the providers' own pages. Thin elsewhere: 211's Weber-Morgan list gives names and phones only; Intermountain's handout is broad but half Salt Lake and Davis County, phone-only, with several numbers that disagree with the providers' own pages (BAART, Weber Recovery Center); the WSU referral book is stale (old addresses for Weber Human Services and Clinical Consultants). Support groups (AA, NA, the Church's Addiction Recovery Program), sober living and harm reduction appear with conflicting or unverified phones and would need Scout's own search. Ogden's 211 search pages could not be read (search.211utah.org did not resolve).",
+  "children-pregnancy": "Pregnancy and young-child help in Ogden is well covered by current official lists: the Weber-Morgan Health Department's April 2026 referral flyer and the State maternal resource guide (2025-26) name most front doors with phones. Thin spots: almost nothing for children's clothing, diapers or baby gear beyond Catholic Community Services and Welcome Baby's occasional supplies; no listed low-cost childcare beyond YCC and Head Start; nothing for older children and teens except afterschool clubs and JJYS youth centres whose walk-in access is unclear. The 211 lists are names and phones only and partly wrong (a pregnancy-center entry carries the old Pregnancy Riskline number; Children's Service Society shares DCFS's number; Youth Impact, Nurse-Family Partnership, MotherToBaby and Early Intervention each have conflicting phones across lists). The Ogden City guide (2022) has only a few child entries. 211's live search (search.utah211.org) did not resolve.",
+  "clothing-household": "Thin. No Ogden or Weber County official source has a clothing or furniture list. The two 211 PDFs give names and phones only, and their 'Household Items / Furniture / Clothing' section is half thrift stores and half shelters or programmes that mention clothing in passing. The 211 online database is the best source, but several of its clothing records are Archived or Temporary Non-Operational (Salvation Army vouchers and thrift store, DI and DWS vouchers). No free furniture bank, baby-gear closet or school clothing closet for Ogden showed up on any readable list. St. Vincent de Paul and the Genesis Serve Center appear only via an aggregator that blocks reading or conflicting 211 data. Free clothing in Ogden comes down to two programmes, the Salvation Army closet (twice a month) and the Rescue Mission (twice a week). Scout would need its own search here, especially for furniture.",
+  "disability": "Ogden has no official disability list. The 211 Weber-Morgan sheet's disability section is six phone numbers (VR, DSPD, EnableUtah, RISE, Roads to Independence, Special Needs Registry) with no addresses, and one Roads to Independence number it prints differs from the provider's own; the Ogden City guide names only EnableUtah and is from 2022. The health department sheet has no disability heading at all. The only rich list is the Utah Parent Center's Weber/Davis guide, which is for parents of children and mixes in Davis-only and Salt Lake providers, private clinics, private tutors and national websites. Nothing found lists adult disability supports beyond employment: no personal-care, respite, accessible-housing or benefits-application help (e.g. SSI/SSDI application assistance) specific to Ogden. Phone numbers conflicted across lists for Early Intervention, both school districts, DSPD and the Special Needs Registry, so Scout's own search and a phone check would still be needed.",
+  "domestic-violence": "Thin but consistent. Every list agrees Ogden has one domestic-violence provider, YCC Family Crisis Center, plus the state LINKline and the national hotline; beyond those three the lists fill out with crime-victim, legal, sexual-assault and homeless-shelter entries that fail rule 2. The official lists (Weber County Attorney) are undated and give phones without addresses, and one still uses St. Anne's Center for Lantern House; 211's 2024-2025 Weber-Morgan sheet is current but names only, and labels the national hotline as the 'Domestic Violence Information Line'; the Weber State referral book is stale; the Weber-Morgan DV Coalition's resource page returns 404. Not found on any list: a DV-specific legal clinic, a victim-side counselling programme other than YCC's, or anything in Spanish. The open questions (prosecutor and police victim advocates, protective-order clerk, ISAT) are whether they belong here or under legal.",
+  "education": "Ogden has no list devoted to education. The best sources are the state's adult-education directory (current, but adult education only) and the Weber-Morgan Health Department's May 2025 sheet; the Ogden City guide has the broadest education section but is dated February 2022 and leans on Weber State sub-programmes and summer children's activities. Both 211 lists fold education into an employment column, so most of their entries are job agencies, and 211's own search site does not resolve. There is no adult literacy (reading) tutoring programme, no citizenship-class provider confirmed, and no tutoring for school-age children on any list. Ogden School District's websites block automated reading, so its adult education and district phone numbers could not be confirmed and conflict between lists.",
+  "employment": "Employment lists for Ogden exist but are short and repeat the same handful of names (DWS, Cottages of Hope, OWCAP, the Church employment centre, Job Corps, Futures Through Training), padded with schools and colleges. Only the Weber-Morgan Health flyer (April 2026) gives addresses; the 211 list gives phone numbers only, and 211's online search cannot be read without JavaScript. Phone numbers disagree between lists for DWS (four different numbers) and addresses disagree between 211 entries for the Church centre. Missing from every list: second-chance or re-entry employment help, day-labour and work-today options, and the DWS refugee and veterans employment programmes; Vocational Rehabilitation appeared only under Disabilities. Job Corps' status after the 2025 national pause needs a phone check.",
+  "financial-assistance": "Thin. No Ogden or Weber County list has a Financial Assistance heading: the current 211 Weber-Morgan sheet lumps money help into Housing/Utilities and Employment with phone numbers only, Ogden City's guide is from 2019, and the court district's list (2023) has a single credit-counselling entry in Midvale. The direct emergency-cash front doors the lists and aggregators point to are mostly gone or paused: Catholic Community Services' Ogden site now describes food only, Cottages of Hope's bill help is paused for funding, Weber Housing Authority's rent payment line is marked non-operational on 211, and the Salvation Army's phone-based rent/utility help covers only unnamed zip codes. What reliably remains is HEAT (utility bills), OWCAP (call to see what is funded), DWS cash assistance and Cottages of Hope coaching. Scout would have to do the work to find any current one-time emergency rent/utility grant in Ogden (churches, St. Vincent de Paul conferences, United Way of Northern Utah), and to read 211's live search, which was not readable here beyond single service pages.",
+  "food": "No official Ogden City, Weber County or Weber Human Services food list was found, and the Utah Food Bank pantry finder is a map that cannot be read. The only human-maintained list is 211's Weber-Morgan sheet (September 2024), which gives phone numbers only. Everything else came from aggregators that disagree on church pantries' phones, addresses and days; four church pantries (Griffin Memorial, Seventh-day Adventist, Hope Resurrected, First Baptist Ogden) have no page of their own, so they stay unclear until someone calls them. The school-district pantries (Weber and Ogden) had no readable page with hours. 211's own provider pages (utahdhhs.211utah.org/provider/...) are readable and were used to check, but its search could not be used as a list.",
+  "homeless-services": "Ogden has few homeless providers and the lists agree on the same four shelters (Lantern House, Ogden Rescue Mission, Family Promise, Youth Futures), so overlap is high and coverage looks complete for shelter. Missing everywhere: a named coordinated-entry front door for Weber County (the Local Homeless Council page names none; the state's mydoorway.utah.gov/homelessness page is dead, returning 'Site not found'), any day center separate from the shelters, and hours. The 211 search pages do not render without JavaScript, Lantern House's own site shows no contact details, and Family Promise's site hides its address, so contact details came from the health-department sheet and 211 provider pages. The Church ICP and aggregator lists are mostly Salt Lake.",
+  "housing": "Thin. No list names more than about six Ogden housing providers, and none gives anything beyond a name and phone: 211's Weber-Morgan sheet (September 2024) has six Housing / Utilities lines, half of them utilities, and still carries the closed Weber-Davis Habitat chapter; the City's pages cover only its own loans plus the two housing authorities. No list names any rent-help charity, eviction help, affordable (tax-credit) apartments, or Davis County options: OWCAP's family rent help turned up only in a news article, Catholic Community Services' rent help only on an aggregator (needhelppayingbills, unreadable, 403), and Weber Housing Authority's emergency rent help for households outside Ogden City only in a search snippet of a state meeting notice. 211's live search (findhelp) could not be read. Both voucher waiting lists need a call: Ogden's closed in May 2026. Affordable apartments and non-government rent help are where Scout's search still has to do the work.",
+  "id-recovery": "Thin. No Ogden or Weber County list has an ID or documents section: the 211 Weber-Morgan Resource List (Sept 2024) has none, Ogden City's guide is from 2019 and has none, and the Weber-Morgan Health sheet lists only its own Vital Records line. 211 Utah's statewide ID and ID-fee taxonomy pages show only The Road Home in Salt Lake (non-operational/archived); the only Ogden fee-help listing is Lantern House, for its own guests. The best list is the state's verifying-agency list (July 2025), but it names verifiers, not ID providers, and gives no contacts. No Ogden nonprofit that pays for ID was found; the real resources are the government offices (DLD, Vital Records, SSA) plus the state homeless fee waiver. ssa.gov blocked reading, so SSA details come from 211.",
+  "immigration": "Thin for Ogden. No official Weber County or Ogden City list of immigration providers exists; the only current list with a Weber section is the state DHHS maternal-health guide (August 2026), and it names just three Ogden providers, one of them a general civil clinic. 211 Utah's Weber-Morgan sheets have no immigration heading, only phone numbers under 'Ethnic / Minority Groups', and the 2024-2025 sheet dropped the Welcome Center for Immigrants; 211's own search returned nothing. Most statewide lists are Salt Lake County providers that fail reach. Refugee resettlement in Ogden is undocumented on any list (news reports only about 15 families). Day-and-time details for the NOMAS Ogden clinic and the Welcome Center's own page could not be found, so Scout would still have to confirm those.",
+  "legal": "Thin. No Ogden or Weber County list is dedicated to legal help. The current official lists (Weber-Morgan Health, May 2025) name just two legal resources, Utah Legal Services' Ogden office and the courts' Self-Help Center; 211 Utah's newest Weber-Morgan list (Sept 2024) dropped its legal section entirely, and only its stale 2021-22 list had one. The courts' clinic list shows a single Ogden clinic (Timpanogos at YCC) that the provider's own site does not confirm, nothing in Davis County, and still mentions masks, so it looks partly un-updated since COVID. Everything else is statewide by phone or based in Salt Lake City; immigration legal help for Ogden residents and a current Ogden pro se / bar clinic were not found on any list, so Scout's own search would have to do that work.",
+  "medical-dental-vision": "Medical is covered well by one current official list (Weber-Morgan Health Department flyer, April 2026), which names the real front doors: Seager (free), Midtown and its Hope and Children's clinics (sliding fee), WSU dental hygiene and Medicaid. Everything else is thinner or stale: 211 Utah's Weber-Morgan list is names and phones only, has misaligned phone numbers and still lists the Primary Care Network that ended in 2019; 211's own search returns nothing for 'dental' near Ogden; the free-clinic aggregator pads its list with ordinary Intermountain practices; the state rural-health dental guide is a 404 and the AUCH health-centre map a 404. Dental beyond Seager, Midtown and student cleanings is thin (no sliding-fee private dentists, no dental school, no denture help named), and vision for adults rests on Seager alone, with EyeCare4Kids for children only. No list named a free or low-cost pharmacy, hearing help or senior dental (Senior Charity Care Foundation appears only in other regions' senior guides). Seager's address changed in November 2025, which the May 2025 list missed: a reminder these lists drift within months.",
+  "mental-health": "Lists exist but are short and overlapping: Weber Human Services is on all five, and beyond it, Family Counseling Service and Clinical Consultants, each list has only 1-6 genuine mental health entries, often mixed with addiction, domestic violence and medical clinics. Only the health department sheet (May 2025) is clearly current; Ogden City's page and both school lists are undated, the WSU list has an old address and a duplicated phone, and the 211 PDF gives phones without addresses. 211's live search did not render to a page read, though its DHHS provider directory (utahdhhs.211utah.org) was readable and useful for checking. Gaps a missionary would notice: almost nothing on free or very low-cost ongoing therapy besides Weber Human Services and Family Counseling Service, no Spanish-language provider confirmed in Ogden, no confirmed phone for the 24/7 McKay-Dee Access Center, and nothing on peer support or clubhouse programmes beyond NAMI.",
+  "reentry-support": "Thin. The only Ogden list that is truly about reentry is the Weber County Sheriff's Reentry Success Services page (current, July 2026), and it names partners without contact details; the hands-on front door it describes, the Tuesday Reentry Fair, has no phone of its own. None of the four general Weber lists (211 Utah Weber-Morgan 2024-2025 and 2021-2022, Ogden City Resource Guide, Intermountain Ogden list) has a reentry section. 211 Utah's readable directory pages show no Weber reentry provider beyond the correctional centre, and one of its two reentry listings is archived with a dead website. Aggregators are statewide and Salt Lake-heavy, and one gives NUCCC's fax as its phone. What passes is the county programme plus statewide record-clearing (BCI, Clean Slate Utah); local non-profit reentry help (mentoring, felon-friendly housing, jobs) would have to come from Scout's own search or from calling the Reentry Fair.",
+  "seniors": "Thin outside Weber Human Services. 211's own Weber-Morgan lists give seniors only four or five lines (one of them AARP), and the 2022 list is stale. Nearly every real senior resource in Weber County is a programme of the one Area Agency on Aging, so its website was the best list. Senior centres changed in 2025 (county funding cut from five to four; Riverdale now city-run), so older lists are wrong on that. Small centres (Ogden Valley, Farr West, Marriott-Slaterville) have no web page of their own that I found. No list covered in-home care providers, senior housing or senior utility help, which Scout would still have to search for.",
+  "transportation": "Very thin. 211's current Weber-Morgan list has no transportation section at all, and the 2022 list names only UTA. The only local list of transport providers is UTA's own Coordinated Mobility page, which covers disability and 60+ programmes, and two of its four Weber entries turned out not to be transport services. 211's DHHS search could not be filtered to transport near Ogden. Nothing found covers Medicaid non-emergency medical rides (the Utah Medicaid pages returned 404 or 403), veterans' rides to the VA, gas or car-repair help, or low-cost car programmes; Scout would have to search for all of those.",
+  "utilities-phone-internet": "Thin. The only current local list (211 Weber-Morgan 2024-2025) names just HEAT under Housing / Utilities and nothing for phone or internet. The 2022 list's one local charity programme (Cottages of Hope utility help) is now non-operational, and the aggregator's Ogden charities (St. Anne's, Catholic Community Services, Salvation Army, OWCAP) are stale or not mainly utility help. No list names a current low-cost internet programme for Ogden: ACP ended in 2024, and company plans such as Comcast Internet Essentials appear on no list, so Scout's own search would have to find them. Ogden City publishes no standing water-bill assistance programme; its only one was a 2025-26 shutdown deferral. DWS's HEAT pages returned server errors, so statewide HEAT details were read second-hand from Commerce and 211.",
+  "veterans": "Thin. No local, human-maintained veterans list exists for Ogden: Weber County's page is a short set of links, 211's Weber-Morgan list (Sept 2024) has only two veteran entries, and 211 Utah's online search returned nothing readable. The state's Northern Utah VSO page is the real front door but gives phones, not an office. The only Ogden-specific directory is an aggregator (Warriors Fund) whose Vet Center and VA clinic addresses are out of date and whose county-VSO entry is gone. The state's 2026 benefit book PDF returned 404. Small local groups (VFW, DAV, American Legion posts) and any local veteran emergency-money or legal help would need Scout's own search."
+ }
+}
