@@ -1,0 +1,961 @@
+{
+ "office": {
+  "slug": "st-george",
+  "name": "St. George"
+ },
+ "about": "Lists of local providers found by list seeding, for seeding and re-checking Scout runs. Notes are the trial's own words; namesFound counts the trial's seeds citing the list.",
+ "lists": [
+  {
+   "url": "https://utahdhhs.211utah.org/provider/arc-washington-county",
+   "title": "211 Utah (DHHS) provider page: ARC of Washington County",
+   "kind": "211",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "single provider record with address and phone"
+   },
+   "namesFound": {
+    "disability": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/high-desert-counseling-st-george",
+   "title": "211 Utah (DHHS) provider page: High Desert Counseling, St. George",
+   "kind": "211",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "current-looking single provider record; address, phone and walk-in acceptance"
+   },
+   "namesFound": {
+    "addiction": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/lds-transitional-services-st-george",
+   "title": "211 Utah (DHHS) provider page: LDS Transitional Services - St George",
+   "kind": "211",
+   "categories": [
+    "clothing-household"
+   ],
+   "notes": {
+    "clothing-household": "single provider record; address, phone and what it gives"
+   },
+   "namesFound": {
+    "clothing-household": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/southwest-adult-high-school",
+   "title": "211 Utah (DHHS) provider page: Southwest Adult High School",
+   "kind": "211",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "single provider record; GED preparation in English and Spanish, age 18 and over"
+   },
+   "namesFound": {
+    "education": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/search/node?keys=utility+payment+assistance+Washington+County",
+   "title": "211 Utah (Utah DHHS site): 'utility payment assistance Washington County' and HEAT provider pages",
+   "kind": "211",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "readable; gives the Washington HEAT Program provider page and the Salvation Army St. George utility entry with hours; noisy search"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/search/node?keys=immigrant",
+   "title": "211 Utah (Utah DHHS site): immigrant and citizenship entries",
+   "kind": "211",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "search results are mostly service categories from other counties, not providers in St. George; no Washington County immigration provider found"
+   },
+   "namesFound": {
+    "immigration": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/search/node?keys=Utah+Legal+Services",
+   "title": "211 Utah (Utah DHHS site): legal provider pages (Utah Legal Services - St George, Self-Help Center, State Bar, Disability Law Center and others)",
+   "kind": "211",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "readable and current-looking; phone, address and how-to-apply for each; search is noisy"
+   },
+   "namesFound": {
+    "legal": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/search/node?keys=St.+George+veterans",
+   "title": "211 Utah (Utah DHHS site): search 'St. George veterans'",
+   "kind": "211",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "readable and current-looking; individual provider pages with phone and address for the Vet Center, VA clinic, DWS veteran employment and DAV; the search is node-based and noisy"
+   },
+   "namesFound": {
+    "veterans": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/st-george-suntran",
+   "title": "211 Utah (Utah DHHS site): St George SunTran provider page and transportation search",
+   "kind": "211",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "readable; confirms SunTran's address and phone; the transportation search returns mostly Wasatch Front providers"
+   },
+   "namesFound": {
+    "transportation": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/search/node?keys=St+George+counseling",
+   "title": "211 Utah (Utah DHHS site): St. George mental health provider pages (Southwest Behavioral Health Center, Doctors' Volunteer Clinic, Family Healthcare, Encircle, Flourish, Zest, Blair and others)",
+   "kind": "211",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "readable and mostly current-looking; about 20 St. George behavioral health providers with address, phone and how to apply, some with no phone in the entry"
+   },
+   "namesFound": {
+    "mental-health": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/social-security-administration-st-george",
+   "title": "211 Utah database: Social Security Administration, St. George",
+   "kind": "211",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "current 211 provider entry; one record per agency, so ID agencies must be looked up one at a time"
+   },
+   "namesFound": {
+    "id-recovery": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2025/07/6-Five-County.pdf",
+   "title": "211 Utah: Five County Resource Guide (2025, two pages)",
+   "kind": "211",
+   "categories": [
+    "addiction",
+    "children-pregnancy",
+    "disability",
+    "domestic-violence",
+    "employment",
+    "legal",
+    "mental-health",
+    "seniors",
+    "transportation",
+    "utilities-phone-internet",
+    "veterans"
+   ],
+   "notes": {
+    "addiction": "2025; one-line entries with phone numbers only, all five southwest counties; statewide and county hotlines plus the main St. George agencies",
+    "children-pregnancy": "2025; one-line entries with phone numbers only, all five southwest counties; statewide and county hotlines plus the main St. George agencies",
+    "disability": "2025; one-line entries with phone numbers only, all five southwest counties; statewide and county hotlines plus the main St. George agencies",
+    "domestic-violence": "2025; one-line entries with phone numbers only, all five southwest counties; statewide and county hotlines plus the main St. George agencies",
+    "employment": "2025; one-line entries with phone numbers only, all five southwest counties; statewide and county hotlines plus the main St. George agencies",
+    "legal": "current; one line: Utah Legal Services in St. George, 800-662-4245",
+    "mental-health": "current; names only Southwest Behavioral Health Center and Doctors' Volunteer Clinic for St. George",
+    "seniors": "current; one line: Five County Area Agency on Aging, 435-673-3548, in-home services and advocacy; and Easterseals senior employment",
+    "transportation": "current; no transportation entry for St. George (the guide has none)",
+    "utilities-phone-internet": "current; one 'Utility Assistance' entry (HEAT) plus weatherization; names and phones only",
+    "veterans": "current; names only Utah's DWS veteran services, no veteran-specific entry for St. George"
+   },
+   "namesFound": {
+    "addiction": 2,
+    "children-pregnancy": 8,
+    "disability": 6,
+    "domestic-violence": 5,
+    "employment": 2,
+    "legal": 2,
+    "mental-health": 3,
+    "seniors": 6,
+    "transportation": 0,
+    "utilities-phone-internet": 3,
+    "veterans": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2024/09/Five-County-Resource-Guide-2021.pdf",
+   "title": "211 Utah: Five County Resource Guide 2021 (updated September 2021)",
+   "kind": "211",
+   "categories": [
+    "children-pregnancy",
+    "education",
+    "employment",
+    "financial-assistance",
+    "food",
+    "homeless-services",
+    "housing",
+    "id-recovery",
+    "legal",
+    "medical-dental-vision",
+    "reentry-support",
+    "seniors",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "children-pregnancy": "stale (2021); same layout as the 2025 guide with a few extra entries",
+    "education": "stale (2021); same layout as the 2025 guide with a few extra entries",
+    "employment": "stale (2021); same layout as the 2025 guide with a few extra entries",
+    "financial-assistance": "stale (September 2021); the same short entries as the 2025 edition with a few older phone numbers",
+    "food": "stale (September 2021); the same short entries as the 2025 edition with a few older phone numbers",
+    "homeless-services": "stale (September 2021); the same short entries as the 2025 edition with a few older phone numbers",
+    "housing": "stale (September 2021); the same short entries as the 2025 edition with a few older phone numbers",
+    "id-recovery": "stale (September 2021); the same short entries as the 2025 edition with a few older phone numbers",
+    "legal": "stale; same entry",
+    "medical-dental-vision": "stale (September 2021); the same short entries as the 2025 edition with a few older phone numbers",
+    "reentry-support": "stale (September 2021); the same short entries as the 2025 edition with a few older phone numbers",
+    "seniors": "stale; same entries",
+    "utilities-phone-internet": "stale; same HEAT entry"
+   },
+   "namesFound": {
+    "children-pregnancy": 1,
+    "education": 1,
+    "employment": 2,
+    "financial-assistance": 9,
+    "food": 6,
+    "homeless-services": 4,
+    "housing": 7,
+    "id-recovery": 1,
+    "legal": 2,
+    "medical-dental-vision": 6,
+    "reentry-support": 1,
+    "seniors": 6,
+    "utilities-phone-internet": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2025/07/Five-County-Spanish-1.pdf",
+   "title": "211 Utah: Five County Resource Guide, July 2025 (Spanish edition; the English edition is 6-Five-County.pdf)",
+   "kind": "211",
+   "categories": [
+    "financial-assistance",
+    "food",
+    "homeless-services",
+    "housing",
+    "id-recovery",
+    "medical-dental-vision",
+    "reentry-support"
+   ],
+   "notes": {
+    "financial-assistance": "current (July 2025); three pages, names and phone numbers only, no addresses; covers five counties so most entries are Cedar City or other counties",
+    "food": "current (July 2025); three pages, names and phone numbers only, no addresses; covers five counties so most entries are Cedar City or other counties",
+    "homeless-services": "current (July 2025); three pages, names and phone numbers only, no addresses; covers five counties so most entries are Cedar City or other counties",
+    "housing": "current (July 2025); three pages, names and phone numbers only, no addresses; covers five counties so most entries are Cedar City or other counties",
+    "id-recovery": "current (July 2025); three pages, names and phone numbers only, no addresses; covers five counties so most entries are Cedar City or other counties",
+    "medical-dental-vision": "current (July 2025); three pages, names and phone numbers only, no addresses; covers five counties so most entries are Cedar City or other counties",
+    "reentry-support": "current (July 2025); three pages, names and phone numbers only, no addresses; covers five counties so most entries are Cedar City or other counties"
+   },
+   "namesFound": {
+    "financial-assistance": 12,
+    "food": 6,
+    "homeless-services": 4,
+    "housing": 7,
+    "id-recovery": 1,
+    "medical-dental-vision": 9,
+    "reentry-support": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://affordablehousingonline.com/housing-search/Utah/Washington-County",
+   "title": "AffordableHousingOnline: low-income apartments in Washington County, UT",
+   "kind": "aggregator",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "private aggregator; 20 properties with addresses and 'short wait' flags, no phones, undated; used only to find names because official housing lists are thin"
+   },
+   "namesFound": {
+    "housing": 18
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://feedam.org/resource/210465",
+   "title": "Feeding America (feedam.org) pantry listing for St. George",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "private aggregator; 7 entries, addresses only; used only to find names"
+   },
+   "namesFound": {
+    "food": 10
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://freeclinics.us/utah/saint-george/",
+   "title": "freeclinics.us: Free & Low-Cost Clinics in Saint George, UT",
+   "kind": "aggregator",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "private aggregator; 8 St. George clinics with addresses, no phones; used only to find names"
+   },
+   "namesFound": {
+    "medical-dental-vision": 6
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://directory.plentiful.org/utah/saint-george",
+   "title": "Plentiful food pantry directory: Saint George, UT",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "private aggregator; 11 St. George food entries with addresses, thin on phones and hours, some entries inactive; used only to find names"
+   },
+   "namesFound": {
+    "food": 13
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.probationinfo.org/reentry-resources/utah/",
+   "title": "probationinfo.org: Reentry Resources, Utah",
+   "kind": "aggregator",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "undated private aggregator; three southern Utah entries (Switchpoint, Iron County Care and Share, Justice By Objectives) and a statewide list that is mostly Wasatch Front"
+   },
+   "namesFound": {
+    "reentry-support": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.sesdofutah.gov/power-bill-payment-assistance",
+   "title": "South Utah Valley Electric Service District: Power Bill Payment Assistance",
+   "kind": "aggregator",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "a utility's own resource list for Utah County; lists HEAT, Office of Consumer Services, Dominion relief, the Utah Telephone Assistance Program and the Affordable Connectivity Program (ended); not a Washington County list"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://warriorsfund.org/zip/84790",
+   "title": "Warrior's Fund (Wounded Warriors) veteran directory, ZIP 84790",
+   "kind": "aggregator",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "aggregator; eight St. George entries, several with no phone; used only to name providers, none of its contact details were used"
+   },
+   "namesFound": {
+    "veterans": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.areaagencyonagingfivecounty.org/",
+   "title": "Five County Area Agency on Aging (Five County Association of Governments)",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current; names its programmes (case management, caregiver support, Medicare counselling SHIP, Benefits Enrollment Center, AmeriCorps Seniors) with extensions"
+   },
+   "namesFound": {
+    "seniors": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://swuhealth.gov/wp-content/uploads/2024/11/Birth-Cert-App-11-2024.pdf",
+   "title": "Southwest Utah Public Health Department: Birth Certificate Application (rev. 13 November 2024)",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "current-looking (Nov 2024); gives the St. George vital records phone, fees and the acceptable ID list; not a list of providers"
+   },
+   "namesFound": {
+    "id-recovery": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://swuhealth.gov/wp-content/uploads/2025/11/WC-Community-Health-Resources-10-2025.pdf",
+   "title": "Southwest Utah Public Health Department: Community Health Resources, Washington County (last revised 10.2025)",
+   "kind": "official",
+   "categories": [
+    "addiction",
+    "children-pregnancy",
+    "clothing-household",
+    "disability",
+    "domestic-violence",
+    "education",
+    "employment",
+    "financial-assistance",
+    "food",
+    "homeless-services",
+    "housing",
+    "id-recovery",
+    "immigration",
+    "legal",
+    "medical-dental-vision",
+    "mental-health",
+    "reentry-support",
+    "seniors",
+    "transportation",
+    "utilities-phone-internet",
+    "veterans"
+   ],
+   "notes": {
+    "addiction": "current (October 2025); about 12 pages with names, addresses, phones and one-line descriptions across aging, children, clothing, disability, domestic violence, education, employment, food, housing, legal, health, substance use and more; the best single list found for St. George",
+    "children-pregnancy": "current (October 2025); about 12 pages with names, addresses, phones and one-line descriptions across aging, children, clothing, disability, domestic violence, education, employment, food, housing, legal, health, substance use and more; the best single list found for St. George",
+    "clothing-household": "current (October 2025); about 12 pages with names, addresses, phones and one-line descriptions across aging, children, clothing, disability, domestic violence, education, employment, food, housing, legal, health, substance use and more; the best single list found for St. George",
+    "disability": "current (October 2025); about 12 pages with names, addresses, phones and one-line descriptions across aging, children, clothing, disability, domestic violence, education, employment, food, housing, legal, health, substance use and more; the best single list found for St. George",
+    "domestic-violence": "current (October 2025); about 12 pages with names, addresses, phones and one-line descriptions across aging, children, clothing, disability, domestic violence, education, employment, food, housing, legal, health, substance use and more; the best single list found for St. George",
+    "education": "current (October 2025); about 12 pages with names, addresses, phones and one-line descriptions across aging, children, clothing, disability, domestic violence, education, employment, food, housing, legal, health, substance use and more; the best single list found for St. George",
+    "employment": "current (October 2025); about 12 pages with names, addresses, phones and one-line descriptions across aging, children, clothing, disability, domestic violence, education, employment, food, housing, legal, health, substance use and more; the best single list found for St. George",
+    "financial-assistance": "current (Oct 2025); the best list for St. George; names, addresses, phones, one-line descriptions, some hours; a few entries stale (for example the HEAT website is now a parked domain, Salvation Army entries predate the August 2026 Washington City closure)",
+    "food": "current (Oct 2025); the best list for St. George; names, addresses, phones, one-line descriptions, some hours; a few entries stale (for example the HEAT website is now a parked domain, Salvation Army entries predate the August 2026 Washington City closure)",
+    "homeless-services": "current (Oct 2025); the best list for St. George; names, addresses, phones, one-line descriptions, some hours; a few entries stale (for example the HEAT website is now a parked domain, Salvation Army entries predate the August 2026 Washington City closure)",
+    "housing": "current (Oct 2025); the best list for St. George; names, addresses, phones, one-line descriptions, some hours; a few entries stale (for example the HEAT website is now a parked domain, Salvation Army entries predate the August 2026 Washington City closure)",
+    "id-recovery": "current (Oct 2025); the best list for St. George; names, addresses, phones, one-line descriptions, some hours; a few entries stale (for example the HEAT website is now a parked domain, Salvation Army entries predate the August 2026 Washington City closure)",
+    "immigration": "current but names no immigration service at all; only Southwest Adult High School (English classes) and legal aid",
+    "legal": "current (October 2025); about 12 pages by topic with address, phone, website and a line on each; the best single list for St. George and the county",
+    "medical-dental-vision": "current (Oct 2025); the best list for St. George; names, addresses, phones, one-line descriptions, some hours; a few entries stale (for example the HEAT website is now a parked domain, Salvation Army entries predate the August 2026 Washington City closure)",
+    "mental-health": "current (October 2025); about 12 pages by topic with address, phone, website and a line on each; the best single list for St. George and the county",
+    "reentry-support": "current (Oct 2025); the best list for St. George; names, addresses, phones, one-line descriptions, some hours; a few entries stale (for example the HEAT website is now a parked domain, Salvation Army entries predate the August 2026 Washington City closure)",
+    "seniors": "current (October 2025); about 12 pages by topic with address, phone, website and a line on each; the best single list for St. George and the county",
+    "transportation": "current (October 2025); about 12 pages by topic with address, phone, website and a line on each; the best single list for St. George and the county",
+    "utilities-phone-internet": "current (October 2025); about 12 pages by topic with address, phone, website and a line on each; the best single list for St. George and the county",
+    "veterans": "current (October 2025); about 12 pages by topic with address, phone, website and a line on each; the best single list for St. George and the county"
+   },
+   "namesFound": {
+    "addiction": 22,
+    "children-pregnancy": 25,
+    "clothing-household": 10,
+    "disability": 12,
+    "domestic-violence": 8,
+    "education": 9,
+    "employment": 7,
+    "financial-assistance": 12,
+    "food": 16,
+    "homeless-services": 12,
+    "housing": 9,
+    "id-recovery": 2,
+    "immigration": 1,
+    "legal": 2,
+    "medical-dental-vision": 17,
+    "mental-health": 21,
+    "reentry-support": 5,
+    "seniors": 14,
+    "transportation": 8,
+    "utilities-phone-internet": 6,
+    "veterans": 9
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.justice.gov/eoir/list-pro-bono-legal-service-providers",
+   "title": "U.S. Department of Justice (EOIR): List of Pro Bono Legal Service Providers, Salt Lake City immigration court",
+   "kind": "official",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "current federal list for people in removal proceedings; Utah entries are all in Salt Lake City; none in St. George"
+   },
+   "namesFound": {
+    "immigration": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.utcourts.gov/en/self-help/legal-help/finding-legal-help/legal-assist.html",
+   "title": "Utah Courts: Finding Legal Help",
+   "kind": "official",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "current; explains court-appointed lawyers, free legal help and low-cost lawyers; points to the Bar's lawyer directory"
+   },
+   "namesFound": {
+    "legal": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://corrections.utah.gov/probation-and-parole/",
+   "title": "Utah Department of Corrections: Probation and Parole",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "current; describes AP&P and Community Correctional Centers; gives the Hurricane office but no list of outside reentry providers"
+   },
+   "namesFound": {
+    "reentry-support": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://veterans.utah.gov/regional-offices/",
+   "title": "Utah Department of Veterans and Military Affairs: Regional Offices (Southern Utah Region)",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current (2026); names the Southern Utah Veterans Service Officers and the counties they cover, Washington included"
+   },
+   "namesFound": {
+    "veterans": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://train.jobs.utah.gov/jobseeker/veterans/vetresourceguide.pdf",
+   "title": "Utah Department of Workforce Services: Veteran Resource Guide",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "stale; statewide, gives the St. George VA clinic and Vet Center at old addresses"
+   },
+   "namesFound": {
+    "veterans": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://daas.utah.gov",
+   "title": "Utah DHHS Aging and Adult Services",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current; statewide programmes (Adult Protective Services, ombudsman) and the link to area agencies on aging"
+   },
+   "namesFound": {
+    "seniors": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/legal-assistance-integration-support",
+   "title": "Utah DHHS Maternal and Infant Health Program: Legal assistance and integration support (updated 08/18/2026)",
+   "kind": "official",
+   "categories": [
+    "immigration",
+    "legal"
+   ],
+   "notes": {
+    "immigration": "current (August 2026); statewide immigration legal providers by phone or online, then county sections; its Beaver/Garfield/Iron/Kane/Washington section lists no immigration provider at all",
+    "legal": "current (August 2026); statewide legal providers plus a 'Beaver, Garfield, Iron, Kane and Washington Counties' section that names only the Southern Utah Bar Association clinic"
+   },
+   "namesFound": {
+    "immigration": 12,
+    "legal": 7
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/mental-health-substance-use",
+   "title": "Utah DHHS Maternal and Infant Health Program: Mental health and substance use resources (updated 05/18/2026)",
+   "kind": "official",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "current (May 2026); a strong statewide list of hotlines and warm lines plus a Washington County section naming Family Healthcare, Four Points, Southwest Behavioral Health Center and two opioid clinics"
+   },
+   "namesFound": {
+    "mental-health": 11
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/transportation",
+   "title": "Utah DHHS Maternal and Infant Health Program: Transportation resources (updated 08/10/2026)",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current (August 2026); statewide ride programmes plus a Washington County section naming Community Action, the Salvation Army, Switchpoint and a car-seat programme"
+   },
+   "namesFound": {
+    "transportation": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://commerce.utah.gov/dpu/home-energy-assistant-target-program/",
+   "title": "Utah Division of Public Utilities: HEAT and SB 288 bill assistance",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current; says low-income Rocky Mountain Power and Dominion customers get extra credits and apply through HEAT at Workforce Services"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://medicaid.utah.gov/non-emergency-transportation/",
+   "title": "Utah Medicaid: Non-Emergency Medical Transportation",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current; explains Medicaid ride options by area and gives ModivCare's number"
+   },
+   "namesFound": {
+    "transportation": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/wp-content/uploads/Statewide-Substance-Use-Disorder-Resources-by-Local-Health-Department1.pdf",
+   "title": "Utah Medical Home Portal / local health departments: Substance use disorder resources, Southwest Utah Public Health Department page (v4, 10 July 2023)",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "dated July 2023; 9 St. George and Cedar City treatment providers with services and insurance; some addresses and phones now differ from providers' own pages"
+   },
+   "namesFound": {
+    "addiction": 9
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/employment-financial-assistance",
+   "title": "Utah Medical Home Portal: Maternal Resource Guide, Employment and financial assistance",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "state page; statewide programmes and a line saying LDS employment resource services operate in the St. George area; no St. George addresses"
+   },
+   "namesFound": {
+    "employment": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://commerce.utah.gov/ocs/assistance-programs/telecommunication-assistance/",
+   "title": "Utah Office of Consumer Services: Telecommunication Assistance Programs (Lifeline)",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current; explains Lifeline phone and internet discounts and how to apply; names no local provider"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://schools.utah.gov/adulteducation/_adult_education_/frequentlyaskedquestions/ProgramDirectory.pdf",
+   "title": "Utah State Board of Education: Adult Education Program Directory",
+   "kind": "official",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "state directory of every adult education site; St. George has one entry (Washington School District Adult Education) plus the county jail programme"
+   },
+   "namesFound": {
+    "education": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://coa.washco.utah.gov/",
+   "title": "Washington County Council on Aging: senior centres in St. George, Hurricane and Enterprise",
+   "kind": "official",
+   "categories": [
+    "seniors",
+    "transportation"
+   ],
+   "notes": {
+    "seniors": "current (2026 copyright); hours, phone, meals, Meals on Wheels and Dial-a-Ride for each centre",
+    "transportation": "current (2026 copyright); gives each centre's Dial-a-Ride hours, donation and booking phone"
+   },
+   "namesFound": {
+    "seniors": 3,
+    "transportation": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.washco.utah.gov/wp-content/uploads/jc/pdf/sb/agency-referral-information.pdf",
+   "title": "Washington County Justice Court: Agency Referral Information (13 May 2025)",
+   "kind": "official",
+   "categories": [
+    "addiction",
+    "reentry-support"
+   ],
+   "notes": {
+    "addiction": "current (May 2025); court-approved counseling, education and probation agencies with address and phone only; built for court referrals, so it mixes treatment with classes and probation",
+    "reentry-support": "current (May 2025); court-approved treatment, counselling, probation and class providers in St. George; not a reentry list, but the only county source"
+   },
+   "namesFound": {
+    "addiction": 16,
+    "reentry-support": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/corrections_srp",
+   "title": "Church ICP: Corrections - Just Released",
+   "kind": "regional",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "undated; one entry relevant to St. George (Sober Living Properties, with a Salt Lake phone)"
+   },
+   "namesFound": {
+    "reentry-support": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.sbhc.us/",
+   "title": "Southwest Behavioral Health Center: website (locations)",
+   "kind": "regional",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "current; the public mental health authority for five counties; gives its Washington County, Hurricane and administrative addresses"
+   },
+   "namesFound": {
+    "mental-health": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://uploads-ssl.webflow.com/5ec7191c61b6ee3dc35c6c52/63e1dfefa5eca900fd96d59a_5th%20District%20Victim%20Resources%202023.pdf",
+   "title": "Supportive Services, 5th District (Beaver, Iron and Washington Counties), Timpanogos Legal Center for the Utah Office for Victims of Crime (updated 30 January 2023)",
+   "kind": "regional",
+   "categories": [
+    "domestic-violence",
+    "employment"
+   ],
+   "notes": {
+    "domestic-violence": "fairly current (January 2023); shelters, hotlines and a list of named police and county victim advocates for each city, with phones; some of the people named may have changed",
+    "employment": "fairly current (January 2023); employment section has three entries with St. George phones"
+   },
+   "namesFound": {
+    "domestic-violence": 15,
+    "employment": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahimmigration.wordpress.com/",
+   "title": "Utah Immigration Collaborative (referral network of immigration legal providers)",
+   "kind": "regional",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "current; names the member providers (Comunidades Unidas, Catholic Community Services, Holy Cross Ministries, IRC and others), all on the Wasatch Front"
+   },
+   "namesFound": {
+    "immigration": 6
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.washk12.org/special-education/wp-content/uploads/sites/7/2026/04/Common-Parent-Resources-List.docx",
+   "title": "Washington County School District Special Education: Common Parent Resources List (updated February 2026)",
+   "kind": "regional",
+   "categories": [
+    "children-pregnancy",
+    "disability",
+    "employment"
+   ],
+   "notes": {
+    "children-pregnancy": "current (2026); used here only to confirm that Kids on the Move has left St. George",
+    "disability": "current (2026); about 50 entries for families of people with disabilities in St. George: statewide rights and benefit services, autism and therapy providers, group homes and supported living, work help, assistive technology; says plainly which providers no longer have a St. George site",
+    "employment": "current (2026); work-related services section gives the Workforce Services office hours and the vocational rehabilitation intake number"
+   },
+   "namesFound": {
+    "children-pregnancy": 1,
+    "disability": 24,
+    "employment": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.washk12.org/wp-content/uploads/sites/8/2023/04/wash_county_resource_list_july2014.pdf",
+   "title": "Washington County School District: Washington County resource list (July 2014)",
+   "kind": "regional",
+   "categories": [
+    "clothing-household",
+    "financial-assistance",
+    "food",
+    "homeless-services",
+    "housing",
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "clothing-household": "stale (2014); a family-needs list with a Clothing Issues section of five thrift and voucher entries; several no longer match current addresses",
+    "financial-assistance": "stale (2014); used only to see which agencies have existed a long time; not used for contact details",
+    "food": "stale (2014); used only to see which agencies have existed a long time; not used for contact details",
+    "homeless-services": "stale (2014); used only to see which agencies have existed a long time; not used for contact details",
+    "housing": "stale (2014); used only to see which agencies have existed a long time; not used for contact details",
+    "medical-dental-vision": "stale (2014); used only to see which agencies have existed a long time; not used for contact details"
+   },
+   "namesFound": {
+    "clothing-household": 6,
+    "financial-assistance": 2,
+    "food": 3,
+    "homeless-services": 5,
+    "housing": 2,
+    "medical-dental-vision": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  }
+ ],
+ "gaps": {
+  "addiction": "Not thin: the county health department's October 2025 list and the Justice Court's May 2025 list name about 25 St. George providers, and the state's Southwest Utah treatment page adds insurance details. Weak spots: the lists disagree on addresses and phones (New Season has moved since the 2023 state list; Renaissance has three addresses; Steps has two phones), several providers' own sites would not load (Southwest Behavioral Health 403, Steps 500, AA certificate error), and the Justice Court list mixes treatment with court classes and probation, which were not recorded as addiction providers. 211 Utah's search pages could not be read, only single provider records. Not recorded because they came only from search results and not from a list read: the Washington County crisis stabilization centre in Hurricane, BrookStone, Phoenix Recovery and Turning Leaf Wellness; Scout would still need to check those.",
+  "children-pregnancy": "Fairly good for Washington County: the county health department's October 2025 list has a Children/Youth section with about a dozen St. George entries, and the 211 guides add Head Start and WIC. Thin on practical help for a pregnant woman or new mother (diapers, baby gear, car seats, prenatal Medicaid help): only The Well, WIC and Root for Kids appear, and the Utah Diaper Bank has handed its work to the Utah Food Bank (its page gives no St. George details). Lists mix in abuse-investigation and autism therapy entries that do not fit. The Utah Diaper Program, DWS child care assistance (its page returned a server error), CHIP and Medicaid sign-up and school-district family services were not on a list read. Several phones differ between the lists and the providers' own pages (Well, PCA, SUU Head Start).",
+  "clothing-household": "Thin. The only current local list with a clothing section is the county health department's October 2025 list, which names five thrift stores (Deseret Industries, Hope Chest, the Catholic thrift store and two Switchpoint stores) and none that gives clothing away free. The Washington County School District list is from 2014. Free clothing closets, household furnishings, beds, kitchen items and furniture banks appear on no list read for St. George. Not recorded because they were not on a list read: Habitat for Humanity ReStore (Hurricane), Goodwill and ward or church clothing closets. 211 Utah's search could not be read, so only single provider records (LDS Transitional Services) could be used. Scout would still need to search for free clothing and furniture help here.",
+  "disability": "Adequate but uneven. The county list's disability section has only five entries, and the school district's February 2026 parent list is the real find: it names about 25 St. George providers and says which have left. Most of the autism and group-home providers are private or DSPD-funded and the DSPD waiting list is long, which a missionary should know. Not covered: wheelchair and equipment loans beyond UATF, services for the blind (only through USOR), housing for people with disabilities, Social Security help beyond the SSA office, respite for caregivers beyond Family Support Center. A providers' site was down or taken over for several (Autism Support Group, Special Needs Registry); the 211 search could not be read.",
+  "domestic-violence": "Moderate. Domestic violence has one real local agency, the DOVE Center, plus the statewide LINKLine, a forensic exam service and city police victim units; the lists name no second shelter in Washington County (Canyon Creek and Care and Share are in Cedar City, Short Creek Dream Center in Hildale is a recovery programme). The 5th District list names individual advocates who may have moved. DOVE's own page gives a different street from the county list and says services are currently delivered through technology, so a missionary should phone before sending anyone. Not on any list read: counselling or support groups for survivors beyond DOVE, protective-order clinics, and the Utah Crime Victim Reparations page (404). 211 search pages could not be read.",
+  "education": "Thin for adults. The county list has six education entries and the 211 guides one (Utah Adult Education Services); the state directory confirms that Southwest Adult High School is the only adult education site in St. George, and its hours are short (Monday-Thursday only). Not found on any list: free tutoring, library literacy programmes, Spanish-language adult classes beyond the GED, scholarship help for low-income adults, and church or community education programmes. The 211 search could not be read, and no list of tutoring or after-school help for children was found.",
+  "employment": "Thin on specific local help. St. George has one state job centre, one vocational rehabilitation office and the Church's employment centre, and the lists add little else: no job-training nonprofit, no free work-clothing closet beyond what DWS offers, no resume or interview classes, no refugee or reentry employment help, and no day-labour or staffing options. The Workforce Services site gave no office details (the county and school district lists did) and the Church's own page would not load, so the employment centre phone rests on a 2023 list. The 211 search could not be read. Scout would still need to look for training programmes and employers who hire people with barriers.",
+  "financial-assistance": "Very thin. The official health department list has no 'financial assistance' section at all; the 211 guides' financial section holds only national or Salt Lake lines (Money Management International, Fair Credit Foundation, VITA, Office of Recovery Services). The local help that exists is rent and utilities through Five County Community Action, Switchpoint and HEAT, plus DWS cash benefits. The HEAT website is a parked domain and the Utah DWS HEAT page failed, so its contact rests on two lists agreeing. The Salvation Army, Red Cross, St. Vincent de Paul and church benevolence funds could not be verified from their own pages; the Salvation Army Washington City centre closed in August 2026. Scout would need to find parish and church benevolence programmes, local charity funds and utility-company hardship funds.",
+  "food": "Thin. St. George has no single food-pantry list that is current and complete: the health department's Oct 2025 list names about 8 food providers; 211's July 2025 guide is three pages of phone numbers; Utah Food Bank's find-a-pantry page showed only its own Southern Distribution Center to my reader, and its 34 partner pantries are not itemised on a page I could read. Church pantries beyond the Catholic parish and Solomon's Porch, and the Washington County school and Hildale/Washington City mobile pantries, appear only on aggregators with changing dates. The Salvation Army pantry in Washington closed in August 2026, so the official list is already stale. Switchpoint's pages omit phones and hours, and sources disagree on its pantry address. Scout would still have to find churches and small pantries in Washington, Ivins, Santa Clara, Hurricane and LaVerkin, and check current mobile-pantry dates.",
+  "homeless-services": "Thin but concentrated: St. George's homeless services are essentially Switchpoint (shelter), Youth Futures (youth), the DOVE Center (domestic violence), Five County Community Action (rapid rehousing and coordinated entry) and the school district liaison. The health department list gives one 'Emergency Housing' section with two entries. No Washington County homeless coordinating council page or coordinated entry page could be found online. Switchpoint's site has no phone numbers, and sources differ on Youth Futures' phone and the DOVE Center's address. Scout would need to find day centres, warming and cooling stations, motel vouchers, church programmes and veteran supportive housing in Washington County, none of which appeared on any list I could read.",
+  "housing": "Thin. The health department list's Housing section has only two entries (Five County housing assistance and the St. George Housing Authority); the 211 guides add Switchpoint, Habitat, Community Action and Utah Legal Services, but with phones only. The Housing Authority's Section 8 list is closed until 2028, and I could not confirm whether the Housing Authority of Washington County (the county programme the aggregator mentions) exists separately. Nothing lists church or landlord programmes, deposit funds, or senior and disability housing with phone numbers: the 20 apartment properties I recorded come from a private aggregator with no phones, so they are all 'unclear'. Scout would need to find the properties' own pages and phones, USDA Rural Development, and any senior housing in Washington County.",
+  "id-recovery": "Very thin, and not because ID help is missing: no local list has an ID category at all. The health department list, the 211 guides and the school list say nothing about birth certificates, driver licence/ID cards or Social Security cards, so every entry here was found by searching, one agency at a time, and checked on the agency's own page or its 211 provider page. The Utah Driver License Division's page for homeless applicants and the vital records fee waiver could not be read in detail, and no local agency (Switchpoint, DOVE, the Doctors' Volunteer Clinic) states it helps people pay for ID. The DLD office for St. George is in Hurricane. Scout would need to find who in St. George covers ID fees (Switchpoint, church or Catholic Community Services), the passport acceptance facility, immigration documents and replacement papers for people who lost everything in a fire or on the street.",
+  "immigration": "Very thin. No list (county health department, 211's Five County guide, the state legal list or the federal EOIR list) names an immigration provider in St. George or Washington County. Every real immigration lawyer or accredited representative found is in Salt Lake City, West Valley City or Ogden; I could confirm a statewide help line and a few phone or online options but not that any Wasatch Front office takes clients from St. George, so those are marked unclear. The only local items are English classes at the adult high school and a new volunteer group (Manos Amigas Utah, known only from a news report, no contact details). Given the 2026 enforcement surge reported in Washington County, this is where Scout's own search matters most: local church and parish ministries, Spanish-language community groups, and any Southern Utah accredited representative.",
+  "legal": "Thin. Local, human-kept lists name only one local legal provider, Utah Legal Services' St. George office (also called the Southern Utah Community Legal Center), and its phone clinic with the Southern Utah Bar Association. Everything else is a statewide phone or online service listed by the state or 211, so a St. George resident can use it but nobody local runs it. The state's Modest Means lawyer referral is paused, the People's Legal Aid website appears hijacked, and Utah Free Legal Answers and the Bar's lawyer search would not load. No list covers private low-cost St. George lawyers, a legal clinic at the library or court, tenant or consumer groups, or help for a specific need such as expungement or guardianship; Scout's own search would have to find those.",
+  "medical-dental-vision": "Medium-thin. The health department list has a proper Medical/Dental/Vision section, but it holds only about 10 entries, and one of the best (the VA clinic) has moved since it was printed. There are three real low-cost front doors in St. George (Doctors' Volunteer Clinic, Family Healthcare, Four Points Health) plus the Utah Tech dental hygiene clinic. Vision is thin: the only low-cost eye care named is at the Doctors' Volunteer Clinic and Family Healthcare (optometry); no Lions or other eyeglass programme was found for Washington County. Dental is thin beyond the clinics. Fees and hours are missing on most pages; NeedyMeds, the Utah Health Policy Project and Planned Parenthood could not be read. Scout would need to look for eye care, low-cost dentists, hearing, and prescription help.",
+  "mental-health": "Good for hotlines and community clinics; mixed for private care. The county sheet and 211's St. George provider pages together name about thirty local behavioral health providers, and the state's May 2026 list adds a solid set of statewide lines. But the county sheet is partly stale (it gives an old NAMI text number, an old Crimson Heights address and site, and an old address for LDS Family Services), several 211 entries have no phone or address in their text (Bridgeway, Chrysalis, Utah Behavior Services), and most private practices appear on no list at all, so there is no way to say how many therapists in St. George take Medicaid or sliding-scale clients. No list covers school-based counselling, Utah Tech's student counselling, church or bishop-led support groups beyond LDS Family Services, peer recovery groups other than the suicide-loss group, or grief and postpartum groups in St. George; Scout's own search would have to find those. The county sheet files addiction providers under Substance Use, so I left them (Hope Rising, High Desert, Steps, Lions Gate and others) to the addiction list.",
+  "reentry-support": "Very thin. No local list is about reentry. St. George has no reentry nonprofit that appears on any official list; the county justice court list covers court-approved classes and treatment, the health department list has none, and the only 'reentry' tags (probationinfo.org) point to Switchpoint and a Justice By Objectives whose website no longer resolves. The real local doors are housing and addiction providers (Access Foundation sober living is the one that names people leaving incarceration), Switchpoint, DWS employment, and statewide expungement help (Clean Slate Utah, the courts self-help centre). Adult Probation and Parole is in Hurricane and is supervision, not a service. Scout would have to find employers who hire people with records, reentry mentoring, ID and clothing help for people just released, and the Washington County jail's release resources.",
+  "seniors": "Fairly good for the core, thin around it. The county sheet, the county Council on Aging site and the Five County Area Agency on Aging give St. George seniors a solid set of real front doors: the agency, the Active Life Centers, Meals on Wheels, Dial-a-Ride, the helplines and employment for over-55s. But the county sheet is stale in places (Memory Matters Utah closed in March 2026; the senior centre number changed) and 211's Five County guide adds only the agency. No list names private or low-cost home care, adult day care, assisted living, dementia care, respite, senior housing, a legal clinic for seniors, hospice or the many church and volunteer senior programmes; Scout's own search would have to find those. Utah Legal Services also serves seniors but sits under legal.",
+  "transportation": "Fairly thin. Two dated lists cover St. George transportation: the county health department's October 2025 sheet (SunTran, Dial-a-Ride, the gas voucher, two shuttle and taxi firms, Salt Lake Express) and the state's August 2026 maternal-health transportation list, which adds the Salvation Army and Switchpoint bus and gas help. It misfiles the veterans heading under Transportation and gives an old SunTran number (the city's own page gives another). The Council on Aging pages added Hurricane's Dial-a-Ride and the state Medicaid page added the ride benefit for Medicaid members; both come from official sites, not from any list. 211's Five County guide has nothing on transportation, and its search returns mostly Wasatch Front providers. No list covers church or volunteer ride programmes, free rides to dialysis or cancer treatment, Greyhound or other intercity buses, car repair help or ride apps; Scout's own search would have to find those.",
+  "utilities-phone-internet": "Thin. Utility help in St. George rests on three real programmes: Five County's HEAT, the Salvation Army's one-time bill payment, and weatherization. There is no local list of phone or internet help at all: the county sheet names only Comcast Internet Essentials and the Emergency Broadband Benefit, which ended, and the state's Lifeline page names no provider, so a missionary has to pick one with the client. The HEAT website named on both the county sheet and the Five County site is a parked domain, and the county sheet's HEAT address is old, so the 211 page is the reliable record. No list covers the city utility's hardship fund, water-bill help, church or Bishops' Storehouse bill payment, or Dixie/phone cooperatives; Scout's own search would have to find them.",
+  "veterans": "Thin. Only four dated, human-kept lists name veteran services in St. George: the county health department's October 2025 sheet, the state veterans department's regional page, the 211 provider pages and the state workforce guide (stale). All of them lead to the same handful of real front doors: the state Veteran Service Officers, the Vet Center, the VA clinic, the Veterans Home and the crisis line. The county list's own 'Veterans Services' heading is misplaced under Transportation and lists mostly out-of-area groups (Ogden, Iowa, Las Vegas). No official list names the local American Legion posts, VFW, DAV chapter or the county veterans office; they appear only on private aggregators (checked against nothing current), so they are marked unclear. Scout would still have to find local veteran charities and church-based help."
+ }
+}

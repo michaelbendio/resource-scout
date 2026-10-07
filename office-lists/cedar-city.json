@@ -1,0 +1,646 @@
+{
+ "office": {
+  "slug": "cedar-city",
+  "name": "Cedar City"
+ },
+ "about": "Lists of local providers for Cedar City, Utah and Iron County (Enoch, Parowan reachable), found 6 October 2026 under brief-lists-only-20261003. Lists only: no provider names recorded as resources, no office-fit rules, no provider pages checked. Statewide Utah lists (211 Utah DHHS directory pages, Utah Legal Services, DLD, vitalrecords, jobs.utah.gov fee waiver, Commerce telecom assistance, veterans.utah.gov, mihp maternal guide, utcourts legal clinics, Lifeline) are already in ogden.json (statewide, see ogden.json) and are not repeated here. St. George (Washington County, about 50 minutes away) is in st-george.json; the 211 Five County guides and the Timpanogos 5th District list appear in both files because they cover both counties. Iron County has no 211 county list of its own: 211 Utah folds it into the Five County guide. Its only county-specific, regularly updated list is the Southwest Utah Public Health Department's Iron County Community Health Resources (October 2025, English and Spanish). Looked at and rejected: the Sixth District Community Resource Guide (utcourts.gov, 2013), which covers Garfield, Kane, Piute, Sanpete, Sevier and Wayne and not Iron; an 'Iron County resources' PDF at mineralarea.edu, which is Missouri; wislawhelp.org and co.iron.wi.gov, Wisconsin; SUU's 2018 'Resource Guide for Living in Cedar City', which is shops and restaurants, not services. Not found as lists: Cedar City Corporation (no resource page found), Iron County government beyond the senior centres and the Sheriff's page, an Iron County homeless coordinating council list (the council exists, chaired from the Cedar City Council with Care and Share as co-chair, but no published provider list found), a United Way list beyond 211, Five County Association of Governments (its site has program pages but no directory). Provider pages (Care and Share, Canyon Creek, 211 provider pages) were not recorded.",
+ "lists": [
+  {
+   "url": "https://swuhealth.gov/wp-content/uploads/2025/11/IC-Community-Health-Resources-10-2025.pdf",
+   "title": "Southwest Utah Public Health Department: Community Health Resources, Iron County, October 2025 (English)",
+   "kind": "official",
+   "categories": [
+    "seniors",
+    "children-pregnancy",
+    "clothing-household",
+    "disability",
+    "domestic-violence",
+    "education",
+    "homeless-services",
+    "employment",
+    "food",
+    "housing",
+    "legal",
+    "medical-dental-vision",
+    "mental-health",
+    "addiction",
+    "transportation",
+    "utilities-phone-internet",
+    "veterans",
+    "financial-assistance"
+   ],
+   "notes": {
+    "seniors": "current (Oct 2025); Aging block about 6 entries (Cedar City Senior Center, Area Agency on Aging, home health, one St. George firm)",
+    "children-pregnancy": "current; Children/Youth block about 9 entries (crisis line, DCFS, childcare, pediatrics, autism and early intervention); no pregnancy section as such",
+    "clothing-household": "current; Clothing block about 8 entries (thrift stores, Care and Share, LDS Transitional Services)",
+    "disability": "current; about 4 entries plus Red Rock Center and Vocational Rehabilitation named elsewhere",
+    "domestic-violence": "current; thin, about 2 entries (Canyon Creek Services, Utah Domestic Violence Coalition)",
+    "education": "current; about 8 entries (school district, SUU, Southwest Technical College, Head Start, USU Extension)",
+    "homeless-services": "current; Emergency Housing block, 1-2 entries (Canyon Creek Services); Care and Share shelter appears under Housing",
+    "employment": "current; about 5 entries (DWS, Deseret Industries, LDS Employment, Vocational Rehabilitation)",
+    "food": "current; about 8 entries (SUU Hope Pantry, Full Cart, Care and Share, LDS Transitional Services, Meals on Wheels, True Life Center) plus a Holiday Needs block of about 3",
+    "housing": "current; about 4 entries (Cedar City Housing Authority, Five County CAP, Care and Share, Paiute Housing Authority)",
+    "legal": "current; thin, about 1-2 entries",
+    "medical-dental-vision": "current; about 12 entries (Four Points, Family Healthcare, Intermountain clinic, Parowan clinic, Medicaid application help, the health department)",
+    "mental-health": "current; about 6 entries (Intermountain Access Center, Family Healthcare, Southwest Behavioral Health, crisis and Trevor lines)",
+    "addiction": "current; Substance Abuse block about 7 entries (recovery programs, support groups, LDS Family Services, NA)",
+    "transportation": "current; about 5 entries (CATS, Five County gas vouchers, taxis, Salt Lake Express)",
+    "utilities-phone-internet": "current; about 5 entries (HEAT, Weatherization, Five County, Salvation Army, Emergency Broadband Benefit which has ended)",
+    "veterans": "current; thin, about 2 entries (American Legion, DWS)",
+    "financial-assistance": "partial; a Humanitarian Organizations block of about 2 (Red Cross, regional), otherwise folded into Housing and Utilities"
+   },
+   "readable": "yes (PDF, 11 pages, read as text)",
+   "namesFound": {
+    "seniors": 6,
+    "children-pregnancy": 9,
+    "clothing-household": 8,
+    "disability": 4,
+    "domestic-violence": 2,
+    "education": 8,
+    "homeless-services": 2,
+    "employment": 5,
+    "food": 11,
+    "housing": 4,
+    "legal": 2,
+    "medical-dental-vision": 12,
+    "mental-health": 6,
+    "addiction": 7,
+    "transportation": 5,
+    "utilities-phone-internet": 5,
+    "veterans": 2,
+    "financial-assistance": 2
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://swuhealth.gov/wp-content/uploads/2025/11/IC-SPN-Community-Health-Resources-10-2025.pdf",
+   "title": "Southwest Utah Public Health Department: Recursos de Salud Comunitaria, Condado Iron, October 2025 (Spanish edition of the same list)",
+   "kind": "official",
+   "categories": [
+    "seniors",
+    "children-pregnancy",
+    "clothing-household",
+    "food",
+    "housing",
+    "medical-dental-vision",
+    "mental-health",
+    "addiction"
+   ],
+   "notes": {
+    "seniors": "Spanish edition of the English October 2025 list; same sections (10 pages); a second copy, not an independent list",
+    "children-pregnancy": "Spanish edition of the English October 2025 list; same sections (10 pages); a second copy, not an independent list",
+    "clothing-household": "Spanish edition of the English October 2025 list; same sections (10 pages); a second copy, not an independent list",
+    "food": "Spanish edition of the English October 2025 list; same sections (10 pages); a second copy, not an independent list",
+    "housing": "Spanish edition of the English October 2025 list; same sections (10 pages); a second copy, not an independent list",
+    "medical-dental-vision": "Spanish edition of the English October 2025 list; same sections (10 pages); a second copy, not an independent list",
+    "mental-health": "Spanish edition of the English October 2025 list; same sections (10 pages); a second copy, not an independent list",
+    "addiction": "Spanish edition of the English October 2025 list; same sections (10 pages); a second copy, not an independent list"
+   },
+   "readable": "yes (PDF, text read)",
+   "namesFound": {},
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://swuhealth.gov/wp-content/uploads/2025/04/SPN-Community-Health-Resources-IC_2025-4-28.pdf",
+   "title": "Southwest Utah Public Health Department: Recursos de Salud Comunitaria, Condado Iron, 28 April 2025 (Spanish, older edition)",
+   "kind": "official",
+   "categories": [
+    "seniors",
+    "children-pregnancy",
+    "food",
+    "housing",
+    "medical-dental-vision",
+    "mental-health"
+   ],
+   "notes": {
+    "seniors": "older (April 2025) Spanish edition, 8 pages; superseded by the October 2025 edition",
+    "children-pregnancy": "older (April 2025) Spanish edition, 8 pages; superseded by the October 2025 edition",
+    "food": "older (April 2025) Spanish edition, 8 pages; superseded by the October 2025 edition",
+    "housing": "older (April 2025) Spanish edition, 8 pages; superseded by the October 2025 edition",
+    "medical-dental-vision": "older (April 2025) Spanish edition, 8 pages; superseded by the October 2025 edition",
+    "mental-health": "older (April 2025) Spanish edition, 8 pages; superseded by the October 2025 edition"
+   },
+   "readable": "yes (PDF, first lines read; PDF title says Spanish Community Health Resources, IC)",
+   "namesFound": {},
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2025/07/6-Five-County.pdf",
+   "title": "211 Utah / United Way: Five County Resource Guide 2025 (Beaver, Garfield, Iron, Kane, Washington; 2 pages, made June 2025)",
+   "kind": "211",
+   "categories": [
+    "food",
+    "housing",
+    "homeless-services",
+    "financial-assistance",
+    "disability",
+    "utilities-phone-internet",
+    "legal",
+    "employment",
+    "seniors",
+    "children-pregnancy",
+    "medical-dental-vision",
+    "domestic-violence"
+   ],
+   "notes": {
+    "food": "current (2025); about 5 entries, Care and Share listed per county with the Cedar City number",
+    "housing": "current; about 5 entries (Housing Authority with a Cedar City number, Community Action, Weatherization, Habitat)",
+    "homeless-services": "current but St. George centred (Switchpoint); Iron County gets the Care and Share and Community Action numbers only",
+    "financial-assistance": "current; Rental Assistance block, about 3 entries (Community Action Cedar City)",
+    "disability": "current; about 3 entries (Red Rock Center, Cedar City number)",
+    "utilities-phone-internet": "current; Utility Assistance block, about 4 entries",
+    "legal": "current; Legal Services block, 2-3 entries",
+    "employment": "current; Employment block, about 3 entries",
+    "seniors": "current; Senior Citizen Services block, about 3 entries",
+    "children-pregnancy": "current; Parenting and Family Services and an unplanned-pregnancy block, about 5 entries",
+    "medical-dental-vision": "current; a few clinic entries (Family Healthcare etc.)",
+    "domestic-violence": "current; abuse and neglect reporting lines only, about 3 entries"
+   },
+   "readable": "yes (PDF, text read)",
+   "namesFound": {
+    "food": 5,
+    "housing": 5,
+    "financial-assistance": 3,
+    "disability": 3,
+    "utilities-phone-internet": 4,
+    "legal": 3,
+    "employment": 3,
+    "seniors": 3,
+    "children-pregnancy": 5
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2025/07/Five-County-Spanish-1.pdf",
+   "title": "211 Utah: Five County Resource Guide, July 2025 (Spanish edition)",
+   "kind": "211",
+   "categories": [
+    "food",
+    "housing"
+   ],
+   "notes": {
+    "food": "Spanish edition of the 2025 Five County guide; not independent",
+    "housing": "same"
+   },
+   "readable": "seen only as a link on 211utah.org/printable-resource-lists; not opened",
+   "namesFound": {},
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2024/09/Five-County-Resource-Guide-2021.pdf",
+   "title": "211 Utah: Five County Resource Guide 2021 (updated 16 December 2021, 2 pages)",
+   "kind": "211",
+   "categories": [
+    "domestic-violence",
+    "food",
+    "mental-health",
+    "medical-dental-vision",
+    "education",
+    "employment",
+    "children-pregnancy",
+    "seniors",
+    "homeless-services",
+    "housing",
+    "addiction",
+    "utilities-phone-internet",
+    "legal",
+    "financial-assistance"
+   ],
+   "notes": {
+    "domestic-violence": "older (2021); Abuse, Neglect and Sexual Assault block, a few entries",
+    "food": "older; Food Assistance block",
+    "mental-health": "older; Counseling and Mental Health plus Crisis/Suicide Prevention blocks",
+    "medical-dental-vision": "older; Healthcare block",
+    "education": "older; Educational Services for Adults block",
+    "employment": "older; Employment Services block",
+    "children-pregnancy": "older; Parenting and Family Services block",
+    "seniors": "older; Senior Citizen Services block",
+    "homeless-services": "older; Shelter and Housing Services block",
+    "housing": "older; Shelter and Housing Services block",
+    "addiction": "older; Substance Use Disorder and Addiction Treatment block",
+    "utilities-phone-internet": "older; Utility Assistance block",
+    "legal": "older; Legal Services block",
+    "financial-assistance": "older; Financial Assistance block"
+   },
+   "readable": "yes (PDF, text read; about 15 mentions of Cedar City or Iron)",
+   "namesFound": {},
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2024/09/Spanish-Five-County-Resource-Guide-2021.pdf",
+   "title": "211 Utah: Five County Resource Guide 2021 (Spanish edition)",
+   "kind": "211",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "Spanish edition of the 2021 guide; not independent"
+   },
+   "readable": "seen only in a search result; not opened",
+   "namesFound": {},
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://211utah.org/printable-resource-lists/",
+   "title": "211 Utah: Printable Resource Lists (index of county lists)",
+   "kind": "211",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "index only: Iron County has no list of its own; it points to the Five County guide, same file as Washington County. Page says the lists are 'continuously being updated'"
+   },
+   "readable": "yes (page read via fetch tool)",
+   "namesFound": {},
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://uploads-ssl.webflow.com/5ec7191c61b6ee3dc35c6c52/63e1dfefa5eca900fd96d59a_5th%20District%20Victim%20Resources%202023.pdf",
+   "title": "Timpanogos Legal Center: Supportive Services, 5th District (Beaver, Iron, Washington), updated 30 January 2023",
+   "kind": "regional",
+   "categories": [
+    "addiction",
+    "mental-health",
+    "employment",
+    "domestic-violence",
+    "food",
+    "housing",
+    "homeless-services",
+    "financial-assistance",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "addiction": "about 3 entries; 2023",
+    "mental-health": "about 5 entries, crisis lines and Southwest Behavioral Health with an Iron County number",
+    "employment": "about 3 entries (DWS, LDS Employment Cedar City, Rehabilitation Services Cedar City)",
+    "domestic-violence": "about 4 shelters, two in Cedar City (Canyon Creek, Care and Share shelter)",
+    "food": "about 5 entries, two in Cedar City (Care and Share, True Life Center)",
+    "housing": "about 5 entries (Housing Authority Cedar City, Care and Share rent help, Community Action)",
+    "homeless-services": "shelter entries, Care and Share Emergency Shelter in Cedar City",
+    "financial-assistance": "rent and deposit help only",
+    "utilities-phone-internet": "Weatherization, 1 entry"
+   },
+   "readable": "yes (PDF, 2 pages, text read)",
+   "namesFound": {
+    "addiction": 3,
+    "mental-health": 5,
+    "employment": 3,
+    "domestic-violence": 4,
+    "food": 5,
+    "housing": 5,
+    "homeless-services": 2,
+    "utilities-phone-internet": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://mihp.utah.gov/wp-content/uploads/Statewide-Substance-Use-Disorder-Resources-by-Local-Health-Department1.pdf",
+   "title": "Utah Medical Home Portal: Substance Use Disorder Resources by Local Health Department (PDF, April 2023, 51 pages; Southwest Utah section)",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "older (PDF made April 2023); a Southwest Utah section covering Iron and the other four counties, with a few Cedar City entries (Southwest Behavioral Health, the health department); the Southwest section's size not counted"
+   },
+   "readable": "yes (PDF, text searched for Southwest and Cedar City; section not read in full)",
+   "namesFound": {
+    "addiction": 4
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://ironsheriffut.gov/mental-health/trauma-resources",
+   "title": "Iron County Sheriff's Office: Trauma, abuse and PTSD resources (Immediate Help)",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "domestic-violence",
+    "addiction",
+    "veterans",
+    "children-pregnancy",
+    "seniors",
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "mental-health": "undated (2026 footer); Immediate Help, Treatment and Community blocks, about 8 entries (counselling practices, Southwest Behavioral Health)",
+    "domestic-violence": "about 5 hotlines and local crisis outreach (Canyon Creek Services)",
+    "addiction": "1-2 entries (Celebrate Recovery, support groups)",
+    "veterans": "1 entry (Veterans Crisis Line)",
+    "children-pregnancy": "child abuse reporting line only",
+    "seniors": "adult protective services line only",
+    "medical-dental-vision": "1 entry (insurance assistance at FourPoints)"
+   },
+   "readable": "yes (page read via fetch tool)",
+   "namesFound": {
+    "mental-health": 8,
+    "domestic-violence": 5,
+    "addiction": 2,
+    "veterans": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://ironcountyut.gov/senior-center",
+   "title": "Iron County: Senior Activity Centers (Cedar City and Parowan)",
+   "kind": "official",
+   "categories": [
+    "seniors",
+    "transportation"
+   ],
+   "notes": {
+    "seniors": "undated; describes the two centres (lunches three days a week, activities, ride service); not a list of other providers; fee schedule PDF linked",
+    "transportation": "senior ride service mentioned only"
+   },
+   "readable": "yes (page read via fetch tool)",
+   "namesFound": {
+    "seniors": 2
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.areaagencyonagingfivecounty.org/",
+   "title": "Five County Area Agency on Aging (Beaver, Garfield, Iron, Kane, Washington)",
+   "kind": "regional",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "program pages: senior citizen centers, caregiver support, benefits access; no county-by-county provider list found on the home page"
+   },
+   "readable": "yes (home page read; sub-pages not opened)",
+   "namesFound": {},
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://online.irondistrict.org/page/food-resources-in-iron-county",
+   "title": "Iron County School District (Iron Online): Food Resources in Iron County",
+   "kind": "official",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "undated (site copyright 2026); about 7 entries (Care and Share, Parowan Care and Share, True Life Center, Utah Food Bank mobile pantries, LDS Bishop's Storehouse, Full Cart, DWS)"
+   },
+   "readable": "yes (page text read from its mirror at ironcountysdut.sites.thrillshare.com; the online.irondistrict.org address returned a browser challenge to curl)",
+   "namesFound": {
+    "food": 7
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://online.irondistrict.org/page/mental-health-resources",
+   "title": "Iron County School District (Iron Online): Mental Health Resources",
+   "kind": "official",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "page exists (nav link on the district site); its text could not be retrieved, so not read"
+   },
+   "readable": "not read (page body did not load)",
+   "namesFound": {},
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://online.irondistrict.org/page/211-resources",
+   "title": "Iron County School District (Iron Online): 211 Resources",
+   "kind": "official",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "page exists (nav link on the district site); its text could not be retrieved, so not read"
+   },
+   "readable": "not read (page body did not load)",
+   "namesFound": {},
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.suu.edu/hope-pantry/basic-needs-resources.html",
+   "title": "Southern Utah University HOPE Pantry: Basic Needs Resources",
+   "kind": "official",
+   "categories": [
+    "food",
+    "housing",
+    "homeless-services",
+    "financial-assistance",
+    "medical-dental-vision",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "food": "undated; food block of about 6 (campus pantry, Care and Share, True Life Center, Utah Food Bank mobile pantry, SNAP, WIC)",
+    "housing": "rent assistance and emergency shelter subsections, a few entries",
+    "homeless-services": "Care and Share shelter and 24-hour line, drop-in services",
+    "financial-assistance": "campus financial aid and wellness office, 3 entries",
+    "medical-dental-vision": "1 entry (Family Healthcare)",
+    "utilities-phone-internet": "1 entry (HEAT)"
+   },
+   "readable": "yes (page read via fetch tool)",
+   "namesFound": {
+    "food": 6,
+    "housing": 3,
+    "homeless-services": 2
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://suu.edu/blog/2026/04/food-resources-guide.html",
+   "title": "SUU blog, 13 April 2026: Nourishing Your Success, a guide to food resources at SUU",
+   "kind": "official",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "current (April 2026); 4 campus food programmes, student-facing; community pantries not the focus"
+   },
+   "readable": "yes (page read via fetch tool)",
+   "namesFound": {
+    "food": 4
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://suu.edu/health/daapp/resources.html",
+   "title": "SUU Health and Wellness: Campus and Community Resources",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "addiction",
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "mental-health": "undated; about 6 local entries (campus counselling, Southwest Behavioral Health, Horizon House, hospital, Four Points)",
+    "addiction": "about 3 (Horizon House, regional recovery programmes, online check-up tools)",
+    "medical-dental-vision": "about 3 (campus health centre, hospital, Four Points)"
+   },
+   "readable": "yes (page read via fetch tool)",
+   "namesFound": {
+    "mental-health": 6,
+    "addiction": 3,
+    "medical-dental-vision": 3
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://directory.plentiful.org/utah/cedar-city",
+   "title": "Plentiful: Food Pantries in Cedar City, UT",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "undated; '8 locations' (Care and Share, community mobile pantry, a Hope House, the senior centre, True Life Center, LDS Bishop's Storehouse, LDS Transitional Services)"
+   },
+   "readable": "yes (page read via fetch tool)",
+   "namesFound": {
+    "food": 8
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://directory.plentiful.org/utah/enoch",
+   "title": "Plentiful: Food Pantries in Enoch, UT",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "undated; 1 pantry in Enoch (a mobile pantry); the other entries on the page are Cedar City and Parowan"
+   },
+   "readable": "yes (page read via fetch tool)",
+   "namesFound": {
+    "food": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://feedam.org/food-pantry/ut/cedar-city",
+   "title": "Feeding America (feedam.org): food pantries in Cedar City, UT",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "entry records dated January to April 2026; 9 listings"
+   },
+   "readable": "yes (page read via fetch tool)",
+   "namesFound": {
+    "food": 9
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://freeclinics.us/utah/cedar-city/",
+   "title": "FreeClinics.us: Free and Low-Cost Clinics in Cedar City, UT",
+   "kind": "aggregator",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "last verified 1 May 2026 per the page; 5 sliding-scale clinics"
+   },
+   "readable": "yes (page read via fetch tool)",
+   "namesFound": {
+    "medical-dental-vision": 5
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.domesticshelters.org/help/ut/cedar-city",
+   "title": "DomesticShelters.org: Cedar City, UT",
+   "kind": "aggregator",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "undated; 1 program (Canyon Creek Services, with shelter and hotline)"
+   },
+   "readable": "yes (page read via fetch tool)",
+   "namesFound": {
+    "domestic-violence": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://warriorsfund.org/city/ut/cedar-city",
+   "title": "Warriors Fund: veteran resources, Cedar City, UT",
+   "kind": "aggregator",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "undated; 4 entries (veteran service organisations and a housing authority entry)"
+   },
+   "readable": "yes (page read via fetch tool)",
+   "namesFound": {
+    "veterans": 4
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://utahfoodbank.org/find-a-pantry/",
+   "title": "Utah Food Bank: Find a Pantry (locator)",
+   "kind": "locator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "locator for pantries and mobile pantry schedules; the Cedar City mobile pantry is on it"
+   },
+   "readable": "seen only in a search result; not opened",
+   "byLocation": "not tried; the search results named it for the Cedar City mobile pantry",
+   "namesFound": {},
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  }
+ ],
+ "gaps": {
+  "addiction": "No Iron County list of its own beyond the Southwest Utah Public Health list's Substance Abuse block (about 7) and a Southwest section in the statewide mihp SUD list. Five County 2021 and the 5th District list are older or thin. Residential treatment is mostly in St. George.",
+  "children-pregnancy": "Southwest Public Health list (Children/Youth about 9) and Five County 2025 (about 5). No Iron County pregnancy-specific list; no separate WIC or diapers list for Iron. See statewide mihp guide in ogden.json.",
+  "clothing-household": "Only the Southwest Public Health list (Clothing block, about 8). No other Iron County clothing list; aggregators name thrift stores only inconsistently. Plentiful and others have nothing for household goods.",
+  "disability": "Southwest Public Health list (about 4) and Five County 2025 (about 3). No Iron County disability directory. Utah Parent Center has only Weber/Davis guides in ogden.json, none for Iron.",
+  "domestic-violence": "Thin and all one provider: every list names Canyon Creek Services; DomesticShelters.org has 1 program. The Sheriff's page and the 5th District list add hotlines and Iron County Victim Services. No independent county DV list.",
+  "education": "Southwest Public Health list (Education, about 8) only. Iron County School District's own family resources pages (Mental Health, 211) did not load, so no school-district list was read. Adult education: statewide directory in ogden.json.",
+  "employment": "Southwest Public Health list (about 5), Five County 2025 (about 3), 5th District (3). No Iron County employment list of its own; the DWS Cedar City office is the real list, and the statewide DWS pages are in ogden.json.",
+  "financial-assistance": "No dedicated list. Rent and deposit help appears as a few entries in Five County 2025, the 5th District list and SUU's basic needs page. No Iron County 'help paying bills' page found (needhelppayingbills.com returned 403 for Iron County).",
+  "reentry-support": "No list found for Iron County. Searches returned only the Adult Probation and Parole office in Cedar City and a one-name reentry organisation. The statewide reentry lists are in ogden.json (211 Ex-Offender Reentry Programs, probationinfo.org, helpforfelons); Iron County Jail has no reentry page found.",
+  "food": "Best covered: Iron County School District food page (about 7), Southwest Public Health (about 8), Plentiful (8), Feeding America (9), Five County and 5th District lists, SUU pages. These overlap heavily: the same few providers (Care and Share, True Life Center, mobile pantry, LDS storehouse). Utah Food Bank's pantry locator seen only in a search result.",
+  "medical-dental-vision": "Southwest Public Health list (about 12) and FreeClinics.us (5, verified May 2026). No Iron County dental or vision list; no free-clinic list from the county itself.",
+  "homeless-services": "No Iron County homeless list of its own and no published list from the local homeless council. Care and Share is the shelter and appears in every list; Five County 2025 centres on Switchpoint in St. George. homelessshelterdirectory.org refused the fetch (406).",
+  "housing": "Housing Authority and Community Action appear in the Southwest Public Health list (about 4), Five County lists and the 5th District list. No Iron County affordable-housing list; no list from Cedar City Corporation found. AffordableHousingOnline-type aggregators for Iron County not searched.",
+  "id-recovery": "No Iron County list. The 211 provider pages for Care and Share and Community Action say they pay birth certificate and licence fees, but those are provider pages, not recorded. Statewide birth certificate and ID pages are in ogden.json.",
+  "immigration": "No Iron County or Southwest Utah list found. A search returned only Salt Lake and Utah County providers and the statewide Utah Immigration Collaborative; the St. George file has it. Southwest Public Health's Spanish edition is a translation, not an immigration list.",
+  "legal": "Thin: 1-2 entries in the Southwest Public Health list and 2-3 in Five County 2025. The only local fact found is a Utah Legal Services pro se clinic at the Fifth District Courthouse in Cedar City (from a search result, not a list); statewide lists are in ogden.json. No Iron County bar or legal-aid list.",
+  "mental-health": "Southwest Public Health list (about 6), the Sheriff's page (about 8), SUU health page (about 6), Five County 2021. Mostly the same few providers (Southwest Behavioral Health, Family Healthcare). The district's Mental Health Resources page did not load. No county mental-health directory like Cache County's.",
+  "seniors": "Iron County's senior centre page (2 centres), Five County Area Agency on Aging (program pages, no provider directory), Southwest Public Health (about 6), Five County 2025 (about 3). No county senior resource guide; the Area Agency on Aging site offers no Iron County list.",
+  "transportation": "Thin: Southwest Public Health list only (about 5: CATS, gas vouchers, taxis, bus to Salt Lake). No Cedar City or Iron County transportation list; CATS is the only public transit. Statewide Medicaid transportation is in st-george.json.",
+  "utilities-phone-internet": "Southwest Public Health (about 5), Five County 2025 (about 4), Five County 2021, 5th District (weatherization). The Emergency Broadband Benefit in the Southwest list has ended. No Iron County list otherwise; statewide telecom and HEAT pages are in ogden.json.",
+  "veterans": "Thin: Southwest Public Health (about 2), Warriors Fund (4), the Sheriff's page (crisis line). A county veterans service office exists in Parowan (from a search result), but no county veterans list was found. Statewide veterans.utah.gov is in ogden.json."
+ }
+}

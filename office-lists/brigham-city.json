@@ -1,0 +1,666 @@
+{
+ "office": {
+  "slug": "brigham-city",
+  "name": "Brigham City"
+ },
+ "about": "Lists of local providers for Brigham City, Utah and Box Elder County (Perry, Willard, Tremonton), found 6 October 2026 under brief-lists-only-20261006. Lists only: no provider names recorded as resources, no office-fit rules, no provider pages checked. Statewide Utah lists (211 Utah DHHS directory pages, Utah Legal Services, DLD, vitalrecords, jobs.utah.gov fee waiver, Commerce telecom assistance, veterans.utah.gov, mihp maternal guide, utcourts legal clinics, Lifeline) are already in ogden.json (statewide, see ogden.json) and are not repeated here. Ogden and Weber County lists in ogden.json also serve Brigham City (Ogden is about 20 minutes away, Michael, 6 October 2026) and are not repeated; see that file's URLs, notably the 211 Weber-Morgan Resource List 2024-2025 (https://211utah.org/wp-content/uploads/2025/03/Weber-Morgan-Resource-List-2024-2025.pdf), Ogden City and Weber County pages, and the Weber-Morgan Health Department flyers. Bear River regional lists that cover Box Elder as well as Cache are in logan.json and listed again here: the Bear River Health Department mental health directory (2021 and 2020 copies), the MIHP Bear River substance use cards and guide, BRAG pages, Bear River Area Agency on Aging, the Church ICP food list. Logan-only lists (Cache County 211 list, USU, Bridgerland Tech, CAPSA and the Cache aggregators) are not included. Not read: two Box Elder School District pages (bot challenge), the 'Need Food Help - Box Elder County' flyer (host did not resolve), NeedHelpPayingBills and Homeless Shelter Directory (refused).",
+ "lists": [
+  {
+   "url": "https://211utah.org/wp-content/uploads/2025/05/Box-Elder-County-General-Resource-List-2025.pdf",
+   "title": "211 Utah: Box Elder County General Resource List 2025 (last update January 2025)",
+   "kind": "211",
+   "categories": [
+    "addiction",
+    "children-pregnancy",
+    "clothing-household",
+    "disability",
+    "domestic-violence",
+    "education",
+    "employment",
+    "financial-assistance",
+    "food",
+    "homeless-services",
+    "housing",
+    "id-recovery",
+    "immigration",
+    "legal",
+    "medical-dental-vision",
+    "mental-health",
+    "seniors",
+    "transportation",
+    "utilities-phone-internet",
+    "veterans"
+   ],
+   "notes": {
+    "addiction": "current (Jan 2025); Substance Abuse/Addiction block about 8 entries, mostly statewide hotlines and groups; the detox entries are in Ogden and Salt Lake; Bear River Health Department crisis line is the only local treatment-side entry",
+    "children-pregnancy": "current; Child/Youth/Family block about 13 entries, Adult & Child Abuse block 7, Pregnancy block 6 (two are in Logan)",
+    "clothing-household": "current but thin; 3 entries (Fuller Center, Deseret Industries Brigham City, Somebody's Attic in Logan)",
+    "disability": "current; People with Disabilities block about 11 entries, several in Logan or statewide; LINC in Brigham City",
+    "domestic-violence": "current; about 8 entries, New Hope Crisis Center and CAPSA (Logan shelter) plus statewide lines",
+    "education": "current but thin; Employment/Job Training/Education block of 7 includes USU Brigham City and Job Corps; BATC entry is for Rich County",
+    "employment": "current; same block of 7, includes Deseret Industries, Rehabilitation Services, DWS (Logan number)",
+    "financial-assistance": "current; Financial Counseling about 7 and Welfare and Financial Services about 6 entries, mostly statewide or phone-only",
+    "food": "current; Food Assistance block of 8: soup kitchen, Brigham City pantry, Tremonton pantry, senior centers, DWS SNAP, WIC",
+    "homeless-services": "current but none in the county: 6 entries, all Ogden or statewide (Family Promise, Ogden Rescue Mission, Lantern House, Youth Futures and others)",
+    "housing": "current; Housing/Utilities block of 11, about 4 housing (Bear River Regional Housing Authority, Fuller Center, DWS)",
+    "id-recovery": "very thin; only a Government Services block (Brigham City DMV, Driver License Division, Brigham City Government); nothing for birth certificates or fee waivers",
+    "immigration": "thin; Ethnic/Cultural Support block of 4, all Salt Lake area organisations",
+    "legal": "current; Legal block of 8 (Utah Legal Services, Disability Law Center, Self Help Center, Box Elder First District Court)",
+    "medical-dental-vision": "current; Health Care block of 10 (Brigham City Community Hospital, Bear River Health Department, Box Elder Community Health Center is under Mental Health; several Logan or Ogden)",
+    "mental-health": "current; Mental Health/Counseling block of 7 plus 5 crisis lines; Bear River Mental Health in Brigham City and Tremonton",
+    "seniors": "current; about 5 entries (both senior centers, Area Agency on Aging, Options for Independence)",
+    "transportation": "current but thin; 4 entries (BRAG medical vouchers, Logisticare, veterans van to Salt Lake VA, road conditions); no local bus or paratransit entry beyond UTA Paratransit in the disability block",
+    "utilities-phone-internet": "current; utilities about 8 entries (HEAT, weatherization, Rocky Mountain Power, Dominion, Lifeline)",
+    "veterans": "thin; only the Ogden VA outpatient clinic and the veterans van to Salt Lake"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "addiction": 8,
+    "children-pregnancy": 26,
+    "clothing-household": 3,
+    "disability": 11,
+    "domestic-violence": 8,
+    "education": 7,
+    "employment": 7,
+    "financial-assistance": 13,
+    "food": 8,
+    "homeless-services": 6,
+    "housing": 11,
+    "id-recovery": 3,
+    "immigration": 4,
+    "legal": 8,
+    "medical-dental-vision": 10,
+    "mental-health": 12,
+    "seniors": 5,
+    "transportation": 4,
+    "utilities-phone-internet": 8,
+    "veterans": 2
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2024/09/2-1-1-Resource-List-Box-Elder-2019.pdf",
+   "title": "211 Utah: Box Elder County General Resource List (last update January 2019)",
+   "kind": "211",
+   "categories": [
+    "food",
+    "mental-health",
+    "housing"
+   ],
+   "notes": {
+    "food": "stale (January 2019); superseded by the 2025 list; same section layout, plus Libraries and Support Groups sections",
+    "mental-health": "stale (2019); same layout; Support Groups section not in the 2025 list",
+    "housing": "stale (2019)"
+   },
+   "readable": "pdf (text read with a local extractor; not compared entry by entry with 2025)",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.boxeldercountyut.gov/294",
+   "title": "Box Elder County Resource Directory: Food Assistance",
+   "kind": "official",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "current, undated; 3 providers (soup kitchen, Brigham City pantry, Tremonton pantry)"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "food": 3
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.boxeldercountyut.gov/296",
+   "title": "Box Elder County Resource Directory: Housing Utility Assistance",
+   "kind": "official",
+   "categories": [
+    "housing",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "housing": "undated; 2 providers (BRAG in Perry, Habitat for Humanity Northern Utah)",
+    "utilities-phone-internet": "same 2 providers (BRAG offers HEAT); undated"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "housing": 2,
+    "utilities-phone-internet": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.boxeldercountyut.gov/295",
+   "title": "Box Elder County Resource Directory: Homeless Resources",
+   "kind": "official",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "undated; 2 providers, both Ogden (Lantern House, Youth Futures); nothing in Box Elder County"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "homeless-services": 2
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.boxeldercountyut.gov/298",
+   "title": "Box Elder County Resource Directory: Legal Resources",
+   "kind": "official",
+   "categories": [
+    "legal",
+    "domestic-violence"
+   ],
+   "notes": {
+    "legal": "undated; 6 listings (Utah Legal Services, Timpanogos Legal Center, victim-services offices); statewide organisations",
+    "domestic-violence": "victim-services listings (Office for Victims of Crime, Corrections Victim Services); about 3"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "legal": 6,
+    "domestic-violence": 3
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.boxeldercountyut.gov/299",
+   "title": "Box Elder County Resource Directory: Mental Health Resources",
+   "kind": "official",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "undated; 5 listings (Bear River Mental Health Services, Brigham suicide prevention, Family Institute of Northern Utah, Suicide Prevention Lifeline, Utah Behavior Services)"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "mental-health": 5
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.boxeldercountyut.gov/300",
+   "title": "Box Elder County Resource Directory: Substance Abuse Resources",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "undated; 4 listings (AA, NA, Bear River Health Department substance abuse division)"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "addiction": 4
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.boxeldercountyut.gov/292",
+   "title": "Box Elder County Resource Directory: Elderly Resources",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "undated; 3 listings (Brigham City and Tremonton senior centers, Adult Protective Services)"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "seniors": 3
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.boxeldercountyut.gov/291",
+   "title": "Box Elder County Resource Directory: Disability Resources",
+   "kind": "official",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "undated; 2 listings, one of them Office of Rehabilitation Services"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "disability": 2
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.boxeldercountyut.gov/293",
+   "title": "Box Elder County Resource Directory: Family Resources",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy",
+    "domestic-violence"
+   ],
+   "notes": {
+    "children-pregnancy": "undated; 8 listings (Children's Justice Center, Family Support Center, New Hope, Planned Parenthood Logan, Pregnancy Care Center, DCFS, Domestic Violence Coalition)",
+    "domestic-violence": "New Hope Crisis Center, Utah Domestic Violence Coalition and the Children's Justice Center are in this block; about 3"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "children-pregnancy": 8,
+    "domestic-violence": 3
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.boxeldercountyut.gov/297",
+   "title": "Box Elder County Resource Directory: Learning and Education",
+   "kind": "official",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "undated; 2 listings (Bear River Head Start, Centro de la Familia)"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "education": 2
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://brag.utah.gov/contacts/box-elder-county/",
+   "title": "Bear River Association of Governments: Box Elder County contacts",
+   "kind": "regional",
+   "categories": [
+    "utilities-phone-internet",
+    "housing",
+    "transportation",
+    "financial-assistance",
+    "employment",
+    "legal",
+    "seniors",
+    "disability",
+    "veterans",
+    "homeless-services"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current (site 2022-2025); HEAT utility assistance contact",
+    "housing": "current; housing services contact",
+    "transportation": "current; transportation contact (BRAG medical vouchers)",
+    "financial-assistance": "current; benefit navigator, VITA tax help",
+    "employment": "current; STEPS programme contact",
+    "legal": "current; legal assistance contact",
+    "seniors": "current; aging, disability and veteran services block",
+    "disability": "current; same block",
+    "veterans": "current; same block",
+    "homeless-services": "current; links the Bear River Local Homeless Council and crisis help"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "utilities-phone-internet": 1,
+    "housing": 1,
+    "transportation": 1,
+    "financial-assistance": 2,
+    "employment": 1,
+    "legal": 1,
+    "seniors": 1,
+    "disability": 1,
+    "veterans": 1,
+    "homeless-services": 2
+   },
+   "byLocation": "BRAG's own Box Elder page; 14 headings with phones or links, one agency's programmes rather than a list of many providers",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://brag.utah.gov/depts/housing-services/housing-crisis-assistance/",
+   "title": "Bear River Association of Governments: Homeless Services and Prevention (START, Logan and Brigham City offices)",
+   "kind": "regional",
+   "categories": [
+    "homeless-services",
+    "housing"
+   ],
+   "notes": {
+    "homeless-services": "current; names the Brigham City START office but lists no partner providers",
+    "housing": "current; as above"
+   },
+   "readable": "yes",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://brag.utah.gov/forms/",
+   "title": "Bear River Association of Governments: programmes and links",
+   "kind": "regional",
+   "categories": [
+    "housing",
+    "seniors",
+    "veterans",
+    "transportation",
+    "financial-assistance",
+    "employment",
+    "legal",
+    "disability",
+    "homeless-services"
+   ],
+   "notes": {
+    "housing": "current; programme pages for three counties",
+    "seniors": "current",
+    "veterans": "current",
+    "transportation": "current",
+    "financial-assistance": "current",
+    "employment": "current",
+    "legal": "current",
+    "disability": "current",
+    "homeless-services": "current"
+   },
+   "readable": "yes",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.bearriveraging.org/",
+   "title": "Bear River Area Agency on Aging (Box Elder, Cache, Rich)",
+   "kind": "regional",
+   "categories": [
+    "seniors",
+    "veterans"
+   ],
+   "notes": {
+    "seniors": "serves all three counties; programme page, not a provider list",
+    "veterans": "veteran-directed services mention"
+   },
+   "readable": "yes",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.cachecounty.gov/assets/department/fairgrounds/PDF/MH Directory 2021.pdf",
+   "title": "Bear River Health Department: Mental Health Resource Directory, Box Elder, Cache and Rich Counties (shared with logan.json)",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "addiction"
+   ],
+   "notes": {
+    "mental-health": "stale: updated 12/2021; covers Box Elder County by title; about 25 entries for the three counties, number for Box Elder not counted",
+    "addiction": "stale (12/2021); support groups and residential sections touch addiction"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "mental-health": 25,
+    "addiction": 5
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.usu.edu/hr/files/aggies-thrive/resources/brhd-mh-directory.pdf",
+   "title": "Bear River Health Department Mental Health Resource Directory (USU-hosted copy, July 2020)",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "addiction"
+   ],
+   "notes": {
+    "mental-health": "stale (2020); older copy of the directory above",
+    "addiction": "stale (2020)"
+   },
+   "readable": "yes",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://mihp.utah.gov/wp-content/uploads/Bear-River-SUD-Resources.1.31.25.pdf",
+   "title": "Utah Maternal and Infant Health Program: Bear River substance use disorder resources (31 Jan 2025; shared with logan.json)",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "current (Jan 2025); cards for Box Elder, Cache and Rich; Box Elder cards include Bear River Health Department counseling and Bear River Mental Health (Brigham City, Tremonton); about 3 Box Elder entries seen"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "addiction": 3
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://mihp.utah.gov/wp-content/uploads/BearRiver.pdf",
+   "title": "Utah Maternal and Infant Health Program: Bear River resource guide (v4, 10 July 2023; shared with logan.json)",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "2023; names Logan, Brigham City and Tremonton locations; only a quick read for Box Elder"
+   },
+   "readable": "yes",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/print/Food_Assistance_434426.pdf",
+   "title": "Church ICP: Food Assistance (Box Elder, Cache, Davis, Salt Lake, Tooele, Utah, Weber; shared with logan.json)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "covers Box Elder by its title; Box Elder count not taken; compare with the Box Elder pantry and mobile pantry"
+   },
+   "readable": "yes",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://directory.plentiful.org/utah/brigham-city",
+   "title": "Plentiful: Food Pantries in Brigham City, UT",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "3 locations in Brigham City (senior center, Box Elder mobile pantry, Box Elder Community Pantry) plus nearby Tremonton and Ogden ones"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "food": 3
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://feedam.org/food-pantry/ut/brigham-city",
+   "title": "Feeding America 211 directory: food pantries in Brigham City, UT",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "5 listings, several duplicates of the same pantry; records dated Jan to Apr 2026 (may be import dates); sources AmpleHarvest and FoodPantries.org"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "food": 5
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://freeclinics.us/utah/brigham-city/",
+   "title": "FreeClinics.us: Brigham City, UT",
+   "kind": "aggregator",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "3 clinics in Brigham City (Bear River Health Department, Box Elder Community Health Center, CHC clinic)"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "medical-dental-vision": 3
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.domesticshelters.org/help/ut/brigham-city",
+   "title": "DomesticShelters.org: Brigham City, UT",
+   "kind": "aggregator",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "1 programme in Brigham City with hotline and shelter (New Hope)"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "domestic-violence": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://affordablehousinghub.org/housing/utah/box-elder-county/brigham-city",
+   "title": "Affordable Housing Hub: Brigham City, UT",
+   "kind": "aggregator",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "11 subsidised properties in Brigham City (LIHTC, public housing), with waitlist status"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "housing": 11
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://affordablehousingonline.com/housing-search/Utah/Brigham-City",
+   "title": "Affordable Housing Online: Brigham City, UT",
+   "kind": "aggregator",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "rental listings and subsidised properties; count not taken"
+   },
+   "readable": "yes",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.needhelppayingbills.com/html/box_elder_county_assistance_progra.html",
+   "title": "NeedHelpPayingBills: Box Elder County assistance programmes (URL guessed from the Cache page pattern)",
+   "kind": "aggregator",
+   "categories": [
+    "financial-assistance",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "financial-assistance": "not read: Cloudflare challenge (403)",
+    "utilities-phone-internet": "not read"
+   },
+   "readable": "refused (403)",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.homelessshelterdirectory.org/city/ut-brigham-city",
+   "title": "Homeless Shelter Directory: Brigham City, UT",
+   "kind": "aggregator",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "not read: 406 refused; Brigham City has no shelter on 211's list anyway"
+   },
+   "readable": "refused (406)",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.besd.net/o/besd/page/community-support",
+   "title": "Box Elder School District: Community Support",
+   "kind": "official",
+   "categories": [
+    "food",
+    "mental-health",
+    "housing"
+   ],
+   "notes": {
+    "food": "not read: bot challenge; school pages (e.g. acyi.besd.net food-nutrition-clothing, mental-social-emotional, housing-shelter) exist and appear to hold resource lists",
+    "mental-health": "as above",
+    "housing": "as above"
+   },
+   "readable": "refused (bot challenge); search snippets only",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.edcutah.org/recent-news/brigham-city-holiday-help-program",
+   "title": "Boys and Girls Club of Northern Utah: Holiday Help (article)",
+   "kind": "aggregator",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "article about one seasonal programme (about 150 families a year), not a list"
+   },
+   "readable": "yes",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/node/237455",
+   "title": "211 Utah (DHHS directory): Brigham City Government",
+   "kind": "211",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "government entry only; no ID or vital-records service"
+   },
+   "readable": "yes",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  }
+ ],
+ "gaps": {
+  "addiction": "Fair, mostly regional. Local entries are the Bear River Health Department and Bear River Mental Health, from the 2025 MIHP cards and a 2021 directory; county directory has 4 (AA, NA, BRHD). 211's detox entries are in Ogden and Salt Lake. No Brigham City or Tremonton meeting list found (AA is by Cache Valley number); Ogden's Weber-Morgan list (ogden.json) is the nearest fuller one.",
+  "children-pregnancy": "Fair. 211 2025 list and the county directory name the Family Support Center (crisis nursery), Head Start, Boys and Girls Club, Pregnancy Care Center. Nothing for diapers, baby gear or teens; pregnancy block includes Logan entries. Ogden's maternal guide and health department flyer (ogden.json) are an alternative.",
+  "clothing-household": "Thin. Only 3 entries on 211 (Deseret Industries, Fuller Center, a Logan thrift store). No Box Elder clothing or furniture list; relies on Ogden's (ogden.json), which is also thin.",
+  "disability": "Thin. 211's block of about 11 is half Logan or statewide; the county directory has 2. No Box Elder disability list of its own.",
+  "domestic-violence": "Fair for a small county, the same few providers everywhere (New Hope Crisis Center, CAPSA in Logan, statewide lines). Ogden/Weber victim lists (ogden.json) add little local to Box Elder.",
+  "education": "Thin. Only a handful of entries (USU Brigham City, Job Corps, Head Start). Adult education and ESL at Sunrise High School/Box Elder Adult Education found only through search, not on a list. Statewide adult education directory is in ogden.json.",
+  "employment": "Thin. 211 block of 7, the BRAG STEPS contact, DWS (Logan number on 211). No Brigham City or Tremonton job-seeker list; Ogden's lists (ogden.json) are the fallback.",
+  "financial-assistance": "Fair but statewide. 211 gives about 13 entries, mostly statewide or phone-only; BRAG lists benefit navigator and VITA. The county aggregator page was blocked (403).",
+  "reentry-support": "None of its own. No Box Elder reentry list found: the 211 and county directory pages have none, and the sheriff's pages describe visitation only. Relies on the statewide and Ogden/Weber reentry lists in ogden.json (Weber sheriff's reentry page, Northern Utah Community Correctional Center) and the Church felon-resources page.",
+  "food": "Good. 211 2025 list (8), county directory (3), Plentiful (3), Feeding America (5, duplicates), Church ICP, plus a 'Need Food Help' Box Elder flyer from a host that did not resolve. All name the same few providers: Box Elder Community Pantry, Tremonton pantry, Acts Six soup kitchen, mobile pantry, senior centers.",
+  "medical-dental-vision": "Fair. 211 block of 10, FreeClinics.us (3). Dental and vision low-cost lists not found; Ogden's clinic lists (ogden.json) cover Midtown CHC and others.",
+  "homeless-services": "None in the county. Every list (211's 6 entries, county directory's 2) sends people to Ogden: Lantern House, Rescue Mission, Family Promise, Youth Futures. BRAG's START office in Brigham City and the Bear River Local Homeless Council exist but name no partners. Relies on Ogden's lists (ogden.json) and the Weber County homeless council page.",
+  "housing": "Fair. 211 housing block, county directory (BRAG, Habitat), Affordable Housing Hub (11 properties), BRAG pages. No local list of landlords, rent help or waitlists beyond those aggregators; Ogden's (ogden.json) offers more.",
+  "id-recovery": "None of its own. Only Brigham City DMV and Driver License Division numbers on 211. Birth certificate help, ID fee waivers and Social Security cards rely on the statewide and Ogden lists (ogden.json: DWS fee waivers, vitalrecords homeless providers, DLD offices).",
+  "immigration": "None of its own. 211's ethnic support block is 4 Salt Lake organisations; the county directory has Centro de la Familia under education. Cache Refugee and Immigrant Center (serves Box Elder) found by search only. Relies on Ogden/Weber and statewide lists (ogden.json).",
+  "legal": "Fair, statewide. 211 (8) and the county directory (6) list Utah Legal Services, Disability Law Center, courts self help, Timpanogos Legal Center. No Brigham City legal clinic list; statewide clinic list in ogden.json.",
+  "mental-health": "Good for crisis and public services (Bear River Mental Health in Brigham City and Tremonton, the Bear River directory, 211, county directory), thin for private counselors; the Bear River directory is from 2020-21.",
+  "seniors": "Fair. 211 (about 5), county directory (3), BRAG and Area Agency on Aging pages. Names both senior centers; no list of in-home services.",
+  "transportation": "Thin. 211 has 4 entries (BRAG medical vouchers, Logisticare, veterans van); no local bus or taxi list. UTA coordinated mobility page in ogden.json covers Box Elder County among others (not re-read).",
+  "utilities-phone-internet": "Fair, statewide. 211 housing/utilities block (HEAT, weatherization, power and gas companies, Lifeline) and the BRAG HEAT contact. Commerce Department and Lifeline pages are in ogden.json.",
+  "veterans": "None of its own. 211 names only the Ogden VA clinic and the veterans van; the county directory has no veterans category. A Box Elder veterans service officer (Brigham City) shows on one aggregator whose record is no longer maintained. Relies on BRAG's page and statewide lists (veterans.utah.gov in ogden.json)."
+ }
+}

@@ -1,0 +1,1030 @@
+{
+ "office": {
+  "slug": "logan",
+  "name": "Logan"
+ },
+ "about": "Lists of local providers for Logan, Utah and Cache County (North Logan, Smithfield, Hyrum, Providence), found 6 October 2026 under brief-lists-only-20261006. Lists only: no provider names recorded as resources, no office-fit rules, no provider pages checked. Statewide Utah lists (211 Utah DHHS directory pages, Utah Legal Services, DLD, vitalrecords, jobs.utah.gov fee waiver, Commerce telecom assistance, veterans.utah.gov, mihp maternal guide, utcourts legal clinics, Lifeline) are already in ogden.json (statewide, see ogden.json) and are not repeated here.",
+ "lists": [
+  {
+   "url": "https://211utah.org/wp-content/uploads/2025/03/Cache-County-General-Resource-List-2024-2025.pdf",
+   "title": "211 Utah: Cache County General Resource List 2024-2025",
+   "kind": "211",
+   "categories": [
+    "addiction",
+    "children-pregnancy",
+    "clothing-household",
+    "disability",
+    "domestic-violence",
+    "education",
+    "employment",
+    "financial-assistance",
+    "food",
+    "homeless-services",
+    "housing",
+    "immigration",
+    "legal",
+    "medical-dental-vision",
+    "mental-health",
+    "seniors",
+    "transportation",
+    "utilities-phone-internet",
+    "veterans",
+    "id-recovery"
+   ],
+   "notes": {
+    "addiction": "current (2024-25); a short Substance Abuse/Addiction block, about 5 entries, several outside the county (Salt Lake, Ogden detox)",
+    "children-pregnancy": "current; Child/Youth/Family block about 20 entries plus Pregnancy block about 5",
+    "clothing-household": "current; about 3 entries (Habitat ReStore, DI, Somebody's Attic)",
+    "disability": "current; scattered entries only (Options for Independence, Disability Law Center, Rehabilitation Services, Up to 3 Early Intervention)",
+    "domestic-violence": "current; about 10 entries, including CAPSA and victim services",
+    "education": "current; Employment/Job Training/Education block about 8 entries",
+    "employment": "current; Employment/Job Training block about 8 entries",
+    "financial-assistance": "current; Financial Counseling about 6 and Welfare and Financial Services about 3 entries",
+    "food": "current; Food Assistance block about 7 entries",
+    "homeless-services": "current but thin and outside the county: 3 entries, all Ogden",
+    "housing": "current; Housing/Utilities block about 13 entries, about 4 of them housing",
+    "immigration": "thin; Ethnic/Cultural Support block of 4 entries, mostly Ogden or Salt Lake",
+    "legal": "current; Legal block about 6 entries",
+    "medical-dental-vision": "current; Health Care/Hospitals/Clinics about 10 entries",
+    "mental-health": "current; Mental Health/Counseling about 7 entries plus crisis lines",
+    "seniors": "current; about 5 entries",
+    "transportation": "current; about 6 entries (transit, paratransit, medical vouchers, veterans van)",
+    "utilities-phone-internet": "current; utilities about 8 entries including HEAT and Lifeline",
+    "veterans": "thin; veterans van and VA medical centre only",
+    "id-recovery": "thin; DMV and Driver License Division only"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "addiction": 5,
+    "children-pregnancy": 25,
+    "clothing-household": 3,
+    "disability": 4,
+    "domestic-violence": 10,
+    "education": 8,
+    "employment": 8,
+    "financial-assistance": 9,
+    "food": 7,
+    "homeless-services": 3,
+    "housing": 4,
+    "immigration": 4,
+    "legal": 6,
+    "medical-dental-vision": 10,
+    "mental-health": 7,
+    "seniors": 5,
+    "transportation": 6,
+    "utilities-phone-internet": 8,
+    "veterans": 2,
+    "id-recovery": 2
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2024/09/2021-2022-Cache-County-General-Resource-List.pdf",
+   "title": "211 Utah: Cache County General Resource List 2021-2022",
+   "kind": "211",
+   "categories": [
+    "food",
+    "housing"
+   ],
+   "notes": {
+    "food": "older edition (2021-22) of the 2024-25 list; superseded, same layout",
+    "housing": "older edition; superseded"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "food": 7,
+    "housing": 4
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.cachecounty.gov/attorney/community-resources.html",
+   "title": "Cache County Attorney: Community Resources",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "medical-dental-vision",
+    "food",
+    "clothing-household",
+    "legal",
+    "addiction",
+    "domestic-violence"
+   ],
+   "notes": {
+    "mental-health": "undated (page footer 2026); Crisis Counseling block, about 9 entries",
+    "medical-dental-vision": "undated; Health Care Provider block, 4 entries",
+    "food": "undated; folded into Basic Necessities, 5 entries",
+    "clothing-household": "undated; Basic Necessities, 5 entries",
+    "legal": "undated; Legal Help block, 1 entry",
+    "addiction": "undated; Addiction Recovery Program block, 2 entries",
+    "domestic-violence": "undated; CAPSA and The Family Place among the crisis entries"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "mental-health": 9,
+    "medical-dental-vision": 4,
+    "food": 3,
+    "clothing-household": 2,
+    "legal": 1,
+    "addiction": 2,
+    "domestic-violence": 2
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.cachecounty.gov/assets/department/fairgrounds/PDF/MH Directory 2021.pdf",
+   "title": "Bear River Health Department: Mental Health Resource Directory, Box Elder, Cache and Rich Counties",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "addiction"
+   ],
+   "notes": {
+    "mental-health": "stale: updated 12/2021; sections providers, crisis services, residential treatment, USU student services, support groups, hot lines; the largest single mental-health list for the area; provider count rough (about 25 by a quick read)",
+    "addiction": "stale (12/2021); support groups and residential sections touch addiction"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "mental-health": 25,
+    "addiction": 5
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://mihp.utah.gov/wp-content/uploads/Bear-River-SUD-Resources.1.31.25.pdf",
+   "title": "Utah Maternal and Infant Health Program: Bear River substance use disorder resources (31 Jan 2025)",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "current (dated 31 Jan 2025); card-style list for Box Elder, Cache and Rich; about 6 Cache entries with an icon key (detox, MAT, residential, sober living); also serves Brigham City"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "addiction": 8
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://mihp.utah.gov/wp-content/uploads/BearRiver.pdf",
+   "title": "Utah Maternal and Infant Health Program: Bear River resource guide (v4, 10 July 2023)",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "v4 of 10 July 2023: same Bear River substance use disorder cards as the January 2025 list, superseded; the file is one short list plus a statewide addendum"
+   },
+   "readable": "yes (PDF)",
+   "namesFound": {
+    "addiction": 8
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://brag.utah.gov/contacts/cache-rich-county/",
+   "title": "Bear River Association of Governments: Resources in Cache and Rich Counties",
+   "kind": "regional",
+   "categories": [
+    "seniors",
+    "housing",
+    "utilities-phone-internet",
+    "financial-assistance"
+   ],
+   "notes": {
+    "seniors": "undated (site 2022-2025); Area Agency on Aging contacts, 1-4 staff per programme",
+    "housing": "undated; Section 8 voucher office, housing rehabilitation and first-time buyer contacts",
+    "utilities-phone-internet": "undated; HEAT and weatherization contacts",
+    "financial-assistance": "undated; tax preparation assistance contacts"
+   },
+   "readable": "yes",
+   "byLocation": "Page is by county (Cache and Rich); Box Elder has its own page, so this serves Logan but not Brigham City",
+   "namesFound": {
+    "seniors": 1,
+    "housing": 3,
+    "utilities-phone-internet": 2,
+    "financial-assistance": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://brag.utah.gov/forms/",
+   "title": "Bear River Association of Governments: programmes and links (front page navigation)",
+   "kind": "regional",
+   "categories": [
+    "housing",
+    "seniors",
+    "veterans",
+    "transportation",
+    "financial-assistance",
+    "employment",
+    "legal",
+    "disability",
+    "homeless-services"
+   ],
+   "notes": {
+    "housing": "undated (2022-2025); links to homeless prevention, Section 8, utilities and repairs, home ownership; links out to CAPSA and the warming centre for homeless help",
+    "seniors": "undated; links to Bear River Area Agency on Aging",
+    "veterans": "undated; link to a veterans page under the aging site",
+    "transportation": "undated; link to the Bear River Mobility voucher programme",
+    "financial-assistance": "undated; STEPS, benefit navigator, tax preparation",
+    "employment": "undated; STEPS, benefit navigator, link to DWS",
+    "legal": "undated; Community Justice Advocates (debt, eviction, medical bills only) and Utah Courts self-help",
+    "disability": "a landing page: tells people to contact Central Intake, names no providers",
+    "homeless-services": "undated; homeless services and prevention page; also covers Box Elder"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "housing": 5,
+    "seniors": 1,
+    "veterans": 1,
+    "transportation": 1,
+    "financial-assistance": 3,
+    "employment": 2,
+    "legal": 2,
+    "disability": 0,
+    "homeless-services": 3
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://brag.utah.gov/depts/housing-services/housing-crisis-assistance/",
+   "title": "Bear River Association of Governments: Homeless Services and Prevention",
+   "kind": "regional",
+   "categories": [
+    "homeless-services",
+    "housing"
+   ],
+   "notes": {
+    "homeless-services": "a programme page, not a list of providers; names BRAG's own rapid-rehousing and START assistance and links out",
+    "housing": "same"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "homeless-services": 2,
+    "housing": 2
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.bearriveraging.org/",
+   "title": "Bear River Area Agency on Aging",
+   "kind": "regional",
+   "categories": [
+    "seniors",
+    "veterans"
+   ],
+   "notes": {
+    "seniors": "the area agency's own site: senior centres in Logan, Hyrum, Smithfield, Richmond, meals, caregiver support, ombudsman; about 5 senior centres named in the county",
+    "veterans": "a veterans services page under the same site"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "seniors": 8,
+    "veterans": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.hyrumcity.gov/548/Resources",
+   "title": "Hyrum City: Senior Center resources",
+   "kind": "official",
+   "categories": [
+    "seniors",
+    "food"
+   ],
+   "notes": {
+    "seniors": "undated; about 5 senior centres across Box Elder and Cache, meals on wheels, caregiver support groups",
+    "food": "undated; Cache Community Food Pantry and Utah Food Bank mobile pantry only"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "seniors": 8,
+    "food": 2
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://qanr.usu.edu/ndfs/snac/basic-needs",
+   "title": "Utah State University SNAC: Basic Needs Resources",
+   "kind": "regional",
+   "categories": [
+    "financial-assistance",
+    "housing",
+    "medical-dental-vision",
+    "food",
+    "children-pregnancy",
+    "domestic-violence",
+    "mental-health"
+   ],
+   "notes": {
+    "financial-assistance": "undated; student hardship funds, 3 entries",
+    "housing": "undated; 2 entries",
+    "medical-dental-vision": "undated; 2 clinics and 4 insurance options (CHIP, marketplace)",
+    "food": "undated; 6 entries: USU pantry, Cache Community Food Pantry, SNAP, WIC, mobile pantry",
+    "children-pregnancy": "undated; childcare 5-6 entries (Head Start, Care About Childcare, others)",
+    "domestic-violence": "undated; SAAVI, CAPSA, The Family Place",
+    "mental-health": "undated; advocacy and therapy 3 entries"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "financial-assistance": 3,
+    "housing": 2,
+    "medical-dental-vision": 6,
+    "food": 6,
+    "children-pregnancy": 6,
+    "domestic-violence": 3,
+    "mental-health": 3
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.usu.edu/hr/aggies-thrive/resources/local",
+   "title": "USU Aggies Thrive: Local Resources (behavioral health)",
+   "kind": "regional",
+   "categories": [
+    "mental-health",
+    "domestic-violence"
+   ],
+   "notes": {
+    "mental-health": "undated; only 3 Logan providers named (Bear River Mental Health, CAPSA, The Family Place); thin",
+    "domestic-violence": "undated; CAPSA and The Family Place"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "mental-health": 3,
+    "domestic-violence": 2
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://btech.edu/career-resources/",
+   "title": "Bridgerland Technical College: Community Resources",
+   "kind": "regional",
+   "categories": [
+    "medical-dental-vision",
+    "mental-health",
+    "employment",
+    "education",
+    "children-pregnancy",
+    "food",
+    "housing",
+    "transportation",
+    "financial-assistance",
+    "legal",
+    "domestic-violence"
+   ],
+   "notes": {
+    "medical-dental-vision": "undated (site (c) 2025); 3 health care entries",
+    "mental-health": "undated; about 8 mental health and 8 crisis entries",
+    "employment": "undated; 4 entries",
+    "education": "undated; 4 educational support entries",
+    "children-pregnancy": "undated; 4 family entries",
+    "food": "undated; 4 entries",
+    "housing": "undated; housing and transportation combined, 3 entries",
+    "transportation": "undated; combined with housing, 3 entries",
+    "financial-assistance": "undated; 3 entries",
+    "legal": "undated; 4 entries",
+    "domestic-violence": "undated; victim and survivor services, 5 entries"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "medical-dental-vision": 3,
+    "mental-health": 16,
+    "employment": 4,
+    "education": 4,
+    "children-pregnancy": 4,
+    "food": 4,
+    "housing": 3,
+    "transportation": 1,
+    "financial-assistance": 3,
+    "legal": 4,
+    "domestic-violence": 5
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://directory.plentiful.org/utah/logan",
+   "title": "Plentiful: Food Pantries in Logan, UT",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "3 pantries listed (Cache Community Food Pantry, Porch Pantry, Cache County Senior Center); no update date shown"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "food": 3
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://feedam.org/food-pantry/ut/logan",
+   "title": "Feeding America 211 directory: food pantries in Logan, UT",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "8 food-assistance listings; most recent record date shown 21 April 2026"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "food": 8
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.homelessshelterdirectory.org/city/ut-logan",
+   "title": "Homeless Shelter Directory: Logan, UT",
+   "kind": "aggregator",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "stale (last addition 5 April 2020); no listing inside Logan, only 3 Ogden shelters about 36 miles away"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "homeless-services": 0
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.domesticshelters.org/help/ut/logan",
+   "title": "DomesticShelters.org: Logan, UT",
+   "kind": "aggregator",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "undated; 1 programme listed (CAPSA)"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "domestic-violence": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://freeclinics.us/utah/logan/",
+   "title": "FreeClinics.us: Logan, UT",
+   "kind": "aggregator",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "undated; 10 free and low-cost clinics listed"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "medical-dental-vision": 10
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://warriorsfund.org/city/ut/logan",
+   "title": "Warrior's Fund: Veteran Resources Directory, Logan, UT",
+   "kind": "aggregator",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "undated; 4 listings (2 housing assistance, 2 veterans service organisations)"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "veterans": 4
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/violence_services_srp",
+   "title": "Church ICP: Domestic Abuse services",
+   "kind": "regional",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "undated; one Logan entry (CAPSA)"
+   },
+   "readable": "yes",
+   "byLocation": "Church internal page; search by area",
+   "namesFound": {
+    "domestic-violence": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://utahparentcenter.org/wp-content/uploads/2018/01/FtoFN-Cache-County-Resource-List-2.pdf",
+   "title": "Utah Parent Center: Cache County Resource List (Family to Family Network)",
+   "kind": "regional",
+   "categories": [
+    "disability",
+    "children-pregnancy",
+    "education"
+   ],
+   "notes": {
+    "disability": "stale (created 24 Jan 2018); about 50-70 entries on early intervention, special education, therapy, recreation, family support",
+    "children-pregnancy": "stale (2018); child development entries",
+    "education": "stale (2018); special education support"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "disability": 50,
+    "children-pregnancy": 10,
+    "education": 10
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.needhelppayingbills.com/html/cache_county_assistance_progra.html",
+   "title": "NeedHelpPayingBills: Cache County assistance programmes",
+   "kind": "aggregator",
+   "categories": [
+    "financial-assistance",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "financial-assistance": "could not be read (403); title says Cache County assistance programmes, so expected to cover bills and utilities",
+    "utilities-phone-internet": "as above, unread"
+   },
+   "readable": "refused (403)",
+   "namesFound": {
+    "financial-assistance": 0,
+    "utilities-phone-internet": 0
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://affordablehousinghub.org/housing/utah/cache-county/logan",
+   "title": "Affordable Housing Hub: Logan, UT",
+   "kind": "aggregator",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "undated; 17 properties (15 tax-credit, 2 housing authority), 2 waitlists open at time of reading"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "housing": 17
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://affordablehousingonline.com/housing-search/Utah/Logan",
+   "title": "Affordable Housing Online: Logan, UT",
+   "kind": "aggregator",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "undated; 15+ listings including senior and accessible units"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "housing": 15
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.usu.edu/ucc/files/pre-season-info/2026/2026-Logan-Housing-Resources.pdf",
+   "title": "USU: 2026 Logan Housing Resources",
+   "kind": "regional",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "current (created 26 March 2025, titled 2026); rental sites, Facebook groups, camping spots; for seasonal workers, not an affordable-housing list; about 10 links"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "housing": 10
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/print/Food_Assistance_434426.pdf",
+   "title": "Church ICP: Food Assistance (Box Elder, Cache, Davis, Salt Lake, Tooele, Utah, Weber)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "PDF created 6 Feb 2024; Cache County has 1 entry (Cache Community Food Pantry); the same file has a Box Elder section"
+   },
+   "readable": "yes",
+   "byLocation": "county sections in one file",
+   "namesFound": {
+    "food": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/food_assistance_srp",
+   "title": "Church ICP: Food Assistance (web page version)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "undated web version of the same list; Box Elder and Cache sections"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "food": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://addictionresource.com/na-meetings/logan-ut/",
+   "title": "AddictionResource: NA meetings in Logan, UT",
+   "kind": "aggregator",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "undated, says times can change; 3 NA meetings listed"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "addiction": 3
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/node/317266",
+   "title": "211 Utah (DHHS directory): Indigent Transportation (Mobility Voucher Programme)",
+   "kind": "211",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current ('operational'); one provider (BRAG), covering Box Elder, Cache and Rich"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "transportation": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/node/320396",
+   "title": "211 Utah (DHHS directory): Birth Certificates, Cache County",
+   "kind": "211",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "current ('operational'); one provider, the Bear River Health Department Logan office"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "id-recovery": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/utah-driver-license-division-logan",
+   "title": "211 Utah (DHHS directory): Utah Driver License Division, Logan",
+   "kind": "211",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "single-provider page; Logan driver licence office"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "id-recovery": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/bear-river-area-agency-aging",
+   "title": "211 Utah (DHHS directory): Bear River Area Agency on Aging",
+   "kind": "211",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "single-provider page for the area agency, which serves Box Elder, Cache and Rich"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "seniors": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/bear-river-association-governments",
+   "title": "211 Utah (DHHS directory): Bear River Association of Governments",
+   "kind": "211",
+   "categories": [
+    "housing",
+    "utilities-phone-internet",
+    "financial-assistance"
+   ],
+   "notes": {
+    "housing": "single-provider page; BRAG rent, HEAT and emergency assistance",
+    "utilities-phone-internet": "as above",
+    "financial-assistance": "as above"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "housing": 1,
+    "utilities-phone-internet": 1,
+    "financial-assistance": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/adult-probation-and-parole-logan",
+   "title": "211 Utah (DHHS directory): Adult Probation and Parole, Logan",
+   "kind": "211",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "single-provider page; the only Logan reentry entry found in 211's readable pages"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "reentry-support": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/midtown-community-health-center-logan",
+   "title": "211 Utah (DHHS directory): Midtown Community Health Center, Logan",
+   "kind": "211",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "single-provider page for the low-income community clinic"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "medical-dental-vision": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/options-independence-logan",
+   "title": "211 Utah (DHHS directory): Options for Independence, Logan",
+   "kind": "211",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "single-provider page for the independent living centre"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "disability": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.needhelppayingbills.com/html/bear_river_association_of_gove.html",
+   "title": "NeedHelpPayingBills: Bear River Association of Governments",
+   "kind": "aggregator",
+   "categories": [
+    "financial-assistance",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "financial-assistance": "BRAG programmes described; one provider",
+    "utilities-phone-internet": "as above"
+   },
+   "readable": "not tried (sister page returned 403)",
+   "namesFound": {
+    "financial-assistance": 1,
+    "utilities-phone-internet": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.usu.edu/hr/files/aggies-thrive/resources/brhd-mh-directory.pdf",
+   "title": "Bear River Health Department: Mental Health Resource Directory, Box Elder, Cache and Rich (USU-hosted copy, July 2020)",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "addiction"
+   ],
+   "notes": {
+    "mental-health": "stale: updated 07/2020, an earlier edition of the December 2021 directory; sections providers, crisis, residential, USU student services, support groups, hot lines, other resources",
+    "addiction": "stale (2020); support groups and residential sections"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "mental-health": 25,
+    "addiction": 5
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://jobs.utah.gov/refugee/providers",
+   "title": "Utah Refugee Services Office: refugee service providers",
+   "kind": "official",
+   "categories": [
+    "immigration",
+    "education"
+   ],
+   "notes": {
+    "immigration": "undated; names 3 providers for Cache County (a refugee and immigrant nonprofit, the English Language Center, the school district)",
+    "education": "as above; English classes"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "immigration": 3,
+    "education": 1
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://artsci.usu.edu/social-work/transforming-communities-institute/files/Assessment-Homelessness-and-Housing.pdf",
+   "title": "USU Transforming Communities Institute / NSSNC: Cache County Human Services Assessment, Homelessness and Housing (2022)",
+   "kind": "regional",
+   "categories": [
+    "homeless-services",
+    "housing"
+   ],
+   "notes": {
+    "homeless-services": "stale (2022 survey); identifies 17 agencies helping people who are homeless or seeking affordable housing, described by role; reports no year-round shelter",
+    "housing": "stale (2022); same 17 agencies"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "homeless-services": 17,
+    "housing": 17
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://artsci.usu.edu/social-work/transforming-communities-institute/files/Assessment-Food-Insecurity.pdf",
+   "title": "USU TCI / NSSNC: Human Services Assessment, Food Insecurity (2022)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "stale (2022); 10 organizations focused on food insecurity in Cache County, 55% nonprofit, 45% government"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "food": 10
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://artsci.usu.edu/social-work/transforming-communities-institute/files/Assessment-Aging-and-People-with-Disabilities.pdf",
+   "title": "USU TCI / NSSNC: Human Services Assessment, Aging and People with Disabilities (2022)",
+   "kind": "regional",
+   "categories": [
+    "seniors",
+    "disability"
+   ],
+   "notes": {
+    "seniors": "stale (2022); 18 aging and disability service organisations surveyed in Cache County",
+    "disability": "stale (2022); same 18 organisations"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "seniors": 18,
+    "disability": 18
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://artsci.usu.edu/social-work/transforming-communities-institute/files/Assessment-Mental-Health-Substance-Use-Disorder.pdf",
+   "title": "USU TCI / NSSNC: Human Services Assessment, Mental Health and Substance Use Disorder Services (2022)",
+   "kind": "regional",
+   "categories": [
+    "mental-health",
+    "addiction"
+   ],
+   "notes": {
+    "mental-health": "stale (2022); counts 57 organisations in Cache County, 40 of them for-profit practices or individual therapists",
+    "addiction": "stale (2022); same study"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "mental-health": 57,
+    "addiction": 10
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://artsci.usu.edu/social-work/transforming-communities-institute/files/Assessment-Services-for-Diverse-Populations.pdf",
+   "title": "USU TCI / NSSNC: Human Services Assessment, Inclusivity and Support for Diverse Populations (2022)",
+   "kind": "regional",
+   "categories": [
+    "immigration",
+    "disability"
+   ],
+   "notes": {
+    "immigration": "stale (2022); 15 organisations surveyed, 5 serve immigrants and refugees",
+    "disability": "stale (2022); 5 organisations on education and daily living for people with disabilities"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "immigration": 5,
+    "disability": 5
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  },
+  {
+   "url": "https://www.gudsy.org/logan-ut/housing-social-services",
+   "title": "Gudsy: Housing and social services nonprofits in Logan, UT",
+   "kind": "aggregator",
+   "categories": [
+    "housing",
+    "homeless-services"
+   ],
+   "notes": {
+    "housing": "undated; 33 nonprofits from IRS filings, not a service directory (no phones or eligibility)",
+    "homeless-services": "as above"
+   },
+   "readable": "yes",
+   "namesFound": {
+    "housing": 33,
+    "homeless-services": 0
+   },
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06"
+  }
+ ],
+ "gaps": {
+  "addiction": "Fair. Two current lists: the Utah Maternal and Infant Health Program's Bear River substance use cards (31 January 2025, about 6 Cache entries with service icons) and the Cache County 211 list (about 5, several outside the county). The Bear River Health Department directory is from 2020-21. AA meetings are on a Google site that was not readable here (cachevalleyaa); NA on an aggregator, 3 meetings. No Logan page on 211's own site was reachable for addiction.",
+  "children-pregnancy": "Fair. The 211 Cache County list is current (about 25 entries across child/youth/family and pregnancy) and the USU basic-needs page names childcare. Nothing found for Logan diapers or baby supplies beyond news items and a statewide diaper programme; no list for older children or teens.",
+  "clothing-household": "Thin. Only the 211 Cache County list (about 3 entries) and the county attorney's page (Basic Necessities, 5 entries, mostly food). No clothing-specific list for Logan; the aggregators found nothing.",
+  "disability": "Thin and stale. The only dedicated list is the Utah Parent Center Cache County list (January 2018, children and families). BRAG's disability page just says to call Central Intake. 211's list has about 4 scattered entries. The 2022 USU assessment surveyed 18 aging and disability organisations but is a report, not a directory.",
+  "domestic-violence": "Fair for a small town, but every list names the same few providers: CAPSA, victim services, SAAVI at USU, The Family Place. The 211 list has about 10 entries. The state victims-of-crime directory page (uovc.concerncenter.utah.gov) refused (403).",
+  "education": "Thin. Bridgerland Tech's community list (4 entries), the refugee provider page, the state adult-education directory in ogden.json (statewide). No Cache-specific adult education/GED/ESL list found; the school district and Bridgerland Literacy pages describe single programmes.",
+  "employment": "Thin. The 211 list (about 8 entries) and Bridgerland Tech's list (4). BRAG's STEPS and benefit navigator pages are programme pages. No Logan job-seeker or felony-friendly list found; the Church felon-resources PDF has no Logan entries.",
+  "financial-assistance": "Fair. 211 Cache list (about 9), BRAG pages, USU basic-needs page. The aggregator page for Cache County assistance (needhelppayingbills) refused (403), so it was not read.",
+  "reentry-support": "None of its own. No Cache County reentry list exists. The Cache County Criminal Justice Coordinating Council discussed a reentry resource map in 2025, but none was found. 211 has a single Adult Probation and Parole Logan page. The Church felon-resources page and ogden.json's statewide lists have no Logan entries. Cache County has a sheriff's probation unit page that lists no providers.",
+  "food": "Good. Cache County 211 list (7), county attorney page, USU basic-needs page (6), Plentiful (3), Feeding America 211 (8, record dated 21 April 2026), Church ICP PDF (1; February 2024), 2022 USU food assessment (10). Nearly every list names the Cache Community Food Pantry first, so independence is limited.",
+  "medical-dental-vision": "Fair. 211 Cache list (about 10), FreeClinics.us (10), county attorney page (4), USU basic needs (6). Bear River Health Department dental clinic and the community health centres appear on provider pages only. No vision-specific list found.",
+  "homeless-services": "Thin, and the main finding: no year-round shelter in Cache County. The 211 Cache list names only Ogden providers. The Homeless Shelter Directory has nothing in Logan (stale, April 2020). The warming centre's own site (wabwarmingcenter.org) lists no partners. BRAG's homeless page is a programme page. The best list is the 2022 USU homelessness and housing assessment (17 agencies). The Bear River Local Homeless Council was found in news only, with no meeting or resource page.",
+  "housing": "Fair. Affordable Housing Hub (17 properties) and Affordable Housing Online (15), BRAG pages, 211 list (about 4). No official county or city affordable-housing list; Logan City's housing authority was found only in search snippets, not on a readable list.",
+  "id-recovery": "Thin. Only single-provider 211 pages (Logan driver licence office, Bear River Health Department birth certificates) plus statewide pages in ogden.json. No list for Cache.",
+  "immigration": "Thin. The Utah refugee providers page names 3 Cache providers; the 211 list's ethnic/cultural block is mostly Ogden and Salt Lake; the Multicultural Center of Cache Valley closed (news). No local immigration legal-help list found. The 2022 assessment surveyed 15 organisations on inclusivity.",
+  "legal": "Fair. 211 Cache list (about 6), Bridgerland Tech (4), BRAG Community Justice Advocates (debt, eviction), plus the Thursday Night Bar and pro se clinics known from search snippets but not from a list page. Statewide clinic lists are in ogden.json.",
+  "mental-health": "Good. Bear River Health Department mental health directory for Box Elder, Cache and Rich (December 2021 and July 2020 editions; the largest, but stale), 211 list (about 7 plus crisis lines), Bridgerland Tech (16), county attorney (9). The 2022 USU assessment counted 57 organisations, mostly private practice, none in a current directory. The health department is renaming itself Bear River Behavioral Health (news), so URLs may move.",
+  "seniors": "Good. Bear River Area Agency on Aging's own site, BRAG's Cache page, the Hyrum senior page (about 5 centres), 211 list (about 5), 2022 USU assessment (18 organisations).",
+  "transportation": "Fair. 211 Cache list (about 6), 211 mobility voucher page, BRAG Bear River Mobility voucher programme, and Cache Valley Transit District pages. There is no single Logan transportation list; transit is zero-fare so most need is paratransit and out-of-town medical trips.",
+  "utilities-phone-internet": "Fair. 211 Cache list names about 8 utilities including HEAT and Lifeline; BRAG's page names the HEAT contacts. Statewide Lifeline and Commerce lists are in ogden.json.",
+  "veterans": "Thin. Warrior's Fund (4 listings), a BRAG veterans page, the Dan Gyllenskog Veterans Resource Center in North Logan (found in news, no list page), the 211 list (2 transport entries). The state veterans office page in ogden.json is statewide. No county veterans list found."
+ }
+}

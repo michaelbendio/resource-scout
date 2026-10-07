@@ -94,6 +94,19 @@ writing and length were equal; it lost on three things, all fixable:
 The next round repeats the comparison with those three fixed, on Sonnet first and then on
 Opus if needed, to learn whether the gap is the method or the model.
 
+## Quality: Mesa housing, 6 October 2026
+
+Michael's OpenAI agent Tash wrote up ten Mesa housing providers from the list results,
+judged blind against Scout's versions (`~/scout-claude/lsscout-trial-mesa-housing/RESULT.md`):
+
+- **Round one**, Extra High effort, no length limit: **Tash better 8, same 2, Scout 0.**
+  Tash was about 1.6 times as long; Michael: the longer answers had more information.
+- **Round two**, High effort (as Scout's writers) and at most 200 words: **Tash better 4,
+  same 4, Scout better 2.**
+
+At matched effort and length, list seeding matched Scout on the hardest category. Scout's
+two wins became rules in the maintained [curation brief](lsscout-curation-brief.md).
+
 ## What was learned building it
 
 - **Depth must be asked for.** The first Las Vegas pass recorded 4 to 10 names a category

@@ -1,0 +1,1927 @@
+{
+ "office": {
+  "slug": "las-vegas",
+  "name": "Las Vegas"
+ },
+ "about": "Lists of local providers found by list seeding, for seeding and re-checking Scout runs. Notes are the trial's own words; namesFound counts the trial's seeds citing the list.",
+ "lists": [
+  {
+   "url": "https://nevada211.org",
+   "title": "Nevada 211",
+   "kind": "211",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "disability directory exists, but provider search could not be read; not used"
+   },
+   "namesFound": {
+    "disability": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.nevada211.org/",
+   "title": "Nevada 211 (program of the Nevada Department of Human Services)",
+   "kind": "211",
+   "categories": [
+    "financial-assistance",
+    "id-recovery",
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "financial-assistance": "searchable under Housing and Utilities, but results are a database search and could not be read as a list",
+    "id-recovery": "could not be read as a list for this need",
+    "medical-dental-vision": "has a Health category, but its results could not be read as a list"
+   },
+   "namesFound": {
+    "financial-assistance": 0,
+    "id-recovery": 0,
+    "medical-dental-vision": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://nevada211.org/addiction-services",
+   "title": "Nevada 211 addiction services",
+   "kind": "211",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "gateway page only (call 211, 1-866-535-5654, text 898211); the provider search could not be read, so no names came from it"
+   },
+   "namesFound": {
+    "addiction": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.nevada211.org/domestic-violence-services/",
+   "title": "Nevada 211 domestic violence services",
+   "kind": "211",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "gateway page only: category names and the 211 number, no providers; provider search not readable"
+   },
+   "namesFound": {
+    "domestic-violence": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.nevada211.org/immigration",
+   "title": "Nevada 211 immigration page",
+   "kind": "211",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "static page names only one provider (The Children's Cabinet, a Reno number); the real provider database (icarol) is an interactive search that the reader cannot run"
+   },
+   "namesFound": {
+    "immigration": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.nevada211.org/mental-health",
+   "title": "Nevada 211 mental health category",
+   "kind": "211",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "page lists service types only; provider database not readable"
+   },
+   "namesFound": {
+    "mental-health": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.nevada211.org/utility-assistance",
+   "title": "Nevada 211 utility assistance",
+   "kind": "211",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "page shows only a search box ('Loading resources'); the provider database cannot be read"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.nevada211.org/shelter/",
+   "title": "Nevada 211: shelter and housing search",
+   "kind": "211",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "explains how to search; the shelter database results could not be read as a list"
+   },
+   "namesFound": {
+    "homeless-services": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.8newsnow.com/community/helping-hands-of-southern-nevada/amp/",
+   "title": "8 News Now: Helping Hands of Southern Nevada",
+   "kind": "aggregator",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "news piece on one provider"
+   },
+   "namesFound": {
+    "transportation": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://node2.medicloud.intersales.de/news/adult-education-in-las-vegas",
+   "title": "Adult Education in Las Vegas: CCSD programs (third-party article)",
+   "kind": "aggregator",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "third-party article seen in search results only; still not read (not used)"
+   },
+   "namesFound": {
+    "education": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://affordablehousingonline.com/open-section-8-waiting-lists/Nevada/Las-Vegas",
+   "title": "AffordableHousingOnline: open Section 8 waiting lists, Las Vegas",
+   "kind": "aggregator",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "reads current to 3 Oct 2026; shows only the Southern Nevada Regional Housing Authority, with all its waiting lists closed"
+   },
+   "namesFound": {
+    "housing": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.blackhealth.org/screening/std-testing/nv/las-vegas/",
+   "title": "BlackHealth.org: community health centers in Las Vegas",
+   "kind": "aggregator",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "says 25 federally funded sliding-scale centers; shows names only in the text I could read, undated"
+   },
+   "namesFound": {
+    "medical-dental-vision": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.choosehelp.com/nevada-clark-county-nv-3250",
+   "title": "ChooseHelp: Clark County drug rehabs and treatment",
+   "kind": "aggregator",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "about 20 providers by city with ratings; no phones or full addresses; undated"
+   },
+   "namesFound": {
+    "addiction": 18
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.fox5vegas.com/2024/04/25/they-dont-have-anybody-else-seniors-waiting-up-one-year-rides-non-profit",
+   "title": "Fox5: seniors waiting up to a year for rides from nonprofit",
+   "kind": "aggregator",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "April 2024 news; reports a long wait"
+   },
+   "namesFound": {
+    "transportation": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://freeclinics.us/clinic/cambridge-family-health-center-nvhc/",
+   "title": "freeclinics.us: Cambridge Family Health Center (NVHC)",
+   "kind": "aggregator",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "one clinic's listing, undated; claims medical, dental, vision on a sliding scale"
+   },
+   "namesFound": {
+    "medical-dental-vision": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.immigrationlawhelp.org/organization.393127-Nevada_Legal_Services_Las_Vegas_Office",
+   "title": "ImmigrationLawHelp.org entry, Nevada Legal Services",
+   "kind": "aggregator",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "detail page for one provider; shows eligibility limits"
+   },
+   "namesFound": {
+    "immigration": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://reviewjournal.com/life/senior-activities-3",
+   "title": "Las Vegas Review-Journal: senior activities (senior centers)",
+   "kind": "aggregator",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "news piece listing senior centers; undated and probably stale"
+   },
+   "namesFound": {
+    "seniors": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.libertydentalplan.com/Resources/Documents/Veterans-Dental-Community-Resource-Guide-NV.pdf",
+   "title": "Liberty Dental Plan: Veterans Dental Community Resource Guide, Nevada",
+   "kind": "aggregator",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "found in search, not read; a company's guide aimed at veterans; on 3 Oct 2026 the link returned 404, so it was not read"
+   },
+   "namesFound": {
+    "medical-dental-vision": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.immigrationadvocates.org/legaldirectory/search?state=NV",
+   "title": "National Immigration Legal Services Directory (Immigration Advocates Network), Nevada",
+   "kind": "aggregator",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "current national directory; 5 Las Vegas organizations with address, phone, services"
+   },
+   "namesFound": {
+    "immigration": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.needhelppayingbills.com/html/las_vegas_and_clark_county_ass.html",
+   "title": "Need Help Paying Bills: Las Vegas and Clark County assistance",
+   "kind": "aggregator",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "found by search, not read; the search summary was used only to find names"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.needhelppayingbills.com/html/las_vegas_clothing_closets.html",
+   "title": "Need Help Paying Bills: Las Vegas clothing closets",
+   "kind": "aggregator",
+   "categories": [
+    "clothing-household"
+   ],
+   "notes": {
+    "clothing-household": "named by search results; the page itself returned 403, so its entries were not read"
+   },
+   "namesFound": {
+    "clothing-household": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "http://www.opencounseling.com/nevada/las-vegas",
+   "title": "OpenCounseling: Free or Low-Cost Counseling in Las Vegas",
+   "kind": "aggregator",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "10 providers by name only; no addresses, phones or fees on the page"
+   },
+   "namesFound": {
+    "mental-health": 11
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.opencounseling.com/crisis-lines/Nevada/las-vegas",
+   "title": "OpenCounseling: Las Vegas crisis lines",
+   "kind": "aggregator",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "seen in search results; not read; still not read in the top-up (aggregator)"
+   },
+   "namesFound": {
+    "domestic-violence": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://directory.plentiful.org/nevada/las-vegas",
+   "title": "Plentiful: Food Pantries in Las Vegas, NV",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "25 entries with address and mostly phone, no hours; mixes churches, shelters and a university pantry"
+   },
+   "namesFound": {
+    "food": 18
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.probationinfo.org/reentry-resources/nevada/",
+   "title": "ProbationInfo.org: Reentry Resources, Nevada",
+   "kind": "aggregator",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "undated national site; eight Las Vegas entries with phone and address, but several are general social services, not reentry"
+   },
+   "namesFound": {
+    "reentry-support": 8
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.rosen.senate.gov/wp-content/uploads/2022/11/2022-Veterans-Resource-Guide.pdf",
+   "title": "Senator Rosen's Nevada Veterans Resource Guide (2022)",
+   "kind": "aggregator",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "stale (Nov 2022); statewide guide of agencies, posts and transport; used for names only"
+   },
+   "namesFound": {
+    "veterans": 6
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.vegas4locals.com/resources/las-vegas-rental-utility-assistance/",
+   "title": "Vegas4Locals: Las Vegas rental and utility assistance",
+   "kind": "aggregator",
+   "categories": [
+    "financial-assistance"
+   ],
+   "notes": {
+    "financial-assistance": "local guide, undated; names Clark County Social Service, Nevada 211, NV Energy, Southwest Gas, water district; warns programs change quickly"
+   },
+   "namesFound": {
+    "financial-assistance": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.vegas4locals.com/resources/las-vegas-thrift-stores-donation-centers/",
+   "title": "Vegas4Locals: Las Vegas thrift stores and donation centers",
+   "kind": "aggregator",
+   "categories": [
+    "clothing-household"
+   ],
+   "notes": {
+    "clothing-household": "reviewed October 2026, but it lists shops and drop-off points, not free clothing or furniture programmes"
+   },
+   "namesFound": {
+    "clothing-household": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://cloudfront.careeronestop.org/LocalHelp/EmploymentandTraining/find-reentry-programs.aspx",
+   "title": "CareerOneStop ReEntry Program Finder (US Dept of Labor)",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "a location search tool; the results for Las Vegas did not show as readable text"
+   },
+   "namesFound": {
+    "reentry-support": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://files.lasvegasnevada.gov/ydsi/Mental-Health.pdf",
+   "title": "City of Las Vegas (YDSI), 2026-2027 Southern Nevada Mental Health resource directory",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "seniors",
+    "transportation",
+    "veterans"
+   ],
+   "notes": {
+    "mental-health": "current (PDF printed 16 Sep 2026); sections on helplines, counselling, grief, faith-based recovery, government agencies, homeless assistance, senior services, veterans services, treatment facilities; names with phone and usually address; read as text",
+    "seniors": "current (PDF printed 16 Sep 2026); sections on helplines, counselling, grief, faith-based recovery, government agencies, homeless assistance, senior services, veterans services, treatment facilities; names with phone and usually address; read as text",
+    "transportation": "current (PDF printed 16 Sep 2026); sections on helplines, counselling, grief, faith-based recovery, government agencies, homeless assistance, senior services, veterans services, treatment facilities; names with phone and usually address; read as text",
+    "veterans": "current (PDF printed 16 Sep 2026); sections on helplines, counselling, grief, faith-based recovery, government agencies, homeless assistance, senior services, veterans services, treatment facilities; names with phone and usually address; read as text"
+   },
+   "namesFound": {
+    "mental-health": 35,
+    "seniors": 1,
+    "transportation": 4,
+    "veterans": 12
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.lasvegasnevada.gov/Residents/Neighborhood-Services/Homeless-Services",
+   "title": "City of Las Vegas: Homeless Services",
+   "kind": "official",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "current; the Courtyard and city outreach, with a short partner list (Catholic Charities, Help Hope Home, Lutheran Social Services, Nevada 211, Salvation Army, Vegas Stronger, WestCare)"
+   },
+   "namesFound": {
+    "homeless-services": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.clarkcountynv.gov/government/departments/broadband/broadband_access_and_community_engagement/current-low-cost-options",
+   "title": "Clark County Broadband: current low-cost internet and phone options",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current; Lifeline plus 5 providers' programmes, with phones and websites"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 28
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.clarkcountynv.gov/residents/community_housing_fund/affordable-housing-list",
+   "title": "Clark County Community Housing Office: affordable housing list",
+   "kind": "official",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "found in search, not opened"
+   },
+   "namesFound": {
+    "housing": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.clarkcountynv.gov/government/departments/law_library/index.php",
+   "title": "Clark County Law Library page",
+   "kind": "official",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "current; says the library closed to the public on 2 July 2026"
+   },
+   "namesFound": {
+    "legal": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://files.clarkcountynv.gov/Law Library/Legal Guides/Resource Guide-Family Law.pdf",
+   "title": "Clark County Law Library: Resource Guide, Family Law",
+   "kind": "official",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "found by search, not read"
+   },
+   "namesFound": {
+    "legal": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.clarkcountynv.gov/government/departments/opioid_task_force/community-resources",
+   "title": "Clark County Opioid Task Force: Recovery Resources for Clark County",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "12 organisations with phones and websites, no street addresses; current page; mixes treatment, harm reduction, coalitions and national lines"
+   },
+   "namesFound": {
+    "addiction": 10
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.clarkcountynv.gov/assets/documents/residents/assistance_programs/english-royal-pages-2026-2027-rev-2-3-26.pdf",
+   "title": "Clark County Royal Pages 2026-27",
+   "kind": "official",
+   "categories": [
+    "addiction",
+    "children-pregnancy",
+    "clothing-household",
+    "disability",
+    "domestic-violence",
+    "education",
+    "employment",
+    "financial-assistance",
+    "food",
+    "homeless-services",
+    "housing",
+    "id-recovery",
+    "legal",
+    "medical-dental-vision",
+    "mental-health",
+    "reentry-support",
+    "seniors",
+    "transportation",
+    "utilities-phone-internet",
+    "veterans"
+   ],
+   "notes": {
+    "addiction": "seniors and disabled adults directory; names only UMC Crisis Stabilization, Desert Winds and Veteran Rehabilitation for addiction, so thin here",
+    "children-pregnancy": "seniors and disabled adults directory; only the family resource centres and Catholic Charities mention baby items, so near-empty for this category",
+    "clothing-household": "seniors and disabled adults directory; the only official list that names clothing and household-goods programmes, with phone and address",
+    "disability": "current, revised Feb 2026; names, addresses and phones for senior and disability services in Clark County; short descriptions, no hours",
+    "domestic-violence": "current; one entry (S.A.F.E. House) with address and hotline, aimed at seniors and disabled adults",
+    "education": "seniors and disabled adults directory; its education entries are mostly health, legal and financial classes, so little adult basic education",
+    "employment": "current; 8 entries with addresses and phones; aimed at seniors and disabled adults, but the general job services apply to anyone",
+    "financial-assistance": "current; directory for seniors and disabled people but many entries are open to all",
+    "food": "current; directory for seniors and disabled people; food section lists pantries and senior meals with phone and address",
+    "homeless-services": "current; directory for seniors and disabled people but many entries are open to all",
+    "housing": "current; directory for seniors and disabled people but many entries are open to all",
+    "id-recovery": "current; directory for seniors and disabled people but many entries are open to all",
+    "legal": "current; directory for seniors and disabled adults; read in full as text (PDF fetched through the reader and converted); each entry gives phone and usually address; county says it verifies contact numbers but tells readers to call the agency",
+    "medical-dental-vision": "current; directory for seniors and disabled people but many entries are open to all",
+    "mental-health": "current; directory for seniors and disabled adults; read in full as text (PDF fetched through the reader and converted); each entry gives phone and usually address; county says it verifies contact numbers but tells readers to call the agency",
+    "reentry-support": "current; directory for seniors and disabled people but many entries are open to all",
+    "seniors": "current; directory for seniors and disabled adults; read in full as text (PDF fetched through the reader and converted); each entry gives phone and usually address; county says it verifies contact numbers but tells readers to call the agency",
+    "transportation": "current; directory for seniors and disabled adults; read in full as text (PDF fetched through the reader and converted); each entry gives phone and usually address; county says it verifies contact numbers but tells readers to call the agency",
+    "utilities-phone-internet": "current; directory for seniors and disabled adults; read in full as text (PDF fetched through the reader and converted); each entry gives phone and usually address; county says it verifies contact numbers but tells readers to call the agency",
+    "veterans": "current; directory for seniors and disabled adults; read in full as text (PDF fetched through the reader and converted); each entry gives phone and usually address; county says it verifies contact numbers but tells readers to call the agency"
+   },
+   "namesFound": {
+    "addiction": 3,
+    "children-pregnancy": 3,
+    "clothing-household": 7,
+    "disability": 18,
+    "domestic-violence": 4,
+    "education": 6,
+    "employment": 13,
+    "financial-assistance": 10,
+    "food": 11,
+    "homeless-services": 10,
+    "housing": 10,
+    "id-recovery": 6,
+    "legal": 8,
+    "medical-dental-vision": 13,
+    "mental-health": 4,
+    "reentry-support": 4,
+    "seniors": 45,
+    "transportation": 12,
+    "utilities-phone-internet": 16,
+    "veterans": 8
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://files.lasvegasnevada.gov/council/Ward_5_2019/CCSS-Community-Food-Pantry-List-10-28-2025.pdf",
+   "title": "Clark County Social Service: Community Food Pantries (28 Oct 2025), hosted by City of Las Vegas",
+   "kind": "official",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "current to Oct 2025; about 45 pantries with phone, address, eligibility and hours; says hours change and to call first"
+   },
+   "namesFound": {
+    "food": 57
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://files.clarkcountynv.gov/Social Services/forms/Families Facing Immigration Issues Resource Guide - Google Docs.pdf",
+   "title": "Clark County Social Service: Families Facing Immigration Issues Resource Guide",
+   "kind": "official",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "official county guide; found by search but could not be opened (certificate error), so not read"
+   },
+   "namesFound": {
+    "immigration": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.clarkcountynv.gov/residents/assistance_programs/housing-expense-assistance",
+   "title": "Clark County Social Service: Rental/Utility Assistance",
+   "kind": "official",
+   "categories": [
+    "financial-assistance"
+   ],
+   "notes": {
+    "financial-assistance": "current; the county's own programme page, which conflicts with a third-party page on whether applications are open"
+   },
+   "namesFound": {
+    "financial-assistance": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.clarkcountynv.gov/residents/assistance_programs/senior-services",
+   "title": "Clark County Social Service: Senior Services",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current; names CCSS's own three programmes and points to Royal Pages, but names no outside agencies"
+   },
+   "namesFound": {
+    "seniors": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.clarkcountynv.gov/residents/assistance_programs/homeless-help",
+   "title": "Clark County: Homeless Assistance Programs",
+   "kind": "official",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "current; explains coordinated entry and points to a PDF flyer of all access points (2023 version) and Nevada 211 shelter search"
+   },
+   "namesFound": {
+    "homeless-services": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.csn.edu/education-and-training/workforce-development/ACES",
+   "title": "CSN Adult Basic Education Program (formerly ACES)",
+   "kind": "official",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "current; free ESL and high school equivalency; one location"
+   },
+   "namesFound": {
+    "education": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.clarkcountycourts.us/departments/protection-orders/",
+   "title": "Eighth Judicial District Court: Protection Orders",
+   "kind": "official",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "current court page: types of protection order and the two self-help centres, with address and hours"
+   },
+   "namesFound": {
+    "domestic-violence": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://employnvcareerhub.org",
+   "title": "EmployNV Career Hub site",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "Workforce Connections' job-seeker site; says 15 Career Hub locations but its locations page is a zip-code search that did not return results"
+   },
+   "namesFound": {
+    "employment": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://employnvyouthhub.org",
+   "title": "EmployNV Youth Hub site",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "ages 16-24; locations page is also a zip-code search, no results readable"
+   },
+   "namesFound": {
+    "employment": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://hendersonlibraries.com/adult-resources",
+   "title": "Henderson Libraries: Lifelong Learning (adult resources)",
+   "kind": "official",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "current; names Catholic Charities ESL, CCSD adult education and CSN with phone numbers; no addresses; re-read in the top-up: names five providers, the only list here with CCSD, Catholic Charities and the state HSE test centres together; a public library district page, treated as an official list"
+   },
+   "namesFound": {
+    "education": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.hud.gov/sites/dfiles/State/documents/SN-Resource-Guidebook.docx",
+   "title": "HUD Nevada Field Office: Looking for HUD Associated Resources, Southern Nevada guidebook",
+   "kind": "official",
+   "categories": [
+    "financial-assistance",
+    "homeless-services",
+    "housing",
+    "id-recovery",
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "financial-assistance": "federal guide, undated but written about 2023-24 (mentions an April 2023 opening); phone and address for shelters, rent help, counselling agencies and subsidized housing; some entries may be stale",
+    "homeless-services": "federal guide, undated but written about 2023-24 (mentions an April 2023 opening); phone and address for shelters, rent help, counselling agencies and subsidized housing; some entries may be stale",
+    "housing": "found in search, a Word file; not opened, so its contents are unknown to this run",
+    "id-recovery": "federal guide, undated but written about 2023-24 (mentions an April 2023 opening); phone and address for shelters, rent help, counselling agencies and subsidized housing; some entries may be stale",
+    "medical-dental-vision": "federal guide, undated but written about 2023-24 (mentions an April 2023 opening); phone and address for shelters, rent help, counselling agencies and subsidized housing; some entries may be stale"
+   },
+   "namesFound": {
+    "financial-assistance": 8,
+    "homeless-services": 28,
+    "housing": 28,
+    "id-recovery": 1,
+    "medical-dental-vision": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://thelibrarydistrict.org/adult-learning/",
+   "title": "Las Vegas-Clark County Library District: Adult Learning Program",
+   "kind": "official",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "current; free ESL and high school equivalency at six libraries; no hours or addresses on the page"
+   },
+   "namesFound": {
+    "education": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://thelibrarydistrict.org/blogs/post/access-free-legal-resources-with-nevada-legal-kiosks/",
+   "title": "Las Vegas-Clark County Library District: Nevada Legal Kiosks",
+   "kind": "official",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "current; one service at six branches"
+   },
+   "namesFound": {
+    "legal": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://veterans.nv.gov/contact",
+   "title": "NDVS contact page: Southern Nevada office",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current; one office with address and phone"
+   },
+   "namesFound": {
+    "veterans": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://veterans.nv.gov/a-word-on-housing-assistance",
+   "title": "NDVS: a word on housing assistance",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "found by search, not read"
+   },
+   "namesFound": {
+    "veterans": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://adsd.nv.gov/Contact/Contact_AgingDisability/",
+   "title": "Nevada ADSD: contact offices",
+   "kind": "official",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "Las Vegas regional office"
+   },
+   "namesFound": {
+    "disability": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://adsd.nv.gov/Programs/IDEA/EIprogram/Early_Intervention_Programs/",
+   "title": "Nevada ADSD: Early Intervention Programs",
+   "kind": "official",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "state page; Southern Nevada office address and phones for children under 3"
+   },
+   "namesFound": {
+    "disability": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://adsd.nv.gov/contact/contact_agingdisability",
+   "title": "Nevada Aging and Disability Services Division: office locations",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current; Las Vegas regional office only"
+   },
+   "namesFound": {
+    "seniors": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://adsd.nv.gov/Programs/Seniors/TAP/TAP_Prog",
+   "title": "Nevada Aging and Disability Services: Taxi Assistance Program",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current; one programme, says funding is full"
+   },
+   "namesFound": {
+    "transportation": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://ag.nv.gov/uploadedFiles/agnvgov/Content/Hot_Topics/Victims/Domestic Violence _ Nevada Information and Assistance.pdf",
+   "title": "Nevada Attorney General: Domestic Violence - Nevada Information and Assistance",
+   "kind": "official",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "undated one-page statewide list of programmes by county; hotlines and office numbers, no addresses"
+   },
+   "namesFound": {
+    "domestic-violence": 10
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://nvcourts.gov/__data/assets/pdf_file/0026/47825/Non-Citizen_Resources_Updated.pdf",
+   "title": "Nevada Courts, Non-Citizen Resources",
+   "kind": "official",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "found by search; returned 403, not read"
+   },
+   "namesFound": {
+    "immigration": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://doc.nv.gov/",
+   "title": "Nevada Department of Corrections",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "home page only; no list of community reentry providers found on it; reentry pages sit under /programs/ and were not read"
+   },
+   "namesFound": {
+    "reentry-support": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://doc.nv.gov/Inmates/Re-Entry_Program/Home",
+   "title": "Nevada Department of Corrections: The Re-Entry Process",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "current; describes the programme inside prisons and a Re-Entry Task Force; names no Las Vegas community providers or phones"
+   },
+   "namesFound": {
+    "reentry-support": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://veterans.nv.gov",
+   "title": "Nevada Department of Veterans Services (NDVS)",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current; states VSO appointments are taking 30-90 days"
+   },
+   "namesFound": {
+    "veterans": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://veterans.nv.gov/southern-nevada-resources",
+   "title": "Nevada Department of Veterans Services, Southern Nevada resources",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "returned 404 to the reader, not read"
+   },
+   "namesFound": {
+    "veterans": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://veterans.nv.gov/benefits-and-services/transportation",
+   "title": "Nevada Department of Veterans Services, transportation",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current (dated Mar 2026); DAV and VA van service, RTC veteran fares"
+   },
+   "namesFound": {
+    "transportation": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://detr.nv.gov/Page/EmployNV_Career_Hubs",
+   "title": "Nevada DETR: EmployNV Career Hubs",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "returned 403, not read; search snippet gave four Las Vegas hub addresses and hours; still 403 in the top-up. The search-snippet hub addresses and hours were not used"
+   },
+   "namesFound": {
+    "employment": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://cms.detr.nv.gov/Content/Media/JobConnect/WFC.pdf",
+   "title": "Nevada DETR: JobConnect workforce centres (WFC.pdf)",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "appeared in search results; returned 403, not read; still 403 in the top-up. The search-snippet hub addresses and hours were not used"
+   },
+   "namesFound": {
+    "employment": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://dss.nv.gov/Energy/",
+   "title": "Nevada Division of Social Services: Energy Assistance Program",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current; statewide; its Clark County contact page was not opened"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://dmv.nv.gov/",
+   "title": "Nevada DMV: replacing a lost driver license or ID card",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "the page I reached showed only headings (how, fees, Las Vegas offices, hours, appointments, documents) with no details; dmvnv.com refused the connection"
+   },
+   "namesFound": {
+    "id-recovery": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.dpbh.nv.gov/programs/maternal-child-and-adolescent-health-mcah/nevada-home-visiting-miechv-home/diapers/Resources/",
+   "title": "Nevada DPBH Home Visiting: Diapering Resources directory",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "undated; statewide, 3 Clark County entries with address, phone and website, all general family-assistance agencies"
+   },
+   "namesFound": {
+    "children-pregnancy": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.dpbh.nv.gov/programs/maternal-child-and-adolescent-health-mcah/nevada-home-visiting-miechv-home/nevada-home-visiting-miechv-providers/",
+   "title": "Nevada DPBH Home Visiting: service providers",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "statewide page; names two Clark County providers (Sunrise Children's Foundation, SNHD Nurse-Family Partnership) with phone and address; undated"
+   },
+   "namesFound": {
+    "children-pregnancy": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://prod.dpbh.nv.gov/programs/women-infants-and-children/wic-locations/",
+   "title": "Nevada DPBH: WIC locations",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "gives only the state WIC office and phone 1-800-8-NEV-WIC; the clinic locator (nevadawic.org/clinics) did not load its listings"
+   },
+   "namesFound": {
+    "children-pregnancy": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://nvsctlawlib.libguides.com/nvpublictoolkit/legal-aid",
+   "title": "Nevada Supreme Court Law Library: public toolkit, Legal Aid",
+   "kind": "official",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "current; names 4 providers, no phone numbers"
+   },
+   "namesFound": {
+    "legal": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.nvhousingsearch.org/",
+   "title": "NVHousingSearch.org (State of Nevada Housing Division rental search)",
+   "kind": "official",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "current; a free searchable database of affordable rentals with a toll-free help line; not a list I could copy out"
+   },
+   "namesFound": {
+    "housing": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://files.clarkcountynv.gov/Social%20Services/forms/Royal%20Pages%202020-2021.pdf",
+   "title": "Royal Pages senior resource directory 2020-2021 (Clark County Social Service)",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "the best local list, but could not be opened (certificate error) and is from 2020-21"
+   },
+   "namesFound": {
+    "seniors": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.rtcsnv.com/ways-to-travel/fares-passes/reduced-fare/",
+   "title": "RTC of Southern Nevada: Reduced Fare",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "RTC site returned 403 to my reader; content known only from search-result summaries"
+   },
+   "namesFound": {
+    "transportation": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://nvcmis.bitfocus.com/sn-ce",
+   "title": "Southern Nevada Coordinated Entry: access points (Continuum of Care system, nvcmis.bitfocus.com)",
+   "kind": "official",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "current; names the five Clark County Social Service offices for single adults and the VA centre for veterans; its other tabs (families, youth) were not read"
+   },
+   "namesFound": {
+    "homeless-services": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://gethealthyclarkcounty.org/wp-content/uploads/2024/08/Low-Cost-Clinics-Eng.pdf",
+   "title": "Southern Nevada Health District / Get Healthy Clark County: Low-cost Clinics flyer (Aug 2024)",
+   "kind": "official",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "one-page list of sliding-scale clinics with phone and street addresses; about 2 years old"
+   },
+   "namesFound": {
+    "medical-dental-vision": 12
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.southernnevadahealthdistrict.org/programs/vital-records/birth-certificates/",
+   "title": "Southern Nevada Health District: Birth Certificates and Vital Records",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "every fetch of its vital-records pages returned only a heading, so the details come from search summaries"
+   },
+   "namesFound": {
+    "id-recovery": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.southernnevadahealthdistrict.org/programs/maternal-child-health/",
+   "title": "Southern Nevada Health District: maternal child health programs",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "names Healthy Start and Nurse-Family Partnership home visiting (via search snippet); the page itself came back truncated"
+   },
+   "namesFound": {
+    "children-pregnancy": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.southernnevadahealthdistrict.org/programs/substance-use-and-overdose-prevention/substance-use-and-overdose-prevention-duplicate/",
+   "title": "Southern Nevada Health District: substance use additional resources",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "page came back truncated; search snippet shows it points to SAMHSA helpline and treatment locator rather than naming local providers"
+   },
+   "namesFound": {
+    "addiction": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://dpbh.nv.gov/Programs/ClinicalMedicationMngmt/Locations/Southern_Nevada_Adult_Mental_Health_Services_Locations/",
+   "title": "State DPBH, SNAMHS locations",
+   "kind": "official",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "page returned 404 to the reader; address and phone taken from the City directory"
+   },
+   "namesFound": {
+    "mental-health": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.va.gov/las-vegas-vet-center/",
+   "title": "VA Las Vegas Vet Center",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current; address, hours, eligibility"
+   },
+   "namesFound": {
+    "veterans": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.va.gov/southern-nevada-health-care/contact-us/",
+   "title": "VA Southern Nevada Healthcare System: contact us",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current; main numbers only"
+   },
+   "namesFound": {
+    "veterans": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.va.gov/southern-nevada-health-care/dav-vans-transportation-for-veterans/",
+   "title": "VA Southern Nevada, DAV vans",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current; phones by location"
+   },
+   "namesFound": {
+    "transportation": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.veteranscrisisline.net",
+   "title": "Veterans Crisis Line",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current; call, text, chat"
+   },
+   "namesFound": {
+    "veterans": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://nvworkforceconnections.org",
+   "title": "Workforce Connections (Southern Nevada workforce board): EmployNV Career Hub",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "current; names the main Career Hub and Youth Hub; no list of all hub locations or hours"
+   },
+   "namesFound": {
+    "employment": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://catholiccharities.com/service_details/wic/",
+   "title": "Catholic Charities: WIC offices (provider page)",
+   "kind": "regional",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "two WIC offices, Las Vegas and Henderson, with phone and hours"
+   },
+   "namesFound": {
+    "children-pregnancy": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://cceu.ccsd.net/wp-content/uploads/2020/08/2020MentalBehavioralHealthDirectoryJune2020.pdf",
+   "title": "CCSD Mental and Behavioral Health Directory, June 2020",
+   "kind": "regional",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "found by search, not read; stale (2020)"
+   },
+   "namesFound": {
+    "mental-health": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.christopherreeve.org/wp-content/uploads/2026/06/Nevada-Disability-Resources-6-26-A.pdf",
+   "title": "Christopher and Dana Reeve Foundation: Nevada Disability Resources, June 2026",
+   "kind": "regional",
+   "categories": [
+    "disability",
+    "domestic-violence"
+   ],
+   "notes": {
+    "disability": "current; mostly names and websites, no phones or addresses; statewide; re-read in the top-up: names local providers (DRIVEN Neuro, Trail Access Project, City adaptive recreation, Paralyzed Veterans) alongside national bodies",
+    "domestic-violence": "statewide: national hotlines, Reno shelters and the state Victims of Crime Program"
+   },
+   "namesFound": {
+    "disability": 8,
+    "domestic-violence": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://clarkcountyadulteducation.net/",
+   "title": "Clark County School District Adult Education (provider site)",
+   "kind": "regional",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "provider page: two sites, programmes, registration hours"
+   },
+   "namesFound": {
+    "education": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://ccsd.net:443/community/mentalhealth/pdf/community-resources-2023-2023.pdf",
+   "title": "Clark County School District: Mental Health Resources / community resources 2023",
+   "kind": "regional",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "found by search; the page itself returned 404, PDF not read; 2023 so possibly stale"
+   },
+   "namesFound": {
+    "mental-health": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://theculinaryacademy.org/",
+   "title": "Culinary Academy of Las Vegas (provider site)",
+   "kind": "regional",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "provider page for the hospitality training academy"
+   },
+   "namesFound": {
+    "employment": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://eobcapsnv.org/wp-content/uploads/2021/11/Community-Resource-List.pdf",
+   "title": "Economic Opportunity Board of Clark County: Community Resource List (2021)",
+   "kind": "regional",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "found by search, not read; 2021"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.fox5vegas.com/2026/08/11/babys-bounty-hosts-diaper-banks-across-southern-nevada-throughout-august/",
+   "title": "FOX5: Baby's Bounty diaper banks, August 2026",
+   "kind": "regional",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "news item, current; one provider only, not a directory"
+   },
+   "namesFound": {
+    "children-pregnancy": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.ktnv.com/positivelylv/education/north-las-vegas-libraries-expand-services",
+   "title": "KTNV: North Las Vegas libraries expand services",
+   "kind": "regional",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "news item, not a directory"
+   },
+   "namesFound": {
+    "education": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.lacsn.org",
+   "title": "Legal Aid Center of Southern Nevada home page",
+   "kind": "regional",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "current; programmes list, main phone only"
+   },
+   "namesFound": {
+    "legal": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.maketheroadnv.org/_files/ugd/153b86_2458b555dcb245bd86db11360559a5f5.pdf",
+   "title": "Make the Road Nevada, Community Preparedness Guide (7 Aug 2025), Southern Nevada resources and consulates",
+   "kind": "regional",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "a community organisation's guide, dated Aug 2025; names legal providers, consulates, with phone; read as text from the PDF"
+   },
+   "namesFound": {
+    "immigration": 10
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.namisouthernnevada.org",
+   "title": "NAMI Southern Nevada",
+   "kind": "regional",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "current; provider's own page"
+   },
+   "namesFound": {
+    "mental-health": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.ncedsv.org/",
+   "title": "Nevada Coalition to End Domestic and Sexual Violence",
+   "kind": "regional",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "homepage only; member directory not reachable, and it says it is not a shelter or hotline"
+   },
+   "namesFound": {
+    "domestic-violence": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.nevadahealthcenters.org/wic/",
+   "title": "Nevada Health Centers: WIC clinics (provider page)",
+   "kind": "regional",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "six WIC clinics in the valley and one appointment line"
+   },
+   "namesFound": {
+    "children-pregnancy": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.nevadaseniorservices.org",
+   "title": "Nevada Senior Services",
+   "kind": "regional",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current; provider's own page"
+   },
+   "namesFound": {
+    "seniors": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://news3lv.com/news/local/las-vegas-area-libraries-offer-free-tutoring",
+   "title": "News3LV: area libraries offer free tutoring",
+   "kind": "regional",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "news item naming two tutoring programmes, no contacts"
+   },
+   "namesFound": {
+    "education": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.news3lv.com/news/local/las-vegas-rescue-mission-calls-for-urgent-blanket-and-coat-donations",
+   "title": "News3LV: Las Vegas Rescue Mission coat and blanket drive",
+   "kind": "regional",
+   "categories": [
+    "clothing-household"
+   ],
+   "notes": {
+    "clothing-household": "news item; source of Rescue Mission clothing giveaway hours"
+   },
+   "namesFound": {
+    "clothing-household": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.project150.org",
+   "title": "Project 150 (provider page)",
+   "kind": "regional",
+   "categories": [
+    "clothing-household"
+   ],
+   "notes": {
+    "clothing-household": "Betty's Boutique clothing for high school students"
+   },
+   "namesFound": {
+    "clothing-household": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.salvationarmysouthernnevada.org/veteran-services",
+   "title": "Salvation Army Southern Nevada, veteran services",
+   "kind": "regional",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current; SSVF and rehabilitation"
+   },
+   "namesFound": {
+    "veterans": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://southwest.salvationarmy.org/southwest2/combat-addiction/",
+   "title": "Salvation Army Southwest: Combat Addiction",
+   "kind": "regional",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "provider's page for the two North Las Vegas Adult Rehabilitation Centers"
+   },
+   "namesFound": {
+    "addiction": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.swgas.com/en/energy-share",
+   "title": "Southwest Gas, Energy Share",
+   "kind": "regional",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current; the utility's own page; names HELP of Southern Nevada as the Southern Nevada agency"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://thenevadaindependent.com/article/can-the-high-profile-re-entry-program-hope-for-prisoners-survive-its-founders-fall-from-grace",
+   "title": "The Nevada Independent on Hope for Prisoners (2026)",
+   "kind": "regional",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "news article, not a list; names two other reentry providers without contact details; its status report on Hope for Prisoners is the reason for the caution below"
+   },
+   "namesFound": {
+    "reentry-support": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://thenevadaindependent.com/es/article/resource-guide-heres-where-to-access-free-food-across-nevada-as-snap-runs-out",
+   "title": "The Nevada Independent: where to access free food across Nevada (updated 6 Nov 2025)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "news resource guide; only three Clark County providers, written during the SNAP disruption"
+   },
+   "namesFound": {
+    "food": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.threesquare.org/get-help/find-food",
+   "title": "Three Square Food Bank: Find Food (Food Finder map)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "current; the map itself is interactive and was not readable as text, so its partner list (170+ agencies) could not be copied"
+   },
+   "namesFound": {
+    "food": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://uwsn.org/?p=9889",
+   "title": "United Way of Southern Nevada: Get Help, rent/mortgage and utility assistance",
+   "kind": "regional",
+   "categories": [
+    "financial-assistance"
+   ],
+   "notes": {
+    "financial-assistance": "current (2025-2026); only six providers, phone and email, no addresses or hours"
+   },
+   "namesFound": {
+    "financial-assistance": 6
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://law.unlv.edu/centers-programs/clinics",
+   "title": "UNLV Boyd School of Law clinics page",
+   "kind": "regional",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "current; five clinics, one phone 702-895-2080"
+   },
+   "namesFound": {
+    "legal": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://vegasstronger.org/rehab/client-services/clothing-closet/",
+   "title": "Vegas Stronger clothing closet page",
+   "kind": "regional",
+   "categories": [
+    "clothing-household"
+   ],
+   "notes": {
+    "clothing-household": "provider page, for clients only"
+   },
+   "namesFound": {
+    "clothing-household": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://westcare.com/places/nevada/",
+   "title": "WestCare Nevada locations (provider's own list)",
+   "kind": "regional",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "provider's page, four Las Vegas sites with phones"
+   },
+   "namesFound": {
+    "addiction": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  }
+ ],
+ "gaps": {
+  "addiction": "Still thin, but better than the first pass. No official list gives a treatment directory: Nevada 211's provider search could not be read, the SNHD page returns truncated, the state DPBH/SAPTA lists are 2015 and 2019 files (not used) and the newer resource guide 404s. The one current official list is Clark County's Opioid Task Force page (12 entries, phones, no addresses, half of them coalitions or national lines). Royal Pages names almost nothing for addiction. Names beyond that still come from ChooseHelp, an aggregator. Several opioid clinics and small agencies could not be confirmed because their own sites were not found. Weighted to private rehabs; free routes found are the Salvation Army and Rescue Mission residential programmes, Crossroads (takes Medicaid), Foundation for Recovery and the harm reduction centre. Scout would still need to find Narcotics Anonymous/Alcoholics Anonymous local lines, SAPTA-funded programmes and Medicaid-accepting clinics.",
+  "children-pregnancy": "Still thin. Official lists: the state diaper directory (three general agencies, all fail) and the state Home Visiting providers page (two Clark County providers, both usable) are all that exist; SNHD's maternal-child page returns truncated, the state WIC clinic locator would not show its listings, Nevada 211 gave only the Children's Cabinet (a Reno agency) and Royal Pages is aimed at seniors. WIC clinics were confirmed only on two provider pages. Nothing readable covers child care help, Medicaid prenatal enrolment, school-age children's programmes or pregnancy services other than one clinic. 16 seeds is about all the lists support; Scout would have to find child care assistance, Head Start sites, and further diaper and baby-goods banks.",
+  "clothing-household": "Very thin, and still so after the top-up. No official list is a clothing or household-goods directory: Royal Pages mentions clothing only in passing in three entries; Nevada 211's provider search could not be read; the aggregator with Las Vegas clothing closets (needhelppayingbills) returns 403 and the CCSD Family Services clothing page 404s; the Vegas4Locals page lists shops. Most free closets turned out to be limited by rule 3: clients-only (Vegas Stronger), referral-only (Dress for Success) or school-staff access. Only three seeds pass (Rescue Mission, Helping Hands for seniors 60+, Project 150 for high school students), and none gives clothing or furniture to any adult in need on a walk-in basis except the Rescue Mission. St. Vincent de Paul's furniture and clothing programme and the Assistance League could not be checked. Scout would have to find real furniture banks and general clothing closets.",
+  "disability": "Best covered of the seven, but not deep. Clark County's Royal Pages 2026-27 and the Reeve Foundation's June 2026 list are current; Royal Pages gives phones and addresses but is aimed at seniors and disabled adults, and the Reeve list is mostly national bodies and Reno agencies, with only a handful of Las Vegas providers. Nevada 211's provider search could not be read. After the top-up 24 seeds is about what these lists support. Hours are missing for most. Not found on any readable list: special education, autism services (the Nevada Autism Center name appeared only as a mis-listing on an addiction aggregator), mobility equipment loans, respite for families, and disability housing beyond Accessible Space. Scout would still have to cover those.",
+  "domestic-violence": "The Clark County list is short, so the category is short. The Attorney General's one-page list names only five Clark County programmes (undated), Royal Pages repeats S.A.F.E. House, Nevada 211's provider search could not be read, and the Coalition's member directory could not be reached. The court's protection-order page was the one new official source. Hotlines and the three shelters (SafeNest, S.A.F.E. House, The Shade Tree) are solid and checked on their own pages. Missing: street addresses (shelters are confidential anyway), counselling and support groups for survivors, legal aid for protection orders and divorce, help for male and LGBTQ survivors, and children's programmes. The Immigrant Home Foundation could not be classified. More seeds would need a readable 211 or coalition directory; these lists support 16.",
+  "education": "Well covered for adult basic education (ESL, diploma, equivalency): the Henderson Libraries list, the Library District, CSN and CCSD's own site agree, and the four main programmes are checked on their own pages. Thin on everything else under education. Royal Pages' education section is health, legal and financial classes (all fail rule 2). Nothing readable covers children's tutoring, college access, FAFSA help or school enrolment: those names (America Reads and Counts, Andson Foundation, family support centres, Victory Life Church) came from news items and search results with no contacts, so they stay unclear. Nevada 211 could not be read, the state test-centre site and North Las Vegas library site return 403. 16 seeds is what the lists support; Scout would still need to find K-12, college-access and GED-testing locations.",
+  "employment": "Official coverage is decent for the main public job services, and checked mostly on the strength of Royal Pages: the state's DETR hub page and PDF both returned 403 again, and Goodwill's and HELP's own sites could not be read, so passes rest on the county list's address and phone. Workforce Connections' own pages say there are 15 Career Hub and Youth Hub locations but their zip-code search does not show results, so only the main office and three state JobConnect offices are recorded. Nevada 211 not read. Not found on any readable list: apprenticeships and trade training other than the Culinary Academy, work-clothing help, jobs for people with a record, day-labour and temp agencies. Hours are missing for most. Scout would need to fill in the 15 hub locations and the training providers.",
+  "financial-assistance": "Financial help is covered by Clark County Social Service, HopeLink, JFSA, Lutheran Social Services, Catholic Charities, HELP, ULAN, Salvation Army and the state energy programme, all on official lists (Royal Pages 2026-27 rent and utility section, HUD guidebook). Thin: funding runs out, so most of these are 'when funded' and the county's own fixed-income and eviction rounds were reported closed; the HUD guide includes pandemic-era programmes (RAFT, CHAP) that may no longer exist; United Way's provider list and Nevada 211 give phones and no addresses. Conflicting numbers and addresses for the Salvation Army and the energy assistance office are noted per entry. Entries from the United Way list are unclear because it gives phone only.",
+  "food": "Food is well covered by official lists. The Clark County Social Service pantry list (28 Oct 2025, about 57 entries) was transcribed in full; Plentiful (25, mostly the same churches) and Royal Pages 2026-27 (senior meals) added the rest. Most pass on the strength of the county list's phone, address and hours rather than a page of their own; those hours include dated distributions and the list says to call first. Plentiful-only entries are marked unclear because an aggregator alone does not count. Three Square's partner map and Nevada 211's food listings were not readable as text, so its 170+ partner agencies are not captured. Several Henderson and North Las Vegas pantries are reachable but small; Boulder City and Laughlin entries are unclear or fail on reach.",
+  "homeless-services": "Front doors are well covered by official sources: coordinated entry (Clark County Social Service, five offices), the City of Las Vegas Courtyard and MORE team, and the VA. The 2023-24 HUD Nevada guidebook adds a full list of shelters for adults, families and youth, which this pass recorded. Thin: Nevada 211's shelter database cannot be read as text, so its listings are not here; the HUD guide is undated and some phones, hours and street addresses conflict with Royal Pages (noted per entry); the coordinated-entry flyer PDF would not download readably. Several shelters have no description or hours on the lists and are passes only on phone and address, so a call is needed. Domestic-violence shelters are in that category's file.",
+  "housing": "Housing front doors are well covered: SNRHA, Nevada HAND, Nevada Housing Division's locator, HUD-approved counselling agencies, and the HUD guidebook's lists of subsidized apartments (family, senior, disability). The HUD guide is undated (about 2023-24) and Royal Pages (2026-27) covers senior and disabled housing, so many properties are senior-only or disabled-only; they are marked in the entries. Properties are recorded one per manager or agency, not one per building, for Accessible Space, Nevada HAND and Global Property Management. Clark County's affordable-housing list page and affordablehousingonline's waiting-list page were not re-read in this pass. Nevada 211's housing database cannot be read as text. Vacancies and waiting-list status change, so a call is needed.",
+  "id-recovery": "Still very thin. There is no human-maintained Las Vegas list of ID-recovery help. The Social Security card is now covered by Royal Pages (phone and three local offices). The DMV and Southern Nevada Health District vital-records pages returned only headings, errors or truncated text, and dmvnv.com refused the connection, so no DMV or vital-records contact beyond the district's building and main number is confirmed; Nevada 211 results cannot be read as text. Nevada law gives free birth certificates and, from 2026, a free photo ID to people who are homeless, and fee waivers for homeless youth, but this pass found no provider page showing how to get them in Las Vegas (a law summary seen in a search result, not a source for contact details). Scout's own search would have to find those.",
+  "immigration": "Thin, and the thinnest of the seven. Immigration has no Royal Pages section and no official Clark County list that could be read: the county's own guide (Families Facing Immigration Issues, which a search summary showed names only Legal Aid Center of Southern Nevada and Immigrant Home Foundation) fails the reader on a certificate error, the Nevada Courts non-citizen list returned 403, and Nevada 211's provider database is an interactive search the reader cannot run. Only three independent lists were read (Immigration Advocates, ImmigrationLawHelp, Make the Road's guide of Aug 2025) and they agree: the free front doors are four or five organisations (Legal Aid Center, Immigrant Home Foundation, Nevada Legal Services, Catholic Charities, UNLV clinic with narrow eligibility). The extra names are mostly private law firms, consulates and advocacy groups that fail or are unclear, so the number of passes did not rise. Scout would have to find the DOJ-accredited representatives, church and community legal clinics, and workers' centres directly.",
+  "legal": "Short on distinct free providers, because the lists agree. The Nevada Supreme Court list, the county's Royal Pages (which has a Legal Resources section) and the Legal Aid Center's own page all name the same small set: Legal Aid Center, Nevada Legal Services, Southern Nevada Senior Law Program, the two county self-help centres, NDALC and the UNLV clinics. The top-up added four passes, but only NDALC is a new legal-aid agency; the others are county and state self-help or intake lines, and the rest of the new names of the extra names fail the main-service rule (consumer, insurance, guardianship offices). The Clark County Law Library closed to the public on 2 July 2026. Nevada Legal Services' own site would not load (certificate error), so its contact details rest on directory entries. Nevada 211 was tried but its provider database cannot be read; the county's Family Law resource guide and the womenslaw and Nevada Bar lists were not read. Scout would still have to find volunteer-lawyer clinics, church and community legal nights, and record-sealing and name-change help.",
+  "medical-dental-vision": "Medical and dental are now covered by an official list: the Southern Nevada Health District's low-cost clinics flyer (Aug 2024) plus Royal Pages 2026-27 and the HUD guide, giving phone and address for about 18 clinics. Still thin: the clinics' own sites rarely loaded, so fees, hours and eligibility come from the lists and need a call; Nevada Health Centers is recorded as separate clinic entries by site, with its other sites on its own page. Vision is still very thin: only Lions SightFirst (online application, PO box) appears on an official list, and no free eye-exam or glasses clinic was found. Dental beyond Nevada Health Centers, First Person Care and the UNLV dental school is also thin (an older 2017 state dental inventory exists but was not read). Nevada 211 results cannot be read as text. BlackHealth-only entries are unclear because they have no street address.",
+  "mental-health": "Better after the top-up, but the pass count is limited by what the pages show, not by the lists. The City of Las Vegas 2026-27 Southern Nevada Mental Health directory (printed 16 Sep 2026) is a current official list and gave about 30 names with phone and address; the county's Royal Pages added the senior-focused ones. Many entries are private practices whose pages do not say what an uninsured person pays, so they are unclear, not pass. Nevada 211's category page names service types only; its provider database is interactive and was not readable. The state's SNAMHS locations page returned 404 (details come from the City directory). CCSD's 2023 directory still returns 404 and its 2020 directory turned out to be a health-plan list of individual practitioners, so it was not used. Gaps Scout would still have to fill: who takes uninsured adults at once, Medicaid-accepting clinics beyond the few named, peer-run and crisis walk-in sites, and children's services.",
+  "reentry-support": "Reentry is still thin. No official Las Vegas or Clark County list of community reentry providers was found: the Nevada DOC reentry page describes the programme inside prisons and names no local providers; Clark County's Royal Pages is for seniors; the HUD guide has no reentry section. The one list of reentry providers is ProbationInfo.org (an undated national aggregator), whose eight Las Vegas entries are mostly general social services, so they are unclear or fail rule 2. CareerOneStop's finder and Nevada 211 could not be read as text. HOPE for Prisoners is the only pass and carries a 2026 governance concern (Nevada Independent). The state's P.R.I.D.E. programme and the NDOC reentry guide were not found in a readable form. Scout's own search would have to find ex-offender employment, parole-office, record-sealing and transitional-housing programmes.",
+  "seniors": "Much better after the top-up. The Royal Pages 2026-27 is a current official directory of exactly this category, with a Senior Recreation, Food, Respite, Home Maintenance, Advocates and Legal sections; the City of Las Vegas 2026-27 directory added the county's Senior Advocate Program. Senior centres, meal sites, state advocacy lines and home-repair programmes now have phone and address from an official list, and the county's own page did not load for most. The county, city and Henderson park pages still failed, so no hours were confirmed for the senior centres, and none of the centres' own pages was read. The long list of private home-care agencies in the Royal Pages is unclear on cost and who they serve; about 13 are recorded and the rest are named in one summary entry. Nevada 211's provider database cannot be read. Scout would still need current hours, meal days and eligibility for each centre, and sliding-fee or free in-home help.",
+  "transportation": "Still thin for people in need who are not seniors, disabled or veterans. The Royal Pages (a Transportation section) and the state veterans pages gave the new names, and they cover seniors, disabled riders and veterans well. For everyone else the lists say almost nothing: bus passes sit inside HELP of Southern Nevada's emergency help, and nothing names help with gas, car repair, ride-share vouchers or rides for people under 60 who are not disabled. RTC's site (paratransit, reduced fare) returns 403 to the reader, so those two entries rest on the official-list entries, not RTC's own page. Nevada 211's provider database cannot be read. Scout would have to find rides for working-age adults, free bus-pass programmes, and church and community ride ministries.",
+  "utilities-phone-internet": "Phone and internet are well covered by the Clark County Broadband list, which names every provider but shows no price or low-income terms for most, so the extra names are recorded as fail (commercial companies). Utility-bill help is the thin part. The Royal Pages gave the real local front doors (HELP of Southern Nevada, Catholic Charities, Jewish Family Service, Lutheran Social Services, ULAN, Salvation Army, county senior funds, Project REACH), and Southwest Gas's own page confirms Energy Share runs through HELP, but none of their own pages describes current funding, and several pantries and churches give small bill help that no list captured. NV Energy's page gave only headings, the EOB 2021 list returned 403, the needhelppayingbills aggregator was not read, the Las Vegas Valley Water District's assistance page returned 404, and Nevada 211's provider database cannot be read. Water-bill help is still missing. Scout would need current funding status and water and sewer help.",
+  "veterans": "Better, but the local nonprofit layer is still thin. The City of Las Vegas 2026-27 directory (veterans services section), the county Royal Pages 2026-27 (a Veteran Services section) and the VA's own pages gave the main front doors: VA, Vet Centers, state office, crisis line, Salvation Army, homeless-veteran services. The state's Southern Nevada resources page returned 404, and the only broader list (Senator Rosen's guide) is from 2022, so its posts and small transport names are unclear. Veterans Village (SHARE) now has a consistent phone in two official lists but two different addresses, and its own page returned 404, so it stays unclear; vvlv.org was not used. U.S. VETS and Key Foundation also need a call. Nevada 211 was not tried for this category and its database cannot be read. Scout would still have to find veteran emergency aid, legal help, and current phone and address for the housing providers."
+ }
+}

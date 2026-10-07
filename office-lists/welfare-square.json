@@ -1,0 +1,1587 @@
+{
+ "office": {
+  "slug": "welfare-square",
+  "name": "Welfare Square"
+ },
+ "about": "Lists of local providers found by list seeding, for seeding and re-checking Scout runs. Notes are the trial's own words; namesFound counts the trial's seeds citing the list.",
+ "lists": [
+  {
+   "url": "https://utahdhhs.211utah.org/node/322462",
+   "title": "211 Utah database entries (Identification Cards, Birth Certificates, Social Security, Library Resource Corner)",
+   "kind": "211",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "current-looking; entries read by link; several Salt Lake entries show Temporary Non-Operational; the search cannot be run from outside a browser"
+   },
+   "namesFound": {
+    "id-recovery": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/node/319010",
+   "title": "211 Utah database entries (Rent Payment Assistance, Rental Deposit Assistance, provider pages)",
+   "kind": "211",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "current-looking; individual entries read by link; the search itself cannot be run from outside a browser"
+   },
+   "namesFound": {
+    "housing": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2024/06/211-Ride-United-Flyer-02-2024-VF-ENG_SPAN.pdf",
+   "title": "211 Utah: Ride United flyer (2024)",
+   "kind": "211",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "2024 flyer; free Lyft rides for one-time needs along the Wasatch Front, scheduled by calling 211; the PDF text had to be extracted locally"
+   },
+   "namesFound": {
+    "transportation": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2025/03/Salt-Lake-Area-Dental-Resource-List-2024.pdf",
+   "title": "211 Utah: Salt Lake County Dental Resource List 2024-2025",
+   "kind": "211",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "current (June 2024); 9 community dental clinics with address, hours, fees and eligibility, plus Medicaid and CHIP"
+   },
+   "namesFound": {
+    "medical-dental-vision": 10
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2025/03/Salt-Lake-Area-Food-Resource-List-2024-2025.pdf",
+   "title": "211 Utah: Salt Lake County Food Resource List 2024-2025",
+   "kind": "211",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "current-ish (last update June 2024); 33 pantries, 4 prepared-meal sites and food programmes, each with address, phone, hours and ID requirements; the best single list"
+   },
+   "namesFound": {
+    "food": 39
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2024/09/2021-22-Salt-Lake-County-General-Resource-List-FINAL-edit.pdf",
+   "title": "211 Utah: Salt Lake County General Resource List 2021-2022 (Pregnancy section)",
+   "kind": "211",
+   "categories": [
+    "children-pregnancy",
+    "clothing-household",
+    "disability",
+    "domestic-violence",
+    "employment",
+    "financial-assistance"
+   ],
+   "notes": {
+    "children-pregnancy": "stale (Nov 2021); names and phones only; the Pregnancy and People-with-Children entries mostly repeat the single-parent list",
+    "clothing-household": "stale (Nov 2021) but the only 211 list with a household section; five names with phones; DI and Crossroads entries still hold, Rescue Mission and Catholic Community Services too",
+    "disability": "stale (Nov 2021); 12 names with phones; several have changed",
+    "domestic-violence": "stale (Nov 2021); about 20 names and phones, mostly police crime-victim lines; most still match the county list",
+    "employment": "stale (November 2021); eight names with phone numbers only",
+    "financial-assistance": "stale (November 2021); phone numbers only"
+   },
+   "namesFound": {
+    "children-pregnancy": 9,
+    "clothing-household": 5,
+    "disability": 14,
+    "domestic-violence": 19,
+    "employment": 12,
+    "financial-assistance": 10
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2025/03/Salt-Lake-County-General-Resource-List-2024-2025.pdf",
+   "title": "211 Utah: Salt Lake County General Resource List 2024-25, Substance Abuse",
+   "kind": "211",
+   "categories": [
+    "addiction",
+    "children-pregnancy",
+    "clothing-household",
+    "disability",
+    "domestic-violence",
+    "education",
+    "employment",
+    "financial-assistance",
+    "homeless-services",
+    "housing",
+    "id-recovery",
+    "medical-dental-vision",
+    "mental-health",
+    "reentry-support",
+    "seniors",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "addiction": "current (October 2024); only AA, Al-Anon, NA, ARS and quit lines, otherwise says call 211; phones only",
+    "children-pregnancy": "current (Oct 2024); names and phones only; Pregnancy, Abuse and Mental Health sections; Planned Parenthood now 800-344-4134; MotherToBaby still 801-328-2229; adds Infertility Connections",
+    "clothing-household": "current (Oct 2024); the household section has seven names: Catholic Community Services, Deseret Industries (Welfare Square, 801-240-3001), Rescue Mission Women's Center, Assistance League, Central Compassion Center, Magna FACT; plus Salvation Army under utilities",
+    "disability": "current (Oct 2024); a Disabilities Services block of 11 names with phones: DSPD, Disability Law Center, Ability Inclusion Services, Columbus Community Center, Utah State Library for the Blind and Disabled, Foundations for Independence, Utah Council of the Blind, UTA Paratransit, Family to Family Network, Neighborhood House Adult Day Centers, Relay Utah, RISE Services, Utah Independent Living Center",
+    "domestic-violence": "current (Oct 2024); Domestic Violence block names the DV line, South Valley Services, YWCA, Legal Aid (DV 801-328-7170), VINE (866-277-7477); crime-victim lines for each city changed from 2021 (e.g. Salt Lake City 385-468-7000); Rape/Sexual Assault block names Rape Recovery Center, Sego Lily (email only), UCASA and the Family Justice Center",
+    "education": "current (Oct 2024); has no education section at all, which is itself a finding",
+    "employment": "current-ish (October 2024); eleven names with phone numbers only, including Circles, Mosaic, Job Corps and a veterans line",
+    "financial-assistance": "October 2024; phone numbers only",
+    "homeless-services": "October 2024; names and phones only, no addresses",
+    "housing": "October 2024; nine housing names with phone only, no addresses: Utah Community Action, Housing Connect, two housing authorities, CDC of Utah, Community Housing Services, Utah Housing Corporation, Habitat, Fuller Center",
+    "id-recovery": "October 2024; has no ID or vital records section at all; only the two Social Security offices under Welfare and Financial Services",
+    "medical-dental-vision": "October 2024; only four clinics named (Ellis R Shipp, Fourth Street, Maliheh, Midtown), phones only, and sends people to 211 for the rest",
+    "mental-health": "fairly current (last update October 2024); 11 counseling agencies with phone only, no addresses; also lists crisis lines and substance-use lines",
+    "reentry-support": "has no reentry section at all; only a VINE custody-status line",
+    "seniors": "fairly current (October 2024); only six senior entries, phone only: AARP, Neighbors Helping Neighbors, County Aging, Easterseals-Goodwill senior employment, Danville Support Services, Senior Centers Administration",
+    "utilities-phone-internet": "current (2024-25); Utilities Assistance has six names with phone numbers only: Salvation Army, Lifeline, HEAT, DWS, Crossroads, SLC Government"
+   },
+   "namesFound": {
+    "addiction": 7,
+    "children-pregnancy": 10,
+    "clothing-household": 8,
+    "disability": 14,
+    "domestic-violence": 17,
+    "education": 1,
+    "employment": 9,
+    "financial-assistance": 15,
+    "homeless-services": 13,
+    "housing": 13,
+    "id-recovery": 1,
+    "medical-dental-vision": 14,
+    "mental-health": 12,
+    "reentry-support": 0,
+    "seniors": 8,
+    "utilities-phone-internet": 8
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2025/03/Salt-Lake-Area-Homeless-Resource-List-2024.pdf",
+   "title": "211 Utah: Salt Lake County Homeless Resource List 2024-2025",
+   "kind": "211",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "fairly current (July 2024); shelters, day centre, meals, medical, with phones and some addresses; several shelter phones now differ from the coalition guide"
+   },
+   "namesFound": {
+    "homeless-services": 16
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2025/03/Salt-Lake-Area-Single-Parent-Resource-List-2024.pdf",
+   "title": "211 Utah: Salt Lake County Single-Parent Resource List 2024-2025",
+   "kind": "211",
+   "categories": [
+    "children-pregnancy",
+    "clothing-household",
+    "disability",
+    "domestic-violence"
+   ],
+   "notes": {
+    "children-pregnancy": "current (Sept 2024); names and phone numbers only, no addresses; sections for prenatal care, pregnancy testing, crisis nurseries, parenting, child care",
+    "clothing-household": "current (Sept 2024); eight names with phones, no addresses; adds Magna FACT, Assistance League, Central Compassion Center and Junior League work wear",
+    "disability": "current (Sept 2024); only Utah Family Voices (children with disabilities) and the child-related lists",
+    "domestic-violence": "current (Sept 2024); five names with phones: DV Information Line, YWCA, South Valley Services, CLD3, ACES"
+   },
+   "namesFound": {
+    "children-pregnancy": 16,
+    "clothing-household": 9,
+    "disability": 2,
+    "domestic-violence": 9
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2024/09/2021-SL-Summit-Health-Resource-List-FINAL-edit.pdf",
+   "title": "211 Utah: Salt Lake-Summit Health Resource List 2021-2022",
+   "kind": "211",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "stale (2021-22); the fullest 211 list: 13 clinics, 7 public health centers, 14 hospitals and specialty services with address, phone, hours; several have changed"
+   },
+   "namesFound": {
+    "medical-dental-vision": 32
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://211utah.org/wp-content/uploads/2025/03/SSL-Resource-List-Draft-2024-2025.pdf",
+   "title": "211 Utah: South Salt Lake Parent Resource List 2024-2025",
+   "kind": "211",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "August 2024; three names: HEAT, Lifeline, South Salt Lake water"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/horizonte-instruction-and-training-center",
+   "title": "Utah 211 provider database: Horizonte Instruction and Training Center and Adult High School Diploma Programs",
+   "kind": "211",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "current; only the adult high school and GED entries were found; 211 has no printable education list for Salt Lake"
+   },
+   "namesFound": {
+    "education": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/huntsman-mental-health-institute-crisis-line-0",
+   "title": "Utah DHHS 211 database: individual provider entries (Huntsman, Salt Lake Behavioral Health, Hopeful Beginnings, Children's Center Utah, Utah Behavior Services, Amethyst, Clearview, South Point, Wellspring, others)",
+   "kind": "211",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "current-looking; each entry gives address, phone, website and a service sentence; the search page is JavaScript, so entries were found one at a time through web search and read individually"
+   },
+   "namesFound": {
+    "mental-health": 18
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/utah-transit-authority",
+   "title": "Utah DHHS 211 entries (UTA, DWS Eligibility Services, Salt Lake County Aging and Adult Services)",
+   "kind": "211",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current-looking; address and phone for UTA"
+   },
+   "namesFound": {
+    "transportation": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/deseret-industries-welfare-square",
+   "title": "Utah DHHS 211 provider database (individual provider pages, read one by one)",
+   "kind": "211",
+   "categories": [
+    "clothing-household"
+   ],
+   "notes": {
+    "clothing-household": "current; the 211 database cannot be searched from outside a browser, so providers were found through search and each provider page read; gives address, phone, website, description, not always hours"
+   },
+   "namesFound": {
+    "clothing-household": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/provider/salt-lake-county-aging-and-adult-services",
+   "title": "Utah DHHS 211 provider entries (Salt Lake County Aging and Adult Services, Utah Division of Aging and Adult Services)",
+   "kind": "211",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current-looking; address, phone and services for the two aging agencies"
+   },
+   "namesFound": {
+    "seniors": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahdhhs.211utah.org/node/322791",
+   "title": "Utah DHHS 211: Senior Centers (Salt Lake County, all locations)",
+   "kind": "211",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current-looking; names 18 centres including Harman, Murray Heritage, South Jordan and Sunday Anderson Westside, with no addresses; lists the senior centre programme only"
+   },
+   "namesFound": {
+    "seniors": 18
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://blog.opencounseling.com/public-mental-health-ut/",
+   "title": "OpenCounseling: Your (Unofficial) Guide to State-Sponsored Therapy in Utah",
+   "kind": "aggregator",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "private blog, undated; about a dozen Optum network agencies; used only to cross-check names"
+   },
+   "namesFound": {
+    "mental-health": 10
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://directory.plentiful.org/utah/salt-lake-city",
+   "title": "Plentiful: Food Pantries in Salt Lake City (49 locations)",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "private aggregator; names and addresses, many without phone; used only to find names the other lists lack"
+   },
+   "namesFound": {
+    "food": 23
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.probationinfo.org/reentry-resources/utah/",
+   "title": "Probation Information Network: Reentry Resources, Utah",
+   "kind": "aggregator",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "private nonprofit's list of about 25 Utah names with phone and address; mostly Utah County and elsewhere, some old"
+   },
+   "namesFound": {
+    "reentry-support": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://warriorsfund.org/city/ut/salt-lake-city",
+   "title": "Warriors Fund: Salt Lake City Veteran Resources Directory",
+   "kind": "aggregator",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current-looking (names a September 2026 Stand Down) but a private aggregator; 30 named entries, many duplicates and some old addresses; used for names only"
+   },
+   "namesFound": {
+    "veterans": 15
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://train.jobs.utah.gov/employer/business/dws_ec_locations.pdf",
+   "title": "Department of Workforce Services: Employment Center Locations",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "state list of every DWS centre with address and phone; hosted on a training server so date unknown; three Salt Lake County centres"
+   },
+   "namesFound": {
+    "employment": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://veterans.utah.gov/wp-content/uploads/2025/08/UofUHealth_HMHI_CrisisSupportServices_2025-1.pdf",
+   "title": "Huntsman Mental Health Institute: Community Crisis Intervention & Support Services (2025 flyer)",
+   "kind": "official",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "current (2025); the Utah Crisis Line, Warm Line, mobile crisis and Crisis Care Center with phone numbers and the Crisis Care Center address"
+   },
+   "namesFound": {
+    "mental-health": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://stg-optumhealthslco.optum.com/content/dam/noindex-resources/slco/home/slco-resource-guide.pdf",
+   "title": "Optum Salt Lake County Provider Resource Guide (revised 5 May 2025), SUD treatment providers table and case-management list",
+   "kind": "official",
+   "categories": [
+    "addiction",
+    "mental-health"
+   ],
+   "notes": {
+    "addiction": "current (2025); Salt Lake County's Medicaid behavioral health contractor; addresses and phones for about 25 SUD providers; written for referring clinicians but public",
+    "mental-health": "current; the county Medicaid behavioral-health contractor's guide with addresses and phones for about 30 case-management and treatment providers; written for hospital discharge staff, so many entries are referral-only; the PDF text had to be extracted locally"
+   },
+   "namesFound": {
+    "addiction": 24,
+    "mental-health": 26
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.slc.gov/can/renters/",
+   "title": "Salt Lake City Community & Neighborhoods: Renters (Tenant Resource Center)",
+   "kind": "official",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "current (2026); city renter services with the Tenant Resource Center phone and address"
+   },
+   "namesFound": {
+    "housing": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.slc.gov/district3/bulletin-board/low-and-fixed-income-senior-assistance/",
+   "title": "Salt Lake City Council District 3: low and fixed income senior assistance",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "undated; seven names, no phones"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.slc.gov/Finance/wp-content/uploads/sites/3/2026/03/2026-02_AffordabilityResourceGuide_R2.pdf",
+   "title": "Salt Lake City: Affordability Resources Guide (February 2026)",
+   "kind": "official",
+   "categories": [
+    "financial-assistance",
+    "housing",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "financial-assistance": "current; names about eight programmes (HEAT, HELP, Enbridge credit, Project Water ASSIST, Salvation Army utility help, county tax relief, 211) with benefit and eligibility but no phones or addresses",
+    "housing": "current; almost all utility and tax relief, so it adds almost no housing providers (utilities belong in financial assistance)",
+    "utilities-phone-internet": "current; best list found: HEAT, HELP, Enbridge credit, Project Water ASSIST, Salvation Army, Rocky Mountain Power moratorium, 211; names programmes with benefit and eligibility but no phones"
+   },
+   "namesFound": {
+    "financial-assistance": 5,
+    "housing": 0,
+    "utilities-phone-internet": 9
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.saltlakecounty.gov/aging-adult-services/",
+   "title": "Salt Lake County Aging & Adult Services (home page and service pages)",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current; names Meals on Wheels, home and community based care, caregiver support, Active Aging, Rides for Wellness, Medicare counselling; phone 385-468-3200"
+   },
+   "namesFound": {
+    "seniors": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://prod.saltlakecounty.gov/aging-adult-services/community/senior-centers/",
+   "title": "Salt Lake County Aging & Adult Services: Senior Centers in Salt Lake County",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current (2026); names 18 senior centers, 13 of them with their own county page giving address, phone, hours and lunch; the printable list PDF could not be fetched"
+   },
+   "namesFound": {
+    "seniors": 17
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.saltlakecounty.gov/behavioral-health/mental-health-services/",
+   "title": "Salt Lake County Behavioral Health Services: mental health services",
+   "kind": "official",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "current; names only Optum and the county division, no provider list (a \"Resource Guide\" section did not load); thin"
+   },
+   "namesFound": {
+    "mental-health": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.saltlakecounty.gov/criminal-justice-services/pretrial/jrrp---jail-re-entry-resource-program/",
+   "title": "Salt Lake County Criminal Justice Services: Jail Resource and Reentry Program",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "current county page for the one local walk-in reentry desk; phone, hours"
+   },
+   "namesFound": {
+    "reentry-support": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.saltlakecounty.gov/district-attorney/victim-support/",
+   "title": "Salt Lake County District Attorney: Survivor and Victim Support Services, victim support resources",
+   "kind": "official",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "current; the county's own list of victim advocates at each police agency, the Family Justice Center, Rape Recovery Center, the state victims office and the two hotlines, with phones; no addresses except its own offices"
+   },
+   "namesFound": {
+    "domestic-violence": 14
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://schools.graniteschools.org/oakridge/wp-content/uploads/sites/63/2024/05/Free-and-Low-Cost-Clinics-1.pdf",
+   "title": "Salt Lake County Health Department: Free and Low-Cost Health Clinics in the Salt Lake Area (hosted by Granite School District)",
+   "kind": "official",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "undated, about 2024; medical, behavioral and dental clinics with address and phone; some old addresses (Maliheh, Central City, Neighborhood phone)"
+   },
+   "namesFound": {
+    "medical-dental-vision": 21
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://prod.saltlakecounty.gov/health/vital-records/order/",
+   "title": "Salt Lake County Health Department: Vital Records ordering and locations",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "current; three county vital records offices with phone, address and hours"
+   },
+   "namesFound": {
+    "id-recovery": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://prod.saltlakecounty.gov/regional-development/housing-community-development/resources/Housing-Stability-Resources/",
+   "title": "Salt Lake County Housing & Community Development: Housing Stability Resources",
+   "kind": "official",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "current; the county's own list of 12 partners (rental help, vouchers, rapid rehousing, homeownership, disability housing) with websites but no phones; says the county itself gives no direct housing service"
+   },
+   "namesFound": {
+    "housing": 11
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://intg.saltlakecounty.gov/new-americans/programs/united-for-citizenship/learn-about-citizenship/find-legal-help",
+   "title": "Salt Lake County New Americans: Find legal help",
+   "kind": "official",
+   "categories": [
+    "immigration"
+   ],
+   "notes": {
+    "immigration": "could not be read (HTTP 403), so not used"
+   },
+   "namesFound": {
+    "immigration": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.saltlakecounty.gov/youth/youth-programs/juvenile-receiving-center/homeless-youth-walk-in/",
+   "title": "Salt Lake County Youth Services: Homeless Youth Walk-In Program",
+   "kind": "official",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "county page for the youth programme only"
+   },
+   "namesFound": {
+    "homeless-services": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://prod.saltlakecounty.gov/food/community/",
+   "title": "Salt Lake County: Community Food Resources (Food Access)",
+   "kind": "official",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "county page; sends people to FeedUT, 211 and the Utah Food Bank mobile programme and names no pantries itself"
+   },
+   "namesFound": {
+    "food": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.saltlakecounty.gov/people-with-disabilities/",
+   "title": "Salt Lake County: People with Disabilities",
+   "kind": "official",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "current; the county's own page is thin: adaptive recreation, tax relief for blind residents and ADA contacts; no providers of direct help"
+   },
+   "namesFound": {
+    "disability": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://endutahhomelessness.org/salt-lake-valley/community-resource-guide",
+   "title": "Salt Lake Valley Coalition to End Homelessness: Community Resource Guide (Food Resources section)",
+   "kind": "official",
+   "categories": [
+    "food",
+    "homeless-services"
+   ],
+   "notes": {
+    "food": "current (last updated 7 October 2025); soup kitchens, 12 pantries, 9 mobile pantry sites, 3 free fridges, SNAP; addresses and hours, some phones",
+    "homeless-services": "current (last updated 7 October 2025); shelters, day centres, outreach, youth, veterans, diversion with phone, address and hours; the best list"
+   },
+   "namesFound": {
+    "food": 21,
+    "homeless-services": 31
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://homelessutah.org/",
+   "title": "Shelter the Homeless: Homeless Utah (facility pages for the six resource centres)",
+   "kind": "official",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "current; names the four Salt Lake resource centres with address and phone; bed line 801-990-9999"
+   },
+   "namesFound": {
+    "homeless-services": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://catc.rideuta.com/-/media/Files/Doing-Business/5310/SL_WV_Urban_LCC_plan_2022_2025.pdf",
+   "title": "UTA Salt Lake-West Valley Coordinated Human Service Transportation Plan 2022-2025",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "dated (2022-2025); inventories Salt Lake County transport providers for seniors, disabled people and veterans, but most serve their own members only; used to find names"
+   },
+   "namesFound": {
+    "transportation": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://corrections.utah.gov/probation-parole/community-correctional-centers/",
+   "title": "Utah Department of Corrections: Community Correctional Centers (and Reentry and Rehabilitation, Probation and Parole pages)",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "current; describes state programmes that people reach through the Department, not directories of outside providers"
+   },
+   "namesFound": {
+    "reentry-support": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://veterans.utah.gov/?p=266",
+   "title": "Utah Department of Veterans and Military Affairs: Legal Assistance",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current; Utah@EASE, VA legal clinic, Utah Legal Services, Utah Courts"
+   },
+   "namesFound": {
+    "veterans": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://veterans.utah.gov/?p=252",
+   "title": "Utah Department of Veterans and Military Affairs: State and Federal General Information and regional offices",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current; state Veteran Service Officers by region with phones; links to employment and legal pages"
+   },
+   "namesFound": {
+    "veterans": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://veterans.utah.gov/va-claims-assistance",
+   "title": "Utah Department of Veterans and Military Affairs: VA claims assistance",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "current; DAV, American Legion, VFW with addresses and phones"
+   },
+   "namesFound": {
+    "veterans": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://train.jobs.utah.gov/jobseeker/veterans/dd214.html",
+   "title": "Utah Department of Workforce Services: Obtaining your DD 214",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "current-looking (training-server copy); names the two places to get a DD-214"
+   },
+   "namesFound": {
+    "id-recovery": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://train.jobs.utah.gov/jobseeker/veterans/vetresourceguide.pdf",
+   "title": "Utah Department of Workforce Services: Veterans' Resource Guide",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "undated, probably several years old (the crisis line is still 800-273-8255, the Vet Center address is out of date); names about 45 providers with phones, mostly VA and statewide; the broadest official list found"
+   },
+   "namesFound": {
+    "veterans": 19
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://Jobs.utah.gov/refugee/resources/refugeeresourceguide.pdf",
+   "title": "Utah Dept of Workforce Services, Refugee Provider Resource Manual (May 2026), General Legal, Discrimination and Immigration Issues sections",
+   "kind": "official",
+   "categories": [
+    "immigration",
+    "legal"
+   ],
+   "notes": {
+    "immigration": "current (May 2026); about 10 immigration legal providers with phone and address; PDF text had to be extracted locally",
+    "legal": "current (May 2026); about 10 general legal providers"
+   },
+   "namesFound": {
+    "immigration": 19,
+    "legal": 9
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://daas.utah.gov/services/",
+   "title": "Utah DHHS Division of Aging and Adult Services: Services",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "current (2026); state services (SHIP, SCSEP, legal help, abuse hotline, public guardian) and a locations list; thin on Salt Lake providers beyond the county agency"
+   },
+   "namesFound": {
+    "seniors": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/childcare-and-parenting-resources",
+   "title": "Utah DHHS Maternal and Infant Health Program: Maternal Resource Guide, Childcare and Parenting",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "current (2025); the best list: Salt Lake County home visiting, crisis nurseries, childcare referral, WIC clinics with phone, address and website"
+   },
+   "namesFound": {
+    "children-pregnancy": 14
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/accessible-healthcare",
+   "title": "Utah DHHS Maternal Resource Guide: Accessible Healthcare",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy",
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "children-pregnancy": "current (2025); Salt Lake County clinics that give pregnancy care, with phone and address",
+    "medical-dental-vision": "current (2025); about 35 Salt Lake County clinics, dental clinics and programmes with phone and address; some entries stale (Central City Clinic)"
+   },
+   "namesFound": {
+    "children-pregnancy": 8,
+    "medical-dental-vision": 30
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/employment-financial-assistance",
+   "title": "Utah DHHS Maternal Resource Guide: Employment and financial assistance",
+   "kind": "official",
+   "categories": [
+    "employment",
+    "financial-assistance"
+   ],
+   "notes": {
+    "employment": "current (last updated 18 Aug 2026); statewide and Salt Lake County sections with address, phone, one-line description; mostly the Church's employment centres, People Helping People and RISE",
+    "financial-assistance": "current (updated 18 Aug 2026); names Jewish Family Service, DWS cash assistance and Vocational Rehabilitation; very short for Salt Lake County"
+   },
+   "namesFound": {
+    "employment": 6,
+    "financial-assistance": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/food-formula-diapers",
+   "title": "Utah DHHS Maternal Resource Guide: Food, Formula and Diapers",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "current (Nov 2025); Salt Lake County WIC clinics and diaper sources"
+   },
+   "namesFound": {
+    "children-pregnancy": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/intimate-partner-violence",
+   "title": "Utah DHHS Maternal Resource Guide: Intimate Partner Violence",
+   "kind": "official",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "current (2025); statewide and Salt Lake County lists with address, phone and website, including counselling programmes"
+   },
+   "namesFound": {
+    "domestic-violence": 15
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/midwives-doulas-services",
+   "title": "Utah DHHS Maternal Resource Guide: Midwives and Doulas",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "current (2025); only four Salt Lake County midwifery entries; mostly private-pay"
+   },
+   "namesFound": {
+    "children-pregnancy": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://dld.utah.gov/homeless-fee-waiver",
+   "title": "Utah Driver License Division: Homeless fee waiver (free ID card)",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "current; ID card fee waived with a homeless verification form; with the ID card pages and office list"
+   },
+   "namesFound": {
+    "id-recovery": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://informedconsent.utah.gov/district/salt-lake-county-health-district",
+   "title": "Utah Informed Consent: Aid Resources, Salt Lake County Health District",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "State of Utah list of pregnancy and parenting help; current; some addresses and phones; mixes pregnancy centres with abortion clinics and statewide lines"
+   },
+   "namesFound": {
+    "children-pregnancy": 10
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://medicaid.utah.gov/non-emergency-transportation",
+   "title": "Utah Medicaid: Non-Emergency Medical Transportation",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current; names UTA transit card, FlexTrans, ModivCare and mileage reimbursement with phones"
+   },
+   "namesFound": {
+    "transportation": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/?p=4440",
+   "title": "Utah Medical Home Portal (University of Utah): Transportation resources, Salt Lake County section (updated 10 August 2026)",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current; state-wide and Salt Lake County entries: Crossroads Urban Center bus passes, UTA paratransit and On Demand, Medicaid transport; only about five Salt Lake County entries"
+   },
+   "namesFound": {
+    "transportation": 12
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/legal-assistance-integration-support",
+   "title": "Utah Medical Home Portal (Utah DHHS): Legal assistance and integration support, statewide and Salt Lake County sections",
+   "kind": "official",
+   "categories": [
+    "immigration",
+    "legal"
+   ],
+   "notes": {
+    "immigration": "current-looking; the fullest list: about 14 Salt Lake County immigration, English and newcomer providers with address, phone and website",
+    "legal": "current-looking; statewide legal tools plus immigration providers"
+   },
+   "namesFound": {
+    "immigration": 29,
+    "legal": 7
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://mihp.utah.gov/wp-content/uploads/Statewide-Substance-Use-Disorder-Resources-by-Local-Health-Department1.pdf",
+   "title": "Utah Medical Home Portal: Substance use disorder resources, Salt Lake County (v4, July 2023)",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "state-run; about 45 Salt Lake County providers with address, phone, website and services; 2023, so some phones have changed (checked against provider pages)"
+   },
+   "namesFound": {
+    "addiction": 46
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://commerce.utah.gov/?p=15501",
+   "title": "Utah Office of Consumer Services: Energy Assistance Programs",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "current; HEAT, HELP, Energy Assistance Fund, weatherization"
+   },
+   "namesFound": {
+    "utilities-phone-internet": 2
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://vitalrecords.utah.gov/fee-waiver-fact-sheet",
+   "title": "Utah Office of Vital Records and Statistics: birth certificate fee waiver fact sheet",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "current (2026); the rules for a free birth certificate for people who are homeless or in DCFS custody; names no agencies, only the approved-provider list, which could not be opened"
+   },
+   "namesFound": {
+    "id-recovery": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://schools.utah.gov/adulteducation",
+   "title": "Utah State Board of Education: Adult Education (programme page, 801-538-7509)",
+   "kind": "official",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "current; the state office page; links to the directory, GED and high-school-equivalency information"
+   },
+   "namesFound": {
+    "education": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://schools.utah.gov/adulteducation/_adult_education_/frequentlyaskedquestions/ProgramDirectory.pdf",
+   "title": "Utah State Board of Education: Adult Education Program Directory (current edition, fees for 2025-26)",
+   "kind": "official",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "current; every adult education site in the state by school district and community organisation, with address, phone, hours, what is taught and fees; for Salt Lake County about 12 sites; the best list found"
+   },
+   "namesFound": {
+    "education": 9
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.utcourts.gov/howto/legalclinics/organizations.html",
+   "title": "Utah State Courts: Free Legal Services Organizations",
+   "kind": "official",
+   "categories": [
+    "immigration",
+    "legal"
+   ],
+   "notes": {
+    "immigration": "undated but maintained by the courts; mostly general legal aid; four immigration entries, one with a stale IRC address (221 S 400 W)",
+    "legal": "undated; 20 organizations, many outside Salt Lake County; phones, few addresses"
+   },
+   "namesFound": {
+    "immigration": 6,
+    "legal": 11
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.utcourts.gov/en/legal-help/legal-help/finding-legal-help/legal-clinics.html",
+   "title": "Utah State Courts: Legal clinics by county (Salt Lake County and statewide)",
+   "kind": "official",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "current-looking; about 17 clinics with schedules, statewide and Salt Lake County sections"
+   },
+   "namesFound": {
+    "legal": 9
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://Jobs.utah.gov/usor/vr/services/utahemploynetwork.pdf",
+   "title": "Utah State Office of Rehabilitation: Utah Employment Networks",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "state list of Ticket to Work networks with phone and counties; no addresses; for SSI/SSDI recipients"
+   },
+   "namesFound": {
+    "employment": 9
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://icp.lds.org/attachments/434426/files/Service_Provider-Inner_City_Education_Services.pdf",
+   "title": "Church Inner City Education Services: Information Sheet, Salt Lake County Services (July 14, 2015)",
+   "kind": "regional",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "stale (2015); a missionary-leader handout of Salt Lake education providers with phones and addresses; Literacy Action Center, Granite Peaks and Horizonte still appear in the state directory, other entries are old"
+   },
+   "namesFound": {
+    "education": 12
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/vision_srp",
+   "title": "Church Self-reliance Resources (Inner City Project): Vision Care providers",
+   "kind": "regional",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "current-looking (2026 copyright); 9 vision providers for adults and children in Salt Lake County with address and phone; one phone is stale"
+   },
+   "namesFound": {
+    "medical-dental-vision": 4
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/homeless_srp",
+   "title": "Church Self-reliance Resources: Homeless Resources (Salt Lake, Ogden, Provo)",
+   "kind": "regional",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "undated, 2026 copyright; names the same shelters and adds Ogden and Provo ones; Gail Miller and Rescue Mission details match the coalition guide"
+   },
+   "namesFound": {
+    "homeless-services": 23
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/housing_srp",
+   "title": "Church Self-reliance Resources: Housing Resources",
+   "kind": "regional",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "current (2026 copyright); deposit help, home repair, down payment, foreclosure and sober or weekly-rent housing; some old addresses"
+   },
+   "namesFound": {
+    "housing": 17
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/transportation_resources_srp",
+   "title": "Church Self-reliance Resources: Transportation (Salt Lake area)",
+   "kind": "regional",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "current (2026 copyright) but partly stale: it still lists the Hive Pass, which Salt Lake City has ended; names UTA, Medicaid transport, Ride United and County Rides for Wellness with phones"
+   },
+   "namesFound": {
+    "transportation": 11
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/transportation_srp",
+   "title": "Church Self-reliance Resources: Transportation Resources (old)",
+   "kind": "regional",
+   "categories": [
+    "transportation"
+   ],
+   "notes": {
+    "transportation": "stale; car-repair help, Greyhound tickets and Crossroads bus tokens, with 2020-era details; used only to find names"
+   },
+   "namesFound": {
+    "transportation": 3
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.ksl.com/article/46472588/utahs-substance-abuse-resources-by-county",
+   "title": "KSL: Utah's substance abuse resources by county (Salt Lake section)",
+   "kind": "regional",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "stale (June 2019); only about eight providers"
+   },
+   "namesFound": {
+    "addiction": 6
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://magutah.gov/guide/c/veterans-services/",
+   "title": "Mountainland Association of Governments Senior Help Guide: Veterans Services",
+   "kind": "regional",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "Utah County guide but names the Salt Lake and statewide services; phones, addresses, service areas; undated, current-looking (988)"
+   },
+   "namesFound": {
+    "veterans": 6
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://services.slcpl.org/social-services-resources",
+   "title": "Salt Lake City Public Library: Social services resources (getting an ID, Social Security card and birth certificate)",
+   "kind": "regional",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "reviewed by the library every six months; a step-by-step list naming vouchers, DLD offices and the Social Security office; some addresses stale (Taylorsville DLD, Social Security Office)"
+   },
+   "namesFound": {
+    "id-recovery": 12
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.slcschools.org/315197_2",
+   "title": "Salt Lake City School District: Food Resources for Families",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "undated but current-looking; 3 school community-learning-centre pantries and 9 Utah Food Bank partner pantries with address and phone"
+   },
+   "namesFound": {
+    "food": 12
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/employment_srp",
+   "title": "The Church of Jesus Christ: Self-reliance Resources, Employment / Jobs (Salt Lake)",
+   "kind": "regional",
+   "categories": [
+    "employment"
+   ],
+   "notes": {
+    "employment": "current (2026 copyright); 6 Salt Lake providers with address and phone; the DWS entry is the old 720 S 200 E"
+   },
+   "namesFound": {
+    "employment": 10
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/felon_employment_srp",
+   "title": "The Church of Jesus Christ: Self-reliance Resources, Felon Assistance and Felon Employment",
+   "kind": "regional",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "current (2026 copyright); about nine names, several outside Salt Lake County; the Jail Resource and Reentry Program address is old"
+   },
+   "namesFound": {
+    "reentry-support": 6
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://icp.churchofjesuschrist.org/pages/housing_rent_srp",
+   "title": "The Church of Jesus Christ: Self-reliance Resources, Housing - Rent (and Finance Resources)",
+   "kind": "regional",
+   "categories": [
+    "financial-assistance",
+    "housing"
+   ],
+   "notes": {
+    "financial-assistance": "current (2026 copyright) but with some old addresses and figures; the fullest rent and utility list",
+    "housing": "current (2026 copyright) but several old addresses; mixes Davis, Ogden, Tooele and Park City providers"
+   },
+   "namesFound": {
+    "financial-assistance": 3,
+    "housing": 10
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://saltlakecity.salvationarmy.org/salt_lake_city_corps/overcome-poverty/",
+   "title": "The Salvation Army Salt Lake City Corps: assistance programmes",
+   "kind": "regional",
+   "categories": [
+    "clothing-household"
+   ],
+   "notes": {
+    "clothing-household": "current; one agency's own page, not a list; found because no regional list names it"
+   },
+   "namesFound": {
+    "clothing-household": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://medicine.utah.edu/psychiatry/assessment-referral-services/community-resources",
+   "title": "University of Utah Assessment and Referral Services: community resources",
+   "kind": "regional",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "undated and thin; names the county, 211 and ARS only"
+   },
+   "namesFound": {
+    "addiction": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://healthcare.utah.edu/moran/outreach/community-clinics",
+   "title": "University of Utah Moran Eye Center: community clinics",
+   "kind": "regional",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "names Fourth Street, Maliheh, Hope in Sight and Operation Sight; no addresses or phones"
+   },
+   "namesFound": {
+    "medical-dental-vision": 5
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://csbs.utah.edu/_resources/documents/mental-health-resources.pdf",
+   "title": "University of Utah Psi Chi: Campus & Community Mental Health Resources",
+   "kind": "regional",
+   "categories": [
+    "mental-health"
+   ],
+   "notes": {
+    "mental-health": "undated student list; abuse, crisis and counselling entries for the greater Salt Lake area; used only for Crisis Text Line and a few cross-checks"
+   },
+   "namesFound": {
+    "mental-health": 1
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://udvc.org/local-resources/",
+   "title": "Utah Domestic Violence Coalition: Local Resources (county by county)",
+   "kind": "regional",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "current; for Salt Lake County it names the three shelter and community advocate programmes (South Valley Services, YWCA, Sego Lily) and the system victim advocates at each police agency; names only"
+   },
+   "namesFound": {
+    "domestic-violence": 13
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahfoodbank.org/find-a-pantry/",
+   "title": "Utah Food Bank: Find a Food Pantry (partner map)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "could not be read: the page is an interactive map that returns no text"
+   },
+   "namesFound": {
+    "food": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://www.utahlegalservices.org/node/21",
+   "title": "Utah Legal Services: when ULS cannot help (resource page)",
+   "kind": "regional",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "read; points to Bar referral, court self-help, benefits; no provider details used"
+   },
+   "namesFound": {
+    "legal": 0
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahparentcenter.org/adult-services/adult-resources-service-provider",
+   "title": "Utah Parent Center: Adult Resources Service Provider list (day programs, supported employment, residential)",
+   "kind": "regional",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "undated, a few entries stale; about 20 Salt Lake County day-training and supported-employment agencies with address and phone; most are funded through the state disability division, so a person usually reaches them through that division"
+   },
+   "namesFound": {
+    "disability": 21
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  },
+  {
+   "url": "https://utahparentcenter.org/wp-content/uploads/2025/08/2025-UPC-Utah-Disablity-Resource-Book.pdf",
+   "title": "Utah Parent Center: Utah Disability Resource Book 2025",
+   "kind": "regional",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "current (updated 2025); statewide book by the federally funded parent training centre; the best list found, with address, phone and website for about 60 Salt Lake-area and statewide entries; some addresses have moved since"
+   },
+   "namesFound": {
+    "disability": 20
+   },
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03"
+  }
+ ],
+ "gaps": {
+  "addiction": "Lists were good here: two official lists (the county's Medicaid contractor, 2025, and the state's Medical Home Portal, 2023) give address and phone for about 45 providers (all recorded). Thin spots: 211's own list is only AA, NA and Al-Anon phone numbers and says to call 211; the 2019 KSL list is stale; the county's treatment-provider page loads its list by script, so it could not be read. Phones and addresses drifted between lists (First Step House, Project Reality, Altium, BAART, the CTC clinic, Huntsman), so the provider's own page mattered; about half the entries rest on a list entry alone. AA, NA and Al-Anon have no address or website recorded because no page could be read. South-valley providers (Sandy, Riverton, South Jordan) are recorded as unclear on reach.",
+  "children-pregnancy": "Salt Lake County has a good official list here: the state's Maternal Resource Guide names the county's home-visiting, crisis-nursery, WIC and clinic providers with phone and address. The 211 lists give phones only and the 2021 general list is stale. Thin spots: 211 Utah's own search could not be read, so no pregnancy providers beyond these lists were found; two pregnancy-centre pages (Pregnancy Choice Utah, Planned Parenthood) would not load; and the county's only crisis pregnancy centre with a readable page is Charis. Many entries (Boys and Girls Clubs, Utah Youth Village, midwives) are unclear because their own pages returned nothing or did not state a cost. Child care, school and youth programmes beyond these were not enumerated.",
+  "clothing-household": "Thin. The only 211 list with a clothing and household section is the 2021 general list (five names), and the 2024 single-parent list adds four more; both give phones only. 211 Utah's database cannot be searched from outside a browser, and no county or city list of clothing closets was found, so a missionary has few direct names beyond Deseret Industries, Catholic Community Services, Crossroads, the Salt Lake City Mission, the Rescue Mission and the Salvation Army. Furniture and bed help is almost absent: only the ReStore (low-cost), the Salvation Army (vouchers) and Sleep in Heavenly Peace (children, unverified). The address of the Salvation Army and the Mission came from their own pages, not from any list. Much Salt Lake County clothing help (Granite and Salt Lake City School District pop-up shops, Uplift Community Alliance programmes) runs through schools and referring agencies, so it is not a door a missionary can send a person to. Scout's own search would still have to do most of the work here.",
+  "disability": "The Utah Parent Center's 2025 Disability Resource Book and its adult-provider list are good statewide sources with addresses and phones, but they are a nonprofit's lists, not official ones, and the 211 lists are thin (12 names, phone only, 2021). The county's own disability page lists no providers. Most Salt Lake day-training and supported-employment agencies are contracted through the state disability division (DSPD), which has a long waiting list, and their pages do not say whether a person can apply directly, so most of those are unclear. Many of the agencies' websites would not load or gave no address. Gaps: no direct list of low-cost wheelchair or medical-equipment help beyond UCAT, no readable Social Security or Deaf and Hard of Hearing division page, and no list for adult disability benefits help. Scout would still have to check each provider's own page.",
+  "domestic-violence": "Lists were good for Salt Lake County: the county District Attorney's own victim-support page and the Domestic Violence Coalition name every shelter, advocate and hotline, and the state maternal guide adds counselling programmes. Where they were thin: 211 gives names and phones only (and the 2021 list is stale); no list gives the confidential shelter addresses, correctly, so people must go through a hotline; and counselling entries are mostly general mental health or offender treatment, so few of them pass. Suburb police advocates serve only their own city. Sego Lily and some city advocate pages were not read. Scout would still need to check any shelter beyond YWCA and South Valley Services, and teen dating violence and elder abuse resources were not covered.",
+  "education": "Adult education is well covered by one official source, the state's Adult Education Program Directory, which gives address, phone, hours and fees for every Salt Lake County site, so ESL, GED and adult-diploma classes are the strong part. The 211 lists have no education section at all, and the only Church list found is from 2015. Thin: no list of free tutoring, children's homework help, scholarships or college-access programmes for low-income adults; no list of vocational training outside DWS and SLCC (SLCC's own pages gave only the main campus); and K-12 enrolment and homeless-student (McKinney-Vento) help were not found on any list. Several providers' own sites would not load, so those entries rest on the state directory alone. Scout would need to search for tutoring, scholarships and training.",
+  "employment": "Thin. 211's county list is stale (2021) and gives only eight names and phone numbers; the state list (MIHP) and the Church's page are current but mostly name the same few agencies (the Church's employment centres, DWS, People Helping People). The real directories (211's search, DWS location pages, the Salt Lake County Library job help pages) did not load, so only a few DWS and other pages were read, and hours are mostly empty. Nothing was found for people leaving prison or jail, for day labour, for older workers (SCSEP) or for veterans; and the Ticket to Work networks are for SSI/SSDI holders only. Scout would have to do the real searching here.",
+  "financial-assistance": "Thin on the central question of who still has money this month. The three official or 211 lists name only about eight programmes and give no phones or addresses for most of them, and 211's own search would not run, so the Church's page and the agencies' own sites did the work. Many agencies that give emergency rent or utility money (Catholic Community Services, St. Vincent de Paul, church and ward funds, Holy Cross Ministries, hospitals and school funds) have no readable page, and their funds run out often, so a missionary would still have to call to check. One Salvation Army address is missing and DWS's emergency fund amounts are old.",
+  "food": "Lists were good for food: 211 Utah's county list names 33 pantries with address, phone and hours, and the coalition guide (October 2025) and the school district add the rest, so about 45 distinct names came out. Weak points: the 211 list is June 2024 and at least two entries have moved or changed hours (JFS, Ebenezer); the Utah Food Bank pantry map, the best live source, returns no text and could not be read; 13 names appear only on the private Plentiful directory with no phone or hours and are left unclear; the county's own food page names no pantries at all. Most pantries are church-run with no website of their own, so they were checked on the 211 entry, not the pantry's page. Scout would still have to confirm current hours.",
+  "homeless-services": "Lists were not thin: the coalition's Community Resource Guide (7 October 2025) names every shelter, day centre and outreach team with phone and hours, and the shelters' own pages (homelessutah.org, The Road Home) agree. The 211 homeless list (July 2024) is a year older and several shelter phone numbers on it have changed. The confusing point is that three phone numbers circulate for the same centres (Gail Miller: 801-328-1894, 801-456-5900 and the bed line 801-990-9999) and the resource centres serve only guests with a bed, so the real way in is the bed line. Three outreach and youth programmes were read only on the coalition guide. Nothing was missing; Scout's value here is only re-checking numbers.",
+  "housing": "Thin. No list names more than about a dozen housing providers for Welfare Square, and they are the same ones repeated: the county's own list, 211's general list and the Church's list all name Utah Community Action, Housing Connect, the two housing authorities, CDC of Utah, NeighborWorks, Habitat and Utah Housing Corporation. 211's housing list has no addresses, and no printable 211 housing list exists. Rent help is the real gap: Utah Community Action's funds are described as very limited, the Salt Lake City Housing Authority's rent programme is listed as not operating, and the Church list's old amounts for DWS and Crossroads are stale. Landlord-tenant help sits under legal aid and was not counted here. Most small church and charity rent funds and rent-by-the-week housing could not be confirmed, so Scout's own search still has to find them. No source gives hours for the housing authorities.",
+  "id-recovery": "Official sources are good for the government doors (vital records, the Driver License Division, Social Security, the National Archives) and the fee-waiver rules are written down. The community side is thin: there is no 211 or county list of organisations that help someone get a birth certificate or ID, and the only list is the City Library's, which is reviewed twice a year but names only vouchers from VOA, Crossroads and the library social workers. The ones that could be read on their own pages (VOA, Crossroads) do not mention ID help, the Road Home's service is limited to its clients and shows as non-operational in 211, and the state's approved list of agencies that may sign the homeless verification form could not be opened. Hours and a phone were missing for the library and for the state veterans office address. Passports, tribal IDs, name changes and non-Utah birth certificates were not covered; Scout's own search would have to find these.",
+  "immigration": "Immigration is well covered: three official lists name the same 10 or so Salt Lake legal agencies. Thin spots: the Salt Lake County New Americans page (the obvious county list) returned 403 and could not be read; the 211 Utah immigration guide and immigrationadvocates.org directory are interactive and were not readable; MIHP and the courts list carry stale addresses (the IRC moved from 221 S 400 W to West Valley City); several agencies' own pages give no hours or fees. No list gives reliable fee amounts, so a missionary should say 'low cost' not a price. Scout would still have to find consulates and free help for undocumented people who may not qualify for the IRC.",
+  "legal": "Legal is well covered by official lists: the Courts' clinic list, the Courts' organizations list and the state refugee manual together name about 20 Salt Lake providers and the clinics have schedules. Thin spots: criminal defence and public defenders are almost absent (Salt Lake Legal Defenders Association did not load); Modest Means has no readable page with fees or phone; the Crime Victims Legal Clinic had no readable page, so its entry is weaker; clinic schedules change month to month and should be rechecked before being printed. 211 Utah's legal guide was not readable.",
+  "medical-dental-vision": "Welfare Square is well served by lists for dental (211's own dental list, June 2024, with hours and fees) and for medical (the state directory and the county health department list), so about a dozen clinics could be checked. Thin spots: 211's general list names only four clinics, its health list is from 2021 and several entries have changed or closed, and the county's and 211's addresses disagree (Maliheh, Central City, Midtown). Vision has no official list at all, only a church list and Friends for Sight and EyeCare4Kids, both of which restrict who they serve. Several school and Intermountain community clinics, the Urban Indian Center and Shriners could not be confirmed. Most sites show no hours. No list says which clinics take new uninsured adults without a wait.",
+  "mental-health": "Mental health was the best-covered of the five: Salt Lake County's Medicaid contractor (Optum) guide and the Utah DHHS 211 database name dozens of agencies, and the Huntsman institute flyer gives the crisis lines. But the lists are weak in three ways. The 211 Salt Lake County general list gives phone numbers only and just 11 counselling agencies. The county's own mental health page names no provider (a Resource Guide section did not load). The Optum guide is written for hospital discharge staff, so about half its entries are referral-only. The 211 search page is JavaScript and cannot be read, so 211 entries were found one at a time through web search, and private-practice therapists (hundreds) are not captured. Free and sliding-fee options are the thinnest part: Polizzi Clinic and Red Mesa counselling could not be fully checked, and none of the lists says who takes people with no insurance except Valley, VOA Cornerstone and JFS. Scout would have to do the searching for low-cost and non-Medicaid care.",
+  "reentry-support": "Thin. 211's county list has no reentry heading, the county has no published reentry directory, and the only lists are the Church's page (about nine names, half outside Salt Lake County) and a private aggregator, both partly stale. The county's one real walk-in desk (JRRP, at the jail) and the Clean Slate expungement site are the solid finds; everything run by the Department of Corrections is reached through the Department, not by applying. Missing or unreadable: Persevere's own contact details, a housing-for-people-with-records list, and any employer-friendly list for Salt Lake. Scout's own search would have to find the nonprofits that serve people leaving the Salt Lake County jail and the Draper prison.",
+  "seniors": "Seniors were well covered for senior centres and for the county agency: the county's own pages give address, phone and hours for 13 centres and the agency's services, and 211's list adds a few agencies. Beyond that the lists were thin. The 211 general list has only six senior entries, phone only, and two (Danville Support Services, Easterseals-Goodwill's senior employment programme) could not be confirmed. The county's printable centres PDF returned an error, so Harman (West Valley) and Sunday Anderson Westside remain unconfirmed. No list was found for home care agencies, senior housing, senior legal help or free senior transport beyond the county's Rides for Wellness; Scout would have to search for those, and for Spanish-language and refugee senior services (the county has a refugee older adults brochure that was not read).",
+  "transportation": "Transportation was thin, and no single Salt Lake County list exists for it. The best sources were UTA's own pages, the Utah Medical Home Portal list (current, but only five Salt Lake entries), the Medicaid transport page and the Church's self-reliance list, which is partly stale (it still names the Hive Pass, which the city ended). The 211 Salt Lake County general list has no transportation section at all, and the 211 search page cannot be read. Help with a car (repairs, a donated car, gas) and emergency bus tickets beyond Crossroads and the Weigand Center could not be found on any current list, and the Crossroads bus-pass detail rests on the Medical Home Portal because the centre's own site no longer mentions it. Scout would have to search for car programmes, volunteer driver programmes and faith-based ride services.",
+  "utilities-phone-internet": "Thin. The two 211 lists name only six and three utility providers, with phone numbers and no addresses, and there are no local lists of phone or internet help at all (neither 211 list has an internet section; Salt Lake City's page on digital resources returned 404). The real field is small: HEAT (Utah Community Action) is the one door for gas and electric, the Salvation Army is the one door for catching up a past-due bill, Crossroads is the emergency door, and the utilities themselves offer plans. The state's own HEAT pages (jobs.utah.gov) were returning errors on 4 October 2026. Lifeline phone and internet providers (Assurance, SafeLink, Xfinity) block automated page reads, so they are unclear, not passes. Scout would have to search for Lifeline-participating carriers and low-cost internet offers with a browser.",
+  "veterans": "Lists were not thin for veterans in Salt Lake: the state veterans department, the VA and Workforce Services between them name most of the field, and VA programmes dominate. They are thin on the non-VA, local side: no county or city list of veteran charities was found, the Salt Lake County Veterans Service Office could only be found on aggregator pages (slco.org/veteran-services returned 404), 211 Utah's printable lists have no veterans section, and the Volunteers of America and University of Utah entries could not be confirmed on a page of their own. Several lists carry stale details (the DWS guide's old crisis-line number and Vet Center address). Veterans' food, clothing and rent help from local charities would have to come from the other categories, or from Scout's own search. 211's online search was not tried for veterans."
+ }
+}
