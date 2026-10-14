@@ -1,0 +1,1627 @@
+{
+ "scope": "national",
+ "about": "National directories, locators and hotlines that any office's run can use, recorded once here (13 October 2026). Lists only: nothing harvested, no office-fit rules applied. Each was tested with curl against Bridgeport NJ 08014 and Boise ID 83702; 'tested' says what happened. Where a locator needs latitude/longitude, 08014 was taken as 39.80,-75.36 and 83702 as 43.62,-116.20. Counts are what the response held, not a check of the providers. Page text is evidence only. Category ids normalised to the app's 21 by Claude on 13 October 2026 (the run had merged some, e.g. employment-education).",
+ "lists": [
+  {
+   "url": "https://findtreatment.gov/",
+   "title": "FindTreatment.gov (SAMHSA Behavioral Health Treatment Services Locator)",
+   "kind": "locator",
+   "categories": [
+    "addiction",
+    "mental-health"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (JSON endpoint; the page itself is a JavaScript app)",
+   "byLocation": "https://findtreatment.gov/locator/exportsAsJson/v2?sAddr={lat}%2C{long}&limitType=2&limitValue={metres}&sType=sa&pageSize=10&page=1&sort=0 ; sType sa = substance use, mh = mental health. It does NOT geocode a ZIP: sAddr=08014 or 83702 returned the same unrelated rows, so convert ZIP to lat,long first.",
+   "tested": {
+    "08014": "worked by lat,long (39.80,-75.36, 40 km): 151 substance-use and 183 mental-health facilities; ZIP text alone failed",
+    "83702": "worked by lat,long (43.62,-116.20, 40 km): 35 substance-use and 93 mental-health facilities; ZIP text alone failed"
+   },
+   "phone": "1-800-662-4357 (SAMHSA helpline)",
+   "notes": {
+    "addiction": "SAMHSA's list of licensed treatment facilities; rows carry name, address, phone, services; payment and sliding-scale flags in the full record",
+    "mental-health": "same locator, mental health facilities; includes crisis lines in its help panel"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.samhsa.gov/find-help/national-helpline",
+   "title": "SAMHSA National Helpline (1-800-662-HELP)",
+   "kind": "hotline",
+   "categories": [
+    "addiction",
+    "mental-health"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "phone only (page is information; the line routes to local treatment and support)",
+   "byLocation": "phone only",
+   "tested": {
+    "08014": "worked: page read; no per-ZIP result (phone referral)",
+    "83702": "worked: page read; no per-ZIP result (phone referral)"
+   },
+   "phone": "1-800-662-4357",
+   "notes": {
+    "addiction": "free, confidential, 24/7 information service in English and Spanish (page text, TTY 1-800-487-4889); referral to local treatment, support groups and community organisations; not a crisis line",
+    "mental-health": "same line; refers to local mental health services"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://988lifeline.org/",
+   "title": "988 Suicide & Crisis Lifeline",
+   "kind": "hotline",
+   "categories": [
+    "mental-health",
+    "addiction"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "phone only (call, text or chat 988; page has a chat and a lifeline-network finder)",
+   "byLocation": "phone only: call or text 988 (routes by caller area code to a local crisis centre)",
+   "tested": {
+    "08014": "worked: page read; phone only",
+    "83702": "worked: page read; phone only"
+   },
+   "phone": "988",
+   "notes": {
+    "mental-health": "24/7 crisis support for suicide, mental health and substance-use crises; Spanish option (unverified on the fetched page)"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nami.org/help",
+   "title": "NAMI HelpLine",
+   "kind": "hotline",
+   "categories": [
+    "mental-health"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "phone only (page lists phone, text and email; local NAMI affiliates are searchable on the site)",
+   "byLocation": "phone only: 1-800-950-NAMI (6264) or text NAMI to 62640",
+   "tested": {
+    "08014": "worked: page read; phone only",
+    "83702": "worked: page read; phone only"
+   },
+   "phone": "1-800-950-6264",
+   "notes": {
+    "mental-health": "peer-run information and referral to local services and NAMI affiliates; not a crisis line; weekday hours per the page"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.mentalhealth.gov/get-help/immediate-help",
+   "title": "MentalHealth.gov / FindSupport (immediate help)",
+   "kind": "directory",
+   "categories": [
+    "mental-health",
+    "addiction"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "redirects to findtreatment.gov (JavaScript app)",
+   "byLocation": "redirect: the URL curl fetched is the FindTreatment.gov page; use findtreatment.gov",
+   "tested": {
+    "08014": "worked: redirected to findtreatment.gov (see that entry)",
+    "83702": "worked: redirected to findtreatment.gov (see that entry)"
+   },
+   "notes": {
+    "mental-health": "the old MentalHealth.gov help pages now resolve to FindTreatment.gov; not a separate list"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://data.hud.gov/Housing_Counselor/searchByLocation?Lat={lat}&Long={long}&Distance={miles}",
+   "title": "HUD-approved housing counselling agencies (HUD open data API)",
+   "kind": "locator",
+   "categories": [
+    "housing",
+    "homeless-services",
+    "financial-assistance"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (JSON)",
+   "byLocation": "https://data.hud.gov/Housing_Counselor/searchByLocation?Lat=39.80&Long=-75.36&Distance=25 (lat/long, not ZIP); the HUD web form is https://www.hud.gov/i_want_to/talk_to_a_housing_counselor",
+   "tested": {
+    "08014": "worked by lat,long (Distance=25 mi): 49 agencies, across NJ, PA and DE (Wilmington, Philadelphia)",
+    "83702": "worked by lat,long (Distance=25 mi): 5 agencies (Neighborhood Housing Services / NeighborWorks Boise, Jesse Tree, Idaho Housing and Finance Association)"
+   },
+   "notes": {
+    "housing": "HUD-approved counselling: rental, foreclosure, homeless, reverse mortgage, budgeting; each row has name, address, phone, languages, services; HUD hotline number not confirmed on the page (unverified)"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://resources.hud.gov/",
+   "title": "HUD Resource Locator",
+   "kind": "locator",
+   "categories": [
+    "housing",
+    "homeless-services",
+    "veterans",
+    "seniors",
+    "disability"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (JavaScript map; curl returned a 13 KB shell)",
+   "byLocation": "search form on the page; no URL pattern found; use the HUD counselling API above for counselling agencies",
+   "tested": {
+    "08014": "failed to read: JavaScript form, no results in the HTML",
+    "83702": "failed to read: JavaScript form, no results in the HTML"
+   },
+   "notes": {
+    "housing": "HUD's own locator of HUD offices, public housing agencies, counselling and homeless help; person-only"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.hud.gov/findshelter",
+   "title": "HUD Find Shelter / local housing help",
+   "kind": "directory",
+   "categories": [
+    "homeless-services",
+    "housing"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "yes (static page, mostly guidance; points to 211 and the local Continuum of Care)",
+   "byLocation": "page text only; no ZIP query",
+   "tested": {
+    "08014": "worked: page read, no per-place list",
+    "83702": "worked: page read, no per-place list"
+   },
+   "notes": {
+    "homeless-services": "page offers 'Find a Continuum of Care in Your Community' and other-assistance links (paying rent etc.); 211 mention not confirmed"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.hud.gov/program_offices/public_indian_housing/pha/contacts",
+   "title": "HUD public housing agency (PHA) contact information",
+   "kind": "directory",
+   "categories": [
+    "housing"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (state/PHA lookup on the HUD page; curl got the shell)",
+   "byLocation": "state then agency form; no URL pattern found",
+   "tested": {
+    "08014": "failed to read: form-driven",
+    "83702": "failed to read: form-driven"
+   },
+   "notes": {
+    "housing": "phone, address and waiting-list status per public housing authority; waiting lists are often closed"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://hud.gov/sites/dfiles/CPD/documents/CoC/FY2024-CoC-Names-Numbers.pdf",
+   "title": "HUD CoC names and numbers, FY2024 (January 2024 list)",
+   "kind": "directory",
+   "categories": [
+    "homeless-services"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "pdf",
+   "byLocation": "one PDF, all CoCs by state; names and numbers only, no contacts",
+   "tested": {
+    "08014": "worked: PDF fetched (240 KB); NJ-503 Camden City & County/Gloucester, Cape May, Cumberland Counties CoC and NJ-512 Salem County CoC cover the area",
+    "83702": "worked: PDF fetched; ID-500 Boise/Ada County CoC and ID-501 Idaho Balance of State CoC"
+   },
+   "notes": {
+    "homeless-services": "names the Continuum of Care for each area, which runs coordinated entry; HUD's own search results said it carries no contact details and refers to the HUD CPD field office; dated January 2024"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.va.gov/homeless/ssvf/",
+   "title": "VA Supportive Services for Veteran Families (SSVF) grantees",
+   "kind": "directory",
+   "categories": [
+    "veterans",
+    "homeless-services",
+    "housing"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (map and grantee table are JavaScript)",
+   "byLocation": "state page / map on the VA page; no ZIP URL found",
+   "tested": {
+    "08014": "failed to read: page text is programme description, locator is a map",
+    "83702": "failed to read: page text is programme description, locator is a map"
+   },
+   "phone": "1-877-424-3838 (National Call Center for Homeless Veterans, 877-4AID-VET)",
+   "notes": {
+    "veterans": "rapid rehousing and homelessness prevention for veterans; grantees listed by state in the site's map",
+    "homeless-services": "same; also see HUD-VASH page https://www.va.gov/homeless/hud-vash.asp (fetched, programme text only)"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.immigrationlawhelp.org/",
+   "title": "ImmigrationLawHelp.org (national directory of free and low-cost immigration legal services)",
+   "kind": "locator",
+   "categories": [
+    "immigration",
+    "legal"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (server-rendered results)",
+   "byLocation": "https://www.immigrationlawhelp.org/search?zip={zip}",
+   "tested": {
+    "08014": "worked: 20 organisations (page said 'Showing Results 1 - 20 of 20'), across NJ, PA and DE, e.g. Camden Center for Law and Social Justice, Catholic Charities Diocese of Wilmington, HIAS Pennsylvania",
+    "83702": "worked: 20 organisations ('1 - 20 of 20'), e.g. Catholic Charities of Idaho Treasure Valley, IRC Boise, Jannus Agency for New Americans, Community Council of Idaho; the list also reached Oregon Law Center"
+   },
+   "notes": {
+    "immigration": "directory of nonprofit and low-cost immigration providers; each record has its own page (/organization.NNNN-Name) with phone, email, website; also filters by language and service in the site form",
+    "legal": "immigration only"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.justice.gov/eoir/recognition-accreditation-roster-reports",
+   "title": "DOJ EOIR Recognition and Accreditation roster: recognised organisations and accredited representatives",
+   "kind": "directory",
+   "categories": [
+    "immigration",
+    "legal"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "pdf",
+   "byLocation": "download the Recognized Organizations roster https://www.justice.gov/eoir/page/file/942301/download (951 organisations, updated 10/04/26) and search for the state or city; Accredited Representatives roster https://www.justice.gov/eoir/page/file/942311/download (2,638 representatives, same date)",
+   "tested": {
+    "08014": "worked: roster PDF (218 pages) fetched and parsed with pdftotext; about 37 'NJ nnnnn' address lines, including Camden Center for Law and Social Justice, Camden NJ 08102 (address-line count, not a count of organisations)",
+    "83702": "worked: same PDF; about 6 'ID nnnnn' address lines, including two Boise ID entries (83705, 83709) and the IRC Boise Extension Office"
+   },
+   "notes": {
+    "immigration": "only DOJ-recognised organisations and accredited representatives may give immigration legal advice without being lawyers; the roster is the check that a provider is authorised; contact details are supplied by each organisation"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.fns.usda.gov/snap/state-directory",
+   "title": "USDA SNAP State Directory of Resources (state agency pages)",
+   "kind": "directory",
+   "categories": [
+    "food",
+    "financial-assistance"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (one static page per state)",
+   "byLocation": "https://www.fns.usda.gov/snap-directory-entry/{state-slug} e.g. new-jersey, idaho; the main page has a state list",
+   "tested": {
+    "08014": "worked: https://www.fns.usda.gov/snap-directory-entry/new-jersey fetched (links to the state's apply site mynjhelps.gov and county offices https://www.nj.gov/humanservices/dfd/counties/)",
+    "83702": "worked: https://www.fns.usda.gov/snap-directory-entry/idaho fetched"
+   },
+   "notes": {
+    "food": "state agency contact, application and hotline links for SNAP; state level, not by ZIP; local office finding is on each state's own site"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.fns.usda.gov/contact/wic/new-jersey",
+   "title": "USDA FNS WIC state agency contact pages",
+   "kind": "directory",
+   "categories": [
+    "food",
+    "children-pregnancy",
+    "medical-dental-vision"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (one static page per state)",
+   "byLocation": "https://www.fns.usda.gov/contact/wic/{state-slug} e.g. new-jersey, idaho; each links the state's website, online application and clinic locations",
+   "tested": {
+    "08014": "worked: New Jersey WIC page fetched: phone 609-292-9560, toll-free 1-800-328-3838; links 'Website', 'Online Application' and 'Locations'",
+    "83702": "worked: https://www.fns.usda.gov/contact/wic/idaho fetched: phone 208-334-5948, toll-free 1-866-347-5484"
+   },
+   "notes": {
+    "food": "WIC for pregnant and postpartum women, infants and children under 5; state agency level; the clinic locator is on each state's site (link on the page)",
+    "children-pregnancy": "same programme"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.fns.usda.gov/meals4kids",
+   "title": "USDA Summer Meals Site Finder, and the National Hunger Hotline",
+   "kind": "locator",
+   "categories": [
+    "food",
+    "children-pregnancy"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (map; page text does not hold results); hotline is phone only",
+   "byLocation": "web form on the page (JavaScript map); hotline 1-866-3-HUNGRY (1-866-348-6479), Mon-Fri 8 a.m.-8 p.m. ET per the page, run by Hunger Free America",
+   "tested": {
+    "08014": "failed to read results: JavaScript map; the page text did carry the hotline number",
+    "83702": "failed to read results: JavaScript map; hotline number the same"
+   },
+   "phone": "1-866-348-6479",
+   "notes": {
+    "food": "free summer meals for children; mostly seasonal; the hotline helps a caller find food assistance and, per the page, state options"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.feedingamerica.org/find-your-local-foodbank",
+   "title": "Feeding America food bank locator",
+   "kind": "locator",
+   "categories": [
+    "food"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (JavaScript; ?zip= is accepted in the URL but results are not in the HTML)",
+   "byLocation": "https://www.feedingamerica.org/find-your-local-foodbank?zip={zip} (loads the page and fills the ZIP box; results render in the browser only)",
+   "tested": {
+    "08014": "failed to read results: the page returned the same 74 KB shell for 08014 and 83702 and the food bank names were not in it",
+    "83702": "failed to read results: same"
+   },
+   "notes": {
+    "food": "identifies the member food bank for the area; the food bank in turn has a pantry finder; useful to a person, not to a script"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.shiphelp.org/",
+   "title": "State Health Insurance Assistance Programs (SHIP) locator",
+   "kind": "directory",
+   "categories": [
+    "medical-dental-vision",
+    "seniors"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (static state pages)",
+   "byLocation": "https://www.shiphelp.org/ships/{state-slug}/ e.g. new-jersey, idaho",
+   "tested": {
+    "08014": "worked: state link https://www.shiphelp.org/ships/new-jersey/ present on the home page",
+    "83702": "worked: state link https://www.shiphelp.org/ships/idaho/ present on the home page"
+   },
+   "notes": {
+    "medical-dental-vision": "free Medicare counselling from the state SHIP (Idaho's is SHIBA); state level, each state page gives phone and sometimes local offices",
+    "seniors": "same, for people on or near Medicare and their families"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.ndrn.org/about/ndrn-member-agencies/",
+   "title": "NDRN member agencies: state Protection and Advocacy systems",
+   "kind": "directory",
+   "categories": [
+    "disability",
+    "legal"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (one static page, all states)",
+   "byLocation": "one page; find the state heading",
+   "tested": {
+    "08014": "worked: Disability Rights New Jersey, 210 S. Broad Street, 3rd Floor, Trenton NJ 08608, phone 609-292-9742, toll free 800-922-7233, advocate@drnj.org",
+    "83702": "worked: Disability Rights Idaho, 9542 W. Bethel Ct., Boise ID 83709, phone 208-336-5353, toll free 866-262-3462, info@disabilityrightsidaho.org"
+   },
+   "notes": {
+    "disability": "free legal advocacy for people with disabilities (abuse, access, benefits, special education)",
+    "legal": "disability rights advocacy; each state has one federally designated agency"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://nnedv.org/content/nnedv-coalition-regions/",
+   "title": "NNEDV state and territorial domestic violence coalitions (by region)",
+   "kind": "directory",
+   "categories": [
+    "domestic-violence"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "yes (page lists states by region and links coalitions; coalition links not extracted)",
+   "byLocation": "page lists coalition regions; New Jersey is in Region 1 (Northeast) per the page text; the page says it links each coalition's website; the Idaho region was not confirmed",
+   "tested": {
+    "08014": "worked: page read; NJ listed under Region 1 Northeast",
+    "83702": "partial: page read; Idaho's region not confirmed"
+   },
+   "notes": {
+    "domestic-violence": "each state has a coalition (56 members per the NNEDV site) that can refer to local shelters and programmes; the coalition itself is usually not a direct-service provider"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.thehotline.org/get-help/",
+   "title": "National Domestic Violence Hotline",
+   "kind": "hotline",
+   "categories": [
+    "domestic-violence"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "phone only (call, text or chat; the page has an advocate chat)",
+   "byLocation": "phone only: 1-800-799-SAFE (7233), text START to 88788 (per NNEDV's site), chat at thehotline.org",
+   "tested": {
+    "08014": "worked: page read; phone only",
+    "83702": "worked: page read; phone only"
+   },
+   "phone": "1-800-799-7233",
+   "notes": {
+    "domestic-violence": "24/7 confidential line that refers to local shelters and legal help; 911 if in danger"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.domesticshelters.org/help",
+   "title": "DomesticShelters.org shelter and programme search",
+   "kind": "locator",
+   "categories": [
+    "domestic-violence"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (JavaScript, 'Enter your zip or city')",
+   "byLocation": "form on the page, zip or city; no URL pattern found in the HTML",
+   "tested": {
+    "08014": "failed to read results: JavaScript form",
+    "83702": "failed to read results: JavaScript form"
+   },
+   "notes": {
+    "domestic-violence": "database of US shelters and programmes; for a person at a screen, not a script"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://acf.gov/ocs/map/liheap-map-state-and-territory-contact-listing",
+   "title": "LIHEAP state and territory contact listing (ACF)",
+   "kind": "directory",
+   "categories": [
+    "utilities-phone-internet",
+    "financial-assistance"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "refused",
+   "readable": "unreadable by curl: returned HTTP 202 with no body (bot challenge)",
+   "byLocation": "state map on the page; per search results, each state entry has a public inquiry phone; ACF's National Energy Assistance Referral line is 1-866-674-6327 (from search results and an old 2012 page; not confirmed on a fetched page)",
+   "tested": {
+    "08014": "failed: HTTP 202, empty",
+    "83702": "failed: HTTP 202, empty"
+   },
+   "phone": "1-866-674-6327 (unverified)",
+   "notes": {
+    "utilities-phone-internet": "the authoritative per-state list of LIHEAP offices; open it in a browser; the older https://liheapch.acf.hhs.gov/help was fetched (200) but no state list was found in its text"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.careeronestop.org/LocalHelp/AmericanJobCenters/find-american-job-centers.aspx",
+   "title": "CareerOneStop American Job Center finder (US Department of Labor)",
+   "kind": "locator",
+   "categories": [
+    "employment",
+    "veterans",
+    "reentry-support"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (server-rendered; browser User-Agent needed)",
+   "byLocation": "https://www.careeronestop.org/LocalHelp/AmericanJobCenters/find-american-job-centers.aspx?location={zip}&radius=25&ajcTypeFilter=&ajcSortField=distance",
+   "tested": {
+    "08014": "worked: 12 centres listed within 25 miles, with distance, phone, hours; across NJ, PA and DE (e.g. Salem County One Stop Career Center, Penns Grove; Fox Valley AJC, Wilmington DE; AJC Gloucester County)",
+    "83702": "worked: 4 centres within 25 miles (e.g. Idaho Department of Labor - Caldwell Affiliate, 22.2 mi)"
+   },
+   "notes": {
+    "employment": "free job search, training and unemployment help; each row has Veterans Rep, Business Rep and Youth Services flags and a Last Updated date",
+    "veterans": "veterans' representative flag per centre",
+    "reentry-support": "general services open to anyone; see the reentry finder"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-reentry-programs.aspx",
+   "title": "CareerOneStop ReEntry Programs finder",
+   "kind": "locator",
+   "categories": [
+    "reentry-support",
+    "employment"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (server-rendered; browser User-Agent needed)",
+   "byLocation": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-reentry-programs.aspx?location={zip}",
+   "tested": {
+    "08014": "worked: '24 ReEntry Programs found'",
+    "83702": "worked: '2 ReEntry Programs found'"
+   },
+   "notes": {
+    "reentry-support": "employment-focused reentry programmes for people leaving prison or jail; the finder's data and update dates were not checked"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-refugee-services.aspx",
+   "title": "CareerOneStop Refugee Assistance Services finder",
+   "kind": "locator",
+   "categories": [
+    "immigration",
+    "employment"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (server-rendered; browser User-Agent needed)",
+   "byLocation": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-refugee-services.aspx?location={zip}",
+   "tested": {
+    "08014": "worked: '7 Refugee Assistance Services found'",
+    "83702": "worked: '4 Refugee Assistance Services found'"
+   },
+   "notes": {
+    "immigration": "refugee resettlement and assistance offices"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-job-corps-centers.aspx",
+   "title": "CareerOneStop Job Corps Center finder",
+   "kind": "locator",
+   "categories": [
+    "employment"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (server-rendered; browser User-Agent needed)",
+   "byLocation": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-job-corps-centers.aspx?location={zip}",
+   "tested": {
+    "08014": "worked: '1 Job Corps Centers found in New Jersey' (Edison Job Corps Center, 732-985-4800; the finder resolves the ZIP to a state)",
+    "83702": "worked: '1 Job Corps Centers found in Idaho' (Centennial Job Corps Center, Nampa, 208-442-4588)"
+   },
+   "phone": "800-733-5627 (from a search result, unverified)",
+   "notes": {
+    "employment": "free training for ages 16-24 who qualify; the finder pages carried a 2025 pause notice in search-result snippets, which was not found in the fetched text; check each centre's current status before use (unverified)"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-older-worker-programs.aspx",
+   "title": "CareerOneStop Older Worker Program finder (SCSEP)",
+   "kind": "locator",
+   "categories": [
+    "seniors",
+    "employment"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (server-rendered; browser User-Agent needed)",
+   "byLocation": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-older-worker-programs.aspx?location={zip}",
+   "tested": {
+    "08014": "worked: '15 Older Worker Programs - SCSEP found'",
+    "83702": "worked: '1 Older Worker Program - SCSEP found'"
+   },
+   "notes": {
+    "seniors": "Senior Community Service Employment Program: paid training for low-income people 55 and over"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-youth-programs.aspx",
+   "title": "CareerOneStop Youth Programs finder",
+   "kind": "locator",
+   "categories": [
+    "employment",
+    "children-pregnancy"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (server-rendered; browser User-Agent needed)",
+   "byLocation": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-youth-programs.aspx?location={zip}",
+   "tested": {
+    "08014": "worked: '40 Youth Programs found'",
+    "83702": "worked: '4 Youth Programs found'"
+   },
+   "notes": {
+    "employment": "workforce programmes for young people"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-employment-networks.aspx",
+   "title": "CareerOneStop Employment Network finder (Ticket to Work)",
+   "kind": "locator",
+   "categories": [
+    "disability",
+    "employment"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (server-rendered; browser User-Agent needed)",
+   "byLocation": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-employment-networks.aspx?location={zip}",
+   "tested": {
+    "08014": "worked: '18 Employment Networks providers found'",
+    "83702": "worked: '4 Employment Networks providers found'"
+   },
+   "notes": {
+    "disability": "employment support for people receiving Social Security disability benefits"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-apprenticeship-offices.aspx",
+   "title": "CareerOneStop Apprenticeship Office finder",
+   "kind": "locator",
+   "categories": [
+    "employment"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (server-rendered; browser User-Agent needed)",
+   "byLocation": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-apprenticeship-offices.aspx?location={zip}",
+   "tested": {
+    "08014": "worked: '18 Apprenticeship Offices found'",
+    "83702": "worked: '7 Apprenticeship Offices found'"
+   },
+   "notes": {
+    "employment": "state and federal apprenticeship offices"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-farmworker-programs.aspx",
+   "title": "CareerOneStop National Farmworker Jobs Program finder",
+   "kind": "locator",
+   "categories": [
+    "employment"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (server-rendered; browser User-Agent needed)",
+   "byLocation": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-farmworker-programs.aspx?location={zip}",
+   "tested": {
+    "08014": "worked: '1 National Farmworker Jobs Program found'",
+    "83702": "worked: '5 National Farmworker Jobs Programs found'"
+   },
+   "notes": {
+    "employment": "training and services for seasonal and migrant farmworkers"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-native-american-programs.aspx",
+   "title": "CareerOneStop Indian and Native American Programs finder",
+   "kind": "locator",
+   "categories": [
+    "employment"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (server-rendered; browser User-Agent needed)",
+   "byLocation": "https://www.careeronestop.org/LocalHelp/EmploymentAndTraining/find-native-american-programs.aspx?location={zip}",
+   "tested": {
+    "08014": "worked: page returned, no count line found (likely none for NJ)",
+    "83702": "worked: '2 Indian and Native American Programs found'"
+   },
+   "notes": {
+    "employment": "workforce programmes run by tribes and Native organisations"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.careeronestop.org/LocalHelp/CommunityServices/find-community-colleges.aspx",
+   "title": "CareerOneStop Community College finder",
+   "kind": "locator",
+   "categories": [
+    "education"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (server-rendered; browser User-Agent needed)",
+   "byLocation": "https://www.careeronestop.org/LocalHelp/CommunityServices/find-community-colleges.aspx?location={zip}",
+   "tested": {
+    "08014": "worked: '5 Community Colleges found'",
+    "83702": "worked: '1 Community Colleges found'"
+   },
+   "notes": {
+    "education": "adult training and GED/ESL routes through community colleges; programme detail not on the finder"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.careeronestop.org/LocalHelp/CommunityServices/find-libraries.aspx",
+   "title": "CareerOneStop Library finder",
+   "kind": "locator",
+   "categories": [
+    "education",
+    "employment",
+    "financial-assistance"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (server-rendered; browser User-Agent needed)",
+   "byLocation": "https://www.careeronestop.org/LocalHelp/CommunityServices/find-libraries.aspx?location={zip}",
+   "tested": {
+    "08014": "worked: '138 Libraries found'",
+    "83702": "worked: '19 Libraries found'"
+   },
+   "notes": {
+    "education; employment": "public libraries (free computers, job help, printing); too many results to use as a provider list"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.careeronestop.org/LocalHelp/WorkforceDevelopment/find-workforce-development-boards.aspx",
+   "title": "CareerOneStop Workforce Development Board finder",
+   "kind": "directory",
+   "categories": [
+    "employment"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (server-rendered; browser User-Agent needed)",
+   "byLocation": "https://www.careeronestop.org/LocalHelp/WorkforceDevelopment/find-workforce-development-boards.aspx?location={zip}",
+   "tested": {
+    "08014": "worked: '18 Workforce Development Boards found'",
+    "83702": "worked: '1 Workforce Development Board found'"
+   },
+   "notes": {
+    "employment": "the local board that funds the American Job Centers; administrative, one per area"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.careeronestop.org/LocalHelp/UnemploymentBenefits/find-unemployment-benefits.aspx",
+   "title": "CareerOneStop Unemployment Benefits finder",
+   "kind": "directory",
+   "categories": [
+    "employment",
+    "financial-assistance"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (ZIP ignored: the page was the same size for both ZIPs; it wants a state selection)",
+   "byLocation": "state selection on the page",
+   "tested": {
+    "08014": "failed: location parameter ignored",
+    "83702": "failed: location parameter ignored"
+   },
+   "notes": {
+    "financial-assistance": "links to each state's unemployment insurance site"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.catholiccharitiesusa.org/find-help/",
+   "title": "Catholic Charities USA member agency locator",
+   "kind": "directory",
+   "categories": [
+    "food",
+    "homeless-services",
+    "immigration",
+    "medical-dental-vision",
+    "financial-assistance",
+    "children-pregnancy",
+    "seniors",
+    "disability",
+    "utilities-phone-internet",
+    "legal"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (the whole member list, 165 agencies with address, phone, website, latitude/longitude and serviced ZIP codes, is embedded in the page HTML as JSON, although the search box itself is JavaScript)",
+   "byLocation": "fetch https://www.catholiccharitiesusa.org/find-help/ once and read the embedded records; match 'serviced_zip' for a ZIP or compare latitude/longitude. The ?zip= URL parameter is not used.",
+   "tested": {
+    "08014": "worked: serviced_zip matched Catholic Charities of South Jersey (1845 Haddon Ave, Camden NJ, 856-342-4100); 5 NJ agencies in the whole list",
+    "83702": "worked: serviced_zip matched Catholic Charities of Idaho (7201 W Franklin Rd, Boise ID 83709, 208-345-6031); 1 Idaho agency in the list"
+   },
+   "notes": {
+    "food": "the agency finder only; services differ by diocese (food, rent, utilities, counselling, immigration)",
+    "immigration": "some agencies are DOJ-recognised; check the EOIR roster",
+    "homeless-services": "varies by agency"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.lsc.gov/about-lsc/our-grantees",
+   "title": "Legal Services Corporation grantees by state (LSC-funded civil legal aid)",
+   "kind": "directory",
+   "categories": [
+    "legal"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (static list by state; the 'enter an address or city' box on /about-lsc/what-legal-aid/get-legal-help is JavaScript)",
+   "byLocation": "one page, find the state heading; map of service areas: https://www.lsc.gov/grants/basic-field-grant/lsc-service-areas/map-lsc-service-areas (not tested)",
+   "tested": {
+    "08014": "worked: New Jersey grantees listed: Central Jersey Legal Services, Essex-Newark Legal Services Project, Legal Services of Northwest Jersey, Northeast New Jersey Legal Services Corporation, South Jersey Legal Services (the Bridgeport area falls under South Jersey; service-area map not read)",
+    "83702": "worked: Idaho grantee listed: Idaho Legal Aid Services, Inc."
+   },
+   "notes": {
+    "legal": "free civil legal help for low-income people (housing, benefits, family, consumer); not criminal; income eligibility applies"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.lawhelpnj.org/",
+   "title": "LSNJLAW / LawHelp New Jersey (state LawHelp.org portal)",
+   "kind": "directory",
+   "categories": [
+    "legal"
+   ],
+   "coverage": {
+    "national": false,
+    "states": [
+     "NJ"
+    ]
+   },
+   "read": "partial",
+   "readable": "yes (page read; state portal, directory search is a form)",
+   "byLocation": "state portals, each separate: lawhelpnj.org worked; the lawhelp.org home page and https://www.lawhelp.org/nj did not answer curl (connection failure)",
+   "tested": {
+    "08014": "partial: page fetched (206 KB); legal hotline 1-888-LSNJ-LAW (1-888-576-5529) confirmed in page text; no results by ZIP",
+    "83702": "not applicable (New Jersey portal); Idaho's portal not found: idaholegalaid.org returned a Cloudflare 403"
+   },
+   "phone": "1-888-576-5529",
+   "notes": {
+    "legal": "free legal information, self-help forms and a legal assistance hotline"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.ilru.org/projects/cil-net/cil-center-and-association-directory",
+   "title": "ILRU Centers for Independent Living directory",
+   "kind": "directory",
+   "categories": [
+    "disability"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "complete",
+   "readable": "yes (static page per state)",
+   "byLocation": "https://www.ilru.org/cil-directory/{state-code} e.g. nj, id",
+   "tested": {
+    "08014": "worked: https://www.ilru.org/cil-directory/nj: 15 address entries, including Center for Independent Living of South Jersey, 1150 Delsea Drive, Westville NJ 08093 (cil-sj.com) and Atlantic Center for Independent Living, Galloway",
+    "83702": "worked: https://www.ilru.org/cil-directory/id: 10 address entries, including Pocatello (idlife.org); Boise-area entries not read"
+   },
+   "notes": {
+    "disability": "CILs: peer-run, non-residential, help with independent living, equipment, housing and benefits for people with disabilities; directory is by state, then by centre"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.uscis.gov/about-us/find-a-uscis-office/field-offices",
+   "title": "USCIS field office and application support centre locator",
+   "kind": "locator",
+   "categories": [
+    "immigration"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (the field-office page text had no state list; /about-us/find-a-uscis-office has a form)",
+   "byLocation": "form at https://www.uscis.gov/about-us/find-a-uscis-office; no URL pattern found",
+   "tested": {
+    "08014": "failed: page fetched (100 KB), no office rows in the HTML",
+    "83702": "failed: same"
+   },
+   "notes": {
+    "immigration": "USCIS offices for interviews and biometrics; not legal help"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://eldercare.acl.gov/",
+   "title": "Eldercare Locator (ACL / n4a)",
+   "kind": "locator",
+   "categories": [
+    "seniors",
+    "medical-dental-vision",
+    "food",
+    "housing"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (Next.js app using Google geocoding and a search service; no results in the HTML)",
+   "byLocation": "search box 'street, city, state, zip code, county' on the page; no URL pattern; the older /Public/Index.aspx URL is 404",
+   "tested": {
+    "08014": "failed to read: JavaScript app",
+    "83702": "failed to read: JavaScript app"
+   },
+   "phone": "1-800-677-1116 (unverified)",
+   "notes": {
+    "seniors": "routes to Area Agencies on Aging (meals, transport, in-home help, caregiver support); the national line is the Eldercare Locator at 1-800-677-1116 (not confirmed in the fetched page)"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.va.gov/find-locations/",
+   "title": "VA facility locator (medical centres, clinics, benefits offices, Vet Centers)",
+   "kind": "locator",
+   "categories": [
+    "veterans",
+    "medical-dental-vision",
+    "mental-health"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (JavaScript map; ?address= and ?facilityType= URL parameters returned the same 43 KB shell)",
+   "byLocation": "https://www.va.gov/find-locations/?address={zip}&facilityType=health|vet_center|benefits (parameters accepted, results rendered by JavaScript only); Vet Centers also https://www.vetcenter.va.gov/",
+   "tested": {
+    "08014": "failed to read results: JavaScript map; api.va.gov facilities endpoints returned 404 without a key",
+    "83702": "failed to read results: same"
+   },
+   "notes": {
+    "veterans": "for a person at a screen: nearest VA medical facility, benefits office or Vet Center; Vet Centers give free readjustment counselling"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.va.gov/get-help-from-accredited-representative/find-rep/",
+   "title": "VA accredited representative / VSO search",
+   "kind": "locator",
+   "categories": [
+    "veterans",
+    "legal"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (page fetched, 43 KB, form-driven)",
+   "byLocation": "form on the page",
+   "tested": {
+    "08014": "failed: form-driven, no results in the HTML",
+    "83702": "failed: form-driven, no results in the HTML"
+   },
+   "notes": {
+    "veterans": "accredited VSOs and attorneys for VA claims; claims help from an accredited representative is free from VSOs"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.va.gov/homeless/hud-vash.asp",
+   "title": "VA HUD-VASH (housing vouchers with case management)",
+   "kind": "directory",
+   "categories": [
+    "veterans",
+    "homeless-services",
+    "housing"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "yes (programme page; no per-ZIP list on it)",
+   "byLocation": "no ZIP query; call the National Call Center for Homeless Veterans 877-424-3838 (confirmed on the VA SSVF page)",
+   "tested": {
+    "08014": "worked: page read, no per-place list",
+    "83702": "worked: page read, no per-place list"
+   },
+   "phone": "877-424-3838",
+   "notes": {
+    "homeless-services": "HUD vouchers plus VA case management for homeless veterans; offered through local VA medical centres"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://findahealthcenter.hrsa.gov/",
+   "title": "HRSA Find a Health Center (federally qualified health centres)",
+   "kind": "locator",
+   "categories": [
+    "medical-dental-vision",
+    "mental-health",
+    "addiction"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (6 KB JavaScript shell; ?zip= search-results URL returned 404)",
+   "byLocation": "search form on the page; https://findahealthcenter.hrsa.gov/search-results?zip=... is 404",
+   "tested": {
+    "08014": "failed to read: JavaScript form",
+    "83702": "failed to read: JavaScript form"
+   },
+   "notes": {
+    "medical-dental-vision": "FQHCs give sliding-scale primary care, often dental, behavioural health and pharmacy; the most useful national clinic locator but not scriptable by curl"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.healthcare.gov/find-local-help/",
+   "title": "HealthCare.gov find local help (marketplace assisters)",
+   "kind": "locator",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (2 KB JavaScript shell)",
+   "byLocation": "search form on the page; localhelp.healthcare.gov is the same app",
+   "tested": {
+    "08014": "failed to read: JavaScript form",
+    "83702": "failed to read: JavaScript form"
+   },
+   "notes": {
+    "medical-dental-vision": "in-person help applying for marketplace insurance; seasonal around open enrolment"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nafcclinics.org/find-clinic/",
+   "title": "NAFC (National Association of Free & Charitable Clinics) clinic locator",
+   "kind": "locator",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "refused",
+   "readable": "refused (403, Cloudflare 'Just a moment' challenge)",
+   "byLocation": "form on the page, not reachable by curl",
+   "tested": {
+    "08014": "failed: HTTP 403",
+    "83702": "failed: HTTP 403"
+   },
+   "notes": {
+    "medical-dental-vision": "free and charitable clinics; usable by a person in a browser"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.211.org/",
+   "title": "211 (United Way 211, national finder; also dial or text 211)",
+   "kind": "hotline",
+   "categories": [
+    "food",
+    "housing",
+    "homeless-services",
+    "utilities-phone-internet",
+    "financial-assistance",
+    "medical-dental-vision",
+    "mental-health",
+    "legal",
+    "seniors",
+    "disability",
+    "children-pregnancy"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "refused",
+   "readable": "phone plus a search that is refused to curl (the home page answered 200, /get-help returned 403 'Access denied')",
+   "byLocation": "dial 211 or use the search on https://www.211.org/ ; the page-level search could not be reached by curl; local 211s run their own databases (not tested)",
+   "tested": {
+    "08014": "failed: /get-help HTTP 403",
+    "83702": "failed: /get-help HTTP 403"
+   },
+   "phone": "211",
+   "notes": {
+    "housing": "211 routes to rent, utility, shelter and food help; most local databases are the best single source of current agency details; check the state's own 211 site for a readable directory (not tested)"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.ssa.gov/locator/",
+   "title": "Social Security office locator",
+   "kind": "locator",
+   "categories": [
+    "legal",
+    "financial-assistance",
+    "seniors",
+    "disability",
+    "id-recovery"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "refused",
+   "readable": "refused (403 Access Denied, with a short and a full browser User-Agent)",
+   "byLocation": "form on the page; not reachable by curl",
+   "tested": {
+    "08014": "failed: HTTP 403",
+    "83702": "failed: HTTP 403"
+   },
+   "phone": "1-800-772-1213 (unverified)",
+   "notes": {
+    "legal": "for replacement Social Security cards and ID documents; offices also by phone 1-800-772-1213 (unverified; not on a fetched page)"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.goodwill.org/locator/",
+   "title": "Goodwill locator",
+   "kind": "locator",
+   "categories": [
+    "employment",
+    "clothing-household"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "refused",
+   "readable": "refused (403 Forbidden)",
+   "byLocation": "form on the page; not reachable by curl",
+   "tested": {
+    "08014": "failed: HTTP 403",
+    "83702": "failed: HTTP 403"
+   },
+   "notes": {
+    "employment": "Goodwill job training and career services vary by local Goodwill"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.medicaid.gov/",
+   "title": "Medicaid.gov (state Medicaid contacts)",
+   "kind": "directory",
+   "categories": [
+    "medical-dental-vision",
+    "transportation"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "refused",
+   "readable": "refused (403 Access Denied)",
+   "byLocation": "not reachable by curl",
+   "tested": {
+    "08014": "failed: HTTP 403",
+    "83702": "failed: HTTP 403"
+   },
+   "notes": {
+    "medical-dental-vision": "state Medicaid agency pages and non-emergency medical transport details sit here; unreadable by script, use the state's own Medicaid site"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.rainn.org/",
+   "title": "RAINN (National Sexual Assault Hotline and centre finder)",
+   "kind": "hotline",
+   "categories": [
+    "domestic-violence"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "refused",
+   "readable": "refused (403 Cloudflare 'Attention Required')",
+   "byLocation": "not reachable by curl; the hotline is 800-656-HOPE (4673) (not confirmed on a fetched page)",
+   "tested": {
+    "08014": "failed: HTTP 403",
+    "83702": "failed: HTTP 403"
+   },
+   "phone": "800-656-4673 (unverified)",
+   "notes": {
+    "domestic-violence": "sexual assault support and local centre referral"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.lifelinesupport.org/companies-near-me/",
+   "title": "Lifeline (USAC) companies near me",
+   "kind": "locator",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "refused",
+   "readable": "refused (curl got no response, exit status 000, on both URLs)",
+   "byLocation": "search by ZIP or city and state on the page, per search results (not confirmed); USAC info page https://www.usac.org/lifeline/ answered 200",
+   "tested": {
+    "08014": "failed: no response",
+    "83702": "failed: no response"
+   },
+   "phone": "1-888-641-8722 (unverified)",
+   "notes": {
+    "utilities-phone-internet": "discounted phone or internet for qualifying households; the Lifeline support number 1-888-641-8722 comes from search results (unverified)"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://irs.treasury.gov/freetaxprep/",
+   "title": "IRS VITA / TCE free tax help locator",
+   "kind": "locator",
+   "categories": [
+    "financial-assistance"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (JavaScript; the IRS page says the locator is updated from February through April)",
+   "byLocation": "locator reached through https://www.irs.gov/individuals/find-a-location-for-free-tax-prep",
+   "tested": {
+    "08014": "failed to read: JavaScript form",
+    "83702": "failed to read: JavaScript form"
+   },
+   "notes": {
+    "financial-assistance": "free tax preparation for qualifying households and 60+; mainly February to April"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://eclkc.ohs.acf.hhs.gov/center-locator",
+   "title": "Head Start center locator",
+   "kind": "locator",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (JavaScript; fetched once with 200, later requests returned HTTP 202 empty bot challenges; headstart.gov/programs/search is 404)",
+   "byLocation": "form on the page; no URL pattern found",
+   "tested": {
+    "08014": "failed to read: JavaScript form / HTTP 202",
+    "83702": "failed to read: JavaScript form / HTTP 202"
+   },
+   "notes": {
+    "children-pregnancy": "free pre-school for low-income children, and Early Head Start for infants; fixed eligibility and seasonal enrolment"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.childcareaware.org/families/",
+   "title": "Child Care Aware of America (child care referral)",
+   "kind": "directory",
+   "categories": [
+    "children-pregnancy",
+    "financial-assistance"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "yes (page read, no per-ZIP locator found in the HTML)",
+   "byLocation": "no URL pattern found; the CCR&R finder is a JavaScript tool",
+   "tested": {
+    "08014": "failed: no locator results in the HTML",
+    "83702": "failed: no locator results in the HTML"
+   },
+   "notes": {
+    "children-pregnancy": "child care referral and fee assistance by state; childcare.gov/state-resources (200) lists state agencies"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.salvationarmyusa.org/location-finder/",
+   "title": "Salvation Army location finder",
+   "kind": "locator",
+   "categories": [
+    "food",
+    "homeless-services",
+    "clothing-household",
+    "utilities-phone-internet",
+    "financial-assistance",
+    "addiction"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only (JavaScript; ?zip=, ?q= and ?address= parameters returned the same 400 KB page with no place names)",
+   "byLocation": "form on the page; no URL pattern found",
+   "tested": {
+    "08014": "failed to read results: JavaScript",
+    "83702": "failed to read results: JavaScript"
+   },
+   "notes": {
+    "food": "service centres vary: food pantries, shelters, rent and utility help, rehabilitation"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.svdpusa.org/get-help/",
+   "title": "St. Vincent de Paul (SVdP USA) get help",
+   "kind": "directory",
+   "categories": [
+    "housing",
+    "utilities-phone-internet",
+    "food",
+    "clothing-household",
+    "financial-assistance"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "form only (a web form on the page; no conference list found)",
+   "byLocation": "no locator found; help is requested through the form or the local conference (not tested)",
+   "tested": {
+    "08014": "failed: form only",
+    "83702": "failed: form only"
+   },
+   "notes": {
+    "financial-assistance": "rent and utility help is often by home visit through a parish conference; conference lists are local"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.dressforsuccess.org/",
+   "title": "Dress for Success affiliate finder",
+   "kind": "locator",
+   "categories": [
+    "clothing-household",
+    "employment"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "search form only ('Find your local network member', JavaScript)",
+   "byLocation": "form on the page; /find-an-affiliate/ is 404",
+   "tested": {
+    "08014": "failed to read: JavaScript",
+    "83702": "failed to read: JavaScript"
+   },
+   "notes": {
+    "clothing-household": "professional clothing and job coaching for women; by appointment at affiliates"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://lincs.ed.gov/",
+   "title": "LINCS (adult education and literacy resources)",
+   "kind": "directory",
+   "categories": [
+    "education"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "yes (resource collection; not a provider locator)",
+   "byLocation": "no provider locator found; programmes are by state education department",
+   "tested": {
+    "08014": "failed: not a locator",
+    "83702": "failed: not a locator"
+   },
+   "notes": {
+    "education": "teaching resources, not student-facing; provider lists live with each state's adult education office (gap)"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.benefits.gov/",
+   "title": "Benefits.gov / USAGov benefit finder",
+   "kind": "directory",
+   "categories": [
+    "financial-assistance",
+    "food",
+    "housing",
+    "utilities-phone-internet",
+    "medical-dental-vision"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "yes (static guidance pages; the benefit finder is a JavaScript questionnaire)",
+   "byLocation": "https://www.usa.gov/benefit-finder (JavaScript questionnaire)",
+   "tested": {
+    "08014": "failed: questionnaire, no results in the HTML",
+    "83702": "failed: questionnaire, no results in the HTML"
+   },
+   "notes": {
+    "food": "https://www.usa.gov/food-help guides to SNAP, WIC and food banks; static pages by topic"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.bop.gov/inmates/custody_and_care/reentry.jsp",
+   "title": "Federal Bureau of Prisons reentry page",
+   "kind": "directory",
+   "categories": [
+    "reentry-support"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "readable": "yes (page text read; no locator)",
+   "byLocation": "no ZIP query",
+   "tested": {
+    "08014": "worked: page read; no per-place list",
+    "83702": "worked: page read; no per-place list"
+   },
+   "notes": {
+    "reentry-support": "describes Residential Reentry Centers and reentry help for people leaving federal prison; no provider list"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://nationalreentryresourcecenter.org/states/new-jersey/resources/",
+   "title": "National Reentry Resource Center state resource pages",
+   "kind": "directory",
+   "categories": [
+    "reentry-support"
+   ],
+   "coverage": {
+    "national": true
+   },
+   "read": "refused",
+   "readable": "state URL guessed from a search result redirected (302) to a site search page; the site was not read",
+   "byLocation": "per-state pages were reported in search results but the URL pattern redirected",
+   "tested": {
+    "08014": "failed: HTTP 302 to a search page",
+    "83702": "failed: HTTP 302 to a search page"
+   },
+   "notes": {
+    "reentry-support": "state reentry services directories; not confirmed (use the CareerOneStop ReEntry finder instead)"
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  }
+ ],
+ "gaps": {
+  "food": "No scriptable national pantry-by-ZIP locator: Feeding America and the USDA Summer Meals finder are JavaScript maps. SNAP and WIC are state-level pages only (state agency, not local office). The reliable route is each state's 211 or food bank site.",
+  "medical-dental-vision": "HRSA health centres and healthcare.gov local help are JavaScript forms; the NAFC free clinic locator is blocked (403); no national dental or vision locator was found; Medicaid.gov is blocked (403), so no non-emergency transport by state was read.",
+  "addiction": "Covered by findtreatment.gov (by lat/long); AA/NA meeting finders were not tested.",
+  "mental-health": "Covered by findtreatment.gov (mh) and phone lines; no national peer-support or counsellor locator was tested.",
+  "housing; homeless-services": "HUD counselling API works by lat/long. HUD CoC contacts and coordinated entry: only a January 2024 names-and-numbers PDF was read (no contacts); HUD Resource Locator, the PHA contact page and VA SSVF grantee list are form or map driven. Local coordinated-entry phone lines come from 211 or the CoC's own site.",
+  "veterans": "VA facility, Vet Center and accredited-representative locators are JavaScript; the VA's own API gave 404 without a key. Phone: 877-424-3838 (homeless veterans) is confirmed.",
+  "seniors; disability": "Eldercare Locator is a JavaScript app; Area Agencies on Aging are reachable only through it or 211. Benefits.gov is a questionnaire. Covered: SHIP and NDRN by state, ILRU CIL directory by state, CareerOneStop SCSEP and Employment Network finders.",
+  "employment; education": "CareerOneStop covers American Job Centers, Job Corps, apprenticeships, reentry, refugee, farmworker, Native American, youth, libraries and community colleges by ZIP. Adult education/literacy (GED, ESL) and Goodwill have no usable national locator (LINCS is teacher resources; Goodwill returns 403).",
+  "legal; immigration; reentry-support": "LSC grantees by state and ImmigrationLawHelp.org by ZIP work; the DOJ roster is a PDF. USCIS and Social Security office locators are not scriptable (JavaScript / 403). The NRRC state pages could not be read; use CareerOneStop's ReEntry finder. LawHelp.org state portals: only New Jersey was reached; Idaho's returned a Cloudflare 403.",
+  "domestic-violence": "Hotline numbers and DomesticShelters.org (JavaScript) only; RAINN is blocked (403); the NNEDV coalition list was read by region but coalition links were not extracted.",
+  "utilities-phone-internet": "LIHEAP state contacts (acf.gov) answered HTTP 202 with no body; Lifeline's companies-near-me gave no response; nothing readable for utility help except 211 (blocked) and Catholic Charities / Salvation Army / SVdP, which are local. Affordable Connectivity Program successor: none found.",
+  "financial-assistance; transportation; clothing-household; children-pregnancy": "211 is phone-first and blocked to scripts. IRS VITA, Head Start and Child Care Aware locators are JavaScript or intermittently blocked; Dress for Success, Salvation Army and SVdP finders are JavaScript or request forms. Catholic Charities' member list is fully readable. Medicaid non-emergency transport by state: none found."
+ }
+}

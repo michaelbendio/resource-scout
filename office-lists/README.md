@@ -34,3 +34,17 @@ from their demo trials by `build_office_lists.py`. Logan, Brigham City and Cedar
 found by a lists-only search (`brief-lists-only-20261006.md`): no providers recorded.
 `ogden-gaps.md` says what the Ogden LSScout run of 6 October could not find; its full
 notes are `gapsAfterLsscout` in `ogden.json`.
+
+## Shared state and federal lists (13 October 2026)
+
+Elder Bendio: "the idea is to share state and federal resource lists with other Scout runs."
+An office's lists search reads these first and searches only for what they lack.
+
+| File | Scope | Built |
+| --- | --- | --- |
+| `federal.json` | National locators, directories and hotlines: 65, each tested for Bridgeport (08014) and Boise (83702), with how to ask it for one place and whether a script can read it | 13 October 2026 ([brief](brief-federal-20261013.md)); category ids normalised to the app's 21 by Claude |
+| `states/new-jersey.json` | The 21 statewide New Jersey lists | Taken from `bridgeport.json`, 13 October 2026 |
+
+Still to move into state files: Utah's statewide lists (in `ogden.json`), Nevada's
+(`las-vegas.json`) and Arizona's (`mesa.json`).
+

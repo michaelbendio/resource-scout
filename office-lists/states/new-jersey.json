@@ -1,0 +1,465 @@
+{
+ "scope": "state",
+ "state": "NJ",
+ "stateName": "New Jersey",
+ "about": "Lists that cover all of New Jersey, shared by every office in or near New Jersey (Elder Bendio, 13 October 2026: share state and federal lists between Scout runs). First found by Bridgeport's lists search of 13 October 2026; an office's own file names these by URL rather than repeating them.",
+ "lists": [
+  {
+   "url": "https://www.nj.gov/oag/njcares/ohh/downloads/OHH-Resource-Book-12162022.pdf",
+   "title": "NJ Office of the Attorney General: Office of Hope and Healing / NJCARES resource book (Dec 2022)",
+   "kind": "official",
+   "categories": [
+    "addiction",
+    "mental-health"
+   ],
+   "notes": {
+    "addiction": "county-by-county substance-use contacts including Gloucester, Salem, Camden; 14 MB PDF, Dec 2022; numbers may have changed"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/health/fhs/oral/documents/dental-directory-2026.pdf",
+   "title": "NJ Dental Clinic Directory 2026 (NJ Dept of Health, Oral Health Services Unit)",
+   "kind": "official",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "48-page statewide directory by county, 2026; public dental clinics (health departments, hospitals, FQHCs) with hours, ages and payment (sliding scale); Gloucester section names 2 clinics (Complete Care Health Network, Glassboro; CamCare, Paulsboro); Camden and Salem have more; no vision"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "namesFound": {
+    "medical-dental-vision": 2
+   },
+   "residency": "Some clinics limit by county of residence, e.g. Complete Care Health Network limited to Cape May, Cumberland and Gloucester residents (the directory's own NOTE)",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://sites.rowan.edu/osec/titles/ix/resources/ix-legal-immigraton.html",
+   "title": "Rowan University: Legal and Immigration Resources",
+   "kind": "official",
+   "categories": [
+    "legal",
+    "immigration",
+    "domestic-violence"
+   ],
+   "notes": {
+    "legal": "university list naming Southern New Jersey Legal Services, Rutgers Law Camden Domestic Violence Law Clinic, American Hispanic Immigration Organization (Newark); about 3 providers; undated; from search summary [404 or rejected on 13 Oct; known only from search results]"
+   },
+   "readable": "dead link or rejected (404)",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "refused",
+   "namesFound": {
+    "legal": 3
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/dca/dhcr/offices/pdf/LIHEAP_Agencies%20updated.pdf",
+   "title": "NJ DCA: LIHEAP agencies list (by county)",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "state list of the LIHEAP application agency in each county; Gloucester is served by Gateway Community Action Partnership; not opened, from search listing"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://njreentry.org/nj-support-resources-directory/",
+   "title": "NJ Reentry Corporation: NJ Support Resources Directory",
+   "kind": "regional",
+   "categories": [
+    "reentry-support",
+    "housing",
+    "homeless-services",
+    "food",
+    "financial-assistance",
+    "employment",
+    "legal",
+    "addiction",
+    "domestic-violence",
+    "veterans",
+    "seniors",
+    "disability"
+   ],
+   "notes": {
+    "reentry-support": "statewide directory in nine sections (hotlines, addiction and violence, benefits, cash and food, housing, employment and reentry, 13 free-legal organisations, victims and veterans, county tables of social services and one-stop career centres); no date on the page; curl got 403 so it was read through WebFetch's summary only; county tables name 2 entries for Gloucester, 3 for Camden, 2 for Salem (summary count, unverified)"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "partial",
+   "namesFound": {
+    "legal": 13
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/humanservices/dfd/index.html",
+   "title": "NJ Division of Family Development: County Welfare Agencies (Boards of Social Services)",
+   "kind": "official",
+   "categories": [
+    "financial-assistance",
+    "food",
+    "housing",
+    "homeless-services"
+   ],
+   "notes": {
+    "financial-assistance": "state list of each county's Board of Social Services (Gloucester Division of Social Services, Camden, Salem); page says 'Updated 07/17/19'"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "namesFound": {
+    "financial-assistance": 3
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/health/fhs/primarycare/fqhc",
+   "title": "NJ Department of Health: Federally Qualified Health Centers (search by county, map)",
+   "kind": "locator",
+   "categories": [
+    "medical-dental-vision",
+    "mental-health"
+   ],
+   "notes": {
+    "medical-dental-vision": "state FQHC search by county, city or name, plus map and an administrative contacts PDF; last reviewed 3/13/2025; names no centers on the page"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "byLocation": "Search by county or city; not run (page read; search is on an external page)",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/corrections/pdf/OPSS/FRARA/2026/Attachment%201%20Federally%20Qualified%20Health%20Centers%20NJ%202026.pdf",
+   "title": "NJ DOC: Federally Qualified Health Centers NJ 2026 (attachment to reentry packet)",
+   "kind": "official",
+   "categories": [
+    "medical-dental-vision",
+    "reentry-support"
+   ],
+   "notes": {
+    "medical-dental-vision": "2026 FQHC list prepared for NJ DOC reentry packets; from search listing, not opened"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.lsnjlaw.org/",
+   "title": "Legal Services of New Jersey: LSNJLAW (statewide hotline 1-888-576-5529, self-help, resource directories)",
+   "kind": "official",
+   "categories": [
+    "legal",
+    "housing",
+    "utilities-phone-internet",
+    "employment",
+    "financial-assistance",
+    "immigration"
+   ],
+   "notes": {
+    "legal": "statewide coordinating office of the six legal-services programmes; hotline hours Mon-Fri 8-5:30 per the site (search summary); topic pages for housing, jobs, government aid, utilities; South Jersey Legal Services covers Gloucester, Camden, Salem"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "partial",
+   "residency": "Low-income New Jersey residents (financial eligibility), civil matters only",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj211.org/",
+   "title": "NJ 211 (statewide; administered by United Ways of New Jersey; also runs the state homeless and energy-assistance hotlines)",
+   "kind": "211",
+   "categories": [
+    "food",
+    "housing",
+    "homeless-services",
+    "utilities-phone-internet",
+    "addiction",
+    "mental-health",
+    "legal",
+    "seniors",
+    "veterans",
+    "transportation",
+    "children-pregnancy",
+    "disability",
+    "employment",
+    "clothing-household",
+    "financial-assistance",
+    "domestic-violence",
+    "immigration",
+    "education",
+    "medical-dental-vision",
+    "id-recovery",
+    "reentry-support"
+   ],
+   "notes": {
+    "food": "statewide referral database; the United Ways page says over 1,000,000 requests a year; individual provider pages at search.nj211.org are readable and several were seen (Gloucester pantries, legal aid, LIHEAP, veterans); the search itself is a form"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "byLocation": "Search by ZIP or county at search.nj211.org; call 2-1-1 or text 898-211; the search form was not run",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/dcf/reporting/how/CommunitySupportContacts_1025.pdf",
+   "title": "NJ DCF: community support contacts (Oct 2025)",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy",
+    "mental-health"
+   ],
+   "notes": {
+    "children-pregnancy": "state children-and-families contact sheet dated 10/2025 by its filename; from search listing, not opened [404 or rejected on 13 Oct; known only from search results]"
+   },
+   "readable": "dead link or rejected (404)",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "refused",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/mvc/about/faq.htm",
+   "title": "NJ Motor Vehicle Commission FAQ (IDs, non-driver ID)",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "state agency page, a how-to rather than a list; a law (S-2350/S-2351 per a sponsors' press release, unchecked) waives MVC fees for a non-driver ID and a birth certificate for homeless residents with a social worker's letter"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.paept.uscourts.gov/sites/paept/files/GED%20List%20for%20NJ_0.pdf",
+   "title": "US Courts (E.D. Pa. probation): GED list for NJ",
+   "kind": "official",
+   "categories": [
+    "education",
+    "reentry-support"
+   ],
+   "notes": {
+    "education": "court probation office's list of New Jersey GED classes; undated; from search listing, not opened [404 or rejected on 13 Oct; known only from search results]"
+   },
+   "readable": "dead link or rejected (404)",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "refused",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://sites.rutgers.edu/food-waste/nj-food-pantry-list/",
+   "title": "Rutgers Cooperative Extension Food Waste Team: NJ Food Pantry List (county directories)",
+   "kind": "regional",
+   "categories": [
+    "food",
+    "clothing-household"
+   ],
+   "notes": {
+    "food": "hub page that links the county food guides (Gloucester, Camden, Salem among 20+); compiled in Oct 2025 during the SNAP lapse; also donations and clothing links"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/basicneeds/",
+   "title": "NJ Basic Needs Information Hub (Office of the Secretary of Higher Education; open to all residents)",
+   "kind": "official",
+   "categories": [
+    "food",
+    "housing",
+    "homeless-services",
+    "transportation",
+    "children-pregnancy",
+    "financial-assistance",
+    "clothing-household"
+   ],
+   "notes": {
+    "food": "state hub for students and residents linking State programmes and community services; includes a page on essential items (diapers) that says to call 211; not a provider list"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/parole/docs/veterans/njdmava_veterans_service_offices.pdf",
+   "title": "NJ DMAVA veterans service offices (older PDF with Camden/Gloucester Woodbury Armory entry)",
+   "kind": "official",
+   "categories": [
+    "veterans",
+    "reentry-support"
+   ],
+   "notes": {
+    "veterans": "older state PDF used by Parole; lists Camden/Gloucester office at the Woodbury Armory; probably superseded by the newer Camden office"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://nj.gov/humanservices/dmhas/documents/pdf/MH_Dir_COMPLETE.pdf",
+   "title": "NJ DMHAS: Directory of Mental Health Services (DMHAS-contracted providers only), updated April 2026",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "addiction"
+   ],
+   "notes": {
+    "mental-health": "statewide PDF by county, 'Updated April 2026' on the cover; contracted providers only; Gloucester, Camden and Salem sections not tallied"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://nj211.org/phone-and-internet-assistance-programs",
+   "title": "NJ 211: phone and internet assistance programmes (Lifeline etc.)",
+   "kind": "211",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "statewide page describing the federal Lifeline free-phone programme and providers; no local list; the NJ Basic Needs hub (nj.gov/basicneeds/technology/internet-access.shtml) says ACP may have ended"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/bpu/residential/assistance/",
+   "title": "NJ Board of Public Utilities: residential assistance (Lifeline utility benefit, Winter Termination Program 1-800-624-0241)",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "state page of utility-bill assistance programmes; short page; names programmes not local providers"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj211.org/new-jersey-code-blue",
+   "title": "NJ 211: New Jersey Code Blue (county warming centres and activations)",
+   "kind": "211",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "statewide Code Blue listing by county, changes with the weather; the county OEM is the source; Salem County has a Code Blue warming centre per the IAC guide"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://libguides.njstatelib.org/get_help",
+   "title": "NJ State Library: Get Help, New Jersey Social Services (research guide with county tabs for Camden, Gloucester, Salem)",
+   "kind": "official",
+   "categories": [
+    "housing",
+    "employment",
+    "food",
+    "legal",
+    "mental-health",
+    "reentry-support",
+    "education",
+    "financial-assistance"
+   ],
+   "notes": {
+    "housing": "state library guide with topic pages (employment, housing, literacy, reentry) and a county tab for each of Camden, Gloucester and Salem linking each county's social-services pages; page read; the county tabs link to pages already recorded"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  }
+ ],
+ "gaps": {}
+}
