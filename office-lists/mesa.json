@@ -3,7 +3,7 @@
   "slug": "mesa",
   "name": "Mesa"
  },
- "about": "Lists of local providers found by list seeding, for seeding and re-checking Scout runs. Notes are the trial's own words; namesFound counts the trial's seeds citing the list.",
+ "about": "Lists of local providers found by list seeding, for seeding and re-checking Scout runs. Notes are the trial's own words; namesFound counts the trial's seeds citing the list. Statewide Arizona lists moved to states/arizona.json on 13 October 2026 (Elder Bendio: share state and federal lists between Scout runs); read that file and federal.json with this one.",
  "lists": [
   {
    "url": "https://search.211arizona.org/search?query=BM-6500.1500-120&query_label=Children%27s+Clothing&query_type=taxonomy&location=Mesa%2C+AZ",
@@ -65,22 +65,6 @@
    },
    "namesFound": {
     "transportation": 14
-   },
-   "firstFound": "2026-09-30",
-   "lastChecked": "2026-09-30"
-  },
-  {
-   "url": "https://211arizona.org/preventing-utility-shut-offs/",
-   "title": "2-1-1 Arizona - Preventing Utility Shut-Offs",
-   "kind": "211",
-   "categories": [
-    "utilities-phone-internet"
-   ],
-   "notes": {
-    "utilities-phone-internet": "stale (published Feb 2021); statewide utility programmes"
-   },
-   "namesFound": {
-    "utilities-phone-internet": 3
    },
    "firstFound": "2026-09-30",
    "lastChecked": "2026-09-30"
@@ -770,22 +754,6 @@
    "lastChecked": "2026-09-30"
   },
   {
-   "url": "https://www.probationinfo.org/reentry-resources/arizona/",
-   "title": "Probation Information Network: Reentry Resources Arizona",
-   "kind": "aggregator",
-   "categories": [
-    "reentry-support"
-   ],
-   "notes": {
-    "reentry-support": "undated; 20 Phoenix-area names, many general employment or recovery"
-   },
-   "namesFound": {
-    "reentry-support": 14
-   },
-   "firstFound": "2026-09-30",
-   "lastChecked": "2026-09-30"
-  },
-  {
    "url": "https://rehabs.org/centers/arizona/mesa/",
    "title": "Rehabs.org: Free & Low-Cost Drug Rehabs in Mesa",
    "kind": "aggregator",
@@ -797,38 +765,6 @@
    },
    "namesFound": {
     "addiction": 20
-   },
-   "firstFound": "2026-09-30",
-   "lastChecked": "2026-09-30"
-  },
-  {
-   "url": "https://seniorsmobility.org/free-transportation/free-transportation-for-seniors-in-arizona/",
-   "title": "SeniorsMobility - Free Transportation for Seniors in Arizona",
-   "kind": "aggregator",
-   "categories": [
-    "transportation"
-   ],
-   "notes": {
-    "transportation": "partial; three East Valley volunteer-driver groups"
-   },
-   "namesFound": {
-    "transportation": 3
-   },
-   "firstFound": "2026-09-30",
-   "lastChecked": "2026-09-30"
-  },
-  {
-   "url": "https://www.azahcccs.gov/Members/BehavioralHealthServices/OpioidUseDisorderAndTreatment/Locating_Treatment.html",
-   "title": "AHCCCS: Accessing and Locating Treatment (opioid use disorder)",
-   "kind": "official",
-   "categories": [
-    "addiction"
-   ],
-   "notes": {
-    "addiction": "current; names 24/7 OTPs, none in Mesa, and the state locator"
-   },
-   "namesFound": {
-    "addiction": 3
    },
    "firstFound": "2026-09-30",
    "lastChecked": "2026-09-30"
@@ -1387,54 +1323,6 @@
    "lastChecked": "2026-09-30"
   },
   {
-   "url": "https://www.azdhs.gov/documents/preparedness/epidemiology-disease-control/disease-integrated-services/refugee-health/community-dental-clinics.pdf",
-   "title": "Reduced Fee and Community Dental Clinics in Arizona (AZ Dept of Health Services / AZ Dental Foundation)",
-   "kind": "official",
-   "categories": [
-    "medical-dental-vision"
-   ],
-   "notes": {
-    "medical-dental-vision": "stale: footer says 'ADF rvsd 9/1/13'; old MIHS clinic names"
-   },
-   "namesFound": {
-    "medical-dental-vision": 10
-   },
-   "firstFound": "2026-09-30",
-   "lastChecked": "2026-09-30"
-  },
-  {
-   "url": "https://www.swgas.com/en/arizona-bill-assistance",
-   "title": "Southwest Gas - Arizona Bill Assistance",
-   "kind": "official",
-   "categories": [
-    "utilities-phone-internet"
-   ],
-   "notes": {
-    "utilities-phone-internet": "current; utility's own partner-agency list"
-   },
-   "namesFound": {
-    "utilities-phone-internet": 5
-   },
-   "firstFound": "2026-09-30",
-   "lastChecked": "2026-09-30"
-  },
-  {
-   "url": "https://www.acluaz.org/formerly-incarcerated/",
-   "title": "ACLU of Arizona: Formerly Incarcerated",
-   "kind": "regional",
-   "categories": [
-    "reentry-support"
-   ],
-   "notes": {
-    "reentry-support": "stale (cites Mercy Maricopa, which ended in 2018); Tucson and Yavapai only, nothing seeded from it"
-   },
-   "namesFound": {
-    "reentry-support": 0
-   },
-   "firstFound": "2026-09-30",
-   "lastChecked": "2026-09-30"
-  },
-  {
    "url": "https://www.aaaphx.org/area-agency-on-aging-programs/",
    "title": "Area Agency on Aging, Region One - Programs",
    "kind": "regional",
@@ -1446,22 +1334,6 @@
    },
    "namesFound": {
     "seniors": 6
-   },
-   "firstFound": "2026-09-30",
-   "lastChecked": "2026-09-30"
-  },
-  {
-   "url": "https://aachc.org/stores/valleywise-mesa-2/",
-   "title": "Arizona Alliance for Community Health Centers clinic locator (Mesa sites: Native Health Mesa, Valleywise Mesa, Valle del Sol East Valley)",
-   "kind": "regional",
-   "categories": [
-    "medical-dental-vision"
-   ],
-   "notes": {
-    "medical-dental-vision": "current; seen through search results only, locator not read in full"
-   },
-   "namesFound": {
-    "medical-dental-vision": 3
    },
    "firstFound": "2026-09-30",
    "lastChecked": "2026-09-30"
@@ -1547,22 +1419,6 @@
     "employment": 6,
     "transportation": 1,
     "veterans": 2
-   },
-   "firstFound": "2026-09-30",
-   "lastChecked": "2026-09-30"
-  },
-  {
-   "url": "https://www.deltadentalaz.com/foundation/low-cost-dental-clinics/",
-   "title": "Delta Dental of Arizona Foundation: Low Cost Dental Clinics",
-   "kind": "regional",
-   "categories": [
-    "medical-dental-vision"
-   ],
-   "notes": {
-    "medical-dental-vision": "undated, short"
-   },
-   "namesFound": {
-    "medical-dental-vision": 4
    },
    "firstFound": "2026-09-30",
    "lastChecked": "2026-09-30"
@@ -1710,22 +1566,6 @@
    "namesFound": {
     "financial-assistance": 3,
     "id-recovery": 1
-   },
-   "firstFound": "2026-09-30",
-   "lastChecked": "2026-09-30"
-  },
-  {
-   "url": "https://wildfireaz.org/find-help/arizona-diaper-pilot-program/",
-   "title": "Wildfire AZ - Arizona Diaper Pilot Program distribution partners",
-   "kind": "regional",
-   "categories": [
-    "children-pregnancy"
-   ],
-   "notes": {
-    "children-pregnancy": "current; one Mesa partner"
-   },
-   "namesFound": {
-    "children-pregnancy": 1
    },
    "firstFound": "2026-09-30",
    "lastChecked": "2026-09-30"

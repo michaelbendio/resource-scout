@@ -1,0 +1,823 @@
+{
+ "scope": "state",
+ "state": "NV",
+ "stateName": "Nevada",
+ "about": "Lists that cover all of Nevada, shared by every office in or near Nevada (Elder Bendio, 13 October 2026: share state and federal lists between Scout runs). Moved by Claude from the office files where list seeding first found them; byOffice keeps each office's own notes and name counts. A page with a section per county counts as statewide: an office reads its own county's section.",
+ "lists": [
+  {
+   "url": "https://nevada211.org",
+   "title": "Nevada 211",
+   "kind": "211",
+   "categories": [
+    "disability"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "disability": 0
+     },
+     "notes": {
+      "disability": "disability directory exists, but provider search could not be read; not used"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.nevada211.org/",
+   "title": "Nevada 211 (program of the Nevada Department of Human Services)",
+   "kind": "211",
+   "categories": [
+    "financial-assistance",
+    "id-recovery",
+    "medical-dental-vision"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "financial-assistance": 0,
+      "id-recovery": 0,
+      "medical-dental-vision": 0
+     },
+     "notes": {
+      "financial-assistance": "searchable under Housing and Utilities, but results are a database search and could not be read as a list",
+      "id-recovery": "could not be read as a list for this need",
+      "medical-dental-vision": "has a Health category, but its results could not be read as a list"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://nevada211.org/addiction-services",
+   "title": "Nevada 211 addiction services",
+   "kind": "211",
+   "categories": [
+    "addiction"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "addiction": 2
+     },
+     "notes": {
+      "addiction": "gateway page only (call 211, 1-866-535-5654, text 898211); the provider search could not be read, so no names came from it"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.nevada211.org/domestic-violence-services/",
+   "title": "Nevada 211 domestic violence services",
+   "kind": "211",
+   "categories": [
+    "domestic-violence"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "domestic-violence": 0
+     },
+     "notes": {
+      "domestic-violence": "gateway page only: category names and the 211 number, no providers; provider search not readable"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.nevada211.org/immigration",
+   "title": "Nevada 211 immigration page",
+   "kind": "211",
+   "categories": [
+    "immigration"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "immigration": 0
+     },
+     "notes": {
+      "immigration": "static page names only one provider (The Children's Cabinet, a Reno number); the real provider database (icarol) is an interactive search that the reader cannot run"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.nevada211.org/mental-health",
+   "title": "Nevada 211 mental health category",
+   "kind": "211",
+   "categories": [
+    "mental-health"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "mental-health": 0
+     },
+     "notes": {
+      "mental-health": "page lists service types only; provider database not readable"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.nevada211.org/utility-assistance",
+   "title": "Nevada 211 utility assistance",
+   "kind": "211",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "utilities-phone-internet": 0
+     },
+     "notes": {
+      "utilities-phone-internet": "page shows only a search box ('Loading resources'); the provider database cannot be read"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.nevada211.org/shelter/",
+   "title": "Nevada 211: shelter and housing search",
+   "kind": "211",
+   "categories": [
+    "homeless-services"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "homeless-services": 0
+     },
+     "notes": {
+      "homeless-services": "explains how to search; the shelter database results could not be read as a list"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.probationinfo.org/reentry-resources/nevada/",
+   "title": "ProbationInfo.org: Reentry Resources, Nevada",
+   "kind": "aggregator",
+   "categories": [
+    "reentry-support"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "reentry-support": 8
+     },
+     "notes": {
+      "reentry-support": "undated national site; eight Las Vegas entries with phone and address, but several are general social services, not reentry"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.rosen.senate.gov/wp-content/uploads/2022/11/2022-Veterans-Resource-Guide.pdf",
+   "title": "Senator Rosen's Nevada Veterans Resource Guide (2022)",
+   "kind": "aggregator",
+   "categories": [
+    "veterans"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "veterans": 6
+     },
+     "notes": {
+      "veterans": "stale (Nov 2022); statewide guide of agencies, posts and transport; used for names only"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://employnvcareerhub.org",
+   "title": "EmployNV Career Hub site",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "employment": 0
+     },
+     "notes": {
+      "employment": "Workforce Connections' job-seeker site; says 15 Career Hub locations but its locations page is a zip-code search that did not return results"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://employnvyouthhub.org",
+   "title": "EmployNV Youth Hub site",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "employment": 0
+     },
+     "notes": {
+      "employment": "ages 16-24; locations page is also a zip-code search, no results readable"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://veterans.nv.gov/a-word-on-housing-assistance",
+   "title": "NDVS: a word on housing assistance",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "veterans": 0
+     },
+     "notes": {
+      "veterans": "found by search, not read"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://adsd.nv.gov/Contact/Contact_AgingDisability/",
+   "title": "Nevada ADSD: contact offices",
+   "kind": "official",
+   "categories": [
+    "disability"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "disability": 0
+     },
+     "notes": {
+      "disability": "Las Vegas regional office"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://adsd.nv.gov/Programs/IDEA/EIprogram/Early_Intervention_Programs/",
+   "title": "Nevada ADSD: Early Intervention Programs",
+   "kind": "official",
+   "categories": [
+    "disability"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "disability": 1
+     },
+     "notes": {
+      "disability": "state page; Southern Nevada office address and phones for children under 3"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://adsd.nv.gov/contact/contact_agingdisability",
+   "title": "Nevada Aging and Disability Services Division: office locations",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "seniors": 1
+     },
+     "notes": {
+      "seniors": "current; Las Vegas regional office only"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://adsd.nv.gov/Programs/Seniors/TAP/TAP_Prog",
+   "title": "Nevada Aging and Disability Services: Taxi Assistance Program",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "transportation": 1
+     },
+     "notes": {
+      "transportation": "current; one programme, says funding is full"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://ag.nv.gov/uploadedFiles/agnvgov/Content/Hot_Topics/Victims/Domestic Violence _ Nevada Information and Assistance.pdf",
+   "title": "Nevada Attorney General: Domestic Violence - Nevada Information and Assistance",
+   "kind": "official",
+   "categories": [
+    "domestic-violence"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "domestic-violence": 10
+     },
+     "notes": {
+      "domestic-violence": "undated one-page statewide list of programmes by county; hotlines and office numbers, no addresses"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://nvcourts.gov/__data/assets/pdf_file/0026/47825/Non-Citizen_Resources_Updated.pdf",
+   "title": "Nevada Courts, Non-Citizen Resources",
+   "kind": "official",
+   "categories": [
+    "immigration"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "immigration": 0
+     },
+     "notes": {
+      "immigration": "found by search; returned 403, not read"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://doc.nv.gov/",
+   "title": "Nevada Department of Corrections",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "reentry-support": 0
+     },
+     "notes": {
+      "reentry-support": "home page only; no list of community reentry providers found on it; reentry pages sit under /programs/ and were not read"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://doc.nv.gov/Inmates/Re-Entry_Program/Home",
+   "title": "Nevada Department of Corrections: The Re-Entry Process",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "reentry-support": 1
+     },
+     "notes": {
+      "reentry-support": "current; describes the programme inside prisons and a Re-Entry Task Force; names no Las Vegas community providers or phones"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://veterans.nv.gov",
+   "title": "Nevada Department of Veterans Services (NDVS)",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "veterans": 1
+     },
+     "notes": {
+      "veterans": "current; states VSO appointments are taking 30-90 days"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://veterans.nv.gov/benefits-and-services/transportation",
+   "title": "Nevada Department of Veterans Services, transportation",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "transportation": 3
+     },
+     "notes": {
+      "transportation": "current (dated Mar 2026); DAV and VA van service, RTC veteran fares"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://detr.nv.gov/Page/EmployNV_Career_Hubs",
+   "title": "Nevada DETR: EmployNV Career Hubs",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "employment": 0
+     },
+     "notes": {
+      "employment": "returned 403, not read; search snippet gave four Las Vegas hub addresses and hours; still 403 in the top-up. The search-snippet hub addresses and hours were not used"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://cms.detr.nv.gov/Content/Media/JobConnect/WFC.pdf",
+   "title": "Nevada DETR: JobConnect workforce centres (WFC.pdf)",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "employment": 0
+     },
+     "notes": {
+      "employment": "appeared in search results; returned 403, not read; still 403 in the top-up. The search-snippet hub addresses and hours were not used"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://dss.nv.gov/Energy/",
+   "title": "Nevada Division of Social Services: Energy Assistance Program",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "utilities-phone-internet": 1
+     },
+     "notes": {
+      "utilities-phone-internet": "current; statewide; its Clark County contact page was not opened"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://dmv.nv.gov/",
+   "title": "Nevada DMV: replacing a lost driver license or ID card",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "id-recovery": 0
+     },
+     "notes": {
+      "id-recovery": "the page I reached showed only headings (how, fees, Las Vegas offices, hours, appointments, documents) with no details; dmvnv.com refused the connection"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.dpbh.nv.gov/programs/maternal-child-and-adolescent-health-mcah/nevada-home-visiting-miechv-home/diapers/Resources/",
+   "title": "Nevada DPBH Home Visiting: Diapering Resources directory",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "children-pregnancy": 3
+     },
+     "notes": {
+      "children-pregnancy": "undated; statewide, 3 Clark County entries with address, phone and website, all general family-assistance agencies"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.dpbh.nv.gov/programs/maternal-child-and-adolescent-health-mcah/nevada-home-visiting-miechv-home/nevada-home-visiting-miechv-providers/",
+   "title": "Nevada DPBH Home Visiting: service providers",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "children-pregnancy": 3
+     },
+     "notes": {
+      "children-pregnancy": "statewide page; names two Clark County providers (Sunrise Children's Foundation, SNHD Nurse-Family Partnership) with phone and address; undated"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://prod.dpbh.nv.gov/programs/women-infants-and-children/wic-locations/",
+   "title": "Nevada DPBH: WIC locations",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "children-pregnancy": 1
+     },
+     "notes": {
+      "children-pregnancy": "gives only the state WIC office and phone 1-800-8-NEV-WIC; the clinic locator (nevadawic.org/clinics) did not load its listings"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://nvsctlawlib.libguides.com/nvpublictoolkit/legal-aid",
+   "title": "Nevada Supreme Court Law Library: public toolkit, Legal Aid",
+   "kind": "official",
+   "categories": [
+    "legal"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "legal": 5
+     },
+     "notes": {
+      "legal": "current; names 4 providers, no phone numbers"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.nvhousingsearch.org/",
+   "title": "NVHousingSearch.org (State of Nevada Housing Division rental search)",
+   "kind": "official",
+   "categories": [
+    "housing"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "housing": 0
+     },
+     "notes": {
+      "housing": "current; a free searchable database of affordable rentals with a toll-free help line; not a list I could copy out"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.christopherreeve.org/wp-content/uploads/2026/06/Nevada-Disability-Resources-6-26-A.pdf",
+   "title": "Christopher and Dana Reeve Foundation: Nevada Disability Resources, June 2026",
+   "kind": "regional",
+   "categories": [
+    "disability",
+    "domestic-violence"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "disability": 8,
+      "domestic-violence": 2
+     },
+     "notes": {
+      "disability": "current; mostly names and websites, no phones or addresses; statewide; re-read in the top-up: names local providers (DRIVEN Neuro, Trail Access Project, City adaptive recreation, Paralyzed Veterans) alongside national bodies",
+      "domestic-violence": "statewide: national hotlines, Reno shelters and the state Victims of Crime Program"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.ncedsv.org/",
+   "title": "Nevada Coalition to End Domestic and Sexual Violence",
+   "kind": "regional",
+   "categories": [
+    "domestic-violence"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "domestic-violence": 0
+     },
+     "notes": {
+      "domestic-violence": "homepage only; member directory not reachable, and it says it is not a shelter or hotline"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://thenevadaindependent.com/es/article/resource-guide-heres-where-to-access-free-food-across-nevada-as-snap-runs-out",
+   "title": "The Nevada Independent: where to access free food across Nevada (updated 6 Nov 2025)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "NV"
+   },
+   "byOffice": {
+    "las-vegas": {
+     "namesFound": {
+      "food": 3
+     },
+     "notes": {
+      "food": "news resource guide; only three Clark County providers, written during the SNAP disruption"
+     }
+    }
+   }
+  }
+ ],
+ "gaps": {}
+}

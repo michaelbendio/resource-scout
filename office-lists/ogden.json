@@ -3,7 +3,7 @@
   "slug": "ogden",
   "name": "Ogden"
  },
- "about": "Lists of local providers found by list seeding, for seeding and re-checking Scout runs. Notes are the trial's own words; namesFound counts the trial's seeds citing the list.",
+ "about": "Lists of local providers found by list seeding, for seeding and re-checking Scout runs. Notes are the trial's own words; namesFound counts the trial's seeds citing the list. Statewide Utah lists moved to states/utah.json on 13 October 2026 (Elder Bendio: share state and federal lists between Scout runs); read that file and federal.json with this one.",
  "lists": [
   {
    "url": "https://utahdhhs.211utah.org/node/323981",
@@ -477,22 +477,6 @@
    "lastChecked": "2026-10-03"
   },
   {
-   "url": "https://helpforfelons.org/?p=16874",
-   "title": "Help for Felons: Utah Reentry Resources",
-   "kind": "aggregator",
-   "categories": [
-    "reentry-support"
-   ],
-   "notes": {
-    "reentry-support": "updated 28 April 2026; statewide, almost all Salt Lake/Utah County; its NUCCC phone (801 627 7856) is the centre's fax per 211 and UDC"
-   },
-   "namesFound": {
-    "reentry-support": 12
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
    "url": "https://www.homelessshelterdirectory.org/city/ut-ogden",
    "title": "HomelessShelterDirectory: Ogden, UT",
    "kind": "aggregator",
@@ -563,22 +547,6 @@
    "lastChecked": "2026-10-03"
   },
   {
-   "url": "https://www.probationinfo.org/reentry-resources/utah/",
-   "title": "Probation Information Network: Reentry Resources, Utah",
-   "kind": "aggregator",
-   "categories": [
-    "reentry-support"
-   ],
-   "notes": {
-    "reentry-support": "undated; generic statewide agencies, only Lantern House for Ogden"
-   },
-   "namesFound": {
-    "reentry-support": 2
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
    "url": "https://www.standard.net/news/2026/may/11/new-grant-programs-help-expand-housing-support-services-for-weber-county-families/",
    "title": "Standard-Examiner, 11 May 2026: grant programmes expand housing support for Weber County families",
    "kind": "aggregator",
@@ -606,22 +574,6 @@
    },
    "namesFound": {
     "veterans": 8
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://jobs.utah.gov/homelessness/grantee/feewaiver.html",
-   "title": "DWS Office of Homeless Services: Fee Waivers",
-   "kind": "official",
-   "categories": [
-    "id-recovery"
-   ],
-   "notes": {
-    "id-recovery": "current; explains the HB0352 (2021) fee waiver for Utah ID and birth certificates; names no providers"
-   },
-   "namesFound": {
-    "id-recovery": 2
    },
    "firstFound": "2026-10-03",
    "lastChecked": "2026-10-03"
@@ -773,153 +725,6 @@
    "lastChecked": "2026-10-03"
   },
   {
-   "url": "https://www.utcourts.gov/en/self-help/legal-help/finding-legal-help/legal-clinics/organizations.html",
-   "title": "Utah Courts: Free legal services organizations",
-   "kind": "official",
-   "categories": [
-    "immigration",
-    "legal"
-   ],
-   "notes": {
-    "immigration": "undated; four immigration entries, all Salt Lake City or Moab",
-    "legal": "undated, statewide; 19 organisations, almost all Salt Lake City based or limited to other regions; nothing Ogden-specific"
-   },
-   "namesFound": {
-    "immigration": 3,
-    "legal": 16
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://commerce.utah.gov/?p=15501",
-   "title": "Utah Department of Commerce, Office of Consumer Services: Energy Assistance Programs",
-   "kind": "official",
-   "categories": [
-    "utilities-phone-internet"
-   ],
-   "notes": {
-    "utilities-phone-internet": "current; statewide energy programmes (HEAT, weatherization, Rocky Mountain Power HELP, Enbridge Gas Energy Assistance Fund); no phone or internet"
-   },
-   "namesFound": {
-    "utilities-phone-internet": 5
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://commerce.utah.gov/ocs/assistance-programs/telecommunication-assistance",
-   "title": "Utah Department of Commerce, Office of Consumer Services: Telecommunication Assistance Programs",
-   "kind": "official",
-   "categories": [
-    "utilities-phone-internet"
-   ],
-   "notes": {
-    "utilities-phone-internet": "current; Lifeline only; nothing on low-cost internet"
-   },
-   "namesFound": {
-    "utilities-phone-internet": 1
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://veterans.utah.gov/regional-offices/",
-   "title": "Utah Dept. of Veterans and Military Affairs: Regional Offices (Northern Utah region)",
-   "kind": "official",
-   "categories": [
-    "veterans"
-   ],
-   "notes": {
-    "veterans": "current; names the two Northern Utah VSOs serving Weber and Davis with phones, no street office"
-   },
-   "namesFound": {
-    "veterans": 2
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://familyhealth.utah.gov/wp-content/uploads/Office_EC/pdf/BabyWatch/program_list.pdf",
-   "title": "Utah DHHS Baby Watch Early Intervention program list",
-   "kind": "official",
-   "categories": [
-    "disability"
-   ],
-   "notes": {
-    "disability": "current (27 Aug 2025); statewide list of early intervention (birth to 3) programs, one for Weber-Morgan plus USDB parent-infant programs"
-   },
-   "namesFound": {
-    "disability": 2
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/legal-assistance-integration-support",
-   "title": "Utah DHHS Maternal and Infant Health resource guide: Legal assistance and integration support",
-   "kind": "official",
-   "categories": [
-    "immigration"
-   ],
-   "notes": {
-    "immigration": "current (updated 08/18/2026); the best list found: statewide entries plus a Morgan and Weber Counties section naming three Ogden providers"
-   },
-   "namesFound": {
-    "immigration": 20
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://dld.utah.gov/office-locations-and-hours/",
-   "title": "Utah Driver License Division: Office Locations and Hours",
-   "kind": "official",
-   "categories": [
-    "id-recovery"
-   ],
-   "notes": {
-    "id-recovery": "current; Ogden (South Ogden) and Farmington are the offices serving Weber and Davis; none in Layton, Roy or Clearfield"
-   },
-   "namesFound": {
-    "id-recovery": 2
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://veterans.utah.gov/employment",
-   "title": "Utah DVMA Veteran Employment",
-   "kind": "official",
-   "categories": [
-    "veterans"
-   ],
-   "notes": {
-    "veterans": "current; statewide and federal programmes only, no Ogden office, phone or address"
-   },
-   "namesFound": {
-    "veterans": 2
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://jobs.utah.gov/refugee/resources/legal.html",
-   "title": "Utah DWS Refugee Services: legal resources",
-   "kind": "official",
-   "categories": [
-    "immigration"
-   ],
-   "notes": {
-    "immigration": "undated; names only, no phone numbers, no Ogden locations"
-   },
-   "namesFound": {
-    "immigration": 3
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
    "url": "https://mihp.utah.gov/maternal-resource-guide-utah/childcare-and-parenting-resources",
    "title": "Utah Maternal Resource Guide: Childcare and Parenting Resources (Ogden/Weber section)",
    "kind": "official",
@@ -963,57 +768,6 @@
    },
    "namesFound": {
     "children-pregnancy": 5
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://vitalrecords.utah.gov/homeless-service-providers",
-   "title": "Utah Office of Vital Records: homeless service providers (free birth certificate partners)",
-   "kind": "official",
-   "categories": [
-    "homeless-services",
-    "id-recovery"
-   ],
-   "notes": {
-    "homeless-services": "current (updated 15 Jul 2025); names only, statewide; Weber entries mostly agencies, not front doors; Lantern House absent",
-    "id-recovery": "current (updated 7/15/2025); names only, no addresses or phones; these agencies sign the homeless fee-waiver form, they do not issue or pay for ID themselves"
-   },
-   "namesFound": {
-    "homeless-services": 13,
-    "id-recovery": 15
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://schools.utah.gov/adulteducation/_adult_education_/frequentlyaskedquestions/ProgramDirectory.pdf",
-   "title": "Utah State Board of Education, Adult Education Program Directory",
-   "kind": "official",
-   "categories": [
-    "education"
-   ],
-   "notes": {
-    "education": "current (2025-26 fees and dates); names the three Weber/Ogden adult education programs (Ogden Adult Education, Weber Adult Education, OWCAP site) and Morgan's, with addresses, phones and class hours"
-   },
-   "namesFound": {
-    "education": 4
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://www.utcourts.gov/en/self-help/legal-help/legal-clinics.html",
-   "title": "Utah State Courts: free legal clinics",
-   "kind": "official",
-   "categories": [
-    "legal"
-   ],
-   "notes": {
-    "legal": "undated, still mentions masks (likely not fully updated since COVID); only one Weber clinic (Timpanogos Legal Center at YCC Ogden), none in Davis County, plus two statewide virtual clinics"
-   },
-   "namesFound": {
-    "legal": 5
    },
    "firstFound": "2026-10-03",
    "lastChecked": "2026-10-03"
@@ -1347,22 +1101,6 @@
     "domestic-violence": 11,
     "financial-assistance": 9,
     "utilities-phone-internet": 1
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://utahlegalservices.org/node/77/resources",
-   "title": "Utah Legal Services resources: utility, internet and phone",
-   "kind": "regional",
-   "categories": [
-    "utilities-phone-internet"
-   ],
-   "notes": {
-    "utilities-phone-internet": "partly stale: still lists the Affordable Connectivity Program (ended June 2024) and a COVID-19 DWS page"
-   },
-   "namesFound": {
-    "utilities-phone-internet": 4
    },
    "firstFound": "2026-10-03",
    "lastChecked": "2026-10-03"

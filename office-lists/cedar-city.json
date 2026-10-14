@@ -3,7 +3,7 @@
   "slug": "cedar-city",
   "name": "Cedar City"
  },
- "about": "Lists of local providers for Cedar City, Utah and Iron County (Enoch, Parowan reachable), found 6 October 2026 under brief-lists-only-20261003. Lists only: no provider names recorded as resources, no office-fit rules, no provider pages checked. Statewide Utah lists (211 Utah DHHS directory pages, Utah Legal Services, DLD, vitalrecords, jobs.utah.gov fee waiver, Commerce telecom assistance, veterans.utah.gov, mihp maternal guide, utcourts legal clinics, Lifeline) are already in ogden.json (statewide, see ogden.json) and are not repeated here. St. George (Washington County, about 50 minutes away) is in st-george.json; the 211 Five County guides and the Timpanogos 5th District list appear in both files because they cover both counties. Iron County has no 211 county list of its own: 211 Utah folds it into the Five County guide. Its only county-specific, regularly updated list is the Southwest Utah Public Health Department's Iron County Community Health Resources (October 2025, English and Spanish). Looked at and rejected: the Sixth District Community Resource Guide (utcourts.gov, 2013), which covers Garfield, Kane, Piute, Sanpete, Sevier and Wayne and not Iron; an 'Iron County resources' PDF at mineralarea.edu, which is Missouri; wislawhelp.org and co.iron.wi.gov, Wisconsin; SUU's 2018 'Resource Guide for Living in Cedar City', which is shops and restaurants, not services. Not found as lists: Cedar City Corporation (no resource page found), Iron County government beyond the senior centres and the Sheriff's page, an Iron County homeless coordinating council list (the council exists, chaired from the Cedar City Council with Care and Share as co-chair, but no published provider list found), a United Way list beyond 211, Five County Association of Governments (its site has program pages but no directory). Provider pages (Care and Share, Canyon Creek, 211 provider pages) were not recorded.",
+ "about": "Lists of local providers for Cedar City, Utah and Iron County (Enoch, Parowan reachable), found 6 October 2026 under brief-lists-only-20261003. Lists only: no provider names recorded as resources, no office-fit rules, no provider pages checked. Statewide Utah lists (211 Utah DHHS directory pages, Utah Legal Services, DLD, vitalrecords, jobs.utah.gov fee waiver, Commerce telecom assistance, veterans.utah.gov, mihp maternal guide, utcourts legal clinics, Lifeline) are already in ogden.json (statewide, see ogden.json) and are not repeated here. St. George (Washington County, about 50 minutes away) is in st-george.json; the 211 Five County guides and the Timpanogos 5th District list appear in both files because they cover both counties. Iron County has no 211 county list of its own: 211 Utah folds it into the Five County guide. Its only county-specific, regularly updated list is the Southwest Utah Public Health Department's Iron County Community Health Resources (October 2025, English and Spanish). Looked at and rejected: the Sixth District Community Resource Guide (utcourts.gov, 2013), which covers Garfield, Kane, Piute, Sanpete, Sevier and Wayne and not Iron; an 'Iron County resources' PDF at mineralarea.edu, which is Missouri; wislawhelp.org and co.iron.wi.gov, Wisconsin; SUU's 2018 'Resource Guide for Living in Cedar City', which is shops and restaurants, not services. Not found as lists: Cedar City Corporation (no resource page found), Iron County government beyond the senior centres and the Sheriff's page, an Iron County homeless coordinating council list (the council exists, chaired from the Cedar City Council with Care and Share as co-chair, but no published provider list found), a United Way list beyond 211, Five County Association of Governments (its site has program pages but no directory). Provider pages (Care and Share, Canyon Creek, 211 provider pages) were not recorded. Statewide Utah lists moved to states/utah.json on 13 October 2026 (Elder Bendio: share state and federal lists between Scout runs); read that file and federal.json with this one.",
  "lists": [
   {
    "url": "https://swuhealth.gov/wp-content/uploads/2025/11/IC-Community-Health-Resources-10-2025.pdf",
@@ -243,21 +243,6 @@
     "food": "Spanish edition of the 2021 guide; not independent"
    },
    "readable": "seen only in a search result; not opened",
-   "namesFound": {},
-   "firstFound": "2026-10-06",
-   "lastChecked": "2026-10-06"
-  },
-  {
-   "url": "https://211utah.org/printable-resource-lists/",
-   "title": "211 Utah: Printable Resource Lists (index of county lists)",
-   "kind": "211",
-   "categories": [
-    "food"
-   ],
-   "notes": {
-    "food": "index only: Iron County has no list of its own; it points to the Five County guide, same file as Washington County. Page says the lists are 'continuously being updated'"
-   },
-   "readable": "yes (page read via fetch tool)",
    "namesFound": {},
    "firstFound": "2026-10-06",
    "lastChecked": "2026-10-06"

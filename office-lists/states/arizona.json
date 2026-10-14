@@ -1,0 +1,239 @@
+{
+ "scope": "state",
+ "state": "AZ",
+ "stateName": "Arizona",
+ "about": "Lists that cover all of Arizona, shared by every office in or near Arizona (Elder Bendio, 13 October 2026: share state and federal lists between Scout runs). Moved by Claude from the office files where list seeding first found them; byOffice keeps each office's own notes and name counts. A page with a section per county counts as statewide: an office reads its own county's section.",
+ "lists": [
+  {
+   "url": "https://211arizona.org/preventing-utility-shut-offs/",
+   "title": "2-1-1 Arizona - Preventing Utility Shut-Offs",
+   "kind": "211",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30",
+   "coverage": {
+    "state": "AZ"
+   },
+   "byOffice": {
+    "mesa": {
+     "namesFound": {
+      "utilities-phone-internet": 3
+     },
+     "notes": {
+      "utilities-phone-internet": "stale (published Feb 2021); statewide utility programmes"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.probationinfo.org/reentry-resources/arizona/",
+   "title": "Probation Information Network: Reentry Resources Arizona",
+   "kind": "aggregator",
+   "categories": [
+    "reentry-support"
+   ],
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30",
+   "coverage": {
+    "state": "AZ"
+   },
+   "byOffice": {
+    "mesa": {
+     "namesFound": {
+      "reentry-support": 14
+     },
+     "notes": {
+      "reentry-support": "undated; 20 Phoenix-area names, many general employment or recovery"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://seniorsmobility.org/free-transportation/free-transportation-for-seniors-in-arizona/",
+   "title": "SeniorsMobility - Free Transportation for Seniors in Arizona",
+   "kind": "aggregator",
+   "categories": [
+    "transportation"
+   ],
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30",
+   "coverage": {
+    "state": "AZ"
+   },
+   "byOffice": {
+    "mesa": {
+     "namesFound": {
+      "transportation": 3
+     },
+     "notes": {
+      "transportation": "partial; three East Valley volunteer-driver groups"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.azahcccs.gov/Members/BehavioralHealthServices/OpioidUseDisorderAndTreatment/Locating_Treatment.html",
+   "title": "AHCCCS: Accessing and Locating Treatment (opioid use disorder)",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30",
+   "coverage": {
+    "state": "AZ"
+   },
+   "byOffice": {
+    "mesa": {
+     "namesFound": {
+      "addiction": 3
+     },
+     "notes": {
+      "addiction": "current; names 24/7 OTPs, none in Mesa, and the state locator"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.azdhs.gov/documents/preparedness/epidemiology-disease-control/disease-integrated-services/refugee-health/community-dental-clinics.pdf",
+   "title": "Reduced Fee and Community Dental Clinics in Arizona (AZ Dept of Health Services / AZ Dental Foundation)",
+   "kind": "official",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30",
+   "coverage": {
+    "state": "AZ"
+   },
+   "byOffice": {
+    "mesa": {
+     "namesFound": {
+      "medical-dental-vision": 10
+     },
+     "notes": {
+      "medical-dental-vision": "stale: footer says 'ADF rvsd 9/1/13'; old MIHS clinic names"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.swgas.com/en/arizona-bill-assistance",
+   "title": "Southwest Gas - Arizona Bill Assistance",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30",
+   "coverage": {
+    "state": "AZ"
+   },
+   "byOffice": {
+    "mesa": {
+     "namesFound": {
+      "utilities-phone-internet": 5
+     },
+     "notes": {
+      "utilities-phone-internet": "current; utility's own partner-agency list"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.acluaz.org/formerly-incarcerated/",
+   "title": "ACLU of Arizona: Formerly Incarcerated",
+   "kind": "regional",
+   "categories": [
+    "reentry-support"
+   ],
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30",
+   "coverage": {
+    "state": "AZ"
+   },
+   "byOffice": {
+    "mesa": {
+     "namesFound": {
+      "reentry-support": 0
+     },
+     "notes": {
+      "reentry-support": "stale (cites Mercy Maricopa, which ended in 2018); Tucson and Yavapai only, nothing seeded from it"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://aachc.org/stores/valleywise-mesa-2/",
+   "title": "Arizona Alliance for Community Health Centers clinic locator (Mesa sites: Native Health Mesa, Valleywise Mesa, Valle del Sol East Valley)",
+   "kind": "regional",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30",
+   "coverage": {
+    "state": "AZ"
+   },
+   "byOffice": {
+    "mesa": {
+     "namesFound": {
+      "medical-dental-vision": 3
+     },
+     "notes": {
+      "medical-dental-vision": "current; seen through search results only, locator not read in full"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.deltadentalaz.com/foundation/low-cost-dental-clinics/",
+   "title": "Delta Dental of Arizona Foundation: Low Cost Dental Clinics",
+   "kind": "regional",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30",
+   "coverage": {
+    "state": "AZ"
+   },
+   "byOffice": {
+    "mesa": {
+     "namesFound": {
+      "medical-dental-vision": 4
+     },
+     "notes": {
+      "medical-dental-vision": "undated, short"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://wildfireaz.org/find-help/arizona-diaper-pilot-program/",
+   "title": "Wildfire AZ - Arizona Diaper Pilot Program distribution partners",
+   "kind": "regional",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "firstFound": "2026-09-30",
+   "lastChecked": "2026-09-30",
+   "coverage": {
+    "state": "AZ"
+   },
+   "byOffice": {
+    "mesa": {
+     "namesFound": {
+      "children-pregnancy": 1
+     },
+     "notes": {
+      "children-pregnancy": "current; one Mesa partner"
+     }
+    }
+   }
+  }
+ ],
+ "gaps": {}
+}

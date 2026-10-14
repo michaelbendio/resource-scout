@@ -3,7 +3,7 @@
   "slug": "logan",
   "name": "Logan"
  },
- "about": "Lists of local providers for Logan, Utah and Cache County (North Logan, Smithfield, Hyrum, Providence), found 6 October 2026 under brief-lists-only-20261006. Lists only: no provider names recorded as resources, no office-fit rules, no provider pages checked. Statewide Utah lists (211 Utah DHHS directory pages, Utah Legal Services, DLD, vitalrecords, jobs.utah.gov fee waiver, Commerce telecom assistance, veterans.utah.gov, mihp maternal guide, utcourts legal clinics, Lifeline) are already in ogden.json (statewide, see ogden.json) and are not repeated here.",
+ "about": "Lists of local providers for Logan, Utah and Cache County (North Logan, Smithfield, Hyrum, Providence), found 6 October 2026 under brief-lists-only-20261006. Lists only: no provider names recorded as resources, no office-fit rules, no provider pages checked. Statewide Utah lists (211 Utah DHHS directory pages, Utah Legal Services, DLD, vitalrecords, jobs.utah.gov fee waiver, Commerce telecom assistance, veterans.utah.gov, mihp maternal guide, utcourts legal clinics, Lifeline) are already in ogden.json (statewide, see ogden.json) and are not repeated here. Statewide Utah lists moved to states/utah.json on 13 October 2026 (Elder Bendio: share state and federal lists between Scout runs); read that file and federal.json with this one.",
  "lists": [
   {
    "url": "https://211utah.org/wp-content/uploads/2025/03/Cache-County-General-Resource-List-2024-2025.pdf",
@@ -862,26 +862,6 @@
    "namesFound": {
     "mental-health": 25,
     "addiction": 5
-   },
-   "firstFound": "2026-10-06",
-   "lastChecked": "2026-10-06"
-  },
-  {
-   "url": "https://jobs.utah.gov/refugee/providers",
-   "title": "Utah Refugee Services Office: refugee service providers",
-   "kind": "official",
-   "categories": [
-    "immigration",
-    "education"
-   ],
-   "notes": {
-    "immigration": "undated; names 3 providers for Cache County (a refugee and immigrant nonprofit, the English Language Center, the school district)",
-    "education": "as above; English classes"
-   },
-   "readable": "yes",
-   "namesFound": {
-    "immigration": 3,
-    "education": 1
    },
    "firstFound": "2026-10-06",
    "lastChecked": "2026-10-06"

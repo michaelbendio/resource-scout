@@ -3,7 +3,7 @@
   "slug": "st-george",
   "name": "St. George"
  },
- "about": "Lists of local providers found by list seeding, for seeding and re-checking Scout runs. Notes are the trial's own words; namesFound counts the trial's seeds citing the list.",
+ "about": "Lists of local providers found by list seeding, for seeding and re-checking Scout runs. Notes are the trial's own words; namesFound counts the trial's seeds citing the list. Statewide Utah lists moved to states/utah.json on 13 October 2026 (Elder Bendio: share state and federal lists between Scout runs); read that file and federal.json with this one.",
  "lists": [
   {
    "url": "https://utahdhhs.211utah.org/provider/arc-washington-county",
@@ -550,54 +550,6 @@
    "lastChecked": "2026-10-03"
   },
   {
-   "url": "https://www.utcourts.gov/en/self-help/legal-help/finding-legal-help/legal-assist.html",
-   "title": "Utah Courts: Finding Legal Help",
-   "kind": "official",
-   "categories": [
-    "legal"
-   ],
-   "notes": {
-    "legal": "current; explains court-appointed lawyers, free legal help and low-cost lawyers; points to the Bar's lawyer directory"
-   },
-   "namesFound": {
-    "legal": 2
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://corrections.utah.gov/probation-and-parole/",
-   "title": "Utah Department of Corrections: Probation and Parole",
-   "kind": "official",
-   "categories": [
-    "reentry-support"
-   ],
-   "notes": {
-    "reentry-support": "current; describes AP&P and Community Correctional Centers; gives the Hurricane office but no list of outside reentry providers"
-   },
-   "namesFound": {
-    "reentry-support": 2
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://veterans.utah.gov/regional-offices/",
-   "title": "Utah Department of Veterans and Military Affairs: Regional Offices (Southern Utah Region)",
-   "kind": "official",
-   "categories": [
-    "veterans"
-   ],
-   "notes": {
-    "veterans": "current (2026); names the Southern Utah Veterans Service Officers and the counties they cover, Washington included"
-   },
-   "namesFound": {
-    "veterans": 1
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
    "url": "https://train.jobs.utah.gov/jobseeker/veterans/vetresourceguide.pdf",
    "title": "Utah Department of Workforce Services: Veteran Resource Guide",
    "kind": "official",
@@ -609,22 +561,6 @@
    },
    "namesFound": {
     "veterans": 2
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://daas.utah.gov",
-   "title": "Utah DHHS Aging and Adult Services",
-   "kind": "official",
-   "categories": [
-    "seniors"
-   ],
-   "notes": {
-    "seniors": "current; statewide programmes (Adult Protective Services, ombudsman) and the link to area agencies on aging"
-   },
-   "namesFound": {
-    "seniors": 1
    },
    "firstFound": "2026-10-03",
    "lastChecked": "2026-10-03"
@@ -649,70 +585,6 @@
    "lastChecked": "2026-10-03"
   },
   {
-   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/mental-health-substance-use",
-   "title": "Utah DHHS Maternal and Infant Health Program: Mental health and substance use resources (updated 05/18/2026)",
-   "kind": "official",
-   "categories": [
-    "mental-health"
-   ],
-   "notes": {
-    "mental-health": "current (May 2026); a strong statewide list of hotlines and warm lines plus a Washington County section naming Family Healthcare, Four Points, Southwest Behavioral Health Center and two opioid clinics"
-   },
-   "namesFound": {
-    "mental-health": 11
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/transportation",
-   "title": "Utah DHHS Maternal and Infant Health Program: Transportation resources (updated 08/10/2026)",
-   "kind": "official",
-   "categories": [
-    "transportation"
-   ],
-   "notes": {
-    "transportation": "current (August 2026); statewide ride programmes plus a Washington County section naming Community Action, the Salvation Army, Switchpoint and a car-seat programme"
-   },
-   "namesFound": {
-    "transportation": 4
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://commerce.utah.gov/dpu/home-energy-assistant-target-program/",
-   "title": "Utah Division of Public Utilities: HEAT and SB 288 bill assistance",
-   "kind": "official",
-   "categories": [
-    "utilities-phone-internet"
-   ],
-   "notes": {
-    "utilities-phone-internet": "current; says low-income Rocky Mountain Power and Dominion customers get extra credits and apply through HEAT at Workforce Services"
-   },
-   "namesFound": {
-    "utilities-phone-internet": 1
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://medicaid.utah.gov/non-emergency-transportation/",
-   "title": "Utah Medicaid: Non-Emergency Medical Transportation",
-   "kind": "official",
-   "categories": [
-    "transportation"
-   ],
-   "notes": {
-    "transportation": "current; explains Medicaid ride options by area and gives ModivCare's number"
-   },
-   "namesFound": {
-    "transportation": 1
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
    "url": "https://mihp.utah.gov/wp-content/uploads/Statewide-Substance-Use-Disorder-Resources-by-Local-Health-Department1.pdf",
    "title": "Utah Medical Home Portal / local health departments: Substance use disorder resources, Southwest Utah Public Health Department page (v4, 10 July 2023)",
    "kind": "official",
@@ -724,54 +596,6 @@
    },
    "namesFound": {
     "addiction": 9
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/employment-financial-assistance",
-   "title": "Utah Medical Home Portal: Maternal Resource Guide, Employment and financial assistance",
-   "kind": "official",
-   "categories": [
-    "employment"
-   ],
-   "notes": {
-    "employment": "state page; statewide programmes and a line saying LDS employment resource services operate in the St. George area; no St. George addresses"
-   },
-   "namesFound": {
-    "employment": 3
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://commerce.utah.gov/ocs/assistance-programs/telecommunication-assistance/",
-   "title": "Utah Office of Consumer Services: Telecommunication Assistance Programs (Lifeline)",
-   "kind": "official",
-   "categories": [
-    "utilities-phone-internet"
-   ],
-   "notes": {
-    "utilities-phone-internet": "current; explains Lifeline phone and internet discounts and how to apply; names no local provider"
-   },
-   "namesFound": {
-    "utilities-phone-internet": 1
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://schools.utah.gov/adulteducation/_adult_education_/frequentlyaskedquestions/ProgramDirectory.pdf",
-   "title": "Utah State Board of Education: Adult Education Program Directory",
-   "kind": "official",
-   "categories": [
-    "education"
-   ],
-   "notes": {
-    "education": "state directory of every adult education site; St. George has one entry (Washington School District Adult Education) plus the county jail programme"
-   },
-   "namesFound": {
-    "education": 3
    },
    "firstFound": "2026-10-03",
    "lastChecked": "2026-10-03"
@@ -861,22 +685,6 @@
    "namesFound": {
     "domestic-violence": 15,
     "employment": 4
-   },
-   "firstFound": "2026-10-03",
-   "lastChecked": "2026-10-03"
-  },
-  {
-   "url": "https://utahimmigration.wordpress.com/",
-   "title": "Utah Immigration Collaborative (referral network of immigration legal providers)",
-   "kind": "regional",
-   "categories": [
-    "immigration"
-   ],
-   "notes": {
-    "immigration": "current; names the member providers (Comunidades Unidas, Catholic Community Services, Holy Cross Ministries, IRC and others), all on the Wasatch Front"
-   },
-   "namesFound": {
-    "immigration": 6
    },
    "firstFound": "2026-10-03",
    "lastChecked": "2026-10-03"

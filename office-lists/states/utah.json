@@ -1,0 +1,1263 @@
+{
+ "scope": "state",
+ "state": "UT",
+ "stateName": "Utah",
+ "about": "Lists that cover all of Utah, shared by every office in or near Utah (Elder Bendio, 13 October 2026: share state and federal lists between Scout runs). Moved by Claude from the office files where list seeding first found them; byOffice keeps each office's own notes and name counts. A page with a section per county counts as statewide: an office reads its own county's section.",
+ "lists": [
+  {
+   "url": "https://helpforfelons.org/?p=16874",
+   "title": "Help for Felons: Utah Reentry Resources",
+   "kind": "aggregator",
+   "categories": [
+    "reentry-support"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "reentry-support": 12
+     },
+     "notes": {
+      "reentry-support": "updated 28 April 2026; statewide, almost all Salt Lake/Utah County; its NUCCC phone (801 627 7856) is the centre's fax per 211 and UDC"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.probationinfo.org/reentry-resources/utah/",
+   "title": "Probation Information Network: Reentry Resources, Utah",
+   "kind": "aggregator",
+   "categories": [
+    "reentry-support"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "reentry-support": 2
+     },
+     "notes": {
+      "reentry-support": "undated; generic statewide agencies, only Lantern House for Ogden"
+     }
+    },
+    "welfare-square": {
+     "namesFound": {
+      "reentry-support": 5
+     },
+     "notes": {
+      "reentry-support": "private nonprofit's list of about 25 Utah names with phone and address; mostly Utah County and elsewhere, some old"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://jobs.utah.gov/homelessness/grantee/feewaiver.html",
+   "title": "DWS Office of Homeless Services: Fee Waivers",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "id-recovery": 2
+     },
+     "notes": {
+      "id-recovery": "current; explains the HB0352 (2021) fee waiver for Utah ID and birth certificates; names no providers"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.utcourts.gov/en/self-help/legal-help/finding-legal-help/legal-clinics/organizations.html",
+   "title": "Utah Courts: Free legal services organizations",
+   "kind": "official",
+   "categories": [
+    "immigration",
+    "legal"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "immigration": 3,
+      "legal": 16
+     },
+     "notes": {
+      "immigration": "undated; four immigration entries, all Salt Lake City or Moab",
+      "legal": "undated, statewide; 19 organisations, almost all Salt Lake City based or limited to other regions; nothing Ogden-specific"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://commerce.utah.gov/?p=15501",
+   "title": "Utah Department of Commerce, Office of Consumer Services: Energy Assistance Programs",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "utilities-phone-internet": 5
+     },
+     "notes": {
+      "utilities-phone-internet": "current; statewide energy programmes (HEAT, weatherization, Rocky Mountain Power HELP, Enbridge Gas Energy Assistance Fund); no phone or internet"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://commerce.utah.gov/ocs/assistance-programs/telecommunication-assistance",
+   "title": "Utah Department of Commerce, Office of Consumer Services: Telecommunication Assistance Programs",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "utilities-phone-internet": 1
+     },
+     "notes": {
+      "utilities-phone-internet": "current; Lifeline only; nothing on low-cost internet"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://veterans.utah.gov/regional-offices/",
+   "title": "Utah Dept. of Veterans and Military Affairs: Regional Offices (Northern Utah region)",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "veterans": 2
+     },
+     "notes": {
+      "veterans": "current; names the two Northern Utah VSOs serving Weber and Davis with phones, no street office"
+     }
+    },
+    "st-george": {
+     "namesFound": {
+      "veterans": 1
+     },
+     "notes": {
+      "veterans": "current (2026); names the Southern Utah Veterans Service Officers and the counties they cover, Washington included"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://familyhealth.utah.gov/wp-content/uploads/Office_EC/pdf/BabyWatch/program_list.pdf",
+   "title": "Utah DHHS Baby Watch Early Intervention program list",
+   "kind": "official",
+   "categories": [
+    "disability"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "disability": 2
+     },
+     "notes": {
+      "disability": "current (27 Aug 2025); statewide list of early intervention (birth to 3) programs, one for Weber-Morgan plus USDB parent-infant programs"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/legal-assistance-integration-support",
+   "title": "Utah DHHS Maternal and Infant Health resource guide: Legal assistance and integration support",
+   "kind": "official",
+   "categories": [
+    "immigration"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "immigration": 20
+     },
+     "notes": {
+      "immigration": "current (updated 08/18/2026); the best list found: statewide entries plus a Morgan and Weber Counties section naming three Ogden providers"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://dld.utah.gov/office-locations-and-hours/",
+   "title": "Utah Driver License Division: Office Locations and Hours",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "id-recovery": 2
+     },
+     "notes": {
+      "id-recovery": "current; Ogden (South Ogden) and Farmington are the offices serving Weber and Davis; none in Layton, Roy or Clearfield"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://veterans.utah.gov/employment",
+   "title": "Utah DVMA Veteran Employment",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "veterans": 2
+     },
+     "notes": {
+      "veterans": "current; statewide and federal programmes only, no Ogden office, phone or address"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://jobs.utah.gov/refugee/resources/legal.html",
+   "title": "Utah DWS Refugee Services: legal resources",
+   "kind": "official",
+   "categories": [
+    "immigration"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "immigration": 3
+     },
+     "notes": {
+      "immigration": "undated; names only, no phone numbers, no Ogden locations"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://vitalrecords.utah.gov/homeless-service-providers",
+   "title": "Utah Office of Vital Records: homeless service providers (free birth certificate partners)",
+   "kind": "official",
+   "categories": [
+    "homeless-services",
+    "id-recovery"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "homeless-services": 13,
+      "id-recovery": 15
+     },
+     "notes": {
+      "homeless-services": "current (updated 15 Jul 2025); names only, statewide; Weber entries mostly agencies, not front doors; Lantern House absent",
+      "id-recovery": "current (updated 7/15/2025); names only, no addresses or phones; these agencies sign the homeless fee-waiver form, they do not issue or pay for ID themselves"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://schools.utah.gov/adulteducation/_adult_education_/frequentlyaskedquestions/ProgramDirectory.pdf",
+   "title": "Utah State Board of Education, Adult Education Program Directory",
+   "kind": "official",
+   "categories": [
+    "education"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "education": 4
+     },
+     "notes": {
+      "education": "current (2025-26 fees and dates); names the three Weber/Ogden adult education programs (Ogden Adult Education, Weber Adult Education, OWCAP site) and Morgan's, with addresses, phones and class hours"
+     }
+    },
+    "welfare-square": {
+     "namesFound": {
+      "education": 9
+     },
+     "notes": {
+      "education": "current; every adult education site in the state by school district and community organisation, with address, phone, hours, what is taught and fees; for Salt Lake County about 12 sites; the best list found"
+     }
+    },
+    "st-george": {
+     "namesFound": {
+      "education": 3
+     },
+     "notes": {
+      "education": "state directory of every adult education site; St. George has one entry (Washington School District Adult Education) plus the county jail programme"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.utcourts.gov/en/self-help/legal-help/legal-clinics.html",
+   "title": "Utah State Courts: free legal clinics",
+   "kind": "official",
+   "categories": [
+    "legal"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "legal": 5
+     },
+     "notes": {
+      "legal": "undated, still mentions masks (likely not fully updated since COVID); only one Weber clinic (Timpanogos Legal Center at YCC Ogden), none in Davis County, plus two statewide virtual clinics"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://utahlegalservices.org/node/77/resources",
+   "title": "Utah Legal Services resources: utility, internet and phone",
+   "kind": "regional",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "ogden": {
+     "namesFound": {
+      "utilities-phone-internet": 4
+     },
+     "notes": {
+      "utilities-phone-internet": "partly stale: still lists the Affordable Connectivity Program (ended June 2024) and a COVID-19 DWS page"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://train.jobs.utah.gov/employer/business/dws_ec_locations.pdf",
+   "title": "Department of Workforce Services: Employment Center Locations",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "employment": 3
+     },
+     "notes": {
+      "employment": "state list of every DWS centre with address and phone; hosted on a training server so date unknown; three Salt Lake County centres"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://veterans.utah.gov/wp-content/uploads/2025/08/UofUHealth_HMHI_CrisisSupportServices_2025-1.pdf",
+   "title": "Huntsman Mental Health Institute: Community Crisis Intervention & Support Services (2025 flyer)",
+   "kind": "official",
+   "categories": [
+    "mental-health"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "mental-health": 4
+     },
+     "notes": {
+      "mental-health": "current (2025); the Utah Crisis Line, Warm Line, mobile crisis and Crisis Care Center with phone numbers and the Crisis Care Center address"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://corrections.utah.gov/probation-parole/community-correctional-centers/",
+   "title": "Utah Department of Corrections: Community Correctional Centers (and Reentry and Rehabilitation, Probation and Parole pages)",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "reentry-support": 0
+     },
+     "notes": {
+      "reentry-support": "current; describes state programmes that people reach through the Department, not directories of outside providers"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://veterans.utah.gov/?p=266",
+   "title": "Utah Department of Veterans and Military Affairs: Legal Assistance",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "veterans": 4
+     },
+     "notes": {
+      "veterans": "current; Utah@EASE, VA legal clinic, Utah Legal Services, Utah Courts"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://veterans.utah.gov/?p=252",
+   "title": "Utah Department of Veterans and Military Affairs: State and Federal General Information and regional offices",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "veterans": 1
+     },
+     "notes": {
+      "veterans": "current; state Veteran Service Officers by region with phones; links to employment and legal pages"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://veterans.utah.gov/va-claims-assistance",
+   "title": "Utah Department of Veterans and Military Affairs: VA claims assistance",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "veterans": 3
+     },
+     "notes": {
+      "veterans": "current; DAV, American Legion, VFW with addresses and phones"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://train.jobs.utah.gov/jobseeker/veterans/dd214.html",
+   "title": "Utah Department of Workforce Services: Obtaining your DD 214",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "id-recovery": 3
+     },
+     "notes": {
+      "id-recovery": "current-looking (training-server copy); names the two places to get a DD-214"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://train.jobs.utah.gov/jobseeker/veterans/vetresourceguide.pdf",
+   "title": "Utah Department of Workforce Services: Veterans' Resource Guide",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "veterans": 19
+     },
+     "notes": {
+      "veterans": "undated, probably several years old (the crisis line is still 800-273-8255, the Vet Center address is out of date); names about 45 providers with phones, mostly VA and statewide; the broadest official list found"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://Jobs.utah.gov/refugee/resources/refugeeresourceguide.pdf",
+   "title": "Utah Dept of Workforce Services, Refugee Provider Resource Manual (May 2026), General Legal, Discrimination and Immigration Issues sections",
+   "kind": "official",
+   "categories": [
+    "immigration",
+    "legal"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "immigration": 19,
+      "legal": 9
+     },
+     "notes": {
+      "immigration": "current (May 2026); about 10 immigration legal providers with phone and address; PDF text had to be extracted locally",
+      "legal": "current (May 2026); about 10 general legal providers"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://daas.utah.gov/services/",
+   "title": "Utah DHHS Division of Aging and Adult Services: Services",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "seniors": 3
+     },
+     "notes": {
+      "seniors": "current (2026); state services (SHIP, SCSEP, legal help, abuse hotline, public guardian) and a locations list; thin on Salt Lake providers beyond the county agency"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/employment-financial-assistance",
+   "title": "Utah DHHS Maternal Resource Guide: Employment and financial assistance",
+   "kind": "official",
+   "categories": [
+    "employment",
+    "financial-assistance"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "employment": 6,
+      "financial-assistance": 2
+     },
+     "notes": {
+      "employment": "current (last updated 18 Aug 2026); statewide and Salt Lake County sections with address, phone, one-line description; mostly the Church's employment centres, People Helping People and RISE",
+      "financial-assistance": "current (updated 18 Aug 2026); names Jewish Family Service, DWS cash assistance and Vocational Rehabilitation; very short for Salt Lake County"
+     }
+    },
+    "st-george": {
+     "namesFound": {
+      "employment": 3
+     },
+     "notes": {
+      "employment": "state page; statewide programmes and a line saying LDS employment resource services operate in the St. George area; no St. George addresses"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/intimate-partner-violence",
+   "title": "Utah DHHS Maternal Resource Guide: Intimate Partner Violence",
+   "kind": "official",
+   "categories": [
+    "domestic-violence"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "domestic-violence": 15
+     },
+     "notes": {
+      "domestic-violence": "current (2025); statewide and Salt Lake County lists with address, phone and website, including counselling programmes"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://dld.utah.gov/homeless-fee-waiver",
+   "title": "Utah Driver License Division: Homeless fee waiver (free ID card)",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "id-recovery": 2
+     },
+     "notes": {
+      "id-recovery": "current; ID card fee waived with a homeless verification form; with the ID card pages and office list"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://medicaid.utah.gov/non-emergency-transportation",
+   "title": "Utah Medicaid: Non-Emergency Medical Transportation",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "transportation": 2
+     },
+     "notes": {
+      "transportation": "current; names UTA transit card, FlexTrans, ModivCare and mileage reimbursement with phones"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://mihp.utah.gov/?p=4440",
+   "title": "Utah Medical Home Portal (University of Utah): Transportation resources, Salt Lake County section (updated 10 August 2026)",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "transportation": 12
+     },
+     "notes": {
+      "transportation": "current; state-wide and Salt Lake County entries: Crossroads Urban Center bus passes, UTA paratransit and On Demand, Medicaid transport; only about five Salt Lake County entries"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://vitalrecords.utah.gov/fee-waiver-fact-sheet",
+   "title": "Utah Office of Vital Records and Statistics: birth certificate fee waiver fact sheet",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "id-recovery": 3
+     },
+     "notes": {
+      "id-recovery": "current (2026); the rules for a free birth certificate for people who are homeless or in DCFS custody; names no agencies, only the approved-provider list, which could not be opened"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://schools.utah.gov/adulteducation",
+   "title": "Utah State Board of Education: Adult Education (programme page, 801-538-7509)",
+   "kind": "official",
+   "categories": [
+    "education"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "education": 0
+     },
+     "notes": {
+      "education": "current; the state office page; links to the directory, GED and high-school-equivalency information"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.utcourts.gov/howto/legalclinics/organizations.html",
+   "title": "Utah State Courts: Free Legal Services Organizations",
+   "kind": "official",
+   "categories": [
+    "immigration",
+    "legal"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "immigration": 6,
+      "legal": 11
+     },
+     "notes": {
+      "immigration": "undated but maintained by the courts; mostly general legal aid; four immigration entries, one with a stale IRC address (221 S 400 W)",
+      "legal": "undated; 20 organizations, many outside Salt Lake County; phones, few addresses"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.utcourts.gov/en/legal-help/legal-help/finding-legal-help/legal-clinics.html",
+   "title": "Utah State Courts: Legal clinics by county (Salt Lake County and statewide)",
+   "kind": "official",
+   "categories": [
+    "legal"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "legal": 9
+     },
+     "notes": {
+      "legal": "current-looking; about 17 clinics with schedules, statewide and Salt Lake County sections"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://Jobs.utah.gov/usor/vr/services/utahemploynetwork.pdf",
+   "title": "Utah State Office of Rehabilitation: Utah Employment Networks",
+   "kind": "official",
+   "categories": [
+    "employment"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "employment": 9
+     },
+     "notes": {
+      "employment": "state list of Ticket to Work networks with phone and counties; no addresses; for SSI/SSDI recipients"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.ksl.com/article/46472588/utahs-substance-abuse-resources-by-county",
+   "title": "KSL: Utah's substance abuse resources by county (Salt Lake section)",
+   "kind": "regional",
+   "categories": [
+    "addiction"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "addiction": 6
+     },
+     "notes": {
+      "addiction": "stale (June 2019); only about eight providers"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://udvc.org/local-resources/",
+   "title": "Utah Domestic Violence Coalition: Local Resources (county by county)",
+   "kind": "regional",
+   "categories": [
+    "domestic-violence"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "domestic-violence": 13
+     },
+     "notes": {
+      "domestic-violence": "current; for Salt Lake County it names the three shelter and community advocate programmes (South Valley Services, YWCA, Sego Lily) and the system victim advocates at each police agency; names only"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://utahfoodbank.org/find-a-pantry/",
+   "title": "Utah Food Bank: Find a Food Pantry (partner map)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "food": 0
+     },
+     "notes": {
+      "food": "could not be read: the page is an interactive map that returns no text"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.utahlegalservices.org/node/21",
+   "title": "Utah Legal Services: when ULS cannot help (resource page)",
+   "kind": "regional",
+   "categories": [
+    "legal"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "legal": 0
+     },
+     "notes": {
+      "legal": "read; points to Bar referral, court self-help, benefits; no provider details used"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://utahparentcenter.org/wp-content/uploads/2025/08/2025-UPC-Utah-Disablity-Resource-Book.pdf",
+   "title": "Utah Parent Center: Utah Disability Resource Book 2025",
+   "kind": "regional",
+   "categories": [
+    "disability"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "welfare-square": {
+     "namesFound": {
+      "disability": 20
+     },
+     "notes": {
+      "disability": "current (updated 2025); statewide book by the federally funded parent training centre; the best list found, with address, phone and website for about 60 Salt Lake-area and statewide entries; some addresses have moved since"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.utcourts.gov/en/self-help/legal-help/finding-legal-help/legal-assist.html",
+   "title": "Utah Courts: Finding Legal Help",
+   "kind": "official",
+   "categories": [
+    "legal"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "st-george": {
+     "namesFound": {
+      "legal": 2
+     },
+     "notes": {
+      "legal": "current; explains court-appointed lawyers, free legal help and low-cost lawyers; points to the Bar's lawyer directory"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://corrections.utah.gov/probation-and-parole/",
+   "title": "Utah Department of Corrections: Probation and Parole",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "st-george": {
+     "namesFound": {
+      "reentry-support": 2
+     },
+     "notes": {
+      "reentry-support": "current; describes AP&P and Community Correctional Centers; gives the Hurricane office but no list of outside reentry providers"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://daas.utah.gov",
+   "title": "Utah DHHS Aging and Adult Services",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "st-george": {
+     "namesFound": {
+      "seniors": 1
+     },
+     "notes": {
+      "seniors": "current; statewide programmes (Adult Protective Services, ombudsman) and the link to area agencies on aging"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/mental-health-substance-use",
+   "title": "Utah DHHS Maternal and Infant Health Program: Mental health and substance use resources (updated 05/18/2026)",
+   "kind": "official",
+   "categories": [
+    "mental-health"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "st-george": {
+     "namesFound": {
+      "mental-health": 11
+     },
+     "notes": {
+      "mental-health": "current (May 2026); a strong statewide list of hotlines and warm lines plus a Washington County section naming Family Healthcare, Four Points, Southwest Behavioral Health Center and two opioid clinics"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://mihp.utah.gov/maternal-resource-guide-utah/transportation",
+   "title": "Utah DHHS Maternal and Infant Health Program: Transportation resources (updated 08/10/2026)",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "st-george": {
+     "namesFound": {
+      "transportation": 4
+     },
+     "notes": {
+      "transportation": "current (August 2026); statewide ride programmes plus a Washington County section naming Community Action, the Salvation Army, Switchpoint and a car-seat programme"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://commerce.utah.gov/dpu/home-energy-assistant-target-program/",
+   "title": "Utah Division of Public Utilities: HEAT and SB 288 bill assistance",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "st-george": {
+     "namesFound": {
+      "utilities-phone-internet": 1
+     },
+     "notes": {
+      "utilities-phone-internet": "current; says low-income Rocky Mountain Power and Dominion customers get extra credits and apply through HEAT at Workforce Services"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://medicaid.utah.gov/non-emergency-transportation/",
+   "title": "Utah Medicaid: Non-Emergency Medical Transportation",
+   "kind": "official",
+   "categories": [
+    "transportation"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "st-george": {
+     "namesFound": {
+      "transportation": 1
+     },
+     "notes": {
+      "transportation": "current; explains Medicaid ride options by area and gives ModivCare's number"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://commerce.utah.gov/ocs/assistance-programs/telecommunication-assistance/",
+   "title": "Utah Office of Consumer Services: Telecommunication Assistance Programs (Lifeline)",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "st-george": {
+     "namesFound": {
+      "utilities-phone-internet": 1
+     },
+     "notes": {
+      "utilities-phone-internet": "current; explains Lifeline phone and internet discounts and how to apply; names no local provider"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://utahimmigration.wordpress.com/",
+   "title": "Utah Immigration Collaborative (referral network of immigration legal providers)",
+   "kind": "regional",
+   "categories": [
+    "immigration"
+   ],
+   "firstFound": "2026-10-03",
+   "lastChecked": "2026-10-03",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "st-george": {
+     "namesFound": {
+      "immigration": 6
+     },
+     "notes": {
+      "immigration": "current; names the member providers (Comunidades Unidas, Catholic Community Services, Holy Cross Ministries, IRC and others), all on the Wasatch Front"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://211utah.org/printable-resource-lists/",
+   "title": "211 Utah: Printable Resource Lists (index of county lists)",
+   "kind": "211",
+   "categories": [
+    "food"
+   ],
+   "readable": "yes (page read via fetch tool)",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "cedar-city": {
+     "namesFound": {},
+     "notes": {
+      "food": "index only: Iron County has no list of its own; it points to the Five County guide, same file as Washington County. Page says the lists are 'continuously being updated'"
+     }
+    }
+   }
+  },
+  {
+   "url": "https://jobs.utah.gov/refugee/providers",
+   "title": "Utah Refugee Services Office: refugee service providers",
+   "kind": "official",
+   "categories": [
+    "immigration",
+    "education"
+   ],
+   "readable": "yes",
+   "firstFound": "2026-10-06",
+   "lastChecked": "2026-10-06",
+   "coverage": {
+    "state": "UT"
+   },
+   "byOffice": {
+    "logan": {
+     "namesFound": {
+      "immigration": 3,
+      "education": 1
+     },
+     "notes": {
+      "immigration": "undated; names 3 providers for Cache County (a refugee and immigrant nonprofit, the English Language Center, the school district)",
+      "education": "as above; English classes"
+     }
+    }
+   }
+  }
+ ],
+ "gaps": {}
+}

@@ -9,14 +9,14 @@ office in the state.
 
 | File | Office | Trial | Distinct lists |
 | --- | --- | --- | --- |
-| `mesa.json` | Mesa, Arizona | 30 September 2026, [write-up](../docs/list-seeding-trial-claude-20260930.md) | 102 |
-| `ogden.json` | Ogden, Utah | 3 October 2026 | 83 |
-| `logan.json` | Logan, Utah | 6 October 2026, lists only | 46 |
+| `mesa.json` | Mesa, Arizona | 30 September 2026, [write-up](../docs/list-seeding-trial-claude-20260930.md) | 92 |
+| `ogden.json` | Ogden, Utah | 3 October 2026 | 67 |
+| `logan.json` | Logan, Utah | 6 October 2026, lists only | 45 |
 | `brigham-city.json` | Brigham City, Utah | 6 October 2026, lists only | 32 |
-| `cedar-city.json` | Cedar City, Utah | 6 October 2026, lists only | 26 |
-| `las-vegas.json` | Las Vegas, Nevada | 3 October 2026 | 113 |
-| `st-george.json` | St. George, Utah | 3 October 2026 | 47 |
-| `welfare-square.json` | Welfare Square (Salt Lake City), Utah | 3 October 2026 | 91 |
+| `cedar-city.json` | Cedar City, Utah | 6 October 2026, lists only | 25 |
+| `las-vegas.json` | Las Vegas, Nevada | 3 October 2026 | 78 |
+| `st-george.json` | St. George, Utah | 3 October 2026 | 35 |
+| `welfare-square.json` | Welfare Square (Salt Lake City), Utah | 3 October 2026 | 64 |
 | `bridgeport.json` | Bridgeport, New Jersey (with Delaware County and Philadelphia, PA, and New Castle County, DE) | 13 October 2026, lists only, by Codex's publisher playbook; each list carries `coverage`, `read` and `residency`, plus `publishers` and `requests` ([brief](brief-lists-only-bridgeport-20261013.md)); area file `bridgeport-area.json` (draft) | 124 |
 
 The trials' own counts (133 for Mesa, 137 for Ogden) count a list once per category it
@@ -44,7 +44,13 @@ An office's lists search reads these first and searches only for what they lack.
 | --- | --- | --- |
 | `federal.json` | National locators, directories and hotlines: 65, each tested for Bridgeport (08014) and Boise (83702), with how to ask it for one place and whether a script can read it | 13 October 2026 ([brief](brief-federal-20261013.md)); category ids normalised to the app's 21 by Claude |
 | `states/new-jersey.json` | The 21 statewide New Jersey lists | Taken from `bridgeport.json`, 13 October 2026 |
+| `states/utah.json` | 52 statewide Utah lists | Moved from the six Utah offices' files, 13 October 2026 |
+| `states/nevada.json` | 35 statewide Nevada lists | Moved from `las-vegas.json`, 13 October 2026 |
+| `states/arizona.json` | 10 statewide Arizona lists | Moved from `mesa.json`, 13 October 2026 |
 
-Still to move into state files: Utah's statewide lists (in `ogden.json`), Nevada's
-(`las-vegas.json`) and Arizona's (`mesa.json`).
+Each moved list keeps every office's own notes and name counts under `byOffice`. A state
+page with a section for each county (the Utah Maternal Resource Guide, the Utah Domestic
+Violence Coalition's list) counts as statewide: an office reads its own county's section.
+Searches of a statewide directory near one town ("211 Arizona search: dental near Mesa")
+stay in that office's file. The office counts above are after the move.
 
