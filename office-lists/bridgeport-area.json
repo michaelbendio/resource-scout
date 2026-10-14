@@ -6,7 +6,7 @@
  },
  "homeState": "NJ",
  "inPersonMiles": 20,
- "inPersonMilesSource": "Stephanie's decision (Elder Bendio, 13 October 2026)",
+ "inPersonMilesSource": "Stephanie's decision (Elder Bendio, 13 October 2026); she may rethink it, so providers beyond it keep their distance as checked leads",
  "homeCounties": [
   "Gloucester",
   "Salem",
@@ -35,7 +35,8 @@
  "transit": "No public bus crosses the Commodore Barry or Delaware Memorial bridges as far as the DRPA bridge page and searches show (the NJ Transit and DART route pages were not read): the DRPA page for the Commodore Barry Bridge says 'The bridge provides vehicular lanes only', and no NJ Transit, SEPTA or DART route across either bridge was found (the NJ Transit route pages themselves did not load for reading). On the New Jersey side, the Gloucester County Transit Guide (county publication, stamped 10/2026) lists NJ Transit route 402 (Philadelphia to Pennsville, via Camden, Woodbury, Paulsboro, Gibbstown and the Pureland Industrial Complex in Logan Township, then Penns Grove and Carneys Point) and route 401 (Philadelphia to Salem, via Swedesboro, Woodstown); no page seen names a stop at Bridgeport itself or Heron Drive, so the nearest stop to 613 Heron Drive is unconfirmed and must be checked on the NJ Transit trip planner. Wikipedia, not the agency, says route 402 has no weekday midday service and limited weekends. The fare-free Pureland East-West Community Shuttle (South Jersey Transportation Authority, Gloucester County, Cross County Connection; Monday to Friday, per the county guide 4:54 am to 8:00 pm) runs from the Pureland Industrial Complex in Logan Township through Swedesboro, Mullica Hill, Glassboro and Williamstown to Sicklerville and connects with NJ Transit routes; the county guide says $1 each way, the SJTA's June 2026 timetable says fare free and open to the general public (conflict to check). SJTA's Pureland-to-Salem shuttle (June 2026 timetable) runs Pureland to Penns Grove, Pennsville and Salem as a fare-free deviated fixed route (customer service 856-227-7571). Gloucester County's Division of Transportation Services gives curb-to-curb rides to people 60+, people with disabilities, veterans and the general public in approved rural areas, with limited service out of county and into parts of Philadelphia (county guide; 856-686-8355 per NJ 211). NJ Transit Access Link covers areas within 3/4 mile of fixed bus routes (1-800-955-2321). Cross County Connection (856-596-8228, driveless.com) is the regional travel-options office. Reaching Chester or Wilmington without a car means going by NJ Transit to Camden or Philadelphia and SEPTA or DART from there; no source read describes that trip.",
  "findings": [
   "Counties: nothing found says the home counties are wrong. Logan Township is in Gloucester County and Salem County borders it at Oldmans and Penns Grove. Camden County lists are recorded; whether all of Camden County is within the 20-mile in-person setting was not measured. Cumberland and Burlington counties are not in the area file and were not searched.",
-  "Delaware County, PA and Philadelphia both have rich list coverage; New Castle County, DE less, and mostly unread (Akamai rejections)."
+  "Delaware County, PA and Philadelphia both have rich list coverage; New Castle County, DE less, and mostly unread (Akamai rejections).",
+  "Measured 13 October 2026, straight line from the 08014 ZIP centre to each town's Census centre (2024 Gazetteer): every Cumberland town is over 20 miles (nearest Upper Deerfield 23.4) and every Burlington town too (nearest Palmyra 21.9). Within 20: Gloucester 21 of 24 towns (Newfield 26.2), Salem 12 of 15 (Lower Alloways Creek 25.5), Camden 26 of 36 (Waterford 29.4)."
  ],
  "sources": [
   "https://www.gloucestercountynj.gov/DocumentCenter/View/904/Gloucester-County-Transit-Guide-PDF",
@@ -43,6 +44,7 @@
   "https://gloucestercountynj.gov/DocumentCenter/View/577/Purleand-Shuttle-Service-PDF",
   "https://drpa.org/bridges/commodore-barry-bridge.asp"
  ],
- "reviewedBy": "",
- "reviewedOn": ""
+ "reviewedBy": "Elder Bendio",
+ "reviewedOn": "2026-10-13",
+ "reviewNote": "Counties as drafted; Cumberland and Burlington out (beyond 20 miles); Delaware kept."
 }
