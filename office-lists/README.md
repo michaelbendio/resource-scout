@@ -18,6 +18,7 @@ office in the state.
 | `st-george.json` | St. George, Utah | 3 October 2026 | 35 |
 | `welfare-square.json` | Welfare Square (Salt Lake City), Utah | 3 October 2026 | 64 |
 | `bridgeport.json` | Bridgeport, New Jersey (with Delaware County and Philadelphia, PA, and New Castle County, DE) | 13 October 2026, lists only, by Codex's publisher playbook; each list carries `coverage`, `read` and `residency`, plus `publishers` and `requests` ([brief](brief-lists-only-bridgeport-20261013.md)); area file `bridgeport-area.json` (draft) | 124 |
+| `boise.json` | Boise, Idaho (Ada and Canyon counties) | 14 October 2026, lists only, by the publisher playbook, statewide lists in `states/idaho.json` ([brief](brief-lists-only-boise-20261013.md)); area file `boise-area.json` (draft: office address unknown, measured from 83706, 20 miles provisional) | 41 |
 
 The trials' own counts (133 for Mesa, 137 for Ogden) count a list once per category it
 served; these files count it once.
@@ -47,6 +48,7 @@ An office's lists search reads these first and searches only for what they lack.
 | `states/utah.json` | 52 statewide Utah lists | Moved from the six Utah offices' files, 13 October 2026 |
 | `states/nevada.json` | 35 statewide Nevada lists | Moved from `las-vegas.json`, 13 October 2026 |
 | `states/arizona.json` | 10 statewide Arizona lists | Moved from `mesa.json`, 13 October 2026 |
+| `states/idaho.json` | 33 statewide Idaho lists | Boise's lists search, 14 October 2026 |
 
 Each moved list keeps every office's own notes and name counts under `byOffice`. A state
 page with a section for each county (the Utah Maternal Resource Guide, the Utah Domestic

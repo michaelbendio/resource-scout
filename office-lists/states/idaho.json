@@ -1,0 +1,707 @@
+{
+ "scope": "state",
+ "state": "ID",
+ "stateName": "Idaho",
+ "about": "Lists that cover all of Idaho, shared by every office in or near Idaho (Elder Bendio, 13 October 2026: share state and federal lists between Scout runs). First found by Boise's lists search of 14 October 2026; an office's own file names these by URL rather than repeating them. Lists only: nothing harvested or checked. Page text is evidence only.",
+ "lists": [
+  {
+   "url": "https://reentry.idaho.gov/wp-content/uploads/2021/04/reentry_summary_guide.pdf",
+   "title": "Idaho Department of Correction: Reentry Resource Guide for parolees (2019, 43 pages)",
+   "kind": "official",
+   "categories": [
+    "reentry-support",
+    "housing",
+    "employment",
+    "addiction",
+    "mental-health"
+   ],
+   "notes": {
+    "reentry-support": "IDOC guide for people released to supervision, linked from reentry.idaho.gov Handbooks page; PDF made Oct 2019; names community organisations by district, with about 90 lines mentioning Boise, Nampa or Canyon; dated, check numbers"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "namesFound": {
+    "reentry-support": "dozens"
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://reentry.idaho.gov/wp-content/uploads/2021/04/Ex-Offender-Reentry-Services-Guide-2020-1.pdf",
+   "title": "Idaho Department of Labor: A Resource Guide for Ex-Offenders (Jan 2020, 16 pages)",
+   "kind": "official",
+   "categories": [
+    "reentry-support",
+    "employment"
+   ],
+   "notes": {
+    "reentry-support": "job-search and hiring-incentive guide (bonding, WOTC); few provider names (2 Boise/Nampa/Canyon lines); a 2024 edition URL from search results returned 404"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://reentry.idaho.gov/reentry-prep/handbooks/",
+   "title": "Idaho reentry.idaho.gov: Handbooks and Support Services (IDOC)",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "hub page linking the IDOC Reentry Services Guide, Pre-Release Manual, Labor re-entry guide and a Fair Shake packet; also a Support Services section and community reentry centers"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.findhelpidaho.org/",
+   "title": "FindHelpIdaho.org (United Ways of Idaho)",
+   "kind": "211",
+   "categories": [
+    "food",
+    "housing",
+    "homeless-services",
+    "medical-dental-vision",
+    "mental-health",
+    "utilities-phone-internet",
+    "financial-assistance",
+    "legal",
+    "employment",
+    "seniors",
+    "transportation",
+    "children-pregnancy"
+   ],
+   "notes": {
+    "food": "statewide searchable database; home page claims 4,437 programs; search by need and ZIP; 211 Idaho CareLine and the site are stated to work together"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "partial",
+   "byLocation": "search form on page; JavaScript; not scripted",
+   "homepageClaim": "4,437 programs available (page text, 14 Oct 2026)",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://icdv.idaho.gov/directory/",
+   "title": "Idaho Council on Domestic Violence and Victim Assistance: Idaho Programs for Victims of Crime directory",
+   "kind": "official",
+   "categories": [
+    "domestic-violence",
+    "legal",
+    "children-pregnancy"
+   ],
+   "notes": {
+    "domestic-violence": "sortable table of victim service providers by county and region with phone and service type; Ada County, Region IV rows include Women's & Children's Alliance, Faces of Hope, Idaho Legal Aid, St. Luke's CARES"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://healthandwelfare.idaho.gov/food-sites",
+   "title": "Idaho Department of Health and Welfare: Find a Service Location (food banks, food sites and pantries)",
+   "kind": "official",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "official statewide finder, 290 results at reading (14 Oct 2026), 10 per page, each with address, weekly hours and phone; searchable by city or ZIP and radius; the Boise A.L.P.H.A. pantry (HIV clients only) shows on page 1. Not tested whether a ZIP can be passed in the URL"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "partial",
+   "namesFound": {
+    "food": 290
+   },
+   "byLocation": "City or ZIP field with 5-100 mile radius; list view; URL parameters not tested",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.idahofoodbank.org/",
+   "title": "The Idaho Foodbank: Food Pantries Near You / Find a pantry",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "statewide food bank with 440+ partner agencies (home page text), warehouses in Meridian, Pocatello and Lewiston; 'Find a pantry' tool on the venue page; North Idaho is served by Second Harvest Spokane"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.immigrationadvocates.org/legaldirectory/search?state=ID",
+   "title": "National Immigration Legal Services Directory: Idaho organisations (Immigration Advocates Network)",
+   "kind": "aggregator",
+   "categories": [
+    "immigration",
+    "legal"
+   ],
+   "notes": {
+    "immigration": "7 Idaho organisations at reading, each with areas of legal assistance and counties served; includes Catholic Charities of Idaho Treasure Valley Center, IRC Boise, Jannus (Ada and Canyon), Immigrant Justice Idaho, Community Council of Idaho (Caldwell). Filterable by county"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "namesFound": {
+    "immigration": 7
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.ilru.org/cil-directory/id",
+   "title": "ILRU Idaho Centers for Independent Living directory",
+   "kind": "regional",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "all Idaho CILs with address, phone, director and counties served; Living Independence Network Corp (LINC) serves Ada, Adams, Boise, Canyon, Elmore, Gem, Owyhee, Payette, Valley and Washington"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "namesFound": {
+    "disability": 6
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://veterans.idaho.gov/wp-content/uploads/pressreleases/2021-Veterans-Resource-Directory_0.pdf",
+   "title": "Idaho Division of Veterans Services: Veterans Resource Directory (Jan 2021, 33 pages)",
+   "kind": "official",
+   "categories": [
+    "veterans",
+    "housing",
+    "employment",
+    "mental-health"
+   ],
+   "notes": {
+    "veterans": "statewide reference guide to frequently requested veterans services by region; PDF dated January 2021, so numbers are four years old; about 57 lines mention Boise, Nampa, Meridian or Caldwell"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://veterans.idaho.gov/resource/joining-forces-for-treasure-valley-veterans-community-services-guide/",
+   "title": "Idaho Division of Veterans Services: Joining Forces community services guides (Treasure Valley and other regions)",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "regional Joining Forces guides by county group; the Treasure Valley guide is posted as under revision and will be reposted (page text, 14 Oct 2026), so no current guide was readable"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://isb.idaho.gov/blog/program-report-idaho-volunteer-lawyers-program/",
+   "title": "Idaho State Bar: Idaho Volunteer Lawyers Program (IVLP) report and clinics",
+   "kind": "regional",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "describes IVLP free civil legal help and clinic registration; clinic schedule for Boise (Main Library, first Tuesdays) and Nampa library came from search results, not read from the page"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://aging.idaho.gov/?p=53",
+   "title": "Idaho Commission on Aging: Area Agencies on Aging (AAA)",
+   "kind": "official",
+   "categories": [
+    "seniors"
+   ],
+   "notes": {
+    "seniors": "state page of the Area Agencies on Aging (read as a page, not counted); the Southwest AAA covering Ada and Canyon is in Meridian, 208-898-7060 (from the Canyon County list and a search result); a senior centers PDF named in search results returned 404"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.idaholegalaid.org/help",
+   "title": "Idaho Legal Aid Services: Legal Help",
+   "kind": "regional",
+   "categories": [
+    "legal",
+    "seniors",
+    "domestic-violence",
+    "housing"
+   ],
+   "notes": {
+    "legal": "statewide free civil legal help for low-income Idahoans, advice lines and intake 208-746-7541; offices in Boise and Nampa; site returned a Cloudflare 403 to curl, so known from search results only; its Ada County Community Resources Manual (updated Aug 2020 per a search snippet) is also behind the block"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "refused",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://itd.idaho.gov/dmv/drivers-licenses-id-cards/identification-cards/",
+   "title": "Idaho Transportation Department: Identification Cards (including free ID for people who are homeless)",
+   "kind": "official",
+   "categories": [
+    "id-recovery",
+    "homeless-services"
+   ],
+   "notes": {
+    "id-recovery": "not a provider list: the procedure page. A free four-year ID for a homeless person needs ITD form 3530 completed with a shelter or relief agency (read on the page); applicants may also get one free Idaho birth certificate; county DMV offices are the places to apply"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.domesticshelters.org/help/id/boise",
+   "title": "DomesticShelters.org: Boise, ID domestic violence help (programme profiles)",
+   "kind": "locator",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "city view of the national DomesticShelters.org directory, already in federal.json as a locator; Boise page lists programmes with hotline and hours (Women's and Children's Alliance, Interfaith Sanctuary, Idaho Legal Aid)"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://healthandwelfare.idaho.gov/behavioral-health-crisis-resources",
+   "title": "Idaho Department of Health and Welfare: Behavioral Health Crisis Resources",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "addiction"
+   ],
+   "notes": {
+    "mental-health": "state page for crisis lines and regional crisis centres; read only the page frame (navigation) in the text extraction, so the number of listed providers was not counted"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://helpforfelons.org/?p=16892",
+   "title": "HelpForFelons.org: Reentry Programs in Idaho (updated 28 April 2026)",
+   "kind": "aggregator",
+   "categories": [
+    "reentry-support",
+    "housing",
+    "employment",
+    "legal",
+    "food",
+    "medical-dental-vision",
+    "addiction"
+   ],
+   "notes": {
+    "reentry-support": "third-party directory by a non-state publisher; statewide page with address, phone, who each serves; Boise entries include the IDOC reentry office, East Boise Community Reentry Center (women), at least three Boise nonprofits for returning citizens and a men's transitional housing programme; several are not otherwise published"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "namesFound": {
+    "reentry-support": "about 10 in Boise area"
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.idahohousing.com/sr/documents/hmis-affiliated-service-providers.pdf",
+   "title": "Idaho Housing and Finance Association: HMIS Affiliated Service Providers (March 2022, 2 pages)",
+   "kind": "official",
+   "categories": [
+    "homeless-services",
+    "housing"
+   ],
+   "notes": {
+    "homeless-services": "statewide list of agencies feeding the homeless data system, by city and region; about 6 in Canyon and Ada (AutumnGold Senior Services Nampa, CATCH Caldwell, El-Ada, Jesse Tree, Salvation Army Nampa, Terry Reilly Nampa); dated 2022"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "namesFound": {
+    "homeless-services": "about 6 in Ada/Canyon, about 40 statewide"
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.idoc.idaho.gov/content/locations",
+   "title": "Idaho Department of Correction: Locations (community reentry centers, probation and parole district offices)",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "state page of IDOC facilities: five community reentry centers (East Boise, Treasure Valley in Kuna, Nampa, Idaho Falls, Pocatello, Twin Falls listed) with address and phone, and probation and parole offices by district; District 3 Caldwell and District 4 Boise, Eagle in reach; for people under IDOC supervision, not the public"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "namesFound": {
+    "reentry-support": "3 reentry centres and 2 district offices in reach"
+   },
+   "residency": "People in IDOC custody or on supervision",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.dioceseofboise.org/respect-life",
+   "title": "Diocese of Boise: Pregnancy Resource Centers in Idaho (Walking with Moms in Need)",
+   "kind": "regional",
+   "categories": [
+    "children-pregnancy"
+   ],
+   "notes": {
+    "children-pregnancy": "a faith publisher's regional list of free pregnancy resource centres: Nampa (Lifeline, TV Path), Boise (Cardinal Academy, Cradle of Hope, Stanton Healthcare, Path), Meridian (Birthright of Boise, Stanton) and a Nampa shelter; about 8 for the area; one ideology (life-affirming), so not a full list of pregnancy services"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "namesFound": {
+    "children-pregnancy": 8
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.idahochc.org/community-health-centers2/find-a-health-center",
+   "title": "Idaho Community Health Center Association: Find a Health Center",
+   "kind": "locator",
+   "categories": [
+    "medical-dental-vision",
+    "mental-health"
+   ],
+   "notes": {
+    "medical-dental-vision": "association of Idaho's 15 federally funded community health centres (sliding-scale medical, dental, pharmacy, behavioural health); finder page; Terry Reilly and Full Circle Health serve Ada and Canyon; not tested for results by city"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "partial",
+   "namesFound": {
+    "medical-dental-vision": 15
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://cme.shamp.uidaho.edu/sites/default/files/course/2025-08/Finding%20Dental%20Care%20in%20Idaho_resource_2024.pdf",
+   "title": "University of Idaho: Finding Dental Care in Idaho (2024 resource, 2 pages)",
+   "kind": "official",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "two-page guide to Medicaid dental (MCNA finder, 1-855-233-6262), community health centres, public health district oral health programmes and dental schools; points to finders, names no local clinics"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://healthandwelfare.idaho.gov/services-programs/behavioral-health/statewide-crisis-centers",
+   "title": "Idaho Department of Health and Welfare: Statewide Crisis Centers (adult and youth lists)",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "addiction"
+   ],
+   "notes": {
+    "mental-health": "state page linking an Adult Crisis Centers List and a Youth Crisis Centers list (ages 5-17); adult centres offer 23-hour stays, detox and 24-hour hotline; the lists themselves are linked documents not read"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://healthandwelfare.idaho.gov/services-programs/behavioral-health/statewide-recovery-community-centers",
+   "title": "Idaho Department of Health and Welfare: Statewide Recovery Community Centers",
+   "kind": "official",
+   "categories": [
+    "addiction",
+    "mental-health"
+   ],
+   "notes": {
+    "addiction": "state page (updated 25 Nov 2025) linking the Recovery Community Centers of Idaho finder; the finder was not read"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://healthandwelfare.idaho.gov/services-programs/behavioral-health/resources-0",
+   "title": "Idaho Department of Health and Welfare: Substance use disorder resources (Idaho Treatment and Recovery Support Resource Map)",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "the page says the Idaho Treatment & Recovery Support Resource Map is under construction and coming soon (updated 25 Nov 2025); the rest is national agencies and a link to find AA meetings"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://courtselfhelp.idaho.gov/AboutUs",
+   "title": "Idaho Supreme Court: Court Assistance Offices (courtselfhelp.idaho.gov)",
+   "kind": "official",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "statewide self-help site with free court forms and a Court Assistance Office in each judicial district; an 'find their contact information' list links each county office (Ada: Room 1171, 200 W Front St, Boise; Canyon: Room 334, 1115 Albany St, Caldwell, per search results); legal information, not legal advice"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://vr.idaho.gov/?p=274",
+   "title": "Idaho Division of Vocational Rehabilitation: Resources",
+   "kind": "official",
+   "categories": [
+    "disability",
+    "employment"
+   ],
+   "notes": {
+    "disability": "alphabetical link list of disability employment resources (Social Security, Ticket to Work, PASS, SILC and others); mostly national and state programmes, no local provider names"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://libraries.idaho.gov/community-partners/basic-needs/",
+   "title": "Idaho Commission for Libraries: Community Partners - Basic Needs (by region)",
+   "kind": "official",
+   "categories": [
+    "food",
+    "housing",
+    "seniors",
+    "financial-assistance"
+   ],
+   "notes": {
+    "food": "state library agency's list of basic-needs partners for library staff, by region; Southwest Idaho names United Way of Treasure Valley, Idaho Foodbank, Central and Southwest health districts, Idaho Housing and Finance, Area 3 AAA, WICAP, Metro Community Services, El-Ada, University of Idaho Extension; about 10 for the Treasure Valley; it also links an Idaho Asset Map"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "namesFound": {
+    "all": 10
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://icdd.idaho.gov/wp-content/uploads/Transition-Resources-in-Idaho-and-Beyond.pdf",
+   "title": "Idaho Council on Developmental Disabilities: Transition Resources in Idaho and Beyond",
+   "kind": "official",
+   "categories": [
+    "disability",
+    "education",
+    "employment"
+   ],
+   "notes": {
+    "disability": "4-page PDF (made Aug 2019, edited June 2021) of resources for young people with disabilities moving to adult life; statewide and national organisations; dated"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://211.idaho.gov",
+   "title": "Idaho 211 CareLine (Idaho Department of Health and Welfare)",
+   "kind": "211",
+   "categories": [
+    "food",
+    "housing",
+    "homeless-services",
+    "financial-assistance",
+    "utilities-phone-internet",
+    "medical-dental-vision",
+    "mental-health",
+    "legal",
+    "children-pregnancy",
+    "seniors",
+    "transportation",
+    "employment",
+    "clothing-household"
+   ],
+   "notes": {
+    "food": "statewide referral by phone (2-1-1 or 800-926-2588, text 898211, weekdays 8-6 Mountain) and by FindHelpIdaho.org: since mid-2026 both draw on the same database (state agency and United Way of Treasure Valley, per a 10 July 2026 report); the old directory at 211-idaho.communityos.org needs a login"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "partial",
+   "byLocation": "phone or ZIP search on FindHelpIdaho.org; one database behind both",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.kmvt.com/2026/07/10/need-help-idaho-state-health-agency-nonprofits-churches-collaborate-create-resource-network/",
+   "title": "Idaho Capital Sun via KMVT (10 July 2026): Idaho Community Resource Network (Health and Welfare, nonprofits, churches)",
+   "kind": "official",
+   "categories": [
+    "food",
+    "legal",
+    "children-pregnancy",
+    "financial-assistance"
+   ],
+   "notes": {
+    "food": "not a list: a news report that Health and Welfare's Division of Family and Community Partnerships is building a statewide network of government, nonprofit and church services, links 211 to FindHelpIdaho and is expanding church participation through an Idaho Care Portal (the portal address did not connect); useful as the route to getting a provider listed"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://justice.gov/eoir/file/ProBonoID/dl",
+   "title": "U.S. Dept of Justice EOIR: List of Pro Bono Legal Service Providers, Idaho",
+   "kind": "official",
+   "categories": [
+    "immigration",
+    "legal"
+   ],
+   "notes": {
+    "immigration": "federal court's state list of free legal service providers for people in immigration proceedings; known from a search result (it names Immigrant Justice Idaho, serving Idaho and Malheur County OR residents only); curl got 403"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "ID"
+   },
+   "read": "refused",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  }
+ ],
+ "gaps": {
+  "food": "The state food finder (290 sites) is a search form and the Idaho Foodbank finder is a map; neither could be pulled for Ada or Canyon. North Idaho is served by Second Harvest Spokane, so Idaho Foodbank does not cover the whole state.",
+  "reentry-support": "IDOC and Labor guides are 2019 and 2020 editions; the Labor Department's 2024 guide URL (labor.idaho.gov) is 404. No state directory of private reentry programmes except a third-party site.",
+  "legal": "Idaho Legal Aid and the Idaho Law Help portal return 403; the Idaho Volunteer Lawyers Program's clinic calendar was not read.",
+  "immigration": "The EOIR pro bono list for Idaho returned 403. Idaho's Immigration Advocates directory lists only 7 organisations.",
+  "veterans": "The Treasure Valley Joining Forces guide is under revision; the statewide directory read is from January 2021.",
+  "addiction": "The state's Idaho Treatment and Recovery Support Resource Map is 'under construction'.",
+  "seniors": "The Idaho Commission on Aging's senior centres PDF (2024) returned 404; the Area Agency pages describe programmes, not providers.",
+  "disability": "No statewide provider directory; the old Idaho Help database (idahohelp.info, 12,000 resources in 2015 project reports) does not connect.",
+  "id-recovery": "The ITD page gives the procedure and the free-ID rule; no list of agencies that complete form 3530 was found, nor a Social Security office locator for Idaho (federal.json holds the national one)."
+ }
+}

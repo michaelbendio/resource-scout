@@ -1,0 +1,1634 @@
+{
+ "office": "boise",
+ "about": "Lists of providers found for the Boise (Potential) office, Boise, Idaho (planned Transitional Services Office; address not yet known; 83706 centre, provisionally 20 miles: Boise, Garden City, Meridian, Kuna, Eagle, Star and Nampa in reach; Caldwell, Middleton and Emmett just beyond), by the publisher playbook of resource-discovery-design.md 6.1, on 14 October 2026. Home counties: Ada and Canyon. Read together with states/idaho.json (statewide Idaho lists) and federal.json (national locators, each tested for Boise's 83702), which are not repeated here. No state line is in reach. Lists only: no providers were harvested or checked, and no office-fit rules applied. namesFound is a rough count where the page text showed it. Pages that returned 403 or 406 are marked refused; where the Internet Archive held a copy of such a page, the copy was read and the note says so (the live address may differ from the copy). Where only search-result text was available the note says so. A list covering Canyon County only belongs here. Two lists dominate: the Ada County and Canyon County Self Rescue Manuals, 19-category directories of about 490 and 300 phone numbers, both old (2021 and 2018) and both read only from archive copies because their live hosts are blocked or gone; a newer edition is the first thing to ask Boise School District's social workers for.",
+ "lists": [
+  {
+   "url": "https://www.homelesscoalitionboise.com/wp-content/uploads/2026/06/Pocket-Guide-2026-hi.pdf",
+   "title": "Boise/Ada County Homeless Coalition: Homeless Resource Pocket Guide (5/2026, 2 pages)",
+   "kind": "regional",
+   "categories": [
+    "homeless-services",
+    "food",
+    "medical-dental-vision",
+    "veterans",
+    "domestic-violence",
+    "mental-health",
+    "transportation",
+    "clothing-household"
+   ],
+   "notes": {
+    "homeless-services": "current (dated 5/2026, PDF made 22 May 2026); numbered map of shelters, meals, health services, housing services and veterans services around Boise; photocopying allowed unaltered",
+    "food": "free meals by day and place, plus pointer to a community meals calendar"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "homeless-services": "dozens"
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.homelesscoalitionboise.com/additional-resources/",
+   "title": "Boise Homeless Coalition: Homeless Toolbox - Additional Resources",
+   "kind": "regional",
+   "categories": [
+    "food",
+    "homeless-services",
+    "housing",
+    "clothing-household",
+    "transportation",
+    "legal",
+    "mental-health",
+    "domestic-violence"
+   ],
+   "notes": {
+    "food": "page sections for community free meals, food pantries, sack lunches; also comprehensive services, crisis centers and legal clinics, housing assistance, shelter hours, transportation options, thrift stores; links to other resource guides; undated, header shows 2024 honorees"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.boiselist.org/",
+   "title": "BoiseList.org (Boise Low-Income Support Tool)",
+   "kind": "regional",
+   "categories": [
+    "homeless-services",
+    "food",
+    "housing"
+   ],
+   "notes": {
+    "homeless-services": "a coalition-endorsed app of services around Boise with open times and directions (named in the Pocket Guide); the page text read was a short landing page of about 1,700 characters, so the list itself was not read"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.canyoncounty.id.gov/wp-content/uploads/2023/05/ASSISTANCE-PROGRAMS-LIST.pdf",
+   "title": "Canyon County: Assistance Programs List (May 2023, 1 page)",
+   "kind": "official",
+   "categories": [
+    "financial-assistance",
+    "housing",
+    "utilities-phone-internet",
+    "food",
+    "medical-dental-vision",
+    "seniors",
+    "homeless-services"
+   ],
+   "notes": {
+    "financial-assistance": "county one-pager of about 15 providers in Caldwell, Nampa, Meridian and Middleton with address, phone and website: Caldwell Cares, Caldwell and Nampa housing authorities, Canyon County Community Clinic, CATCH, Jesse Tree, Nampa Shares & Cares, Salvation Army Nampa, SICHA, St. Vincent de Paul, TVCRC, WICAP; dated May 2023"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Canyon"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "financial-assistance": 15
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://cdh.idaho.gov/wp-content/uploads/2024/07/Our-Path-Home-Summer-Cooling-Resource-Guide.pdf",
+   "title": "Our Path Home: Summer Cooling Resource Guide (July 2024, 7 pages)",
+   "kind": "regional",
+   "categories": [
+    "homeless-services",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "homeless-services": "seasonal guide to cooling spaces, water and services across Ada County; July 2024, stale for this summer; a winter warming guide is published by the same partners"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://hcd.cityofboise.org/homelessness/",
+   "title": "Our Path Home (City of Boise, Continuum of Care lead agency): Get Help and Resources",
+   "kind": "official",
+   "categories": [
+    "homeless-services",
+    "housing"
+   ],
+   "notes": {
+    "homeless-services": "Ada County's coordinated homelessness system; Housing Crisis Hotline 208-336-HOME (4663); links to partner resources and seasonal guides"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.mld.org/resources/community",
+   "title": "Meridian Library District: Community Resources (Meridian, Ada County)",
+   "kind": "official",
+   "categories": [
+    "financial-assistance",
+    "employment",
+    "food",
+    "housing",
+    "legal",
+    "mental-health",
+    "seniors",
+    "disability",
+    "children-pregnancy"
+   ],
+   "notes": {
+    "financial-assistance": "library-curated page of local and state agencies with address, phone and a blurb, two result pages (about 20 entries read on page 1: Idaho Foodbank, Jesse Tree, Idaho Legal Aid, Idaho Housing and Finance, Legacy Corps, 988, Dept of Labor and more); undated"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "all": 20
+   },
+   "readNote": "page 2 not read",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.saintalphonsus.org/sites/default/files/2026-06/Greater-Treasure-Valley-CHNA-Report-2026_FINAL.pdf",
+   "title": "Greater Treasure Valley Community Health Needs Assessment 2026 (Saint Alphonsus, St. Luke's, Central District Health, Southwest District Health, Terry Reilly, United Way; 123 pages, June 2026)",
+   "kind": "official",
+   "categories": [
+    "medical-dental-vision",
+    "mental-health",
+    "housing",
+    "homeless-services",
+    "addiction"
+   ],
+   "notes": {
+    "medical-dental-vision": "hospital CHNA for Ada, Canyon and eight other counties; a section Community Resources and Assets points to 211 and findhelpidaho.org; Appendices 1 and 2 list each health system's community-benefit partners and programmes, which name partner organisations; not a provider directory"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada",
+     "Canyon"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://saintalphonsus.org/for-patients/after-your-visit/social-care-community-resources/community-resource-directory",
+   "title": "Saint Alphonsus Social Care Community Resource Directory",
+   "kind": "regional",
+   "categories": [
+    "food",
+    "housing",
+    "transportation",
+    "medical-dental-vision",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "food": "online searchable directory (keyword and ZIP) run by Saint Alphonsus / Trinity Health; the page returned 403 to curl, so known from search results only"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada",
+     "Canyon"
+    ]
+   },
+   "read": "refused",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://directory.plentiful.org/idaho/boise",
+   "title": "Plentiful: Food Pantries in Boise, ID",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "31 locations with address and phone, many faith-based pantries and shelters; hours not on the page; reservation through the Plentiful app"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "food": 31
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://directory.plentiful.org/idaho/nampa",
+   "title": "Plentiful: Food Pantries in Nampa, ID",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "12 locations with address and phone"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Canyon"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "food": 12
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://directory.plentiful.org/idaho/caldwell",
+   "title": "Plentiful: Food Pantries in Caldwell, ID",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "12 locations with address and phone"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Canyon"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "food": 12
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://feedam.org/food-pantry/id/boise",
+   "title": "Feed America (feedam.org): Food Pantries and Food Help in Boise, ID",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "54 listings in the page title; built on public data and some entries marked as not recently verified; a Nampa page also exists"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "food": 54
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://boisemom.com/featured/guide-to-food-assistance-resources-in-boise/",
+   "title": "Boise Mom: Guide to Food Assistance Resources in Boise",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "local parenting site's guide with pantry days and hours for Boise and Ada County sites; undated in the text read"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://cwi.edu/support-resources/safety-net-resources",
+   "title": "College of Western Idaho: Safety Net Resources",
+   "kind": "regional",
+   "categories": [
+    "food",
+    "medical-dental-vision",
+    "housing",
+    "homeless-services",
+    "transportation",
+    "financial-assistance",
+    "employment",
+    "education"
+   ],
+   "notes": {
+    "housing": "a college student-support page that lists, by category, local agencies with phone: Full Circle Health, Terry Reilly, Genesis Community Clinic, Care House Nampa (free clinic, under 250% poverty), Housing Idaho, Boise/Ada County Housing Authority, SICHA, Our Path Home, Access Point (CATCH), Jesse Tree, El-Ada; about 20 entries; undated",
+    "medical-dental-vision": "4 clinics named with phone"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada",
+     "Canyon"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "all": 20
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://gardencityidaho.org/assistance-programs",
+   "title": "City of Garden City: Assistance Programs",
+   "kind": "official",
+   "categories": [
+    "food",
+    "education",
+    "employment",
+    "children-pregnancy",
+    "medical-dental-vision",
+    "housing"
+   ],
+   "notes": {
+    "food": "city page of local agencies by category with addresses and hours: El-Ada Garden City food boxes, Foothills Church, Salvation Army, St. Mary's, Vineyard; also Head Start, Learning Lab, Dept of Labor, Vocational Rehab; undated; Garden City is 6 miles from Boise centre"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "all": 30
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://cwi.edu/adult-basic-education/",
+   "title": "College of Western Idaho: Adult Education and GED Prep",
+   "kind": "official",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "free classes for adults 16 and over at the Ada County Center (Boise) and Canyon County Center (Nampa), plus outreach sites; federal rules limit it to citizens, nationals and people with lawful status; contacts 208-562-2575 (Boise), 208-562-2068 (Nampa), 208-562-2040 (outreach). One programme, not a list of providers"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada",
+     "Canyon"
+    ]
+   },
+   "read": "complete",
+   "residency": "Federal adult-education rules: U.S. citizens, nationals and non-citizens with documented lawful status",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://parole.idaho.gov/victims/victim-resource-links/",
+   "title": "Idaho Commission of Pardons and Parole: Victim Resource Links",
+   "kind": "official",
+   "categories": [
+    "domestic-violence",
+    "legal"
+   ],
+   "notes": {
+    "domestic-violence": "short state page (updated 19 Aug 2025) naming Women and Children's Alliance (hotlines), Nampa Family Justice Center, SANE Solutions, VINE; a handful of providers"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada",
+     "Canyon"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "domestic-violence": 4
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.canyoncounty.id.gov/elected-officials/clerk/county-assistance-home/community-resources/",
+   "title": "Canyon County Clerk: Community Resources & Programs",
+   "kind": "official",
+   "categories": [
+    "homeless-services",
+    "housing",
+    "utilities-phone-internet",
+    "seniors",
+    "veterans",
+    "food",
+    "transportation",
+    "medical-dental-vision",
+    "mental-health",
+    "domestic-violence"
+   ],
+   "notes": {
+    "homeless-services": "county page in tabs (Shelter, Rent & Utilities, Seniors & Veterans, Food, Transportation, Wellness/Medical/Prescription, Other): CATCH, Metro Community Services, Valley Women & Children's Shelter, TVCRC, WICAP, Housing Crisis Hotline Canyon (208-495-5688), Southwest Idaho AAA, Seniors Blue Book, Salvation Army Nampa and Caldwell, Western Idaho Community Crisis Center, RX Assist, links to a Canyon County Self-Rescue Manual; about 25 entries; undated"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Canyon"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "all": 25
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.abmhealthservices.com/community-resources/",
+   "title": "ABM Health Services (Boise, Middleton): Community Resources page linking the Ada County and Canyon County Self Rescue Manuals",
+   "kind": "regional",
+   "categories": [
+    "mental-health",
+    "food",
+    "housing",
+    "financial-assistance",
+    "disability",
+    "children-pregnancy"
+   ],
+   "notes": {
+    "mental-health": "provider's page of about a dozen statewide and local links (211, Idaho Foodbank, El-Ada, WIC, Idaho Parents Unlimited, Idaho Federation of Families); its Canyon County Self Rescue Manual link (brighterfuturehealth.com, 2018 upload) did not connect, and the Ada link had no address in the HTML. The page answers 406 to a browser user-agent but 200 to plain curl"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada",
+     "Canyon"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://idahoregion3bhb.idaho.gov/wp-content/uploads/Resources/R3CrisisBrochure-updated.pdf",
+   "title": "Idaho Region 3 Behavioral Health Board: Community Crisis Resources brochure (Jan 2021, 2 pages)",
+   "kind": "regional",
+   "categories": [
+    "mental-health",
+    "addiction",
+    "domestic-violence"
+   ],
+   "notes": {
+    "mental-health": "Region 3 (Canyon, Adams, Gem, Owyhee, Payette, Washington): Western Idaho Community Crisis Center (Caldwell), Hope's Door DV, Canyon Recovery Community Center and crisis lines; about a dozen providers; dated January 2021"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Canyon"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "mental-health": 12
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://seniorsbluebook.com/local/idaho-boise",
+   "title": "Seniors Blue Book: Boise and the Treasure Valley (Ada, Canyon and 7 more counties)",
+   "kind": "aggregator",
+   "categories": [
+    "seniors",
+    "housing",
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "seniors": "publisher's senior directory (housing, home health, services); an advertising-supported directory; the Canyon County page names it as a resource; list contents not counted"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada",
+     "Canyon"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://idahoregion4bhb.idaho.gov/?p=285",
+   "title": "Idaho Region 4 Behavioral Health Board: Resources (Ada, Boise, Elmore, Valley)",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "addiction",
+    "children-pregnancy",
+    "housing",
+    "veterans"
+   ],
+   "notes": {
+    "mental-health": "short state page of link lists: crisis and suicide lines, Community Bridges and Benchmark mobile crisis, substance use treatment finder, parenting resources, drug take-back sites in Ada and Boise counties, self-help (Elmore County Resource Manual, FindHelp, housing authorities, Veterans Resource Directory); about 20 links, no dates"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "mental-health": 20
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.valleyregionaltransit.org/services/",
+   "title": "Valley Regional Transit: Services (paratransit, Meridian and medical transport programmes, vanpool)",
+   "kind": "regional",
+   "categories": [
+    "transportation",
+    "veterans",
+    "disability",
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "transportation": "agency's own list of nine specialised services: Access paratransit, Beyond Access, Canyon County Vanpool, City Go Meridian, Medical Transportation, Meridian Veterans Shuttle, Rides2Wellness (free rides to St. Luke's, Saint Alphonsus, Terry Reilly clinics for people not eligible for Medicaid transport, Ada and Canyon), Safe Routes to School, Volunteer Driver Program; the route pages are separate"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada",
+     "Canyon"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "transportation": 9
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.cityofboise.org/bill-help",
+   "title": "City of Boise: Utility Bill Assistance",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet",
+    "financial-assistance"
+   ],
+   "notes": {
+    "utilities-phone-internet": "city page: Boise utility bill discount and a $100 yearly credit administered by El-Ada (208-345-2820), with links to Idaho Power, Intermountain Gas, Veolia water and Ada County utility assistance; about 5 programmes"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "utilities-phone-internet": 5
+   },
+   "residency": "Boise utility customers for the city credits",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://sobasearch.com/meetings/id/boise",
+   "title": "SobaSearch: Recovery meetings in Boise, ID",
+   "kind": "aggregator",
+   "categories": [
+    "addiction",
+    "mental-health"
+   ],
+   "notes": {
+    "addiction": "aggregator of 105 meetings across 10 programmes in Boise (77 AA, 8 Al-Anon, 4 NA, others) plus 14 nearby treatment providers; a Treasure Valley AA site named in an old news item (treasurevalleyaa.org) did not connect"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "addiction": 105
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://affordablehousingonline.com/open-section-8-waiting-lists/Idaho/Nampa",
+   "title": "AffordableHousingOnline: Open Section 8 waiting lists in Nampa",
+   "kind": "aggregator",
+   "categories": [
+    "housing"
+   ],
+   "notes": {
+    "housing": "aggregator page on Nampa and Canyon County housing authorities and waiting-list status; its dates and statuses conflict with each other, so confirm with the housing authority"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Canyon"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://adacounty.id.gov/clerk/?p=42",
+   "title": "Ada County Clerk: Court Assistance Office",
+   "kind": "official",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "county page for forms review, workshops and legal information (no legal advice); one office, not a provider list"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://a3ssa.com",
+   "title": "Area 3 Senior Services Agency (Southwest Idaho Area Agency on Aging), Meridian",
+   "kind": "regional",
+   "categories": [
+    "seniors",
+    "disability",
+    "food"
+   ],
+   "notes": {
+    "seniors": "the regional agency for Ada, Canyon and eight other counties; programmes and services pages (stay at home, caregiver, community care) and a community calendar; 208-898-7060; a provider directory was not seen on the home page, so it is the agency rather than a list"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada",
+     "Canyon"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://warriorsfund.org/county-guide/id/ada/",
+   "title": "Wounded Warriors (Warriors Fund): Ada County, ID Veteran Resource Guide (printable)",
+   "kind": "aggregator",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "one-page national-charity guide: crisis lines first, then local resources with a listed phone (Boise VA, W. River St clinic, Ada County Veterans Service Office, treatment court, state veterans home); generated from a database, so check each number"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://boisestate.edu/veterans/community-resources",
+   "title": "Boise State University Veteran Services: Community Resources",
+   "kind": "official",
+   "categories": [
+    "veterans",
+    "education",
+    "employment"
+   ],
+   "notes": {
+    "veterans": "university veteran services page linking Idaho Veterans Guide, Mission43, Wyakin Foundation, Idaho Veteran Chamber of Commerce, Dept of Labor veteran services, Idaho Division of Veterans Services; about 10 links"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "veterans": 10
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.cityofboise.org/programs/neighbors-united-boise/",
+   "title": "City of Boise: Neighbors United Boise (with the Idaho Office for Refugees)",
+   "kind": "official",
+   "categories": [
+    "immigration",
+    "employment",
+    "housing",
+    "education"
+   ],
+   "notes": {
+    "immigration": "a city initiative for refugees and immigrants with over 100 partner organisations across education, employment, health, housing, social integration and transport; a partner list was not on the page text read"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://idahodiaperbank.org/locations/",
+   "title": "Idaho Diaper Bank: Locations where diapers are given",
+   "kind": "regional",
+   "categories": [
+    "children-pregnancy",
+    "clothing-household"
+   ],
+   "notes": {
+    "children-pregnancy": "the bank's list of partner distribution sites with address, hours, who is served: Nampa, Meridian (Holy Apostles SVDP), Kuna and Boise sites including Interfaith Sanctuary, Jesse Tree (clients only), IRC (new refugees only), Love INC; the page repeats 'Address Line 1' about 30 times; the partner count was not exactly counted; undated"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada",
+     "Canyon"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "children-pregnancy": "about 30"
+   },
+   "residency": "Several sites serve only their own clients or a named school area",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://taxhelpid.org",
+   "title": "VITA Treasure Valley (Boise State accountancy faculty with IRC, Law School, Boise and Meridian libraries): Schedule an appointment",
+   "kind": "regional",
+   "categories": [
+    "financial-assistance"
+   ],
+   "notes": {
+    "financial-assistance": "coalition of free tax-preparation sites; 2025 tax-year income limit $69,000; sites and dates are on the appointment page; named partners include the two library systems; seasonal"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada",
+     "Canyon"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "financial-assistance": "about 5 partner organisations"
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://idaholearnusa.starchapter.com/images/downloads/Handouts/nampa_family_justice_center_presentation.pdf",
+   "title": "Nampa Family Justice Center presentation (2023, 5 pages)",
+   "kind": "official",
+   "categories": [
+    "domestic-violence",
+    "legal",
+    "children-pregnancy"
+   ],
+   "notes": {
+    "domestic-violence": "on-site partners as of 2023: Adult Protection Services, Canyon County Prosecutor, community-based advocates, child welfare, Idaho Legal Aid, Nampa police, Revitalize Counseling, SANE, St. Luke's CARES, Strive Counseling; the city's live Partner Agencies page (more than 30 per a search result) returned a Cloudflare 403"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Canyon"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "domestic-violence": 10
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.cityofnampa.us/481/Partner-Agencies",
+   "title": "City of Nampa: Nampa Family Justice Center Partner Agencies (read from an archive copy)",
+   "kind": "official",
+   "categories": [
+    "domestic-violence",
+    "legal",
+    "mental-health",
+    "seniors",
+    "immigration",
+    "disability",
+    "education"
+   ],
+   "notes": {
+    "domestic-violence": "27 named agencies (Advocates Against Family Violence-Hope's Door, Area 3 Senior Services, Boise Rescue Mission, Canyon County prosecutor and sheriff, Community Council of Idaho, Idaho Legal Aid, Love INC, Metro Community Services, Valley Women and Children's Shelter - Nampa, three hospitals, counsellors and others); the live page returns a Cloudflare 403"
+   },
+   "readable": "refused (403); read from the Wayback Machine copy",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Canyon"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14",
+   "namesFound": {
+    "domestic-violence": 27
+   }
+  },
+  {
+   "url": "https://www.selfrescuemanual.com/",
+   "title": "Self Rescue Manual, Ada County (live site; Boise School District social workers) - read from the archived 13 Oct 2021 copy",
+   "kind": "regional",
+   "categories": [
+    "clothing-household",
+    "mental-health",
+    "medical-dental-vision",
+    "disability",
+    "education",
+    "employment",
+    "financial-assistance",
+    "food",
+    "housing",
+    "homeless-services",
+    "legal",
+    "addiction",
+    "transportation",
+    "children-pregnancy"
+   ],
+   "notes": {
+    "food": "the largest single list found: 36 pages in 19 categories (clothing and furniture, counselling, dental, disability, education, employment, financial and utility help, food pantries, free community meals, crisis hotlines, housing, legal, medical, shelters and showers, substance abuse treatment, support groups, tax help, transport, vision); about 490 phone numbers; the copy read is dated 10/13/2021 and carries a pandemic warning, and the live site (selfrescuemanual.com) and Idaho Legal Aid host return Cloudflare 403 so a newer edition could not be checked",
+    "clothing-household": "first section; thrift stores and free closets with hours"
+   },
+   "readable": "refused (403); read from the Wayback Machine copy of the Vineyard Boise host: https://web.archive.org/web/2024/https://vineyardboise.org/s/Self-Rescue-Manual-Final.pdf",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "all": "about 490 phone numbers, 19 categories"
+   },
+   "readNote": "live URL blocked; archived PDF read in full by text extraction; maintainer email selfrescuemanual@boiseschools.org",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://brighterfuturehealth.com/wp-content/uploads/2018/05/Canyon-County-Self-Rescue-Manual.pdf",
+   "title": "Canyon County Self Rescue Manual (Public Health District 3 / Region 3, Jan 2018, 28 pages) - read from the Wayback Machine copy",
+   "kind": "regional",
+   "categories": [
+    "clothing-household",
+    "mental-health",
+    "medical-dental-vision",
+    "education",
+    "employment",
+    "financial-assistance",
+    "food",
+    "housing",
+    "homeless-services",
+    "legal",
+    "addiction",
+    "transportation",
+    "children-pregnancy"
+   ],
+   "notes": {
+    "food": "the Canyon County counterpart of the Ada manual: 28 pages in 19 categories (clothing and furniture, community meals, counselling, crisis, dental, education, employment, financial and utility, food pantries, housing, legal, medical, parenting and family, shelters and showers, substance use treatment, recovery centres, tax and budgeting, transport, vision); about 300 phone numbers; PDF made 31 Jan 2018, so seven years old; the original host (brighterfuturehealth.com) did not connect; maintainer email selfrescue@phd3.idaho.gov"
+   },
+   "readable": "dead host; read from https://web.archive.org/web/2024/https://brighterfuturehealth.com/wp-content/uploads/2018/05/Canyon-County-Self-Rescue-Manual.pdf",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Canyon"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "all": "about 300 phone numbers, 19 categories"
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://www.cityofnampa.us/1324/Community-Resources",
+   "title": "City of Nampa: Community Resources (food, senior meals, shelter; archived Dec 2023 copy)",
+   "kind": "official",
+   "categories": [
+    "food",
+    "seniors",
+    "homeless-services"
+   ],
+   "notes": {
+    "food": "city page of local food help with hours: Idaho Foodbank distributions, Nampa Senior Center meals, Salvation Army Day Resource Center (meals, showers, laundry), Good News Food Pantry, Care House Food Bank, The Traveling Table; about 8 entries; the copy is from December 2023, hours are old; the live page returns a Cloudflare 403"
+   },
+   "readable": "refused (403); read from the Wayback Machine copy",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Canyon"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "food": 8
+   },
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://idaholegalaid.org/node/1297/ada-county-community-resources-manual",
+   "title": "Idaho Legal Aid Services: Ada County Community Resources Manual (page last reviewed 8/21/2020)",
+   "kind": "regional",
+   "categories": [
+    "legal",
+    "food",
+    "housing",
+    "clothing-household"
+   ],
+   "notes": {
+    "legal": "ILAS's page for the Self Rescue Manual, hosting an older copy (Self-Rescue-Manual-5.8.17.pdf, May 2017, 31 pages) in the same 19 categories; superseded by the 2021 edition above; read only through the archive"
+   },
+   "readable": "refused (403); archive page read",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "partial",
+   "duplicateOf": "https://www.selfrescuemanual.com/",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  },
+  {
+   "url": "https://adacounty.id.gov/prosecutor/?p=1036",
+   "title": "Ada County Prosecutor and Sheriff: victim-witness coordinators and referral services",
+   "kind": "official",
+   "categories": [
+    "domestic-violence",
+    "legal"
+   ],
+   "notes": {
+    "domestic-violence": "county pages describing victim-witness coordinators (208-577-3721) who refer to Women's and Children's Alliance and the Ada County Victim Services Center and help with compensation, VINE and protection orders; a short referral, not a provider list"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "ID",
+    "counties": [
+     "Ada"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-14",
+   "lastChecked": "2026-10-14"
+  }
+ ],
+ "gaps": {
+  "food": "Plenty of lists, none official for Ada and Canyon together: Plentiful (Boise 31, Nampa 12, Caldwell 12, Kuna also), Feed America (54 Boise), Boise Mom, Nampa city page (archived Dec 2023), both Self Rescue Manuals, Garden City page. The authoritative state finder (Health and Welfare, 290 sites) is a search form, so the Ada and Canyon rows were not extracted. Meridian, Eagle and Star have no list of their own; Eagle Community Foodbank and Meridian Food Bank were named only in search results.",
+  "housing": "Housing authorities (Boise City/Ada County, Nampa, Caldwell, SICHA) are on the county and CWI lists but no page of their own was read for Ada. Waiting-list status comes from aggregators with conflicting dates. Our Path Home and Idaho Housing (Region 3 Access Point, CATCH) are the entry points; the Idaho Housing Region 3 request-for-proposal and the 2021 HMIS list returned 404 or are stale.",
+  "homeless-services": "Strong for Ada (Homeless Coalition pocket guide dated 5/2026, Our Path Home); thin for Canyon: the county page, the Canyon Self Rescue Manual (2018) and the 2022 HMIS list. The Coalition's meals calendar and Our Path Home partner list were not read.",
+  "mental-health": "Region 3 crisis brochure (Jan 2021) and Region 4 BHB resources page are short; no current directory of counsellors for Ada or Canyon. NAMI Idaho returned a 403. IdaHope directory named in a search result was not reached.",
+  "addiction": "SobaSearch (105 Boise meetings), the two Self Rescue Manuals, the state's crisis and recovery community centre pages. The state's own Idaho Treatment and Recovery Support Resource Map is 'under construction'. A Treasure Valley AA site named in an old news item does not connect.",
+  "medical-dental-vision": "No Ada or Canyon directory of free clinics read first-hand: Genesis Community Health, Care House Nampa, Terry Reilly and Full Circle Health appear on the CWI safety-net page; Saint Alphonsus's directory is behind a 403; the Idaho health-centre finder is a form. Vision has almost nothing beyond the Self Rescue Manuals.",
+  "legal": "Idaho Legal Aid (403) and the Idaho Volunteer Lawyers Program clinics (Boise main library first Tuesdays, Nampa library) are known from search results and pages that are statewide; the Ada Court Assistance Office page was read. No list of immigration or family-law clinics with current dates.",
+  "domestic-violence": "Reasonable: Nampa Family Justice Center partner list (27), ICDV statewide table, parole board page, Ada victim-witness page. Hope's Door and Valley Women and Children's Shelter appear in several lists, none with a bed count.",
+  "children-pregnancy": "Idaho Diaper Bank locations (about 30 sites), Diocese of Boise pregnancy centre list (one point of view), Macaroni Kid directories; no Head Start, WIC clinic or child-care referral list for Ada/Canyon read first-hand (Child Care Aware returned 403).",
+  "clothing-household": "Only the two Self Rescue Manuals (2021 and 2018), Garden City's page and the Boise pocket guide. Everything else came from search snippets (thrift stores, Agape in Action, The Closet). No furniture-bank list.",
+  "disability": "LINC (ILRU directory), Region pages and the Self Rescue Manuals; Idaho Parents Unlimited, DisAbility Rights Idaho and the Arc are known only from search results; no Ada/Canyon adult-services directory.",
+  "seniors": "The Southwest AAA (Meridian) site, the Canyon page, Seniors Blue Book (ad-supported); the state's senior centres list returned 404; the Nampa Elder Resource Guide returned 404 in the archive and 403 live.",
+  "veterans": "The Treasure Valley Joining Forces guide is 'under revision' and not posted; the state 2021 directory is the current statewide one; Warriors Fund and Boise State pages are aggregators.",
+  "employment": "Idaho Dept of Labor and Vocational Rehabilitation pages, CWI, Garden City list; no local list of employers who hire people with records or a Treasure Valley job-club directory. The Labor Department's 2024 reentry guide URL is dead (2020 edition read, statewide file).",
+  "education": "CWI adult education (Boise and Nampa) and the Self Rescue Manuals; the Learning Lab and Boise School District adult education were not read; no ESL directory.",
+  "financial-assistance": "Canyon County one-pager (2023), CWI and Garden City pages, Ada County indigent services page, VITA. No Ada County list of rent-assistance providers beyond Jesse Tree and El-Ada, and Idaho Power or Intermountain Gas current programmes were seen only in search results and the City of Boise page.",
+  "utilities-phone-internet": "City of Boise bill help, Canyon list, Garden City page. Lifeline and the Idaho phone discount are federal and state programmes, not local lists (the PUC factsheet did not load). Nothing on digital inclusion in Ada or Canyon libraries.",
+  "transportation": "VRT's own pages (routes, services, Rides2Wellness) are good; Medicaid ride broker (MTM) and Area Agency on Aging rides were seen only in search results; no list of volunteer driver or church ride programmes.",
+  "reentry-support": "No county or city reentry guide for Ada or Canyon found. IDOC reentry centres and district offices (statewide file), a third-party directory (HelpForFelons, April 2026) and St. Vincent de Paul's reentry programme (search result) are what exist. The Ada County Sheriff's Community Transition Center has no published guide. See requests.",
+  "id-recovery": "Not a list category: the ITD free-ID procedure (statewide file) names the steps (form 3530 completed by a shelter or relief agency; one free birth certificate); no Boise page listing where people get help with the paperwork was found. Social Security office locator is federal.",
+  "immigration": "Immigration Advocates directory lists 7 Idaho organisations (statewide file); the Idaho Office for Refugees site was not read; the Idaho Commission on Hispanic Affairs referral list found (2017/18) was not reachable and is stale. No Spanish-language community directory found."
+ },
+ "publishers": [
+  {
+   "ecosystem": "Community coordination",
+   "area": "Ada County",
+   "searched": [
+    "Boise/Ada County Homeless Coalition",
+    "Our Path Home (CoC)",
+    "United Way of Treasure Valley partner agencies",
+    "El-Ada Community Action Partnership",
+    "Treasure Valley community resource guides"
+   ],
+   "result": "found 5 lists; no published United Way partner list (unitedwaytv.org returned 403)",
+   "lists": [
+    "https://www.homelesscoalitionboise.com/wp-content/uploads/2026/06/Pocket-Guide-2026-hi.pdf",
+    "https://www.homelesscoalitionboise.com/additional-resources/",
+    "https://hcd.cityofboise.org/homelessness/",
+    "https://www.selfrescuemanual.com/",
+    "https://cdh.idaho.gov/wp-content/uploads/2024/07/Our-Path-Home-Summer-Cooling-Resource-Guide.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Government",
+   "area": "Ada County",
+   "searched": [
+    "Ada County Clerk and indigent services",
+    "Ada County court assistance office",
+    "City of Boise housing and utility pages",
+    "Garden City assistance page",
+    "Region 4 Behavioral Health Board"
+   ],
+   "result": "found 6 lists",
+   "lists": [
+    "https://adacounty.id.gov/clerk/?p=42",
+    "https://www.cityofboise.org/bill-help",
+    "https://gardencityidaho.org/assistance-programs",
+    "https://idahoregion4bhb.idaho.gov/?p=285",
+    "https://adacounty.id.gov/prosecutor/?p=1036",
+    "https://hcd.cityofboise.org/homelessness/"
+   ]
+  },
+  {
+   "ecosystem": "Libraries",
+   "area": "Ada County",
+   "searched": [
+    "Boise Public Library resource handouts",
+    "Meridian Library District",
+    "Boise Public Library tax and social services"
+   ],
+   "result": "found 1 list (Meridian Library District community resources); Boise Public Library has staff referral and a mental health coordinator but no published list",
+   "lists": [
+    "https://www.mld.org/resources/community"
+   ]
+  },
+  {
+   "ecosystem": "Hospitals and health systems",
+   "area": "Ada County",
+   "searched": [
+    "St. Luke's CHNA",
+    "Saint Alphonsus community resource directory",
+    "Greater Treasure Valley CHNA 2026"
+   ],
+   "result": "found 2; Saint Alphonsus directory refused (403)",
+   "lists": [
+    "https://www.saintalphonsus.org/sites/default/files/2026-06/Greater-Treasure-Valley-CHNA-Report-2026_FINAL.pdf",
+    "https://saintalphonsus.org/for-patients/after-your-visit/social-care-community-resources/community-resource-directory"
+   ]
+  },
+  {
+   "ecosystem": "Corrections and courts",
+   "area": "Ada County",
+   "searched": [
+    "Ada County Sheriff community transition centre and reentry",
+    "Ada County prosecutor victim-witness",
+    "Court assistance office",
+    "specialty courts"
+   ],
+   "result": "found 2 pages of referral; no reentry handbook or county referral list published; see requests",
+   "lists": [
+    "https://adacounty.id.gov/clerk/?p=42",
+    "https://adacounty.id.gov/prosecutor/?p=1036"
+   ]
+  },
+  {
+   "ecosystem": "Nonprofit networks",
+   "area": "Ada County",
+   "searched": [
+    "Idaho Diaper Bank partners",
+    "Boise Homeless Coalition members",
+    "Idaho Nonprofit Center directory",
+    "Boise nonprofit lists"
+   ],
+   "result": "found 2 lists; Idaho Nonprofit Center directory not found (status of the Center unclear)",
+   "lists": [
+    "https://idahodiaperbank.org/locations/",
+    "https://www.homelesscoalitionboise.com/additional-resources/"
+   ]
+  },
+  {
+   "ecosystem": "Faith communities",
+   "area": "Ada County",
+   "searched": [
+    "Boise ministerial or interfaith alliance directories",
+    "Catholic Charities and St. Vincent de Paul directories",
+    "Diocese of Boise lists"
+   ],
+   "result": "found 1 (Plentiful's Boise list of faith pantries is an aggregator of faith sites); no ministerial-alliance charity directory exists online",
+   "lists": [
+    "https://directory.plentiful.org/idaho/boise",
+    "https://www.homelesscoalitionboise.com/additional-resources/"
+   ]
+  },
+  {
+   "ecosystem": "Universities and colleges",
+   "area": "Ada County",
+   "searched": [
+    "Boise State Veteran Services, VITA, campus pantry",
+    "College of Western Idaho safety net",
+    "College of Idaho"
+   ],
+   "result": "found 3 lists; Boise State has no community-partner directory",
+   "lists": [
+    "https://boisestate.edu/veterans/community-resources",
+    "https://cwi.edu/support-resources/safety-net-resources",
+    "https://taxhelpid.org"
+   ]
+  },
+  {
+   "ecosystem": "Public funding sources",
+   "area": "Ada County",
+   "searched": [
+    "City of Boise CDBG subrecipients",
+    "CoC project lists",
+    "HMIS affiliated providers"
+   ],
+   "result": "found 1 (HMIS provider list, 2022); no CDBG or CoC awardee list read",
+   "lists": [
+    "https://www.idahohousing.com/sr/documents/hmis-affiliated-service-providers.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Referral infrastructure",
+   "area": "Ada County",
+   "searched": [
+    "211 and FindHelpIdaho",
+    "Plentiful",
+    "Feed America",
+    "Seniors Blue Book",
+    "SobaSearch",
+    "Grace's List",
+    "BoiseList"
+   ],
+   "result": "found 6 lists; Grace's List returned 403",
+   "lists": [
+    "https://www.findhelpidaho.org/",
+    "https://directory.plentiful.org/idaho/boise",
+    "https://feedam.org/food-pantry/id/boise",
+    "https://sobasearch.com/meetings/id/boise",
+    "https://www.boiselist.org/",
+    "https://seniorsbluebook.com/local/idaho-boise"
+   ]
+  },
+  {
+   "ecosystem": "Community coordination",
+   "area": "Canyon County",
+   "searched": [
+    "Canyon County community resources",
+    "Treasure Valley Community Resource Center (Red Book)",
+    "WICAP",
+    "CATCH",
+    "Canyon Self Rescue Manual"
+   ],
+   "result": "found 3 lists; TVCRC's Red Book is a request; WICAP, CATCH and Nampa city catch pages blocked",
+   "lists": [
+    "https://www.canyoncounty.id.gov/elected-officials/clerk/county-assistance-home/community-resources/",
+    "https://brighterfuturehealth.com/wp-content/uploads/2018/05/Canyon-County-Self-Rescue-Manual.pdf",
+    "https://www.canyoncounty.id.gov/wp-content/uploads/2023/05/ASSISTANCE-PROGRAMS-LIST.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Government",
+   "area": "Canyon County",
+   "searched": [
+    "Canyon County Clerk",
+    "City of Nampa community resources and partner agencies",
+    "City of Caldwell (Caldwell Cares)",
+    "Region 3 Behavioral Health Board"
+   ],
+   "result": "found 4 lists; Nampa pages read only from an archive copy (403 live)",
+   "lists": [
+    "https://www.canyoncounty.id.gov/elected-officials/clerk/county-assistance-home/community-resources/",
+    "https://www.canyoncounty.id.gov/wp-content/uploads/2023/05/ASSISTANCE-PROGRAMS-LIST.pdf",
+    "https://www.cityofnampa.us/1324/Community-Resources",
+    "https://idahoregion3bhb.idaho.gov/wp-content/uploads/Resources/R3CrisisBrochure-updated.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Libraries",
+   "area": "Canyon County",
+   "searched": [
+    "Nampa Public Library Be Well Nampa",
+    "Caldwell Public Library"
+   ],
+   "result": "nothing found (Be Well Nampa page 404; Caldwell library site 403); library legal clinics with the Idaho Volunteer Lawyers Program are events, not a list",
+   "lists": []
+  },
+  {
+   "ecosystem": "Hospitals and health systems",
+   "area": "Canyon County",
+   "searched": [
+    "Saint Alphonsus Nampa",
+    "St. Luke's Nampa",
+    "West Valley Medical Center"
+   ],
+   "result": "found 1 shared list (CHNA 2026); the Nampa Family Justice Center names three hospital programmes",
+   "lists": [
+    "https://www.saintalphonsus.org/sites/default/files/2026-06/Greater-Treasure-Valley-CHNA-Report-2026_FINAL.pdf",
+    "https://www.cityofnampa.us/481/Partner-Agencies"
+   ]
+  },
+  {
+   "ecosystem": "Corrections and courts",
+   "area": "Canyon County",
+   "searched": [
+    "Canyon County prosecutor resources",
+    "Court assistance office Caldwell",
+    "IDOC District 3 and Nampa reentry centre"
+   ],
+   "result": "found 1 (prosecutor resources page only links probation and jail roster); IDOC Nampa reentry centre is in the statewide file",
+   "lists": [
+    "https://www.canyoncounty.id.gov/elected-officials/prosecuting-attorney/resources/"
+   ]
+  },
+  {
+   "ecosystem": "Nonprofit networks",
+   "area": "Canyon County",
+   "searched": [
+    "Nampa Family Justice Center partners",
+    "Metro Community Services",
+    "Community Council of Idaho"
+   ],
+   "result": "found 2 lists",
+   "lists": [
+    "https://www.cityofnampa.us/481/Partner-Agencies",
+    "https://idaholearnusa.starchapter.com/images/downloads/Handouts/nampa_family_justice_center_presentation.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Faith communities",
+   "area": "Canyon County",
+   "searched": [
+    "Nampa and Caldwell church food pantries",
+    "Care House partnerships",
+    "Idaho Care Portal"
+   ],
+   "result": "found 1 (Nampa city page names faith pantries); Idaho Care Portal for churches did not load",
+   "lists": [
+    "https://www.cityofnampa.us/1324/Community-Resources",
+    "https://directory.plentiful.org/idaho/nampa"
+   ]
+  },
+  {
+   "ecosystem": "Universities and colleges",
+   "area": "Canyon County",
+   "searched": [
+    "College of Western Idaho Canyon County centre",
+    "College of Idaho",
+    "Northwest Nazarene University"
+   ],
+   "result": "found 1 shared (CWI adult education and safety net); College of Idaho basic needs page lists no partners; NNU nothing found",
+   "lists": [
+    "https://cwi.edu/adult-basic-education/",
+    "https://cwi.edu/support-resources/safety-net-resources"
+   ]
+  },
+  {
+   "ecosystem": "Public funding sources",
+   "area": "Canyon County",
+   "searched": [
+    "Nampa and Caldwell CDBG",
+    "HMIS affiliated providers",
+    "Region 3 Access Point"
+   ],
+   "result": "found 1 (HMIS list 2022); the Idaho Housing Region 3 Access Point request-for-proposal returned 404",
+   "lists": [
+    "https://www.idahohousing.com/sr/documents/hmis-affiliated-service-providers.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Referral infrastructure",
+   "area": "Canyon County",
+   "searched": [
+    "FindHelpIdaho",
+    "Plentiful Nampa and Caldwell",
+    "energyassistance.us TVCRC page"
+   ],
+   "result": "found 3 lists",
+   "lists": [
+    "https://www.findhelpidaho.org/",
+    "https://directory.plentiful.org/idaho/nampa",
+    "https://directory.plentiful.org/idaho/caldwell"
+   ]
+  },
+  {
+   "ecosystem": "Community coordination",
+   "area": "Idaho statewide (states/idaho.json)",
+   "searched": [
+    "Idaho 211 CareLine",
+    "FindHelpIdaho (United Ways of Idaho)",
+    "Idaho Community Resource Network"
+   ],
+   "result": "found 3 lists",
+   "lists": [
+    "https://211.idaho.gov",
+    "https://www.findhelpidaho.org/",
+    "https://www.kmvt.com/2026/07/10/need-help-idaho-state-health-agency-nonprofits-churches-collaborate-create-resource-network/"
+   ]
+  },
+  {
+   "ecosystem": "Government",
+   "area": "Idaho statewide (states/idaho.json)",
+   "searched": [
+    "Health and Welfare food finder, behavioural health, crisis and recovery centres",
+    "Idaho Commission on Aging",
+    "Idaho Transportation Dept ID cards",
+    "Division of Veterans Services",
+    "Vocational Rehabilitation",
+    "Council on Domestic Violence"
+   ],
+   "result": "found 8 lists",
+   "lists": [
+    "https://healthandwelfare.idaho.gov/food-sites",
+    "https://healthandwelfare.idaho.gov/services-programs/behavioral-health/statewide-crisis-centers",
+    "https://healthandwelfare.idaho.gov/services-programs/behavioral-health/statewide-recovery-community-centers",
+    "https://aging.idaho.gov/?p=53",
+    "https://itd.idaho.gov/dmv/drivers-licenses-id-cards/identification-cards/",
+    "https://veterans.idaho.gov/wp-content/uploads/pressreleases/2021-Veterans-Resource-Directory_0.pdf",
+    "https://vr.idaho.gov/?p=274",
+    "https://icdv.idaho.gov/directory/"
+   ]
+  },
+  {
+   "ecosystem": "Libraries",
+   "area": "Idaho statewide (states/idaho.json)",
+   "searched": [
+    "Idaho Commission for Libraries community partners"
+   ],
+   "result": "found 1 list",
+   "lists": [
+    "https://libraries.idaho.gov/community-partners/basic-needs/"
+   ]
+  },
+  {
+   "ecosystem": "Hospitals and health systems",
+   "area": "Idaho statewide (states/idaho.json)",
+   "searched": [
+    "Idaho Community Health Center Association",
+    "Saint Alphonsus and St. Luke's statewide"
+   ],
+   "result": "found 1 locator",
+   "lists": [
+    "https://www.idahochc.org/community-health-centers2/find-a-health-center"
+   ]
+  },
+  {
+   "ecosystem": "Corrections and courts",
+   "area": "Idaho statewide (states/idaho.json)",
+   "searched": [
+    "IDOC reentry handbooks and locations",
+    "Idaho Courts Court Assistance Offices",
+    "Idaho Commission of Pardons and Parole"
+   ],
+   "result": "found 5 lists",
+   "lists": [
+    "https://reentry.idaho.gov/wp-content/uploads/2021/04/reentry_summary_guide.pdf",
+    "https://reentry.idaho.gov/reentry-prep/handbooks/",
+    "https://www.idoc.idaho.gov/content/locations",
+    "https://courtselfhelp.idaho.gov/AboutUs",
+    "https://reentry.idaho.gov/wp-content/uploads/2021/04/Ex-Offender-Reentry-Services-Guide-2020-1.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Nonprofit networks",
+   "area": "Idaho statewide (states/idaho.json)",
+   "searched": [
+    "Idaho Foodbank partners",
+    "Centers for Independent Living (ILRU)",
+    "Immigration Advocates Network",
+    "Idaho Legal Aid",
+    "Idaho Volunteer Lawyers Program"
+   ],
+   "result": "found 5 lists; Idaho Legal Aid refused (403)",
+   "lists": [
+    "https://www.idahofoodbank.org/",
+    "https://www.ilru.org/cil-directory/id",
+    "https://www.immigrationadvocates.org/legaldirectory/search?state=ID",
+    "https://www.idaholegalaid.org/help",
+    "https://isb.idaho.gov/blog/program-report-idaho-volunteer-lawyers-program/"
+   ]
+  },
+  {
+   "ecosystem": "Faith communities",
+   "area": "Idaho statewide (states/idaho.json)",
+   "searched": [
+    "Diocese of Boise pregnancy centres",
+    "Idaho Care Portal"
+   ],
+   "result": "found 1 list; Idaho Care Portal not reachable",
+   "lists": [
+    "https://www.dioceseofboise.org/respect-life"
+   ]
+  },
+  {
+   "ecosystem": "Universities and colleges",
+   "area": "Idaho statewide (states/idaho.json)",
+   "searched": [
+    "University of Idaho dental guide",
+    "University programmes"
+   ],
+   "result": "found 1 list",
+   "lists": [
+    "https://cme.shamp.uidaho.edu/sites/default/files/course/2025-08/Finding%20Dental%20Care%20in%20Idaho_resource_2024.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Public funding sources",
+   "area": "Idaho statewide (states/idaho.json)",
+   "searched": [
+    "Idaho Housing and Finance HMIS providers",
+    "HUD Idaho CoC"
+   ],
+   "result": "found 1 list",
+   "lists": [
+    "https://www.idahohousing.com/sr/documents/hmis-affiliated-service-providers.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Referral infrastructure",
+   "area": "Idaho statewide (states/idaho.json)",
+   "searched": [
+    "211 and FindHelpIdaho",
+    "HelpForFelons",
+    "Immigration Advocates"
+   ],
+   "result": "found 3 lists (shared with the entries above)",
+   "lists": [
+    "https://211.idaho.gov",
+    "https://www.findhelpidaho.org/",
+    "https://helpforfelons.org/?p=16892"
+   ]
+  }
+ ],
+ "requests": [
+  {
+   "publisher": "Boise School District social workers (Self Rescue Manual, Ada County)",
+   "what": "the current edition of the Ada County Self Rescue Manual; the copy read is dated 13 October 2021 and the live site (selfrescuemanual.com) is blocked to automated reads",
+   "contact": "selfrescuemanual@boiseschools.org",
+   "source": "https://www.homelesscoalitionboise.com/tools-for-local-resources/"
+  },
+  {
+   "publisher": "Public Health District 3 (Southwest District Health), Caldwell (Canyon County Self Rescue Manual)",
+   "what": "a current Canyon County Self Rescue Manual; the copy read is from January 2018 and its original host no longer connects",
+   "contact": "selfrescue@phd3.idaho.gov",
+   "source": "https://web.archive.org/web/2024/https://brighterfuturehealth.com/wp-content/uploads/2018/05/Canyon-County-Self-Rescue-Manual.pdf"
+  },
+  {
+   "publisher": "Treasure Valley Community Resource Center, Caldwell",
+   "what": "The Red Book, a printed phone guide of Treasure Valley services produced for its information fair; no online copy found",
+   "contact": "208-459-9263 (also 2412 E Chicago St, Caldwell)",
+   "source": "https://www.canyoncounty.id.gov/elected-officials/clerk/county-assistance-home/community-resources/"
+  },
+  {
+   "publisher": "Idaho Division of Veterans Services",
+   "what": "the revised Joining Forces for Treasure Valley Veterans Community Services Guide, said to be under revision and to be reposted",
+   "contact": "veterans.idaho.gov, Office of Veterans Advocacy 208-780-1300",
+   "source": "https://veterans.idaho.gov/resource/joining-forces-for-treasure-valley-veterans-community-services-guide/"
+  },
+  {
+   "publisher": "Idaho Department of Health and Welfare, Division of Family and Community Partnerships",
+   "what": "the Idaho Community Resource Network and Idaho Care Portal (church and nonprofit services); a list of participating organisations, and an export of the FindHelpIdaho Ada and Canyon rows",
+   "contact": "Casie Jones, Resource Development Specialist, Casie.Jones@dhw.idaho.gov (faith contact Sage Dixon, sage.dixon@dhw.idaho.gov)",
+   "source": "https://www.kmvt.com/2026/07/10/need-help-idaho-state-health-agency-nonprofits-churches-collaborate-create-resource-network/"
+  },
+  {
+   "publisher": "United Way of Treasure Valley (operates FindHelpIdaho.org)",
+   "what": "permission or an export of the FindHelpIdaho listings for Ada and Canyon counties (4,437 programmes statewide); the site is a ZIP search form",
+   "contact": "208-336-1070, unitedwaytv.org (403 to automated reads); FindHelpIdaho address 3100 S Vista Ave, Boise",
+   "source": "https://www.findhelpidaho.org/"
+  },
+  {
+   "publisher": "Idaho Department of Health and Welfare (food sites finder)",
+   "what": "the Ada and Canyon rows of the 290-site food finder, or confirmation that a ZIP can be passed in the address",
+   "contact": "211 CareLine 800-926-2588, CareLine@dhw.idaho.gov",
+   "source": "https://healthandwelfare.idaho.gov/food-sites"
+  },
+  {
+   "publisher": "Idaho Legal Aid Services (Boise)",
+   "what": "its Ada County Community Resources Manual page and a current list of legal clinics (the site returns a Cloudflare 403)",
+   "contact": "208-746-7541",
+   "source": "https://www.idaholegalaid.org/help"
+  },
+  {
+   "publisher": "Ada County Sheriff's Office Community Transition Center, Boise",
+   "what": "any handout or list for people leaving the Ada County jail or in alternative sentencing; none published",
+   "contact": "Ada County Sheriff's Office, 7180 Barrister Drive (per a third-party listing; confirm)",
+   "source": "https://helpforfelons.org/?p=16892"
+  },
+  {
+   "publisher": "Saint Alphonsus Health System (Trinity Health)",
+   "what": "the Social Care Community Resource Directory, which answered 403 to automated reads",
+   "contact": "Saint Alphonsus community health / social work, Boise and Nampa",
+   "source": "https://saintalphonsus.org/for-patients/after-your-visit/social-care-community-resources/community-resource-directory"
+  },
+  {
+   "publisher": "City of Nampa, Nampa Family Justice Center",
+   "what": "the current Partner Agencies and Elder Resource Guide pages (Cloudflare 403; the Elder Resource Guide PDF was not retrievable even from the archive)",
+   "contact": "Nampa Family Justice Center 208-475-5700",
+   "source": "https://www.cityofnampa.us/481/Partner-Agencies"
+  },
+  {
+   "publisher": "Boise/Ada County Homeless Coalition",
+   "what": "the Community Free Meals calendar and the Our Path Home partner list, named on its pages but not read",
+   "contact": "contact@homelesscoalitionboise.com",
+   "source": "https://www.homelesscoalitionboise.com/additional-resources/"
+  }
+ ]
+}

@@ -1,0 +1,27 @@
+{
+ "office": "boise",
+ "reference": {
+  "address": "Central Boise (provisional: the office's address is not yet known)",
+  "zip": "83706"
+ },
+ "homeState": "ID",
+ "homeStateName": "Idaho",
+ "inPersonMiles": 20,
+ "inPersonMilesSource": "Provisional: Bridgeport's figure (Stephanie's decision for Bridgeport, 13 October 2026). Boise's own figure is to be confirmed; providers beyond it are kept as checked leads with their miles.",
+ "homeCounties": [
+  "Ada",
+  "Canyon"
+ ],
+ "nearbyOtherState": [],
+ "wholeCountyZips": {},
+ "crossing": {
+  "states": [],
+  "sentence": ""
+ },
+ "transit": "Valley Regional Transit (VRT), 208-345-7433, read from its own route pages and news on 14 October 2026; changes took effect 1 October 2026. MERIDIAN: Route 40 Caldwell/Boise Express serves Ten Mile Park & Ride and Meridian Promenade, weekdays only, peak only (5:40-7:00 AM and 4:00-5:30 PM, frequency varies, hours 5:40-7:58 AM and 4:00-6:40 PM), regional fare $4.50. Route 45 Boise State-CWI serves Ten Mile & Vanguard, Meridian High School and Towne Square Mall, weekdays 6:15 AM-8:06 PM, 60-minute frequency at peak only (6:15-8:30 AM, 2:45-7:00 PM), $1.50. Route 30 Pine (Meridian) was discontinued 1 October 2026, and VRT Access paratransit tied to it ended; City Go Meridian and Meridian Veterans Shuttle are separate services. NAMPA: Route 42 Happy Day Transit Center-Towne Square Mall (via Overland Road: Nampa Civic Center, St Alphonsus Nampa, CWI Canyon County Campus, Ford Idaho Center) continues, weekdays 6:20 AM-8:00 PM, every 60 minutes, no Saturday service, $1.50. Route 40 no longer serves Nampa since 1 October 2026, and VRT On-Demand no longer runs in Nampa except to select CWI, St. Luke's and Saint Alphonsus locations. VRT Access paratransit continues in Nampa (Nampa council's partial funding vote, 17 August 2026). CALDWELL: Route 40 (Caldwell/Boise Express, Blaine & 24th Ave via College of Idaho, Clearwater Plaza, Canyon County DMV) peak weekday trips only; Route 42 from Happy Day Transit Center (Caldwell) to Towne Square Mall hourly weekdays; VRT On-Demand runs within Caldwell (library, College of Idaho, West Valley Medical Center, Dept of Labor, Health & Welfare) and to Nampa partner sites, fare $1.50 (Lyft option $2). No Saturday service on Routes 40, 42 or 45. Also: Rides2Wellness gives free scheduled rides to St. Luke's, Saint Alphonsus and Terry Reilly clinics for people not eligible for Medicaid transport, from Boise, Eagle, Kuna, Meridian, Garden City and Star (Ada clinics) and from Nampa and Caldwell (Canyon clinics), booked two business days ahead on 208-345-7433; Meridian Veterans Shuttle and City Go Meridian are separate VRT services (names only, not read). Not read: printable timetables.",
+ "findings": [
+  "Measured 13 October 2026, straight line from the 83706 ZIP centre (the ZIP nearest the Census centre of Boise city) to each town's Census centre (2024 Gazetteer): Garden City 6.2, Meridian 9.8, Kuna 11.4, Star 15.7, Eagle 15.9, Nampa 17.9 miles are within 20; Middleton 21.7, Caldwell 22.9, Emmett 23.2 and Mountain Home 41.5 are not. Oregon (Ontario, 97914) is about 56 miles away, so no state line is in reach."
+ ],
+ "reviewedBy": "",
+ "reviewedOn": ""
+}
