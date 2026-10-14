@@ -17,6 +17,7 @@ office in the state.
 | `las-vegas.json` | Las Vegas, Nevada | 3 October 2026 | 113 |
 | `st-george.json` | St. George, Utah | 3 October 2026 | 47 |
 | `welfare-square.json` | Welfare Square (Salt Lake City), Utah | 3 October 2026 | 91 |
+| `bridgeport.json` | Bridgeport, New Jersey (with Delaware County and Philadelphia, PA, and New Castle County, DE) | 13 October 2026, lists only, by Codex's publisher playbook; each list carries `coverage`, `read` and `residency`, plus `publishers` and `requests` ([brief](brief-lists-only-bridgeport-20261013.md)); area file `bridgeport-area.json` (draft) | 124 |
 
 The trials' own counts (133 for Mesa, 137 for Ogden) count a list once per category it
 served; these files count it once.

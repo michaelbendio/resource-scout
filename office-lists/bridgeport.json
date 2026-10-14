@@ -1,0 +1,3920 @@
+{
+ "office": {
+  "slug": "bridgeport",
+  "name": "Bridgeport (Potential)"
+ },
+ "about": "Lists of providers found for the Bridgeport (Potential) office, 613 Heron Drive, Bridgeport NJ 08014 (Logan Township, Gloucester County), by the publisher playbook of resource-discovery-design.md 6.1, on 13 October 2026. Home area: New Jersey statewide and Gloucester, Salem and Camden counties. Across the river: Pennsylvania (Delaware County and all of Philadelphia) and Delaware (New Castle County); every list carries its coverage. Lists only: no providers were harvested or checked, and no office-fit rules applied. namesFound is a rough count of providers a list names for the place, given only where the page text showed it. Where curl returned 403 or 404 the list is marked refused or dead, and the note says what was known only from search results. Many county lists carry their own residency limits; see each list's residency field.",
+ "lists": [
+  {
+   "url": "https://gloucestercountynj.gov/528/Emergency-Food-Pantries",
+   "title": "Gloucester County NJ Resource Directory (searchable, category dropdown; Food Pantries category)",
+   "kind": "official",
+   "categories": [
+    "food",
+    "addiction",
+    "domestic-violence",
+    "medical-dental-vision",
+    "homeless-services",
+    "veterans",
+    "immigration",
+    "children-pregnancy"
+   ],
+   "notes": {
+    "food": "county-run searchable directory; page text shows 54 listings in the Food Pantries category with address, phone and days; undated page",
+    "addiction": "category 'Addiction Services' in the same directory (not opened)",
+    "domestic-violence": "category 'Domestic Violence Resources' (not opened)",
+    "medical-dental-vision": "categories 'Federally Qualified Health Centers', 'Urgent Care Centers', 'Hospitals' (not opened)",
+    "homeless-services": "categories 'Where to Stay' and 'Social Services Outstations' (not opened)",
+    "veterans": "category 'Veterans Affairs' (not opened)",
+    "immigration": "category 'U-Visa/T-Visa Assistance' (not opened)",
+    "children-pregnancy": "category 'Women, Infants & Children' (WIC sites; not opened)"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "food": 54
+   },
+   "residency": "Individual pantries state limits, e.g. Washington Township residents only; Gibbstown and Paulsboro residents only at Clonmell UMC (from the search summary of the page; per-pantry check needed)",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.gloucestercountynj.gov/DocumentCenter/View/16344",
+   "title": "Gloucester County Mental Health and Substance Abuse Guide (county DHHS)",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "addiction"
+   ],
+   "notes": {
+    "mental-health": "county guide on the county site; lists crisis lines (PESS, mental health urgent care, 988) and providers; edition date not seen",
+    "addiction": "same guide"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.gloucestercountynj.gov/DocumentCenter/View/1211/Community-Service-Guide-PDF",
+   "title": "Gloucester County Community Service Guide for Seniors (Division of Senior Services / ADRC)",
+   "kind": "official",
+   "categories": [
+    "seniors",
+    "transportation",
+    "financial-assistance",
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "seniors": "PDF, about 640 KB; ADRC guide, 115 Budd Blvd West Deptford; read first pages only; undated"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.gloucestercountynj.gov/DocumentCenter/View/11009",
+   "title": "Gloucester County Community Health Improvement Plan (CHIP, March 2023)",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "addiction",
+    "children-pregnancy"
+   ],
+   "notes": {
+    "mental-health": "plan with a Resources section (about p.18) naming existing programmes; reached via the county Health Department page; not a directory",
+    "addiction": "same"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://gloucestercountynj.gov/955/Health-Programs",
+   "title": "Gloucester County Health Department: community resources page (points to Findhelp, cooling centers, CHIP)",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet",
+    "medical-dental-vision",
+    "homeless-services"
+   ],
+   "notes": {
+    "utilities-phone-internet": "page text sends residents to Findhelp 'The Social Care Network' and lists cooling centers (nj211.org/nj-cooling-centers) and a municipal cooling-center map",
+    "homeless-services": "cooling centers / Code Blue only"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.gloucestercountynj.gov/DocumentCenter/View/17131",
+   "title": "Gloucester County Code Blue / warming locations flyer (county libraries and others)",
+   "kind": "official",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "one-page flyer: Code Blue at 32F or below; lists county library branches with hours as warming locations; undated"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/corrections/pdf/OTS/SmartBooks/2022/GloucesterCoSmartBook2022.pdf",
+   "title": "Gloucester County Smart Book 2022 (NJ DOC reentry guide, county edition)",
+   "kind": "official",
+   "categories": [
+    "reentry-support",
+    "id-recovery",
+    "housing",
+    "employment",
+    "food",
+    "mental-health",
+    "addiction",
+    "legal",
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "reentry-support": "NJ DOC Office of Transitional Services reentry handbook for Gloucester County; 2022 edition; sections on IDs, first steps after release; about 1 MB PDF; later editions may exist",
+    "id-recovery": "first section is I.D. and other documents (SS card, birth certificate, driver licence, NJ DOC release papers)"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/oag/njcares/ohh/downloads/OHH-Resource-Book-12162022.pdf",
+   "title": "NJ Office of the Attorney General: Office of Hope and Healing / NJCARES resource book (Dec 2022)",
+   "kind": "official",
+   "categories": [
+    "addiction",
+    "mental-health"
+   ],
+   "notes": {
+    "addiction": "county-by-county substance-use contacts including Gloucester, Salem, Camden; 14 MB PDF, Dec 2022; numbers may have changed"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://health.salemcountynj.gov/wp-content/uploads/2026/04/Community-Resources-Salem-County-En-min1.pdf",
+   "title": "Salem County Community Resource Guide (Dept of Health and Human Services), March 2026",
+   "kind": "official",
+   "categories": [
+    "food",
+    "housing",
+    "homeless-services",
+    "mental-health",
+    "addiction",
+    "seniors",
+    "disability",
+    "domestic-violence",
+    "children-pregnancy",
+    "education",
+    "employment",
+    "financial-assistance",
+    "medical-dental-vision",
+    "transportation",
+    "utilities-phone-internet",
+    "veterans",
+    "legal",
+    "immigration",
+    "clothing-household"
+   ],
+   "notes": {
+    "food": "52-page county guide, March 2026 ('updated April 2026' on the index page); table of contents opens with Abuse & Neglect Services; general guide across all needs; per-category counts not tallied"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Salem"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://health.salemcountynj.gov/wp-content/uploads/2024/08/Disability-Resource-Guide-English-1-min.pdf",
+   "title": "Salem County Disability Resource Guide (2024)",
+   "kind": "official",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "county guide, August 2024 upload; not opened beyond the link"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Salem"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://cityofsalemnj.gov/wp-content/uploads/2026/04/IAC-Salem-County-Housing-Resource-Guide-updated-9-18-25-ADA.pdf",
+   "title": "Salem County Housing Resource Guide (Inter Agency Council of Human Services), current as of July 2025",
+   "kind": "regional",
+   "categories": [
+    "housing",
+    "homeless-services",
+    "financial-assistance",
+    "utilities-phone-internet",
+    "food",
+    "domestic-violence"
+   ],
+   "notes": {
+    "housing": "Quick Reference Key by need; page 1 shows about 10 needs mapped to providers (Catholic Charities, Family Promise of SWNJ, Board of Social Services, VOA, Gateway CAP, Habitat); about 580 KB",
+    "utilities-phone-internet": "financial assistance for utilities: Catholic Charities; Gateway Community Action Partnership"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Salem"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://health.salemcountynj.gov/wp-content/uploads/2026/06/OOA-Resource-Guide-En-opt.pdf",
+   "title": "Salem County Office on Aging and Disabilities Resource and Referral Directory (March 2026)",
+   "kind": "official",
+   "categories": [
+    "seniors",
+    "disability"
+   ],
+   "notes": {
+    "seniors": "county directory for seniors and people with disabilities, March 2026 (from search summary; not opened)"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Salem"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://cityofsalemnj.gov/wp-content/uploads/2026/04/Salem-County-Resource-Guide-1.pdf",
+   "title": "City of Salem NJ: Salem County Resource Guide (food-focused)",
+   "kind": "official",
+   "categories": [
+    "food",
+    "financial-assistance"
+   ],
+   "notes": {
+    "food": "lists food pantries and agencies (Catholic Charities, Salvation Army, Board of Social Services); date not seen; from search summary"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Salem"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.myresourcepal.org",
+   "title": "My Resource Pal (Camden County Coalition of Healthcare Providers, on Findhelp)",
+   "kind": "aggregator",
+   "categories": [
+    "food",
+    "housing",
+    "medical-dental-vision",
+    "mental-health",
+    "financial-assistance",
+    "employment",
+    "transportation",
+    "utilities-phone-internet",
+    "clothing-household",
+    "legal",
+    "education"
+   ],
+   "notes": {
+    "food": "Findhelp-powered search by ZIP and need, Camden County; page lists Cooper University hospital kiosk locations; counts need a search"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Camden"
+    ]
+   },
+   "read": "complete",
+   "byLocation": "Search by ZIP code or need; not run (no ZIP search tested)",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://gloucestercountynj.gov/924/Addiction-Services",
+   "title": "Gloucester County Division of Addiction Services (county page)",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "describes county-funded prevention, treatment (detox, residential, outpatient, halfway house) and recovery support, Narcan trainings and the Wellness on Wheels van; names no individual providers"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "complete",
+   "residency": "Must be a Gloucester County resident, and for many services meet income guidelines (page text); the search summary of the county guide also mentions 90 days' residence with proof for county-funded treatment",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/oag/njcares/ohh/downloads/Support-Resources-for-the-Public.pdf",
+   "title": "NJ OAG: Support Resources for the Public (Operation RISE linkage line, county-specific)",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "short state sheet, last updated 21 Dec 2023; for Atlantic, Camden, Cape May, Cumberland, Gloucester and Salem: NJSP Operation RISE 24/7 linkage-to-care line 1-833-NJRISES; names a line, not providers"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester",
+     "Salem",
+     "Camden"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "addiction": 1
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/health/fhs/oral/documents/dental-directory-2026.pdf",
+   "title": "NJ Dental Clinic Directory 2026 (NJ Dept of Health, Oral Health Services Unit)",
+   "kind": "official",
+   "categories": [
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "medical-dental-vision": "48-page statewide directory by county, 2026; public dental clinics (health departments, hospitals, FQHCs) with hours, ages and payment (sliding scale); Gloucester section names 2 clinics (Complete Care Health Network, Glassboro; CamCare, Paulsboro); Camden and Salem have more; no vision"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "namesFound": {
+    "medical-dental-vision": 2
+   },
+   "residency": "Some clinics limit by county of residence, e.g. Complete Care Health Network limited to Cape May, Cumberland and Gloucester residents (the directory's own NOTE)",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://gloucestercountynj.gov/383/One-Stop-Career-Center",
+   "title": "Gloucester County One-Stop Career Center / American Job Center",
+   "kind": "official",
+   "categories": [
+    "employment",
+    "education",
+    "reentry-support",
+    "veterans"
+   ],
+   "notes": {
+    "employment": "page describes career counselling, WIOA training funds up to $5,000, 856-384-3700; a single provider, not a list of employers; also links South Jersey job openings"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "employment": 1
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.camdencountylibrary.org/subject-guides",
+   "title": "Camden County Library System subject guides (Financial Assistance, Housing Assistance, Mental Health, Legal, Disabilities, Employment, Seniors, Immigrant, Warming Centers)",
+   "kind": "official",
+   "categories": [
+    "financial-assistance",
+    "housing",
+    "mental-health",
+    "legal",
+    "disability",
+    "employment",
+    "seniors",
+    "immigration",
+    "homeless-services",
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "housing": "index of librarian-made guides; individual guides at camdencountylibrary.org/housing-assistance, /financial-assistance, /mental-health-guide, /legal-resources, /sites-and-services-seniors, /warming-centers; the guides themselves were not opened"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Camden"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://camdenresourcenet.org",
+   "title": "Camden ResourceNet (Camden County Partnership for Children, children's system of care)",
+   "kind": "regional",
+   "categories": [
+    "children-pregnancy",
+    "mental-health",
+    "addiction",
+    "education",
+    "financial-assistance",
+    "food",
+    "legal",
+    "employment"
+   ],
+   "notes": {
+    "children-pregnancy": "online directory for youth to 21 and families; category tree includes Basic Needs/Assistance, Family & Support Services, Health Services, Legal/Advocacy; page loads; counts need a search"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Camden"
+    ]
+   },
+   "read": "complete",
+   "byLocation": "Category or keyword search; ZIP not tested",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.rcsj.edu/student-services/wellness-and-basic-needs/community-mental-health-resources/",
+   "title": "Rowan College of South Jersey: Community Mental Health Resources (Camden, Cumberland, Gloucester)",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "addiction",
+    "domestic-violence",
+    "veterans"
+   ],
+   "notes": {
+    "mental-health": "college page, by county: psychiatric emergency screening lines for Camden, Cumberland, Gloucester; providers (Acenda, Inspira Behavioral, Oaks Integrated Care); suicide lines; SERV for victims in Camden/Gloucester/Cumberland; about 8 providers plus lines",
+    "addiction": "links NJ Addiction Services Treatment Directory, Living Proof Recovery Center"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester",
+     "Camden"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "mental-health": 8
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.rcsj.edu/student-services/wellness-and-basic-needs/basic-needs-resources/",
+   "title": "Rowan College of South Jersey: Basic Needs Resources (by type, then county)",
+   "kind": "official",
+   "categories": [
+    "food",
+    "housing",
+    "homeless-services",
+    "legal",
+    "immigration",
+    "children-pregnancy",
+    "disability",
+    "mental-health"
+   ],
+   "notes": {
+    "housing": "college list sorted by type then by county (Cumberland, Gloucester); housing/homeless row points to FindHelp, NJ211, eviction protection, VOA Service Navigator, NJ shelter listings; legal and DACA rows; mostly links to other lists",
+    "food": "links the college Food Pantries page"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "housing": 5
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.centerffs.org/serv",
+   "title": "Services Empowering the Rights of Victims (SERV), Center for Family Services: Camden, Gloucester and Cumberland",
+   "kind": "regional",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "single agency with 24-hour hotline 866-295-7378 (via WomensLaw listing and the RCSJ page); not a list"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester",
+     "Camden"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "domestic-violence": 1
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.womenslaw.org/find-help/nj/advocates-and-shelters/local-programs/G",
+   "title": "WomensLaw.org: New Jersey local advocates and shelters (Gloucester entries)",
+   "kind": "aggregator",
+   "categories": [
+    "domestic-violence",
+    "legal"
+   ],
+   "notes": {
+    "domestic-violence": "national legal-information site's state list of programmes by county; Gloucester entry is SERV (Glassboro); read from the search summary, page not opened [403 to curl and WebFetch on 13 Oct, so known only from search results]"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "refused",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.needhelppayingbills.com/html/gloucester_county_assistance_p.html",
+   "title": "NeedHelpPayingBills: Gloucester County assistance programs",
+   "kind": "aggregator",
+   "categories": [
+    "financial-assistance",
+    "clothing-household",
+    "utilities-phone-internet",
+    "food"
+   ],
+   "notes": {
+    "financial-assistance": "commercial aggregator page for Gloucester County (rent, utilities, free clothing); undated; from search listing, not opened [403 to curl and WebFetch on 13 Oct, so known only from search results]"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "refused",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.gloucestercountynj.gov/DocumentCenter/View/904/Gloucester-County-Transit-Guide-PDF",
+   "title": "Gloucester County Transit Guide (NJ Transit routes, Access Link, municipal shuttles, county Division of Transportation Services)",
+   "kind": "official",
+   "categories": [
+    "transportation",
+    "seniors",
+    "disability",
+    "employment"
+   ],
+   "notes": {
+    "transportation": "county PDF, stamped 10/2026; lists NJ Transit routes serving the county (route 402 Philadelphia-Pennsville runs through Logan Township's Pureland Industrial Complex), the fare-free Pureland East-West shuttle, Access Link, municipal shuttles, and the county's own curb-to-curb rides (60+, disabled, veterans, rural general public); about 10 services"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "transportation": 10
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.camdencountylibrary.org/housing-assistance",
+   "title": "Camden County Library System: Housing Assistance guide",
+   "kind": "official",
+   "categories": [
+    "housing",
+    "homeless-services",
+    "financial-assistance"
+   ],
+   "notes": {
+    "housing": "librarian-made guide linked from the subject-guides index; not opened"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Camden"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.camdencountylibrary.org/warming-centers",
+   "title": "Camden County Library System: Warming Centers in Camden County",
+   "kind": "official",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "library guide linked from the subject-guides index; not opened"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Camden"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.immigrationlawhelp.org/",
+   "title": "ImmigrationLawHelp.org (national legal-aid directory, filter by county)",
+   "kind": "locator",
+   "categories": [
+    "immigration",
+    "legal"
+   ],
+   "notes": {
+    "immigration": "national directory of nonprofit immigration legal providers; search results seen only through individual pages for Camden Center for Law and Social Justice (Camden), Catholic Charities of Camden, CATA (Glassboro), Immigrant Connection at CrossPoint (Carneys Point)"
+   },
+   "readable": "yes",
+   "coverage": {
+    "national": true
+   },
+   "read": "partial",
+   "byLocation": "Search by state and county; individual provider pages for Gloucester/Salem/Camden were read in search summaries, the county search itself not run",
+   "namesFound": {
+    "immigration": 4
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://sites.rowan.edu/osec/titles/ix/resources/ix-legal-immigraton.html",
+   "title": "Rowan University: Legal and Immigration Resources",
+   "kind": "official",
+   "categories": [
+    "legal",
+    "immigration",
+    "domestic-violence"
+   ],
+   "notes": {
+    "legal": "university list naming Southern New Jersey Legal Services, Rutgers Law Camden Domestic Violence Law Clinic, American Hispanic Immigration Organization (Newark); about 3 providers; undated; from search summary [404 or rejected on 13 Oct; known only from search results]"
+   },
+   "readable": "dead link or rejected (404)",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "refused",
+   "namesFound": {
+    "legal": 3
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/dca/dhcr/offices/pdf/LIHEAP_Agencies%20updated.pdf",
+   "title": "NJ DCA: LIHEAP agencies list (by county)",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "state list of the LIHEAP application agency in each county; Gloucester is served by Gateway Community Action Partnership; not opened, from search listing"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://nj.pseg.com/SAVEENERGYANDMONEY/GETHELPPAYINGYOURBILL/-/media/DC61EBDC6E2A4E428463CB6A24ACAA50.ashx",
+   "title": "PSE&G: LIHEAP and Universal Service Fund agency handout (updated January 2026)",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "utility's handout of agencies by county; Gloucester: Gateway CAP, 901 N Delaware St, Paulsboro (from search summary; not opened)"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester",
+     "Salem",
+     "Camden"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "utilities-phone-internet": 3
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://gatewaycap.schoolinsites.com/liheap",
+   "title": "Gateway Community Action Partnership: LIHEAP / Emergency Services",
+   "kind": "regional",
+   "categories": [
+    "utilities-phone-internet",
+    "financial-assistance",
+    "housing"
+   ],
+   "notes": {
+    "utilities-phone-internet": "CAA's page for LIHEAP (Oct 1 to Apr 30 per page) and USF year-round; Gateway serves Gloucester, Salem, Cumberland; not a list of providers"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester",
+     "Salem"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "utilities-phone-internet": 1
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://deptford-nj.org/filestorage/15956/15990/VETERAN_INFORMATION.pdf",
+   "title": "Deptford Township: Veteran Information (links county NJ Military and Veterans Families Resource Guide)",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "township sheet; from search listing, not opened; refers to a county-hosted NJ Military and Veterans Families Resource Guide PDF"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://warriorsfund.org/county-guide/nj/gloucester/",
+   "title": "Warriors Fund county guide: Gloucester County NJ veterans (third-party one-page guide)",
+   "kind": "aggregator",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "third-party, not official; lists the county Veterans Service Office and local VSO posts; numbers differ from NJ 211, stale risk"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://deptford-nj.org/filestorage/34753/35749/35791/35992/Flyer_County_Food_Resources.pdf",
+   "title": "Gloucester County flyer: County Food Resources (Food Bank of South Jersey map, county Food Pantry Directory, Social Services, NJ SNAP)",
+   "kind": "official",
+   "categories": [
+    "food",
+    "financial-assistance"
+   ],
+   "notes": {
+    "food": "one-page county flyer on a township site, written during the 2025 federal shutdown; points to the Food Bank of South Jersey zip-code map, a county Food Pantry Directory of faith-based pantries (by municipality) and Social Services (856-582-9200); read in full, names no pantry"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.foodbanksj.org/food-resources",
+   "title": "Food Bank of South Jersey: find food (zip-code map of 300+ partner sites in Burlington, Camden, Gloucester, Salem)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "the county flyer says 300+ partners across four counties and a zip-code map; this URL returned 403 to curl, so unread"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester",
+     "Salem",
+     "Camden"
+    ]
+   },
+   "read": "refused",
+   "byLocation": "Zip-code map on the page; not run (page refused)",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.foodhelpline.org/directory/locations/gloucester",
+   "title": "Lemontree (FoodHelpline.org): Gloucester County pantry directory",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "third-party searchable directory with schedules and requirements per pantry; found via search result; counts need a search"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://directory.plentiful.org/new-jersey/sewell",
+   "title": "Plentiful: food pantries in Sewell NJ",
+   "kind": "aggregator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "third-party; the search summary says 11 verified pantries in Sewell; only Sewell, not the county"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "food": 11
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://njreentry.org/nj-support-resources-directory/",
+   "title": "NJ Reentry Corporation: NJ Support Resources Directory",
+   "kind": "regional",
+   "categories": [
+    "reentry-support",
+    "housing",
+    "homeless-services",
+    "food",
+    "financial-assistance",
+    "employment",
+    "legal",
+    "addiction",
+    "domestic-violence",
+    "veterans",
+    "seniors",
+    "disability"
+   ],
+   "notes": {
+    "reentry-support": "statewide directory in nine sections (hotlines, addiction and violence, benefits, cash and food, housing, employment and reentry, 13 free-legal organisations, victims and veterans, county tables of social services and one-stop career centres); no date on the page; curl got 403 so it was read through WebFetch's summary only; county tables name 2 entries for Gloucester, 3 for Camden, 2 for Salem (summary count, unverified)"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "partial",
+   "namesFound": {
+    "legal": 13
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/humanservices/dfd/index.html",
+   "title": "NJ Division of Family Development: County Welfare Agencies (Boards of Social Services)",
+   "kind": "official",
+   "categories": [
+    "financial-assistance",
+    "food",
+    "housing",
+    "homeless-services"
+   ],
+   "notes": {
+    "financial-assistance": "state list of each county's Board of Social Services (Gloucester Division of Social Services, Camden, Salem); page says 'Updated 07/17/19'"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "namesFound": {
+    "financial-assistance": 3
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/health/fhs/primarycare/fqhc",
+   "title": "NJ Department of Health: Federally Qualified Health Centers (search by county, map)",
+   "kind": "locator",
+   "categories": [
+    "medical-dental-vision",
+    "mental-health"
+   ],
+   "notes": {
+    "medical-dental-vision": "state FQHC search by county, city or name, plus map and an administrative contacts PDF; last reviewed 3/13/2025; names no centers on the page"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "byLocation": "Search by county or city; not run (page read; search is on an external page)",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/corrections/pdf/OPSS/FRARA/2026/Attachment%201%20Federally%20Qualified%20Health%20Centers%20NJ%202026.pdf",
+   "title": "NJ DOC: Federally Qualified Health Centers NJ 2026 (attachment to reentry packet)",
+   "kind": "official",
+   "categories": [
+    "medical-dental-vision",
+    "reentry-support"
+   ],
+   "notes": {
+    "medical-dental-vision": "2026 FQHC list prepared for NJ DOC reentry packets; from search listing, not opened"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.lsnjlaw.org/",
+   "title": "Legal Services of New Jersey: LSNJLAW (statewide hotline 1-888-576-5529, self-help, resource directories)",
+   "kind": "official",
+   "categories": [
+    "legal",
+    "housing",
+    "utilities-phone-internet",
+    "employment",
+    "financial-assistance",
+    "immigration"
+   ],
+   "notes": {
+    "legal": "statewide coordinating office of the six legal-services programmes; hotline hours Mon-Fri 8-5:30 per the site (search summary); topic pages for housing, jobs, government aid, utilities; South Jersey Legal Services covers Gloucester, Camden, Salem"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "partial",
+   "residency": "Low-income New Jersey residents (financial eligibility), civil matters only",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj211.org/",
+   "title": "NJ 211 (statewide; administered by United Ways of New Jersey; also runs the state homeless and energy-assistance hotlines)",
+   "kind": "211",
+   "categories": [
+    "food",
+    "housing",
+    "homeless-services",
+    "utilities-phone-internet",
+    "addiction",
+    "mental-health",
+    "legal",
+    "seniors",
+    "veterans",
+    "transportation",
+    "children-pregnancy",
+    "disability",
+    "employment",
+    "clothing-household",
+    "financial-assistance",
+    "domestic-violence",
+    "immigration",
+    "education",
+    "medical-dental-vision",
+    "id-recovery",
+    "reentry-support"
+   ],
+   "notes": {
+    "food": "statewide referral database; the United Ways page says over 1,000,000 requests a year; individual provider pages at search.nj211.org are readable and several were seen (Gloucester pantries, legal aid, LIHEAP, veterans); the search itself is a form"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "byLocation": "Search by ZIP or county at search.nj211.org; call 2-1-1 or text 898-211; the search form was not run",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj211.org/nj-cooling-centers",
+   "title": "NJ 211: cooling centers (county lists, incl. Gloucester)",
+   "kind": "211",
+   "categories": [
+    "homeless-services",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "homeless-services": "linked from the Gloucester Health Department page as 'Gloucester County Cooling Centers'; not opened"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/dcf/reporting/how/CommunitySupportContacts_1025.pdf",
+   "title": "NJ DCF: community support contacts (Oct 2025)",
+   "kind": "official",
+   "categories": [
+    "children-pregnancy",
+    "mental-health"
+   ],
+   "notes": {
+    "children-pregnancy": "state children-and-families contact sheet dated 10/2025 by its filename; from search listing, not opened [404 or rejected on 13 Oct; known only from search results]"
+   },
+   "readable": "dead link or rejected (404)",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "refused",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/mvc/about/faq.htm",
+   "title": "NJ Motor Vehicle Commission FAQ (IDs, non-driver ID)",
+   "kind": "official",
+   "categories": [
+    "id-recovery"
+   ],
+   "notes": {
+    "id-recovery": "state agency page, a how-to rather than a list; a law (S-2350/S-2351 per a sponsors' press release, unchecked) waives MVC fees for a non-driver ID and a birth certificate for homeless residents with a social worker's letter"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.paept.uscourts.gov/sites/paept/files/GED%20List%20for%20NJ_0.pdf",
+   "title": "US Courts (E.D. Pa. probation): GED list for NJ",
+   "kind": "official",
+   "categories": [
+    "education",
+    "reentry-support"
+   ],
+   "notes": {
+    "education": "court probation office's list of New Jersey GED classes; undated; from search listing, not opened [404 or rejected on 13 Oct; known only from search results]"
+   },
+   "readable": "dead link or rejected (404)",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "refused",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://literacynj.org/?p=146613",
+   "title": "Literacy New Jersey, Gloucester County (Woodbury): ESL, GED prep, citizenship",
+   "kind": "regional",
+   "categories": [
+    "education",
+    "immigration"
+   ],
+   "notes": {
+    "education": "single provider page: ESL tutoring, GED prep, citizenship; (856) 537-3030; from search summary [403 to curl and WebFetch on 13 Oct, so known only from search results]"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "refused",
+   "namesFound": {
+    "education": 1
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.rcsj.edu/adult-literacy",
+   "title": "Rowan College of South Jersey: Academy for Youth & Adult Literacy (GED, ESL)",
+   "kind": "regional",
+   "categories": [
+    "education"
+   ],
+   "notes": {
+    "education": "single provider; high-school equivalency and ESL, online and in person; enrolment through spring 2027 (search summary)"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "education": 1
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.camdencounty.com/service/health-human-services/food-security-resources/",
+   "title": "Camden County Health and Human Services: Food Security Resources",
+   "kind": "official",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "county page linked from the Camden community-resources page; page loads (about 9 KB of text, mostly menu); content not read in detail"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Camden"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.camdencounty.com/service/health-human-services/camden-county-community-resources",
+   "title": "Camden County Community Resources (page leading to My Resource Pal, healthcare locations, food, Municipal Alliance)",
+   "kind": "official",
+   "categories": [
+    "food",
+    "medical-dental-vision",
+    "addiction"
+   ],
+   "notes": {
+    "food": "county gateway page; links to My Resource Pal, Food Security Resources, Healthcare Locations & Resources, Municipal Alliance Program; names no providers itself"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Camden"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "food": 0
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.delcopa.gov/community-resources",
+   "title": "Delaware County PA: Community Resources (food map, housing, financial, cold weather), updated 12 Jan 2026",
+   "kind": "official",
+   "categories": [
+    "food",
+    "housing",
+    "homeless-services",
+    "financial-assistance",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "food": "county page 'Page updated January 12, 2026' with a Delaware County Food Assistance Resource Locator map and links to PA 211; points to several other county pages"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.delcopa.gov/cosa/food-resources",
+   "title": "Delaware County PA Office of Services for the Aging: list of food resources",
+   "kind": "official",
+   "categories": [
+    "food",
+    "seniors"
+   ],
+   "notes": {
+    "food": "county list, 'Page updated February 25, 2026', named pantries with address, phone, hours (Lifewerks, Chester Eastside, Bernardine Center and others); about 10-15 pantries; seniors page of the county"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "food": 12
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://chestereducation.org/delco-resources",
+   "title": "Delco Resources (Chester Education Foundation): online directory of 600+ human-service organisations in Delaware County",
+   "kind": "regional",
+   "categories": [
+    "food",
+    "housing",
+    "mental-health",
+    "addiction",
+    "children-pregnancy",
+    "education",
+    "employment",
+    "financial-assistance",
+    "legal",
+    "seniors",
+    "clothing-household",
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "food": "page says over 600 organisations; the directory itself is on a separate site and was not opened"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "food": 0
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://delcopa.gov/inclusion/pdf/DelawareCountyWomensResourceGuide2023.pdf",
+   "title": "Delaware County PA Women's Resource Guide (2023)",
+   "kind": "official",
+   "categories": [
+    "domestic-violence",
+    "children-pregnancy",
+    "medical-dental-vision",
+    "legal"
+   ],
+   "notes": {
+    "domestic-violence": "county guide, 2023; from search listing, not opened [404 or rejected on 13 Oct; known only from search results]"
+   },
+   "readable": "dead link or rejected (404)",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware"
+    ]
+   },
+   "read": "refused",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://delcopa.gov/human-services/brochures",
+   "title": "Delaware County PA Department of Human Services: brochures (drug and alcohol, mental health, aging etc.)",
+   "kind": "official",
+   "categories": [
+    "addiction",
+    "mental-health",
+    "seniors",
+    "disability",
+    "children-pregnancy"
+   ],
+   "notes": {
+    "addiction": "county brochure page 'updated March 16, 2026' per the search summary; includes a May 2026 trifold for pregnant women with a 24/7 line 855-889-7827; page not opened"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.delcolibraries.org/resources-for-returning-citizens",
+   "title": "Delaware County Libraries: Resources for Returning Citizens",
+   "kind": "official",
+   "categories": [
+    "reentry-support",
+    "employment",
+    "housing",
+    "id-recovery"
+   ],
+   "notes": {
+    "reentry-support": "county library system page; from search listing, not opened"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.pa211.org/",
+   "title": "PA 211 (statewide; Southeast Pennsylvania operated by United Way of Greater Philadelphia and Southern NJ for Bucks, Delaware, Montgomery, Philadelphia)",
+   "kind": "211",
+   "categories": [
+    "food",
+    "housing",
+    "homeless-services",
+    "utilities-phone-internet",
+    "addiction",
+    "mental-health",
+    "legal",
+    "seniors",
+    "veterans",
+    "children-pregnancy",
+    "disability",
+    "employment",
+    "clothing-household",
+    "financial-assistance",
+    "domestic-violence",
+    "immigration",
+    "education",
+    "medical-dental-vision",
+    "id-recovery",
+    "reentry-support",
+    "transportation"
+   ],
+   "notes": {
+    "food": "database; individual agency pages (Delaware County Libraries, Office of Adult and Family Services, Bernardine Center, DBHIDS-related) are readable via search; search is a form"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware",
+     "Philadelphia"
+    ]
+   },
+   "read": "complete",
+   "byLocation": "Search by ZIP; not run",
+   "residency": "Individual agencies state county limits, e.g. Chester pantries 'low-income residents of Delaware County' (PA 211 listings, search summary)",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://phila.gov/media/20240521152956/Resource-Guide-1.pdf",
+   "title": "City of Philadelphia: Resource Guide (help lines, IDs, benefits, transportation, clothing)",
+   "kind": "official",
+   "categories": [
+    "id-recovery",
+    "financial-assistance",
+    "legal",
+    "mental-health",
+    "domestic-violence",
+    "transportation",
+    "clothing-household",
+    "food"
+   ],
+   "notes": {
+    "id-recovery": "one-page city PDF dated by its URL 21 May 2024; table of partner, service, phone: SEPA 211, 311, Community Legal Services, DBHIDS, DV hotline, PennDOT and city ID; about 10 rows; read first page"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Philadelphia"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "id-recovery": 4
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.phila.gov/media/20230606160646/OHS-homelessness-prevention-flyer-20230606.pdf",
+   "title": "City of Philadelphia Office of Homeless Services: homelessness prevention flyer (2023)",
+   "kind": "official",
+   "categories": [
+    "homeless-services",
+    "housing"
+   ],
+   "notes": {
+    "homeless-services": "city flyer dated June 2023; Eviction Prevention Pilot line 267-443-2500; names the intake route, not a provider list"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Philadelphia"
+    ]
+   },
+   "read": "partial",
+   "residency": "City programmes are for Philadelphia residents (Office of Homeless Services intake; not stated as a rule on the flyer, inferred - check)",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://libwww.freelibrary.org/assets/pdf/programs/social-services/social-services-at-the-free-library-of-philadelphia-september-2026_ada.pdf",
+   "title": "Free Library of Philadelphia: Social Services calendar (September 2026; social workers 215-814-4492)",
+   "kind": "official",
+   "categories": [
+    "homeless-services",
+    "food",
+    "legal",
+    "mental-health"
+   ],
+   "notes": {
+    "homeless-services": "monthly calendar of social-worker office hours and resource events at branches; not a provider list; a Bridges Handbook of Resources for returning citizens is separate [403 to curl and WebFetch on 13 Oct, so known only from search results]"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Philadelphia"
+    ]
+   },
+   "read": "refused",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.courts.phila.gov/pdf/mentor/toolkit/Bridges_Handbook_of_Resources-Philadelphia_Free_Library.pdf",
+   "title": "Bridges: Handbook of Resources for returning citizens (Free Library of Philadelphia Prison Services; 2018-19 edition)",
+   "kind": "official",
+   "categories": [
+    "reentry-support",
+    "housing",
+    "food",
+    "legal",
+    "employment",
+    "id-recovery",
+    "mental-health"
+   ],
+   "notes": {
+    "reentry-support": "city reentry handbook hosted on courts.phila.gov; 2018-19 edition so stale; says it is not complete"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Philadelphia"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://phila.gov/documents/philadelphias-reentry-services-landscape",
+   "title": "Philadelphia's Reentry Services Landscape (2019 inventory)",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "2019 Reentry Coalition survey: 118 programmes by 71 organisations (search summary); stale"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Philadelphia"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "reentry-support": 118
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.philabundance.org/finding-a-food-pantry-near-me-in-the-philadelphia-region/",
+   "title": "Philabundance: Find Food map (300+ partners; Bucks, Chester, Delaware, Montgomery, Philadelphia and South Jersey)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "food bank page: 'serves nine counties across Greater Philadelphia and Southern New Jersey'; 'many locations serve anyone in need, though some require proof of address or identification' (page text via WebFetch; curl got 403); map and hotline came from search summaries and are not on the fetched text"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware",
+     "Philadelphia"
+    ]
+   },
+   "read": "partial",
+   "byLocation": "Map by ZIP or hotline; not run",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://phila.gov/media/20190724193741/Day-2-Session-3-PA-Criminal-Record-Assistance-Resource-Guide-Gullen-_-Johnson.pdf",
+   "title": "Pennsylvania Criminal Record Assistance Resource Guide (Philadelphia, 2019)",
+   "kind": "official",
+   "categories": [
+    "legal",
+    "reentry-support"
+   ],
+   "notes": {
+    "legal": "2019 conference handout; from search listing, not opened; stale"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Philadelphia"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.pa211.org/agency/21670/50556/63847",
+   "title": "Delaware County Bar Association Lawyer Referral Service (PA 211 listing)",
+   "kind": "regional",
+   "categories": [
+    "legal"
+   ],
+   "notes": {
+    "legal": "single-provider listing: lawyer referral, $20 first half hour; with Legal Aid of Southeastern Pennsylvania (Media office) serving Bucks, Chester, Delaware, Montgomery"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "legal": 2
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://dbhids.org/about/organization/commissioners-office/systems-integration/city-funded-dbhids-providers/",
+   "title": "Philadelphia DBHIDS: city-funded providers (addiction and mental health) with address, phone, age group",
+   "kind": "official",
+   "categories": [
+    "addiction",
+    "mental-health"
+   ],
+   "notes": {
+    "addiction": "city list of funded providers; page found in search, count not read"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Philadelphia"
+    ]
+   },
+   "read": "partial",
+   "residency": "City-funded services for Philadelphia residents (uninsured callers go to BHSI 215-546-1200); stated on the DBHIDS addiction page as the route, not as a bar on others",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://dhss.delaware.gov/dsamh/division-of-substance-abuse-and-mental-health/licensed-provider-list/",
+   "title": "Delaware DSAMH: licensed provider list by county (substance use, ACT/ICM, group homes)",
+   "kind": "official",
+   "categories": [
+    "addiction",
+    "mental-health"
+   ],
+   "notes": {
+    "addiction": "state list by county including New Castle; the DSAMH publicly funded treatment flyer (updated 7.24.25) lists New Castle outpatient programmes; curl 403/404 from this machine; from search summary"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "DE",
+    "counties": [
+     "New Castle"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://courts.delaware.gov/help/legalassistance",
+   "title": "Delaware Courts: Legal Assistance (Legal Help Link, DVLS, CLASI, LSCD, Senior Legal Hotline, Family Court Self-Help)",
+   "kind": "official",
+   "categories": [
+    "legal",
+    "domestic-violence",
+    "seniors"
+   ],
+   "notes": {
+    "legal": "state courts page naming the Legal Help Link triage and about 6 providers for New Castle County; from search summary, curl refused so not read"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "DE",
+    "counties": [
+     "New Castle"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "legal": 6
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.delaware211.org/",
+   "title": "Delaware 2-1-1 (Delaware Helpline, United Way of Delaware; 1-800-560-3372; text 898-211)",
+   "kind": "211",
+   "categories": [
+    "food",
+    "housing",
+    "homeless-services",
+    "utilities-phone-internet",
+    "addiction",
+    "mental-health",
+    "legal",
+    "seniors",
+    "veterans",
+    "children-pregnancy",
+    "disability",
+    "employment",
+    "financial-assistance",
+    "domestic-violence",
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "food": "statewide referral database; reached by phone or site search; not run"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "DE",
+    "counties": [
+     "New Castle"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.fbd.org/get-help/",
+   "title": "Food Bank of Delaware: get help (mobile pantries, partner pantry map, Healthy Pantry Center Newark)",
+   "kind": "regional",
+   "categories": [
+    "food",
+    "seniors"
+   ],
+   "notes": {
+    "food": "statewide food bank page; links 'find a partner pantry'; no residency rule on this page (WebFetch summary); event listings in 2024-25 said Delaware residents only with proof"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "DE",
+    "counties": [
+     "New Castle"
+    ]
+   },
+   "read": "partial",
+   "residency": "Food Bank of Delaware and City of Wilmington mobile pantries have required proof of Delaware residency (event flyers 2024-25, search results); the get-help page itself states none",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://laborfiles.delaware.gov/main/dol/reentry/Food_Resources_NCC.pdf",
+   "title": "Delaware Dept of Labor reentry: Food Resources, New Castle County (sheet)",
+   "kind": "official",
+   "categories": [
+    "food",
+    "reentry-support"
+   ],
+   "notes": {
+    "food": "state labour-department sheet of New Castle food sites (City Fare, Food Facility for the Hungry, YMCA fridge, Catholic Charities pantry); curl was rejected, so the list was read only in a search summary; undated"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "DE",
+    "counties": [
+     "New Castle"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "food": 5
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://laborfiles.delaware.gov/Reentry_Guide.pdf",
+   "title": "Delaware Dept of Labor: Roadmap to Reentry Employment guide",
+   "kind": "official",
+   "categories": [
+    "reentry-support",
+    "employment",
+    "legal"
+   ],
+   "notes": {
+    "reentry-support": "state reentry employment guide (checklists, pardon, expungement); from search listing, not opened"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "DE",
+    "counties": [
+     "New Castle"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "http://sites.rutgers.edu/food-waste/wp-content/uploads/sites/667/2025/10/Gloucester-County-Food-Pantries-Oct-2025.pdf",
+   "title": "Rutgers Cooperative Extension: Guide to Gloucester County Food Pantries (Oct 2025)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "15-page PDF by town and pantry, Oct 2025, with about 60 phone numbers (about 60 pantries); read first rows (starts Bridgeport, Clarksboro, Clayton, Deptford); a Spring 2025 student version is also posted (3 pages)"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "food": 60
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "http://sites.rutgers.edu/food-waste/wp-content/uploads/sites/667/2025/10/Gloucester-County-Food-Pantry-Guide.pdf",
+   "title": "Rutgers student-compiled Gloucester County Food Pantries and Meals (Spring 2025)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "3-page PDF, Spring 2025, about 20 sites with keys for appointment / bring ID; superseded by the Oct 2025 guide"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "food": 20
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "http://sites.rutgers.edu/food-waste/wp-content/uploads/sites/667/2025/10/Camden-County-Food-Guide.pdf",
+   "title": "Rutgers student-compiled Camden County Food Pantries and Meals (Spring 2025)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "10-page PDF, Spring 2025, about 100 phone numbers (roughly 80-100 sites) by town"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Camden"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "food": 90
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "http://sites.rutgers.edu/food-waste/wp-content/uploads/sites/667/2025/11/Salem-County-Food-Resource-Guide-11.2025.pdf",
+   "title": "Salem County Food Pantry Information & Resources (Dept of Health and Human Services, Nov 2025; also web page health.salemcountynj.gov/salem-county-food-resources)",
+   "kind": "official",
+   "categories": [
+    "food",
+    "seniors"
+   ],
+   "notes": {
+    "food": "county list with map; web page text shows Catholic Charities, a congregate nutrition programme, church pantries with hours and proof-of-residency rules (about 25 phone numbers); also in Spanish"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Salem"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "food": 25
+   },
+   "residency": "Some Salem pantries serve only their town weekly (Woodstown and Pilesgrove) and other county residents monthly with proof of address; photo ID and a utility bill required at Illuminate Church, Elmer (page text)",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "http://sites.rutgers.edu/food-waste/wp-content/uploads/sites/667/2025/11/SRFDC-Pantries_Cumb.Glou_.Salem_.pdf",
+   "title": "Southern Regional Food Distribution Center: community pantries in Cumberland, Gloucester and Salem (Nov 2025)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "2-page schedule by city and weekday with address; food-bank distribution partners; Gloucester and Salem sections not separately counted"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester",
+     "Salem"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://sites.rutgers.edu/food-waste/nj-food-pantry-list/",
+   "title": "Rutgers Cooperative Extension Food Waste Team: NJ Food Pantry List (county directories)",
+   "kind": "regional",
+   "categories": [
+    "food",
+    "clothing-household"
+   ],
+   "notes": {
+    "food": "hub page that links the county food guides (Gloucester, Camden, Salem among 20+); compiled in Oct 2025 during the SNAP lapse; also donations and clothing links"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/basicneeds/",
+   "title": "NJ Basic Needs Information Hub (Office of the Secretary of Higher Education; open to all residents)",
+   "kind": "official",
+   "categories": [
+    "food",
+    "housing",
+    "homeless-services",
+    "transportation",
+    "children-pregnancy",
+    "financial-assistance",
+    "clothing-household"
+   ],
+   "notes": {
+    "food": "state hub for students and residents linking State programmes and community services; includes a page on essential items (diapers) that says to call 211; not a provider list"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.camdencountyresourcecompass.org/",
+   "title": "Camden County Resource Compass (Hopeworks N' Camden online directory)",
+   "kind": "regional",
+   "categories": [
+    "financial-assistance",
+    "housing",
+    "food",
+    "education",
+    "employment",
+    "children-pregnancy"
+   ],
+   "notes": {
+    "housing": "directory of services in Camden County built by a nonprofit; launch noted in NJPEN; current contents not read [no response on 13 Oct; known only from a news report]"
+   },
+   "readable": "unreachable",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Camden"
+    ]
+   },
+   "read": "refused",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.njp.uscourts.gov/sites/njp/files/Camden%20Resource%20Directory%20March%202019.pdf",
+   "title": "US District Court D.N.J.: Camden Reentry Court Resource Directory (March 2019)",
+   "kind": "official",
+   "categories": [
+    "reentry-support",
+    "housing",
+    "medical-dental-vision",
+    "employment",
+    "legal"
+   ],
+   "notes": {
+    "reentry-support": "federal reentry court directory, March 2019, so stale; rejected curl (404/rejected); from search summaries [404 or rejected on 13 Oct; known only from search results]"
+   },
+   "readable": "dead link or rejected (404)",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Camden"
+    ]
+   },
+   "read": "refused",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.camdencounty.com/service/corrections",
+   "title": "Camden County Department of Corrections: reentry (NuEntry; Reentry Release Center opened March 2026)",
+   "kind": "official",
+   "categories": [
+    "reentry-support"
+   ],
+   "notes": {
+    "reentry-support": "county corrections pages; Reentry Release Center (March 2026, per WHYY) and NuEntry Opportunity Specialists; not a provider list"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Camden"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.njcourts.gov/courts/ombudsman/cumberland-gloucester-salem",
+   "title": "NJ Courts, Cumberland/Gloucester/Salem Vicinage: Court User Resource Center (Ombudsman)",
+   "kind": "official",
+   "categories": [
+    "legal",
+    "reentry-support"
+   ],
+   "notes": {
+    "legal": "court staff give referral information about community services (856-878-5050 ext. 15159, Bridgeton); no published list found [403 to curl; WebFetch read it: only a sentence offering referral information, no list]"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester",
+     "Salem"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.njcourts.gov/system/files/events/2026_Salem_jobs_resource_fair.pdf",
+   "title": "NJ Courts: Salem County Probation JOBS resource fair flyer (31 March 2026)",
+   "kind": "official",
+   "categories": [
+    "reentry-support",
+    "employment"
+   ],
+   "notes": {
+    "reentry-support": "event flyer, not a list; shows the agencies that attend (social services, case management, treatment) [403 to curl and WebFetch on 13 Oct, so known only from search results]"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Salem"
+    ]
+   },
+   "read": "refused",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.njcourts.gov/system/files/events/2026_gloucester_jobs_resource_fair1.pdf",
+   "title": "NJ Courts: Gloucester County Justice Complex jobs and resource fair flyer (22 April 2026)",
+   "kind": "official",
+   "categories": [
+    "reentry-support",
+    "employment"
+   ],
+   "notes": {
+    "reentry-support": "event flyer for people on parole, probation or reentry; not a list [403 to curl and WebFetch on 13 Oct, so known only from search results]"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "refused",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.salemcountysheriff.com/corrections/corrections-programs/",
+   "title": "Salem County Sheriff: corrections programs (SLAP, MAT, GED, re-entry with Salem Community College)",
+   "kind": "official",
+   "categories": [
+    "reentry-support",
+    "education",
+    "addiction"
+   ],
+   "notes": {
+    "reentry-support": "in-facility programmes; not clear whether they continue after release"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Salem"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://health.salemcountynj.gov/scoot-transportation/",
+   "title": "Salem County SCOOT transportation (Office on Aging and Disabilities)",
+   "kind": "official",
+   "categories": [
+    "transportation",
+    "seniors",
+    "disability"
+   ],
+   "notes": {
+    "transportation": "county rides to medical, nutrition, shopping for 60+, disabled and rural residents; 856-339-8644; 48 hours notice; one provider"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Salem"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "transportation": 1
+   },
+   "residency": "Salem County residents 60+, with a disability, or in designated rural areas (page text per search summary)",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.driveless.com/wp-content/uploads/2026/06/SJConnectsPurelandtoSalem062026Update-2.pdf",
+   "title": "SJTA / Cross County Connection: Pureland Industrial Complex to Salem shuttle timetable (June 2026)",
+   "kind": "official",
+   "categories": [
+    "transportation",
+    "employment"
+   ],
+   "notes": {
+    "transportation": "agency timetable, June 2026: fare-free deviated fixed route serving the general public from the Pureland Industrial Complex (Logan Township) to Salem via Penns Grove and Pennsville; connections to NJ Transit 402, 401, 468, the Commodore shuttle and the Pureland East-West shuttle; not a provider list"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester",
+     "Salem"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "transportation": 4
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://gloucestercountynj.gov/163/Disability",
+   "title": "Gloucester County Disability Services (county page; ADRC for 18 to 59)",
+   "kind": "official",
+   "categories": [
+    "disability",
+    "transportation"
+   ],
+   "notes": {
+    "disability": "county page found in search; County ADRC and ADA coordinator (856-384-6842); not opened"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/treasury/njombudsman/documents/keygovernment/pdf/CountyOfficesonDisabilityServices.pdf",
+   "title": "NJ Office of the Public Defender / Ombudsman: County Offices on Disability Services (state directory, 2024)",
+   "kind": "official",
+   "categories": [
+    "disability"
+   ],
+   "notes": {
+    "disability": "state one-page directory of each county's disability office; the 2024 edition lists 856-384-6874 for Gloucester (search summary); not opened"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester",
+     "Salem",
+     "Camden"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "disability": 3
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/military/veterans/services/vso",
+   "title": "NJ Department of Military and Veterans Affairs: Veterans Service Offices by county",
+   "kind": "official",
+   "categories": [
+    "veterans"
+   ],
+   "notes": {
+    "veterans": "state list of the county VSO in all 21 counties (Camden at the Florio Center, Camden; Gloucester and Salem entries differ between the current page and an older PDF); not opened"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester",
+     "Salem",
+     "Camden"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "veterans": 3
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/parole/docs/veterans/njdmava_veterans_service_offices.pdf",
+   "title": "NJ DMAVA veterans service offices (older PDF with Camden/Gloucester Woodbury Armory entry)",
+   "kind": "official",
+   "categories": [
+    "veterans",
+    "reentry-support"
+   ],
+   "notes": {
+    "veterans": "older state PDF used by Parole; lists Camden/Gloucester office at the Woodbury Armory; probably superseded by the newer Camden office"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.gloucestercountynj.gov/DocumentCenter/View/8396/South-Jersey-Health-Collaborative-Community-Needs-Assessmentpdf",
+   "title": "South Jersey Health Collaborative Community Needs Assessment (Cooper, Jefferson, Virtua, Burlington, Camden and Gloucester health departments)",
+   "kind": "regional",
+   "categories": [
+    "medical-dental-vision",
+    "mental-health",
+    "addiction"
+   ],
+   "notes": {
+    "medical-dental-vision": "hospital-and-health-department CHNA (2022; a 2025 edition exists per Cooper); assessment of needs, not a provider directory; not opened"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester",
+     "Camden"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://rand.camden.rutgers.edu/wp-content/uploads/sites/32/2025/04/InspiraHA_GC_041125b.pdf",
+   "title": "Inspira Health 2025-2027 CHNA: Gloucester County report (Rutgers-Camden Walter Rand Institute)",
+   "kind": "regional",
+   "categories": [
+    "medical-dental-vision",
+    "mental-health",
+    "addiction",
+    "food",
+    "housing"
+   ],
+   "notes": {
+    "medical-dental-vision": "county breakout of the Inspira CHNA (27 focus groups, 665 surveys region-wide); needs assessment, not a provider list; resource tables unchecked"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.gloucestercountynj.gov/AgendaCenter/ViewFile/Minutes/_10162025-595",
+   "title": "Gloucester County Community Needs Assessment Listening Session minutes (16 Oct 2025; WDB, county, RCSJ, nonprofits)",
+   "kind": "official",
+   "categories": [
+    "employment",
+    "transportation",
+    "housing"
+   ],
+   "notes": {
+    "employment": "minutes record that members say there are many resource guides for Gloucester County but not digitised, propose a centralised, regularly updated guide with a paper copy, and note Rutgers Cooperative Extension keeps a food pantry list; read in full; names no providers"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://gloucestercountynj.gov/902/Human-Services-Advisory-Council",
+   "title": "Gloucester County Human Services Advisory Council (HSAC)",
+   "kind": "official",
+   "categories": [
+    "financial-assistance"
+   ],
+   "notes": {
+    "financial-assistance": "county planning body; meetings in 2026; no list of funded agencies published on the page found"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.catholiccharitiessouthjersey.org/",
+   "title": "Catholic Charities, Diocese of Camden (12 sites in Atlantic, Camden, Cape May, Cumberland, Gloucester, Salem): programmes and office locations",
+   "kind": "regional",
+   "categories": [
+    "food",
+    "housing",
+    "financial-assistance",
+    "immigration",
+    "veterans",
+    "children-pregnancy",
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "housing": "one agency's site; site lists offices (Westville in Gloucester, Penns Grove and Salem in Salem, Camden) and programmes; not a directory of others; read from NJ 211 and diocese snippets"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester",
+     "Salem",
+     "Camden"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "housing": 1
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.camdencounty.com/service/aging-and-disability-services/senior-services/",
+   "title": "Camden County Senior Services Guide (Aging and Disability Services; includes Homeless Servicers, Transportation, Nutrition, Housing pages)",
+   "kind": "official",
+   "categories": [
+    "seniors",
+    "homeless-services",
+    "housing",
+    "transportation",
+    "food"
+   ],
+   "notes": {
+    "seniors": "county directory 'to services for our senior population and their families' with sub-pages for housing, homeless servicers, transportation, nutrition; page text read; sub-pages not opened"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Camden"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://delcohomelessservices.org/printable-resource-guide",
+   "title": "Homeless Services Coalition of Delaware County: PRINTABLE Resource Guide (Sept 2026 edition)",
+   "kind": "regional",
+   "categories": [
+    "homeless-services",
+    "housing",
+    "addiction",
+    "mental-health",
+    "food",
+    "legal",
+    "id-recovery",
+    "employment",
+    "domestic-violence"
+   ],
+   "notes": {
+    "homeless-services": "coalition guide in sections (emergency shelters, outreach/day programmes, prepared meals, housing support, behavioural health, D&A, government and legal, training library, ID forms); menu says Sept '26; section counts not read; the 2022 and Jan 2024 county-hosted PDFs now return 404"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "homeless-services": 0
+   },
+   "residency": "Access to shelter and housing crisis services in Delaware County goes through coordinated entry (county guide, 2022, from search summary)",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://dcpd.maps.arcgis.com/apps/instant/nearby/index.html?appid=3bf6b31f3f1a4825afa9ef4aad8707fa&sliderDistance=2",
+   "title": "Delaware County PA: Food Assistance Resource Locator (county map)",
+   "kind": "locator",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "county map linked from delcopa.gov/community-resources; map app, not read"
+   },
+   "readable": "map only",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware"
+    ]
+   },
+   "read": "partial",
+   "byLocation": "Enter an address; not run",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://dcpd.maps.arcgis.com/apps/instant/nearby/index.html?appid=0a70d40f8d1747d5a0d4f97f4ac76c7d&sliderDistance=2",
+   "title": "Delaware County PA: Health Resources Locator (county map)",
+   "kind": "locator",
+   "categories": [
+    "medical-dental-vision",
+    "mental-health"
+   ],
+   "notes": {
+    "medical-dental-vision": "county map linked from delcopa.gov/community-resources; map app, not read"
+   },
+   "readable": "map only",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware"
+    ]
+   },
+   "read": "partial",
+   "byLocation": "Enter an address; not run",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.sharefoodprogram.org/",
+   "title": "Share Food Program (Philadelphia region food bank; Find Food, Delaware County and Philadelphia)",
+   "kind": "regional",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "food bank homepage with a Find Food search; Delaware County and Philadelphia partners; search not run"
+   },
+   "readable": "search form only",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware",
+     "Philadelphia"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://njcedv.org/wp-content/uploads/2026/01/Guide-to-Services.pdf",
+   "title": "NJ Coalition to End Domestic Violence: Guide to Services by County (Jan 2026 upload)",
+   "kind": "regional",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "5-page statewide PDF by county; Gloucester: SERV (1 programme); Salem: Salem County Women's Services (1); Camden: SERV plus about 3 others (Harambe, Hispanic Family Center, and more); hotline for Salem printed as (866) 935-6655 while other directories give 856 (check)"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester",
+     "Salem",
+     "Camden"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "domestic-violence": 5
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.domesticshelters.org/help/nj/salem",
+   "title": "DomesticShelters.org: Salem County NJ programmes",
+   "kind": "aggregator",
+   "categories": [
+    "domestic-violence"
+   ],
+   "notes": {
+    "domestic-violence": "national directory page; Salem County Women's Services with 15-bed shelter per one listing (search summary); not opened"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Salem"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://delcopa.gov/delco-defenders/resources",
+   "title": "Delaware County PA Public Defender (Delco Defenders): Resources page",
+   "kind": "official",
+   "categories": [
+    "reentry-support",
+    "addiction",
+    "mental-health",
+    "housing",
+    "employment",
+    "food",
+    "legal"
+   ],
+   "notes": {
+    "reentry-support": "public defender's list of local addiction, mental health, housing, employment and food resources (some church and community food programmes); page read, about 8,600 characters; count not tallied"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://gss.omb.delaware.gov/food/locations.shtml",
+   "title": "Delaware TEFAP soup kitchen and pantry locations (Government Support Services)",
+   "kind": "official",
+   "categories": [
+    "food"
+   ],
+   "notes": {
+    "food": "state list of TEFAP sites including Wilmington church pantries; rejected curl; known from a search summary"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "DE",
+    "counties": [
+     "New Castle"
+    ]
+   },
+   "read": "refused",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://delaware.church/social-ministries-in-delaware/",
+   "title": "delaware.church: social ministries in Delaware (church and agency ministries)",
+   "kind": "regional",
+   "categories": [
+    "food",
+    "homeless-services",
+    "financial-assistance"
+   ],
+   "notes": {
+    "food": "faith-based list including meal sites and Code Purple shelter; blocked by Cloudflare; known from search summary"
+   },
+   "readable": "refused (403)",
+   "coverage": {
+    "state": "DE",
+    "counties": [
+     "New Castle"
+    ]
+   },
+   "read": "refused",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.pa211.org/agency/17551/53167/65075",
+   "title": "Community Action Agency of Delaware County (PA 211 listing): fuel assistance, referral gate for county homeless services",
+   "kind": "regional",
+   "categories": [
+    "utilities-phone-internet",
+    "homeless-services",
+    "financial-assistance"
+   ],
+   "notes": {
+    "utilities-phone-internet": "single agency listing; fuel assistance on a limited basis for eligible county residents (search summary); the county Office of Adult and Family Services requires its referral"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "utilities-phone-internet": 1
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://nj.gov/humanservices/dmhas/documents/pdf/MH_Dir_COMPLETE.pdf",
+   "title": "NJ DMHAS: Directory of Mental Health Services (DMHAS-contracted providers only), updated April 2026",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "addiction"
+   ],
+   "notes": {
+    "mental-health": "statewide PDF by county, 'Updated April 2026' on the cover; contracted providers only; Gloucester, Camden and Salem sections not tallied"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.camdencounty.com/wp-content/uploads/2020/02/sa_resources_2024on_website.pdf",
+   "title": "Camden County Substance Use Resources (county PDF, 2024)",
+   "kind": "official",
+   "categories": [
+    "addiction",
+    "mental-health",
+    "veterans"
+   ],
+   "notes": {
+    "addiction": "one-to-two page county sheet: IME 844-276-2777, state-funded detox, veterans detox (Sunrise Detox), crisis contacts; about 10 entries; 2024 edition"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Camden"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "addiction": 10
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://camdencountylibrary.org/node/2076",
+   "title": "Camden County Library System: Mental Health Guide",
+   "kind": "official",
+   "categories": [
+    "mental-health",
+    "addiction"
+   ],
+   "notes": {
+    "mental-health": "library guide page; names Oaks Integrated Care as the county crisis centre and links a county mental health and addiction list and a family support line; page read (about 3,400 characters)"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Camden"
+    ]
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://nj211.org/phone-and-internet-assistance-programs",
+   "title": "NJ 211: phone and internet assistance programmes (Lifeline etc.)",
+   "kind": "211",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "statewide page describing the federal Lifeline free-phone programme and providers; no local list; the NJ Basic Needs hub (nj.gov/basicneeds/technology/internet-access.shtml) says ACP may have ended"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/bpu/residential/assistance/",
+   "title": "NJ Board of Public Utilities: residential assistance (Lifeline utility benefit, Winter Termination Program 1-800-624-0241)",
+   "kind": "official",
+   "categories": [
+    "utilities-phone-internet"
+   ],
+   "notes": {
+    "utilities-phone-internet": "state page of utility-bill assistance programmes; short page; names programmes not local providers"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj211.org/new-jersey-code-blue",
+   "title": "NJ 211: New Jersey Code Blue (county warming centres and activations)",
+   "kind": "211",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "statewide Code Blue listing by county, changes with the weather; the county OEM is the source; Salem County has a Code Blue warming centre per the IAC guide"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://hud.gov/states/new_jersey/homeless/shelters/gloucester",
+   "title": "HUD: New Jersey homeless shelter directory, Gloucester County",
+   "kind": "aggregator",
+   "categories": [
+    "homeless-services"
+   ],
+   "notes": {
+    "homeless-services": "federal directory page; names Gloucester County First Call for Help 800-648-0132 and shelters (Eleanor Corbett House, Together Youth Shelter); undated; from search summary [404 on 13 Oct; known only from search results]"
+   },
+   "readable": "dead link (404)",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Gloucester"
+    ]
+   },
+   "read": "refused",
+   "namesFound": {
+    "homeless-services": 4
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://libguides.njstatelib.org/get_help",
+   "title": "NJ State Library: Get Help, New Jersey Social Services (research guide with county tabs for Camden, Gloucester, Salem)",
+   "kind": "official",
+   "categories": [
+    "housing",
+    "employment",
+    "food",
+    "legal",
+    "mental-health",
+    "reentry-support",
+    "education",
+    "financial-assistance"
+   ],
+   "notes": {
+    "housing": "state library guide with topic pages (employment, housing, literacy, reentry) and a county tab for each of Camden, Gloucester and Salem linking each county's social-services pages; page read; the county tabs link to pages already recorded"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ"
+   },
+   "read": "complete",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.nj.gov/dca/dhcr/offices/pdf/OHPdocs/NJ-512_Salem_County/Salem_County_CoC_2024_Introduction_and_Member_Reference_Guide_(4).pdf",
+   "title": "Salem County Continuum of Care: 2024 introduction and member reference guide (Inter Agency Council)",
+   "kind": "regional",
+   "categories": [
+    "homeless-services",
+    "housing"
+   ],
+   "notes": {
+    "homeless-services": "CoC planning body's guide for member providers of homeless and at-risk services; 2024; read first pages; member roster not tallied"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Salem"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.scbssnj.org/",
+   "title": "Salem County Board of Social Services (SCBSS)",
+   "kind": "official",
+   "categories": [
+    "financial-assistance",
+    "food",
+    "housing",
+    "medical-dental-vision"
+   ],
+   "notes": {
+    "financial-assistance": "county agency site linked from the NJ State Library guide; the agency, not a list; not opened"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Salem"
+    ]
+   },
+   "read": "partial",
+   "namesFound": {
+    "financial-assistance": 1
+   },
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://delcopa.gov/health/addiction-treatment-services",
+   "title": "Delaware County PA Health Department: Addiction Treatment Services (county-contracted providers; page updated 12 Aug 2026)",
+   "kind": "official",
+   "categories": [
+    "addiction",
+    "mental-health"
+   ],
+   "notes": {
+    "addiction": "county page 'updated August 12, 2026' listing county-contracted treatment providers with phone and address (Keystone Center, Key Recovery, Merakey, SOAR and others per search summary); about 7-10 providers"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware"
+    ]
+   },
+   "read": "complete",
+   "namesFound": {
+    "addiction": 8
+   },
+   "residency": "County-funded treatment is for Delaware County residents with Medical Assistance or no insurance (search summary of county brochure)",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://delcopa.gov/sites/default/files/media/Drug_and_Alcohol_Overview_Brochure_5-2026.pdf",
+   "title": "Delaware County PA Drug and Alcohol Overview brochure (May 2026)",
+   "kind": "official",
+   "categories": [
+    "addiction"
+   ],
+   "notes": {
+    "addiction": "county brochure, May 2026; assessment sites for people with Medical Assistance or no insurance; from search listing"
+   },
+   "readable": "pdf",
+   "coverage": {
+    "state": "PA",
+    "counties": [
+     "Delaware"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  },
+  {
+   "url": "https://www.camdencounty.com/service/social-services/",
+   "title": "Camden County Social Services (Board of Social Services pages)",
+   "kind": "official",
+   "categories": [
+    "financial-assistance",
+    "food",
+    "housing"
+   ],
+   "notes": {
+    "financial-assistance": "county agency pages linked from the NJ State Library guide; not opened"
+   },
+   "readable": "yes",
+   "coverage": {
+    "state": "NJ",
+    "counties": [
+     "Camden"
+    ]
+   },
+   "read": "partial",
+   "firstFound": "2026-10-13",
+   "lastChecked": "2026-10-13"
+  }
+ ],
+ "publishers": [
+  {
+   "ecosystem": "Community coordination",
+   "area": "New Jersey statewide",
+   "searched": [
+    "NJ 211 and United Ways of NJ",
+    "statewide interagency / coalition guides"
+   ],
+   "result": "found 3 lists",
+   "lists": [
+    "https://www.nj211.org/",
+    "https://www.nj211.org/new-jersey-code-blue",
+    "https://www.nj.gov/dcf/reporting/how/CommunitySupportContacts_1025.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Community coordination",
+   "area": "Gloucester County",
+   "searched": [
+    "Human Services Advisory Council, CIACC",
+    "United Way of Gloucester County partner agencies",
+    "Gateway CAP (community action)",
+    "Workforce Development Board listening session"
+   ],
+   "result": "found 4 lists; no published partner list from United Way of Gloucester County",
+   "lists": [
+    "https://gloucestercountynj.gov/902/Human-Services-Advisory-Council",
+    "https://www.gloucestercountynj.gov/AgendaCenter/ViewFile/Minutes/_10162025-595",
+    "https://gatewaycap.schoolinsites.com/liheap",
+    "https://www.catholiccharitiessouthjersey.org/"
+   ]
+  },
+  {
+   "ecosystem": "Community coordination",
+   "area": "Salem County",
+   "searched": [
+    "Inter Agency Council of Human Services (HSAC, CoC lead, CIACC)",
+    "United Way of Salem County",
+    "Gateway CAP"
+   ],
+   "result": "found 3 lists",
+   "lists": [
+    "https://cityofsalemnj.gov/wp-content/uploads/2026/04/IAC-Salem-County-Housing-Resource-Guide-updated-9-18-25-ADA.pdf",
+    "https://www.nj.gov/dca/dhcr/offices/pdf/OHPdocs/NJ-512_Salem_County/Salem_County_CoC_2024_Introduction_and_Member_Reference_Guide_(4).pdf",
+    "https://gatewaycap.schoolinsites.com/liheap"
+   ]
+  },
+  {
+   "ecosystem": "Community coordination",
+   "area": "Camden County",
+   "searched": [
+    "Camden County Coalition of Healthcare Providers (My Resource Pal)",
+    "Camden County Partnership for Children (ResourceNet)",
+    "Hopeworks (Resource Compass)",
+    "United Way of Greater Philadelphia and Southern NJ"
+   ],
+   "result": "found 3 lists; Resource Compass unreachable",
+   "lists": [
+    "https://www.myresourcepal.org",
+    "https://camdenresourcenet.org",
+    "https://www.camdencountyresourcecompass.org/"
+   ]
+  },
+  {
+   "ecosystem": "Community coordination",
+   "area": "Pennsylvania (Delaware County, Philadelphia)",
+   "searched": [
+    "Delco Resources / Chester Education Foundation",
+    "Homeless Services Coalition of Delaware County",
+    "Community Action Agency of Delaware County",
+    "PA 211 / United Way SEPA",
+    "Philadelphia Reentry Coalition"
+   ],
+   "result": "found 5 lists",
+   "lists": [
+    "https://chestereducation.org/delco-resources",
+    "https://delcohomelessservices.org/printable-resource-guide",
+    "https://www.pa211.org/agency/17551/53167/65075",
+    "https://www.pa211.org/",
+    "https://phila.gov/documents/philadelphias-reentry-services-landscape"
+   ]
+  },
+  {
+   "ecosystem": "Community coordination",
+   "area": "Delaware (New Castle County)",
+   "searched": [
+    "Delaware 211 / United Way of Delaware",
+    "Delaware Helpline"
+   ],
+   "result": "found 1 list; no council or coalition directory found",
+   "lists": [
+    "https://www.delaware211.org/"
+   ]
+  },
+  {
+   "ecosystem": "Government",
+   "area": "New Jersey statewide",
+   "searched": [
+    "DFD county welfare agencies",
+    "DMHAS mental health directory",
+    "DOH dental directory and FQHC finder",
+    "DMAVA veterans offices",
+    "BPU assistance",
+    "MVC ID rules",
+    "State Basic Needs hub",
+    "DCA LIHEAP agencies"
+   ],
+   "result": "found 10 lists",
+   "lists": [
+    "https://www.nj.gov/humanservices/dfd/index.html",
+    "https://nj.gov/humanservices/dmhas/documents/pdf/MH_Dir_COMPLETE.pdf",
+    "https://www.nj.gov/health/fhs/oral/documents/dental-directory-2026.pdf",
+    "https://www.nj.gov/health/fhs/primarycare/fqhc",
+    "https://www.nj.gov/military/veterans/services/vso",
+    "https://www.nj.gov/bpu/residential/assistance/",
+    "https://www.nj.gov/mvc/about/faq.htm",
+    "https://www.nj.gov/basicneeds/",
+    "https://www.nj.gov/dca/dhcr/offices/pdf/LIHEAP_Agencies%20updated.pdf",
+    "https://www.nj.gov/oag/njcares/ohh/downloads/OHH-Resource-Book-12162022.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Government",
+   "area": "Gloucester County",
+   "searched": [
+    "county resource directory, guides, Health Department, Division of Addiction Services, transit, One-Stop"
+   ],
+   "result": "found 9 lists",
+   "lists": [
+    "https://gloucestercountynj.gov/528/Emergency-Food-Pantries",
+    "https://www.gloucestercountynj.gov/DocumentCenter/View/16344",
+    "https://www.gloucestercountynj.gov/DocumentCenter/View/1211/Community-Service-Guide-PDF",
+    "https://gloucestercountynj.gov/924/Addiction-Services",
+    "https://www.gloucestercountynj.gov/DocumentCenter/View/904/Gloucester-County-Transit-Guide-PDF",
+    "https://gloucestercountynj.gov/383/One-Stop-Career-Center",
+    "https://gloucestercountynj.gov/955/Health-Programs",
+    "https://www.gloucestercountynj.gov/DocumentCenter/View/17131",
+    "https://gloucestercountynj.gov/163/Disability"
+   ]
+  },
+  {
+   "ecosystem": "Government",
+   "area": "Salem County",
+   "searched": [
+    "Health and Human Services community guide, disability guide, Office on Aging, food resources, SCOOT, Sheriff"
+   ],
+   "result": "found 7 lists",
+   "lists": [
+    "https://health.salemcountynj.gov/wp-content/uploads/2026/04/Community-Resources-Salem-County-En-min1.pdf",
+    "https://health.salemcountynj.gov/wp-content/uploads/2024/08/Disability-Resource-Guide-English-1-min.pdf",
+    "https://health.salemcountynj.gov/wp-content/uploads/2026/06/OOA-Resource-Guide-En-opt.pdf",
+    "https://health.salemcountynj.gov/scoot-transportation/",
+    "https://cityofsalemnj.gov/wp-content/uploads/2026/04/Salem-County-Resource-Guide-1.pdf",
+    "https://www.scbssnj.org/",
+    "https://www.salemcountysheriff.com/corrections/corrections-programs/"
+   ]
+  },
+  {
+   "ecosystem": "Government",
+   "area": "Camden County",
+   "searched": [
+    "county Health and Human Services, Senior Services guide, substance-use sheet, Corrections"
+   ],
+   "result": "found 6 lists",
+   "lists": [
+    "https://www.camdencounty.com/service/health-human-services/camden-county-community-resources",
+    "https://www.camdencounty.com/service/health-human-services/food-security-resources/",
+    "https://www.camdencounty.com/service/aging-and-disability-services/senior-services/",
+    "https://www.camdencounty.com/wp-content/uploads/2020/02/sa_resources_2024on_website.pdf",
+    "https://www.camdencounty.com/service/corrections",
+    "https://www.camdencounty.com/service/social-services/"
+   ]
+  },
+  {
+   "ecosystem": "Government",
+   "area": "Pennsylvania (Delaware County, Philadelphia)",
+   "searched": [
+    "delcopa.gov community resources, food, aging, health, defender; phila.gov resource guide, OHS, DBHIDS"
+   ],
+   "result": "found 10 lists; several county PDFs now 404",
+   "lists": [
+    "https://www.delcopa.gov/community-resources",
+    "https://www.delcopa.gov/cosa/food-resources",
+    "https://delcopa.gov/health/addiction-treatment-services",
+    "https://delcopa.gov/human-services/brochures",
+    "https://delcopa.gov/delco-defenders/resources",
+    "https://phila.gov/media/20240521152956/Resource-Guide-1.pdf",
+    "https://www.phila.gov/media/20230606160646/OHS-homelessness-prevention-flyer-20230606.pdf",
+    "https://dbhids.org/about/organization/commissioners-office/systems-integration/city-funded-dbhids-providers/",
+    "https://dcpd.maps.arcgis.com/apps/instant/nearby/index.html?appid=3bf6b31f3f1a4825afa9ef4aad8707fa&sliderDistance=2",
+    "https://delcopa.gov/inclusion/pdf/DelawareCountyWomensResourceGuide2023.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Government",
+   "area": "Delaware (New Castle County)",
+   "searched": [
+    "DSAMH, Dept of Labor reentry, Courts legal assistance, DHSS resource sheet, DSS"
+   ],
+   "result": "found 4 lists, all rejected by curl (Akamai) so read only through search summaries; the DHSS resourcesindelaware PDF is 404",
+   "lists": [
+    "https://dhss.delaware.gov/dsamh/division-of-substance-abuse-and-mental-health/licensed-provider-list/",
+    "https://courts.delaware.gov/help/legalassistance",
+    "https://laborfiles.delaware.gov/main/dol/reentry/Food_Resources_NCC.pdf",
+    "https://laborfiles.delaware.gov/Reentry_Guide.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Libraries",
+   "area": "New Jersey statewide",
+   "searched": [
+    "NJ State Library research guides"
+   ],
+   "result": "found 1 list",
+   "lists": [
+    "https://libguides.njstatelib.org/get_help"
+   ]
+  },
+  {
+   "ecosystem": "Libraries",
+   "area": "Gloucester County",
+   "searched": [
+    "Gloucester County Library System resource or libguide pages (two searches)",
+    "county warming locations"
+   ],
+   "result": "nothing found as a list; the county Code Blue flyer names the library branches as warming locations",
+   "lists": [
+    "https://www.gloucestercountynj.gov/DocumentCenter/View/17131"
+   ]
+  },
+  {
+   "ecosystem": "Libraries",
+   "area": "Salem County",
+   "searched": [
+    "Salem County library community resources (one search)"
+   ],
+   "result": "nothing found",
+   "lists": []
+  },
+  {
+   "ecosystem": "Libraries",
+   "area": "Camden County",
+   "searched": [
+    "Camden County Library System subject guides and mental-health guide"
+   ],
+   "result": "found 4 lists",
+   "lists": [
+    "https://www.camdencountylibrary.org/subject-guides",
+    "https://www.camdencountylibrary.org/housing-assistance",
+    "https://www.camdencountylibrary.org/warming-centers",
+    "https://camdencountylibrary.org/node/2076"
+   ]
+  },
+  {
+   "ecosystem": "Libraries",
+   "area": "Pennsylvania (Delaware County, Philadelphia)",
+   "searched": [
+    "Free Library of Philadelphia social services and Bridges handbook",
+    "Delaware County Libraries"
+   ],
+   "result": "found 3 lists",
+   "lists": [
+    "https://libwww.freelibrary.org/assets/pdf/programs/social-services/social-services-at-the-free-library-of-philadelphia-september-2026_ada.pdf",
+    "https://www.courts.phila.gov/pdf/mentor/toolkit/Bridges_Handbook_of_Resources-Philadelphia_Free_Library.pdf",
+    "https://www.delcolibraries.org/resources-for-returning-citizens"
+   ]
+  },
+  {
+   "ecosystem": "Libraries",
+   "area": "Delaware (New Castle County)",
+   "searched": [
+    "Delaware Division of Libraries, New Castle County libraries"
+   ],
+   "result": "nothing found as a list; a 2018 pilot placing DHSS social workers in libraries was the only hit, not confirmed current",
+   "lists": []
+  },
+  {
+   "ecosystem": "Hospitals and health systems",
+   "area": "New Jersey statewide",
+   "searched": [
+    "NJ Hospital Association, NJ Primary Care Association FQHC list"
+   ],
+   "result": "found 2 lists; the Hospital Association gave nothing",
+   "lists": [
+    "https://www.nj.gov/health/fhs/primarycare/fqhc",
+    "https://www.nj.gov/corrections/pdf/OPSS/FRARA/2026/Attachment%201%20Federally%20Qualified%20Health%20Centers%20NJ%202026.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Hospitals and health systems",
+   "area": "Gloucester County",
+   "searched": [
+    "Inspira CHNA 2025-27 county report",
+    "South Jersey Health Collaborative CHNA",
+    "county Health Department CHIP"
+   ],
+   "result": "found 3 lists; needs assessments, none a provider directory",
+   "lists": [
+    "https://rand.camden.rutgers.edu/wp-content/uploads/sites/32/2025/04/InspiraHA_GC_041125b.pdf",
+    "https://www.gloucestercountynj.gov/DocumentCenter/View/8396/South-Jersey-Health-Collaborative-Community-Needs-Assessmentpdf",
+    "https://www.gloucestercountynj.gov/DocumentCenter/View/11009"
+   ]
+  },
+  {
+   "ecosystem": "Hospitals and health systems",
+   "area": "Salem County",
+   "searched": [
+    "Inspira CHNA Salem report, county health assessments page"
+   ],
+   "result": "found 0 lists recorded; the Inspira Salem report (rand.camden.rutgers.edu InspiraHA_SC_041125b.pdf) and county assessments page exist but were not opened, and are assessments, not directories",
+   "lists": []
+  },
+  {
+   "ecosystem": "Hospitals and health systems",
+   "area": "Camden County",
+   "searched": [
+    "Cooper CHNA+CHIP 2025, Virtua CHNA, My Resource Pal kiosks at Cooper"
+   ],
+   "result": "found 2 lists",
+   "lists": [
+    "https://www.myresourcepal.org",
+    "https://www.gloucestercountynj.gov/DocumentCenter/View/8396/South-Jersey-Health-Collaborative-Community-Needs-Assessmentpdf"
+   ]
+  },
+  {
+   "ecosystem": "Hospitals and health systems",
+   "area": "Pennsylvania (Delaware County, Philadelphia)",
+   "searched": [
+    "Delaware County Health Department CHA/CHIP 2024-2028",
+    "DBHIDS"
+   ],
+   "result": "found 2 lists; Philadelphia hospitals' discharge lists not searched",
+   "lists": [
+    "https://dbhids.org/about/organization/commissioners-office/systems-integration/city-funded-dbhids-providers/",
+    "https://dcpd.maps.arcgis.com/apps/instant/nearby/index.html?appid=0a70d40f8d1747d5a0d4f97f4ac76c7d&sliderDistance=2"
+   ]
+  },
+  {
+   "ecosystem": "Hospitals and health systems",
+   "area": "Delaware (New Castle County)",
+   "searched": [
+    "ChristianaCare CHNA 2025",
+    "Delaware Division of Public Health resource guides"
+   ],
+   "result": "found 0 lists recorded; ChristianaCare's 2025 CHNA and a 2017 DPH families guide exist, neither is a provider directory",
+   "lists": []
+  },
+  {
+   "ecosystem": "Corrections and courts",
+   "area": "New Jersey statewide",
+   "searched": [
+    "NJ DOC Office of Transitional Services Smart Books",
+    "NJ Reentry Corporation",
+    "OAG resource books"
+   ],
+   "result": "found 3 lists",
+   "lists": [
+    "https://www.nj.gov/corrections/pdf/OTS/SmartBooks/2022/GloucesterCoSmartBook2022.pdf",
+    "https://njreentry.org/nj-support-resources-directory/",
+    "https://www.nj.gov/oag/njcares/ohh/downloads/OHH-Resource-Book-12162022.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Corrections and courts",
+   "area": "Gloucester County",
+   "searched": [
+    "Smart Book 2022, vicinage ombudsman, probation resource fair",
+    "jail reentry guide"
+   ],
+   "result": "found 3 lists; no jail or public-defender referral list",
+   "lists": [
+    "https://www.nj.gov/corrections/pdf/OTS/SmartBooks/2022/GloucesterCoSmartBook2022.pdf",
+    "https://www.njcourts.gov/courts/ombudsman/cumberland-gloucester-salem",
+    "https://www.njcourts.gov/system/files/events/2026_gloucester_jobs_resource_fair1.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Corrections and courts",
+   "area": "Salem County",
+   "searched": [
+    "Sheriff corrections programs",
+    "probation jobs fair",
+    "Safe Return"
+   ],
+   "result": "found 2 lists",
+   "lists": [
+    "https://www.salemcountysheriff.com/corrections/corrections-programs/",
+    "https://www.njcourts.gov/system/files/events/2026_Salem_jobs_resource_fair.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Corrections and courts",
+   "area": "Camden County",
+   "searched": [
+    "County Corrections reentry, Reentry Release Center (March 2026)",
+    "federal Camden Reentry Court directory 2019"
+   ],
+   "result": "found 2 lists; the federal directory is dead",
+   "lists": [
+    "https://www.camdencounty.com/service/corrections",
+    "https://www.njp.uscourts.gov/sites/njp/files/Camden%20Resource%20Directory%20March%202019.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Corrections and courts",
+   "area": "Pennsylvania (Delaware County, Philadelphia)",
+   "searched": [
+    "Bridges handbook",
+    "Philadelphia reentry landscape 2019",
+    "Delco Defenders resources",
+    "PA criminal record assistance guide"
+   ],
+   "result": "found 4 lists, three stale (2018 to 2019)",
+   "lists": [
+    "https://www.courts.phila.gov/pdf/mentor/toolkit/Bridges_Handbook_of_Resources-Philadelphia_Free_Library.pdf",
+    "https://phila.gov/documents/philadelphias-reentry-services-landscape",
+    "https://delcopa.gov/delco-defenders/resources",
+    "https://phila.gov/media/20190724193741/Day-2-Session-3-PA-Criminal-Record-Assistance-Resource-Guide-Gullen-_-Johnson.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Corrections and courts",
+   "area": "Delaware (New Castle County)",
+   "searched": [
+    "Dept of Labor Roadmap to Reentry Employment",
+    "DOC handbooks",
+    "Superior Court Reentry Court"
+   ],
+   "result": "found 1 list; DOC handbooks are for families and in-custody programmes, not provider lists",
+   "lists": [
+    "https://laborfiles.delaware.gov/Reentry_Guide.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Nonprofit networks",
+   "area": "New Jersey statewide",
+   "searched": [
+    "NJ Coalition to End Domestic Violence",
+    "Legal Services of NJ",
+    "Rutgers Cooperative Extension county food guides",
+    "ImmigrationLawHelp",
+    "NJ Primary Care Association"
+   ],
+   "result": "found 5 lists",
+   "lists": [
+    "https://njcedv.org/wp-content/uploads/2026/01/Guide-to-Services.pdf",
+    "https://www.lsnjlaw.org/",
+    "https://sites.rutgers.edu/food-waste/nj-food-pantry-list/",
+    "https://www.immigrationlawhelp.org/",
+    "https://www.nj.gov/health/fhs/primarycare/fqhc"
+   ]
+  },
+  {
+   "ecosystem": "Nonprofit networks",
+   "area": "Gloucester County",
+   "searched": [
+    "United Way of Gloucester County partners",
+    "Family Success Centers",
+    "Food Bank of South Jersey",
+    "SERV / Center for Family Services"
+   ],
+   "result": "found 4 lists; no published partner roster from the United Way",
+   "lists": [
+    "https://www.foodbanksj.org/food-resources",
+    "http://sites.rutgers.edu/food-waste/wp-content/uploads/sites/667/2025/10/Gloucester-County-Food-Pantries-Oct-2025.pdf",
+    "https://www.centerffs.org/serv",
+    "https://www.foodhelpline.org/directory/locations/gloucester"
+   ]
+  },
+  {
+   "ecosystem": "Nonprofit networks",
+   "area": "Salem County",
+   "searched": [
+    "Food Bank of South Jersey, Southern Regional Food Distribution Center, Salem County Women's Services"
+   ],
+   "result": "found 3 lists",
+   "lists": [
+    "http://sites.rutgers.edu/food-waste/wp-content/uploads/sites/667/2025/11/SRFDC-Pantries_Cumb.Glou_.Salem_.pdf",
+    "https://www.domesticshelters.org/help/nj/salem",
+    "https://www.foodbanksj.org/food-resources"
+   ]
+  },
+  {
+   "ecosystem": "Nonprofit networks",
+   "area": "Camden County",
+   "searched": [
+    "Rutgers food guide",
+    "ResourceNet",
+    "Southern NJ Perinatal Cooperative"
+   ],
+   "result": "found 2 lists",
+   "lists": [
+    "http://sites.rutgers.edu/food-waste/wp-content/uploads/sites/667/2025/10/Camden-County-Food-Guide.pdf",
+    "https://camdenresourcenet.org"
+   ]
+  },
+  {
+   "ecosystem": "Nonprofit networks",
+   "area": "Pennsylvania (Delaware County, Philadelphia)",
+   "searched": [
+    "Share Food Program, Philabundance, Delco Resources"
+   ],
+   "result": "found 3 lists",
+   "lists": [
+    "https://www.sharefoodprogram.org/",
+    "https://www.philabundance.org/finding-a-food-pantry-near-me-in-the-philadelphia-region/",
+    "https://chestereducation.org/delco-resources"
+   ]
+  },
+  {
+   "ecosystem": "Nonprofit networks",
+   "area": "Delaware (New Castle County)",
+   "searched": [
+    "Food Bank of Delaware",
+    "Delaware legal providers (DVLS, CLASI, LSCD)"
+   ],
+   "result": "found 2 lists",
+   "lists": [
+    "https://www.fbd.org/get-help/",
+    "https://courts.delaware.gov/help/legalassistance"
+   ]
+  },
+  {
+   "ecosystem": "Faith communities",
+   "area": "New Jersey statewide",
+   "searched": [
+    "Catholic Charities Diocese of Camden (the agency covering all three NJ counties)",
+    "statewide interfaith directories"
+   ],
+   "result": "found 1 list; no statewide interfaith directory",
+   "lists": [
+    "https://www.catholiccharitiessouthjersey.org/"
+   ]
+  },
+  {
+   "ecosystem": "Faith communities",
+   "area": "Gloucester County",
+   "searched": [
+    "ministerial or interfaith association pantry directory (two searches)",
+    "county faith-based pantry directory"
+   ],
+   "result": "found 2 lists: the county's Food Pantries category covers faith-based pantries, and Lemontree; no ministerial alliance directory found",
+   "lists": [
+    "https://gloucestercountynj.gov/528/Emergency-Food-Pantries",
+    "https://www.foodhelpline.org/directory/locations/gloucester"
+   ]
+  },
+  {
+   "ecosystem": "Faith communities",
+   "area": "Salem County",
+   "searched": [
+    "church pantries in the county food list"
+   ],
+   "result": "found 1 list; no ministerial alliance directory found",
+   "lists": [
+    "http://sites.rutgers.edu/food-waste/wp-content/uploads/sites/667/2025/11/Salem-County-Food-Resource-Guide-11.2025.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Faith communities",
+   "area": "Camden County",
+   "searched": [
+    "church pantries in the Rutgers food guide"
+   ],
+   "result": "found 1 list; no ministerial alliance searched separately",
+   "lists": [
+    "http://sites.rutgers.edu/food-waste/wp-content/uploads/sites/667/2025/10/Camden-County-Food-Guide.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Faith communities",
+   "area": "Pennsylvania (Delaware County, Philadelphia)",
+   "searched": [
+    "Chester interfaith or ministerial council (one search)"
+   ],
+   "result": "nothing found; only a historical ministers' association (1919 to 1946)",
+   "lists": []
+  },
+  {
+   "ecosystem": "Faith communities",
+   "area": "Delaware (New Castle County)",
+   "searched": [
+    "delaware.church social ministries list",
+    "Council of Churches (one search)"
+   ],
+   "result": "found 1 list, blocked by Cloudflare",
+   "lists": [
+    "https://delaware.church/social-ministries-in-delaware/"
+   ]
+  },
+  {
+   "ecosystem": "Universities and colleges",
+   "area": "New Jersey statewide",
+   "searched": [
+    "Office of the Secretary of Higher Education Basic Needs hub"
+   ],
+   "result": "found 1 list",
+   "lists": [
+    "https://www.nj.gov/basicneeds/"
+   ]
+  },
+  {
+   "ecosystem": "Universities and colleges",
+   "area": "Gloucester County",
+   "searched": [
+    "Rowan College of South Jersey (Basic Needs, mental health, adult literacy)",
+    "Rowan University"
+   ],
+   "result": "found 4 lists",
+   "lists": [
+    "https://www.rcsj.edu/student-services/wellness-and-basic-needs/basic-needs-resources/",
+    "https://www.rcsj.edu/student-services/wellness-and-basic-needs/community-mental-health-resources/",
+    "https://www.rcsj.edu/adult-literacy",
+    "https://sites.rowan.edu/osec/titles/ix/resources/ix-legal-immigraton.html"
+   ]
+  },
+  {
+   "ecosystem": "Universities and colleges",
+   "area": "Salem County",
+   "searched": [
+    "Salem Community College (one search)"
+   ],
+   "result": "nothing found",
+   "lists": []
+  },
+  {
+   "ecosystem": "Universities and colleges",
+   "area": "Camden County",
+   "searched": [
+    "Camden County College, Rutgers-Camden (one search)"
+   ],
+   "result": "nothing found; Rutgers-Camden's Walter Rand Institute authored the Inspira CHNA instead",
+   "lists": []
+  },
+  {
+   "ecosystem": "Universities and colleges",
+   "area": "Pennsylvania (Delaware County, Philadelphia)",
+   "searched": [
+    "Widener, Neumann, DCCC, Temple"
+   ],
+   "result": "nothing found as a list; Widener is a partner of Delco Resources",
+   "lists": []
+  },
+  {
+   "ecosystem": "Universities and colleges",
+   "area": "Delaware (New Castle County)",
+   "searched": [
+    "University of Delaware, Widener Wilmington food-pantries page"
+   ],
+   "result": "nothing recorded; a Widener page on Wilmington food pantries (my.widener.edu) was seen in search results and not opened",
+   "lists": []
+  },
+  {
+   "ecosystem": "Public funding sources",
+   "area": "New Jersey statewide",
+   "searched": [
+    "DCF CSOC contacts, DCA LIHEAP agencies, DOL one-stop partners"
+   ],
+   "result": "found 2 lists (contract-agency lists): LIHEAP agencies, DCF contacts",
+   "lists": [
+    "https://www.nj.gov/dca/dhcr/offices/pdf/LIHEAP_Agencies%20updated.pdf",
+    "https://www.nj.gov/dcf/reporting/how/CommunitySupportContacts_1025.pdf"
+   ]
+  },
+  {
+   "ecosystem": "Public funding sources",
+   "area": "Gloucester County",
+   "searched": [
+    "HSAC funded-agency or award list",
+    "Purchasing Department awards",
+    "Division of Human and Special Services contracts"
+   ],
+   "result": "nothing found published; the county says it subcontracts to many nonprofits and posts notices on the Purchasing page, which could not be reached",
+   "lists": []
+  },
+  {
+   "ecosystem": "Public funding sources",
+   "area": "Salem County",
+   "searched": [
+    "IAC subgrantees, Youth Services Commission awards"
+   ],
+   "result": "nothing found published; the 2024 CoC member reference guide is the nearest",
+   "lists": [
+    "https://www.nj.gov/dca/dhcr/offices/pdf/OHPdocs/NJ-512_Salem_County/Salem_County_CoC_2024_Introduction_and_Member_Reference_Guide_(4).pdf"
+   ]
+  },
+  {
+   "ecosystem": "Public funding sources",
+   "area": "Camden County",
+   "searched": [
+    "Board of Commissioners human-services awards"
+   ],
+   "result": "nothing found as a list; only news items on food-insecurity grants (10 organisations, 2025) and COVID grants (2021)",
+   "lists": []
+  },
+  {
+   "ecosystem": "Public funding sources",
+   "area": "Pennsylvania (Delaware County, Philadelphia)",
+   "searched": [
+    "Delaware County contracted providers (D&A, Adult and Family Services, Behavioral Health directory)"
+   ],
+   "result": "found 1 list: county-contracted treatment providers; the Behavioral Health directory exists but only 2015 and 2017 editions were found",
+   "lists": [
+    "https://delcopa.gov/health/addiction-treatment-services"
+   ]
+  },
+  {
+   "ecosystem": "Public funding sources",
+   "area": "Delaware (New Castle County)",
+   "searched": [
+    "DHSS grants-in-aid, State Service Centers community partners"
+   ],
+   "result": "nothing found published",
+   "lists": []
+  },
+  {
+   "ecosystem": "Referral infrastructure",
+   "area": "New Jersey statewide",
+   "searched": [
+    "NJ 211, Findhelp, NJ Helps, NJ Reentry directory"
+   ],
+   "result": "found 5 lists",
+   "lists": [
+    "https://www.nj211.org/",
+    "https://nj211.org/phone-and-internet-assistance-programs",
+    "https://www.nj211.org/new-jersey-code-blue",
+    "https://njreentry.org/nj-support-resources-directory/",
+    "https://www.lsnjlaw.org/"
+   ]
+  },
+  {
+   "ecosystem": "Referral infrastructure",
+   "area": "Gloucester County",
+   "searched": [
+    "NJ 211 provider pages, Findhelp (named on the county Health page), Lemontree, Plentiful, NeedHelpPayingBills"
+   ],
+   "result": "found 4 lists; NJ 211 and Findhelp are one database each, recorded once",
+   "lists": [
+    "https://www.nj211.org/",
+    "https://www.foodhelpline.org/directory/locations/gloucester",
+    "https://directory.plentiful.org/new-jersey/sewell",
+    "https://www.needhelppayingbills.com/html/gloucester_county_assistance_p.html"
+   ]
+  },
+  {
+   "ecosystem": "Referral infrastructure",
+   "area": "Salem County",
+   "searched": [
+    "NJ 211 provider pages for Salem"
+   ],
+   "result": "found 0 separate lists; the Salem county guides name NJ 211 and the IAC as the entry points",
+   "lists": [
+    "https://www.nj211.org/"
+   ]
+  },
+  {
+   "ecosystem": "Referral infrastructure",
+   "area": "Camden County",
+   "searched": [
+    "My Resource Pal (Findhelp), ResourceNet, NJ 211 Camden"
+   ],
+   "result": "found 3 lists",
+   "lists": [
+    "https://www.myresourcepal.org",
+    "https://camdenresourcenet.org",
+    "https://www.nj211.org/"
+   ]
+  },
+  {
+   "ecosystem": "Referral infrastructure",
+   "area": "Pennsylvania (Delaware County, Philadelphia)",
+   "searched": [
+    "PA 211, Philabundance and Share locators, county locator maps"
+   ],
+   "result": "found 5 lists",
+   "lists": [
+    "https://www.pa211.org/",
+    "https://www.philabundance.org/finding-a-food-pantry-near-me-in-the-philadelphia-region/",
+    "https://www.sharefoodprogram.org/",
+    "https://dcpd.maps.arcgis.com/apps/instant/nearby/index.html?appid=3bf6b31f3f1a4825afa9ef4aad8707fa&sliderDistance=2",
+    "https://chestereducation.org/delco-resources"
+   ]
+  },
+  {
+   "ecosystem": "Referral infrastructure",
+   "area": "Delaware (New Castle County)",
+   "searched": [
+    "Delaware 211, Delaware Helpline, Food Bank of Delaware locator"
+   ],
+   "result": "found 2 lists",
+   "lists": [
+    "https://www.delaware211.org/",
+    "https://www.fbd.org/get-help/"
+   ]
+  }
+ ],
+ "requests": [
+  {
+   "publisher": "Gloucester County Health & Human Services (Division of Human and Special Services; county Food Pantry Directory)",
+   "what": "the county's Food Pantry Directory of faith-based pantries (a QR link on the county food flyer); the flyer names it but the URL was not found. The county Resource Directory page (528) shows 54 food-pantry listings, so this may be the same data.",
+   "contact": "Gloucester County Social Services 856-582-9200; Division of Human and Special Services 856-686-8356",
+   "source": "https://deptford-nj.org/filestorage/34753/35749/35791/35992/Flyer_County_Food_Resources.pdf"
+  },
+  {
+   "publisher": "Gloucester County Workforce Development Board and the Community Needs Assessment committee (Commissioner Gattinelli)",
+   "what": "the list of resource guides the committee members hold and mention as not digitised, and any centralised county resource guide that results from the 2025 listening session",
+   "contact": "Gloucester County Workforce Development Board staff (named in the minutes); Commissioner's office 856-853-3200",
+   "source": "https://www.gloucestercountynj.gov/AgendaCenter/ViewFile/Minutes/_10162025-595"
+  },
+  {
+   "publisher": "Food Bank of South Jersey",
+   "what": "its partner-pantry list for Gloucester, Camden and Salem (the website's zip-code map and food-resources page refused automated reading)",
+   "contact": "856-662-4884, info@foodbanksj.org (from the Rowan resource page, search summary)",
+   "source": "https://www.foodbanksj.org/food-resources"
+  },
+  {
+   "publisher": "United Way of Gloucester County",
+   "what": "its partner-agency list (27 agencies by one count, 25 by another)",
+   "contact": "454 Crown Point Rd, Thorofare; 856-845-4303",
+   "source": "https://volunteer.charitynavigator.org/organizations/united-way-of-gloucester-county-thorofare-nj"
+  },
+  {
+   "publisher": "Delaware County PA Office of Behavioral Health",
+   "what": "the current adult and child behavioural-health provider directories (only 2015 and 2017 editions seen, said to be updated annually)",
+   "contact": "610-713-2365 (from a search summary)",
+   "source": "https://www.upperdarbysd.org/cms/lib/PA02209738/Centricity/Domain/1350/DelCo%20Childrens%20Directory%202017.pdf"
+  },
+  {
+   "publisher": "Cumberland/Gloucester/Salem Vicinage Court User Resource Center (Ombudsman)",
+   "what": "a community-services referral list the office says it holds",
+   "contact": "Cumberland County Courthouse, Bridgeton, 856-878-5050 ext. 15159, CumGloSalHelp.Mailbox@njcourts.gov",
+   "source": "https://www.njcourts.gov/courts/ombudsman/cumberland-gloucester-salem"
+  },
+  {
+   "publisher": "Gloucester County Division of Addiction Services",
+   "what": "the county-funded treatment provider list and the county's current Mental Health and Substance Abuse Guide edition date (the guide's date is not shown)",
+   "contact": "856-384-6885 and 856-384-6929",
+   "source": "https://gloucestercountynj.gov/924/Addiction-Services"
+  },
+  {
+   "publisher": "Housing Authority of Gloucester County and Gloucester County Housing and Community Development",
+   "what": "current open-waiting-list and affordable-housing lists (only third-party aggregator pages were found, and they conflict)",
+   "contact": "Gloucester County Housing and Community Development (county directory)",
+   "source": "https://affordablehousingonline.com/housing-waiting-lists/Section-8-Voucher/Gloucester-County-New-Jersey/113461"
+  },
+  {
+   "publisher": "Camden County Department of Corrections (Reentry Release Center)",
+   "what": "the reentry provider list the Release Center uses (opened March 2026)",
+   "contact": "Camden County Corrections reentry coordinator (named on county pages)",
+   "source": "https://whyy.org/articles/camden-county-incarceration-reentry-release-center/"
+  },
+  {
+   "publisher": "Delaware Department of Health and Social Services (State Service Centers)",
+   "what": "a current Delaware resource guide; the DHSS 'resources in Delaware' PDF returns 404",
+   "contact": "DeLaWarr State Service Center 302-622-4500",
+   "source": "https://dhss.delaware.gov/wp-content/uploads/sites/11/dss/pdf/resourcesindelawareenglish.pdf"
+  }
+ ],
+ "gaps": {
+  "clothing-household": "Thin for the home area. No county furniture or mattress programme list for Gloucester or Salem; clothing appears only as single provider pages (a clothes closet at Newington Baptist, Catholic Charities thrift stores) and through 211. Rutgers links donations and clothing lists.",
+  "id-recovery": "Only state-level rules (MVC; fee waivers for homeless people through a social worker; Smart Book first section). No county list of ID help or document clinics for Gloucester, Salem or Camden; Philadelphia's city resource guide and the Delco homeless coalition's guide cover IDs on the PA side.",
+  "reentry-support": "Gloucester has a 2022 Smart Book and fair flyers but no current reentry directory; Camden's federal directory (2019) is dead; Salem has only jail programme pages. Statewide, the NJ Reentry Corporation directory (403 to curl) is the main list.",
+  "disability": "County disability pages and Salem's 2024 Disability Resource Guide only; state disability directory read in summary.",
+  "children-pregnancy": "Few lists: Family Success Centers appear only via 211; WIC sites are a county directory category (not opened); Camden ResourceNet is youth-focused.",
+  "education": "Two single-provider pages (RCSJ, Literacy New Jersey) and a court GED list that is dead; no county adult-education directory.",
+  "immigration": "Only national directories (ImmigrationLawHelp) and single-provider results; no county or regional immigrant services guide found for Gloucester or Salem. Camden Library has an immigrant-resources subject guide (not opened).",
+  "veterans": "State VSO list and county office pages; the county-hosted NJ Military and Veterans Families Resource Guide was referred to but not opened.",
+  "transportation": "Good for Gloucester (county Transit Guide, October 2026), Salem (SCOOT), and the Pureland shuttles; Camden has a senior transportation sub-page only. Nothing crosses the Delaware River bridges (DRPA: vehicular lanes only).",
+  "housing": "Housing authority waiting lists exist only on aggregator pages, with conflicting dates. The Salem IAC housing guide (July 2025) and Delaware County coalition guide (Sept 2026 menu) are the best lists.",
+  "food": "Rich: Rutgers Cooperative Extension county guides (Oct 2025), the Gloucester County directory (54 pantries) and Salem's county list. Hours and town-residency limits change often; the Food Bank of South Jersey's own map was refused to automated reading.",
+  "across-river": "Pennsylvania and Delaware lists are fewer: Delaware County PA has good county pages; Philadelphia is a list of city programmes; the Delaware state sites reject automated reading, so those lists were seen only in search summaries."
+ }
+}
