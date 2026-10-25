@@ -7,8 +7,10 @@ together, before either is built:
   18 categories with definitions, their subcategories, 19 For groups with "only", and
   navigators in a strip at the end of a category. **Not yet approved by Stephanie.**
 - **Shared resources** as the brainstorm of 20 October 2026 left them
-  (`wsrs-tso/docs/shared-resources-brainstorm.md`): each kept once by a keeper office,
-  coverage (national, states or counties) chosen by a vetter, a restriction said in words.
+  (`wsrs-tso/docs/shared-resources-brainstorm.md`), with Elder Bendio's decisions of
+  24 October 2026 in [discussion-note.md](discussion-note.md): each kept once, editable by
+  any office that sees it, coverage (national, states or counties) chosen by a vetter, a
+  restriction said in words.
 
 It is a prototype for defining the final outcome, not a referral directory.
 
@@ -40,15 +42,16 @@ cross-office groups (`~/Documents/shared-recount-2026-10-21/`).
 - **Coverage of each shared resource**: nationwide or statewide when the reader judged it
   so; otherwise the counties it serves plus those of every office that already lists it,
   with that as the reason (Lantern House reaches Provo this way).
-- **Keeper**: a reviewed copy first, then the copy with the most text.
+- **Which copy's text a shared resource shows**: a reviewed copy first, then the copy with
+  the most text.
 
 ## What to try
 
 - Missionary: open a category; read its definition; use subcategories and **For**; note
   "Veterans only" and restriction badges, and the navigator strip at the end.
-- Vetter, acting as the office selected at the top: change a shared resource's coverage
-  (a county outside where it serves needs a reason; removing offices asks first); try
-  editing text as a non-keeper office; mark a copy "Not the same"; share a statewide
+- Vetter, acting as the office selected at the top: edit any resource that office sees;
+  change a shared resource's coverage (a county outside where it serves warns but is
+  allowed; removing offices asks first); mark a copy "Not the same"; share a statewide
   resource; see the coverage table's gaps; undo from Changes.
 
 ## Limits
