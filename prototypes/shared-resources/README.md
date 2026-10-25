@@ -1,29 +1,58 @@
-# Shared Resource Library — Prototype v3
+# Shared resources prototype, v4
 
-A self-contained browser prototype for reviewing how Resource Scout shared records appear alongside existing office resources.
+A single HTML file for Elder Bendio and Stephanie to try out and refine two designs
+together, before either is built:
 
-## Run
+- **The draft standard vocabulary** of 20 October 2026 (`wsrs-tso/docs/vocabulary-design.md`):
+  18 categories with definitions, their subcategories, 19 For groups with "only", and
+  navigators in a strip at the end of a category. **Not yet approved by Stephanie.**
+- **Shared resources** as the brainstorm of 20 October 2026 left them
+  (`wsrs-tso/docs/shared-resources-brainstorm.md`): each kept once by a keeper office,
+  coverage (national, states or counties) chosen by a vetter, a restriction said in words.
 
-Open [index.html](index.html) in Safari or another modern browser. No server, build step, dependency installation, API key, or production system is required.
+It is a prototype for defining the final outcome, not a referral directory.
 
-## Demonstrate shared changes
+## Build and open
 
-1. Select **Provo** and open **Addiction** in the Missionary view.
-2. Switch to **Admin → Vetter**; select the **SAMHSA National Helpline** shared record.
-3. Change its description and/or demo vetting status and save.
-4. Select **Mesa** and return to Missionary → Addiction. The same shared record appears with the updated details.
+The page holds every office's resources, including internal entries, and this repository
+is **public**, so the built page and its data stay in `local/` (ignored by Git). Only the
+scripts, the template and the brief are committed.
 
-The two office views read a **single canonical shared object inside this HTML application**, not two independently edited office copies. Changes are stored in this browser's localStorage and are **not synchronized across browsers, devices, independently deployed TSO office files, or Scout production**. Multi-device synchronization and permissioned publication would require a shared data service.
+```sh
+python3 build/gather.py      # every office's records -> local/records.json
+# file each batch under the standard (AI readers, classify-brief.md) -> local/batches/out-*.json
+python3 build/build.py       # -> local/index.html; open it in Safari or Chrome
+```
 
-## Prototype data
+`gather.py` reads Provo's WSRS package, Albuquerque's 6 October backup and the Scout files
+loaded into the other ten offices; vetted status comes from production's 14 October
+listing. `build.py` adds each resource's draft filing and the 21 October recount's
+cross-office groups (`~/Documents/shared-recount-2026-10-21/`).
 
-- **Provo:** Office-maintained records adapted from `michaelbendio/wsrs-tso`, `source-data/provo-resource-package/tso-resources.json`. This is a compact demonstration copy, not a complete round-trip representation of original fields.
-- **Mesa:** Research candidates adapted from `michaelbendio/resource-scout`, `deliveries/mesa-four-categories-20260925/prepared-resources.json`. It is a **partial September 2026 research snapshot**, not the current accepted/vetted operational Mesa resource list. Some recovery-related Housing candidates are also shown under Addiction for demonstration.
-- **Shared:** Illustrative nationwide/federal, state, county, and city resources with geography-based visibility. Geographic visibility does not establish individual service eligibility.
-- **PDFs:** PDF attachments, embedded PDF bytes, and direct PDF links are omitted. Records that consist only of PDF material are excluded.
+## What is draft
 
-Program names and public source links are included for prototyping only. Eligibility, services, contact details, opening hours, and referral pathways require fresh human verification before a real referral. The demo's verification statuses are not production approval.
+- **Every resource's filing** under the standard was made by an AI reader from its text,
+  following `build/classify-brief.md`. "Draft filing" on each card shows what the office
+  had. The Vocabulary tab shows where each office's old categories went and every
+  "doesn't fit" note: the review queue for the standard.
+- **Offices' counties** (`OFFICES` in `gather.py`): the brainstorm leaves them to be written
+  down.
+- **Coverage of each shared resource**: nationwide or statewide when the reader judged it
+  so; otherwise the counties it serves plus those of every office that already lists it,
+  with that as the reason (Lantern House reaches Provo this way).
+- **Keeper**: a reviewed copy first, then the copy with the most text.
 
-## Scope and safety
+## What to try
 
-Standalone design prototype only. No database writeback, automatic import into office packages, production vetting, or remote sharing service. Keep future edits and exploratory tests on this branch until separately reviewed.
+- Missionary: open a category; read its definition; use subcategories and **For**; note
+  "Veterans only" and restriction badges, and the navigator strip at the end.
+- Vetter, acting as the office selected at the top: change a shared resource's coverage
+  (a county outside where it serves needs a reason; removing offices asks first); try
+  editing text as a non-keeper office; mark a copy "Not the same"; share a statewide
+  resource; see the coverage table's gaps; undo from Changes.
+
+## Limits
+
+Changes stay in this browser. No synchronising, permissions or production publishing.
+PDFs are left out. Production copies missing from the local files (mostly an earlier
+Welfare Square load) appear only as "Copy in production" rows.
