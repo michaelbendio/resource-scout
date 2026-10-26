@@ -1,7 +1,7 @@
 """Gather every office's resources into one file for the shared-resource prototype.
 
-Reads the newest full records on this Mac (WSRS packages and backups, and the Scout
-files that were loaded into each office), keeps the fields the prototype shows, and
+Reads the newest full records on this Mac (production exports for the offices in use, and
+the Scout files that were loaded into the other offices), keeps the fields the prototype shows, and
 marks a resource vetted when production's 14 October listing had it as curated.
 Writes local/records.json, which holds office data and is never committed: this
 repository is public.
@@ -37,10 +37,12 @@ OFFICES = {
     "boise": ("Boise (Potential)", "ID", ["Ada", "Canyon"]),
 }
 
+# Provo, Albuquerque and Mesa are in use (Elder Bendio, 20 October 2026), so they come
+# from their newest production export (npm run recovery -- export, in wsrs-tso).
 SOURCES = {
-    "provo": ("package", HOME / "wsrs-tso/source-data/provo-resource-package/tso-resources.json"),
-    "albuquerque": ("backup", BACKUPS / "albuquerque-wsrs-tso.crm.dynamics.com-2026-10-06T04-59-54-647Z.wsrs.zip"),
-    "mesa": ("scout", SCOUT / "lsscout-mesa-merge-20261007/scout-mesa-merged-26-10-07.json"),
+    "provo": ("export", None),
+    "albuquerque": ("export", None),
+    "mesa": ("export", None),
     "welfare-square": ("scout", SCOUT / "lsscout-welfare-square-merge-20261007/scout-welfare-square-merged-26-10-07.json"),
     "st-george": ("scout", SCOUT / "lsscout-st-george-merge-20261007/scout-st-george-merged-26-10-07.json"),
     "ogden": ("scout", SCOUT / "lsscout-ogden-20261006/ogden-lsscout-20261006.loaded.json"),
@@ -109,14 +111,47 @@ def scout_records(office: str, data: dict) -> list[dict]:
     return out
 
 
+def newest_export(office: str) -> Path:
+    return sorted(BACKUPS.glob(f"{office}-wsrs-tso.crm.dynamics.com-*.wsrs.zip"))[-1]
+
+
+def export_records(office: str, path: Path) -> list[dict]:
+    """A production export: its reviewed resources, and the unreviewed Scout reserve its
+    missionaries also see, chosen as wsrs-tso's readerReserve chooses it: usable rows of
+    every imported snapshot, not withdrawn, not already reviewed, not deleted."""
+    with zipfile.ZipFile(path) as z:
+        package = json.load(z.open("resources.json"))
+        tables = json.load(z.open("snapshot.json"))["tables"]
+    rows = package_records(office, package)
+    curated = {r.get("aei_sourcekey") for r in tables["aei_tsoresource"]} - {None}
+    deleted = {c["aei_sourcekey"] for c in tables["aei_tsocandidatestate"] if c.get("aei_deleted") is True}
+    taxonomy = {}
+    for snap in tables["aei_tsoscoutsnapshot"]:
+        tax = json.loads(snap.get("aei_taxonomy") or "{}")
+        for kind in ("categories", "types", "groups", "forGroups"):
+            taxonomy.setdefault(kind, []).extend(tax.get(kind, []))
+    seen, reserve = set(), []
+    for row in tables["aei_tsoscoutresource"]:
+        record = json.loads(row["aei_record"])
+        key = row.get("aei_sourcekey") or record["id"]
+        if (row.get("aei_state") != 100000000 or row.get("aei_withdrawn") is True
+                or key in curated or key in deleted or record["id"] in seen):
+            continue
+        seen.add(record["id"])
+        reserve.append(record)
+    return rows + scout_records(office, {"taxonomy": taxonomy, "resources": reserve})
+
+
 def load(office: str) -> list[dict]:
     kind, path = SOURCES[office]
+    if kind == "export":
+        return export_records(office, newest_export(office))
     if kind == "backup":
         with zipfile.ZipFile(path) as z:
             data = json.load(z.open("resources.json"))
     else:
         data = json.loads(path.read_text())
-    return package_records(office, data) if kind in ("package", "backup") else scout_records(office, data)
+    return package_records(office, data) if kind == "backup" else scout_records(office, data)
 
 
 def main() -> int:

@@ -1,8 +1,8 @@
 # Shared resources prototype: decisions and questions
 
-For Elder Bendio and Stephanie, 24 October 2026. It goes with the prototype in this folder
-(v4), which shows the draft standard vocabulary of 20 October and shared resources over
-every office's real resources. Nothing here changes the app; it records what was decided
+For Elder Bendio and Stephanie, 24 October 2026. It goes with the prototype in this folder,
+`shared-resources.html` (Provo's Resource Assistant page with the draft standard vocabulary of
+20 October and shared resources over every office's real resources; 25 October 2026). Nothing here changes the app; it records what was decided
 for the prototype and what is still to decide.
 
 ## Decided by Elder Bendio, 24 October 2026
@@ -26,10 +26,12 @@ for the prototype and what is still to decide.
 ## For Stephanie
 
 The prototype's categories, subcategories and groups are the draft standard, not yet
-approved by her. Every resource's filing under it is a draft by an AI reader, with the
-office's old filing shown beside it. What it suggests for the standard:
+approved by her. Every resource's filing under it is a draft by an AI reader. What it
+suggests for the standard:
 
-- **What fits nowhere.** 227 resources carry a "doesn't fit" note and 67 have no category.
+- **What fits nowhere.** 253 resources carry a "doesn't fit" note and 70 have no category (besides 96
+  help-finding directories such as 211). *Corrected 25 October 2026: this said 227 and 67,
+  counted before two batches of the filing were redone.*
   The same few kinds recur: child care and respite, disability services (assistive
   technology, independent living, equipment loans, braille and talking books), senior
   centres, refugee resettlement, low-cost pet veterinary care, car seats. Each needs a
@@ -37,7 +39,7 @@ office's old filing shown beside it. What it suggests for the standard:
 - **Provo's four extra categories** under the draft standard: of "Case Management / Filing
   Assistance" (37), 15 went to Housing and 14 to Homeless Services (they are shelters),
   6 to Case Management and 6 to Filing Assistance. "Suicide Prevention / Support Groups"
-  went mostly to Mental Health (10 of 14). The Vocabulary tab shows this for every office.
+  went mostly to Mental Health (10 of 14).
 - **What a restriction means.** The readers wrote place restrictions ("Iron County
   residents only") from each resource's text. For Cedar City and Logan, much of that text
   comes from a "Population Served" line that names a county even where the service may
@@ -124,7 +126,10 @@ storehouse (Elder Bendio, 20 October: "Missionaries can do a food order").
 
 - **Each office's counties.** The brainstorm leaves them to be written down; the prototype
   guesses (Ogden: Weber and Davis; Bridgeport: Gloucester, Salem and Camden).
-- **Which copy's text a shared resource shows:** a reviewed copy first, then the one with
-  the most text.
+- **Which copy's text a shared resource shows:** a copy serving as widely as the coverage
+  (so a national program shows a national copy, not one state's), then a reviewed copy, then
+  the one with the most text.
+- **Coverage of each shared resource:** the widest place any copy serves (nationwide,
+  statewide, or the counties served plus those of every office already listing it).
 - **Whether unreviewed resources may be shared.** The brainstorm suggests only reviewed
-  ones; the prototype has a switch so both can be seen.
+  ones; the prototype shares them all, so its lists are as full as the offices' today.

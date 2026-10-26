@@ -1,0 +1,24 @@
+[
+  {
+    "id": "las-vegas:added-nv-dss",
+    "office": "las-vegas",
+    "replaces": ["las-vegas:ls_f4efbd50e61b71bffd765f20"],
+    "source": "dss.nv.gov: /access-nv/, /contact/welfare-district-offices-south/, /contact/eap-office-south/, /programs/Medicaid/apply-for-assistance/, /programs/energy/apply-for-assistance/; read 26 October 2026",
+    "name": "Nevada Division of Social Services — Access Nevada",
+    "description": "Nevada's way to apply for SNAP food benefits, Medicaid and Nevada Check Up, TANF cash assistance and energy assistance: online through Access Nevada or at a district office.",
+    "information": "**Services Offered**\nThe Division of Social Services decides eligibility for SNAP (food benefits on an EBT card), Medicaid, Nevada Check Up (health coverage for children), TANF cash assistance for families with children, the Energy Assistance Program (help with heating and cooling bills) and child care assistance.\n\n**Eligibility Requirements**\nEach program has its own income and household rules. Applicants supply identity, income and household information; energy assistance also needs recent heating or cooling bills.\n\n**Population Served**\nNevada residents with low income.\n\n**How to Best Connect**\nApply online at Access Nevada (accessnevada.nv.gov); a new account is needed before applying. Or take a paper application to a district office. Call 702-486-1646 (Southern Nevada) or 800-992-0900. Las Vegas district offices include Belrose, 700 Belrose Street (7 a.m.–5 p.m.); Owens, 1040 West Owens Avenue; Nellis, 611 North Nellis Blvd; Flamingo, 3330 East Flamingo Road, Suite 55, which is also the Energy Assistance office (702-486-1404); Durango, 3965 South Durango Drive; Spring Mountain, 3101 Spring Mountain Road, Suite 3; Craig Road, 3223 West Craig Road, Suite 140, North Las Vegas; and Henderson, 520 South Boulder Hwy.\n\n**Important Information to Know**\nAn interview is scheduled after a SNAP application. Send requested documents to welfare@dss.nv.gov. For medical coverage, Access Nevada's \"Do I Qualify for Medical Assistance?\" tool says whether to apply there or at Nevada Health Link. A household that received energy assistance waits about 11 months before applying again.",
+    "phone": "702-486-1646",
+    "website": "https://accessnevada.nv.gov/public/landing-page",
+    "address": "700 Belrose Street, Las Vegas, NV 89107",
+    "hours": "Monday–Friday; most district offices 7 a.m.–5 p.m.",
+    "vetted": false,
+    "filing": {
+      "categories": ["food", "filing-assistance"],
+      "subcategories": {"food": ["Food benefits"], "filing-assistance": ["Food benefits", "Health coverage", "Cash assistance"]},
+      "groups": [],
+      "serves": {"level": "state", "state": "NV"},
+      "restriction": "Nevada residents only"
+    },
+    "federalPrograms": ["SNAP", "Medicaid", "CHIP", "TANF", "LIHEAP"]
+  }
+]
