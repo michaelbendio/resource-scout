@@ -66,6 +66,24 @@ It has Nevada's Division of Social Services (Access Nevada, from dss.nv.gov, 26 
 for Las Vegas. It replaces Las Vegas's SNAP-only entry, and is Nevada's front door to SNAP,
 Medicaid, CHIP (Nevada Check Up), TANF and LIHEAP (Energy Assistance Program).
 
+`build/joins.json` joins copies of one resource that matching missed, checked by hand. It
+joins IMMI, which Provo and Mesa each held, and Provo's two Social Security entries with the
+Social Security Administration that Mesa and six other offices share. These are the only
+resources that Provo and Mesa both held. It also splits copies that matching wrongly joined: the St. George
+and Salt Lake chapters of Sleep in Heavenly Peace, which each serve their own ZIP codes. Being in different states, the two offices can
+share only nationwide resources.
+
+**Las Vegas is shown as vetted** (Elder Bendio, 26 October 2026, for the prototype only:
+`SHOWN_VETTED` in `build.py`), so its resources can be shown beside Provo's and Mesa's.
+
+**A shared resource is not split across states at county level.** The recount matched
+some local branches by a national phone number or website: each city's Vet Center, Sleep in
+Heavenly Peace chapters, AARP Tax-Aide, ESL programs, and Accessible Space. `build.py`
+splits these by state, so each office sees its own branch.
+
+`build/removals.json` removes resources for the prototype, such as Mesa's second copy of the
+Mesa Vet Center.
+
 ## How it works
 
 - Every resource is kept once, and each shared resource once, with its coverage.

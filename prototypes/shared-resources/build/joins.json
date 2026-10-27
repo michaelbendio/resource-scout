@@ -1,0 +1,25 @@
+[
+  {
+    "members": [
+      "provo:8656be4f12ebde79886e1a3f8f2f648f",
+      "mesa:ls_10ec574d3a41c2870e361d49"
+    ],
+    "keeper": "provo:8656be4f12ebde79886e1a3f8f2f648f",
+    "reason": "the same website (immi.org), held by Provo and Mesa"
+  },
+  {
+    "members": [
+      "provo:dd0ca9d8fae4c1053c9dc47c57a69adf",
+      "provo:29f2fcd4039b555732f731fde3b9181a",
+      "mesa:ls_596806acacf71e6c246e084b"
+    ],
+    "reason": "the Social Security Administration (ssa.gov), held by Provo, Mesa and six other offices"
+  },
+  {
+    "split": [
+      "st-george:sr_stg_5b3b6e85f728f0ea6ed547c5",
+      "welfare-square:ls_116b25a6d9039d9de4df48df"
+    ],
+    "reason": "Sleep in Heavenly Peace's St. George and Salt Lake chapters: one national application, but each chapter serves its own ZIP codes (shpbeds.org/apply, 27 October 2026)"
+  }
+]

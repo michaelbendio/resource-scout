@@ -118,7 +118,8 @@ def shared_groups(records: list[dict], offices: dict) -> dict:
         rows[row["Group"]].append(row)
     rec = {r["id"]: r for r in records}
     out = {}
-    for gid, group in rows.items():
+    queue = list(rows.items())  # a split adds its parts
+    for gid, group in queue:
         ids = []
         for m in group:
             hit = by_name.get((m["Office"], norm(m["Name"]))) or by_pw.get((m["Office"], digits(m["Phone"]), host(m["Website"])))
@@ -126,6 +127,18 @@ def shared_groups(records: list[dict], offices: dict) -> dict:
                 ids.append(hit[0])
         if not ids:
             continue
+        # Local services in different states are branches, not one resource (a Vet Center,
+        # a Sleep in Heavenly Peace chapter): the recount matched them by a national phone
+        # or website. Each state's copies stay shared; a lone copy is the office's own.
+        if coverage_for([rec[i] for i in ids])["level"] == "county":
+            by_state = defaultdict(list)
+            for i in ids:
+                by_state[rec[i]["serves"]["state"] or offices[rec[i]["office"]]["state"]].append(i)
+            if len(by_state) > 1:
+                for st, part in by_state.items():
+                    if len(part) > 1:
+                        queue.append((f"{gid}-{st}", [m for m in group if m["Office"] in {rec[i]["office"] for i in part}]))
+                continue
         members = [rec[i] for i in ids]
         coverage = coverage_for(members)
         keeper = keeper_of(members, coverage)
@@ -188,6 +201,42 @@ def nationwide_groups(records: list[dict], shared: dict) -> dict:
     return out
 
 
+# Offices whose candidates the prototype shows as vetted, to show shared statewide resources
+# (Elder Bendio, 26 October 2026). Their real status is unchanged in records.json.
+SHOWN_VETTED = {"las-vegas"}
+
+
+def join_groups(shared: dict) -> None:
+    """Join copies of one resource that matching missed, or split copies it wrongly joined
+    (joins.json, checked by hand). Joined shared resources become one, kept under the first
+    one's id."""
+    for j in json.loads((HERE / "joins.json").read_text()):
+        if "split" in j:
+            # Copies that are not the same resource: each becomes its office's own again.
+            for g in [g for g, v in shared.items() if set(v["members"]) & set(j["split"])]:
+                members = [m for m in shared[g]["members"] if m not in j["split"]]
+                if len({m.split(":")[0] for m in members}) < 2:
+                    del shared[g]
+                else:
+                    shared[g]["members"] = members
+                    if shared[g]["keeper"] not in members:
+                        shared[g]["keeper"] = members[0]
+            continue
+        gids = list(dict.fromkeys(g for m in j["members"] for g, v in shared.items() if m in v["members"]))
+        if not gids:
+            continue
+        into = next((g for g in gids if not g.startswith("nat-")), gids[0])
+        members = list(dict.fromkeys(m for g in gids for m in shared[g]["members"]))
+        group = shared[into]
+        group["members"] = members
+        group["productionOnly"] = sorted({p for g in gids for p in shared[g]["productionOnly"]})
+        group["keeper"] = j.get("keeper", group["keeper"])
+        group["matchedBy"] = "checked by hand: " + j["reason"]
+        for g in gids:
+            if g != into:
+                del shared[g]
+
+
 def payload() -> dict:
     standard = json.loads((HERE / "standard.json").read_text())
     data = json.loads((LOCAL / "records.json").read_text())
@@ -203,6 +252,9 @@ def payload() -> dict:
             programs[row["id"]] = [p for p in row.get("federalPrograms") or [] if p in dict(FEDERAL_PROGRAMS)]
     # Resources added for the prototype from public sources (additions.json), each with its
     # filing and programs; one may replace an office's narrower entry for the same agency.
+    # Resources removed for the prototype (removals.json), such as an office's second copy.
+    removed = {x["id"] for x in json.loads((HERE / "removals.json").read_text())}
+    data["records"] = [r for r in data["records"] if r["id"] not in removed]
     for a in json.loads((HERE / "additions.json").read_text()):
         data["records"] = [r for r in data["records"] if r["id"] not in a.get("replaces", [])]
         data["records"].append({k: a.get(k, "") for k in ("id", "office", "name", "description", "information",
@@ -220,13 +272,14 @@ def payload() -> dict:
             "id": r["id"], "office": r["office"], "name": r["name"], "description": r["description"],
             "informationText": r["information"], "phone": r["phone"], "website": r["website"],
             "address": r["address"], "hours": r["hours"], "verifiedOn": r["verifiedOn"] or None, "pdfs": [],
-            "vetted": r["vetted"], "federalPrograms": programs.get(r["id"], federal_programs(r)),
+            "vetted": r["vetted"] or r["office"] in SHOWN_VETTED, "federalPrograms": programs.get(r["id"], federal_programs(r)),
             **clean_filing(filings[r["id"]], standard),
         })
     if missing:
         print(f"{missing} resources have no filing and are left out", file=sys.stderr)
     shared = shared_groups(records, offices)
     shared.update(nationwide_groups(records, shared))
+    join_groups(shared)
     now = dt.datetime.now(dt.timezone.utc).isoformat()
     vocabulary = {
         "categories": [{"id": c["id"], "label": c["label"], "active": True, "filters": c["subcategories"]}
